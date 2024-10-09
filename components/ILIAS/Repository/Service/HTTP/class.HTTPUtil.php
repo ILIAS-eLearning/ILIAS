@@ -23,6 +23,7 @@ namespace ILIAS\Repository\HTTP;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP;
 use ILIAS\FileDelivery\Delivery;
+use ILIAS\Filesystem\Stream\FileStream;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -60,6 +61,25 @@ class HTTPUtil
         $delivery->setDownloadFileName($filename);
         $delivery->setConvertFileNameToAsci(true);
         $repsonse = $this->http->response()->withBody(Streams::ofString($data));
+        $this->http->saveResponse($repsonse);
+        $delivery->deliver();
+    }
+
+    public function deliverStream(
+        FileStream $stream,
+        string $filename,
+        string $mime = "application/octet-stream"
+    ): void {
+        $delivery = new Delivery(
+            Delivery::DIRECT_PHP_OUTPUT,
+            $this->http
+        );
+        $delivery->setMimeType($mime);
+        $delivery->setSendMimeType(true);
+        $delivery->setDisposition(Delivery::DISP_ATTACHMENT);
+        $delivery->setDownloadFileName($filename);
+        $delivery->setConvertFileNameToAsci(true);
+        $repsonse = $this->http->response()->withBody($stream);
         $this->http->saveResponse($repsonse);
         $delivery->deliver();
     }

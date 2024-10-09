@@ -24,7 +24,6 @@ class ilLegalDocumentsAppEventListener implements ilAppEventListener
     {
         global $DIC;
         match ($a_event) {
-            'beforeLogout' => $DIC['legalDocuments']->onLogout(ilStartUpGUI::class, new ilObjUser($a_parameter['user_id'])),
             'afterLogin' => $DIC['legalDocuments']->afterLogin(),
             default => null,
         };

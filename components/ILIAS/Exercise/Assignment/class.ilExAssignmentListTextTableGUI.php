@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Exercise\Submission\SubmissionManager;
+
 /**
  * Assignments table
  *
@@ -23,6 +25,7 @@
  */
 class ilExAssignmentListTextTableGUI extends ilTable2GUI
 {
+    protected SubmissionManager $subm;
     protected ilExAssignment $ass;
     protected bool $show_peer_review;
     protected ilExPeerReview $peer_review;
@@ -41,6 +44,7 @@ class ilExAssignmentListTextTableGUI extends ilTable2GUI
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
 
+        $this->subm = $DIC->exercise()->internal()->domain()->submission($a_ass->getId());
         $this->ass = $a_ass;
         $this->show_peer_review = $a_show_peer_review;
         $this->setId("excassltxt" . $this->ass->getId());
@@ -95,7 +99,7 @@ class ilExAssignmentListTextTableGUI extends ilTable2GUI
             $peer_data = $this->peer_review->getAllPeerReviews();
         }
         $data = [];
-        foreach (ilExSubmission::getAllAssignmentFiles($this->ass->getExerciseId(), $this->ass->getId()) as $file) {
+        foreach ($this->subm->getAllAssignmentFiles() as $file) {
             if (trim($file["atext"])) {
                 $data[$file["user_id"]] = array(
                     "uid" => $file["user_id"],

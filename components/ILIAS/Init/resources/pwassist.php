@@ -1,22 +1,32 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 /**
- * Password assistance facility for users who have forgotten their password
- * or for users for whom no password has been assigned yet.
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * @author Werner Randelshofer <wrandels@hsw.fhz.ch>
- * @version $Id$
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
- * @package ilias-core
- */
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+if (!file_exists('../ilias.ini.php')) {
+    die('The ILIAS setup is not completed. Please run the setup routine.');
+}
+
+require_once '../vendor/composer/vendor/autoload.php';
 
 ilInitialisation::initILIAS();
 
-// @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-// $ilCtrl->setCmd('jumpToPasswordAssistance');
-$ilCtrl->callBaseClass('ilStartUpGUI');
+ilStartUpGUI::setForcedCommand('jumpToRegistration');
+$ilCtrl->callBaseClass(ilStartUpGUI::class);
 $ilBench->save();
-
-exit;
+exit();

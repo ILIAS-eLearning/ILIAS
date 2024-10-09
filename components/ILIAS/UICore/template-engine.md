@@ -24,7 +24,7 @@ The main idea of using templates is the separation of style (css), layout (views
 This example contains placeholders `{TXT_ADDRESS}` and `{TXT_ADRESS_LINE}`and the block definition for `address_line` and `address`.
 
 ```
-$tpl = new ilTemplate("tpl.address.html", true, true, Services/User");
+$tpl = new ilTemplate("tpl.address.html", true, true, components/ILIAS/User");
 $tpl->setCurrentBlock("address_line");
 foreach($address as $line)
 {
@@ -53,7 +53,7 @@ The UI framework supports you with a global main template which supports methods
 
 
 ```
-$tpl = new ilTemplate("tpl.address.html", true, true, Services/User");
+$tpl = new ilTemplate("tpl.address.html", true, true, components/ILIAS/User");
 [...]
 
 // get main template

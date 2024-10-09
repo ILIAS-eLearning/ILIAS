@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\BookingManager;
 
 use ILIAS\BookingManager\Reservation\ReservationTableSessionRepository;
@@ -25,34 +25,22 @@ use ILIAS\BookingManager\Objects\ObjectsDBRepository;
 use ILIAS\BookingManager\Reservations\ReservationDBRepository;
 use ILIAS\BookingManager\BookingProcess\SelectedObjectsDBRepository;
 use ILIAS\BookingManager\Schedule\SchedulesDBRepository;
+use ILIAS\BookginManager\Participants\ParticipantsRepository;
+use ILIAS\BookingManager\Settings\SettingsDBRepository;
 
-/**
- * Repository internal repo service
- * @author Alexander Killing <killing@leifos.de>
- */
 class InternalRepoService
 {
-    protected InternalDataService $data;
-    protected \ilDBInterface $db;
+    protected static array $instances = [];
 
-    public function __construct(InternalDataService $data, \ilDBInterface $db)
-    {
-        $this->data = $data;
-        $this->db = $db;
+    public function __construct(
+        protected InternalDataService $data,
+        protected \ilDBInterface $db
+    ) {
     }
-
-    /*
-    public function ...() : ...\RepoService
-    {
-        return new ...\RepoService(
-            $this->data,
-            $this->db
-        );
-    }*/
 
     public function preferences(): \ilBookingPreferencesDBRepository
     {
-        return new \ilBookingPreferencesDBRepository(
+        return self::$instances["preferences"] ??= new \ilBookingPreferencesDBRepository(
             $this->data,
             $this->db
         );
@@ -60,33 +48,35 @@ class InternalRepoService
 
     public function preferenceBasedBooking(): \ilBookingPrefBasedBookGatewayRepository
     {
-        return new \ilBookingPrefBasedBookGatewayRepository(
+        return self::$instances["preferenceBasedBooking"] ??= new \ilBookingPrefBasedBookGatewayRepository(
             $this->db
         );
     }
 
     public function reservationTable(): ReservationTableSessionRepository
     {
-        return new ReservationTableSessionRepository();
+        return self::$instances["reservationTable"] ??= new ReservationTableSessionRepository();
     }
 
-    public function objects() : ObjectsDBRepository
+    public function objects(): ObjectsDBRepository
     {
-        return new ObjectsDBRepository(
+        return self::$instances["objects"] ??= new ObjectsDBRepository(
             $this->db
         );
     }
 
-    public function schedules() : SchedulesDBRepository
+    public function schedules(): SchedulesDBRepository
     {
-        return new SchedulesDBRepository(
+        return self::$instances["schedules"] ??= new SchedulesDBRepository(
             $this->db
         );
     }
 
-    public function reservation() : ReservationDBRepository
+    public function reservation(): ReservationDBRepository
     {
-        return new ReservationDBRepository($this->db);
+        return self::$instances["reservation"] ??= new ReservationDBRepository(
+            $this->db
+        );
     }
 
     /**
@@ -95,13 +85,33 @@ class InternalRepoService
      */
     public function reservationWithContextObjCache(
         array $context_obj_ids
-    ) : ReservationDBRepository {
-        return new ReservationDBRepository($this->db, $context_obj_ids);
+    ): ReservationDBRepository {
+        return new ReservationDBRepository(
+            $this->db,
+            $context_obj_ids
+        );
     }
 
-    public function objectSelection() : SelectedObjectsDBRepository
+    public function objectSelection(): SelectedObjectsDBRepository
     {
-        return new SelectedObjectsDBRepository($this->db);
+        return self::$instances["objectSelection"] ??= new SelectedObjectsDBRepository(
+            $this->db
+        );
+    }
+
+    public function participants(): ParticipantsRepository
+    {
+        return self::$instances["participants"] ??= new ParticipantsRepository(
+            $this->db
+        );
+    }
+
+    public function settings(): SettingsDBRepository
+    {
+        return self::$instances["settings"] ??= new SettingsDBRepository(
+            $this->db,
+            $this->data
+        );
     }
 
 }

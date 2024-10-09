@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+require_once(__DIR__ . "/../../../../UI/tests/Base.php");
+require_once(__DIR__ . "/../../../../UI/tests/Component/Input/Field/CommonFieldRendering.php");
+
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettings;
 use ILIAS\Test\Scoring\Settings\Settings as SettingsScoring;
 use ILIAS\Test\Settings\ScoreReporting\SettingsResultSummary;
@@ -32,6 +35,7 @@ use ILIAS\Data;
 class ScoreSettingsTest extends ilTestBaseTestCase
 {
     use BaseUITestTrait;
+    use CommonFieldRendering;
 
     public function testScoreSettingsBuild(): void
     {
@@ -124,20 +128,6 @@ class ScoreSettingsTest extends ilTestBaseTestCase
         $this->assertEquals(15, $s->withHighscoreTopNum(15)->getHighscoreTopNum());
     }
 
-
-
-    protected function getFieldFactory()
-    {
-        $factory = new I\Input\Field\Factory(
-            $this->createMock(I\Input\UploadLimitResolver::class),
-            new IncrementalSignalGenerator(),
-            new Data\Factory(),
-            $this->getRefinery(),
-            $this->getLanguage()
-        );
-        return $factory;
-    }
-
     protected function getUIPack()
     {
         return [
@@ -150,78 +140,86 @@ class ScoreSettingsTest extends ilTestBaseTestCase
     public function testScoreSettingsSectionScoring(): void
     {
         $s = new SettingsScoring(666);
-        $actual = $this->getDefaultRenderer()->render(
+        $actual = $this->render(
             $s->toForm(...$this->getUIPack())
         );
 
-        $expected = <<<EOT
-<div class="il-section-input">
-    <div class="il-section-input-header"><h2>test_scoring</h2></div>
-
-    <div class="form-group row">
-        <label class="control-label col-sm-4 col-md-3 col-lg-2">tst_text_count_system</label>
-        <div class="col-sm-8 col-md-9 col-lg-10">
-            <div id="id_1" class="il-input-radio">
-
-                <div class="form-control form-control-sm il-input-radiooption">
+        $i1 = $this->getFormWrappedHtml(
+            'radio-field-input',
+            'tst_text_count_system',
+            '
+            <div id="id_1" class="c-field-radio">
+                <div class="c-field-radio__item">
                     <input type="radio" id="id_1_0_opt" value="0" checked="checked" />
                     <label for="id_1_0_opt">tst_count_partial_solutions</label>
-                    <div class="help-block">tst_count_partial_solutions_desc</div>
+                    <div class="c-input__help-byline">tst_count_partial_solutions_desc</div>
                 </div>
-                <div class="form-control form-control-sm il-input-radiooption">
+            
+                <div class="c-field-radio__item">
                     <input type="radio" id="id_1_1_opt" value="1" />
                     <label for="id_1_1_opt">tst_count_correct_solutions</label>
-                    <div class="help-block">tst_count_correct_solutions_desc</div>
+                    <div class="c-input__help-byline">tst_count_correct_solutions_desc</div>
                 </div>
-
             </div>
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <label class="control-label col-sm-4 col-md-3 col-lg-2">tst_score_cutting</label>
-        <div class="col-sm-8 col-md-9 col-lg-10">
-            <div id="id_2" class="il-input-radio">
-
-                <div class="form-control form-control-sm il-input-radiooption">
+            ',
+            null,
+            null,
+            ''
+        );
+        $i2 = $this->getFormWrappedHtml(
+            'radio-field-input',
+            'tst_score_cutting',
+            '
+            <div id="id_2" class="c-field-radio">
+                <div class="c-field-radio__item">
                     <input type="radio" id="id_2_0_opt" value="0" checked="checked" />
                     <label for="id_2_0_opt">tst_score_cut_question</label>
-                    <div class="help-block">tst_score_cut_question_desc</div>
+                    <div class="c-input__help-byline">tst_score_cut_question_desc</div>
                 </div>
-                <div class="form-control form-control-sm il-input-radiooption">
+
+                <div class="c-field-radio__item">
                     <input type="radio" id="id_2_1_opt" value="1" />
                     <label for="id_2_1_opt">tst_score_cut_test</label>
-                    <div class="help-block">tst_score_cut_test_desc</div>
+                    <div class="c-input__help-byline">tst_score_cut_test_desc</div>
                 </div>
-
             </div>
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <label class="control-label col-sm-4 col-md-3 col-lg-2">tst_pass_scoring</label>
-        <div class="col-sm-8 col-md-9 col-lg-10">
-            <div id="id_3" class="il-input-radio">
-                <div class="form-control form-control-sm il-input-radiooption">
+            ',
+            null,
+            null,
+            ''
+        );
+        $i3 = $this->getFormWrappedHtml(
+            'radio-field-input',
+            'tst_pass_scoring',
+            '
+            <div id="id_3" class="c-field-radio">
+                <div class="c-field-radio__item">
                     <input type="radio" id="id_3_0_opt" value="0" checked="checked" />
                     <label for="id_3_0_opt">tst_pass_last_pass</label>
-                    <div class="help-block">tst_pass_last_pass_desc</div>
+                    <div class="c-input__help-byline">tst_pass_last_pass_desc</div>
                 </div>
-                <div class="form-control form-control-sm il-input-radiooption">
+
+                <div class="c-field-radio__item">
                     <input type="radio" id="id_3_1_opt" value="1" />
                     <label for="id_3_1_opt">tst_pass_best_pass</label>
-                    <div class="help-block">tst_pass_best_pass_desc</div>
+                    <div class="c-input__help-byline">tst_pass_best_pass_desc</div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-EOT;
-
-        $this->assertHTMLEquals(
-            $this->brutallyTrimHTML($expected),
-            $this->brutallyTrimHTML($this->brutallyTrimSignals($actual))
+            ',
+            null,
+            null,
+            ''
         );
+
+        $expected = $this->getFormWrappedHtml(
+            'section-field-input',
+            'test_scoring',
+            $i1 . $i2 . $i3,
+            null,
+            '',
+            ''
+        );
+        $this->assertHTMLEquals($expected, $this->brutallyTrimSignals($actual));
     }
 
 
@@ -255,7 +253,7 @@ EOT;
         $ui = [$language, $field_factory, $refinery];
 
         $s = new SettingsResultSummary(666);
-        $actual = $this->getDefaultRenderer()->render(
+        $actual = $this->render(
             $s->toForm(...array_merge($ui, [[
                 'user_time_zone' => 'Europe/Berlin',
                 'user_date_format' => $data_factory->dateFormat()->withTime24(
@@ -264,98 +262,123 @@ EOT;
             ]]))
         );
 
-        $expected = <<<EOT
-<div class="il-section-input">
-    <div class="il-section-input-header"><h2>test_results</h2></div>
-        <div class="form-group row">
-            <label for="id_8" class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_access_enabled</label>
-            <div class="col-sm-8 col-md-9 col-lg-10">
-                <input type="checkbox" id="id_8" value="checked" class="form-control form-control-sm" />
-                <div class="help-block">tst_results_access_enabled_desc</div>
-                <div class="form-group row">
-                    <label class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_access_setting<span class="asterisk">*</span></label>
-                    <div class="col-sm-8 col-md-9 col-lg-10">
-                        <div id="id_2" class="il-input-radio">
-                            <div class="form-control form-control-sm il-input-radiooption">
-                                <input type="radio" id="id_2_2_opt" value="2" />
-                                <label for="id_2_2_opt">tst_results_access_always</label>
-                                <div class="help-block">tst_results_access_always_desc</div>
-                            </div>
-                            <div class="form-control form-control-sm il-input-radiooption">
-                                <input type="radio" id="id_2_1_opt" value="1" />
-                                <label for="id_2_1_opt">tst_results_access_finished</label>
-                                <div class="help-block">tst_results_access_finished_desc</div>
-                            </div>
-                            <div class="form-control form-control-sm il-input-radiooption">
-                                <input type="radio" id="id_2_4_opt" value="4" />
-                                <label for="id_2_4_opt">tst_results_access_passed</label>
-                                <div class="help-block">tst_results_access_passed_desc</div>
-                            </div>
-
-                            <div class="form-control form-control-sm il-input-radiooption">
-                                <input type="radio" id="id_2_3_opt" value="3" />
-                                <label for="id_2_3_opt">tst_results_access_date</label>
-                                <div class="form-group row">
-                                    <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">tst_reporting_date<span class="asterisk">*</span></label>
-                                    <div class="col-sm-8 col-md-9 col-lg-10">
-                                        <div class="input-group date il-input-datetime">
-                                            <input id="id_3" type="datetime-local" class="form-control form-control-sm" />
-                                        </div>
-                                    </div>
-                                </div>
-                            <div class="help-block">tst_results_access_date_desc</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="id_4" class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_grading_opt_show_status</label>
-                <div class="col-sm-8 col-md-9 col-lg-10">
-                    <input type="checkbox" id="id_4" value="checked" class="form-control form-control-sm" />
-                    <div class="help-block">tst_results_grading_opt_show_status_desc</div>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="id_5" class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_grading_opt_show_mark</label>
-                <div class="col-sm-8 col-md-9 col-lg-10">
-                    <input type="checkbox" id="id_5" value="checked" class="form-control form-control-sm" />
-                    <div class="help-block">tst_results_grading_opt_show_mark_desc</div>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="id_6" class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_grading_opt_show_details</label>
-                <div class="col-sm-8 col-md-9 col-lg-10">
-                    <input type="checkbox" id="id_6" value="checked" class="form-control form-control-sm" />
-                    <div class="help-block">tst_results_grading_opt_show_details_desc</div>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="id_7" class="control-label col-sm-4 col-md-3 col-lg-2">tst_pass_deletion</label>
-                <div class="col-sm-8 col-md-9 col-lg-10">
-                    <input type="checkbox" id="id_7" value="checked" class="form-control form-control-sm" />
-                    <div class="help-block">tst_pass_deletion_allowed</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-EOT;
-
-        $this->assertHTMLEquals(
-            $this->brutallyTrimHTML($expected),
-            $this->brutallyTrimHTML($this->brutallyTrimSignals($actual))
+        $i1_1_1 = $this->getFormWrappedHtml(
+            'group-field-input',
+            '<input type="radio" value="2" /><span>tst_results_access_always</span>',
+            '',
+            'tst_results_access_always_desc',
+            null,
+            null,
+            ''
         );
+        $i1_1_2 = $this->getFormWrappedHtml(
+            'group-field-input',
+            '<input type="radio" value="1" /><span>tst_results_access_finished</span>',
+            '',
+            'tst_results_access_finished_desc',
+            null,
+            null,
+            ''
+        );
+        $i1_1_3 = $this->getFormWrappedHtml(
+            'group-field-input',
+            '<input type="radio" value="4" /><span>tst_results_access_passed</span>',
+            '',
+            'tst_results_access_passed_desc',
+            null,
+            null,
+            ''
+        );
+
+        $i1_1_4_1 = $this->getFormWrappedHtml(
+            'date-time-field-input',
+            'tst_reporting_date<span class="asterisk">*</span>',
+            '<div class="c-input-group">
+                <input id="id_2" type="datetime-local" class="c-field-datetime" />
+            </div>',
+            null,
+            'id_2',
+            ''
+        );
+
+        $i1_1_4 = $this->getFormWrappedHtml(
+            'group-field-input',
+            '<input type="radio" value="3" /><span>tst_results_access_date</span><span class="asterisk">*</span>',
+            $i1_1_4_1,
+            'tst_results_access_date_desc',
+            null,
+            null,
+            ''
+        );
+
+        $i1_1 = $this->getFormWrappedHtml(
+            'switchable-group-field-input',
+            'tst_results_access_setting<span class="asterisk">*</span>',
+            $i1_1_1 . $i1_1_2 . $i1_1_3 . $i1_1_4,
+            null,
+            '',
+            ''
+        );
+
+        $i1_2 = $this->getFormWrappedHtml(
+            'checkbox-field-input',
+            'tst_results_grading_opt_show_status',
+            '<input type="checkbox" id="id_4" value="checked" class="c-field-checkbox" />',
+            'tst_results_grading_opt_show_status_desc',
+            'id_4',
+            ''
+        );
+        $i1_3 = $this->getFormWrappedHtml(
+            'checkbox-field-input',
+            'tst_results_grading_opt_show_mark',
+            '<input type="checkbox" id="id_5" value="checked" class="c-field-checkbox" />',
+            'tst_results_grading_opt_show_mark_desc',
+            'id_5',
+            ''
+        );
+        $i1_4 = $this->getFormWrappedHtml(
+            'checkbox-field-input',
+            'tst_results_grading_opt_show_details',
+            '<input type="checkbox" id="id_6" value="checked" class="c-field-checkbox" />',
+            'tst_results_grading_opt_show_details_desc',
+            'id_6',
+            ''
+        );
+        $i1_5 = $this->getFormWrappedHtml(
+            'checkbox-field-input',
+            'tst_pass_deletion',
+            '<input type="checkbox" id="id_7" value="checked" class="c-field-checkbox" />',
+            'tst_pass_deletion_allowed',
+            'id_7',
+            ''
+        );
+
+        $i1 = $this->getFormWrappedHtml(
+            'optional-group-field-input',
+            '<span>tst_results_access_enabled</span><input type="checkbox" value="checked" />',
+            $i1_1 . $i1_2 . $i1_3 . $i1_4 . $i1_5,
+            'tst_results_access_enabled_desc',
+            '',
+            ''
+        );
+
+        $expected = $this->getFormWrappedHtml(
+            'section-field-input',
+            'test_results',
+            $i1,
+            null,
+            '',
+            ''
+        );
+        $this->assertEquals($expected, $this->brutallyTrimSignals($actual));
     }
-
-
 
 
     public function testScoreSettingsSectionDetails(): void
     {
         $s = new SettingsResultDetails(666);
         $tax_ids = [1,2];
-        $actual = $this->getDefaultRenderer()->render(
+        $actual = $this->render(
             $s->toForm(
                 ...array_merge(
                     $this->getUIPack(),
@@ -363,169 +386,118 @@ EOT;
                 )
             )
         );
+        $opts = [
+            ['tst_results_print_best_solution', 'tst_results_print_best_solution_info'],
+            ['tst_show_solution_feedback', 'tst_show_solution_feedback_desc'],
+            ['tst_show_solution_suggested', 'tst_show_solution_suggested_desc'],
+            ['tst_show_solution_printview', 'tst_show_solution_printview_desc'],
+            ['tst_hide_pagecontents', 'tst_hide_pagecontents_desc'],
+            ['tst_show_solution_signature', 'tst_show_solution_signature_desc'],
+            ['examid_in_test_res', 'examid_in_test_res_desc'],
+        ];
+        $options = '';
+        foreach($opts as $index => $entry) {
+            list($label, $byline) = $entry;
+            $nr = (string) ($index + 1);
+            $checked = $index === 6 ? ' checked="checked"' : '';
+            $field_html = '<input type="checkbox" id="id_' . $nr . '" value="checked"' . $checked . ' class="c-field-checkbox" />';
+            $options .= $this->getFormWrappedHtml(
+                'checkbox-field-input',
+                $label,
+                $field_html,
+                $byline,
+                'id_' . $nr,
+                ''
+            );
+        }
 
-        $expected = <<<EOT
-<div class="il-section-input">
-    <div class="il-section-input-header"><h2>tst_results_details_options</h2></div>
-
-    <div class="form-group row">
-        <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_print_best_solution</label>
-        <div class="col-sm-8 col-md-9 col-lg-10">
-            <input type="checkbox" id="id_1" value="checked" class="form-control form-control-sm" /><div class="help-block">tst_results_print_best_solution_info</div>
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_feedback</label>
-        <div class="col-sm-8 col-md-9 col-lg-10">
-            <input type="checkbox" id="id_2" value="checked" class="form-control form-control-sm" /><div class="help-block">tst_show_solution_feedback_desc</div>
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_suggested</label><div class="col-sm-8 col-md-9 col-lg-10">
-            <input type="checkbox" id="id_3" value="checked" class="form-control form-control-sm" /><div class="help-block">tst_show_solution_suggested_desc</div>
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <label for="id_4" class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_printview</label><div class="col-sm-8 col-md-9 col-lg-10">
-            <input type="checkbox" id="id_4" value="checked" class="form-control form-control-sm" /><div class="help-block">tst_show_solution_printview_desc</div>
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <label for="id_5" class="control-label col-sm-4 col-md-3 col-lg-2">tst_hide_pagecontents</label><div class="col-sm-8 col-md-9 col-lg-10">
-            <input type="checkbox" id="id_5" value="checked" class="form-control form-control-sm" /><div class="help-block">tst_hide_pagecontents_desc</div>
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <label for="id_6" class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_signature</label><div class="col-sm-8 col-md-9 col-lg-10">
-            <input type="checkbox" id="id_6" value="checked" class="form-control form-control-sm" /><div class="help-block">tst_show_solution_signature_desc</div>
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <label for="id_7" class="control-label col-sm-4 col-md-3 col-lg-2">examid_in_test_res</label><div class="col-sm-8 col-md-9 col-lg-10">
-            <input type="checkbox" id="id_7" value="checked" checked="checked" class="form-control form-control-sm" /><div class="help-block">examid_in_test_res_desc</div>
-        </div>
-    </div>
-
-</div>
-EOT;
-
-        $this->assertHTMLEquals(
-            $this->brutallyTrimHTML($expected),
-            $this->brutallyTrimHTML($this->brutallyTrimSignals($actual))
+        $expected = $this->getFormWrappedHtml(
+            'section-field-input',
+            'tst_results_details_options',
+            $options,
+            null,
+            '',
+            ''
         );
+        $this->assertEquals($expected, $this->brutallyTrimSignals($actual));
     }
 
 
     public function testScoreSettingsSectionGamification(): void
     {
         $s = new SettingsGamification(666);
-        $actual = $this->getDefaultRenderer()->render(
+        $actual = $this->render(
             $s->toForm(...$this->getUIPack())
         );
 
-        $expected = <<<EOT
-<div class="il-section-input">
-
-    <div class="il-section-input-header"><h2>tst_results_gamification</h2></div>
-
-    <div class="form-group row">
-        <label for="id_10" class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_enabled</label>
-        <div class="col-sm-8 col-md-9 col-lg-10">
-            <input type="checkbox" id="id_10" value="checked" class="form-control form-control-sm" />
-            <div class="help-block">tst_highscore_description</div>
-
-            <div class="form-group row">
-                <label class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_mode<span class="asterisk">*</span></label>
-                <div class="col-sm-8 col-md-9 col-lg-10">
-                    <div id="id_2" class="il-input-radio">
-                        <div class="form-control form-control-sm il-input-radiooption">
-                            <input type="radio" id="id_2_1_opt" value="1" />
-                            <label for="id_2_1_opt">tst_highscore_own_table</label>
-                            <div class="help-block">tst_highscore_own_table_description</div>
-                        </div>
-
-                        <div class="form-control form-control-sm il-input-radiooption">
-                            <input type="radio" id="id_2_2_opt" value="2" />
-                            <label for="id_2_2_opt">tst_highscore_top_table</label>
-                            <div class="help-block">tst_highscore_top_table_description</div>
-                        </div>
-
-                        <div class="form-control form-control-sm il-input-radiooption">
-                            <input type="radio" id="id_2_3_opt" value="3" checked="checked" />
-                            <label for="id_2_3_opt">tst_highscore_all_tables</label>
-                            <div class="help-block">tst_highscore_all_tables_description</div>
-                        </div>
-                    </div>
+        $fields = $this->getFormWrappedHtml(
+            'radio-field-input',
+            'tst_highscore_mode<span class="asterisk">*</span>',
+            '<div id="id_2" class="c-field-radio">
+                <div class="c-field-radio__item">
+                    <input type="radio" id="id_2_1_opt" value="1" /><label for="id_2_1_opt">tst_highscore_own_table</label><div class="c-input__help-byline">tst_highscore_own_table_description</div>
                 </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_top_num<span class="asterisk">*</span></label>
-                <div class="col-sm-8 col-md-9 col-lg-10">
-                    <input id="id_3" type="number" value="10" class="form-control form-control-sm c-input-numeric" />
-                    <div class="help-block">tst_highscore_top_num_description</div>
+                <div class="c-field-radio__item">
+                    <input type="radio" id="id_2_2_opt" value="2" /><label for="id_2_2_opt">tst_highscore_top_table</label><div class="c-input__help-byline">tst_highscore_top_table_description</div>
                 </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="id_4" class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_anon</label>
-                <div class="col-sm-8 col-md-9 col-lg-10">
-                    <input type="checkbox" id="id_4" value="checked" checked="checked" class="form-control form-control-sm" />
-                    <div class="help-block">tst_highscore_anon_description</div>
+                <div class="c-field-radio__item">
+                    <input type="radio" id="id_2_3_opt" value="3" checked="checked" /><label for="id_2_3_opt">tst_highscore_all_tables</label><div class="c-input__help-byline">tst_highscore_all_tables_description</div>
                 </div>
-            </div>
-            <div class="form-group row">
-                <label for="id_5" class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_achieved_ts</label>
-                <div class="col-sm-8 col-md-9 col-lg-10">
-                    <input type="checkbox" id="id_5" value="checked" checked="checked" class="form-control form-control-sm" />
-                    <div class="help-block">tst_highscore_achieved_ts_description</div>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="id_6" class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_score</label>
-                <div class="col-sm-8 col-md-9 col-lg-10">
-                    <input type="checkbox" id="id_6" value="checked" checked="checked" class="form-control form-control-sm" />
-                    <div class="help-block">tst_highscore_score_description</div>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="id_7" class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_percentage</label>
-                <div class="col-sm-8 col-md-9 col-lg-10">
-                    <input type="checkbox" id="id_7" value="checked" checked="checked" class="form-control form-control-sm" />
-                    <div class="help-block">tst_highscore_percentage_description</div>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="id_8" class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_hints</label>
-                <div class="col-sm-8 col-md-9 col-lg-10">
-                    <input type="checkbox" id="id_8" value="checked" checked="checked" class="form-control form-control-sm" />
-                    <div class="help-block">tst_highscore_hints_description</div>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="id_9" class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_wtime</label>
-                <div class="col-sm-8 col-md-9 col-lg-10">
-                    <input type="checkbox" id="id_9" value="checked" checked="checked" class="form-control form-control-sm" />
-                    <div class="help-block">tst_highscore_wtime_description</div>
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-</div>
-EOT;
-
-        $this->assertHTMLEquals(
-            $this->brutallyTrimHTML($expected),
-            $this->brutallyTrimHTML($this->brutallyTrimSignals($actual))
+            </div>',
+            null,
+            null,
+            ''
         );
+        $fields .= $this->getFormWrappedHtml(
+            'numeric-field-input',
+            'tst_highscore_top_num<span class="asterisk">*</span>',
+            '<input id="id_3" type="number" value="10" class="c-field-number" />',
+            'tst_highscore_top_num_description',
+            'id_3',
+            ''
+        );
+
+
+        $opts = [
+            ['tst_highscore_anon', 'tst_highscore_anon_description'],
+            ['tst_highscore_achieved_ts', 'tst_highscore_achieved_ts_description'],
+            ['tst_highscore_score', 'tst_highscore_score_description'],
+            ['tst_highscore_percentage', 'tst_highscore_percentage_description'],
+            ['tst_highscore_hints', 'tst_highscore_hints_description'],
+            ['tst_highscore_wtime', 'tst_highscore_wtime_description']
+        ];
+        foreach($opts as $index => $entry) {
+            list($label, $byline) = $entry;
+            $nr = (string) ($index + 4);
+            $field_html = '<input type="checkbox" id="id_' . $nr . '" value="checked" checked="checked" class="c-field-checkbox" />';
+            $fields .= $this->getFormWrappedHtml(
+                'checkbox-field-input',
+                $label,
+                $field_html,
+                $byline,
+                'id_' . $nr,
+                ''
+            );
+        }
+
+        $group = $this->getFormWrappedHtml(
+            'optional-group-field-input',
+            '<span>tst_highscore_enabled</span><input type="checkbox" value="checked" />',
+            $fields,
+            'tst_highscore_description',
+            '',
+            ''
+        );
+
+        $expected = $this->getFormWrappedHtml(
+            'section-field-input',
+            'tst_results_gamification',
+            $group,
+            null,
+            '',
+            ''
+        );
+        $this->assertHTMLEquals($expected, $this->brutallyTrimSignals($actual));
     }
 
     public function testScoreSettingsDirectlyAccessedByTestObj(): void

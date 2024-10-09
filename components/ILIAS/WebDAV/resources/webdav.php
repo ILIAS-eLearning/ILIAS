@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,8 +16,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
 
-$path_info_components = explode('/', $_SERVER['PATH_INFO']);
+require_once __DIR__ . '/../vendor/composer/vendor/autoload.php';
+
+$path_info_components = explode('/', (string) $_SERVER['PATH_INFO']);
 $client_id = $path_info_components[1];
 $show_mount_instr = isset($_GET['mount-instructions']);
 
@@ -31,7 +32,7 @@ try {
     ilContext::init($context);
     $post_array = $_POST;
     ilInitialisation::initILIAS();
-} catch (InvalidArgumentException $e) {
+} catch (InvalidArgumentException) {
     header("HTTP/1.1 400 Bad Request");
     header("X-WebDAV-Status: 400 Bad Request", true);
     echo '<?xml version="1.0" encoding="utf-8"?>

@@ -26,7 +26,7 @@ use ILIAS\UI\Component\Tree\Tree;
  */
 class ilForumExplorerGUI extends ilTreeExplorerGUI
 {
-    private int $max_entries;
+    private readonly int $max_entries;
     /** @var array<int, array<int, array<string, mixed>>> */
     private array $preloaded_children = [];
 
@@ -37,8 +37,8 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         string $a_expl_id,
         object $a_parent_obj,
         string $a_parent_cmd,
-        private ilForumTopic $thread,
-        private ilForumPost $root_node
+        private readonly ilForumTopic $thread,
+        private readonly ilForumPost $root_node
     ) {
         global $DIC;
 
@@ -123,9 +123,9 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         ];
 
         return $this->ui->factory()->tree()
-            ->expandable($this->getTreeLabel(), $this)
-            ->withData($rootNode)
-            ->withHighlightOnNodeClick(false);
+                        ->expandable($this->getTreeLabel(), $this)
+                        ->withData($rootNode)
+                        ->withHighlightOnNodeClick(false);
     }
 
     protected function createNode(

@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments;
 
-use ILIAS\LegalDocuments\PageFragment;
 use ILIAS\DI\Container;
 use ILIAS\LegalDocuments\ConsumerSlots\SelfRegistration;
 use ILIAS\LegalDocuments\ConsumerSlots\SelfRegistration\Bundle;
@@ -40,6 +39,8 @@ use ILIAS\LegalDocuments\ConsumerToolbox\SelectSetting;
 use ILIAS\LegalDocuments\ConsumerToolbox\KeyValueStore\SessionStore;
 use ILIAS\LegalDocuments\ConsumerToolbox\Marshal;
 use ILIAS\LegalDocuments\ConsumerToolbox\Routing;
+use ILIAS\components\Authentication\Logout\LogoutTarget;
+use ILIAS\LegalDocuments\Value\Target;
 
 class Conductor
 {
@@ -62,21 +63,6 @@ class Conductor
         return new Provide($id, $this->internal, $this->container);
     }
 
-    public function onLogout(string $gui): void
-    {
-        try {
-            $id = $this->container->http()->wrapper()->query()->retrieve('withdraw_consent', $this->container->refinery()->to()->string());
-        } catch (Exception $e) {
-            return;
-        }
-
-        $logout = $this->internal->get('logout', $id);
-        if (null !== $logout) {
-            $this->container->ctrl()->setParameterByClass($gui, 'withdraw_from', $id);
-            $logout();
-        }
-    }
-
     public function loginPageHTML(string $id): string
     {
         $create = $this->internal->get('show-on-login-page', $id);
@@ -89,14 +75,26 @@ class Conductor
     public function logoutText(): string
     {
         try {
-            $id = $this->container->http()->wrapper()->query()->retrieve('withdraw_from', $this->container->refinery()->to()->string());
-        } catch (Exception $e) {
+            $id = $this->container->http()->wrapper()->query()->retrieve(
+                'withdraw_consent',
+                $this->container->refinery()->to()->string()
+            );
+        } catch (Exception) {
             return '';
         }
 
         $logout_text = $this->internal->get('logout-text', $id);
 
         return null === $logout_text ? '' : $this->container->ui()->renderer()->render($logout_text());
+    }
+
+    public function logoutTarget(LogoutTarget $target): LogoutTarget
+    {
+        return new WithdrawalAcknowledgementLogoutTarget(
+            $target,
+            $this->container->http()->wrapper()->query()->has('withdraw_consent'),
+            $this->container->ctrl()
+        );
     }
 
     public function modifyFooter(Footer $footer): Footer
@@ -158,6 +156,9 @@ class Conductor
         array_map(fn($proc) => $proc(), $this->internal->all('after-login'));
     }
 
+    /**
+     * @return Result<Target>
+     */
     public function findGotoLink(string $goto_target): Result
     {
         return $this->find(
@@ -166,6 +167,9 @@ class Conductor
         )->map(fn($goto_link) => $goto_link->target());
     }
 
+    /**
+     * @return list<Intercept>
+     */
     public function intercepting(): array
     {
         return $this->internal->all('intercept');
@@ -176,6 +180,9 @@ class Conductor
         return new Bundle($this->internal->all('self-registration'));
     }
 
+    /**
+     * @return array<string|int, string>
+     */
     public function userManagementFields(ilObjUser $user): array
     {
         return array_reduce(
@@ -228,7 +235,7 @@ class Conductor
     {
         try {
             $id = $this->container->http()->wrapper()->query()->retrieve('id', $this->container->refinery()->to()->string());
-        } catch (Exception $e) {
+        } catch (Exception) {
             return new Error('No provider ID given.');
         }
 
@@ -244,7 +251,7 @@ class Conductor
     }
 
     /**
-     * @return Closure(Closure(string, string): Result<PageFragment>): string
+     * @return Closure(Closure(string, string): Result<PageFragment>): Result<string>
      */
     private function renderPageFragment(string $gui, string $cmd): Closure
     {

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -62,7 +64,7 @@ class WeekGUI
             ->domain()->objects($pool_id);
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $navigation = new \ilCalendarHeaderNavigationGUI(
             $this->parent_gui,
@@ -105,7 +107,7 @@ class WeekGUI
 
     protected function getWeekGridEntries(
         array $object_ids
-    ) : array {
+    ): array {
         $week_grid_entries = [];
 
         foreach ($object_ids as $object_id) {

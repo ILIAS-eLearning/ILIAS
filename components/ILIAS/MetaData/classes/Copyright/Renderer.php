@@ -62,6 +62,22 @@ class Renderer implements RendererInterface
         return $res;
     }
 
+    public function toString(CopyrightDataInterface $copyright): string
+    {
+        $full_name = $copyright->fullName();
+        $link = $copyright->link();
+
+        $res = [];
+        if ($full_name !== '') {
+            $res[] = $full_name;
+        }
+        if ($link !== null) {
+            $res[] = (string) $link;
+        }
+
+        return implode(' ', $res);
+    }
+
     protected function buildIcon(CopyrightDataInterface $copyright): ?Icon
     {
         if (!$copyright->hasImage()) {

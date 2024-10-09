@@ -32,7 +32,7 @@ use ilMailingLists;
 
 class MailingListsTable implements UI\Component\Table\DataRetrieval
 {
-    private ServerRequestInterface $request;
+    private readonly ServerRequestInterface $request;
     private readonly Data\Factory $data_factory;
     private bool $mailing_allowed = false;
     /**  @var list<array<string, mixed>>|null */

@@ -185,6 +185,9 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
 
             foreach ($record->getScopeRefIds() as $ref_id) {
+                if (!ilObject::_exists($ref_id, true)) {
+                    continue;
+                }
                 $this->tpl->setCurrentBlock('scope_entry');
                 $this->tpl->setVariable('LINK_HREF', ilLink::_getLink($ref_id));
                 $this->tpl->setVariable('LINK_NAME', ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id)));

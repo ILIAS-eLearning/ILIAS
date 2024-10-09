@@ -29,7 +29,6 @@ use ILIAS\Data\Order;
 use ILIAS\Data\URI;
 use ILIAS\UI\Implementation\Component\Table\Action\Action;
 use ILIAS\UI\Implementation\Component\Input\ViewControl\Pagination;
-
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 
 class Renderer extends AbstractComponentRenderer
@@ -39,7 +38,6 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
         if ($component instanceof Component\Table\Presentation) {
             return $this->renderPresentationTable($component, $default_renderer);
         }
@@ -60,7 +58,7 @@ class Renderer extends AbstractComponentRenderer
         if ($component instanceof Component\Table\OrderingRow) {
             return $this->renderOrderingRow($component, $default_renderer);
         }
-        throw new \LogicException(self::class . " cannot render component '" . get_class($component) . "'.");
+        $this->cannotHandleComponent($component);
     }
 
     protected function renderPresentationTable(
@@ -205,10 +203,8 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.datatable.html", true, true);
         $component = $this->registerActions($component);
 
-        //TODO: Filter
-        $filter_data = [];
         [$component, $view_controls] = $component->applyViewControls(
-            $filter_data = [],
+            $component->getFilter() ?? [],
             $component->getAdditionalParameters()
         );
 
@@ -253,7 +249,7 @@ class Renderer extends AbstractComponentRenderer
                 $view_controls->getInputs(),
                 static fn($i): bool => $i instanceof Component\Input\ViewControl\Sortation
             );
-            if($sortation_view_control) {
+            if ($sortation_view_control) {
                 $sortation_signal = array_shift($sortation_view_control)->getInternalSignal();
                 $sortation_signal->addOption('parent_container', $id);
             }
@@ -372,7 +368,7 @@ class Renderer extends AbstractComponentRenderer
 
         $actions = [];
         foreach ($component->getAllActions() as $action_id => $action) {
-            $component = $component->withAdditionalOnLoadCode($this->getActionRegistration((string)$action_id, $action));
+            $component = $component->withAdditionalOnLoadCode($this->getActionRegistration((string) $action_id, $action));
             if ($action->isAsync()) {
                 $signal = clone $component->getAsyncActionSignal();
                 $signal->addOption(Action::OPT_ACTIONID, $action_id);
@@ -532,7 +528,7 @@ class Renderer extends AbstractComponentRenderer
         $cell_tpl = $this->getTemplate("tpl.orderingcell.html", true, true);
         $this->fillCells($component, $cell_tpl, $default_renderer);
 
-        if($component->isOrderingDisabled()) {
+        if ($component->isOrderingDisabled()) {
             return $cell_tpl->get();
         }
 
@@ -623,7 +619,7 @@ class Renderer extends AbstractComponentRenderer
         );
 
 
-        if(!$component->isOrderingDisabled()) {
+        if (!$component->isOrderingDisabled()) {
             $component = $component->withAdditionalOnLoadCode(
                 static fn($id): string => "il.UI.table.ordering.init('{$id}');"
             );
@@ -632,7 +628,7 @@ class Renderer extends AbstractComponentRenderer
         $tableid = $this->bindJavaScript($component) ?? $this->createId();
         $total_number_of_cols = count($component->getVisibleColumns());
 
-        if(!$component->isOrderingDisabled()) {
+        if (!$component->isOrderingDisabled()) {
             $total_number_of_cols = $total_number_of_cols + 1;
             $submit = $this->getUIFactory()->button()->standard($this->txt('sorting_save'), "")
                 ->withOnLoadCode(static fn($id) => "document.getElementById('$id').addEventListener('click',
@@ -693,7 +689,7 @@ class Renderer extends AbstractComponentRenderer
     {
         parent::registerResources($registry);
         $registry->register('assets/js/table.min.js');
-        $registry->register('assets/js/modal.js');
+        $registry->register('assets/js/modal.min.js');
     }
 
     protected function registerSignals(Component\Table\PresentationRow $component): Component\JavaScriptBindable
@@ -708,20 +704,5 @@ class Renderer extends AbstractComponentRenderer
             "$(document).on('$close', function() { il.UI.table.presentation.get('$table_id').collapseRow('$id'); return false; });" .
             "$(document).on('$toggle', function() { il.UI.table.presentation.get('$table_id').toggleRow('$id'); return false; });"
         );
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [
-            Component\Table\PresentationRow::class,
-            Component\Table\Presentation::class,
-            Component\Table\Data::class,
-            Component\Table\DataRow::class,
-            Component\Table\Ordering::class,
-            Component\Table\OrderingRow::class,
-        ];
     }
 }

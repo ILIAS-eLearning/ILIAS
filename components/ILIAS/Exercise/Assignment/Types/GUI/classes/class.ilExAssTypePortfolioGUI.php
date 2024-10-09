@@ -25,19 +25,13 @@ class ilExAssTypePortfolioGUI implements ilExAssignmentTypeGUIInterface
 {
     use ilExAssignmentTypeGUIBase;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilLanguage $lng;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        global $DIC;
-
-        $this->lng = $DIC->language();
+    public function __construct(
+        protected \ILIAS\Exercise\InternalDomainService $domain,
+        protected \ILIAS\Exercise\InternalGUIService $gui
+    ) {
+        $this->lng = $this->domain->lng();
     }
 
     /**
@@ -49,8 +43,8 @@ class ilExAssTypePortfolioGUI implements ilExAssignmentTypeGUIInterface
 
         $rd_template = new ilRadioGroupInputGUI($lng->txt("exc_template"), "template");
         $rd_template->setRequired(true);
-        $radio_no_template = new ilRadioOption($lng->txt("exc_without_template"), 0, $lng->txt("exc_without_template_info", "without_template_info"));
-        $radio_with_template = new ilRadioOption($lng->txt("exc_with_template"), 1, $lng->txt("exc_with_template_info", "with_template_info"));
+        $radio_no_template = new ilRadioOption($lng->txt("exc_without_template"), "0", $lng->txt("exc_without_template_info", "without_template_info"));
+        $radio_with_template = new ilRadioOption($lng->txt("exc_with_template"), "1", $lng->txt("exc_with_template_info", "with_template_info"));
 
         $repo = new ilRepositorySelector2InputGUI($lng->txt("exc_portfolio_template"), "template_id");
         $repo->setRequired(true);
@@ -81,9 +75,10 @@ class ilExAssTypePortfolioGUI implements ilExAssignmentTypeGUIInterface
     {
         $values = [];
 
+        $values["template"] = "0";
         if ($ass->getPortfolioTemplateId() > 0) {
             $values["template_id"] = $ass->getPortfolioTemplateId();
-            $values["template"] = 1;
+            $values["template"] = "1";
         }
 
         return $values;
@@ -113,7 +108,7 @@ class ilExAssTypePortfolioGUI implements ilExAssignmentTypeGUIInterface
         $valid_prtf = false;
         $selected_prtf = $submission->getSelectedObject();
         if ($selected_prtf) {
-            $portfolio_id = (int) $selected_prtf["filetitle"];
+            $portfolio_id = (int) $selected_prtf->getTitle();
 
             // #11746
             if (\ilObject::_exists($portfolio_id, false, "prtf")) {
@@ -159,10 +154,10 @@ class ilExAssTypePortfolioGUI implements ilExAssignmentTypeGUIInterface
                 }
             }
             // remove invalid resource if no upload yet (see download below)
-            elseif (substr($selected_prtf["filename"], -1) == "/") {
+            /*elseif (substr($selected_prtf["filename"], -1) == "/") {
                 // #16887
                 $submission->deleteResourceObject();
-            }
+            }*/
         }
         if ($submission->canSubmit()) {
             if (!$valid_prtf) {

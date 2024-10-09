@@ -20,11 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments\ConsumerToolbox\ConsumerSlots;
 
-use ILIAS\UI\Component\Component;
 use ILIAS\LegalDocuments\test\ContainerMock;
 use ILIAS\LegalDocuments\ConsumerToolbox\UI;
 use ILIAS\LegalDocuments\Provide;
-use ILIAS\LegalDocuments\ConsumerToolbox\ConsumerSlots\ShowOnLoginPage;
 use PHPUnit\Framework\TestCase;
 use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\UI\Implementation\Factory as UIFactory;
@@ -66,7 +64,7 @@ class ShowOnLoginPageTest extends TestCase
             ->method('setVariable')
             ->willReturnCallback(
                 function (string $k, string $v) use (&$expected) {
-                    list($ek, $ev) = array_shift($expected);
+                    [$ek, $ev] = array_shift($expected);
                     $this->assertEquals($ek, $k);
                     $this->assertEquals($ev, $v);
                 }

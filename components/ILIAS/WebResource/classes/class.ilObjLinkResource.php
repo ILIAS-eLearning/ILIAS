@@ -18,18 +18,25 @@
 
 declare(strict_types=1);
 
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+
 /**
  * Class ilObjLinkResource
  * @author  Stefan Meyer <meyer@leifos.com>
  */
 class ilObjLinkResource extends ilObject
 {
+    protected LOMServices $lom_services;
     protected ilWebLinkDatabaseRepository $repo;
 
     public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
+        global $DIC;
+
         $this->type = "webr";
         parent::__construct($a_id, $a_call_by_reference);
+
+        $this->lom_services = $DIC->learningObjectMetadata();
     }
 
     protected function getWebLinkRepo(): ilWebLinkRepository
@@ -60,19 +67,22 @@ class ilObjLinkResource extends ilObject
 
     protected function doMDUpdateListener(string $a_element): void
     {
-        $md = new ilMD($this->getId(), 0, $this->getType());
-        if (!is_object($md_gen = $md->getGeneral())) {
+        if ($a_element !== 'General') {
             return;
         }
-        $title = $md_gen->getTitle();
-        $description = '';
-        foreach ($md_gen->getDescriptionIds() as $id) {
-            $md_des = $md_gen->getDescription($id);
-            $description = $md_des->getDescription();
-            break;
-        }
+
+        $paths = $this->lom_services->paths();
+        $reader = $this->lom_services->read(
+            $this->getId(),
+            0,
+            $this->getType(),
+            $paths->custom()->withNextStep('general')->get()
+        );
+
+        $title = $reader->firstData($paths->title())->value();
+        $description = $reader->firstData($paths->firstDescription())->value();
+
         if (
-            $a_element === 'General' &&
             !$this->getWebLinkRepo()->doesListExist() &&
             $this->getWebLinkRepo()->doesOnlyOneItemExist()
         ) {
@@ -87,10 +97,7 @@ class ilObjLinkResource extends ilObject
             );
             $this->getWebLinkRepo()->updateItem($item, $draft);
         }
-        if (
-            $a_element === 'General' &&
-            $this->getWebLinkRepo()->doesListExist()
-        ) {
+        if ($this->getWebLinkRepo()->doesListExist()) {
             $list = $this->getWebLinkRepo()->getList();
             $draft = new ilWebLinkDraftList(
                 $title,
@@ -163,7 +170,7 @@ class ilObjLinkResource extends ilObject
         return $new_obj;
     }
 
-    public function toXML(ilXmlWriter $writer): void
+    public function toXML(ilXmlWriter $writer, bool $skip_lom = false): void
     {
         $attribs = array("obj_id" => "il_" . IL_INST_ID . "_webr_" . $this->getId(
         )
@@ -171,10 +178,12 @@ class ilObjLinkResource extends ilObject
 
         $writer->xmlStartTag('WebLinks', $attribs);
 
-        // LOM MetaData
-        $md2xml = new ilMD2XML($this->getId(), $this->getId(), 'webr');
-        $md2xml->startExport();
-        $writer->appendXML($md2xml->getXML());
+        if (!$skip_lom) {
+            // LOM MetaData
+            $md2xml = new ilMD2XML($this->getId(), $this->getId(), 'webr');
+            $md2xml->startExport();
+            $writer->appendXML($md2xml->getXML());
+        }
 
         // Sorting
         switch (ilContainerSortingSettings::_lookupSortMode($this->getId())) {

@@ -176,25 +176,12 @@ class ilBadgeManagementGUI
                 foreach ($this->getValidBadgesFromClipboard() as $badge) {
                     $tt[] = $badge->getTitle();
                 }
-                $ttid = 'bdgpst';
-                ilTooltipGUI::addTooltip(
-                    $ttid,
-                    implode('<br />', $tt),
-                    '',
-                    'bottom center',
-                    'top center',
-                    false
-                );
 
                 $lng->loadLanguageModule('content');
                 $ilToolbar->addButton(
                     $lng->txt('cont_paste_from_clipboard') .
                     ' (' . count($tt) . ')',
-                    $ilCtrl->getLinkTarget($this, 'pasteBadges'),
-                    '',
-                    null,
-                    '',
-                    $ttid
+                    $ilCtrl->getLinkTarget($this, 'pasteBadges')
                 );
                 $ilToolbar->addButton(
                     $lng->txt('clear_clipboard'),

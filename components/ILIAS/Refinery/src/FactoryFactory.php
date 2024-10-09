@@ -20,8 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery;
 
-use ILIAS\Language\Language;
-
 /**
  * This Javaism is required to solve the problem that we do not have proper
  * \ILIAS\Language\Language during the setup. There might be setups where this would be

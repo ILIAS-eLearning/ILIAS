@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments\Table;
 
-use ILIAS\LegalDocuments\Value\CriterionContent;
 use ILIAS\LegalDocuments\Value\DocumentContent;
 use ILIAS\UI\Component\Component;
 use ILIAS\DI\UIServices;
@@ -29,7 +28,7 @@ use Closure;
 class DocumentModal
 {
     /**
-     * @param Closure(CriterionContent): Component $content_as_component
+     * @param Closure(DocumentContent): Component $content_as_component
      */
     public function __construct(
         private readonly UIServices $ui,

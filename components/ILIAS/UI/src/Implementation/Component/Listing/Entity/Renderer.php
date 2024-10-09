@@ -33,8 +33,10 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
-        return $this->renderEntityListing($component, $default_renderer);
+        if ($component instanceof Component\Listing\Entity\EntityListing) {
+            return $this->renderEntityListing($component, $default_renderer);
+        }
+        $this->cannotHandleComponent($component);
     }
 
     protected function renderEntityListing(EntityListing $component, RendererInterface $default_renderer): string
@@ -49,15 +51,5 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
         return $tpl->get();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [
-            Component\Listing\Entity\Standard::class
-        ];
     }
 }

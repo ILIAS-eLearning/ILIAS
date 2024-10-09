@@ -224,9 +224,11 @@ class DatabaseSearcher implements DatabaseSearcherInterface
             $clause_negation = 'NOT ';
         }
 
+        $needs_join_to_base_table = $basic_props->value() === '' || $is_clause_negated;
+
         return $clause_negation . 'COUNT(CASE WHEN ' . $mode_negation .
-            $paths_parser->addPathAndGetColumn($basic_props->path()) . ' ' . $comparison .
-            ' THEN 1 END) > 0';
+            $paths_parser->addPathAndGetColumn($basic_props->path(), $needs_join_to_base_table) .
+            ' ' . $comparison . ' THEN 1 END) > 0';
     }
 
     protected function queryDB(string $query): \Generator

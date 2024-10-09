@@ -500,7 +500,7 @@ class Legacy implements ReaderInterface
         string $value = ''
     ): ElementInterface {
         $scaffold = $to_element->addScaffoldToSubElements($this->scaffold_provider, $name);
-        $scaffold->mark($this->marker_factory, Action::CREATE_OR_UPDATE, $value);
+        $scaffold->mark($this->marker_factory, Action::CREATE_OR_UPDATE, strip_tags($value));
         return $scaffold;
     }
 

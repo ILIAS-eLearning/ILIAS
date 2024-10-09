@@ -39,10 +39,9 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        /**
-         * @var $component Glyph
-         */
-        $this->checkComponent($component);
+        if (!$component instanceof Component\Symbol\Glyph\Glyph) {
+            $this->cannotHandleComponent($component);
+        }
 
         $tpl_file = $this->getTemplateFilename();
         $tpl = $this->getTemplate($tpl_file, true, true);
@@ -119,13 +118,5 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
         return $tpl->get();
-    }
-
-    /**
-     * @inheritdocs
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(Component\Symbol\Glyph\Glyph::class);
     }
 }

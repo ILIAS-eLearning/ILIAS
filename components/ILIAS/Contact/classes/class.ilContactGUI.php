@@ -80,7 +80,7 @@ class ilContactGUI
     {
         $this->showSubTabs();
 
-        $forward_class = $this->ctrl->getNextClass($this);
+        $forward_class = $this->ctrl->getNextClass($this) ?? '';
 
         $this->umail->persistToStage($this->user->getId(), [], '', '', '', '', '', false);
 
@@ -155,7 +155,7 @@ class ilContactGUI
                     $this->ctrl->getLinkTarget($this)
                 );
 
-                if (in_array(strtolower($this->ctrl->getCmdClass()), $galleryCmdClasses, true)) {
+                if (in_array(strtolower($this->ctrl->getCmdClass() ?? ''), $galleryCmdClasses, true)) {
                     $mode_options = array_combine(
                         array_map(
                             fn(string $mode): string => $this->lng->txt($mode),
@@ -173,7 +173,7 @@ class ilContactGUI
                         ),
                     );
 
-                    $active_mode = strtolower($this->ctrl->getCmdClass()) === strtolower(ilUsersGalleryGUI::class)
+                    $active_mode = strtolower($this->ctrl->getCmdClass() ?? '') === strtolower(ilUsersGalleryGUI::class)
                         ? self::CONTACTS_VIEW_GALLERY
                         : self::CONTACTS_VIEW_TABLE;
 
@@ -219,7 +219,7 @@ class ilContactGUI
                     $this->ctrl->getLinkTarget($this)
                 );
 
-                if (in_array(strtolower($this->ctrl->getCmdClass()), $galleryCmdClasses, true)) {
+                if (in_array(strtolower($this->ctrl->getCmdClass() ?? ''), $galleryCmdClasses, true)) {
                     $this->tabs_gui->addSubTab(
                         'buddy_view_table',
                         $this->lng->txt('buddy_view_table'),

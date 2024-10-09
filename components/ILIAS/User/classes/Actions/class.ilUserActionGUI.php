@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer;
 
@@ -36,7 +37,7 @@ class ilUserActionGUI
         private ilGlobalTemplateInterface $tpl,
         private UIFactory $ui_factory,
         private Renderer $ui_renderer,
-        private ilLanguage $lng,
+        private Language $lng,
         ilDBInterface $db,
         int $user_id
     ) {

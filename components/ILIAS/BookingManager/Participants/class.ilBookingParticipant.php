@@ -22,6 +22,7 @@
  */
 class ilBookingParticipant
 {
+    protected \ILIAS\BookingManager\InternalDomainService $domain;
     protected ilLanguage $lng;
     protected ilDBInterface $db;
     protected int $participant_id;
@@ -45,6 +46,7 @@ class ilBookingParticipant
         $this->lng = $DIC->language();
         $this->db = $DIC->database();
         $this->user = $DIC->user();
+        $this->domain = $DIC->bookingManager()->internal()->domain();
 
         $this->participant_id = $a_user_id;
         $this->booking_pool_id = $a_booking_pool_id;
@@ -141,6 +143,7 @@ class ilBookingParticipant
         global $DIC;
 
         $ilDB = $DIC->database();
+        $domain = $DIC->bookingManager()->internal()->domain();
 
         $res = array();
 
@@ -169,6 +172,10 @@ class ilBookingParticipant
             $status = $row['status'];
             //Nothing to show if the status is canceled when filtering by object
             if ($status == ilBookingReservation::STATUS_CANCELLED && $a_object_id) {
+                continue;
+            }
+
+            if (!$domain->profile()->exists((int) $row['user_id'])) {
                 continue;
             }
 

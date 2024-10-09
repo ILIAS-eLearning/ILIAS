@@ -26,8 +26,8 @@ declare(strict_types=1);
 class ilForumNotificationTableGUI extends ilTable2GUI
 {
     private array $notification_modals = [];
-    private \ILIAS\UI\Factory $ui_factory;
-    private ILIAS\UI\Renderer $ui_renderer;
+    private readonly \ILIAS\UI\Factory $ui_factory;
+    private readonly ILIAS\UI\Renderer $ui_renderer;
 
     public function __construct(ilForumSettingsGUI $settings_gui, string $cmd, string $type)
     {

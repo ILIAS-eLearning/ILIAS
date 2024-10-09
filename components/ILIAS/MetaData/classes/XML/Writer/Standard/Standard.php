@@ -29,22 +29,31 @@ use ILIAS\MetaData\Elements\Data\DataInterface;
 use ILIAS\MetaData\XML\Dictionary\TagInterface;
 use ILIAS\MetaData\XML\Copyright\CopyrightHandlerInterface;
 use ILIAS\MetaData\XML\Writer\WriterInterface;
+use ILIAS\MetaData\Paths\FactoryInterface as PathFactory;
+use ILIAS\MetaData\Manipulator\ManipulatorInterface;
 
 class Standard implements WriterInterface
 {
     protected DictionaryInterface $dictionary;
     protected CopyrightHandlerInterface $copyright_handler;
+    protected PathFactory $path_factory;
+    protected ManipulatorInterface $manipulator;
 
     public function __construct(
         DictionaryInterface $dictionary,
-        CopyrightHandlerInterface $copyright_handler
+        CopyrightHandlerInterface $copyright_handler,
+        PathFactory $path_factory,
+        ManipulatorInterface $manipulator
     ) {
         $this->dictionary = $dictionary;
         $this->copyright_handler = $copyright_handler;
+        $this->path_factory = $path_factory;
+        $this->manipulator = $manipulator;
     }
 
     public function write(SetInterface $set): \SimpleXMLElement
     {
+        $set = $this->prepareCopyright($set);
         $root = $set->getRoot();
         $root_name = $root->getDefinition()->name();
         $xml = new \SimpleXMLElement('<' . $root_name . '></' . $root_name . '>');
@@ -56,6 +65,25 @@ class Standard implements WriterInterface
         );
 
         return $xml;
+    }
+
+    /**
+     * When copyright selection is active, objects should always be
+     * exported with copyright, so we add it here as scaffolds if necessary.
+     */
+    protected function prepareCopyright(SetInterface $set): SetInterface
+    {
+        if (!$this->copyright_handler->isCopyrightSelectionActive()) {
+            return $set;
+        }
+
+        $path_to_copyright = $this->path_factory->custom()
+                                                ->withNextStep('rights')
+                                                ->withNextStep('description')
+                                                ->withNextStep('string')
+                                                ->get();
+        // markers are ignored here, so we can safely use the manipulator
+        return $this->manipulator->prepareCreateOrUpdate($set, $path_to_copyright, '');
     }
 
     protected function addSubElementsToXML(

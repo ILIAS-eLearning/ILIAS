@@ -38,6 +38,9 @@ trait ilTestBaseTestCaseTrait
         if (!defined("CLIENT_DATA_DIR")) {
             define("CLIENT_DATA_DIR", "/var/iliasdata");
         }
+        if (!defined('IL_INST_ID')) {
+            define('IL_INST_ID', '0');
+        }
         if (!defined("ANONYMOUS_USER_ID")) {
             define("ANONYMOUS_USER_ID", 13);
         }
@@ -334,10 +337,12 @@ trait ilTestBaseTestCaseTrait
             new ILIAS\FileDelivery\Delivery\StreamDelivery(
                 $data_signer,
                 $http_mock,
+                $response_builder_mock,
                 $response_builder_mock
             ),
             new \ILIAS\FileDelivery\Delivery\LegacyDelivery(
                 $http_mock,
+                $response_builder_mock,
                 $response_builder_mock
             ),
             $data_signer

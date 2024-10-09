@@ -164,18 +164,6 @@ class ilLMNavigationStatus
                 return;
             }
 
-            // if public access get first public page in chapter
-            if ($user->getId() == ANONYMOUS_USER_ID &&
-                $this->lm->getPublicAccessMode() == 'selected') {
-                $public = ilLMObject::_isPagePublic($page_id);
-
-                while ($public === false && $page_id > 0) {
-                    $succ_node = $this->lm_tree->fetchSuccessorNode($page_id, 'pg');
-                    $page_id = $succ_node['obj_id'];
-                    $public = ilLMObject::_isPagePublic($page_id);
-                }
-            }
-
             // check whether page found is within "clicked" chapter
             if ($this->lm_tree->isInTree($page_id)) {
                 $path = $this->lm_tree->getPathId($page_id);
@@ -236,24 +224,17 @@ class ilLMNavigationStatus
                     $this->lm_set->get("time_scheduled_page_activation")
                 );
             }
-            if (is_array($succ_node) && $succ_node["obj_id"] > 0 &&
-                $user_id == ANONYMOUS_USER_ID &&
-                ($this->lm->getPublicAccessMode() == "selected" &&
-                    !ilLMObject::_isPagePublic($succ_node["obj_id"]))) {
-                $found = false;
-            } else {
-                if (is_array($succ_node) && $succ_node["obj_id"] > 0 && !$active) {
-                    // look, whether activation data should be shown
-                    $act_data = ilLMPage::_lookupActivationData((int) $succ_node["obj_id"], $this->lm->getType());
-                    if ($act_data["show_activation_info"] &&
-                        (ilUtil::now() < $act_data["activation_start"])) {
-                        $found = true;
-                    } else {
-                        $found = false;
-                    }
-                } else {
+            if (is_array($succ_node) && $succ_node["obj_id"] > 0 && !$active) {
+                // look, whether activation data should be shown
+                $act_data = ilLMPage::_lookupActivationData((int) $succ_node["obj_id"], $this->lm->getType());
+                if ($act_data["show_activation_info"] &&
+                    (ilUtil::now() < $act_data["activation_start"])) {
                     $found = true;
+                } else {
+                    $found = false;
                 }
+            } else {
+                $found = true;
             }
         }
         if (is_array($succ_node)) {
@@ -289,24 +270,17 @@ class ilLMNavigationStatus
                     (bool) $this->lm_set->get("time_scheduled_page_activation")
                 );
             }
-            if (is_array($pre_node) && $pre_node["obj_id"] > 0 &&
-                $user_id == ANONYMOUS_USER_ID &&
-                ($this->lm->getPublicAccessMode() == "selected" &&
-                    !ilLMObject::_isPagePublic($pre_node["obj_id"]))) {
-                $found = false;
-            } else {
-                if (is_array($pre_node) && $pre_node["obj_id"] > 0 && !$active) {
-                    // look, whether activation data should be shown
-                    $act_data = ilLMPage::_lookupActivationData((int) $pre_node["obj_id"], $this->lm->getType());
-                    if ($act_data["show_activation_info"] &&
-                        (ilUtil::now() < $act_data["activation_start"])) {
-                        $found = true;
-                    } else {
-                        $found = false;
-                    }
-                } else {
+            if (is_array($pre_node) && $pre_node["obj_id"] > 0 && !$active) {
+                // look, whether activation data should be shown
+                $act_data = ilLMPage::_lookupActivationData((int) $pre_node["obj_id"], $this->lm->getType());
+                if ($act_data["show_activation_info"] &&
+                    (ilUtil::now() < $act_data["activation_start"])) {
                     $found = true;
+                } else {
+                    $found = false;
                 }
+            } else {
+                $found = true;
             }
         }
         if (is_array($pre_node)) {

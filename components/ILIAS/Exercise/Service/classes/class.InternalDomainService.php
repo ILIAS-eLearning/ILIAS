@@ -24,10 +24,11 @@ use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\DI\Container;
 use ILIAS\Exercise\Object\ObjectManager;
 use ILIAS\Exercise\Notification\NotificationManager;
-use ILIAS\Refinery\Logical\Not;
-use ILIAS\Exercise\InstructionFile\InstructionFileManager;
 use ILIAS\Exercise\Team\TeamManager;
 use ILIAS\Exercise\IndividualDeadline\IndividualDeadlineManager;
+use ILIAS\Exercise\Submission\SubmissionManager;
+use ILIAS\Exercise\PeerReview\DomainService;
+use ILIAS\Exercise\Settings\SettingsManager;
 
 class InternalDomainService
 {
@@ -35,6 +36,7 @@ class InternalDomainService
 
     protected InternalDataService $data;
     protected InternalRepoService $repo;
+    protected array $instance = [];
     protected Assignment\DomainService $assignment_service;
 
     public function __construct(
@@ -66,17 +68,27 @@ class InternalDomainService
         return $this->assignment_service;
     }
 
-    public function peerReview(\ilExAssignment $ass): ?\ilExPeerReview
+    public function submission(int $ass_id): SubmissionManager
     {
-        if ($ass->getPeerReview()) {
-            return new \ilExPeerReview($ass);
-        }
-        return null;
+        return $this->instance["subm"][$ass_id] ??= new SubmissionManager(
+            $this->repo,
+            $this,
+            new \ilExcSubmissionStakeholder(),
+            $ass_id
+        );
+    }
+
+    public function peerReview(): DomainService
+    {
+        return $this->instance["peer_review"] ??= new DomainService(
+            $this->repo,
+            $this
+        );
     }
 
     public function notification(int $ref_id): NotificationManager
     {
-        return new NotificationManager(
+        return $this->instance["notification"][$ref_id] ??= new NotificationManager(
             $this,
             $ref_id
         );
@@ -84,15 +96,35 @@ class InternalDomainService
 
     public function team(): TeamManager
     {
-        return new TeamManager(
+        return $this->instance["team"] ??= new TeamManager(
             $this->repo,
-            $this
+            $this,
+            new \ilExcTutorTeamFeedbackFileStakeholder()
         );
     }
 
     public function individualDeadline(): IndividualDeadlineManager
     {
-        return new IndividualDeadlineManager();
+        return $this->instance["idl"] ??= new IndividualDeadlineManager();
+    }
+
+    public function exercise(
+        int $obj_id
+    ): ExerciseManager {
+        return $this->instance["exercise"][$obj_id] ??= new ExerciseManager(
+            $this->repo,
+            $this,
+            $obj_id
+        );
+    }
+
+    public function exerciseSettings(
+    ): SettingsManager {
+        return $this->instance["settings"] ??= new SettingsManager(
+            $this->data,
+            $this->repo,
+            $this
+        );
     }
 
 }

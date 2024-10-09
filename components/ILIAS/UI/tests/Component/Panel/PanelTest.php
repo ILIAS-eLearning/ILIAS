@@ -176,6 +176,22 @@ class PanelTest extends ILIAS_UI_TestBase
         $this->assertEquals($p->getFurtherInformation(), $secondary);
     }
 
+    public function testReportWithActions(): void
+    {
+        $fp = $this->getPanelFactory();
+
+        $p = $fp->report("Title", $fp->sub("Title", array(new ComponentDummy())));
+
+        $actions = new I\Component\Dropdown\Standard(array(
+            new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
+            new I\Component\Button\Shy("GitHub", "https://www.github.com")
+        ));
+
+        $p = $p->withActions($actions);
+
+        $this->assertEquals($p->getActions(), $actions);
+    }
+
     public function testReportGetTitle(): void
     {
         $f = $this->getPanelFactory();
@@ -193,6 +209,7 @@ class PanelTest extends ILIAS_UI_TestBase
 
         $this->assertEquals($p->getContent(), array($sub));
     }
+
     public function testRenderStandard(): void
     {
         $f = $this->getPanelFactory();
@@ -316,17 +333,31 @@ EOT;
     {
         $fp = $this->getPanelFactory();
         $r = $this->getDefaultRenderer();
+
+        $actions = new I\Component\Dropdown\Standard(array(
+            new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
+            new I\Component\Button\Shy("GitHub", "https://www.github.com")
+        ));
+
         $sub = $fp->sub("Title", array());
         $card = new I\Component\Card\Card("Card Title");
         $sub = $sub->withFurtherInformation($card);
-        $report = $fp->report("Title", $sub);
+        $report = $fp->report("Title", $sub)->withActions($actions);
 
         $html = $this->brutallyTrimHTML($r->render($report));
 
         $expected_html = <<<EOT
 <div class="panel panel-primary il-panel-report panel-flex">
     <div class="panel-heading ilHeader">
-        <h2>Title</h2>
+        <div class="panel-title"><h2>Title</h2></div>
+        <div class="panel-controls">
+            <div class="dropdown" id="id_3"><button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
+                <ul id="id_3_menu" class="dropdown-menu">
+                    <li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
+                    <li><button class="btn btn-link" data-action="https://www.github.com" id="id_2">GitHub</button></li>
+                </ul>
+            </div>
+        </div>
     </div>
     <div class="panel-body">
         <div class="panel panel-sub panel-flex">
@@ -352,7 +383,7 @@ EOT;
         $this->assertHTMLEquals($this->brutallyTrimHTML($expected_html), $html);
     }
 
-    public function testWithViewControls(): void
+    public function testStandardWithViewControls(): void
     {
         $sort_options = [
             'a' => 'A',
@@ -365,6 +396,59 @@ EOT;
         ;
 
         $this->assertEquals($p->getViewControls(), [$sortation]);
+    }
+
+    public function testReportWithViewControls(): void
+    {
+        $sort_options = [
+            'a' => 'A',
+            'b' => 'B'
+        ];
+        $sortation = $this->getUIFactory()->viewControl()->sortation($sort_options);
+        $f = $this->getPanelFactory();
+        $p = $f->report("Title", [])
+            ->withViewControls([$sortation])
+        ;
+
+        $this->assertEquals($p->getViewControls(), [$sortation]);
+    }
+
+    public function testRenderReportWithMode(): void
+    {
+        $modes = [
+            'A' => 'a',
+            'B' => 'b'
+        ];
+        $mode = $this->getUIFactory()->viewControl()->mode($modes, 'Presentation Mode');
+
+        $f = $this->getPanelFactory();
+        $r = $this->getDefaultRenderer();
+
+
+        $p = $f->report("Title", [])
+            ->withViewControls([$mode]);
+
+        $html = $r->render($p);
+
+        $expected_html = <<<EOT
+<div class="panel panel-primary il-panel-report panel-flex">
+    <div class="panel-heading ilHeader">
+        <div class="panel-title"><h2>Title</h2></div>
+        <div class="panel-viewcontrols l-bar__space-keeper">
+            <div class="il-viewcontrol-mode l-bar__element" aria-label="Presentation Mode" role="group">
+                <button class="btn btn-default engaged" aria-label="A" aria-pressed="true" data-action="a" id="id_1">A</button>
+                <button class="btn btn-default" aria-label="B" aria-pressed="false" data-action="b" id="id_2">B</button>
+            </div>
+        </div>
+        <div class="panel-controls"></div>
+    </div>
+    <div class="panel-body"></div>
+</div>
+EOT;
+        $this->assertEquals(
+            $this->brutallyTrimHTML($expected_html),
+            $this->brutallyTrimHTML($html)
+        );
     }
 
     public function testRenderWithSortation(): void

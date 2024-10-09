@@ -43,8 +43,7 @@ class ilShibbolethRoleAssignmentRule
     public function __construct(int $a_rule_id = 0)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $this->db = $ilDB;
+        $this->db = $DIC->database();
         $this->rule_id = $a_rule_id;
         $this->read();
     }
@@ -177,7 +176,7 @@ class ilShibbolethRoleAssignmentRule
             . $this->db->quote($next_id, 'integer') . ', ' . $this->db->quote($this->getRoleId(), 'integer') . ', '
             . $this->db->quote($this->getName(), 'text') . ', ' . $this->db->quote($this->getValue(), 'text') . ', '
             . $this->db->quote((int) $this->isPluginActive(), 'integer') . ', ' . $this->db->quote(
-                $this->getPluginId() ?? 0,
+                $this->getPluginId() ?? '0',
                 'integer'
             ) . ', '
             . $this->db->quote((int) $this->isAddOnUpdateEnabled(), 'integer') . ', '
@@ -199,7 +198,7 @@ class ilShibbolethRoleAssignmentRule
                 'text'
             ) . ', ' . 'plugin = '
             . $this->db->quote((int) $this->isPluginActive(), 'integer') . ', ' . 'plugin_id = '
-            . $this->db->quote($this->getPluginId() ?? 0, 'integer') . ', ' . 'add_on_update = '
+            . $this->db->quote($this->getPluginId() ?? '0', 'integer') . ', ' . 'add_on_update = '
             . $this->db->quote((int) $this->isAddOnUpdateEnabled(), 'integer') . ', ' . 'remove_on_update = '
             . $this->db->quote((int) $this->isRemoveOnUpdateEnabled(), 'integer') . ' '
             . 'WHERE rule_id = ' . $this->db->quote($this->getRuleId(), 'integer');

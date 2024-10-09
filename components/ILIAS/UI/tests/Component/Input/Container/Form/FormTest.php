@@ -85,7 +85,7 @@ class ConcreteForm extends Form
 class FormTest extends ILIAS_UI_TestBase
 {
     /**
-     * @var ilLanguage|mixed|MockObject
+     * @var ILIAS\Language\Language|mixed|MockObject
      */
     protected $language;
     protected array $inputs;
@@ -98,7 +98,7 @@ class FormTest extends ILIAS_UI_TestBase
     protected function buildInputFactory(): Input\Field\Factory
     {
         $df = new Data\Factory();
-        $this->language = $this->createMock(ilLanguage::class);
+        $this->language = $this->createMock(ILIAS\Language\Language::class);
         return new Input\Field\Factory(
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             new SignalGenerator(),
@@ -116,7 +116,7 @@ class FormTest extends ILIAS_UI_TestBase
     protected function buildTransformation(Closure $trafo): Transformation
     {
         $dataFactory = new Data\Factory();
-        $language = $this->createMock(ilLanguage::class);
+        $language = $this->createMock(ILIAS\Language\Language::class);
         $refinery = new Refinery($dataFactory, $language);
 
         return $refinery->custom()->transformation($trafo);

@@ -22,7 +22,6 @@ namespace ILIAS\LegalDocuments\Repository;
 
 use ILIAS\LegalDocuments\Value\Document;
 use ILIAS\LegalDocuments\Value\DocumentContent;
-use ILIAS\LegalDocuments\Value\Criterion;
 use ILIAS\LegalDocuments\Value\CriterionContent;
 use ILIAS\LegalDocuments\DocumentId;
 use ILIAS\Data\Result;
@@ -86,7 +85,7 @@ class ReadOnlyDocumentRepository implements DocumentRepository, DocumentReposito
     public function findId(DocumentId $document_id): Result
     {
         $this->checkAccess(__FUNCTION__);
-        return $this->repository->findId($id);
+        return $this->repository->findId($document_id);
     }
 
     public function createDocument(string $title, DocumentContent $content): void

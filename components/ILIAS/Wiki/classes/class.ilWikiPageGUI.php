@@ -30,6 +30,7 @@ use ILIAS\UICore\PageContentProvider;
  */
 class ilWikiPageGUI extends ilPageObjectGUI
 {
+    protected \ILIAS\Exercise\InternalDomainService $exc_domain;
     protected \ILIAS\Wiki\InternalDomainService $domain;
     protected \ILIAS\Wiki\Page\PageManager $wiki_pm;
     protected ilObjectTranslation $ot;
@@ -72,6 +73,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
         $this->wiki_gui = $gui;
         $this->ot = $gui->wiki()->translation($a_wiki_ref_id);
         $this->wiki_pm = $this->domain->page()->page($this->getWikiRefId());
+        $this->exc_domain = $DIC->exercise()->internal()->domain();
     }
 
     public function setScreenIdComponent(): void
@@ -1278,16 +1280,24 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
         $ass_id = $this->wiki_request->getAssignmentId();
         $ass = new ilExAssignment($ass_id);
-        $submission = new ilExSubmission($ass, $ilUser->getId());
-        $submitted = $submission->getFiles();
-        if (count($submitted) > 0) {
-            $submitted = array_pop($submitted);
 
-            $user_data = ilObjUser::_lookupName($submitted["user_id"]);
-            $title = ilObject::_lookupTitle($submitted["obj_id"]) . " - " .
-                $ass->getTitle() . " (Team " . $submission->getTeam()->getId() . ").zip";
+        $sub_manager = $this->exc_domain->submission($ass_id);
+        $sub = $sub_manager->getSubmissionsOfUser($ilUser->getId())->current();
+        $team_id = $this->exc_domain->team()->getTeamForMember(
+            $ass->getId(),
+            $ilUser->getId()
+        );
 
-            ilFileDelivery::deliverFileLegacy($submitted["filename"], $title);
+        if ($sub) {
+            $user_data = ilObjUser::_lookupName($sub->getUserId());
+            $title = ilObject::_lookupTitle($ass->getExerciseId()) . " - " .
+                $ass->getTitle() . " (Team " . $team_id . ").zip";
+
+            $sub_manager->deliverFile(
+                $ilUser->getId(),
+                $sub->getRid(),
+                $title
+            );
         }
     }
 

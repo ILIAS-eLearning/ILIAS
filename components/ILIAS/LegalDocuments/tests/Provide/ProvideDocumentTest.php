@@ -260,7 +260,7 @@ class ProvideDocumentTest extends TestCase
         $existing_content = new CriterionContent('hoo', ['haz']);
 
         $condition = $this->mock(Condition::class);
-        $condition->expects(self::once(1))->method('knownToNeverMatchWith')->with($condition)->willReturn(true);
+        $condition->expects(self::once())->method('knownToNeverMatchWith')->with($condition)->willReturn(true);
 
         $instance = new ProvideDocument('foo', $this->mock(DocumentRepository::class), new SelectionMap([
             'hoo' => $this->mockMethod(ConditionDefinition::class, 'withCriterion', [$existing_content], $condition),

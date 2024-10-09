@@ -615,8 +615,8 @@ class PropertyAndActionBuilderUI
                 $cnt++;
                 // get mime type
                 //$mime = \ilObjMediaObject::getMimeType($file['fullpath']);
-                $mime = $file["mime"];
-                $output_filename = htmlspecialchars($file['name']);
+                $mime = $file["mime"] ?? "";
+                $output_filename = htmlspecialchars($file['name'] ?? "");
 
                 if ($this->media_type->isImage($mime)) {
                     $image = $ui_factory->image()->responsive($file['fullpath'], $output_filename);
@@ -779,8 +779,6 @@ class PropertyAndActionBuilderUI
         $feedback_id = $this->submission->getFeedbackId();
         $lng = $this->lng;
 
-        //$storage = new \ilFSStorageExercise($ass->getExerciseId(), $ass->getId());
-        //$cnt_files = $storage->countFeedbackFiles($feedback_id);
         $feedback_file_manager = $this->domain->assignment()->tutorFeedbackFile($ass->getId());
         $cnt_files = $feedback_file_manager->count($this->user_id);
 

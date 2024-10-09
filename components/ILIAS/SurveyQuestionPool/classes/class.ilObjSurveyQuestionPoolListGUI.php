@@ -54,19 +54,6 @@ class ilObjSurveyQuestionPoolListGUI extends ilObjectListGUI
         return $frame;
     }
 
-    public function getProperties(): array
-    {
-        $lng = $this->lng;
-
-        $props = array();
-
-        if (!ilObjSurveyQuestionPool::_lookupOnline($this->obj_id)) {
-            $props[] = array("alert" => true, "property" => $lng->txt("status"),
-                "value" => $lng->txt("offline"));
-        }
-        return $props;
-    }
-
     public function getCommandLink(string $cmd): string
     {
         return "ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&amp;ref_id=" . $this->ref_id . "&amp;cmd=$cmd";

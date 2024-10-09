@@ -254,7 +254,8 @@ class DatabasePathsParserTest extends TestCase
     {
         $parser = $this->getDatabasePathsParser();
         $parser->addPathAndGetColumn(
-            $this->getPath($this->getTag('table', '', '', 'step'))
+            $this->getPath($this->getTag('table', '', '', 'step')),
+            false
         );
 
         $this->assertSame('p1t1', $parser->getTableAliasForFilters());
@@ -274,7 +275,8 @@ class DatabasePathsParserTest extends TestCase
 
         $this->expectException(\ilMDRepositoryException::class);
         $parser->addPathAndGetColumn(
-            $this->getPath($this->getTag('WRONG', '', '', 'step'))
+            $this->getPath($this->getTag('WRONG', '', '', 'step')),
+            false
         );
     }
 
@@ -289,18 +291,46 @@ class DatabasePathsParserTest extends TestCase
     public function testGetSelectForQueryWithSinglePathAdded(): void
     {
         $parser = $this->getDatabasePathsParser();
-        $data_column = $parser->addPathAndGetColumn($this->getPath(
-            $this->getTag('table', '', '', 'step1'),
-            $this->getTag('table', '', 'data', 'step2'),
-        ));
+        $data_column = $parser->addPathAndGetColumn(
+            $this->getPath(
+                $this->getTag('table', '', '', 'step1'),
+                $this->getTag('table', '', 'data', 'step2')
+            ),
+            false
+        );
 
         $this->assertSame(
             "COALESCE(~identifier:p1t1~.~identifier:data~, '')",
             $data_column
         );
         $this->assertSame(
-            'SELECT p1t1.rbac_id, p1t1.obj_id, p1t1.obj_type ' . 'FROM ' .
-            '~identifier:table_name~ AS ~identifier:p1t1~',
+            'SELECT ~identifier:p1t1~.rbac_id, ~identifier:p1t1~.obj_id, ~identifier:p1t1~.obj_type ' .
+            'FROM ~identifier:table_name~ AS ~identifier:p1t1~',
+            $parser->getSelectForQuery()
+        );
+    }
+
+    public function testGetSelectForQueryWithSinglePathAddedAndForcedJoin(): void
+    {
+        $parser = $this->getDatabasePathsParser();
+        $data_column = $parser->addPathAndGetColumn(
+            $this->getPath(
+                $this->getTag('table', '', '', 'step1'),
+                $this->getTag('table', '', 'data', 'step2')
+            ),
+            true
+        );
+
+        $this->assertSame(
+            "COALESCE(~identifier:p1t1~.~identifier:data~, '')",
+            $data_column
+        );
+        $this->assertSame(
+            'SELECT ~identifier:base~.rbac_id, ~identifier:base~.obj_id, ~identifier:base~.obj_type ' .
+            'FROM il_meta_general AS base LEFT JOIN (~identifier:table_name~ AS ~identifier:p1t1~) ' .
+            'ON ~identifier:base~.rbac_id = ~identifier:p1t1~.rbac_id AND ' .
+            '~identifier:base~.obj_id = ~identifier:p1t1~.obj_id AND ' .
+            '~identifier:base~.obj_type = ~identifier:p1t1~.obj_type',
             $parser->getSelectForQuery()
         );
     }
@@ -308,20 +338,23 @@ class DatabasePathsParserTest extends TestCase
     public function testGetSelectForQueryWithSinglePathAcrossMultipleTablesAdded(): void
     {
         $parser = $this->getDatabasePathsParser();
-        $data_column = $parser->addPathAndGetColumn($this->getPath(
-            $this->getTag('table1', '', '', 'step1'),
-            $this->getTag('table1', '', '', 'step2'),
-            $this->getTag('table2', 'table1', '', 'step3'),
-            $this->getTag('table2', 'table1', 'data', 'step4')
-        ));
+        $data_column = $parser->addPathAndGetColumn(
+            $this->getPath(
+                $this->getTag('table1', '', '', 'step1'),
+                $this->getTag('table1', '', '', 'step2'),
+                $this->getTag('table2', 'table1', '', 'step3'),
+                $this->getTag('table2', 'table1', 'data', 'step4')
+            ),
+            false
+        );
 
         $this->assertSame(
             "COALESCE(~identifier:p1t2~.~identifier:data~, '')",
             $data_column
         );
         $this->assertSame(
-            'SELECT p1t1.rbac_id, p1t1.obj_id, p1t1.obj_type ' . 'FROM ' .
-            '~identifier:table1_name~ AS ~identifier:p1t1~ JOIN ' .
+            'SELECT ~identifier:p1t1~.rbac_id, ~identifier:p1t1~.obj_id, ~identifier:p1t1~.obj_type ' .
+            'FROM ~identifier:table1_name~ AS ~identifier:p1t1~ JOIN ' .
             '~identifier:table2_name~ AS ~identifier:p1t2~ ON ' .
             '~identifier:p1t1~.rbac_id = ~identifier:p1t2~.rbac_id AND ' .
             '~identifier:p1t1~.obj_id = ~identifier:p1t2~.obj_id AND ' .
@@ -335,18 +368,21 @@ class DatabasePathsParserTest extends TestCase
     public function testGetSelectForQueryWithPathToElementWithoutValueAdded(): void
     {
         $parser = $this->getDatabasePathsParser();
-        $data_column = $parser->addPathAndGetColumn($this->getPath(
-            $this->getTag('table', '', '', 'step1'),
-            $this->getTag('table', '', '', 'step2')
-        ));
+        $data_column = $parser->addPathAndGetColumn(
+            $this->getPath(
+                $this->getTag('table', '', '', 'step1'),
+                $this->getTag('table', '', '', 'step2')
+            ),
+            false
+        );
 
         $this->assertSame(
             '~text:~',
             $data_column
         );
         $this->assertSame(
-            'SELECT p1t1.rbac_id, p1t1.obj_id, p1t1.obj_type ' . 'FROM ' .
-            '~identifier:table_name~ AS ~identifier:p1t1~',
+            'SELECT ~identifier:p1t1~.rbac_id, ~identifier:p1t1~.obj_id, ~identifier:p1t1~.obj_type ' .
+            'FROM ~identifier:table_name~ AS ~identifier:p1t1~',
             $parser->getSelectForQuery()
         );
     }
@@ -354,18 +390,21 @@ class DatabasePathsParserTest extends TestCase
     public function testGetSelectForQueryWithPathToVocabSourceAdded(): void
     {
         $parser = $this->getDatabasePathsParser();
-        $data_column = $parser->addPathAndGetColumn($this->getPath(
-            $this->getTag('table', '', '', 'step1'),
-            $this->getTag('', '', '', 'step2', DataType::VOCAB_SOURCE)
-        ));
+        $data_column = $parser->addPathAndGetColumn(
+            $this->getPath(
+                $this->getTag('table', '', '', 'step1'),
+                $this->getTag('', '', '', 'step2', DataType::VOCAB_SOURCE)
+            ),
+            false
+        );
 
         $this->assertSame(
             '~text:' . LOMVocabInitiator::SOURCE . '~',
             $data_column
         );
         $this->assertSame(
-            'SELECT p1t1.rbac_id, p1t1.obj_id, p1t1.obj_type ' . 'FROM ' .
-            '~identifier:table_name~ AS ~identifier:p1t1~',
+            'SELECT ~identifier:p1t1~.rbac_id, ~identifier:p1t1~.obj_id, ~identifier:p1t1~.obj_type ' .
+            'FROM ~identifier:table_name~ AS ~identifier:p1t1~',
             $parser->getSelectForQuery()
         );
     }
@@ -373,14 +412,20 @@ class DatabasePathsParserTest extends TestCase
     public function testGetSelectForQueryWithSinglePathAddedMultipleTimes(): void
     {
         $parser = $this->getDatabasePathsParser();
-        $data_column_1 = $parser->addPathAndGetColumn($this->getPath(
-            $this->getTag('table', '', '', 'step1'),
-            $this->getTag('table', '', 'data', 'step2'),
-        ));
-        $data_column_2 = $parser->addPathAndGetColumn($this->getPath(
-            $this->getTag('table', '', '', 'step1'),
-            $this->getTag('table', '', 'data', 'step2'),
-        ));
+        $data_column_1 = $parser->addPathAndGetColumn(
+            $this->getPath(
+                $this->getTag('table', '', '', 'step1'),
+                $this->getTag('table', '', 'data', 'step2')
+            ),
+            false
+        );
+        $data_column_2 = $parser->addPathAndGetColumn(
+            $this->getPath(
+                $this->getTag('table', '', '', 'step1'),
+                $this->getTag('table', '', 'data', 'step2')
+            ),
+            false
+        );
 
         $this->assertSame(
             "COALESCE(~identifier:p1t1~.~identifier:data~, '')",
@@ -391,8 +436,8 @@ class DatabasePathsParserTest extends TestCase
             $data_column_2
         );
         $this->assertSame(
-            'SELECT p1t1.rbac_id, p1t1.obj_id, p1t1.obj_type ' . 'FROM ' .
-            '~identifier:table_name~ AS ~identifier:p1t1~',
+            'SELECT ~identifier:p1t1~.rbac_id, ~identifier:p1t1~.obj_id, ~identifier:p1t1~.obj_type ' .
+            'FROM ~identifier:table_name~ AS ~identifier:p1t1~',
             $parser->getSelectForQuery()
         );
     }
@@ -400,16 +445,22 @@ class DatabasePathsParserTest extends TestCase
     public function testGetSelectForQueryWithMultiplePathsAdded(): void
     {
         $parser = $this->getDatabasePathsParser();
-        $data_column_1 = $parser->addPathAndGetColumn($this->getPath(
-            $this->getTag('table1', '', '', 'step1'),
-            $this->getTag('table1', '', '', 'step2'),
-            $this->getTag('table2', 'table2', '', 'step3'),
-            $this->getTag('table2', 'table2', 'data1', 'step4')
-        ));
-        $data_column_2 = $parser->addPathAndGetColumn($this->getPath(
-            $this->getTag('table1', '', '', 'step1'),
-            $this->getTag('table1', '', 'data2', 'step2'),
-        ));
+        $data_column_1 = $parser->addPathAndGetColumn(
+            $this->getPath(
+                $this->getTag('table1', '', '', 'step1'),
+                $this->getTag('table1', '', '', 'step2'),
+                $this->getTag('table2', 'table2', '', 'step3'),
+                $this->getTag('table2', 'table2', 'data1', 'step4')
+            ),
+            false
+        );
+        $data_column_2 = $parser->addPathAndGetColumn(
+            $this->getPath(
+                $this->getTag('table1', '', '', 'step1'),
+                $this->getTag('table1', '', 'data2', 'step2'),
+            ),
+            false
+        );
 
         $this->assertSame(
             "COALESCE(~identifier:p1t2~.~identifier:data1~, '')",
@@ -420,8 +471,57 @@ class DatabasePathsParserTest extends TestCase
             $data_column_2
         );
         $this->assertSame(
-            'SELECT p1t1.rbac_id, p1t1.obj_id, p1t1.obj_type ' . 'FROM ' .
-            'il_meta_general AS base LEFT JOIN (' .
+            'SELECT ~identifier:base~.rbac_id, ~identifier:base~.obj_id, ~identifier:base~.obj_type ' .
+            'FROM il_meta_general AS base LEFT JOIN (' .
+            '~identifier:table1_name~ AS ~identifier:p1t1~ JOIN ' .
+            '~identifier:table2_name~ AS ~identifier:p1t2~ ON ' .
+            '~identifier:p1t1~.rbac_id = ~identifier:p1t2~.rbac_id AND ' .
+            '~identifier:p1t1~.obj_id = ~identifier:p1t2~.obj_id AND ' .
+            '~identifier:p1t1~.obj_type = ~identifier:p1t2~.obj_type AND ' .
+            'p1t1.~identifier:table1_id~ = ~identifier:p1t2~.parent_id AND ' .
+            '~text:table2~ = ~identifier:p1t2~.parent_type) ON ' .
+            '~identifier:base~.rbac_id = ~identifier:p1t1~.rbac_id AND ' .
+            '~identifier:base~.obj_id = ~identifier:p1t1~.obj_id AND ' .
+            '~identifier:base~.obj_type = ~identifier:p1t1~.obj_type LEFT JOIN ' .
+            '(~identifier:table1_name~ AS ~identifier:p2t1~) ON ' .
+            '~identifier:base~.rbac_id = ~identifier:p2t1~.rbac_id AND ' .
+            '~identifier:base~.obj_id = ~identifier:p2t1~.obj_id AND ' .
+            '~identifier:base~.obj_type = ~identifier:p2t1~.obj_type',
+            $parser->getSelectForQuery()
+        );
+    }
+
+    public function testGetSelectForQueryWithMultiplePathsAddedForceJoin(): void
+    {
+        $parser = $this->getDatabasePathsParser();
+        $data_column_1 = $parser->addPathAndGetColumn(
+            $this->getPath(
+                $this->getTag('table1', '', '', 'step1'),
+                $this->getTag('table1', '', '', 'step2'),
+                $this->getTag('table2', 'table2', '', 'step3'),
+                $this->getTag('table2', 'table2', 'data1', 'step4')
+            ),
+            true
+        );
+        $data_column_2 = $parser->addPathAndGetColumn(
+            $this->getPath(
+                $this->getTag('table1', '', '', 'step1'),
+                $this->getTag('table1', '', 'data2', 'step2'),
+            ),
+            false
+        );
+
+        $this->assertSame(
+            "COALESCE(~identifier:p1t2~.~identifier:data1~, '')",
+            $data_column_1
+        );
+        $this->assertSame(
+            "COALESCE(~identifier:p2t1~.~identifier:data2~, '')",
+            $data_column_2
+        );
+        $this->assertSame(
+            'SELECT ~identifier:base~.rbac_id, ~identifier:base~.obj_id, ~identifier:base~.obj_type ' .
+            'FROM il_meta_general AS base LEFT JOIN (' .
             '~identifier:table1_name~ AS ~identifier:p1t1~ JOIN ' .
             '~identifier:table2_name~ AS ~identifier:p1t2~ ON ' .
             '~identifier:p1t1~.rbac_id = ~identifier:p1t2~.rbac_id AND ' .
@@ -443,21 +543,24 @@ class DatabasePathsParserTest extends TestCase
     public function testGetSelectForQueryWithPathWithStepsToSuperElementsAcrossTablesAdded(): void
     {
         $parser = $this->getDatabasePathsParser();
-        $data_column = $parser->addPathAndGetColumn($this->getPath(
-            $this->getTag('table1', '', '', 'step1'),
-            $this->getTag('table1', '', '', 'step2'),
-            $this->getTag('table2', 'table1', '', 'step3'),
-            $this->getTag('table1', '', 'data1', StepToken::SUPER),
-            $this->getTag('table2', 'table1', 'data2', 'step5')
-        ));
+        $data_column = $parser->addPathAndGetColumn(
+            $this->getPath(
+                $this->getTag('table1', '', '', 'step1'),
+                $this->getTag('table1', '', '', 'step2'),
+                $this->getTag('table2', 'table1', '', 'step3'),
+                $this->getTag('table1', '', 'data1', StepToken::SUPER),
+                $this->getTag('table2', 'table1', 'data2', 'step5')
+            ),
+            false
+        );
 
         $this->assertSame(
             "COALESCE(~identifier:p1t3~.~identifier:data2~, '')",
             $data_column
         );
         $this->assertSame(
-            'SELECT p1t1.rbac_id, p1t1.obj_id, p1t1.obj_type ' . 'FROM ' .
-            '~identifier:table1_name~ AS ~identifier:p1t1~ JOIN ' .
+            'SELECT ~identifier:p1t1~.rbac_id, ~identifier:p1t1~.obj_id, ~identifier:p1t1~.obj_type ' .
+            'FROM ~identifier:table1_name~ AS ~identifier:p1t1~ JOIN ' .
             '~identifier:table2_name~ AS ~identifier:p1t2~ JOIN ' .
             '~identifier:table2_name~ AS ~identifier:p1t3~ ON ' .
             '~identifier:p1t1~.rbac_id = ~identifier:p1t2~.rbac_id AND ' .
@@ -481,16 +584,19 @@ class DatabasePathsParserTest extends TestCase
             FilterType::MDID,
             '13'
         );
-        $data_column = $parser->addPathAndGetColumn($this->getPath(
-            $this->getTag('table1', '', '', 'step1'),
-            $this->getTag('table1', '', '', 'step2', DataType::STRING, $filter),
-            $this->getTag('table2', 'table1', '', 'step3'),
-            $this->getTag('table2', 'table1', 'data', 'step4')
-        ));
+        $data_column = $parser->addPathAndGetColumn(
+            $this->getPath(
+                $this->getTag('table1', '', '', 'step1'),
+                $this->getTag('table1', '', '', 'step2', DataType::STRING, $filter),
+                $this->getTag('table2', 'table1', '', 'step3'),
+                $this->getTag('table2', 'table1', 'data', 'step4')
+            ),
+            false
+        );
 
         $this->assertSame(
-            'SELECT p1t1.rbac_id, p1t1.obj_id, p1t1.obj_type ' . 'FROM ' .
-            '~identifier:table1_name~ AS ~identifier:p1t1~ JOIN ' .
+            'SELECT ~identifier:p1t1~.rbac_id, ~identifier:p1t1~.obj_id, ~identifier:p1t1~.obj_type ' .
+            'FROM ~identifier:table1_name~ AS ~identifier:p1t1~ JOIN ' .
             '~identifier:table2_name~ AS ~identifier:p1t2~ ON ' .
             '~identifier:p1t1~.~identifier:table1_id~ IN (~int:13~) AND ' .
             '~identifier:p1t1~.rbac_id = ~identifier:p1t2~.rbac_id AND ' .
@@ -509,16 +615,19 @@ class DatabasePathsParserTest extends TestCase
             FilterType::DATA,
             'some data'
         );
-        $data_column = $parser->addPathAndGetColumn($this->getPath(
-            $this->getTag('table1', '', '', 'step1'),
-            $this->getTag('table1', '', 'filter_data', 'step2', DataType::STRING, $filter),
-            $this->getTag('table2', 'table1', '', 'step3'),
-            $this->getTag('table2', 'table1', 'data', 'step4')
-        ));
+        $data_column = $parser->addPathAndGetColumn(
+            $this->getPath(
+                $this->getTag('table1', '', '', 'step1'),
+                $this->getTag('table1', '', 'filter_data', 'step2', DataType::STRING, $filter),
+                $this->getTag('table2', 'table1', '', 'step3'),
+                $this->getTag('table2', 'table1', 'data', 'step4')
+            ),
+            false
+        );
 
         $this->assertSame(
-            'SELECT p1t1.rbac_id, p1t1.obj_id, p1t1.obj_type ' . 'FROM ' .
-            '~identifier:table1_name~ AS ~identifier:p1t1~ JOIN ' .
+            'SELECT ~identifier:p1t1~.rbac_id, ~identifier:p1t1~.obj_id, ~identifier:p1t1~.obj_type ' .
+            'FROM ~identifier:table1_name~ AS ~identifier:p1t1~ JOIN ' .
             '~identifier:table2_name~ AS ~identifier:p1t2~ ON ' .
             "COALESCE(~identifier:p1t1~.~identifier:filter_data~, '') IN (~text:some data~) AND " .
             '~identifier:p1t1~.rbac_id = ~identifier:p1t2~.rbac_id AND ' .
@@ -537,16 +646,19 @@ class DatabasePathsParserTest extends TestCase
             FilterType::INDEX,
             '2'
         );
-        $data_column = $parser->addPathAndGetColumn($this->getPath(
-            $this->getTag('table1', '', '', 'step1'),
-            $this->getTag('table1', '', '', 'step2', DataType::STRING, $filter),
-            $this->getTag('table2', 'table1', '', 'step3'),
-            $this->getTag('table2', 'table1', 'data', 'step4')
-        ));
+        $data_column = $parser->addPathAndGetColumn(
+            $this->getPath(
+                $this->getTag('table1', '', '', 'step1'),
+                $this->getTag('table1', '', '', 'step2', DataType::STRING, $filter),
+                $this->getTag('table2', 'table1', '', 'step3'),
+                $this->getTag('table2', 'table1', 'data', 'step4')
+            ),
+            false
+        );
 
         $this->assertSame(
-            'SELECT p1t1.rbac_id, p1t1.obj_id, p1t1.obj_type ' . 'FROM ' .
-            '~identifier:table1_name~ AS ~identifier:p1t1~ JOIN ' .
+            'SELECT ~identifier:p1t1~.rbac_id, ~identifier:p1t1~.obj_id, ~identifier:p1t1~.obj_type ' .
+            'FROM ~identifier:table1_name~ AS ~identifier:p1t1~ JOIN ' .
             '~identifier:table2_name~ AS ~identifier:p1t2~ ON ' .
             '~identifier:p1t1~.rbac_id = ~identifier:p1t2~.rbac_id AND ' .
             '~identifier:p1t1~.obj_id = ~identifier:p1t2~.obj_id AND ' .
@@ -566,16 +678,19 @@ class DatabasePathsParserTest extends TestCase
             'some other data',
             'more'
         );
-        $data_column = $parser->addPathAndGetColumn($this->getPath(
-            $this->getTag('table1', '', '', 'step1'),
-            $this->getTag('table1', '', 'filter_data', 'step2', DataType::STRING, $filter),
-            $this->getTag('table2', 'table1', '', 'step3'),
-            $this->getTag('table2', 'table1', 'data', 'step4')
-        ));
+        $data_column = $parser->addPathAndGetColumn(
+            $this->getPath(
+                $this->getTag('table1', '', '', 'step1'),
+                $this->getTag('table1', '', 'filter_data', 'step2', DataType::STRING, $filter),
+                $this->getTag('table2', 'table1', '', 'step3'),
+                $this->getTag('table2', 'table1', 'data', 'step4')
+            ),
+            false
+        );
 
         $this->assertSame(
-            'SELECT p1t1.rbac_id, p1t1.obj_id, p1t1.obj_type ' . 'FROM ' .
-            '~identifier:table1_name~ AS ~identifier:p1t1~ JOIN ' .
+            'SELECT ~identifier:p1t1~.rbac_id, ~identifier:p1t1~.obj_id, ~identifier:p1t1~.obj_type ' .
+            'FROM ~identifier:table1_name~ AS ~identifier:p1t1~ JOIN ' .
             '~identifier:table2_name~ AS ~identifier:p1t2~ ON ' .
             "COALESCE(~identifier:p1t1~.~identifier:filter_data~, '') " .
             'IN (~text:some data~, ~text:some other data~, ~text:more~) AND ' .
@@ -595,16 +710,19 @@ class DatabasePathsParserTest extends TestCase
             FilterType::DATA,
             'some data'
         );
-        $data_column = $parser->addPathAndGetColumn($this->getPath(
-            $this->getTag('table1', '', '', 'step1'),
-            $this->getTag('table1', '', 'filter_data', 'step2', DataType::VOCAB_SOURCE, $filter),
-            $this->getTag('table2', 'table1', '', 'step3'),
-            $this->getTag('table2', 'table1', 'data', 'step4')
-        ));
+        $data_column = $parser->addPathAndGetColumn(
+            $this->getPath(
+                $this->getTag('table1', '', '', 'step1'),
+                $this->getTag('table1', '', 'filter_data', 'step2', DataType::VOCAB_SOURCE, $filter),
+                $this->getTag('table2', 'table1', '', 'step3'),
+                $this->getTag('table2', 'table1', 'data', 'step4')
+            ),
+            false
+        );
 
         $this->assertSame(
-            'SELECT p1t1.rbac_id, p1t1.obj_id, p1t1.obj_type ' . 'FROM ' .
-            '~identifier:table1_name~ AS ~identifier:p1t1~ JOIN ' .
+            'SELECT ~identifier:p1t1~.rbac_id, ~identifier:p1t1~.obj_id, ~identifier:p1t1~.obj_type ' .
+            'FROM ~identifier:table1_name~ AS ~identifier:p1t1~ JOIN ' .
             '~identifier:table2_name~ AS ~identifier:p1t2~ ON ' .
             '~text:' . LOMVocabInitiator::SOURCE . '~ IN (~text:some data~) AND ' .
             '~identifier:p1t1~.rbac_id = ~identifier:p1t2~.rbac_id AND ' .
@@ -623,14 +741,17 @@ class DatabasePathsParserTest extends TestCase
             FilterType::DATA,
             'some data'
         );
-        $data_column = $parser->addPathAndGetColumn($this->getPath(
-            $this->getTag('table', '', 'filter_data', 'step1', DataType::STRING, $filter),
-            $this->getTag('table', '', 'data', 'step2'),
-        ));
+        $data_column = $parser->addPathAndGetColumn(
+            $this->getPath(
+                $this->getTag('table', '', 'filter_data', 'step1', DataType::STRING, $filter),
+                $this->getTag('table', '', 'data', 'step2'),
+            ),
+            false
+        );
 
         $this->assertSame(
-            'SELECT p1t1.rbac_id, p1t1.obj_id, p1t1.obj_type ' . 'FROM ' .
-            '~identifier:table_name~ AS ~identifier:p1t1~ WHERE ' .
+            'SELECT ~identifier:p1t1~.rbac_id, ~identifier:p1t1~.obj_id, ~identifier:p1t1~.obj_type ' .
+            'FROM ~identifier:table_name~ AS ~identifier:p1t1~ WHERE ' .
             "COALESCE(~identifier:p1t1~.~identifier:filter_data~, '') IN (~text:some data~)",
             $parser->getSelectForQuery()
         );
@@ -643,18 +764,24 @@ class DatabasePathsParserTest extends TestCase
             FilterType::DATA,
             'some data'
         );
-        $data_column_1 = $parser->addPathAndGetColumn($this->getPath(
-            $this->getTag('table', '', 'filter_data', 'step1', DataType::STRING, $filter),
-            $this->getTag('table', '', 'data', 'step2'),
-        ));
-        $data_column_2 = $parser->addPathAndGetColumn($this->getPath(
-            $this->getTag('table1', '', '', 'step1'),
-            $this->getTag('table1', '', 'data2', 'step2'),
-        ));
+        $data_column_1 = $parser->addPathAndGetColumn(
+            $this->getPath(
+                $this->getTag('table', '', 'filter_data', 'step1', DataType::STRING, $filter),
+                $this->getTag('table', '', 'data', 'step2'),
+            ),
+            false
+        );
+        $data_column_2 = $parser->addPathAndGetColumn(
+            $this->getPath(
+                $this->getTag('table1', '', '', 'step1'),
+                $this->getTag('table1', '', 'data2', 'step2'),
+            ),
+            false
+        );
 
         $this->assertSame(
-            'SELECT p1t1.rbac_id, p1t1.obj_id, p1t1.obj_type ' . 'FROM ' .
-            'il_meta_general AS base LEFT JOIN (' .
+            'SELECT ~identifier:base~.rbac_id, ~identifier:base~.obj_id, ~identifier:base~.obj_type ' .
+            'FROM il_meta_general AS base LEFT JOIN (' .
             '~identifier:table_name~ AS ~identifier:p1t1~) ON ' .
             '~identifier:base~.rbac_id = ~identifier:p1t1~.rbac_id AND ' .
             '~identifier:base~.obj_id = ~identifier:p1t1~.obj_id AND ' .

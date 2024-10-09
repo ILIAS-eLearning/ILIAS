@@ -24,21 +24,15 @@ declare(strict_types=1);
 class ilOpenIdConnectUserSync
 {
     public const AUTH_MODE = 'oidc';
-
-    private ilOpenIdConnectSettings $settings;
-    private ilLogger $logger;
-    private ilXmlWriter $writer;
-    private stdClass $user_info;
+    private readonly ilLogger $logger;
+    private readonly ilXmlWriter $writer;
     private string $ext_account = '';
     private string $int_account = '';
     private int $usr_id = 0;
 
-    public function __construct(ilOpenIdConnectSettings $settings, stdClass $user_info)
+    public function __construct(private readonly ilOpenIdConnectSettings $settings, private readonly stdClass $user_info)
     {
         global $DIC;
-
-        $this->settings = $settings;
-        $this->user_info = $user_info;
 
         $this->logger = $DIC->logger()->auth();
         $this->writer = new ilXmlWriter();
@@ -115,17 +109,17 @@ class ilOpenIdConnectUserSync
             $this->writer->xmlElement('Login', [], $this->int_account);
         }
 
-        $this->writer->xmlElement('ExternalAccount', array(), $this->ext_account);
-        $this->writer->xmlElement('AuthMode', array('type' => self::AUTH_MODE), null);
+        $this->writer->xmlElement('ExternalAccount', [], $this->ext_account);
+        $this->writer->xmlElement('AuthMode', ['type' => self::AUTH_MODE], null);
 
         $this->parseRoleAssignments();
 
         if ($this->needsCreation()) {
-            $this->writer->xmlElement('Active', array(), "true");
-            $this->writer->xmlElement('TimeLimitOwner', array(), 7);
-            $this->writer->xmlElement('TimeLimitUnlimited', array(), 1);
-            $this->writer->xmlElement('TimeLimitFrom', array(), time());
-            $this->writer->xmlElement('TimeLimitUntil', array(), time());
+            $this->writer->xmlElement('Active', [], "true");
+            $this->writer->xmlElement('TimeLimitOwner', [], 7);
+            $this->writer->xmlElement('TimeLimitUnlimited', [], 1);
+            $this->writer->xmlElement('TimeLimitFrom', [], time());
+            $this->writer->xmlElement('TimeLimitUntil', [], time());
         }
 
         foreach ($this->settings->getProfileMappingFields() as $field => $lng_key) {
@@ -217,7 +211,7 @@ class ilOpenIdConnectUserSync
                     $this->logger->debug('User account has no ' . $role_value);
                     continue;
                 }
-            } elseif (strcmp($this->user_info->{$role_attribute}, $role_value) !== 0) {
+            } elseif (strcmp((string) $this->user_info->{$role_attribute}, $role_value) !== 0) {
                 $this->logger->debug('User account has no ' . $role_value);
                 continue;
             }

@@ -30,6 +30,7 @@ use ILIAS\Data\URI;
 use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\components\WOPI\Discovery\ActionTarget;
 use ILIAS\FileUpload\MimeType;
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -84,6 +85,7 @@ class ilFileVersionsGUI
     protected ilTree $tree;
     protected int $parent_id;
     protected Refinery $refinery;
+    protected LOMServices $lom_services;
 
     /**
      * ilFileVersionsGUI constructor.
@@ -105,6 +107,7 @@ class ilFileVersionsGUI
         $this->tree = $this->isWorkspaceContext() ? new ilWorkspaceTree($DIC->user()->getId()) : $DIC->repositoryTree();
         $this->file_component_builder = new ilObjFileComponentBuilder($this->lng, $this->ui);
         $this->refinery = $DIC->refinery();
+        $this->lom_services = $DIC->learningObjectMetadata();
 
         $this->parent_id = $this->tree->getParentId($this->file->getRefId()) ?? $this->getParentIdType();
         $this->wsp_access = new ilWorkspaceAccessHandler($this->tree);
@@ -647,25 +650,31 @@ class ilFileVersionsGUI
         );
 
         // return form at this point if copyright selection is not enabled
-        if (!ilMDSettings::_getInstance()->isCopyrightSelectionActive()) {
+        if (!$this->lom_services->copyrightHelper()->isCopyrightSelectionActive()) {
             return $this->ui->factory()->input()->container()->form()->standard($form_action, $inputs);
         }
 
         // add the option for letting all unzipped files inherit the copyright of their parent zip (if a copyright has been set for the zip)
-        $zip_md = new ilMD($this->file->getId(), 0, $this->file->getType());
-        $rights = $zip_md->getRights();
-        if ($rights !== null) {
-            $zip_copyright_description = $zip_md->getRights()->getDescription();
-            $zip_copyright_id = ilMDCopyrightSelectionEntry::_extractEntryId($zip_copyright_description);
+        $lom_reader = $this->lom_services->read($this->file->getId(), 0, $this->file->getType());
+        $lom_cp_helper = $this->lom_services->copyrightHelper();
+
+        if ($lom_cp_helper->hasPresetCopyright($lom_reader)) {
+            $zip_copyright = $lom_cp_helper->readPresetCopyright($lom_reader);
+            $zip_copyright_id = $zip_copyright->identifier();
+            $zip_copyright_title = $zip_copyright->title();
+        } else {
+            $zip_copyright_id = $zip_copyright_title = $lom_cp_helper->readCustomCopyright($lom_reader);
+        }
+        if ($zip_copyright_id !== '') {
             $copyright_inheritance_input = $this->ui->factory()->input()->field()->hidden()->withValue(
-                (string) $zip_copyright_id
+                $zip_copyright_id
             );
             $copyright_options[self::KEY_INHERIT_COPYRIGHT] = $this->ui->factory()->input()->field()->group(
                 [self::KEY_COPYRIGHT_ID => $copyright_inheritance_input],
                 $this->lng->txt("copyright_inherited"),
                 sprintf(
                     $this->lng->txt("copyright_inherited_info"),
-                    ilMDCopyrightSelectionEntry::lookupCopyyrightTitle($zip_copyright_description)
+                    $zip_copyright_title
                 )
             );
         }

@@ -74,7 +74,7 @@ class FilterInputTest extends ILIAS_UI_TestBase
     protected function buildInputFactory(): I\Input\Field\Factory
     {
         $df = new Data\Factory();
-        $language = $this->createMock(ilLanguage::class);
+        $language = $this->createMock(ILIAS\Language\Language::class);
         return new I\Input\Field\Factory(
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             new I\SignalGenerator(),
@@ -118,15 +118,14 @@ class FilterInputTest extends ILIAS_UI_TestBase
         $if = $this->buildInputFactory();
         $text = $if->text('label', 'byline'); // byline will not be rendered in this context
         $filter = $f->standard("#", "#", "#", "#", "#", "#", [], [], false, false);
-        $r = $this->getDefaultRenderer();
-        $fr = $r->withAdditionalContext($filter);
+        $fr = $this->getDefaultRenderer(null, [], [$filter]);
         $html = $this->brutallyTrimHTML($fr->render($text));
 
         $expected = $this->brutallyTrimHTML('
         <div class="col-md-6 col-lg-4 il-popover-container">
             <div class="input-group">
                 <label for="id_1" class="input-group-addon leftaddon">label</label>
-                <input id="id_1" type="text" class="form-control form-control-sm" />
+                <input id="id_1" type="text" class="c-field-text" />
                 <span class="input-group-addon rightaddon">
                     <a class="glyph" href="" aria-label="remove" id="id_2">
                         <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
@@ -144,15 +143,14 @@ class FilterInputTest extends ILIAS_UI_TestBase
         $if = $this->buildInputFactory();
         $numeric = $if->numeric('label', 'byline'); // byline will not be rendered in this context
         $filter = $f->standard("#", "#", "#", "#", "#", "#", [], [], false, false);
-        $r = $this->getDefaultRenderer();
-        $fr = $r->withAdditionalContext($filter);
+        $fr = $this->getDefaultRenderer(null, [], [$filter]);
         $html = $this->brutallyTrimHTML($fr->render($numeric));
 
         $expected = $this->brutallyTrimHTML('
         <div class="col-md-6 col-lg-4 il-popover-container">
             <div class="input-group">
                 <label for="id_1" class="input-group-addon leftaddon">label</label>
-                <input id="id_1" type="number" class="form-control form-control-sm c-input-numeric" />
+                <input id="id_1" type="number" class="c-field-number" />
                 <span class="input-group-addon rightaddon">
                     <a class="glyph" href="" aria-label="remove" id="id_2">
                         <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
@@ -171,8 +169,7 @@ class FilterInputTest extends ILIAS_UI_TestBase
         $options = ["one" => "One", "two" => "Two", "three" => "Three"];
         $select = $if->select('label', $options, 'byline'); // byline will not be rendered in this context
         $filter = $f->standard("#", "#", "#", "#", "#", "#", [], [], false, false);
-        $r = $this->getDefaultRenderer();
-        $fr = $r->withAdditionalContext($filter);
+        $fr = $this->getDefaultRenderer(null, [], [$filter]);
         $html = $this->brutallyTrimHTML($fr->render($select));
 
         $expected = $this->brutallyTrimHTML('
@@ -201,8 +198,7 @@ class FilterInputTest extends ILIAS_UI_TestBase
         $options = ["one" => "One", "two" => "Two", "three" => "Three"];
         $multi = $if->multiSelect('label', $options, 'byline'); // byline will not be rendered in this context
         $filter = $f->standard("#", "#", "#", "#", "#", "#", [], [], false, false);
-        $r = $this->getDefaultRenderer();
-        $fr = $r->withAdditionalContext($filter);
+        $fr = $this->getDefaultRenderer(null, [], [$filter]);
         $html = $this->brutallyTrimHTML($fr->render($multi));
 
         $expected = $this->brutallyTrimHTML('
@@ -229,16 +225,15 @@ class FilterInputTest extends ILIAS_UI_TestBase
         $if = $this->buildInputFactory();
         $datetime = $if->dateTime('label', 'byline'); // byline will not be rendered in this context
         $filter = $f->standard("#", "#", "#", "#", "#", "#", [], [], false, false);
-        $r = $this->getDefaultRenderer();
-        $fr = $r->withAdditionalContext($filter);
+        $fr = $this->getDefaultRenderer(null, [], [$filter]);
         $html = $this->brutallyTrimHTML($fr->render($datetime));
 
         $expected = $this->brutallyTrimHTML('
         <div class="col-md-6 col-lg-4 il-popover-container">
             <div class="input-group">
                 <label for="id_1" class="input-group-addon leftaddon">label</label>
-                <div class="input-group date il-input-datetime">
-                    <input id="id_1" type="date" class="form-control form-control-sm" />
+                <div class="c-input-group">
+                    <input id="id_1" type="date" class="c-field-datetime" />
                 </div>
                 <span class="input-group-addon rightaddon">
                     <a class="glyph" href="" aria-label="remove" id="id_2">
@@ -255,23 +250,23 @@ class FilterInputTest extends ILIAS_UI_TestBase
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
+        $duration = $if->duration('label', 'byline');
         $datetime = $if->dateTime('label', 'byline'); // byline will not be rendered in this context
         $filter = $f->standard("#", "#", "#", "#", "#", "#", [], [], false, false);
-        $r = $this->getDefaultRenderer();
-        $fr = $r->withAdditionalContext($filter);
-        $dr = $fr->withAdditionalContext($datetime);
+        $dr = $this->getDefaultRenderer(null, [], [$filter, $duration, $datetime]);
         $html = $this->brutallyTrimHTML($dr->render($datetime));
 
         $expected = $this->brutallyTrimHTML('
-        <div class="form-group row">
-            <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
-            <div class="col-sm-8 col-md-9 col-lg-10">
-                <div class="input-group date il-input-datetime">
-                    <input id="id_1" type="date" class="form-control form-control-sm" />
+        <fieldset class="c-input" data-il-ui-component="" data-il-ui-input-name="">
+            <label for="id_1">label</label>
+            <div class="c-input__field">
+                <div class="c-input-group">
+                    <input id="id_1" type="date" class="c-field-datetime" />
                 </div>
             </div>
-        </div>
+        </fieldset>
         ');
+        $this->assertEquals($expected, $html);
         $this->assertHTMLEquals($expected, $html);
     }
 
@@ -281,8 +276,7 @@ class FilterInputTest extends ILIAS_UI_TestBase
         $if = $this->buildInputFactory();
         $datetime = $if->duration('label', 'byline'); // byline will not be rendered in this context
         $filter = $f->standard("#", "#", "#", "#", "#", "#", [], [], false, false);
-        $r = $this->getDefaultRenderer();
-        $fr = $r->withAdditionalContext($filter);
+        $fr = $this->getDefaultRenderer(null, [], [$filter]);
         $html = $this->brutallyTrimHTML($fr->render($datetime));
         $label_start = 'duration_default_label_start';
         $label_end = 'duration_default_label_end';

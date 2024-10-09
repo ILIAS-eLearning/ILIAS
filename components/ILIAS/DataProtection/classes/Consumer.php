@@ -35,6 +35,7 @@ use ILIAS\DI\Container;
 use Closure;
 use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\LegalDocuments\Value\Document;
+use ILIAS\LegalDocuments\ConsumerToolbox\ConsumerSlots\PublicApi;
 
 final class Consumer implements ConsumerInterface
 {
@@ -56,24 +57,26 @@ final class Consumer implements ConsumerInterface
     {
         $blocks = new Blocks($this->id(), $this->container, $provide);
         $default = $blocks->defaultMappings();
-        $slot = $slot->hasDocuments($default->contentAsComponent(), $default->conditionDefinitions())
-                     ->hasHistory();
-
         $global_settings = new Settings($blocks->selectSettingsFrom($blocks->readOnlyStore($blocks->globalStore())));
-
-        if (!$global_settings->enabled()->value()) {
-            return $slot;
-        }
-
+        $is_active = $global_settings->enabled()->value();
         $build_user = fn(ilObjUser $user) => $blocks->user($global_settings, new UserSettings(
             $blocks->selectSettingsFrom($blocks->userStore($user))
         ), $user);
+        $public_api = new PublicApi($is_active, $build_user);
+        $slot = $slot->hasDocuments($default->contentAsComponent(), $default->conditionDefinitions())
+                     ->hasHistory()
+                     ->hasPublicApi($public_api);
+
+        if (!$is_active) {
+            return $slot;
+        }
 
         $user = $build_user($this->container->user());
 
         $slot = $slot->showOnLoginPage($blocks->slot()->showOnLoginPage());
 
-        $agreement = $blocks->slot()->agreement($user, $global_settings);
+        $agreement = $blocks->slot()->agreement($user);
+        $constraint = $this->container->refinery()->custom()->constraint(...);
 
         if ($global_settings->noAcceptance()->value()) {
             $slot = $slot->showInFooter($this->showMatchingDocument($user, $blocks->ui(), $provide))
@@ -85,7 +88,8 @@ final class Consumer implements ConsumerInterface
                          ->onSelfRegistration($blocks->slot()->selfRegistration($user, $build_user))
                          ->hasOnlineStatusFilter($blocks->slot()->onlineStatusFilter($this->usersWhoDidntAgree($this->container->database())))
                          ->hasUserManagementFields($blocks->userManagementAgreeDateField($build_user, 'dpro_agree_date', 'dpro'))
-                         ->canReadInternalMails($blocks->slot()->canReadInternalMails($build_user));
+                         ->canReadInternalMails($blocks->slot()->canReadInternalMails($build_user))
+                         ->canUseSoapApi($constraint(fn($u) => !$public_api->needsToAgree($u), 'Data Protection not agreed.'));
         }
 
         return $slot;

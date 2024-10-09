@@ -91,6 +91,25 @@ class TeamDBRepository
         }
     }
 
+    /**
+     * @return int[]
+     */
+    public function getMemberIds(int $team_id): array
+    {
+        $set = $this->db->queryF(
+            "SELECT user_id FROM il_exc_team " .
+            " WHERE id = %s ",
+            ["integer"],
+            [$team_id]
+        );
+        $ids = [];
+        while ($rec = $this->db->fetchAssoc($set)) {
+            $ids[] = (int) $rec["user_id"];
+        }
+        return $ids;
+    }
+
+
     public function getTeamForMember(int $ass_id, int $user_id): ?int
     {
         $set = $this->db->queryF(
@@ -144,6 +163,53 @@ class TeamDBRepository
         );
         $rec = $this->db->fetchAssoc($set);
         return (int) ($rec["ass_id"] ?? 0);
+    }
+
+    public function getTeamIdsOfAssignment(int $ass_id): array
+    {
+        $set = $this->db->queryF(
+            "SELECT DISTINCT(id) FROM il_exc_team " .
+            " WHERE ass_id = %s ",
+            ["integer"],
+            [$ass_id]
+        );
+        $team_ids = [];
+        while ($rec = $this->db->fetchAssoc($set)) {
+            $team_ids[] = (int) $rec["id"];
+        }
+        return $team_ids;
+    }
+
+    public function deleteTeam(int $team_id): void
+    {
+        $this->db->manipulateF(
+            "DELETE FROM il_exc_team WHERE " .
+            " id = %s ",
+            ["integer"],
+            [
+                $team_id
+            ]
+        );
+        $this->db->manipulateF(
+            "DELETE FROM exc_team_data WHERE " .
+            " id = %s ",
+            ["integer"],
+            [
+                $team_id
+            ]
+        );
+    }
+
+    public function deleteTeamLog(int $team_id): void
+    {
+        $this->db->manipulateF(
+            "DELETE FROM il_exc_team_log WHERE " .
+            " team_id = %s ",
+            ["integer"],
+            [
+                $team_id
+            ]
+        );
     }
 
 }

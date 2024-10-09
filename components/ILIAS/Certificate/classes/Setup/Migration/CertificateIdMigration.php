@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 
-
 namespace ILIAS\Certificate\Setup\Migration;
 
 use ilDatabaseException;
@@ -31,7 +30,6 @@ use ILIAS\Setup\Migration;
 use JsonException;
 use ReflectionClass;
 use ILIAS\Data\UUID\Factory;
-
 
 class CertificateIdMigration implements Migration
 {

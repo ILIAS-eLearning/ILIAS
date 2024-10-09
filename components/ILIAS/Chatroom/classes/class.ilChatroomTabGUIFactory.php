@@ -126,8 +126,8 @@ class ilChatroomTabGUIFactory
         $DIC->ctrl()->clearParametersByClass(ilPermissionGUI::class);
 
         $is_in_permission_gui = (
-            strtolower($DIC->ctrl()->getCmdClass()) === strtolower(ilPermissionGUI::class) ||
-            strtolower($DIC->ctrl()->getCmdClass()) === strtolower(ilObjectPermissionStatusGUI::class)
+            strtolower($DIC->ctrl()->getCmdClass() ?? '') === strtolower(ilPermissionGUI::class) ||
+            strtolower($DIC->ctrl()->getCmdClass() ?? '') === strtolower(ilObjectPermissionStatusGUI::class)
         );
 
         $commandParts = explode('_', $command, 2);
@@ -345,10 +345,10 @@ class ilChatroomTabGUIFactory
         ];
 
         $commandParts = explode('_', $command, 2);
-        if (strtolower($DIC->ctrl()->getCmdClass()) === strtolower(ilPermissionGUI::class)) {
+        if (strtolower($DIC->ctrl()->getCmdClass() ?? '') === strtolower(ilPermissionGUI::class)) {
             $commandParts[0] = 'perm';
         }
-        if (strtolower($DIC->ctrl()->getCmdClass()) === strtolower(ilInfoScreenGUI::class)) {
+        if (strtolower($DIC->ctrl()->getCmdClass() ?? '') === strtolower(ilInfoScreenGUI::class)) {
             $commandParts[0] = 'info';
         }
 

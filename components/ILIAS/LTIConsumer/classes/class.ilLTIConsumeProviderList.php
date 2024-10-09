@@ -342,9 +342,9 @@ class ilLTIConsumeProviderList implements Iterator
 			ON oref.obj_id = oset.obj_id
 			AND oref.deleted IS NULL
 			GROUP BY oset.provider_id
-			
+
 			UNION
-			
+
 			SELECT 'trashed' query, oset.provider_id, COUNT(oset.obj_id) cnt
 			FROM lti_consumer_settings oset
 			INNER JOIN object_reference oref
@@ -473,7 +473,7 @@ class ilLTIConsumeProviderList implements Iterator
     /**
      * @return false|ilLTIConsumeProvider|mixed
      */
-    public function current()
+    public function current(): mixed
     {
         return current($this->providers);
     }

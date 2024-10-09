@@ -84,7 +84,7 @@ class ilSCORMResource extends ilSCORMObject
     public function setHRef(?string $a_href): void
     {
         $this->href = $a_href;
-        $this->setTitle($a_href);
+        $this->setTitle("" . $a_href);
     }
 
     public function getXmlBase(): ?string

@@ -132,6 +132,10 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
                     self::$style_map[(int) $a_rec['Style']][] = $newObject->getId();
                 }
 
+                if ($a_rec['style-id'] ?? false) {
+                    self::$style_map[(int) $a_rec['style-id']][] = $newObject->getId();
+                }
+
                 ilContainer::_writeContainerSetting(
                     $newObject->getId(),
                     ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
@@ -171,7 +175,7 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
 
             return $a_set;
         }
-        
+
         return parent::getXmlRecord($a_entity, $a_version, $a_set);
     }
 }

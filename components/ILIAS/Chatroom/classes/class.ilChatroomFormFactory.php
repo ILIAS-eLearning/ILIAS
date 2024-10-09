@@ -59,35 +59,6 @@ class ilChatroomFormFactory
         );
     }
 
-    /**
-     * Instantiates and returns ilPropertyFormGUI containing ilTextInputGUI
-     * and ilTextAreaInputGUI
-     * @deprecated replaced by default creation screens
-     */
-    public function getCreationForm(): ilPropertyFormGUI
-    {
-        $form = new ilPropertyFormGUI();
-        $title = new ilTextInputGUI($this->lng->txt('title'), 'title');
-        $title->setRequired(true);
-        $form->addItem($title);
-
-        $description = new ilTextAreaInputGUI($this->lng->txt('description'), 'desc');
-        $form->addItem($description);
-
-        return $this->addDefaultBehaviour($form);
-    }
-
-    /**
-     * Adds 'create-save' and 'cancel' button to given $form and returns it.
-     */
-    private function addDefaultBehaviour(ilPropertyFormGUI $form): ilPropertyFormGUI
-    {
-        $form->addCommandButton('create-save', $this->lng->txt('create'));
-        $form->addCommandButton('cancel', $this->lng->txt('cancel'));
-
-        return $form;
-    }
-
     private function mergeValuesTrafo(): \ILIAS\Refinery\Transformation
     {
         return $this->refinery->custom()->transformation(static fn(array $values): array => array_merge(...$values));

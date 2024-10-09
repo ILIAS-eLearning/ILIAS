@@ -70,12 +70,9 @@ class TestAdministrationInteraction implements TestUserInteraction
         StaticURLServices $static_url,
         GeneralQuestionPropertiesRepository $properties_repository,
         UIFactory $ui_factory,
-        UIRenderer $ui_renderer,
         DataRowBuilder $row_builder,
         array $environment
     ): DataRow {
-        $test_obj_id = \ilObject::_lookupObjId($this->test_ref_id);
-
         return $row_builder->buildDataRow(
             $this->getUniqueIdentifier(),
             [
@@ -85,7 +82,6 @@ class TestAdministrationInteraction implements TestUserInteraction
                     $lng,
                     $static_url,
                     $ui_factory->link(),
-                    $ui_renderer,
                     $this->test_ref_id
                 ),
                 'admin' => \ilUserUtil::getNamePresentation(
@@ -95,9 +91,6 @@ class TestAdministrationInteraction implements TestUserInteraction
                     '',
                     true
                 ),
-                'participant' => '',
-                'ip' => '',
-                'question' => '',
                 'log_entry_type' => $lng->txt(self::LANG_VAR_PREFIX . self::IDENTIFIER),
                 'interaction_type' => $lng->txt(self::LANG_VAR_PREFIX . $this->interaction_type->value)
             ]

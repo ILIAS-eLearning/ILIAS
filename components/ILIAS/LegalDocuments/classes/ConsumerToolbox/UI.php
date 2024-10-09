@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\LegalDocuments\ConsumerToolbox;
 
 use ILIAS\UI\Factory as UIFactory;
+use ILIAS\DI\UIServices;
 use ilGlobalTemplateInterface;
 use ilLanguage;
 use ilObjLegalDocumentsGUI;
@@ -29,20 +30,19 @@ class UI
 {
     public function __construct(
         private readonly string $id,
-        private readonly UIFactory $create,
-        private readonly ilGlobalTemplateInterface $main_template,
+        private readonly UIServices $services,
         private readonly ilLanguage $language
     ) {
     }
 
     public function create(): UIFactory
     {
-        return $this->create;
+        return $this->services->factory();
     }
 
     public function mainTemplate(): ilGlobalTemplateInterface
     {
-        return $this->main_template;
+        return $this->services->mainTemplate();
     }
 
     public function loadLanguageModule(string $module): void

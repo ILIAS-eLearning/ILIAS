@@ -66,15 +66,10 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
                 $this->refinery->always('')
             ])
         );
-        switch ($action) {
-            case 'delete':
-                $this->delete();
-                break;
-
-            default:
-                $this->ilCtrl->redirect($this, 'show');
-                break;
-        }
+        match ($action) {
+            'delete' => $this->delete(),
+            default => $this->ilCtrl->redirect($this, 'show'),
+        };
     }
 
     public function delete(): void

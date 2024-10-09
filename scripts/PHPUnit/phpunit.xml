@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd" bootstrap="../../vendor/composer/vendor/autoload.php" colors="true" beStrictAboutOutputDuringTests="true" beStrictAboutTestsThatDoNotTestAnything="true" failOnRisky="true" failOnWarning="true" backupGlobals="true" executionOrder="random" cacheResultFile=".phpunit.cache/test-results">
-  <testsuites>
-    <testsuite name="all">
-        <directory>../../components/*/*/tests/</directory>
-    </testsuite>
-  </testsuites>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunAit.xsd"
+         bootstrap="../../vendor/composer/vendor/autoload.php"
+         colors="true"
+         beStrictAboutOutputDuringTests="true"
+         beStrictAboutTestsThatDoNotTestAnything="true"
+         failOnRisky="true"
+         failOnWarning="true"
+         failOnDeprecation="true"
+         failOnNotice="true"
+         displayDetailsOnTestsThatTriggerErrors="true"
+         displayDetailsOnTestsThatTriggerWarnings="true"
+         displayDetailsOnTestsThatTriggerDeprecations="true"
+         displayDetailsOnTestsThatTriggerNotices="true"
+         backupGlobals="true"
+         executionOrder="random"
+         cacheResultFile=".phpunit.cache/test-results">
+    <testsuites>
+        <testsuite name="all">
+            <directory>../../components/*/*/tests/</directory>
+        </testsuite>
+    </testsuites>
 </phpunit>

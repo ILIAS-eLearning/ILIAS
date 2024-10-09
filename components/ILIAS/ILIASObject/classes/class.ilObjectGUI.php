@@ -652,21 +652,28 @@ class ilObjectGUI implements ImplementsCreationCallback
         $this->tpl->setContent($this->getCreationFormsHTML($create_form));
     }
 
-    protected function getCreationFormsHTML(StandardForm|ilPropertyFormGUI $form): string
+    /**
+     * @param StandardForm|ilPropertyFormGUI|array<ilPropertyFormGUI> $form
+     */
+    protected function getCreationFormsHTML(StandardForm|ilPropertyFormGUI|array $form): string
     {
         $title = $this->getCreationFormTitle();
+
+        if (is_array($form)) {
+            throw new Exception('We do not deal with arrays here.');
+        }
 
         $content = $form;
         if ($form instanceof ilPropertyFormGUI) {
             $form->setTitle('');
             $form->setTitleIcon('');
-            $form->setTableWidth("100%");
+            $form->setTableWidth('100%');
             $content = $this->ui_factory->legacy($form->getHTML());
         }
 
-        $panel = $this->ui_factory->panel()->standard($title, $content);
-
-        return $this->ui_renderer->render($panel);
+        return $this->ui_renderer->render(
+            $this->ui_factory->panel()->standard($title, $content)
+        );
     }
 
     protected function getCreationFormTitle(): string
@@ -674,7 +681,7 @@ class ilObjectGUI implements ImplementsCreationCallback
         return $this->lng->txt($this->requested_new_type . '_new');
     }
 
-    protected function initCreateForm(string $new_type): StandardForm|ilPropertyFormGUI
+    protected function initCreateForm(string $new_type): StandardForm|ilPropertyFormGUI|array
     {
         $form_fields['title_and_description'] = (new ilObject())->getObjectProperties()->getPropertyTitleAndDescription()->toForm(
             $this->lng,
@@ -956,13 +963,13 @@ class ilObjectGUI implements ImplementsCreationCallback
         $new_obj = new $class_name();
         $new_obj->setType($this->requested_new_type);
         $new_obj->processAutoRating();
+        $new_obj->setTitle($data['title_and_description']->getTitle());
+        $new_obj->setDescription($data['title_and_description']->getDescription());
         $new_obj->create();
 
         $new_obj->getObjectProperties()->storePropertyTitleAndDescription(
             $data['title_and_description']
         );
-        $new_obj->setTitle($new_obj->getObjectProperties()->getPropertyTitleAndDescription()->getTitle());
-        $new_obj->setDescription($new_obj->getObjectProperties()->getPropertyTitleAndDescription()->getDescription());
 
         $this->putObjectInTree($new_obj);
 
@@ -1126,9 +1133,9 @@ class ilObjectGUI implements ImplementsCreationCallback
 
         $form = $this->initEditForm();
         if ($form->checkInput() && $this->validateCustom($form)) {
-            $this->object->setTitle($form->getInput("title"));
-            $this->object->setDescription($form->getInput("desc"));
             $this->updateCustom($form);
+            $this->object->setTitle($form->getInput('title'));
+            $this->object->setDescription($form->getInput('desc'));
             $this->object->update();
 
             $this->afterUpdate();
@@ -1173,7 +1180,7 @@ class ilObjectGUI implements ImplementsCreationCallback
                     return null;
                 }
                 if (!isset($vs[1])) {
-                    return [self::UPLOAD_TYPE_LOCAL => $vs[0][0]];
+                    return [self::UPLOAD_TYPE_LOCAL => $vs[0]];
                 } elseif ((int) $vs[1][0] === self::UPLOAD_TYPE_LOCAL) {
                     return [self::UPLOAD_TYPE_LOCAL => $vs[1][0][0]];
                 } else {
@@ -1210,6 +1217,7 @@ class ilObjectGUI implements ImplementsCreationCallback
 
         $file_upload_input = $field_factory->file(new \ImportUploadHandlerGUI(), $this->lng->txt('import_file'))
             ->withAcceptedMimeTypes(self::SUPPORTED_IMPORT_MIME_TYPES)
+            ->withRequired(true)
             ->withMaxFiles(1);
 
         if ($upload_files !== []) {
@@ -1949,7 +1957,7 @@ class ilObjectGUI implements ImplementsCreationCallback
         array $subtypes
     ): array {
         $add_new_items_content_array = [];
-        foreach($obj_types_in_group as $type) {
+        foreach ($obj_types_in_group as $type) {
             if (!array_key_exists($type, $subtypes)) {
                 continue;
             }

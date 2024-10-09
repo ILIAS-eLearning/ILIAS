@@ -31,7 +31,6 @@ use ilRbacReview;
 use ilGlobalTemplateInterface;
 use ILIAS\UI\Factory as UI;
 use ilLanguage;
-use ILIAS\DI\UIServices;
 use ILIAS\DI\Container;
 use PHPUnit\Framework\TestCase;
 use ILIAS\LegalDocuments\DefaultMappings;

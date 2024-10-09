@@ -34,11 +34,11 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
     public const CMD_CERTIFICATES_OVERVIEW = 'certificatesOverview';
     public const CMD_DOWNLOAD_CERTIFICATE = 'downloadCertificate';
 
-    protected \ILIAS\HTTP\GlobalHttpState $httpState;
-    protected \ILIAS\FileUpload\FileUpload $upload;
-    private ilLogger $logger;
-    private ilUserCertificateRepository $user_certificate_repo;
-    private ilCertificateActiveValidator $certificate_active_validator;
+    private readonly \ILIAS\HTTP\GlobalHttpState $httpState;
+    private readonly \ILIAS\FileUpload\FileUpload $upload;
+    private readonly ilLogger $logger;
+    private readonly ilUserCertificateRepository $user_certificate_repo;
+    private readonly ilCertificateActiveValidator $certificate_active_validator;
 
     public function __construct(
         $data,
@@ -66,7 +66,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 
     public function executeCommand(): void
     {
-        $next_class = $this->ctrl->getNextClass($this);
+        $next_class = $this->ctrl->getNextClass($this) ?? '';
         $cmd = $this->ctrl->getCmd();
 
         $this->prepareOutput();

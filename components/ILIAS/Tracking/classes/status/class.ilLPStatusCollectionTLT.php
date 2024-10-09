@@ -1,9 +1,25 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=0);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
+ * Seems to only be used for collections of LM chapters.
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @package ilias-tracking
  */
@@ -65,7 +81,12 @@ class ilLPStatusCollectionTLT extends ilLPStatus
                 $status_info["in_progress"][$item_id] = array();
                 $status_info["completed"][$item_id] = array();
 
-                $status_info["tlt"][$item_id] = ilMDEducational::_getTypicalLearningTimeSeconds(
+                /*
+                 * Seems to only be used for collections of LM chapters,
+                 * so we manually set 'st' for chapters here.
+                 */
+                $status_info["tlt"][$item_id] = parent::_getTypicalLearningTime(
+                    'st',
                     $a_obj_id,
                     $item_id
                 );

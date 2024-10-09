@@ -107,7 +107,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
             $data = $this->db->fetchAssoc($result);
             $this->setId($question_id);
             $this->setObjId($data["obj_fi"]);
-            $this->setTitle((string) $data["title"]);
+            $this->setTitle($data["title"] ?? '');
             $this->setNrOfTries($data['nr_of_tries']);
             $this->setComment($data["description"] ?? '');
             $this->setOriginalId($data["original_id"]);

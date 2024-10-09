@@ -51,18 +51,18 @@ use ILIAS\UI\Component\Table\Action\Action;
 
 class CertificateOverviewTable implements DataRetrieval
 {
-    private ilUserCertificateRepository $repo;
-    private ilUIService $ui_service;
-    private Factory $ui_factory;
-    private ilLanguage $lng;
-    private ServerRequestInterface $request;
-    private \ILIAS\Data\Factory $data_factory;
-    private ilCtrl|ilCtrlInterface $ctrl;
-    private \ILIAS\UI\Component\Input\Container\Filter\Standard $filter;
-    private Data $table;
-    private Renderer $ui_renderer;
-    private ilAccessHandler $access;
-    private ilObjUser $user;
+    private readonly ilUserCertificateRepository $repo;
+    private readonly ilUIService $ui_service;
+    private readonly Factory $ui_factory;
+    private readonly ilLanguage $lng;
+    private readonly ServerRequestInterface $request;
+    private readonly \ILIAS\Data\Factory $data_factory;
+    private readonly ilCtrl|ilCtrlInterface $ctrl;
+    private readonly \ILIAS\UI\Component\Input\Container\Filter\Standard $filter;
+    private readonly Data $table;
+    private readonly Renderer $ui_renderer;
+    private readonly ilAccessHandler $access;
+    private readonly ilObjUser $user;
 
     public function __construct(
         ?Factory $ui_factory = null,

@@ -157,11 +157,11 @@ class ilPCSourceCode extends ilPCParagraph
         string $a_text,
         string $proglang
     ): string {
-        $proglang = ilSyntaxHighlighter::getNewLanguageId($proglang);
+        /*$proglang = ilSyntaxHighlighter::getNewLanguageId($proglang);
         if (ilSyntaxHighlighter::isSupported($proglang)) {
             $highl = ilSyntaxHighlighter::getInstance($proglang);
             $a_text = $highl->highlight($a_text);
-        }
+        }*/
         return $a_text;
     }
 

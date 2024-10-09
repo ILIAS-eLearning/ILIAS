@@ -39,8 +39,6 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
-
         if ($component instanceof Notification) {
             return $this->renderNotification($component, $default_renderer);
         } elseif ($component instanceof Group) {
@@ -50,7 +48,7 @@ class Renderer extends AbstractComponentRenderer
         } elseif ($component instanceof Shy) {
             return $this->renderShy($component, $default_renderer);
         }
-        return "";
+        $this->cannotHandleComponent($component);
     }
 
     protected function renderGroup(Group $component, RendererInterface $default_renderer): string
@@ -364,18 +362,5 @@ class Renderer extends AbstractComponentRenderer
     {
         parent::registerResources($registry);
         $registry->register('assets/js/notification.js');
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return [
-            Standard::class,
-            Shy::class,
-            Group::class,
-            Notification::class
-        ];
     }
 }

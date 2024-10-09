@@ -25,6 +25,7 @@ use ILIAS\UI\Implementation\Component\Input\GroupInternal;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\Input\Input;
 use ILIAS\UI\Implementation\Component\Input\Group as GroupInternals;
+use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Result\Ok;
@@ -41,7 +42,7 @@ class Group extends ViewControlInput implements ViewControlGroupInterface, Group
     public function __construct(
         DataFactory $data_factory,
         Refinery $refinery,
-        protected \ilLanguage $language,
+        protected Language $language,
         array $inputs,
     ) {
         parent::__construct($data_factory, $refinery);
@@ -86,7 +87,7 @@ class Group extends ViewControlInput implements ViewControlGroupInterface, Group
         $this->error = $error;
     }
 
-    protected function getLanguage(): \ilLanguage
+    protected function getLanguage(): Language
     {
         return $this->language;
     }

@@ -25,6 +25,7 @@ use ILIAS\LegalDocuments\ConsumerToolbox\Setting;
 use ILIAS\LegalDocuments\ConsumerToolbox\Marshal;
 use ILIAS\LegalDocuments\ConsumerToolbox\SelectSetting;
 use ILIAS\LegalDocuments\ConsumerToolbox\Convert;
+use DateTimeImmutable;
 
 class Settings implements SettingsInterface
 {

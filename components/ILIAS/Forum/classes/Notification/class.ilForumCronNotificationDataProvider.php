@@ -24,40 +24,40 @@ declare(strict_types=1);
  */
 class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 {
-    private int $ref_id;
-    private int $obj_id;
-    private int $forum_id;
-    private string $forum_title;
+    private readonly int $ref_id;
+    private readonly int $obj_id;
+    private readonly int $forum_id;
+    private readonly string $forum_title;
     /** @var ilObjCourse|ilObjGroup|null */
     private ?ilObject $closest_container = null;
-    private int $thread_id;
-    private string $thread_title;
-    private int $post_id;
-    private string $post_title;
-    private string $post_message;
+    private readonly int $thread_id;
+    private readonly string $thread_title;
+    private readonly int $post_id;
+    private readonly string $post_title;
+    private readonly string $post_message;
     private ?string $post_date = null;
     private ?string $post_update = null;
-    private bool $post_censored;
+    private readonly bool $post_censored;
     private ?string $post_censored_date = null;
-    private ?string $post_censored_comment;
-    private string $pos_usr_alias;
-    private int $pos_display_user_id;
+    private readonly ?string $post_censored_comment;
+    private readonly string $pos_usr_alias;
+    private readonly int $pos_display_user_id;
     private bool $is_anonymized = false;
-    private string $import_name;
+    private readonly string $import_name;
     /** @var list<string> */
     private array $attachments = [];
     /** @var int[] */
     private array $cron_recipients = [];
-    private int $post_update_user_id;
-    private int $pos_author_id;
+    private readonly int $post_update_user_id;
+    private readonly int $pos_author_id;
     private ?string $deleted_by = '';
     private ?string $post_user_name = null;
     private ?string $update_user_name = null;
-    private ilForumNotificationCache $notificationCache;
+    private readonly ilForumNotificationCache $notificationCache;
 
     public function __construct(
         array $row,
-        private int $notification_type,
+        private readonly int $notification_type,
         ilForumNotificationCache $notificationCache = null
     ) {
         $this->closest_container = $row['closest_container'];

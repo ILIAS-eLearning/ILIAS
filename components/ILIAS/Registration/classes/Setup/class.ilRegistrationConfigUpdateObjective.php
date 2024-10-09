@@ -58,7 +58,7 @@ class ilRegistrationConfigUpdateObjective implements Setup\Objective
             stripslashes($settings->get('approve_recipient', '')),
             ['allowed_classes' => false]
         ) ?: [] as $id) {
-            $approve_recipient_ids[] = (int)$id;
+            $approve_recipient_ids[] = (int) $id;
         }
         $settings->set('approve_recipient', addslashes(serialize($approve_recipient_ids)));
         return $environment;

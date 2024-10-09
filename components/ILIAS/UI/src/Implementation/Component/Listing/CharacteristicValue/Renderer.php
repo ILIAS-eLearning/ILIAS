@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Listing\CharacteristicValue;
 
@@ -35,23 +35,13 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    protected function getComponentInterfaceName(): array
-    {
-        return [Text::class];
-    }
-
-    /**
-     * @inheritdocs
-     */
     public function render(Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
-
         if ($component instanceof Text) {
             return $this->render_text($component);
         }
 
-        return '';
+        $this->cannotHandleComponent($component);
     }
 
     private function render_text(Text $component): string

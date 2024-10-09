@@ -21,8 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\Badge\test;
 
 use ILIAS\Badge\Sorting;
-use ILIAS\DI\Container;
-use Closure;
 use ilBadge;
 use ilBadgeAssignment;
 use PHPUnit\Framework\TestCase;

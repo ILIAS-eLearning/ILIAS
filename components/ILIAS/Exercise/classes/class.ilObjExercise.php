@@ -21,7 +21,6 @@ use ILIAS\Filesystem\Exception\DirectoryNotFoundException;
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
-
 use ILIAS\Exercise\InternalService;
 use ILIAS\Exercise\Assignment\Mandatory\MandatoryAssignmentsManager;
 
@@ -46,12 +45,12 @@ class ilObjExercise extends ilObject
     protected ilFileDataMail $file_obj;
     public ?ilExerciseMembers $members_obj = null;
     protected int $timestamp = 0;
-    protected int  $hour = 0;
-    protected int  $minutes = 0;
-    protected int  $day = 0;
-    protected int  $month = 0;
-    protected int  $year = 0;
-    protected string  $instruction = "";
+    protected int $hour = 0;
+    protected int $minutes = 0;
+    protected int $day = 0;
+    protected int $month = 0;
+    protected int $year = 0;
+    protected string $instruction = "";
     protected int $certificate_visibility = 0;
     protected int $tutor_feedback = 7; // [int]
     protected int $nr_random_mand = 0; // number of mandatory assignments in random pass mode
@@ -325,13 +324,20 @@ class ilObjExercise extends ilObject
         if (!parent::delete()) {
             return false;
         }
+
+        $em = $this->service->domain()->exercise($this->getId());
+        $em->delete($this);
+
+        // members
+        $members = new ilExerciseMembers($this);
+        $members->delete();
+
         // put here course specific stuff
         $this->deleteMetaData();
 
         $ilDB->manipulate("DELETE FROM exc_data " .
             "WHERE obj_id = " . $ilDB->quote($this->getId(), "integer"));
 
-        ilExcCriteriaCatalogue::deleteByParent($this->getId());
 
         // remove all notifications
         ilNotification::removeForObject(ilNotification::TYPE_EXERCISE_SUBMISSION, $this->getId());
@@ -448,17 +454,18 @@ class ilObjExercise extends ilObject
 
         $body .= ilLink::_getLink($this->getRefId(), "exc");
 
-
-        // files
-        $file_names = array();
-        $storage = new ilFSStorageExercise($a_ass->getExerciseId(), $a_ass->getId());
-        $files = $storage->getFiles();
-        $mfile_obj = null;
-        if ($files !== []) {
+        // instruction files
+        $if = $this->service->domain()->assignment()->instructionFiles($a_ass->getId());
+        $files = $if->getFiles();
+        $file_names = [];
+        if (count($files) > 0) {
             $mfile_obj = new ilFileDataMail($GLOBALS['DIC']['ilUser']->getId());
-            foreach ($files as $file) {
-                $mfile_obj->copyAttachmentFile($file["fullpath"], $file["name"]);
+            foreach ($if->getFiles() as $file) {
                 $file_names[] = $file["name"];
+                $mfile_obj->storeAsAttachment(
+                    $file["name"],
+                    $if->getStream($file["rid"])->getContents()
+                );
             }
         }
 

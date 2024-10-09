@@ -57,7 +57,7 @@ trait DeriveFieldTypes
     }
 
     /**
-     * @param array<string, mixed> $values
+     * @param array<int|string, mixed> $values
      */
     private function queryF(string $query, array $values): array
     {

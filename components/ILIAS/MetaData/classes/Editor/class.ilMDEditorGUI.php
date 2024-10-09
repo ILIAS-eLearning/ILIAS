@@ -117,6 +117,7 @@ class ilMDEditorGUI
         $xml = $this->xml_writer->write($this->repository->getMD($this->obj_id, $this->sub_id, $this->type));
         $dom = new DOMDocument('1.0');
         $dom->formatOutput = true;
+        $dom->preserveWhiteSpace = false;
         $dom->loadXML($xml->asXML());
         $this->tpl->setContent($button . '<pre>' . htmlentities($dom->saveXML()) . '</pre>');
         return true;

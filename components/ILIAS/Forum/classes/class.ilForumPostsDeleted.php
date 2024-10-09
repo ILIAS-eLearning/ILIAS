@@ -24,7 +24,7 @@ declare(strict_types=1);
  */
 class ilForumPostsDeleted
 {
-    private ilDBInterface $db;
+    private readonly ilDBInterface $db;
     protected int $deleted_id = 0;
     protected string $deleted_date;
     protected string $deleted_by = '';

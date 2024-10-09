@@ -134,7 +134,8 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'thumbnail_image_path' => '/some/where/thumbnail.svg',
                 'title' => 'Someother Title',
                 'certificate_id' => '11111111-2222-3333-4444-555555555555'
-            ]
+            ],
+            null
         );
 
         $logger = $this->getMockBuilder(ilLogger::class)
@@ -295,7 +296,8 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'title' => 'SomeTitle',
                 'someDescription' => 'SomeDescription',
                 'certificate_id' => '11111111-2222-3333-4444-555555555555'
-            ]
+            ],
+            null
         );
 
         $logger = $this->getMockBuilder(ilLogger::class)

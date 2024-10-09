@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\MetaData\Paths\PathInterface as Path;
+use ILIAS\MetaData\Paths\Filters\FilterType;
+
 /**
  * Trait ilObjFileMetadata
  *
@@ -64,16 +67,6 @@ trait ilObjFileMetadata
         }
         $this->updateFileData();
 
-        //add metadata to database
-        $metadata = [
-            'meta_lifecycle_id' => ['integer', $DIC->database()->nextId('il_meta_lifecycle')],
-            'rbac_id' => ['integer', $this->getId()],
-            'obj_id' => ['integer', $this->getId()],
-            'obj_type' => ['text', "file"],
-            'meta_version' => ['integer', (int) $this->getVersion()],
-        ];
-        $DIC->database()->insert('il_meta_lifecycle', $metadata);
-
         // no meta data handling for file list files
         if ($this->getMode() !== self::MODE_FILELIST) {
             $this->createMetaData();
@@ -100,52 +93,61 @@ trait ilObjFileMetadata
      */
     protected function doCreateMetaData(): void
     {
-        return;   // add technical section with file size and format
-        $md_obj = new ilMD($this->getId(), 0, $this->getType());
-        $technical = $md_obj->addTechnical();
-        $technical->setSize($this->getFileSize());
-        $technical->save();
-        $format = $technical->addFormat();
-        $format->setFormat($this->getFileType());
-        $format->save();
-        $technical->update();
+        global $DIC;
+
+        // add file size and format to LOM
+        $DIC->learningObjectMetadata()->manipulate($this->getId(), 0, $this->getType())
+                                      ->prepareCreateOrUpdate($this->getPathToSize(), (string) $this->getFileSize())
+                                      ->prepareCreateOrUpdate($this->getPathToFirstFormat(), $this->getFileType())
+                                      ->prepareCreateOrUpdate($this->getPathToVersion(), (string) $this->getVersion())
+                                      ->execute();
     }
 
     protected function beforeMDUpdateListener(string $a_element): bool
     {
+        global $DIC;
+
         // Check file extension
         // Removing the file extension is not allowed
-        $md = new ilMD($this->getId(), 0, $this->getType());
-        if (!is_object($md_gen = $md->getGeneral())) {
-            return false;
+        if ($a_element !== 'General') {
+            return true;
         }
-        $title = $this->appendSuffixToTitle($md_gen->getTitle(), $this->getFileName());
-        $md_gen->setTitle($title);
-        $md_gen->update();
+
+        $paths = $DIC->learningObjectMetadata()->paths();
+
+        $title = $DIC->learningObjectMetadata()->read(
+            $this->getId(),
+            0,
+            $this->getType(),
+            $paths->title()
+        )->firstData($paths->title())->value();
+
+        $title = $this->appendSuffixToTitle($title, $this->getFileName());
+
+        $DIC->learningObjectMetadata()->manipulate($this->getId(), 0, $this->getType())
+                                      ->prepareCreateOrUpdate($paths->title(), $title)
+                                      ->execute();
 
         return true;
     }
 
     protected function doMDUpdateListener(string $a_element): void
     {
+        global $DIC;
+
         // handling for technical section
-        switch ($a_element) {
-            case 'Technical':
-
-                // Update Format (size is not stored in db)
-                $md = new ilMD($this->getId(), 0, $this->getType());
-                if (!is_object($md_technical = $md->getTechnical())) {
-                    return;
-                }
-
-                foreach ($md_technical->getFormatIds() as $id) {
-                    $md_format = $md_technical->getFormat($id);
-                    $this->setFileType($md_format->getFormat());
-                    break;
-                }
-
-                break;
+        if ($a_element !== 'Technical') {
+            return;
         }
+
+        $first_format = $DIC->learningObjectMetadata()->read(
+            $this->getId(),
+            0,
+            $this->getType(),
+            $this->getPathToFirstFormat()
+        )->firstData($this->getPathToFirstFormat())->value();
+
+        $this->setFileType($first_format);
     }
 
     /**
@@ -154,32 +156,12 @@ trait ilObjFileMetadata
     protected function doUpdateMetaData(): void
     {
         global $DIC;
-        $md_obj = new ilMD($this->getId(), 0, $this->getType());
-        if (!is_object($technical = $md_obj->getTechnical())) {
-            $technical = $md_obj->addTechnical();
-            $technical->save();
-        }
-        $technical->setSize($this->getFileSize());
 
-        $format_ids = $technical->getFormatIds();
-        if (count($format_ids) > 0) {
-            $format = $technical->getFormat($format_ids[0]);
-            $format->setFormat($this->getFileType());
-            $format->update();
-        } else {
-            $format = $technical->addFormat();
-            $format->setFormat($this->getFileType());
-            $format->save();
-        }
-        $technical->update();
-
-        $meta_version_column = ['meta_version' => ['integer', (int) $this->getVersion()]];
-        $DIC->database()->update('il_meta_lifecycle', $meta_version_column, [
-            'rbac_id' => [
-                'integer',
-                $this->getId(),
-            ],
-        ]);
+        $DIC->learningObjectMetadata()->manipulate($this->getId(), 0, $this->getType())
+                                      ->prepareCreateOrUpdate($this->getPathToSize(), (string) $this->getFileSize())
+                                      ->prepareCreateOrUpdate($this->getPathToFirstFormat(), $this->getFileType())
+                                      ->prepareCreateOrUpdate($this->getPathToVersion(), (string) $this->getVersion())
+                                      ->execute();
     }
 
     /**
@@ -187,21 +169,56 @@ trait ilObjFileMetadata
      */
     protected function updateCopyright(): void
     {
+        global $DIC;
+
+        $lom_services = $DIC->learningObjectMetadata();
+
         $copyright_id = $this->getCopyrightID();
-        if (!ilMDSettings::_getInstance()->isCopyrightSelectionActive() || $copyright_id === null) {
+        if (!$lom_services->copyrightHelper()->isCopyrightSelectionActive() || $copyright_id === null) {
             return;
         }
 
-        $md_obj = new ilMD($this->getId(), 0, $this->getType());
-        $rights = $md_obj->getRights();
-        if ($rights === null) {
-            $rights = $md_obj->addRights();
-            $rights->save();
-        }
-
-        $rights->setCopyrightAndOtherRestrictions("Yes");
-        $rights->setDescription('il_copyright_entry__' . IL_INST_ID . '__' . $copyright_id);
-        $rights->update();
+        $lom_services->copyrightHelper()->prepareCreateOrUpdateOfCopyrightFromPreset(
+            $lom_services->manipulate($this->getId(), 0, $this->getType()),
+            $copyright_id
+        )->execute();
     }
 
+    protected function getPathToSize(): Path
+    {
+        global $DIC;
+
+        return $DIC->learningObjectMetadata()
+                   ->paths()
+                   ->custom()
+                   ->withNextStep('technical')
+                   ->withNextStep('size')
+                   ->get();
+    }
+
+    protected function getPathToFirstFormat(): Path
+    {
+        global $DIC;
+
+        return $DIC->learningObjectMetadata()
+                   ->paths()
+                   ->custom()
+                   ->withNextStep('technical')
+                   ->withNextStep('format')
+                   ->withAdditionalFilterAtCurrentStep(FilterType::INDEX, '0')
+                   ->get();
+    }
+
+    protected function getPathToVersion(): Path
+    {
+        global $DIC;
+
+        return $DIC->learningObjectMetadata()
+                   ->paths()
+                   ->custom()
+                   ->withNextStep('lifeCycle')
+                   ->withNextStep('version')
+                   ->withNextStep('string')
+                   ->get();
+    }
 }

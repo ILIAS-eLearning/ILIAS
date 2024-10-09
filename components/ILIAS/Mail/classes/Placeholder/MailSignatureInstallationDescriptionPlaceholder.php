@@ -25,7 +25,7 @@ use ilLanguage;
 
 class MailSignatureInstallationDescriptionPlaceholder extends AbstractPlaceholderHandler
 {
-    private ilIniFile $clientIniFile;
+    private readonly ilIniFile $clientIniFile;
 
     public function __construct(ilLanguage $lng)
     {

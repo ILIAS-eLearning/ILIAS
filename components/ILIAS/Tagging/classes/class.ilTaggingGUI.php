@@ -277,8 +277,27 @@ class ilTaggingGUI
         ilYuiUtil::initConnection($tpl);
         iljQueryUtil::initjQuery($tpl);
         $tpl->addJavaScript("assets/js/ilTagging.js");
+        //$tpl->addJavaScript("../components/ILIAS/Tagging/resources/ilTagging.js");
+
+        $modal_template = self::getModalTemplate();
 
         $tpl->addOnLoadCode("ilTagging.setAjaxUrl('" . $a_ajax_url . "');");
+        $tpl->addOnLoadCode('ilTagging.setModalTemplate("' . addslashes(json_encode($modal_template["template"])) . '");');
+        $tpl->addOnLoadCode("ilTagging.setShowSignal('" . $modal_template["show"] . "');");
+        $tpl->addOnLoadCode("ilTagging.setCloseSignal('" . $modal_template["close"] . "');");
+    }
+
+    public static function getModalTemplate(): array
+    {
+        global $DIC;
+
+        $ui = $DIC->ui();
+        $modal = $ui->factory()->modal()->roundtrip('#tag_title#', $ui->factory()->legacy(''));
+        $modalt["show"] = $modal->getShowSignal()->getId();
+        $modalt["close"] = $modal->getCloseSignal()->getId();
+        $modalt["template"] = $ui->renderer()->renderAsync($modal);
+
+        return $modalt;
     }
 
     // Get tagging js call

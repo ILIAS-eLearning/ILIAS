@@ -16,4 +16,4 @@ A general Show More behaviour needs to be discussed, implemented (most probable 
 
 **Service Discovery**
 
-The `$provider` array under `Services/LearningHistory/classes/class.ilLearningHistoryProviderFactory.php` needs to be replaced by a sound concept.
+The `$provider` array under `components/ILIAS/LearningHistory/classes/class.ilLearningHistoryProviderFactory.php` needs to be replaced by a sound concept.

@@ -35,16 +35,16 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
     protected string $thread_title = '';
     /** @var array<string, string> */
     protected array $attachments = [];
-    private ilDBInterface $db;
-    private ilAccessHandler $access;
-    private ilObjUser $user;
-    private ilTree $tree;
+    private readonly ilDBInterface $db;
+    private readonly ilAccessHandler $access;
+    private readonly ilObjUser $user;
+    private readonly ilTree $tree;
     protected bool $is_anonymized = false;
 
     public function __construct(
         public ilForumPost $objPost,
         protected int $ref_id,
-        private ilForumNotificationCache $notificationCache
+        private readonly ilForumNotificationCache $notificationCache
     ) {
         global $DIC;
         $this->db = $DIC->database();
@@ -281,7 +281,7 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
             $this->notificationCache->store($cacheKey, $row);
         }
 
-        $row = $row ?? $this->notificationCache->fetch($cacheKey);
+        $row ??= $this->notificationCache->fetch($cacheKey);
         $this->forum_id = (int) $row['top_pk'];
         $this->forum_title = (string) $row['top_name'];
         $this->closest_container = $row['closest_container'] ?? null;

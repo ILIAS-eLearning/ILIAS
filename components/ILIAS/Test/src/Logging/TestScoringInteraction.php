@@ -72,51 +72,50 @@ class TestScoringInteraction implements TestUserInteraction
         StaticURLServices $static_url,
         GeneralQuestionPropertiesRepository $properties_repository,
         UIFactory $ui_factory,
-        UIRenderer $ui_renderer,
         DataRowBuilder $row_builder,
         array $environment
     ): DataRow {
-        $test_obj_id = \ilObject::_lookupObjId($this->test_ref_id);
+        $values = [
+            'date_and_time' => \DateTimeImmutable::createFromFormat('U', (string) $this->modification_timestamp)
+                ->setTimezone($environment['timezone']),
+            'corresponding_test' => $this->buildTestTitleColumnContent(
+                $lng,
+                $static_url,
+                $ui_factory->link(),
+                $this->test_ref_id
+            ),
+            'admin' => \ilUserUtil::getNamePresentation(
+                $this->admin_id,
+                false,
+                false,
+                '',
+                true
+            ),
+            'participant' => \ilUserUtil::getNamePresentation(
+                $this->pax_id,
+                false,
+                false,
+                '',
+                true
+            ),
+            'log_entry_type' => $lng->txt(self::LANG_VAR_PREFIX . self::IDENTIFIER),
+            'interaction_type' => $lng->txt(self::LANG_VAR_PREFIX . $this->interaction_type->value)
+        ];
+
+        if ($this->question_id !== null) {
+            $values['question'] = $this->buildQuestionTitleColumnContent(
+                $properties_repository,
+                $lng,
+                $static_url,
+                $ui_factory->link(),
+                $this->question_id,
+                $this->test_ref_id
+            );
+        }
 
         return $row_builder->buildDataRow(
             $this->getUniqueIdentifier(),
-            [
-                'date_and_time' => \DateTimeImmutable::createFromFormat('U', (string) $this->modification_timestamp)
-                    ->setTimezone($environment['timezone']),
-                'corresponding_test' => $this->buildTestTitleColumnContent(
-                    $lng,
-                    $static_url,
-                    $ui_factory->link(),
-                    $ui_renderer,
-                    $this->test_ref_id
-                ),
-                'admin' => \ilUserUtil::getNamePresentation(
-                    $this->admin_id,
-                    false,
-                    false,
-                    '',
-                    true
-                ),
-                'participant' => \ilUserUtil::getNamePresentation(
-                    $this->pax_id,
-                    false,
-                    false,
-                    '',
-                    true
-                ),
-                'ip' => '',
-                'question' => $this->buildQuestionTitleColumnContent(
-                    $properties_repository,
-                    $lng,
-                    $static_url,
-                    $ui_factory->link(),
-                    $ui_renderer,
-                    $this->question_id,
-                    $this->test_ref_id
-                ),
-                'log_entry_type' => $lng->txt(self::LANG_VAR_PREFIX . self::IDENTIFIER),
-                'interaction_type' => $lng->txt(self::LANG_VAR_PREFIX . $this->interaction_type->value)
-            ]
+            $values
         )->withDisabledAction(
             LogTable::ACTION_ID_SHOW_ADDITIONAL_INFO,
             $this->additional_data === []

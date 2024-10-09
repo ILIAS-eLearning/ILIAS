@@ -59,10 +59,10 @@ class Renderer implements ComponentRenderer
 {
     public Factory $ui_factory;
     public TemplateFactory $tpl_factory;
-    public \ilLanguage $lng;
+    public \ILIAS\Language\Language $lng;
     public JavaScriptBinding $js_binding;
 
-    final public function __construct(Factory $ui_factory, TemplateFactory $tpl_factory, \ilLanguage $lng, JavaScriptBinding $js_binding)
+    final public function __construct(Factory $ui_factory, TemplateFactory $tpl_factory, \ILIAS\Language\Language $lng, JavaScriptBinding $js_binding)
     {
         $this->ui_factory = $ui_factory;
         $this->tpl_factory = $tpl_factory;

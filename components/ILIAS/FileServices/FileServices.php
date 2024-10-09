@@ -32,7 +32,7 @@ class FileServices implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+        $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
             new \ilFileServicesSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );

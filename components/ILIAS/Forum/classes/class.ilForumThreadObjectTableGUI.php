@@ -25,10 +25,10 @@ class ilForumThreadObjectTableGUI extends ilTable2GUI
     private int $ref_id = 0;
     private ForumDto $topicData;
     private ?ilForumTopic $merge_thread_obj = null;
-    private bool $is_post_draft_allowed;
-    private ilGlobalTemplateInterface $mainTemplate;
-    private ilObjUser $user;
-    private ilSetting $settings;
+    private readonly bool $is_post_draft_allowed;
+    private readonly ilGlobalTemplateInterface $mainTemplate;
+    private readonly ilObjUser $user;
+    private readonly ilSetting $settings;
 
     public function __construct(
         ilObjForumGUI $a_parent_obj,

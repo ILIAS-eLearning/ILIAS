@@ -268,7 +268,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
                 list($expected, $type) = array_shift($quote_consecutive);
                 $this->assertEquals('integer', $type);
                 $this->assertEquals($expected, $v);
-                return (string)($v);
+                return (string) ($v);
             }
         );
 
@@ -307,7 +307,7 @@ AND obj_id = 200');
                 list($expected, $type) = array_shift($quote_consecutive);
                 $this->assertEquals('integer', $type);
                 $this->assertEquals($expected, $v);
-                return (string)($v);
+                return (string) ($v);
             }
         );
 

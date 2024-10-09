@@ -34,12 +34,11 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        $this->checkComponent($component);
+        if ($component instanceof Component\Dropdown\Dropdown) {
+            return $this->renderDropdown($component, $default_renderer);
+        }
 
-        /**
-         * @var $component Dropdown
-         */
-        return $this->renderDropdown($component, $default_renderer);
+        $this->cannotHandleComponent($component);
     }
 
     protected function renderDropdown(Dropdown $component, RendererInterface $default_renderer): string
@@ -114,13 +113,5 @@ class Renderer extends AbstractComponentRenderer
     {
         parent::registerResources($registry);
         $registry->register('assets/js/dropdown.js');
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(Component\Dropdown\Standard::class);
     }
 }

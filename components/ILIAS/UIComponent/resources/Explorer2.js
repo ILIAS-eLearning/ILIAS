@@ -138,7 +138,8 @@ il.Explorer2 = {
     if (id != '') {
       url = `${url}&exp_cont=${container_id}&${t.configs[container_id].node_par_name}=${id}`;
     }
-    il.Util.sendAjaxGetRequestToUrl(url, {}, {}, null);
+    il.repository.core.fetchHtml(url, {})
+      .then().catch();
   },
 
   //

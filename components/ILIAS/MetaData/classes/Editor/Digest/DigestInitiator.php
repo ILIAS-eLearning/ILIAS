@@ -44,7 +44,13 @@ class DigestInitiator
                     $path_factory
                 ),
                 $this->services->editor()->linkFactory(),
-                $copyright_handler = new CopyrightHandler($this->services->copyright()->repository()),
+                $copyright_handler = new CopyrightHandler(
+                    $this->services->copyright()->repository(),
+                    \ilMDSettings::_getInstance(),
+                    $this->services->OERHarvester()->settings(),
+                    $this->services->OERHarvester()->statusRepository(),
+                    $this->services->copyright()->identifiersHandler()
+                ),
                 $this->services->dataHelper()->dataHelper()
             ),
             new ManipulatorAdapter(

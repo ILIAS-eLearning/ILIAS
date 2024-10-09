@@ -303,7 +303,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             $l[] = $this->ui_factory->button()->shy($this->lng->txt("prg_$action"), $target);
         }
         return $this->ui_renderer->render(
-            $this->ui_factory->dropdown()->standard($l)->withLabel($this->lng->txt('actions'))
+            $this->ui_factory->dropdown()->standard($l)
         );
     }
 

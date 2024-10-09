@@ -34,11 +34,8 @@ use ILIAS\LegalDocuments\Value\Document;
 use ILIAS\LegalDocuments\Value\DocumentContent;
 use ILIAS\LegalDocuments\Value\Criterion;
 use ILIAS\LegalDocuments\Value\CriterionContent;
-use ILIAS\LegalDocuments\Value\Document as DocumentValue;
-use ILIAS\LegalDocuments\TableConfig;
 use ILIAS\UI\Component\Component;
 use ILIAS\LegalDocuments\EditLinks;
-use InvalidArgumentException;
 use ILIAS\LegalDocuments\Table\DocumentModal;
 use ILIAS\LegalDocuments\ConditionDefinition;
 use ILIAS\LegalDocuments\ConsumerToolbox\UI;
@@ -56,9 +53,8 @@ class ProvideDocument
     private readonly Closure $create_table_gui;
 
     /**
+     * @param array<string, Closure(DocumentContent): Component> $content_as_component
      * @param null|Closure(object, string, TableInterface): Table $create_table_gui
-     * @param array<ConditionDefinition> $conditions
-     * @param array<string, Closure(CriterionContent): Component $content_as_component
      */
     public function __construct(
         private readonly string $id,
@@ -76,7 +72,7 @@ class ProvideDocument
         $t = new DocumentTable(
             fn($criterion) => $this->toCondition($criterion)->asComponent(),
             $this->document_repository,
-            new UI($this->id, $this->container->ui()->factory(), $this->container->ui()->mainTemplate(), $this->container->language()),
+            new UI($this->id, $this->container->ui(), $this->container->language()),
             new DocumentModal($this->container->ui(), $this->contentAsComponent(...))
         );
 

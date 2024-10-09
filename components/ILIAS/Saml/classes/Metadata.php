@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Saml;
 
-use SimpleSAML\Utils\Crypto;
 use SimpleSAML\Error\Exception;
 use SimpleSAML\Store\SQLStore;
 use SimpleSAML\Configuration;
@@ -80,9 +79,9 @@ class Metadata
 
         $bindings = $store instanceof SQLStore ?
                   $bindings :
-                  array_values(array_filter($bindings, fn(string $b): bool => $b !== Constants::BINDING_SOAP));
+                  array_values(array_filter($bindings, static fn(string $b): bool => $b !== Constants::BINDING_SOAP));
 
-        return array_map(fn(string $b): array => [
+        return array_map(static fn(string $b): array => [
             'Binding' => $b,
             'Location' => $config->getOptionalString('SingleLogoutServiceLocation', $logout_url),
         ], $bindings);
@@ -94,7 +93,7 @@ class Metadata
 
         $services = array_intersect($services, array_keys($default));
 
-        $services = array_map(fn(string $service, int $index): array => array_merge($default[$service] ?? [], [
+        $services = array_map(static fn(string $service, int $index): array => array_merge($default[$service] ?? [], [
             'index' => $index,
         ]), $services, range(0, count($services) - 1));
 
@@ -123,7 +122,7 @@ class Metadata
             $default['urn:oasis:names:tc:SAML:2.0:profiles:holder-of-key:SSO:browser'] = [
                 'Binding' => 'urn:oasis:names:tc:SAML:2.0:profiles:holder-of-key:SSO:browser',
                 'hoksso:ProtocolBinding' => Constants::BINDING_HTTP_REDIRECT,
-                'Location' => sprintf("%s/module.php/saml2-acs/%s", $base_url, $source_id),
+                'Location' => sprintf('%s/module.php/saml2-acs/%s', $base_url, $source_id),
                 'Protocol' => Constants::NS_SAMLP,
             ];
         }
@@ -136,7 +135,7 @@ class Metadata
         $format = $config->getOptionalValue('NameIDPolicy', null);
         return match (gettype($format)) {
             'array' => [
-                'NameIDFormat' => $this->create->configFromArray($format)->getString('Format', Constants::NAMEID_TRANSIENT),
+                'NameIDFormat' => $this->create->configFromArray($format)->getString('Format'),
             ],
             'string' => ['NameIDFormat' => $format],
             default => [],
@@ -247,7 +246,7 @@ class Metadata
      */
     private function removeKey($key): Closure
     {
-        return function (array $a) use ($key) {
+        return static function (array $a) use ($key) {
             unset($a[$key]);
             return $a;
         };

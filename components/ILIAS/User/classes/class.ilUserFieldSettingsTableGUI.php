@@ -164,7 +164,6 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
         if (($a_set["default"] ?? "") != "") {
             switch ($a_set["input"]) {
                 case "selection":
-                case "hitsperpage":
                     $selected_option = $ilSetting->get($field);
                     if ($selected_option == "") {
                         $selected_option = $a_set["default"];
@@ -175,9 +174,6 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
                         $text = ($a_set["input"] == "selection")
                             ? $lng->txt($v)
                             : $v;
-                        if ($a_set["input"] == "hitsperpage" && $k == 9999) {
-                            $text = $lng->txt("no_limit");
-                        }
                         if ($selected_option == $k) {
                             $this->tpl->setVariable(
                                 "OPTION_SELECTED",

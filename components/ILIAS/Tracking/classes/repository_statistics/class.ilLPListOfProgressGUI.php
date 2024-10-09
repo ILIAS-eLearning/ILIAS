@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=0);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=0);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=0);
 
 /**
  * Class ilLPListOfProgress
@@ -127,7 +127,6 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
                 $this->ctrl->getLinkTarget($this, 'details')
             );
         } elseif ($this->getMode() == self::LP_CONTEXT_PERSONAL_DESKTOP or
-            $this->getMode() == self::LP_CONTEXT_ADMINISTRATION or
             $this->getMode() == self::LP_CONTEXT_USER_FOLDER) {
             $this->toolbar->addButton(
                 $this->lng->txt('trac_view_list'),
@@ -153,7 +152,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
             $this->details_obj_id,
             $this->tracked_user->getId()
         );
-        $this->__showObjectDetails($info, $this->details_obj_id, false);
+        $this->__showObjectDetails($info, $this->details_obj_id, $this->details_type, false);
 
         // Finally set template variable
         $this->tpl->setVariable("LM_INFO", $info->getHTML());

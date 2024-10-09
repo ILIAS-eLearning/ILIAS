@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\LegalDocuments\Provide;
 use ILIAS\LegalDocuments\Config;
 use ILIAS\DI\Container;
 use ILIAS\Data\Result;
@@ -53,8 +52,7 @@ class ilLegalDocumentsAdministrationGUI
         $this->container->language()->loadLanguageModule('ldoc');
         $this->ui = new UI(
             $this->config->legalDocuments()->id(),
-            $this->container->ui()->factory(),
-            $this->container->ui()->mainTemplate(),
+            $this->container->ui(),
             $this->container->language()
         );
         $this->admin = new Administration($this->config, $this->container, $this->ui);
@@ -263,6 +261,9 @@ class ilLegalDocumentsAdministrationGUI
         ], $run_after);
     }
 
+    /**
+     * @return array{0: string, 1: string, 2: string, 3: bool}
+     */
     private function tab(string $cmd, string $label, bool $can_access = true): array
     {
         return [$cmd, $label, $this->ctrlTo('getLinkTargetByClass', $cmd), $can_access];

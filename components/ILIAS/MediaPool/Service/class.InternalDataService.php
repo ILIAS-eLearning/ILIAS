@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\MediaPool;
 
+use ILIAS\MediaPool\Settings\Settings;
+
 /**
  * Repository internal data service
  * @author Alexander Killing <killing@leifos.de>
@@ -33,9 +35,12 @@ class InternalDataService
         //$this->..._factory = new ...\DataFactory();
     }
 
-    /*
-    public function ...() : ...\...
-    {
-        return $this->..._factory->...();
-    }*/
+    public function settings(
+        int $id,
+        int $default_width,
+        int $default_height,
+        bool $for_translation
+    ): Settings {
+        return new Settings($id, $default_width, $default_height, $for_translation);
+    }
 }

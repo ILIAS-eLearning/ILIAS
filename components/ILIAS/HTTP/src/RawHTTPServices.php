@@ -87,7 +87,7 @@ class RawHTTPServices implements GlobalHttpState
     /**
      * @inheritDoc
      */
-    public function request(): \Psr\Http\Message\RequestInterface
+    public function request(): \Psr\Http\Message\ServerRequestInterface
     {
         if ($this->request === null) {
             $this->request = $this->requestFactory->create();

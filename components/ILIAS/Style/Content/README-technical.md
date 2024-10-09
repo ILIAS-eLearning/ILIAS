@@ -149,7 +149,7 @@ public function getXmlExportTailDependencies(
     }
     if (count($style_ids)) {
         $res[] = array(
-            "component" => "Services/Style",
+            "component" => "components/ILIAS/Style",
             "entity" => "sty",
             "ids" => $style_ids
         );

@@ -30,10 +30,10 @@ class ilForumNotificationEventsFormGUI
     ];
 
     public function __construct(
-        private string $action,
+        private readonly string $action,
         private ?array $predefined_values,
-        private \ILIAS\UI\Factory $ui_factory,
-        private ilLanguage $lng
+        private readonly \ILIAS\UI\Factory $ui_factory,
+        private readonly ilLanguage $lng
     ) {
     }
 

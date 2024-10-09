@@ -14,6 +14,8 @@ STYLE_REPO_NAME_SHORT="foo/style_test.git"
 
 ### Add a token for an user with admin access to style repository
 
+https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic
+
 - open settings for the user on github
 - click 'Developer settings/Personal access tokens/Tokens (classic)'
 - click 'Generate new token (classic)'

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -51,7 +53,7 @@ class SlotGUI
         $this->color_nr = $color_nr;
     }
 
-    public function render() : string
+    public function render(): string
     {
         global $DIC;
         $ui = $DIC->ui();

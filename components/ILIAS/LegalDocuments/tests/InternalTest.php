@@ -22,7 +22,6 @@ namespace ILIAS\LegalDocuments\test;
 
 use ILIAS\LegalDocuments\Map;
 use ILIAS\LegalDocuments\Wiring;
-use ILIAS\LegalDocuments\test\ContainerMock;
 use ILIAS\LegalDocuments\LazyProvide;
 use ILIAS\LegalDocuments\UseSlot;
 use ILIAS\LegalDocuments\Consumer;
@@ -56,7 +55,7 @@ class InternalTest extends TestCase
             $this->fail(...),
             fn() => $this->wiring(),
             [
-                get_class($this->dummyConsumer())
+                $this->dummyConsumer()::class
             ]
         );
     }

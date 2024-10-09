@@ -34,15 +34,15 @@ class ilForumAuthorInformation
     private string $profilePicture;
     private ?ilObjUser $author = null;
     private ilLanguage $globalLng;
-    private ilObjUser $globalUser;
+    private readonly ilObjUser $globalUser;
     private bool $is_deleted = false;
 
     public function __construct(
-        private int $author_id,
-        private int $display_id,
-        private string $alias,
-        private string $import_name,
-        private array $public_profile_link_attributes = [],
+        private readonly int $author_id,
+        private readonly int $display_id,
+        private readonly string $alias,
+        private readonly string $import_name,
+        private readonly array $public_profile_link_attributes = [],
         private ?ilLanguage $lng = null
     ) {
         global $DIC;

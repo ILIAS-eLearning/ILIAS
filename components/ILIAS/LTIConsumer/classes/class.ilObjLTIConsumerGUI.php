@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 
 /**
  * Class ilObjLTIConsumerGUI
@@ -82,12 +83,12 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     }
 
     /**
-     * @return \ilPropertyFormGUI[]|null[]
+     * @return array<ilPropertyFormGUI>
      */
-    protected function initCreationForms(string $a_new_type): array
+    protected function initCreateForm(string $a_new_type): array
     {
         $forms = array(
-            self::CFORM_NEW => $this->initCreateForm($a_new_type)
+            self::CFORM_NEW => $this->initNewForm($a_new_type)
         );
 
         if (ilLTIConsumerAccess::hasCustomProviderCreationAccess()) {
@@ -98,7 +99,28 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         return $forms;
     }
 
-    protected function initCreateForm(string $a_new_type): \ilLTIConsumerProviderSelectionFormTableGUI
+    protected function getCreationFormsHTML(StandardForm|ilPropertyFormGUI|array $forms): string
+    {
+        if (!is_array($forms)) {
+            throw new Exception('We only deal with arrays here.');
+        }
+
+        $acc = new ilAccordionGUI();
+        $acc->setBehaviour(ilAccordionGUI::FIRST_OPEN);
+        array_walk(
+            $forms,
+            function (ilPropertyFormGUI $v, string $k) use ($acc): void {
+                $acc->addItem(
+                    $v->getTitle(),
+                    $v->getHTML()
+                );
+            }
+        );
+
+        return $acc->getHTML();
+    }
+
+    protected function initNewForm(string $a_new_type): \ilLTIConsumerProviderSelectionFormTableGUI
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */

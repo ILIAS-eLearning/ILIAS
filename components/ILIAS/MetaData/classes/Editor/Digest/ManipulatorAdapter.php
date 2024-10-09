@@ -203,7 +203,7 @@ class ManipulatorAdapter
         );
 
         if (
-            $this->copyright_handler->doesObjectTypeSupportHarvesting($set->getRessourceID()->type()) &&
+            $this->copyright_handler->isObjectTypeHarvested($set->getRessourceID()->type()) &&
             isset($data[1][ContentAssembler::OER_BLOCKED])
         ) {
             $this->copyright_handler->setOerHarvesterBlocked(

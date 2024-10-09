@@ -96,7 +96,7 @@ class ilObjPortfolioTemplateAccess extends ilObjectAccess
 
     public static function _lookupOnline(int $a_id): bool
     {
-        return ilObjPortfolioTemplate::lookupOnline($a_id);
+        return !self::_isOffline($a_id);
     }
 
     /**
@@ -104,16 +104,9 @@ class ilObjPortfolioTemplateAccess extends ilObjectAccess
      */
     public static function _lookupOnlineStatus(array $a_ids): array
     {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
-        $q = "SELECT id, is_online FROM usr_portfolio WHERE " .
-            $ilDB->in("id", $a_ids, false, "integer");
-        $lm_set = $ilDB->query($q);
         $status = [];
-        while ($r = $ilDB->fetchAssoc($lm_set)) {
-            $status[$r["id"]] = $r["is_online"];
+        foreach ($a_ids as $id) {
+            $status[$id] = !self::_isOffline($id);
         }
         return $status;
     }

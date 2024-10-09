@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Helper;
@@ -10,20 +26,6 @@ use Throwable;
 use InvalidArgumentException;
 use ILIAS\DI\Container;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
-
 /**
  * Class BasicAccessCheckClosures
  *
@@ -31,6 +33,9 @@ use ILIAS\DI\Container;
  */
 class BasicAccessCheckClosures
 {
+    /**
+     * @readonly
+     */
     private Container $dic;
     private array $access_cache = [];
 
@@ -47,15 +52,16 @@ class BasicAccessCheckClosures
     {
         if (!isset($this->access_cache['repo_read'])) {
             $is_user_logged_in = $this->isUserLoggedIn()();
-            if (!$is_user_logged_in) {
-                $this->access_cache['repo_read'] = $this->dic->settings()->get('pub_section') && $this->dic->access(
-                )->checkAccess(
+            if ($is_user_logged_in) {
+                $this->access_cache['repo_read'] = $this->dic->access()->checkAccess(
                     'read',
                     '',
                     \ROOT_FOLDER_ID
                 );
             } else {
-                $this->access_cache['repo_read'] = $this->dic->access()->checkAccess(
+                $this->access_cache['repo_read'] = $this->dic->settings()->get('pub_section') && $this->dic->access(
+                )->checkAccessOfUser(
+                    $this->dic->user()->getId() ?: ANONYMOUS_USER_ID,
                     'read',
                     '',
                     \ROOT_FOLDER_ID
@@ -63,24 +69,23 @@ class BasicAccessCheckClosures
             }
         }
 
-        return $this->getClosureWithOptinalClosure(function (): bool {
-            return $this->access_cache['repo_read'];
-        }, $additional);
+        return $this->getClosureWithOptinalClosure(fn(): bool => $this->access_cache['repo_read'], $additional);
     }
 
     public function isRepositoryVisible(?Closure $additional = null): Closure
     {
         if (!isset($this->access_cache['repo_visible'])) {
             $is_user_logged_in = $this->isUserLoggedIn()();
-            if (!$is_user_logged_in) {
-                $this->access_cache['repo_visible'] = $this->dic->settings()->get('pub_section') && $this->dic->access(
-                )->checkAccess(
+            if ($is_user_logged_in) {
+                $this->access_cache['repo_visible'] = $this->dic->access()->checkAccess(
                     'visible',
                     '',
                     \ROOT_FOLDER_ID
                 );
             } else {
-                $this->access_cache['repo_visible'] = $this->dic->access()->checkAccess(
+                $this->access_cache['repo_visible'] = $this->dic->settings()->get('pub_section') && $this->dic->access(
+                )->checkAccessOfUser(
+                    $this->dic->user()->getId() ?: ANONYMOUS_USER_ID,
                     'visible',
                     '',
                     \ROOT_FOLDER_ID
@@ -88,9 +93,7 @@ class BasicAccessCheckClosures
             }
         }
 
-        return $this->getClosureWithOptinalClosure(function (): bool {
-            return $this->access_cache['repo_visible'];
-        }, $additional);
+        return $this->getClosureWithOptinalClosure(fn(): bool => $this->access_cache['repo_visible'], $additional);
     }
 
     public function isUserLoggedIn(?Closure $additional = null): Closure
@@ -100,9 +103,7 @@ class BasicAccessCheckClosures
             ) === 0);
         }
 
-        return $this->getClosureWithOptinalClosure(function (): bool {
-            return !$this->access_cache['is_anonymous'];
-        }, $additional);
+        return $this->getClosureWithOptinalClosure(fn(): bool => !$this->access_cache['is_anonymous'], $additional);
     }
 
     public function hasAdministrationAccess(?Closure $additional = null): Closure
@@ -113,9 +114,7 @@ class BasicAccessCheckClosures
                 \SYSTEM_FOLDER_ID
             ));
         }
-        return $this->getClosureWithOptinalClosure(function (): bool {
-            return $this->access_cache['has_admin_access'];
-        }, $additional);
+        return $this->getClosureWithOptinalClosure(fn(): bool => $this->access_cache['has_admin_access'], $additional);
     }
 
 
@@ -127,7 +126,7 @@ class BasicAccessCheckClosures
     {
         try {
             $r = new ReflectionFunction($c);
-        } catch (Throwable $e) {
+        } catch (Throwable) {
             return false;
         }
 
@@ -140,9 +139,7 @@ class BasicAccessCheckClosures
     private function getClosureWithOptinalClosure(Closure $closure, ?Closure $additional = null): Closure
     {
         if ($additional instanceof Closure && $this->checkClosureForBoolReturnValue($additional)) {
-            return static function () use ($closure, $additional): bool {
-                return $additional() && $closure();
-            };
+            return static fn(): bool => $additional() && $closure();
         }
 
         return $closure;

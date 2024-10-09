@@ -32,11 +32,11 @@ class DateTimeFilterContextRenderer extends FilterContextRenderer
 {
     protected function wrapInFormContext(
         FormInput $component,
+        string $label,
         string $input_html,
-        RendererInterface $default_renderer,
         string $id_pointing_to_input = '',
         string $dependant_group_html = '',
-        bool $bind_label_with_for = true
+        bool $bind_label_with_for = true,
     ): string {
         $tpl = $this->getTemplate("tpl.context_form.html", true, true);
 

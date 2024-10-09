@@ -22,7 +22,6 @@ namespace ILIAS\Refinery\Integer;
 
 use ILIAS\Data;
 use ILIAS\Refinery\Custom\Constraint;
-use ILIAS\Language\Language;
 
 class GreaterThanOrEqual extends Constraint
 {

@@ -28,7 +28,7 @@ use ILIAS\LegalDocuments\ConsumerToolbox\ConsumerSlots\Agreement;
 use ILIAS\LegalDocuments\ConsumerToolbox\ConsumerSlots\WithdrawProcess;
 use ILIAS\LegalDocuments\ConsumerToolbox\ConsumerSlots\ShowOnLoginPage;
 use ILIAS\DI\Container;
-use ILIAS\LegalDocuments\LazyProvide;
+use ILIAS\LegalDocuments\Provide;
 use Closure;
 use ilObjUser;
 use ilTemplate;
@@ -38,7 +38,7 @@ class Slot
     public function __construct(
         private readonly string $id,
         private readonly Blocks $blocks,
-        private readonly LazyProvide $provide,
+        private readonly Provide $provide,
         private readonly Container $container
     ) {
     }
@@ -64,9 +64,9 @@ class Slot
         );
     }
 
-    public function agreement(User $user, Settings $settings): Agreement
+    public function agreement(User $user): Agreement
     {
-        return new Agreement($user, $settings, $this->blocks->ui(), $this->blocks->routing(), $this->blocks->withRequest(...));
+        return new Agreement($user, $this->blocks->ui(), $this->blocks->routing(), $this->blocks->withRequest(...));
     }
 
     public function modifyFooter(User $user): ModifyFooter

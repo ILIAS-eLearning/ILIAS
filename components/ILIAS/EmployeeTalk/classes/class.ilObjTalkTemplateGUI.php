@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\EmployeeTalk\UI\ControlFlowCommand;
 use ILIAS\EmployeeTalk\Metadata\MetadataHandlerInterface;
@@ -169,13 +169,6 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
         if ($this->rbacsystem->checkAccess('write', $this->object->getRefId(), $this->type)) {
             $this->tabs_gui->addTab('settings', $this->lng->txt("settings"), $this->ctrl->getLinkTarget($this, "edit"));
         }
-    }
-
-    protected function initCreationForms(string $new_type): array
-    {
-        return [
-            self::CFORM_NEW => $this->initCreateForm($new_type)
-        ];
     }
 
     public function getAdminTabs(): void

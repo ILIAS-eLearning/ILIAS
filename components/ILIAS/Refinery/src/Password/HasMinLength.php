@@ -22,7 +22,6 @@ namespace ILIAS\Refinery\Password;
 
 use ILIAS\Refinery\Custom\Constraint;
 use ILIAS\Data;
-use ILIAS\Language\Language;
 
 class HasMinLength extends Constraint
 {

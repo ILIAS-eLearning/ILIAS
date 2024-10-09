@@ -3105,6 +3105,7 @@ JS;
         $config['forcedInstantFeedback'] = $this->object->isForceInstantFeedbackEnabled();
         $config['questionLocked'] = $this->isParticipantsAnswerFixed($question_gui->getObject()->getId());
         $config['nextQuestionLocks'] = $this->object->isFollowupQuestionAnswerFixationEnabled();
+        $config['autosaveFailureMessage'] = $this->lng->txt('autosave_failed');
 
         $this->tpl->addJavascript('assets/js/ilTestPlayerQuestionEditControl.js');
         $this->tpl->addOnLoadCode('il.TestPlayerQuestionEditControl.init(' . json_encode($config) . ')');

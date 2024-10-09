@@ -102,6 +102,18 @@ class ilMediaPoolExporter extends ilXmlExporter
             "entity" => "tile",
             "ids" => $a_ids);
 
+        $md_ids = [];
+        foreach ($a_ids as $id) {
+            $md_ids[] = $id . ':0:mep';
+        }
+        if (!empty($md_ids)) {
+            $deps[] = [
+                'component' => 'components/ILIAS/MetaData',
+                'entity' => 'md',
+                'ids' => $md_ids,
+            ];
+        }
+
         return $deps;
     }
 

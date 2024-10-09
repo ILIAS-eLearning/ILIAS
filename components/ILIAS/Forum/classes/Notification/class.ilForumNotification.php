@@ -31,8 +31,8 @@ class ilForumNotification
     /** @var array<int, self> */
     private static array $forced_events_cache = [];
 
-    private ilDBInterface $db;
-    private ilObjUser $user;
+    private readonly ilDBInterface $db;
+    private readonly ilObjUser $user;
     private int $notification_id;
     private ?int $user_id = null;
     private int $forum_id;

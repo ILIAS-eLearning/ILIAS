@@ -26,7 +26,6 @@ use ILIAS\FileDelivery\Token\Data\Stream;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileDelivery\Token\Signer\Payload\FilePayload;
 use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\FileDelivery\Delivery\ResponseBuilder\PHPResponseBuilder;
 use ILIAS\FileDelivery\Token\Signer\Payload\ShortFilePayload;
 use ILIAS\Filesystem\Stream\ZIPStream;
 
@@ -40,9 +39,10 @@ final class StreamDelivery extends BaseDelivery
     public function __construct(
         private DataSigner $data_signer,
         \ILIAS\HTTP\Services $http,
-        ResponseBuilder $response_builder
+        ResponseBuilder $response_builder,
+        ResponseBuilder $fallback_response_builder,
     ) {
-        parent::__construct($http, $response_builder);
+        parent::__construct($http, $response_builder, $fallback_response_builder);
     }
 
     /**
@@ -93,7 +93,7 @@ final class StreamDelivery extends BaseDelivery
         $uri = $stream->getMetadata()['uri'];
 
         if ($stream instanceof ZIPStream || $stream->getMetadata()['uri'] === 'php://memory') {
-            $this->response_builder = new PHPResponseBuilder();
+            $this->response_builder = $this->fallback_response_builder;
         }
 
         $r = $this->setGeneralHeaders(
@@ -166,15 +166,20 @@ final class StreamDelivery extends BaseDelivery
             $sub_request = urldecode($sub_request);
             // remove query
             $sub_request = explode('?', $sub_request)[0];
-            $file_inside_zip_uri = "zip://$requested_zip#$sub_request";
-            $file_inside_zip_stream = fopen($file_inside_zip_uri, 'rb');
+
+            try {
+                $file_inside_ZIP = Streams::ofFileInsideZIP($requested_zip, $sub_request);
+            } catch (\Throwable) {
+                $this->notFound($r);
+            }
+            $file_inside_zip_uri = $file_inside_ZIP->getMetadata()['uri'];
 
             if ($file_inside_zip_stream === false) {
                 $this->notFound($r);
             }
 
             // we must use PHPResponseBuilder here, because the streams inside zips cant be delivered using XSendFile or others
-            $this->response_builder = new PHPResponseBuilder();
+            $this->response_builder = $this->fallback_response_builder;
 
             $mime_type = $this->determineMimeType($file_inside_zip_uri);
             $r = $this->setGeneralHeaders(
@@ -185,11 +190,12 @@ final class StreamDelivery extends BaseDelivery
                 Disposition::INLINE // subrequests are always inline per default, browsers may change this to download
             );
 
+
             $this->http->saveResponse(
                 $this->response_builder->buildForStream(
                     $this->http->request(),
                     $r,
-                    Streams::ofResource($file_inside_zip_stream, true)
+                    $file_inside_ZIP
                 )
             );
         }

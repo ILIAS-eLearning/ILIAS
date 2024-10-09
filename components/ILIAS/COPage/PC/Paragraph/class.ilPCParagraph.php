@@ -1933,6 +1933,10 @@ class ilPCParagraph extends ilPageContent
         ilPageObject $a_page,
         DOMDocument $a_domdoc
     ): void {
+        global $DIC;
+
+        $lom_services = $DIC->learningObjectMetadata();
+
         // not nice, should be set by context per method
         if ($a_page->getParentType() == "term" ||
             $a_page->getParentType() == "lm") {
@@ -1955,37 +1959,9 @@ class ilPCParagraph extends ilPageContent
             $meta_rep_id = $a_page->getParentId();
             $meta_id = $a_page->getId();
 
-            $md_obj = new ilMD($meta_rep_id, $meta_id, $meta_type);
-            $mkeywords = array();
-            $lang = "";
-            if (is_object($md_section = $md_obj->getGeneral())) {
-                foreach ($ids = $md_section->getKeywordIds() as $id) {
-                    $md_key = $md_section->getKeyword($id);
-                    $mkeywords[] = strtolower($md_key->getKeyword());
-                    if ($lang == "") {
-                        $lang = $md_key->getKeywordLanguageCode();
-                    }
-                }
-                if ($lang == "") {
-                    foreach ($ids = $md_section->getLanguageIds() as $id) {
-                        $md_lang = $md_section->getLanguage($id);
-                        if ($lang == "") {
-                            $lang = $md_lang->getLanguageCode();
-                        }
-                    }
-                }
-                foreach ($keywords as $k) {
-                    if (!in_array(strtolower($k), $mkeywords)) {
-                        if (trim($k) != "" && $lang != "") {
-                            $md_key = $md_section->addKeyword();
-                            $md_key->setKeyword(ilUtil::stripSlashes($k));
-                            $md_key->setKeywordLanguage(new ilMDLanguageItem($lang));
-                            $md_key->save();
-                        }
-                        $mkeywords[] = strtolower($k);
-                    }
-                }
-            }
+            $lom_services->manipulate($meta_rep_id, $meta_id, $meta_type)
+                         ->prepareCreateOrUpdate($lom_services->paths()->keywords(), ...$keywords)
+                         ->execute();
         }
     }
 

@@ -110,6 +110,7 @@ class ilMDCopyrightMigration implements Setup\Migration
         }
 
         $image_link = $this->translatePreInstalledLinksToSVG($image_link);
+        $full_name = $this->cleanupPreInstalledPublicDomainFullName($full_name);
 
         return [
             'full_name' => [\ilDBConstants::T_TEXT, $full_name],
@@ -142,5 +143,16 @@ class ilMDCopyrightMigration implements Setup\Migration
             return $mapping[$image_link];
         }
         return $image_link;
+    }
+
+    /**
+     * see https://mantis.ilias.de/view.php?id=41301
+     */
+    protected function cleanupPreInstalledPublicDomainFullName(string $full_name): string
+    {
+        if ($full_name === 'This work has all rights reserved by the owner.') {
+            return 'All rights reserved';
+        }
+        return $full_name;
     }
 }

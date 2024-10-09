@@ -160,7 +160,7 @@ class LoggingRegistry implements ResourceRegistry
     }
 }
 
-class ilLanguageMock extends ilLanguage
+class LanguageMock extends ilLanguage
 {
     public array $requested = array();
 
@@ -219,12 +219,19 @@ class TestDefaultRenderer extends DefaultRenderer
 {
     protected array $with_stub_renderings = [];
 
-    public function __construct(Render\Loader $component_renderer_loader, array $with_stub_renderings = [])
-    {
+    public function __construct(
+        Render\Loader $component_renderer_loader,
+        JavaScriptBinding $java_script_binding,
+        array $with_stub_renderings = [],
+        protected array $with_additional_contexts = [],
+    ) {
         $this->with_stub_renderings = array_map(function ($component) {
             return get_class($component);
         }, $with_stub_renderings);
-        parent::__construct($component_renderer_loader);
+
+        array_walk($this->with_additional_contexts, fn(Component $c) => $this->pushContext($c));
+
+        parent::__construct($component_renderer_loader, $java_script_binding);
     }
 
     public function _getRendererFor(IComponent $component): Render\ComponentRenderer
@@ -243,6 +250,11 @@ class TestDefaultRenderer extends DefaultRenderer
     public function _getContexts(): array
     {
         return $this->getContexts();
+    }
+
+    public function getComponentCanonicalNameAttribute(IComponent $component): string
+    {
+        return str_replace(' ', '-', strtolower($component->getCanonicalName()));
     }
 }
 
@@ -314,16 +326,6 @@ abstract class ILIAS_UI_TestBase extends TestCase
 
 trait BaseUITestTrait
 {
-    public function setUp(): void
-    {
-        assert_options(ASSERT_WARNING, 0);
-    }
-
-    public function tearDown(): void
-    {
-        assert_options(ASSERT_WARNING, 1);
-    }
-
     public function getUIFactory(): NoUIFactory
     {
         return new NoUIFactory();
@@ -339,9 +341,9 @@ trait BaseUITestTrait
         return new LoggingRegistry();
     }
 
-    public function getLanguage(): ilLanguageMock
+    public function getLanguage(): LanguageMock
     {
-        return new ilLanguageMock();
+        return new LanguageMock();
     }
 
     public function getJavaScriptBinding(): LoggingJavaScriptBinding
@@ -379,9 +381,14 @@ trait BaseUITestTrait
         return $this->createMock(UploadLimitResolver::class);
     }
 
+    /**
+     * @param Component[] $with_stub_renderings
+     * @param Component[] $with_additional_contexts
+     */
     public function getDefaultRenderer(
         JavaScriptBinding $js_binding = null,
-        array $with_stub_renderings = []
+        array $with_stub_renderings = [],
+        array $with_additional_contexts = [],
     ): TestDefaultRenderer {
         $ui_factory = $this->getUIFactory();
         $tpl_factory = $this->getTemplateFactory();
@@ -442,7 +449,7 @@ trait BaseUITestTrait
                 )
             )
         );
-        return new TestDefaultRenderer($component_renderer_loader, $with_stub_renderings);
+        return new TestDefaultRenderer($component_renderer_loader, $js_binding, $with_stub_renderings, $with_additional_contexts);
     }
 
     public function getDecoratedRenderer(Renderer $default)

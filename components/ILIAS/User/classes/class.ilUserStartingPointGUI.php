@@ -19,6 +19,8 @@
 declare(strict_types=1);
 
 use ILIAS\User\UserGUIRequest;
+
+use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer;
 
@@ -31,7 +33,7 @@ use ILIAS\UI\Renderer;
 class ilUserStartingPointGUI
 {
     private ilLogger $log;
-    private ilLanguage $lng;
+    private Language $lng;
     private ilSetting $settings;
     private ilGlobalTemplateInterface $tpl;
     private ilToolbarGUI $toolbar;
@@ -76,7 +78,6 @@ class ilUserStartingPointGUI
         $this->starting_point_repository = new ilUserStartingPointRepository(
             $this->user,
             $this->db,
-            $this->tpl,
             $DIC->logger(),
             $this->tree,
             $this->rbac_review,

@@ -16,10 +16,6 @@
  *
  *********************************************************************/
 
-use ILIAS\Administration\Setting;
-
-use function _PHPStan_e04cc8dfb\RingCentral\Psr7\str;
-
 /**
  * Class ilShibbolethSettings
  *
@@ -31,6 +27,10 @@ class ilShibbolethSettings
     private const DEFAULT_IDP_LIST = "urn:mace:organization1:providerID, Example Organization 1\nurn:mace:organization2:providerID, Example Organization 2, /Shibboleth.sso/WAYF/SWITCHaai";
     private const DEFAULT_LOGIN_BUTTON = "assets/images/auth/shib_login_button.svg";
     private const DEFAULT_ORGANISATION_SELECTION = "external_wayf";
+
+    public const ACCOUNT_CREATION_ENABLED = "enabled";
+    public const ACCOUNT_CREATION_WITH_APPROVAL = "with_approval";
+    public const ACCOUNT_CREATION_DISABLED = "disabled";
 
     protected ilSetting $settings;
     protected array $data = [];
@@ -75,7 +75,7 @@ class ilShibbolethSettings
     {
         $filtered_data = array_filter(
             $this->settings->getAll(),
-            static fn($value, string $key): bool => strpos($key, self::PREFIX) === 0,
+            static fn($value, string $key): bool => str_starts_with($key, self::PREFIX),
             ARRAY_FILTER_USE_BOTH
         );
 
@@ -91,10 +91,6 @@ class ilShibbolethSettings
         return (string) ($this->data[$a_keyword] ?? $a_default_value);
     }
 
-
-    /**
-     * @return mixed[]
-     */
     public function getAll(): array
     {
         return $this->data;
@@ -160,7 +156,7 @@ class ilShibbolethSettings
 
     public function setActive(bool $status): void
     {
-        $this->data['active'] = $status ? '1' : '0';
+        $this->data['active'] = $status;
     }
 
     public function isLocalAuthAllowed(): bool
@@ -170,17 +166,17 @@ class ilShibbolethSettings
 
     public function setAllowLocalAuth(bool $status): void
     {
-        $this->data['auth_allow_local'] = $status ? '1' : '0';
+        $this->data['auth_allow_local'] = $status;
     }
 
-    public function adminMustActivate(): bool
+    public function getAccountCreation(): string
     {
-        return (bool) ($this->data['activate_new'] ?? false);
+        return $this->data['account_creation'] ?? self::ACCOUNT_CREATION_ENABLED;
     }
 
-    public function setAdminMustActivate(bool $status): void
+    public function setAccountCreation(string $value): void
     {
-        $this->data['activate_new'] = $status ? '1' : '0';
+        $this->data['account_creation'] = $value;
     }
 
     public function getFederationName(): string

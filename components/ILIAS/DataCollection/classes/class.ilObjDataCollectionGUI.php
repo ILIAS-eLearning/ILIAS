@@ -28,6 +28,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilRatingGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilPropertyFormGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclPropertyFormGUI
+ * @ilCtrl_Calls ilObjDataCollectionGUI: ilObjectContentStyleSettingsGUI
  */
 class ilObjDataCollectionGUI extends ilObject2GUI
 {
@@ -96,11 +97,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
     private function addJavaScript(): void
     {
-        $this->notes->gui()->initJavascript();
-        ilYuiUtil::initConnection();
-        ilOverlayGUI::initJavascript();
-        // # see  https://mantis.ilias.de/view.php?id=26463
-        $this->tpl->addJavaScript("assets/js/LegacyModal.js");
         $this->tpl->addJavaScript("assets/js/datacollection.js");
     }
 
@@ -232,6 +228,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                 $this->tabs->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this, ""));
                 break;
             case strtolower(ilDclExportGUI::class):
+                $this->prepareOutput();
                 $this->handleExport();
                 break;
 
@@ -243,24 +240,23 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                 $this->ctrl->forwardCommand($form);
                 break;
 
+            case strtolower(ilObjectContentStyleSettingsGUI::class):
+                $this->prepareOutput();
+                $this->setEditTabs();
+                $this->tabs->activateTab('settings');
+                $this->tabs->activateSubTab('cont_style');
+                global $DIC;
+                $settings_gui = $DIC->contentStyle()->gui()->objectSettingsGUIForRefId(null, $this->ref_id);
+                $this->ctrl->forwardCommand($settings_gui);
+                break;
+
             default:
-                switch ($cmd) {
-                    case 'edit': // this is necessary because ilObjectGUI only calls its own editObject (why??)
-                        $this->prepareOutput();
-                        $this->editObject();
-                        break;
-                    case 'export':
-                        $this->handleExport(true);
-                        break;
-                    default:
-                        parent::executeCommand();
-                }
+                parent::executeCommand();
         }
     }
 
-    protected function handleExport(bool $do_default = false)
+    protected function handleExport(bool $do_default = false): void
     {
-        $this->prepareOutput();
         $this->tabs->setTabActive(self::TAB_EXPORT);
         $exp_gui = new ilDclExportGUI($this);
         $exporter = new ilDclContentExporter($this->object->getRefId(), $this->table_id);
@@ -443,64 +439,49 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $this->tabs->addTab($langKey, $this->lng->txt($langKey), $link);
     }
 
-    /**
-     * edit object
-     * @access    public
-     */
-    public function editObject(): void
+    protected function setEditTabs(): void
     {
-        $dataCollectionTemplate = $this->tpl;
+        $this->tabs->addSubTab(
+            'general',
+            $this->lng->txt('general'),
+            $this->ctrl->getLinkTargetByClass(self::class, 'edit')
+        );
+        $this->tabs->addSubTab(
+            'cont_style',
+            $this->lng->txt('cont_style'),
+            $this->ctrl->getLinkTargetByClass(ilObjectContentStyleSettingsGUI::class)
+        );
 
-        $ref_id = $this->object->getRefId();
-        if ($this->access->checkAccess('write', "", $ref_id) === false) {
-            $this->error->raiseError($this->lng->txt("msg_no_perm_write"), null);
-        }
-
-        $this->tabs->activateTab(self::TAB_EDIT_DCL);
-
-        $form = $this->initEditForm();
-        $values = $this->getEditFormValues();
-        if ($values) {
-            $form->setValuesByArray($values, true);
-        }
-
-        $this->addExternalEditFormCustom($form);
-
-        $dataCollectionTemplate->setContent($form->getHTML());
+        $this->tabs->activateSubTab('general');
     }
 
     protected function initEditForm(): ilPropertyFormGUI
     {
-        $this->tabs->activateTab(self::TAB_EDIT_DCL);
-
+        $this->setEditTabs();
+        $this->tabs->activateSubTab('general');
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "update"));
         $form->setTitle($this->lng->txt($this->object->getType() . "_edit"));
 
-        // title
         $ti = new ilTextInputGUI($this->lng->txt("title"), "title");
         $ti->setSize(min(40, ilObject::TITLE_LENGTH));
         $ti->setMaxLength(ilObject::TITLE_LENGTH);
         $ti->setRequired(true);
         $form->addItem($ti);
 
-        // description
         $ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
         $ta->setCols(40);
         $ta->setRows(2);
         $form->addItem($ta);
 
-        // is_online
         $cb = new ilCheckboxInputGUI($this->lng->txt("online"), "is_online");
         $cb->setInfo($this->lng->txt("dcl_online_info"));
         $form->addItem($cb);
 
-        // Notification
         $cb = new ilCheckboxInputGUI($this->lng->txt("dcl_activate_notification"), "notification");
         $cb->setInfo($this->lng->txt("dcl_notification_info"));
         $form->addItem($cb);
 
-        // tile img upload
         $section_appearance = new ilFormSectionHeaderGUI();
         $section_appearance->setTitle($this->lng->txt('cont_presentation'));
         $form->addItem($section_appearance);

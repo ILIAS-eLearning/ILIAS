@@ -46,7 +46,7 @@ class ilForumPost
     private int $rgt = 0;
     private int $depth = 0;
     private ?ilForumTopic $objThread = null;
-    private ilDBInterface $db;
+    private readonly ilDBInterface $db;
     private bool $is_moderator = false;
     private ?bool $is_author_moderator = false;
     private bool $post_read = false;
@@ -619,7 +619,7 @@ class ilForumPost
         $this->setDisplayUserId((int) $row['pos_display_user_id']);
         $this->setPosAuthorId((int) $row['pos_author_id']);
         $this->setIsAuthorModerator((bool) $row['is_author_moderator']);
-        $this->setRCID((string)($row['rcid'] ?? self::NO_RCID));
+        $this->setRCID((string) ($row['rcid'] ?? self::NO_RCID));
     }
 
     /**

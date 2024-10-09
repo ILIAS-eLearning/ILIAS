@@ -23,6 +23,7 @@
  */
 class ilExerciseDerivedTaskProviderFactory implements ilDerivedTaskProviderFactory
 {
+    protected \ILIAS\Exercise\InternalRepoService $repo;
     protected \ILIAS\Exercise\PermanentLink\PermanentLinkManager $link_manager;
     protected ilTaskService $task_service;
     protected ilAccess $access;
@@ -44,7 +45,7 @@ class ilExerciseDerivedTaskProviderFactory implements ilDerivedTaskProviderFacto
             : $lng;
 
         $this->link_manager = $DIC->exercise()->internal()->gui()->permanentLink();
-
+        $this->repo = $DIC->exercise()->internal()->repo();
         $this->task_service = $task_service;
     }
 
@@ -62,7 +63,7 @@ class ilExerciseDerivedTaskProviderFactory implements ilDerivedTaskProviderFacto
                     new ilExcMemberRepository(),
                     new ilExcAssMemberStateRepository(),
                     new ilExcTutorRepository(),
-                    new \ILIAS\Exercise\Submission\SubmissionDBRepository()
+                    $this->repo->submission()
                 ),
                 $this->link_manager
             )

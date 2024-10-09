@@ -27,9 +27,8 @@ class ilShibbolethPluginWrapper implements ilShibbolethAuthenticationPluginInt
     protected function __construct()
     {
         global $DIC;
-        $ilLog = $DIC['ilLog'];
-        $this->log = $ilLog;
         $this->component_factory = $DIC["component.factory"];
+        $this->log = $DIC['ilLog'];
     }
 
     public static function getInstance(): self
@@ -41,9 +40,6 @@ class ilShibbolethPluginWrapper implements ilShibbolethAuthenticationPluginInt
         return self::$cache;
     }
 
-    /**
-     * @return ilShibbolethAuthenticationPlugin[]
-     */
     protected function getPluginObjects(): Iterator
     {
         return $this->component_factory->getActivePluginsInSlot('shibhk');
@@ -102,7 +98,7 @@ class ilShibbolethPluginWrapper implements ilShibbolethAuthenticationPluginInt
 
     public function afterLogout(ilObjUser $user): ilObjUser
     {
-        $this->log->write('afterlogout');
+        $this->log->log('afterlogout');
         foreach ($this->getPluginObjects() as $pl) {
             $user = $pl->afterLogout($user);
         }

@@ -35,10 +35,10 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        /**
-         * @var Component\Symbol\Icon\Icon $component
-         */
-        $this->checkComponent($component);
+        if (!$component instanceof Component\Symbol\Icon\Icon) {
+            $this->cannotHandleComponent($component);
+        }
+
         $tpl = $this->getTemplate("tpl.icon.html", true, true);
 
         $id = $this->bindJavaScript($component);
@@ -109,13 +109,5 @@ class Renderer extends AbstractComponentRenderer
         }
 
         return $this->getImagePathResolver()->resolveImagePath($icon_path_name);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName(): array
-    {
-        return array(Component\Symbol\Icon\Icon::class);
     }
 }

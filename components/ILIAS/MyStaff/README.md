@@ -94,7 +94,7 @@ An **Actions** dropdown is shown per competence-user-connection. The entries in 
 
 *Organisation > Talks*
 
-see [Talks in Staff](../../Modules/EmployeeTalk/README.md#talks-in-staff)
+see [Talks in Staff](../../components/ILIAS/EmployeeTalk/README.md#talks-in-staff)
 
 **Needed permissions:**
 - Employee Talk > Read access talk appointments

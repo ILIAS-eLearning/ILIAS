@@ -1,27 +1,22 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
-/*
-        +-----------------------------------------------------------------------------+
-        | ILIAS open source                                                           |
-        +-----------------------------------------------------------------------------+
-        | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-        |                                                                             |
-        | This program is free software; you can redistribute it and/or               |
-        | modify it under the terms of the GNU General Public License                 |
-        | as published by the Free Software Foundation; either version 2              |
-        | of the License, or (at your option) any later version.                      |
-        |                                                                             |
-        | This program is distributed in the hope that it will be useful,             |
-        | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-        | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-        | GNU General Public License for more details.                                |
-        |                                                                             |
-        | You should have received a copy of the GNU General Public License           |
-        | along with this program; if not, write to the Free Software                 |
-        | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-        +-----------------------------------------------------------------------------+
-*/
 
 /**
  * Class for date presentation
@@ -32,20 +27,18 @@ class ilDatePresentation
 {
     public static bool $use_relative_dates = true;
     private static ?ilLanguage $lang = null;
-
     public static ?ilDateTime $today = null;
     public static ?ilDateTime $tomorrow = null;
     public static ?ilDateTime $yesterday = null;
-
-    protected static array $weekdays = array(
-        0 => "Su_short",
-        1 => "Mo_short",
-        2 => "Tu_short",
-        3 => "We_short",
-        4 => "Th_short",
-        5 => "Fr_short",
-        6 => "Sa_short"
-    );
+    protected static array $weekdays = [
+        0 => 'Su_short',
+        1 => 'Mo_short',
+        2 => 'Tu_short',
+        3 => 'We_short',
+        4 => 'Th_short',
+        5 => 'Fr_short',
+        6 => 'Sa_short'
+    ];
 
     /**
      * set use relative dates
@@ -70,13 +63,14 @@ class ilDatePresentation
         global $DIC;
 
         $lng = $DIC->language();
+
         return self::$lang ?: $lng;
     }
 
     /**
      * reset to defaults
      */
-    public static function resetToDefaults()
+    public static function resetToDefaults(): void
     {
         global $DIC;
 
@@ -85,48 +79,61 @@ class ilDatePresentation
         self::setUseRelativeDates(true);
     }
 
-    public static function formatDate(ilDateTime $date, bool $a_skip_day = false, bool $a_include_wd = false, bool $include_seconds = false): string
-    {
+    public static function formatDate(
+        ilDateTime $date,
+        bool $a_skip_day = false,
+        bool $a_include_wd = false,
+        bool $include_seconds = false,
+        ilObjUser $user = null,
+    ): string {
         global $DIC;
-
-        $lng = $DIC['lng'];
-        $lng->loadLanguageModule('dateplaner');
-        $ilUser = $DIC['ilUser'];
-
-        if ($date->isNull()) {
-            return self::getLanguage()->txt('no_date');
+        if ($user) {
+            $lng = new ilLanguage($user->getLanguage());
+        } else {
+            $user = $DIC->user();
+            $lng = self::getLanguage();
         }
 
-        $has_time = !is_a($date, 'ilDate');
+        $lng->loadLanguageModule('dateplaner');
+
+        if ($date->isNull()) {
+            return $lng->txt('no_date');
+        }
+
+        $has_time = !$date instanceof ilDate;
 
         // Converting pure dates to user timezone might return wrong dates
         $date_info = [];
         if ($has_time) {
-            $date_info = $date->get(IL_CAL_FKT_GETDATE, '', $ilUser->getTimeZone());
+            $date_info = $date->get(IL_CAL_FKT_GETDATE, '', $user->getTimeZone());
         } else {
             $date_info = $date->get(IL_CAL_FKT_GETDATE, '', 'UTC');
         }
 
         $date_str = '';
         if (!$a_skip_day) {
-            $sep = ", ";
-            if (self::isToday($date) and self::useRelativeDates()) {
-                $date_str = self::getLanguage()->txt('today');
-            } elseif (self::isTomorrow($date) and self::useRelativeDates()) {
-                $date_str = self::getLanguage()->txt('tomorrow');
-            } elseif (self::isYesterday($date) and self::useRelativeDates()) {
-                $date_str = self::getLanguage()->txt('yesterday');
+            $sep = ', ';
+            if (self::isToday($date) && self::useRelativeDates()) {
+                $date_str = $lng->txt('today');
+            } elseif (self::isTomorrow($date) && self::useRelativeDates()) {
+                $date_str = $lng->txt('tomorrow');
+            } elseif (self::isYesterday($date) && self::useRelativeDates()) {
+                $date_str = $lng->txt('yesterday');
             } else {
-                $date_str = "";
+                $date_str = '';
                 if ($a_include_wd) {
-                    $date_str = $lng->txt(self::$weekdays[$date_info['wday']]) . ", 	";
+                    $date_str = $lng->txt(self::$weekdays[$date_info['wday']]) . ', 	';
                 }
                 $date_str .= $date_info['mday'] . '. ' .
-                    ilCalendarUtil::_numericMonthToString($date_info['mon'], false) . ' ' .
+                    ilCalendarUtil::_numericMonthToString(
+                        $date_info['mon'],
+                        false,
+                        $lng
+                    ) . ' ' .
                     $date_info['year'];
             }
         } else {
-            $sep = "";
+            $sep = '';
         }
 
         if (!$has_time) {
@@ -134,16 +141,26 @@ class ilDatePresentation
         }
 
         $sec = ($include_seconds)
-            ? ":s"
-            : "";
+            ? ':s'
+            : '';
 
-        switch ($ilUser->getTimeFormat()) {
+        switch ($user->getTimeFormat()) {
             case ilCalendarSettings::TIME_FORMAT_24:
-                return $date_str . $sep . $date->get(IL_CAL_FKT_DATE, 'H:i' . $sec, $ilUser->getTimeZone());
-
+                return $date_str . $sep .
+                    $date->get(
+                        IL_CAL_FKT_DATE,
+                        'H:i' . $sec,
+                        $user->getTimeZone()
+                    );
             case ilCalendarSettings::TIME_FORMAT_12:
-                return $date_str . $sep . $date->get(IL_CAL_FKT_DATE, 'g:ia' . $sec, $ilUser->getTimeZone());
+                return $date_str . $sep .
+                    $date->get(
+                        IL_CAL_FKT_DATE,
+                        'g:ia' . $sec,
+                        $user->getTimeZone()
+                    );
         }
+
         return '';
     }
 
@@ -154,59 +171,101 @@ class ilDatePresentation
      * or:        14. Jul 2008 - 16. Jul 2008
      * or:        14. Jul 2008, 12:00 - 16. Jul 2008, 14:00
      */
-    public static function formatPeriod(ilDateTime $start, ilDateTime $end, bool $a_skip_starting_day = false): string
-    {
+    public static function formatPeriod(
+        ilDateTime $start,
+        ilDateTime $end,
+        bool $a_skip_starting_day = false,
+        ilObjUser $user = null
+    ): string {
         global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-        $has_time = !is_a($start, 'ilDate');
+        if (!$user) {
+            $user = $DIC->user();
+        }
+        $has_time = !$start instanceof ilDate;
 
         // Same day
-        if (ilDateTime::_equals($start, $end, IL_CAL_DAY, $ilUser->getTimeZone())) {
+        if (ilDateTime::_equals($start, $end, IL_CAL_DAY, $user->getTimeZone())) {
             if (!$has_time) {
-                return self::formatDate($start);
-            } else {
-                $date_str = "";
-                $sep = "";
-                if (!$a_skip_starting_day) {
-                    $date_str = self::formatDate(
-                        new ilDate($start->get(IL_CAL_DATE, '', $ilUser->getTimeZone()), IL_CAL_DATE)
-                    );
-                    $sep = ", ";
-                }
+                return self::formatDate(
+                    $start,
+                    false,
+                    false,
+                    false,
+                    $user
+                );
+            }
+            $date_str = '';
+            $sep = '';
+            if (!$a_skip_starting_day) {
+                $date_str = self::formatDate(
+                    new ilDate(
+                        $start->get(IL_CAL_DATE, '', $user->getTimeZone()),
+                        IL_CAL_DATE
+                    ),
+                    false,
+                    false,
+                    false,
+                    $user
+                );
+                $sep = ', ';
+            }
 
-                // $start == $end
-                if (ilDateTime::_equals($start, $end)) {
-                    switch ($ilUser->getTimeFormat()) {
-                        case ilCalendarSettings::TIME_FORMAT_24:
-                            return $date_str . $sep . $start->get(IL_CAL_FKT_DATE, 'H:i', $ilUser->getTimeZone());
-
-                        case ilCalendarSettings::TIME_FORMAT_12:
-                            return $date_str . $sep . $start->get(IL_CAL_FKT_DATE, 'h:i a', $ilUser->getTimeZone());
-                    }
-                } else {
-                    switch ($ilUser->getTimeFormat()) {
-                        case ilCalendarSettings::TIME_FORMAT_24:
-                            return $date_str . $sep . $start->get(
+            if (ilDateTime::_equals($start, $end)) {
+                switch ($user->getTimeFormat()) {
+                    case ilCalendarSettings::TIME_FORMAT_24:
+                        return $date_str . $sep .
+                            $start->get(
                                 IL_CAL_FKT_DATE,
                                 'H:i',
-                                $ilUser->getTimeZone()
+                                $user->getTimeZone()
+                            );
+                    case ilCalendarSettings::TIME_FORMAT_12:
+                        return $date_str . $sep .
+                            $start->get(
+                                IL_CAL_FKT_DATE,
+                                'h:i a',
+                                $user->getTimeZone()
+                            );
+                }
+            } else {
+                switch ($user->getTimeFormat()) {
+                    case ilCalendarSettings::TIME_FORMAT_24:
+                        return $date_str . $sep .
+                            $start->get(
+                                IL_CAL_FKT_DATE,
+                                'H:i',
+                                $user->getTimeZone()
                             ) . ' - ' .
-                                $end->get(IL_CAL_FKT_DATE, 'H:i', $ilUser->getTimeZone());
+                            $end->get(IL_CAL_FKT_DATE, 'H:i', $user->getTimeZone());
 
-                        case ilCalendarSettings::TIME_FORMAT_12:
-                            return $date_str . $sep . $start->get(
+                    case ilCalendarSettings::TIME_FORMAT_12:
+                        return $date_str . $sep .
+                            $start->get(
                                 IL_CAL_FKT_DATE,
                                 'g:ia',
-                                $ilUser->getTimeZone()
+                                $user->getTimeZone()
                             ) . ' - ' .
-                                $end->get(IL_CAL_FKT_DATE, 'g:ia', $ilUser->getTimeZone());
-                    }
+                            $end->get(IL_CAL_FKT_DATE, 'g:ia', $user->getTimeZone());
                 }
             }
         }
+
         // Different days
-        return self::formatDate($start, $a_skip_starting_day) . ' - ' . self::formatDate($end);
+        return
+            self::formatDate(
+                $start,
+                $a_skip_starting_day,
+                false,
+                false,
+                $user
+            ) . ' - ' .
+            self::formatDate(
+                $end,
+                false,
+                false,
+                false,
+                $user
+            );
     }
 
     /**
@@ -221,6 +280,7 @@ class ilDatePresentation
         if (!is_object(self::$today)) {
             self::$today = new ilDateTime(time(), IL_CAL_UNIX, $ilUser->getTimeZone());
         }
+
         return ilDateTime::_equals(self::$today, $date, IL_CAL_DAY, $ilUser->getTimeZone());
     }
 
@@ -282,7 +342,7 @@ class ilDatePresentation
             $rest = $seconds % 86400;
 
             $hours = floor($rest / 3600);
-            $rest = $rest % 3600;
+            $rest %= 3600;
 
             $minutes = floor($rest / 60);
             $seconds = $rest % 60;
@@ -291,7 +351,7 @@ class ilDatePresentation
             $rest = $seconds % 86400;
 
             $hours = ceil($rest / 3600);
-            $rest = $rest % 3600;
+            $rest %= 3600;
 
             $minutes = ceil($rest / 60);
             $seconds = $rest % 60;
@@ -318,10 +378,10 @@ class ilDatePresentation
             }
             $message .= ($seconds . ' ' . ($seconds == 1 ? $lng->txt('second') : $lng->txt('seconds')));
         }
-        if (!$days and !$hours and !$minutes) {
+        if (!$days && !$hours && !$minutes) {
             return $seconds . ' ' . ($seconds == 1 ? $lng->txt('second') : $lng->txt('seconds'));
-        } else {
-            return $message;
         }
+
+        return $message;
     }
 }

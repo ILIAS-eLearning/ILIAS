@@ -36,11 +36,6 @@ namespace ILIAS\UI\Implementation\Component\Symbol\Glyph {
         {
             return $this->getTemplate($a, $b, $c);
         }
-
-        protected function getComponentInterfaceName(): array
-        {
-            return ["\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph"];
-        }
     }
 
     class GlyphNonAbstractRendererWithJS extends GlyphNonAbstractRenderer
@@ -70,11 +65,6 @@ namespace ILIAS\UI\Implementation\Component\Counter {
         public function _getTemplate(string $a, bool $b, bool $c): Template
         {
             return $this->getTemplate($a, $b, $c);
-        }
-
-        protected function getComponentInterfaceName(): array
-        {
-            return ["\\ILIAS\\UI\\Component\\Counter\\Counter"];
         }
     }
 }
@@ -108,6 +98,7 @@ namespace {
     use ILIAS\UI\Implementation\Component\Counter\CounterNonAbstractRenderer;
     use ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphNonAbstractRendererWithJS;
     use ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph;
+    use ILIAS\Language\Language;
 
     class NullTemplate implements Template
     {
@@ -167,18 +158,13 @@ namespace {
         {
             return '';
         }
-
-        public function withAdditionalContext(C\Component $context): Renderer
-        {
-            return $this;
-        }
     }
 
     class AbstractRendererTest extends ILIAS_UI_TestBase
     {
         protected TemplateFactoryMock $tpl_factory;
         protected NoUIFactory $ui_factory;
-        protected ilLanguageMock $lng;
+        protected Language $lng;
         protected LoggingJavaScriptBinding $js_binding;
         /**
          * @var ImagePathResolver|mixed|MockObject
@@ -191,7 +177,7 @@ namespace {
             parent::setUp();
             $this->tpl_factory = new TemplateFactoryMock();
             $this->ui_factory = $this->getUIFactory(); //new NoUIFactory();
-            $this->lng = new ilLanguageMock();
+            $this->lng = new LanguageMock();
             $this->js_binding = new LoggingJavaScriptBinding();
             $this->image_path_resolver = $this->getMockBuilder(ILIAS\UI\Implementation\Render\ImagePathResolver::class)
                                               ->getMock();

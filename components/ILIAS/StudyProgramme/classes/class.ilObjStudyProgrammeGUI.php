@@ -511,14 +511,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     }
 
     /**
-     * Overwritten from ilObjectGUI since copy and import are not implemented.
-     */
-    protected function initCreationForms($new_type): array
-    {
-        return array(self::CFORM_NEW => $this->initCreateForm($new_type));
-    }
-
-    /**
      * Method for implementing async windows-output
      * Should be moved into core to enable async requests on creation-form
      */
@@ -526,8 +518,9 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     {
         $asyncForm = new ilAsyncPropertyFormGUI($this->request_wrapper);
 
-        $tmp_forms = $this->initCreationForms('prg');
-        $asyncForm->cloneForm($tmp_forms[self::CFORM_NEW]);
+        $asyncForm->cloneForm(
+            $this->initCreateForm('prg')
+        );
         $asyncForm->setAsync(true);
 
         return $asyncForm;

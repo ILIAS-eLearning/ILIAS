@@ -42,7 +42,7 @@ class ViewControlContainerTest extends ILIAS_UI_TestBase
     {
         return new Refinery(
             $this->buildDataFactory(),
-            $this->createMock(ilLanguage::class)
+            $this->createMock(ILIAS\Language\Language::class)
         );
     }
     protected function buildContainerFactory(): VC\Factory

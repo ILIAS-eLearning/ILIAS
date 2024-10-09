@@ -96,6 +96,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
     protected ilComponentInfo $ser2;
     protected ilPluginSlotInfo $slt4;
     protected ilPluginInfo $plg2;
+    protected ilPluginInfo $plg3;
 
     protected function setUp(): void
     {

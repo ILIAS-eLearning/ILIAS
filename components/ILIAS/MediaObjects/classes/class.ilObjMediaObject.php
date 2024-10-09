@@ -124,23 +124,17 @@ class ilObjMediaObject extends ilObject
     {
         switch ($a_element) {
             case 'General':
-
                 // Update Title and description
-                $md = new ilMD(0, $this->getId(), $this->getType());
-                $md_gen = $md->getGeneral();
+                $paths = $this->domain->metadata()->learningObjectMetadata()->paths();
+                $reader = $this->domain->metadata()->learningObjectMetadata()->read(
+                    0,
+                    $this->getId(),
+                    $this->getType(),
+                    $paths->custom()->withNextStep('general')->get()
+                );
 
-                if (is_object($md_gen)) {
-                    ilObject::_writeTitle($this->getId(), $md_gen->getTitle());
-                    $this->setTitle($md_gen->getTitle());
-
-                    foreach ($md_gen->getDescriptionIds() as $id) {
-                        $md_des = $md_gen->getDescription($id);
-                        ilObject::_writeDescription($this->getId(), $md_des->getDescription());
-                        $this->setDescription($md_des->getDescription());
-                        break;
-                    }
-                }
-
+                ilObject::_writeTitle($this->getId(), $reader->firstData($paths->title())->value());
+                ilObject::_writeDescription($this->getId(), $reader->firstData($paths->descriptions())->value());
                 break;
         }
         return false;       // prevent parent from creating ilMD
@@ -150,40 +144,39 @@ class ilObjMediaObject extends ilObject
     {
         $ilUser = $this->user;
 
-        $md_creator = new ilMDCreator(0, $this->getId(), $this->getType());
-        $md_creator->setTitle($this->getTitle());
-        $md_creator->setTitleLanguage($ilUser->getPref('language'));
-        $md_creator->setDescription($this->getDescription());
-        $md_creator->setDescriptionLanguage($ilUser->getPref('language'));
-        $md_creator->setKeywordLanguage($ilUser->getPref('language'));
-        $md_creator->setLanguage($ilUser->getPref('language'));
-        $md_creator->create();
+        $this->domain->metadata()->learningObjectMetadata()->derive()->fromBasicProperties(
+            $this->getTitle(),
+            $this->getLongDescription(),
+            $ilUser->getPref('language')
+        )->forObject(0, $this->getId(), $this->getType());
 
         return false;   // avoid parent to create md
     }
 
     protected function beforeUpdateMetaData(): bool
     {
-        $md = new ilMD(0, $this->getId(), $this->getType());
-        $md_gen = $md->getGeneral();
-        $md_gen->setTitle($this->getTitle());
+        $paths = $this->domain->metadata()->learningObjectMetadata()->paths();
 
-        // sets first description (maybe not appropriate)
-        $md_des_ids = $md_gen->getDescriptionIds();
-        if (count($md_des_ids) > 0) {
-            $md_des = $md_gen->getDescription($md_des_ids[0]);
-            $md_des->setDescription($this->getDescription());
-            $md_des->update();
+        $manipulator = $this->domain->metadata()->learningObjectMetadata()
+                                    ->manipulate(0, $this->getId(), $this->getType())
+                                    ->prepareCreateOrUpdate($paths->title(), $this->getTitle());
+
+        if ($this->getDescription() !== '') {
+            $manipulator = $manipulator->prepareCreateOrUpdate($paths->firstDescription(), $this->getDescription());
+        } else {
+            $manipulator = $manipulator->prepareDelete($paths->firstDescription());
         }
-        $md_gen->update();
+
+        $manipulator->execute();
+
         return false;
     }
 
     protected function beforeDeleteMetaData(): bool
     {
         // Delete meta data
-        $md = new ilMD(0, $this->getId(), $this->getType());
-        $md->deleteAll();
+        $this->domain->metadata()->learningObjectMetadata()
+                                 ->deleteAll(0, $this->getId(), $this->getType());
 
         return false;
     }
@@ -1597,8 +1590,10 @@ class ilObjMediaObject extends ilObject
         );
 
         // meta data
-        $md = new ilMD(0, $this->getId(), "mob");
-        $new_md = $md->cloneMD(0, $new_obj->getId(), "mob");
+        $this->domain->metadata()->learningObjectMetadata()
+                                 ->derive()
+                                 ->fromObject(0, $this->getId(), "mob")
+                                 ->forObject(0, $new_obj->getId(), "mob");
 
         return $new_obj;
     }
@@ -1775,7 +1770,7 @@ class ilObjMediaObject extends ilObject
     {
         $items = array();
 
-        $lang_codes = ilMDLanguageItem::_getPossibleLanguageCodes();
+        $lang_codes = $this->domain->metadata()->getLOMLanguageCodes();
 
         $dir = $this->getMultiSrtUploadDir();
         $files = ilFileUtils::getDir($dir);

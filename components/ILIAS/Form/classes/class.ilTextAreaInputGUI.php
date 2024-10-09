@@ -327,6 +327,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
             $ttpl->setVariable("DR_VAL", $this->getValue());
         } else {
             if ($this->getUseRte()) {
+                $ttpl->touchBlock("rteditor");
                 $rtestring = ilRTE::_getRTEClassname();
                 $rte = new $rtestring((string) $this->rteSupport['version']);
                 $rte->setInitialWidth($this->getInitialRteWidth());
@@ -357,7 +358,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
                 }
 
                 if (count($this->rteSupport) >= 3) {
-                    $rte->addRTESupport($this->rteSupport["obj_id"], $this->rteSupport["obj_type"], $this->rteSupport["module"], false, $this->rteSupport['cfg_template'], $this->rteSupport['hide_switch']);
+                    $rte->addRTESupport($this->rteSupport["obj_id"], $this->rteSupport["obj_type"], $this->rteSupport["module"], false, $this->rteSupport['cfg_template']);
                 } else {
                     // disable all plugins for mini-tagset
                     if (!array_diff($this->getRteTags(), $this->getRteTagSet("mini"))) {
@@ -384,8 +385,6 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 
                 $ttpl->touchBlock("prop_ta_w");
             } else {
-                $ttpl->touchBlock("no_rteditor");
-
                 if ($this->getCols() > 5) {
                     $ttpl->setCurrentBlock("prop_ta_c");
                     $ttpl->setVariable("COLS", $this->getCols());

@@ -84,10 +84,6 @@ class ilObjSurveyQuestionPool extends ilObject
         //copy online status if object is not the root copy object
         $cp_options = ilCopyWizardOptions::_getInstance($copy_id);
 
-        if (!$cp_options->isRootNode($this->getRefId())) {
-            $newObj->setOnline($this->getOnline());
-        }
-
         $newObj->saveToDb();
         // clone the questions in the question pool
         $questions = $this->getQuestions();
@@ -96,8 +92,7 @@ class ilObjSurveyQuestionPool extends ilObject
         }
 
         // clone meta data
-        $md = new ilMD($this->getId(), 0, $this->getType());
-        $new_md = $md->cloneMD($newObj->getId(), 0, $newObj->getType());
+        $this->cloneMetaData($newObj);
 
         // update the metadata with the new title of the question pool
         $newObj->updateMetaData();
@@ -153,17 +148,6 @@ class ilObjSurveyQuestionPool extends ilObject
 
     public function loadFromDb(): void
     {
-        $ilDB = $this->db;
-
-        $result = $ilDB->queryF(
-            "SELECT isonline FROM svy_qpl WHERE obj_fi = %s",
-            array('integer'),
-            array($this->getId())
-        );
-        if ($result->numRows() === 1) {
-            $row = $ilDB->fetchAssoc($result);
-            $this->setOnline((bool) $row["isonline"]);
-        }
     }
 
     public function saveToDb(): void
@@ -177,18 +161,12 @@ class ilObjSurveyQuestionPool extends ilObject
             array('integer'),
             array($this->getId())
         );
-        if ($result->numRows() === 1) {
-            $affectedRows = $ilDB->manipulateF(
-                "UPDATE svy_qpl SET isonline = %s, tstamp = %s WHERE obj_fi = %s",
-                array('text','integer','integer'),
-                array($this->getOnline(), time(), $this->getId())
-            );
-        } else {
+        if ($result->numRows() !== 1) {
             $next_id = $ilDB->nextId('svy_qpl');
             $query = $ilDB->manipulateF(
-                "INSERT INTO svy_qpl (id_questionpool, isonline, obj_fi, tstamp) VALUES (%s, %s, %s, %s)",
-                array('integer', 'text', 'integer', 'integer'),
-                array($next_id, $this->getOnline(), $this->getId(), time())
+                "INSERT INTO svy_qpl (id_questionpool, obj_fi, tstamp) VALUES (%s, %s, %s)",
+                array('integer', 'integer', 'integer'),
+                array($next_id, $this->getId(), time())
             );
         }
     }
@@ -347,7 +325,13 @@ class ilObjSurveyQuestionPool extends ilObject
         if ($obj_id) {
             $question->setObjId($obj_id);
         }
-        $question->duplicate(false, $question->getTitle() . $suffix, $ilUser->fullname, $ilUser->id);
+        $max_len = 195;
+        if (strlen($question->getTitle() . $suffix) > $max_len) {
+            $title = substr($question->getTitle(), 0, $max_len - strlen($suffix)) . $suffix;
+        } else {
+            $title = $question->getTitle() . $suffix;
+        }
+        $question->duplicate(false, $title, $ilUser->fullname, $ilUser->id);
     }
 
     /**
@@ -518,8 +502,7 @@ class ilObjSurveyQuestionPool extends ilObject
         $a_xml_writer->xmlStartTag("surveyobject", $attrs);
         $attrs = array(
             "id" => "qpl_" . $this->getId(),
-            "label" => $this->getTitle(),
-            "online" => $this->getOnline()
+            "label" => $this->getTitle()
         );
         $a_xml_writer->xmlStartTag("surveyquestions", $attrs);
         $a_xml_writer->xmlElement("dummy", null, "dummy");
@@ -610,47 +593,9 @@ class ilObjSurveyQuestionPool extends ilObject
         }
     }
 
-    public static function _setOnline(
-        int $a_obj_id,
-        bool $a_online_status
-    ): void {
-        global $DIC;
-
-        $status = (string) (int) $a_online_status;
-        $db = $DIC->database();
-
-        $db->manipulateF(
-            "UPDATE svy_qpl SET isonline = %s  WHERE obj_fi = %s",
-            array('text','integer'),
-            array($status, $a_obj_id)
-        );
-    }
-
-    public function setOnline(bool $a_online_status): void
-    {
-        $this->online = $a_online_status;
-    }
-
-    public function getOnline(): bool
-    {
-        return $this->online;
-    }
-
     public static function _lookupOnline(int $a_obj_id): bool
     {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
-        $result = $ilDB->queryF(
-            "SELECT isonline FROM svy_qpl WHERE obj_fi = %s",
-            array('integer'),
-            array($a_obj_id)
-        );
-        if ($row = $ilDB->fetchAssoc($result)) {
-            return (bool) $row["isonline"];
-        }
-        return false;
+        return !self::getOfflineStatus($a_obj_id);
     }
 
     /**
@@ -789,7 +734,7 @@ class ilObjSurveyQuestionPool extends ilObject
         $qpls = ilUtil::_getObjectsByOperations("spl", $permission, $ilUser->getId(), -1);
         $titles = ilObject::_prepareCloneSelection($qpls, "spl", $showPath);
         $allqpls = array();
-        $result = $ilDB->query("SELECT obj_fi, isonline FROM svy_qpl");
+        $result = $ilDB->query("SELECT sq.obj_fi, od.online as isonline FROM svy_qpl sq JOIN object_data od ON ()");
         while ($row = $ilDB->fetchAssoc($result)) {
             $allqpls[$row['obj_fi']] = $row['isonline'];
         }

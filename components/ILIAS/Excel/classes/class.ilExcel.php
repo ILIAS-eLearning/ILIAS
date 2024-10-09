@@ -33,8 +33,8 @@ use ILIAS\FileUpload\MimeType;
  */
 class ilExcel
 {
-    public const FORMAT_XML = "Xlsx";
-    public const FORMAT_BIFF = "Xls";
+    public const FORMAT_XML = 'Xlsx';
+    public const FORMAT_BIFF = 'Xls';
     protected string $format;
 
     protected ilLanguage $lng;
@@ -71,11 +71,11 @@ class ilExcel
     //
 
     /**
-     * Get valid file formats
+     * @return list<string>
      */
     public function getValidFormats(): array
     {
-        return array(self::FORMAT_XML, self::FORMAT_BIFF);
+        return [self::FORMAT_XML, self::FORMAT_BIFF];
     }
 
     /**
@@ -104,9 +104,9 @@ class ilExcel
     ): int {
         #20749
         // see Worksheet::$_invalidCharacters;
-        $invalid = array('*', ':', '/', '\\', '?', '[', ']', '\'-','\'');
+        $invalid = ['*', ':', '/', '\\', '?', '[', ']', '\'-', '\''];
 
-        $a_name = str_replace($invalid, "", $a_name);
+        $a_name = str_replace($invalid, '', $a_name);
 
         // #19056 - phpExcel only allows 31 chars
         // see https://github.com/PHPOffice/PHPExcel/issues/79
@@ -212,9 +212,9 @@ class ilExcel
     protected function setDateFormat(Cell $a_cell, $a_value): void
     {
         if ($a_value instanceof ilDate) {
-            $a_cell->getStyle()->getNumberFormat()->setFormatCode("dd.mm.yyyy");
+            $a_cell->getStyle()->getNumberFormat()->setFormatCode('dd.mm.yyyy');
         } elseif ($a_value instanceof ilDateTime) {
-            $a_cell->getStyle()->getNumberFormat()->setFormatCode("dd.mm.yyyy hh:mm:ss");
+            $a_cell->getStyle()->getNumberFormat()->setFormatCode('dd.mm.yyyy hh:mm:ss');
         }
     }
 
@@ -260,33 +260,29 @@ class ilExcel
         $a_value,
         ?string $a_datatype = null
     ): void {
-        $col = $this->columnIndexAdjustment($a_col);
+        $coordinate = $this->getCoordByColumnAndRow($a_col, $a_row);
 
-        if (!is_null($a_datatype)) {
-            $this->workbook->getActiveSheet()->setCellValueExplicitByColumnAndRow(
-                $col,
-                $a_row,
+        if ($a_datatype !== null) {
+            $this->workbook->getActiveSheet()->setCellValueExplicit(
+                $coordinate,
                 $this->prepareValue($a_value),
                 $a_datatype
             );
         } elseif ($a_value instanceof ilDateTime) {
-            $wb = $this->workbook->getActiveSheet()->setCellValueByColumnAndRow(
-                $col,
-                $a_row,
+            $wb = $this->workbook->getActiveSheet()->setCellValue(
+                $coordinate,
                 $this->prepareValue($a_value)
             );
-            $this->setDateFormat($wb->getCellByColumnAndRow($col, $a_row), $a_value);
+            $this->setDateFormat($wb->getCell($coordinate), $a_value);
         } elseif (is_numeric($a_value)) {
-            $wb = $this->workbook->getActiveSheet()->setCellValueExplicitByColumnAndRow(
-                $col,
-                $a_row,
+            $this->workbook->getActiveSheet()->setCellValueExplicit(
+                $coordinate,
                 $this->prepareValue($a_value),
                 DataType::TYPE_NUMERIC
             );
         } else {
-            $wb = $this->workbook->getActiveSheet()->setCellValueExplicitByColumnAndRow(
-                $col,
-                $a_row,
+            $this->workbook->getActiveSheet()->setCellValueExplicit(
+                $coordinate,
                 $this->prepareValue($a_value),
                 DataType::TYPE_STRING
             );
@@ -296,13 +292,13 @@ class ilExcel
     /**
      * Set cell values from array
      *
-     * @param array $a_values
+     * @param array<int, mixed|array<int, mixed>> $a_values
      * @param string $a_top_left
      * @param mixed $a_null_value Value in source array that stands for blank cell
      */
     public function setCellArray(
         array $a_values,
-        string $a_top_left = "A1",
+        string $a_top_left = 'A1',
         $a_null_value = null
     ): void {
         foreach ($a_values as $row_idx => $cols) {
@@ -327,8 +323,8 @@ class ilExcel
         int $a_row,
         int $a_col
     ) {
-        $col = $this->columnIndexAdjustment($a_col);
-        return $this->workbook->getActiveSheet()->getCellByColumnAndRow($col, $a_row)->getValue();
+        $coordinate = $this->getCoordByColumnAndRow($a_col, $a_row);
+        return $this->workbook->getActiveSheet()->getCell($coordinate)->getValue();
     }
 
     /**
@@ -387,14 +383,14 @@ class ilExcel
 
         switch ($this->format) {
             case self::FORMAT_BIFF:
-                if (!stristr($a_file_name, ".xls")) {
-                    $a_file_name .= ".xls";
+                if (stripos($a_file_name, '.xls') === false) {
+                    $a_file_name .= '.xls';
                 }
                 break;
 
             case self::FORMAT_XML:
-                if (!stristr($a_file_name, ".xlsx")) {
-                    $a_file_name .= ".xlsx";
+                if (stripos($a_file_name, '.xlsx') === false) {
+                    $a_file_name .= '.xlsx';
                 }
                 break;
         }
@@ -470,17 +466,17 @@ class ilExcel
         string $a_background,
         string $a_font = null
     ): void {
-        $opts = array(
-            'fill' => array(
+        $opts = [
+            'fill' => [
                 'fillType' => Fill::FILL_SOLID,
-                'color' => array('rgb' => $a_background)
-            )
-        );
+                'color' => ['rgb' => $a_background]
+            ]
+        ];
 
         if ($a_font) {
-            $opts['font'] = array(
-                'color' => array('rgb' => $a_font)
-            );
+            $opts['font'] = [
+                'color' => ['rgb' => $a_font]
+            ];
         }
 
         $this->workbook->getActiveSheet()->getStyle($a_coords)->applyFromArray($opts);
@@ -534,8 +530,8 @@ class ilExcel
         int $a_column,
         string $a_path
     ): void {
-        $column = $this->columnIndexAdjustment($a_column);
-        $this->workbook->getActiveSheet()->getCellByColumnAndRow($column, $a_row)->getHyperlink()->setUrl($a_path);
+        $coordinate = $this->getCoordByColumnAndRow($a_column, $a_row);
+        $this->workbook->getActiveSheet()->getCell($coordinate)->getHyperlink()->setUrl($a_path);
     }
 
     /**

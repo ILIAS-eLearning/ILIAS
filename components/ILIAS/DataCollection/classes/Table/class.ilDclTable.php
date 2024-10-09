@@ -75,6 +75,7 @@ class ilDclTable
     protected ILIAS\Refinery\Factory $refinery;
     protected ilObjUser $user;
     protected ilDBInterface $db;
+    protected bool $show_invalid = false;
 
     public function __construct(int $a_id = 0)
     {
@@ -390,7 +391,9 @@ class ilDclTable
             $fields = [];
             while ($rec = $this->db->fetchAssoc($set)) {
                 $field = ilDclCache::buildFieldFromRecord($rec);
-                $fields[] = $field;
+                if ($this->show_invalid || in_array($field->getDatatypeId(), array_keys(ilDclDatatype::getAllDatatype()))) {
+                    $fields[] = $field;
+                }
             }
             $this->fields = $fields;
 
@@ -1316,5 +1319,10 @@ class ilDclTable
         }
 
         return ['records' => $records, 'total' => count($total_record_ids)];
+    }
+
+    public function showInvalidFields(bool $value): void
+    {
+        $this->show_invalid = $value;
     }
 }

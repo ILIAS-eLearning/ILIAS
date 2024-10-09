@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\MediaObjects;
 
 use ILIAS\DI\Container;
@@ -25,6 +25,7 @@ use ILIAS\MediaObjects\ImageMap\ImageMapManager;
 use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\MediaObjects\MediaType\MediaTypeManager;
 use ILIAS\MediaObjects\Tracking\TrackingManager;
+use ILIAS\MediaObjects\Metadata\MetadataManager;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -74,5 +75,10 @@ class InternalDomainService
         return new TrackingManager(
             $this
         );
+    }
+
+    public function metadata(): MetadataManager
+    {
+        return new MetadataManager($this->learningObjectMetadata());
     }
 }

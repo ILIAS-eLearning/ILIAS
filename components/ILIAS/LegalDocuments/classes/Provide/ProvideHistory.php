@@ -23,10 +23,11 @@ namespace ILIAS\LegalDocuments\Provide;
 use ILIAS\Data\Result;
 use ILIAS\DI\Container;
 use ILIAS\LegalDocuments\Legacy\Table;
+use ILIAS\LegalDocuments\Table as TableInterface;
 use ILIAS\LegalDocuments\Repository\HistoryRepository;
 use ILIAS\LegalDocuments\Table\HistoryTable;
 use ILIAS\LegalDocuments\Value\Document;
-use ILIAS\LegalDocuments\TableConfig;
+use ILIAS\LegalDocuments\Value\DocumentContent;
 use ILIAS\LegalDocuments\ConsumerToolbox\UI;
 use ILIAS\LegalDocuments\Table\DocumentModal;
 use ILIAS\UI\Component\Component;
@@ -54,9 +55,9 @@ class ProvideHistory
     public function table(object $gui, string $command, string $reset_command, string $auto_complete_command): Component
     {
         $auto_complete_link = $this->container->ctrl()->getLinkTarget($gui, $auto_complete_command, '', true);
-        $ui = new UI($this->id, $this->container->ui()->factory(), $this->container->ui()->mainTemplate(), $this->container->language());
+        $ui = new UI($this->id, $this->container->ui(), $this->container->language());
         $modal = new DocumentModal($this->container->ui(), $this->document->contentAsComponent(...));
-        $create = fn(string $class, ...$args) => $class === ilObjUser::class && !ilObjUser::_lookupLogin($args[0], 'login') ?
+        $create = fn(string $class, ...$args) => $class === ilObjUser::class && !ilObjUser::_lookupLogin($args[0]) ?
                 null :
                 new $class(...$args);
 

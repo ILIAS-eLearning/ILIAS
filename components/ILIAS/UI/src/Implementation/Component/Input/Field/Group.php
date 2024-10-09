@@ -27,7 +27,7 @@ use ILIAS\UI\Implementation\Component\Input\GroupInternal;
 use ILIAS\UI\Implementation\Component\Input\Group as GroupInternals;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\Data\Factory as DataFactory;
-use ilLanguage;
+use ILIAS\Language\Language;
 use ILIAS\Refinery\Constraint;
 use Closure;
 use ILIAS\Data\Result\Ok;
@@ -47,7 +47,7 @@ class Group extends FormInput implements C\Input\Field\Group, GroupInternal
     public function __construct(
         DataFactory $data_factory,
         \ILIAS\Refinery\Factory $refinery,
-        protected ilLanguage $lng,
+        protected Language $lng,
         array $inputs,
         string $label,
         ?string $byline = null
@@ -142,7 +142,7 @@ class Group extends FormInput implements C\Input\Field\Group, GroupInternal
         $this->error = $error;
     }
 
-    protected function getLanguage(): \ilLanguage
+    protected function getLanguage(): Language
     {
         return $this->lng;
     }

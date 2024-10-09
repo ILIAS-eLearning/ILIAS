@@ -80,7 +80,7 @@ class EditableDocumentTable implements Table
         return self::class;
     }
 
-    private function willShowCriterion($document): Closure
+    private function willShowCriterion(Document $document): Closure
     {
         return function (Criterion $criterion) use ($document) {
             $modal = $this->table->ui()->create()->modal()->interruptive(
@@ -103,7 +103,7 @@ class EditableDocumentTable implements Table
         };
     }
 
-    private function orderInputGui($document, $step): Closure
+    private function orderInputGui(Document $document, int $step): Closure
     {
         $input = $this->table->orderInputGui($document, $step);
         $input->setDisabled(false);

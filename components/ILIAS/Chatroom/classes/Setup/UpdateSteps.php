@@ -49,20 +49,6 @@ class UpdateSteps implements ilDatabaseUpdateSteps
         $this->dropTableWhenExists('chatroom_smilies');
     }
 
-    private function dropColumnWhenExists(string $table, string $column): void
-    {
-        if ($this->db->tableColumnExists($table, $column)) {
-            $this->db->dropTableColumn($table, $column);
-        }
-    }
-
-    private function dropTableWhenExists(string $table): void
-    {
-        if ($this->db->tableExists($table)) {
-            $this->db->dropTable($table);
-        }
-    }
-
     public function step_3(): void
     {
         $this->dropColumnWhenExists('chatroom_settings', 'restrict_history');
@@ -82,5 +68,25 @@ class UpdateSteps implements ilDatabaseUpdateSteps
             [ilDBConstants::T_TEXT],
             ['chtr']
         );
+    }
+
+    public function step_5(): void
+    {
+        $this->dropTableWhenExists('chatroom_uploads');
+        $this->db->manipulate('DELETE FROM chatroom_bans WHERE user_id NOT IN (SELECT usr_id FROM usr_data)');
+    }
+
+    private function dropColumnWhenExists(string $table, string $column): void
+    {
+        if ($this->db->tableColumnExists($table, $column)) {
+            $this->db->dropTableColumn($table, $column);
+        }
+    }
+
+    private function dropTableWhenExists(string $table): void
+    {
+        if ($this->db->tableExists($table)) {
+            $this->db->dropTable($table);
+        }
     }
 }

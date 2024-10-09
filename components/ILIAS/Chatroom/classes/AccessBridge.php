@@ -24,11 +24,8 @@ use ilRbacSystem;
 
 class AccessBridge
 {
-    private ilRbacSystem $rbac;
-
-    public function __construct(ilRbacSystem $rbac)
+    public function __construct(private readonly ilRbacSystem $rbac)
     {
-        $this->rbac = $rbac;
     }
 
     public function checkAccess(

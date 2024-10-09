@@ -151,9 +151,6 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
             return $next_class;
         }
         switch ($this->getMode()) {
-            case self::LP_CONTEXT_ADMINISTRATION:
-                return 'illplistofobjectsgui';
-
             case self::LP_CONTEXT_REPOSITORY:
                 $cmd = $this->ctrl->getCmd();
                 if (in_array(
@@ -187,10 +184,10 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                     return 'illplistofobjectsgui';
                 }
                 if (
-                ilLearningProgressAccess::checkPermission(
-                    'edit_learning_progress',
-                    $this->getRefId()
-                )) {
+                    ilLearningProgressAccess::checkPermission(
+                        'edit_learning_progress',
+                        $this->getRefId()
+                    )) {
                     return 'illplistofsettingsgui';
                 }
                 return 'illplistofprogressgui';
@@ -235,7 +232,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                 // should not happen
                 ilUtil::redirect("ilias.php?baseClass=ilDashboardGUI");
 
-            // no break
+                // no break
             case self::LP_CONTEXT_USER_FOLDER:
             case self::LP_CONTEXT_ORG_UNIT:
                 if (ilObjUserTracking::_enabledUserRelatedData()) {
@@ -256,7 +253,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                 ilObject::_lookupObjId($this->getRefId())
             );
             if ($olp->getCurrentMode(
-                ) == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL) {
+            ) == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL) {
                 $form = $this->initCollectionManualForm();
                 $this->tpl->setContent($form->getHTML());
             }
@@ -359,7 +356,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                 ilObject::_lookupObjId($this->getRefId())
             );
             if ($olp->getCurrentMode(
-                ) == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL) {
+            ) == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL) {
                 $form = $this->initCollectionManualForm();
                 if ($form->checkInput()) {
                     $class = ilLPStatusFactory::_getClassById(

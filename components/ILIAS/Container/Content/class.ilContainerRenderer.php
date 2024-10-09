@@ -514,6 +514,13 @@ class ilContainerRenderer
         }
         return $view_mode;
     }
+
+    protected function getListPresentationOfItemGroup(int $ref_id): string
+    {
+        $item_group = new ilObjItemGroup($ref_id);
+        return $item_group->getListPresentation();
+    }
+
     /**
      * @param mixed $a_block_id
      */
@@ -919,9 +926,14 @@ class ilContainerRenderer
                 }
                 $item_group_list_presentation = "";
                 if ($block->getBlock() instanceof \ILIAS\Container\Content\ItemGroupBlock) {
-                    if ($this->getViewModeOfItemGroup((int) $block_id) === ilContainerContentGUI::VIEW_MODE_TILE) {
+                    if ($this->getListPresentationOfItemGroup((int) $block_id) === "tile") {
                         if (!$this->admin_panel && !$this->active_block_ordering) {
                             $item_group_list_presentation = "tile";
+                        }
+                    }
+                    if ($this->getListPresentationOfItemGroup((int) $block_id) === "list") {
+                        if (!$this->admin_panel && !$this->active_block_ordering) {
+                            $item_group_list_presentation = "list";
                         }
                     }
                 }

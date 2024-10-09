@@ -22,8 +22,6 @@ namespace ILIAS\Exercise\TutorFeedbackFile;
 
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\Exercise\IRSS\ResourceInformation;
-use ILIAS\Exercise\InstructionFile\ilFSWebStorageExercise;
-use ILIAS\Exercise\InstructionFile\InstructionFileRepository;
 use ILIAS\Exercise\InternalRepoService;
 use ILIAS\Exercise\InternalDomainService;
 use ILIAS\ResourceStorage\Events\Event;
@@ -145,13 +143,6 @@ class TutorFeedbackFileManager
             // IRSS
             return $this->repo->count($this->ass_id, $participant_id);
         }
-        // LEGACY
-        $exc_id = \ilExAssignment::lookupExerciseId($this->ass_id);
-        try {
-            $storage = new \ilFSStorageExercise($exc_id, $this->ass_id);
-            return $storage->countFeedbackFiles($this->getLegacyFeedbackId($participant_id));
-        } catch (\ilExerciseException $e) {
-        }
         return 0;
     }
 
@@ -177,7 +168,6 @@ class TutorFeedbackFileManager
         $this->repo->createCollection($this->ass_id, $participant_id);
     }
 
-
     public function deleteCollection(int $participant_id): void
     {
         $this->repo->deleteCollection(
@@ -194,10 +184,6 @@ class TutorFeedbackFileManager
             $files = array_map(function (ResourceInformation $info): string {
                 return $info->getTitle();
             }, iterator_to_array($this->repo->getCollectionResourcesInfo($this->ass_id, $participant_id)));
-        } else {
-            $exc_id = \ilExAssignment::lookupExerciseId($this->ass_id);
-            $storage = new \ilFSStorageExercise($exc_id, $this->ass_id);
-            $files = $storage->getFeedbackFiles($this->getLegacyFeedbackId($participant_id));
         }
         return $files;
     }
@@ -212,24 +198,6 @@ class TutorFeedbackFileManager
         if ($this->repo->hasCollection($this->ass_id, $participant_id)) {
             // IRSS
             $this->repo->deliverFile($this->ass_id, $participant_id, $file);
-        } else {
-            // LEGACY
-            $exc_id = \ilExAssignment::lookupExerciseId($this->ass_id);
-            $storage = new \ilFSStorageExercise($exc_id, $this->ass_id);
-            $files = $storage->getFeedbackFiles($this->getLegacyFeedbackId($participant_id));
-            $file_exist = false;
-            foreach ($files as $fb_file) {
-                if ($fb_file === $file) {
-                    $file_exist = true;
-                    break;
-                }
-            }
-            if (!$file_exist) {
-                return;
-            }
-            // deliver file
-            $p = $storage->getFeedbackFilePath($this->getLegacyFeedbackId($participant_id), $file);
-            \ilFileDelivery::deliverFileLegacy($p, $file);
         }
     }
 

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\UI;
 use ILIAS\Glossary\Presentation;
@@ -92,16 +92,13 @@ class ilPresentationFullGUI
 
     protected function determinePageLength(): int
     {
-        if ($this->request->getPageLength() === -1) {
-            $page_length = (int) $this->user->getPref("hits_per_page") ?: 9999;
-            $this->manager->setSessionPageLength($page_length);
-        } elseif ($this->request->getPageLength() > 0) {
+        if ($this->request->getPageLength() > 0) {
             $page_length = $this->request->getPageLength();
             $this->manager->setSessionPageLength($page_length);
         } elseif ($this->manager->getSessionPageLength() > 0) {
             $page_length = $this->manager->getSessionPageLength();
         } else {
-            $page_length = (int) $this->user->getPref("hits_per_page") ?: 9999;
+            $page_length = 9999;
         }
 
         return $page_length;
@@ -223,11 +220,7 @@ class ilPresentationFullGUI
 
     protected function initDropdown(int $page_length): UI\Component\Dropdown\Dropdown
     {
-        $hpp = ($this->user->getPref("hits_per_page") != 9999)
-            ? $this->user->getPref("hits_per_page")
-            : $this->lng->txt("no_limit");
-
-        $terms_per_page_sel = [-1 => $this->lng->txt("default") . " (" . $hpp . ")", 5 => "5", 10 => "10",
+        $terms_per_page_sel = [5 => "5", 10 => "10",
                                 15 => "15", 20 => "20", 30 => "30", 40 => "40", 50 => "50", 100 => "100"];
 
         foreach ($terms_per_page_sel as $count => $count_text) {

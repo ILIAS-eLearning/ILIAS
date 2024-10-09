@@ -39,10 +39,10 @@ class ilForumExportGUI
     public ilObjectDataCache $ilObjDataCache;
     protected bool $is_moderator = false;
     protected ilForum $frm;
-    private ilForumProperties $objProperties;
-    private GlobalHttpState $http;
-    private Refinery $refinery;
-    private int $ref_id;
+    private readonly ilForumProperties $objProperties;
+    private readonly GlobalHttpState $http;
+    private readonly Refinery $refinery;
+    private readonly int $ref_id;
 
     public function __construct()
     {

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,11 +16,15 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Component\Panel;
+
+use ILIAS\UI\Component\ViewControl\HasViewControls;
 
 /**
  * This describes how a Report could be modified during construction of UI.
  */
-interface Report extends Panel
+interface Report extends Panel, HasViewControls
 {
 }

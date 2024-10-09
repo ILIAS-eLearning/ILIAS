@@ -32,6 +32,7 @@ use ilCertificateLPMarksHelper;
 use ilDefaultPlaceholderValues;
 use ilCertificateLPStatusHelper;
 use ilCertificatePlaceholderValues;
+use ilObjUser;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -137,8 +138,10 @@ class ExercisePlaceholderValues implements ilCertificatePlaceholderValues
         $placeHolders['DATETIME_COMPLETED'] = '';
 
         if ($completionDate !== '') {
-            $placeHolders['DATE_COMPLETED'] = $this->dateHelper->formatDate($completionDate);
-            $placeHolders['DATETIME_COMPLETED'] = $this->dateHelper->formatDateTime($completionDate);
+            /** @var ilObjUser $user */
+            $user = $this->objectHelper->getInstanceByObjId($userId);
+            $placeHolders['DATE_COMPLETED'] = $this->dateHelper->formatDate($completionDate, $user);
+            $placeHolders['DATETIME_COMPLETED'] = $this->dateHelper->formatDateTime($completionDate, $user);
         }
 
         return $placeHolders;

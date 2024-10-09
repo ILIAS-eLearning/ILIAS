@@ -78,6 +78,16 @@ button.copg-add.dropdown-toggle.btn:focus-visible {
   outline-offset: -3px;
 }
 
+#ilPageTocContent ul {
+	list-style-type: none;
+	padding-left: 20px;
+}
+
+#ilPageTocContent > ul {
+	padding-left: 5px;
+}
+
+
 @media (min-width: 480px) {
 	.copg-iim-popup-sm {
 		max-width: 50%;

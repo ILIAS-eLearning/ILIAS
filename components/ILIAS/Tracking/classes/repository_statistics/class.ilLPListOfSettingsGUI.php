@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=0);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,7 @@ declare(strict_types=0);
  *
  *********************************************************************/
 
+declare(strict_types=0);
 
 /**
  * Class ilLPListOfSettingsGUI
@@ -409,21 +408,24 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
      */
     protected function updateTLT(): void
     {
+        $paths = $this->lom_services->paths();
+        $data_helper = $this->lom_services->dataHelper();
+
         $tlt = (array) ($this->http->request()->getParsedBody()['tlt'] ?? []);
         foreach ($tlt as $item_id => $item) {
-            $md_obj = new ilMD($this->getObjId(), $item_id, 'st');
-            if (!is_object($md_section = $md_obj->getEducational())) {
-                $md_section = $md_obj->addEducational();
-                $md_section->save();
-            }
-            $md_section->setPhysicalTypicalLearningTime(
+            $lom_duration = $data_helper->durationFromIntegers(
+                null,
                 (int) $item['mo'],
                 (int) $item['d'],
                 (int) $item['h'],
                 (int) $item['m'],
-                0
+                null
             );
-            $md_section->update();
+            $this->lom_services->manipulate($this->getObjId(), $item_id, 'st')
+                               ->prepareCreateOrUpdate(
+                                   $paths->firstTypicalLearningTime(),
+                                   $lom_duration
+                               )->execute();
         }
 
         // refresh learning progress

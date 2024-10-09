@@ -27,11 +27,11 @@ use Jumbojett\OpenIDConnectClient;
 class ilAuthProviderOpenIdConnect extends ilAuthProvider
 {
     private const OIDC_AUTH_IDTOKEN = "oidc_auth_idtoken";
-    private ilOpenIdConnectSettings $settings;
+    private readonly ilOpenIdConnectSettings $settings;
     /** @var array $body */
     private $body;
-    private ilLogger $logger;
-    private ilLanguage $lng;
+    private readonly ilLogger $logger;
+    private readonly ilLanguage $lng;
 
     public function __construct(ilAuthCredentials $credentials)
     {
@@ -163,7 +163,7 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
 
             //$_GET['target'] = $this->getCredentials()->getRedirectionTarget();// TODO PHP8-REVIEW Please eliminate this. Mutating the request is not allowed and will not work in ILIAS 8.
-        } catch (ilOpenIdConnectSyncForbiddenException $e) {
+        } catch (ilOpenIdConnectSyncForbiddenException) {
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             $status->setReason('err_wrong_login');
         }

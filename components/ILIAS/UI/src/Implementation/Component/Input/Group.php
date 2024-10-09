@@ -25,6 +25,7 @@ use ILIAS\Refinery\Constraint;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Ok;
+use ILIAS\Language\Language;
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
@@ -172,7 +173,7 @@ trait Group
      */
     abstract protected function setError(string $error): void;
 
-    abstract protected function getLanguage(): \ilLanguage;
+    abstract protected function getLanguage(): Language;
 
     abstract protected function getDataFactory(): DataFactory;
 }

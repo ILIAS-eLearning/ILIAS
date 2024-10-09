@@ -25,6 +25,7 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Implementation\Component\Input\Field\Factory as FieldFactory;
+use ILIAS\Language\Language;
 
 /**
  * Factory for View Controls
@@ -36,7 +37,7 @@ class Factory implements VCInterface\Factory
         protected DataFactory $data_factory,
         protected Refinery $refinery,
         protected SignalGeneratorInterface $signal_generator,
-        protected \ilLanguage $language,
+        protected Language $language,
     ) {
     }
 

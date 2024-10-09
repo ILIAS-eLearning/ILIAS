@@ -16,6 +16,12 @@
  *
  *********************************************************************/
 
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+use ILIAS\MetaData\Paths\PathInterface as LOMPath;
+use ILIAS\MetaData\Paths\Filters\FilterType;
+use ILIAS\MetaData\Repository\Search\Filters\Placeholder;
+use ILIAS\MetaData\Repository\Search\Clauses\Mode;
+
 /**
  * Class ilLMObject
  *
@@ -43,6 +49,7 @@ class ilLMObject
     public bool $active = true;
     protected static $data_records = array();
     protected ilDBInterface $db;
+    protected LOMServices $lom_services;
 
     public function __construct(
         ilObjLearningModule $a_content_obj,
@@ -52,6 +59,7 @@ class ilLMObject
         $this->user = $DIC->user();
 
         $this->db = $DIC->database();
+        $this->lom_services = $DIC->learningObjectMetadata();
 
         $this->id = $a_id;
         $this->setContentObject($a_content_obj);
@@ -76,16 +84,16 @@ class ilLMObject
             case 'General':
 
                 // Update Title and description
-                $md = new ilMD($this->getLMId(), $this->getId(), $this->getType());
-                $md_gen = $md->getGeneral();
+                $paths = $this->lom_services->paths();
+                $reader = $this->lom_services->read(
+                    $this->getLMId(),
+                    $this->getId(),
+                    $this->getType(),
+                    $paths->custom()->withNextStep('general')->get()
+                );
+                $title = $reader->firstData($paths->title())->value();
 
-                ilLMObject::_writeTitle($this->getId(), $md_gen->getTitle());
-
-                foreach ($md_gen->getDescriptionIds() as $id) {
-                    $md_des = $md_gen->getDescription($id);
-                    //					ilLMObject::_writeDescription($this->getId(),$md_des->getDescription());
-                    break;
-                }
+                ilLMObject::_writeTitle($this->getId(), $title);
                 break;
 
             case 'Educational':
@@ -104,40 +112,18 @@ class ilLMObject
 
 
     /**
-     * lookup named identifier (ILIAS_NID)
-     */
-    public static function _lookupNID(int $a_lm_id, int $a_lm_obj_id, string $a_type): ?string
-    {
-        $md = new ilMD($a_lm_id, $a_lm_obj_id, $a_type);
-        $md_gen = $md->getGeneral();
-        if (is_object($md_gen)) {
-            foreach ($md_gen->getIdentifierIds() as $id) {
-                $md_id = $md_gen->getIdentifier($id);
-                if ($md_id->getCatalog() == "ILIAS_NID") {
-                    return $md_id->getEntry();
-                }
-            }
-        }
-
-        return null;
-    }
-
-
-    /**
      * create meta data entry
      */
     public function createMetaData(): void
     {
         $ilUser = $this->user;
 
-        $md_creator = new ilMDCreator($this->getLMId(), $this->getId(), $this->getType());
-        $md_creator->setTitle($this->getTitle());
-        $md_creator->setTitleLanguage($ilUser->getPref('language'));
-        $md_creator->setDescription($this->getDescription());
-        $md_creator->setDescriptionLanguage($ilUser->getPref('language'));
-        $md_creator->setKeywordLanguage($ilUser->getPref('language'));
-        $md_creator->setLanguage($ilUser->getPref('language'));
-        $md_creator->create();
+        $this->lom_services->derive()
+                           ->fromBasicProperties(
+                               $this->getTitle(),
+                               $this->getDescription(),
+                               $ilUser->getPref('language')
+                           )->forObject($this->getLMId(), $this->getId(), $this->getType());
     }
 
     /**
@@ -145,18 +131,11 @@ class ilLMObject
     */
     public function updateMetaData(): void
     {
-        $md = new ilMD($this->getLMId(), $this->getId(), $this->getType());
-        $md_gen = $md->getGeneral();
-        $md_gen->setTitle($this->getTitle());
-
-        // sets first description (maybe not appropriate)
-        $md_des_ids = $md_gen->getDescriptionIds();
-        if (count($md_des_ids) > 0) {
-            $md_des = $md_gen->getDescription($md_des_ids[0]);
-            //			$md_des->setDescription($this->getDescription());
-            $md_des->update();
-        }
-        $md_gen->update();
+        $this->lom_services->manipulate($this->getLMId(), $this->getId(), $this->getType())
+                           ->prepareCreateOrUpdate(
+                               $this->lom_services->paths()->title(),
+                               $this->getTitle()
+                           )->execute();
     }
 
 
@@ -165,9 +144,7 @@ class ilLMObject
      */
     public function deleteMetaData(): void
     {
-        // Delete meta data
-        $md = new ilMD($this->getLMId(), $this->getId(), $this->getType());
-        $md->deleteAll();
+        $this->lom_services->deleteAll($this->getLMId(), $this->getId(), $this->getType());
     }
 
 
@@ -408,14 +385,6 @@ class ilLMObject
             ", " . $ilDB->now() . ")";
         $ilDB->manipulate($query);
 
-        // create history entry
-        ilHistory::_createEntry(
-            $this->getId(),
-            "create",
-            [],
-            $this->content_object->getType() . ":" . $this->getType()
-        );
-
         if (!$a_upload) {
             $this->createMetaData();
         }
@@ -435,103 +404,6 @@ class ilLMObject
             " WHERE obj_id = " . $ilDB->quote($this->getId(), "integer");
 
         $ilDB->manipulate($query);
-    }
-
-
-    /**
-     * update public access flags in lm_data for all pages of a content object
-     */
-    public static function _writePublicAccessStatus(
-        array $a_pages,
-        int $a_cont_obj_id
-    ): void {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-        $ilLog = $DIC["ilLog"];
-        $ilErr = $DIC["ilErr"];
-
-        if (!is_array($a_pages)) {
-            $a_pages = array(0);
-        }
-
-        if (empty($a_cont_obj_id)) {
-            $message = 'ilLMObject::_writePublicAccessStatus(): Invalid parameter! $a_cont_obj_id is empty';
-            $ilLog->write($message, $ilLog->WARNING);
-            $ilErr->raiseError($message, $ilErr->MESSAGE);
-            return;
-        }
-
-        // update structure entries: if at least one page of a chapter is public set chapter to public too
-        $lm_tree = new ilTree($a_cont_obj_id);
-        $lm_tree->setTableNames('lm_tree', 'lm_data');
-        $lm_tree->setTreeTablePK("lm_id");
-        $lm_tree->readRootId();
-
-        // get all st entries of cont_obj
-        $q = "SELECT obj_id FROM lm_data " .
-             "WHERE lm_id = " . $ilDB->quote($a_cont_obj_id, "integer") . " " .
-             "AND type = 'st'";
-        $r = $ilDB->query($q);
-
-        // add chapters with a public page to a_pages
-        while ($row = $ilDB->fetchAssoc($r)) {
-            $childs = $lm_tree->getChilds($row["obj_id"]);
-
-            foreach ($childs as $page) {
-                if ($page["type"] === "pg" and in_array($page["obj_id"], $a_pages)) {
-                    $a_pages[] = $row["obj_id"];
-                    break;
-                }
-            }
-        }
-
-        // update public access status of all pages of cont_obj
-        $q = "UPDATE lm_data SET " .
-             "public_access = CASE " .
-             "WHEN " . $ilDB->in("obj_id", $a_pages, false, "integer") . " " .
-             "THEN " . $ilDB->quote("y", "text") .
-             "ELSE " . $ilDB->quote("n", "text") .
-             "END " .
-             "WHERE lm_id = " . $ilDB->quote($a_cont_obj_id, "integer") . " " .
-             "AND " . $ilDB->in("type", array("pg", "st"), false, "text");
-        $ilDB->manipulate($q);
-    }
-
-    public static function _isPagePublic(
-        int $a_node_id,
-        bool $a_check_public_mode = false
-    ): bool {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-        $ilLog = $DIC["ilLog"];
-
-        if (empty($a_node_id)) {
-            $message = 'ilLMObject::_isPagePublic(): Invalid parameter! $a_node_id is empty';
-            $ilLog->write($message, $ilLog->WARNING);
-            return false;
-        }
-
-        if ($a_check_public_mode === true) {
-            $lm_id = ilLMObject::_lookupContObjID($a_node_id);
-
-            $q = "SELECT public_access_mode FROM content_object WHERE id = " .
-                $ilDB->quote($lm_id, "integer");
-            $r = $ilDB->query($q);
-            $row = $ilDB->fetchAssoc($r);
-
-            if ($row["public_access_mode"] == "complete") {
-                return true;
-            }
-        }
-
-        $q = "SELECT public_access FROM lm_data WHERE obj_id=" .
-            $ilDB->quote($a_node_id, "integer");
-        $r = $ilDB->query($q);
-        $row = $ilDB->fetchAssoc($r);
-
-        return ilUtil::yn2tf($row["public_access"]);
     }
 
     public function delete(bool $a_delete_meta_data = true): void
@@ -875,6 +747,7 @@ class ilLMObject
         $item = null;
         $ilUser = $DIC->user();
         $ilLog = $DIC["ilLog"];
+        $lom_services = $DIC->learningObjectMetadata();
 
         $item_lm_id = ilLMObject::_lookupContObjID($a_item_id);
         $item_type = ilLMObject::_lookupType($a_item_id);
@@ -893,16 +766,12 @@ class ilLMObject
             // @todo: check whether st is NOT in tree
 
             // "move" metadata to new lm
-            $md = new ilMD($item_lm_id, $item->getId(), $item->getType());
-            $new_md = $md->cloneMD($a_target_lm->getId(), $item->getId(), $item->getType());
-
-            // update lm object
-            $item->setLMId($a_target_lm->getId());
-            $item->setContentObject($a_target_lm);
-            $item->update();
+            $lom_services->derive()
+                         ->fromObject($item_lm_id, $item->getId(), $item->getType())
+                         ->forObject($a_target_lm->getId(), $item->getId(), $item->getType());
 
             // delete old meta data set
-            $md->deleteAll();
+            $lom_services->deleteAll($item_lm_id, $item->getId(), $item->getType());
 
             if ($item_type == "pg") {
                 $page = $item->getPageObject();
@@ -959,6 +828,10 @@ class ilLMObject
         array $a_titles,
         string $a_lang = "-"
     ): void {
+        global $DIC;
+
+        $lom_services = $DIC->learningObjectMetadata();
+
         if ($a_lang == "") {
             $a_lang = "-";
         }
@@ -970,13 +843,11 @@ class ilLMObject
                     $lmobj = ilLMObjectFactory::getInstance($a_lm, $id, false);
                     if (is_object($lmobj)) {
                         // Update Title and description
-                        $md = new ilMD($a_lm->getId(), $id, $lmobj->getType());
-                        $md_gen = $md->getGeneral();
-                        if (is_object($md_gen)) {			// see bug #0015843
-                            $md_gen->setTitle($title);
-                            $md_gen->update();
-                            $md->update();
-                        }
+                        $lom_services->manipulate($a_lm->getId(), $id, $lmobj->getType())
+                                     ->prepareCreateOrUpdate(
+                                         $lom_services->paths()->title(),
+                                         $title
+                                     )->execute();
                         ilLMObject::_writeTitle($id, $title);
                     }
                 } else {
@@ -1276,46 +1147,31 @@ class ilLMObject
         string $a_exp_id,
         string $a_type = "pg"
     ): void {
-        $entries = ilMDIdentifier::_getEntriesForObj(
-            $a_lm_id,
-            $a_lmobj_id,
-            $a_type
-        );
+        global $DIC;
+
+        $manipulator = $DIC->learningObjectMetadata()->manipulate($a_lm_id, $a_lmobj_id, $a_type);
         if (trim($a_exp_id) == "") {
-            // delete export ids, if existing
-
-            foreach ($entries as $id => $e) {
-                if ($e["catalog"] == "ILIAS_NID") {
-                    $identifier = new ilMDIdentifier();
-                    $identifier->setMetaId($id);
-                    $identifier->delete();
-                }
-            }
+            $manipulator = $manipulator->prepareDelete(self::getPathToExportIDInLOM());
         } else {
-            // update existing entry
-
-            $updated = false;
-            foreach ($entries as $id => $e) {
-                if ($e["catalog"] == "ILIAS_NID") {
-                    $identifier = new ilMDIdentifier();
-                    $identifier->setMetaId($id);
-                    $identifier->read();
-                    $identifier->setEntry($a_exp_id);
-                    $identifier->update();
-                    $updated = true;
-                }
-            }
-
-            // nothing updated? create a new one
-            if (!$updated) {
-                $md = new ilMD($a_lm_id, $a_lmobj_id, $a_type);
-                $md_gen = $md->getGeneral();
-                $identifier = $md_gen->addIdentifier();
-                $identifier->setEntry($a_exp_id);
-                $identifier->setCatalog("ILIAS_NID");
-                $identifier->save();
-            }
+            $manipulator = $manipulator->prepareCreateOrUpdate(self::getPathToExportIDInLOM(), $a_exp_id);
         }
+        $manipulator->execute();
+    }
+
+    protected static function getPathToExportIDInLOM(): LOMPath
+    {
+        global $DIC;
+
+        return $DIC->learningObjectMetadata()
+                   ->paths()
+                   ->custom()
+                   ->withNextStep('general')
+                   ->withNextStep('identifier')
+                   ->withNextStep('catalog')
+                   ->withAdditionalFilterAtCurrentStep(FilterType::DATA, 'ILIAS_NID')
+                   ->withNextStepToSuperElement()
+                   ->withNextStep('entry')
+                   ->get();
     }
 
     public static function getExportId(
@@ -1323,19 +1179,16 @@ class ilLMObject
         int $a_lmobj_id,
         string $a_type = "pg"
     ): string {
+        global $DIC;
+
         // look for export id
-        $entries = ilMDIdentifier::_getEntriesForObj(
+        $export_id_path = self::getPathToExportIDInLOM();
+        return $DIC->learningObjectMetadata()->read(
             $a_lm_id,
             $a_lmobj_id,
-            $a_type
-        );
-
-        foreach ($entries as $e) {
-            if ($e["catalog"] == "ILIAS_NID") {
-                return $e["entry"];
-            }
-        }
-        return "";
+            $a_type,
+            $export_id_path
+        )->firstData($export_id_path)->value();
     }
 
     /**
@@ -1346,7 +1199,20 @@ class ilLMObject
         int $a_exp_id,
         string $a_type = "pg"
     ): bool {
-        return ilMDIdentifier::existsIdInRbacObject($a_lm_id, $a_type, "ILIAS_NID", $a_exp_id);
+        $searcher = $this->lom_services->search();
+
+        $search_clause = $searcher->getClauseFactory()->getBasicClause(
+            self::getPathToExportIDInLOM(),
+            Mode::EQUALS,
+            $a_exp_id
+        );
+        $results = $searcher->execute(
+            $search_clause,
+            1,
+            null,
+            $searcher->getFilter($a_lm_id, Placeholder::ANY, $a_type)
+        );
+        return count(iterator_to_array($results)) > 0;
     }
 
     /**
@@ -1356,25 +1222,42 @@ class ilLMObject
         int $a_lm_id,
         string $a_type = "pg"
     ): array {
-        $entries = ilMDIdentifier::_getEntriesForRbacObj($a_lm_id, $a_type);
-        $res = array();
-        foreach ($entries as $e) {
-            if ($e["catalog"] == "ILIAS_NID") {
-                if (ilLMObject::_exists($e["obj_id"])) {
-                    $res[trim($e["entry"])] = ($res[trim($e["entry"])] ?? 0) + 1;
-                }
+        global $DIC;
+
+        $lom_services = $DIC->learningObjectMetadata();
+        $export_id_path = self::getPathToExportIDInLOM();
+
+        $searcher = $lom_services->search();
+        $search_clause = $searcher->getClauseFactory()->getBasicClause(
+            $export_id_path,
+            Mode::EQUALS,
+            '',
+            true
+        );
+        $search_results = $searcher->execute(
+            $search_clause,
+            1,
+            null,
+            $searcher->getFilter($a_lm_id, Placeholder::ANY, $a_type)
+        );
+
+        $res = [];
+        foreach ($search_results as $search_result) {
+            if (!ilLMObject::_exists($search_result->subID())) {
+                continue;
+            }
+            $reader = $lom_services->read(
+                $search_result->objID(),
+                $search_result->subID(),
+                $search_result->type(),
+                $export_id_path
+            );
+            foreach ($reader->allData($export_id_path) as $export_id_datum) {
+                $export_id = trim($export_id_datum->value());
+                $res[$export_id] = ($res[$export_id] ?? 0) + 1;
             }
         }
         return $res;
-    }
-
-    public function getExportIDInfo(
-        int $a_lm_id,
-        int $a_exp_id,
-        string $a_type = "pg"
-    ): array {
-        $data = ilMDIdentifier::readIdData($a_lm_id, $a_type, "ILIAS_NID", $a_exp_id);
-        return $data;
     }
 
     // Get effective title

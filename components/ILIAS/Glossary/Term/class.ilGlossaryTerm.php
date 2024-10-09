@@ -649,18 +649,6 @@ class ilGlossaryTerm
         $new_term->setShortTextDirty($old_term->getShortTextDirty());
         $new_term->create();
 
-        // copy meta data
-        $md = new ilMD(
-            $old_term->getGlossaryId(),
-            $old_term->getPageObject()->getId(),
-            $old_term->getPageObject()->getParentType()
-        );
-        $new_md = $md->cloneMD(
-            $a_glossary_id,
-            $new_term->getPageObject()->getId(),
-            $old_term->getPageObject()->getParentType()
-        );
-
         $new_page = $new_term->getPageObject();
         $old_term->getPageObject()->copy($new_page->getId(), $new_page->getParentType(), $new_page->getParentId(), true);
 

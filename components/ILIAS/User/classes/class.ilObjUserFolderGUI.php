@@ -19,14 +19,14 @@
 declare(strict_types=1);
 
 use ILIAS\User\UserGUIRequest;
+use ILIAS\User\Profile\Prompt\SettingsGUI;
+use ILIAS\User\Profile\Prompt\Repository as PromptRepository;
+use ILIAS\User\Profile\ChangeListeners\UserFieldAttributesChangeListener;
+use ILIAS\User\Profile\ChangeListeners\InterestedUserFieldChangeListener;
+use ILIAS\User\Profile\ChangeListeners\ChangedUserFieldAttribute;
+
 use ILIAS\DI\Container as DIContainer;
-use ILIAS\components\User\UserFieldAttributesChangeListener;
-use ILIAS\components\User\InterestedUserFieldChangeListener;
-use ILIAS\components\User\ChangedUserFieldAttribute;
 use ILIAS\Filesystem\Filesystem;
-use ILIAS\UI\Renderer;
-use ILIAS\UI\Factory as UIFactory;
-use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\Authentication\Password\LocalUserPasswordManager;
 
@@ -36,7 +36,7 @@ use ILIAS\Authentication\Password\LocalUserPasswordManager;
  * @author       Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @ilCtrl_Calls ilObjUserFolderGUI: ilPermissionGUI, ilUserTableGUI
  * @ilCtrl_Calls ilObjUserFolderGUI: ilCustomUserFieldsGUI, ilRepositorySearchGUI, ilUserStartingPointGUI
- * @ilCtrl_Calls ilObjUserFolderGUI: ilUserProfileInfoSettingsGUI
+ * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Profile\Prompt\SettingsGUI
  */
 class ilObjUserFolderGUI extends ilObjectGUI
 {
@@ -56,15 +56,16 @@ class ilObjUserFolderGUI extends ilObjectGUI
         'changeable_lua' => 'usr_settings_changeable_lua'
     ];
 
-    protected ilPropertyFormGUI $loginSettingsForm;
-    protected ilPropertyFormGUI $form;
-    protected array $requested_ids; // Missing array type.
-    protected string $selected_action;
-    protected UserGUIRequest $user_request;
-    protected int $user_owner_id = 0;
-    protected int $confirm_change = 0;
-    protected ilLogger $log;
-    protected ilUserSettingsConfig $user_settings_config;
+    private ilPropertyFormGUI $loginSettingsForm;
+    private ilPropertyFormGUI $form;
+    private array $requested_ids; // Missing array type.
+    private string $selected_action;
+    private UserGUIRequest $user_request;
+    private int $user_owner_id = 0;
+    private int $confirm_change = 0;
+    private ilDBInterface $db;
+    private ilLogger $log;
+    private ilUserSettingsConfig $user_settings_config;
     private bool $usrFieldChangeListenersAccepted = false;
 
     /**
@@ -88,6 +89,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $this->event = $DIC['ilAppEventHandler'];
         $this->filesystem = $DIC->filesystem()->storage();
         $this->upload = $DIC['upload'];
+        $this->db = $DIC['ilDB'];
         $this->dic->upload();
 
         $this->type = 'usrf';
@@ -221,12 +223,26 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($cf);
                 break;
 
-            case 'iluserprofileinfosettingsgui':
+            case strtolower(SettingsGUI::class):
                 $this->tabs_gui->setTabActive('settings');
                 $this->setSubTabs('settings');
                 $this->tabs_gui->activateSubTab('user_profile_info');
-                $ps = new ilUserProfileInfoSettingsGUI();
-                $this->ctrl->forwardCommand($ps);
+                $this->ctrl->forwardCommand(
+                    new SettingsGUI(
+                        $this->ctrl,
+                        $this->lng,
+                        $this->ui_factory,
+                        $this->ui_renderer,
+                        $this->tpl,
+                        $this->request,
+                        $this->refinery,
+                        new PromptRepository(
+                            $this->db,
+                            $this->lng,
+                            new ilSetting('user')
+                        )
+                    )
+                );
                 break;
 
             default:
@@ -1730,27 +1746,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             'dpro_withdrawal_usr_deletion' => (bool) $this->settings->get('dpro_withdrawal_usr_deletion'),
             'tos_withdrawal_usr_deletion' => (bool) $this->settings->get('tos_withdrawal_usr_deletion'),
 
-            'session_handling_type' => $this->settings->get(
-                'session_handling_type',
-                (string) ilSession::SESSION_HANDLING_FIXED
-            ),
             'session_reminder_enabled' => $this->settings->get('session_reminder_enabled'),
-            'session_max_count' => $this->settings->get(
-                'session_max_count',
-                (string) ilSessionControl::DEFAULT_MAX_COUNT
-            ),
-            'session_min_idle' => $this->settings->get(
-                'session_min_idle',
-                (string) ilSessionControl::DEFAULT_MIN_IDLE
-            ),
-            'session_max_idle' => $this->settings->get(
-                'session_max_idle',
-                (string) ilSessionControl::DEFAULT_MAX_IDLE
-            ),
-            'session_max_idle_after_first_request' => $this->settings->get(
-                'session_max_idle_after_first_request',
-                (string) ilSessionControl::DEFAULT_MAX_IDLE_AFTER_FIRST_REQUEST
-            ),
 
             'login_max_attempts' => $security->getLoginMaxAttempts(),
             'ps_prevent_simultaneous_logins' => (int) $security->isPreventionOfSimultaneousLoginsEnabled(),
@@ -1901,46 +1897,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 );
 
                 // BEGIN SESSION SETTINGS
+
                 $this->settings->set(
-                    'session_handling_type',
-                    $this->form->getInput('session_handling_type')
+                    'session_reminder_enabled',
+                    $this->form->getInput('session_reminder_enabled')
                 );
 
-                if ($this->form->getInput('session_handling_type') == ilSession::SESSION_HANDLING_FIXED) {
-                    $this->settings->set(
-                        'session_reminder_enabled',
-                        $this->form->getInput('session_reminder_enabled')
-                    );
-                } elseif ($this->form->getInput(
-                    'session_handling_type'
-                ) == ilSession::SESSION_HANDLING_LOAD_DEPENDENT) {
-                    if (
-                        $this->settings->get(
-                            'session_allow_client_maintenance',
-                            (string) ilSessionControl::DEFAULT_ALLOW_CLIENT_MAINTENANCE
-                        )
-                    ) {
-                        // has to be done BEFORE updating the setting!
-                        ilSessionStatistics::updateLimitLog((int) $this->form->getInput('session_max_count'));
-
-                        $this->settings->set(
-                            'session_max_count',
-                            $this->form->getInput('session_max_count')
-                        );
-                        $this->settings->set(
-                            'session_min_idle',
-                            $this->form->getInput('session_min_idle')
-                        );
-                        $this->settings->set(
-                            'session_max_idle',
-                            $this->form->getInput('session_max_idle')
-                        );
-                        $this->settings->set(
-                            'session_max_idle_after_first_request',
-                            $this->form->getInput('session_max_idle_after_first_request')
-                        );
-                    }
-                }
                 // END SESSION SETTINGS
                 $this->settings->set(
                     'letter_avatars',
@@ -2073,19 +2035,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
             (string) ilSessionControl::DEFAULT_ALLOW_CLIENT_MAINTENANCE
         );
 
-        $ssettings = new ilRadioGroupInputGUI(
-            $this->lng->txt('sess_mode'),
-            'session_handling_type'
-        );
-
-        // first option, fixed session duration
-        $fixed = new ilRadioOption(
-            $this->lng->txt('sess_fixed_duration'),
-            (string) ilSession::SESSION_HANDLING_FIXED
-        );
 
         // create session reminder subform
-        $cb = new ilCheckboxInputGUI(
+        $session_reminder = new ilCheckboxInputGUI(
             $this->lng->txt('session_reminder'),
             'session_reminder_enabled'
         );
@@ -2094,103 +2046,30 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $expires,
             true
         );
-        $cb->setInfo(
+        $session_reminder->setInfo(
             $this->lng->txt('session_reminder_info') . '<br />' .
             sprintf(
                 $this->lng->txt('session_reminder_session_duration'),
                 $time
             )
         );
-        $fixed->addSubItem($cb);
-
-        // add session handling to radio group
-        $ssettings->addOption($fixed);
-
-        // second option, session control
-        $ldsh = new ilRadioOption(
-            $this->lng->txt('sess_load_dependent_session_handling'),
-            (string) ilSession::SESSION_HANDLING_LOAD_DEPENDENT
-        );
-
-        // add session control subform
-
-        // this is the max count of active sessions
-        // that are getting started simlutanously
-        $sub_ti = new ilTextInputGUI(
-            $this->lng->txt('session_max_count'),
-            'session_max_count'
-        );
-        $sub_ti->setMaxLength(5);
-        $sub_ti->setSize(5);
-        $sub_ti->setInfo($this->lng->txt('session_max_count_info'));
-        if (!$allow_client_maintenance) {
-            $sub_ti->setDisabled(true);
-        }
-        $ldsh->addSubItem($sub_ti);
-
-        // after this (min) idle time the session can be deleted,
-        // if there are further requests for new sessions,
-        // but max session count is reached yet
-        $sub_ti = new ilTextInputGUI(
-            $this->lng->txt('session_min_idle'),
-            'session_min_idle'
-        );
-        $sub_ti->setMaxLength(5);
-        $sub_ti->setSize(5);
-        $sub_ti->setInfo($this->lng->txt('session_min_idle_info'));
-        if (!$allow_client_maintenance) {
-            $sub_ti->setDisabled(true);
-        }
-        $ldsh->addSubItem($sub_ti);
-
-        // after this (max) idle timeout the session expires
-        // and become invalid, so it is not considered anymore
-        // when calculating current count of active sessions
-        $sub_ti = new ilTextInputGUI(
-            $this->lng->txt('session_max_idle'),
-            'session_max_idle'
-        );
-        $sub_ti->setMaxLength(5);
-        $sub_ti->setSize(5);
-        $sub_ti->setInfo($this->lng->txt('session_max_idle_info'));
-        if (!$allow_client_maintenance) {
-            $sub_ti->setDisabled(true);
-        }
-        $ldsh->addSubItem($sub_ti);
-
-        // this is the max duration that can elapse between the first and the secnd
-        // request to the system before the session is immidietly deleted
-        $sub_ti = new ilTextInputGUI(
-            $this->lng->txt('session_max_idle_after_first_request'),
-            'session_max_idle_after_first_request'
-        );
-        $sub_ti->setMaxLength(5);
-        $sub_ti->setSize(5);
-        $sub_ti->setInfo($this->lng->txt('session_max_idle_after_first_request_info'));
-        if (!$allow_client_maintenance) {
-            $sub_ti->setDisabled(true);
-        }
-        $ldsh->addSubItem($sub_ti);
-
-        // add session control to radio group
-        $ssettings->addOption($ldsh);
 
         // add radio group to form
         if ($allow_client_maintenance) {
             // just shows the status wether the session
             //setting maintenance is allowed by setup
-            $this->form->addItem($ssettings);
+            $this->form->addItem($session_reminder);
         } else {
             // just shows the status wether the session
             //setting maintenance is allowed by setup
-            $ti = new ilNonEditableValueGUI(
+            $session_config = new ilNonEditableValueGUI(
                 $this->lng->txt('session_config'),
                 'session_config'
             );
-            $ti->setValue($this->lng->txt('session_config_maintenance_disabled'));
-            $ssettings->setDisabled(true);
-            $ti->addSubItem($ssettings);
-            $this->form->addItem($ti);
+            $session_config->setValue($this->lng->txt('session_config_maintenance_disabled'));
+            $session_reminder->setDisabled(true);
+            $session_config->addSubItem($session_reminder);
+            $this->form->addItem($session_config);
         }
 
         // END SESSION SETTINGS
@@ -2432,7 +2311,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
             'password' => 0,
             'language' => 0,
             'skin_style' => 0,
-            'hits_per_page' => 0,
             'hide_own_online_status' => 0
         ];
 
@@ -2569,13 +2447,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
             }
         }
 
-        if ($selected['default_hits_per_page']) {
-            $this->ilias->setSetting(
-                'hits_per_page',
-                $selected['default_hits_per_page']
-            );
-        }
-
         if (isset($checked['export_preferences']) && $checked['export_preferences'] === 1) {
             $this->ilias->setSetting(
                 'usr_settings_export_preferences',
@@ -2627,7 +2498,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     /**
      * @param InterestedUserFieldChangeListener[] $interested_change_listeners
      */
-    public function showFieldChangeComponentsListeningConfirmDialog(
+    private function showFieldChangeComponentsListeningConfirmDialog(
         array $interested_change_listeners
     ): void {
         $post = $this->user_request->getParsedBody();
@@ -2683,7 +2554,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
      * @param array<string, array>                     $field_properties => See ilUserProfile::getStandardFields()
      * @return bool
      */
-    public function handleChangeListeners(
+    private function handleChangeListeners(
         array $changed_fields,
         array $field_properties
     ): bool {
@@ -2713,6 +2584,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
                             if ($interested_change_listener === null) {
                                 $interested_change_listener = new InterestedUserFieldChangeListener(
+                                    $this->lng,
                                     $this->getTranslationForField($field_name, $properties),
                                     $field_name
                                 );
@@ -3345,11 +3217,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $this->tabs_gui->addSubTabTarget(
                     'user_profile_info',
                     $this->ctrl->getLinkTargetByClass(
-                        'ilUserProfileInfoSettingsGUI',
+                        SettingsGUI::class,
                         ''
                     ),
                     '',
-                    'ilUserProfileInfoSettingsGUI'
+                    SettingsGUI::class
                 );
 
                 break;

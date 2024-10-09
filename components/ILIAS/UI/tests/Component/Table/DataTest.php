@@ -73,7 +73,6 @@ class DataTest extends TableTestBase
         $data = $this->getDataRetrieval();
         $cols = ['f0' => $this->getTableFactory()->column()->text("col1")];
         $table = $this->getTableFactory()->data('title', $cols, $data);
-        $this->assertEquals(800, $table->getNumberOfRows());
         $this->assertInstanceOf(Order::class, $table->getOrder());
         $this->assertInstanceOf(Range::class, $table->getRange());
         $this->assertInstanceOf(I\Signal::class, $table->getAsyncActionSignal());
@@ -152,13 +151,6 @@ class DataTest extends TableTestBase
         $table = $this->getTable();
         $request = $this->createMock(ServerRequestInterface::class);
         $this->assertEquals($request, $table->withRequest($request)->getRequest());
-    }
-
-    public function testDataTableWithNumberOfRows(): void
-    {
-        $table = $this->getTable();
-        $nor = 12;
-        $this->assertEquals($nor, $table->withNumberOfRows($nor)->getNumberOfRows());
     }
 
     public function testDataTableWithOrder(): void
