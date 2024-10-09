@@ -41,9 +41,11 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
     public function getSpecificAnswerFeedbackTestPresentation(int $question_id, int $question_index, int $answer_index): string
     {
         if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
-            return $this->getPageObjectContent(
-                $this->getSpecificAnswerFeedbackPageObjectType(),
-                $this->getSpecificAnswerFeedbackPageObjectId($question_id, $question_index, $answer_index)
+            return $this->cleanupPageContent(
+                $this->getPageObjectContent(
+                    $this->getSpecificAnswerFeedbackPageObjectType(),
+                    $this->getSpecificAnswerFeedbackPageObjectId($question_id, $question_index, $answer_index)
+                )
             );
         }
 
@@ -319,7 +321,7 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
         );
 
         $content = [];
-        while($row = $this->db->fetchAssoc($res)) {
+        while ($row = $this->db->fetchAssoc($res)) {
             $content[$row['feedback_id']] = $row['feedback'];
         }
         return $content;
