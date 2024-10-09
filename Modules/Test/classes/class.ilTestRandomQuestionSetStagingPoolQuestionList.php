@@ -291,11 +291,9 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
 
     public function resetQuestionList()
     {
-        $this->questions = array();
-        $this->taxFilters = array();
-
-        $this->testObjId = -1;
-        $this->testId = -1;
+        $this->questions = [];
+        $this->taxFilters = [];
+        $this->typeFilter = [];
         $this->poolId = -1;
     }
 

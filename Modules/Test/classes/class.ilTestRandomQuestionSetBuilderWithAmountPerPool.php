@@ -24,60 +24,28 @@
  */
 class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuestionSetBuilder
 {
-    // hey: fixRandomTestBuildable - improvment of improved pass build check
-    /**
-     * @return bool
-     */
-    public function checkBuildableNewer(): bool
+    public function checkBuildable(): bool
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         $lng = $DIC['lng'];
-
-        $isBuildable = true;
 
         require_once 'Modules/Test/classes/class.ilTestRandomQuestionsQuantitiesDistribution.php';
         $quantitiesDistribution = new ilTestRandomQuestionsQuantitiesDistribution($this);
         $quantitiesDistribution->setSourcePoolDefinitionList($this->sourcePoolDefinitionList);
         $quantitiesDistribution->initialise();
 
-        // perhaps not every with every BUT every with any next ??!
-        // perhaps exactly like this !!? I dont know :-)
-        // it should be about vice versa rule conflict reporting
-
+        $isBuildable = true;
         foreach ($this->sourcePoolDefinitionList as $definition) {
-            /** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
-
             $quantityCalculation = $quantitiesDistribution->calculateQuantities($definition);
-
             if ($quantityCalculation->isRequiredAmountGuaranteedAvailable()) {
                 continue;
             }
 
             $isBuildable = false;
-
             $this->checkMessages[] = $quantityCalculation->getDistributionReport($lng);
         }
 
         return $isBuildable;
-    }
-    // hey.
-
-    /**
-     * @return bool
-     */
-    public function checkBuildable(): bool
-    {
-        // hey: fixRandomTestBuildable - improved the buildable check improvement
-        return $this->checkBuildableNewer();
-        // hey.
-
-        $questionStage = $this->getSrcPoolDefListRelatedQuestUniqueCollection($this->sourcePoolDefinitionList);
-
-        if ($questionStage->isSmallerThan($this->sourcePoolDefinitionList->getQuestionAmount())) {
-            return false;
-        }
-
-        return true;
     }
 
     public function performBuild(ilTestSession $testSession)

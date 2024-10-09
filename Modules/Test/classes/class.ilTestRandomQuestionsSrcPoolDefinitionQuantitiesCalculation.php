@@ -56,7 +56,7 @@ class ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculation
      */
     public function __construct(ilTestRandomQuestionSetSourcePoolDefinition $sourcePoolDefinition)
     {
-        $this->setSourcePoolDefinition($sourcePoolDefinition);
+        $this->sourcePoolDefinition = $sourcePoolDefinition;
     }
 
     /**
@@ -65,14 +65,6 @@ class ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculation
     public function getSourcePoolDefinition(): ilTestRandomQuestionSetSourcePoolDefinition
     {
         return $this->sourcePoolDefinition;
-    }
-
-    /**
-     * @param ilTestRandomQuestionSetSourcePoolDefinition $sourcePoolDefinition
-     */
-    public function setSourcePoolDefinition($sourcePoolDefinition)
-    {
-        $this->sourcePoolDefinition = $sourcePoolDefinition;
     }
 
     /**
