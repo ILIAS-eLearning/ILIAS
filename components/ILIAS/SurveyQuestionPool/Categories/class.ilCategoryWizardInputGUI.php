@@ -117,7 +117,15 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
         if (is_array($a_value)) {
             if (is_array($a_value['answer'])) {
                 foreach ($a_value['answer'] as $index => $value) {
-                    $this->values->addCategory($value, $a_value['other'][$index] ?? 0, 0, null, $a_value['scale'][$index] ?? null);
+                    $this->values->addCategory(
+                        $value,
+                        $a_value['other'][$index] ?? 0,
+                        0,
+                        null,
+                        isset($a_value['scale'][$index]) && (int) $a_value['scale'][$index] > 0
+                            ? (int) $a_value['scale'][$index]
+                            : null
+                    );
                 }
             }
         }
