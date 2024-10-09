@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
-
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
 /**
@@ -195,7 +194,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         ?int $pass = null,
         bool $authorized = true
     ): bool {
-        if($this->questionpool_request->raw('test_answer_changed') === null) {
+        if ($this->questionpool_request->raw('test_answer_changed') === null) {
             return true;
         }
 
@@ -510,7 +509,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
      * @param $value
      * @return float
      */
-    protected function calculateReachedPointsForSolution(?array $value): float
+    protected function calculateReachedPointsForSolution(?string $value): float
     {
         $value = $this->splitAndTrimOrderElementText($value ?? "", $this->answer_separator);
         $value = join($this->answer_separator, $value);
