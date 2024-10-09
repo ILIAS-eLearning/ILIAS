@@ -18,21 +18,21 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Authentication\LoginPage;
+namespace ILIAS\components\Authentication\Pages;
 
 use ILIAS\Data;
 use ILIAS\UI;
 use ilArrayUtil;
 use Psr\Http\Message\ServerRequestInterface;
-use ilAuthLoginPageEditorSettings;
 use ilLanguage;
 use ilCtrlInterface;
+use ilAuthPageEditorSettings;
 
-class LoginPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieval
+class AuthPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieval
 {
-    private const ACTIVATE = 'activate';
-    private const DEACTIVATE = 'deactivate';
-    private const EDIT = 'edit';
+    public const ACTIVATE = 'activate';
+    public const DEACTIVATE = 'deactivate';
+    public const EDIT = 'edit';
 
     private ServerRequestInterface $request;
     private Data\Factory $data_factory;
@@ -46,7 +46,8 @@ class LoginPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieva
         private readonly ilLanguage $lng,
         \ILIAS\HTTP\Services $http,
         private readonly \ILIAS\UI\Factory $ui_factory,
-        private readonly \ILIAS\UI\Renderer $ui_renderer
+        private readonly \ILIAS\UI\Renderer $ui_renderer,
+        private readonly AuthPageEditorContext $context
     ) {
         $this->request = $http->request();
         $this->data_factory = new Data\Factory();
@@ -59,7 +60,7 @@ class LoginPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieva
 
         return $this->ui_factory
             ->table()
-            ->data($this->lng->txt('login_pages'), $columns, $this)
+            ->data($this->lng->txt($this->context->pageLanguageIdentifier(true)), $columns, $this)
             ->withActions($actions)
             ->withRequest($this->request);
     }
@@ -73,7 +74,7 @@ class LoginPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieva
             'language' => $this->ui_factory
                 ->table()
                 ->column()
-                ->text($this->lng->txt('login_page'))
+                ->text($this->lng->txt($this->context->pageLanguageIdentifier()))
                 ->withIsSortable(false),
             'status_icon' => $this->ui_factory
                 ->table()
@@ -88,12 +89,12 @@ class LoginPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieva
      */
     protected function getActions(): array
     {
-        $query_params_namespace = ['loginpage', 'languages'];
+        $query_params_namespace = ['authpage', 'languages'];
 
         $overview_uri = $this->data_factory->uri(
             ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(
-                \ilAuthLoginPageEditorGUI::class,
-                'handleLoginPageActions'
+                \ilAuthPageEditorGUI::class,
+                \ilAuthPageEditorGUI::LANGUAGE_TABLE_ACTIONS_COMMAND
             )
         );
 
@@ -136,7 +137,7 @@ class LoginPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieva
             foreach ($entries as $langkey) {
                 $this->records[$i]['key'] = $langkey;
                 $this->records[$i]['id'] = ilLanguage::lookupId($langkey);
-                $status = ilAuthLoginPageEditorSettings::getInstance()->isIliasEditorEnabled(
+                $status = ilAuthPageEditorSettings::getInstance($this->context)->isIliasEditorEnabled(
                     $langkey
                 );
 

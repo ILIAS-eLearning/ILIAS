@@ -20,8 +20,10 @@ declare(strict_types=1);
 
 class ilLogoutPage extends ilPageObject
 {
+    final public const PAGE_TYPE = 'aout';
+
     public function getParentType(): string
     {
-        return 'aout';
+        return self::PAGE_TYPE;
     }
 }

@@ -19,13 +19,19 @@
 declare(strict_types=1);
 
 use ILIAS\Style\Content\GUIService;
+use ILIAS\components\Authentication\Pages\AuthPageEditorContext;
+use ILIAS\components\Authentication\Pages\AuthPageLanguagesOverviewTable;
 
 /**
- * @ilCtrl_isCalledBy ilAuthLogoutPageEditorGUI: ilObjAuthSettingsGUI
- * @ilCtrl_Calls      ilAuthLogoutPageEditorGUI: ilLogoutPageGUI
+ * @ilCtrl_isCalledBy ilAuthPageEditorGUI: ilObjAuthSettingsGUI
+ * @ilCtrl_Calls      ilAuthPageEditorGUI: ilLoginPageGUI, ilLogoutPageGUI
  */
-class ilAuthLogoutPageEditorGUI
+class ilAuthPageEditorGUI
 {
+    final public const DEFAULT_COMMAND = 'showPageEditorLanguages';
+    final public const LANGUAGE_TABLE_ACTIONS_COMMAND = 'handlePageActions';
+    final public const CONTEXT_HTTP_PARAM = 'auth_ipe_context';
+
     private ilCtrlInterface $ctrl;
     private ilLanguage $lng;
     private ilGlobalTemplateInterface $tpl;
@@ -36,9 +42,10 @@ class ilAuthLogoutPageEditorGUI
     private \ILIAS\UI\Renderer $ui_renderer;
     private \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
     private ?string $redirect_source = null;
-    private ?int $key = null;
+    private ?int $requested_language_id = null;
     private GUIService $content_style_gui;
     private int $ref_id;
+    private ?string $request_ipe_context;
 
     public function __construct(int $a_ref_id)
     {
@@ -74,20 +81,30 @@ class ilAuthLogoutPageEditorGUI
         }
 
         if ($post_wrapper->has('key')) {
-            $this->key = $post_wrapper->retrieve('key', $refinery->kindlyTo()->int());
+            $this->requested_language_id = $post_wrapper->retrieve('key', $refinery->kindlyTo()->int());
         } elseif ($query_wrapper->has('key')) {
-            $this->key = $query_wrapper->retrieve('key', $refinery->kindlyTo()->int());
+            $this->requested_language_id = $query_wrapper->retrieve('key', $refinery->kindlyTo()->int());
         }
+
+        $this->request_ipe_context = $query_wrapper->retrieve(
+            self::CONTEXT_HTTP_PARAM,
+            $refinery->byTrying([
+                $refinery->kindlyTo()->string(),
+                $refinery->always(null)
+            ])
+        );
+        $this->ctrl->setParameter($this, self::CONTEXT_HTTP_PARAM, $this->request_ipe_context);
     }
 
     public function executeCommand(): void
     {
         switch (strtolower($this->ctrl->getNextClass($this) ?? '')) {
+            case strtolower(ilLoginPageGUI::class):
             case strtolower(ilLogoutPageGUI::class):
                 $this->tabs->clearTargets();
                 $this->tabs->setBackTarget(
                     $this->lng->txt('back'),
-                    $this->ctrl->getLinkTarget($this, 'show')
+                    $this->ctrl->getLinkTarget($this, self::DEFAULT_COMMAND)
                 );
 
                 if (strtolower($this->redirect_source ?? '') !== strtolower(ilInternalLinkGUI::class)) {
@@ -97,48 +114,48 @@ class ilAuthLogoutPageEditorGUI
 
             default:
                 if (!$cmd = $this->ctrl->getCmd()) {
-                    $cmd = 'show';
+                    $cmd = 'showPageEditorLanguages';
                 }
                 $this->$cmd();
                 break;
         }
     }
 
+    private function getRequestedAuthPageEditorContext(): AuthPageEditorContext
+    {
+        return AuthPageEditorContext::from($this->request_ipe_context);
+    }
+
     private function forwardToPageObject(): void
     {
-        $keys = $this->http->wrapper()->query()->retrieve(
-            'logoutpage_languages_key',
-            $this->refinery->byTrying([
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()),
-                $this->refinery->always([])
-            ])
-        );
-
-        $this->key = ilLanguage::lookupId((string) current($keys));
-
-        if ($this->key === 0) {
+        if (!$this->requested_language_id) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('language_does_not_exist'), true);
-            $this->show();
-            return;
+            $this->ctrl->returnToParent($this);
         }
-
-        $this->ctrl->saveParameter($this, 'key');
 
         $this->lng->loadLanguageModule('content');
 
-        if (!ilLogoutPage::_exists('aout', $this->key)) {
-            $new_page_object = new ilLogoutPage();
-            $new_page_object->setParentId($this->key);
-            $new_page_object->setId($this->key);
+        $this->tabs->activateSubTab($this->getRequestedAuthPageEditorContext()->tabIdentifier());
+
+        $ipe_gui_class = $this->getRequestedAuthPageEditorContext()->pageUiClass();
+        $ipe_class = $this->getRequestedAuthPageEditorContext()->pageClass();
+        $ipe_page_type = $this->getRequestedAuthPageEditorContext()->pageType();
+
+        $this->ctrl->setParameter($this, 'key', $this->requested_language_id);
+
+        if (!$ipe_class::_exists($ipe_page_type, $this->requested_language_id)) {
+            $new_page_object = new $ipe_class();
+            $new_page_object->setParentId($this->requested_language_id);
+            $new_page_object->setId($this->requested_language_id);
             $new_page_object->createFromXML();
         }
+
+        $this->ctrl->setReturnByClass($ipe_gui_class, 'edit');
+        $page_gui = new ($ipe_gui_class)($this->requested_language_id);
 
         $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
         $this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
         $this->content_style_gui->addCss($this->tpl, $this->ref_id);
-
-        $this->ctrl->setReturnByClass(ilLogoutPageGUI::class, 'edit');
-        $page_gui = new ilLogoutPageGUI($this->key);
 
         $page_gui->setTemplateTargetVar('ADM_CONTENT');
         $page_gui->setStyleId($this->content_style_domain->getEffectiveStyleId());
@@ -151,15 +168,10 @@ class ilAuthLogoutPageEditorGUI
         }
     }
 
-    private function show(): void
-    {
-        $this->showIliasEditor();
-    }
-
-    private function handleLogoutPageActions(): void
+    private function handlePageActions(): void
     {
         $action = $this->http->wrapper()->query()->retrieve(
-            'logoutpage_languages_action',
+            'authpage_languages_action',
             $this->refinery->byTrying([
                 $this->refinery->kindlyTo()->string(),
                 $this->refinery->always('')
@@ -167,7 +179,7 @@ class ilAuthLogoutPageEditorGUI
         );
 
         $keys = $this->http->wrapper()->query()->retrieve(
-            'logoutpage_languages_key',
+            'authpage_languages_key',
             $this->refinery->byTrying([
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()),
                 $this->refinery->always([])
@@ -175,23 +187,26 @@ class ilAuthLogoutPageEditorGUI
         );
 
         switch ($action) {
-            case 'deactivate':
+            case AuthPageLanguagesOverviewTable::DEACTIVATE:
                 $this->deactivate();
                 break;
 
-            case 'activate':
+            case AuthPageLanguagesOverviewTable::ACTIVATE:
                 $this->activate();
                 break;
 
-            case 'edit':
-                $this->ctrl->setParameter($this, 'logoutpage_languages_key', (string) current($keys));
-                $this->ctrl->setParameter($this, 'key', ilLanguage::lookupId((string) current($keys)));
-                $this->ctrl->redirectByClass(ilLogoutPageGUI::class, 'edit');
-
-                // no break
-            default:
-                $this->ctrl->redirect($this, 'show');
+            case AuthPageLanguagesOverviewTable::EDIT:
+                $language_id = ilLanguage::lookupId((string) current($keys));
+                if ($language_id) {
+                    $this->ctrl->setParameter($this, 'key', $language_id);
+                    $this->ctrl->redirectByClass(
+                        $this->getRequestedAuthPageEditorContext()->pageUiClass(),
+                        'edit'
+                    );
+                }
         }
+
+        $this->ctrl->redirect($this, self::DEFAULT_COMMAND);
     }
 
     /**
@@ -200,7 +215,7 @@ class ilAuthLogoutPageEditorGUI
     private function getLangKeysToUpdate(): array
     {
         $keys = $this->http->wrapper()->query()->retrieve(
-            'logoutpage_languages_key',
+            'authpage_languages_key',
             $this->refinery->byTrying([
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()),
                 $this->refinery->always([])
@@ -219,7 +234,9 @@ class ilAuthLogoutPageEditorGUI
     private function activate(): void
     {
         $lang_keys = $this->getLangKeysToUpdate();
-        $settings = ilAuthLogoutPageEditorSettings::getInstance();
+        $settings = ilAuthPageEditorSettings::getInstance(
+            $this->getRequestedAuthPageEditorContext()
+        );
 
         foreach ($lang_keys as $lang_key) {
             $settings->enableIliasEditor($lang_key, true);
@@ -228,13 +245,15 @@ class ilAuthLogoutPageEditorGUI
         $settings->update();
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
-        $this->ctrl->redirect($this, 'show');
+        $this->ctrl->redirect($this, self::DEFAULT_COMMAND);
     }
 
     private function deactivate(): void
     {
         $lang_keys = $this->getLangKeysToUpdate();
-        $settings = ilAuthLogoutPageEditorSettings::getInstance();
+        $settings = ilAuthPageEditorSettings::getInstance(
+            $this->getRequestedAuthPageEditorContext()
+        );
 
         foreach ($lang_keys as $lang_key) {
             $settings->enableIliasEditor($lang_key, false);
@@ -243,17 +262,19 @@ class ilAuthLogoutPageEditorGUI
         $settings->update();
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
-        $this->ctrl->redirect($this, 'show');
+        $this->ctrl->redirect($this, self::DEFAULT_COMMAND);
     }
 
-    private function showIliasEditor(): void
+    private function showPageEditorLanguages(): void
     {
-        $tbl = new \ILIAS\Authentication\LogoutPage\LogoutPageLanguagesOverviewTable(
+        $this->tabs->activateSubTab($this->getRequestedAuthPageEditorContext()->tabIdentifier());
+        $tbl = new AuthPageLanguagesOverviewTable(
             $this->ctrl,
             $this->lng,
             $this->http,
             $this->ui_factory,
-            $this->ui_renderer
+            $this->ui_renderer,
+            $this->getRequestedAuthPageEditorContext()
         );
 
         $this->tpl->setContent($this->ui_renderer->render($tbl->getComponent()));
