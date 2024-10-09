@@ -41,6 +41,7 @@ use ILIAS\Filesystem\Stream\Streams;
  * @ilCtrl_Calls ilTestEvaluationGUI: ilTestPassDetailsOverviewTableGUI
  * @ilCtrl_Calls ilTestEvaluationGUI: ilTestResultsToolbarGUI
  * @ilCtrl_Calls ilTestEvaluationGUI: ilTestPassDeletionConfirmationGUI
+ * @ilCtrl_Calls ilTestEvaluationGUI: ResultsByQuestionGUI
  */
 class ilTestEvaluationGUI extends ilTestServiceGUI
 {
@@ -59,6 +60,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
     public function __construct(ilObjTest $object)
     {
         parent::__construct($object);
+
         $this->participant_access_filter = new ilTestParticipantAccessFilterFactory($this->access);
 
         $this->processLockerFactory = new ilTestProcessLockerFactory(
@@ -1445,62 +1447,19 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
      */
     public function singleResults()
     {
-        if (!$this->getTestAccess()->checkStatisticsAccess()) {
-            ilObjTestGUI::accessViolationRedirect();
-        }
-
-        $this->object->setAccessFilteredParticipantList(
-            $this->object->buildStatisticsAccessFilteredParticipantList()
-        );
-
-        $this->tabs->activateTab(ilTestTabsManager::TAB_ID_STATISTICS);
-
-        $data = $this->object->getCompleteEvaluationData();
-        $counter = 0;
-        $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_single_answers.html", "components/ILIAS/Test");
-        $found_participants = $data->getParticipants();
-        if ($found_participants === []) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt("tst_no_evaluation_data"));
-            return;
-        }
-
-        $rows = [];
-        foreach ($data->getQuestionTitles() as $question_id => $question_title) {
-            $answered = 0;
-            $reached = 0;
-            $max = 0;
-            foreach ($found_participants as $userdata) {
-                $pass = $userdata->getScoredPass();
-                if (is_object($userdata->getPass($pass))) {
-                    $question = $userdata->getPass($pass)->getAnsweredQuestionByQuestionId($question_id);
-                    if (is_array($question)) {
-                        $answered++;
-                    }
-                }
-            }
-            $counter++;
-            $this->ctrl->setParameter($this, "qid", $question_id);
-            $question_object = assQuestion::instantiateQuestion($question_id);
-            $download = '';
-            if ($question_object instanceof ilObjFileHandlingQuestionType
-                && $question_object->hasFileUploads($this->object->getTestId())) {
-                $download = '<a href="' . $this->ctrl->getLinkTarget($this, "exportFileUploadsForAllParticipants") . '">'
-                    . $this->lng->txt('download') . '</a>';
-            }
-            $rows[] = [
-                'qid' => $question_id,
-                'question_title' => $question_title,
-                'number_of_answers' => $answered,
-                'output' => "<a target='_blank' href=\"" . $this->ctrl->getLinkTarget($this, "exportQuestionForAllParticipants") . "\">" . $this->lng->txt("print") . "</a>",
-                'file_uploads' => $download
-            ];
-        }
-
-        $table_gui = new ilResultsByQuestionTableGUI($this, 'singleResults');
-        $table_gui->setTitle($this->lng->txt('tst_answered_questions_test'));
-        $table_gui->setData($rows);
-
-        $this->tpl->setVariable('TBL_SINGLE_ANSWERS', $table_gui->getHTML());
+        return $this->ctrl->forwardCommand(new ResultsByQuestionGUI(
+            $this->ui_factory,
+            $this->lng,
+            (new ilObjTest($this->ref_id))->getId(),
+            $this->ref_id,
+            $this->ui_renderer,
+            $this->http,
+            $this->ctrl,
+            $this->tpl,
+            new ilObjTest($this->ref_id),
+            $this->tabs,
+            $this->getTestAccess()->checkStatisticsAccess()
+        ));
     }
 
     public function outCertificate()
