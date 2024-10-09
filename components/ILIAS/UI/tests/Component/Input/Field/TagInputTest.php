@@ -69,11 +69,13 @@ class TagInputTest extends ILIAS_UI_TestBase
             'tag-field-input',
             $label,
             '
-            <div id="container-id_1" class="c-field-tag__wrapper">
+            <div class="c-field-tag__wrapper">
                 <input id="id_1" name="name_0" class="c-field-tag" value=""/>
             </div>
             ',
-            $byline
+            $byline,
+            'id_1',
+            'id_2'
         );
         $this->assertEquals($expected, $this->render($tag));
     }
@@ -87,6 +89,7 @@ class TagInputTest extends ILIAS_UI_TestBase
         $this->testWithNoByline($tag);
         $this->testWithRequired($tag);
         $this->testWithDisabled($tag);
+        $this->testWithAdditionalOnloadCodeRendersId($tag);
     }
 
     public function testValueRequired(): void

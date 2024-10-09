@@ -60,7 +60,7 @@ class ColorPickerInputTest extends ILIAS_UI_TestBase
             $label,
             '<input id="id_1" type="color" name="name_0" value="" class="c-field-color-picker"/>',
             $byline,
-            null
+            'id_1'
         );
         $this->assertEquals($expected, $this->render($cp));
     }
@@ -75,6 +75,7 @@ class ColorPickerInputTest extends ILIAS_UI_TestBase
         $this->testWithNoByline($colorpicker);
         $this->testWithRequired($colorpicker);
         $this->testWithDisabled($colorpicker);
+        $this->testWithAdditionalOnloadCodeRendersId($colorpicker);
     }
 
     public function testRenderValue(): void
@@ -92,7 +93,7 @@ class ColorPickerInputTest extends ILIAS_UI_TestBase
             $label,
             '<input id="id_1" type="color" name="name_0" value="value_0" class="c-field-color-picker"/>',
             $byline,
-            null
+            'id_1'
         );
         $this->assertEquals($expected, $this->render($cp));
     }
