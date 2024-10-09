@@ -16823,6 +16823,7 @@ tagging#:#tagging_enable_all_users_info#:#Fügt auf dem Reiter „Info“ einen 
 tagging#:#tagging_enable_tagging#:#Tagging aktivieren
 tagging#:#tagging_forbidden_tags#:#Verbotene Tags
 tagging#:#tagging_no_obj_for_tag#:#Es sind keine Inhalte mit „%s“ verschlagwortet.
+tagging#:#tagging_no_perm_write#:#Sie haben keine Berechtigung diese Daten zu ändern.
 tagging#:#tagging_other_users#:#Tags anderer Benutzer
 tagging#:#tagging_resources_for_tag#:#Inhalte verschlagwortet mit %s
 tagging#:#tagging_search_users#:#Benutzer suchen

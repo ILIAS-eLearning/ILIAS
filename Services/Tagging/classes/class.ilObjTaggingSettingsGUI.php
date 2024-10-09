@@ -285,7 +285,7 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
 
 
         if (!$this->checkPermissionBool("write")) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_read'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tagging_no_perm_write'), true);
             $this->ctrl->redirect($this, "editForbiddenTags");
         }
 
@@ -325,7 +325,7 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        $this->checkPermission("write");
+        $this->checkPermission("read");
 
         $this->addSubTabs();
         $ilTabs->activateTab("tagging_edit_settings");
