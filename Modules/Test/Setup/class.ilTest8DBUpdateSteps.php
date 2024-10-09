@@ -28,6 +28,13 @@ class ilTest8DBUpdateSteps implements ilDatabaseUpdateSteps
 
     public function step_1(): void
     {
-        $this->db->dropTableColumn('tst_tests', 'mc_scoring');
+        if ($this->db->tableColumnExists('tst_tests', 'mc_scoring')) {
+            $this->db->dropTableColumn('tst_tests', 'mc_scoring');
+        }
+    }
+
+    public function step_2(): void
+    {
+        $this->db->modifyTableColumn('ass_log', 'logtext', ['type' => \ilDBConstants::T_CLOB]);
     }
 }
