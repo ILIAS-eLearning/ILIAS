@@ -16309,7 +16309,7 @@ tagging#:#tagging_enable_all_users_info#:#Adds a section ‘All Users’ to the 
 tagging#:#tagging_enable_tagging#:#Enable Tagging
 tagging#:#tagging_forbidden_tags#:#Forbidden Tags
 tagging#:#tagging_no_obj_for_tag#:#No Resources tagged with %s.
-tagging#:#tagging_no_perm_write#:#You have no permission so change this data.
+tagging#:#tagging_no_perm_write#:#You have no permission to change this data.
 tagging#:#tagging_other_users#:#Tags of Other Users
 tagging#:#tagging_resources_for_tag#:#Resources tagged with %s
 tagging#:#tagging_search_users#:#Search Users
