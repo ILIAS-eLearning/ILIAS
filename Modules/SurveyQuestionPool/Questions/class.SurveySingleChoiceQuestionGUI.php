@@ -154,7 +154,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
                 foreach ($options as $option) {
                     if ($option["other"]) {
                         $template->setCurrentBlock("other_row");
-                        $template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_" . $option["checked"] . ".png")));
+                        $template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("object/radiobutton_" . $option["checked"] . ".png")));
                         $template->setVariable("ALT_RADIO", $this->lng->txt($option["checked"]));
                         $template->setVariable("TITLE_RADIO", $this->lng->txt($option["checked"]));
                         $template->setVariable(
@@ -166,7 +166,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
                             : "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
                     } else {
                         $template->setCurrentBlock("row");
-                        $template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_" . $option["checked"] . ".png")));
+                        $template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("object/radiobutton_" . $option["checked"] . ".png")));
                         $template->setVariable("ALT_RADIO", $this->lng->txt($option["checked"]));
                         $template->setVariable("TITLE_RADIO", $this->lng->txt($option["checked"]));
                         $template->setVariable("TEXT_SC", ilLegacyFormElementsUtil::prepareFormOutput($option["title"]));
@@ -178,7 +178,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
                 // horizontal orientation
                 foreach ($options as $option) {
                     $template->setCurrentBlock("radio_col");
-                    $template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_" . $option["checked"] . ".png")));
+                    $template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("object/radiobutton_" . $option["checked"] . ".png")));
                     $template->setVariable("ALT_RADIO", $this->lng->txt($option["checked"]));
                     $template->setVariable("TITLE_RADIO", $this->lng->txt($option["checked"]));
                     $template->parseCurrentBlock();

@@ -214,7 +214,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
                 foreach ($options as $option) {
                     if ($option["other"]) {
                         $template->setCurrentBlock("other_row");
-                        $template->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_" . $option["checked"] . ".png")));
+                        $template->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("object/checkbox_" . $option["checked"] . ".png")));
                         $template->setVariable("ALT_CHECKBOX", $this->lng->txt($option["checked"]));
                         $template->setVariable("TITLE_CHECKBOX", $this->lng->txt($option["checked"]));
                         $template->setVariable(
@@ -226,7 +226,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
                             : "&nbsp;");
                     } else {
                         $template->setCurrentBlock("mc_row");
-                        $template->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_" . $option["checked"] . ".png")));
+                        $template->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("object/checkbox_" . $option["checked"] . ".png")));
                         $template->setVariable("ALT_CHECKBOX", $this->lng->txt($option["checked"]));
                         $template->setVariable("TITLE_CHECKBOX", $this->lng->txt($option["checked"]));
                         $template->setVariable("TEXT_MC", ilLegacyFormElementsUtil::prepareFormOutput($option["title"]));
@@ -238,7 +238,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
                 // horizontal orientation
                 foreach ($options as $option) {
                     $template->setCurrentBlock("checkbox_col");
-                    $template->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_" . $option["checked"] . ".png")));
+                    $template->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("object/checkbox_" . $option["checked"] . ".png")));
                     $template->setVariable("ALT_CHECKBOX", $this->lng->txt($option["checked"]));
                     $template->setVariable("TITLE_CHECKBOX", $this->lng->txt($option["checked"]));
                     $template->parseCurrentBlock();

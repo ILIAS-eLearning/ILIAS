@@ -373,7 +373,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
                         } else {
                             $tplrow->setCurrentBlock("radiobutton");
                         }
-                        $tplrow->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_" . $col["checked"] . ".png")));
+                        $tplrow->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("object/radiobutton_" . $col["checked"] . ".png")));
                         $tplrow->setVariable("ALT_RADIO", $this->lng->txt($col["checked"]));
                         $tplrow->setVariable("TITLE_RADIO", $this->lng->txt($col["checked"]));
                         $tplrow->parseCurrentBlock();
@@ -384,7 +384,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
                         } else {
                             $tplrow->setCurrentBlock("checkbox");
                         }
-                        $tplrow->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_" . $col["checked"] . ".png")));
+                        $tplrow->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("object/checkbox_" . $col["checked"] . ".png")));
                         $tplrow->setVariable("ALT_CHECKBOX", $this->lng->txt($col["checked"]));
                         $tplrow->setVariable("TITLE_CHECKBOX", $this->lng->txt($col["checked"]));
                         $tplrow->parseCurrentBlock();
