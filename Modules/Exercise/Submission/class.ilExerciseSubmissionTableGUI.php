@@ -646,7 +646,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
             );
         }
 
-        $actions = $this->ui_factory->dropdown()->standard($items)->withLabel($this->lng->txt("actions"));
+        $actions = $this->ui_factory->dropdown()->standard($items);
 
         $this->tpl->setVariable("ACTIONS", $this->ui_renderer->render($actions));
     }
