@@ -8981,6 +8981,7 @@ ecs#:#ecs_protocol#:#Protokoll
 ecs#:#ecs_publish_as#:#Veröffentlichen unter:
 ecs#:#ecs_publish_for#:#Freigabe für:
 ecs#:#ecs_published_for#:#Freigegeben für:
+ecs#:#ecs_rcat_created_body_a#:#Eine neue ECS-Kategorie wurde angelegt:
 ecs#:#ecs_rcrs_created_body_a#:#Ein neuer ECS-Kurs wurde angelegt:
 ecs#:#ecs_read_remote_links#:#Kursinformationen aktualisieren
 ecs#:#ecs_refresh_participants#:#ECS-Teilnehmer aktualisieren
