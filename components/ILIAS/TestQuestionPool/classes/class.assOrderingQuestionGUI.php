@@ -523,19 +523,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         return $this->getILIASPage($template->get());
     }
 
-    public function getPresentationJavascripts(): array
-    {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
-        $files = [];
-
-        if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
-            $files[] = './node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js';
-        }
-
-        return $files;
-    }
-
     public function getTestOutput(
         int $active_id,
         int $pass,

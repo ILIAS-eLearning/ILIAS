@@ -95,7 +95,7 @@ class ilAssQuestionPreviewSession
 
     public function getParticipantsSolution()
     {
-        return $this->readSessionValue(self::SESSION_SUBINDEX_PARTICIPANT_SOLUTION) == [] ? null : $this->readSessionValue(self::SESSION_SUBINDEX_PARTICIPANT_SOLUTION);
+        return $this->readSessionValue(self::SESSION_SUBINDEX_PARTICIPANT_SOLUTION) === [] ? null : $this->readSessionValue(self::SESSION_SUBINDEX_PARTICIPANT_SOLUTION);
     }
 
     public function hasParticipantSolution(): bool
