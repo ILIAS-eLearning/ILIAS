@@ -2831,7 +2831,7 @@
 		<xsl:when test="$fullscreen_link = 'fullscreen.html'">
 			<a target="_blank">
 			<xsl:attribute name="href">fullscreen_<xsl:value-of select="substring-after($cmobid,'mob_')"/>.html</xsl:attribute>
-			<img style="float: right">
+			<img style="float: right; width: auto;">
 			<xsl:attribute name="src"><xsl:value-of select="$enlarge_path"/></xsl:attribute>
 			</img>
 			</a>
@@ -2839,7 +2839,7 @@
 		<xsl:otherwise>
 			<a target="_blank">
 			<xsl:attribute name="onclick">il.COPagePres.openFullScreenModal('<xsl:value-of select="$fullscreen_link"/>&amp;mob_id=<xsl:value-of select="substring-after($cmobid,'mob_')"/>&amp;pg_id=<xsl:value-of select="$pg_id"/>'); return false;</xsl:attribute>
-			<img style="float: right">
+			<img style="float: right; width: auto;">
 			<xsl:attribute name="src"><xsl:value-of select="$enlarge_path"/></xsl:attribute>
 			</img>
 			</a>
