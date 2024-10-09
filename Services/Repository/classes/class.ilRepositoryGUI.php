@@ -146,6 +146,7 @@ class ilRepositoryGUI implements ilCtrlBaseClassInterface
             $this->creation_mode = true;
             $ilHelp->setScreenIdComponent($new_type);
             $ilHelp->setDefaultScreenId(ilHelpGUI::ID_PART_SCREEN, "create");
+            $this->ctrl->saveParameter($this, ["crtcb"]);
         }
 
         $cmd = $this->ctrl->getCmd();
