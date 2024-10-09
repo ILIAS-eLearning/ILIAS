@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Glossary\Settings\SettingsGUI;
+
 /**
  * GUI class for ilGlossary
  * @author Alexander Killing <killing@leifos.de>
@@ -288,11 +290,12 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
                 $this->ctrl->forwardCommand($this->term_def_bulk_gui);
                 break;
 
-            case strtolower(\ILIAS\Glossary\Settings\SettingsGUI::class):
+            case strtolower(SettingsGUI::class):
                 $this->getTemplate();
                 $this->setTabs();
                 $this->tabs->activateTab("settings");
                 $this->setLocator();
+                $this->setSettingsSubTabs("general_settings");
                 $this->checkPermission("write");
                 $gui = $this->gui->settings()->settingsGUI(
                     $this->object->getId(),
@@ -504,17 +507,7 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
 
     public function properties(): void
     {
-        $this->checkPermission("write");
-
-        $this->setSettingsSubTabs("general_settings");
-
-        $this->initSettingsForm();
-
-        // Edit ecs export settings
-        $ecs = new ilECSGlossarySettings($this->object);
-        $ecs->addSettingsToForm($this->form, 'glo');
-
-        $this->tpl->setContent($this->form->getHTML());
+        $this->ctrl->redirectByClass(SettingsGUI::class);
     }
 
     public function initSettingsForm(
@@ -1118,15 +1111,9 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
         if ($this->rbacsystem->checkAccess('write', $this->object->getRefId())) {
             $this->tabs_gui->addTab(
                 "settings",
-                $this->lng->txt("settings"),
-                $this->ctrl->getLinkTarget($this, "properties")
+                $this->lng->txt("settings") . " new",
+                $this->ctrl->getLinkTargetByClass(SettingsGUI::class)
             );
-
-            /*$this->tabs_gui->addTab(
-                "settings",
-                $this->lng->txt("settings"). " new",
-                $this->ctrl->getLinkTargetByClass(\ILIAS\Glossary\Settings\SettingsGUI::class)
-            );*/
 
             // meta data
             $mdgui = new ilObjectMetaDataGUI($this->object, "term");

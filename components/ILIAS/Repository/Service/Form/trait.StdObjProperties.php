@@ -190,8 +190,6 @@ trait StdObjProperties
     ): self {
         global $DIC;
 
-        $ilSetting = $DIC->settings();
-        $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
 
         $lng->loadLanguageModule("obj");
@@ -211,7 +209,21 @@ trait StdObjProperties
             );
         }
 
-        return $this;
+        // taxonomies
+        if (in_array(\ilObjectServiceSettingsGUI::TAXONOMIES, $services)) {
+            $form = $this->checkbox(
+                \ilObjectServiceSettingsGUI::TAXONOMIES,
+                $lng->txt('obj_tool_setting_taxonomies'),
+                "",
+                (bool) \ilContainer::_lookupContainerSetting(
+                    $obj_id,
+                    \ilObjectServiceSettingsGUI::TAXONOMIES
+                )
+            );
+        }
+
+
+        return $form;
     }
 
     public function saveAdditionalFeatures(
@@ -220,6 +232,11 @@ trait StdObjProperties
     ): void {
         // (local) custom metadata
         $key = \ilObjectServiceSettingsGUI::CUSTOM_METADATA;
+        if (in_array($key, $services)) {
+            \ilContainer::_writeContainerSetting($obj_id, $key, (string) $this->getData($key));
+        }
+        // taxonomies
+        $key = \ilObjectServiceSettingsGUI::TAXONOMIES;
         if (in_array($key, $services)) {
             \ilContainer::_writeContainerSetting($obj_id, $key, (string) $this->getData($key));
         }

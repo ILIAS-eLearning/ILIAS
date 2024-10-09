@@ -82,17 +82,17 @@ class SettingsGUI
                 $this->obj_id,
                 "glo"
             )
-            ->switch(
+            ->radio(
                 "glo_mode",
                 $lng->txt("glo_content_assembly"),
                 $lng->txt("glo_mode_desc"),
-                $settings->getVirtualMode() ? "coll" : "none"
+                $settings->getVirtualMode()
             )
-            ->group(
+            ->radioOption(
                 "none",
                 $lng->txt("glo_mode_normal"),
                 $lng->txt("glo_mode_normal_info")
-            )->group(
+            )->radioOption(
                 "coll",
                 $lng->txt("glo_collection"),
                 $lng->txt("glo_collection_info")
@@ -100,7 +100,7 @@ class SettingsGUI
             ->section("avail", $lng->txt('rep_activation_availability'))
             ->addOnline($this->obj_id, "glo")
             ->addStdAvailability($this->ref_id, "glo")
-            ->section("avail", $lng->txt('cont_presentation'))
+            ->section("presentation", $lng->txt('cont_presentation'))
             ->addStdTile($this->obj_id, "glo")
             ->switch(
                 "pres_mode",
@@ -145,7 +145,8 @@ class SettingsGUI
         $form = $form->addAdditionalFeatures(
             $this->obj_id,
             [
-                \ilObjectServiceSettingsGUI::CUSTOM_METADATA
+                \ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+                \ilObjectServiceSettingsGUI::TAXONOMIES
             ]
         );
 
@@ -180,7 +181,8 @@ class SettingsGUI
             $form->saveAdditionalFeatures(
                 $this->obj_id,
                 [
-                    \ilObjectServiceSettingsGUI::CUSTOM_METADATA
+                    \ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+                    \ilObjectServiceSettingsGUI::TAXONOMIES
                 ]
             );
 
@@ -190,8 +192,8 @@ class SettingsGUI
                 $old_settings->getActiveGlossaryMenu(),      // obsolete?
                 $form->getData("pres_mode"),
                 $old_settings->getShowTaxonomy(),
-                $form->getData("snippet_length"),
-                $form->getData("flash_active"),
+                (int) $form->getData("snippet_length"),
+                (bool) $form->getData("flash_active"),
                 $form->getData("flash_mode")
             );
 

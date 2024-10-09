@@ -16,11 +16,6 @@
  *
  *********************************************************************/
 
-/**
- * Class ilObjGlossaryAccess
- *
- * @author Alexander Killing <killing@leifos.de>
- */
 class ilObjGlossaryAccess extends ilObjectAccess
 {
     protected ilObjUser $user;
@@ -90,31 +85,14 @@ class ilObjGlossaryAccess extends ilObjectAccess
 
     public static function _lookupOnline(int $a_id): bool
     {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
-        $q = "SELECT * FROM glossary WHERE id = " .
-            $ilDB->quote($a_id, "integer");
-        $lm_set = $ilDB->query($q);
-        if ($lm_rec = $ilDB->fetchAssoc($lm_set)) {
-            return ilUtil::yn2tf($lm_rec["is_online"]);
-        }
-        return false;
+        return !self::_isOffline($a_id);
     }
 
     public static function _lookupOnlineStatus(array $a_ids): array
     {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
-        $q = "SELECT id, is_online FROM glossary WHERE " .
-            $ilDB->in("id", $a_ids, false, "integer");
-        $lm_set = $ilDB->query($q);
         $status = [];
-        while ($r = $ilDB->fetchAssoc($lm_set)) {
-            $status[$r["id"]] = ilUtil::yn2tf($r["is_online"]);
+        foreach ($a_ids as $id) {
+            $status[$id] = !self::_isOffline($id);
         }
 
         return $status;
