@@ -40,14 +40,6 @@ class ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculationTest extends il
         $this->assertInstanceOf(ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculation::class, $this->testObj);
     }
 
-    public function testSourcePoolDefinition(): void
-    {
-        $mock = $this->createMock(ilTestRandomQuestionSetSourcePoolDefinition::class);
-
-        $this->testObj->setSourcePoolDefinition($mock);
-        $this->assertEquals($mock, $this->testObj->getSourcePoolDefinition());
-    }
-
     public function testIntersectionQuantitySharingDefinitionList(): void
     {
         $mock = $this->createMock(ilTestRandomQuestionSetSourcePoolDefinitionList::class);

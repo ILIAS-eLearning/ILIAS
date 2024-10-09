@@ -37,38 +37,31 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
         protected ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList,
         protected ilTestRandomQuestionSetStagingPoolQuestionList $stagingPoolQuestionList
     ) {
+        $this->stagingPoolQuestionList->setTestObjId($this->testOBJ->getId());
+        $this->stagingPoolQuestionList->setTestId($this->testOBJ->getTestId());
     }
 
     abstract public function checkBuildable();
 
     abstract public function performBuild(ilTestSession $testSession);
 
-
-    // hey: fixRandomTestBuildable - rename/public-access to be aware for building interface
     public function getSrcPoolDefListRelatedQuestCombinationCollection(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList): ilTestRandomQuestionSetQuestionCollection
-    // hey.
     {
         $questionStage = new ilTestRandomQuestionSetQuestionCollection();
 
         foreach ($sourcePoolDefinitionList as $definition) {
-            /** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
-
-            // hey: fixRandomTestBuildable - rename/public-access to be aware for building interface
             $questions = $this->getSrcPoolDefRelatedQuestCollection($definition);
-            // hey.
             $questionStage->mergeQuestionCollection($questions);
         }
 
         return $questionStage;
     }
 
-    // hey: fixRandomTestBuildable - rename/public-access to be aware for building interface
     /**
      * @param ilTestRandomQuestionSetSourcePoolDefinition $definition
      * @return ilTestRandomQuestionSetQuestionCollection
      */
     public function getSrcPoolDefRelatedQuestCollection(ilTestRandomQuestionSetSourcePoolDefinition $definition): ilTestRandomQuestionSetQuestionCollection
-    // hey.
     {
         $questionIds = $this->getQuestionIdsForSourcePoolDefinitionIds($definition);
         $questionStage = $this->buildSetQuestionCollection($definition, $questionIds);
@@ -92,19 +85,12 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
     {
         $this->stagingPoolQuestionList->resetQuestionList();
 
-        $this->stagingPoolQuestionList->setTestObjId($this->testOBJ->getId());
-        $this->stagingPoolQuestionList->setTestId($this->testOBJ->getTestId());
         $this->stagingPoolQuestionList->setPoolId($definition->getPoolId());
 
         if ($this->hasTaxonomyFilter($definition)) {
-            // fau: taxFilter/typeFilter - use new taxonomy filter
             foreach ($definition->getMappedTaxonomyFilter() as $taxId => $nodeIds) {
                 $this->stagingPoolQuestionList->addTaxonomyFilter($taxId, $nodeIds);
             }
-            #$this->stagingPoolQuestionList->addTaxonomyFilter(
-            #	$definition->getMappedFilterTaxId(), array($definition->getMappedFilterTaxNodeId())
-            #);
-            // fau.
         }
 
         if (count($definition->getLifecycleFilter())) {
@@ -140,20 +126,9 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
 
     private function hasTaxonomyFilter(ilTestRandomQuestionSetSourcePoolDefinition $definition): bool
     {
-        // fau: taxFilter - check for existing taxonomy filter
         if (!count($definition->getMappedTaxonomyFilter())) {
             return false;
         }
-        #if( !(int)$definition->getMappedFilterTaxId() )
-        #{
-        #	return false;
-        #}
-        #
-        #if( !(int)$definition->getMappedFilterTaxNodeId() )
-        #{
-        #	return false;
-        #}
-        // fau.
         return true;
     }
 

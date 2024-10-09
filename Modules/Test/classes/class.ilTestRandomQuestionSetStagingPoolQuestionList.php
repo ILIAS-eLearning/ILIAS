@@ -292,9 +292,7 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
     {
         $this->questions = [];
         $this->taxFilters = [];
-
-        $this->testObjId = -1;
-        $this->testId = -1;
+        $this->typeFilter = [];
         $this->poolId = -1;
     }
 

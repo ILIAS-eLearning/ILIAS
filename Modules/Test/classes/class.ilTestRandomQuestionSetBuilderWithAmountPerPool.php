@@ -26,14 +26,8 @@ declare(strict_types=1);
  */
 class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuestionSetBuilder
 {
-    // hey: fixRandomTestBuildable - improvment of improved pass build check
-    /**
-     * @return bool
-     */
-    public function checkBuildableNewer(): bool
+    public function checkBuildable(): bool
     {
-        $isBuildable = true;
-
         $quantitiesDistribution = new ilTestRandomQuestionsQuantitiesDistribution(
             $this->db,
             $this,
@@ -41,44 +35,17 @@ class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuesti
         );
         $quantitiesDistribution->initialise();
 
-        // perhaps not every with every BUT every with any next ??!
-        // perhaps exactly like this !!? I dont know :-)
-        // it should be about vice versa rule conflict reporting
-
+        $is_buildable = true;
         foreach ($this->sourcePoolDefinitionList as $definition) {
-            /** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
-
             $quantityCalculation = $quantitiesDistribution->calculateQuantities($definition);
-
             if ($quantityCalculation->isRequiredAmountGuaranteedAvailable()) {
                 continue;
             }
-
-            $isBuildable = false;
-
+            $is_buildable = false;
             $this->checkMessages[] = $quantityCalculation->getDistributionReport($this->lng);
         }
 
-        return $isBuildable;
-    }
-    // hey.
-
-    /**
-     * @return bool
-     */
-    public function checkBuildable(): bool
-    {
-        // hey: fixRandomTestBuildable - improved the buildable check improvement
-        return $this->checkBuildableNewer();
-        // hey.
-
-        $questionStage = $this->getSrcPoolDefListRelatedQuestUniqueCollection($this->sourcePoolDefinitionList);
-
-        if ($questionStage->isSmallerThan($this->sourcePoolDefinitionList->getQuestionAmount())) {
-            return false;
-        }
-
-        return true;
+        return $is_buildable;
     }
 
     public function performBuild(ilTestSession $testSession)

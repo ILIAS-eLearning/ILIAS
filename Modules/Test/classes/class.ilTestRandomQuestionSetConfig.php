@@ -325,18 +325,14 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 
     private function buildSourcePoolDefinitionList(ilObjTest $test_obj): ilTestRandomQuestionSetSourcePoolDefinitionList
     {
-        $sourcePoolDefinitionFactory = new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
-            $this->db,
-            $test_obj
-        );
-
-        $sourcePoolDefinitionList = new ilTestRandomQuestionSetSourcePoolDefinitionList(
+        return new ilTestRandomQuestionSetSourcePoolDefinitionList(
             $this->db,
             $test_obj,
-            $sourcePoolDefinitionFactory
+            new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
+                $this->db,
+                $test_obj
+            )
         );
-
-        return $sourcePoolDefinitionList;
     }
 
     private function buildStagingPoolBuilder(ilObjTest $test_obj): ilTestRandomQuestionSetStagingPoolBuilder
