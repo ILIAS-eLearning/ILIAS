@@ -24,10 +24,7 @@ export default class Textarea {
     }
 
     if (this.shouldShowRemainder()) {
-      this.remainder = this.textarea
-        .closest('.c-field-textarea')
-        ?.querySelector('[data-action="remainder"]');
-
+      this.remainder = this.textarea.parentNode.querySelector('[data-action="remainder"]');
       if (!this.remainder instanceof HTMLSpanElement) {
         throw new Error(`Could not find remainder-element for input-id '${input_id}'.`);
       }

@@ -106,6 +106,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
             '<input id="id_1" type="text" name="form/input_0" class="c-field-text" />',
             'byline',
             'id_1',
+            null,
             'form/input_0'
         );
     }
@@ -322,6 +323,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
             '<input id="id_1" type="text" name="form_0/input_1" class="c-field-text" />',
             'byline',
             'id_1',
+            null,
             'form_0/input_1'
         );
 
@@ -354,10 +356,11 @@ class StandardFormTest extends ILIAS_UI_TestBase
 
         $field_html = $this->getFormWrappedHtml(
             'text-field-input',
-            'label<span class="asterisk">*</span>',
+            'label<span class="asterisk" aria-label="required_field">*</span>',
             '<input id="id_1" type="text" name="form/input_0" class="c-field-text" />',
             'byline',
             'id_1',
+            null,
             'form/input_0'
         );
 

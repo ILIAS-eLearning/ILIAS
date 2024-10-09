@@ -39,7 +39,7 @@ il.UI.Input = il.UI.Input || {};
 
       // Initialize ID and Configuration
       _CONFIG = $.extend(_CONFIG, config);
-      _CONFIG.id = raw_id;
+      _CONFIG.id = document.querySelector(`#${raw_id} .c-input__field .c-field-tag__wrapper input`)?.id;
 
       const settings = _getSettings();
       settings.delimiters = null;
