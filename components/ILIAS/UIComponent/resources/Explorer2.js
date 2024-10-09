@@ -170,7 +170,7 @@ il.Explorer2 = {
       $(`#${id}_hid`).empty();
       $(`#${id}_cont_txt`).empty();
       $(`#${id}_expl_content input[type="checkbox"]`).each(function () {
-        const n = this.name;
+        const n = `${this.name.substr(0, this.name.length - 6)}[]`;
         const ni = `<input type='hidden' name='${n}' value='${this.value}' />`;
         if (this.checked) {
           t = t + sep + $(this).parent().find('span.ilExp2NodeContent').html();
@@ -179,7 +179,7 @@ il.Explorer2 = {
         }
       });
       $(`#${id}_expl_content input[type="radio"]`).each(function () {
-        const n = this.name;
+        const n = `${this.name.substr(0, this.name.length - 4)}`;
         const ni = `<input type='hidden' name='${n}' value='${this.value}' />`;
         if (this.checked) {
           t = t + sep + $(this).parent().find('span.ilExp2NodeContent').html();
