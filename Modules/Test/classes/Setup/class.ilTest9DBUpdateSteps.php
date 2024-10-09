@@ -350,4 +350,8 @@ class ilTest9DBUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
+    public function step_20(): void
+    {
+        $this->db->modifyTableColumn('ass_log', 'logtext', ['type' => \ilDBConstants::T_CLOB]);
+    }
 }
