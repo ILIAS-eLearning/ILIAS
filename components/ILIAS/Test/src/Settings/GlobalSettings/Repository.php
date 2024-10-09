@@ -145,7 +145,7 @@ class Repository
     private function migrateLegacyQuestionTypes(string $legacy_types): void
     {
         $this->settings->delete(self::SETTINGS_KEY_DISABLED_QUESTION_TYPES_LEGACY);
-        $this->settings->set(self::SETTINGS_KEY_DISABLED_QUESTION_TYPES, implode(',', unserialize($legacy_types, ['allowed_classes' => false])));
+        $this->settings->set(self::SETTINGS_KEY_DISABLED_QUESTION_TYPES, implode(',', unserialize($legacy_types, ['allowed_classes' => false]) ?? []));
     }
 
     private function migrateLegacyManualScoring(string $legacy_manual_scoring): void
