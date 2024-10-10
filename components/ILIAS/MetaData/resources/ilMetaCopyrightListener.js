@@ -14,16 +14,14 @@ il.MetaDataCopyrightListener = {
   init(modalSignalId, radioGroupId) {
     this.modalSignalId = modalSignalId;
     this.radioGroupId = radioGroupId;
-    this.form = $(`input[id^='${this.radioGroupId}']`)[0].form;
+    this.form = document.querySelector('#' + this.radioGroupId).form;
     this.formButton = $(':submit', this.form);
-
-    this.initialValue = $(`input[id^='${this.radioGroupId}']:checked`).val();
+    this.initialValue = this.form.querySelector('#' + this.radioGroupId + ' input:checked').value;
 
     $(this.form).on(
       'submit',
       (event) => {
-        const currentValue = $(`input[id^='${il.MetaDataCopyrightListener.radioGroupId}']:checked`).val();
-
+        const currentValue = document.querySelector('#' + il.MetaDataCopyrightListener.radioGroupId + ' input:checked').value;
         if (currentValue !== il.MetaDataCopyrightListener.initialValue) {
           if (!il.MetaDataCopyrightListener.confirmed) {
             event.preventDefault();
