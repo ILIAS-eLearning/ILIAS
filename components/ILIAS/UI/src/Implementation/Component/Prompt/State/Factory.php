@@ -18,28 +18,28 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Implementation\Component\Prompt\Instruction;
+namespace ILIAS\UI\Implementation\Component\Prompt\State;
 
 use ILIAS\UI\Component\Prompt as I;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\Data\URI;
 
-class Factory implements I\Instruction\Factory
+class Factory implements I\State\Factory
 {
-    public function show(I\PromptContent $content): Instruction
+    public function show(I\isPromptContent $content): State
     {
-        return new Instruction($content);
+        return new State($content);
     }
 
-    public function close(): Instruction
+    public function close(): State
     {
-        return (new Instruction(null))
+        return (new State(null))
             ->withCloseModal(true);
     }
 
-    public function redirect(URI $redirect): Instruction
+    public function redirect(URI $redirect): State
     {
-        return (new Instruction(null))
+        return (new State(null))
             ->withRedirect($redirect);
     }
 

@@ -65,11 +65,11 @@ export default class Prompt {
       .then((html) => {
         const parser = new this.#DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
-        const title = doc.querySelector('section[data-section="il-prompt-response__title"]');
-        const contents = doc.querySelector('section[data-section="il-prompt-response__contents"]');
-        const buttons = doc.querySelector('section[data-section="il-prompt-response__buttons"]');
-        const command = doc.querySelector('section[data-section="il-prompt-response__command"]');
-        const parameters = doc.querySelector('section[data-section="il-prompt-response__parameters"]');
+        const title = doc.querySelector('section[data-section="il-prompt-state__title"]');
+        const contents = doc.querySelector('section[data-section="il-prompt-state__contents"]');
+        const buttons = doc.querySelector('section[data-section="il-prompt-state__buttons"]');
+        const command = doc.querySelector('section[data-section="il-prompt-state__command"]');
+        const parameters = doc.querySelector('section[data-section="il-prompt-state__parameters"]');
         const scripts = doc.querySelector('script');
         const dialogTitle = this.#prompt.querySelector('span.il-prompt__title');
         const dialogContents = this.#prompt.querySelector('div.il-prompt__contents');

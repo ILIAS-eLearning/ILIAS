@@ -18,11 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Implementation\Component\Prompt\Instruction;
+namespace ILIAS\UI\Implementation\Component\Prompt\State;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\Template;
-use ILIAS\UI\Implementation\Component\Prompt\Instruction\Instruction;
+use ILIAS\UI\Implementation\Component\Prompt\State\State;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 
@@ -33,17 +33,17 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        if ($component instanceof Instruction) {
-            return $this->renderInstruction($component, $default_renderer);
+        if ($component instanceof State) {
+            return $this->renderState($component, $default_renderer);
         }
 
         $this->cannotHandleComponent($component);
     }
 
 
-    protected function renderInstruction(Instruction $component, RendererInterface $default_renderer): string
+    protected function renderState(State $component, RendererInterface $default_renderer): string
     {
-        $tpl = $this->getTemplate('tpl.promptinstruction.html', true, true);
+        $tpl = $this->getTemplate('tpl.promptstate.html', true, true);
         $tpl->setVariable('COMMAND', $component->getCommand());
 
         foreach ($component->getParameters() as $key => $value) {

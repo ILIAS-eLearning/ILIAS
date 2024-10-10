@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\examples\Prompt\Instruction\Close;
+namespace ILIAS\UI\examples\Prompt\State\Redirect;
 
-use ILIAS\UI\Component\Prompt\PromptContent;
+use ILIAS\UI\Component\Prompt\isPromptContent;
 use ILIAS\UI\URLBuilder;
 
 /**
  * ---
  * description: >
- *   The example demonstrates how to use commands in the Response.
+ *   The example demonstrates how to use commands in the state.
  *
  * expected output: >
  *   When clicking the button, the Prompt shows a Mesaae Box with a Link.
- *   Using the Link will close the Prompt.
+ *   Using the Link will redirect the page to the ILIAS homepage.
  * ---
  */
 function base()
@@ -26,7 +26,7 @@ function base()
     $refinery = $DIC['refinery'];
     $here_uri = $df->uri($DIC->http()->request()->getUri()->__toString());
     $url_builder = new URLBuilder($here_uri);
-    $example_namespace = ['prompt', 'close'];
+    $example_namespace = ['prompt', 'redirect'];
     list($url_builder, $action_token) = $url_builder->acquireParameters(
         $example_namespace,
         "action"
@@ -36,19 +36,20 @@ function base()
     $query = $DIC->http()->wrapper()->query();
     if ($query->has($action_token->getName())) {
         $action = $query->retrieve($action_token->getName(), $refinery->kindlyTo()->string());
-        if ($action === 'closecommand') {
-            //an instruction to simply close the modal
-            $response = $factory->prompt()->instruction()->close();
+        if ($action === 'redirection') {
+            //a state to redirect to an URL
+            $target = $df->uri('https://www.ilias.de');
+            $response = $factory->prompt()->state()->redirect($target);
         } else {
             //The messagebox we are going to wrap into the prompt
-            $close = $factory->link()->standard(
-                'send close command',
-                $url_builder->withParameter($action_token, 'closecommand')->buildURI()->__toString()
+            $redirect = $factory->link()->standard(
+                'send redirect command',
+                $url_builder->withParameter($action_token, 'redirection')->buildURI()->__toString()
             );
 
             $message = $factory->messageBox()->info('some message box')
-                ->withLinks([$close]);
-            $response = $factory->prompt()->instruction()->show($message);
+                ->withLinks([$redirect]);
+            $response = $factory->prompt()->state()->show($message);
         }
         echo($renderer->renderAsync($response));
         exit();

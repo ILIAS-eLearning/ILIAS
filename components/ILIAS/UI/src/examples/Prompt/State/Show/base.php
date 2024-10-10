@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\examples\Prompt\Instruction\Show;
+namespace ILIAS\UI\examples\Prompt\State\Show;
 
-use ILIAS\UI\Component\Prompt\PromptContent;
+use ILIAS\UI\Component\Prompt\isPromptContent;
 use ILIAS\UI\URLBuilder;
 
 /**
  * ---
  * description: >
- *   The example displays the HTML of an Instruction.
+ *   The example displays the HTML of a State.
  * ---
  */
 function base()
@@ -22,13 +22,13 @@ function base()
     $here_uri = $df->uri($DIC->http()->request()->getUri()->__toString());
     $url_builder = new URLBuilder($here_uri);
 
-    //a response may contain Components implementing PromptContent interface.
+    //a response may contain Components implementing isPromptContent interface.
     $content = $factory->input()->container()->form()->standard(
         $url_builder->buildURI()->__toString(),
         [$factory->input()->field()->text("Text Input")]
     );
 
-    $response = $factory->prompt()->instruction()->show($content);
+    $response = $factory->prompt()->state()->show($content);
 
     //endpoint to return response on (asynch) call
     $refinery = $DIC['refinery'];

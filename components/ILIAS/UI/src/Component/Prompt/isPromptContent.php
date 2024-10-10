@@ -24,15 +24,8 @@ use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Button\Button;
 
 /**
- * Defines the allowed content of a Prompt
+ * Flags some Component to be a valid content of a Prompt
  */
-interface PromptContent extends Component
+interface isPromptContent extends Component
 {
-    public function getPromptTitle(): string;
-
-    /**
-     * @return Button[]
-     */
-    public function getPromptButtons(): array;
-
 }

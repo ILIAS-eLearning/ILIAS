@@ -18,10 +18,22 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Component\Prompt\Instruction;
+namespace ILIAS\UI\Implementation\Component\Prompt;
 
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Button\Button;
+use ILIAS\UI\Component\Prompt\isPromptContent as IPromptContent;
 
-interface Instruction extends Component
+/**
+ * Flags some Component to be a valid content of a Prompt
+ */
+interface isPromptContent extends IPromptContent
 {
+    public function getPromptTitle(): string;
+
+    /**
+     * @return Button[]
+     */
+    public function getPromptButtons(): array;
+
 }

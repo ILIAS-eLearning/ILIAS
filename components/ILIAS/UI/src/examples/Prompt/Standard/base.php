@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Prompt\Standard;
 
-use ILIAS\UI\Component\Prompt\PromptContent;
+use ILIAS\UI\Component\Prompt\isPromptContent;
 use ILIAS\UI\URLBuilder;
 
 /**
  * ---
  * description: >
- *   This example wraps a Message Box into a Prompt (Instruction).
+ *   This example wraps a Message Box into a Prompt (State).
  *
  * expected output: >
  *   A Message Box is rendered along with a Button triggering the Prompt.
@@ -37,7 +37,7 @@ function base()
     $message = $factory->messageBox()->success('some message box')
         ->withButtons([$factory->button()->standard('some Action', '#')]);
 
-    //when expecting an instruction, we do not want to render other examples
+    //when expecting a state, we do not want to render other examples
     $example_namespace = ['prompt', 'endpoints'];
     list($url_builder, $endpointtoken) = $url_builder->acquireParameters($example_namespace, "endpoint");
     $url_builder = $url_builder->withParameter($endpointtoken, "true");
@@ -51,7 +51,7 @@ function base()
     //build the endpoint returning the wrapped message
     $query = $DIC->http()->wrapper()->query();
     if ($query->has($token->getName())) {
-        $response = $factory->prompt()->instruction()->show($message);
+        $response = $factory->prompt()->state()->show($message);
         echo($renderer->renderAsync($response));
         exit();
     }

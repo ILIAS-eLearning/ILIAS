@@ -10,7 +10,7 @@ use ILIAS\UI\URLBuilder;
 /**
  * ---
  * description: >
- *   This shows how different instructions are being used in the same Prompt
+ *   This shows how different states are being used in the same Prompt
  *   according to parameters, thus creating an 'internally navigational' Prompt.
  *   the additional buttons demonstrate the usage of JS within Prompts.
  *
@@ -32,7 +32,7 @@ function parameters()
     $here_uri = $df->uri($DIC->http()->request()->getUri()->__toString());
     $url_builder = new URLBuilder($here_uri);
 
-    //when expecting an instruction, we do not want to render other examples
+    //when expecting a state, we do not want to render other examples
     $example_namespace = ['prompt', 'endpoints'];
     list($url_builder, $endpointtoken) = $url_builder->acquireParameters($example_namespace, "endpoint");
     $url_builder = $url_builder->withParameter($endpointtoken, "true");
@@ -92,7 +92,7 @@ function parameters()
                 throw new \Exception('?' . $action . $amount);
         }
 
-        $response = $factory->prompt()->instruction()->show($prompt_content);
+        $response = $factory->prompt()->state()->show($prompt_content);
         echo($renderer->renderAsync($response));
         exit();
     }

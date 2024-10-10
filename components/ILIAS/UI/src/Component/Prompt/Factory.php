@@ -32,7 +32,7 @@ interface Factory
      *      A Prompt interrupts a user to focus on a certain task or/and
      *      prompts for information without the user losing the current context.
      *      The Prompt is async by default and merely provides a wrapper,
-     *      its contents are defined by the Prompt Instruction.
+     *      its contents are defined by the Prompt's State.
      *   composition: >
      *      The Prompt uses the HTML dialog tag.
      *   effect: >
@@ -41,7 +41,7 @@ interface Factory
      *      stay in context of the Prompt, i.e. you may take roundtrips to the
      *      server and modify the Prompt's content without closing it.
      * context:
-     *   - The Prompt requires a Prompt Instruction.
+     *   - The Prompt requires a Prompt State.
      *
      * rules:
      *   usage:
@@ -57,16 +57,16 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *      Prompt Instructions serve as a formalized wrapper around output of
+     *      Prompt States serve as a formalized wrapper around output of
      *      asynchrounous requests in order to provide contents and commands
      *      for a Prompt.
      *      They allow for dedicated changes to recurring parts of Prompts,
      *      such as Title, Content or Buttons.
      *   composition: >
-     *      The Instruction will render a div-element containing sections for
+     *      The State will render a div-element containing sections for
      *      its respective parts.
      *   effect: >
-     *       The sections of the Prompt Instruction are rendered to their respective
+     *       The sections of the Prompt State are rendered to their respective
      *       parts of the Prompt.
      *       Forms and Links are automatically turned into async requests to
      *       stay in context of the Prompt.
@@ -74,7 +74,7 @@ interface Factory
      *       request has been processed.
      *
      * ---
-     * @return \ILIAS\UI\Component\Prompt\Instruction\Factory
+     * @return \ILIAS\UI\Component\Prompt\State\Factory
      */
-    public function instruction(): Instruction\Factory;
+    public function state(): State\Factory;
 }

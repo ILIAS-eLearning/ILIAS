@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Implementation\Component\Prompt\Instruction;
+namespace ILIAS\UI\Implementation\Component\Prompt\State;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Button;
@@ -29,7 +29,7 @@ use ILIAS\Data\URI;
 /**
  *
  */
-class Instruction implements I\Instruction\Instruction
+class State implements I\State\State
 {
     use ComponentHelper;
 
@@ -42,7 +42,7 @@ class Instruction implements I\Instruction\Instruction
     protected string $title = '';
 
     public function __construct(
-        protected ?I\PromptContent $content
+        protected ?I\isPromptContent $content
     ) {
     }
 
@@ -58,7 +58,7 @@ class Instruction implements I\Instruction\Instruction
         return $clone;
     }
 
-    public function withContent(I\PromptContent $content): self
+    public function withContent(I\isPromptContent $content): self
     {
         $clone = clone $this;
         $clone->content = $content;
@@ -68,7 +68,7 @@ class Instruction implements I\Instruction\Instruction
     /**
      * @return Component[]
      */
-    public function getContent(): ?I\PromptContent
+    public function getContent(): ?I\isPromptContent
     {
         return $this->content;
     }

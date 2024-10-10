@@ -36,8 +36,8 @@ class Factory implements I\Factory
         return new Standard($this->signal_generator, $async_url);
     }
 
-    public function instruction(): I\Instruction\Factory
+    public function state(): I\State\Factory
     {
-        return new Instruction\Factory();
+        return new State\Factory();
     }
 }
