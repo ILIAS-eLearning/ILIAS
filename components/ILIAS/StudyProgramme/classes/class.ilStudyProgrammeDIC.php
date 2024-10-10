@@ -246,22 +246,6 @@ class ilStudyProgrammeDIC
                 $DIC->refinery(),
                 $DIC['rbacreview']
             );
-        $dic['ilObjStudyProgrammeTreeGUI'] = static fn($dic) =>
-            new ilObjStudyProgrammeTreeGUI(
-                $DIC['tpl'],
-                $DIC['ilCtrl'],
-                $DIC['ilAccess'],
-                $DIC['ilToolbar'],
-                $DIC['lng'],
-                $dic['Log'],
-                $DIC['ilias'],
-                $DIC['ilSetting'],
-                $DIC['tree'],
-                $DIC['rbacadmin'],
-                $DIC->http()->wrapper(),
-                $DIC->refinery(),
-                $DIC['ui.factory']
-            );
         $dic['ilStudyProgrammeTypeGUI'] = static fn($dic): ilStudyProgrammeTypeGUI =>
             new ilStudyProgrammeTypeGUI(
                 $DIC['tpl'],

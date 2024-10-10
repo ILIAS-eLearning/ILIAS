@@ -13227,6 +13227,7 @@ prg#:#prg_auto_member_select_crs#:#Kurse
 prg#:#prg_auto_member_select_grp#:#Gruppen
 prg#:#prg_auto_member_select_role#:#Rollen
 prg#:#prg_autoassignment#:#(automatisch)
+prg#:#prg_availability_action_not_allowed#:#Studienprogramme haben keine zeitliche Verfügbarkeit.
 prg#:#prg_belongs_to#:#Gehört Zu
 prg#:#prg_can_not_manage_in_repo#:#Sie dürfen dieses Studienprogramm nicht verwalten, da Ihm bereits Mitglieder zugeordnet sind.
 prg#:#prg_cancel#:#Abbrechen
@@ -13243,6 +13244,7 @@ prg#:#prg_create_new_leaf#:#Neuen Kurslink hinzufügen.
 prg#:#prg_create_new_node#:#Neues Studienprogramm hinzufügen
 prg#:#prg_cron_job_configuration#:#Automatische Mails
 prg#:#prg_custom_plan#:#Individueller Plan
+prg#:#prg_cut_action_not_allowed#:#Studienprogramme können nicht verschoben werden.
 prg#:#prg_dash_label_finish_until#:#Zu erledigen bis
 prg#:#prg_dash_label_gain#:#Aktueller Stand
 prg#:#prg_dash_label_minimum#:#Minimales Ziel
@@ -13269,6 +13271,7 @@ prg#:#prg_description#:#Beschreibung
 prg#:#prg_edit#:#Studienprogramm bearbeiten
 prg#:#prg_expiry_date#:#Ablauf Qualifikation
 prg#:#prg_formatted_period#:#%d Tage
+prg#:#prg_import_action_not_allowed#:#Studienprogramme unterstützen keinen Import.
 prg#:#prg_invalidate_expired_progresses_desc#:#Setzt 'Gültigkeit' auf 'ungültig' wenn Ablaufdatum erreicht.
 prg#:#prg_invalidate_expired_progresses_title#:#Zeitlich begrenzte Gültigkeit von Studienprogrammen
 prg#:#prg_link#:#Link

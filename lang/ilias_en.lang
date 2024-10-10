@@ -13215,6 +13215,7 @@ prg#:#prg_auto_member_select_crs#:#Courses
 prg#:#prg_auto_member_select_grp#:#Groups
 prg#:#prg_auto_member_select_role#:#Roles
 prg#:#prg_autoassignment#:#(auto)
+prg#:#prg_availability_action_not_allowed#:#Cannot set Availability Period on Study Programmes.
 prg#:#prg_belongs_to#:#Belongs to
 prg#:#prg_can_not_manage_in_repo#:#You're not allowed to manage this Study Programme, because of user assignments.
 prg#:#prg_cancel#:#Cancel
@@ -13231,6 +13232,7 @@ prg#:#prg_create_new_leaf#:#Create new leaf
 prg#:#prg_create_new_node#:#Create new node
 prg#:#prg_cron_job_configuration#:#Configuration automatic Mails
 prg#:#prg_custom_plan#:#Custom Plan
+prg#:#prg_cut_action_not_allowed#:#Cannot move Study Programmes
 prg#:#prg_dash_label_finish_until#:#Finish until
 prg#:#prg_dash_label_gain#:#Current Completion
 prg#:#prg_dash_label_minimum#:#Minimum Completion
@@ -13257,6 +13259,7 @@ prg#:#prg_description#:#Description
 prg#:#prg_edit#:#Edit Study Programme
 prg#:#prg_expiry_date#:#Expiry date
 prg#:#prg_formatted_period#:#%d days
+prg#:#prg_import_action_not_allowed#:#Cannot import into Study Programmes.
 prg#:#prg_invalidate_expired_progresses_desc#:#Marks expired progresses at Studyprogrammes as 'not passed'
 prg#:#prg_invalidate_expired_progresses_title#:#Limited validity of Studyprogramme progress
 prg#:#prg_link#:#Link
