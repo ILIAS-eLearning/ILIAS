@@ -37,6 +37,10 @@ export default class WatchList {
     return Reflect.has(this.#list, String(key));
   }
 
+  includes(key) {
+    return this.has(key);
+  }
+
   onChange(callback) {
     this.#onChangeList.push(callback);
   }

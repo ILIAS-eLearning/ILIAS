@@ -85,27 +85,50 @@ td.chatroom {
 	height: auto;
 }
 
-.chat-autocomplete {
-    display: flex;
+.chat-autocomplete-container {
     position: relative;
+}
+
+.chat-autocomplete-container .alert {
+    margin-top: 5px;
+}
+
+.chat-autocomplete {
+    position: absolute;
     width: 100%;
-    flex-direction: column;
     max-height: 200px;
-    overflow: visible scroll;
+    overflow: hidden auto;
+    padding: 0;
+    margin: 0;
+    border: 1px solid gray;
+}
+
+.chat-autocomplete li {
+    list-style: none;
 }
 
 .chat-autocomplete button {
     background-color: white;
-    border: 1px solid gray;
     text-align: left;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border: none;
 }
 
-.chat-autocomplete button:hover {
-    background-color: lightgray;
+.chat-autocomplete button.load-more {
+    font-weight: bold;
 }
 
+.chat-autocomplete button:hover,
 .chat-autocomplete button:focus {
-    background-color: lightgray;
+    background-color: #e2e8ef;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    border: none;
+    box-shadow: none;
+
 }
 
 #chat_users .dropdown ul.dropdown-menu {
