@@ -381,17 +381,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     protected function save(): void
     {
         parent::saveObject();
-
-        if ($this->ctrl->isAsynch()) {
-            $form = $this->getAsyncCreationForm();
-            $form->setValuesByPost();
-            echo ilAsyncOutputHandler::encodeAsyncResponse([
-                "cmd" => $this->ctrl->getCmd(),
-                "success" => false,
-                "errors" => $form->getErrors()
-            ]);
-            exit();
-        }
     }
 
     /**
@@ -406,14 +395,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
         $settings->setSortNewItemsOrder(ilContainer::SORT_NEW_ITEMS_ORDER_CREATION);
         $settings->setSortNewItemsPosition(ilContainer::SORT_NEW_ITEMS_POSITION_BOTTOM);
         $settings->save();
-
-        $async_response = ilAsyncOutputHandler::encodeAsyncResponse([
-            "cmd" => "cancel",
-            "success" => true,
-            "message" => $this->lng->txt("object_added")
-        ]);
-
-        ilAsyncOutputHandler::handleAsyncOutput("", $async_response, false);
 
         $this->tpl->setOnScreenMessage("success", $this->lng->txt("object_added"), true);
 
