@@ -18,6 +18,10 @@
 
 declare(strict_types=1);
 
+use ILIAS\DI\UIServices;
+use ILIAS\HTTP\Services as HTTP;
+use ILIAS\Refinery\Factory as Refinery;
+
 /**
 * TableGUI class for search results
 *
@@ -27,9 +31,14 @@ declare(strict_types=1);
 */
 class ilSearchResultTableGUI extends ilTable2GUI
 {
+    use ilSearchResultTableHelper;
+
     protected ilObjUser $user;
     protected ilSearchResultPresentation $presenter;
     protected ilObjectDefinition $objDefinition;
+    protected UIServices $ui;
+    protected HTTP $http;
+    protected Refinery $refinery;
 
     /**
     * Constructor
@@ -41,6 +50,9 @@ class ilSearchResultTableGUI extends ilTable2GUI
         $this->user = $DIC->user();
         $this->presenter = $a_presenter;
         $this->objDefinition = $DIC['objDefinition'];
+        $this->ui = $DIC->ui();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         $this->setId("ilSearchResultsTable");
 
@@ -48,18 +60,12 @@ class ilSearchResultTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setTitle($this->lng->txt("search_results"));
         $this->setLimit(999);
-        $this->addColumn($this->lng->txt("type"), "type", "1");
-        $this->addColumn($this->lng->txt("search_title_description"), "title");
+        $this->addColumn($this->lng->txt("type"), "", "1");
+        $this->addColumn($this->lng->txt("search_title_description"), "");
 
         $all_cols = $this->getSelectableColumns();
         foreach ($this->getSelectedColumns() as $col) {
-            $this->addColumn($all_cols[$col]['txt'], $col, '50px');
-        }
-
-        if ($this->enabledRelevance()) {
-            $this->addColumn($this->lng->txt('lucene_relevance_short'), 'relevance', '50px');
-            $this->setDefaultOrderField("s_relevance");
-            $this->setDefaultOrderDirection("desc");
+            $this->addColumn($all_cols[$col]['txt'], "", '50px');
         }
 
 
@@ -71,15 +77,7 @@ class ilSearchResultTableGUI extends ilTable2GUI
         $this->setEnableTitle(true);
         $this->setEnableNumInfo(false);
         $this->setShowRowsSelector(false);
-    }
-
-    public function numericOrdering(string $a_field): bool
-    {
-        switch ($a_field) {
-            case 'relevance':
-                return true;
-        }
-        return parent::numericOrdering($a_field);
+        $this->setExternalSorting(true);
     }
 
     /**
@@ -107,7 +105,6 @@ class ilSearchResultTableGUI extends ilTable2GUI
         $type = $a_set['type'];
         $title = $a_set['title'];
         $description = $a_set['description'];
-        $relevance = $a_set['relevance'];
 
         if (!$type || $this->objDefinition->isSideBlock($type)) {
             return;
@@ -145,24 +142,13 @@ class ilSearchResultTableGUI extends ilTable2GUI
             $item_html[$ref_id]['type'] = $type;
         }
 
-
-        if ($this->enabledRelevance()) {
-            $pbar = ilProgressBar::getInstance();
-            $pbar->setCurrent((int) $relevance);
-
-            $this->tpl->setCurrentBlock('relev');
-            $this->tpl->setVariable('REL_PBAR', $pbar->render());
-            $this->tpl->parseCurrentBlock();
-        }
-
-
         $this->tpl->setVariable("ITEM_HTML", $html);
 
         foreach ($this->getSelectedColumns() as $field) {
             switch ($field) {
                 case 'create_date':
                     $this->tpl->setCurrentBlock('creation');
-                    $this->tpl->setVariable('CREATION_DATE', ilDatePresentation::formatDate(new ilDateTime(ilObject::_lookupCreationDate($obj_id), IL_CAL_DATETIME)));
+                    $this->tpl->setVariable('CREATION_DATE', ilDatePresentation::formatDate(new ilDateTime($a_set['create_date'], IL_CAL_DATETIME)));
                     $this->tpl->parseCurrentBlock();
             }
         }
@@ -189,6 +175,82 @@ class ilSearchResultTableGUI extends ilTable2GUI
                 'ilIcon'
             )
         );
+    }
+
+    public function getHTML(): string
+    {
+        $view_control = $this->ui->renderer()->render($this->buildSortationViewControl());
+        return $view_control . parent::getHTML();
+    }
+
+    public function setDataAndApplySortation(array $set): void
+    {
+        if (in_array('create_date', $this->getSelectedColumns())) {
+            foreach ($set as $key => $row) {
+                $set[$key]['create_date'] = ilObject::_lookupCreationDate($row['obj_id']);
+            }
+        }
+
+        switch ($this->getCurrentSortation()) {
+            case 'relevance':
+                usort($set, function ($a, $b) {
+                    return $b['relevance'] <=> $a['relevance'];
+                });
+                break;
+
+            case 'title_desc':
+                usort($set, function ($a, $b) {
+                    return [$b['title'], $b['relevance'] ?? ''] <=> [$a['title'], $a['relevance'] ?? ''];
+                });
+                break;
+
+            case 'title_asc':
+                usort($set, function ($a, $b) {
+                    return [$a['title'], $b['relevance'] ?? ''] <=> [$b['title'], $a['relevance'] ?? ''];
+                });
+                break;
+
+            case 'creation_date_desc':
+                usort($set, function ($a, $b) {
+                    $a_date = \DateTime::createFromFormat('m-d-Y H:i:s', $a['create_date']);
+                    $b_date = \DateTime::createFromFormat('m-d-Y H:i:s', $b['create_date']);
+                    return [$b_date, $b['relevance'] ?? ''] <=> [$a_date, $a['relevance'] ?? ''];
+                });
+                break;
+
+            case 'creation_date_asc':
+                usort($set, function ($a, $b) {
+                    $a_date = \DateTime::createFromFormat('Y-m-d H:i:s', $a['create_date']);
+                    $b_date = \DateTime::createFromFormat('Y-m-d H:i:s', $b['create_date']);
+                    return [$a_date, $b['relevance'] ?? ''] <=> [$b_date, $a['relevance'] ?? ''];
+                });
+                break;
+        };
+        parent::setData($set);
+    }
+
+    /**
+     * Returns key => label
+     */
+    protected function getPossibleSortations(): array
+    {
+        $sorts = [
+            'relevance' => $this->lng->txt('search_sort_relevance'),
+            'title_asc' => $this->lng->txt('search_sort_title_asc'),
+            'title_desc' => $this->lng->txt('search_sort_title_desc')
+        ];
+        if (in_array('create_date', $this->getSelectedColumns())) {
+            $sorts = array_merge($sorts, [
+                'creation_date_desc' => $this->lng->txt('search_sort_creation_date_desc'),
+                'creation_date_asc' => $this->lng->txt('search_sort_creation_date_asc')
+            ]);
+        }
+        return $sorts;
+    }
+
+    protected function getDefaultSortation(): string
+    {
+        return $this->enabledRelevance() ? 'relevance' : 'title_asc';
     }
 
     protected function enabledRelevance(): bool

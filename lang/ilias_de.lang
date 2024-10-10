@@ -15179,7 +15179,6 @@ search#:#lucene_port#:#Port
 search#:#lucene_prefix_wildcard#:#Platzhalter am Wortbeginn
 search#:#lucene_prefix_wildcard_info#:#Erlaubt die Nutzung von Platzhaltern auch am Beginn eines Suchbegriffes: "*LIAS" findet "ILIAS"
 search#:#lucene_relevance#:#Relevanz der Suchergebnisse
-search#:#lucene_relevance_short#:#Relevanz
 search#:#lucene_settings_tab#:#Lucene
 search#:#lucene_settings_title#:#Einstellungen zur Lucene-Suche
 search#:#lucene_show_relevance#:#Relevanz anzeigen
@@ -15251,6 +15250,14 @@ search#:#search_show_inactive_user#:#Inaktive Benutzer anzeigen
 search#:#search_show_inactive_user_info#:#In der Benutzersuche werden auch Benutzer angezeigt, deren Konto nicht aktiv ist.
 search#:#search_show_limited_user#:#Zeitlich begrenzte Benutzer anzeigen
 search#:#search_show_limited_user_info#:#In der Benutzersuche werden auch Benutzer mit zeitlichem begrenztem Zugang angezeigt, die entweder noch nicht oder nicht mehr auf ILIAS zugreifen können.
+search#:#search_sort_by#:#Sortierung: %s
+search#:#search_sort_creation_date_asc#:#Ältestes
+search#:#search_sort_creation_date_desc#:#Neuestes
+search#:#search_sort_generic_asc#:#%s, aufst.
+search#:#search_sort_generic_desc#:#%s, abst.
+search#:#search_sort_relevance#:#Nach Relevanz
+search#:#search_sort_title_asc#:#Alphabetisch: A-Z
+search#:#search_sort_title_desc#:#Alphabetisch: Z-A
 search#:#search_term_combination#:#Kombination
 search#:#search_title_description#:#Titel / Beschreibung
 search#:#search_tst_svy#:#Tests/Umfragen

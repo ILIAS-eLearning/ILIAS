@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-
 declare(strict_types=1);
 
 abstract class ilRepositoryObjectSearchResultTableGUI extends ilTable2GUI
@@ -77,13 +76,7 @@ abstract class ilRepositoryObjectSearchResultTableGUI extends ilTable2GUI
 
     protected function initColumns(): void
     {
-        if ($this->getSettings()->enabledLucene()) {
-            $this->lng->loadLanguageModule('search');
-            $this->addColumn($this->lng->txt("title"), "", "80%");
-            $this->addColumn($this->lng->txt("lucene_relevance_short"), "", "20%");
-        } else {
-            $this->addColumn($this->lng->txt("title"), "", "100%");
-        }
+        $this->addColumn($this->lng->txt("title"), "", "100%");
     }
 
     protected function initRowTemplate(): void
@@ -93,19 +86,4 @@ abstract class ilRepositoryObjectSearchResultTableGUI extends ilTable2GUI
 
 
     abstract public function parse();
-
-
-    public function getRelevanceHTML(float $a_rel): string
-    {
-        $tpl = new ilTemplate('tpl.lucene_relevance.html', true, true, 'components/ILIAS/Search');
-
-        $pbar = ilProgressBar::getInstance();
-        $pbar->setCurrent($a_rel);
-
-        $tpl->setCurrentBlock('relevance');
-        $tpl->setVariable('REL_PBAR', $pbar->render());
-        $tpl->parseCurrentBlock();
-
-        return $tpl->get();
-    }
 }
