@@ -29,6 +29,8 @@ use ilUtil;
 use ilTemplate;
 use ilObjUser;
 use ilCalendarSettings;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 
 class BuildChat
 {
@@ -38,7 +40,9 @@ class BuildChat
         private readonly ilChatroomObjectGUI $gui,
         private readonly ilChatroom $room,
         private readonly ilChatroomServerSettings $settings,
-        private readonly ilObjUser $user
+        private readonly ilObjUser $user,
+        private readonly UIFactory $ui_factory,
+        private readonly UIRenderer $ui_renderer,
     ) {
     }
 
@@ -56,6 +60,7 @@ class BuildChat
         $set_json_var('INITIAL_USERS', $this->room->getConnectedUsers());
         $set_json_var('DATE_FORMAT', (string) $this->user->getDateFormat());
         $set_json_var('TIME_FORMAT', $this->timeFormat());
+        $set_json_var('NOTHING_FOUND', $this->ui_renderer->render($this->ui_factory->messageBox()->info($this->ilLng->txt('chat_osc_no_usr_found'))));
 
         $room_tpl->setVariable('CHAT_OUTPUT', $output);
         $room_tpl->setVariable('CHAT_INPUT', $input);

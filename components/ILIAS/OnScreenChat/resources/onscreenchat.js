@@ -27,27 +27,18 @@
 	const resizeTextareas = {}; // string: function
 	const MAX_CHAT_LINES = 3;
 
-	$.widget("custom.iloscautocomplete", $.ui.autocomplete, {
-		more: false,
-		_renderMenu: function(ul, items) {
-			var that = this;
-			$.each(items, function(index, item) {
-				that._renderItemData(ul, item);
-			});
-
-			that.options.requestUrl = that.options.requestUrl.replace(/&fetchall=1/g, '');
-
-			if (that.more) {
-				ul.append("<li class='ui-menu-category ui-menu-more ui-state-disabled'><span>&raquo;" + il.Language.txt("autocomplete_more") + "</span></li>");
-				ul.find('li').last().on('click', function(e) {
-					that.options.requestUrl += '&fetchall=1';
-					that.close(e);
-					that.search(null, e);
-					e.preventDefault();
-				});
+	const tryLink = (() => {
+		let link = node => {
+			try {
+				il.ExtLink.autolink(node);
+			} catch (error) {
+				console.error('Disabling url linking. Reason:', error);
+				link = () => {};
 			}
-		}
-	});
+		};
+
+		return node => link(node);
+	})();
 
 	const triggerMap = {
 		participantEvent: ['click', '[data-onscreenchat-userid]'],
@@ -103,6 +94,7 @@
 		conversationItems: {},
 		conversationMessageTimes: {},
 		conversationToUiIdMap: {},
+		bus: il.Chatroom.createBus(),
 
 		setConversationMessageTimes: function(timeInfo) {
 			getModule().conversationMessageTimes = timeInfo;
@@ -119,6 +111,56 @@
 
 		init: function() {
 			getModule().storage   = new ConversationStorage();
+
+			const loadModal = busName => il.Chatroom.sendFromURL(getModule().config.modalURLTemplate)(busName).then(r => r.text()).then(modalHTML => {
+				const modal = $(modalHTML);
+				$(document.body).append(modal);
+				return new Promise(resolve => getModule().bus.onArrived(busName, ([showSignal, closeSignal]) => resolve({
+					showModal: () => $(document).trigger(showSignal, {}),
+					closeModal: () => $(document).trigger(closeSignal, {}),
+					node: modal[0],
+				})))
+			});
+
+			const confirmModal = lazy(() => {
+				let currentThen = null;
+				const modal = loadModal('confirmRemove');
+				modal.then(({node, closeModal}) => node.querySelector('form').addEventListener('submit', e => {
+					e.preventDefault();
+					closeModal();
+					currentThen();
+				}));
+
+				return then => {
+					currentThen = then;
+					modal.then(({showModal}) => showModal());
+				}
+			});
+
+			const inviteModal = lazy(() => {
+				let currentConversationId = null;
+				const setup = loadModal('inviteModal').then(modalInfo => il.Chatroom.inviteUserToRoom(
+					modalInfo,
+					{
+						more: '»' + il.Language.txt('autocomplete_more'),
+						nothingFound: $(getModule().config.nothingFoundTemplate)[0],
+					},
+					entry => getModule().addUser(currentConversationId, entry.id, entry.value),
+					((getModule().storage.get(currentConversationId) || {}).participants || []).map(p => p.id),
+					({search, all}) => il.Chatroom.sendFromURL(getModule().config.userListURL)(
+						'',
+						Object.assign({term: search}, all ? {fetchall: '1'} : {})
+					).then(r => r.json())
+				));
+
+				return conversationId => {
+					currentConversationId = conversationId;
+					setup.then(open => open());
+				};
+			});
+
+			getModule().openConfirmModal = then => confirmModal()(then);
+			getModule().openInviteUserModal = conversationId => inviteModal()(conversationId);
 
 			$.each(getModule().config.initialUserData, function(usrId, item) {
 				getModule().participantsNames[usrId] = item.public_name;
@@ -727,35 +769,9 @@
 
 			let conversation = getModule().storage.get(conversationId);
 			if (conversation.isGroup) {
-				$scope.il.Modal.dialogue({
-					id: 'modal-leave-' + conversation.id,
-					header: il.Language.txt('chat_osc_leave_grp_conv'),
-					body: il.Language.txt('chat_osc_sure_to_leave_grp_conv'),
-					buttons:  {
-						confirm: {
-							type:      "button",
-							label:     il.Language.txt("confirm"),
-
-							className: "btn btn-primary",
-							callback:  function (e, modal) {
-								e.stopPropagation();
-								modal.modal("hide");
-
-								$chat.closeConversation(conversationId, getModule().user.id);
-								$chat.removeUser(conversationId, getModule().user.id, getModule().user.name);
-							}
-						},
-						cancel:  {
-							label:     il.Language.txt("cancel"),
-							type:      "button",
-							className: "btn btn-default",
-							callback:  function (e, modal) {
-								e.stopPropagation();
-								modal.modal("hide");
-							}
-						}
-					},
-					show: true
+				getModule().openConfirmModal(() => {
+					$chat.closeConversation(conversationId, getModule().user.id);
+					$chat.removeUser(conversationId, getModule().user.id, getModule().user.name);
 				});
 			} else {
 				$chat.closeConversation(conversationId, getModule().user.id);
@@ -880,82 +896,7 @@
 			e.preventDefault();
 			e.stopPropagation();
 
-			$scope.il.Modal.dialogue({
-				id: 'modal-' + $(this).attr('data-onscreenchat-add'),
-				header: il.Language.txt('chat_osc_invite_to_conversation'),
-				show: true,
-				body: getModule().config.modalTemplate
-						.replace(/\[\[conversationId\]\]/g, $(this).attr('data-onscreenchat-add'))
-						.replace('#:#chat_osc_search_modal_info#:#', il.Language.txt('chat_osc_search_modal_info'))
-						.replace('#:#chat_osc_user#:#', il.Language.txt('chat_osc_user'))
-						.replace('#:#chat_osc_no_usr_found#:#', il.Language.txt('chat_osc_no_usr_found')),
-				onShown: function (e, modal) {
-					var modalBody = modal.find('[data-onscreenchat-modal-body]'),
-						conversation = getModule().storage.get(modalBody.data('onscreenchat-modal-body')),
-						$elm = modal.find('input[type="text"]').first();
-
-					modal.find("form").on("keyup keydown keypress", function(fe) {
-						if (fe.which == 13) {
-							if (
-								$(fe.target).prop("tagName").toLowerCase() != "textarea" &&
-								(
-									$(fe.target).prop("tagName").toLowerCase() != "input" ||
-									$(fe.target).prop("type") != "submit"
-								)) {
-								fe.preventDefault();
-							}
-						}
-					});
-
-					$elm.focus().iloscautocomplete({
-						appendTo: $elm.parent(),
-						requestUrl: getModule().config.userListURL,
-						source: function(request, response) {
-							var that = this;
-							$.getJSON(that.options.requestUrl, {
-								term: request.term
-							}, function(data) {
-								if (typeof data.items === "undefined") {
-									if (data.length === 0) {
-										modalBody.find('[data-onscreenchat-no-usr-found]').removeClass("ilNoDisplay");
-									}
-									response(data);
-								} else {
-									that.more = data.hasMoreResults;
-									if (data.items.length === 0) {
-										modalBody.find('[data-onscreenchat-no-usr-found]').removeClass("ilNoDisplay");
-									}
-									response(data.items);
-								}
-							});
-						},
-						search: function() {
-							var term = this.value;
-
-							if (term.length < 3) {
-								return false;
-							}
-
-							modalBody.find('label').append(
-								$('<img />').addClass("ilOnScreenChatSearchLoader").attr("src", getConfig().loaderImg)
-							);
-							modalBody.find('[data-onscreenchat-no-usr-found]').addClass("ilNoDisplay");
-						},
-						response: function() {
-							$(".ilOnScreenChatSearchLoader").remove();
-						},
-						select: function(event, ui) {
-							var userId = ui.item.id,
-								name   = ui.item.value;
-
-							if (userId > 0) {
-								getModule().addUser(conversation.id, userId, name);
-								$scope.il.Modal.dialogue({id: "modal-" + conversation.id}).hide();
-							}
-						}
-					});
-				}
-			});
+			getModule().openInviteUserModal(this.getAttribute('data-onscreenchat-add'));
 		},
 
 		trackActivityFor: function(conversation){
@@ -1039,7 +980,7 @@
 			let messageDate = new Date();
 			messageDate.setTime(messageObject.timestamp);
 			const placeholderClass = 'm' + new Date().getTime();
-			const placeholder = '<span class="' + n + '"></span>';
+			const placeholder = '<span class="' + placeholderClass + '"></span>';
 
 			template = template.replace(/\[\[username\]\]/g, findUsernameInConversationByMessage(messageObject));
 			template = template.replace(/\[\[time_raw\]\]/g, messageObject.timestamp);
@@ -1168,7 +1109,7 @@
 				}
 			});
 
-			il.ExtLink.autolink(chatBody.find('[data-onscreenchat-body-msg]'));
+			tryLink(chatBody.find('[data-onscreenchat-body-msg]'));
 
 			if (prepend === false) {
 				getModule().scrollBottom(chatWindow);
@@ -1597,7 +1538,7 @@
             return [entry[0], proc(entry[1], entry[0])];
         }));
     }
-    function piecesOf(nr, array) {
+    function piecesOf(nr, array){
         let current = array;
         const result = [];
         while(current.length) {
@@ -1606,4 +1547,24 @@
         }
         return result;
     }
+
+	function lazy(proc){
+		let call = () => {
+			const value = proc();
+			call = () => value;
+			return value;
+		};
+		return () => call();
+	}
+
+	function cache(proc){
+		const cached = {};
+		return (...args) => {
+			const key = JSON.stringify(args);
+			if(!cached[key]){
+				cached[key] = proc(...args);
+			}
+			return cached[key];
+		};
+	}
 })(jQuery, window, window.il.Chat, window.il.ChatDateTimeFormatter);

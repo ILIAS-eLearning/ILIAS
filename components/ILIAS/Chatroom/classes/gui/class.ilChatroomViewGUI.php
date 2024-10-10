@@ -502,6 +502,6 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
     private function buildChat(ilChatroom $room, ilChatroomServerSettings $settings): BuildChat
     {
-        return new BuildChat($this->ilCtrl, $this->ilLng, $this->gui, $room, $settings, $this->ilUser);
+        return new BuildChat($this->ilCtrl, $this->ilLng, $this->gui, $room, $settings, $this->ilUser, $this->uiFactory, $this->uiRenderer);
     }
 }

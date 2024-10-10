@@ -86,10 +86,13 @@ const setup = options => {
     toggle('system-messages-toggle', on => saveShowSystemMessageState(on, options.initial));
     bus.onArrived('invite-modal', modalData => click('invite-button', inviteUserToRoom(
       modalData,
-      txt,
-      iliasConnector,
+      {
+        more: '»' + txt('autocomplete_more'),
+        nothingFound: options.nothingFound,
+      },
+      value => iliasConnector.inviteToPrivateRoom(value.id, 'byId'),
       userList,
-      send
+      ({search, all}) => send('inviteUsersToPrivateRoom-getUserList', Object.assign({q: search}, all ? {fetchall: '1'} : {})).then(r => r.json())
     )));
 
     click('clear-history-button', () => clearHistory(confirmModal, iliasConnector));

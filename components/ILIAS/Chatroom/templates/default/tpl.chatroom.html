@@ -40,6 +40,7 @@
         initial: {INITIAL_DATA},
         apiEndpointTemplate: {POSTURL},
         dateTimeFormatStrings: {date: {DATE_FORMAT}, time: {TIME_FORMAT}},
+        nothingFound: new DOMParser().parseFromString({NOTHING_FOUND}, 'text/html').body.firstChild,
         lang,
     };
     {JS_CALL}(options);

@@ -15,13 +15,18 @@
  *********************************************************************/
 
 import il from 'il';
-import bus from './bus';
+import bus, { createBus } from './bus';
 import { expandableTextarea } from './expandableTextarea';
+import inviteUserToRoom from './inviteUserToRoom';
+import sendFromURL from './sendFromURL';
 import run, { runReadOnly } from './run';
 
 il.Chatroom = {
   run,
   runReadOnly,
+  createBus,
   bus,
   expandableTextarea,
+  inviteUserToRoom,
+  sendFromURL,
 };

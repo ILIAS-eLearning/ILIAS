@@ -95,6 +95,26 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
                 );
                 break;
 
+            case 'inviteModal':
+                $this->dic->language()->loadLanguageModule('chatroom');
+                $txt = $this->dic->language()->txt(...);
+                $modal = $this->dic->ui()->factory()->modal()->roundtrip($txt('chat_osc_invite_to_conversation'), $this->dic->ui()->factory()->legacy($txt('chat_osc_search_modal_info')), [
+                    $this->dic->ui()->factory()->input()->field()->text($txt('chat_osc_user')),
+                ])->withSubmitLabel($txt('confirm'));
+                $response = $this->renderAsyncModal('inviteModal', $modal);
+                break;
+
+            case 'confirmRemove':
+                $this->dic->language()->loadLanguageModule('chatroom');
+                $txt = $this->dic->language()->txt(...);
+                $modal = $this->dic->ui()->factory()->modal()->interruptive(
+                    $txt('chat_osc_leave_grp_conv'),
+                    $txt('chat_osc_sure_to_leave_grp_conv'),
+                    ''
+                )->withActionButtonLabel($txt('confirm'));
+                $response = $this->renderAsyncModal('confirmRemove', $modal);
+                break;
+
             case 'getUserlist':
             default:
                 $response = $this->getUserList();
@@ -198,15 +218,16 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
                     false,
                     'components/ILIAS/OnScreenChat'
                 ))->get(),
-                'modalTemplate' => (new ilTemplate(
-                    'tpl.chat-add-user.html',
-                    false,
-                    false,
-                    'components/ILIAS/OnScreenChat'
-                ))->get(),
+                'nothingFoundTemplate' => $DIC->ui()->renderer()->render($DIC->ui()->factory()->messageBox()->info($DIC->language()->txt('chat_osc_no_usr_found'))),
                 'userId' => $DIC->user()->getId(),
                 'username' => $DIC->user()->getLogin(),
-                'userListURL' => $DIC->ctrl()->getLinkTargetByClass(
+                'modalURLTemplate' => ILIAS_HTTP_PATH . '/' . $DIC->ctrl()->getLinkTargetByClass(
+                    ilOnScreenChatGUI::class,
+                    'postMessage',
+                    null,
+                    true
+                ),
+                'userListURL' => ILIAS_HTTP_PATH . '/' . $DIC->ctrl()->getLinkTargetByClass(
                     'ilonscreenchatgui',
                     'getUserList',
                     '',
@@ -288,6 +309,9 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
             iljQueryUtil::initjQueryUI($page);
             ilLinkifyUtil::initLinkify($page);
 
+            $page->addJavaScript('assets/js/modal.js');
+            $page->addJavaScript('assets/js/socket.io.min.js');
+            $page->addJavaScript('assets/js/Chatroom.min.js');
             $page->addJavaScript('assets/js/jquery.ui.touch-punch.js');
             $page->addJavascript('assets/js/LegacyModal.js');
             $page->addJavascript('assets/js/moment-with-locales.min.js');
@@ -310,5 +334,12 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
 
             self::$frontend_initialized = true;
         }
+    }
+
+    private function renderAsyncModal(string $bus_name, $modal)
+    {
+        return $this->getResponseWithText($this->dic->ui()->renderer()->renderAsync($modal->withAdditionalOnLoadCode(fn ($id) => (
+            'il.OnScreenChat.bus.send(' . json_encode($bus_name, JSON_THROW_ON_ERROR) . ', ' . json_encode([(string) $modal->getShowSignal(), (string) $modal->getCloseSignal()], JSON_THROW_ON_ERROR) . ');'
+        ))));
     }
 }
