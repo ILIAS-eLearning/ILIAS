@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
+class ilDclMobRecordFieldModel extends ilDclFileRecordFieldModel
 {
     private ilGlobalTemplateInterface $main_tpl;
     private \ILIAS\FileUpload\FileUpload $upload;

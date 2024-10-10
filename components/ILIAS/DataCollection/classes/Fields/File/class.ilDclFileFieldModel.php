@@ -23,24 +23,6 @@ declare(strict_types=1);
  */
 class ilDclFileFieldModel extends ilDclBaseFieldModel
 {
-    public function getRecordQuerySortObject(
-        string $direction = "asc",
-        bool $sort_by_status = false
-    ): ?ilDclRecordQueryObject {
-        $join_str = "LEFT JOIN il_dcl_record_field AS sort_record_field_{$this->getId()} ON (sort_record_field_{$this->getId()}.record_id = record.id AND sort_record_field_{$this->getId()}.field_id = "
-            . $this->db->quote($this->getId(), 'integer') . ") ";
-        $join_str .= "LEFT JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS sort_stloc_{$this->getId()} ON (sort_stloc_{$this->getId()}.record_field_id = sort_record_field_{$this->getId()}.id) ";
-        $join_str .= "LEFT JOIN il_resource_revision AS sort_object_data_{$this->getId()} ON (sort_object_data_{$this->getId()}.rid = sort_stloc_{$this->getId()}.value) ";
-        $select_str = " sort_object_data_{$this->getId()}.title AS field_{$this->getId()},";
-
-        $record_query = new ilDclRecordQueryObject();
-        $record_query->setSelectStatement($select_str);
-        $record_query->setJoinStatement($join_str);
-        $record_query->setOrderStatement("field_{$this->getId()} " . $direction . ", ID ASC");
-
-        return $record_query;
-    }
-
     public function allowFilterInListView(): bool
     {
         return false;
