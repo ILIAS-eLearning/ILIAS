@@ -18,15 +18,12 @@
 
 declare(strict_types=1);
 
-/**
- * @noinspection AutoloadingIssuesInspection
- */
 class ilDclFileFieldRepresentation extends ilDclBaseFieldRepresentation
 {
     public function getInputField(
         ilPropertyFormGUI $form,
         ?int $record_id = null
-    ): ?ilFormPropertyGUI {
+    ): ilFileInputGUI {
         $input = new ilFileInputGUI(
             $this->getField()->getTitle(),
             'field_' . $this->getField()->getId()

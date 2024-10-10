@@ -18,23 +18,8 @@
 
 declare(strict_types=1);
 
-class ilDclMobFieldRepresentation extends ilDclFileuploadFieldRepresentation
+class ilDclMobFieldRepresentation extends ilDclFileFieldRepresentation
 {
-    public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilFileInputGUI
-    {
-        $input = new ilFileInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
-        $input->setSuffixes(ilDclMobFieldModel::$mob_suffixes);
-        $input->setAllowDeletion(true);
-
-        $this->requiredWorkaroundForInputField($input, $record_id);
-
-        return $input;
-    }
-
-    /**
-     * @return array|string|null
-     * @throws Exception
-     */
     public function addFilterInputFieldToTable(ilTable2GUI $table)
     {
         $input = $table->addFilterItemByMetaType(
@@ -50,9 +35,6 @@ class ilDclMobFieldRepresentation extends ilDclFileuploadFieldRepresentation
         return $this->getFilterInputFieldValue($input);
     }
 
-    /**
-     * @param string $filter
-     */
     public function passThroughFilter(ilDclBaseRecordModel $record, $filter): bool
     {
         $value = $record->getRecordFieldValue($this->getField()->getId());
@@ -74,7 +56,7 @@ class ilDclMobFieldRepresentation extends ilDclFileuploadFieldRepresentation
         );
         $opt->setInfo($this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle() . '_desc'));
 
-        $opt->setInfo(sprintf($opt->getInfo(), implode(", ", ilDclMobFieldModel::$mob_suffixes)));
+        $opt->setInfo(sprintf($opt->getInfo(), implode(", ", $this->getField()->getSupportedExtensions())));
 
         $prop_width = new ilNumberInputGUI($this->lng->txt('dcl_width'), 'prop_' . ilDclBaseFieldModel::PROP_WIDTH);
         $prop_width->setSize(5);
