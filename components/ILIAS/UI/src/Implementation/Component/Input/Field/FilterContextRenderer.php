@@ -134,9 +134,8 @@ class FilterContextRenderer extends Renderer
         FormInput $component,
         string $input_html,
         RendererInterface $default_renderer,
-        string $id_pointing_to_input = '',
-        string $dependant_group_html = '',
-        bool $bind_label_with_for = true
+        ?string $id_pointing_to_input = null,
+        string $dependant_group_html = ''
     ): string {
         $f = $this->getUIFactory();
         $tpl = $this->getTemplate("tpl.context_filter.html", true, true);
