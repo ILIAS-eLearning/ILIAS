@@ -413,8 +413,12 @@ class SurveyImportParser extends ilSaxParser
         $a_data = $this->characterbuffer;
     }
 
-    protected function getCharacterBuffer(): string
+    protected function getCharacterBuffer($use_purifier = false): string
     {
+        if ($use_purifier) {
+            $purifier = new ilSvyStandardPurifier();
+            return $purifier->purify((string) $this->characterbuffer);
+        }
         return $this->trimAndStrip((string) $this->characterbuffer);
     }
 
@@ -541,7 +545,7 @@ class SurveyImportParser extends ilSaxParser
                 }
                 break;
             case "mattext":
-                $this->material[count($this->material) - 1]["text"] = $this->getCharacterBuffer();
+                $this->material[count($this->material) - 1]["text"] = $this->getCharacterBuffer(true);
                 break;
             case "matimage":
                 $this->material[count($this->material) - 1]["image"] = $this->getCharacterBuffer();
