@@ -19,11 +19,9 @@ il.MetaDataCopyrightListener = {
     this.potentialOERValues = JSON.parse(potentialOERValues);
 
     this.radioGroupId = radioGroupId;
-
-    this.form = $(`input[id^='${this.radioGroupId}']`)[0].form;
+    this.form = document.querySelector('#' + this.radioGroupId).form;
     this.formButton = $(':submit', this.form);
-
-    this.initialValue = $(`input[id^='${this.radioGroupId}']:checked`).val();
+    this.initialValue = this.form.querySelector('#' + this.radioGroupId + ' input:checked').value;
 
     $(this.form).on(
       'submit',
