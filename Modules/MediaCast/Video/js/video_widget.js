@@ -344,7 +344,7 @@ il.VideoPlaylist = il.VideoPlaylist || {};
               if (current_time > 0 && duration && duration > 0) {
                 perc = 100 / duration * current_time;
                 if (t.playlist[list_wrapper].completed_cb !== '') {
-                  if (perc > t.playlist[list_wrapper].percentage) {
+                  if (perc >= t.playlist[list_wrapper].percentage) {
                     t.playlist[list_wrapper].items[i].completed = true;
                     $.ajax({
                       type:'GET',
