@@ -356,7 +356,12 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
     public function importQuestionsObject(): void
     {
         $tpl = $this->tpl;
+        $form = $this->getImportForm();
+        $tpl->setContent($form->getHTML());
+    }
 
+    public function getImportForm(): ilPropertyFormGUI
+    {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "uploadQuestions"));
         $form->setTitle($this->lng->txt("import_question"));
@@ -368,8 +373,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
 
         $form->addCommandButton("uploadQuestions", $this->lng->txt("import"));
         $form->addCommandButton("questions", $this->lng->txt("cancel"));
-
-        $tpl->setContent($form->getHTML());
+        return $form;
     }
 
     /**
@@ -377,34 +381,41 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
      */
     public function uploadQuestionsObject(): void
     {
-        // check if file was uploaded
-        $source = $_FILES["qtidoc"]["tmp_name"];
-        $error = 0;
-        if (($source === 'none') || (!$source) || $_FILES["qtidoc"]["error"] > UPLOAD_ERR_OK) {
-            $error = 1;
-        }
-        // check correct file type
-        if (!$error && strpos("xml", $_FILES["qtidoc"]["type"]) !== false) {
-            $error = 1;
-        }
-        if (!$error) {
-            // import file into questionpool
-            // create import directory
-            $this->object->createImportDirectory();
+        $form = $this->getImportForm();
+        if ($form->checkInput()) {
+            // check if file was uploaded
+            $source = $_FILES["qtidoc"]["tmp_name"];
+            $error = 0;
+            if (($source === 'none') || (!$source) || $_FILES["qtidoc"]["error"] > UPLOAD_ERR_OK) {
+                $error = 1;
+            }
+            // check correct file type
+            if (!$error && strpos("xml", $_FILES["qtidoc"]["type"]) !== false) {
+                $error = 1;
+            }
+            if (!$error) {
+                // import file into questionpool
+                // create import directory
+                $this->object->createImportDirectory();
 
-            // copy uploaded file to import directory
-            $full_path = $this->object->getImportDirectory() . "/" . $_FILES["qtidoc"]["name"];
+                // copy uploaded file to import directory
+                $full_path = $this->object->getImportDirectory() . "/" . $_FILES["qtidoc"]["name"];
 
-            ilFileUtils::moveUploadedFile(
-                $_FILES["qtidoc"]["tmp_name"],
-                $_FILES["qtidoc"]["name"],
-                $full_path
-            );
-            $source = $full_path;
-            $this->object->importObject($source, true);
-            unlink($source);
+                ilFileUtils::moveUploadedFile(
+                    $_FILES["qtidoc"]["tmp_name"],
+                    $_FILES["qtidoc"]["name"],
+                    $full_path
+                );
+                $source = $full_path;
+                $this->object->importObject($source, true);
+                unlink($source);
+            }
+            $this->ctrl->redirect($this, "questions");
+        } else {
+            $form->setValuesByPost();
+            $tpl = $this->tpl;
+            $tpl->setContent($form->getHTML());
         }
-        $this->ctrl->redirect($this, "questions");
     }
 
     public function filterQuestionBrowserObject(): void
