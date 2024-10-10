@@ -52,7 +52,7 @@ class ilCOPageExporter extends ilXmlExporter
         $component_repository = $DIC["component.repository"];
 
         $this->ds = new ilCOPageDataSet();
-        $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+        $this->ds->initByExporter($this);
         $this->ds->setDSPrefix("ds");
         $this->config = $this->getExport()->getConfig("components/ILIAS/COPage");
         if ($this->config->getMasterLanguageOnly()) {

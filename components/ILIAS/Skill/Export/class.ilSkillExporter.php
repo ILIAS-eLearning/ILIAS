@@ -33,7 +33,7 @@ class ilSkillExporter extends ilXmlExporter
     public function init(): void
     {
         $this->ds = new ilSkillDataSet();
-        $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+        $this->ds->initByExporter($this);
         $this->ds->setDSPrefix("ds");
         $this->config = $this->getExport()->getConfig("components/ILIAS/Skill");
         $this->ds->setSelectedNodes($this->config->getSelectedNodes());

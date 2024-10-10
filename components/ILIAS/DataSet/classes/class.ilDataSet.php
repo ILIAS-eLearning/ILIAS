@@ -114,10 +114,10 @@ abstract class ilDataSet
         array $a_ids
     ): void;
 
-    public function setExportDirectories(string $a_relative, string $a_absolute): void
+    public function initByExporter(ilXmlExporter $xml_exporter): void
     {
-        $this->relative_export_dir = $a_relative;
-        $this->absolute_export_dir = $a_absolute;
+        $this->relative_export_dir = $xml_exporter->getRelativeExportDirectory();
+        $this->absolute_export_dir = $xml_exporter->getAbsoluteExportDirectory();
     }
 
     public function setImportDirectory(string $a_val): void

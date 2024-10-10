@@ -32,7 +32,7 @@ class ilScormAiccExporter extends ilXmlExporter
 
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
-        $this->dataset->setExportDirectories($this->dir_relative, $this->dir_absolute);
+        $this->dataset->initByExporter($this);
         //using own getXmlRepresentation function in ilScormAiccDataSet
         return $this->dataset->getExtendedXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", false, true);
     }

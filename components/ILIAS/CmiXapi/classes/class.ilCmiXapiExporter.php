@@ -39,7 +39,7 @@ class ilCmiXapiExporter extends ilXmlExporter
     {
         parent::__construct();
         $this->_dataset = new ilCmiXapiDataSet();
-        $this->_dataset->setExportDirectories($this->dir_relative, $this->dir_absolute);
+        $this->_dataset->initByExporter($this);
         $this->_dataset->setDSPrefix("ds");
 
         /*

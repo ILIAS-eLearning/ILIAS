@@ -32,7 +32,7 @@ class ilObjectExporter extends ilXmlExporter
     public function init(): void
     {
         $this->ds = new ilObjectDataSet();
-        $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+        $this->ds->initByExporter($this);
         $this->ds->setDSPrefix("ds");
     }
 
@@ -47,7 +47,7 @@ class ilObjectExporter extends ilXmlExporter
 
     public function getXmlRepresentation(string $entity, string $schema_version, string $id): string
     {
-        $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+        $this->ds->initByExporter($this);
         return $this->ds->getXmlRepresentation($entity, $schema_version, [$id], "", true, true);
     }
 
