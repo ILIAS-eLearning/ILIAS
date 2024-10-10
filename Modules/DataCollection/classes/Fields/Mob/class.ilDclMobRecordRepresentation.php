@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation
+class ilDclMobRecordRepresentation extends ilDclFileRecordRepresentation
 {
     /**
      * Outputs html of a certain field
@@ -121,22 +121,14 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation
         return "<div style='width:$width; height:$height;'>$content</div>";
     }
 
-    /**
-     * function parses stored value to the variable needed to fill into the form for editing.
-     * @param array|int $value
-     * @return array|int|string
-     */
     public function parseFormInput($value)
     {
-        if (is_null($value)) {
-            return "";
-        }
         if (is_array($value)) {
             return $value;
         }
 
-        if (!ilObject2::_exists($value) || ilObject2::_lookupType($value) != "mob") {
-            return "";
+        if ($value === null || !ilObject2::_exists((int) $value) || ilObject2::_lookupType((int) $value) != 'mob') {
+            return '';
         }
 
         return $value;
