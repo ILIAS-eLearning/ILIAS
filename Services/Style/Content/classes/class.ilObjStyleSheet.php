@@ -1396,7 +1396,7 @@ class ilObjStyleSheet extends ilObject
                     fwrite($css_file, ",html.il-no-tiny-bg body#tinymce.ilc_text_block_" . $tag[0]["class"] . "\n");
                 }
                 if ($tag[0]["type"] == "section") {	// sections can use a tags, if links are used
-                    fwrite($css_file, ",a.ilc_" . $tag[0]["type"] . "_" . $tag[0]["class"] . "\n");
+                    fwrite($css_file, ",div a.ilc_" . $tag[0]["type"] . "_" . $tag[0]["class"] . "\n");
                 }
                 if ($tag[0]["type"] == "text_block") {
                     fwrite($css_file, ",html.il-no-tiny-bg body#tinymce.ilc_text_block_" . $tag[0]["class"] . "\n");
