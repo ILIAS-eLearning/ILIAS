@@ -15,13 +15,13 @@
  * https://github.com/ILIAS-eLearning
  */
 
-namespace ILIAS\UI\Component\Progress\Instruction;
+namespace ILIAS\UI\Component\Progress\State;
 
 use ILIAS\UI\Component\Component;
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-interface Instruction extends Component
+interface State extends Component
 {
 }

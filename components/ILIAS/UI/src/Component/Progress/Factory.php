@@ -29,7 +29,8 @@ interface Factory
      * description:
      *   purpose: >
      *     The Progress Bar is designed to represent the state of a single or bundled task
-     *     or process, which can be processed in a single step and takes a while to finish.
+     *     or process, which can be processed in a single step without further user interaction
+     *     and takes a while to finish.
      *   composition: >
      *     The Progress Bar is composed out of one horizontal track, the area of which is
      *     filled according to the current progress (value). It is also accompanied by a label,
@@ -45,7 +46,7 @@ interface Factory
      *     ProgressMeter: use a ProgressMeter if the quality of the progress is evaluated
      *     and/or the progress is compared.
      *     Workflow: use a Workflow component if the underlying process/task is completed
-     *     in multiple steps.
+     *     in multiple steps that require further user interaction.
      *
      * background:
      *   - https://developer.mozilla.org/en-US/docs/Web/HTML/Element/progress
@@ -59,6 +60,9 @@ interface Factory
      *     2: >
      *       The Progress Bar SHOULD NOT be used, if the underlying process/task can only be
      *       0% or 100% processed. A loading animation and/or Glyph COULD be used instead.
+     *   accessibility:
+     *     1: >
+     *       The Progress Bar must be fully understandable without any graphical UI.
      * ---
      * @param \ILIAS\Data\URI $async_url
      * @param string          $label
@@ -70,23 +74,23 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     Instructions are used to communicate with out client during asynchronous requests. They
-     *     are a way to convey information in a manner that is understood by our clientside
-     *     components, and instructs them to perform a desierd change. We have been referring to
-     *     this concept as "HTML over the wire" in the past, and are now implementing it for certain
-     *     components in iterations.
+     *     A State represents a particular version of a component at a specific time, which will be used
+     *     to communicate with our client during asynchronous requests. The State conveys information in
+     *     a manner that is understood by our clientside component, and provides the nesessary information
+     *     to perform a desired change. We have been referring to this concept as "HTML over the wire" in
+     *     the past, and are now implementing it for certain components in iterations.
      *   composition: >
-     *     Instructions consist of HTML structures, typically other (or the same) UI component(s).
+     *     A State consist of HTML structures, typically other (or the same) UI component(s).
      *   effect: >
-     *     When an Instruction is rendered it will be used by the clientside component to update the
-     *     existing HTML structure according to the Instruction at hand.
+     *     When a State is rendered, it will be used by the clientside component to update the
+     *     existing HTML structure according to the new State.
      *
      * rules:
      *   usage:
-     *     1: You MUST NOT use Instructions outside of asynchronous requests.
-     *     2: You MUST use @see Renderer::renderAsync() to render Instructions.
+     *     1: You MUST NOT use a State outside of asynchronous requests.
+     *     2: You MUST use @see Renderer::renderAsync() to render a State.
      * ---
-     * @return \ILIAS\UI\Component\Progress\Instruction\Factory
+     * @return \ILIAS\UI\Component\Progress\State\Factory
      */
-    public function instruction(): Instruction\Factory;
+    public function state(): State\Factory;
 }

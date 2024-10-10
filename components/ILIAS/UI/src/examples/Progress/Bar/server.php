@@ -19,7 +19,7 @@ use ILIAS\UI;
  * expected output: >
  *   ILIAS shows the rendered Progress Bar and Standard Button. The Progress Bar is
  *   initially empty (no progress), and cannot be operated in any way. When the
- *   Stadnard Button is clicked, the Progress Bar value us increased by 10% ~every
+ *   Standard Button is clicked, the Progress Bar value us increased by 10% ~every
  *   second. After the ~10 seconds, the Progress Bar will be finished showing a
  *   successful state.
  * ---
@@ -63,17 +63,17 @@ function callArtificialTaskEndpoint(GlobalHttpState $http, UI\Factory $factory, 
     $task_progress = getTaskProgress();
 
     $instruction = match ($task_progress) {
-        1 => $instruction = $factory->progress()->instruction()->bar()->determinate(0.10),
-        2 => $instruction = $factory->progress()->instruction()->bar()->determinate(0.20),
-        3 => $instruction = $factory->progress()->instruction()->bar()->determinate(0.30),
-        4 => $instruction = $factory->progress()->instruction()->bar()->determinate(0.40),
-        5 => $instruction = $factory->progress()->instruction()->bar()->determinate(0.50, 'Still processing.'),
-        6 => $instruction = $factory->progress()->instruction()->bar()->determinate(0.60),
-        7 => $instruction = $factory->progress()->instruction()->bar()->determinate(0.70),
-        8 => $instruction = $factory->progress()->instruction()->bar()->determinate(0.80),
-        9 => $instruction = $factory->progress()->instruction()->bar()->determinate(0.90),
-        10 => $instruction = $factory->progress()->instruction()->bar()->success("All done!"),
-        default => $instruction = $factory->progress()->instruction()->bar()->failure("An error ocurred."),
+        1 => $instruction = $factory->progress()->state()->bar()->determinate(10),
+        2 => $instruction = $factory->progress()->state()->bar()->determinate(20),
+        3 => $instruction = $factory->progress()->state()->bar()->determinate(30),
+        4 => $instruction = $factory->progress()->state()->bar()->determinate(40),
+        5 => $instruction = $factory->progress()->state()->bar()->determinate(50, 'Still processing.'),
+        6 => $instruction = $factory->progress()->state()->bar()->determinate(60),
+        7 => $instruction = $factory->progress()->state()->bar()->determinate(70),
+        8 => $instruction = $factory->progress()->state()->bar()->determinate(80),
+        9 => $instruction = $factory->progress()->state()->bar()->determinate(90),
+        10 => $instruction = $factory->progress()->state()->bar()->success("All done!"),
+        default => $instruction = $factory->progress()->state()->bar()->failure("An error ocurred."),
     };
 
     if (10 > $task_progress) {

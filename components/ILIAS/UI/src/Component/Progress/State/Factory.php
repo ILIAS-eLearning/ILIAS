@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  */
 
-namespace ILIAS\UI\Component\Progress\Instruction;
+namespace ILIAS\UI\Component\Progress\State;
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
@@ -26,20 +26,20 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     Progress Bar Instructions are used to order a clientside Progress Bar to perform a desired
-     *     update, when pulled asynchronously from a source.
+     *     Progress Bar State's are used to provide a particular version of a Progress Bar, which
+     *     will be used to performe a desired update when pulled asynchronously from a source.
      *   composition: >
-     *     Progress Bar Instructions cary information about the Progress Bar status and progress (value),
+     *     Progress Bar State's cary information about the Progress Bar status and progress (value),
      *     and optionally provide a message for the user.
      *
      * context:
-     *   - Progress Bar Instruction's are used by Progress Bar's which pull updates asynchrnously
+     *   - Progress Bar State's are used by Progress Bar's which pull updates asynchrnously
      *     from a source.
      *
      * rules:
      *   usage:
      *     1: >
-     *       Progress Bar Instructions MUST NOT be used for anything other than updating a
+     *       A Progress Bar State MUST NOT be used for anything other than updating a
      *       Progress Bar asynchronously.
      * ---
      * @return Bar\Factory

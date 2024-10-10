@@ -14,7 +14,7 @@ namespace ILIAS\UI\examples\Progress\Bar;
  * expected output: >
  *   ILIAS shows the rendered Progress Bar and Standard Button. The Progress Bar is
  *   initially empty (no progress), and cannot be operated in any way. When the
- *   Stadnard Button is clicked, the Progress Bar value us increased by 10% each time.
+ *   Standard Button is clicked, the Progress Bar value us increased by 10% each time.
  *   After the 10th click, the Progress Bar is finished showing a successful state.
  * ---
  */
