@@ -27,7 +27,7 @@ use ILIAS\UI\Component\Prompt\isPromptContent as IPromptContent;
 /**
  * Flags some Component to be a valid content of a Prompt
  */
-interface isPromptContent extends IPromptContent
+interface IsPromptContentInternal extends IPromptContent
 {
     public function getPromptTitle(): string;
 
