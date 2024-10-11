@@ -1059,7 +1059,7 @@ interface Factory
      *     that is required to move on in an ongoing workflow.
      *   composition: >
      *     The Prompt provides a wrapper for Prompt Content; the content is transmitted
-     *     asynchrounously via a Prompt Response. The Response consists of a Title, the
+     *     asynchrounously via a Prompt State. The State consists of a Title, the
      *     actual content, and Buttons. The Prompt will allways hold a button for dismissing
      *     it.
      *   effect: >
