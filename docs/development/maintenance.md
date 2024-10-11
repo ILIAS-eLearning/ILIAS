@@ -901,14 +901,14 @@ of ILIAS. The file contains the following fields:
 
 [//]: # (BEGIN LearningModuleSCORM)
 
-* **Learning Module SCORM**
-    * Authority to Sign off on Conceptual Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-    * Authority to Sign off on Code Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-    * Authority to Curate Test Cases: n.n., Qualitus
-    * Authority to (De-)Assign Authorities: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
+* **Learning Module SCORM (1.2 and 2004)**
+    * Authority to Sign off on Conceptual Changes: [wischniak](https://docu.ilias.de/go/usr/21896)
+    * Authority to Sign off on Code Changes: [qualitus.dahme](https://docu.ilias.de/go/usr/99160)
+    * Authority to Curate Test Cases: [tim.fehske](https://docu.ilias.de/go/usr/101255)
+    * Authority to (De-)Assign Authorities: [wischniak](https://docu.ilias.de/go/usr/21896)
 	* Tester: n.n., Qualitus
-    * Assignee for Security Reports: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-    * Assignee for Security Issues: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
+    * Assignee for Security Reports: [wischniak](https://docu.ilias.de/go/usr/21896)
+    * Assignee for Security Issues: [wischniak](https://docu.ilias.de/go/usr/21896)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END LearningModuleSCORM)
