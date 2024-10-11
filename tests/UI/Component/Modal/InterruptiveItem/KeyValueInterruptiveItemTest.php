@@ -36,12 +36,14 @@ class KeyValueInterruptiveItemTest extends ILIAS_UI_TestBase
         $this->id = 'id';
         $this->key = 'key';
         $this->value = 'value';
+        $this->param = 'interruptive_items';
     }
 
     protected function getItem(): KeyValue
     {
         return new KeyValue(
             $this->id,
+            $this->param,
             $this->key,
             $this->value
         );

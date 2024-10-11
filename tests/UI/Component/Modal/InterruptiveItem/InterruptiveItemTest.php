@@ -34,22 +34,20 @@ class TestingItem extends Item
 
 class InterruptiveItemTest extends ILIAS_UI_TestBase
 {
-    public function testConstruction(): void
+    public function testInterruptiveItemConstruction(): void
     {
-        $item = new TestingItem('1');
+        $item = new TestingItem('1', 'interruptive_items');
         $this->assertInstanceOf(
             Item::class,
             $item
         );
     }
 
-    /**
-     * @depends testConstruction
-     */
-    public function testGetId(): void
+    public function testInterruptiveItemConstructionParametersa(): void
     {
         $id = '1';
-        $item = new TestingItem($id);
+        $item = new TestingItem($id, 'param');
         $this->assertEquals($id, $item->getId());
+        $this->assertEquals('param', $item->getParameterName());
     }
 }

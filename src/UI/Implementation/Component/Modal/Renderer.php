@@ -29,12 +29,16 @@ use ILIAS\UI\Component\Modal\InterruptiveItem\InterruptiveItem;
 use ILIAS\UI\Implementation\Component\Input\Container\Form\FormWithoutSubmitButton;
 use ILIAS\UI\Component\Modal\LightboxPage;
 use ILIAS\UI\Implementation\Render\Template;
+use ILIAS\Data\FormMethod;
+use ILIAS\UI\Implementation\Render\HiddenFieldsInjector;
 
 /**
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  */
 class Renderer extends AbstractComponentRenderer
 {
+    use HiddenFieldsInjector;
+
     /**
      * @inheritdoc
      */
@@ -126,8 +130,9 @@ class Renderer extends AbstractComponentRenderer
         $modal = $this->registerSignals($modal);
         $id = $this->bindJavaScript($modal);
         $tpl->setVariable('ID', $id);
-        $value = $modal->getFormAction();
-        $tpl->setVariable('FORM_ACTION', $value);
+        $url = $modal->getFormAction();
+        $tpl->setVariable('FORM_ACTION', $url);
+        $tpl->setVariable('FORM_METHOD', $modal->getFormMethod()->value);
         $tpl->setVariable('TITLE', $modal->getTitle());
         $tpl->setVariable('MESSAGE', $modal->getMessage());
 
@@ -155,6 +160,18 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('CANCEL_BUTTON_LABEL', $modal->getCancelButtonLabel() ?? $this->txt('cancel'));
         $tpl->setVariable('CLOSE_LABEL', $modal->getCancelButtonLabel() ?? $this->txt('cancel'));
 
+        if($modal->getFormMethod() === FormMethod::GET) {
+            $item_names = array_map(
+                fn($item) => $item->getParameterName(),
+                $modal->getAffectedItems()
+            );
+            $params = array_filter(
+                $this->getDataFactory()->uri($url)->getParameters(),
+                fn($v, $k) => !in_array($k, $item_names),
+                ARRAY_FILTER_USE_BOTH
+            );
+            $tpl->setVariable('QUERYPARAMS', $this->getHiddenFieldsHTML($params));
+        }
         return $tpl->get();
     }
 
