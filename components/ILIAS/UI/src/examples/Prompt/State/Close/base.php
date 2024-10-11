@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Prompt\State\Close;
 
-use ILIAS\UI\Component\Prompt\isPromptContent;
+use ILIAS\UI\Component\Prompt\IsPromptContent;
 use ILIAS\UI\URLBuilder;
 
 /**

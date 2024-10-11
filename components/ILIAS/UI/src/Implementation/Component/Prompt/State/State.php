@@ -42,7 +42,7 @@ class State implements I\State\State
     protected string $title = '';
 
     public function __construct(
-        protected ?I\isPromptContent $content
+        protected ?I\IsPromptContent $content
     ) {
     }
 
@@ -58,7 +58,7 @@ class State implements I\State\State
         return $clone;
     }
 
-    public function withContent(I\isPromptContent $content): self
+    public function withContent(I\IsPromptContent $content): self
     {
         $clone = clone $this;
         $clone->content = $content;
@@ -68,7 +68,7 @@ class State implements I\State\State
     /**
      * @return Component[]
      */
-    public function getContent(): ?I\isPromptContent
+    public function getContent(): ?I\IsPromptContent
     {
         return $this->content;
     }

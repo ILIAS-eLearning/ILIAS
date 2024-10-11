@@ -21,12 +21,12 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\MessageBox;
 
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Prompt\isPromptContent;
+use ILIAS\UI\Component\Prompt\IsPromptContent;
 
 /**
  * Interface Message Box
  */
-interface MessageBox extends Component, isPromptContent
+interface MessageBox extends Component, IsPromptContent
 {
     // Types of Message Boxes:
     public const FAILURE = "failure";

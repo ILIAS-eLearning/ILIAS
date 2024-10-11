@@ -28,7 +28,7 @@ use ILIAS\UI\Component;
  * Class Renderer
  * @package ILIAS\UI\Implementation\Component\MessageBox
  */
-class DialogContextRenderer extends AbstractComponentRenderer
+class PromptContextRenderer extends AbstractComponentRenderer
 {
     /**
      * @inheritdoc

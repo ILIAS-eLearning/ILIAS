@@ -22,7 +22,7 @@ namespace ILIAS\UI\Implementation\Component\Prompt;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Button\Button;
-use ILIAS\UI\Component\Prompt\isPromptContent as IPromptContent;
+use ILIAS\UI\Component\Prompt\IsPromptContent as IPromptContent;
 
 /**
  * Flags some Component to be a valid content of a Prompt

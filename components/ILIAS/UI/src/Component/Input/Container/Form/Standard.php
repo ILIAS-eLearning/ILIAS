@@ -20,12 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Input\Container\Form;
 
-use ILIAS\UI\Component\Prompt\isPromptContent;
+use ILIAS\UI\Component\Prompt\IsPromptContent;
 
 /**
  * This describes a standard form.
  */
-interface Standard extends FormWithPostURL, isPromptContent
+interface Standard extends FormWithPostURL, IsPromptContent
 {
     /**
      * Sets the label of the submit button of the form
