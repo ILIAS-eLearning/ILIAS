@@ -91,6 +91,18 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
                 ];
             }
 
+            $md_ids = [];
+            foreach ($a_ids as $id) {
+                $md_ids[] = $id . ':0:qpl';
+            }
+            if ($md_ids !== []) {
+                $deps[] = [
+                    'component' => 'components/ILIAS/MetaData',
+                    'entity' => 'md',
+                    'ids' => $md_ids
+                ];
+            }
+
             return $deps;
         }
 
