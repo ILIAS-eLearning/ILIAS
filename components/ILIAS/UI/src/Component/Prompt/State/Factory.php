@@ -31,7 +31,7 @@ interface Factory
      *   purpose: >
      *      Build a Prompt State to show the Contents given here.
      *   composition: >
-     *      The Prompt Instruction accepts Prompt Content to be handled by
+     *      The Prompt State accepts Prompt Content to be handled by
      *      the Prompt.
      *   effect: >
      *       The sections of the Prompt State are rendered to their respective
