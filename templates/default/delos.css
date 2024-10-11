@@ -14047,6 +14047,21 @@ div.ilc_Page.readonly textarea[disabled] {
   scroll-margin-top: 30px;
 }
 
+.c-test__dropzone {
+  display: none;
+  float: left;
+  margin: 5px 10px 5px 0;
+  padding: 0;
+  background: rgb(245.8114285714, 247.5257142857, 249.7885714286);
+  border: 1px dashed #dddddd;
+}
+.c-test__dropzone.c-test__dropzone--hover {
+  background: rgb(232.7942857143, 236.9371428571, 242.4057142857);
+}
+.c-test__dropzone.c-test__dropzone--active {
+  display: block;
+}
+
 /* Modules/Wiki */
 a.ilWikiPageMissing:link, a.ilWikiPageMissing:visited {
   color: #d00;

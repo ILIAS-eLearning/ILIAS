@@ -3,6 +3,9 @@
 @use "./_component_test_legacy.scss" as *;
 
 //== Test Assessment
+$il-test-dropzone-bg-color: lighten($il-main-color, 56%);
+$il-test-dropzone-border-color: $il-main-border-color;
+
 $il-test-shortlist-min-width: 200px;
 
 $il-test-padding-large-vertical: $il-padding-large-vertical;
@@ -120,4 +123,21 @@ $il-test-working-time-font-weight: $il-font-weight-bold;
 
 #tst_pass_details_overview tr {
     scroll-margin-top: 30px;
+}
+
+.c-test__dropzone {
+    display: none;
+    float: left;
+    margin: 5px 10px 5px 0;
+    padding: 0;
+    background: $il-test-dropzone-bg-color;
+    border: 1px dashed $il-test-dropzone-border-color;
+
+    &.c-test__dropzone--hover {
+        background: darken($il-test-dropzone-bg-color, 4%);
+    }
+
+    &.c-test__dropzone--active {
+        display: block;
+    }
 }
