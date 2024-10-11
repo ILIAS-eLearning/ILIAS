@@ -125,7 +125,7 @@ class ilMDCopyrightSelectionEntry
     {
         global $DIC;
 
-        $repository = new DatabaseRepository($DIC->database());
+        $repository = new DatabaseRepository(new Wrapper($DIC->database()));
 
         if (!$entry_id = self::_extractEntryId($a_cp_string)) {
             return $a_cp_string;
@@ -140,7 +140,7 @@ class ilMDCopyrightSelectionEntry
     {
         global $DIC;
 
-        $repository = new DatabaseRepository($DIC->database());
+        $repository = new DatabaseRepository(new Wrapper($DIC->database()));
 
         // url should be made to match regardless of scheme
         $normalized_copyright = str_replace('https://', 'http://', $copyright_text);
