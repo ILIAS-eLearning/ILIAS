@@ -46,7 +46,7 @@ interface Factory
      * rules:
      *   usage:
      *     1: >
-     *      The server MUST answer with an Instruction Component
+     *      The server MUST answer with an Prompt State Component
      *      to a request to the url provided to the Prompt.
      * ---
      * @return \ILIAS\UI\Component\Prompt\Prompt
