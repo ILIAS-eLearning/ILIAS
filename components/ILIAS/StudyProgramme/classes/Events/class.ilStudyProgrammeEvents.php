@@ -25,6 +25,16 @@ class ilStudyProgrammeEvents implements StudyProgrammeEvents
         self::EVENT_USER_DEASSIGNED,
         self::EVENT_USER_REASSIGNED,
     ];
+    /*
+        self::EVENT_USER_SUCCESSFUL,
+        self::EVENT_USER_NOT_SUCCESSFUL,
+        self::EVENT_VALIDITY_CHANGE,
+        self::EVENT_SCORE_CHANGE
+
+        will all trigger self::EVENT_USER_SUCCESSFUL on ilAppEventHandler,
+        but only once! and for root-prg only.
+        This prevents e.g. certificate to rebuild on every (sucessive) change
+    */
 
     public function __construct(
         protected ilLogger $logger,
