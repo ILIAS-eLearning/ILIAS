@@ -169,7 +169,7 @@ class ImplementationOfAgentFinder implements AgentFinder
         foreach ($directories as $dir) {
             $groups = [];
             if (preg_match("%^" . __DIR__ . "/[.][.]/[.][.]/[.][.]/[.][.]/public/Customizing/plugins/((\\w+/){2})([^/\.]+)(/|$)%", (string) $dir, $groups)) {
-                $name = $groups[6];
+                $name = $groups[3];
                 if (isset($names[$name])) {
                     continue;
                 }
