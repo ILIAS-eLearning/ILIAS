@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Prompt\State\Show;
 
-use ILIAS\UI\Component\Prompt\isPromptContent;
+use ILIAS\UI\Component\Prompt\IsPromptContent;
 use ILIAS\UI\URLBuilder;
 
 /**
@@ -22,7 +22,7 @@ function base()
     $here_uri = $df->uri($DIC->http()->request()->getUri()->__toString());
     $url_builder = new URLBuilder($here_uri);
 
-    //a response may contain Components implementing isPromptContent interface.
+    //a response may contain Components implementing IsPromptContent interface.
     $content = $factory->input()->container()->form()->standard(
         $url_builder->buildURI()->__toString(),
         [$factory->input()->field()->text("Text Input")]

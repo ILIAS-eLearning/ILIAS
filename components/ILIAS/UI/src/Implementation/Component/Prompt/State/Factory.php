@@ -26,7 +26,7 @@ use ILIAS\Data\URI;
 
 class Factory implements I\State\Factory
 {
-    public function show(I\isPromptContent $content): State
+    public function show(I\IsPromptContent $content): State
     {
         return new State($content);
     }
