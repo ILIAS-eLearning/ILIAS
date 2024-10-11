@@ -451,15 +451,15 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         );
         $solution_html = $answers_gui->getHTML();
 
-        $template = new ilTemplate("tpl.il_as_qpl_nested_ordering_output_solution.html", true, true, "components/ILIAS/TestQuestionPool");
+        $template = new ilTemplate('tpl.il_as_qpl_nested_ordering_output_solution.html', true, true, 'components/ILIAS/TestQuestionPool');
         $template->setVariable('SOLUTION_OUTPUT', $solution_html);
         if ($show_question_text == true) {
-            $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
+            $template->setVariable('QUESTIONTEXT', $this->object->getQuestionForHTMLOutput());
         }
         $questionoutput = $template->get();
 
-        $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "components/ILIAS/TestQuestionPool");
-        $solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
+        $solutiontemplate = new ilTemplate('tpl.il_as_tst_solution_output.html', true, true, 'components/ILIAS/TestQuestionPool');
+        $solutiontemplate->setVariable('SOLUTION_OUTPUT', $questionoutput);
 
         if ($show_feedback) {
             $feedback = '';
@@ -475,8 +475,8 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                     ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_CORRECT : ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_WRONG
                 );
 
-                $solutiontemplate->setVariable("ILC_FB_CSS_CLASS", $cssClass);
-                $solutiontemplate->setVariable("FEEDBACK", ilLegacyFormElementsUtil::prepareTextareaOutput($feedback, true));
+                $solutiontemplate->setVariable('ILC_FB_CSS_CLASS', $cssClass);
+                $solutiontemplate->setVariable('FEEDBACK', ilLegacyFormElementsUtil::prepareTextareaOutput($feedback, true));
             }
         }
 
@@ -497,7 +497,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         if ($this->getPreviewSession() && $this->getPreviewSession()->hasParticipantSolution()) {
             $solutionOrderingElementList = unserialize(
                 $this->getPreviewSession()->getParticipantsSolution(),
-                ["allowed_classes" => true]
+                ['allowed_classes' => true]
             );
         } else {
             $solutionOrderingElementList = $this->object->getShuffledOrderingElementList();
@@ -509,12 +509,12 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $answers->setInteractionEnabled($this->isInteractivePresentation());
         $answers->setElementList($solutionOrderingElementList);
 
-        $template = new ilTemplate("tpl.il_as_qpl_ordering_output.html", true, true, "components/ILIAS/TestQuestionPool");
+        $template = new ilTemplate('tpl.il_as_qpl_ordering_output.html', true, true, 'components/ILIAS/TestQuestionPool');
 
         $template->setCurrentBlock('nested_ordering_output');
         $template->setVariable('NESTED_ORDERING', $answers->getHTML());
         $template->parseCurrentBlock();
-        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
+        $template->setVariable('QUESTIONTEXT', $this->object->getQuestionForHTMLOutput());
 
         if ($show_question_only) {
             return $template->get();
@@ -866,5 +866,12 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         }
 
         $this->object->setOrderingElementList($newElementList);
+    }
+
+    private function addInitializationJSToTemplate(): void
+    {
+        $this->tpl->addOnLoadCode(
+            "il.test.orderinghorizontal.init(document.querySelector('#horizontal_{$this->object->getId()}'));"
+        );
     }
 }
