@@ -711,7 +711,7 @@ class ilRbacReview
      */
     public function getOperationsOnType(int $a_typ_id): array
     {
-        $query = 'SELECT ops_id FROM rbac_ta ta JOIN rbac_operations o ON ta.ops_id = o.ops_id ' .
+        $query = 'SELECT ta.ops_id FROM rbac_ta ta JOIN rbac_operations o ON ta.ops_id = o.ops_id ' .
             'WHERE typ_id = ' . $this->db->quote($a_typ_id, 'integer') . ' ' .
             'ORDER BY op_order';
 
