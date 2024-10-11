@@ -26,6 +26,6 @@ use ILIAS\UI\Component\Button\Button;
 /**
  * Flags some Component to be a valid content of a Prompt
  */
-interface isPromptContent extends Component
+interface IsPromptContent extends Component
 {
 }
