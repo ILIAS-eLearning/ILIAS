@@ -995,13 +995,42 @@ class ilObjSAHSLearningModule extends ilObject
     */
     public function delete(): bool
     {
+        // always call parent delete function first!!
+        if (!parent::delete()) {
+            return false;
+        }
+
         global $DIC;
         $ilDB = $DIC->database();
         $ilLog = ilLoggerFactory::getLogger('sahs');
 
-        // always call parent delete function first!!
-        if (!parent::delete()) {
-            return false;
+        $obj_id = $ilDB->quote($this->getId(), 'integer');
+        $queries = [];
+        $queries[] = "DELETE FROM cmi_gobjective WHERE scope_id = $obj_id";
+        $queries[] = "DELETE FROM cmi_correct_response WHERE cmi_interaction_id IN (SELECT cmi_interaction_id FROM cmi_interaction WHERE cmi_node_id IN (SELECT child FROM cp_tree WHERE obj_id = $obj_id))";
+        $queries[] = "DELETE FROM cmi_interaction WHERE cmi_node_id IN (SELECT child FROM cp_tree WHERE obj_id = $obj_id)";
+        $queries[] = "DELETE FROM cmi_comment WHERE cmi_node_id IN (SELECT child FROM cp_tree WHERE obj_id = $obj_id)";
+        $queries[] = "DELETE FROM cmi_node WHERE cmi_node_id IN (SELECT child FROM cp_tree WHERE obj_id = $obj_id)";
+        $queries[] = "DELETE FROM cp_sequencing WHERE cp_node_id IN (SELECT child FROM cp_tree WHERE obj_id = $obj_id)";
+        $queries[] = "DELETE FROM cp_rule WHERE cp_node_id IN (SELECT child FROM cp_tree WHERE obj_id = $obj_id)";
+        $queries[] = "DELETE FROM cp_resource WHERE cp_node_id IN (SELECT child FROM cp_tree WHERE obj_id = $obj_id)";
+        $queries[] = "DELETE FROM cp_package WHERE obj_id = $obj_id";
+        $queries[] = "DELETE FROM cp_organization WHERE cp_node_id IN (SELECT child FROM cp_tree WHERE obj_id = $obj_id)";
+        $queries[] = "DELETE FROM cp_objective WHERE cp_node_id IN (SELECT child FROM cp_tree WHERE obj_id = $obj_id)";
+        $queries[] = "DELETE FROM cp_mapinfo WHERE cp_node_id IN (SELECT child FROM cp_tree WHERE obj_id = $obj_id)";
+        $queries[] = "DELETE FROM cp_hidelmsui WHERE cp_node_id IN (SELECT child FROM cp_tree WHERE obj_id = $obj_id)";
+        $queries[] = "DELETE FROM cp_file WHERE cp_node_id IN (SELECT child FROM cp_tree WHERE obj_id = $obj_id)";
+        $queries[] = "DELETE FROM cp_condition WHERE cp_node_id IN (SELECT child FROM cp_tree WHERE obj_id = $obj_id)";
+        $queries[] = "DELETE FROM cp_auxilaryresource WHERE cp_node_id IN (SELECT child FROM cp_tree WHERE obj_id = $obj_id)";
+        $queries[] = "DELETE FROM cp_manifest WHERE cp_node_id IN (SELECT child FROM cp_tree WHERE obj_id = $obj_id)";
+        $queries[] = "DELETE FROM cp_node WHERE cp_node_id IN (SELECT child FROM cp_tree WHERE obj_id = $obj_id)";
+        $queries[] = "DELETE FROM cp_item WHERE cp_node_id IN (SELECT child FROM cp_tree WHERE obj_id = $obj_id)";
+        $queries[] = "DELETE FROM cp_tree WHERE obj_id = $obj_id";
+
+
+        foreach ($queries as $q) {
+            $ilLog->debug('Scorm2004, delete data: ' . $q);
+            $this->db->manipulate($q);
         }
 
         // delete meta data of scorm content object
