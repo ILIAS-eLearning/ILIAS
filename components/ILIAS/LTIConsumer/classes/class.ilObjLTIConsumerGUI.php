@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 
 /**
@@ -56,6 +57,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
     public ?ilObject $object = null;
     protected ilLTIConsumerAccess $ltiAccess;
+    protected LOMServices $lom_services;
 
     public int $parent_node_id = 0; //check
 
@@ -69,6 +71,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         if ($this->object instanceof ilObjLTIConsumer) {
             $this->ltiAccess = new ilLTIConsumerAccess($this->object);
         }
+        $this->lom_services = $DIC->learningObjectMetadata();
 
         $DIC->language()->loadLanguageModule("lti");
         $DIC->language()->loadLanguageModule("rep");
@@ -594,29 +597,23 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
     public function initMetadata(\ilObject $object): void
     {
-        $metadata = new ilMD($object->getId(), $object->getId(), $object->getType());
+        // create LOM set from scratch
+        $this->lom_services->derive()
+                           ->fromBasicProperties($object->getTitle())
+                           ->forObject($object->getId(), $object->getId(), $object->getType());
 
-        $generalMetadata = $metadata->getGeneral();
-
-        if (!$generalMetadata) {
-            $generalMetadata = $metadata->addGeneral();
+        // in a second step, set the keywords
+        $keywords = [];
+        foreach ($object->getProvider()->getKeywordsArray() as $keyword) {
+            if ($keyword !== '') {
+                $keywords[] = $keyword;
+            }
         }
-
-        $generalMetadata->setTitle($object->getTitle());
-        $generalMetadata->save();
-
-        $id = $generalMetadata->addIdentifier();
-        $id->setCatalog('ILIAS');
-        $id->setEntry('il__' . $object->getType() . '_' . $object->getId());
-        $id->save();
-
-        $keywords = $object->getProvider()->getKeywordsArray();
-
-        // language needed now
-        $ulang = $this->user->getLanguage();
-        $keywords = array($ulang => $keywords);
-
-        ilMDKeyword::updateKeywords($generalMetadata, $keywords);
+        $this->lom_services->manipulate($object->getId(), $object->getId(), $object->getType())
+                           ->prepareCreateOrUpdate(
+                               $this->lom_services->paths()->keywords(),
+                               ...$keywords
+                           )->execute();
     }
 
     /**
