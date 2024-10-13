@@ -535,6 +535,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $publicKey = new ilTextAreaInputGUI($lng->txt('lti_con_key_type_rsa_public_key'), 'public_key');
         $publicKey->setRows(6);
         $publicKey->setRequired(true);
+        $publicKey->setValue($this->provider->getPublicKey());
         $publicKey->setInfo($lng->txt('lti_con_key_type_rsa_public_key_info'));
         $keyRsa->addSubItem($publicKey);
         //JWK
