@@ -20,10 +20,29 @@ declare(strict_types=1);
 
 namespace ILIAS\Repository\Deletion;
 
-use ILIAS\Repository\InternalDomainService;
-
 interface EventInterface
 {
     public function beforeMoveToTrash(int $ref_id, array $subnodes): void;
     public function afterMoveToTrash(int $ref_id, int $old_parent_ref_id): void;
+    public function beforeSubtreeRemoval(int $obj_id): void;
+
+    public function beforeObjectRemoval(
+        int $obj_id,
+        int $ref_id,
+        string $type,
+        string $title
+    ): void;
+
+    public function afterObjectRemoval(
+        int $obj_id,
+        int $ref_id,
+        string $type,
+        int $old_parent_ref_id
+    ): void;
+
+
+    public function afterTreeDeletion(
+        int $tree_id,
+        int $child
+    ): void;
 }

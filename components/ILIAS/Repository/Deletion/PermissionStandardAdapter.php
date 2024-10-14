@@ -59,6 +59,6 @@ class PermissionStandardAdapter implements PermissionInterface
 
     public function revokePermission(int $ref_id): void
     {
-        // TODO: Implement revokePermission() method.
+        $this->rbacadmin->revokePermission($ref_id);
     }
 }

@@ -33,5 +33,17 @@ interface TreeInterface
     // custom
     public function getDeletedTreeNodeIds(array $ids): array;
 
+    public function getTree(int $tree_id): TreeInterface;
+
     public function getTrashTree(int $ref_id): TreeInterface;
+
+    public function deleteTree(array $node_data): void;
+
+    public function moveToTrash(int $ref_id): bool;
+
+    /**
+     * @return int[]
+     */
+    public function getTrashedSubtrees(int $ref_id): array;
+
 }

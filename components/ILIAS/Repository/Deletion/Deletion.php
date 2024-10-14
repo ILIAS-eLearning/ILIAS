@@ -20,14 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Repository\Deletion;
 
-use ilRepositoryException;
-
 class Deletion
 {
     public function __construct(
         protected TreeInterface $tree,
         protected PermissionInterface $permission,
         protected EventInterface $event,
+        protected ObjectInterface $object,
         protected bool $trash_enabled
     ) {
 
@@ -38,7 +37,7 @@ class Deletion
      * objects are removed from system directly.
      * @return int[]
      */
-    public function deleteObjectsByRefIds(array $ids): array
+    public function deleteObjectsByRefIds(array $ids): void
     {
         // check if objects are already deleted
         if (count($del_ids = $this->tree->getDeletedTreeNodeIds($ids)) > 0) {
@@ -53,10 +52,7 @@ class Deletion
         if ($this->trash_enabled) {
             $this->moveToTrash($ids);
         } else {
-            foreach ($ids as $id) {
-                $handled_ids = [];
-                //                $this->finalDeleteNode($id, $handled_ids);
-            }
+            $this->removeObjectsFromSystemByRefIds($ids, true);
         }
     }
 
@@ -88,13 +84,9 @@ class Deletion
                 $subtree_nodes = $this->tree->getSubTree($node_data);
             }
 
-            ilChangeEvent::_recordWriteEvent(
-                $node_data['obj_id'],
-                $ilUser->getId(),
-                'purge',
-                null
+            $this->event->beforeSubTreeRemoval(
+                $node_data['obj_id']
             );
-            // END ChangeEvent: Record remove from system.
 
             // remember already checked deleted node_ids
             if (!$direct_from_tree) {
@@ -105,18 +97,18 @@ class Deletion
 
             // dive in recursive manner in each already deleted subtrees and remove these objects too
             // @todo Why only for the main id not the subnodes!?
-            self::removeDeletedNodes($id, $checked, true, $affected_ids);
+            $this->removeDeletedNodes($id, $checked, true, $affected_ids);
 
             foreach ($subtree_nodes as $node) {
-                if (!$node_obj = ilObjectFactory::getInstanceByRefId($node["ref_id"], false)) {
+                if (!$node_obj = $this->object->getInstanceByRefId($node["ref_id"])) {
                     continue;
                 }
 
-                $logger->info(
-                    'delete obj_id: ' . $node_obj->getId() .
-                    ', ref_id: ' . $node_obj->getRefId() .
-                    ', type: ' . $node_obj->getType() .
-                    ', title: ' . $node_obj->getTitle()
+                $this->event->beforeObjectRemoval(
+                    $node_obj->getId(),
+                    $node_obj->getRefId(),
+                    $node_obj->getType(),
+                    $node_obj->getTitle()
                 );
                 $affected_ids[$node["ref_id"]] = [
                     "ref_id" => $node["ref_id"],
@@ -140,26 +132,22 @@ class Deletion
                     $saved_tree->deleteTree($node_data);
                 }
             } else {
-                $tree->deleteTree($node_data);
+                $this->tree->deleteTree($node_data);
             }
 
-            $logger->info(
-                'deleted tree, tree_id: ' . $node_data['tree'] .
-                ', child: ' . $node_data['child']
+            $this->event->afterTreeDeletion(
+                (int) $node_data['tree'],
+                (int) $node_data['child']
             );
         }
 
         // send global events
         foreach ($affected_ids as $aid) {
-            $ilAppEventHandler->raise(
-                "components/ILIAS/Object",
-                "delete",
-                [
-                    "obj_id" => $aid["obj_id"],
-                    "ref_id" => $aid["ref_id"],
-                    "type" => $aid["type"],
-                    "old_parent_ref_id" => $aid["old_parent_ref_id"]
-                ]
+            $this->event->afterObjectRemoval(
+                $aid["obj_id"],
+                $aid["ref_id"],
+                $aid["type"],
+                $aid["old_parent_ref_id"]
             );
         }
     }
@@ -173,58 +161,45 @@ class Deletion
         bool $a_delete_objects,
         array &$a_affected_ids
     ): void {
-        global $DIC;
 
-        $ilLog = $DIC["ilLog"];
-        $ilDB = $DIC->database();
-        $tree = $DIC->repositoryTree();
-        $logger = $DIC->logger()->rep();
-
-        $log = $ilLog;
-
-        // this queries for trash items in the trash of deleted nodes
-        $q = 'SELECT tree FROM tree WHERE parent = ' . $ilDB->quote($a_node_id, ilDBConstants::T_INTEGER) .
-            ' AND tree < 0 ' .
-            ' AND tree = -1 * child' ;
-
-        $r = $ilDB->query($q);
-
-        while ($row = $ilDB->fetchObject($r)) {
+        foreach ($this->tree->getTrashedSubtrees($a_node_id) as $tree_id) {
             // only continue recursion if fetched node wasn't touched already!
-            if (!in_array($row->tree, $a_checked)) {
-                $deleted_tree = new ilTree($row->tree);
-                $a_checked[] = $row->tree;
+            if (!in_array($tree_id, $a_checked)) {
+                $deleted_tree = $this->tree->getTree($tree_id);
+                $a_checked[] = $tree_id;
 
-                $row->tree *= (-1);
-                $del_node_data = $deleted_tree->getNodeData($row->tree);
+                $tree_id *= (-1);
+                $del_node_data = $deleted_tree->getNodeData($tree_id);
                 $del_subtree_nodes = $deleted_tree->getSubTree($del_node_data);
                 // delete trash in the trash of trash...
-                self::removeDeletedNodes($row->tree, $a_checked, $a_delete_objects, $a_affected_ids);
+                self::removeDeletedNodes($tree_id, $a_checked, $a_delete_objects, $a_affected_ids);
 
                 if ($a_delete_objects) {
                     foreach ($del_subtree_nodes as $node) {
-                        $node_obj = ilObjectFactory::getInstanceByRefId($node["ref_id"]);
-                        $logger->info(
-                            'removeDeletedNodes: delete obj_id: ' . $node_obj->getId() .
-                            ', ref_id: ' . $node_obj->getRefId() .
-                            ', type: ' . $node_obj->getType() .
-                            ', title: ' . $node_obj->getTitle()
-                        );
-                        $a_affected_ids[$node["ref_id"]] = [
-                            "ref_id" => $node["ref_id"],
-                            "obj_id" => $node_obj->getId(),
-                            "type" => $node_obj->getType(),
-                            "old_parent_ref_id" => $node["parent"]
-                        ];
-                        $node_obj->delete();
+                        $object = $this->object->getInstanceByRefId($node["ref_id"]);
+                        if (!is_null($object)) {
+                            $a_affected_ids[$node["ref_id"]] = [
+                                "ref_id" => $node["ref_id"],
+                                "obj_id" => $object->getId(),
+                                "type" => $object->getType(),
+                                "old_parent_ref_id" => $node["parent"]
+                            ];
+                            $this->event->beforeObjectRemoval(
+                                $object->getId(),
+                                $object->getRefId(),
+                                $object->getType(),
+                                $object->getTitle()
+                            );
+                            $object->delete();
+                        }
                     }
                 }
                 // tree instance with -child tree id
-                $trash_tree = new ilTree($del_node_data['tree']);
+                $trash_tree = $this->tree->getTree((int) $del_node_data['tree']);
                 $trash_tree->deleteTree($del_node_data);
-                $logger->info(
-                    'removeDeltedNodes: deleted tree, tree_id: ' . $del_node_data['tree'] .
-                    ', child: ' . $del_node_data['child']
+                $this->event->afterTreeDeletion(
+                    (int) $del_node_data['tree'],
+                    (int) $del_node_data['child']
                 );
             }
         }

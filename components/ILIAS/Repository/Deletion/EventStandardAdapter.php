@@ -56,4 +56,57 @@ class EventStandardAdapter implements EventInterface
             ]
         );
     }
+
+    public function beforeSubtreeRemoval(int $obj_id): void
+    {
+        // old wrandelshofer code, still needed?
+        \ilChangeEvent::_recordWriteEvent(
+            $obj_id,
+            $this->domain->user()->getId(),
+            'purge',
+            null
+        );
+    }
+
+    public function beforeObjectRemoval(
+        int $obj_id,
+        int $ref_id,
+        string $type,
+        string $title
+    ): void {
+        $this->log->info(
+            'delete obj_id: ' . $obj_id .
+            ', ref_id: ' . $ref_id .
+            ', type: ' . $type .
+            ', title: ' . $title
+        );
+    }
+
+    public function afterObjectRemoval(
+        int $obj_id,
+        int $ref_id,
+        string $type,
+        int $old_parent_ref_id
+    ): void {
+        $this->event_handler->raise(
+            "components/ILIAS/Object",
+            "delete",
+            [
+                "obj_id" => $obj_id,
+                "ref_id" => $ref_id,
+                "type" => $type,
+                "old_parent_ref_id" => $old_parent_ref_id
+            ]
+        );
+    }
+
+    public function afterTreeDeletion(
+        int $tree_id,
+        int $child
+    ): void {
+        $this->log->info(
+            'deleted tree, tree_id: ' . $tree_id .
+            ', child: ' . $child
+        );
+    }
 }
