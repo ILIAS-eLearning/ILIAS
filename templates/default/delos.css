@@ -13949,6 +13949,28 @@ div.ilc_Page.readonly textarea[disabled] {
   top: 40px;
 }
 
+.c-test__dropzone {
+  display: none;
+  margin: 5px 10px 5px 0;
+  padding: 0;
+  background: rgb(245.8114285714, 247.5257142857, 249.7885714286);
+  border: 1px dashed #dddddd;
+}
+.c-test__dropzone.c-test__dropzone--hover {
+  background: rgb(232.7942857143, 236.9371428571, 242.4057142857);
+}
+.c-test__dropzone.c-test__dropzone--active {
+  display: block;
+}
+
+.ilc_qordul_OrderListHorizontal .c-test__dropzone {
+  float: left;
+}
+
+.ilc_qordul_OrderList .c-test__dropzone {
+  width: 100%;
+}
+
 #tst_output {
   display: flex;
 }
@@ -14045,21 +14067,6 @@ div.ilc_Page.readonly textarea[disabled] {
 
 #tst_pass_details_overview tr {
   scroll-margin-top: 30px;
-}
-
-.c-test__dropzone {
-  display: none;
-  float: left;
-  margin: 5px 10px 5px 0;
-  padding: 0;
-  background: rgb(245.8114285714, 247.5257142857, 249.7885714286);
-  border: 1px dashed #dddddd;
-}
-.c-test__dropzone.c-test__dropzone--hover {
-  background: rgb(232.7942857143, 236.9371428571, 242.4057142857);
-}
-.c-test__dropzone.c-test__dropzone--active {
-  display: block;
 }
 
 /* Modules/Wiki */
