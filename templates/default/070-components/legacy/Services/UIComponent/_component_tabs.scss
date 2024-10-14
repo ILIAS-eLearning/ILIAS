@@ -20,7 +20,7 @@ $nav-tabs-border: 2px solid $nav-tabs-active-link-hover-bg !default;
 		margin: 0 $il-padding-xs-horizontal 0 0;
 
 		// Actual tabs (as links)
-		> a {
+		a {
 			margin: 0;
 			margin-right: 2px;
 			font-size: $il-font-size-base;
@@ -37,7 +37,7 @@ $nav-tabs-border: 2px solid $nav-tabs-active-link-hover-bg !default;
 		}
 
 		// Active state, and its :hover to override normal :hover
-		&.active>a {
+		&.active a {
 
 			&,
 			&:hover,
@@ -62,7 +62,7 @@ $nav-tabs-border: 2px solid $nav-tabs-active-link-hover-bg !default;
 	padding: $il-padding-large-vertical 0;
 	margin: 0;
 
-	> li:first-child > a {
+	> li:first-child a {
 		padding-left: $il-padding-large-horizontal;
 	}
 
@@ -70,7 +70,7 @@ $nav-tabs-border: 2px solid $nav-tabs-active-link-hover-bg !default;
 	> li {
 		float: left;
 
-		> a {
+		a {
 			border-radius: 0;
 			padding: $il-padding-base-vertical $il-padding-base;
 			font-size: ($il-font-size-small);
@@ -82,7 +82,7 @@ $nav-tabs-border: 2px solid $nav-tabs-active-link-hover-bg !default;
 			@include focus.clear-focus-for-override($clearAfter: true);
 			@include focus.il-focus();
 		}
-		&.active > a {
+		&.active a {
 			&,
 			&:hover,
 			&:focus {

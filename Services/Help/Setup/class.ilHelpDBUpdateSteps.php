@@ -75,4 +75,15 @@ class ilHelpDBUpdateSteps implements \ilDatabaseUpdateSteps
         }
     }
 
+    public function step_4(): void
+    {
+        if (!$this->db->tableColumnExists('help_map', 'full_id')) {
+            $this->db->addTableColumn('help_map', 'full_id', array(
+                'type' => 'text',
+                'length' => 1000,
+                'default' => ""
+            ));
+        }
+    }
+
 }

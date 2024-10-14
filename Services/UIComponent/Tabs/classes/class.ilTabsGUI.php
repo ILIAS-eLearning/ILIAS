@@ -338,6 +338,8 @@ class ilTabsGUI
         $cmdClass = null;
         $sr_pre = "";
         $hash = "";
+        $f = $DIC->ui()->factory();
+        $r = $DIC->ui()->renderer();
 
         $ilHelp = $DIC["ilHelp"] ?? null;
 
@@ -453,6 +455,7 @@ class ilTabsGUI
                 $tpl->setVariable("ID", $pre . "tab_" . $target["id"]);
 
                 // tooltip
+                /*
                 if (!$this->getSetupMode()) {
                     $ttext = $ilHelp->getTabTooltipText($target["id"]);
                     if ($ttext !== "") {
@@ -465,7 +468,7 @@ class ilTabsGUI
                             false
                         );
                     }
-                }
+                }*/
 
                 // bs-patch: start
                 $tabtype = in_array($tabtype, array("tabactive", "subtabactive"))
@@ -475,15 +478,27 @@ class ilTabsGUI
 
                 $tpl->setVariable($pre2 . "TAB_TYPE", $tabtype);
                 $hash = "";
-                $tpl->setVariable($pre2 . "TAB_LINK", $target["link"] . $hash);
+                //$tpl->setVariable($pre2 . "TAB_LINK", $target["link"] . $hash);
                 if ($target["dir_text"]) {
-                    $tpl->setVariable($pre2 . "TAB_TEXT", $target["text"]);
+                    //$tpl->setVariable($pre2 . "TAB_TEXT", $target["text"]);
+                    $text = $target["text"];
                 } else {
-                    $tpl->setVariable($pre2 . "TAB_TEXT", $lng->txt($target["text"]));
+                    //$tpl->setVariable($pre2 . "TAB_TEXT", $lng->txt($target["text"]));
+                    $text = $lng->txt($target["text"]);
                 }
+                $link = $f->link()->standard($text, $target["link"]);
                 if ($target["frame"] != "") {
-                    $tpl->setVariable($pre2 . "TAB_TARGET", ' target="' . $target["frame"] . '" ');
+                    //$tpl->setVariable($pre2 . "TAB_TARGET", ' target="' . $target["frame"] . '" ');
+                    $link->withOpenInNewViewport(true);
                 }
+                $ttext = $ilHelp->getTabTooltipText($target["id"]);
+                if ($ttext !== "") {
+                    $link = $link->withHelpTopics(
+                        ...$f->helpTopics($ttext)
+                    );
+                }
+
+                $tpl->setVariable($pre2 . "LINK", $r->render($link));
                 $tpl->parseCurrentBlock();
             }
 
@@ -497,10 +512,18 @@ class ilTabsGUI
                 foreach ($this->non_tabbed_link as $link) {
                     $tpl->setCurrentBlock("tab");
                     $tpl->setVariable("TAB_TYPE", "nontabbed");
-                    $tpl->setVariable("TAB_ICON", " " . $this->symbol()->glyph("next")->render());
-                    $tpl->setVariable("TAB_TEXT", $link["text"]);
-                    $tpl->setVariable("TAB_LINK", $link["link"]);
-                    $tpl->setVariable("TAB_TARGET", $link["frame"]);
+                    //$tpl->setVariable("TAB_ICON", " " . $this->symbol()->glyph("next")->render());
+                    //$tpl->setVariable("TAB_TEXT", $link["text"]);
+                    //$tpl->setVariable("TAB_LINK", $link["link"]);
+                    //$tpl->setVariable("TAB_TARGET", $link["frame"]);
+                    $l = $f->link()->standard(
+                        $link["text"] . " " .$this->symbol()->glyph("next")->render(),
+                        $link["link"]
+                    );
+                    if ($link["frame"] !== "") {
+                        $l = $l->withOpenInNewViewport(true);
+                    }
+                    $tpl->setVariable("LINK", $r->render($l));
                     $tpl->setVariable("ID", "nontab_" . $link["id"]);
                     $tpl->parseCurrentBlock();
 
