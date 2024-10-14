@@ -1070,7 +1070,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     {
         return str_replace(
             [
-                '[list-language-selection] ',
+                '[list-language-selection]',
                 '[list-registration-link]',
                 '[list-user-agreement]',
                 '[list-dpro-agreement]',
