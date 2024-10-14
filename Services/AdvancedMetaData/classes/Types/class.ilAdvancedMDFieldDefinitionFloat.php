@@ -65,7 +65,7 @@ class ilAdvancedMDFieldDefinitionFloat extends ilAdvancedMDFieldDefinitionIntege
     protected function importFieldDefinition(array $a_def): void
     {
         parent::importFieldDefinition($a_def);
-        $this->setDecimals($a_def["decimals"]);
+        $this->setDecimals($a_def["decimals"] ?? 0);
     }
 
     protected function getFieldDefinition(): array
