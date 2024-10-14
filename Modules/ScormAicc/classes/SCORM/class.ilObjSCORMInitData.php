@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
 * Class ilObjSCORMInitData
@@ -234,7 +234,11 @@ class ilObjSCORMInitData
         );
         while ($val_rec = $ilDB->fetchAssoc($val_set)) {
             if (!strpos($val_rec["lvalue"], "._count")) {
-                $a_out[] = array( (int) $val_rec["sco_id"], $val_rec["lvalue"], self::encodeURIComponent($val_rec["rvalue"]) );
+                $a_out[] = array(
+                    (int) $val_rec["sco_id"],
+                    $val_rec["lvalue"],
+                    self::encodeURIComponent($val_rec["rvalue"] ?? '')
+                );
             }
         }
         return json_encode($a_out);
@@ -277,7 +281,12 @@ class ilObjSCORMInitData
         );
         while ($val_rec = $ilDB->fetchAssoc($val_set)) {
             //			$s_out.='['.$val_rec["lft"].','.$val_rec["child"].','.$val_rec["asset"].',"'.self::encodeURIComponent($val_rec["href"]).'"],';
-            $a_out[] = array( (int) $val_rec["lft"], (int) $val_rec["child"], (int) $val_rec["asset"], self::encodeURIComponent($val_rec["href"]) );
+            $a_out[] = array(
+                (int) $val_rec["lft"],
+                (int) $val_rec["child"],
+                (int) $val_rec["asset"],
+                self::encodeURIComponent($val_rec["href"] ?? '')
+            );
         }
         //		if(substr($s_out,(strlen($s_out)-1))==",") $s_out=substr($s_out,0,(strlen($s_out)-1));
         //		return "[".$s_out."]";
@@ -301,7 +310,12 @@ class ilObjSCORMInitData
             array($a_packageId)
         );
         while ($val_rec = $ilDB->fetchAssoc($val_set)) {
-            $a_out[] = array((int) $val_rec["child"],(int) $val_rec["depth"],self::encodeURIComponent($val_rec["title"]),$val_rec["c_type"]);
+            $a_out[] = array(
+                (int) $val_rec["child"],
+                (int) $val_rec["depth"],
+                self::encodeURIComponent($val_rec["title"] ?? ''),
+                $val_rec["c_type"]
+            );
         }
         return json_encode($a_out);
     }
