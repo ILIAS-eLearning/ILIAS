@@ -220,7 +220,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         bool $show_inline_feedback = false
     ): string {
         $template = new ilTemplate('tpl.il_as_qpl_orderinghorizontal_output.html', true, true, 'components/ILIAS/TestQuestionPool');
-        $this->addInitializationJSToTemplate();
+        $this->initializePlayerJS();
 
         if ($this->getPreviewSession() !== null
             && $this->getPreviewSession()->getParticipantsSolution() !== null) {
@@ -244,12 +244,10 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
             $template->setVariable('STYLE', ' style="font-size: ' . $this->object->getTextSize() . '%;"');
         }
         $template->setVariable('QUESTIONTEXT', $this->object->getQuestionForHTMLOutput());
-        $questionoutput = $template->get();
-        if (!$show_question_only) {
-            $questionoutput = $this->getILIASPage($questionoutput);
+        if ($show_question_only) {
+            return $template->get();
         }
-        $this->tpl->addJavascript('assets/js/orderinghorizontal.js');
-        return $questionoutput;
+        return $this->getILIASPage($template->get());
     }
 
     public function getTestOutput(
@@ -260,7 +258,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         bool $show_specific_inline_feedback = false
     ): string {
         $template = new ilTemplate('tpl.il_as_qpl_orderinghorizontal_output.html', true, true, 'components/ILIAS/TestQuestionPool');
-        $this->addInitializationJSToTemplate();
+        $this->initializePlayerJS();
 
         $elements = $this->object->getRandomOrderingElements();
         if ($active_id) {
@@ -286,9 +284,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         }
         $template->setVariable('VALUE_ORDERRESULT', ' value="' . join('{::}', $elements) . '"');
         $template->setVariable('QUESTIONTEXT', $this->object->getQuestionForHTMLOutput());
-        $this->tpl->addJavascript('assets/js/orderinghorizontal.js');
-        $pageoutput = $this->outQuestionPage("", $is_question_postponed, $active_id, $template->get());
-        return $pageoutput;
+        return $this->outQuestionPage("", $is_question_postponed, $active_id, $template->get());
     }
 
     public function getSpecificFeedbackOutput(array $userSolution): string
@@ -444,8 +440,9 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         $this->object->setPoints((float) str_replace(',', '.', $form->getInput('points')));
     }
 
-    private function addInitializationJSToTemplate(): void
+    private function initializePlayerJS(): void
     {
+        $this->tpl->addJavascript('assets/js/orderinghorizontal.js');
         $this->tpl->addOnLoadCode(
             "il.test.orderinghorizontal.init(document.querySelector('#horizontal_{$this->object->getId()}'));"
         );
