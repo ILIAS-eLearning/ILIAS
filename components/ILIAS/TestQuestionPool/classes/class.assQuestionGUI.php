@@ -24,7 +24,6 @@ use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolution;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionsDatabaseRepository;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Notes\GUIService;
 
@@ -852,6 +851,7 @@ abstract class assQuestionGUI
             // author
             $author = new ilTextInputGUI($this->lng->txt("author"), "author");
             $author->setValue($this->object->getAuthor());
+            $author->setMaxLength(512);
             $author->setRequired(true);
             $form->addItem($author);
 
@@ -960,9 +960,6 @@ abstract class assQuestionGUI
     protected function populateTaxonomyFormSection(ilPropertyFormGUI $form): void
     {
         if ($this->getTaxonomyIds() !== []) {
-            // this is needed by ilTaxSelectInputGUI in some cases
-            ilOverlayGUI::initJavaScript();
-
             $sectHeader = new ilFormSectionHeaderGUI();
             $sectHeader->setTitle($this->lng->txt('qpl_qst_edit_form_taxonomy_section'));
             $form->addItem($sectHeader);

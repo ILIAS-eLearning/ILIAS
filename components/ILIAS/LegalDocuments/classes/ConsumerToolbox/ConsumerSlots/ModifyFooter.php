@@ -25,7 +25,6 @@ use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\LegalDocuments\ConsumerToolbox\UI;
 use ILIAS\LegalDocuments\ConsumerToolbox\User;
-use ILIAS\LegalDocuments\Value\Document;
 use ILIAS\Data\Result\Ok;
 use ILIAS\LegalDocuments\Provide;
 use ilTemplate;

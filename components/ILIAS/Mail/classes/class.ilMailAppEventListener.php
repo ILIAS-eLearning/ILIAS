@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\DI\Container;
-use ILIAS\components\User\ChangedUserFieldAttribute;
+use ILIAS\User\Profile\ChangeListeners\ChangedUserFieldAttribute;
 
 /**
  * Class ilMailAppEventListener

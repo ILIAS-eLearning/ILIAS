@@ -23,6 +23,7 @@ namespace ILIAS\UI\Implementation\Component\Panel;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
+use ILIAS\UI\Implementation\Render\Template as Template;
 
 /**
  * Class Renderer
@@ -57,23 +58,7 @@ class Renderer extends AbstractComponentRenderer
     protected function renderStandard(Component\Panel\Standard $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.standard.html", true, true);
-
-        $view_controls = $component->getViewControls();
-        if ($view_controls) {
-            foreach ($view_controls as $view_control) {
-                $tpl->setCurrentBlock("view_controls");
-                $tpl->setVariable("VIEW_CONTROL", $default_renderer->render($view_control));
-                $tpl->parseCurrentBlock();
-            }
-        }
-
-        // actions
-        $actions = $component->getActions();
-        if ($actions !== null) {
-            $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
-        }
-
-        $tpl->setVariable("TITLE", $component->getTitle());
+        $tpl = $this->parseHeader($component, $default_renderer, $tpl);
         $tpl->setVariable("BODY", $this->getContentAsString($component, $default_renderer));
         return $tpl->get();
     }
@@ -114,16 +99,32 @@ class Renderer extends AbstractComponentRenderer
     protected function renderReport(Component\Panel\Report $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.report.html", true, true);
+        $tpl = $this->parseHeader($component, $default_renderer, $tpl);
+        $tpl->setVariable("BODY", $this->getContentAsString($component, $default_renderer));
+        return $tpl->get();
+    }
+
+    protected function parseHeader(
+        Component\Panel\Standard|Component\Panel\Report $component,
+        RendererInterface $default_renderer,
+        Template $tpl
+    ): Template {
+        $view_controls = $component->getViewControls();
+        if ($view_controls) {
+            foreach ($view_controls as $view_control) {
+                $tpl->setCurrentBlock("view_controls");
+                $tpl->setVariable("VIEW_CONTROL", $default_renderer->render($view_control));
+                $tpl->parseCurrentBlock();
+            }
+        }
 
         $actions = $component->getActions();
-
-        $tpl->setVariable("TITLE", $component->getTitle());
-
         if ($actions !== null) {
             $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
         }
 
-        $tpl->setVariable("BODY", $this->getContentAsString($component, $default_renderer));
-        return $tpl->get();
+        $tpl->setVariable("TITLE", $component->getTitle());
+
+        return $tpl;
     }
 }

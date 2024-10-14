@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author Alex Killing <alex.killing@gmx.de>
@@ -162,27 +162,6 @@ class ilSCORM13Package
             }
         }
         $this->dbImport($this->manifest);
-
-        if (file_exists($this->packageFolder . '/' . 'index.xml')) {
-            $doc = simplexml_load_file($this->packageFolder . '/' . 'index.xml');//PHP8Review: This may cause no trouble here but i still worth a look: https://bugs.php.net/bug.php?id=62577
-            $l = $doc->xpath("/ContentObject/MetaData");
-            if ($l[0]) {
-                $mdxml = new ilMDXMLCopier($l[0]->asXML(), $packageId, $packageId, ilObject::_lookupType($packageId));
-                $mdxml->startParsing();
-                $mdo = $mdxml->getMDObject();
-                if ($mdo) {
-                    $mdo->update();
-                }
-            }
-        } else {
-            $importer = new ilSCORM13MDImporter($this->imsmanifest, $packageId);
-            $importer->import();
-            $title = $importer->getTitle();
-            $description = $importer->getDescription();
-            if ($description != "") {
-                ilObject::_writeDescription($packageId, $description);
-            }
-        }
 
         //step 5
         $x = simplexml_load_string($this->manifest->saveXML());

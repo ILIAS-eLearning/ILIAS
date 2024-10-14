@@ -27,6 +27,7 @@ declare(strict_types=1);
 class ilChatroomUser
 {
     private string $username = '';
+    private ?bool $profile_picture_visible = null;
 
     public function __construct(private readonly ilObjUser $user, private readonly ilChatroom $room)
     {
@@ -79,7 +80,7 @@ class ilChatroomUser
             return $session[$this->room->getRoomId()]['username'];
         }
 
-        return $this->user->getLogin();
+        return $this->user->getPublicName();
     }
 
     /**
@@ -91,6 +92,21 @@ class ilChatroomUser
 
         $session = ilSession::get('chat');
         $session[$this->room->getRoomId()]['username'] = $this->username;
+        ilSession::set('chat', $session);
+    }
+
+    public function isProfilePictureVisible(): bool
+    {
+        if ($this->profile_picture_visible === null) {
+            $this->profile_picture_visible = ilSession::get('chat')[$this->room->getRoomId()]['profile-picture-visible'] ?? false;
+        }
+        return $this->profile_picture_visible;
+    }
+
+    public function setProfilePictureVisible(bool $show_it): void
+    {
+        $session = ilSession::get('chat');
+        $session[$this->room->getRoomId()]['profile-picture-visible'] = $show_it;
         ilSession::set('chat', $session);
     }
 

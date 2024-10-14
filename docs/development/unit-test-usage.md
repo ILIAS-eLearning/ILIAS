@@ -1018,9 +1018,9 @@ class ilRBACTest extends PHPUnit_Framework_TestCase {
 		public function testCache()
 		{
 			//the ilAccessHandler does not exist anymore
-			include_once './Services/AccessControl/classes/class.ilAccessHandler.php';
+			include_once './components/ILIAS/AccessControl/classes/class.ilAccessHandler.php';
 
-			//ilAccessHandler is an interface located in './Services/AccessControl/interfaces/interface.ilAccessHandler.php'
+			//ilAccessHandler is an interface located in './components/ILIAS/AccessControl/interfaces/interface.ilAccessHandler.php'
 			$handler = new ilAccessHandler();
 			$handler->setResults(array(1,2,3));
 			$handler->storeCache();

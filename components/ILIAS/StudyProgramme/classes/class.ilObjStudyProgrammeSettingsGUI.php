@@ -130,15 +130,7 @@ class ilObjStudyProgrammeSettingsGUI
                 }
         }
 
-        if (!$this->ctrl->isAsynch()) {
-            $this->tpl->setContent($content);
-        } else {
-            $output_handler = new ilAsyncOutputHandler();
-            $heading = $this->tmp_heading ?? $this->lng->txt("prg_async_" . $this->ctrl->getCmd());
-            $output_handler->setHeading($heading);
-            $output_handler->setContent($content);
-            $output_handler->terminate();
-        }
+        $this->tpl->setContent($content);
     }
 
     protected function view(): string
@@ -159,35 +151,12 @@ class ilObjStudyProgrammeSettingsGUI
 
         $result = $form->getInputGroup()->getContent();
 
-        // This could further be improved by providing a new container for async-forms in the
-        // UI-Framework.
-
         if ($result->isOK()) {
             $result->value()->update();
             $this->tpl->setOnScreenMessage("success", $this->lng->txt("msg_obj_modified"), true);
-
-            if ($this->ctrl->isAsynch()) {
-                $response = ilAsyncOutputHandler::encodeAsyncResponse(
-                    array(
-                    "success" => true,
-                    "message" => $this->lng->txt("msg_obj_modified"))
-                );
-                return ilAsyncOutputHandler::handleAsyncOutput($this->renderer->render($form), $response, false);
-            }
-
             $this->ctrl->redirect($this);
         } else {
             $this->tpl->setOnScreenMessage("failure", $this->lng->txt("msg_form_save_error"));
-
-            if ($this->ctrl->isAsynch()) {
-                $response = ilAsyncOutputHandler::encodeAsyncResponse(
-                    array(
-                    "success" => false,
-                    "errors" => $form->getError())
-                );
-                return ilAsyncOutputHandler::handleAsyncOutput($this->renderer->render($form), $response, false);
-            }
-
             return $this->renderer->render($form);
         }
     }

@@ -22,14 +22,12 @@ namespace ILIAS\LegalDocuments\test\ConsumerToolbox\ConsumerSlots;
 
 use ILIAS\LegalDocuments\Value\Document;
 use ILIAS\Data\Result\Ok;
-use ILIAS\LegalDocuments\PageFragment\PageContent;
 use ILIAS\LegalDocuments\PageFragment\ShowOnScreenMessage;
 use ILIAS\LegalDocuments\ConsumerToolbox\ConsumerSlots\Agreement;
 use ILIAS\LegalDocuments\test\ContainerMock;
 use PHPUnit\Framework\TestCase;
 use ILIAS\LegalDocuments\ConsumerToolbox\Routing;
 use ILIAS\LegalDocuments\ConsumerToolbox\UI;
-use ILIAS\LegalDocuments\ConsumerToolbox\Settings;
 use ILIAS\LegalDocuments\ConsumerToolbox\User;
 use ILIAS\UI\Component\Component;
 

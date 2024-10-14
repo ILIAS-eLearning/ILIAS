@@ -24,7 +24,6 @@ use ILIAS\Data\Result\Error;
 use ilObjUser;
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Ok;
-use ILIAS\LegalDocuments\Provide\ProvideHistory;
 use ILIAS\LegalDocuments\Value\Document;
 use Closure;
 use ILIAS\LegalDocuments\ConsumerToolbox\Setting\BooleanSetting;

@@ -22,7 +22,6 @@ namespace ILIAS\LegalDocuments\Repository;
 
 use ILIAS\LegalDocuments\Value\Document;
 use ILIAS\LegalDocuments\Value\DocumentContent;
-use ILIAS\LegalDocuments\Value\Criterion;
 use ILIAS\LegalDocuments\Value\CriterionContent;
 use ILIAS\LegalDocuments\DocumentId;
 use ILIAS\Data\Result;

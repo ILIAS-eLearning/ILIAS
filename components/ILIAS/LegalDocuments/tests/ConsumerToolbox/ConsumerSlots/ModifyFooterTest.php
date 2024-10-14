@@ -29,9 +29,7 @@ use ILIAS\LegalDocuments\test\ContainerMock;
 use ILIAS\LegalDocuments\Provide;
 use ILIAS\LegalDocuments\ConsumerToolbox\User;
 use ILIAS\LegalDocuments\ConsumerToolbox\UI;
-use ILIAS\LegalDocuments\ConsumerToolbox\ConsumerSlots\ModifyFooter;
 use PHPUnit\Framework\TestCase;
-use Closure;
 
 require_once __DIR__ . '/../../ContainerMock.php';
 

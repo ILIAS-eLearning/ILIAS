@@ -126,7 +126,7 @@ class ilBadgeHandler
         $comp = $this->getComponent($a_component_id);
         if ($comp) {
             $class = 'il' . $comp['name'] . 'BadgeProvider';
-            $file = $comp['type'] . '/' . $comp['name'] . '/classes/class.' . $class . '.php';
+            $file = '../' . $comp['type'] . '/' . $comp['name'] . '/classes/class.' . $class . '.php';
             if (file_exists($file)) {
                 $obj = new $class();
                 if ($obj instanceof ilBadgeProvider) {

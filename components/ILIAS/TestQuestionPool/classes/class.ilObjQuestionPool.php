@@ -1057,8 +1057,7 @@ class ilObjQuestionPool extends ilObject
             $questionIdsMap[$question_id] = $newQuestionId;
         }
 
-        $md = new ilMD($this->getId(), 0, $this->getType());
-        $md->cloneMD($new_obj->getId(), 0, $new_obj->getType());
+        $this->cloneMetaData($new_obj);
         $new_obj->updateMetaData();
 
         $duplicator = new ilQuestionPoolTaxonomiesDuplicator();

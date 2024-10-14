@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
@@ -150,15 +152,6 @@ class ilUserCronCheckAccounts extends ilCronJob
         $result = new ilCronJobResult();
         $result->setStatus($status);
         return $result;
-    }
-
-    // #13288 / #12345
-    protected function txt(
-        string $language,
-        string $key,
-        string $module = 'common'
-    ): string {
-        return ilLanguage::_lookupEntry($language, $module, $key);
     }
 
     protected function checkNotConfirmedUserAccounts(): void

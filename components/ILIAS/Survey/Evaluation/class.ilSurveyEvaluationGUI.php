@@ -739,8 +739,10 @@ class ilSurveyEvaluationGUI
         switch ($export_cmd) {
             case "exportData":
                 $ctrl->redirect($this, "evaluation");
+                // no break
             case "exportDetailData":
                 $ctrl->redirect($this, "evaluationdetails");
+                // no break
             case "exportEvaluationUser":
                 $ctrl->redirect($this, "evaluationuser");
         }

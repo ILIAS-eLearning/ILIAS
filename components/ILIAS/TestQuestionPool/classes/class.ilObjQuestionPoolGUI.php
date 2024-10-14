@@ -22,7 +22,6 @@ use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\RequestDataCollector;
 use ILIAS\TestQuestionPool\Presentation\QuestionTable;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-
 use ILIAS\DI\RBACServices;
 use ILIAS\Taxonomy\Service;
 use Psr\Http\Message\ServerRequestInterface as HttpRequest;
@@ -59,6 +58,7 @@ use ILIAS\HTTP\Services as HTTPServices;
  * @ilCtrl_Calls   ilObjQuestionPoolGUI: ilAssQuestionPreviewGUI
  * @ilCtrl_Calls   ilObjQuestionPoolGUI: assKprimChoiceGUI, assLongMenuGUI
  * @ilCtrl_Calls   ilObjQuestionPoolGUI: ilQuestionPoolSkillAdministrationGUI
+ * @ilCtrl_Calls   ilObjQuestionPoolGUI: ilBulkEditQuestionsGUI
  *
  * @ingroup components\ILIASTestQuestionPool
  *
@@ -516,9 +516,38 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 );
 
                 $this->ctrl->forwardCommand($gui);
-
                 break;
 
+            case 'ilbulkeditquestionsgui':
+                if (!$ilAccess->checkAccess('read', '', $this->object->getRefId())) {
+                    $this->redirectAfterMissingWrite();
+                }
+                $this->tabs_gui->setBackTarget(
+                    $this->lng->txt('backtocallingpool'),
+                    $this->ctrl->getLinkTargetByClass(self::class, self::DEFAULT_CMD)
+                );
+                $this->tabs_gui->addTarget(
+                    'edit_questions',
+                    '#',
+                    '',
+                    $this->ctrl->getCmdClass(),
+                    ''
+                );
+                $this->tabs_gui->setTabActive('edit_questions');
+
+                $gui = new \ilBulkEditQuestionsGUI(
+                    $this->tpl,
+                    $this->ctrl,
+                    $this->lng,
+                    $this->ui_factory,
+                    $this->ui_renderer,
+                    $this->refinery,
+                    $this->http_request,
+                    $this->request_wrapper,
+                    $this->object->getId(),
+                );
+                $this->ctrl->forwardCommand($gui);
+                break;
 
             case 'ilobjquestionpoolgui':
             case '':
@@ -605,6 +634,22 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                                 . '</script>'
                             ;
                             exit();
+
+                        case ilBulkEditQuestionsGUI::CMD_EDITTAUTHOR:
+                        case ilBulkEditQuestionsGUI::CMD_EDITLIFECYCLE:
+                        case ilBulkEditQuestionsGUI::CMD_EDITTAXONOMIES:
+                            $this->ctrl->clearParameters($this);
+                            $this->ctrl->setParameterByClass(
+                                ilBulkEditQuestionsGUI::class,
+                                ilBulkEditQuestionsGUI::PARAM_IDS,
+                                implode(',', $ids)
+                            );
+                            $url = $this->ctrl->getLinkTargetByClass(
+                                ilBulkEditQuestionsGUI::class,
+                                $action
+                            );
+                            $this->ctrl->redirectToURL($url);
+                            break;
 
                         default:
                             throw new \Exception("'$action'" . " not implemented");
@@ -1796,8 +1841,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             foreach (array_filter($filter_params) as $item => $value) {
                 switch ($item) {
                     case 'taxonomies':
-                        foreach($value as $tax_value) {
-                            if($tax_value === 'null') {
+                        foreach ($value as $tax_value) {
+                            if ($tax_value === 'null') {
                                 $table->addTaxonomyFilterNoTaxonomySet(true);
                             } else {
                                 $tax_nodes = explode('-', $tax_value);

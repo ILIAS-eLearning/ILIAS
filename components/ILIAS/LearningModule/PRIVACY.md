@@ -23,7 +23,7 @@ or contribute a fix via [Pull Request](../../docs/development/contributing.md#pu
 ## Configuration
 
 - **Global**
-    - The global learning module administration allows to enable the page history for editing. If enabled older version (and their authors) of pages is being saved, see [Page Editor Service](../../Services/COPage/Privacy.md).
+    - The global learning module administration allows to enable the page history for editing. If enabled older version (and their authors) of pages is being saved, see [Page Editor Service](../../components/ILIAS/COPage/Privacy.md).
 
 - **Learning Module**
     - The learning module offers an option to activate the storage of learners question results (passed or failed). If activated ILIAS stores for each question and learner the status including the ID of the learner and the questions.

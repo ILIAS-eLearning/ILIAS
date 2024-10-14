@@ -31,6 +31,7 @@ use ILIAS\components\WOPI\Discovery\ActionDBRepository;
 use ILIAS\components\WOPI\Embed\EmbeddedApplication;
 use ILIAS\Data\URI;
 use ILIAS\components\WOPI\Discovery\ActionTarget;
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 
 /**
  * GUI class for file objects.
@@ -86,6 +87,7 @@ class ilObjFileGUI extends ilObject2GUI
     protected \Psr\Http\Message\ServerRequestInterface $request;
     protected \ILIAS\Data\Factory $data_factory;
     private ActionDBRepository $action_repo;
+    protected LOMServices $lom_services;
 
     /**
      * Constructor
@@ -115,6 +117,7 @@ class ilObjFileGUI extends ilObject2GUI
         $this->request = $DIC->http()->request();
         $this->data_factory = new Factory();
         $this->action_repo = new ActionDBRepository($DIC->database());
+        $this->lom_services = $DIC->learningObjectMetadata();
     }
 
     public function getType(): string
@@ -409,7 +412,7 @@ class ilObjFileGUI extends ilObject2GUI
         )->withRequired(true);
 
         // add input for copyright selection if enabled in the metadata settings
-        if (ilMDSettings::_getInstance()->isCopyrightSelectionActive()) {
+        if ($this->lom_services->copyrightHelper()->isCopyrightSelectionActive()) {
             $inputs[self::PARAM_COPYRIGHT_ID] = $this->getCopyrightSelectionInput('set_license_for_all_files');
         }
 

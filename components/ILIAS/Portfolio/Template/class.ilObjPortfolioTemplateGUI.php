@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Portfolio\Settings\SettingsGUI;
+
 /**
  * Portfolio template view gui class
  *
@@ -25,7 +27,8 @@
  * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilObjectCopyGUI, ilInfoScreenGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilPermissionGUI, ilExportGUI, ilObjectContentStyleSettingsGUI
  * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilObjectMetaDataGUI
-.php
+ * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ILIAS\Portfolio\Settings\SettingsGUI
+ * .php
  */
 class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 {
@@ -134,6 +137,20 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
                 $this->ctrl->forwardCommand($md_gui);
                 break;
 
+            case strtolower(SettingsGUI::class):
+                $this->checkPermission("write");
+                $this->prepareOutput();
+                $this->addHeaderAction();
+                $this->tabs_gui->activateTab("settings");
+                $this->setSettingsSubTabs("properties");
+                $gui = $this->gui->settings()->settingsGUI(
+                    $this->object->getId(),
+                    true,
+                    $this->ref_id
+                );
+                $this->ctrl->forwardCommand($gui);
+                break;
+
             default:
                 $this->addHeaderAction();
                 ilObject2GUI::executeCommand();
@@ -166,7 +183,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
             $this->tabs_gui->addTab(
                 "settings",
                 $this->lng->txt("settings"),
-                $this->ctrl->getLinkTarget($this, "edit")
+                $this->ctrl->getLinkTargetByClass(SettingsGUI::class)
             );
 
             $mdgui = new ilObjectMetaDataGUI($this->object, "pfpg");
@@ -289,57 +306,9 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
         $this->ctrl->redirect($this, "view");
     }
 
-    protected function initEditCustomForm(ilPropertyFormGUI $a_form): void
+    public function edit(): void
     {
-        $obj_service = $this->object_service;
-        // activation/availability
-
-        $this->lng->loadLanguageModule('rep');
-
-        $section = new ilFormSectionHeaderGUI();
-        $section->setTitle($this->lng->txt('rep_activation_availability'));
-        $a_form->addItem($section);
-
-        // additional info only with multiple references
-        $act_obj_info = $act_ref_info = "";
-        if (count(ilObject::_getAllReferences($this->object->getId())) > 1) {
-            $act_obj_info = ' ' . $this->lng->txt('rep_activation_online_object_info');
-            $act_ref_info = $this->lng->txt('rep_activation_access_ref_info');
-        }
-
-        $online = new ilCheckboxInputGUI($this->lng->txt('rep_activation_online'), 'online');
-        $online->setInfo($this->lng->txt('prtt_activation_online_info') . $act_obj_info);
-        $a_form->addItem($online);
-
-        $dur = new ilDateDurationInputGUI($this->lng->txt("rep_time_based_availability"), "access_period");
-        $dur->setShowTime(true);
-        $dur->setEndText($this->lng->txt('rep_activation_limited_end'));
-        $a_form->addItem($dur);
-
-        $visible = new ilCheckboxInputGUI($this->lng->txt('rep_activation_limited_visibility'), 'access_visiblity');
-        $visible->setInfo($this->lng->txt('prtt_activation_limited_visibility_info'));
-        $dur->addSubItem($visible);
-
-        $section = new ilFormSectionHeaderGUI();
-        $section->setTitle($this->lng->txt('obj_presentation'));
-        $a_form->addItem($section);
-
-        // tile image
-        $obj_service->commonSettings()->legacyForm($a_form, $this->object)->addTileImage();
-
-
-        parent::initEditCustomForm($a_form);
-
-        ilObjectServiceSettingsGUI::initServiceSettingsForm(
-            $this->object->getId(),
-            $a_form,
-            array(
-                ilObjectServiceSettingsGUI::CUSTOM_METADATA
-            )
-        );
-
-        $tit = $a_form->getItemByPostVar("title");
-        $tit->setInfo($this->lng->txt('prtt_title_info'));
+        $this->ctrl->redirectByClass(SettingsGUI::class);
     }
 
     protected function getEditFormCustomValues(array &$a_values): void

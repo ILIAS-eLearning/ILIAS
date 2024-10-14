@@ -599,6 +599,20 @@ of ILIAS. The file contains the following fields:
 
 [//]: # (END EmployeeTalk)
 
+[//]: # (BEGIN Excel)
+
+* **Excel**
+    * Authority to Sign off on Conceptual Changes: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
+    * Authority to Sign off on Code Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
+    * Authority to Curate Test Cases: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
+    * Authority to (De-)Assign Authorities: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
+    * Tester: Tested separately in each module that supports Excel.
+    * Assignee for Security Reports: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
+    * Assignee for Security Issues: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
+
+[//]: # (END Excel)
+
 [//]: # (BEGIN Exercise)
 
 * **Exercise**
@@ -887,14 +901,14 @@ of ILIAS. The file contains the following fields:
 
 [//]: # (BEGIN LearningModuleSCORM)
 
-* **Learning Module SCORM**
-    * Authority to Sign off on Conceptual Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-    * Authority to Sign off on Code Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-    * Authority to Curate Test Cases: n.n., Qualitus
-    * Authority to (De-)Assign Authorities: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
+* **Learning Module SCORM (1.2 and 2004)**
+    * Authority to Sign off on Conceptual Changes: [wischniak](https://docu.ilias.de/go/usr/21896)
+    * Authority to Sign off on Code Changes: [qualitus.dahme](https://docu.ilias.de/go/usr/99160)
+    * Authority to Curate Test Cases: [tim.fehske](https://docu.ilias.de/go/usr/101255)
+    * Authority to (De-)Assign Authorities: [wischniak](https://docu.ilias.de/go/usr/21896)
 	* Tester: n.n., Qualitus
-    * Assignee for Security Reports: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-    * Assignee for Security Issues: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
+    * Assignee for Security Reports: [wischniak](https://docu.ilias.de/go/usr/21896)
+    * Assignee for Security Issues: [wischniak](https://docu.ilias.de/go/usr/21896)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END LearningModuleSCORM)
@@ -977,34 +991,33 @@ of ILIAS. The file contains the following fields:
 
 [//]: # (END LoginAuthAndRegistration)
 
-[//]: # (BEGIN LTI)
-
-* **LTI**
-    * Authority to Sign off on Conceptual Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-    * Authority to Sign off on Code Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-        , [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Curate Test Cases: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-    * Authority to (De-)Assign Authorities: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-	* Tester: [stv](https://docu.ilias.de/goto_docu_usr_45359.html)
-    * Assignee for Security Reports: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-    * Assignee for Security Issues: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
-
-[//]: # (END LTI)
-
 [//]: # (BEGIN LTIConsumer)
 
 * **LTI Consumer**
-    * Authority to Sign off on Conceptual Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-    * Authority to Sign off on Code Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-    * Authority to Curate Test Cases: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-    * Authority to (De-)Assign Authorities: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-	* Tester: [kiegel](https://docu.ilias.de/goto_docu_usr_20646.html)
-    * Assignee for Security Reports: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-    * Assignee for Security Issues: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
+    * Authority to Sign off on Conceptual Changes: [jcop](https://docu.ilias.de/go/usr/30511)
+    * Authority to Sign off on Code Changes: [Zallax](https://docu.ilias.de/go/usr/101102), [sdiaz](https://docu.ilias.de/go/usr/105654)
+    * Authority to Curate Test Cases: [jcop](https://docu.ilias.de/go/usr/30511)
+    * Authority to (De-)Assign Authorities: [jcop](https://docu.ilias.de/go/usr/30511)
+	* Tester: [Fabian Kruse](https://docu.ilias.de/goto_docu_usr_27631.html)
+    * Assignee for Security Reports: [jcop](https://docu.ilias.de/go/usr/30511)
+    * Assignee for Security Issues: [jcop](https://docu.ilias.de/go/usr/30511)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END LTIConsumer)
+
+[//]: # (BEGIN LTI)
+
+* **LTI Provider**
+    * Authority to Sign off on Conceptual Changes: [jcop](https://docu.ilias.de/go/usr/30511)
+    * Authority to Sign off on Code Changes: [Zallax](https://docu.ilias.de/go/usr/101102), [sdiaz](https://docu.ilias.de/go/usr/105654), [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Curate Test Cases: [jcop](https://docu.ilias.de/go/usr/30511)
+    * Authority to (De-)Assign Authorities: [jcop](https://docu.ilias.de/go/usr/30511)
+	* Tester: [Fabian Kruse](https://docu.ilias.de/goto_docu_usr_27631.html)
+    * Assignee for Security Reports: [jcop](https://docu.ilias.de/go/usr/30511)
+    * Assignee for Security Issues: [jcop](https://docu.ilias.de/go/usr/30511)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
+
+[//]: # (END LTI)
 
 [//]: # (BEGIN Mail)
 
@@ -1757,9 +1770,8 @@ of ILIAS. The file contains the following fields:
 
 The following directories are currently unmaintained:
 
-* Services/Context
-* Services/CSV
-* Services/EventHandling
-* Services/Excel
-* Services/QTI
-* Services/Randomization
+* ILIAS/Context
+* ILIAS/CSV
+* ILIAS/EventHandling
+* ILIAS/QTI
+* ILIAS/Randomization

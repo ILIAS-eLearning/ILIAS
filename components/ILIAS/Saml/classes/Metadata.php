@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Saml;
 
-use SimpleSAML\Utils\Crypto;
 use SimpleSAML\Error\Exception;
 use SimpleSAML\Store\SQLStore;
 use SimpleSAML\Configuration;

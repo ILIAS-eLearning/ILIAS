@@ -28,7 +28,6 @@ class ilObjBookingPool extends ilObject
     public const TYPE_NO_SCHEDULE_PREFERENCES = 3;
     protected \ILIAS\BookingManager\InternalDomainService $domain;
 
-    protected bool $offline = true;
     protected bool $public_log = false;
     protected int $schedule_type = 0;
     protected ?int $overall_limit = null;
@@ -60,7 +59,6 @@ class ilObjBookingPool extends ilObject
     {
         return array(
             "schedule_type" => array("integer", $this->getScheduleType()),
-            "pool_offline" => array("integer", $this->isOffline()),
             "public_log" => array("integer", $this->hasPublicLog()),
             "ovlimit" => array("integer", $this->getOverallLimit()),
             "reminder_status" => array("integer", $this->getReminderStatus()),
@@ -117,7 +115,6 @@ class ilObjBookingPool extends ilObject
             $set = $ilDB->query('SELECT * FROM booking_settings' .
                 ' WHERE booking_pool_id = ' . $ilDB->quote($this->getId(), 'integer'));
             $row = $ilDB->fetchAssoc($set);
-            $this->setOffline($row['pool_offline']);
             $this->setPublicLog($row['public_log']);
             $this->setScheduleType($row['schedule_type']);
             $this->setOverallLimit($row['ovlimit']);
@@ -142,13 +139,14 @@ class ilObjBookingPool extends ilObject
         $set = $db->queryF(
             "SELECT * FROM booking_settings " .
             " WHERE reminder_status = %s " .
-            " AND reminder_day > %s " .
-            " AND pool_offline = %s ",
+            " AND reminder_day > %s ",
             array("integer","integer","integer"),
             array(1,0,0)
         );
         while ($rec = $db->fetchAssoc($set)) {
-            $pools[] = $rec;
+            if (!ilObject::lookupOfflineStatus($rec["booking_pool_id"])) {
+                $pools[] = $rec;
+            }
         }
         return $pools;
     }
@@ -222,9 +220,10 @@ class ilObjBookingPool extends ilObject
             //copy online status if object is not the root copy object
             $cp_options = ilCopyWizardOptions::_getInstance($copy_id);
 
+            /*
             if (!$cp_options->isRootNode($this->getRefId())) {
                 $new_obj->setOffline($this->isOffline());
-            }
+            }*/
 
             $new_obj->setScheduleType($this->getScheduleType());
             $new_obj->setPublicLog($this->hasPublicLog());
@@ -255,17 +254,6 @@ class ilObjBookingPool extends ilObject
             return $new_obj;
         }
         return null;
-    }
-
-    public function setOffline(
-        bool $a_value = true
-    ): void {
-        $this->offline = $a_value;
-    }
-
-    public function isOffline(): bool
-    {
-        return $this->offline;
     }
 
     public function setMessages(
@@ -349,18 +337,6 @@ class ilObjBookingPool extends ilObject
         return $this->pref_deadline;
     }
 
-    public static function _lookupOnline(int $a_obj_id): bool
-    {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
-        $set = $ilDB->query("SELECT pool_offline" .
-            " FROM booking_settings" .
-            " WHERE booking_pool_id = " . $ilDB->quote($a_obj_id, "integer"));
-        $row = $ilDB->fetchAssoc($set);
-        return !$row["pool_offline"];
-    }
 
     /**
      * Set overall / global booking limit

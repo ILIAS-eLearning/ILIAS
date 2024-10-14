@@ -1,8 +1,8 @@
-<div class="modal fade il-modal-lightbox il-modal-lightbox-{COLOR_SCHEME}" tabindex="-1" role="dialog" id="{ID}">
+<dialog class="c-modal c-modal--lightbox il-modal-lightbox il-modal-lightbox-{COLOR_SCHEME}" tabindex="-1" role="dialog" id="{ID}">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content il-modal-lightbox-page">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="{CLOSE_LABEL}"><span aria-hidden="true">&times;</span></button>
+				<form><button formmethod="dialog" class="close" aria-label="{CLOSE_LABEL}"><span aria-hidden="true">&times;</span></button></form>
 				<h1 class="modal-title">{TITLE}</h1>
 			</div>
 			<div class="modal-body">
@@ -45,33 +45,4 @@
 			</div>
 		</div>
 	</div>
-</div>
-<script>
-	window.setTimeout(function() {
-		$('#{ID}').on('shown.bs.modal', function() {
-			$('.modal-backdrop.in').css('opacity', '0.9');
-		});
-		$('#{ID}').on('show.bs.modal', function (e) {
-			var elm = $(this).find('.carousel-inner .item.active').first();
-
-			if (elm.hasClass('text-only')) {
-				elm.closest('.carousel').addClass('text-only');
-			} else {
-				elm.closest('.carousel').removeClass('text-only');
-			}
-		});
-		$('#{ID_CAROUSEL4}').on('slide.bs.carousel', function(e) {
-			var elm = $(e.relatedTarget);
-
-			if (elm.hasClass('text-only')) {
-				elm.closest('.carousel').addClass('text-only');
-			} else {
-				elm.closest('.carousel').removeClass('text-only');
-			}
-		});
-		$('#{ID_CAROUSEL4}').on('slid.bs.carousel', function() {
-			var title = $(this).find('.carousel-inner .item.active').attr('data-title');
-			$('#{ID}').find('.modal-title').text(title);
-		});
-	}, 0);
-</script>
+</dialog>

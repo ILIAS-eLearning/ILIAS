@@ -28,10 +28,11 @@ use ILIAS\Cron\Schedule\CronJobScheduleType;
 class ilForumCronNotification extends ilCronJob
 {
     private const KEEP_ALIVE_CHUNK_SIZE = 25;
+    private const DEFAULT_MAX_NOTIFICATION_AGE_IN_DAYS = 30;
 
     /** @var ilForumCronNotificationDataProvider[] */
     private static array $providerObject = [];
-    /** @var int[]  */
+    /** @var int[] */
     private static array $deleted_ids_cache = [];
     /** @var array<int, int[]> */
     private static array $ref_ids_by_obj_id = [];
@@ -135,6 +136,14 @@ class ilForumCronNotification extends ilCronJob
         $this->num_sent_messages = 0;
         $cj_start_date = date('Y-m-d H:i:s');
 
+        if ((string) $this->settings->get('max_notification_age', '') === '') {
+            $this->logger->info(sprintf(
+                'No maximum notification age set, %s days will be used to determine the ' .
+                'left interval when querying the relevant forum events.',
+                self::DEFAULT_MAX_NOTIFICATION_AGE_IN_DAYS
+            ));
+        }
+
         if ($last_run_datetime !== null &&
             checkdate(
                 (int) date('m', strtotime($last_run_datetime)),
@@ -143,10 +152,10 @@ class ilForumCronNotification extends ilCronJob
             )) {
             $threshold = max(
                 strtotime($last_run_datetime),
-                strtotime('-' . (int) $this->settings->get('max_notification_age') . ' days')
+                strtotime('-' . (int) $this->settings->get('max_notification_age', (string) self::DEFAULT_MAX_NOTIFICATION_AGE_IN_DAYS) . ' days')
             );
         } else {
-            $threshold = strtotime('-' . (int) $this->settings->get('max_notification_age') . ' days');
+            $threshold = strtotime('-' . (int) $this->settings->get('max_notification_age', (string) self::DEFAULT_MAX_NOTIFICATION_AGE_IN_DAYS) . ' days');
         }
 
         $this->logger->info(sprintf('Threshold for forum event determination is: %s', date('Y-m-d H:i:s', $threshold)));
@@ -183,10 +192,13 @@ class ilForumCronNotification extends ilCronJob
         return $result;
     }
 
+    /**
+     * @return list<int>
+     */
     protected function getRefIdsByObjId(int $a_obj_id): array
     {
         if (!array_key_exists($a_obj_id, self::$ref_ids_by_obj_id)) {
-            self::$ref_ids_by_obj_id[$a_obj_id] = ilObject::_getAllReferences($a_obj_id);
+            self::$ref_ids_by_obj_id[$a_obj_id] = array_values(ilObject::_getAllReferences($a_obj_id));
         }
 
         return self::$ref_ids_by_obj_id[$a_obj_id];
@@ -229,11 +241,13 @@ class ilForumCronNotification extends ilCronJob
 
             $ref_id = $this->getFirstAccessibleRefIdBUserAndObjId((int) $row['user_id'], (int) $row['obj_id']);
             if ($ref_id < 1) {
-                $this->logger->debug(sprintf(
-                    'The recipient with id %s has no "read" permission for object with id %s',
-                    $row['user_id'],
-                    $row['obj_id']
-                ));
+                $this->logger->debug(
+                    sprintf(
+                        'The recipient with id %s has no "read" permission for object with id %s',
+                        $row['user_id'],
+                        $row['obj_id']
+                    )
+                );
                 continue;
             }
 
@@ -276,12 +290,14 @@ class ilForumCronNotification extends ilCronJob
 
             $recipients = array_unique($provider->getCronRecipients());
 
-            $this->logger->info(sprintf(
-                'Trying to send forum notifications for posting id "%s", type "%s" and recipients: %s',
-                $provider->getPostId(),
-                $notification_type,
-                implode(', ', $recipients)
-            ));
+            $this->logger->info(
+                sprintf(
+                    'Trying to send forum notifications for posting id "%s", type "%s" and recipients: %s',
+                    $provider->getPostId(),
+                    $notification_type,
+                    implode(', ', $recipients)
+                )
+            );
 
             $mailNotification = new ilForumMailNotification($provider, $this->logger);
             $mailNotification->setIsCronjob(true);
@@ -328,6 +344,9 @@ class ilForumCronNotification extends ilCronJob
         return isset(self::$providerObject[$provider_id . '_' . $notification_type]);
     }
 
+    /**
+     * @param array<string, string|int|float|null> $row
+     */
     private function addProviderObject(int $provider_id, array $row, int $notification_type): void
     {
         $tmp_provider = new ilForumCronNotificationDataProvider($row, $notification_type, $this->notificationCache);
@@ -364,14 +383,22 @@ class ilForumCronNotification extends ilCronJob
     {
         $this->lng->loadLanguageModule('forum');
 
-        $max_notification_age = new ilNumberInputGUI($this->lng->txt('frm_max_notification_age'), 'max_notification_age');
+        $max_notification_age = new ilNumberInputGUI(
+            $this->lng->txt('frm_max_notification_age'),
+            'max_notification_age'
+        );
         $max_notification_age->setSize(5);
         $max_notification_age->setSuffix($this->lng->txt('frm_max_notification_age_unit'));
         $max_notification_age->setRequired(true);
         $max_notification_age->allowDecimals(false);
         $max_notification_age->setMinValue(1);
         $max_notification_age->setInfo($this->lng->txt('frm_max_notification_age_info'));
-        $max_notification_age->setValue($this->settings->get('max_notification_age', ''));
+        $max_notification_age->setValue(
+            $this->settings->get(
+                'max_notification_age',
+                (string) self::DEFAULT_MAX_NOTIFICATION_AGE_IN_DAYS
+            )
+        );
 
         $a_form->addItem($max_notification_age);
     }
@@ -402,7 +429,7 @@ class ilForumCronNotification extends ilCronJob
 				(frm_posts.pos_date >= %s AND frm_posts.pos_date = frm_posts.pos_activation_date) OR 
 				(frm_posts.pos_activation_date >= %s AND frm_posts.pos_date < frm_posts.pos_activation_date)
 			) ';
-        $types = ['integer', 'timestamp', 'timestamp'];
+        $types = [ilDBConstants::T_INTEGER, ilDBConstants::T_TIMESTAMP, ilDBConstants::T_TIMESTAMP];
         $values = [1, $threshold_date, $threshold_date];
 
         $res = $this->ilDB->queryF(
@@ -424,7 +451,12 @@ class ilForumCronNotification extends ilCronJob
             frm_notification.interested_events & %s AND
 			frm_posts.pos_cens = %s AND frm_posts.pos_status = %s AND
 			(frm_posts.pos_update > frm_posts.pos_date AND frm_posts.pos_update >= %s) ';
-        $types = ['integer', 'integer', 'integer', 'timestamp'];
+        $types = [
+            ilDBConstants::T_INTEGER,
+            ilDBConstants::T_INTEGER,
+            ilDBConstants::T_INTEGER,
+            ilDBConstants::T_TIMESTAMP
+        ];
         $values = [ilForumNotificationEvents::UPDATED, 0, 1, $threshold_date];
 
         $res = $this->ilDB->queryF(
@@ -446,7 +478,12 @@ class ilForumCronNotification extends ilCronJob
             frm_notification.interested_events & %s AND
 			frm_posts.pos_cens = %s AND frm_posts.pos_status = %s AND  
             (frm_posts.pos_cens_date >= %s AND frm_posts.pos_cens_date > frm_posts.pos_activation_date ) ';
-        $types = ['integer', 'integer', 'integer', 'timestamp'];
+        $types = [
+            ilDBConstants::T_INTEGER,
+            ilDBConstants::T_INTEGER,
+            ilDBConstants::T_INTEGER,
+            ilDBConstants::T_TIMESTAMP
+        ];
         $values = [ilForumNotificationEvents::CENSORED, 1, 1, $threshold_date];
 
         $res = $this->ilDB->queryF(
@@ -468,7 +505,12 @@ class ilForumCronNotification extends ilCronJob
             frm_notification.interested_events & %s AND
 			frm_posts.pos_cens = %s AND frm_posts.pos_status = %s AND  
             (frm_posts.pos_cens_date >= %s AND frm_posts.pos_cens_date > frm_posts.pos_activation_date ) ';
-        $types = ['integer', 'integer', 'integer', 'timestamp'];
+        $types = [
+            ilDBConstants::T_INTEGER,
+            ilDBConstants::T_INTEGER,
+            ilDBConstants::T_INTEGER,
+            ilDBConstants::T_TIMESTAMP
+        ];
         $values = [ilForumNotificationEvents::UNCENSORED, 0, 1, $threshold_date];
 
         $res = $this->ilDB->queryF(
@@ -488,7 +530,7 @@ class ilForumCronNotification extends ilCronJob
     {
         $res = $this->ilDB->queryF(
             $this->createSelectOfDeletionNotificationsSql(),
-            ['integer', 'integer'],
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
             [1, ilForumNotificationEvents::THREAD_DELETED]
         );
 
@@ -504,7 +546,7 @@ class ilForumCronNotification extends ilCronJob
     {
         $res = $this->ilDB->queryF(
             $this->createSelectOfDeletionNotificationsSql(),
-            ['integer', 'integer'],
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
             [0, ilForumNotificationEvents::POST_DELETED]
         );
 
@@ -539,12 +581,14 @@ class ilForumCronNotification extends ilCronJob
             $this->logger->info(sprintf('Sending notifications for %s "%s" events ...', $numRows, $actionDescription));
             $this->sendCronForumNotification($res, $notificationType);
             if (self::$deleted_ids_cache !== []) {
-                $this->ilDB->manipulate('DELETE FROM frm_posts_deleted WHERE ' . $this->ilDB->in(
-                    'deleted_id',
-                    self::$deleted_ids_cache,
-                    false,
-                    'integer'
-                ));
+                $this->ilDB->manipulate(
+                    'DELETE FROM frm_posts_deleted WHERE ' . $this->ilDB->in(
+                        'deleted_id',
+                        self::$deleted_ids_cache,
+                        false,
+                        ilDBConstants::T_INTEGER
+                    )
+                );
                 $this->logger->info('Deleted obsolete entries of table "' . $action . '" ...');
             }
             $this->logger->info(sprintf('Sent notifications for %s ...', $actionDescription));
@@ -567,7 +611,7 @@ class ilForumCronNotification extends ilCronJob
 			AND 	((frm_threads.thr_top_fk = frm_data.top_pk AND 	frm_data.top_frm_fk = frm_notification.frm_id)
 					OR (frm_threads.thr_pk = frm_notification.thread_id
 			AND 	frm_data.top_pk = frm_threads.thr_top_fk) )
-			AND 	frm_posts.pos_display_user_id != frm_notification.user_id
+			AND 	frm_posts.pos_author_id != frm_notification.user_id
 			AND     frm_posts_tree.pos_fk = frm_posts.pos_pk AND frm_posts_tree.parent_pos != 0
 			ORDER BY frm_posts.pos_date ASC';
     }

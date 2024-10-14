@@ -250,7 +250,7 @@ class ilMailFormGUI
         ));
 
         $rcp_to = ilUtil::securePlainString($this->getBodyParam('rcp_to', $this->refinery->kindlyTo()->string(), ''));
-        $rcp_cc = ilUtil::securePlainString($this->getBodyParam('rcp_bcc', $this->refinery->kindlyTo()->string(), ''));
+        $rcp_cc = ilUtil::securePlainString($this->getBodyParam('rcp_cc', $this->refinery->kindlyTo()->string(), ''));
         $rcp_bcc = ilUtil::securePlainString($this->getBodyParam('rcp_bcc', $this->refinery->kindlyTo()->string(), ''));
 
         if ($errors = $this->umail->validateRecipients(

@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Services\Mail;
 
-use ILIAS\components\User\UserFieldAttributesChangeListener;
+use ILIAS\User\Profile\ChangeListeners\UserFieldAttributesChangeListener;
 use ILIAS\DI\Container;
 
 /**

@@ -78,7 +78,6 @@ class ilPersonalSettingsGUI
         $this->starting_point_repository = new ilUserStartingPointRepository(
             $this->user,
             $DIC['ilDB'],
-            $DIC['tpl'],
             $DIC->logger(),
             $DIC['tree'],
             $DIC['rbacreview'],
@@ -224,7 +223,7 @@ class ilPersonalSettingsGUI
             $languages = $this->lng->getInstalledLanguages();
             $options = [];
             foreach ($languages as $lang_key) {
-                $options[$lang_key] = ilLanguage::_lookupEntry($lang_key, 'meta', 'meta_l_' . $lang_key);
+                $options[$lang_key] = $this->lng->txtlng('meta', 'meta_l_' . $lang_key, $lang_key);
             }
 
             $lang = new ilSelectInputGUI($this->lng->txt('language'), 'language');

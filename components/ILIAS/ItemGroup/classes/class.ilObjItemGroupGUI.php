@@ -121,13 +121,6 @@ class ilObjItemGroupGUI extends ilObject2GUI
         }
     }
 
-    protected function initCreationForms(string $new_type): array
-    {
-        $forms = array(self::CFORM_NEW => $this->initCreateForm($new_type));
-
-        return $forms;
-    }
-
     protected function initEditCustomForm(ilPropertyFormGUI $form): void
     {
         $form->removeItemByPostVar("desc");

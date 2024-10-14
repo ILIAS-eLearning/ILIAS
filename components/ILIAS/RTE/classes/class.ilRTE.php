@@ -106,8 +106,7 @@ class ilRTE
         string $obj_type,
         string $a_module = '',
         bool $allowFormElements = false,
-        ?string $cfg_template = null,
-        bool $hide_switch = false
+        ?string $cfg_template = null
     ): void {
     }
 

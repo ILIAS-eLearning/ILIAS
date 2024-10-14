@@ -37,7 +37,7 @@ class ObjectsDBRepository
         $this->db = $db;
     }
 
-    public function loadDataOfPool(int $pool_id) : void
+    public function loadDataOfPool(int $pool_id): void
     {
         $db = $this->db;
 
@@ -62,7 +62,7 @@ class ObjectsDBRepository
         self::$pool_loaded[$pool_id] = true;
     }
 
-    public function getNrOfItemsForObject(int $book_obj_id) : int
+    public function getNrOfItemsForObject(int $book_obj_id): int
     {
         if (!isset(self::$raw_data[$book_obj_id])) {
             throw new \ilBookingPoolException("Data for booking object $book_obj_id not loaded.");
@@ -70,7 +70,7 @@ class ObjectsDBRepository
         return (int) self::$raw_data[$book_obj_id]["nr_of_items"];
     }
 
-    public function getColorNrForObject(int $book_obj_id) : int
+    public function getColorNrForObject(int $book_obj_id): int
     {
         if (!isset(self::$raw_data[$book_obj_id])) {
             throw new \ilBookingPoolException("Data for booking object $book_obj_id not loaded.");
@@ -80,7 +80,7 @@ class ObjectsDBRepository
 
     public function getObjectDataForPool(
         int $pool_id
-    ) : array {
+    ): array {
         $this->loadDataOfPool($pool_id);
         return self::$pool_objects[$pool_id] ?? [];
     }

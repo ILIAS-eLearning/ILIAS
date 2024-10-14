@@ -89,7 +89,7 @@ public function init()
 
 Depending on where you want to use the presentation or editing features of the component, you will need to init and embed your {BASIC_CLASS_NAME}GUI in your `executeCommand()` methods.
 
-A good example for how this can be done is `Modules/ContentPage/classes/class.ilContentPagePageCommandForwarder.php`.
+A good example for how this can be done is `components/ILIAS/ContentPage/classes/class.ilContentPagePageCommandForwarder.php`.
 
 ** Import / Export **
 
@@ -117,7 +117,7 @@ To add pages to the export, you need to add tail dependencies for the COPage com
 
             $deps = array(
                 array(
-                    "component" => "Services/COPage",
+                    "component" => "components/ILIAS/COPage",
                     "entity" => "pg",
                     "ids" => $pg_ids),
             );
@@ -136,7 +136,7 @@ On import you need to add a mapping for your pages. Since your component has to 
         ...
         $your_page_parent_type = "...";
         $a_mapping->addMapping(
-            "Services/COPage",
+            "components/ILIAS/COPage",
             "pg",
             $your_page_parent_type . ":" . $old_id,
             $your_page_parent_type . ":" . $new_id

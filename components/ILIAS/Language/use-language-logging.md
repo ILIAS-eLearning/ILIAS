@@ -20,7 +20,7 @@ There is no function provided by ILIAS itself to gain this data. You have to acc
 ```php
 <?php
 //Init ILIAS for a database connection
-require_once("Services/Init/classes/class.ilInitialisation.php");
+require_once("components/ILIAS/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
 global $ilDB;
 header("Content-Type:text/plain");

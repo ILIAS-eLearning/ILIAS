@@ -25,22 +25,17 @@ use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\BookingManager\BookingProcess\BookingProcessManager;
 use ILIAS\BookingManager\Objects\ObjectsManager;
 use ILIAS\BookingManager\Schedule\ScheduleManager;
+use ILIAS\User\UserEvent;
+use ILIAS\BookingManager\Settings\SettingsManager;
 
 /**
- * @author Alexander Killing <killing@leifos.de>
+ * Author: Alexander Killing <killing@leifos.de>
  */
 class InternalDomainService
 {
     use GlobalDICDomainServices;
 
-    /**
-     * @var ObjectsManager[]
-     */
-    protected static array $object_manager = [];
-    /**
-     * @var ScheduleManager[]
-     */
-    protected static array $schedule_manager = [];
+    protected static array $instances = [];
     protected ?\ilLogger $book_log = null;
     protected InternalRepoService $repo_service;
     protected InternalDataService $data_service;
@@ -55,29 +50,15 @@ class InternalDomainService
         $this->initDomainServices($DIC);
     }
 
-    /*
-    public function access(int $ref_id, int $user_id) : Access\AccessManager
-    {
-        return new Access\AccessManager(
-            $this,
-            $this->access,
-            $ref_id,
-            $user_id
-        );
-    }*/
-
     public function log(): \ilLogger
     {
-        if (is_null($this->book_log)) {
-            $this->book_log = $this->logger()->book();
-        }
-        return $this->book_log;
+        return self::$instances["book_log"] ??= $this->logger()->book();
     }
 
     public function preferences(
         \ilObjBookingPool $pool
     ): \ilBookingPreferencesManager {
-        return new \ilBookingPreferencesManager(
+        return self::$instances["preferences"][$pool->getId()] ??= new \ilBookingPreferencesManager(
             $pool,
             $this->repo_service->preferenceBasedBooking()
         );
@@ -85,7 +66,7 @@ class InternalDomainService
 
     public function process(): BookingProcessManager
     {
-        return new BookingProcessManager(
+        return self::$instances["process"] ??= new BookingProcessManager(
             $this->data_service,
             $this->repo_service,
             $this
@@ -94,33 +75,27 @@ class InternalDomainService
 
     public function objects(int $pool_id): ObjectsManager
     {
-        if (!isset(self::$object_manager[$pool_id])) {
-            self::$object_manager[$pool_id] = new ObjectsManager(
-                $this->data_service,
-                $this->repo_service,
-                $this,
-                $pool_id
-            );
-        }
-        return self::$object_manager[$pool_id];
+        return self::$instances["objects"][$pool_id] ??= new ObjectsManager(
+            $this->data_service,
+            $this->repo_service,
+            $this,
+            $pool_id
+        );
     }
 
     public function schedules(int $pool_id): ScheduleManager
     {
-        if (!isset(self::$schedule_manager[$pool_id])) {
-            self::$schedule_manager[$pool_id] = new ScheduleManager(
-                $this->data_service,
-                $this->repo_service,
-                $this,
-                $pool_id
-            );
-        }
-        return self::$schedule_manager[$pool_id];
+        return self::$instances["schedules"][$pool_id] ??= new ScheduleManager(
+            $this->data_service,
+            $this->repo_service,
+            $this,
+            $pool_id
+        );
     }
 
     public function reservations(): Reservations\ReservationManager
     {
-        return new Reservations\ReservationManager(
+        return self::$instances["reservations"] ??= new Reservations\ReservationManager(
             $this->data_service,
             $this->repo_service,
             $this
@@ -129,7 +104,7 @@ class InternalDomainService
 
     public function participants(): Participants\ParticipantsManager
     {
-        return new Participants\ParticipantsManager(
+        return self::$instances["participants"] ??= new Participants\ParticipantsManager(
             $this->data_service,
             $this->repo_service,
             $this
@@ -138,7 +113,7 @@ class InternalDomainService
 
     public function objectSelection(int $pool_id): BookingProcess\ObjectSelectionManager
     {
-        return new BookingProcess\ObjectSelectionManager(
+        return self::$instances["object_sel"][$pool_id] ??= new BookingProcess\ObjectSelectionManager(
             $this->data_service,
             $this->repo_service,
             $this,
@@ -146,4 +121,17 @@ class InternalDomainService
         );
     }
 
+    public function userEvent(): UserEvent
+    {
+        return self::$instances["user_event"] ??= new UserEvent($this);
+    }
+
+    public function bookingSettings(): SettingsManager
+    {
+        return self::$instances["settings"] ??= new SettingsManager(
+            $this->data_service,
+            $this->repo_service,
+            $this
+        );
+    }
 }

@@ -305,7 +305,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
         $room->saveSettings([
             'object_id' => $new_object->getId(),
             'autogen_usernames' => 'Autogen #',
-            'display_past_msgs' => 20,
+            'display_past_msgs' => 100,
         ]);
 
         $connector = $this->getConnector();

@@ -16,7 +16,11 @@
  *
  *********************************************************************/
 
-use ILIAS\User\Profile\ilUserProfileDefaultFields;
+declare(strict_types=1);
+
+use ILIAS\User\Profile\DefaultFields;
+
+use ILIAS\Language\Language;
 
 /**
  * Class ilUserProfile
@@ -30,7 +34,7 @@ class ilUserProfile
     private int $mode = self::MODE_DESKTOP;
 
     private ilSetting $settings;
-    private ilLanguage $lng;
+    private Language $lng;
     private ilRbacReview $rbac_review;
 
     private array $user_fields;
@@ -48,7 +52,7 @@ class ilUserProfile
         $this->lng = $DIC['lng'];
         $this->rbac_review = $DIC['rbacreview'];
 
-        $this->user_fields = (new ilUserProfileDefaultFields())->getDefaultProfileFields();
+        $this->user_fields = (new DefaultFields())->getDefaultProfileFields();
         $this->user_settings_config = new ilUserSettingsConfig();
 
         $this->skip_groups = [];

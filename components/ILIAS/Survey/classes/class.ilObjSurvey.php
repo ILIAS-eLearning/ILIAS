@@ -1139,45 +1139,26 @@ class ilObjSurvey extends ilObject
     public function saveAuthorToMetadata(
         string $a_author = ""
     ): void {
-        $md = new ilMD($this->getId(), 0, $this->getType());
-        $md_life = $md->getLifecycle();
-        if (!$md_life) {
-            if ($a_author === '') {
-                $ilUser = $this->user;
-                $a_author = $ilUser->getFullname();
-            }
-
-            $md_life = $md->addLifecycle();
-            $md_life->save();
-            $con = $md_life->addContribute();
-            $con->setRole("Author");
-            $con->save();
-            $ent = $con->addEntity();
-            $ent->setEntity($a_author);
-            $ent->save();
+        if ($a_author === '') {
+            $ilUser = $this->user;
+            $a_author = $ilUser->getFullname();
         }
+        $this->domain->metadata()->saveAuthorsInLOMIfNoLifecycleSet(
+            $this->getId(),
+            0,
+            $this->getType(),
+            $a_author,
+        );
     }
 
     // Gets the authors name from metadata
     public function getAuthor(): string
     {
-        $author = array();
-        $md = new ilMD($this->getId(), 0, $this->getType());
-        $md_life = $md->getLifecycle();
-        if ($md_life) {
-            $ids = $md_life->getContributeIds();
-            foreach ($ids as $id) {
-                $md_cont = $md_life->getContribute($id);
-                if (strcmp($md_cont->getRole(), "Author") === 0) {
-                    $entids = $md_cont->getEntityIds();
-                    foreach ($entids as $entid) {
-                        $md_ent = $md_cont->getEntity($entid);
-                        $author[] = $md_ent->getEntity();
-                    }
-                }
-            }
-        }
-        return implode(",", $author);
+        return $this->domain->metadata()->getAuthorsFromLOM(
+            $this->getId(),
+            0,
+            $this->getType()
+        );
     }
 
     public function getShowQuestionTitles(): bool
@@ -3063,15 +3044,6 @@ class ilObjSurvey extends ilObject
             $a_xml_writer->xmlElement("fieldentry", null, $value);
             $a_xml_writer->xmlEndTag("metadatafield");
         }
-
-        $a_xml_writer->xmlStartTag("metadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "SCORM");
-        $md = new ilMD($this->getId(), 0, $this->getType());
-        $writer = new ilXmlWriter();
-        $md->toXML($writer);
-        $metadata = $writer->xmlDumpMem();
-        $a_xml_writer->xmlElement("fieldentry", null, $metadata);
-        $a_xml_writer->xmlEndTag("metadatafield");
 
         $a_xml_writer->xmlEndTag("metadata");
         $a_xml_writer->xmlEndTag("survey");

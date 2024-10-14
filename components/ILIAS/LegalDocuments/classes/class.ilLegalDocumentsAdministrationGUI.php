@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\LegalDocuments\Provide;
 use ILIAS\LegalDocuments\Config;
 use ILIAS\DI\Container;
 use ILIAS\Data\Result;
@@ -53,8 +52,7 @@ class ilLegalDocumentsAdministrationGUI
         $this->container->language()->loadLanguageModule('ldoc');
         $this->ui = new UI(
             $this->config->legalDocuments()->id(),
-            $this->container->ui()->factory(),
-            $this->container->ui()->mainTemplate(),
+            $this->container->ui(),
             $this->container->language()
         );
         $this->admin = new Administration($this->config, $this->container, $this->ui);

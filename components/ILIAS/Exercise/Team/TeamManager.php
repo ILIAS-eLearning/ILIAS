@@ -23,18 +23,22 @@ namespace ILIAS\Exercise\Team;
 use ILIAS\Exercise\InternalDataService;
 use ILIAS\Exercise\InternalRepoService;
 use ILIAS\Exercise\InternalDomainService;
+use ILIAS\Exercise\TutorFeedbackFile\TutorFeedbackFileTeamRepository;
 
 class TeamManager
 {
+    protected TutorFeedbackFileTeamRepository $feedback_repo;
     protected TeamDBRepository $repo;
     protected InternalDomainService $domain;
 
     public function __construct(
         InternalRepoService $repo,
-        InternalDomainService $domain
+        InternalDomainService $domain,
+        protected \ilExcTutorTeamFeedbackFileStakeholder $feedback_stakeholder
     ) {
         $this->repo = $repo->team();
         $this->domain = $domain;
+        $this->feedback_repo = $repo->tutorFeedbackFileTeam();
     }
 
     public function create(
@@ -90,6 +94,7 @@ class TeamManager
     {
         return new \ilExAssignmentTeam($team_id);
     }
+
     public function writeLog(
         int $team_id,
         int $action,
@@ -100,5 +105,17 @@ class TeamManager
             $action,
             $content
         );
+    }
+
+    public function deleteTeamsOfAssignment(int $ass_id): void
+    {
+        foreach ($this->repo->getTeamIdsOfAssignment($ass_id) as $team_id) {
+            $this->repo->deleteTeamLog($team_id);
+            $this->feedback_repo->deleteTeamCollection(
+                $team_id,
+                $this->feedback_stakeholder
+            );
+            $this->repo->deleteTeam($team_id);
+        }
     }
 }

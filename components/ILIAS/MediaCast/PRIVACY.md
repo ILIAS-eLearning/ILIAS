@@ -14,6 +14,7 @@ or contribute a fix via [Pull Request](../../../docs/development/contributing.md
     - [AccessControl](../../ILIAS/AccessControl/PRIVACY.md)
     - [Info Screen Service](../../ILIAS/InfoScreen/PRIVACY.md)
     - [News Service](../../ILIAS/News/PRIVACY.md)
+    - [Learning Object Metadata](../../../components/ILIAS/MetaData/Privacy.md)
 
 ## General Information
 

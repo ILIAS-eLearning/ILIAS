@@ -168,7 +168,6 @@ class TutorFeedbackFileManager
         $this->repo->createCollection($this->ass_id, $participant_id);
     }
 
-
     public function deleteCollection(int $participant_id): void
     {
         $this->repo->deleteCollection(

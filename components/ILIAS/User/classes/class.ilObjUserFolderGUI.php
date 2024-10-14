@@ -19,14 +19,14 @@
 declare(strict_types=1);
 
 use ILIAS\User\UserGUIRequest;
+use ILIAS\User\Profile\Prompt\SettingsGUI;
+use ILIAS\User\Profile\Prompt\Repository as PromptRepository;
+use ILIAS\User\Profile\ChangeListeners\UserFieldAttributesChangeListener;
+use ILIAS\User\Profile\ChangeListeners\InterestedUserFieldChangeListener;
+use ILIAS\User\Profile\ChangeListeners\ChangedUserFieldAttribute;
+
 use ILIAS\DI\Container as DIContainer;
-use ILIAS\components\User\UserFieldAttributesChangeListener;
-use ILIAS\components\User\InterestedUserFieldChangeListener;
-use ILIAS\components\User\ChangedUserFieldAttribute;
 use ILIAS\Filesystem\Filesystem;
-use ILIAS\UI\Renderer;
-use ILIAS\UI\Factory as UIFactory;
-use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\Authentication\Password\LocalUserPasswordManager;
 
@@ -36,7 +36,7 @@ use ILIAS\Authentication\Password\LocalUserPasswordManager;
  * @author       Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @ilCtrl_Calls ilObjUserFolderGUI: ilPermissionGUI, ilUserTableGUI
  * @ilCtrl_Calls ilObjUserFolderGUI: ilCustomUserFieldsGUI, ilRepositorySearchGUI, ilUserStartingPointGUI
- * @ilCtrl_Calls ilObjUserFolderGUI: ilUserProfileInfoSettingsGUI
+ * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Profile\Prompt\SettingsGUI
  */
 class ilObjUserFolderGUI extends ilObjectGUI
 {
@@ -56,15 +56,16 @@ class ilObjUserFolderGUI extends ilObjectGUI
         'changeable_lua' => 'usr_settings_changeable_lua'
     ];
 
-    protected ilPropertyFormGUI $loginSettingsForm;
-    protected ilPropertyFormGUI $form;
-    protected array $requested_ids; // Missing array type.
-    protected string $selected_action;
-    protected UserGUIRequest $user_request;
-    protected int $user_owner_id = 0;
-    protected int $confirm_change = 0;
-    protected ilLogger $log;
-    protected ilUserSettingsConfig $user_settings_config;
+    private ilPropertyFormGUI $loginSettingsForm;
+    private ilPropertyFormGUI $form;
+    private array $requested_ids; // Missing array type.
+    private string $selected_action;
+    private UserGUIRequest $user_request;
+    private int $user_owner_id = 0;
+    private int $confirm_change = 0;
+    private ilDBInterface $db;
+    private ilLogger $log;
+    private ilUserSettingsConfig $user_settings_config;
     private bool $usrFieldChangeListenersAccepted = false;
 
     /**
@@ -88,6 +89,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $this->event = $DIC['ilAppEventHandler'];
         $this->filesystem = $DIC->filesystem()->storage();
         $this->upload = $DIC['upload'];
+        $this->db = $DIC['ilDB'];
         $this->dic->upload();
 
         $this->type = 'usrf';
@@ -221,12 +223,26 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($cf);
                 break;
 
-            case 'iluserprofileinfosettingsgui':
+            case strtolower(SettingsGUI::class):
                 $this->tabs_gui->setTabActive('settings');
                 $this->setSubTabs('settings');
                 $this->tabs_gui->activateSubTab('user_profile_info');
-                $ps = new ilUserProfileInfoSettingsGUI();
-                $this->ctrl->forwardCommand($ps);
+                $this->ctrl->forwardCommand(
+                    new SettingsGUI(
+                        $this->ctrl,
+                        $this->lng,
+                        $this->ui_factory,
+                        $this->ui_renderer,
+                        $this->tpl,
+                        $this->request,
+                        $this->refinery,
+                        new PromptRepository(
+                            $this->db,
+                            $this->lng,
+                            new ilSetting('user')
+                        )
+                    )
+                );
                 break;
 
             default:
@@ -2568,6 +2584,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
                             if ($interested_change_listener === null) {
                                 $interested_change_listener = new InterestedUserFieldChangeListener(
+                                    $this->lng,
                                     $this->getTranslationForField($field_name, $properties),
                                     $field_name
                                 );
@@ -3200,11 +3217,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $this->tabs_gui->addSubTabTarget(
                     'user_profile_info',
                     $this->ctrl->getLinkTargetByClass(
-                        'ilUserProfileInfoSettingsGUI',
+                        SettingsGUI::class,
                         ''
                     ),
                     '',
-                    'ilUserProfileInfoSettingsGUI'
+                    SettingsGUI::class
                 );
 
                 break;

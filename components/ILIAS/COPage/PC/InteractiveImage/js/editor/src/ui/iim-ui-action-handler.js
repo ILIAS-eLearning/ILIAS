@@ -289,7 +289,7 @@ export default class IIMUIActionHandler {
             upload_action = af.interactiveImage().command().uploadOverlay(
               data
             );
-            util.hideCurrentModal();
+            util.hideModal(this.ui.uiModel.modal);
             this.ui.deactivateSlateButtons();
             this.ui.setLoader();
             this.client.sendCommand(upload_action).then(result => {
@@ -340,7 +340,7 @@ export default class IIMUIActionHandler {
         );
         this.client.sendCommand(save_action).then(result => {
             this.handleStandardResponse(result, model);
-            util.hideCurrentModal();
+            util.hideModal(this.ui.uiModel.modal);
             if (model.getCurrentTrigger() == null) {
                 this.ui.showPopups();
                 this.ui.setMessage('commonSuccessMessage');

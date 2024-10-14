@@ -16,20 +16,28 @@
  *
  *********************************************************************/
 
+use ILIAS\BookingManager\Settings\SettingsGUI;
+use ILIAS\BookingManager\InternalGUIService;
+use ILIAS\BookingManager\InternalDomainService;
+use ILIAS\BookingManager\StandardGUIRequest;
+use ILIAS\BookingManager\InternalService;
+
 /**
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilObjBookingPoolGUI: ilPermissionGUI, ilBookingObjectGUI, ilDidacticTemplateGUI
  * @ilCtrl_Calls ilObjBookingPoolGUI: ilBookingScheduleGUI, ilInfoScreenGUI, ilPublicUserProfileGUI
  * @ilCtrl_Calls ilObjBookingPoolGUI: ilCommonActionDispatcherGUI, ilObjectCopyGUI, ilObjectMetaDataGUI
  * @ilCtrl_Calls ilObjBookingPoolGUI: ilBookingParticipantGUI, ilBookingReservationsGUI, ilBookingPreferencesGUI
+ * @ilCtrl_Calls ilObjBookingPoolGUI: ILIAS\BookingManager\Settings\SettingsGUI
  * @ilCtrl_IsCalledBy ilObjBookingPoolGUI: ilRepositoryGUI, ilAdministrationGUI
  */
 class ilObjBookingPoolGUI extends ilObjectGUI
 {
-    protected \ILIAS\BookingManager\InternalDomainService $domain;
+    protected InternalGUIService $gui;
+    protected InternalDomainService $domain;
     protected ilCronManager $cron_manager;
-    protected \ILIAS\BookingManager\StandardGUIRequest $book_request;
-    protected \ILIAS\BookingManager\InternalService $service;
+    protected StandardGUIRequest $book_request;
+    protected InternalService $service;
     protected ilTabsGUI $tabs;
     protected ilNavigationHistory $nav_history;
     protected ilBookingHelpAdapter $help;
@@ -48,19 +56,19 @@ class ilObjBookingPoolGUI extends ilObjectGUI
         bool $a_prepare_output = true
     ) {
         global $DIC;
+        $this->service = $DIC->bookingManager()->internal();
 
-        $this->tpl = $DIC["tpl"];
-        $this->tabs = $DIC->tabs();
-        $this->nav_history = $DIC["ilNavigationHistory"];
-        $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
+        $this->domain = $domain = $this->service->domain();
+        $this->gui = $gui = $this->service->gui();
+
+        $this->tpl = $gui->mainTemplate();
+        $this->tabs = $gui->tabs();
+        $this->nav_history = $gui->navigationHistory();
+        $this->ctrl = $gui->ctrl();
+        $this->lng = $domain->lng();
         $this->type = "book";
 
-        $this->book_request = $DIC->bookingManager()
-                                  ->internal()
-                                  ->gui()
-                                  ->standardRequest();
-        $this->domain = $DIC->bookingManager()->internal()->domain();
+        $this->book_request = $gui->standardRequest();
 
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
         $this->lng->loadLanguageModule("book");
@@ -78,8 +86,6 @@ class ilObjBookingPoolGUI extends ilObjectGUI
         $this->sseed = $this->book_request->getSSeed();
         $this->reservation_id = $this->book_request->getReservationId();
         $this->profile_user_id = $this->book_request->getUserId();
-
-        $this->service = $DIC->bookingManager()->internal();
 
         $this->user_id_assigner = $this->user->getId();
         if ($this->book_request->getBookedUser() > 0) {
@@ -228,6 +234,17 @@ class ilObjBookingPoolGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($did);
                 break;
 
+            case strtolower(SettingsGUI::class):
+                $this->checkPermission("write");
+                $this->showNoScheduleMessage();
+                $ilTabs->activateTab("settings");
+                $gui = $this->gui->settings()->settingsGUI(
+                    $this->object->getId(),
+                    $this->requested_ref_id,
+                    $this->getCreationMode()
+                );
+                $this->ctrl->forwardCommand($gui);
+                break;
 
             default:
                 if (!in_array($cmd, ["create", "save", "infoScreen"])) {
@@ -242,17 +259,8 @@ class ilObjBookingPoolGUI extends ilObjectGUI
         $this->addHeaderAction();
     }
 
-    protected function initCreationForms(string $new_type): array
-    {
-        $forms = parent::initCreationForms($new_type);
-        unset($forms[self::CFORM_IMPORT]);
-
-        return $forms;
-    }
-
     protected function afterSave(ilObject $new_object): void
     {
-        $new_object->setOffline(true);
         $new_object->update();
 
         // always send a message
@@ -279,22 +287,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
     public function editObject(): void
     {
-        $this->showNoScheduleMessage();
-        if (!$this->checkPermissionBool("write")) {
-            $this->error->raiseError($this->lng->txt("msg_no_perm_write"), $this->error->MESSAGE);
-        }
-
-        $this->tabs_gui->activateTab("settings");
-
-        $form = $this->initEditForm();
-        $values = $this->getEditFormValues();
-        if ($values) {
-            $form->setValuesByArray($values, true);
-        }
-
-        $this->addExternalEditFormCustom($form);
-
-        $this->tpl->setContent($form->getHTML());
+        $this->ctrl->redirectByClass(SettingsGUI::class, "");
     }
 
     public function showNoScheduleMessage(): void
@@ -420,56 +413,6 @@ class ilObjBookingPoolGUI extends ilObjectGUI
         $form->addItem($feat);
     }
 
-    protected function getEditFormCustomValues(
-        array &$a_values
-    ): void {
-        $a_values["online"] = !$this->object->isOffline();
-        $a_values["public"] = $this->object->hasPublicLog();
-        $a_values["messages"] = $this->object->usesMessages();
-        $a_values["stype"] = $this->object->getScheduleType();
-        $a_values["limit"] = $this->object->getOverallLimit();
-        $a_values["period"] = $this->object->getReservationFilterPeriod();
-        $a_values["rmd"] = $this->object->getReminderStatus();
-        $a_values["rmd_day"] = $this->object->getReminderDay();
-        $a_values["preference_nr"] = $this->object->getPreferenceNumber();
-        if ($this->object->getPreferenceDeadline() > 0) {
-            $a_values["pref_deadline"] = new ilDateTime($this->object->getPreferenceDeadline(), IL_CAL_UNIX);
-        }
-    }
-
-    protected function updateCustom(ilPropertyFormGUI $form): void
-    {
-        $obj_service = $this->getObjectService();
-
-        $pref_deadline = $form->getItemByPostVar("pref_deadline");
-        if ($pref_deadline !== null) {
-            $pref_deadline = $pref_deadline->getDate();
-            $pref_deadline = $pref_deadline
-                ? $pref_deadline->get(IL_CAL_UNIX)
-                : 0;
-
-            $this->object->setOffline(!$form->getInput('online'));
-            $this->object->setReminderStatus((int) $form->getInput('rmd'));
-            $this->object->setReminderDay($form->getInput('rmd_day'));
-            $this->object->setPublicLog($form->getInput('public'));
-            $this->object->setScheduleType($form->getInput('stype'));
-            $this->object->setMessages((bool) (int) $form->getInput('messages'));
-            $this->object->setOverallLimit($form->getInput('limit') ?: null);
-            $this->object->setReservationFilterPeriod($form->getInput('period') != '' ? (int) $form->getInput('period') : null);
-            $this->object->setPreferenceDeadline($pref_deadline);
-            $this->object->setPreferenceNumber($form->getInput('preference_nr'));
-
-            // tile image
-            $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
-
-            ilObjectServiceSettingsGUI::updateServiceSettingsForm(
-                $this->object->getId(),
-                $form,
-                array(ilObjectServiceSettingsGUI::CUSTOM_METADATA)
-            );
-        }
-    }
-
     public function addExternalEditFormCustom(ilPropertyFormGUI $form): void
     {
         ilObjectServiceSettingsGUI::initServiceSettingsForm(
@@ -531,10 +474,17 @@ class ilObjBookingPoolGUI extends ilObjectGUI
         }
 
         if ($this->checkPermissionBool('write')) {
+            /*
             $this->tabs_gui->addTab(
                 "settings",
                 $this->lng->txt("settings"),
                 $this->ctrl->getLinkTarget($this, "edit")
+            );*/
+
+            $this->tabs_gui->addTab(
+                "settings",
+                $this->lng->txt("settings"),
+                $this->ctrl->getLinkTargetByClass(SettingsGUI::class, "")
             );
 
             if ($this->object->getScheduleType() === ilObjBookingPool::TYPE_FIX_SCHEDULE) {

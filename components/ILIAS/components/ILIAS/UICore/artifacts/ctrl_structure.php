@@ -1,520 +1,522 @@
-<?php return array (
-  'ilias\\file\\icon\\iliconuploadhandlergui' => 
-  array (
+<?php
+
+return array(
+  'ilias\\file\\icon\\iliconuploadhandlergui' =>
+  array(
     'cid' => '9',
     'class_name' => 'ILIAS\\File\\Icon\\ilIconUploadHandlerGUI',
     'class_path' => './components/ILIAS/File/classes/Icons/class.ilIconUploadHandlerGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilias\\file\\icon\\ilobjfileiconsoverviewgui',
     ),
   ),
-  'ilias\\file\\icon\\ilobjfileiconsoverviewgui' => 
-  array (
+  'ilias\\file\\icon\\ilobjfileiconsoverviewgui' =>
+  array(
     'cid' => 'a',
     'class_name' => 'ILIAS\\File\\Icon\\ilObjFileIconsOverviewGUI',
     'class_path' => './components/ILIAS/File/classes/Icons/class.ilObjFileIconsOverviewGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilias\\file\\icon\\iliconuploadhandlergui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjfileaccesssettingsgui',
     ),
   ),
-  'ilias\\tests\\ctrl\\ilctrlnamespacedtestgui' => 
-  array (
+  'ilias\\tests\\ctrl\\ilctrlnamespacedtestgui' =>
+  array(
     'cid' => '10',
     'class_name' => 'ILIAS\\Tests\\Ctrl\\ilCtrlNamespacedTestGUI',
     'class_path' => './components/ILIAS/UICore/tests/Data/GUI/class.ilCtrlNamespacedTestGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilctrlbaseclass1testgui',
     ),
   ),
-  'mcstimagegallerygui' => 
-  array (
+  'mcstimagegallerygui' =>
+  array(
     'cid' => '12',
     'class_name' => 'McstImageGalleryGUI',
     'class_path' => './components/ILIAS/MediaCast/Presentation/class.McstImageGalleryGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjmediacastgui',
     ),
   ),
-  'mcstpodcastgui' => 
-  array (
+  'mcstpodcastgui' =>
+  array(
     'cid' => '13',
     'class_name' => 'McstPodcastGUI',
     'class_path' => './components/ILIAS/MediaCast/Presentation/class.McstPodcastGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilmediaobjectsplayerwrappergui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjmediacastgui',
     ),
   ),
-  'skilltreeadmingui' => 
-  array (
+  'skilltreeadmingui' =>
+  array(
     'cid' => '14',
     'class_name' => 'SkillTreeAdminGUI',
     'class_path' => './components/ILIAS/Skill/Tree/class.SkillTreeAdminGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjskilltreegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjskillmanagementgui',
     ),
   ),
-  'surveymatrixquestiongui' => 
-  array (
+  'surveymatrixquestiongui' =>
+  array(
     'cid' => '16',
     'class_name' => 'SurveyMatrixQuestionGUI',
     'class_path' => './components/ILIAS/SurveyQuestionPool/Questions/class.SurveyMatrixQuestionGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjsurveyquestionpoolgui',
       1 => 'ilsurveyeditorgui',
     ),
   ),
-  'surveymetricquestiongui' => 
-  array (
+  'surveymetricquestiongui' =>
+  array(
     'cid' => '17',
     'class_name' => 'SurveyMetricQuestionGUI',
     'class_path' => './components/ILIAS/SurveyQuestionPool/Questions/class.SurveyMetricQuestionGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjsurveyquestionpoolgui',
       1 => 'ilsurveyeditorgui',
     ),
   ),
-  'surveymultiplechoicequestiongui' => 
-  array (
+  'surveymultiplechoicequestiongui' =>
+  array(
     'cid' => '18',
     'class_name' => 'SurveyMultipleChoiceQuestionGUI',
     'class_path' => './components/ILIAS/SurveyQuestionPool/Questions/class.SurveyMultipleChoiceQuestionGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjsurveyquestionpoolgui',
       1 => 'ilsurveyeditorgui',
     ),
   ),
-  'surveysinglechoicequestiongui' => 
-  array (
+  'surveysinglechoicequestiongui' =>
+  array(
     'cid' => '1a',
     'class_name' => 'SurveySingleChoiceQuestionGUI',
     'class_path' => './components/ILIAS/SurveyQuestionPool/Questions/class.SurveySingleChoiceQuestionGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjsurveyquestionpoolgui',
       1 => 'ilsurveyeditorgui',
     ),
   ),
-  'surveytextquestiongui' => 
-  array (
+  'surveytextquestiongui' =>
+  array(
     'cid' => '1b',
     'class_name' => 'SurveyTextQuestionGUI',
     'class_path' => './components/ILIAS/SurveyQuestionPool/Questions/class.SurveyTextQuestionGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjsurveyquestionpoolgui',
       1 => 'ilsurveyeditorgui',
     ),
   ),
-  'assclozetestgui' => 
-  array (
+  'assclozetestgui' =>
+  array(
     'cid' => '1c',
     'class_name' => 'assClozeTestGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.assClozeTestGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
       1 => 'iltestexpresspageobjectgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjquestionpoolgui',
       1 => 'ilobjtestgui',
       2 => 'ilquestioneditgui',
       3 => 'iltestexpresspageobjectgui',
     ),
   ),
-  'asserrortextgui' => 
-  array (
+  'asserrortextgui' =>
+  array(
     'cid' => '1d',
     'class_name' => 'assErrorTextGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.assErrorTextGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjquestionpoolgui',
       1 => 'ilobjtestgui',
       2 => 'ilquestioneditgui',
     ),
   ),
-  'assfileuploadgui' => 
-  array (
+  'assfileuploadgui' =>
+  array(
     'cid' => '1f',
     'class_name' => 'assFileUploadGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.assFileUploadGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjquestionpoolgui',
       1 => 'ilobjtestgui',
     ),
   ),
-  'assformulaquestiongui' => 
-  array (
+  'assformulaquestiongui' =>
+  array(
     'cid' => '1g',
     'class_name' => 'assFormulaQuestionGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.assFormulaQuestionGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
       1 => 'iltestexpresspageobjectgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjquestionpoolgui',
       1 => 'ilobjtestgui',
       2 => 'ilquestioneditgui',
       3 => 'iltestexpresspageobjectgui',
     ),
   ),
-  'assimagemapquestiongui' => 
-  array (
+  'assimagemapquestiongui' =>
+  array(
     'cid' => '1h',
     'class_name' => 'assImagemapQuestionGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.assImagemapQuestionGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpropertyformgui',
       1 => 'ilformpropertydispatchgui',
       2 => 'iltestexpresspageobjectgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjquestionpoolgui',
       1 => 'ilobjtestgui',
       2 => 'ilquestioneditgui',
       3 => 'iltestexpresspageobjectgui',
     ),
   ),
-  'asskprimchoicegui' => 
-  array (
+  'asskprimchoicegui' =>
+  array(
     'cid' => '1i',
     'class_name' => 'assKprimChoiceGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.assKprimChoiceGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpropertyformgui',
       1 => 'ilformpropertydispatchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjquestionpoolgui',
       1 => 'ilobjtestgui',
       2 => 'ilquestioneditgui',
     ),
   ),
-  'asslongmenugui' => 
-  array (
+  'asslongmenugui' =>
+  array(
     'cid' => '1j',
     'class_name' => 'assLongMenuGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.assLongMenuGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpropertyformgui',
       1 => 'ilformpropertydispatchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjquestionpoolgui',
       1 => 'ilobjtestgui',
       2 => 'ilquestioneditgui',
     ),
   ),
-  'assmatchingquestiongui' => 
-  array (
+  'assmatchingquestiongui' =>
+  array(
     'cid' => '1k',
     'class_name' => 'assMatchingQuestionGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.assMatchingQuestionGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
       1 => 'iltestexpresspageobjectgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjquestionpoolgui',
       1 => 'ilobjtestgui',
       2 => 'ilquestioneditgui',
       3 => 'iltestexpresspageobjectgui',
     ),
   ),
-  'assmultiplechoicegui' => 
-  array (
+  'assmultiplechoicegui' =>
+  array(
     'cid' => '1l',
     'class_name' => 'assMultipleChoiceGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.assMultipleChoiceGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
       1 => 'iltestexpresspageobjectgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjquestionpoolgui',
       1 => 'ilobjtestgui',
       2 => 'ilquestioneditgui',
       3 => 'iltestexpresspageobjectgui',
     ),
   ),
-  'assnumericgui' => 
-  array (
+  'assnumericgui' =>
+  array(
     'cid' => '1m',
     'class_name' => 'assNumericGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.assNumericGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
       1 => 'iltestexpresspageobjectgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjquestionpoolgui',
       1 => 'ilobjtestgui',
       2 => 'ilquestioneditgui',
       3 => 'iltestexpresspageobjectgui',
     ),
   ),
-  'assorderinghorizontalgui' => 
-  array (
+  'assorderinghorizontalgui' =>
+  array(
     'cid' => '1n',
     'class_name' => 'assOrderingHorizontalGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.assOrderingHorizontalGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpropertyformgui',
       1 => 'ilformpropertydispatchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjquestionpoolgui',
       1 => 'ilobjtestgui',
       2 => 'ilquestioneditgui',
     ),
   ),
-  'assorderingquestiongui' => 
-  array (
+  'assorderingquestiongui' =>
+  array(
     'cid' => '1o',
     'class_name' => 'assOrderingQuestionGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.assOrderingQuestionGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
       1 => 'iltestexpresspageobjectgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjquestionpoolgui',
       1 => 'ilobjtestgui',
       2 => 'ilquestioneditgui',
       3 => 'iltestexpresspageobjectgui',
     ),
   ),
-  'asssinglechoicegui' => 
-  array (
+  'asssinglechoicegui' =>
+  array(
     'cid' => '1q',
     'class_name' => 'assSingleChoiceGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.assSingleChoiceGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
       1 => 'iltestexpresspageobjectgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjquestionpoolgui',
       1 => 'ilobjtestgui',
       2 => 'ilquestioneditgui',
       3 => 'iltestexpresspageobjectgui',
     ),
   ),
-  'asstextquestiongui' => 
-  array (
+  'asstextquestiongui' =>
+  array(
     'cid' => '1r',
     'class_name' => 'assTextQuestionGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.assTextQuestionGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
       1 => 'iltestexpresspageobjectgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjquestionpoolgui',
       1 => 'ilobjtestgui',
       2 => 'ilquestioneditgui',
       3 => 'iltestexpresspageobjectgui',
     ),
   ),
-  'asstextsubsetgui' => 
-  array (
+  'asstextsubsetgui' =>
+  array(
     'cid' => '1s',
     'class_name' => 'assTextSubsetGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.assTextSubsetGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
       1 => 'iltestexpresspageobjectgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjquestionpoolgui',
       1 => 'ilobjtestgui',
       2 => 'ilquestioneditgui',
       3 => 'iltestexpresspageobjectgui',
     ),
   ),
-  'iladnnotificationgui' => 
-  array (
+  'iladnnotificationgui' =>
+  array(
     'cid' => '1x',
     'class_name' => 'ilADNNotificationGUI',
     'class_path' => './components/ILIAS/AdministrativeNotification/classes/class.ilADNNotificationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjadministrativenotificationgui',
       1 => 'ilobjadministrativenotificationgui',
     ),
   ),
-  'ilaccessibilitycontrolconceptgui' => 
-  array (
+  'ilaccessibilitycontrolconceptgui' =>
+  array(
     'cid' => '23',
     'class_name' => 'ilAccessibilityControlConceptGUI',
     'class_path' => './components/ILIAS/Accessibility/classes/class.ilAccessibilityControlConceptGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilstartupgui',
     ),
   ),
-  'ilaccessibilitydocumentgui' => 
-  array (
+  'ilaccessibilitydocumentgui' =>
+  array(
     'cid' => '26',
     'class_name' => 'ilAccessibilityDocumentGUI',
     'class_path' => './components/ILIAS/Accessibility/classes/Document/class.ilAccessibilityDocumentGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjaccessibilitysettingsgui',
     ),
   ),
-  'ilaccessibilitysupportcontactsgui' => 
-  array (
+  'ilaccessibilitysupportcontactsgui' =>
+  array(
     'cid' => '28',
     'class_name' => 'ilAccessibilitySupportContactsGUI',
     'class_path' => './components/ILIAS/SystemFolder/classes/class.ilAccessibilitySupportContactsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'ilaccordionpropertiesstoragegui' => 
-  array (
+  'ilaccordionpropertiesstoragegui' =>
+  array(
     'cid' => '2c',
     'class_name' => 'ilAccordionPropertiesStorageGUI',
     'class_path' => './components/ILIAS/Accordion/classes/class.ilAccordionPropertiesStorageGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'ilaccountregistrationgui' => 
-  array (
+  'ilaccountregistrationgui' =>
+  array(
     'cid' => '2d',
     'class_name' => 'ilAccountRegistrationGUI',
     'class_path' => './components/ILIAS/Registration/classes/class.ilAccountRegistrationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilstartupgui',
     ),
   ),
-  'ilachievementsgui' => 
-  array (
+  'ilachievementsgui' =>
+  array(
     'cid' => '2e',
     'class_name' => 'ilAchievementsGUI',
     'class_path' => './components/ILIAS/Dashboard/Achievements/classes/class.ilAchievementsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'illearningprogressgui',
       1 => 'ilpersonalskillsgui',
       2 => 'ilbadgeprofilegui',
       3 => 'illearninghistorygui',
       4 => 'ilusercertificategui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ildashboardgui',
     ),
   ),
-  'iladministrationgui' => 
-  array (
+  'iladministrationgui' =>
+  array(
     'cid' => '2i',
     'class_name' => 'ilAdministrationGUI',
     'class_path' => './components/ILIAS/Administration/classes/class.ilAdministrationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjgroupgui',
       1 => 'ilobjfoldergui',
       2 => 'ilobjfilegui',
@@ -643,46 +645,46 @@
       125 => 'ilobjwikigui',
       126 => 'ilobjwikisettingsgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'iladvancedmdrecordtranslationgui' => 
-  array (
+  'iladvancedmdrecordtranslationgui' =>
+  array(
     'cid' => '2q',
     'class_name' => 'ilAdvancedMDRecordTranslationGUI',
     'class_path' => './components/ILIAS/AdvancedMetaData/classes/Translation/class.ilAdvancedMDRecordTranslationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladvancedmdsettingsgui',
     ),
   ),
-  'iladvancedmdsettingsgui' => 
-  array (
+  'iladvancedmdsettingsgui' =>
+  array(
     'cid' => '2r',
     'class_name' => 'ilAdvancedMDSettingsGUI',
     'class_path' => './components/ILIAS/AdvancedMetaData/classes/class.ilAdvancedMDSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpropertyformgui',
       1 => 'iladvancedmdrecordtranslationgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjmdsettingsgui',
       1 => 'ilobjectmetadatagui',
     ),
   ),
-  'iladvancedsearchgui' => 
-  array (
+  'iladvancedsearchgui' =>
+  array(
     'cid' => '2t',
     'class_name' => 'ilAdvancedSearchGUI',
     'class_path' => './components/ILIAS/Search/classes/class.ilAdvancedSearchGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjectgui',
       1 => 'ilcontainergui',
       2 => 'ilobjcategorygui',
@@ -693,148 +695,148 @@
       7 => 'ilobjectcopygui',
       8 => 'ilpropertyformgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilsearchcontrollergui',
     ),
   ),
-  'ilappointmentpresentationbookingpoolgui' => 
-  array (
+  'ilappointmentpresentationbookingpoolgui' =>
+  array(
     'cid' => '2y',
     'class_name' => 'ilAppointmentPresentationBookingPoolGUI',
     'class_path' => './components/ILIAS/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationBookingPoolGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcalendarappointmentpresentationgui',
     ),
   ),
-  'ilappointmentpresentationconsultationhoursgui' => 
-  array (
+  'ilappointmentpresentationconsultationhoursgui' =>
+  array(
     'cid' => '2z',
     'class_name' => 'ilAppointmentPresentationConsultationHoursGUI',
     'class_path' => './components/ILIAS/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationConsultationHoursGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcalendarappointmentpresentationgui',
     ),
   ),
-  'ilappointmentpresentationcoursegui' => 
-  array (
+  'ilappointmentpresentationcoursegui' =>
+  array(
     'cid' => '30',
     'class_name' => 'ilAppointmentPresentationCourseGUI',
     'class_path' => './components/ILIAS/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationCourseGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcalendarappointmentpresentationgui',
     ),
   ),
-  'ilappointmentpresentationemployeetalkgui' => 
-  array (
+  'ilappointmentpresentationemployeetalkgui' =>
+  array(
     'cid' => '31',
     'class_name' => 'ilAppointmentPresentationEmployeeTalkGUI',
     'class_path' => './components/ILIAS/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationEmployeeTalkGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcalendarappointmentpresentationgui',
     ),
   ),
-  'ilappointmentpresentationexercisegui' => 
-  array (
+  'ilappointmentpresentationexercisegui' =>
+  array(
     'cid' => '32',
     'class_name' => 'ilAppointmentPresentationExerciseGUI',
     'class_path' => './components/ILIAS/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationExerciseGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcalendarappointmentpresentationgui',
     ),
   ),
-  'ilappointmentpresentationgui' => 
-  array (
+  'ilappointmentpresentationgui' =>
+  array(
     'cid' => '33',
     'class_name' => 'ilAppointmentPresentationGUI',
     'class_path' => './components/ILIAS/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcalendarappointmentpresentationgui',
     ),
   ),
-  'ilappointmentpresentationgroupgui' => 
-  array (
+  'ilappointmentpresentationgroupgui' =>
+  array(
     'cid' => '34',
     'class_name' => 'ilAppointmentPresentationGroupGUI',
     'class_path' => './components/ILIAS/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationGroupGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcalendarappointmentpresentationgui',
     ),
   ),
-  'ilappointmentpresentationpublicgui' => 
-  array (
+  'ilappointmentpresentationpublicgui' =>
+  array(
     'cid' => '35',
     'class_name' => 'ilAppointmentPresentationPublicGUI',
     'class_path' => './components/ILIAS/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationPublicGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcalendarappointmentpresentationgui',
     ),
   ),
-  'ilappointmentpresentationsessiongui' => 
-  array (
+  'ilappointmentpresentationsessiongui' =>
+  array(
     'cid' => '36',
     'class_name' => 'ilAppointmentPresentationSessionGUI',
     'class_path' => './components/ILIAS/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationSessionGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcalendarappointmentpresentationgui',
     ),
   ),
-  'ilappointmentpresentationusergui' => 
-  array (
+  'ilappointmentpresentationusergui' =>
+  array(
     'cid' => '37',
     'class_name' => 'ilAppointmentPresentationUserGUI',
     'class_path' => './components/ILIAS/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationUserGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcalendarappointmentpresentationgui',
     ),
   ),
-  'ilassgenfeedbackpagegui' => 
-  array (
+  'ilassgenfeedbackpagegui' =>
+  array(
     'cid' => '3b',
     'class_name' => 'ilAssGenFeedbackPageGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/feedback/class.ilAssGenFeedbackPageGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpageeditorgui',
       1 => 'ileditclipboardgui',
       2 => 'ilmdeditorgui',
@@ -843,8 +845,8 @@
       5 => 'ilpropertyformgui',
       6 => 'ilinternallinkgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilassquestionfeedbackeditinggui',
       1 => 'ilassquestionpreviewgui',
       2 => 'illmpageobjectgui',
@@ -857,13 +859,13 @@
       9 => 'iltestplayerrandomquestionsetgui',
     ),
   ),
-  'ilasshintpagegui' => 
-  array (
+  'ilasshintpagegui' =>
+  array(
     'cid' => '3c',
     'class_name' => 'ilAssHintPageGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilAssHintPageGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpageeditorgui',
       1 => 'ileditclipboardgui',
       2 => 'ilmdeditorgui',
@@ -872,104 +874,104 @@
       5 => 'ilpropertyformgui',
       6 => 'ilinternallinkgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilassquestionhintgui',
       1 => 'ilassquestionhintrequestgui',
       2 => 'ilassquestionhintsgui',
     ),
   ),
-  'ilassquestionfeedbackeditinggui' => 
-  array (
+  'ilassquestionfeedbackeditinggui' =>
+  array(
     'cid' => '3m',
     'class_name' => 'ilAssQuestionFeedbackEditingGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilassgenfeedbackpagegui',
       1 => 'ilassspecfeedbackpagegui',
       2 => 'ilpropertyformgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'illmpagegui',
       1 => 'ilobjquestionpoolgui',
       2 => 'ilobjtestgui',
     ),
   ),
-  'ilassquestionhintgui' => 
-  array (
+  'ilassquestionhintgui' =>
+  array(
     'cid' => '3o',
     'class_name' => 'ilAssQuestionHintGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilAssQuestionHintGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilasshintpagegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilassquestionhintsgui',
     ),
   ),
-  'ilassquestionhintrequestgui' => 
-  array (
+  'ilassquestionhintrequestgui' =>
+  array(
     'cid' => '3p',
     'class_name' => 'ilAssQuestionHintRequestGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilassquestionhintstablegui',
       1 => 'ilconfirmationgui',
       2 => 'ilpropertyformgui',
       3 => 'ilasshintpagegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilassquestionpreviewgui',
       1 => 'iltestplayerfixedquestionsetgui',
       2 => 'iltestplayerrandomquestionsetgui',
     ),
   ),
-  'ilassquestionhintsgui' => 
-  array (
+  'ilassquestionhintsgui' =>
+  array(
     'cid' => '3q',
     'class_name' => 'ilAssQuestionHintsGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilAssQuestionHintsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilassquestionhintgui',
       1 => 'ilassquestionhintstablegui',
       2 => 'ilasshintpagegui',
       3 => 'iltoolbargui',
       4 => 'ilconfirmationgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjquestionpoolgui',
       1 => 'ilobjtestgui',
     ),
   ),
-  'ilassquestionhintstablegui' => 
-  array (
+  'ilassquestionhintstablegui' =>
+  array(
     'cid' => '3r',
     'class_name' => 'ilAssQuestionHintsTableGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilAssQuestionHintsTableGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilassquestionhintrequestgui',
       1 => 'ilassquestionhintsgui',
     ),
   ),
-  'ilassquestionpagegui' => 
-  array (
+  'ilassquestionpagegui' =>
+  array(
     'cid' => '3s',
     'class_name' => 'ilAssQuestionPageGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpageeditorgui',
       1 => 'ileditclipboardgui',
       2 => 'ilmdeditorgui',
@@ -978,8 +980,8 @@
       5 => 'ilpropertyformgui',
       6 => 'ilinternallinkgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilassquestionskillassignmentsgui',
       1 => 'ilmytestresultsgui',
       2 => 'ilmytestsolutionsgui',
@@ -993,13 +995,13 @@
       10 => 'iltestplayerrandomquestionsetgui',
     ),
   ),
-  'ilassquestionpreviewgui' => 
-  array (
+  'ilassquestionpreviewgui' =>
+  array(
     'cid' => '3t',
     'class_name' => 'ilAssQuestionPreviewGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilAssQuestionPreviewGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilassquestionpreviewtoolbargui',
       1 => 'ilassquestionrelatednavigationbargui',
       2 => 'ilassquestionhintrequestgui',
@@ -1007,58 +1009,58 @@
       4 => 'ilassspecfeedbackpagegui',
       5 => 'ilnotegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjquestionpoolgui',
       1 => 'ilobjtestgui',
     ),
   ),
-  'ilassquestionpreviewtoolbargui' => 
-  array (
+  'ilassquestionpreviewtoolbargui' =>
+  array(
     'cid' => '3u',
     'class_name' => 'ilAssQuestionPreviewToolbarGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilAssQuestionPreviewToolbarGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilassquestionpreviewgui',
     ),
   ),
-  'ilassquestionrelatednavigationbargui' => 
-  array (
+  'ilassquestionrelatednavigationbargui' =>
+  array(
     'cid' => '3v',
     'class_name' => 'ilAssQuestionRelatedNavigationBarGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilAssQuestionRelatedNavigationBarGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilassquestionpreviewgui',
     ),
   ),
-  'ilassquestionskillassignmentpropertyformgui' => 
-  array (
+  'ilassquestionskillassignmentpropertyformgui' =>
+  array(
     'cid' => '3w',
     'class_name' => 'ilAssQuestionSkillAssignmentPropertyFormGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/forms/class.ilAssQuestionSkillAssignmentPropertyFormGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilassquestionskillassignmentsgui',
     ),
   ),
-  'ilassquestionskillassignmentsgui' => 
-  array (
+  'ilassquestionskillassignmentsgui' =>
+  array(
     'cid' => '3x',
     'class_name' => 'ilAssQuestionSkillAssignmentsGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilassquestionskillassignmentstablegui',
       1 => 'ilskillselectorgui',
       2 => 'iltoolbargui',
@@ -1066,45 +1068,45 @@
       4 => 'ilassquestionpagegui',
       5 => 'ilconfirmationgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilquestionpoolskilladministrationgui',
       1 => 'iltestskilladministrationgui',
     ),
   ),
-  'ilassquestionskillassignmentstablegui' => 
-  array (
+  'ilassquestionskillassignmentstablegui' =>
+  array(
     'cid' => '3y',
     'class_name' => 'ilAssQuestionSkillAssignmentsTableGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/tables/class.ilAssQuestionSkillAssignmentsTableGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilassquestionskillassignmentsgui',
     ),
   ),
-  'ilassquestionskillusagestablegui' => 
-  array (
+  'ilassquestionskillusagestablegui' =>
+  array(
     'cid' => '3z',
     'class_name' => 'ilAssQuestionSkillUsagesTableGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilAssQuestionSkillUsagesTableGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilquestionpoolskilladministrationgui',
     ),
   ),
-  'ilassspecfeedbackpagegui' => 
-  array (
+  'ilassspecfeedbackpagegui' =>
+  array(
     'cid' => '41',
     'class_name' => 'ilAssSpecFeedbackPageGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/feedback/class.ilAssSpecFeedbackPageGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpageeditorgui',
       1 => 'ileditclipboardgui',
       2 => 'ilmdeditorgui',
@@ -1113,8 +1115,8 @@
       5 => 'ilpropertyformgui',
       6 => 'ilinternallinkgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilassquestionfeedbackeditinggui',
       1 => 'ilassquestionpreviewgui',
       2 => 'ilmytestresultsgui',
@@ -1124,242 +1126,242 @@
       6 => 'iltestplayerrandomquestionsetgui',
     ),
   ),
-  'ilassignmentpresentationgui' => 
-  array (
+  'ilassignmentpresentationgui' =>
+  array(
     'cid' => '45',
     'class_name' => 'ilAssignmentPresentationGUI',
     'class_path' => './components/ILIAS/Exercise/Assignment/class.ilAssignmentPresentationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilexsubmissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjexercisegui',
     ),
   ),
-  'ilauthloginpageeditorgui' => 
-  array (
+  'ilauthloginpageeditorgui' =>
+  array(
     'cid' => '49',
     'class_name' => 'ilAuthLoginPageEditorGUI',
     'class_path' => './components/ILIAS/Authentication/classes/class.ilAuthLoginPageEditorGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'illoginpagegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjauthsettingsgui',
     ),
   ),
-  'ilauthshibbolethsettingsgui' => 
-  array (
+  'ilauthshibbolethsettingsgui' =>
+  array(
     'cid' => '4b',
     'class_name' => 'ilAuthShibbolethSettingsGUI',
     'class_path' => './components/ILIAS/AuthShibboleth/classes/class.ilAuthShibbolethSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjauthsettingsgui',
     ),
   ),
-  'ilawarenessgui' => 
-  array (
+  'ilawarenessgui' =>
+  array(
     'cid' => '4d',
     'class_name' => 'ilAwarenessGUI',
     'class_path' => './components/ILIAS/Awareness/classes/class.ilAwarenessGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'ilbtcontrollergui' => 
-  array (
+  'ilbtcontrollergui' =>
+  array(
     'cid' => '4e',
     'class_name' => 'ilBTControllerGUI',
     'class_path' => './components/ILIAS/BackgroundTasks_/classes/class.ilBTControllerGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'ilbadgemanagementgui' => 
-  array (
+  'ilbadgemanagementgui' =>
+  array(
     'cid' => '4j',
     'class_name' => 'ilBadgeManagementGUI',
     'class_path' => './components/ILIAS/Badge/classes/class.ilBadgeManagementGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpropertyformgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjbadgeadministrationgui',
       1 => 'ilobjcoursegui',
       2 => 'ilobjgroupgui',
     ),
   ),
-  'ilbadgeprofilegui' => 
-  array (
+  'ilbadgeprofilegui' =>
+  array(
     'cid' => '4l',
     'class_name' => 'ilBadgeProfileGUI',
     'class_path' => './components/ILIAS/Badge/classes/class.ilBadgeProfileGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilachievementsgui',
     ),
   ),
-  'ilbasicskillgui' => 
-  array (
+  'ilbasicskillgui' =>
+  array(
     'cid' => '4q',
     'class_name' => 'ilBasicSkillGUI',
     'class_path' => './components/ILIAS/Skill/Node/class.ilBasicSkillGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjskillmanagementgui',
       1 => 'ilobjskilltreegui',
     ),
   ),
-  'ilbasicskilltemplategui' => 
-  array (
+  'ilbasicskilltemplategui' =>
+  array(
     'cid' => '4r',
     'class_name' => 'ilBasicSkillTemplateGUI',
     'class_path' => './components/ILIAS/Skill/Node/class.ilBasicSkillTemplateGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjskillmanagementgui',
       1 => 'ilobjskilltreegui',
     ),
   ),
-  'ilbibladminbibtexfieldgui' => 
-  array (
+  'ilbibladminbibtexfieldgui' =>
+  array(
     'cid' => '4t',
     'class_name' => 'ilBiblAdminBibtexFieldGUI',
     'class_path' => './components/ILIAS/Bibliographic/classes/Field/class.ilBiblAdminBibtexFieldGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilbibltranslationgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjbibliographicadmingui',
     ),
   ),
-  'ilbibladminfieldgui' => 
-  array (
+  'ilbibladminfieldgui' =>
+  array(
     'cid' => '4u',
     'class_name' => 'ilBiblAdminFieldGUI',
     'class_path' => './components/ILIAS/Bibliographic/classes/Field/class.ilBiblAdminFieldGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjbibliographicadmingui',
     ),
   ),
-  'ilbibladminrisfieldgui' => 
-  array (
+  'ilbibladminrisfieldgui' =>
+  array(
     'cid' => '4w',
     'class_name' => 'ilBiblAdminRisFieldGUI',
     'class_path' => './components/ILIAS/Bibliographic/classes/Field/class.ilBiblAdminRisFieldGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilbibltranslationgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjbibliographicadmingui',
     ),
   ),
-  'ilbiblentrytablegui' => 
-  array (
+  'ilbiblentrytablegui' =>
+  array(
     'cid' => '4y',
     'class_name' => 'ilBiblEntryTableGUI',
     'class_path' => './components/ILIAS/Bibliographic/classes/Entry/class.ilBiblEntryTableGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjbibliographicgui',
     ),
   ),
-  'ilbiblfieldfiltergui' => 
-  array (
+  'ilbiblfieldfiltergui' =>
+  array(
     'cid' => '51',
     'class_name' => 'ilBiblFieldFilterGUI',
     'class_path' => './components/ILIAS/Bibliographic/classes/FieldFilter/class.ilBiblFieldFilterGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjbibliographicgui',
     ),
   ),
-  'ilbibllibrarygui' => 
-  array (
+  'ilbibllibrarygui' =>
+  array(
     'cid' => '55',
     'class_name' => 'ilBiblLibraryGUI',
     'class_path' => './components/ILIAS/Bibliographic/classes/Admin/Library/class.ilBiblLibraryGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjbibliographicadmingui',
     ),
   ),
-  'ilbibltranslationgui' => 
-  array (
+  'ilbibltranslationgui' =>
+  array(
     'cid' => '58',
     'class_name' => 'ilBiblTranslationGUI',
     'class_path' => './components/ILIAS/Bibliographic/classes/Translation/class.ilBiblTranslationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilbibladminbibtexfieldgui',
       1 => 'ilbibladminrisfieldgui',
     ),
   ),
-  'ilblogexercisegui' => 
-  array (
+  'ilblogexercisegui' =>
+  array(
     'cid' => '5c',
     'class_name' => 'ilBlogExerciseGUI',
     'class_path' => './components/ILIAS/Blog/Exercise/class.ilBlogExerciseGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjbloggui',
     ),
   ),
-  'ilblogpostinggui' => 
-  array (
+  'ilblogpostinggui' =>
+  array(
     'cid' => '5e',
     'class_name' => 'ilBlogPostingGUI',
     'class_path' => './components/ILIAS/Blog/Posting/class.ilBlogPostingGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpageeditorgui',
       1 => 'ileditclipboardgui',
       2 => 'ilratinggui',
@@ -1367,210 +1369,210 @@
       4 => 'ilpageobjectgui',
       5 => 'ilnotegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjbloggui',
       1 => 'ilportfoliopagegui',
     ),
   ),
-  'ilbookbulkcreationgui' => 
-  array (
+  'ilbookbulkcreationgui' =>
+  array(
     'cid' => '5f',
     'class_name' => 'ilBookBulkCreationGUI',
     'class_path' => './components/ILIAS/BookingManager/Objects/class.ilBookBulkCreationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilbookingobjectgui',
     ),
   ),
-  'ilbookinggatewaygui' => 
-  array (
+  'ilbookinggatewaygui' =>
+  array(
     'cid' => '5j',
     'class_name' => 'ilBookingGatewayGUI',
     'class_path' => './components/ILIAS/BookingManager/BookingService/class.ilBookingGatewayGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpropertyformgui',
       1 => 'ilbookingobjectservicegui',
       2 => 'ilbookingreservationsgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjcoursegui',
       1 => 'ilobjsessiongui',
     ),
   ),
-  'ilbookingobjectgui' => 
-  array (
+  'ilbookingobjectgui' =>
+  array(
     'cid' => '5k',
     'class_name' => 'ilBookingObjectGUI',
     'class_path' => './components/ILIAS/BookingManager/Objects/class.ilBookingObjectGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpropertyformgui',
       1 => 'ilbookingprocesswithschedulegui',
       2 => 'ilbookingprocesswithoutschedulegui',
       3 => 'ilbookbulkcreationgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjbookingpoolgui',
     ),
   ),
-  'ilbookingobjectservicegui' => 
-  array (
+  'ilbookingobjectservicegui' =>
+  array(
     'cid' => '5l',
     'class_name' => 'ilBookingObjectServiceGUI',
     'class_path' => './components/ILIAS/BookingManager/BookingService/class.ilBookingObjectServiceGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpropertyformgui',
       1 => 'ilbookingprocesswithschedulegui',
       2 => 'ilbookingprocesswithoutschedulegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilbookinggatewaygui',
     ),
   ),
-  'ilbookingparticipantgui' => 
-  array (
+  'ilbookingparticipantgui' =>
+  array(
     'cid' => '5n',
     'class_name' => 'ilBookingParticipantGUI',
     'class_path' => './components/ILIAS/BookingManager/Participants/class.ilBookingParticipantGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilrepositorysearchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjbookingpoolgui',
     ),
   ),
-  'ilbookingpreferencesgui' => 
-  array (
+  'ilbookingpreferencesgui' =>
+  array(
     'cid' => '5p',
     'class_name' => 'ilBookingPreferencesGUI',
     'class_path' => './components/ILIAS/BookingManager/Preferences/class.ilBookingPreferencesGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjbookingpoolgui',
     ),
   ),
-  'ilbookingprocesswithschedulegui' => 
-  array (
+  'ilbookingprocesswithschedulegui' =>
+  array(
     'cid' => '5q',
     'class_name' => 'ilBookingProcessWithScheduleGUI',
     'class_path' => './components/ILIAS/BookingManager/BookingProcess/class.ilBookingProcessWithScheduleGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilbookingobjectgui',
       1 => 'ilbookingobjectservicegui',
     ),
   ),
-  'ilbookingprocesswithoutschedulegui' => 
-  array (
+  'ilbookingprocesswithoutschedulegui' =>
+  array(
     'cid' => '5r',
     'class_name' => 'ilBookingProcessWithoutScheduleGUI',
     'class_path' => './components/ILIAS/BookingManager/BookingProcess/class.ilBookingProcessWithoutScheduleGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilbookingobjectgui',
       1 => 'ilbookingobjectservicegui',
     ),
   ),
-  'ilbookingreservationsgui' => 
-  array (
+  'ilbookingreservationsgui' =>
+  array(
     'cid' => '5s',
     'class_name' => 'ilBookingReservationsGUI',
     'class_path' => './components/ILIAS/BookingManager/Reservations/class.ilBookingReservationsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilbookinggatewaygui',
       1 => 'ilobjbookingpoolgui',
     ),
   ),
-  'ilbookingschedulegui' => 
-  array (
+  'ilbookingschedulegui' =>
+  array(
     'cid' => '5u',
     'class_name' => 'ilBookingScheduleGUI',
     'class_path' => './components/ILIAS/BookingManager/Schedule/class.ilBookingScheduleGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjbookingpoolgui',
     ),
   ),
-  'ilbuddysystemgui' => 
-  array (
+  'ilbuddysystemgui' =>
+  array(
     'cid' => '5w',
     'class_name' => 'ilBuddySystemGUI',
     'class_path' => './components/ILIAS/Contact/BuddySystem/classes/class.ilBuddySystemGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iluipluginroutergui',
       1 => 'ilpublicuserprofilegui',
       2 => 'ilmailsearchcoursesgui',
       3 => 'ilmailsearchgroupsgui',
     ),
   ),
-  'ilcassettingsgui' => 
-  array (
+  'ilcassettingsgui' =>
+  array(
     'cid' => '5y',
     'class_name' => 'ilCASSettingsGUI',
     'class_path' => './components/ILIAS/CAS/classes/class.ilCASSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjauthsettingsgui',
     ),
   ),
-  'ilcalendaragendalistgui' => 
-  array (
+  'ilcalendaragendalistgui' =>
+  array(
     'cid' => '60',
     'class_name' => 'ilCalendarAgendaListGUI',
     'class_path' => './components/ILIAS/Calendar/classes/Agenda/class.ilCalendarAgendaListGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilcalendarappointmentpresentationgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcalendarinboxgui',
     ),
   ),
-  'ilcalendarappointmentgui' => 
-  array (
+  'ilcalendarappointmentgui' =>
+  array(
     'cid' => '61',
     'class_name' => 'ilCalendarAppointmentGUI',
     'class_path' => './components/ILIAS/Calendar/classes/class.ilCalendarAppointmentGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcalendarappointmentpresentationgui',
       1 => 'ilcalendarblockgui',
       2 => 'ilcalendarcategorygui',
@@ -1582,13 +1584,13 @@
       8 => 'ilpdcalendarblockgui',
     ),
   ),
-  'ilcalendarappointmentpresentationgui' => 
-  array (
+  'ilcalendarappointmentpresentationgui' =>
+  array(
     'cid' => '63',
     'class_name' => 'ilCalendarAppointmentPresentationGUI',
     'class_path' => './components/ILIAS/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilinfoscreengui',
       1 => 'ilcalendarappointmentgui',
       2 => 'ilappointmentpresentationbookingpoolgui',
@@ -1602,8 +1604,8 @@
       10 => 'ilappointmentpresentationsessiongui',
       11 => 'ilappointmentpresentationusergui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcalendaragendalistgui',
       1 => 'ilcalendarblockgui',
       2 => 'ilcalendardaygui',
@@ -1612,13 +1614,13 @@
       5 => 'ilpdcalendarblockgui',
     ),
   ),
-  'ilcalendarblockgui' => 
-  array (
+  'ilcalendarblockgui' =>
+  array(
     'cid' => '65',
     'class_name' => 'ilCalendarBlockGUI',
     'class_path' => './components/ILIAS/Calendar/classes/class.ilCalendarBlockGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilcalendarappointmentgui',
       1 => 'ilcalendarmonthgui',
       2 => 'ilcalendarweekgui',
@@ -1626,72 +1628,72 @@
       4 => 'ilconsultationhoursgui',
       5 => 'ilcalendarappointmentpresentationgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcolumngui',
       1 => 'ilcalendarpresentationgui',
     ),
   ),
-  'ilcalendarcategorygui' => 
-  array (
+  'ilcalendarcategorygui' =>
+  array(
     'cid' => '66',
     'class_name' => 'ilCalendarCategoryGUI',
     'class_path' => './components/ILIAS/Calendar/classes/class.ilCalendarCategoryGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilcalendarappointmentgui',
       1 => 'ilcalendarselectionblockgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcalendarpresentationgui',
     ),
   ),
-  'ilcalendardaygui' => 
-  array (
+  'ilcalendardaygui' =>
+  array(
     'cid' => '68',
     'class_name' => 'ilCalendarDayGUI',
     'class_path' => './components/ILIAS/Calendar/classes/class.ilCalendarDayGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilcalendarappointmentgui',
       1 => 'ilcalendarappointmentpresentationgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcalendarblockgui',
       1 => 'ilcalendarpresentationgui',
       2 => 'ilpdcalendarblockgui',
     ),
   ),
-  'ilcalendarinboxgui' => 
-  array (
+  'ilcalendarinboxgui' =>
+  array(
     'cid' => '6a',
     'class_name' => 'ilCalendarInboxGUI',
     'class_path' => './components/ILIAS/Calendar/classes/class.ilCalendarInboxGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilcalendarappointmentgui',
       1 => 'ilcalendaragendalistgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcalendarpresentationgui',
       1 => 'ilpdcalendarblockgui',
     ),
   ),
-  'ilcalendarmonthgui' => 
-  array (
+  'ilcalendarmonthgui' =>
+  array(
     'cid' => '6d',
     'class_name' => 'ilCalendarMonthGUI',
     'class_path' => './components/ILIAS/Calendar/classes/class.ilCalendarMonthGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilcalendarappointmentgui',
       1 => 'ilcalendarappointmentpresentationgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcalendarblockgui',
       1 => 'ilcalendarpresentationgui',
       2 => 'ilpdcalendarblockgui',
@@ -1699,13 +1701,13 @@
       4 => 'ilportfoliotemplatepagegui',
     ),
   ),
-  'ilcalendarpresentationgui' => 
-  array (
+  'ilcalendarpresentationgui' =>
+  array(
     'cid' => '6e',
     'class_name' => 'ilCalendarPresentationGUI',
     'class_path' => './components/ILIAS/Calendar/classes/class.ilCalendarPresentationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilcalendarmonthgui',
       1 => 'ilcalendarusersettingsgui',
       2 => 'ilcalendarcategorygui',
@@ -1719,80 +1721,80 @@
       10 => 'ilpdcalendarblockgui',
       11 => 'ilpublicuserprofilegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ildashboardgui',
       1 => 'ilobjcoursegui',
       2 => 'ilobjgroupgui',
     ),
   ),
-  'ilcalendarselectionblockgui' => 
-  array (
+  'ilcalendarselectionblockgui' =>
+  array(
     'cid' => '6g',
     'class_name' => 'ilCalendarSelectionBlockGUI',
     'class_path' => './components/ILIAS/Calendar/classes/class.ilCalendarSelectionBlockGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcalendarcategorygui',
     ),
   ),
-  'ilcalendarsubscriptiongui' => 
-  array (
+  'ilcalendarsubscriptiongui' =>
+  array(
     'cid' => '6k',
     'class_name' => 'ilCalendarSubscriptionGUI',
     'class_path' => './components/ILIAS/Calendar/classes/class.ilCalendarSubscriptionGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcalendarpresentationgui',
     ),
   ),
-  'ilcalendarusersettingsgui' => 
-  array (
+  'ilcalendarusersettingsgui' =>
+  array(
     'cid' => '6l',
     'class_name' => 'ilCalendarUserSettingsGUI',
     'class_path' => './components/ILIAS/Calendar/classes/class.ilCalendarUserSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcalendarpresentationgui',
     ),
   ),
-  'ilcalendarweekgui' => 
-  array (
+  'ilcalendarweekgui' =>
+  array(
     'cid' => '6n',
     'class_name' => 'ilCalendarWeekGUI',
     'class_path' => './components/ILIAS/Calendar/classes/class.ilCalendarWeekGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilcalendarappointmentgui',
       1 => 'ilcalendarappointmentpresentationgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcalendarblockgui',
       1 => 'ilcalendarpresentationgui',
       2 => 'ilpdcalendarblockgui',
     ),
   ),
-  'ilcertificategui' => 
-  array (
+  'ilcertificategui' =>
+  array(
     'cid' => '6q',
     'class_name' => 'ilCertificateGUI',
     'class_path' => './components/ILIAS/Certificate/classes/class.ilCertificateGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpropertyformgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcmixapisettingsgui',
       1 => 'illticonsumersettingsgui',
       2 => 'ilobjcoursegui',
@@ -1803,118 +1805,118 @@
       7 => 'ilobjtestgui',
     ),
   ),
-  'ilchatroomauthinputgui' => 
-  array (
+  'ilchatroomauthinputgui' =>
+  array(
     'cid' => '6t',
     'class_name' => 'ilChatroomAuthInputGUI',
     'class_path' => './components/ILIAS/Chatroom/classes/class.ilChatroomAuthInputGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilformpropertydispatchgui',
     ),
   ),
-  'ilclassificationblockgui' => 
-  array (
+  'ilclassificationblockgui' =>
+  array(
     'cid' => '78',
     'class_name' => 'ilClassificationBlockGUI',
     'class_path' => './components/ILIAS/Container/Classification/class.ilClassificationBlockGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcolumngui',
     ),
   ),
-  'ilcmixapiexportgui' => 
-  array (
+  'ilcmixapiexportgui' =>
+  array(
     'cid' => '7c',
     'class_name' => 'ilCmiXapiExportGUI',
     'class_path' => './components/ILIAS/CmiXapi/classes/class.ilCmiXapiExportGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjcmixapigui',
     ),
   ),
-  'ilcmixapilaunchgui' => 
-  array (
+  'ilcmixapilaunchgui' =>
+  array(
     'cid' => '7d',
     'class_name' => 'ilCmiXapiLaunchGUI',
     'class_path' => './components/ILIAS/CmiXapi/classes/class.ilCmiXapiLaunchGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjcmixapigui',
     ),
   ),
-  'ilcmixapiregistrationgui' => 
-  array (
+  'ilcmixapiregistrationgui' =>
+  array(
     'cid' => '7f',
     'class_name' => 'ilCmiXapiRegistrationGUI',
     'class_path' => './components/ILIAS/CmiXapi/classes/class.ilCmiXapiRegistrationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjcmixapigui',
     ),
   ),
-  'ilcmixapiscoringgui' => 
-  array (
+  'ilcmixapiscoringgui' =>
+  array(
     'cid' => '7g',
     'class_name' => 'ilCmiXapiScoringGUI',
     'class_path' => './components/ILIAS/CmiXapi/classes/class.ilCmiXapiScoringGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjcmixapigui',
     ),
   ),
-  'ilcmixapisettingsgui' => 
-  array (
+  'ilcmixapisettingsgui' =>
+  array(
     'cid' => '7i',
     'class_name' => 'ilCmiXapiSettingsGUI',
     'class_path' => './components/ILIAS/CmiXapi/classes/class.ilCmiXapiSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilcertificategui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjcmixapigui',
     ),
   ),
-  'ilcmixapistatementsgui' => 
-  array (
+  'ilcmixapistatementsgui' =>
+  array(
     'cid' => '7j',
     'class_name' => 'ilCmiXapiStatementsGUI',
     'class_path' => './components/ILIAS/CmiXapi/classes/class.ilCmiXapiStatementsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjcmixapigui',
     ),
   ),
-  'ilcolumngui' => 
-  array (
+  'ilcolumngui' =>
+  array(
     'cid' => '7n',
     'class_name' => 'ilColumnGUI',
     'class_path' => './components/ILIAS/Block/classes/class.ilColumnGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilcalendarblockgui',
       1 => 'ilclassificationblockgui',
       2 => 'ildashboardblockgui',
@@ -1930,8 +1932,8 @@
       12 => 'ilpollblockgui',
       13 => 'ilselecteditemsblockgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcoursecontentgui',
       1 => 'ildashboardgui',
       2 => 'ilinfoscreengui',
@@ -1950,16 +1952,16 @@
       15 => 'ilobjtalktemplategui',
     ),
   ),
-  'ilcommentgui' => 
-  array (
+  'ilcommentgui' =>
+  array(
     'cid' => '7p',
     'class_name' => 'ilCommentGUI',
     'class_path' => './components/ILIAS/Notes/Comment/class.ilCommentGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilinfoscreengui',
       1 => 'illmpresentationgui',
       2 => 'ilnewstimelinegui',
@@ -1968,21 +1970,21 @@
       5 => 'ilwikipagegui',
     ),
   ),
-  'ilcommonactiondispatchergui' => 
-  array (
+  'ilcommonactiondispatchergui' =>
+  array(
     'cid' => '7q',
     'class_name' => 'ilCommonActionDispatcherGUI',
     'class_path' => './components/ILIAS/Object/classes/class.ilCommonActionDispatcherGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilnotegui',
       1 => 'iltagginggui',
       2 => 'ilobjectactivationgui',
       3 => 'ilratinggui',
       4 => 'ilobjrootfoldergui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ildashboardblockgui',
       1 => 'ildashboardlearningsequencegui',
       2 => 'ilinfoscreengui',
@@ -2047,32 +2049,32 @@
       61 => 'ilwikipagegui',
     ),
   ),
-  'ilconditionhandlergui' => 
-  array (
+  'ilconditionhandlergui' =>
+  array(
     'cid' => '7r',
     'class_name' => 'ilConditionHandlerGUI',
     'class_path' => './components/ILIAS/Conditions/classes/class.ilConditionHandlerGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'illoeditorgui',
       1 => 'ilobjcoursegui',
       2 => 'ilobjectactivationgui',
       3 => 'ilstructureobjectgui',
     ),
   ),
-  'ilconfirmationgui' => 
-  array (
+  'ilconfirmationgui' =>
+  array(
     'cid' => '7t',
     'class_name' => 'ilConfirmationGUI',
     'class_path' => './components/ILIAS/UIComponent/Confirmation/class.ilConfirmationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilassquestionhintrequestgui',
       1 => 'ilassquestionhintsgui',
       2 => 'ilassquestionskillassignmentsgui',
@@ -2082,18 +2084,18 @@
       6 => 'iltestplayerrandomquestionsetgui',
     ),
   ),
-  'ilconsultationhoursgui' => 
-  array (
+  'ilconsultationhoursgui' =>
+  array(
     'cid' => '7x',
     'class_name' => 'ilConsultationHoursGUI',
     'class_path' => './components/ILIAS/Calendar/classes/ConsultationHours/class.ilConsultationHoursGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpublicuserprofilegui',
       1 => 'ilrepositorysearchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcalendarblockgui',
       1 => 'ilcalendarpresentationgui',
       2 => 'ilpdcalendarblockgui',
@@ -2101,91 +2103,91 @@
       4 => 'ilportfoliotemplatepagegui',
     ),
   ),
-  'ilcontskilladmingui' => 
-  array (
+  'ilcontskilladmingui' =>
+  array(
     'cid' => '80',
     'class_name' => 'ilContSkillAdminGUI',
     'class_path' => './components/ILIAS/Container/Skills/classes/class.ilContSkillAdminGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilskillprofilegui',
       1 => 'ilskillprofileuploadhandlergui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcontainerskillgui',
     ),
   ),
-  'ilcontskillpresentationgui' => 
-  array (
+  'ilcontskillpresentationgui' =>
+  array(
     'cid' => '82',
     'class_name' => 'ilContSkillPresentationGUI',
     'class_path' => './components/ILIAS/Container/Skills/classes/class.ilContSkillPresentationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpersonalskillsgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcontainerskillgui',
     ),
   ),
-  'ilcontactgui' => 
-  array (
+  'ilcontactgui' =>
+  array(
     'cid' => '84',
     'class_name' => 'ilContactGUI',
     'class_path' => './components/ILIAS/Contact/classes/class.ilContactGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilmailsearchcoursesgui',
       1 => 'ilmailsearchgroupsgui',
       2 => 'ilmailinglistsgui',
       3 => 'ilusersgallerygui',
       4 => 'ilpublicuserprofilegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ildashboardgui',
       1 => 'ilmailgui',
     ),
   ),
-  'ilcontainerblockpropertiesstoragegui' => 
-  array (
+  'ilcontainerblockpropertiesstoragegui' =>
+  array(
     'cid' => '85',
     'class_name' => 'ilContainerBlockPropertiesStorageGUI',
     'class_path' => './components/ILIAS/Container/Content/class.ilContainerBlockPropertiesStorageGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilcontainerblockpropertiesstoragegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcontainerblockpropertiesstoragegui',
     ),
   ),
-  'ilcontainerfilteradmingui' => 
-  array (
+  'ilcontainerfilteradmingui' =>
+  array(
     'cid' => '88',
     'class_name' => 'ilContainerFilterAdminGUI',
     'class_path' => './components/ILIAS/Container/Filter/classes/class.ilContainerFilterAdminGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjcategorygui',
     ),
   ),
-  'ilcontainergui' => 
-  array (
+  'ilcontainergui' =>
+  array(
     'cid' => '8a',
     'class_name' => 'ilContainerGUI',
     'class_path' => './components/ILIAS/Container/classes/class.ilContainerGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladvancedsearchgui',
       1 => 'illuceneadvancedsearchgui',
       2 => 'illucenesearchgui',
@@ -2193,29 +2195,29 @@
       4 => 'ilsearchgui',
     ),
   ),
-  'ilcontainernewssettingsgui' => 
-  array (
+  'ilcontainernewssettingsgui' =>
+  array(
     'cid' => '8c',
     'class_name' => 'ilContainerNewsSettingsGUI',
     'class_path' => './components/ILIAS/Container/News/class.ilContainerNewsSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjcategorygui',
       1 => 'ilobjcoursegui',
       2 => 'ilobjforumgui',
       3 => 'ilobjgroupgui',
     ),
   ),
-  'ilcontainerpagegui' => 
-  array (
+  'ilcontainerpagegui' =>
+  array(
     'cid' => '8e',
     'class_name' => 'ilContainerPageGUI',
     'class_path' => './components/ILIAS/Container/Page/class.ilContainerPageGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpageeditorgui',
       1 => 'ileditclipboardgui',
       2 => 'ilmdeditorgui',
@@ -2225,8 +2227,8 @@
       6 => 'ilinternallinkgui',
       7 => 'ilpagemultilanggui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjcategorygui',
       1 => 'ilobjcoursegui',
       2 => 'ilobjfoldergui',
@@ -2235,44 +2237,44 @@
       5 => 'ilobjstudyprogrammegui',
     ),
   ),
-  'ilcontainerskillgui' => 
-  array (
+  'ilcontainerskillgui' =>
+  array(
     'cid' => '8i',
     'class_name' => 'ilContainerSkillGUI',
     'class_path' => './components/ILIAS/Container/Skills/classes/class.ilContainerSkillGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilcontskillpresentationgui',
       1 => 'ilcontskilladmingui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjcoursegui',
       1 => 'ilobjgroupgui',
     ),
   ),
-  'ilcontainerstartobjectsgui' => 
-  array (
+  'ilcontainerstartobjectsgui' =>
+  array(
     'cid' => '8l',
     'class_name' => 'ilContainerStartObjectsGUI',
     'class_path' => './components/ILIAS/Container/StartObjects/class.ilContainerStartObjectsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilcontainerstartobjectspagegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'illoeditorgui',
       1 => 'ilobjcoursegui',
     ),
   ),
-  'ilcontainerstartobjectspagegui' => 
-  array (
+  'ilcontainerstartobjectspagegui' =>
+  array(
     'cid' => '8m',
     'class_name' => 'ilContainerStartObjectsPageGUI',
     'class_path' => './components/ILIAS/Container/StartObjects/class.ilContainerStartObjectsPageGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpageeditorgui',
       1 => 'ileditclipboardgui',
       2 => 'ilmdeditorgui',
@@ -2282,19 +2284,19 @@
       6 => 'ilinternallinkgui',
       7 => 'ilpagemultilanggui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcontainerstartobjectsgui',
       1 => 'ilobjcoursegui',
     ),
   ),
-  'ilcontentpagepagegui' => 
-  array (
+  'ilcontentpagepagegui' =>
+  array(
     'cid' => '8o',
     'class_name' => 'ilContentPagePageGUI',
     'class_path' => './components/ILIAS/ContentPage/classes/class.ilContentPagePageGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpageeditorgui',
       1 => 'ileditclipboardgui',
       2 => 'ilmdeditorgui',
@@ -2304,62 +2306,62 @@
       6 => 'ilinternallinkgui',
       7 => 'ilpagemultilanggui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjcontentpagegui',
     ),
   ),
-  'ilcontentstyleimagegui' => 
-  array (
+  'ilcontentstyleimagegui' =>
+  array(
     'cid' => '8p',
     'class_name' => 'ilContentStyleImageGUI',
     'class_path' => './components/ILIAS/Style/Content/Images/class.ilContentStyleImageGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjstylesheetgui',
     ),
   ),
-  'ilcontentstylesettingsgui' => 
-  array (
+  'ilcontentstylesettingsgui' =>
+  array(
     'cid' => '8q',
     'class_name' => 'ilContentStyleSettingsGUI',
     'class_path' => './components/ILIAS/Style/Content/classes/class.ilContentStyleSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjstylesheetgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjstylesettingsgui',
     ),
   ),
-  'ilcoursecontentgui' => 
-  array (
+  'ilcoursecontentgui' =>
+  array(
     'cid' => '8v',
     'class_name' => 'ilCourseContentGUI',
     'class_path' => './components/ILIAS/Course/classes/class.ilCourseContentGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilcolumngui',
       1 => 'ilobjectcopygui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjcoursegui',
       1 => 'ilobjfoldergui',
       2 => 'ilobjgroupgui',
     ),
   ),
-  'ilcoursemembershipgui' => 
-  array (
+  'ilcoursemembershipgui' =>
+  array(
     'cid' => '91',
     'class_name' => 'ilCourseMembershipGUI',
     'class_path' => './components/ILIAS/Course/classes/class.ilCourseMembershipGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilmailmembersearchgui',
       1 => 'ilusersgallerygui',
       2 => 'ilrepositorysearchgui',
@@ -2368,163 +2370,163 @@
       5 => 'ilsessionoverviewgui',
       6 => 'ilmemberexportgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjcoursegui',
     ),
   ),
-  'ilcourseobjectivesgui' => 
-  array (
+  'ilcourseobjectivesgui' =>
+  array(
     'cid' => '96',
     'class_name' => 'ilCourseObjectivesGUI',
     'class_path' => './components/ILIAS/Course/classes/Objectives/class.ilCourseObjectivesGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'illoeditorgui',
       2 => 'ilobjcoursegui',
       3 => 'ilrepositorygui',
     ),
   ),
-  'ilcourseparticipantsgroupsgui' => 
-  array (
+  'ilcourseparticipantsgroupsgui' =>
+  array(
     'cid' => '98',
     'class_name' => 'ilCourseParticipantsGroupsGUI',
     'class_path' => './components/ILIAS/Course/classes/class.ilCourseParticipantsGroupsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcoursemembershipgui',
       1 => 'ilgroupmembershipgui',
       2 => 'illearningsequencemembershipgui',
       3 => 'ilobjcoursegui',
     ),
   ),
-  'ilcourseregistrationgui' => 
-  array (
+  'ilcourseregistrationgui' =>
+  array(
     'cid' => '9c',
     'class_name' => 'ilCourseRegistrationGUI',
     'class_path' => './components/ILIAS/Course/classes/class.ilCourseRegistrationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjcoursegui',
     ),
   ),
-  'ilcronmanagergui' => 
-  array (
+  'ilcronmanagergui' =>
+  array(
     'cid' => '9f',
     'class_name' => 'ilCronManagerGUI',
     'class_path' => './components/ILIAS/Cron/classes/class.ilCronManagerGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpropertyformgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilobjsystemfoldergui',
     ),
   ),
-  'ilctrlbaseclass1testgui' => 
-  array (
+  'ilctrlbaseclass1testgui' =>
+  array(
     'cid' => '9h',
     'class_name' => 'ilCtrlBaseClass1TestGUI',
     'class_path' => './components/ILIAS/UICore/tests/Data/GUI/class.ilCtrlBaseClass1TestGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilctrlcommandclass1testgui',
       1 => 'ilias\\tests\\ctrl\\ilctrlnamespacedtestgui',
       2 => 'ilvalidtestplugingui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'ilctrlbaseclass2testgui' => 
-  array (
+  'ilctrlbaseclass2testgui' =>
+  array(
     'cid' => '9i',
     'class_name' => 'ilCtrlBaseClass2TestGUI',
     'class_path' => './components/ILIAS/UICore/tests/Data/GUI/class.ilCtrlBaseClass2TestGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilctrlcommandclass1testgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilctrlcommandclass1testgui',
     ),
   ),
-  'ilctrlcommandclass1testgui' => 
-  array (
+  'ilctrlcommandclass1testgui' =>
+  array(
     'cid' => '9j',
     'class_name' => 'ilCtrlCommandClass1TestGUI',
     'class_path' => './components/ILIAS/UICore/tests/Data/GUI/class.ilCtrlCommandClass1TestGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilctrlbaseclass2testgui',
       1 => 'ilctrlcommandclass2testgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilctrlbaseclass1testgui',
       1 => 'ilctrlbaseclass2testgui',
     ),
   ),
-  'ilctrlcommandclass2testgui' => 
-  array (
+  'ilctrlcommandclass2testgui' =>
+  array(
     'cid' => '9k',
     'class_name' => 'ilCtrlCommandClass2TestGUI',
     'class_path' => './components/ILIAS/UICore/tests/Data/GUI/class.ilCtrlCommandClass2TestGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilctrlcommandclass1testgui',
     ),
   ),
-  'ilcustomuserfieldsgui' => 
-  array (
+  'ilcustomuserfieldsgui' =>
+  array(
     'cid' => '9n',
     'class_name' => 'ilCustomUserFieldsGUI',
     'class_path' => './components/ILIAS/User/classes/class.ilCustomUserFieldsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjuserfoldergui',
     ),
   ),
-  'ildashboardblockgui' => 
-  array (
+  'ildashboardblockgui' =>
+  array(
     'cid' => '9p',
     'class_name' => 'ilDashboardBlockGUI',
     'class_path' => './components/ILIAS/Dashboard/Block/classes/class.ilDashboardBlockGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilcommonactiondispatchergui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcolumngui',
     ),
   ),
-  'ildashboardgui' => 
-  array (
+  'ildashboardgui' =>
+  array(
     'cid' => '9r',
     'class_name' => 'ilDashboardGUI',
     'class_path' => './components/ILIAS/Dashboard/classes/class.ilDashboardGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpersonalprofilegui',
       1 => 'ilobjusergui',
       2 => 'ilpdnotesgui',
@@ -2551,268 +2553,268 @@
       23 => 'ilobjfileuploadhandlergui',
       24 => 'ilobjlanguageextgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilstartupgui',
     ),
   ),
-  'ildashboardlearningsequencegui' => 
-  array (
+  'ildashboardlearningsequencegui' =>
+  array(
     'cid' => '9s',
     'class_name' => 'ilDashboardLearningSequenceGUI',
     'class_path' => './components/ILIAS/LearningSequence/classes/class.ilDashboardLearningSequenceGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilcommonactiondispatchergui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcolumngui',
       1 => 'ildashboardgui',
     ),
   ),
-  'ildashboardrecommendedcontentgui' => 
-  array (
+  'ildashboardrecommendedcontentgui' =>
+  array(
     'cid' => '9t',
     'class_name' => 'ilDashboardRecommendedContentGUI',
     'class_path' => './components/ILIAS/Repository/RecommendedContent/classes/class.ilDashboardRecommendedContentGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ildashboardgui',
     ),
   ),
-  'ildclcreateviewdefinitiongui' => 
-  array (
+  'ildclcreateviewdefinitiongui' =>
+  array(
     'cid' => '9y',
     'class_name' => 'ilDclCreateViewDefinitionGUI',
     'class_path' => './components/ILIAS/DataCollection/classes/CreateView/class.ilDclCreateViewDefinitionGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpageeditorgui',
       1 => 'ileditclipboardgui',
       2 => 'ilpublicuserprofilegui',
       3 => 'ilpageobjectgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ildcltablevieweditgui',
     ),
   ),
-  'ildcldetailedviewdefinitiongui' => 
-  array (
+  'ildcldetailedviewdefinitiongui' =>
+  array(
     'cid' => 'a0',
     'class_name' => 'ilDclDetailedViewDefinitionGUI',
     'class_path' => './components/ILIAS/DataCollection/classes/DetailedView/class.ilDclDetailedViewDefinitionGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpageeditorgui',
       1 => 'ileditclipboardgui',
       2 => 'ilpublicuserprofilegui',
       3 => 'ilpageobjectgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ildcldetailedviewgui',
       1 => 'ildcltablevieweditgui',
     ),
   ),
-  'ildcldetailedviewgui' => 
-  array (
+  'ildcldetailedviewgui' =>
+  array(
     'cid' => 'a1',
     'class_name' => 'ilDclDetailedViewGUI',
     'class_path' => './components/ILIAS/DataCollection/classes/DetailedView/class.ilDclDetailedViewGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ildcldetailedviewdefinitiongui',
       1 => 'ileditclipboardgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjdatacollectiongui',
     ),
   ),
-  'ildcleditviewdefinitiongui' => 
-  array (
+  'ildcleditviewdefinitiongui' =>
+  array(
     'cid' => 'a2',
     'class_name' => 'ilDclEditViewDefinitionGUI',
     'class_path' => './components/ILIAS/DataCollection/classes/EditView/class.ilDclEditViewDefinitionGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpageeditorgui',
       1 => 'ileditclipboardgui',
       2 => 'ilpublicuserprofilegui',
       3 => 'ilpageobjectgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ildcltablevieweditgui',
     ),
   ),
-  'ildclexportgui' => 
-  array (
+  'ildclexportgui' =>
+  array(
     'cid' => 'a4',
     'class_name' => 'ilDclExportGUI',
     'class_path' => './components/ILIAS/DataCollection/classes/class.ilDclExportGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjdatacollectiongui',
     ),
   ),
-  'ildclfieldeditgui' => 
-  array (
+  'ildclfieldeditgui' =>
+  array(
     'cid' => 'a6',
     'class_name' => 'ilDclFieldEditGUI',
     'class_path' => './components/ILIAS/DataCollection/classes/Fields/class.ilDclFieldEditGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ildcltablelistgui',
     ),
   ),
-  'ildclfieldlistgui' => 
-  array (
+  'ildclfieldlistgui' =>
+  array(
     'cid' => 'a7',
     'class_name' => 'ilDclFieldListGUI',
     'class_path' => './components/ILIAS/DataCollection/classes/Fields/class.ilDclFieldListGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ildcltablelistgui',
     ),
   ),
-  'ildclpropertyformgui' => 
-  array (
+  'ildclpropertyformgui' =>
+  array(
     'cid' => 'aa',
     'class_name' => 'ilDclPropertyFormGUI',
     'class_path' => './components/ILIAS/DataCollection/classes/Helpers/class.ilDclPropertyFormGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjdatacollectiongui',
     ),
   ),
-  'ildclrecordeditgui' => 
-  array (
+  'ildclrecordeditgui' =>
+  array(
     'cid' => 'ab',
     'class_name' => 'ilDclRecordEditGUI',
     'class_path' => './components/ILIAS/DataCollection/classes/Content/class.ilDclRecordEditGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjdatacollectiongui',
     ),
   ),
-  'ildclrecordlistgui' => 
-  array (
+  'ildclrecordlistgui' =>
+  array(
     'cid' => 'ac',
     'class_name' => 'ilDclRecordListGUI',
     'class_path' => './components/ILIAS/DataCollection/classes/Content/class.ilDclRecordListGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjdatacollectiongui',
     ),
   ),
-  'ildcltableeditgui' => 
-  array (
+  'ildcltableeditgui' =>
+  array(
     'cid' => 'ae',
     'class_name' => 'ilDclTableEditGUI',
     'class_path' => './components/ILIAS/DataCollection/classes/Table/class.ilDclTableEditGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ildcltablelistgui',
     ),
   ),
-  'ildcltablelistgui' => 
-  array (
+  'ildcltablelistgui' =>
+  array(
     'cid' => 'af',
     'class_name' => 'ilDclTableListGUI',
     'class_path' => './components/ILIAS/DataCollection/classes/Table/class.ilDclTableListGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ildclfieldlistgui',
       1 => 'ildclfieldeditgui',
       2 => 'ildcltableviewgui',
       3 => 'ildcltableeditgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjdatacollectiongui',
     ),
   ),
-  'ildcltablevieweditgui' => 
-  array (
+  'ildcltablevieweditgui' =>
+  array(
     'cid' => 'aj',
     'class_name' => 'ilDclTableViewEditGUI',
     'class_path' => './components/ILIAS/DataCollection/classes/TableView/class.ilDclTableViewEditGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ildcldetailedviewdefinitiongui',
       1 => 'ildclcreateviewdefinitiongui',
       2 => 'ildcleditviewdefinitiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ildcltableviewgui',
     ),
   ),
-  'ildcltableviewgui' => 
-  array (
+  'ildcltableviewgui' =>
+  array(
     'cid' => 'ak',
     'class_name' => 'ilDclTableViewGUI',
     'class_path' => './components/ILIAS/DataCollection/classes/TableView/class.ilDclTableViewGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ildcltablevieweditgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ildcltablelistgui',
     ),
   ),
-  'ilderivedtasksgui' => 
-  array (
+  'ilderivedtasksgui' =>
+  array(
     'cid' => 'an',
     'class_name' => 'ilDerivedTasksGUI',
     'class_path' => './components/ILIAS/Tasks/DerivedTasks/classes/class.ilDerivedTasksGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilstartupgui',
     ),
   ),
-  'ildidactictemplategui' => 
-  array (
+  'ildidactictemplategui' =>
+  array(
     'cid' => 'ao',
     'class_name' => 'ilDidacticTemplateGUI',
     'class_path' => './components/ILIAS/DidacticTemplate/classes/class.ilDidacticTemplateGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilobjbookingpoolgui',
       2 => 'ilobjcategorygui',
@@ -2822,73 +2824,73 @@
       6 => 'ilobjorgunitgui',
     ),
   ),
-  'ildidactictemplatesettingsgui' => 
-  array (
+  'ildidactictemplatesettingsgui' =>
+  array(
     'cid' => 'ap',
     'class_name' => 'ilDidacticTemplateSettingsGUI',
     'class_path' => './components/ILIAS/DidacticTemplate/classes/Setting/class.ilDidacticTemplateSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilmultilingualismgui',
       1 => 'ilpropertyformgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjrolefoldergui',
       1 => 'ilobjobjecttemplateadministrationgui',
     ),
   ),
-  'ilecsmappingsettingsgui' => 
-  array (
+  'ilecsmappingsettingsgui' =>
+  array(
     'cid' => 'aw',
     'class_name' => 'ilECSMappingSettingsGUI',
     'class_path' => './components/ILIAS/WebServices/ECS/classes/Mapping/class.ilECSMappingSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilecssettingsgui',
     ),
   ),
-  'ilecsparticipantsettingsgui' => 
-  array (
+  'ilecsparticipantsettingsgui' =>
+  array(
     'cid' => 'ay',
     'class_name' => 'ilECSParticipantSettingsGUI',
     'class_path' => './components/ILIAS/WebServices/ECS/classes/class.ilECSParticipantSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilecssettingsgui',
     ),
   ),
-  'ilecssettingsgui' => 
-  array (
+  'ilecssettingsgui' =>
+  array(
     'cid' => 'b0',
     'class_name' => 'ilECSSettingsGUI',
     'class_path' => './components/ILIAS/WebServices/ECS/classes/class.ilECSSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilecsmappingsettingsgui',
       1 => 'ilecsparticipantsettingsgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjecssettingsgui',
     ),
   ),
-  'ilecsuserconsentmodalgui' => 
-  array (
+  'ilecsuserconsentmodalgui' =>
+  array(
     'cid' => 'b1',
     'class_name' => 'ilECSUserConsentModalGUI',
     'class_path' => './components/ILIAS/WebServices/ECS/classes/Consent/class.ilECSUserConsentModalGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjremotecategorygui',
       1 => 'ilobjremotecoursegui',
       2 => 'ilobjremotefilegui',
@@ -2899,17 +2901,17 @@
       7 => 'ilobjremotewikigui',
     ),
   ),
-  'ileditclipboardgui' => 
-  array (
+  'ileditclipboardgui' =>
+  array(
     'cid' => 'b3',
     'class_name' => 'ilEditClipboardGUI',
     'class_path' => './components/ILIAS/MediaPool/Clipboard/class.ilEditClipboardGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjmediaobjectgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilassgenfeedbackpagegui',
       1 => 'ilasshintpagegui',
       2 => 'ilassquestionpagegui',
@@ -2943,136 +2945,136 @@
       30 => 'ilwikipagegui',
     ),
   ),
-  'ilemployeetalkappointmentgui' => 
-  array (
+  'ilemployeetalkappointmentgui' =>
+  array(
     'cid' => 'b4',
     'class_name' => 'ilEmployeeTalkAppointmentGUI',
     'class_path' => './components/ILIAS/EmployeeTalk/classes/Talk/class.ilEmployeeTalkAppointmentGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjemployeetalkgui',
     ),
   ),
-  'ilemployeetalkmystafflistgui' => 
-  array (
+  'ilemployeetalkmystafflistgui' =>
+  array(
     'cid' => 'b5',
     'class_name' => 'ilEmployeeTalkMyStaffListGUI',
     'class_path' => './components/ILIAS/EmployeeTalk/classes/Talk/class.ilEmployeeTalkMyStaffListGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjemployeetalkgui',
       1 => 'ilobjemployeetalkseriesgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilmystaffgui',
       1 => 'ilformpropertydispatchgui',
     ),
   ),
-  'ilemployeetalkmystaffusergui' => 
-  array (
+  'ilemployeetalkmystaffusergui' =>
+  array(
     'cid' => 'b6',
     'class_name' => 'ilEmployeeTalkMyStaffUserGUI',
     'class_path' => './components/ILIAS/EmployeeTalk/classes/Talk/class.ilEmployeeTalkMyStaffUserGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjemployeetalkgui',
       1 => 'ilobjemployeetalkseriesgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilmstshowusergui',
       1 => 'ilformpropertydispatchgui',
     ),
   ),
-  'ilexasstypewikiteamgui' => 
-  array (
+  'ilexasstypewikiteamgui' =>
+  array(
     'cid' => 'bg',
     'class_name' => 'ilExAssTypeWikiTeamGUI',
     'class_path' => './components/ILIAS/Exercise/Assignment/Types/GUI/classes/class.ilExAssTypeWikiTeamGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilexsubmissiongui',
     ),
   ),
-  'ilexassignmenteditorgui' => 
-  array (
+  'ilexassignmenteditorgui' =>
+  array(
     'cid' => 'bh',
     'class_name' => 'ilExAssignmentEditorGUI',
     'class_path' => './components/ILIAS/Exercise/Assignment/class.ilExAssignmentEditorGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilexassignmentfilesystemgui',
       1 => 'ilexpeerreviewgui',
       2 => 'ilpropertyformgui',
       3 => 'ilresourcecollectiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjexercisegui',
     ),
   ),
-  'ilexassignmentfilesystemgui' => 
-  array (
+  'ilexassignmentfilesystemgui' =>
+  array(
     'cid' => 'bi',
     'class_name' => 'ilExAssignmentFileSystemGUI',
     'class_path' => './components/ILIAS/Exercise/Assignment/class.ilExAssignmentFileSystemGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilexassignmenteditorgui',
     ),
   ),
-  'ilexpeerreviewgui' => 
-  array (
+  'ilexpeerreviewgui' =>
+  array(
     'cid' => 'bs',
     'class_name' => 'ilExPeerReviewGUI',
     'class_path' => './components/ILIAS/Exercise/PeerReview/class.ilExPeerReviewGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilfilesystemgui',
       1 => 'ilratinggui',
       2 => 'ilexsubmissiontextgui',
       3 => 'ilinfoscreengui',
       4 => 'ilmessagegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilexassignmenteditorgui',
       1 => 'ilexsubmissiongui',
       2 => 'ilexercisemanagementgui',
     ),
   ),
-  'ilexsubmissionfilegui' => 
-  array (
+  'ilexsubmissionfilegui' =>
+  array(
     'cid' => 'bu',
     'class_name' => 'ilExSubmissionFileGUI',
     'class_path' => './components/ILIAS/Exercise/Submission/class.ilExSubmissionFileGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilrepostandarduploadhandlergui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilexsubmissiongui',
       1 => 'ilexercisemanagementgui',
     ),
   ),
-  'ilexsubmissiongui' => 
-  array (
+  'ilexsubmissiongui' =>
+  array(
     'cid' => 'bv',
     'class_name' => 'ilExSubmissionGUI',
     'class_path' => './components/ILIAS/Exercise/Submission/class.ilExSubmissionGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilexsubmissionteamgui',
       1 => 'ilexsubmissionfilegui',
       2 => 'ilexsubmissiontextgui',
@@ -3080,114 +3082,114 @@
       4 => 'ilexpeerreviewgui',
       5 => 'ilexasstypewikiteamgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilassignmentpresentationgui',
     ),
   ),
-  'ilexsubmissionobjectgui' => 
-  array (
+  'ilexsubmissionobjectgui' =>
+  array(
     'cid' => 'bw',
     'class_name' => 'ilExSubmissionObjectGUI',
     'class_path' => './components/ILIAS/Exercise/Submission/class.ilExSubmissionObjectGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilexsubmissiongui',
     ),
   ),
-  'ilexsubmissionteamgui' => 
-  array (
+  'ilexsubmissionteamgui' =>
+  array(
     'cid' => 'bx',
     'class_name' => 'ilExSubmissionTeamGUI',
     'class_path' => './components/ILIAS/Exercise/Submission/class.ilExSubmissionTeamGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilrepositorysearchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilexsubmissiongui',
       1 => 'ilexercisemanagementgui',
     ),
   ),
-  'ilexsubmissiontextgui' => 
-  array (
+  'ilexsubmissiontextgui' =>
+  array(
     'cid' => 'by',
     'class_name' => 'ilExSubmissionTextGUI',
     'class_path' => './components/ILIAS/Exercise/Submission/class.ilExSubmissionTextGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilexpeerreviewgui',
       1 => 'ilexsubmissiongui',
       2 => 'ilexercisemanagementgui',
     ),
   ),
-  'ilexccriteriacataloguegui' => 
-  array (
+  'ilexccriteriacataloguegui' =>
+  array(
     'cid' => 'bz',
     'class_name' => 'ilExcCriteriaCatalogueGUI',
     'class_path' => './components/ILIAS/Exercise/PeerReview/Criteria/class.ilExcCriteriaCatalogueGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilexccriteriagui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjexercisegui',
     ),
   ),
-  'ilexccriteriagui' => 
-  array (
+  'ilexccriteriagui' =>
+  array(
     'cid' => 'c1',
     'class_name' => 'ilExcCriteriaGUI',
     'class_path' => './components/ILIAS/Exercise/PeerReview/Criteria/class.ilExcCriteriaGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilexccriteriacataloguegui',
     ),
   ),
-  'ilexcrandomassignmentgui' => 
-  array (
+  'ilexcrandomassignmentgui' =>
+  array(
     'cid' => 'c4',
     'class_name' => 'ilExcRandomAssignmentGUI',
     'class_path' => './components/ILIAS/Exercise/Assignment/Mandatory/class.ilExcRandomAssignmentGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjexercisegui',
     ),
   ),
-  'ilexercisehandlergui' => 
-  array (
+  'ilexercisehandlergui' =>
+  array(
     'cid' => 'c5',
     'class_name' => 'ilExerciseHandlerGUI',
     'class_path' => './components/ILIAS/Exercise/classes/class.ilExerciseHandlerGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjexercisegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'ilexercisemanagementgui' => 
-  array (
+  'ilexercisemanagementgui' =>
+  array(
     'cid' => 'c6',
     'class_name' => 'ilExerciseManagementGUI',
     'class_path' => './components/ILIAS/Exercise/classes/class.ilExerciseManagementGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilfilesystemgui',
       1 => 'ilrepositorysearchgui',
       2 => 'ilexsubmissionteamgui',
@@ -3197,21 +3199,21 @@
       6 => 'ilparticipantsperassignmenttablegui',
       7 => 'ilresourcecollectiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjexercisegui',
     ),
   ),
-  'ilexportgui' => 
-  array (
+  'ilexportgui' =>
+  array(
     'cid' => 'cb',
     'class_name' => 'ilExportGUI',
     'class_path' => './components/ILIAS/Export/classes/class.ilExportGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjbibliographicgui',
       1 => 'ilobjbloggui',
       2 => 'ilobjcategorygui',
@@ -3245,29 +3247,29 @@
       30 => 'ilsahseditgui',
     ),
   ),
-  'ilextidgui' => 
-  array (
+  'ilextidgui' =>
+  array(
     'cid' => 'cf',
     'class_name' => 'ilExtIdGUI',
     'class_path' => './components/ILIAS/OrgUnit/classes/ExtId/class.ilExtIdGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjorgunitgui',
     ),
   ),
-  'ilfilesystemgui' => 
-  array (
+  'ilfilesystemgui' =>
+  array(
     'cid' => 'ck',
     'class_name' => 'ilFileSystemGUI',
     'class_path' => './components/ILIAS/FileSystem/classes/class.ilFileSystemGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilexpeerreviewgui',
       1 => 'ilexercisemanagementgui',
       2 => 'ilobjfilebasedlmgui',
@@ -3279,41 +3281,41 @@
       8 => 'ilsahseditgui',
     ),
   ),
-  'ilfileversionsgui' => 
-  array (
+  'ilfileversionsgui' =>
+  array(
     'cid' => 'cn',
     'class_name' => 'ilFileVersionsGUI',
     'class_path' => './components/ILIAS/File/classes/Versions/class.ilFileVersionsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilwopiembeddedapplicationgui',
       1 => 'ilfileversionsuploadhandlergui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjfilegui',
     ),
   ),
-  'ilfileversionsuploadhandlergui' => 
-  array (
+  'ilfileversionsuploadhandlergui' =>
+  array(
     'cid' => 'cp',
     'class_name' => 'ilFileVersionsUploadHandlerGUI',
     'class_path' => './components/ILIAS/File/classes/Versions/class.ilFileVersionsUploadHandlerGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilfileversionsgui',
     ),
   ),
-  'ilformpropertydispatchgui' => 
-  array (
+  'ilformpropertydispatchgui' =>
+  array(
     'cid' => 'ct',
     'class_name' => 'ilFormPropertyDispatchGUI',
     'class_path' => './components/ILIAS/Form/classes/class.ilFormPropertyDispatchGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilchatroomauthinputgui',
       1 => 'ilemployeetalkmystafflistgui',
       2 => 'ilemployeetalkmystaffusergui',
@@ -3322,8 +3324,8 @@
       5 => 'ilrepositoryselectorinputgui',
       6 => 'iltaxselectinputgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'assclozetestgui',
       1 => 'asserrortextgui',
       2 => 'assfileuploadgui',
@@ -3370,40 +3372,40 @@
       43 => 'ilusertablegui',
     ),
   ),
-  'ilforumexportgui' => 
-  array (
+  'ilforumexportgui' =>
+  array(
     'cid' => 'cz',
     'class_name' => 'ilForumExportGUI',
     'class_path' => './components/ILIAS/Forum/classes/class.ilForumExportGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjforumgui',
     ),
   ),
-  'ilforummoderatorsgui' => 
-  array (
+  'ilforummoderatorsgui' =>
+  array(
     'cid' => 'd0',
     'class_name' => 'ilForumModeratorsGUI',
     'class_path' => './components/ILIAS/Forum/classes/class.ilForumModeratorsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilrepositorysearchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjforumgui',
     ),
   ),
-  'ilforumpagegui' => 
-  array (
+  'ilforumpagegui' =>
+  array(
     'cid' => 'd5',
     'class_name' => 'ilForumPageGUI',
     'class_path' => './components/ILIAS/Forum/classes/CoPage/class.ilForumPageGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpageeditorgui',
       1 => 'ileditclipboardgui',
       2 => 'ilmdeditorgui',
@@ -3413,45 +3415,45 @@
       6 => 'ilinternallinkgui',
       7 => 'ilpagemultilanggui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjforumgui',
     ),
   ),
-  'ilforumsettingsgui' => 
-  array (
+  'ilforumsettingsgui' =>
+  array(
     'cid' => 'd6',
     'class_name' => 'ilForumSettingsGUI',
     'class_path' => './components/ILIAS/Forum/classes/class.ilForumSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjectcontentstylesettingsgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjforumgui',
     ),
   ),
-  'ilglobalunitconfigurationgui' => 
-  array (
+  'ilglobalunitconfigurationgui' =>
+  array(
     'cid' => 'de',
     'class_name' => 'ilGlobalUnitConfigurationGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilGlobalUnitConfigurationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjassessmentfoldergui',
     ),
   ),
-  'ilglossarydefpagegui' => 
-  array (
+  'ilglossarydefpagegui' =>
+  array(
     'cid' => 'dg',
     'class_name' => 'ilGlossaryDefPageGUI',
     'class_path' => './components/ILIAS/Glossary/Definition/class.ilGlossaryDefPageGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpageeditorgui',
       1 => 'ileditclipboardgui',
       2 => 'ilobjectmetadatagui',
@@ -3460,75 +3462,75 @@
       5 => 'ilpropertyformgui',
       6 => 'ilinternallinkgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilglossarypresentationgui',
       1 => 'ilglossarytermgui',
       2 => 'illmpresentationgui',
       3 => 'iltermdefinitioneditorgui',
     ),
   ),
-  'ilglossaryeditorgui' => 
-  array (
+  'ilglossaryeditorgui' =>
+  array(
     'cid' => 'dh',
     'class_name' => 'ilGlossaryEditorGUI',
     'class_path' => './components/ILIAS/Glossary/Editing/class.ilGlossaryEditorGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjglossarygui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'ilglossaryflashcardboxgui' => 
-  array (
+  'ilglossaryflashcardboxgui' =>
+  array(
     'cid' => 'di',
     'class_name' => 'ilGlossaryFlashcardBoxGUI',
     'class_path' => './components/ILIAS/Glossary/Flashcard/class.ilGlossaryFlashcardBoxGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilglossaryflashcardgui',
       1 => 'ilglossarypresentationgui',
     ),
   ),
-  'ilglossaryflashcardgui' => 
-  array (
+  'ilglossaryflashcardgui' =>
+  array(
     'cid' => 'dj',
     'class_name' => 'ilGlossaryFlashcardGUI',
     'class_path' => './components/ILIAS/Glossary/Flashcard/class.ilGlossaryFlashcardGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilglossaryflashcardboxgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilglossarypresentationgui',
     ),
   ),
-  'ilglossaryforeigntermcollectorgui' => 
-  array (
+  'ilglossaryforeigntermcollectorgui' =>
+  array(
     'cid' => 'dk',
     'class_name' => 'ilGlossaryForeignTermCollectorGUI',
     'class_path' => './components/ILIAS/Glossary/Term/class.ilGlossaryForeignTermCollectorGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjglossarygui',
     ),
   ),
-  'ilglossarypresentationgui' => 
-  array (
+  'ilglossarypresentationgui' =>
+  array(
     'cid' => 'dn',
     'class_name' => 'ilGlossaryPresentationGUI',
     'class_path' => './components/ILIAS/Glossary/Presentation/class.ilGlossaryPresentationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilnotegui',
       1 => 'ilinfoscreengui',
       2 => 'ilpresentationlisttablegui',
@@ -3537,47 +3539,47 @@
       5 => 'ilglossaryflashcardgui',
       6 => 'ilglossaryflashcardboxgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'ilglossarytermgui' => 
-  array (
+  'ilglossarytermgui' =>
+  array(
     'cid' => 'do',
     'class_name' => 'ilGlossaryTermGUI',
     'class_path' => './components/ILIAS/Glossary/Term/class.ilGlossaryTermGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'iltermdefinitioneditorgui',
       1 => 'ilglossarydefpagegui',
       2 => 'ilpropertyformgui',
       3 => 'ilobjectmetadatagui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjglossarygui',
     ),
   ),
-  'ilgroupaddtogroupactiongui' => 
-  array (
+  'ilgroupaddtogroupactiongui' =>
+  array(
     'cid' => 'ds',
     'class_name' => 'ilGroupAddToGroupActionGUI',
     'class_path' => './components/ILIAS/Group/UserActions/classes/class.ilGroupAddToGroupActionGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilgroupuseractionsgui',
     ),
   ),
-  'ilgroupmembershipgui' => 
-  array (
+  'ilgroupmembershipgui' =>
+  array(
     'cid' => 'du',
     'class_name' => 'ilGroupMembershipGUI',
     'class_path' => './components/ILIAS/Group/classes/class.ilGroupMembershipGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilmailmembersearchgui',
       1 => 'ilusersgallerygui',
       2 => 'ilrepositorysearchgui',
@@ -3586,178 +3588,178 @@
       5 => 'ilsessionoverviewgui',
       6 => 'ilmemberexportgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjgroupgui',
     ),
   ),
-  'ilgroupregistrationgui' => 
-  array (
+  'ilgroupregistrationgui' =>
+  array(
     'cid' => 'dw',
     'class_name' => 'ilGroupRegistrationGUI',
     'class_path' => './components/ILIAS/Group/classes/class.ilGroupRegistrationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjgroupgui',
     ),
   ),
-  'ilgroupuseractionsgui' => 
-  array (
+  'ilgroupuseractionsgui' =>
+  array(
     'cid' => 'dx',
     'class_name' => 'ilGroupUserActionsGUI',
     'class_path' => './components/ILIAS/Group/UserActions/classes/class.ilGroupUserActionsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilgroupaddtogroupactiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ildashboardgui',
     ),
   ),
-  'ilhtlmeditorgui' => 
-  array (
+  'ilhtlmeditorgui' =>
+  array(
     'cid' => 'dz',
     'class_name' => 'ilHTLMEditorGUI',
     'class_path' => './components/ILIAS/HTMLLearningModule/classes/class.ilHTLMEditorGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjfilebasedlmgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'ilhtlmpresentationgui' => 
-  array (
+  'ilhtlmpresentationgui' =>
+  array(
     'cid' => 'e0',
     'class_name' => 'ilHTLMPresentationGUI',
     'class_path' => './components/ILIAS/HTMLLearningModule/classes/class.ilHTLMPresentationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjfilebasedlmgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'ilhelpgui' => 
-  array (
+  'ilhelpgui' =>
+  array(
     'cid' => 'e1',
     'class_name' => 'ilHelpGUI',
     'class_path' => './components/ILIAS/Help/classes/class.ilHelpGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'illmpagegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'ilimagemapeditorgui' => 
-  array (
+  'ilimagemapeditorgui' =>
+  array(
     'cid' => 'ec',
     'class_name' => 'ilImageMapEditorGUI',
     'class_path' => './components/ILIAS/MediaObjects/ImageMap/class.ilImageMapEditorGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilinternallinkgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjmediaobjectgui',
     ),
   ),
-  'ilimprintgui' => 
-  array (
+  'ilimprintgui' =>
+  array(
     'cid' => 'eh',
     'class_name' => 'ilImprintGUI',
     'class_path' => './components/ILIAS/Imprint/classes/class.ilImprintGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpageeditorgui',
       1 => 'ileditclipboardgui',
       2 => 'ilpublicuserprofilegui',
       3 => 'ilpageobjectgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjlegalnoticegui',
     ),
   ),
-  'ilindividualassessmentcommonsettingsgui' => 
-  array (
+  'ilindividualassessmentcommonsettingsgui' =>
+  array(
     'cid' => 'ej',
     'class_name' => 'ilIndividualAssessmentCommonSettingsGUI',
     'class_path' => './components/ILIAS/IndividualAssessment/classes/Settings/class.ilIndividualAssessmentCommonSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilindividualassessmentsettingsgui',
     ),
   ),
-  'ilindividualassessmentmembergui' => 
-  array (
+  'ilindividualassessmentmembergui' =>
+  array(
     'cid' => 'ek',
     'class_name' => 'ilIndividualAssessmentMemberGUI',
     'class_path' => './components/ILIAS/IndividualAssessment/classes/class.ilIndividualAssessmentMemberGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilindividualassessmentmembersgui',
     ),
   ),
-  'ilindividualassessmentmembersgui' => 
-  array (
+  'ilindividualassessmentmembersgui' =>
+  array(
     'cid' => 'el',
     'class_name' => 'ilIndividualAssessmentMembersGUI',
     'class_path' => './components/ILIAS/IndividualAssessment/classes/class.ilIndividualAssessmentMembersGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilrepositorysearchgui',
       1 => 'ilindividualassessmentmembergui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjindividualassessmentgui',
     ),
   ),
-  'ilindividualassessmentsettingsgui' => 
-  array (
+  'ilindividualassessmentsettingsgui' =>
+  array(
     'cid' => 'en',
     'class_name' => 'ilIndividualAssessmentSettingsGUI',
     'class_path' => './components/ILIAS/IndividualAssessment/classes/class.ilIndividualAssessmentSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilindividualassessmentcommonsettingsgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjindividualassessmentgui',
       1 => 'ilobjlearningsequencegui',
     ),
   ),
-  'ilinfoscreengui' => 
-  array (
+  'ilinfoscreengui' =>
+  array(
     'cid' => 'eo',
     'class_name' => 'ilInfoScreenGUI',
     'class_path' => './components/ILIAS/InfoScreen/classes/class.ilInfoScreenGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilcommentgui',
       1 => 'ilcolumngui',
       2 => 'ilpublicuserprofilegui',
       3 => 'ilcommonactiondispatchergui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcalendarappointmentpresentationgui',
       1 => 'ilexpeerreviewgui',
       2 => 'ilglossarypresentationgui',
@@ -3821,16 +3823,16 @@
       60 => 'ilsahspresentationgui',
     ),
   ),
-  'ilinternallinkgui' => 
-  array (
+  'ilinternallinkgui' =>
+  array(
     'cid' => 'eq',
     'class_name' => 'ilInternalLinkGUI',
     'class_path' => './components/ILIAS/Link/classes/class.ilInternalLinkGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilassgenfeedbackpagegui',
       1 => 'ilasshintpagegui',
       2 => 'ilassquestionpagegui',
@@ -3851,67 +3853,67 @@
       17 => 'ilpageobjectgui',
     ),
   ),
-  'illdapsettingsgui' => 
-  array (
+  'illdapsettingsgui' =>
+  array(
     'cid' => 'f0',
     'class_name' => 'ilLDAPSettingsGUI',
     'class_path' => './components/ILIAS/LDAP/classes/class.ilLDAPSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjauthsettingsgui',
     ),
   ),
-  'illmeditshorttitlesgui' => 
-  array (
+  'illmeditshorttitlesgui' =>
+  array(
     'cid' => 'f4',
     'class_name' => 'ilLMEditShortTitlesGUI',
     'class_path' => './components/ILIAS/LearningModule/classes/class.ilLMEditShortTitlesGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjcontentobjectgui',
       1 => 'ilobjlearningmodulegui',
     ),
   ),
-  'illmeditorgui' => 
-  array (
+  'illmeditorgui' =>
+  array(
     'cid' => 'f7',
     'class_name' => 'ilLMEditorGUI',
     'class_path' => './components/ILIAS/LearningModule/Editing/class.ilLMEditorGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjlearningmodulegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'illmimportgui' => 
-  array (
+  'illmimportgui' =>
+  array(
     'cid' => 'fa',
     'class_name' => 'ilLMImportGUI',
     'class_path' => './components/ILIAS/LearningModule/classes/class.ilLMImportGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjcontentobjectgui',
       1 => 'ilobjlearningmodulegui',
     ),
   ),
-  'illmpagegui' => 
-  array (
+  'illmpagegui' =>
+  array(
     'cid' => 'ff',
     'class_name' => 'ilLMPageGUI',
     'class_path' => './components/ILIAS/LearningModule/classes/class.ilLMPageGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpageeditorgui',
       1 => 'ilobjectmetadatagui',
       2 => 'ileditclipboardgui',
@@ -3923,36 +3925,36 @@
       8 => 'ilpagemultilanggui',
       9 => 'ilpropertyformgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilhelpgui',
       1 => 'illmpageobjectgui',
       2 => 'illmpresentationgui',
     ),
   ),
-  'illmpageobjectgui' => 
-  array (
+  'illmpageobjectgui' =>
+  array(
     'cid' => 'fg',
     'class_name' => 'ilLMPageObjectGUI',
     'class_path' => './components/ILIAS/LearningModule/classes/class.ilLMPageObjectGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'illmpagegui',
       1 => 'ilassgenfeedbackpagegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjcontentobjectgui',
       1 => 'ilobjlearningmodulegui',
     ),
   ),
-  'illmpresentationgui' => 
-  array (
+  'illmpresentationgui' =>
+  array(
     'cid' => 'fi',
     'class_name' => 'ilLMPresentationGUI',
     'class_path' => './components/ILIAS/LearningModule/Presentation/class.ilLMPresentationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilcommentgui',
       1 => 'ilinfoscreengui',
       2 => 'illmpagegui',
@@ -3962,47 +3964,47 @@
       6 => 'ilassgenfeedbackpagegui',
       7 => 'ilratinggui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'illoeditorgui' => 
-  array (
+  'illoeditorgui' =>
+  array(
     'cid' => 'fn',
     'class_name' => 'ilLOEditorGUI',
     'class_path' => './components/ILIAS/Course/classes/Objectives/class.ilLOEditorGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilcourseobjectivesgui',
       1 => 'ilcontainerstartobjectsgui',
       2 => 'ilconditionhandlergui',
       3 => 'illopagegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjcoursegui',
     ),
   ),
-  'illomembertestresultgui' => 
-  array (
+  'illomembertestresultgui' =>
+  array(
     'cid' => 'fo',
     'class_name' => 'ilLOMemberTestResultGUI',
     'class_path' => './components/ILIAS/Course/classes/Objectives/class.ilLOMemberTestResultGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjcoursegui',
     ),
   ),
-  'illopagegui' => 
-  array (
+  'illopagegui' =>
+  array(
     'cid' => 'fq',
     'class_name' => 'ilLOPageGUI',
     'class_path' => './components/ILIAS/Course/classes/Objectives/class.ilLOPageGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpageeditorgui',
       1 => 'ileditclipboardgui',
       2 => 'ilmdeditorgui',
@@ -4012,259 +4014,259 @@
       6 => 'ilinternallinkgui',
       7 => 'ilpagemultilanggui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'illoeditorgui',
       1 => 'ilobjcoursegui',
     ),
   ),
-  'illplistofobjectsgui' => 
-  array (
+  'illplistofobjectsgui' =>
+  array(
     'cid' => 'ft',
     'class_name' => 'ilLPListOfObjectsGUI',
     'class_path' => './components/ILIAS/Tracking/classes/repository_statistics/class.ilLPListOfObjectsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'iluserfiltergui',
       1 => 'iltruserobjectspropstablegui',
       2 => 'iltrsummarytablegui',
       3 => 'iltrobjectuserspropstablegui',
       4 => 'iltrmatrixtablegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'illearningprogressgui',
     ),
   ),
-  'illplistofprogressgui' => 
-  array (
+  'illplistofprogressgui' =>
+  array(
     'cid' => 'fu',
     'class_name' => 'ilLPListOfProgressGUI',
     'class_path' => './components/ILIAS/Tracking/classes/repository_statistics/class.ilLPListOfProgressGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'illpprogresstablegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'illearningprogressgui',
     ),
   ),
-  'illplistofsettingsgui' => 
-  array (
+  'illplistofsettingsgui' =>
+  array(
     'cid' => 'fv',
     'class_name' => 'ilLPListOfSettingsGUI',
     'class_path' => './components/ILIAS/Tracking/classes/repository_statistics/class.ilLPListOfSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'illearningprogressgui',
     ),
   ),
-  'illpobjectstatisticsadmintablegui' => 
-  array (
+  'illpobjectstatisticsadmintablegui' =>
+  array(
     'cid' => 'fw',
     'class_name' => 'ilLPObjectStatisticsAdminTableGUI',
     'class_path' => './components/ILIAS/Tracking/classes/object_statistics/class.ilLPObjectStatisticsAdminTableGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'illpobjectstatisticsdailytablegui' => 
-  array (
+  'illpobjectstatisticsdailytablegui' =>
+  array(
     'cid' => 'fx',
     'class_name' => 'ilLPObjectStatisticsDailyTableGUI',
     'class_path' => './components/ILIAS/Tracking/classes/object_statistics/class.ilLPObjectStatisticsDailyTableGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'illpobjectstatisticsgui',
     ),
   ),
-  'illpobjectstatisticsgui' => 
-  array (
+  'illpobjectstatisticsgui' =>
+  array(
     'cid' => 'fy',
     'class_name' => 'ilLPObjectStatisticsGUI',
     'class_path' => './components/ILIAS/Tracking/classes/object_statistics/class.ilLPObjectStatisticsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'illpobjectstatisticstablegui',
       1 => 'illpobjectstatisticsdailytablegui',
       2 => 'illpobjectstatisticslptablegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'illearningprogressgui',
       1 => 'ilobjusertrackinggui',
     ),
   ),
-  'illpobjectstatisticslptablegui' => 
-  array (
+  'illpobjectstatisticslptablegui' =>
+  array(
     'cid' => 'fz',
     'class_name' => 'ilLPObjectStatisticsLPTableGUI',
     'class_path' => './components/ILIAS/Tracking/classes/object_statistics/class.ilLPObjectStatisticsLPTableGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'illpobjectstatisticsgui',
     ),
   ),
-  'illpobjectstatisticstablegui' => 
-  array (
+  'illpobjectstatisticstablegui' =>
+  array(
     'cid' => 'g0',
     'class_name' => 'ilLPObjectStatisticsTableGUI',
     'class_path' => './components/ILIAS/Tracking/classes/object_statistics/class.ilLPObjectStatisticsTableGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'illpobjectstatisticsgui',
     ),
   ),
-  'illpobjectstatisticstypestablegui' => 
-  array (
+  'illpobjectstatisticstypestablegui' =>
+  array(
     'cid' => 'g1',
     'class_name' => 'ilLPObjectStatisticsTypesTableGUI',
     'class_path' => './components/ILIAS/Tracking/classes/object_statistics/class.ilLPObjectStatisticsTypesTableGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'illpprogresstablegui' => 
-  array (
+  'illpprogresstablegui' =>
+  array(
     'cid' => 'g2',
     'class_name' => 'ilLPProgressTableGUI',
     'class_path' => './components/ILIAS/Tracking/classes/repository_statistics/class.ilLPProgressTableGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'illplistofprogressgui',
     ),
   ),
-  'illticonsumeprovidersettingsgui' => 
-  array (
+  'illticonsumeprovidersettingsgui' =>
+  array(
     'cid' => 'g7',
     'class_name' => 'ilLTIConsumeProviderSettingsGUI',
     'class_path' => './components/ILIAS/LTIConsumer/classes/class.ilLTIConsumeProviderSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'illticonsumersettingsgui',
     ),
   ),
-  'illticonsumeradministrationgui' => 
-  array (
+  'illticonsumeradministrationgui' =>
+  array(
     'cid' => 'g8',
     'class_name' => 'ilLTIConsumerAdministrationGUI',
     'class_path' => './components/ILIAS/LTIConsumer/classes/class.ilLTIConsumerAdministrationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjltiadministrationgui',
     ),
   ),
-  'illticonsumercontentgui' => 
-  array (
+  'illticonsumercontentgui' =>
+  array(
     'cid' => 'g9',
     'class_name' => 'ilLTIConsumerContentGUI',
     'class_path' => './components/ILIAS/LTIConsumer/classes/class.ilLTIConsumerContentGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjlticonsumergui',
     ),
   ),
-  'illticonsumergradesynchronizationgui' => 
-  array (
+  'illticonsumergradesynchronizationgui' =>
+  array(
     'cid' => 'ga',
     'class_name' => 'ilLTIConsumerGradeSynchronizationGUI',
     'class_path' => './components/ILIAS/LTIConsumer/classes/class.ilLTIConsumerGradeSynchronizationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjlticonsumergui',
     ),
   ),
-  'illticonsumerscoringgui' => 
-  array (
+  'illticonsumerscoringgui' =>
+  array(
     'cid' => 'gf',
     'class_name' => 'ilLTIConsumerScoringGUI',
     'class_path' => './components/ILIAS/LTIConsumer/classes/class.ilLTIConsumerScoringGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjlticonsumergui',
     ),
   ),
-  'illticonsumersettingsgui' => 
-  array (
+  'illticonsumersettingsgui' =>
+  array(
     'cid' => 'gi',
     'class_name' => 'ilLTIConsumerSettingsGUI',
     'class_path' => './components/ILIAS/LTIConsumer/classes/class.ilLTIConsumerSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'illticonsumeprovidersettingsgui',
       1 => 'ilcertificategui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjlticonsumergui',
     ),
   ),
-  'illticonsumerxapistatementsgui' => 
-  array (
+  'illticonsumerxapistatementsgui' =>
+  array(
     'cid' => 'gk',
     'class_name' => 'ilLTIConsumerXapiStatementsGUI',
     'class_path' => './components/ILIAS/LTIConsumer/classes/class.ilLTIConsumerXapiStatementsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjlticonsumergui',
     ),
   ),
-  'illtiproviderobjectsettinggui' => 
-  array (
+  'illtiproviderobjectsettinggui' =>
+  array(
     'cid' => 'gl',
     'class_name' => 'ilLTIProviderObjectSettingGUI',
     'class_path' => './components/ILIAS/LTI/classes/InternalProvider/class.ilLTIProviderObjectSettingGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjcontentobjectgui',
       1 => 'ilobjcoursegui',
       2 => 'ilobjgroupgui',
@@ -4277,61 +4279,61 @@
       9 => 'ilsahseditgui',
     ),
   ),
-  'illtiroutergui' => 
-  array (
+  'illtiroutergui' =>
+  array(
     'cid' => 'gn',
     'class_name' => 'ilLTIRouterGUI',
     'class_path' => './components/ILIAS/LTI/classes/class.ilLTIRouterGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'illtiviewgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'illtiviewgui' => 
-  array (
+  'illtiviewgui' =>
+  array(
     'cid' => 'go',
     'class_name' => 'ilLTIViewGUI',
     'class_path' => './components/ILIAS/LTI/classes/class.ilLTIViewGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'illtiroutergui',
     ),
   ),
-  'illearninghistorygui' => 
-  array (
+  'illearninghistorygui' =>
+  array(
     'cid' => 'gr',
     'class_name' => 'ilLearningHistoryGUI',
     'class_path' => './components/ILIAS/LearningHistory/classes/class.ilLearningHistoryGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilachievementsgui',
       1 => 'ilpageobjectgui',
       2 => 'ilportfoliopagegui',
     ),
   ),
-  'illearningprogressgui' => 
-  array (
+  'illearningprogressgui' =>
+  array(
     'cid' => 'gu',
     'class_name' => 'ilLearningProgressGUI',
     'class_path' => './components/ILIAS/Tracking/classes/class.ilLearningProgressGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'illplistofobjectsgui',
       1 => 'illplistofsettingsgui',
       2 => 'illplistofprogressgui',
       3 => 'illpobjectstatisticsgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilachievementsgui',
       1 => 'illmpresentationgui',
       2 => 'ilobjcmixapigui',
@@ -4362,13 +4364,13 @@
       27 => 'ilsahspresentationgui',
     ),
   ),
-  'illearningsequencemembershipgui' => 
-  array (
+  'illearningsequencemembershipgui' =>
+  array(
     'cid' => 'gw',
     'class_name' => 'ilLearningSequenceMembershipGUI',
     'class_path' => './components/ILIAS/LearningSequence/classes/Members/class.ilLearningSequenceMembershipGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilmailmembersearchgui',
       1 => 'ilusersgallerygui',
       2 => 'ilrepositorysearchgui',
@@ -4377,125 +4379,125 @@
       5 => 'ilsessionoverviewgui',
       6 => 'ilmemberexportgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjlearningsequencegui',
     ),
   ),
-  'illegaldocumentsadministrationgui' => 
-  array (
+  'illegaldocumentsadministrationgui' =>
+  array(
     'cid' => 'gz',
     'class_name' => 'ilLegalDocumentsAdministrationGUI',
     'class_path' => './components/ILIAS/LegalDocuments/classes/class.ilLegalDocumentsAdministrationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjdataprotectiongui',
       1 => 'ilobjtermsofservicegui',
     ),
   ),
-  'illegaldocumentsagreementgui' => 
-  array (
+  'illegaldocumentsagreementgui' =>
+  array(
     'cid' => 'h0',
     'class_name' => 'ilLegalDocumentsAgreementGUI',
     'class_path' => './components/ILIAS/LegalDocuments/classes/class.ilLegalDocumentsAgreementGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpersonalprofilegui',
     ),
   ),
-  'illegaldocumentswithdrawalgui' => 
-  array (
+  'illegaldocumentswithdrawalgui' =>
+  array(
     'cid' => 'h1',
     'class_name' => 'ilLegalDocumentsWithdrawalGUI',
     'class_path' => './components/ILIAS/LegalDocuments/classes/class.ilLegalDocumentsWithdrawalGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpersonalprofilegui',
     ),
   ),
-  'illikegui' => 
-  array (
+  'illikegui' =>
+  array(
     'cid' => 'h3',
     'class_name' => 'ilLikeGUI',
     'class_path' => './components/ILIAS/Like/classes/class.ilLikeGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilnewstimelinegui',
     ),
   ),
-  'illinkinputgui' => 
-  array (
+  'illinkinputgui' =>
+  array(
     'cid' => 'h4',
     'class_name' => 'ilLinkInputGUI',
     'class_path' => './components/ILIAS/Form/classes/class.ilLinkInputGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilinternallinkgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilformpropertydispatchgui',
     ),
   ),
-  'illinkresourcehandlergui' => 
-  array (
+  'illinkresourcehandlergui' =>
+  array(
     'cid' => 'h5',
     'class_name' => 'ilLinkResourceHandlerGUI',
     'class_path' => './components/ILIAS/WebResource/classes/class.ilLinkResourceHandlerGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjlinkresourcegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'illocalunitconfigurationgui' => 
-  array (
+  'illocalunitconfigurationgui' =>
+  array(
     'cid' => 'ha',
     'class_name' => 'ilLocalUnitConfigurationGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilLocalUnitConfigurationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjquestionpoolgui',
       1 => 'ilobjtestgui',
     ),
   ),
-  'illocalusergui' => 
-  array (
+  'illocalusergui' =>
+  array(
     'cid' => 'hb',
     'class_name' => 'ilLocalUserGUI',
     'class_path' => './components/ILIAS/OrgUnit/classes/LocalUser/class.ilLocalUserGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjorgunitgui',
     ),
   ),
-  'illoginpagegui' => 
-  array (
+  'illoginpagegui' =>
+  array(
     'cid' => 'hg',
     'class_name' => 'ilLoginPageGUI',
     'class_path' => './components/ILIAS/Authentication/classes/class.ilLoginPageGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpageeditorgui',
       1 => 'ileditclipboardgui',
       2 => 'ilmdeditorgui',
@@ -4504,19 +4506,19 @@
       5 => 'ilpropertyformgui',
       6 => 'ilinternallinkgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilauthloginpageeditorgui',
       1 => 'ilstartupgui',
     ),
   ),
-  'illuceneadvancedsearchgui' => 
-  array (
+  'illuceneadvancedsearchgui' =>
+  array(
     'cid' => 'hi',
     'class_name' => 'ilLuceneAdvancedSearchGUI',
     'class_path' => './components/ILIAS/Search/classes/Lucene/class.ilLuceneAdvancedSearchGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjectgui',
       1 => 'ilcontainergui',
       2 => 'ilobjcategorygui',
@@ -4526,18 +4528,18 @@
       6 => 'ilobjrootfoldergui',
       7 => 'ilobjectcopygui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilsearchcontrollergui',
     ),
   ),
-  'illucenesearchgui' => 
-  array (
+  'illucenesearchgui' =>
+  array(
     'cid' => 'hk',
     'class_name' => 'ilLuceneSearchGUI',
     'class_path' => './components/ILIAS/Search/classes/Lucene/class.ilLuceneSearchGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpropertyformgui',
       1 => 'ilobjectgui',
       2 => 'ilcontainergui',
@@ -4548,78 +4550,78 @@
       7 => 'ilobjrootfoldergui',
       8 => 'ilobjectcopygui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilsearchcontrollergui',
     ),
   ),
-  'illuceneusersearchgui' => 
-  array (
+  'illuceneusersearchgui' =>
+  array(
     'cid' => 'hl',
     'class_name' => 'ilLuceneUserSearchGUI',
     'class_path' => './components/ILIAS/Search/classes/Lucene/class.ilLuceneUserSearchGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpublicuserprofilegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilsearchcontrollergui',
     ),
   ),
-  'ilmdcopyrightimageuploadhandlergui' => 
-  array (
+  'ilmdcopyrightimageuploadhandlergui' =>
+  array(
     'cid' => 'hm',
     'class_name' => 'ilMDCopyrightImageUploadHandlerGUI',
     'class_path' => './components/ILIAS/MetaData/classes/Settings/Copyright/class.ilMDCopyrightImageUploadHandlerGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilmdcopyrightselectiongui',
     ),
   ),
-  'ilmdcopyrightselectiongui' => 
-  array (
+  'ilmdcopyrightselectiongui' =>
+  array(
     'cid' => 'hn',
     'class_name' => 'ilMDCopyrightSelectionGUI',
     'class_path' => './components/ILIAS/MetaData/classes/Settings/Copyright/class.ilMDCopyrightSelectionGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilmdcopyrightusagegui',
       1 => 'ilmdcopyrightimageuploadhandlergui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjmdsettingsgui',
     ),
   ),
-  'ilmdcopyrightusagegui' => 
-  array (
+  'ilmdcopyrightusagegui' =>
+  array(
     'cid' => 'hp',
     'class_name' => 'ilMDCopyrightUsageGUI',
     'class_path' => './components/ILIAS/MetaData/classes/Settings/Copyright/Usage/class.ilMDCopyrightUsageGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpublicuserprofilegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilmdcopyrightselectiongui',
     ),
   ),
-  'ilmdeditorgui' => 
-  array (
+  'ilmdeditorgui' =>
+  array(
     'cid' => 'hr',
     'class_name' => 'ilMDEditorGUI',
     'class_path' => './components/ILIAS/MetaData/classes/Editor/class.ilMDEditorGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilassgenfeedbackpagegui',
       1 => 'ilasshintpagegui',
       2 => 'ilassquestionpagegui',
@@ -4638,255 +4640,255 @@
       15 => 'iltestpagegui',
     ),
   ),
-  'ilmmitemtranslationgui' => 
-  array (
+  'ilmmitemtranslationgui' =>
+  array(
     'cid' => 'ht',
     'class_name' => 'ilMMItemTranslationGUI',
     'class_path' => './components/ILIAS/MainMenu/classes/Administration/class.ilMMItemTranslationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilmmsubitemgui',
       1 => 'ilmmtopitemgui',
     ),
   ),
-  'ilmmsubitemgui' => 
-  array (
+  'ilmmsubitemgui' =>
+  array(
     'cid' => 'hv',
     'class_name' => 'ilMMSubItemGUI',
     'class_path' => './components/ILIAS/MainMenu/classes/Administration/class.ilMMSubItemGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilmmitemtranslationgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjmainmenugui',
     ),
   ),
-  'ilmmtopitemgui' => 
-  array (
+  'ilmmtopitemgui' =>
+  array(
     'cid' => 'hz',
     'class_name' => 'ilMMTopItemGUI',
     'class_path' => './components/ILIAS/MainMenu/classes/Administration/class.ilMMTopItemGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilmmitemtranslationgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjmainmenugui',
     ),
   ),
-  'ilmmuploadhandlergui' => 
-  array (
+  'ilmmuploadhandlergui' =>
+  array(
     'cid' => 'i1',
     'class_name' => 'ilMMUploadHandlerGUI',
     'class_path' => './components/ILIAS/MainMenu/classes/Administration/class.ilMMUploadHandlerGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjmainmenugui',
     ),
   ),
-  'ilmstlistcertificatesgui' => 
-  array (
+  'ilmstlistcertificatesgui' =>
+  array(
     'cid' => 'i2',
     'class_name' => 'ilMStListCertificatesGUI',
     'class_path' => './components/ILIAS/MyStaff/classes/ListCertificates/class.ilMStListCertificatesGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
       1 => 'ilusercertificateapigui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilmystaffgui',
     ),
   ),
-  'ilmstlistcompetencesgui' => 
-  array (
+  'ilmstlistcompetencesgui' =>
+  array(
     'cid' => 'i3',
     'class_name' => 'ilMStListCompetencesGUI',
     'class_path' => './components/ILIAS/MyStaff/classes/ListCompetences/class.ilMStListCompetencesGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilmstlistcompetencesskillsgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilmystaffgui',
     ),
   ),
-  'ilmstlistcompetencesskillsgui' => 
-  array (
+  'ilmstlistcompetencesskillsgui' =>
+  array(
     'cid' => 'i4',
     'class_name' => 'ilMStListCompetencesSkillsGUI',
     'class_path' => './components/ILIAS/MyStaff/classes/ListCompetences/Skills/class.ilMStListCompetencesSkillsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilmstlistcompetencesgui',
     ),
   ),
-  'ilmstlistcoursesgui' => 
-  array (
+  'ilmstlistcoursesgui' =>
+  array(
     'cid' => 'i5',
     'class_name' => 'ilMStListCoursesGUI',
     'class_path' => './components/ILIAS/MyStaff/classes/ListCourses/class.ilMStListCoursesGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilmstlistcoursestablegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilmystaffgui',
     ),
   ),
-  'ilmstlistcoursestablegui' => 
-  array (
+  'ilmstlistcoursestablegui' =>
+  array(
     'cid' => 'i6',
     'class_name' => 'ilMStListCoursesTableGUI',
     'class_path' => './components/ILIAS/MyStaff/classes/ListCourses/class.ilMStListCoursesTableGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilmstlistcoursesgui',
     ),
   ),
-  'ilmstlistusersgui' => 
-  array (
+  'ilmstlistusersgui' =>
+  array(
     'cid' => 'i7',
     'class_name' => 'ilMStListUsersGUI',
     'class_path' => './components/ILIAS/MyStaff/classes/ListUsers/class.ilMStListUsersGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilmystaffgui',
     ),
   ),
-  'ilmstshowusercompetencesgui' => 
-  array (
+  'ilmstshowusercompetencesgui' =>
+  array(
     'cid' => 'i8',
     'class_name' => 'ilMStShowUserCompetencesGUI',
     'class_path' => './components/ILIAS/MyStaff/classes/ShowUser/Competences/class.ilMStShowUserCompetencesGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilmstshowusergui',
     ),
   ),
-  'ilmstshowusercoursesgui' => 
-  array (
+  'ilmstshowusercoursesgui' =>
+  array(
     'cid' => 'i9',
     'class_name' => 'ilMStShowUserCoursesGUI',
     'class_path' => './components/ILIAS/MyStaff/classes/ShowUser/Courses/class.ilMStShowUserCoursesGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilmstshowusercoursestablegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilmstshowusergui',
     ),
   ),
-  'ilmstshowusercoursestablegui' => 
-  array (
+  'ilmstshowusercoursestablegui' =>
+  array(
     'cid' => 'ia',
     'class_name' => 'ilMStShowUserCoursesTableGUI',
     'class_path' => './components/ILIAS/MyStaff/classes/ShowUser/Courses/class.ilMStShowUserCoursesTableGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilmstshowusercoursesgui',
     ),
   ),
-  'ilmstshowusergui' => 
-  array (
+  'ilmstshowusergui' =>
+  array(
     'cid' => 'ib',
     'class_name' => 'ilMStShowUserGUI',
     'class_path' => './components/ILIAS/MyStaff/classes/ShowUser/class.ilMStShowUserGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilusercertificategui',
       1 => 'ilemployeetalkmystaffusergui',
       2 => 'ilmstshowusercompetencesgui',
       3 => 'ilmstshowusercoursesgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilmystaffgui',
     ),
   ),
-  'ilmailattachmentgui' => 
-  array (
+  'ilmailattachmentgui' =>
+  array(
     'cid' => 'ic',
     'class_name' => 'ilMailAttachmentGUI',
     'class_path' => './components/ILIAS/Mail/classes/class.ilMailAttachmentGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilmailformgui',
       1 => 'ilmailgui',
     ),
   ),
-  'ilmailfoldergui' => 
-  array (
+  'ilmailfoldergui' =>
+  array(
     'cid' => 'ie',
     'class_name' => 'ilMailFolderGUI',
     'class_path' => './components/ILIAS/Mail/classes/class.ilMailFolderGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpublicuserprofilegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilmailgui',
     ),
   ),
-  'ilmailformgui' => 
-  array (
+  'ilmailformgui' =>
+  array(
     'cid' => 'ih',
     'class_name' => 'ilMailFormGUI',
     'class_path' => './components/ILIAS/Mail/classes/class.ilMailFormGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilmailattachmentgui',
       1 => 'ilmailsearchgui',
       2 => 'ilmailsearchcoursesgui',
       3 => 'ilmailsearchgroupsgui',
       4 => 'ilmailinglistsgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilmailgui',
     ),
   ),
-  'ilmailgui' => 
-  array (
+  'ilmailgui' =>
+  array(
     'cid' => 'ii',
     'class_name' => 'ilMailGUI',
     'class_path' => './components/ILIAS/Mail/classes/class.ilMailGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilmailfoldergui',
       1 => 'ilmailformgui',
       2 => 'ilcontactgui',
@@ -4895,20 +4897,20 @@
       5 => 'ilmailsearchgui',
       6 => 'ilobjusergui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'ilmailmembersearchgui' => 
-  array (
+  'ilmailmembersearchgui' =>
+  array(
     'cid' => 'ij',
     'class_name' => 'ilMailMemberSearchGUI',
     'class_path' => './components/ILIAS/Contact/classes/class.ilMailMemberSearchGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcoursemembershipgui',
       1 => 'ilgroupmembershipgui',
       2 => 'illearningsequencemembershipgui',
@@ -4917,230 +4919,230 @@
       5 => 'ilsessionmembershipgui',
     ),
   ),
-  'ilmailoptionsgui' => 
-  array (
+  'ilmailoptionsgui' =>
+  array(
     'cid' => 'im',
     'class_name' => 'ilMailOptionsGUI',
     'class_path' => './components/ILIAS/Mail/classes/class.ilMailOptionsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilmailgui',
       1 => 'ilpersonalsettingsgui',
     ),
   ),
-  'ilmailsearchcoursesgui' => 
-  array (
+  'ilmailsearchcoursesgui' =>
+  array(
     'cid' => 'io',
     'class_name' => 'ilMailSearchCoursesGUI',
     'class_path' => './components/ILIAS/Contact/classes/class.ilMailSearchCoursesGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilbuddysystemgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcontactgui',
       1 => 'ilmailformgui',
       2 => 'ilworkspaceaccessgui',
     ),
   ),
-  'ilmailsearchgui' => 
-  array (
+  'ilmailsearchgui' =>
+  array(
     'cid' => 'ip',
     'class_name' => 'ilMailSearchGUI',
     'class_path' => './components/ILIAS/Contact/classes/class.ilMailSearchGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ildashboardgui',
       1 => 'ilmailformgui',
       2 => 'ilmailgui',
       3 => 'ilworkspaceaccessgui',
     ),
   ),
-  'ilmailsearchgroupsgui' => 
-  array (
+  'ilmailsearchgroupsgui' =>
+  array(
     'cid' => 'iq',
     'class_name' => 'ilMailSearchGroupsGUI',
     'class_path' => './components/ILIAS/Contact/classes/class.ilMailSearchGroupsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilbuddysystemgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcontactgui',
       1 => 'ilmailformgui',
       2 => 'ilworkspaceaccessgui',
     ),
   ),
-  'ilmailtemplategui' => 
-  array (
+  'ilmailtemplategui' =>
+  array(
     'cid' => 'iv',
     'class_name' => 'ilMailTemplateGUI',
     'class_path' => './components/ILIAS/Mail/classes/class.ilMailTemplateGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjmailgui',
     ),
   ),
-  'ilmailinglistsgui' => 
-  array (
+  'ilmailinglistsgui' =>
+  array(
     'cid' => 'iy',
     'class_name' => 'ilMailingListsGUI',
     'class_path' => './components/ILIAS/Contact/classes/class.ilMailingListsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcontactgui',
       1 => 'ilmailformgui',
     ),
   ),
-  'ilmarkschemagui' => 
-  array (
+  'ilmarkschemagui' =>
+  array(
     'cid' => 'j4',
     'class_name' => 'ilMarkSchemaGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilMarkSchemaGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjtestgui',
     ),
   ),
-  'ilmathjaxsettingsgui' => 
-  array (
+  'ilmathjaxsettingsgui' =>
+  array(
     'cid' => 'j9',
     'class_name' => 'ilMathJaxSettingsGUI',
     'class_path' => './components/ILIAS/MathJax/classes/class.ilMathJaxSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjexternaltoolssettingsgui',
     ),
   ),
-  'ilmediacasthandlergui' => 
-  array (
+  'ilmediacasthandlergui' =>
+  array(
     'cid' => 'jb',
     'class_name' => 'ilMediaCastHandlerGUI',
     'class_path' => './components/ILIAS/MediaCast/classes/class.ilMediaCastHandlerGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjmediacastgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'ilmediacreationgui' => 
-  array (
+  'ilmediacreationgui' =>
+  array(
     'cid' => 'jf',
     'class_name' => 'ilMediaCreationGUI',
     'class_path' => './components/ILIAS/MediaObjects/Creation/class.ilMediaCreationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpropertyformgui',
       1 => 'ilrepostandarduploadhandlergui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjmediacastgui',
       1 => 'ilobjmediapoolgui',
     ),
   ),
-  'ilmediaobjectsplayerwrappergui' => 
-  array (
+  'ilmediaobjectsplayerwrappergui' =>
+  array(
     'cid' => 'jh',
     'class_name' => 'ilMediaObjectsPlayerWrapperGUI',
     'class_path' => './components/ILIAS/MediaObjects/Player/class.ilMediaObjectsPlayerWrapperGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'mcstpodcastgui',
     ),
   ),
-  'ilmediapoolimportgui' => 
-  array (
+  'ilmediapoolimportgui' =>
+  array(
     'cid' => 'jj',
     'class_name' => 'ilMediaPoolImportGUI',
     'class_path' => './components/ILIAS/MediaPool/classes/class.ilMediaPoolImportGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjmediapoolgui',
     ),
   ),
-  'ilmediapoolpagegui' => 
-  array (
+  'ilmediapoolpagegui' =>
+  array(
     'cid' => 'jk',
     'class_name' => 'ilMediaPoolPageGUI',
     'class_path' => './components/ILIAS/MediaPool/classes/class.ilMediaPoolPageGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpageeditorgui',
       1 => 'ileditclipboardgui',
       2 => 'ilpublicuserprofilegui',
       3 => 'ilobjectmetadatagui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjmediapoolgui',
     ),
   ),
-  'ilmediapoolpresentationgui' => 
-  array (
+  'ilmediapoolpresentationgui' =>
+  array(
     'cid' => 'jm',
     'class_name' => 'ilMediaPoolPresentationGUI',
     'class_path' => './components/ILIAS/MediaPool/classes/class.ilMediaPoolPresentationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjmediapoolgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'ilmemberagreementgui' => 
-  array (
+  'ilmemberagreementgui' =>
+  array(
     'cid' => 'jo',
     'class_name' => 'ilMemberAgreementGUI',
     'class_path' => './components/ILIAS/Membership/classes/class.ilMemberAgreementGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjcoursegui',
       1 => 'ilobjgroupgui',
     ),
   ),
-  'ilmemberexportgui' => 
-  array (
+  'ilmemberexportgui' =>
+  array(
     'cid' => 'jq',
     'class_name' => 'ilMemberExportGUI',
     'class_path' => './components/ILIAS/Membership/classes/Export/class.ilMemberExportGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcoursemembershipgui',
       1 => 'ilgroupmembershipgui',
       2 => 'illearningsequencemembershipgui',
@@ -5149,111 +5151,111 @@
       5 => 'ilsessionmembershipgui',
     ),
   ),
-  'ilmemberexportsettingsgui' => 
-  array (
+  'ilmemberexportsettingsgui' =>
+  array(
     'cid' => 'jr',
     'class_name' => 'ilMemberExportSettingsGUI',
     'class_path' => './components/ILIAS/Membership/classes/Export/class.ilMemberExportSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilobjcourseadministrationgui',
       2 => 'ilobjcoursegui',
       3 => 'ilobjgroupadministrationgui',
     ),
   ),
-  'ilmembershipblockgui' => 
-  array (
+  'ilmembershipblockgui' =>
+  array(
     'cid' => 'ju',
     'class_name' => 'ilMembershipBlockGUI',
     'class_path' => './components/ILIAS/Dashboard/Block/classes/class.ilMembershipBlockGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ildashboardgui',
       1 => 'ilmembershipoverviewgui',
     ),
   ),
-  'ilmembershipmailgui' => 
-  array (
+  'ilmembershipmailgui' =>
+  array(
     'cid' => 'jw',
     'class_name' => 'ilMembershipMailGUI',
     'class_path' => './components/ILIAS/Membership/classes/class.ilMembershipMailGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjsessiongui',
     ),
   ),
-  'ilmembershipoverviewgui' => 
-  array (
+  'ilmembershipoverviewgui' =>
+  array(
     'cid' => 'jx',
     'class_name' => 'ilMembershipOverviewGUI',
     'class_path' => './components/ILIAS/Membership/classes/class.ilMembershipOverviewGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilmembershipblockgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilstartupgui',
     ),
   ),
-  'ilmessagegui' => 
-  array (
+  'ilmessagegui' =>
+  array(
     'cid' => 'jz',
     'class_name' => 'ilMessageGUI',
     'class_path' => './components/ILIAS/Notes/Message/class.ilMessageGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilexpeerreviewgui',
     ),
   ),
-  'ilmobmultisrtuploadgui' => 
-  array (
+  'ilmobmultisrtuploadgui' =>
+  array(
     'cid' => 'k2',
     'class_name' => 'ilMobMultiSrtUploadGUI',
     'class_path' => './components/ILIAS/MediaObjects/SubTitles/class.ilMobMultiSrtUploadGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjcontentobjectgui',
       1 => 'ilobjlearningmodulegui',
       2 => 'ilobjmediapoolgui',
     ),
   ),
-  'ilmultilingualismgui' => 
-  array (
+  'ilmultilingualismgui' =>
+  array(
     'cid' => 'k8',
     'class_name' => 'ilMultilingualismGUI',
     'class_path' => './components/ILIAS/Multilingualism/classes/class.ilMultilingualismGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ildidactictemplatesettingsgui',
     ),
   ),
-  'ilmystaffgui' => 
-  array (
+  'ilmystaffgui' =>
+  array(
     'cid' => 'ke',
     'class_name' => 'ilMyStaffGUI',
     'class_path' => './components/ILIAS/MyStaff/classes/class.ilMyStaffGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilemployeetalkmystafflistgui',
       1 => 'ilmstlistcertificatesgui',
       2 => 'ilmstlistcompetencesgui',
@@ -5261,99 +5263,99 @@
       4 => 'ilmstlistusersgui',
       5 => 'ilmstshowusergui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ildashboardgui',
     ),
   ),
-  'ilmytestresultsgui' => 
-  array (
+  'ilmytestresultsgui' =>
+  array(
     'cid' => 'kf',
     'class_name' => 'ilMyTestResultsGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilMyTestResultsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'iltestevaluationgui',
       1 => 'ilassquestionpagegui',
       2 => 'ilassspecfeedbackpagegui',
       3 => 'ilassgenfeedbackpagegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iltestresultsgui',
     ),
   ),
-  'ilmytestsolutionsgui' => 
-  array (
+  'ilmytestsolutionsgui' =>
+  array(
     'cid' => 'kg',
     'class_name' => 'ilMyTestSolutionsGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilMyTestSolutionsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'iltestevaluationgui',
       1 => 'ilassquestionpagegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iltestresultsgui',
     ),
   ),
-  'ilnewsforcontextblockgui' => 
-  array (
+  'ilnewsforcontextblockgui' =>
+  array(
     'cid' => 'kk',
     'class_name' => 'ilNewsForContextBlockGUI',
     'class_path' => './components/ILIAS/News/classes/class.ilNewsForContextBlockGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilnewsitemgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcolumngui',
     ),
   ),
-  'ilnewsitemgui' => 
-  array (
+  'ilnewsitemgui' =>
+  array(
     'cid' => 'km',
     'class_name' => 'ilNewsItemGUI',
     'class_path' => './components/ILIAS/News/classes/class.ilNewsItemGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'illmpagegui',
       1 => 'ilnewsforcontextblockgui',
       2 => 'ilpageobjectgui',
     ),
   ),
-  'ilnewstimelinegui' => 
-  array (
+  'ilnewstimelinegui' =>
+  array(
     'cid' => 'kn',
     'class_name' => 'ilNewsTimelineGUI',
     'class_path' => './components/ILIAS/News/classes/class.ilNewsTimelineGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'illikegui',
       1 => 'ilcommentgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjcoursegui',
       1 => 'ilobjgroupgui',
       2 => 'ilpdnewsgui',
     ),
   ),
-  'ilnotegui' => 
-  array (
+  'ilnotegui' =>
+  array(
     'cid' => 'kq',
     'class_name' => 'ilNoteGUI',
     'class_path' => './components/ILIAS/Notes/Note/class.ilNoteGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilassgenfeedbackpagegui',
       1 => 'ilasshintpagegui',
       2 => 'ilassquestionpagegui',
@@ -5384,84 +5386,84 @@
       27 => 'ilwikipagegui',
     ),
   ),
-  'ilnotificationgui' => 
-  array (
+  'ilnotificationgui' =>
+  array(
     'cid' => 'kr',
     'class_name' => 'ilNotificationGUI',
     'class_path' => './components/ILIAS/Notifications/classes/class.ilNotificationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'ilobjaccessibilitysettingsgui' => 
-  array (
+  'ilobjaccessibilitysettingsgui' =>
+  array(
     'cid' => 'ku',
     'class_name' => 'ilObjAccessibilitySettingsGUI',
     'class_path' => './components/ILIAS/Accessibility/classes/class.ilObjAccessibilitySettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilaccessibilitydocumentgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjadministrativenotificationgui' => 
-  array (
+  'ilobjadministrativenotificationgui' =>
+  array(
     'cid' => 'kv',
     'class_name' => 'ilObjAdministrativeNotificationGUI',
     'class_path' => './components/ILIAS/AdministrativeNotification/classes/class.ilObjAdministrativeNotificationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'iladnnotificationgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjadvancededitinggui' => 
-  array (
+  'ilobjadvancededitinggui' =>
+  array(
     'cid' => 'kw',
     'class_name' => 'ilObjAdvancedEditingGUI',
     'class_path' => './components/ILIAS/AdvancedEditing/classes/class.ilObjAdvancedEditingGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjassessmentfoldergui' => 
-  array (
+  'ilobjassessmentfoldergui' =>
+  array(
     'cid' => 'kx',
     'class_name' => 'ilObjAssessmentFolderGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilObjAssessmentFolderGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilglobalunitconfigurationgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjauthsettingsgui' => 
-  array (
+  'ilobjauthsettingsgui' =>
+  array(
     'cid' => 'ky',
     'class_name' => 'ilObjAuthSettingsGUI',
     'class_path' => './components/ILIAS/Authentication/classes/class.ilObjAuthSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilregistrationsettingsgui',
       2 => 'illdapsettingsgui',
@@ -5471,66 +5473,66 @@
       6 => 'ilopenidconnectsettingsgui',
       7 => 'ilauthloginpageeditorgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjawarenessadministrationgui' => 
-  array (
+  'ilobjawarenessadministrationgui' =>
+  array(
     'cid' => 'l0',
     'class_name' => 'ilObjAwarenessAdministrationGUI',
     'class_path' => './components/ILIAS/Awareness/Administration/class.ilObjAwarenessAdministrationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'iluseractionadmingui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjbadgeadministrationgui' => 
-  array (
+  'ilobjbadgeadministrationgui' =>
+  array(
     'cid' => 'l1',
     'class_name' => 'ilObjBadgeAdministrationGUI',
     'class_path' => './components/ILIAS/Badge/classes/class.ilObjBadgeAdministrationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilbadgemanagementgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjbibliographicadmingui' => 
-  array (
+  'ilobjbibliographicadmingui' =>
+  array(
     'cid' => 'l2',
     'class_name' => 'ilObjBibliographicAdminGUI',
     'class_path' => './components/ILIAS/Bibliographic/classes/class.ilObjBibliographicAdminGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilbibladminfieldgui',
       2 => 'ilbibllibrarygui',
       3 => 'ilbibladminrisfieldgui',
       4 => 'ilbibladminbibtexfieldgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjbibliographicgui' => 
-  array (
+  'ilobjbibliographicgui' =>
+  array(
     'cid' => 'l3',
     'class_name' => 'ilObjBibliographicGUI',
     'class_path' => './components/ILIAS/Bibliographic/classes/class.ilObjBibliographicGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilinfoscreengui',
       1 => 'ilnotegui',
       2 => 'ilcommonactiondispatchergui',
@@ -5542,48 +5544,48 @@
       8 => 'ilbiblfieldfiltergui',
       9 => 'ilobjbibliographicuploadhandlergui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilrepositorygui',
       1 => 'iladministrationgui',
     ),
   ),
-  'ilobjbibliographicuploadhandlergui' => 
-  array (
+  'ilobjbibliographicuploadhandlergui' =>
+  array(
     'cid' => 'l5',
     'class_name' => 'ilObjBibliographicUploadHandlerGUI',
     'class_path' => './components/ILIAS/Bibliographic/classes/class.ilObjBibliographicUploadHandlerGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjbibliographicgui',
       1 => 'ilrepositorygui',
       2 => 'ildashboardgui',
     ),
   ),
-  'ilobjblogadministrationgui' => 
-  array (
+  'ilobjblogadministrationgui' =>
+  array(
     'cid' => 'l6',
     'class_name' => 'ilObjBlogAdministrationGUI',
     'class_path' => './components/ILIAS/Blog/Administration/class.ilObjBlogAdministrationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjbloggui' => 
-  array (
+  'ilobjbloggui' =>
+  array(
     'cid' => 'l7',
     'class_name' => 'ilObjBlogGUI',
     'class_path' => './components/ILIAS/Blog/classes/class.ilObjBlogGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilblogpostinggui',
       1 => 'ilworkspaceaccessgui',
       2 => 'ilportfoliopagegui',
@@ -5598,8 +5600,8 @@
       11 => 'ilblogexercisegui',
       12 => 'ilobjnotificationsettingsgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilpersonalworkspacegui',
       2 => 'ilportfoliopagegui',
@@ -5607,13 +5609,13 @@
       4 => 'ilsharedresourcegui',
     ),
   ),
-  'ilobjbookingpoolgui' => 
-  array (
+  'ilobjbookingpoolgui' =>
+  array(
     'cid' => 'l9',
     'class_name' => 'ilObjBookingPoolGUI',
     'class_path' => './components/ILIAS/BookingManager/classes/class.ilObjBookingPoolGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilbookingobjectgui',
       2 => 'ildidactictemplategui',
@@ -5627,33 +5629,33 @@
       10 => 'ilbookingreservationsgui',
       11 => 'ilbookingpreferencesgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilrepositorygui',
       1 => 'iladministrationgui',
     ),
   ),
-  'ilobjcalendarsettingsgui' => 
-  array (
+  'ilobjcalendarsettingsgui' =>
+  array(
     'cid' => 'lb',
     'class_name' => 'ilObjCalendarSettingsGUI',
     'class_path' => './components/ILIAS/Calendar/classes/class.ilObjCalendarSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjcategorygui' => 
-  array (
+  'ilobjcategorygui' =>
+  array(
     'cid' => 'lc',
     'class_name' => 'ilObjCategoryGUI',
     'class_path' => './components/ILIAS/Category/classes/class.ilObjCategoryGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilcontainerpagegui',
       2 => 'ilobjusergui',
@@ -5674,8 +5676,8 @@
       17 => 'ilcontainerfilteradmingui',
       18 => 'ilrepositorytrashgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'iladvancedsearchgui',
       2 => 'illuceneadvancedsearchgui',
@@ -5684,44 +5686,44 @@
       5 => 'ilsearchgui',
     ),
   ),
-  'ilobjcategoryreferencegui' => 
-  array (
+  'ilobjcategoryreferencegui' =>
+  array(
     'cid' => 'le',
     'class_name' => 'ilObjCategoryReferenceGUI',
     'class_path' => './components/ILIAS/CategoryReference/classes/class.ilObjCategoryReferenceGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilinfoscreengui',
       2 => 'ilpropertyformgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilrepositorygui',
     ),
   ),
-  'ilobjcertificatesettingsgui' => 
-  array (
+  'ilobjcertificatesettingsgui' =>
+  array(
     'cid' => 'lg',
     'class_name' => 'ilObjCertificateSettingsGUI',
     'class_path' => './components/ILIAS/Certificate/classes/class.ilObjCertificateSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjchatroomadmingui' => 
-  array (
+  'ilobjchatroomadmingui' =>
+  array(
     'cid' => 'lh',
     'class_name' => 'ilObjChatroomAdminGUI',
     'class_path' => './components/ILIAS/Chatroom/classes/class.ilObjChatroomAdminGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilmdeditorgui',
       1 => 'ilinfoscreengui',
       2 => 'ilpermissiongui',
@@ -5729,19 +5731,19 @@
       4 => 'ilexportgui',
       5 => 'ilobjchatroomgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilrepositorygui',
       1 => 'iladministrationgui',
     ),
   ),
-  'ilobjchatroomgui' => 
-  array (
+  'ilobjchatroomgui' =>
+  array(
     'cid' => 'li',
     'class_name' => 'ilObjChatroomGUI',
     'class_path' => './components/ILIAS/Chatroom/classes/class.ilObjChatroomGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilmdeditorgui',
       1 => 'ilinfoscreengui',
       2 => 'ilpermissiongui',
@@ -5751,21 +5753,21 @@
       6 => 'ilpropertyformgui',
       7 => 'ilexportgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ildashboardgui',
       2 => 'ilobjchatroomadmingui',
       3 => 'ilrepositorygui',
     ),
   ),
-  'ilobjcloudgui' => 
-  array (
+  'ilobjcloudgui' =>
+  array(
     'cid' => 'll',
     'class_name' => 'ilObjCloudGUI',
     'class_path' => './components/ILIAS/Cloud/classes/class.ilObjCloudGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilnotegui',
       2 => 'ilinfoscreengui',
@@ -5777,33 +5779,33 @@
       8 => 'ilcloudplugininitgui',
       9 => 'ilcloudplugininfoscreengui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilrepositorygui',
     ),
   ),
-  'ilobjcmixapiadministrationgui' => 
-  array (
+  'ilobjcmixapiadministrationgui' =>
+  array(
     'cid' => 'ln',
     'class_name' => 'ilObjCmiXapiAdministrationGUI',
     'class_path' => './components/ILIAS/CmiXapi/classes/class.ilObjCmiXapiAdministrationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjcmixapigui' => 
-  array (
+  'ilobjcmixapigui' =>
+  array(
     'cid' => 'lo',
     'class_name' => 'ilObjCmiXapiGUI',
     'class_path' => './components/ILIAS/CmiXapi/classes/class.ilObjCmiXapiGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjectcopygui',
       1 => 'ilcommonactiondispatchergui',
       2 => 'ilobjectmetadatagui',
@@ -5817,74 +5819,74 @@
       10 => 'ilcmixapiscoringgui',
       11 => 'ilcmixapiexportgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilrepositorygui',
     ),
   ),
-  'ilobjcmixapiverificationgui' => 
-  array (
+  'ilobjcmixapiverificationgui' =>
+  array(
     'cid' => 'lq',
     'class_name' => 'ilObjCmiXapiVerificationGUI',
     'class_path' => './components/ILIAS/CmiXapi/classes/Verification/class.ilObjCmiXapiVerificationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpersonalworkspacegui',
     ),
   ),
-  'ilobjcommentssettingsgui' => 
-  array (
+  'ilobjcommentssettingsgui' =>
+  array(
     'cid' => 'ls',
     'class_name' => 'ilObjCommentsSettingsGUI',
     'class_path' => './components/ILIAS/Notes/Administration/classes/class.ilObjCommentsSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjcomponentsettingsgui' => 
-  array (
+  'ilobjcomponentsettingsgui' =>
+  array(
     'cid' => 'lt',
     'class_name' => 'ilObjComponentSettingsGUI',
     'class_path' => './components/ILIAS/Component/classes/Settings/class.ilObjComponentSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjcontactadministrationgui' => 
-  array (
+  'ilobjcontactadministrationgui' =>
+  array(
     'cid' => 'lu',
     'class_name' => 'ilObjContactAdministrationGUI',
     'class_path' => './components/ILIAS/Contact/classes/class.ilObjContactAdministrationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjcontentobjectgui' => 
-  array (
+  'ilobjcontentobjectgui' =>
+  array(
     'cid' => 'lv',
     'class_name' => 'ilObjContentObjectGUI',
     'class_path' => './components/ILIAS/LearningModule/classes/class.ilObjContentObjectGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'illmpageobjectgui',
       1 => 'ilstructureobjectgui',
       2 => 'ilobjectcontentstylesettingsgui',
@@ -5902,31 +5904,31 @@
       14 => 'illmeditshorttitlesgui',
       15 => 'illtiproviderobjectsettinggui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'ilobjcontentpageadministrationgui' => 
-  array (
+  'ilobjcontentpageadministrationgui' =>
+  array(
     'cid' => 'lw',
     'class_name' => 'ilObjContentPageAdministrationGUI',
     'class_path' => './components/ILIAS/ContentPage/classes/class.ilObjContentPageAdministrationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjcontentpagegui' => 
-  array (
+  'ilobjcontentpagegui' =>
+  array(
     'cid' => 'lx',
     'class_name' => 'ilObjContentPageGUI',
     'class_path' => './components/ILIAS/ContentPage/classes/class.ilObjContentPageGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilinfoscreengui',
       2 => 'ilobjectcopygui',
@@ -5939,36 +5941,36 @@
       9 => 'ilpagemultilanggui',
       10 => 'ilmdeditorgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilrepositorygui',
       1 => 'iladministrationgui',
       2 => 'ilobjlearningsequencegui',
     ),
   ),
-  'ilobjcourseadministrationgui' => 
-  array (
+  'ilobjcourseadministrationgui' =>
+  array(
     'cid' => 'lz',
     'class_name' => 'ilObjCourseAdministrationGUI',
     'class_path' => './components/ILIAS/Course/classes/class.ilObjCourseAdministrationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilmemberexportsettingsgui',
       2 => 'iluseractionadmingui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjcoursegui' => 
-  array (
+  'ilobjcoursegui' =>
+  array(
     'cid' => 'm0',
     'class_name' => 'ilObjCourseGUI',
     'class_path' => './components/ILIAS/Course/classes/class.ilObjCourseGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilcourseregistrationgui',
       1 => 'ilcourseobjectivesgui',
       2 => 'ilobjcoursegroupinggui',
@@ -6013,8 +6015,8 @@
       41 => 'illoeditorgui',
       42 => 'illomembertestresultgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'iladvancedsearchgui',
       2 => 'illuceneadvancedsearchgui',
@@ -6024,74 +6026,74 @@
       6 => 'ilsearchgui',
     ),
   ),
-  'ilobjcoursegroupinggui' => 
-  array (
+  'ilobjcoursegroupinggui' =>
+  array(
     'cid' => 'm1',
     'class_name' => 'ilObjCourseGroupingGUI',
     'class_path' => './components/ILIAS/Course/classes/class.ilObjCourseGroupingGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjcoursegui',
       1 => 'ilobjgroupgui',
     ),
   ),
-  'ilobjcoursereferencegui' => 
-  array (
+  'ilobjcoursereferencegui' =>
+  array(
     'cid' => 'm3',
     'class_name' => 'ilObjCourseReferenceGUI',
     'class_path' => './components/ILIAS/CourseReference/classes/class.ilObjCourseReferenceGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilinfoscreengui',
       2 => 'ilpropertyformgui',
       3 => 'ilcommonactiondispatchergui',
       4 => 'illearningprogressgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilrepositorygui',
     ),
   ),
-  'ilobjcourseverificationgui' => 
-  array (
+  'ilobjcourseverificationgui' =>
+  array(
     'cid' => 'm5',
     'class_name' => 'ilObjCourseVerificationGUI',
     'class_path' => './components/ILIAS/Course/classes/Verification/class.ilObjCourseVerificationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilworkspaceaccessgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpersonalworkspacegui',
     ),
   ),
-  'ilobjdashboardsettingsgui' => 
-  array (
+  'ilobjdashboardsettingsgui' =>
+  array(
     'cid' => 'm7',
     'class_name' => 'ilObjDashboardSettingsGUI',
     'class_path' => './components/ILIAS/Dashboard/Administration/classes/class.ilObjDashboardSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjdatacollectiongui' => 
-  array (
+  'ilobjdatacollectiongui' =>
+  array(
     'cid' => 'm8',
     'class_name' => 'ilObjDataCollectionGUI',
     'class_path' => './components/ILIAS/DataCollection/classes/class.ilObjDataCollectionGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilinfoscreengui',
       1 => 'ilnotegui',
       2 => 'ilcommonactiondispatchergui',
@@ -6108,49 +6110,49 @@
       13 => 'ilpropertyformgui',
       14 => 'ildclpropertyformgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilrepositorygui',
     ),
   ),
-  'ilobjdataprotectiongui' => 
-  array (
+  'ilobjdataprotectiongui' =>
+  array(
     'cid' => 'ma',
     'class_name' => 'ilObjDataProtectionGUI',
     'class_path' => './components/ILIAS/DataProtection/classes/class.ilObjDataProtectionGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'illegaldocumentsadministrationgui',
       1 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjecssettingsgui' => 
-  array (
+  'ilobjecssettingsgui' =>
+  array(
     'cid' => 'mb',
     'class_name' => 'ilObjECSSettingsGUI',
     'class_path' => './components/ILIAS/WebServices/ECS/classes/class.ilObjECSSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilecssettingsgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjemployeetalkgui' => 
-  array (
+  'ilobjemployeetalkgui' =>
+  array(
     'cid' => 'mc',
     'class_name' => 'ilObjEmployeeTalkGUI',
     'class_path' => './components/ILIAS/EmployeeTalk/classes/Talk/class.ilObjEmployeeTalkGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilcommonactiondispatchergui',
       1 => 'ilrepositorysearchgui',
       2 => 'ilcolumngui',
@@ -6161,19 +6163,19 @@
       7 => 'ilpropertyformgui',
       8 => 'ilemployeetalkappointmentgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilemployeetalkmystafflistgui',
       1 => 'ilemployeetalkmystaffusergui',
     ),
   ),
-  'ilobjemployeetalkseriesgui' => 
-  array (
+  'ilobjemployeetalkseriesgui' =>
+  array(
     'cid' => 'me',
     'class_name' => 'ilObjEmployeeTalkSeriesGUI',
     'class_path' => './components/ILIAS/EmployeeTalk/classes/TalkSeries/class.ilObjEmployeeTalkSeriesGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilcommonactiondispatchergui',
       1 => 'ilrepositorysearchgui',
       2 => 'ilcolumngui',
@@ -6184,48 +6186,48 @@
       7 => 'ilobjfilegui',
       8 => 'ilobjfileuploadhandlergui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilemployeetalkmystafflistgui',
       1 => 'ilemployeetalkmystaffusergui',
       2 => 'iladministrationgui',
       3 => 'ilobjtalktemplateadministrationgui',
     ),
   ),
-  'ilobjemployeetalkserieslistgui' => 
-  array (
+  'ilobjemployeetalkserieslistgui' =>
+  array(
     'cid' => 'mf',
     'class_name' => 'ilObjEmployeeTalkSeriesListGUI',
     'class_path' => './components/ILIAS/EmployeeTalk/classes/TalkSeries/class.ilObjEmployeeTalkSeriesListGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'ilobjexerciseadministrationgui' => 
-  array (
+  'ilobjexerciseadministrationgui' =>
+  array(
     'cid' => 'mg',
     'class_name' => 'ilObjExerciseAdministrationGUI',
     'class_path' => './components/ILIAS/Exercise/classes/class.ilObjExerciseAdministrationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjexercisegui' => 
-  array (
+  'ilobjexercisegui' =>
+  array(
     'cid' => 'mh',
     'class_name' => 'ilObjExerciseGUI',
     'class_path' => './components/ILIAS/Exercise/classes/class.ilObjExerciseGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'illearningprogressgui',
       2 => 'ilinfoscreengui',
@@ -6241,8 +6243,8 @@
       12 => 'ilportfolioexercisegui',
       13 => 'ilexcrandomassignmentgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilexercisehandlergui',
       2 => 'ilobjlearningsequencegui',
@@ -6250,59 +6252,59 @@
       4 => 'ilrepositorygui',
     ),
   ),
-  'ilobjexerciseverificationgui' => 
-  array (
+  'ilobjexerciseverificationgui' =>
+  array(
     'cid' => 'mk',
     'class_name' => 'ilObjExerciseVerificationGUI',
     'class_path' => './components/ILIAS/Exercise/classes/class.ilObjExerciseVerificationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilworkspaceaccessgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpersonalworkspacegui',
       1 => 'ilsharedresourcegui',
     ),
   ),
-  'ilobjexternaltoolssettingsgui' => 
-  array (
+  'ilobjexternaltoolssettingsgui' =>
+  array(
     'cid' => 'mm',
     'class_name' => 'ilObjExternalToolsSettingsGUI',
     'class_path' => './components/ILIAS/Administration/classes/class.ilObjExternalToolsSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilmathjaxsettingsgui',
       2 => 'ilwopiadministrationgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjfileaccesssettingsgui' => 
-  array (
+  'ilobjfileaccesssettingsgui' =>
+  array(
     'cid' => 'mn',
     'class_name' => 'ilObjFileAccessSettingsGUI',
     'class_path' => './components/ILIAS/File/classes/class.ilObjFileAccessSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilias\\file\\icon\\ilobjfileiconsoverviewgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjfilebasedlmgui' => 
-  array (
+  'ilobjfilebasedlmgui' =>
+  array(
     'cid' => 'mo',
     'class_name' => 'ilObjFileBasedLMGUI',
     'class_path' => './components/ILIAS/HTMLLearningModule/classes/class.ilObjFileBasedLMGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilfilesystemgui',
       1 => 'ilobjectmetadatagui',
       2 => 'ilpermissiongui',
@@ -6311,8 +6313,8 @@
       5 => 'ilcommonactiondispatchergui',
       6 => 'ilexportgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilhtlmeditorgui',
       2 => 'ilhtlmpresentationgui',
@@ -6320,13 +6322,13 @@
       4 => 'ilrepositorygui',
     ),
   ),
-  'ilobjfilegui' => 
-  array (
+  'ilobjfilegui' =>
+  array(
     'cid' => 'mq',
     'class_name' => 'ilObjFileGUI',
     'class_path' => './components/ILIAS/File/classes/class.ilObjFileGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjectmetadatagui',
       1 => 'ilinfoscreengui',
       2 => 'ilpermissiongui',
@@ -6340,8 +6342,8 @@
       10 => 'ilwopiembeddedapplicationgui',
       11 => 'ilobjfileuploadhandlergui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilobjdatacollectiongui',
       2 => 'ilobjemployeetalkseriesgui',
@@ -6352,44 +6354,44 @@
       7 => 'ilsharedresourcegui',
     ),
   ),
-  'ilobjfilepreviewrenderergui' => 
-  array (
+  'ilobjfilepreviewrenderergui' =>
+  array(
     'cid' => 'ms',
     'class_name' => 'ilObjFilePreviewRendererGUI',
     'class_path' => './components/ILIAS/File/classes/Preview/class.ilObjFilePreviewRendererGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'ilobjfileservicesgui' => 
-  array (
+  'ilobjfileservicesgui' =>
+  array(
     'cid' => 'mt',
     'class_name' => 'ilObjFileServicesGUI',
     'class_path' => './components/ILIAS/FileServices/classes/class.ilObjFileServicesGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilresourceoverviewgui',
       2 => 'iluploadlimitsoverviewgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjfileuploadhandlergui' => 
-  array (
+  'ilobjfileuploadhandlergui' =>
+  array(
     'cid' => 'mu',
     'class_name' => 'ilObjFileUploadHandlerGUI',
     'class_path' => './components/ILIAS/File/classes/class.ilObjFileUploadHandlerGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjfilegui',
       1 => 'ilrepositorygui',
       2 => 'ildashboardgui',
@@ -6397,13 +6399,13 @@
       4 => 'ilobjlearningsequencegui',
     ),
   ),
-  'ilobjfoldergui' => 
-  array (
+  'ilobjfoldergui' =>
+  array(
     'cid' => 'mv',
     'class_name' => 'ilObjFolderGUI',
     'class_path' => './components/ILIAS/Folder/classes/class.ilObjFolderGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilcoursecontentgui',
       2 => 'illearningprogressgui',
@@ -6418,8 +6420,8 @@
       11 => 'ilobjecttranslationgui',
       12 => 'ilrepositorytrashgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'iladvancedsearchgui',
       2 => 'illuceneadvancedsearchgui',
@@ -6429,27 +6431,27 @@
       6 => 'ilsearchgui',
     ),
   ),
-  'ilobjforumadministrationgui' => 
-  array (
+  'ilobjforumadministrationgui' =>
+  array(
     'cid' => 'mx',
     'class_name' => 'ilObjForumAdministrationGUI',
     'class_path' => './components/ILIAS/Forum/classes/class.ilObjForumAdministrationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjforumgui' => 
-  array (
+  'ilobjforumgui' =>
+  array(
     'cid' => 'my',
     'class_name' => 'ilObjForumGUI',
     'class_path' => './components/ILIAS/Forum/classes/class.ilObjForumGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilforumexportgui',
       2 => 'ilinfoscreengui',
@@ -6467,19 +6469,19 @@
       14 => 'ilforumpagegui',
       15 => 'ilobjectcontentstylesettingsgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilrepositorygui',
     ),
   ),
-  'ilobjglossarygui' => 
-  array (
+  'ilobjglossarygui' =>
+  array(
     'cid' => 'n2',
     'class_name' => 'ilObjGlossaryGUI',
     'class_path' => './components/ILIAS/Glossary/classes/class.ilObjGlossaryGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilglossarytermgui',
       1 => 'ilmdeditorgui',
       2 => 'ilpermissiongui',
@@ -6493,36 +6495,36 @@
       10 => 'ilglossaryforeigntermcollectorgui',
       11 => 'iltermdefinitionbulkcreationgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilglossaryeditorgui',
       2 => 'ilrepositorygui',
     ),
   ),
-  'ilobjgroupadministrationgui' => 
-  array (
+  'ilobjgroupadministrationgui' =>
+  array(
     'cid' => 'n5',
     'class_name' => 'ilObjGroupAdministrationGUI',
     'class_path' => './components/ILIAS/Group/classes/class.ilObjGroupAdministrationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilmemberexportsettingsgui',
       2 => 'iluseractionadmingui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjgroupgui' => 
-  array (
+  'ilobjgroupgui' =>
+  array(
     'cid' => 'n6',
     'class_name' => 'ilObjGroupGUI',
     'class_path' => './components/ILIAS/Group/classes/class.ilObjGroupGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilgroupregistrationgui',
       1 => 'ilpermissiongui',
       2 => 'ilinfoscreengui',
@@ -6553,8 +6555,8 @@
       27 => 'ilobjecttranslationgui',
       28 => 'ilpropertyformgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'iladvancedsearchgui',
       2 => 'illuceneadvancedsearchgui',
@@ -6563,44 +6565,44 @@
       5 => 'ilsearchgui',
     ),
   ),
-  'ilobjgroupreferencegui' => 
-  array (
+  'ilobjgroupreferencegui' =>
+  array(
     'cid' => 'n8',
     'class_name' => 'ilObjGroupReferenceGUI',
     'class_path' => './components/ILIAS/GroupReference/classes/class.ilObjGroupReferenceGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilinfoscreengui',
       2 => 'ilpropertyformgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilrepositorygui',
     ),
   ),
-  'ilobjhelpsettingsgui' => 
-  array (
+  'ilobjhelpsettingsgui' =>
+  array(
     'cid' => 'na',
     'class_name' => 'ilObjHelpSettingsGUI',
     'class_path' => './components/ILIAS/Help/Administration/class.ilObjHelpSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjindividualassessmentgui' => 
-  array (
+  'ilobjindividualassessmentgui' =>
+  array(
     'cid' => 'nb',
     'class_name' => 'ilObjIndividualAssessmentGUI',
     'class_path' => './components/ILIAS/IndividualAssessment/classes/class.ilObjIndividualAssessmentGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilinfoscreengui',
       2 => 'ilobjectcopygui',
@@ -6611,54 +6613,54 @@
       7 => 'ilexportgui',
       8 => 'ilobjectmetadatagui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilobjlearningsequencegui',
       2 => 'ilrepositorygui',
     ),
   ),
-  'ilobjitemgroupgui' => 
-  array (
+  'ilobjitemgroupgui' =>
+  array(
     'cid' => 'nd',
     'class_name' => 'ilObjItemGroupGUI',
     'class_path' => './components/ILIAS/ItemGroup/classes/class.ilObjItemGroupGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ildidactictemplategui',
       2 => 'ilcommonactiondispatchergui',
       3 => 'ilobjectcopygui',
       4 => 'ilobjecttranslationgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilrepositorygui',
       1 => 'iladministrationgui',
     ),
   ),
-  'ilobjltiadministrationgui' => 
-  array (
+  'ilobjltiadministrationgui' =>
+  array(
     'cid' => 'nf',
     'class_name' => 'ilObjLTIAdministrationGUI',
     'class_path' => './components/ILIAS/LTI/classes/class.ilObjLTIAdministrationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'illticonsumeradministrationgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjlticonsumergui' => 
-  array (
+  'ilobjlticonsumergui' =>
+  array(
     'cid' => 'ng',
     'class_name' => 'ilObjLTIConsumerGUI',
     'class_path' => './components/ILIAS/LTIConsumer/classes/class.ilObjLTIConsumerGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjectcopygui',
       1 => 'ilcommonactiondispatchergui',
       2 => 'ilpermissiongui',
@@ -6671,74 +6673,74 @@
       9 => 'illticonsumercontentgui',
       10 => 'illticonsumergradesynchronizationgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilrepositorygui',
     ),
   ),
-  'ilobjlticonsumerverificationgui' => 
-  array (
+  'ilobjlticonsumerverificationgui' =>
+  array(
     'cid' => 'ni',
     'class_name' => 'ilObjLTIConsumerVerificationGUI',
     'class_path' => './components/ILIAS/LTIConsumer/classes/Verification/class.ilObjLTIConsumerVerificationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpersonalworkspacegui',
     ),
   ),
-  'ilobjlanguageextgui' => 
-  array (
+  'ilobjlanguageextgui' =>
+  array(
     'cid' => 'nk',
     'class_name' => 'ilObjLanguageExtGUI',
-    'class_path' => './components/ILIAS/Language_/classes/class.ilObjLanguageExtGUI.php',
-    'children' => 
-    array (
+    'class_path' => './components/ILIAS/Language/classes/class.ilObjLanguageExtGUI.php',
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ildashboardgui',
       1 => 'iladministrationgui',
     ),
   ),
-  'ilobjlanguagefoldergui' => 
-  array (
+  'ilobjlanguagefoldergui' =>
+  array(
     'cid' => 'nl',
     'class_name' => 'ilObjLanguageFolderGUI',
-    'class_path' => './components/ILIAS/Language_/classes/class.ilObjLanguageFolderGUI.php',
-    'children' => 
-    array (
+    'class_path' => './components/ILIAS/Language/classes/class.ilObjLanguageFolderGUI.php',
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjlearninghistorysettingsgui' => 
-  array (
+  'ilobjlearninghistorysettingsgui' =>
+  array(
     'cid' => 'nn',
     'class_name' => 'ilObjLearningHistorySettingsGUI',
     'class_path' => './components/ILIAS/LearningHistory/Administration/classes/class.ilObjLearningHistorySettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjlearningmodulegui' => 
-  array (
+  'ilobjlearningmodulegui' =>
+  array(
     'cid' => 'no',
     'class_name' => 'ilObjLearningModuleGUI',
     'class_path' => './components/ILIAS/LearningModule/classes/class.ilObjLearningModuleGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'illmpageobjectgui',
       1 => 'ilstructureobjectgui',
       2 => 'ilobjectcontentstylesettingsgui',
@@ -6756,92 +6758,92 @@
       14 => 'illmeditshorttitlesgui',
       15 => 'illtiproviderobjectsettinggui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'illmeditorgui',
       2 => 'ilobjlearningsequencegui',
       3 => 'ilrepositorygui',
     ),
   ),
-  'ilobjlearningresourcessettingsgui' => 
-  array (
+  'ilobjlearningresourcessettingsgui' =>
+  array(
     'cid' => 'nr',
     'class_name' => 'ilObjLearningResourcesSettingsGUI',
     'class_path' => './components/ILIAS/LearningModule/classes/class.ilObjLearningResourcesSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjlearningsequenceadmingui' => 
-  array (
+  'ilobjlearningsequenceadmingui' =>
+  array(
     'cid' => 'ns',
     'class_name' => 'ilObjLearningSequenceAdminGUI',
     'class_path' => './components/ILIAS/LearningSequence/classes/class.ilObjLearningSequenceAdminGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjlearningsequencecontentgui' => 
-  array (
+  'ilobjlearningsequencecontentgui' =>
+  array(
     'cid' => 'nt',
     'class_name' => 'ilObjLearningSequenceContentGUI',
     'class_path' => './components/ILIAS/LearningSequence/classes/Content/class.ilObjLearningSequenceContentGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjlearningsequencegui',
     ),
   ),
-  'ilobjlearningsequenceeditextrogui' => 
-  array (
+  'ilobjlearningsequenceeditextrogui' =>
+  array(
     'cid' => 'nv',
     'class_name' => 'ilObjLearningSequenceEditExtroGUI',
     'class_path' => './components/ILIAS/LearningSequence/classes/PageEditor/class.ilObjLearningSequenceEditExtroGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpageeditorgui',
       1 => 'ileditclipboardgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjlearningsequencegui',
     ),
   ),
-  'ilobjlearningsequenceeditintrogui' => 
-  array (
+  'ilobjlearningsequenceeditintrogui' =>
+  array(
     'cid' => 'nw',
     'class_name' => 'ilObjLearningSequenceEditIntroGUI',
     'class_path' => './components/ILIAS/LearningSequence/classes/PageEditor/class.ilObjLearningSequenceEditIntroGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpageeditorgui',
       1 => 'ileditclipboardgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjlearningsequencegui',
     ),
   ),
-  'ilobjlearningsequencegui' => 
-  array (
+  'ilobjlearningsequencegui' =>
+  array(
     'cid' => 'nx',
     'class_name' => 'ilObjLearningSequenceGUI',
     'class_path' => './components/ILIAS/LearningSequence/classes/class.ilObjLearningSequenceGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilinfoscreengui',
       2 => 'ilcommonactiondispatchergui',
@@ -6868,87 +6870,87 @@
       23 => 'ilobjlearningsequenceeditintrogui',
       24 => 'ilobjlearningsequenceeditextrogui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilrepositorygui',
       1 => 'iladministrationgui',
     ),
   ),
-  'ilobjlearningsequencelppollinggui' => 
-  array (
+  'ilobjlearningsequencelppollinggui' =>
+  array(
     'cid' => 'ny',
     'class_name' => 'ilObjLearningSequenceLPPollingGUI',
     'class_path' => './components/ILIAS/LearningSequence/classes/Player/class.ilObjLearningSequenceLPPollingGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjlearningsequencegui',
     ),
   ),
-  'ilobjlearningsequencelearnergui' => 
-  array (
+  'ilobjlearningsequencelearnergui' =>
+  array(
     'cid' => 'nz',
     'class_name' => 'ilObjLearningSequenceLearnerGUI',
     'class_path' => './components/ILIAS/LearningSequence/classes/Player/class.ilObjLearningSequenceLearnerGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjlearningsequencegui',
     ),
   ),
-  'ilobjlearningsequencesettingsgui' => 
-  array (
+  'ilobjlearningsequencesettingsgui' =>
+  array(
     'cid' => 'o1',
     'class_name' => 'ilObjLearningSequenceSettingsGUI',
     'class_path' => './components/ILIAS/LearningSequence/classes/Settings/class.ilObjLearningSequenceSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjlearningsequencegui',
     ),
   ),
-  'ilobjlegaldocumentsgui' => 
-  array (
+  'ilobjlegaldocumentsgui' =>
+  array(
     'cid' => 'o2',
     'class_name' => 'ilObjLegalDocumentsGUI',
     'class_path' => './components/ILIAS/LegalDocuments/classes/class.ilObjLegalDocumentsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilrepositorygui',
     ),
   ),
-  'ilobjlegalnoticegui' => 
-  array (
+  'ilobjlegalnoticegui' =>
+  array(
     'cid' => 'o3',
     'class_name' => 'ilObjLegalNoticeGUI',
     'class_path' => './components/ILIAS/Imprint/classes/class.ilObjLegalNoticeGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilimprintgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjlinkresourcegui' => 
-  array (
+  'ilobjlinkresourcegui' =>
+  array(
     'cid' => 'o4',
     'class_name' => 'ilObjLinkResourceGUI',
     'class_path' => './components/ILIAS/WebResource/classes/class.ilObjLinkResourceGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjectmetadatagui',
       1 => 'ilpermissiongui',
       2 => 'ilinfoscreengui',
@@ -6959,8 +6961,8 @@
       7 => 'ilpropertyformgui',
       8 => 'ilinternallinkgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'illinkresourcehandlergui',
       2 => 'ilpersonalworkspacegui',
@@ -6968,75 +6970,75 @@
       4 => 'ilsharedresourcegui',
     ),
   ),
-  'ilobjloggingsettingsgui' => 
-  array (
+  'ilobjloggingsettingsgui' =>
+  array(
     'cid' => 'o7',
     'class_name' => 'ilObjLoggingSettingsGUI',
     'class_path' => './components/ILIAS/Logging/classes/class.ilObjLoggingSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjmdsettingsgui' => 
-  array (
+  'ilobjmdsettingsgui' =>
+  array(
     'cid' => 'o8',
     'class_name' => 'ilObjMDSettingsGUI',
     'class_path' => './components/ILIAS/MetaData/classes/Settings/class.ilObjMDSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'iladvancedmdsettingsgui',
       2 => 'ilmdcopyrightselectiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjmailgui' => 
-  array (
+  'ilobjmailgui' =>
+  array(
     'cid' => 'o9',
     'class_name' => 'ilObjMailGUI',
     'class_path' => './components/ILIAS/Mail/classes/class.ilObjMailGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilmailtemplategui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjmainmenugui' => 
-  array (
+  'ilobjmainmenugui' =>
+  array(
     'cid' => 'oa',
     'class_name' => 'ilObjMainMenuGUI',
     'class_path' => './components/ILIAS/MainMenu/classes/class.ilObjMainMenuGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilmmsubitemgui',
       2 => 'ilmmtopitemgui',
       3 => 'ilmmuploadhandlergui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjmediacastgui' => 
-  array (
+  'ilobjmediacastgui' =>
+  array(
     'cid' => 'ob',
     'class_name' => 'ilObjMediaCastGUI',
     'class_path' => './components/ILIAS/MediaCast/classes/class.ilObjMediaCastGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilinfoscreengui',
       2 => 'ilexportgui',
@@ -7048,67 +7050,67 @@
       8 => 'mcstpodcastgui',
       9 => 'ilcommentgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilrepositorygui',
       1 => 'iladministrationgui',
       2 => 'ilmediacasthandlergui',
     ),
   ),
-  'ilobjmediacastsettingsgui' => 
-  array (
+  'ilobjmediacastsettingsgui' =>
+  array(
     'cid' => 'od',
     'class_name' => 'ilObjMediaCastSettingsGUI',
     'class_path' => './components/ILIAS/MediaCast/classes/class.ilObjMediaCastSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjmediaobjectgui' => 
-  array (
+  'ilobjmediaobjectgui' =>
+  array(
     'cid' => 'oe',
     'class_name' => 'ilObjMediaObjectGUI',
     'class_path' => './components/ILIAS/MediaObjects/classes/class.ilObjMediaObjectGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjectmetadatagui',
       1 => 'ilimagemapeditorgui',
       2 => 'ilfilesystemgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ileditclipboardgui',
       1 => 'ilobjmediapoolgui',
       2 => 'ilpcmediaobjectgui',
       3 => 'ilpageeditorgui',
     ),
   ),
-  'ilobjmediaobjectssettingsgui' => 
-  array (
+  'ilobjmediaobjectssettingsgui' =>
+  array(
     'cid' => 'of',
     'class_name' => 'ilObjMediaObjectsSettingsGUI',
     'class_path' => './components/ILIAS/MediaObjects/classes/class.ilObjMediaObjectsSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjmediapoolgui' => 
-  array (
+  'ilobjmediapoolgui' =>
+  array(
     'cid' => 'og',
     'class_name' => 'ilObjMediaPoolGUI',
     'class_path' => './components/ILIAS/MediaPool/classes/class.ilObjMediaPoolGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjmediaobjectgui',
       1 => 'ilobjfoldergui',
       2 => 'ileditclipboardgui',
@@ -7126,105 +7128,105 @@
       14 => 'ilrepostandarduploadhandlergui',
       15 => 'ilmediacreationgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilmediapoolpresentationgui',
       2 => 'ilrepositorygui',
     ),
   ),
-  'ilobjnewssettingsgui' => 
-  array (
+  'ilobjnewssettingsgui' =>
+  array(
     'cid' => 'oj',
     'class_name' => 'ilObjNewsSettingsGUI',
     'class_path' => './components/ILIAS/News/classes/class.ilObjNewsSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjnotessettingsgui' => 
-  array (
+  'ilobjnotessettingsgui' =>
+  array(
     'cid' => 'ok',
     'class_name' => 'ilObjNotesSettingsGUI',
     'class_path' => './components/ILIAS/Notes/Administration/classes/class.ilObjNotesSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjnotificationadmingui' => 
-  array (
+  'ilobjnotificationadmingui' =>
+  array(
     'cid' => 'ol',
     'class_name' => 'ilObjNotificationAdminGUI',
     'class_path' => './components/ILIAS/Notifications/classes/class.ilObjNotificationAdminGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjnotificationsettingsgui' => 
-  array (
+  'ilobjnotificationsettingsgui' =>
+  array(
     'cid' => 'om',
     'class_name' => 'ilObjNotificationSettingsGUI',
     'class_path' => './components/ILIAS/Notification/classes/class.ilObjNotificationSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjbloggui',
       1 => 'ilobjwikigui',
     ),
   ),
-  'ilobjobjectfoldergui' => 
-  array (
+  'ilobjobjectfoldergui' =>
+  array(
     'cid' => 'on',
     'class_name' => 'ilObjObjectFolderGUI',
     'class_path' => './components/ILIAS/Object/classes/class.ilObjObjectFolderGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjobjecttemplateadministrationgui' => 
-  array (
+  'ilobjobjecttemplateadministrationgui' =>
+  array(
     'cid' => 'oo',
     'class_name' => 'ilObjObjectTemplateAdministrationGUI',
     'class_path' => './components/ILIAS/DidacticTemplate/classes/class.ilObjObjectTemplateAdministrationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ildidactictemplatesettingsgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjorgunitgui' => 
-  array (
+  'ilobjorgunitgui' =>
+  array(
     'cid' => 'op',
     'class_name' => 'ilObjOrgUnitGUI',
     'class_path' => './components/ILIAS/OrgUnit/classes/class.ilObjOrgUnitGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilpageobjectgui',
       2 => 'ilobjusergui',
@@ -7250,46 +7252,46 @@
       22 => 'ilpropertyformgui',
       23 => 'ilorgunitglobalsettingsgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilobjplugindispatchgui',
     ),
   ),
-  'ilobjpersonalworkspacesettingsgui' => 
-  array (
+  'ilobjpersonalworkspacesettingsgui' =>
+  array(
     'cid' => 'ot',
     'class_name' => 'ilObjPersonalWorkspaceSettingsGUI',
     'class_path' => './components/ILIAS/PersonalWorkspace/Administration/classes/class.ilObjPersonalWorkspaceSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjplugindispatchgui' => 
-  array (
+  'ilobjplugindispatchgui' =>
+  array(
     'cid' => 'ou',
     'class_name' => 'ilObjPluginDispatchGUI',
     'class_path' => './components/ILIAS/Repository/PluginSlot/class.ilObjPluginDispatchGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjorgunitgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'ilobjpollgui' => 
-  array (
+  'ilobjpollgui' =>
+  array(
     'cid' => 'ov',
     'class_name' => 'ilObjPollGUI',
     'class_path' => './components/ILIAS/Poll/classes/class.ilObjPollGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilinfoscreengui',
       1 => 'ilnotegui',
       2 => 'ilcommonactiondispatchergui',
@@ -7297,34 +7299,34 @@
       4 => 'ilobjectcopygui',
       5 => 'ilexportgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilrepositorygui',
     ),
   ),
-  'ilobjportfolioadministrationgui' => 
-  array (
+  'ilobjportfolioadministrationgui' =>
+  array(
     'cid' => 'ox',
     'class_name' => 'ilObjPortfolioAdministrationGUI',
     'class_path' => './components/ILIAS/Portfolio/Administration/class.ilObjPortfolioAdministrationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilportfolioroleassignmentgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjportfoliogui' => 
-  array (
+  'ilobjportfoliogui' =>
+  array(
     'cid' => 'oz',
     'class_name' => 'ilObjPortfolioGUI',
     'class_path' => './components/ILIAS/Portfolio/classes/class.ilObjPortfolioGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilportfoliopagegui',
       1 => 'ilpageobjectgui',
       2 => 'ilworkspaceaccessgui',
@@ -7333,20 +7335,20 @@
       5 => 'ilobjectcontentstylesettingsgui',
       6 => 'ilportfolioexercisegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilportfoliorepositorygui',
       1 => 'ilpublicuserprofilegui',
       2 => 'ilsharedresourcegui',
     ),
   ),
-  'ilobjportfoliotemplategui' => 
-  array (
+  'ilobjportfoliotemplategui' =>
+  array(
     'cid' => 'p0',
     'class_name' => 'ilObjPortfolioTemplateGUI',
     'class_path' => './components/ILIAS/Portfolio/Template/class.ilObjPortfolioTemplateGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilportfoliotemplatepagegui',
       1 => 'ilpageobjectgui',
       2 => 'ilnotegui',
@@ -7358,33 +7360,33 @@
       8 => 'ilobjectcontentstylesettingsgui',
       9 => 'ilobjectmetadatagui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilrepositorygui',
     ),
   ),
-  'ilobjprivacysecuritygui' => 
-  array (
+  'ilobjprivacysecuritygui' =>
+  array(
     'cid' => 'p2',
     'class_name' => 'ilObjPrivacySecurityGUI',
     'class_path' => './components/ILIAS/PrivacySecurity/classes/class.ilObjPrivacySecurityGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjquestionpoolgui' => 
-  array (
+  'ilobjquestionpoolgui' =>
+  array(
     'cid' => 'p3',
     'class_name' => 'ilObjQuestionPoolGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilObjQuestionPoolGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilassquestionpagegui',
       1 => 'ilquestionbrowsertablegui',
       2 => 'iltoolbargui',
@@ -7419,253 +7421,253 @@
       31 => 'assfileuploadgui',
       32 => 'assorderinghorizontalgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilobjtestgui',
       2 => 'ilrepositorygui',
       3 => 'iltestexpresspageobjectgui',
     ),
   ),
-  'ilobjquestionpoolsettingsgeneralgui' => 
-  array (
+  'ilobjquestionpoolsettingsgeneralgui' =>
+  array(
     'cid' => 'p5',
     'class_name' => 'ilObjQuestionPoolSettingsGeneralGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilObjQuestionPoolSettingsGeneralGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpropertyformgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjquestionpoolgui',
     ),
   ),
-  'ilobjrecoveryfoldergui' => 
-  array (
+  'ilobjrecoveryfoldergui' =>
+  array(
     'cid' => 'p6',
     'class_name' => 'ilObjRecoveryFolderGUI',
     'class_path' => './components/ILIAS/Administration/classes/class.ilObjRecoveryFolderGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjremotecategorygui' => 
-  array (
+  'ilobjremotecategorygui' =>
+  array(
     'cid' => 'p8',
     'class_name' => 'ilObjRemoteCategoryGUI',
     'class_path' => './components/ILIAS/RemoteCategory/classes/class.ilObjRemoteCategoryGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilinfoscreengui',
       2 => 'ilcommonactiondispatchergui',
       3 => 'ilecsuserconsentmodalgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilrepositorygui',
     ),
   ),
-  'ilobjremotecoursegui' => 
-  array (
+  'ilobjremotecoursegui' =>
+  array(
     'cid' => 'pa',
     'class_name' => 'ilObjRemoteCourseGUI',
     'class_path' => './components/ILIAS/RemoteCourse/classes/class.ilObjRemoteCourseGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilinfoscreengui',
       2 => 'ilcommonactiondispatchergui',
       3 => 'ilecsuserconsentmodalgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilrepositorygui',
     ),
   ),
-  'ilobjremotefilegui' => 
-  array (
+  'ilobjremotefilegui' =>
+  array(
     'cid' => 'pc',
     'class_name' => 'ilObjRemoteFileGUI',
     'class_path' => './components/ILIAS/RemoteFile/classes/class.ilObjRemoteFileGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilinfoscreengui',
       2 => 'ilcommonactiondispatchergui',
       3 => 'ilecsuserconsentmodalgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilrepositorygui',
     ),
   ),
-  'ilobjremoteglossarygui' => 
-  array (
+  'ilobjremoteglossarygui' =>
+  array(
     'cid' => 'pe',
     'class_name' => 'ilObjRemoteGlossaryGUI',
     'class_path' => './components/ILIAS/RemoteGlossary/classes/class.ilObjRemoteGlossaryGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilinfoscreengui',
       2 => 'ilcommonactiondispatchergui',
       3 => 'ilecsuserconsentmodalgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilrepositorygui',
     ),
   ),
-  'ilobjremotegroupgui' => 
-  array (
+  'ilobjremotegroupgui' =>
+  array(
     'cid' => 'pg',
     'class_name' => 'ilObjRemoteGroupGUI',
     'class_path' => './components/ILIAS/RemoteGroup/classes/class.ilObjRemoteGroupGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilinfoscreengui',
       2 => 'ilcommonactiondispatchergui',
       3 => 'ilecsuserconsentmodalgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilrepositorygui',
     ),
   ),
-  'ilobjremotelearningmodulegui' => 
-  array (
+  'ilobjremotelearningmodulegui' =>
+  array(
     'cid' => 'pi',
     'class_name' => 'ilObjRemoteLearningModuleGUI',
     'class_path' => './components/ILIAS/RemoteLearningModule/classes/class.ilObjRemoteLearningModuleGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilinfoscreengui',
       2 => 'ilcommonactiondispatchergui',
       3 => 'ilecsuserconsentmodalgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilrepositorygui',
     ),
   ),
-  'ilobjremotetestgui' => 
-  array (
+  'ilobjremotetestgui' =>
+  array(
     'cid' => 'pk',
     'class_name' => 'ilObjRemoteTestGUI',
     'class_path' => './components/ILIAS/RemoteTest/classes/class.ilObjRemoteTestGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilinfoscreengui',
       2 => 'ilcommonactiondispatchergui',
       3 => 'ilecsuserconsentmodalgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilrepositorygui',
     ),
   ),
-  'ilobjremotewikigui' => 
-  array (
+  'ilobjremotewikigui' =>
+  array(
     'cid' => 'pm',
     'class_name' => 'ilObjRemoteWikiGUI',
     'class_path' => './components/ILIAS/RemoteWiki/classes/class.ilObjRemoteWikiGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilinfoscreengui',
       2 => 'ilcommonactiondispatchergui',
       3 => 'ilecsuserconsentmodalgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilrepositorygui',
     ),
   ),
-  'ilobjrepositorysettingsgui' => 
-  array (
+  'ilobjrepositorysettingsgui' =>
+  array(
     'cid' => 'po',
     'class_name' => 'ilObjRepositorySettingsGUI',
     'class_path' => './components/ILIAS/Repository/Administration/class.ilObjRepositorySettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjrolefoldergui' => 
-  array (
+  'ilobjrolefoldergui' =>
+  array(
     'cid' => 'pp',
     'class_name' => 'ilObjRoleFolderGUI',
     'class_path' => './components/ILIAS/AccessControl/classes/class.ilObjRoleFolderGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ildidactictemplatesettingsgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjrolegui' => 
-  array (
+  'ilobjrolegui' =>
+  array(
     'cid' => 'pq',
     'class_name' => 'ilObjRoleGUI',
     'class_path' => './components/ILIAS/AccessControl/classes/class.ilObjRoleGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilrepositorysearchgui',
       1 => 'ilexportgui',
       2 => 'ilrecommendedcontentroleconfiggui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilpermissiongui',
       2 => 'ilrepositorygui',
     ),
   ),
-  'ilobjroletemplategui' => 
-  array (
+  'ilobjroletemplategui' =>
+  array(
     'cid' => 'pr',
     'class_name' => 'ilObjRoleTemplateGUI',
     'class_path' => './components/ILIAS/AccessControl/classes/class.ilObjRoleTemplateGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjrootfoldergui' => 
-  array (
+  'ilobjrootfoldergui' =>
+  array(
     'cid' => 'pt',
     'class_name' => 'ilObjRootFolderGUI',
     'class_path' => './components/ILIAS/RootFolder/classes/class.ilObjRootFolderGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilcontainerpagegui',
       2 => 'ilcolumngui',
@@ -7675,8 +7677,8 @@
       6 => 'ilobjecttranslationgui',
       7 => 'ilrepositorytrashgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'iladvancedsearchgui',
       2 => 'ilcommonactiondispatchergui',
@@ -7686,13 +7688,13 @@
       6 => 'ilsearchgui',
     ),
   ),
-  'ilobjsahslearningmodulegui' => 
-  array (
+  'ilobjsahslearningmodulegui' =>
+  array(
     'cid' => 'pv',
     'class_name' => 'ilObjSAHSLearningModuleGUI',
     'class_path' => './components/ILIAS/ScormAicc/classes/class.ilObjSAHSLearningModuleGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilfilesystemgui',
       1 => 'ilobjectmetadatagui',
       2 => 'ilpermissiongui',
@@ -7702,21 +7704,21 @@
       6 => 'ilexportgui',
       7 => 'ilobjectcopygui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilobjlearningsequencegui',
       2 => 'ilrepositorygui',
       3 => 'ilsahseditgui',
     ),
   ),
-  'ilobjscorm2004learningmodulegui' => 
-  array (
+  'ilobjscorm2004learningmodulegui' =>
+  array(
     'cid' => 'px',
     'class_name' => 'ilObjSCORM2004LearningModuleGUI',
     'class_path' => './components/ILIAS/Scorm2004/classes/class.ilObjSCORM2004LearningModuleGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilfilesystemgui',
       1 => 'ilobjectmetadatagui',
       2 => 'ilpermissiongui',
@@ -7732,19 +7734,19 @@
       12 => 'illtiproviderobjectsettinggui',
       13 => 'ilscorm2004trackingitemstablegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilsahseditgui',
       1 => 'ilsahspresentationgui',
     ),
   ),
-  'ilobjscormlearningmodulegui' => 
-  array (
+  'ilobjscormlearningmodulegui' =>
+  array(
     'cid' => 'py',
     'class_name' => 'ilObjSCORMLearningModuleGUI',
     'class_path' => './components/ILIAS/ScormAicc/classes/class.ilObjSCORMLearningModuleGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilfilesystemgui',
       1 => 'ilobjectmetadatagui',
       2 => 'ilpermissiongui',
@@ -7756,75 +7758,75 @@
       8 => 'ilscormtrackingitemstablegui',
       9 => 'illtiproviderobjectsettinggui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilsahseditgui',
       1 => 'ilsahspresentationgui',
     ),
   ),
-  'ilobjscormverificationgui' => 
-  array (
+  'ilobjscormverificationgui' =>
+  array(
     'cid' => 'pz',
     'class_name' => 'ilObjSCORMVerificationGUI',
     'class_path' => './components/ILIAS/ScormAicc/classes/Verification/class.ilObjSCORMVerificationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilworkspaceaccessgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpersonalworkspacegui',
     ),
   ),
-  'ilobjsearchlucenesettingsformgui' => 
-  array (
+  'ilobjsearchlucenesettingsformgui' =>
+  array(
     'cid' => 'q1',
     'class_name' => 'ilObjSearchLuceneSettingsFormGUI',
     'class_path' => './components/ILIAS/Search/classes/ObjGUI/class.ilObjSearchLuceneSettingsFormGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjsearchsettingsgui',
     ),
   ),
-  'ilobjsearchsettingsformgui' => 
-  array (
+  'ilobjsearchsettingsformgui' =>
+  array(
     'cid' => 'q2',
     'class_name' => 'ilObjSearchSettingsFormGUI',
     'class_path' => './components/ILIAS/Search/classes/ObjGUI/class.ilObjSearchSettingsFormGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjsearchsettingsgui',
     ),
   ),
-  'ilobjsearchsettingsgui' => 
-  array (
+  'ilobjsearchsettingsgui' =>
+  array(
     'cid' => 'q3',
     'class_name' => 'ilObjSearchSettingsGUI',
     'class_path' => './components/ILIAS/Search/classes/ObjGUI/class.ilObjSearchSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilobjsearchsettingsformgui',
       2 => 'ilobjsearchlucenesettingsformgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjsessiongui' => 
-  array (
+  'ilobjsessiongui' =>
+  array(
     'cid' => 'q4',
     'class_name' => 'ilObjSessionGUI',
     'class_path' => './components/ILIAS/Session/classes/class.ilObjSessionGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilinfoscreengui',
       2 => 'ilobjectcopygui',
@@ -7837,19 +7839,19 @@
       9 => 'ilpropertyformgui',
       10 => 'ilbookinggatewaygui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilrepositorygui',
     ),
   ),
-  'ilobjskillmanagementgui' => 
-  array (
+  'ilobjskillmanagementgui' =>
+  array(
     'cid' => 'q6',
     'class_name' => 'ilObjSkillManagementGUI',
     'class_path' => './components/ILIAS/Skill/classes/class.ilObjSkillManagementGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'skilltreeadmingui',
       2 => 'ilbasicskillgui',
@@ -7859,18 +7861,18 @@
       6 => 'ilskilltemplatecategorygui',
       7 => 'ilskilltemplatereferencegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjskilltreegui' => 
-  array (
+  'ilobjskilltreegui' =>
+  array(
     'cid' => 'q7',
     'class_name' => 'ilObjSkillTreeGUI',
     'class_path' => './components/ILIAS/Skill/Tree/class.ilObjSkillTreeGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilskillprofilegui',
       2 => 'ilexportgui',
@@ -7882,62 +7884,62 @@
       8 => 'ilskilltemplatecategorygui',
       9 => 'ilskilltemplatereferencegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'skilltreeadmingui',
     ),
   ),
-  'ilobjstudyprogrammeadmingui' => 
-  array (
+  'ilobjstudyprogrammeadmingui' =>
+  array(
     'cid' => 'q8',
     'class_name' => 'ilObjStudyProgrammeAdminGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/class.ilObjStudyProgrammeAdminGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilstudyprogrammetypegui',
       1 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjstudyprogrammeautocategoriesgui' => 
-  array (
+  'ilobjstudyprogrammeautocategoriesgui' =>
+  array(
     'cid' => 'q9',
     'class_name' => 'ilObjStudyProgrammeAutoCategoriesGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/class.ilObjStudyProgrammeAutoCategoriesGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpropertyformgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjstudyprogrammegui',
     ),
   ),
-  'ilobjstudyprogrammeautomembershipsgui' => 
-  array (
+  'ilobjstudyprogrammeautomembershipsgui' =>
+  array(
     'cid' => 'qa',
     'class_name' => 'ilObjStudyProgrammeAutoMembershipsGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/class.ilObjStudyProgrammeAutoMembershipsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpropertyformgui',
       1 => 'ilformpropertydispatchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjstudyprogrammegui',
     ),
   ),
-  'ilobjstudyprogrammegui' => 
-  array (
+  'ilobjstudyprogrammegui' =>
+  array(
     'cid' => 'qb',
     'class_name' => 'ilObjStudyProgrammeGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/class.ilObjStudyProgrammeGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilinfoscreengui',
       2 => 'ilcommonactiondispatchergui',
@@ -7957,33 +7959,33 @@
       16 => 'ilprgpageobjectgui',
       17 => 'ilprgmembersexportgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ildashboardgui',
       2 => 'ilrepositorygui',
     ),
   ),
-  'ilobjstudyprogrammeindividualplangui' => 
-  array (
+  'ilobjstudyprogrammeindividualplangui' =>
+  array(
     'cid' => 'qc',
     'class_name' => 'ilObjStudyProgrammeIndividualPlanGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/class.ilObjStudyProgrammeIndividualPlanGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjstudyprogrammemembersgui',
     ),
   ),
-  'ilobjstudyprogrammemembersgui' => 
-  array (
+  'ilobjstudyprogrammemembersgui' =>
+  array(
     'cid' => 'qe',
     'class_name' => 'ilObjStudyProgrammeMembersGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/class.ilObjStudyProgrammeMembersGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilstudyprogrammerepositorysearchgui',
       1 => 'ilobjstudyprogrammeindividualplangui',
       2 => 'ilobjfilegui',
@@ -7992,84 +7994,84 @@
       5 => 'ilstudyprogrammechangedeadlinegui',
       6 => 'ilformpropertydispatchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjstudyprogrammegui',
     ),
   ),
-  'ilobjstudyprogrammereferencegui' => 
-  array (
+  'ilobjstudyprogrammereferencegui' =>
+  array(
     'cid' => 'qf',
     'class_name' => 'ilObjStudyProgrammeReferenceGUI',
     'class_path' => './components/ILIAS/StudyProgrammeReference/classes/class.ilObjStudyProgrammeReferenceGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilinfoscreengui',
       2 => 'ilpropertyformgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilrepositorygui',
     ),
   ),
-  'ilobjstudyprogrammesettingsgui' => 
-  array (
+  'ilobjstudyprogrammesettingsgui' =>
+  array(
     'cid' => 'qh',
     'class_name' => 'ilObjStudyProgrammeSettingsGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/class.ilObjStudyProgrammeSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilstudyprogrammecommonsettingsgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjstudyprogrammegui',
     ),
   ),
-  'ilobjstudyprogrammetreegui' => 
-  array (
+  'ilobjstudyprogrammetreegui' =>
+  array(
     'cid' => 'qj',
     'class_name' => 'ilObjStudyProgrammeTreeGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/class.ilObjStudyProgrammeTreeGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjstudyprogrammegui',
     ),
   ),
-  'ilobjstylesettingsgui' => 
-  array (
+  'ilobjstylesettingsgui' =>
+  array(
     'cid' => 'qk',
     'class_name' => 'ilObjStyleSettingsGUI',
     'class_path' => './components/ILIAS/Style/classes/class.ilObjStyleSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilsystemstylemaingui',
       2 => 'ilcontentstylesettingsgui',
       3 => 'ilpagelayoutadministrationgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjstylesheetgui' => 
-  array (
+  'ilobjstylesheetgui' =>
+  array(
     'cid' => 'ql',
     'class_name' => 'ilObjStyleSheetGUI',
     'class_path' => './components/ILIAS/Style/Content/classes/class.ilObjStyleSheetGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilexportgui',
       1 => 'ilstylecharacteristicgui',
       2 => 'ilcontentstyleimagegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcontentstylesettingsgui',
       1 => 'ilobjcategorygui',
       2 => 'ilobjorgunitgui',
@@ -8078,27 +8080,27 @@
       5 => 'ilobjectcontentstylesettingsgui',
     ),
   ),
-  'ilobjsurveyadministrationgui' => 
-  array (
+  'ilobjsurveyadministrationgui' =>
+  array(
     'cid' => 'qn',
     'class_name' => 'ilObjSurveyAdministrationGUI',
     'class_path' => './components/ILIAS/Survey/Administration/class.ilObjSurveyAdministrationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjsurveygui' => 
-  array (
+  'ilobjsurveygui' =>
+  array(
     'cid' => 'qo',
     'class_name' => 'ilObjSurveyGUI',
     'class_path' => './components/ILIAS/Survey/classes/class.ilObjSurveyGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilsurveyevaluationgui',
       1 => 'ilsurveyexecutiongui',
       2 => 'ilobjectmetadatagui',
@@ -8115,20 +8117,20 @@
       13 => 'ilexportgui',
       14 => 'illtiproviderobjectsettinggui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilobjlearningsequencegui',
       2 => 'ilrepositorygui',
     ),
   ),
-  'ilobjsurveyquestionpoolgui' => 
-  array (
+  'ilobjsurveyquestionpoolgui' =>
+  array(
     'cid' => 'qq',
     'class_name' => 'ilObjSurveyQuestionPoolGUI',
     'class_path' => './components/ILIAS/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPoolGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'surveymultiplechoicequestiongui',
       1 => 'surveymetricquestiongui',
       2 => 'surveysinglechoicequestiongui',
@@ -8140,67 +8142,67 @@
       8 => 'ilobjectcopygui',
       9 => 'ilcommonactiondispatchergui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilrepositorygui',
     ),
   ),
-  'ilobjsystemcheckgui' => 
-  array (
+  'ilobjsystemcheckgui' =>
+  array(
     'cid' => 'qs',
     'class_name' => 'ilObjSystemCheckGUI',
     'class_path' => './components/ILIAS/SystemCheck/classes/class.ilObjSystemCheckGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilobjectownershipmanagementgui',
       2 => 'ilobjsystemfoldergui',
       3 => 'ilsctreetasksgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjsystemfoldergui' => 
-  array (
+  'ilobjsystemfoldergui' =>
+  array(
     'cid' => 'qt',
     'class_name' => 'ilObjSystemFolderGUI',
     'class_path' => './components/ILIAS/SystemFolder/classes/class.ilObjSystemFolderGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilobjectownershipmanagementgui',
       2 => 'ilcronmanagergui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilobjsystemcheckgui',
     ),
   ),
-  'ilobjtaggingsettingsgui' => 
-  array (
+  'ilobjtaggingsettingsgui' =>
+  array(
     'cid' => 'qu',
     'class_name' => 'ilObjTaggingSettingsGUI',
     'class_path' => './components/ILIAS/Tagging/classes/class.ilObjTaggingSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjtalktemplateadministrationgui' => 
-  array (
+  'ilobjtalktemplateadministrationgui' =>
+  array(
     'cid' => 'qv',
     'class_name' => 'ilObjTalkTemplateAdministrationGUI',
     'class_path' => './components/ILIAS/EmployeeTalk/classes/class.ilObjTalkTemplateAdministrationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilcommonactiondispatchergui',
       1 => 'ilcolumngui',
       2 => 'ilobjectcopygui',
@@ -8211,32 +8213,32 @@
       7 => 'ilobjemployeetalkseriesgui',
       8 => 'ilobjtalktemplateadministrationlistgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjtalktemplateadministrationlistgui' => 
-  array (
+  'ilobjtalktemplateadministrationlistgui' =>
+  array(
     'cid' => 'qw',
     'class_name' => 'ilObjTalkTemplateAdministrationListGUI',
     'class_path' => './components/ILIAS/EmployeeTalk/classes/class.ilObjTalkTemplateAdministrationListGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjtalktemplateadministrationgui',
     ),
   ),
-  'ilobjtalktemplategui' => 
-  array (
+  'ilobjtalktemplategui' =>
+  array(
     'cid' => 'qx',
     'class_name' => 'ilObjTalkTemplateGUI',
     'class_path' => './components/ILIAS/EmployeeTalk/classes/class.ilObjTalkTemplateGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilcommonactiondispatchergui',
       1 => 'ilcolumngui',
       2 => 'ilobjectcopygui',
@@ -8244,64 +8246,64 @@
       4 => 'ilpermissiongui',
       5 => 'ilinfoscreengui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilobjtalktemplateadministrationgui',
     ),
   ),
-  'ilobjtaxonomyadministrationgui' => 
-  array (
+  'ilobjtaxonomyadministrationgui' =>
+  array(
     'cid' => 'qz',
     'class_name' => 'ilObjTaxonomyAdministrationGUI',
     'class_path' => './components/ILIAS/Taxonomy/classes/class.ilObjTaxonomyAdministrationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjtaxonomygui' => 
-  array (
+  'ilobjtaxonomygui' =>
+  array(
     'cid' => 'r0',
     'class_name' => 'ilObjTaxonomyGUI',
     'class_path' => './components/ILIAS/Taxonomy/classes/class.ilObjTaxonomyGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjtaxonomygui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjtaxonomygui',
       1 => 'ilobjectmetadatagui',
       2 => 'iltaxonomysettingsgui',
     ),
   ),
-  'ilobjtermsofservicegui' => 
-  array (
+  'ilobjtermsofservicegui' =>
+  array(
     'cid' => 'r1',
     'class_name' => 'ilObjTermsOfServiceGUI',
     'class_path' => './components/ILIAS/TermsOfService/classes/class.ilObjTermsOfServiceGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'iltermsofserviceacceptancehistorygui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjtestgui' => 
-  array (
+  'ilobjtestgui' =>
+  array(
     'cid' => 'r2',
     'class_name' => 'ilObjTestGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilObjTestGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjcoursegui',
       1 => 'ilobjectmetadatagui',
       2 => 'ilcertificategui',
@@ -8362,67 +8364,67 @@
       57 => 'iltestpagegui',
       58 => 'iltestservicegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilobjlearningsequencegui',
       2 => 'ilobjquestionpoolgui',
       3 => 'ilrepositorygui',
     ),
   ),
-  'ilobjtestsettingsmaingui' => 
-  array (
+  'ilobjtestsettingsmaingui' =>
+  array(
     'cid' => 'r4',
     'class_name' => 'ilObjTestSettingsMainGUI',
     'class_path' => './components/ILIAS/Test/classes/MainSettings/class.ilObjTestSettingsMainGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpropertyformgui',
       1 => 'ilconfirmationgui',
       2 => 'iltestsettingschangeconfirmationgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjtestgui',
     ),
   ),
-  'ilobjtestsettingsscoringresultsgui' => 
-  array (
+  'ilobjtestsettingsscoringresultsgui' =>
+  array(
     'cid' => 'r5',
     'class_name' => 'ilObjTestSettingsScoringResultsGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilObjTestSettingsScoringResultsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpropertyformgui',
       1 => 'ilconfirmationgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjtestgui',
     ),
   ),
-  'ilobjtestverificationgui' => 
-  array (
+  'ilobjtestverificationgui' =>
+  array(
     'cid' => 'r6',
     'class_name' => 'ilObjTestVerificationGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilObjTestVerificationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilworkspaceaccessgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpersonalworkspacegui',
       1 => 'ilsharedresourcegui',
     ),
   ),
-  'ilobjuserfoldergui' => 
-  array (
+  'ilobjuserfoldergui' =>
+  array(
     'cid' => 'r9',
     'class_name' => 'ilObjUserFolderGUI',
     'class_path' => './components/ILIAS/User/classes/class.ilObjUserFolderGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilusertablegui',
       2 => 'ilcustomuserfieldsgui',
@@ -8430,25 +8432,25 @@
       4 => 'iluserstartingpointgui',
       5 => 'iluserprofileinfosettingsgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilobjcategorygui',
       2 => 'ilobjorgunitgui',
     ),
   ),
-  'ilobjusergui' => 
-  array (
+  'ilobjusergui' =>
+  array(
     'cid' => 'ra',
     'class_name' => 'ilObjUserGUI',
     'class_path' => './components/ILIAS/User/classes/class.ilObjUserGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'illearningprogressgui',
       1 => 'ilobjectownershipmanagementgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ildashboardgui',
       2 => 'ilmailgui',
@@ -8458,59 +8460,59 @@
       6 => 'ilobjorgunitgui',
     ),
   ),
-  'ilobjusertrackinggui' => 
-  array (
+  'ilobjusertrackinggui' =>
+  array(
     'cid' => 'rb',
     'class_name' => 'ilObjUserTrackingGUI',
     'class_path' => './components/ILIAS/Tracking/classes/class.ilObjUserTrackingGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'illearningprogressgui',
       1 => 'ilpermissiongui',
       2 => 'illpobjectstatisticsgui',
       3 => 'ilsessionstatisticsgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjwebdavgui' => 
-  array (
+  'ilobjwebdavgui' =>
+  array(
     'cid' => 'rc',
     'class_name' => 'ilObjWebDAVGUI',
     'class_path' => './components/ILIAS/WebDAV/classes/class.ilObjWebDAVGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilwebdavmountinstructionsuploadgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjwebresourceadministrationgui' => 
-  array (
+  'ilobjwebresourceadministrationgui' =>
+  array(
     'cid' => 'rd',
     'class_name' => 'ilObjWebResourceAdministrationGUI',
     'class_path' => './components/ILIAS/WebResource/classes/class.ilObjWebResourceAdministrationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjwikigui' => 
-  array (
+  'ilobjwikigui' =>
+  array(
     'cid' => 're',
     'class_name' => 'ilObjWikiGUI',
     'class_path' => './components/ILIAS/Wiki/classes/class.ilObjWikiGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
       1 => 'ilinfoscreengui',
       2 => 'ilwikipagegui',
@@ -8529,82 +8531,82 @@
       15 => 'illtiproviderobjectsettinggui',
       16 => 'ilobjecttranslationgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilrepositorygui',
       1 => 'iladministrationgui',
       2 => 'ilwikihandlergui',
     ),
   ),
-  'ilobjwikisettingsgui' => 
-  array (
+  'ilobjwikisettingsgui' =>
+  array(
     'cid' => 'rh',
     'class_name' => 'ilObjWikiSettingsGUI',
     'class_path' => './components/ILIAS/Wiki/classes/class.ilObjWikiSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
     ),
   ),
-  'ilobjworkspacefoldergui' => 
-  array (
+  'ilobjworkspacefoldergui' =>
+  array(
     'cid' => 'rj',
     'class_name' => 'ilObjWorkspaceFolderGUI',
     'class_path' => './components/ILIAS/WorkspaceFolder/classes/class.ilObjWorkspaceFolderGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilcommonactiondispatchergui',
       1 => 'ilobjectownershipmanagementgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpersonalworkspacegui',
     ),
   ),
-  'ilobjworkspacerootfoldergui' => 
-  array (
+  'ilobjworkspacerootfoldergui' =>
+  array(
     'cid' => 'rm',
     'class_name' => 'ilObjWorkspaceRootFolderGUI',
     'class_path' => './components/ILIAS/WorkspaceRootFolder/classes/class.ilObjWorkspaceRootFolderGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilcommonactiondispatchergui',
       1 => 'ilobjectownershipmanagementgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpersonalworkspacegui',
     ),
   ),
-  'ilobjectactivationgui' => 
-  array (
+  'ilobjectactivationgui' =>
+  array(
     'cid' => 'rp',
     'class_name' => 'ilObjectActivationGUI',
     'class_path' => './components/ILIAS/Object/classes/class.ilObjectActivationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilconditionhandlergui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcommonactiondispatchergui',
     ),
   ),
-  'ilobjectcontentstylesettingsgui' => 
-  array (
+  'ilobjectcontentstylesettingsgui' =>
+  array(
     'cid' => 'rt',
     'class_name' => 'ilObjectContentStyleSettingsGUI',
     'class_path' => './components/ILIAS/Style/Content/Object/class.ilObjectContentStyleSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjstylesheetgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilforumsettingsgui',
       1 => 'ilobjbloggui',
       2 => 'ilobjcategorygui',
@@ -8623,16 +8625,16 @@
       15 => 'ilobjwikigui',
     ),
   ),
-  'ilobjectcopygui' => 
-  array (
+  'ilobjectcopygui' =>
+  array(
     'cid' => 'rv',
     'class_name' => 'ilObjectCopyGUI',
     'class_path' => './components/ILIAS/Object/classes/class.ilObjectCopyGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladvancedsearchgui',
       1 => 'ilcoursecontentgui',
       2 => 'illuceneadvancedsearchgui',
@@ -8683,28 +8685,28 @@
       47 => 'ilsearchgui',
     ),
   ),
-  'ilobjectcustomiconuploadhandlergui' => 
-  array (
+  'ilobjectcustomiconuploadhandlergui' =>
+  array(
     'cid' => 's0',
     'class_name' => 'ilObjectCustomIconUploadHandlerGUI',
     'class_path' => './components/ILIAS/Object/classes/Properties/AdditionalProperties/Icon/class.ilObjectCustomIconUploadHandlerGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'ilobjectcustomuserfieldsgui' => 
-  array (
+  'ilobjectcustomuserfieldsgui' =>
+  array(
     'cid' => 's1',
     'class_name' => 'ilObjectCustomUserFieldsGUI',
     'class_path' => './components/ILIAS/Membership/classes/class.ilObjectCustomUserFieldsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcoursemembershipgui',
       1 => 'ilgroupmembershipgui',
       2 => 'illearningsequencemembershipgui',
@@ -8712,50 +8714,50 @@
       4 => 'ilobjgroupgui',
     ),
   ),
-  'ilobjectgui' => 
-  array (
+  'ilobjectgui' =>
+  array(
     'cid' => 's3',
     'class_name' => 'ilObjectGUI',
     'class_path' => './components/ILIAS/Object/classes/class.ilObjectGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladvancedsearchgui',
       1 => 'illuceneadvancedsearchgui',
       2 => 'illucenesearchgui',
       3 => 'ilsearchgui',
     ),
   ),
-  'ilobjectmetadatablockgui' => 
-  array (
+  'ilobjectmetadatablockgui' =>
+  array(
     'cid' => 's5',
     'class_name' => 'ilObjectMetaDataBlockGUI',
     'class_path' => './components/ILIAS/Object/classes/class.ilObjectMetaDataBlockGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcolumngui',
     ),
   ),
-  'ilobjectmetadatagui' => 
-  array (
+  'ilobjectmetadatagui' =>
+  array(
     'cid' => 's6',
     'class_name' => 'ilObjectMetaDataGUI',
     'class_path' => './components/ILIAS/Object/classes/class.ilObjectMetaDataGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilmdeditorgui',
       1 => 'iladvancedmdsettingsgui',
       2 => 'ilpropertyformgui',
       3 => 'iltaxmdgui',
       4 => 'ilobjtaxonomygui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilglossarydefpagegui',
       1 => 'ilglossarytermgui',
       2 => 'illmpagegui',
@@ -8792,16 +8794,16 @@
       33 => 'ilwikipagegui',
     ),
   ),
-  'ilobjectownershipmanagementgui' => 
-  array (
+  'ilobjectownershipmanagementgui' =>
+  array(
     'cid' => 's7',
     'class_name' => 'ilObjectOwnershipManagementGUI',
     'class_path' => './components/ILIAS/Object/classes/class.ilObjectOwnershipManagementGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjsystemcheckgui',
       1 => 'ilobjsystemfoldergui',
       2 => 'ilobjusergui',
@@ -8809,56 +8811,56 @@
       4 => 'ilobjworkspacerootfoldergui',
     ),
   ),
-  'ilobjectpermissionstatusgui' => 
-  array (
+  'ilobjectpermissionstatusgui' =>
+  array(
     'cid' => 's9',
     'class_name' => 'ilObjectPermissionStatusGUI',
     'class_path' => './components/ILIAS/AccessControl/classes/class.ilObjectPermissionStatusGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilrepositorysearchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpermissiongui',
     ),
   ),
-  'ilobjectservicesettingsgui' => 
-  array (
+  'ilobjectservicesettingsgui' =>
+  array(
     'cid' => 'sf',
     'class_name' => 'ilObjectServiceSettingsGUI',
     'class_path' => './components/ILIAS/Object/classes/class.ilObjectServiceSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjcoursegui',
       1 => 'ilobjgroupgui',
     ),
   ),
-  'ilobjecttileimageuploadhandlergui' => 
-  array (
+  'ilobjecttileimageuploadhandlergui' =>
+  array(
     'cid' => 'si',
     'class_name' => 'ilObjectTileImageUploadHandlerGUI',
     'class_path' => './components/ILIAS/Object/classes/Properties/CoreProperties/TileImage/class.ilObjectTileImageUploadHandlerGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'ilobjecttranslationgui' => 
-  array (
+  'ilobjecttranslationgui' =>
+  array(
     'cid' => 'sk',
     'class_name' => 'ilObjectTranslationGUI',
     'class_path' => './components/ILIAS/Object/classes/Translation/class.ilObjectTranslationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjcategorygui',
       1 => 'ilobjcontentobjectgui',
       2 => 'ilobjcontentpagegui',
@@ -8873,690 +8875,690 @@
       11 => 'ilobjwikigui',
     ),
   ),
-  'ilonscreenchatgui' => 
-  array (
+  'ilonscreenchatgui' =>
+  array(
     'cid' => 'sm',
     'class_name' => 'ilOnScreenChatGUI',
     'class_path' => './components/ILIAS/OnScreenChat/classes/class.ilOnScreenChatGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'ilopenidconnectsettingsgui' => 
-  array (
+  'ilopenidconnectsettingsgui' =>
+  array(
     'cid' => 'sn',
     'class_name' => 'ilOpenIdConnectSettingsGUI',
     'class_path' => './components/ILIAS/OpenIdConnect/classes/class.ilOpenIdConnectSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjauthsettingsgui',
     ),
   ),
-  'ilorgunitdefaultpermissiongui' => 
-  array (
+  'ilorgunitdefaultpermissiongui' =>
+  array(
     'cid' => 'ss',
     'class_name' => 'ilOrgUnitDefaultPermissionGUI',
     'class_path' => './components/ILIAS/OrgUnit/classes/Positions/Permissions/class.ilOrgUnitDefaultPermissionGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilorgunitpositiongui',
     ),
   ),
-  'ilorgunitexportgui' => 
-  array (
+  'ilorgunitexportgui' =>
+  array(
     'cid' => 'sv',
     'class_name' => 'ilOrgUnitExportGUI',
     'class_path' => './components/ILIAS/OrgUnit/classes/class.ilOrgUnitExportGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjorgunitgui',
     ),
   ),
-  'ilorgunitglobalsettingsgui' => 
-  array (
+  'ilorgunitglobalsettingsgui' =>
+  array(
     'cid' => 'sz',
     'class_name' => 'ilOrgUnitGlobalSettingsGUI',
     'class_path' => './components/ILIAS/OrgUnit/classes/Settings/class.ilOrgUnitGlobalSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjorgunitgui',
     ),
   ),
-  'ilorgunitpermissiongui' => 
-  array (
+  'ilorgunitpermissiongui' =>
+  array(
     'cid' => 't1',
     'class_name' => 'ilOrgUnitPermissionGUI',
     'class_path' => './components/ILIAS/OrgUnit/classes/Positions/Permissions/class.ilOrgUnitPermissionGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilorgunitpositiongui',
     ),
   ),
-  'ilorgunitpositiongui' => 
-  array (
+  'ilorgunitpositiongui' =>
+  array(
     'cid' => 't4',
     'class_name' => 'ilOrgUnitPositionGUI',
     'class_path' => './components/ILIAS/OrgUnit/classes/Positions/class.ilOrgUnitPositionGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilorgunitdefaultpermissiongui',
       1 => 'ilorgunitpermissiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjorgunitgui',
     ),
   ),
-  'ilorgunitsimpleimportgui' => 
-  array (
+  'ilorgunitsimpleimportgui' =>
+  array(
     'cid' => 't7',
     'class_name' => 'ilOrgUnitSimpleImportGUI',
     'class_path' => './components/ILIAS/OrgUnit/classes/SimpleImport/class.ilOrgUnitSimpleImportGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjorgunitgui',
     ),
   ),
-  'ilorgunitsimpleuserimportgui' => 
-  array (
+  'ilorgunitsimpleuserimportgui' =>
+  array(
     'cid' => 't8',
     'class_name' => 'ilOrgUnitSimpleUserImportGUI',
     'class_path' => './components/ILIAS/OrgUnit/classes/SimpleUserImport/class.ilOrgUnitSimpleUserImportGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjorgunitgui',
     ),
   ),
-  'ilorgunittypegui' => 
-  array (
+  'ilorgunittypegui' =>
+  array(
     'cid' => 'tc',
     'class_name' => 'ilOrgUnitTypeGUI',
     'class_path' => './components/ILIAS/OrgUnit/classes/Types/class.ilOrgUnitTypeGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjorgunitgui',
     ),
   ),
-  'ilorgunituserassignmentgui' => 
-  array (
+  'ilorgunituserassignmentgui' =>
+  array(
     'cid' => 'te',
     'class_name' => 'ilOrgUnitUserAssignmentGUI',
     'class_path' => './components/ILIAS/OrgUnit/classes/Positions/UserAssignment/class.ilOrgUnitUserAssignmentGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilrepositorysearchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjorgunitgui',
     ),
   ),
-  'ilpcamdformgui' => 
-  array (
+  'ilpcamdformgui' =>
+  array(
     'cid' => 'th',
     'class_name' => 'ilPCAMDFormGUI',
     'class_path' => './components/ILIAS/Portfolio/Page/class.ilPCAMDFormGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpropertyformgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpcamdpagelistgui' => 
-  array (
+  'ilpcamdpagelistgui' =>
+  array(
     'cid' => 'ti',
     'class_name' => 'ilPCAMDPageListGUI',
     'class_path' => './components/ILIAS/Wiki/classes/class.ilPCAMDPageListGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpcbloggui' => 
-  array (
+  'ilpcbloggui' =>
+  array(
     'cid' => 'tj',
     'class_name' => 'ilPCBlogGUI',
     'class_path' => './components/ILIAS/COPage/PC/Blog/class.ilPCBlogGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpcconsultationhoursgui' => 
-  array (
+  'ilpcconsultationhoursgui' =>
+  array(
     'cid' => 'tk',
     'class_name' => 'ilPCConsultationHoursGUI',
     'class_path' => './components/ILIAS/Portfolio/Page/class.ilPCConsultationHoursGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpccontentincludegui' => 
-  array (
+  'ilpccontentincludegui' =>
+  array(
     'cid' => 'tl',
     'class_name' => 'ilPCContentIncludeGUI',
     'class_path' => './components/ILIAS/COPage/PC/ContentInclude/class.ilPCContentIncludeGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpccontenttemplategui' => 
-  array (
+  'ilpccontenttemplategui' =>
+  array(
     'cid' => 'tm',
     'class_name' => 'ilPCContentTemplateGUI',
     'class_path' => './components/ILIAS/COPage/PC/ContentTemplate/class.ilPCContentTemplateGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpccurriculumgui' => 
-  array (
+  'ilpccurriculumgui' =>
+  array(
     'cid' => 'tn',
     'class_name' => 'ilPCCurriculumGUI',
     'class_path' => './components/ILIAS/LearningSequence/classes/PageEditor/class.ilPCCurriculumGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpcdatatablegui' => 
-  array (
+  'ilpcdatatablegui' =>
+  array(
     'cid' => 'tp',
     'class_name' => 'ilPCDataTableGUI',
     'class_path' => './components/ILIAS/COPage/PC/Table/class.ilPCDataTableGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpcfileitemgui' => 
-  array (
+  'ilpcfileitemgui' =>
+  array(
     'cid' => 'tr',
     'class_name' => 'ilPCFileItemGUI',
     'class_path' => './components/ILIAS/COPage/PC/FileList/class.ilPCFileItemGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpcfilelistgui' => 
-  array (
+  'ilpcfilelistgui' =>
+  array(
     'cid' => 'ts',
     'class_name' => 'ilPCFileListGUI',
     'class_path' => './components/ILIAS/COPage/PC/FileList/class.ilPCFileListGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpcgridcellgui' => 
-  array (
+  'ilpcgridcellgui' =>
+  array(
     'cid' => 'tu',
     'class_name' => 'ilPCGridCellGUI',
     'class_path' => './components/ILIAS/COPage/PC/Grid/class.ilPCGridCellGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpcgridgui' => 
-  array (
+  'ilpcgridgui' =>
+  array(
     'cid' => 'tx',
     'class_name' => 'ilPCGridGUI',
     'class_path' => './components/ILIAS/COPage/PC/Grid/class.ilPCGridGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpciimtriggereditorgui' => 
-  array (
+  'ilpciimtriggereditorgui' =>
+  array(
     'cid' => 'u0',
     'class_name' => 'ilPCIIMTriggerEditorGUI',
     'class_path' => './components/ILIAS/COPage/PC/InteractiveImage/class.ilPCIIMTriggerEditorGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilinternallinkgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpcinteractiveimagegui',
     ),
   ),
-  'ilpcimagemapeditorgui' => 
-  array (
+  'ilpcimagemapeditorgui' =>
+  array(
     'cid' => 'u2',
     'class_name' => 'ilPCImageMapEditorGUI',
     'class_path' => './components/ILIAS/COPage/PC/MediaObject/class.ilPCImageMapEditorGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilinternallinkgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpcmediaobjectgui',
     ),
   ),
-  'ilpcinteractiveimagegui' => 
-  array (
+  'ilpcinteractiveimagegui' =>
+  array(
     'cid' => 'u4',
     'class_name' => 'ilPCInteractiveImageGUI',
     'class_path' => './components/ILIAS/COPage/PC/InteractiveImage/class.ilPCInteractiveImageGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpciimtriggereditorgui',
       1 => 'ilrepostandarduploadhandlergui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpclaunchergui' => 
-  array (
+  'ilpclaunchergui' =>
+  array(
     'cid' => 'u5',
     'class_name' => 'ilPCLauncherGUI',
     'class_path' => './components/ILIAS/LearningSequence/classes/PageEditor/class.ilPCLauncherGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpclayouttemplategui' => 
-  array (
+  'ilpclayouttemplategui' =>
+  array(
     'cid' => 'u7',
     'class_name' => 'ilPCLayoutTemplateGUI',
     'class_path' => './components/ILIAS/COPage/PC/LayoutTemplate/class.ilPCLayoutTemplateGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpclearninghistorygui' => 
-  array (
+  'ilpclearninghistorygui' =>
+  array(
     'cid' => 'u8',
     'class_name' => 'ilPCLearningHistoryGUI',
     'class_path' => './components/ILIAS/LearningHistory/classes/class.ilPCLearningHistoryGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpclistgui' => 
-  array (
+  'ilpclistgui' =>
+  array(
     'cid' => 'u9',
     'class_name' => 'ilPCListGUI',
     'class_path' => './components/ILIAS/COPage/PC/List/class.ilPCListGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpclistitemgui' => 
-  array (
+  'ilpclistitemgui' =>
+  array(
     'cid' => 'ua',
     'class_name' => 'ilPCListItemGUI',
     'class_path' => './components/ILIAS/COPage/PC/List/class.ilPCListItemGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpcloginpageelementgui' => 
-  array (
+  'ilpcloginpageelementgui' =>
+  array(
     'cid' => 'ub',
     'class_name' => 'ilPCLoginPageElementGUI',
     'class_path' => './components/ILIAS/COPage/PC/Login/class.ilPCLoginPageElementGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpcmapgui' => 
-  array (
+  'ilpcmapgui' =>
+  array(
     'cid' => 'uc',
     'class_name' => 'ilPCMapGUI',
     'class_path' => './components/ILIAS/COPage/PC/Map/class.ilPCMapGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpcmediaobjectgui' => 
-  array (
+  'ilpcmediaobjectgui' =>
+  array(
     'cid' => 'ue',
     'class_name' => 'ilPCMediaObjectGUI',
     'class_path' => './components/ILIAS/COPage/PC/MediaObject/class.ilPCMediaObjectGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjmediaobjectgui',
       1 => 'ilpcimagemapeditorgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpcplaceholdergui',
       1 => 'ilpageeditorgui',
     ),
   ),
-  'ilpcmycoursesgui' => 
-  array (
+  'ilpcmycoursesgui' =>
+  array(
     'cid' => 'uf',
     'class_name' => 'ilPCMyCoursesGUI',
     'class_path' => './components/ILIAS/Portfolio/Page/class.ilPCMyCoursesGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpcprgactionnotegui' => 
-  array (
+  'ilpcprgactionnotegui' =>
+  array(
     'cid' => 'ug',
     'class_name' => 'ilPCPRGActionNoteGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/PageEditor/class.ilPCPRGActionNoteGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpcprgstatusinfogui' => 
-  array (
+  'ilpcprgstatusinfogui' =>
+  array(
     'cid' => 'uh',
     'class_name' => 'ilPCPRGStatusInfoGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/PageEditor/class.ilPCPRGStatusInfoGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpcparagraphgui' => 
-  array (
+  'ilpcparagraphgui' =>
+  array(
     'cid' => 'uj',
     'class_name' => 'ilPCParagraphGUI',
     'class_path' => './components/ILIAS/COPage/PC/Paragraph/class.ilPCParagraphGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpcplaceholdergui' => 
-  array (
+  'ilpcplaceholdergui' =>
+  array(
     'cid' => 'ul',
     'class_name' => 'ilPCPlaceHolderGUI',
     'class_path' => './components/ILIAS/COPage/PC/PlaceHolder/class.ilPCPlaceHolderGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpcmediaobjectgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpcpluggedgui' => 
-  array (
+  'ilpcpluggedgui' =>
+  array(
     'cid' => 'um',
     'class_name' => 'ilPCPluggedGUI',
     'class_path' => './components/ILIAS/COPage/PC/Plugged/class.ilPCPluggedGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpcprofilegui' => 
-  array (
+  'ilpcprofilegui' =>
+  array(
     'cid' => 'un',
     'class_name' => 'ilPCProfileGUI',
     'class_path' => './components/ILIAS/COPage/PC/Profile/class.ilPCProfileGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpcquestiongui' => 
-  array (
+  'ilpcquestiongui' =>
+  array(
     'cid' => 'uo',
     'class_name' => 'ilPCQuestionGUI',
     'class_path' => './components/ILIAS/COPage/PC/Question/class.ilPCQuestionGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpcresourcesgui' => 
-  array (
+  'ilpcresourcesgui' =>
+  array(
     'cid' => 'uq',
     'class_name' => 'ilPCResourcesGUI',
     'class_path' => './components/ILIAS/COPage/PC/Resources/class.ilPCResourcesGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpcsectiongui' => 
-  array (
+  'ilpcsectiongui' =>
+  array(
     'cid' => 'us',
     'class_name' => 'ilPCSectionGUI',
     'class_path' => './components/ILIAS/COPage/PC/Section/class.ilPCSectionGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpropertyformgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpcskillsgui' => 
-  array (
+  'ilpcskillsgui' =>
+  array(
     'cid' => 'ut',
     'class_name' => 'ilPCSkillsGUI',
     'class_path' => './components/ILIAS/COPage/PC/Skills/class.ilPCSkillsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpcsourcecodegui' => 
-  array (
+  'ilpcsourcecodegui' =>
+  array(
     'cid' => 'uv',
     'class_name' => 'ilPCSourceCodeGUI',
     'class_path' => './components/ILIAS/COPage/PC/SourceCode/class.ilPCSourceCodeGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilrepostandarduploadhandlergui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpctabgui' => 
-  array (
+  'ilpctabgui' =>
+  array(
     'cid' => 'uw',
     'class_name' => 'ilPCTabGUI',
     'class_path' => './components/ILIAS/COPage/PC/Tabs/class.ilPCTabGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpctabledatagui' => 
-  array (
+  'ilpctabledatagui' =>
+  array(
     'cid' => 'ux',
     'class_name' => 'ilPCTableDataGUI',
     'class_path' => './components/ILIAS/COPage/PC/Table/class.ilPCTableDataGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpctablegui' => 
-  array (
+  'ilpctablegui' =>
+  array(
     'cid' => 'uy',
     'class_name' => 'ilPCTableGUI',
     'class_path' => './components/ILIAS/COPage/PC/Table/class.ilPCTableGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilassgenfeedbackpagegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpctabsgui' => 
-  array (
+  'ilpctabsgui' =>
+  array(
     'cid' => 'v0',
     'class_name' => 'ilPCTabsGUI',
     'class_path' => './components/ILIAS/COPage/PC/Tabs/class.ilPCTabsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpcverificationgui' => 
-  array (
+  'ilpcverificationgui' =>
+  array(
     'cid' => 'v2',
     'class_name' => 'ilPCVerificationGUI',
     'class_path' => './components/ILIAS/COPage/PC/Verification/class.ilPCVerificationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpdcalendarblockgui' => 
-  array (
+  'ilpdcalendarblockgui' =>
+  array(
     'cid' => 'v3',
     'class_name' => 'ilPDCalendarBlockGUI',
     'class_path' => './components/ILIAS/Calendar/classes/class.ilPDCalendarBlockGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilcalendardaygui',
       1 => 'ilcalendarappointmentgui',
       2 => 'ilcalendarmonthgui',
@@ -9565,142 +9567,142 @@
       5 => 'ilconsultationhoursgui',
       6 => 'ilcalendarappointmentpresentationgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcolumngui',
       1 => 'ilcalendarpresentationgui',
     ),
   ),
-  'ilpdmailblockgui' => 
-  array (
+  'ilpdmailblockgui' =>
+  array(
     'cid' => 'v4',
     'class_name' => 'ilPDMailBlockGUI',
     'class_path' => './components/ILIAS/Mail/classes/class.ilPDMailBlockGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcolumngui',
       1 => 'ildashboardgui',
     ),
   ),
-  'ilpdnewsblockgui' => 
-  array (
+  'ilpdnewsblockgui' =>
+  array(
     'cid' => 'v6',
     'class_name' => 'ilPDNewsBlockGUI',
     'class_path' => './components/ILIAS/News/classes/class.ilPDNewsBlockGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcolumngui',
     ),
   ),
-  'ilpdnewsgui' => 
-  array (
+  'ilpdnewsgui' =>
+  array(
     'cid' => 'v7',
     'class_name' => 'ilPDNewsGUI',
     'class_path' => './components/ILIAS/News/classes/class.ilPDNewsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilnewstimelinegui',
       1 => 'ilcommonactiondispatchergui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ildashboardgui',
     ),
   ),
-  'ilpdnotesgui' => 
-  array (
+  'ilpdnotesgui' =>
+  array(
     'cid' => 'v9',
     'class_name' => 'ilPDNotesGUI',
     'class_path' => './components/ILIAS/Notes/Note/class.ilPDNotesGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilnotegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ildashboardgui',
     ),
   ),
-  'ilpdstudyprogrammeexpandablelistgui' => 
-  array (
+  'ilpdstudyprogrammeexpandablelistgui' =>
+  array(
     'cid' => 'va',
     'class_name' => 'ilPDStudyProgrammeExpandableListGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/class.ilPDStudyProgrammeExpandableListGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcolumngui',
     ),
   ),
-  'ilpdstudyprogrammesimplelistgui' => 
-  array (
+  'ilpdstudyprogrammesimplelistgui' =>
+  array(
     'cid' => 'vb',
     'class_name' => 'ilPDStudyProgrammeSimpleListGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/class.ilPDStudyProgrammeSimpleListGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcolumngui',
     ),
   ),
-  'ilpdtasksblockgui' => 
-  array (
+  'ilpdtasksblockgui' =>
+  array(
     'cid' => 'vc',
     'class_name' => 'ilPDTasksBlockGUI',
     'class_path' => './components/ILIAS/Tasks/classes/class.ilPDTasksBlockGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcolumngui',
     ),
   ),
-  'ilprgmembersexportgui' => 
-  array (
+  'ilprgmembersexportgui' =>
+  array(
     'cid' => 'vd',
     'class_name' => 'ilPRGMembersExportGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/memberexport/class.ilPRGMembersExportGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjstudyprogrammegui',
     ),
   ),
-  'ilprgpageobjectgui' => 
-  array (
+  'ilprgpageobjectgui' =>
+  array(
     'cid' => 've',
     'class_name' => 'ilPRGPageObjectGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/PageEditor/class.ilPRGPageObjectGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpageeditorgui',
       1 => 'ileditclipboardgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjstudyprogrammegui',
     ),
   ),
-  'ilpageeditorgui' => 
-  array (
+  'ilpageeditorgui' =>
+  array(
     'cid' => 'vh',
     'class_name' => 'ilPageEditorGUI',
     'class_path' => './components/ILIAS/COPage/classes/class.ilPageEditorGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpcparagraphgui',
       1 => 'ilpctablegui',
       2 => 'ilpctabledatagui',
@@ -9743,8 +9745,8 @@
       39 => 'ilpcprgactionnotegui',
       40 => 'ilpcprgstatusinfogui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilassgenfeedbackpagegui',
       1 => 'ilasshintpagegui',
       2 => 'ilassquestionpagegui',
@@ -9776,60 +9778,60 @@
       28 => 'ilwikipagegui',
     ),
   ),
-  'ilpageeditorserveradaptergui' => 
-  array (
+  'ilpageeditorserveradaptergui' =>
+  array(
     'cid' => 'vi',
     'class_name' => 'ilPageEditorServerAdapterGUI',
     'class_path' => './components/ILIAS/COPage/Editor/class.ilPageEditorServerAdapterGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpageeditorgui',
     ),
   ),
-  'ilpagelayoutadministrationgui' => 
-  array (
+  'ilpagelayoutadministrationgui' =>
+  array(
     'cid' => 'vk',
     'class_name' => 'ilPageLayoutAdministrationGUI',
     'class_path' => './components/ILIAS/COPage/Layout/Administration/class.ilPageLayoutAdministrationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpagelayoutgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjstylesettingsgui',
     ),
   ),
-  'ilpagelayoutgui' => 
-  array (
+  'ilpagelayoutgui' =>
+  array(
     'cid' => 'vl',
     'class_name' => 'ilPageLayoutGUI',
     'class_path' => './components/ILIAS/COPage/Layout/classes/class.ilPageLayoutGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpageeditorgui',
       1 => 'ileditclipboardgui',
       2 => 'ilpublicuserprofilegui',
       3 => 'ilpageobjectgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpagelayoutadministrationgui',
     ),
   ),
-  'ilpagemultilanggui' => 
-  array (
+  'ilpagemultilanggui' =>
+  array(
     'cid' => 'vn',
     'class_name' => 'ilPageMultiLangGUI',
     'class_path' => './components/ILIAS/COPage/classes/class.ilPageMultiLangGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcontainerpagegui',
       1 => 'ilcontainerstartobjectspagegui',
       2 => 'ilcontentpagepagegui',
@@ -9842,13 +9844,13 @@
       9 => 'ilpageobjectgui',
     ),
   ),
-  'ilpageobjectgui' => 
-  array (
+  'ilpageobjectgui' =>
+  array(
     'cid' => 'vp',
     'class_name' => 'ilPageObjectGUI',
     'class_path' => './components/ILIAS/COPage/classes/class.ilPageObjectGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpageeditorgui',
       1 => 'ileditclipboardgui',
       2 => 'ilobjectmetadatagui',
@@ -9861,8 +9863,8 @@
       9 => 'ilpagemultilanggui',
       10 => 'illearninghistorygui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilblogpostinggui',
       1 => 'ildclcreateviewdefinitiongui',
       2 => 'ildcldetailedviewdefinitiongui',
@@ -9878,66 +9880,66 @@
       12 => 'ilwikipagegui',
     ),
   ),
-  'ilparticipantsperassignmenttablegui' => 
-  array (
+  'ilparticipantsperassignmenttablegui' =>
+  array(
     'cid' => 'vs',
     'class_name' => 'ilParticipantsPerAssignmentTableGUI',
     'class_path' => './components/ILIAS/Exercise/classes/class.ilParticipantsPerAssignmentTableGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilexercisemanagementgui',
     ),
   ),
-  'ilparticipantstestresultsgui' => 
-  array (
+  'ilparticipantstestresultsgui' =>
+  array(
     'cid' => 'vt',
     'class_name' => 'ilParticipantsTestResultsGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilParticipantsTestResultsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'iltestevaluationgui',
       1 => 'ilassquestionpagegui',
       2 => 'ilassspecfeedbackpagegui',
       3 => 'ilassgenfeedbackpagegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjtestgui',
       1 => 'iltestexportgui',
       2 => 'iltestresultsgui',
     ),
   ),
-  'ilpasswordassistancegui' => 
-  array (
+  'ilpasswordassistancegui' =>
+  array(
     'cid' => 'vv',
     'class_name' => 'ilPasswordAssistanceGUI',
     'class_path' => './components/ILIAS/Init/classes/class.ilPasswordAssistanceGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilstartupgui',
     ),
   ),
-  'ilpermissiongui' => 
-  array (
+  'ilpermissiongui' =>
+  array(
     'cid' => 'w0',
     'class_name' => 'ilPermissionGUI',
     'class_path' => './components/ILIAS/AccessControl/classes/class.ilPermissionGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjrolegui',
       1 => 'ilrepositorysearchgui',
       2 => 'ilobjectpermissionstatusgui',
       3 => 'ildidactictemplategui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iladministrationgui',
       1 => 'ilobjaccessibilitysettingsgui',
       2 => 'ilobjadministrativenotificationgui',
@@ -10065,58 +10067,58 @@
       124 => 'ilrepositorygui',
     ),
   ),
-  'ilpersonalprofilegui' => 
-  array (
+  'ilpersonalprofilegui' =>
+  array(
     'cid' => 'w1',
     'class_name' => 'ilPersonalProfileGUI',
     'class_path' => './components/ILIAS/User/classes/Profile/class.ilPersonalProfileGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpublicuserprofilegui',
       1 => 'iluserprivacysettingsgui',
       2 => 'illegaldocumentsagreementgui',
       3 => 'illegaldocumentswithdrawalgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ildashboardgui',
     ),
   ),
-  'ilpersonalsettingsgui' => 
-  array (
+  'ilpersonalsettingsgui' =>
+  array(
     'cid' => 'w2',
     'class_name' => 'ilPersonalSettingsGUI',
     'class_path' => './components/ILIAS/User/classes/Settings/class.ilPersonalSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilmailoptionsgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ildashboardgui',
     ),
   ),
-  'ilpersonalskillsgui' => 
-  array (
+  'ilpersonalskillsgui' =>
+  array(
     'cid' => 'w5',
     'class_name' => 'ilPersonalSkillsGUI',
     'class_path' => './components/ILIAS/Skill/Personal/class.ilPersonalSkillsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilachievementsgui',
       1 => 'ilcontskillpresentationgui',
     ),
   ),
-  'ilpersonalworkspacegui' => 
-  array (
+  'ilpersonalworkspacegui' =>
+  array(
     'cid' => 'w6',
     'class_name' => 'ilPersonalWorkspaceGUI',
     'class_path' => './components/ILIAS/PersonalWorkspace/classes/class.ilPersonalWorkspaceGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjworkspacerootfoldergui',
       1 => 'ilobjworkspacefoldergui',
       2 => 'ilobjectcopygui',
@@ -10130,45 +10132,45 @@
       10 => 'ilobjcmixapiverificationgui',
       11 => 'ilobjlticonsumerverificationgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ildashboardgui',
     ),
   ),
-  'ilpollblockgui' => 
-  array (
+  'ilpollblockgui' =>
+  array(
     'cid' => 'wa',
     'class_name' => 'ilPollBlockGUI',
     'class_path' => './components/ILIAS/Poll/classes/BlockGUI/class.ilPollBlockGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcolumngui',
     ),
   ),
-  'ilportfolioexercisegui' => 
-  array (
+  'ilportfolioexercisegui' =>
+  array(
     'cid' => 'wd',
     'class_name' => 'ilPortfolioExerciseGUI',
     'class_path' => './components/ILIAS/Portfolio/Exercise/class.ilPortfolioExerciseGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjexercisegui',
       1 => 'ilobjportfoliogui',
     ),
   ),
-  'ilportfoliopagegui' => 
-  array (
+  'ilportfoliopagegui' =>
+  array(
     'cid' => 'we',
     'class_name' => 'ilPortfolioPageGUI',
     'class_path' => './components/ILIAS/Portfolio/Page/class.ilPortfolioPageGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpageeditorgui',
       1 => 'ileditclipboardgui',
       2 => 'ilpageobjectgui',
@@ -10179,49 +10181,49 @@
       7 => 'ilconsultationhoursgui',
       8 => 'illearninghistorygui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjbloggui',
       1 => 'ilobjfilegui',
       2 => 'ilobjportfoliogui',
     ),
   ),
-  'ilportfoliorepositorygui' => 
-  array (
+  'ilportfoliorepositorygui' =>
+  array(
     'cid' => 'wg',
     'class_name' => 'ilPortfolioRepositoryGUI',
     'class_path' => './components/ILIAS/Portfolio/classes/class.ilPortfolioRepositoryGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjportfoliogui',
       1 => 'ilobjexercisegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ildashboardgui',
     ),
   ),
-  'ilportfolioroleassignmentgui' => 
-  array (
+  'ilportfolioroleassignmentgui' =>
+  array(
     'cid' => 'wh',
     'class_name' => 'ilPortfolioRoleAssignmentGUI',
     'class_path' => './components/ILIAS/Portfolio/Administration/class.ilPortfolioRoleAssignmentGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpropertyformgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjportfolioadministrationgui',
     ),
   ),
-  'ilportfoliotemplatepagegui' => 
-  array (
+  'ilportfoliotemplatepagegui' =>
+  array(
     'cid' => 'wk',
     'class_name' => 'ilPortfolioTemplatePageGUI',
     'class_path' => './components/ILIAS/Portfolio/Template/class.ilPortfolioTemplatePageGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpageeditorgui',
       1 => 'ileditclipboardgui',
       2 => 'ilpublicuserprofilegui',
@@ -10229,49 +10231,49 @@
       4 => 'ilcalendarmonthgui',
       5 => 'ilconsultationhoursgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjportfoliotemplategui',
     ),
   ),
-  'ilpresentationfullgui' => 
-  array (
+  'ilpresentationfullgui' =>
+  array(
     'cid' => 'wl',
     'class_name' => 'ilPresentationFullGUI',
     'class_path' => './components/ILIAS/Glossary/Presentation/class.ilPresentationFullGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilglossarypresentationgui',
     ),
   ),
-  'ilpresentationlisttablegui' => 
-  array (
+  'ilpresentationlisttablegui' =>
+  array(
     'cid' => 'wm',
     'class_name' => 'ilPresentationListTableGUI',
     'class_path' => './components/ILIAS/Glossary/Presentation/class.ilPresentationListTableGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilglossarypresentationgui',
     ),
   ),
-  'ilpropertyformgui' => 
-  array (
+  'ilpropertyformgui' =>
+  array(
     'cid' => 'wo',
     'class_name' => 'ilPropertyFormGUI',
     'class_path' => './components/ILIAS/Form/classes/class.ilPropertyFormGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'assimagemapquestiongui',
       1 => 'asskprimchoicegui',
       2 => 'asslongmenugui',
@@ -10334,18 +10336,18 @@
       59 => 'ilwikipagegui',
     ),
   ),
-  'ilpublicuserprofilegui' => 
-  array (
+  'ilpublicuserprofilegui' =>
+  array(
     'cid' => 'wr',
     'class_name' => 'ilPublicUserProfileGUI',
     'class_path' => './components/ILIAS/User/classes/Profile/class.ilPublicUserProfileGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjportfoliogui',
       1 => 'ilbuddysystemgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilassgenfeedbackpagegui',
       1 => 'ilasshintpagegui',
       2 => 'ilassquestionpagegui',
@@ -10387,27 +10389,27 @@
       38 => 'ilworkspaceaccessgui',
     ),
   ),
-  'ilquestionbrowsertablegui' => 
-  array (
+  'ilquestionbrowsertablegui' =>
+  array(
     'cid' => 'ws',
     'class_name' => 'ilQuestionBrowserTableGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/tables/class.ilQuestionBrowserTableGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjquestionpoolgui',
     ),
   ),
-  'ilquestioneditgui' => 
-  array (
+  'ilquestioneditgui' =>
+  array(
     'cid' => 'wu',
     'class_name' => 'ilQuestionEditGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilQuestionEditGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'assmultiplechoicegui',
       1 => 'assclozetestgui',
       2 => 'assmatchingquestiongui',
@@ -10424,63 +10426,63 @@
       13 => 'assformulaquestiongui',
       14 => 'asslongmenugui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'illmpagegui',
     ),
   ),
-  'ilquestionpoolexportgui' => 
-  array (
+  'ilquestionpoolexportgui' =>
+  array(
     'cid' => 'ww',
     'class_name' => 'ilQuestionPoolExportGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilQuestionPoolExportGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjquestionpoolgui',
     ),
   ),
-  'ilquestionpoolskilladministrationgui' => 
-  array (
+  'ilquestionpoolskilladministrationgui' =>
+  array(
     'cid' => 'x0',
     'class_name' => 'ilQuestionPoolSkillAdministrationGUI',
     'class_path' => './components/ILIAS/TestQuestionPool/classes/class.ilQuestionPoolSkillAdministrationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilassquestionskillassignmentsgui',
       1 => 'ilassquestionskillusagestablegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjquestionpoolgui',
     ),
   ),
-  'ilratingcategorygui' => 
-  array (
+  'ilratingcategorygui' =>
+  array(
     'cid' => 'x5',
     'class_name' => 'ilRatingCategoryGUI',
     'class_path' => './components/ILIAS/Rating/classes/class.ilRatingCategoryGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilratinggui',
     ),
   ),
-  'ilratinggui' => 
-  array (
+  'ilratinggui' =>
+  array(
     'cid' => 'x7',
     'class_name' => 'ilRatingGUI',
     'class_path' => './components/ILIAS/Rating/classes/class.ilRatingGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilratingcategorygui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilblogpostinggui',
       1 => 'ilcommonactiondispatchergui',
       2 => 'ilexpeerreviewgui',
@@ -10492,42 +10494,42 @@
       8 => 'ilwikipagegui',
     ),
   ),
-  'ilrecommendedcontentroleconfiggui' => 
-  array (
+  'ilrecommendedcontentroleconfiggui' =>
+  array(
     'cid' => 'x9',
     'class_name' => 'ilRecommendedContentRoleConfigGUI',
     'class_path' => './components/ILIAS/Repository/RecommendedContent/classes/class.ilRecommendedContentRoleConfigGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjrolegui',
     ),
   ),
-  'ilregistrationsettingsgui' => 
-  array (
+  'ilregistrationsettingsgui' =>
+  array(
     'cid' => 'xf',
     'class_name' => 'ilRegistrationSettingsGUI',
     'class_path' => './components/ILIAS/Registration/classes/class.ilRegistrationSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjauthsettingsgui',
     ),
   ),
-  'ilrepostandarduploadhandlergui' => 
-  array (
+  'ilrepostandarduploadhandlergui' =>
+  array(
     'cid' => 'xj',
     'class_name' => 'ilRepoStandardUploadHandlerGUI',
     'class_path' => './components/ILIAS/Repository/Service/Form/class.ilRepoStandardUploadHandlerGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilexsubmissionfilegui',
       1 => 'ilmediacreationgui',
       2 => 'ilobjmediapoolgui',
@@ -10535,13 +10537,13 @@
       4 => 'ilpcsourcecodegui',
     ),
   ),
-  'ilrepositorygui' => 
-  array (
+  'ilrepositorygui' =>
+  array(
     'cid' => 'xl',
     'class_name' => 'ilRepositoryGUI',
     'class_path' => './components/ILIAS/Repository/classes/class.ilRepositoryGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjgroupgui',
       1 => 'ilobjfoldergui',
       2 => 'ilobjfilegui',
@@ -10599,35 +10601,35 @@
       54 => 'ilobjwikigui',
       55 => 'iltestpagegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'ilrepositoryobjectsearchgui' => 
-  array (
+  'ilrepositoryobjectsearchgui' =>
+  array(
     'cid' => 'xo',
     'class_name' => 'ilRepositoryObjectSearchGUI',
     'class_path' => './components/ILIAS/Search/classes/class.ilRepositoryObjectSearchGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjforumgui',
       1 => 'ilobjwikigui',
     ),
   ),
-  'ilrepositorysearchgui' => 
-  array (
+  'ilrepositorysearchgui' =>
+  array(
     'cid' => 'xq',
     'class_name' => 'ilRepositorySearchGUI',
     'class_path' => './components/ILIAS/Search/classes/class.ilRepositorySearchGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilbookingparticipantgui',
       1 => 'ilconsultationhoursgui',
       2 => 'ilcoursemembershipgui',
@@ -10654,98 +10656,98 @@
       23 => 'iltestparticipantsgui',
     ),
   ),
-  'ilrepositoryselector2inputgui' => 
-  array (
+  'ilrepositoryselector2inputgui' =>
+  array(
     'cid' => 'xr',
     'class_name' => 'ilRepositorySelector2InputGUI',
     'class_path' => './components/ILIAS/Form/classes/class.ilRepositorySelector2InputGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilformpropertydispatchgui',
     ),
   ),
-  'ilrepositoryselectorexplorergui' => 
-  array (
+  'ilrepositoryselectorexplorergui' =>
+  array(
     'cid' => 'xs',
     'class_name' => 'ilRepositorySelectorExplorerGUI',
     'class_path' => './components/ILIAS/Repository/classes/class.ilRepositorySelectorExplorerGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iltestrandomquestionsetconfiggui',
     ),
   ),
-  'ilrepositoryselectorinputgui' => 
-  array (
+  'ilrepositoryselectorinputgui' =>
+  array(
     'cid' => 'xt',
     'class_name' => 'ilRepositorySelectorInputGUI',
     'class_path' => './components/ILIAS/Form/classes/class.ilRepositorySelectorInputGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilformpropertydispatchgui',
     ),
   ),
-  'ilrepositorytrashgui' => 
-  array (
+  'ilrepositorytrashgui' =>
+  array(
     'cid' => 'xu',
     'class_name' => 'ilRepositoryTrashGUI',
     'class_path' => './components/ILIAS/Repository/Trash/class.ilRepositoryTrashGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpropertyformgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjcategorygui',
       1 => 'ilobjcoursegui',
       2 => 'ilobjfoldergui',
       3 => 'ilobjrootfoldergui',
     ),
   ),
-  'ilresourcecollectiongui' => 
-  array (
+  'ilresourcecollectiongui' =>
+  array(
     'cid' => 'xw',
     'class_name' => 'ilResourceCollectionGUI',
     'class_path' => './components/ILIAS/ResourceStorage_/classes/Collections/class.ilResourceCollectionGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilexassignmenteditorgui',
       1 => 'ilexercisemanagementgui',
       2 => 'ilresourceoverviewgui',
     ),
   ),
-  'ilresourceoverviewgui' => 
-  array (
+  'ilresourceoverviewgui' =>
+  array(
     'cid' => 'xx',
     'class_name' => 'ilResourceOverviewGUI',
     'class_path' => './components/ILIAS/ResourceStorage_/classes/Resources/class.ilResourceOverviewGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilresourcecollectiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjfileservicesgui',
     ),
   ),
-  'ilsahseditgui' => 
-  array (
+  'ilsahseditgui' =>
+  array(
     'cid' => 'y5',
     'class_name' => 'ilSAHSEditGUI',
     'class_path' => './components/ILIAS/ScormAicc/Editing/classes/class.ilSAHSEditGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilfilesystemgui',
       1 => 'ilobjectmetadatagui',
       2 => 'ilobjscormlearningmodulegui',
@@ -10755,17 +10757,17 @@
       6 => 'ilobjsahslearningmodulegui',
       7 => 'illtiproviderobjectsettinggui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'ilsahspresentationgui' => 
-  array (
+  'ilsahspresentationgui' =>
+  array(
     'cid' => 'y6',
     'class_name' => 'ilSAHSPresentationGUI',
     'class_path' => './components/ILIAS/ScormAicc/classes/class.ilSAHSPresentationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilscormpresentationgui',
       1 => 'ilinfoscreengui',
       2 => 'ilscorm13playergui',
@@ -10773,160 +10775,160 @@
       4 => 'ilobjscormlearningmodulegui',
       5 => 'ilobjscorm2004learningmodulegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'ilscorm13playergui' => 
-  array (
+  'ilscorm13playergui' =>
+  array(
     'cid' => 'y9',
     'class_name' => 'ilSCORM13PlayerGUI',
     'class_path' => './components/ILIAS/Scorm2004/classes/class.ilSCORM13PlayerGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilsahspresentationgui',
     ),
   ),
-  'ilscorm2004trackingitemsperscofiltergui' => 
-  array (
+  'ilscorm2004trackingitemsperscofiltergui' =>
+  array(
     'cid' => 'ya',
     'class_name' => 'ilSCORM2004TrackingItemsPerScoFilterGUI',
     'class_path' => './components/ILIAS/Scorm2004/classes/class.ilSCORM2004TrackingItemsPerScoFilterGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjscorm2004learningmodulegui',
     ),
   ),
-  'ilscorm2004trackingitemsperuserfiltergui' => 
-  array (
+  'ilscorm2004trackingitemsperuserfiltergui' =>
+  array(
     'cid' => 'yb',
     'class_name' => 'ilSCORM2004TrackingItemsPerUserFilterGUI',
     'class_path' => './components/ILIAS/Scorm2004/classes/class.ilSCORM2004TrackingItemsPerUserFilterGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjscorm2004learningmodulegui',
     ),
   ),
-  'ilscorm2004trackingitemstablegui' => 
-  array (
+  'ilscorm2004trackingitemstablegui' =>
+  array(
     'cid' => 'yc',
     'class_name' => 'ilSCORM2004TrackingItemsTableGUI',
     'class_path' => './components/ILIAS/Scorm2004/classes/class.ilSCORM2004TrackingItemsTableGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjscorm2004learningmodulegui',
     ),
   ),
-  'ilscormpresentationgui' => 
-  array (
+  'ilscormpresentationgui' =>
+  array(
     'cid' => 'yi',
     'class_name' => 'ilSCORMPresentationGUI',
     'class_path' => './components/ILIAS/ScormAicc/classes/SCORM/class.ilSCORMPresentationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilsahspresentationgui',
     ),
   ),
-  'ilscormtrackingitemsperscofiltergui' => 
-  array (
+  'ilscormtrackingitemsperscofiltergui' =>
+  array(
     'cid' => 'ym',
     'class_name' => 'ilSCORMTrackingItemsPerScoFilterGUI',
     'class_path' => './components/ILIAS/ScormAicc/classes/class.ilSCORMTrackingItemsPerScoFilterGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjscormlearningmodulegui',
     ),
   ),
-  'ilscormtrackingitemsperuserfiltergui' => 
-  array (
+  'ilscormtrackingitemsperuserfiltergui' =>
+  array(
     'cid' => 'yo',
     'class_name' => 'ilSCORMTrackingItemsPerUserFilterGUI',
     'class_path' => './components/ILIAS/ScormAicc/classes/class.ilSCORMTrackingItemsPerUserFilterGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjscormlearningmodulegui',
     ),
   ),
-  'ilscormtrackingitemstablegui' => 
-  array (
+  'ilscormtrackingitemstablegui' =>
+  array(
     'cid' => 'yr',
     'class_name' => 'ilSCORMTrackingItemsTableGUI',
     'class_path' => './components/ILIAS/ScormAicc/classes/class.ilSCORMTrackingItemsTableGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjscormlearningmodulegui',
     ),
   ),
-  'ilsctreetasksgui' => 
-  array (
+  'ilsctreetasksgui' =>
+  array(
     'cid' => 'yx',
     'class_name' => 'ilSCTreeTasksGUI',
     'class_path' => './components/ILIAS/Tree/classes/SystemCheck/class.ilSCTreeTasksGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjsystemcheckgui',
     ),
   ),
-  'ilsamlsettingsgui' => 
-  array (
+  'ilsamlsettingsgui' =>
+  array(
     'cid' => 'z1',
     'class_name' => 'ilSamlSettingsGUI',
     'class_path' => './components/ILIAS/Saml/classes/class.ilSamlSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjauthsettingsgui',
     ),
   ),
-  'ilsearchbasegui' => 
-  array (
+  'ilsearchbasegui' =>
+  array(
     'cid' => 'z3',
     'class_name' => 'ilSearchBaseGUI',
     'class_path' => './components/ILIAS/Search/classes/class.ilSearchBaseGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilsearchcontrollergui',
     ),
   ),
-  'ilsearchcontrollergui' => 
-  array (
+  'ilsearchcontrollergui' =>
+  array(
     'cid' => 'z4',
     'class_name' => 'ilSearchControllerGUI',
     'class_path' => './components/ILIAS/Search/classes/class.ilSearchControllerGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilsearchgui',
       1 => 'iladvancedsearchgui',
       2 => 'illucenesearchgui',
@@ -10934,17 +10936,17 @@
       4 => 'illuceneusersearchgui',
       5 => 'ilsearchbasegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'ilsearchgui' => 
-  array (
+  'ilsearchgui' =>
+  array(
     'cid' => 'z5',
     'class_name' => 'ilSearchGUI',
     'class_path' => './components/ILIAS/Search/classes/class.ilSearchGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpropertyformgui',
       1 => 'ilobjectgui',
       2 => 'ilcontainergui',
@@ -10955,53 +10957,53 @@
       7 => 'ilobjrootfoldergui',
       8 => 'ilobjectcopygui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilsearchcontrollergui',
     ),
   ),
-  'ilselecteditemsblockgui' => 
-  array (
+  'ilselecteditemsblockgui' =>
+  array(
     'cid' => 'z9',
     'class_name' => 'ilSelectedItemsBlockGUI',
     'class_path' => './components/ILIAS/Dashboard/Block/classes/class.ilSelectedItemsBlockGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcolumngui',
       1 => 'ildashboardgui',
     ),
   ),
-  'ilsessionmembershipgui' => 
-  array (
+  'ilsessionmembershipgui' =>
+  array(
     'cid' => 'zc',
     'class_name' => 'ilSessionMembershipGUI',
     'class_path' => './components/ILIAS/Session/classes/class.ilSessionMembershipGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilmailmembersearchgui',
       1 => 'ilusersgallerygui',
       2 => 'ilrepositorysearchgui',
       3 => 'ilsessionoverviewgui',
       4 => 'ilmemberexportgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjsessiongui',
     ),
   ),
-  'ilsessionoverviewgui' => 
-  array (
+  'ilsessionoverviewgui' =>
+  array(
     'cid' => 'ze',
     'class_name' => 'ilSessionOverviewGUI',
     'class_path' => './components/ILIAS/Session/classes/class.ilSessionOverviewGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcoursemembershipgui',
       1 => 'ilgroupmembershipgui',
       2 => 'illearningsequencemembershipgui',
@@ -11010,39 +11012,39 @@
       5 => 'ilsessionmembershipgui',
     ),
   ),
-  'ilsessionstatisticsgui' => 
-  array (
+  'ilsessionstatisticsgui' =>
+  array(
     'cid' => 'zi',
     'class_name' => 'ilSessionStatisticsGUI',
     'class_path' => './components/ILIAS/Authentication/classes/class.ilSessionStatisticsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjusertrackinggui',
     ),
   ),
-  'ilsettingspermissiongui' => 
-  array (
+  'ilsettingspermissiongui' =>
+  array(
     'cid' => 'zj',
     'class_name' => 'ilSettingsPermissionGUI',
     'class_path' => './components/ILIAS/AccessControl/classes/class.ilSettingsPermissionGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjwikigui',
     ),
   ),
-  'ilsharedresourcegui' => 
-  array (
+  'ilsharedresourcegui' =>
+  array(
     'cid' => 'zk',
     'class_name' => 'ilSharedResourceGUI',
     'class_path' => './components/ILIAS/PersonalWorkspace/classes/class.ilSharedResourceGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjbloggui',
       1 => 'ilobjfilegui',
       2 => 'ilobjtestverificationgui',
@@ -11050,128 +11052,128 @@
       4 => 'ilobjlinkresourcegui',
       5 => 'ilobjportfoliogui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'ilsingleusersharegui' => 
-  array (
+  'ilsingleusersharegui' =>
+  array(
     'cid' => 'zn',
     'class_name' => 'ilSingleUserShareGUI',
     'class_path' => './components/ILIAS/PersonalWorkspace/classes/class.ilSingleUserShareGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilworkspaceaccessgui',
     ),
   ),
-  'ilskillcategorygui' => 
-  array (
+  'ilskillcategorygui' =>
+  array(
     'cid' => 'zp',
     'class_name' => 'ilSkillCategoryGUI',
     'class_path' => './components/ILIAS/Skill/Node/class.ilSkillCategoryGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjskillmanagementgui',
       1 => 'ilobjskilltreegui',
     ),
   ),
-  'ilskillprofilegui' => 
-  array (
+  'ilskillprofilegui' =>
+  array(
     'cid' => 'zr',
     'class_name' => 'ilSkillProfileGUI',
     'class_path' => './components/ILIAS/Skill/Profile/class.ilSkillProfileGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilrepositorysearchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcontskilladmingui',
       1 => 'ilobjskilltreegui',
     ),
   ),
-  'ilskillprofileuploadhandlergui' => 
-  array (
+  'ilskillprofileuploadhandlergui' =>
+  array(
     'cid' => 'zt',
     'class_name' => 'ilSkillProfileUploadHandlerGUI',
     'class_path' => './components/ILIAS/Skill/Profile/class.ilSkillProfileUploadHandlerGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjskilltreegui',
       1 => 'ilcontskilladmingui',
     ),
   ),
-  'ilskillrootgui' => 
-  array (
+  'ilskillrootgui' =>
+  array(
     'cid' => 'zu',
     'class_name' => 'ilSkillRootGUI',
     'class_path' => './components/ILIAS/Skill/Node/class.ilSkillRootGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjskillmanagementgui',
       1 => 'ilobjskilltreegui',
     ),
   ),
-  'ilskillselectorgui' => 
-  array (
+  'ilskillselectorgui' =>
+  array(
     'cid' => 'zv',
     'class_name' => 'ilSkillSelectorGUI',
     'class_path' => './components/ILIAS/Skill/Tree/class.ilSkillSelectorGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilassquestionskillassignmentsgui',
     ),
   ),
-  'ilskilltemplatecategorygui' => 
-  array (
+  'ilskilltemplatecategorygui' =>
+  array(
     'cid' => 'zw',
     'class_name' => 'ilSkillTemplateCategoryGUI',
     'class_path' => './components/ILIAS/Skill/Node/class.ilSkillTemplateCategoryGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjskillmanagementgui',
       1 => 'ilobjskilltreegui',
     ),
   ),
-  'ilskilltemplatereferencegui' => 
-  array (
+  'ilskilltemplatereferencegui' =>
+  array(
     'cid' => 'zx',
     'class_name' => 'ilSkillTemplateReferenceGUI',
     'class_path' => './components/ILIAS/Skill/Node/class.ilSkillTemplateReferenceGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjskillmanagementgui',
       1 => 'ilobjskilltreegui',
     ),
   ),
-  'ilstartupgui' => 
-  array (
+  'ilstartupgui' =>
+  array(
     'cid' => '103',
     'class_name' => 'ilStartUpGUI',
     'class_path' => './components/ILIAS/Init/classes/class.ilStartUpGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilaccountregistrationgui',
       1 => 'ilpasswordassistancegui',
       2 => 'illoginpagegui',
@@ -11180,529 +11182,529 @@
       5 => 'ilderivedtasksgui',
       6 => 'ilaccessibilitycontrolconceptgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'ilstructureobjectgui' => 
-  array (
+  'ilstructureobjectgui' =>
+  array(
     'cid' => '104',
     'class_name' => 'ilStructureObjectGUI',
     'class_path' => './components/ILIAS/LearningModule/classes/class.ilStructureObjectGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilconditionhandlergui',
       1 => 'ilobjectmetadatagui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjcontentobjectgui',
       1 => 'ilobjlearningmodulegui',
     ),
   ),
-  'ilstudyprogrammechangedeadlinegui' => 
-  array (
+  'ilstudyprogrammechangedeadlinegui' =>
+  array(
     'cid' => '108',
     'class_name' => 'ilStudyProgrammeChangeDeadlineGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/class.ilStudyProgrammeChangeDeadlineGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjstudyprogrammemembersgui',
     ),
   ),
-  'ilstudyprogrammechangeexpiredategui' => 
-  array (
+  'ilstudyprogrammechangeexpiredategui' =>
+  array(
     'cid' => '109',
     'class_name' => 'ilStudyProgrammeChangeExpireDateGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/class.ilStudyProgrammeChangeExpireDateGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjstudyprogrammemembersgui',
     ),
   ),
-  'ilstudyprogrammecommonsettingsgui' => 
-  array (
+  'ilstudyprogrammecommonsettingsgui' =>
+  array(
     'cid' => '10a',
     'class_name' => 'ilStudyProgrammeCommonSettingsGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/class.ilStudyProgrammeCommonSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjstudyprogrammesettingsgui',
     ),
   ),
-  'ilstudyprogrammedashboardviewgui' => 
-  array (
+  'ilstudyprogrammedashboardviewgui' =>
+  array(
     'cid' => '10c',
     'class_name' => 'ilStudyProgrammeDashboardViewGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/class.ilStudyProgrammeDashboardViewGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ildashboardgui',
     ),
   ),
-  'ilstudyprogrammemailmembersearchgui' => 
-  array (
+  'ilstudyprogrammemailmembersearchgui' =>
+  array(
     'cid' => '10g',
     'class_name' => 'ilStudyProgrammeMailMemberSearchGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/class.ilStudyProgrammeMailMemberSearchGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjstudyprogrammemembersgui',
     ),
   ),
-  'ilstudyprogrammerepositorysearchgui' => 
-  array (
+  'ilstudyprogrammerepositorysearchgui' =>
+  array(
     'cid' => '10k',
     'class_name' => 'ilStudyProgrammeRepositorySearchGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/class.ilStudyProgrammeRepositorySearchGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpropertyformgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjstudyprogrammemembersgui',
     ),
   ),
-  'ilstudyprogrammetypegui' => 
-  array (
+  'ilstudyprogrammetypegui' =>
+  array(
     'cid' => '10n',
     'class_name' => 'ilStudyProgrammeTypeGUI',
     'class_path' => './components/ILIAS/StudyProgramme/classes/types/class.ilStudyProgrammeTypeGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjstudyprogrammeadmingui',
     ),
   ),
-  'ilstylecharacteristicgui' => 
-  array (
+  'ilstylecharacteristicgui' =>
+  array(
     'cid' => '10p',
     'class_name' => 'ilStyleCharacteristicGUI',
     'class_path' => './components/ILIAS/Style/Content/Characteristic/class.ilStyleCharacteristicGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjstylesheetgui',
     ),
   ),
-  'ilsurveyconstraintsgui' => 
-  array (
+  'ilsurveyconstraintsgui' =>
+  array(
     'cid' => '114',
     'class_name' => 'ilSurveyConstraintsGUI',
     'class_path' => './components/ILIAS/Survey/Constraints/class.ilSurveyConstraintsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjsurveygui',
     ),
   ),
-  'ilsurveyeditorgui' => 
-  array (
+  'ilsurveyeditorgui' =>
+  array(
     'cid' => '116',
     'class_name' => 'ilSurveyEditorGUI',
     'class_path' => './components/ILIAS/Survey/Editing/class.ilSurveyEditorGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'surveymultiplechoicequestiongui',
       1 => 'surveymetricquestiongui',
       2 => 'surveysinglechoicequestiongui',
       3 => 'surveytextquestiongui',
       4 => 'surveymatrixquestiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjsurveygui',
     ),
   ),
-  'ilsurveyevaluationgui' => 
-  array (
+  'ilsurveyevaluationgui' =>
+  array(
     'cid' => '117',
     'class_name' => 'ilSurveyEvaluationGUI',
     'class_path' => './components/ILIAS/Survey/Evaluation/class.ilSurveyEvaluationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjsurveygui',
     ),
   ),
-  'ilsurveyexecutiongui' => 
-  array (
+  'ilsurveyexecutiongui' =>
+  array(
     'cid' => '118',
     'class_name' => 'ilSurveyExecutionGUI',
     'class_path' => './components/ILIAS/Survey/Execution/class.ilSurveyExecutionGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjsurveygui',
     ),
   ),
-  'ilsurveyparticipantsgui' => 
-  array (
+  'ilsurveyparticipantsgui' =>
+  array(
     'cid' => '11a',
     'class_name' => 'ilSurveyParticipantsGUI',
     'class_path' => './components/ILIAS/Survey/Participants/class.ilSurveyParticipantsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilrepositorysearchgui',
       1 => 'ilsurveyratergui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjsurveygui',
     ),
   ),
-  'ilsurveyratergui' => 
-  array (
+  'ilsurveyratergui' =>
+  array(
     'cid' => '11h',
     'class_name' => 'ilSurveyRaterGUI',
     'class_path' => './components/ILIAS/Survey/Participants/class.ilSurveyRaterGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilrepositorysearchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilsurveyparticipantsgui',
     ),
   ),
-  'ilsurveyskilldeterminationgui' => 
-  array (
+  'ilsurveyskilldeterminationgui' =>
+  array(
     'cid' => '11m',
     'class_name' => 'ilSurveySkillDeterminationGUI',
     'class_path' => './components/ILIAS/Survey/Skills/class.ilSurveySkillDeterminationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjsurveygui',
     ),
   ),
-  'ilsurveyskillgui' => 
-  array (
+  'ilsurveyskillgui' =>
+  array(
     'cid' => '11n',
     'class_name' => 'ilSurveySkillGUI',
     'class_path' => './components/ILIAS/Survey/Skills/class.ilSurveySkillGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilsurveyskillthresholdsgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjsurveygui',
     ),
   ),
-  'ilsurveyskillthresholdsgui' => 
-  array (
+  'ilsurveyskillthresholdsgui' =>
+  array(
     'cid' => '11p',
     'class_name' => 'ilSurveySkillThresholdsGUI',
     'class_path' => './components/ILIAS/Survey/Skills/class.ilSurveySkillThresholdsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilsurveyskillgui',
     ),
   ),
-  'ilsystemstyleconfiggui' => 
-  array (
+  'ilsystemstyleconfiggui' =>
+  array(
     'cid' => '11t',
     'class_name' => 'ilSystemStyleConfigGUI',
     'class_path' => './components/ILIAS/Style/System/classes/Config/class.ilSystemStyleConfigGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilsystemstylemaingui',
     ),
   ),
-  'ilsystemstyledocumentationgui' => 
-  array (
+  'ilsystemstyledocumentationgui' =>
+  array(
     'cid' => '11v',
     'class_name' => 'ilSystemStyleDocumentationGUI',
     'class_path' => './components/ILIAS/Style/System/classes/Documentation/class.ilSystemStyleDocumentationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilsystemstylemaingui',
     ),
   ),
-  'ilsystemstyleiconsgui' => 
-  array (
+  'ilsystemstyleiconsgui' =>
+  array(
     'cid' => '11w',
     'class_name' => 'ilSystemStyleIconsGUI',
     'class_path' => './components/ILIAS/Style/System/classes/Icons/class.ilSystemStyleIconsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilsystemstylemaingui',
     ),
   ),
-  'ilsystemstylemaingui' => 
-  array (
+  'ilsystemstylemaingui' =>
+  array(
     'cid' => '11x',
     'class_name' => 'ilSystemStyleMainGUI',
     'class_path' => './components/ILIAS/Style/System/classes/class.ilSystemStyleMainGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilsystemstyleoverviewgui',
       1 => 'ilsystemstyleconfiggui',
       2 => 'ilsystemstylescssgui',
       3 => 'ilsystemstyleiconsgui',
       4 => 'ilsystemstyledocumentationgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjstylesettingsgui',
     ),
   ),
-  'ilsystemstyleoverviewgui' => 
-  array (
+  'ilsystemstyleoverviewgui' =>
+  array(
     'cid' => '11y',
     'class_name' => 'ilSystemStyleOverviewGUI',
     'class_path' => './components/ILIAS/Style/System/classes/Overview/class.ilSystemStyleOverviewGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilsystemstylemaingui',
     ),
   ),
-  'ilsystemstylescssgui' => 
-  array (
+  'ilsystemstylescssgui' =>
+  array(
     'cid' => '11z',
     'class_name' => 'ilSystemStyleScssGUI',
     'class_path' => './components/ILIAS/Style/System/classes/Scss/class.ilSystemStyleScssGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilsystemstylemaingui',
     ),
   ),
-  'ilsystemsupportcontactsgui' => 
-  array (
+  'ilsystemsupportcontactsgui' =>
+  array(
     'cid' => '121',
     'class_name' => 'ilSystemSupportContactsGUI',
     'class_path' => './components/ILIAS/SystemFolder/classes/class.ilSystemSupportContactsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'iltablepropertiesstoragegui' => 
-  array (
+  'iltablepropertiesstoragegui' =>
+  array(
     'cid' => '128',
     'class_name' => 'ilTablePropertiesStorageGUI',
     'class_path' => './components/ILIAS/Table/classes/class.ilTablePropertiesStorageGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'iltagginggui' => 
-  array (
+  'iltagginggui' =>
+  array(
     'cid' => '12c',
     'class_name' => 'ilTaggingGUI',
     'class_path' => './components/ILIAS/Tagging/classes/class.ilTaggingGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcommonactiondispatchergui',
     ),
   ),
-  'iltaggingslatecontentgui' => 
-  array (
+  'iltaggingslatecontentgui' =>
+  array(
     'cid' => '12d',
     'class_name' => 'ilTaggingSlateContentGUI',
     'class_path' => './components/ILIAS/Tagging/classes/class.ilTaggingSlateContentGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'iltaxmdgui' => 
-  array (
+  'iltaxmdgui' =>
+  array(
     'cid' => '12g',
     'class_name' => 'ilTaxMDGUI',
     'class_path' => './components/ILIAS/Taxonomy/classes/class.ilTaxMDGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjectmetadatagui',
     ),
   ),
-  'iltaxselectinputgui' => 
-  array (
+  'iltaxselectinputgui' =>
+  array(
     'cid' => '12h',
     'class_name' => 'ilTaxSelectInputGUI',
     'class_path' => './components/ILIAS/Taxonomy/classes/class.ilTaxSelectInputGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilformpropertydispatchgui',
     ),
   ),
-  'iltaxonomysettingsgui' => 
-  array (
+  'iltaxonomysettingsgui' =>
+  array(
     'cid' => '12l',
     'class_name' => 'ilTaxonomySettingsGUI',
     'class_path' => './components/ILIAS/Taxonomy/Settings/class.ilTaxonomySettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjtaxonomygui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjcategorygui',
       1 => 'ilobjglossarygui',
       2 => 'ilobjquestionpoolgui',
     ),
   ),
-  'iltermdefinitionbulkcreationgui' => 
-  array (
+  'iltermdefinitionbulkcreationgui' =>
+  array(
     'cid' => '12n',
     'class_name' => 'ilTermDefinitionBulkCreationGUI',
     'class_path' => './components/ILIAS/Glossary/Term/class.ilTermDefinitionBulkCreationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjglossarygui',
     ),
   ),
-  'iltermdefinitioneditorgui' => 
-  array (
+  'iltermdefinitioneditorgui' =>
+  array(
     'cid' => '12p',
     'class_name' => 'ilTermDefinitionEditorGUI',
     'class_path' => './components/ILIAS/Glossary/Term/class.ilTermDefinitionEditorGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilglossarydefpagegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilglossarytermgui',
     ),
   ),
-  'iltestansweroptionalquestionsconfirmationgui' => 
-  array (
+  'iltestansweroptionalquestionsconfirmationgui' =>
+  array(
     'cid' => '12u',
     'class_name' => 'ilTestAnswerOptionalQuestionsConfirmationGUI',
     'class_path' => './components/ILIAS/Test/classes/confirmations/class.ilTestAnswerOptionalQuestionsConfirmationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iltestplayerfixedquestionsetgui',
       1 => 'iltestplayerrandomquestionsetgui',
     ),
   ),
-  'iltestcorrectionsgui' => 
-  array (
+  'iltestcorrectionsgui' =>
+  array(
     'cid' => '12w',
     'class_name' => 'ilTestCorrectionsGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestCorrectionsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjtestgui',
     ),
   ),
-  'iltestdashboardgui' => 
-  array (
+  'iltestdashboardgui' =>
+  array(
     'cid' => '12x',
     'class_name' => 'ilTestDashboardGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestDashboardGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'iltestparticipantsgui',
       1 => 'iltestparticipantstimeextensiongui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjtestgui',
     ),
   ),
-  'iltestevalobjectiveorientedgui' => 
-  array (
+  'iltestevalobjectiveorientedgui' =>
+  array(
     'cid' => '12z',
     'class_name' => 'ilTestEvalObjectiveOrientedGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestEvalObjectiveOrientedGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilassquestionpagegui',
       1 => 'iltestresultstoolbargui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iltestresultsgui',
     ),
   ),
-  'iltestevaluationgui' => 
-  array (
+  'iltestevaluationgui' =>
+  array(
     'cid' => '130',
     'class_name' => 'ilTestEvaluationGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestEvaluationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'iltestpassdetailsoverviewtablegui',
       1 => 'iltestresultstoolbargui',
       2 => 'iltestpassdeletionconfirmationgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilmytestresultsgui',
       1 => 'ilmytestsolutionsgui',
       2 => 'ilobjtestgui',
@@ -11710,27 +11712,27 @@
       4 => 'iltestparticipantsgui',
     ),
   ),
-  'iltestexportgui' => 
-  array (
+  'iltestexportgui' =>
+  array(
     'cid' => '131',
     'class_name' => 'ilTestExportGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestExportGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilparticipantstestresultsgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjtestgui',
     ),
   ),
-  'iltestexpresspageobjectgui' => 
-  array (
+  'iltestexpresspageobjectgui' =>
+  array(
     'cid' => '133',
     'class_name' => 'ilTestExpressPageObjectGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestExpressPageObjectGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'assmultiplechoicegui',
       1 => 'assclozetestgui',
       2 => 'assmatchingquestiongui',
@@ -11749,8 +11751,8 @@
       15 => 'ilnotegui',
       16 => 'ilobjquestionpoolgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'assmultiplechoicegui',
       1 => 'assclozetestgui',
       2 => 'assmatchingquestiongui',
@@ -11765,160 +11767,160 @@
       11 => 'iltestfixedquestionsetconfiggui',
     ),
   ),
-  'iltestfixedquestionsetconfiggui' => 
-  array (
+  'iltestfixedquestionsetconfiggui' =>
+  array(
     'cid' => '134',
     'class_name' => 'ilTestFixedQuestionSetConfigGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestFixedQuestionSetConfigGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'iltestexpresspageobjectgui',
       1 => 'ilpageeditorgui',
       2 => 'ilassquestionpagegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjtestgui',
     ),
   ),
-  'iltestinfoscreentoolbargui' => 
-  array (
+  'iltestinfoscreentoolbargui' =>
+  array(
     'cid' => '136',
     'class_name' => 'ilTestInfoScreenToolbarGUI',
     'class_path' => './components/ILIAS/Test/classes/toolbars/class.ilTestInfoScreenToolbarGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjtestgui',
     ),
   ),
-  'iltestpagegui' => 
-  array (
+  'iltestpagegui' =>
+  array(
     'cid' => '13c',
     'class_name' => 'ilTestPageGUI',
     'class_path' => './components/ILIAS/Test/classes/PageEditor/class.ilTestPageGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpageeditorgui',
       1 => 'ileditclipboardgui',
       2 => 'ilmdeditorgui',
       3 => 'ilpublicuserprofilegui',
       4 => 'ilnotegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilrepositorygui',
       1 => 'ilobjtestgui',
     ),
   ),
-  'iltestparticipantsgui' => 
-  array (
+  'iltestparticipantsgui' =>
+  array(
     'cid' => '13d',
     'class_name' => 'ilTestParticipantsGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestParticipantsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'iltestparticipantstablegui',
       1 => 'ilrepositorysearchgui',
       2 => 'iltestevaluationgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iltestdashboardgui',
     ),
   ),
-  'iltestparticipantstablegui' => 
-  array (
+  'iltestparticipantstablegui' =>
+  array(
     'cid' => '13e',
     'class_name' => 'ilTestParticipantsTableGUI',
     'class_path' => './components/ILIAS/Test/classes/tables/class.ilTestParticipantsTableGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iltestparticipantsgui',
     ),
   ),
-  'iltestparticipantstimeextensiongui' => 
-  array (
+  'iltestparticipantstimeextensiongui' =>
+  array(
     'cid' => '13f',
     'class_name' => 'ilTestParticipantsTimeExtensionGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestParticipantsTimeExtensionGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'iltimingoverviewtablegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iltestdashboardgui',
     ),
   ),
-  'iltestpassdeletionconfirmationgui' => 
-  array (
+  'iltestpassdeletionconfirmationgui' =>
+  array(
     'cid' => '13g',
     'class_name' => 'ilTestPassDeletionConfirmationGUI',
     'class_path' => './components/ILIAS/Test/classes/confirmations/class.ilTestPassDeletionConfirmationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iltestevaluationgui',
     ),
   ),
-  'iltestpassdetailsoverviewtablegui' => 
-  array (
+  'iltestpassdetailsoverviewtablegui' =>
+  array(
     'cid' => '13h',
     'class_name' => 'ilTestPassDetailsOverviewTableGUI',
     'class_path' => './components/ILIAS/Test/classes/tables/class.ilTestPassDetailsOverviewTableGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjtestgui',
       1 => 'iltestevaluationgui',
     ),
   ),
-  'iltestpasswordprotectiongui' => 
-  array (
+  'iltestpasswordprotectiongui' =>
+  array(
     'cid' => '13k',
     'class_name' => 'ilTestPasswordProtectionGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestPasswordProtectionGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpropertyformgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iltestplayerfixedquestionsetgui',
       1 => 'iltestplayerrandomquestionsetgui',
     ),
   ),
-  'iltestpersonalskillsgui' => 
-  array (
+  'iltestpersonalskillsgui' =>
+  array(
     'cid' => '13m',
     'class_name' => 'ilTestPersonalSkillsGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestPersonalSkillsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iltestskillevaluationgui',
     ),
   ),
-  'iltestplayerfixedquestionsetgui' => 
-  array (
+  'iltestplayerfixedquestionsetgui' =>
+  array(
     'cid' => '13o',
     'class_name' => 'ilTestPlayerFixedQuestionSetGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestPlayerFixedQuestionSetGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilassgenfeedbackpagegui',
       1 => 'ilassspecfeedbackpagegui',
       2 => 'ilassquestionhintrequestgui',
@@ -11928,18 +11930,18 @@
       6 => 'iltestansweroptionalquestionsconfirmationgui',
       7 => 'ilconfirmationgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjtestgui',
     ),
   ),
-  'iltestplayerrandomquestionsetgui' => 
-  array (
+  'iltestplayerrandomquestionsetgui' =>
+  array(
     'cid' => '13p',
     'class_name' => 'ilTestPlayerRandomQuestionSetGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestPlayerRandomQuestionSetGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilassgenfeedbackpagegui',
       1 => 'ilassspecfeedbackpagegui',
       2 => 'ilassquestionhintrequestgui',
@@ -11949,32 +11951,32 @@
       6 => 'iltestansweroptionalquestionsconfirmationgui',
       7 => 'ilconfirmationgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjtestgui',
     ),
   ),
-  'iltestquestionbrowsertablegui' => 
-  array (
+  'iltestquestionbrowsertablegui' =>
+  array(
     'cid' => '13q',
     'class_name' => 'ilTestQuestionBrowserTableGUI',
     'class_path' => './components/ILIAS/Test/classes/tables/class.ilTestQuestionBrowserTableGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjtestgui',
     ),
   ),
-  'iltestrandomquestionsetconfiggui' => 
-  array (
+  'iltestrandomquestionsetconfiggui' =>
+  array(
     'cid' => '13t',
     'class_name' => 'ilTestRandomQuestionSetConfigGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestRandomQuestionSetConfigGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'iltestrandomquestionsetgeneralconfigformgui',
       1 => 'iltestrandomquestionsetsourcepooldefinitionlisttoolbargui',
       2 => 'iltestrandomquestionsetsourcepooldefinitionlisttablegui',
@@ -11982,85 +11984,85 @@
       4 => 'ilrepositoryselectorexplorergui',
       5 => 'iltestrandomquestionsetpooldefinitionformgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjtestgui',
     ),
   ),
-  'iltestrandomquestionsetgeneralconfigformgui' => 
-  array (
+  'iltestrandomquestionsetgeneralconfigformgui' =>
+  array(
     'cid' => '13u',
     'class_name' => 'ilTestRandomQuestionSetGeneralConfigFormGUI',
     'class_path' => './components/ILIAS/Test/classes/forms/class.ilTestRandomQuestionSetGeneralConfigFormGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iltestrandomquestionsetconfiggui',
     ),
   ),
-  'iltestrandomquestionsetnonavailablepoolstablegui' => 
-  array (
+  'iltestrandomquestionsetnonavailablepoolstablegui' =>
+  array(
     'cid' => '13v',
     'class_name' => 'ilTestRandomQuestionSetNonAvailablePoolsTableGUI',
     'class_path' => './components/ILIAS/Test/classes/tables/class.ilTestRandomQuestionSetNonAvailablePoolsTableGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iltestrandomquestionsetconfiggui',
     ),
   ),
-  'iltestrandomquestionsetpooldefinitionformgui' => 
-  array (
+  'iltestrandomquestionsetpooldefinitionformgui' =>
+  array(
     'cid' => '13w',
     'class_name' => 'ilTestRandomQuestionSetPoolDefinitionFormGUI',
     'class_path' => './components/ILIAS/Test/classes/forms/class.ilTestRandomQuestionSetPoolDefinitionFormGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iltestrandomquestionsetconfiggui',
     ),
   ),
-  'iltestrandomquestionsetsourcepooldefinitionlisttablegui' => 
-  array (
+  'iltestrandomquestionsetsourcepooldefinitionlisttablegui' =>
+  array(
     'cid' => '13x',
     'class_name' => 'ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI',
     'class_path' => './components/ILIAS/Test/classes/tables/class.ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iltestrandomquestionsetconfiggui',
     ),
   ),
-  'iltestrandomquestionsetsourcepooldefinitionlisttoolbargui' => 
-  array (
+  'iltestrandomquestionsetsourcepooldefinitionlisttoolbargui' =>
+  array(
     'cid' => '13y',
     'class_name' => 'ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI',
     'class_path' => './components/ILIAS/Test/classes/toolbars/class.ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iltestrandomquestionsetconfiggui',
     ),
   ),
-  'iltestresultsgui' => 
-  array (
+  'iltestresultsgui' =>
+  array(
     'cid' => '13z',
     'class_name' => 'ilTestResultsGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestResultsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilparticipantstestresultsgui',
       1 => 'ilmytestresultsgui',
       2 => 'iltestevalobjectiveorientedgui',
@@ -12068,456 +12070,456 @@
       4 => 'iltesttoplistgui',
       5 => 'iltestskillevaluationgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjtestgui',
     ),
   ),
-  'iltestresultstoolbargui' => 
-  array (
+  'iltestresultstoolbargui' =>
+  array(
     'cid' => '140',
     'class_name' => 'ilTestResultsToolbarGUI',
     'class_path' => './components/ILIAS/Test/classes/toolbars/class.ilTestResultsToolbarGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjtestgui',
       1 => 'iltestevalobjectiveorientedgui',
       2 => 'iltestevaluationgui',
     ),
   ),
-  'iltestscoringbyquestionsgui' => 
-  array (
+  'iltestscoringbyquestionsgui' =>
+  array(
     'cid' => '141',
     'class_name' => 'ilTestScoringByQuestionsGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestScoringByQuestionsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjtestgui',
     ),
   ),
-  'iltestscoringgui' => 
-  array (
+  'iltestscoringgui' =>
+  array(
     'cid' => '142',
     'class_name' => 'ilTestScoringGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestScoringGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjtestgui',
     ),
   ),
-  'iltestscreengui' => 
-  array (
+  'iltestscreengui' =>
+  array(
     'cid' => '143',
     'class_name' => 'ilTestScreenGUI',
     'class_path' => './components/ILIAS/Test/classes/TestScreen/class.ilTestScreenGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjtestgui',
     ),
   ),
-  'iltestservicegui' => 
-  array (
+  'iltestservicegui' =>
+  array(
     'cid' => '144',
     'class_name' => 'ilTestServiceGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestServiceGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjtestgui',
     ),
   ),
-  'iltestsettingschangeconfirmationgui' => 
-  array (
+  'iltestsettingschangeconfirmationgui' =>
+  array(
     'cid' => '145',
     'class_name' => 'ilTestSettingsChangeConfirmationGUI',
     'class_path' => './components/ILIAS/Test/classes/confirmations/class.ilTestSettingsChangeConfirmationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjtestgui',
       1 => 'ilobjtestsettingsmaingui',
     ),
   ),
-  'iltestskilladministrationgui' => 
-  array (
+  'iltestskilladministrationgui' =>
+  array(
     'cid' => '147',
     'class_name' => 'ilTestSkillAdministrationGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestSkillAdministrationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilassquestionskillassignmentsgui',
       1 => 'iltestskilllevelthresholdsgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjtestgui',
     ),
   ),
-  'iltestskillevaluationgui' => 
-  array (
+  'iltestskillevaluationgui' =>
+  array(
     'cid' => '148',
     'class_name' => 'ilTestSkillEvaluationGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestSkillEvaluationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'iltestskillevaluationtoolbargui',
       1 => 'iltestpersonalskillsgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iltestresultsgui',
     ),
   ),
-  'iltestskillevaluationtoolbargui' => 
-  array (
+  'iltestskillevaluationtoolbargui' =>
+  array(
     'cid' => '149',
     'class_name' => 'ilTestSkillEvaluationToolbarGUI',
     'class_path' => './components/ILIAS/Test/classes/toolbars/class.ilTestSkillEvaluationToolbarGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iltestskillevaluationgui',
     ),
   ),
-  'iltestskilllevelthresholdsgui' => 
-  array (
+  'iltestskilllevelthresholdsgui' =>
+  array(
     'cid' => '14a',
     'class_name' => 'ilTestSkillLevelThresholdsGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestSkillLevelThresholdsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'iltestskilllevelthresholdstablegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iltestskilladministrationgui',
     ),
   ),
-  'iltestskilllevelthresholdstablegui' => 
-  array (
+  'iltestskilllevelthresholdstablegui' =>
+  array(
     'cid' => '14b',
     'class_name' => 'ilTestSkillLevelThresholdsTableGUI',
     'class_path' => './components/ILIAS/Test/classes/tables/class.ilTestSkillLevelThresholdsTableGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iltestskilllevelthresholdsgui',
     ),
   ),
-  'iltestsubmissionreviewgui' => 
-  array (
+  'iltestsubmissionreviewgui' =>
+  array(
     'cid' => '14c',
     'class_name' => 'ilTestSubmissionReviewGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestSubmissionReviewGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iltestplayerfixedquestionsetgui',
       1 => 'iltestplayerrandomquestionsetgui',
     ),
   ),
-  'iltesttoplistgui' => 
-  array (
+  'iltesttoplistgui' =>
+  array(
     'cid' => '14e',
     'class_name' => 'ilTestToplistGUI',
     'class_path' => './components/ILIAS/Test/classes/class.ilTestToplistGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iltestresultsgui',
     ),
   ),
-  'iltimingoverviewtablegui' => 
-  array (
+  'iltimingoverviewtablegui' =>
+  array(
     'cid' => '14l',
     'class_name' => 'ilTimingOverviewTableGUI',
     'class_path' => './components/ILIAS/Test/classes/tables/class.ilTimingOverviewTableGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iltestparticipantstimeextensiongui',
     ),
   ),
-  'iltoolbargui' => 
-  array (
+  'iltoolbargui' =>
+  array(
     'cid' => '14o',
     'class_name' => 'ilToolbarGUI',
     'class_path' => './components/ILIAS/UIComponent/Toolbar/classes/class.ilToolbarGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilassquestionhintsgui',
       1 => 'ilassquestionskillassignmentsgui',
       2 => 'ilobjquestionpoolgui',
     ),
   ),
-  'iltrmatrixtablegui' => 
-  array (
+  'iltrmatrixtablegui' =>
+  array(
     'cid' => '14q',
     'class_name' => 'ilTrMatrixTableGUI',
     'class_path' => './components/ILIAS/Tracking/classes/repository_statistics/class.ilTrMatrixTableGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'illplistofobjectsgui',
     ),
   ),
-  'iltrobjectuserspropstablegui' => 
-  array (
+  'iltrobjectuserspropstablegui' =>
+  array(
     'cid' => '14r',
     'class_name' => 'ilTrObjectUsersPropsTableGUI',
     'class_path' => './components/ILIAS/Tracking/classes/repository_statistics/class.ilTrObjectUsersPropsTableGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'illplistofobjectsgui',
     ),
   ),
-  'iltrsummarytablegui' => 
-  array (
+  'iltrsummarytablegui' =>
+  array(
     'cid' => '14s',
     'class_name' => 'ilTrSummaryTableGUI',
     'class_path' => './components/ILIAS/Tracking/classes/repository_statistics/class.ilTrSummaryTableGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'illplistofobjectsgui',
     ),
   ),
-  'iltruserobjectspropstablegui' => 
-  array (
+  'iltruserobjectspropstablegui' =>
+  array(
     'cid' => '14t',
     'class_name' => 'ilTrUserObjectsPropsTableGUI',
     'class_path' => './components/ILIAS/Tracking/classes/repository_statistics/class.ilTrUserObjectsPropsTableGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'illplistofobjectsgui',
     ),
   ),
-  'iltranslationgui' => 
-  array (
+  'iltranslationgui' =>
+  array(
     'cid' => '14u',
     'class_name' => 'ilTranslationGUI',
     'class_path' => './components/ILIAS/OrgUnit/classes/Translation/class.ilTranslationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjorgunitgui',
     ),
   ),
-  'iluiasyncdemofileuploadhandlergui' => 
-  array (
+  'iluiasyncdemofileuploadhandlergui' =>
+  array(
     'cid' => '14x',
     'class_name' => 'ilUIAsyncDemoFileUploadHandlerGUI',
     'class_path' => './components/ILIAS/UI_/classes/class.ilUIAsyncDemoFileUploadHandlerGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iluipluginroutergui',
     ),
   ),
-  'iluidemofileuploadhandlergui' => 
-  array (
+  'iluidemofileuploadhandlergui' =>
+  array(
     'cid' => '14y',
     'class_name' => 'ilUIDemoFileUploadHandlerGUI',
     'class_path' => './components/ILIAS/UI_/classes/class.ilUIDemoFileUploadHandlerGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'iluipluginroutergui',
     ),
   ),
-  'iluimarkdownpreviewgui' => 
-  array (
+  'iluimarkdownpreviewgui' =>
+  array(
     'cid' => '150',
     'class_name' => 'ilUIMarkdownPreviewGUI',
     'class_path' => './components/ILIAS/UI_/classes/class.ilUIMarkdownPreviewGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'iluipluginroutergui' => 
-  array (
+  'iluipluginroutergui' =>
+  array(
     'cid' => '151',
     'class_name' => 'ilUIPluginRouterGUI',
     'class_path' => './components/ILIAS/UIComponent/classes/class.ilUIPluginRouterGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilbuddysystemgui',
       1 => 'iluiasyncdemofileuploadhandlergui',
       2 => 'iluidemofileuploadhandlergui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'iluploadlimitsoverviewgui' => 
-  array (
+  'iluploadlimitsoverviewgui' =>
+  array(
     'cid' => '156',
     'class_name' => 'ilUploadLimitsOverviewGUI',
     'class_path' => './components/ILIAS/FileServices/classes/UploadService/UploadLimits/class.ilUploadLimitsOverviewGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjfileservicesgui',
     ),
   ),
-  'iluseractionadmingui' => 
-  array (
+  'iluseractionadmingui' =>
+  array(
     'cid' => '158',
     'class_name' => 'ilUserActionAdminGUI',
     'class_path' => './components/ILIAS/User/classes/Actions/class.ilUserActionAdminGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjawarenessadministrationgui',
       1 => 'ilobjcourseadministrationgui',
       2 => 'ilobjgroupadministrationgui',
     ),
   ),
-  'ilusercertificateapigui' => 
-  array (
+  'ilusercertificateapigui' =>
+  array(
     'cid' => '15b',
     'class_name' => 'ilUserCertificateApiGUI',
     'class_path' => './components/ILIAS/Certificate/classes/API/Download/class.ilUserCertificateApiGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilmstlistcertificatesgui',
     ),
   ),
-  'ilusercertificategui' => 
-  array (
+  'ilusercertificategui' =>
+  array(
     'cid' => '15c',
     'class_name' => 'ilUserCertificateGUI',
     'class_path' => './components/ILIAS/Certificate/classes/User/class.ilUserCertificateGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilachievementsgui',
       1 => 'ilmstshowusergui',
     ),
   ),
-  'iluserfiltergui' => 
-  array (
+  'iluserfiltergui' =>
+  array(
     'cid' => '15g',
     'class_name' => 'ilUserFilterGUI',
     'class_path' => './components/ILIAS/Search/classes/class.ilUserFilterGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'illplistofobjectsgui',
     ),
   ),
-  'iluserprivacysettingsgui' => 
-  array (
+  'iluserprivacysettingsgui' =>
+  array(
     'cid' => '15k',
     'class_name' => 'ilUserPrivacySettingsGUI',
     'class_path' => './components/ILIAS/User/classes/Settings/class.ilUserPrivacySettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilpersonalprofilegui',
     ),
   ),
-  'iluserprofileinfosettingsgui' => 
-  array (
+  'iluserprofileinfosettingsgui' =>
+  array(
     'cid' => '15m',
     'class_name' => 'ilUserProfileInfoSettingsGUI',
     'class_path' => './components/ILIAS/User/classes/ProfilePrompt/class.ilUserProfileInfoSettingsGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjuserfoldergui',
     ),
   ),
-  'iluserstartingpointgui' => 
-  array (
+  'iluserstartingpointgui' =>
+  array(
     'cid' => '15o',
     'class_name' => 'ilUserStartingPointGUI',
     'class_path' => './components/ILIAS/User/classes/class.ilUserStartingPointGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjuserfoldergui',
     ),
   ),
-  'ilusertablegui' => 
-  array (
+  'ilusertablegui' =>
+  array(
     'cid' => '15p',
     'class_name' => 'ilUserTableGUI',
     'class_path' => './components/ILIAS/User/classes/class.ilUserTableGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilformpropertydispatchgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjcategorygui',
       1 => 'ilobjemployeetalkgui',
       2 => 'ilobjemployeetalkseriesgui',
@@ -12527,17 +12529,17 @@
       6 => 'ilobjuserfoldergui',
     ),
   ),
-  'ilusersgallerygui' => 
-  array (
+  'ilusersgallerygui' =>
+  array(
     'cid' => '15q',
     'class_name' => 'ilUsersGalleryGUI',
     'class_path' => './components/ILIAS/User/classes/Gallery/class.ilUsersGalleryGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpublicuserprofilegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilcoursemembershipgui',
       1 => 'ilgroupmembershipgui',
       2 => 'ilcontactgui',
@@ -12545,79 +12547,79 @@
       4 => 'ilsessionmembershipgui',
     ),
   ),
-  'ilvalidtestplugingui' => 
-  array (
+  'ilvalidtestplugingui' =>
+  array(
     'cid' => '15r',
     'class_name' => 'ilValidTestPluginGUI',
     'class_path' => './components/ILIAS/UICore/tests/Data/Plugins/Valid/Services/UIComponent/UserInterfaceHook/ValidTestPlugin/classes/class.ilValidTestPluginGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilctrlbaseclass1testgui',
     ),
   ),
-  'ilwopiadministrationgui' => 
-  array (
+  'ilwopiadministrationgui' =>
+  array(
     'cid' => '15t',
     'class_name' => 'ilWOPIAdministrationGUI',
     'class_path' => './components/ILIAS/WOPI/classes/Administration/class.ilWOPIAdministrationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjexternaltoolssettingsgui',
     ),
   ),
-  'ilwopiembeddedapplicationgui' => 
-  array (
+  'ilwopiembeddedapplicationgui' =>
+  array(
     'cid' => '15u',
     'class_name' => 'ilWOPIEmbeddedApplicationGUI',
     'class_path' => './components/ILIAS/WOPI/classes/Embed/class.ilWOPIEmbeddedApplicationGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilfileversionsgui',
       1 => 'ilobjfilegui',
     ),
   ),
-  'ilwebdavmountinstructionsuploadgui' => 
-  array (
+  'ilwebdavmountinstructionsuploadgui' =>
+  array(
     'cid' => '160',
     'class_name' => 'ilWebDAVMountInstructionsUploadGUI',
     'class_path' => './components/ILIAS/WebDAV/classes/mount_instructions/class.ilWebDAVMountInstructionsUploadGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjwebdavgui',
     ),
   ),
-  'ilwikihandlergui' => 
-  array (
+  'ilwikihandlergui' =>
+  array(
     'cid' => '167',
     'class_name' => 'ilWikiHandlerGUI',
     'class_path' => './components/ILIAS/Wiki/classes/class.ilWikiHandlerGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilobjwikigui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
     ),
   ),
-  'ilwikipagegui' => 
-  array (
+  'ilwikipagegui' =>
+  array(
     'cid' => '16a',
     'class_name' => 'ilWikiPageGUI',
     'class_path' => './components/ILIAS/Wiki/classes/class.ilWikiPageGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilpageeditorgui',
       1 => 'ileditclipboardgui',
       2 => 'ilpublicuserprofilegui',
@@ -12630,53 +12632,53 @@
       9 => 'ilobjectmetadatagui',
       10 => 'ilpropertyformgui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjwikigui',
     ),
   ),
-  'ilwikipagetemplategui' => 
-  array (
+  'ilwikipagetemplategui' =>
+  array(
     'cid' => '16b',
     'class_name' => 'ilWikiPageTemplateGUI',
     'class_path' => './components/ILIAS/Wiki/classes/class.ilWikiPageTemplateGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjwikigui',
     ),
   ),
-  'ilwikistatgui' => 
-  array (
+  'ilwikistatgui' =>
+  array(
     'cid' => '16g',
     'class_name' => 'ilWikiStatGUI',
     'class_path' => './components/ILIAS/Wiki/classes/class.ilWikiStatGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjwikigui',
       1 => 'ilwikipagegui',
     ),
   ),
-  'ilworkspaceaccessgui' => 
-  array (
+  'ilworkspaceaccessgui' =>
+  array(
     'cid' => '16h',
     'class_name' => 'ilWorkspaceAccessGUI',
     'class_path' => './components/ILIAS/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php',
-    'children' => 
-    array (
+    'children' =>
+    array(
       0 => 'ilmailsearchcoursesgui',
       1 => 'ilmailsearchgroupsgui',
       2 => 'ilmailsearchgui',
       3 => 'ilpublicuserprofilegui',
       4 => 'ilsingleusersharegui',
     ),
-    'parents' => 
-    array (
+    'parents' =>
+    array(
       0 => 'ilobjbloggui',
       1 => 'ilobjcourseverificationgui',
       2 => 'ilobjexerciseverificationgui',

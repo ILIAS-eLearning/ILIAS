@@ -110,7 +110,7 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
             $tax_filter_options = [
                 'null' => '<b>' . $this->lng->txt('tax_filter_notax') . '</b>'
             ];
-            foreach($taxs as $tax_entry) {
+            foreach ($taxs as $tax_entry) {
                 $tax = new \ilObjTaxonomy($tax_entry['tax_id']);
                 $children = array_filter(
                     $tax->getTree()->getFilteredSubTree($tax->getTree()->readRootId()),
@@ -122,7 +122,7 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
                 $tax_title = '<b>' . $tax_entry['title'] . '</b>';
                 $tax_filter_options[$tax_id] = $tax_title;
 
-                foreach($children as $subtax) {
+                foreach ($children as $subtax) {
                     $stax_id = $subtax['tax_id'] . '-' . $subtax['obj_id'];
                     $stax_title = str_repeat('&nbsp; ', ($subtax['depth'] - 2) * 2)
                         . ' &boxur;&HorizontalLine; '
@@ -181,7 +181,7 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
     private function treeify(&$pointer, $stack)
     {
         $hop = array_shift($stack);
-        if(!$hop) {
+        if (!$hop) {
             return;
         }
         if (! array_key_exists($hop, $pointer)) {
@@ -307,6 +307,9 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
             $this->buildAction('edit_page', 'single'),
             $this->buildAction('feedback', 'single'),
             $this->buildAction('hints', 'single'),
+            $this->buildAction(\ilBulkEditQuestionsGUI::CMD_EDITTAUTHOR, 'multi'),
+            $this->buildAction(\ilBulkEditQuestionsGUI::CMD_EDITLIFECYCLE, 'multi'),
+            $this->buildAction(\ilBulkEditQuestionsGUI::CMD_EDITTAXONOMIES, 'multi'),
             $this->showCommentAction() ? $this->buildAction('comments', 'single', true) : []
         );
     }

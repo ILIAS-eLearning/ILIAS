@@ -29,7 +29,7 @@ use ILIAS\Repository\GlobalDICGUIServices;
 class InternalGUIService
 {
     use GlobalDICGUIServices;
-
+    protected static array $instances = [];
     protected InternalDataService $data_service;
     protected InternalDomainService $domain_service;
 
@@ -52,7 +52,7 @@ class InternalGUIService
         );
     }
 
-    public function process() : BookingProcess\GUIService
+    public function process(): BookingProcess\GUIService
     {
         return new BookingProcess\GUIService(
             $this->data_service,
@@ -61,7 +61,7 @@ class InternalGUIService
         );
     }
 
-    public function objects() : Objects\GUIService
+    public function objects(): Objects\GUIService
     {
         return new Objects\GUIService(
             $this->data_service,
@@ -70,16 +70,26 @@ class InternalGUIService
         );
     }
 
-    public function bookingHelp(\ilObjBookingPool $pool) : \ilBookingHelpAdapter
+    public function bookingHelp(\ilObjBookingPool $pool): \ilBookingHelpAdapter
     {
         return new \ilBookingHelpAdapter($pool, $this->help());
     }
 
-    public function standardRequest() : StandardGUIRequest
+    public function standardRequest(): StandardGUIRequest
     {
         return new StandardGUIRequest(
             $this->http(),
             $this->domain_service->refinery()
         );
     }
+
+    public function settings(): Settings\GUIService
+    {
+        return self::$instances["settings"] ??= new Settings\GUIService(
+            $this->data_service,
+            $this->domain_service,
+            $this
+        );
+    }
+
 }

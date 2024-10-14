@@ -44,11 +44,6 @@ class ilDclFileRecordFieldModel extends ilDclBaseRecordFieldModel
         $this->upload = $DIC->upload();
     }
 
-    public function getRecordRepresentation(): ?ilDclBaseRecordRepresentation
-    {
-        return new ilDclFileRecordRepresentation($this);
-    }
-
     public function parseValue($value)
     {
         if ($value === -1) { // marked for deletion.

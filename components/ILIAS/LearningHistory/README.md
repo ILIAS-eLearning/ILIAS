@@ -4,8 +4,8 @@ Welcome to the history of learning.
 
 If your component wants to add entries to the learning history it must:
 
-1. Add an entry in the `$provider` array under `Services/LearningHistory/classes/class.ilLearningHistoryProviderFactory.php`. It is planned to switch this to a future service discovery concept.
-2. The class provided at this location must extend `Services/LearningHistory/interfaces/class.ilAbstractLearningHistoryProvider.php` and implement `Services/LearningHistory/interfaces/interface.ilLearningHistoryProvider.php`.
+1. Add an entry in the `$provider` array under `components/ILIAS/LearningHistory/classes/class.ilLearningHistoryProviderFactory.php`. It is planned to switch this to a future service discovery concept.
+2. The class provided at this location must extend `components/ILIAS/LearningHistory/interfaces/class.ilAbstractLearningHistoryProvider.php` and implement `components/ILIAS/LearningHistory/interfaces/interface.ilLearningHistoryProvider.php`.
 
 Method `getEntries($ts_start, $ts_end)` must return all learning history entries between the unix timestamps `$ts_start` and `$ts_end`. To create the entries in the `ilLearningHistoryEntry[]` array a factory provided by the service should be used.
 

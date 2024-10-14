@@ -425,12 +425,13 @@ install the database on your own, ActiveRecord can install und update the table:
 
 Use the already known DB-Update-Steps to generate your AR-Databases. There is a Helper-Script to auto-generate a
 Installation-Updatestep. Implement these two lines with your ActiveRecord somewhere in ILIAS-Code and run the site. It
-generates and Downloads a tet-file with the installation-Step:
+generates and Downloads a php-file with the installation-Step:
 
 ```php
 $arBuilder = new arBuilder(new arMessage());
 $arBuilder->generateDBUpdateForInstallation();
 ```
+The downloaded file can be used to install the appropriate db-table.
 
 You can use these methods to delete or truncate your table even in dbupdate-Scripts:
 

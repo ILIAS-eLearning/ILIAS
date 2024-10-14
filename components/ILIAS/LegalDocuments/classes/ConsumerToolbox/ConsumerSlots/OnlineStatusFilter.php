@@ -20,10 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments\ConsumerToolbox\ConsumerSlots;
 
-use ilDBInterface;
-use ilDBConstants;
 use ilRbacReview;
-use ilObjUser;
 use Closure;
 
 final class OnlineStatusFilter

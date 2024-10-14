@@ -28,6 +28,7 @@ use ILIAS\Exercise\InternalDomainService;
 use ILIAS\Exercise\Assignment;
 use ILIAS\Exercise\PeerReview;
 use ILIAS\Exercise\PermanentLink\PermanentLinkManager;
+use ILIAS\Exercise\Settings\GUIService;
 
 /**
  * Exercise UI frontend presentation service class
@@ -172,4 +173,14 @@ class InternalGUIService
             $notification
         );
     }
+
+    public function settings(
+    ): GUIService {
+        return new GUIService(
+            $this->data_service,
+            $this->domain_service,
+            $this
+        );
+    }
+
 }

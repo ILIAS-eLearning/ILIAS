@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Tests\Data;
 
@@ -51,6 +51,10 @@ class LanguageTagTest extends TestCase
     {
         $this->testParse($input, $isOk);
     }
+
+    /**
+     * @return list<array{0: string, 1: bool}>
+     */
 
     public static function saveToRun(): array
     {
@@ -139,10 +143,13 @@ class LanguageTagTest extends TestCase
         ];
     }
 
+    /**
+     * @return list<array{0: string, 1: bool}>
+     */
     public static function risky(): array
     {
         if (function_exists('xdebug_info') && ((int) ini_get('xdebug.max_nesting_level')) < 780) {
-            $this->markTestSkipped(sprintf(
+            self::markTestSkipped(sprintf(
                 'You are running under Xdebug. To be able to run all tests xdebug.max_nesting_level must be at least 780 (Currently %d).',
                 (int) ini_get('xdebug.max_nesting_level')
             ));

@@ -145,7 +145,7 @@ class DataViewControlsTest extends TableTestBase
             array_keys($inputs)
         );
         $this->assertInstanceOf(
-            I\Input\ViewControl\NullControl::class,
+            I\Input\ViewControl\Group::class,
             $inputs[C\Table\Data::VIEWCONTROL_KEY_ORDERING]
         );
     }
@@ -173,7 +173,7 @@ class DataViewControlsTest extends TableTestBase
             array_keys($inputs)
         );
         $this->assertInstanceOf(
-            I\Input\ViewControl\NullControl::class,
+            I\Input\ViewControl\Group::class,
             $inputs[C\Table\Data::VIEWCONTROL_KEY_ORDERING]
         );
     }

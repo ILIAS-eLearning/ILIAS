@@ -632,23 +632,6 @@ abstract class ilObject2GUI extends ilObjectGUI
     }
 
     /**
-     * Init creation forms.
-     * This will create the default creation forms: new, import, clone
-     * @return \ilPropertyFormGUI[]
-     */
-    protected function initCreationForms(string $new_type): array
-    {
-        $forms = parent::initCreationForms($new_type);
-
-        // cloning doesn't work in workspace yet
-        if ($this->id_type == self::WORKSPACE_NODE_ID) {
-            unset($forms[self::CFORM_CLONE]);
-        }
-
-        return $forms;
-    }
-
-    /**
      * Add object to tree at given position
      */
     public function putObjectInTree(ilObject $obj, int $parent_node_id = null): void

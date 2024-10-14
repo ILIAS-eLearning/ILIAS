@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -41,7 +43,7 @@ class GUIService
         $this->gui_service = $gui_service;
     }
 
-    public function ProcessUtilGUI(\ilObjBookingPool $pool, object $parent_gui) : ProcessUtilGUI
+    public function ProcessUtilGUI(\ilObjBookingPool $pool, object $parent_gui): ProcessUtilGUI
     {
         return new ProcessUtilGUI(
             $this->domain_service,
@@ -56,8 +58,7 @@ class GUIService
         int $book_obj_id,
         int $context_obj_id,
         string $seed
-    ) : \ilBookingProcessWithScheduleGUI
-    {
+    ): \ilBookingProcessWithScheduleGUI {
         return new \ilBookingProcessWithScheduleGUI(
             $pool,
             $book_obj_id,
@@ -70,8 +71,7 @@ class GUIService
         \ilObjBookingPool $pool,
         int $book_obj_id,
         int $context_obj_id
-    ) : \ilBookingProcessWithoutScheduleGUI
-    {
+    ): \ilBookingProcessWithoutScheduleGUI {
         return new \ilBookingProcessWithoutScheduleGUI(
             $pool,
             $book_obj_id,
@@ -79,12 +79,12 @@ class GUIService
         );
     }
 
-    public function getProcessClassForPool(\ilObjBookingPool $pool) : string
+    public function getProcessClassForPool(\ilObjBookingPool $pool): string
     {
         return $this->getProcessClass($pool->getScheduleType() === \ilObjBookingPool::TYPE_FIX_SCHEDULE);
     }
 
-    public function getProcessClass($with_schedule = true) : string
+    public function getProcessClass($with_schedule = true): string
     {
         if ($with_schedule) {
             return \ilBookingProcessWithScheduleGUI::class;

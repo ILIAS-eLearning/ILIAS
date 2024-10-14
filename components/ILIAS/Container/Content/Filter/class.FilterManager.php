@@ -19,6 +19,7 @@
 namespace ILIAS\Container\Content\Filter;
 
 use ILIAS\Container\Content\DomainService;
+use ILIAS\Container\Metadata\MetadataManager;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -27,6 +28,7 @@ class FilterManager
 {
     protected \ILIAS\Container\Content\RepoService $repo_service;
     protected DomainService $domain_service;
+    protected MetadataManager $metadata;
     protected bool $results_on_filter_only;
     protected ?\ilContainerUserFilter $container_user_filter = null;
     protected array $objects;
@@ -37,12 +39,14 @@ class FilterManager
     public function __construct(
         DomainService $domain_service,
         \ILIAS\Container\Content\RepoService $repo_service,
+        MetadataManager $metadata,
         array $objects,
         ?\ilContainerUserFilter $container_user_filter,
         bool $results_on_filter_only = false
     ) {
         $this->domain_service = $domain_service;
         $this->repo_service = $repo_service;
+        $this->metadata = $metadata;
         $this->objects = $objects;
         $this->container_user_filter = $container_user_filter;
         $this->results_on_filter_only = $results_on_filter_only;
@@ -57,7 +61,6 @@ class FilterManager
         $container_user_filter = $this->container_user_filter;
         $obj_repo = $this->repo_service->filter()->object();
         $member_repo = $this->repo_service->filter()->member();
-        $metadata_repo = $this->repo_service->filter()->metadata();
 
         if (is_null($container_user_filter)) {
             return $this->objects;
@@ -112,7 +115,7 @@ class FilterManager
 
                         case \ilContainerFilterField::STD_FIELD_COPYRIGHT:
                             $result = null;
-                            $obj_ids = $metadata_repo->filterObjIdsByCopyright($obj_ids, $val);
+                            $obj_ids = $this->metadata->filterObjIdsByCopyright($obj_ids, $val);
                             break;
 
                         default:

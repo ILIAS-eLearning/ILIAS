@@ -22,7 +22,7 @@ declare(strict_types=1);
 /**
  * Interface ilLanguageDetector
  * @author Michael Jansen <mjansen@databay.de>
- * @ingroup components/ILIAS/Language_
+ * @ingroup components/ILIAS/Language
  */
 interface ilLanguageDetector
 {

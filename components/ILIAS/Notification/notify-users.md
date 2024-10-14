@@ -24,7 +24,7 @@ The basic blocks of the structure are:
 ### Example 1 (Repository, Module "Exercise")
 
 ```php
- 1 include_once "./Services/Notification/classes/class.ilSystemNotification.php";
+ 1 include_once "./components/ILIAS/Notification/classes/class.ilSystemNotification.php";
  2 $ntf = new ilSystemNotification();
  3 $ntf->setObjId($ass->getExerciseId());
  4 $ntf->setLangModules(array("exc"));
@@ -34,7 +34,7 @@ The basic blocks of the structure are:
  8 $ntf->setGotoLangId("exc_feedback_notification_link");		
  9 $ntf->setReasonLangId("exc_feedback_notification_reason");		
 10 
-11 include_once "./Modules/Exercise/classes/class.ilExerciseMembers.php";
+11 include_once "./components/ILIAS/Exercise/classes/class.ilExerciseMembers.php";
 12 $ntf->sendMail(ilExerciseMembers::_getMembers($ass->getExerciseId()));
 ```
 
@@ -63,7 +63,7 @@ If no specific ref_id was set via `setRefId()` the system will try to find a ref
 ### Example 2  (Personal Workspace, "Blog")
 
 ```php
- 1 include_once "./Services/Notification/classes/class.ilSystemNotification.php";
+ 1 include_once "./components/ILIAS/Notification/classes/class.ilSystemNotification.php";
  2 $ntf = new ilSystemNotification($a_in_wsp);
  3 $ntf->setLangModules(array("blog"));
  4 $ntf->setRefId($a_blog_node_id);

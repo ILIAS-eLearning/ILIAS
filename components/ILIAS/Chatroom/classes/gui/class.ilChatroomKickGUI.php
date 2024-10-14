@@ -60,6 +60,6 @@ class ilChatroomKickGUI extends ilChatroomGUIHandler
             $room->disconnectUser($userToKick);
         }
 
-        $this->sendResponse($response);
+        $this->sendResponse($response, 'application/json');
     }
 }

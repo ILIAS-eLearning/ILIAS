@@ -8,7 +8,7 @@
 
 ### Derived Tasks: Introduce artefact reader
 
-The `$provider` array under `Services/Tasks/DerivedTasks/classes/class.ilLearningHistoryProviderFactory.php` should be replaced by using the artefact reader process.
+The `$provider` array under `components/ILIAS/Tasks/DerivedTasks/classes/class.ilLearningHistoryProviderFactory.php` should be replaced by using the artefact reader process.
 
 ### Introduce namespace
 

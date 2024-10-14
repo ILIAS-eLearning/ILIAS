@@ -36,12 +36,8 @@ declare(strict_types=1);
 
 class ilObjectSearch extends ilAbstractSearch
 {
-    public const CDATE_OPERATOR_BEFORE = 1;
-    public const CDATE_OPERATOR_AFTER = 2;
-    public const CDATE_OPERATOR_ON = 3;
-
-    private ?int $cdate_operator = null;
-    private ?ilDate $cdate_date = null;
+    private ?ilDate $cdate_start_date = null;
+    private ?ilDate $cdate_end_date = null;
 
 
     public function __construct(ilQueryParser $qp_obj)
@@ -51,7 +47,7 @@ class ilObjectSearch extends ilAbstractSearch
     }
 
 
-    public static function raiseContentChanged(int $obj_id) : void
+    public static function raiseContentChanged(int $obj_id): void
     {
         global $DIC;
 
@@ -72,26 +68,13 @@ class ilObjectSearch extends ilAbstractSearch
 
 
         $cdate = '';
-        if ($this->getCreationDateFilterDate() instanceof ilDate) {
-            if ($this->getCreationDateFilterOperator()) {
-                switch ($this->getCreationDateFilterOperator()) {
-                    case self::CDATE_OPERATOR_AFTER:
-                        $cdate = 'AND create_date >= ' . $this->db->quote($this->getCreationDateFilterDate()->get(IL_CAL_DATE), 'text') . ' ';
-                        break;
-
-                    case self::CDATE_OPERATOR_BEFORE:
-                        $cdate = 'AND create_date <= ' . $this->db->quote($this->getCreationDateFilterDate()->get(IL_CAL_DATE), 'text') . ' ';
-                        break;
-
-                    case self::CDATE_OPERATOR_ON:
-                        $cdate = 'AND ' . $this->db->like(
-                            'create_date',
-                            'text',
-                            $this->getCreationDateFilterDate()->get(IL_CAL_DATE) . '%'
-                        );
-                        break;
-                }
-            }
+        if ($this->getCreationDateFilterStartDate() && is_null($this->getCreationDateFilterEndDate())) {
+            $cdate = 'AND create_date >= ' . $this->db->quote($this->getCreationDateFilterStartDate()->get(IL_CAL_DATE), 'text') . ' ';
+        } elseif ($this->getCreationDateFilterEndDate() && is_null($this->getCreationDateFilterStartDate())) {
+            $cdate = 'AND create_date <= ' . $this->db->quote($this->getCreationDateFilterEndDate()->get(IL_CAL_DATE), 'text') . ' ';
+        } elseif ($this->getCreationDateFilterStartDate() && $this->getCreationDateFilterEndDate()) {
+            $cdate = 'AND create_date >= ' . $this->db->quote($this->getCreationDateFilterStartDate()->get(IL_CAL_DATE), 'text') . ' ' .
+                    'AND create_date <= ' . $this->db->quote($this->getCreationDateFilterEndDate()->get(IL_CAL_DATE), 'text') . ' ';
         }
 
         $locate = $this->__createLocateString();
@@ -124,23 +107,23 @@ class ilObjectSearch extends ilAbstractSearch
     }
 
 
-    public function setCreationDateFilterDate(ilDate $day): void
+    public function setCreationDateFilterStartDate(?ilDate $day): void
     {
-        $this->cdate_date = $day;
+        $this->cdate_start_date = $day;
     }
 
-    public function setCreationDateFilterOperator(int $a_operator): void
+    public function getCreationDateFilterStartDate(): ?ilDate
     {
-        $this->cdate_operator = $a_operator;
+        return $this->cdate_start_date;
     }
 
-    public function getCreationDateFilterDate(): ?ilDate
+    public function setCreationDateFilterEndDate(?ilDate $day): void
     {
-        return $this->cdate_date;
+        $this->cdate_end_date = $day;
     }
 
-    public function getCreationDateFilterOperator(): ?int
+    public function getCreationDateFilterEndDate(): ?ilDate
     {
-        return $this->cdate_operator;
+        return $this->cdate_end_date;
     }
 }

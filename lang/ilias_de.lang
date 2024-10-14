@@ -552,6 +552,9 @@ assessment#:#backtocallingpage#:#Zurück zur Fragenseite
 assessment#:#backtocallingpool#:#Zurück zum Fragenpool
 assessment#:#backtocallingtest#:#Zurück zum Test
 assessment#:#baseunit#:#Basiseinheit
+assessment#:#bulkedit_author#:#Autor ändern
+assessment#:#bulkedit_lifecycle#:#Lebenszyklus ändern
+assessment#:#bulkedit_taxonomies#:#Taxonomien ändern
 assessment#:#button_request_next_question_hint#:#Fordere nächsten Lösungshinweis an
 assessment#:#button_request_question_hint#:#Lösungshinweis anfordern
 assessment#:#cancel_test#:#Test unterbrechen
@@ -1005,6 +1008,9 @@ assessment#:#previous_question_rows#:#← Fragen %d - %d von %d
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Für die ausgewählte Frage ist keine statistische Auswertung vorhanden. Die Frage wurde bislang nie in einem Test verwendet.
 assessment#:#qpl_assessment_total_of_answers#:#Gesamtzahl der Antworten
 assessment#:#qpl_assessment_total_of_right_answers#:#Gesamtprozentsatz der richtigen Antworten
+assessment#:#qpl_bulk_save_add#:#Hinzufügen
+assessment#:#qpl_bulk_save_overwrite#:#Überschreiben
+assessment#:#qpl_bulkedit_success#:#Änderungen gespeichert.
 assessment#:#qpl_cancel_skill_assigns_update#:#Abbrechen
 assessment#:#qpl_confirm_delete_questions#:#Sind Sie sicher, dass Sie die folgenden Fragen entfernen wollen?
 assessment#:#qpl_copy_insert_clipboard#:#Die ausgewählten Fragen wurden in die Zwischenablage kopiert
@@ -2135,12 +2141,26 @@ auth#:#auth_saml_username_claim_info#:#Definieren Sie hier das Attribut, anhand 
 auth#:#auth_sync#:#Benutzer-Synchronisierung
 auth#:#auth_sync_cas#:#Automatische Generierung von ILIAS-Anmeldekonten
 auth#:#auth_sync_cas_info#:#Benutzer, die sich erfolgreich gegen CAS authentifiziert haben, jedoch über kein ILIAS-Konto verfügen, werden automatisch angelegt.
+auth#:#destination_after_logout#:#Weiterleitung nach Abmeldung
+auth#:#destination_external_ressource#:#Zeige Externe Resource
+auth#:#destination_external_ressource_url#:#Externe URL
+auth#:#destination_internal_ressource#:#Zeige Interne Resource
+auth#:#destination_internal_ressource_ref_id#:#Interne Referenz-ID
+auth#:#destination_login_screen#:#Zeige Anmeldebildschirm
+auth#:#destination_login_screen_info#:#Stellen Sie sicher, dass z.B. kein SSO angesprochen wird, das zu einer sofortigen Anmeldung führt.
+auth#:#destination_logout_screen#:#Zeige Abmeldebildschirm
 auth#:#err_auth_ldap_failed#:#Die Anmeldung ist fehlgeschlagen. Bitte kontaktieren Sie Ihre technische Betreuung.
 auth#:#err_auth_saml_failed#:#Die Anmeldung ist fehlgeschlagen. Bitte kontaktieren Sie Ihre technische Betreuung.
 auth#:#err_auth_saml_no_ilias_user#:#Die Anmeldung ist fehlgeschlagen. Bitte kontaktieren Sie Ihre technische Betreuung.
 auth#:#language_does_not_exist#:#Die gewählte Sprache existiert leider nicht.
 auth#:#login_page#:#Sprache der Login-Seite
 auth#:#login_pages#:#Login-Seiten
+auth#:#logout_behaviour#:#Logout-Verhalten
+auth#:#logout_behaviour_invalid_ref_id#:#Stellen sie sicher, dass die angegebene interne Resource existiert und sich nicht im Papierkorb befindet.
+auth#:#logout_behaviour_invalid_url#:#Die angegebene externe Resource ist keine gültige URL.
+auth#:#logout_behaviour_ref_id_no_access#:#Stellen sie sicher, dass die angegebene interne Resource für den "Anonymous"-Nutzer zugänglich ist.
+auth#:#logout_behaviour_ref_id_valid_status_changed#:#Die konfigurierte interne Ressource ist nicht mehr gültig. Falls die Ressource gelöscht wurde oder der Zugriff für den "Anonymous"-Nutzer eingeschränkt wurde, konfigurieren Sie bitte eine neue gültige interne Ressource. Ohne gültige Konfiguration wird der Benutzer standardmäßig auf den Abmeldebildschirm weitergeleitet.
+auth#:#logout_behaviour_settings#:#Einstellungen für das Logout-Verhalten
 auth#:#logout_editor#:#Logout-Seite gestalten
 auth#:#logout_page#:#Sprache der Logout-Seite
 auth#:#logout_pages#:#Logout-Seiten
@@ -2490,6 +2510,7 @@ blog#:#blog_settings#:#Blog-Administration
 blog#:#blog_settings_navigation#:#Navigation
 blog#:#blog_show_latest#:#Neueste Beiträge/Entwürfe anzeigen
 blog#:#blog_show_print_view#:#Druckansicht
+blog#:#blog_side_blocks#:#Seitenblöcke
 blog#:#blog_starting_page#:#Startseite
 blog#:#blog_task_publishing_draft_title#:#Veröffentlichen des Entwurfs „%s“
 blog#:#blog_toggle_draft#:#Veröffentlichung zurücknehmen
@@ -2875,8 +2896,8 @@ chatroom#:#chat_auth_token_info#:#Bitte definieren Sie hier zwei eindeutige Zeic
 chatroom#:#chat_ban#:#Sperren
 chatroom#:#chat_broadcast_typing#:#Tippen im Chat anzeigen
 chatroom#:#chat_broadcast_typing_info#:#Anderen Anwesenden in einem Chat bzw. Chatraum wird angezeigt, wenn Sie beginnen, eine Nachricht zu tippen.
-chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> hat den Chatraum verlassen ---
-chatroom#:#chat_connection_established#:#+++ <b>#username#</b> hat den Chatraum betreten +++
+chatroom#:#chat_connection_disconnected#:##username# hat den Chatraum verlassen.
+chatroom#:#chat_connection_established#:##username# hat den Chatraum betreten.
 chatroom#:#chat_deletion_disabled#:#Deaktiviert
 chatroom#:#chat_deletion_interval#:#Intervall
 chatroom#:#chat_deletion_interval_info#:#Falls gewählt, werden Nachrichten im Magazin-Chat und im On-Screen-Chat gelöscht, sofern sie älter als der hier definierte Schwellenwert sind.
@@ -2908,7 +2929,6 @@ chatroom#:#chat_mainroom#:#Hauptraum
 chatroom#:#chat_message#:#Nachricht
 chatroom#:#chat_message_display#:#Anzeigen
 chatroom#:#chat_message_options#:#Optionen
-chatroom#:#chat_message_to_all#:#An alle
 chatroom#:#chat_no_use_typing_broadcast#:#Tippen wird anderen im Chat nicht angezeigt
 chatroom#:#chat_not_use_osc#:#Nutzt On-Screen-Chat nicht
 chatroom#:#chat_osc_accept_msg#:#Anchatten erlauben
@@ -3002,7 +3022,7 @@ chatroom#:#kicked#:#Die Moderation hat Sie aus dem Chat entfernt.###Modified as 
 chatroom#:#lost_connection#:#Die Verbindung zum Chat-Server wurde unterbrochen.
 chatroom#:#main#:#Hauptraum
 chatroom#:#messages#:#Nachrichten
-chatroom#:#no_further_users#:#Keine weiteren Benutzer anwesend
+chatroom#:#no_further_users#:#Keine weiteren Benutzer anwesend.
 chatroom#:#no_messages#:#Es sind keine Nachrichten für den ausgewählten Zeitraum verfügbar.
 chatroom#:#no_username_given#:#Bitte wählen Sie einen Anmeldenamen!
 chatroom#:#osc_browser_noti_no_permission_error#:#Bitte entfernen Sie die ILIAS-Domain von der Liste der blockierten Websites in den Benachrichtigungs-Einstellungen Ihres Browsers oder Betriebssystems. Andernfalls kann ILIAS keine Browser-Benachrichtigungen zustellen.
@@ -3021,17 +3041,17 @@ chatroom#:#server_further_information#:#Weitere Informationen zur Konfiguration 
 chatroom#:#session#:#Sitzung
 chatroom#:#settings_general#:#Allgemein
 chatroom#:#settings_title#:#Einstellungen des Chats
-chatroom#:#speak_to#:#<b>#user#</b> ansprechen
+chatroom#:#start_private_chat#:#Privaten Chat starten
 chatroom#:#unable_to_connect#:#Die Verbindung zum Chat-Server konnte nicht hergestellt werden.
 chatroom#:#unban#:#Entsperren
+chatroom#:#user_banned#:#Der Benutzer #user# wurde aus dem Chatraum gebannt.
 chatroom#:#user_in_ilias#:#Benutzer in ILIAS suchen und einladen
 chatroom#:#user_in_room#:#Benutzer im aktuellen Chatraum einladen
 chatroom#:#user_invited#:#Der Benutzer wurde eingeladen.
-chatroom#:#user_invited_self#:#Sie wurden von <b>#user#</b> in den Chatraum <b>#room#</b> eingeladen.
-chatroom#:#user_kicked#:#Der Benutzer <b>#user#</b> wurde aus dem Chatraum geworfen.
+chatroom#:#user_invited_self#:#Sie wurden von #user# in den Chatraum #room# eingeladen.
+chatroom#:#user_kicked#:#Der Benutzer #user# wurde aus dem Chatraum geworfen.
 chatroom#:#users#:#Benutzer
-chatroom#:#welcome_to_chat#:#Willkommen im Chatraum
-chatroom#:#whisper_to#:#<b>#user#</b> anflüstern
+chatroom#:#welcome_to_chat#:#Willkommen im Chatraum.
 chatroom#:#write_message#:#Neue Nachricht
 chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS kann keine Socket-Verbindung zum Chat-Server aufbauen.
 chatroom_adm#:#chat_enabled#:#Chat aktivieren
@@ -3777,7 +3797,6 @@ common#:#create_stylesheet#:#Style erstellen
 common#:#created#:#Erstellt am
 common#:#cron_forum_notification#:#Foren-Benachrichtigungen via Cron-Job versenden
 common#:#cron_forum_notification_crob_desc#:#Wenn aktiviert, sendet ILIAS täglich Benachrichtigungen an die Benutzer, die bei ausgewählten Foren oder Foren-Themen über neue und geänderte Beiträge benachrichtigt werden wollen. Bitte beachten Sie: Wenn Sie diese Form der Foren-Benachrichtigungen aktivieren, werden keine direkten Benachrichtungen mehr verschickt (Administration / Foren / Foren-Benachrichtigungen versenden).
-common#:#cron_forum_notification_desc#:#Wenn aktiviert, sendet ILIAS Mails an die Benutzer, die bei ausgewählten Foren-Themen über neue Beiträge benachrichtigt werden wollen.
 common#:#cron_forum_notification_disabled#:#Kann nicht deaktiviert werden wenn der Cron Job aktiv ist.
 common#:#cron_jobs#:#Cron-Jobs
 common#:#cron_lucene_index#:#Lucene-Suchindex aktualisieren
@@ -5146,6 +5165,7 @@ common#:#objs_rglo#:#ECS-Glossare
 common#:#objs_rgrp#:#ECS-Gruppen
 common#:#objs_rlm#:#ECS-Lernmodule
 common#:#objs_role#:#Rollen
+common#:#objs_rolf#:#Rollenordner
 common#:#objs_rtst#:#ECS-Tests
 common#:#objs_rwik#:#ECS-Wikis
 common#:#objs_sahs#:#SCORM-Lernmodule
@@ -5469,6 +5489,7 @@ common#:#save_settings#:#Einstellungen speichern
 common#:#save_user_related_data#:#Benutzerspezifische Zugriffsdaten speichern
 common#:#saved_successfully#:#Ihre Änderungen wurden gespeichert
 common#:#saving#:#Sichert...
+common#:#scope#:#Gültigkeitsbereich
 common#:#scorm_create_export_file_html#:#HTML-Exportdatei erzeugen
 common#:#scorm_create_export_file_pdf#:#PDF-Exportdatei erzeugen
 common#:#scorm_create_export_file_scrom12#:#SCORM 1.2-Exportdatei erzeugen
@@ -6071,6 +6092,7 @@ cont#:#cont_tile_size_3#:#sehr groß (bis zu zwei Kacheln in einer Zeile)
 cont#:#cont_tile_size_4#:#volle Breite (eine Kachel in einer Zeile)
 cont#:#cont_tile_view#:#Kacheln
 cont#:#cont_tile_view_info#:#Untergeordnete Objekte als Kacheln anzeigen. Bilder für diese Kacheln können in den Einstellungen jedes einzelnen Objekts hochgeladen werden.
+cont#:#cont_trash_general_usage#:#Um größere Mengen alter, gelöschter Objekte aus dem System zu entfernen, ist es empfehlenswert zunächst die Nicht-Container (etwa Dateien, Glossare, Tests, ..) und so alle Objekte aus den Container-Objekten (Kategorien, Kurse, Gruppen, Lernsequenzen,..) zu entfernen. Die Filter "Typ" und "Gelöscht am" unterstützen den Vorgang. Abschließend löschen Sie dann die Container.
 contact#:#contact_awrn_ap_contacts#:#Bestätigte Kontakte
 contact#:#contact_awrn_ap_contacts_info#:#Alle bestätigten Kontakte eines Benutzers werden aufgelistet.
 contact#:#contact_awrn_req_contacts#:#Kontaktanfragen
@@ -8485,16 +8507,16 @@ dcl#:#dcl_activate_view#:#Vorlage für Einzelansicht aktivieren
 dcl#:#dcl_add#:#Datensammlung anlegen
 dcl#:#dcl_add_new_field#:#Feld hinzufügen
 dcl#:#dcl_add_new_record#:#Eintrag hinzufügen
-dcl#:#dcl_add_new_table#:#Neue Tabelle hinzufügen
+dcl#:#dcl_add_new_table#:#Tabelle hinzufügen
 dcl#:#dcl_add_new_view#:#Neue Ansicht hinzufügen
 dcl#:#dcl_add_perm#:#Neuen Eintrag hinzufügen
-dcl#:#dcl_add_perm_desc#:#Benutzer können Einträge in dieser Tabelle erstellen.
-dcl#:#dcl_additional_info_desc#:#Der Text wird direkt oberhalb der Tabelle angezeigt.
+dcl#:#dcl_add_perm_desc#:#Es können Einträge in dieser Tabelle erstellt werden. Wenn Daten in diese Tabelle importiert werden dürfen, steht auch ein Excel-Import zur Verfügung.
+dcl#:#dcl_additional_info_desc#:#Der Inhalt wird oberhalb der Tabelle angezeigt.
 dcl#:#dcl_all_entries#:#Alle Einträge
 dcl#:#dcl_any#:#Alle
-dcl#:#dcl_asc#:#Aufsteigende Reihenfolge (ASC)
+dcl#:#dcl_asc#:#Aufsteigend ↑  
 dcl#:#dcl_boolean#:#Checkbox
-dcl#:#dcl_boolean_desc#:#Auswahlfeld für "zutreffend"/"nicht zutreffend"
+dcl#:#dcl_boolean_desc#:#Kontrollkästchen, das abgehakt werden kann
 dcl#:#dcl_cant_delete_last_table#:#Die Tabelle selbst kann nicht gelöscht werden, da sie die einzige Tabelle dieser Datensammlung ist. Es wurden aber Inhalt und Struktur der Tabelle erfolgreich gelöscht.
 dcl#:#dcl_change_notification_dcl_delete_record#:#Der folgende Eintrag wurde gelöscht
 dcl#:#dcl_change_notification_dcl_new_record#:#Der folgende Eintrag wurde erzeugt
@@ -8522,11 +8544,11 @@ dcl#:#dcl_create_field#:#Feld hinzufügen
 dcl#:#dcl_create_fields#:#Klicken Sie in der Registerkarte „Tabellen“ auf eine Tabelle und erstellen Sie mithilfe des Button „Feld hinzufügen“ neue Felder.
 dcl#:#dcl_creation_date#:#Erstellungsdatum
 dcl#:#dcl_creation_date_description#:#Das Datum, an dem dieser Eintrag erstellt wurde.
-dcl#:#dcl_datatype#:#Datentyp
-dcl#:#dcl_date_selection#:#Auswahlmenü Datum
-dcl#:#dcl_date_selection_desc#:#Bereitstellen von Auswahloptionen (Datum)
-dcl#:#dcl_datetime#:#Datumseingabe
-dcl#:#dcl_datetime_desc#:#Datumseingabe per Auswahlmenü oder Kalender
+dcl#:#dcl_datatype#:#Typ
+dcl#:#dcl_date_selection#:#Datum per Auswahl
+dcl#:#dcl_date_selection_desc#:#Aus vorgegebenen Optionen kann ein Datum ausgewählt werden.
+dcl#:#dcl_datetime#:#Datum per Eingabe
+dcl#:#dcl_datetime_desc#:#Datum wird eingegeben oder im Kalender ausgewählt.
 dcl#:#dcl_deactivate_view#:#Vorlage für Einzelansicht deaktivieren
 dcl#:#dcl_default_sort_field#:#Sortierung
 dcl#:#dcl_default_sort_field_desc#:#Tabelle wird standardmässig nach dem ausgewählten Feld sortiert.
@@ -8540,28 +8562,28 @@ dcl#:#dcl_delete_tables_no_selection#:#Zum Löschen muss mindestens eine Tabelle
 dcl#:#dcl_delete_views#:#Ansichten löschen
 dcl#:#dcl_delete_views_no_selection#:#Zum Löschen muss mindestens eine Ansicht ausgewählt werden.
 dcl#:#dcl_deleted_records#:#Es wurden %s Datensätze gelöscht.
-dcl#:#dcl_desc#:#Absteigende Reihenfolge (DESC)
+dcl#:#dcl_desc#:#Absteigend ↓
 dcl#:#dcl_description#:#Beschreibung
 dcl#:#dcl_detailed_view#:#Einzelansicht
 dcl#:#dcl_display_action_menu#:#Kopieren
 dcl#:#dcl_display_record_alt#:#Diesen Eintrag anzeigen
 dcl#:#dcl_duplicate_non_unique_entries_exist#:#Es kann sich auch um bereits vorhandene Einträge handeln.###23 02 2024 new variable
-dcl#:#dcl_edit#:#Datensammlung bearbeiten
+dcl#:#dcl_edit#:#Einstellungen der Datensammlung
 dcl#:#dcl_edit_entry_rules#:#Eintragsbearbeitung
 dcl#:#dcl_edit_field#:#Feld bearbeiten
 dcl#:#dcl_edit_perm#:#Einträge bearbeiten
 dcl#:#dcl_edit_record#:#Eintrag bearbeiten
-dcl#:#dcl_edit_table#:#Tabelleneinstellungen
+dcl#:#dcl_edit_table#:#Einstellungen der Tabelle
 dcl#:#dcl_editable_in_table_gui#:#Ein Eintrag kann nur über die Tabellenansicht bewertet werden.
 dcl#:#dcl_empty_detailed_view#:#Vorlage für Einzelansicht löschen
 dcl#:#dcl_empty_detailed_view_success#:#Die Vorlage wurde erfolgreich gelöscht.
 dcl#:#dcl_err_formula_field_not_found#:#Feld mit dem Titel „%s“ existiert nicht.
 dcl#:#dcl_error_parsing_expression#:#Fehler beim Evaluieren des Ausdrucks
 dcl#:#dcl_export_enabled#:#Tabelle exportieren
-dcl#:#dcl_export_enabled_desc#:#Alle Benutzer können die Daten der Tabelle selbst exportieren. Dazu müssen in der Übersicht „Felder der ausgewählten Tabelle“ die Felder einzeln als exportierbar ausgewählt werden.
+dcl#:#dcl_export_enabled_desc#:#Die Daten dieser Tabelle können exportiert werden. Achtung: In dem Export tauchen nur Felder auf, für die im Reiter "Felder" dieser Tabelle die Checkbox "Exportierbar" aktiviert wurde.
 dcl#:#dcl_export_finished#:#Export abgeschlossen
 dcl#:#dcl_export_started#:#Asynchroner Export gestartet
-dcl#:#dcl_field_datatype#:#Feld Datentyp
+dcl#:#dcl_field_datatype#:#Feldtyp
 dcl#:#dcl_field_description#:#Beschreibung
 dcl#:#dcl_field_required#:#Verpflichtend
 dcl#:#dcl_field_title_change_warning#:#Sie haben den Titel des Feldes geändert. Dadurch funktioniert der entsprechende Platzhalter in der Vorlage zur Einzelansicht nicht mehr. Sie müssen diesen noch manuell angepassen.
@@ -8569,24 +8591,24 @@ dcl#:#dcl_field_title_unique#:#Es existiert bereits ein Feld mit diesem Titel. T
 dcl#:#dcl_field_visible#:#Sichtbar
 dcl#:#dcl_fieldtitle#:#Feldtitel
 dcl#:#dcl_file#:#Datei-Upload
-dcl#:#dcl_file_desc#:#Möglichkeit zum Hochladen beliebiger Dateien, die per Link heruntergeladen werden können
-dcl#:#dcl_file_format_description#:#Die Import-Datei muss im Excel-Format .xlsx vorliegen, mit den zu importierenden Daten auf der ersten Seite. In der ersten Zeile müssen die exakten Namen der Felder stehen (inklusive Grossschreibung) und in den folgenden Zeilen die Werte der zu importierenden Datensatzeinträge. Es wird empfohlen, jeden Import zuerst zu simulieren. Für den Import von mehrfachen Einträgen bei Auswahlmenü-Feldern und Referenzfeldern werden Semikolon und/oder Komma als Trenner akzeptiert.
+dcl#:#dcl_file_desc#:#Möglichkeit zum Hochladen einer Datei. Die hochgeladene Datei kann direkt aus der Datensammlung heruntergeladen werden.
+dcl#:#dcl_file_format_description#:#Die Import-Datei muss im Excel-Format .xlsx vorliegen, mit den zu importierenden Daten im ersten Tabellenblatt. In der ersten Zeile müssen die exakten Titel der Felder stehen, in den folgenden Zeilen die Werte der zu importierenden Einträge. Es wird empfohlen, jeden Import zuerst zu simulieren. Für den Import von mehrfachen Einträgen bei Auswahl- und Referenzfeldern werden Semikolon und/oder Komma als Trenner akzeptiert.
 dcl#:#dcl_file_not_readable#:#Die Datei konnte nicht gelesen werden. Bitte verwenden Sie das .xlsx-Dateiformat.
 dcl#:#dcl_filter#:#Im Filter verfügbar
 dcl#:#dcl_filter_changeable#:#Filter änderbar
 dcl#:#dcl_formula#:#Formel
 dcl#:#dcl_formula_desc#:#Ähnlich wie bei der Tabellenkalkulation können per Formel Einträge verbunden oder berechnet werden.
 dcl#:#dcl_formula_detail_desc#:#Einträge in diesem Feld generieren sich automatisch. Sie können hier keinen Eintrag vornehmen.
-dcl#:#dcl_height#:#Höhe
+dcl#:#dcl_height#:#Höhe in Pixel
 dcl#:#dcl_hello#:#Hallo
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#Die interne ID.
 dcl#:#dcl_ilias_reference#:#Objekt im Magazin
-dcl#:#dcl_ilias_reference_desc#:#Suchfeld, um ein Objekt in ILIAS auszuwählen und zu verlinken
-dcl#:#dcl_ilias_reference_link#:#Als Link in der Tabellenansicht anzeigen
+dcl#:#dcl_ilias_reference_desc#:#Auswahl eines Obiektes im Magazin
+dcl#:#dcl_ilias_reference_link#:#Ausgewähltes Objekt verlinken
 dcl#:#dcl_import#:#Datensammlung importieren
-dcl#:#dcl_import_enabled#:#Tabelle importieren
-dcl#:#dcl_import_enabled_desc#:#Alle Benutzer können selbst Daten in die Tabellen importieren, solange sie entsprechende Schreibrechte besitzen.
+dcl#:#dcl_import_enabled#:#Daten in Tabelle importieren
+dcl#:#dcl_import_enabled_desc#:#Es können per Excel Daten in die Tabelle importiert werden.
 dcl#:#dcl_import_records .xls#:#Excel-Import
 dcl#:#dcl_import_terminated#:#Der Import ist abgeschlossen. Anzahl importierter Datensätze
 dcl#:#dcl_in_export#:#Exportierbar
@@ -8596,14 +8618,14 @@ dcl#:#dcl_last_edited_by#:#Zuletzt geändert von
 dcl#:#dcl_last_edited_by_description#:#Der Benutzer, der diesen Eintrag zuletzt geändert hat.
 dcl#:#dcl_last_update#:#Letzte Änderung
 dcl#:#dcl_last_update_description#:#Das Datum, an dem dieser Eintrag zuletzt geändert wurde.
-dcl#:#dcl_learning_progress#:#Lernfortschritt anzeigen
+dcl#:#dcl_learning_progress#:#Lernfortschritt
 dcl#:#dcl_legend_placeholders#:#Platzhalter
-dcl#:#dcl_length#:#Länge
+dcl#:#dcl_length#:#Maximale Zeichenanzahl
 dcl#:#dcl_length_info#:#Anzahl von Zeichen, die ein Benutzer eingeben kann (Maximal 4000). Bei mehr als 200 Zeichen aktivieren Sie zusätzlich die Option „Mehrzeiliges Texteingabefeld“.
 dcl#:#dcl_limit_end#:#Ende
 dcl#:#dcl_limit_start#:#Start
 dcl#:#dcl_limited#:#Zeitlich begrenzte Bearbeitung
-dcl#:#dcl_limited_desc#:#Benutzer können Einträge nur bis zum gewählten Datum hinzufügen, bearbeiten und löschen.
+dcl#:#dcl_limited_desc#:#Einträge können nur im Zeitraum zwischen Start und Ende hinzugefügt, bearbeitet und gelöscht werden.
 dcl#:#dcl_link_detail_page#:#Link zur Einzelansicht
 dcl#:#dcl_list_fields#:#Felder
 dcl#:#dcl_list_visibility_and_filter#:#Übersicht
@@ -8613,8 +8635,8 @@ dcl#:#dcl_manage#:#Verwalten
 dcl#:#dcl_max_digits#:#Maximale Anzahl Ziffern
 dcl#:#dcl_max_import#:#Die maximal erlaubte Anzahl an importierten Datensätze wurde überschritten.
 dcl#:#dcl_max_text_length#:#Maximale Länge
-dcl#:#dcl_mob#:#Medienobjekt
-dcl#:#dcl_mob_desc#:#Möglichkeit zum Hochladen von Bild-, Audio- oder Video-Dateien, die direkt in der Datensammlung präsentiert werden. Erlaubte Dateitypen: %s
+dcl#:#dcl_mob#:#Bild, Audio, Video
+dcl#:#dcl_mob_desc#:#Hochgeladene Datei wird direkt in der Datensammlung präsentiert. Erlaubte Dateitypen: %s
 dcl#:#dcl_msg_field_modified#:#Feld wurde aktualisiert.
 dcl#:#dcl_msg_fields_deleted#:#Gelöschte Felder
 dcl#:#dcl_msg_info_alternatives#:#Die gewünschte Einzelansicht konnte nicht angezeigt werden. Entweder existiert keine Einzelansicht für diese Tabellenansicht oder Sie besitzen nicht die notwendigen Zugriffsrechte. Wählen Sie aus der Liste eine für Sie verfügbare Einzelansicht, um den Datensatz dennoch anzuzeigen.
@@ -8636,12 +8658,12 @@ dcl#:#dcl_new#:#Neue Datensammlung anlegen
 dcl#:#dcl_new_field#:#Neues Feld
 dcl#:#dcl_new_table#:#Neue Tabelle
 dcl#:#dcl_next_record#:#Nächster Eintrag
-dcl#:#dcl_no_content_warning#:#Achtung: die Datensammlung ist bereits online, hat aber noch keinen Inhalt!
+dcl#:#dcl_no_content_warning#:#Achtung: die Datensammlung ist bereits online, hat aber noch keinen Felder
 dcl#:#dcl_no_entry#:#Kein Eintrag
 dcl#:#dcl_no_export_content_available#:#Keine Daten für den Export verfügbar.
 dcl#:#dcl_no_export_data_available#:#Keine Daten oder Felder für den Export verfügbar.
 dcl#:#dcl_no_export_fields_available#:#Keine Felder für den Export aktiviert. Markieren Sie mindestens ein Feld als „Exportierbar“ in den <a href=„%s“>Tabelleneinstellungen</a>.
-dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstellt. Daher können noch keine Einträge eingefügt werden.
+dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstellt. Daher können noch keine Einträge eingefügt werden. Klicken Sie im Reiter "Tabellen" auf eine Tabelle und erstellen Sie mithilfe des Buttons "Feld hinzufügen" neue Felder.
 dcl#:#dcl_no_read_access_on_any_standard_view#:#Sie haben auf keine Standard-Tabellenansicht Lesezugriff.
 dcl#:#dcl_no_search_results_found_for#:#Es wurden keine Module gefunden mit:
 dcl#:#dcl_no_such_reference#:#Der folgende Wert ist in der Referenztabelle nicht vorhanden:
@@ -8652,19 +8674,19 @@ dcl#:#dcl_notification_activate_dcl#:#Benachrichtigung aktivieren
 dcl#:#dcl_notification_activated#:#Benachrichtigung aktiv
 dcl#:#dcl_notification_deactivate_dcl#:#Benachrichtigung deaktivieren
 dcl#:#dcl_notification_deactivated#:#Benachrichtigung inaktiv
-dcl#:#dcl_notification_info#:#Aktiviert die individuelle Benachrichtigungsfunktion für Benutzer.
+dcl#:#dcl_notification_info#:#Jede Person kann Benachrichtigungen für sich aktivieren.
 dcl#:#dcl_notimage_exception#:#Die Datei muss ein Bild sein.
 dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link (beginnend mit http:// oder www.) oder eine E-Mail-Adresse ein.
 dcl#:#dcl_number#:#Ganze Zahlen
-dcl#:#dcl_number_desc#:#Eingabefeld für ganze Zahlen (maximal 9 Ziffern). Nicht erlaubt sind Brüche und Dezimalzahlen.
-dcl#:#dcl_online_info#:#Nur wenn die Datensammlung online geschaltet ist, können Benutzer die Datensammlung sehen und benutzen.
+dcl#:#dcl_number_desc#:#Eingabe ganzer Zahlen mit bis zu 9 Ziffern. Nicht erlaubt sind Brüche und Dezimalzahlen.
+dcl#:#dcl_online_info#:#Datensammlung ist veröffentlicht und kann von allen Personen mit dem Recht „Lesezugriff" und „Eintragen" genutzt werden. Andernfalls ist das Objekt nur für Personen mit dem Recht „Einstellungen bearbeiten" verfügbar.
 dcl#:#dcl_order#:#Sortierung
 dcl#:#dcl_own_entries#:#Nur eigene Einträge
 dcl#:#dcl_owner#:#Eigener Eintrag von
 dcl#:#dcl_owner_description#:#Eigene Einträge bleiben stets sichtbar.
 dcl#:#dcl_owner_name#:#Im Besitz von (Name)
 dcl#:#dcl_page_type_dclf#:#Detailansicht
-dcl#:#dcl_permissions_form#:#Berechtigungen für diese Tabelle
+dcl#:#dcl_permissions_form#:#Erlaubte Aktionen für diese Tabelle
 dcl#:#dcl_please_select#:#--- Bitte wählen ---
 dcl#:#dcl_plugin#:#Plugin
 dcl#:#dcl_plugin_desc#:#DataCollection-Feld Erweiterungen
@@ -8672,35 +8694,35 @@ dcl#:#dcl_plugin_hooks#:#Verfügbare Erweiterungen
 dcl#:#dcl_plugin_no_hooks_available#:#Keine aktiven Field-Type Plugins gefunden.
 dcl#:#dcl_prev_record#:#Vorheriger Eintrag
 dcl#:#dcl_prop_expression#:#Ausdruck
-dcl#:#dcl_prop_expression_info#:#Gültige Operatoren: <b>%s</b><br>Unterstützte Funktionen: <b>%s</b><br>Verwenden Sie Klammern <b>"(", ")"</b> zum Gruppieren von Ausdrücken.<br>Zeichenketten und Platzhalter verbinden mit &: <b>"Das Resultat ist " & [[Int 1]] * [[Int 2]]</b><br>Verwenden der Funktionen: <b>SUM([[Int 1]];[[Int 2]])</b><br>Beim verwenden von Datums-Feldern und Zahlen-Feldern in einer Formel, weden die Zahlen-Feldern als Sekunden betrachtet und müssen bspw. mit 86400 multipliziert werden.<br><br>Gültige Felder (auf den Titel klicken um als Platzhalter in Ausdruck einzufügen):<br>%s
+dcl#:#dcl_prop_expression_info#:#Gültige Operatoren: <b>%s</b><br>Unterstützte Funktionen: <b>%s</b><br>Ausdrücke gruppieren mit Klammern: ( )<br>Zeichenketten und Platzhalter verbinden mit &: <b>"Das Resultat ist " & [[Int 1]] * [[Int 2]]</b><br>Verwenden der Funktionen: <b>SUM([[Int 1]];[[Int 2]])</b><br>Achtung: Einträge in Datums- und Zahlenfeldern in einer Formel sind als Sekunden dimensioniert und müssen beispielsweise mit 86.400 multipliziert werden.<br><br>Folgende Platzhalter können im Ausdruck eingefügt werden:<br>%s
 dcl#:#dcl_public_comments#:#Kommentare
 dcl#:#dcl_public_comments_desc#:#Benutzer können Datensätze dieser Tabelle kommentieren.
 dcl#:#dcl_rating#:#Bewertung
-dcl#:#dcl_rating_desc#:#Benutzer können Einträge mit ein bis fünf Sternen bewerten.
+dcl#:#dcl_rating_desc#:#Bestehende Einträge mit ein bis fünf Sternen bewerten.
 dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#Die folgenden Rollen haben Lesezugriff auf die Datensammlung, jedoch auf keine Standard-Ansicht der Tabellen:
 dcl#:#dcl_record#:#Eintrag
 dcl#:#dcl_record_deleted#:#Eintrag gelöscht.
 dcl#:#dcl_record_from_total#:#%d von %d
 dcl#:#dcl_reference#:#Referenz
 dcl#:#dcl_reference_desc#:#Bereitstellen von Auswahloptionen, die in einem anderen Feld einer Tabelle gepflegt werden.
-dcl#:#dcl_reference_link#:#Als Link zum referenzierten Eintrag darstellen.
-dcl#:#dcl_reference_link_info#:#Die Vorlage für Einzelansicht muss in der referenzierten Tabelle aktiv sein.
-dcl#:#dcl_reference_title#:#Referenz zu Tabelle und Feld
-dcl#:#dcl_regex#:#Regulärer Ausdruck
-dcl#:#dcl_regex_info#:#Eingabe ohne Trennsymbol/Delimiter
+dcl#:#dcl_reference_link#:#Referenzierten Eintrag verlinken
+dcl#:#dcl_reference_link_info#:#Achtung: Aktivieren Sie die Vorlage der Einzelansicht in der referenzierten Tabelle.
+dcl#:#dcl_reference_title#:#Feld auswahLen
+dcl#:#dcl_regex#:#Texteingabe einschranken
+dcl#:#dcl_regex_info#:#Es kann ein regulärer Ausdruck ohne Delimiter eingegeben werden. Automatisch werden dann bestimmte Einträge zurückgewiesen.
 dcl#:#dcl_required#:#Verpflichtend
 dcl#:#dcl_row_not_found#:# - Dieses Feld wurde in der Tabelle nicht gefunden.
 dcl#:#dcl_save#:#Speichern
-dcl#:#dcl_save_confirmation#:#Speicherbestätigung
+dcl#:#dcl_save_confirmation#:#Eingabe zusätzlich bestätigen
 dcl#:#dcl_save_confirmation_desc#:#Benutzer muss das Eintragen von neuen Datensätzen bestätigen.
 dcl#:#dcl_save_order#:#Sortierung speichern
 dcl#:#dcl_save_record#:#Eintrag speichern
 dcl#:#dcl_select#:#Auswahl der Tabelle
 dcl#:#dcl_selection_options#:#Optionen
-dcl#:#dcl_selection_type#:#Typ
-dcl#:#dcl_selection_type_combobox#:#Einfachauswahl (Dropdown)
-dcl#:#dcl_selection_type_multi#:#Mehrfachauswahl
-dcl#:#dcl_selection_type_single#:#Einfachauswahl (Liste)
+dcl#:#dcl_selection_type#:#Format
+dcl#:#dcl_selection_type_combobox#:#aus Auswahlmenü
+dcl#:#dcl_selection_type_multi#:#Mehrfachauswahl aus Liste
+dcl#:#dcl_selection_type_single#:#Einfachauswahl aus Liste
 dcl#:#dcl_simulate_import#:#Import simulieren
 dcl#:#dcl_simulate_info#:#Hierbei werden keine Datensätze angelegt, sondern nur Feedback zu Fehlern in der Import-Datei gegeben. Dadurch können Sie fehlerhafte Imports vermeiden.
 dcl#:#dcl_skipped_delete_records#:#%s Datensätze wurden aufgrund der Rechteeinstellungen nicht gelöscht
@@ -8715,7 +8737,7 @@ dcl#:#dcl_table#:#Tabelle
 dcl#:#dcl_table_create#:#Erstelle Tabelle
 dcl#:#dcl_table_edit#:#Speichern
 dcl#:#dcl_table_id#:#Tabellen ID
-dcl#:#dcl_table_info#:#Nachfolgend legen Sie fest, was Benutzer in dieser Tabelle tun dürfen, die für die Datensammlung das Recht „Eintragen“ besitzen.
+dcl#:#dcl_table_info#:#Nachfolgend legen Sie fest, was Personen in dieser Tabelle tun dürfen, die für die Datensammlung das Recht „Eintragen“ besitzen.
 dcl#:#dcl_table_info_title#:#Info
 dcl#:#dcl_table_list_fields#:#Felder der ausgewählten Tabelle
 dcl#:#dcl_table_list_tables#:#Verfügbare Tabellen
@@ -8749,11 +8771,11 @@ dcl#:#dcl_text_desc#:#Eingabefeld für Text, Links oder E-Mail-Adressen
 dcl#:#dcl_text_email_detail_desc#:#Bitte geben Sie eine gültige E-Mail-Adresse oder eine URL ein.
 dcl#:#dcl_text_email_title#:#Titel
 dcl#:#dcl_text_email_title_info#:#Titel für die URL oder E-Mail-Adresse (optional).
-dcl#:#dcl_text_selection#:#Auswahlmenü Text
-dcl#:#dcl_text_selection_desc#:#Bereitstellen von Auswahloptionen (Text)
+dcl#:#dcl_text_selection#:#Text per Auswahl
+dcl#:#dcl_text_selection_desc#:#Ausvorgegebenen Optionen kann eine Auswahl getroffen werden,
 dcl#:#dcl_title_standardview#:#Standard-Ansicht
 dcl#:#dcl_unique#:#Gleiche Einträge verhindern
-dcl#:#dcl_unique_desc#:#In dieses Feld kann ein gleichlautender Eintrag nur einmal vorgenommen werden.
+dcl#:#dcl_unique_desc#:#Identische Einträge sind in diesem Feld nicht erlaubt.
 dcl#:#dcl_unique_exception#:#Der eingegebene Wert wird schon von einem anderen Eintrag verwendet.
 dcl#:#dcl_unknown_exception#:#Der eingegebene Wert ist nicht gültig.
 dcl#:#dcl_update_field#:#Feld aktualisieren
@@ -8765,7 +8787,7 @@ dcl#:#dcl_view_settings#:#Ansichtseinstellungen
 dcl#:#dcl_view_viewdefinition#:#Vorlage für Einzelansicht
 dcl#:#dcl_visible#:#Für alle Benutzer sichtbar
 dcl#:#dcl_visible_desc#:#Benutzer haben Zugriff auf diese Tabelle.
-dcl#:#dcl_width#:#Breite
+dcl#:#dcl_width#:#Breite in Pixel
 dcl#:#dcl_wrong_input_type#:#Der eingegebene Text passt nicht zum Typ dieses Feldes (falscher Typ).
 dcl#:#dcl_wrong_length#:#Der eingegebene Text ist zu lang.
 dcl#:#dcl_wrong_regex#:#Der eingegebene Text passt nicht zur Spezifikation dieses Feldes (regulärer Ausdruck).
@@ -8775,7 +8797,7 @@ dcl#:#disable_visible#:#Sichtbarkeit deaktivieren
 dcl#:#enable_comments#:#Kommentare aktivieren
 dcl#:#enable_visible#:#Sichtbarkeit aktivieren
 dcl#:#entry_of#:#Eintrag %1$d von %2$d
-dcl#:#fieldtitle_allow_chars#:#Nicht Erlaubte Zeichen: %s
+dcl#:#fieldtitle_allow_chars#:#Nicht erlaubte Zeichen: %s
 dcl#:#fileupload_not_migrated#:#Die Datei wurde noch nicht migriert und kann deshalb nicht angezeigt werden. Bitte wenden Sie sich an Ihre Systemadministration.
 dcl#:#set_as_default#:#Als Standard setzen
 didactic#:#activate_exclusive_template#:#Standard ausgrauen
@@ -9060,6 +9082,7 @@ ecs#:#ecs_protocol#:#Protokoll
 ecs#:#ecs_publish_as#:#Veröffentlichen unter:
 ecs#:#ecs_publish_for#:#Freigabe für:
 ecs#:#ecs_published_for#:#Freigegeben für:
+ecs#:#ecs_rcat_created_body_a#:#Eine neue ECS-Kategorie wurde angelegt:
 ecs#:#ecs_rcrs_created_body_a#:#Ein neuer ECS-Kurs wurde angelegt:
 ecs#:#ecs_read_remote_links#:#Kursinformationen aktualisieren
 ecs#:#ecs_refresh_participants#:#ECS-Teilnehmer aktualisieren
@@ -9897,6 +9920,8 @@ forum#:#forums_download_attachment#:#Datei herunterladen
 forum#:#forums_edit_draft#:#Entwurf bearbeiten
 forum#:#forums_edit_post#:#Beitrag bearbeiten
 forum#:#forums_enable_notification#:#Benachrichtigung für dieses Thema starten
+forum#:#forums_forum_notification#:#Foren-Benachrichtigungen versenden
+forum#:#forums_forum_notification_desc#:#Wenn aktiviert, sendet ILIAS Mails an die Benutzer, die bei ausgewählten Foren-Themen über neue Beiträge benachrichtigt werden wollen.
 forum#:#forums_forum_notification_disabled#:#Sie werden nicht mehr über neue Beiträge in diesem Forum benachrichtigt.
 forum#:#forums_info_censor2_post#:#Sind Sie sicher, dass die Zensur für diesen Beitrag aufgehoben werden soll?
 forum#:#forums_info_censor_post#:#Geben Sie eine Begründung für die Zensur an.
@@ -11240,6 +11265,7 @@ mail#:#link_check_affected_links#:#Betroffene Links
 mail#:#link_check_introduction#:#die folgenden Externen Links sind ungültig:
 mail#:#link_check_perma_link#:#Permanent Link
 mail#:#link_check_reason#:#Sie erhalten diese Benachrichtigung, da Sie die Benachrichtigung über ungültige Externe Links aktiviert haben.
+mail#:#mail_1#:#1 Mail
 mail#:#mail_absence_auto_responder_body#:#Nachricht
 mail#:#mail_absence_auto_responder_body_hint#:#Dies ist eine automatisch generierte Nachricht. Wenn Sie weitere Mails an diese Adresse schicken, bekommen Sie frühestens [NEXT_AUTO_RESPONDER_DATETIME] eine weitere automatische Antwort.
 mail#:#mail_absence_auto_responder_body_info#:#Diese Nachricht wird während Ihrer Abwesenheit automatisch versendet, wenn Benutzer Ihnen eine ILIAS-interne Nachricht schicken.<br>Benutzer werden bei weiteren Nachrichten alle %1$s Tage über Ihre Abwesenheit informiert.
@@ -11255,6 +11281,7 @@ mail#:#mail_add_folder#:#Neuen Ordner erstellen
 mail#:#mail_add_recipient#:#Bitte geben Sie an, wer die Mail erhalten soll. Geben Sie ILIAS-Anmeldenamen oder gültige E-Mail-Adressen an.###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_add_subfolder#:#Unterordner hinzufügen
 mail#:#mail_add_subject#:#Bitte geben Sie einen Betreff ein
+mail#:#mail_all_in_trash#:#Alle im Papierkorb
 mail#:#mail_allow_external#:#Externe E-Mails
 mail#:#mail_allow_external_info#:#Die Zustellung von externen E-Mails (via SMTP) zulassen. Falls nicht aktiviert, wird der Versand von externen E-Mails (via SMTP) global unterdrückt.
 mail#:#mail_assign_entry_to_mailing_list#:#Zuordnung eines Kontakts zum Verteiler „%s“
@@ -11278,6 +11305,7 @@ mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#Die Mitglieder
 mail#:#mail_crs_roles#:#alle Personen mit folgenden lokalen Rollen###Modified as part of gender mainstreaming activities for ILIAS 8. Label is now generalised for all components that support ‘mail to members‘
 mail#:#mail_deleted#:#Die Mail(s) wurden gelöscht
 mail#:#mail_deleted_entry#:#Die Einträge wurden gelöscht
+mail#:#mail_download_attachment#:#Anhang herunterladen
 mail#:#mail_download_zip_no_attachments#:#Es wurden keine Anhänge gefunden.
 mail#:#mail_edit_tpl#:#Textvorlage bearbeiten
 mail#:#mail_email_sys_body#:#Dies ist eine Test-E-Mail um den Versand einer automatisch vom System initiierten E-Mail an externe E-Mail-Adressen zu testen.
@@ -11309,15 +11337,17 @@ mail#:#mail_files_deleted#:#Die Datei(en) wurde(n) gelöscht
 mail#:#mail_filter#:#Filter
 mail#:#mail_filter_attach#:#Anhänge
 mail#:#mail_filter_body#:#Nachricht
+mail#:#mail_filter_display#:#Anzeige
 mail#:#mail_filter_field_placeholder#:#Nachrichten durchsuchen ...
-mail#:#mail_filter_only_unread#:#Ungelesen
-mail#:#mail_filter_only_user_mails#:#Systemnachrichten ausblenden
-mail#:#mail_filter_only_with_attachments#:#Anhänge
 mail#:#mail_filter_period#:#Zeitraum
-mail#:#mail_filter_period_from#:#Von
-mail#:#mail_filter_period_until#:#Bis
 mail#:#mail_filter_recipients#:#An###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_filter_sender#:#Von###Modified as part of gender mainstreaming activities for ILIAS 8
+mail#:#mail_filter_show_read#:#Gelesene
+mail#:#mail_filter_show_system_mails#:#System-Meldungen
+mail#:#mail_filter_show_unread#:#Ungelesene
+mail#:#mail_filter_show_user_mails#:#Persönliche Mails
+mail#:#mail_filter_show_with_attachments#:#Mails mit Anhängen
+mail#:#mail_filter_show_without_attachment#:#Mails ohne Anhang
 mail#:#mail_filter_subject#:#Betreff
 mail#:#mail_filter_txt#:#Suchen in
 mail#:#mail_first_email#:#Erste E-Mail-Adresse
@@ -11405,7 +11435,7 @@ mail#:#mail_orphaned_mails_desc#:#Löscht verwaiste Mails und Mails die älter s
 mail#:#mail_recipient_not_found#:#%1$s – Bitte korrigieren Sie die Angaben im „An”-Feld.###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_rename_folder#:#Ordner umbenennen
 mail#:#mail_roles#:#alle Personen mit folgenden lokalen Rollen
-mail#:#mail_s#:#Mails
+mail#:#mail_s#:#%s Mails
 mail#:#mail_salutation_anonymous#:#Hallo
 mail#:#mail_salutation_f#:#Sehr geehrte Frau
 mail#:#mail_salutation_female#:#Ausgabe für Platzhalter &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;, wenn Anrede „Frau”###Modified as part of gender mainstreaming activities for ILIAS 8
@@ -11447,10 +11477,12 @@ mail#:#mail_smtp_user#:#Benutzer
 mail#:#mail_subject_prefix#:#Mail-Betreff
 mail#:#mail_subject_prefix_info#:#Sie können hier einen Text eingeben, der der Betreffzeile ausgehender, automatisch generierter E-Mails vorangestellt wird. Es wird empfohlen einen Präfix anzugeben, um Nutzern das Filtern der Nachrichten zu vereinfachen.
 mail#:#mail_subject_too_long#:#Der Betreff ist zu lang.
-mail#:#mail_sure_delete#:#Sind Sie sicher, dass die markierten Mails gelöscht werden sollen?
+mail#:#mail_success_removed_user#:#Benutzer/innen aus der Liste entfernt.
+mail#:#mail_sure_delete#:#Sind Sie sicher, dass die folgenden Mails gelöscht werden sollen?
 mail#:#mail_sure_delete_entry#:#Sind Sie sicher, dass die markierten Einträge gelöscht werden sollen?
 mail#:#mail_sure_delete_file#:#Sind Sie sicher, dass die ausgewählten Dateien gelöscht werden sollen?
 mail#:#mail_sure_delete_folder#:#Der Ordner und sein Inhalt werden unwiderruflich gelöscht!
+mail#:#mail_sure_remove_user#:#Möchten Sie die folgenden Benutzer/innen aus der Liste entfernen?
 mail#:#mail_system_sys_env_from_addr#:#Technische Absendeadresse („SENDER“)###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_system_sys_env_from_addr_info#:#Tragen Sie hier die technische Absendeadresse („SENDER”-Header) ein. Lassen Sie das Feld leer, wird bei externem Versand die E-Mail-Adresse der absendenden Person („FROM“-Header) genutzt. Andernfalls ist es die Aufgabe der Server-Administration, den Header zu konfigurieren.###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_system_sys_from_addr#:#„FROM”-Adresse für automatisch versendete E-Mails
@@ -11464,7 +11496,7 @@ mail#:#mail_system_usr_from_addr#:#„FROM”-Adresse für manuell versendete E-
 mail#:#mail_system_usr_from_addr_info#:#Damit die manuell aus ILIAS versendeten E-Mails nicht als Spam abgelehnt werden, muss hier eine absendende Adresse (technisch: „FROM”-Header) eingetragen werden. Bei manuell verschickten E-Mails wird die zu einem ILIAS-Konto gehörige Adresse als Antwortadresse (technisch: „REPLY-TO”-Header) übernommen. <br /><br />Beispiele: <span style="font-style: italic">info@institution.de</span> oder <span style="font-style: italic">no-reply@institution.de</span>###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_system_usr_from_name#:#„FROM”-Name und Format###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_system_usr_from_name_info#:#Dieser Name wird üblicherweise im E-Mail-Client in der Spalte „Von“ angezeigt. Als Platzhalter können &lbrace;&lbrace;FULLNAME&rbrace;&rbrace;, &lbrace;&lbrace;FIRSTNAME&rbrace;&rbrace; und &lbrace;&lbrace;LASTNAME&rbrace;&rbrace; genutzt werden. Diese werden dann durch die jeweiligen Daten der Person ersetzt, die eine manuelle E-Mail versendet hat.###Modified as part of gender mainstreaming activities for ILIAS 8
-mail#:#mail_system_usr_general_signature#:#User Signatur
+mail#:#mail_system_usr_general_signature#:#Benutzer Signatur
 mail#:#mail_tbl_head_attachments#:#Anhang
 mail#:#mail_template_client#:#Textvorlage
 mail#:#mail_template_client_info#:#Wählen Sie zwischen einer der verfügbaren Textvorlagen. Sie haben die Möglichkeit, die durch die Textvorlage angebotenen Platzhalter zu nutzen. Bei der Wahl einer Textvorlage wird der Inhalt dieser Nachricht ersetzt und etwaige Änderungen die schon vorgenommen wurden, gehen verloren. Der Betreff ändert sich nicht und muss manuell angepasst werden.
@@ -11495,8 +11527,8 @@ mail#:#nc_mail_unread_messages_number_p#:#%s ungelesene Mails
 mail#:#nc_mail_unread_messages_number_s#:#eine ungelesene Mail
 mail#:#only_inbox_trash#:#Nur Posteingang/Papierkorb berücksichtigen
 mail#:#only_inbox_trash_info#:#Falls aktiviert, werden ausschließlich Mails gelöscht, die sich zum Zeitpunkt der Cron-Job-Ausführung im Posteingang und Papierkorb der jeweiligen Person befinden. Ansonsten werden alle Mails unabhängig vom Ordner gelöscht.
-mail#:#orphaned_mail_body#:#Es existieren veraltete oder verwaiste Mails in den folgenden Ordnern. Beachten Sie, dass diese Mails in kürze automatisch gelöscht werden.
-mail#:#orphaned_mail_subject#:#Benachrichtigung über verwaiste Mails
+mail#:#orphaned_mail_body#:#Es existieren alte oder verwaiste Mails in den folgenden Ordnern. Beachten Sie, dass diese Mails in kürze automatisch gelöscht werden.
+mail#:#orphaned_mail_subject#:#Benachrichtigung über alte Mails
 mail#:#placeholders_advise#:#Persönliche Platzhalter werden nur für Personen im „An”-Feld ersetzt. Personen im „CC”-Feld und „BCC”-Feld erhalten die Mail mit nicht-ersetzten Platzhaltern.###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#search_content#:#Suchergebnis
 mail#:#search_recipients#:#Personen suchen###Modified as part of gender mainstreaming activities for ILIAS 8
@@ -13200,6 +13232,7 @@ prg#:#prg_auto_member_select_crs#:#Kurse
 prg#:#prg_auto_member_select_grp#:#Gruppen
 prg#:#prg_auto_member_select_role#:#Rollen
 prg#:#prg_autoassignment#:#(automatisch)
+prg#:#prg_availability_action_not_allowed#:#Studienprogramme haben keine zeitliche Verfügbarkeit.
 prg#:#prg_belongs_to#:#Gehört Zu
 prg#:#prg_can_not_manage_in_repo#:#Sie dürfen dieses Studienprogramm nicht verwalten, da Ihm bereits Mitglieder zugeordnet sind.
 prg#:#prg_cancel#:#Abbrechen
@@ -13216,6 +13249,7 @@ prg#:#prg_create_new_leaf#:#Neuen Kurslink hinzufügen.
 prg#:#prg_create_new_node#:#Neues Studienprogramm hinzufügen
 prg#:#prg_cron_job_configuration#:#Automatische Mails
 prg#:#prg_custom_plan#:#Individueller Plan
+prg#:#prg_cut_action_not_allowed#:#Studienprogramme können nicht verschoben werden.
 prg#:#prg_dash_label_finish_until#:#Zu erledigen bis
 prg#:#prg_dash_label_gain#:#Aktueller Stand
 prg#:#prg_dash_label_minimum#:#Minimales Ziel
@@ -13242,6 +13276,7 @@ prg#:#prg_description#:#Beschreibung
 prg#:#prg_edit#:#Studienprogramm bearbeiten
 prg#:#prg_expiry_date#:#Ablauf Qualifikation
 prg#:#prg_formatted_period#:#%d Tage
+prg#:#prg_import_action_not_allowed#:#Studienprogramme unterstützen keinen Import.
 prg#:#prg_invalidate_expired_progresses_desc#:#Setzt 'Gültigkeit' auf 'ungültig' wenn Ablaufdatum erreicht.
 prg#:#prg_invalidate_expired_progresses_title#:#Zeitlich begrenzte Gültigkeit von Studienprogrammen
 prg#:#prg_link#:#Link
@@ -16556,7 +16591,7 @@ survey#:#svy_only_max_one_external_rater#:#Bitte wählen Sie nur einen externen 
 survey#:#svy_page_add_question#:#Neue %s hinzufügen
 survey#:#svy_page_error#:#Beim Beantworten einer Frage ist ein Fehler aufgetreten. Die Fehlermeldung finden Sie bei der betroffenen Frage!
 survey#:#svy_page_errors#:#Beim Beantworten mehrerer Fragen sind Fehler aufgetreten. Die Fehlermeldungen finden Sie bei den betroffenen Fragen!
-survey#:#svy_participant#:#Participant###26 08 2024 new variable
+survey#:#svy_participant#:#Befragte
 survey#:#svy_participants#:#Befragte
 survey#:#svy_participation#:#Teilnahme
 survey#:#svy_please_select_unused_codes#:#Bitte wählen Sie zumindest einen ungenutzten Zugangsschlüssel aus.
@@ -16707,6 +16742,7 @@ tagging#:#tagging_enable_all_users_info#:#Fügt auf dem Reiter „Info“ einen 
 tagging#:#tagging_enable_tagging#:#Tagging aktivieren
 tagging#:#tagging_forbidden_tags#:#Verbotene Tags
 tagging#:#tagging_no_obj_for_tag#:#Es sind keine Inhalte mit „%s“ verschlagwortet.
+tagging#:#tagging_no_perm_write#:#Sie haben keine Berechtigung diese Daten zu ändern.
 tagging#:#tagging_other_users#:#Tags anderer Benutzer
 tagging#:#tagging_resources_for_tag#:#Inhalte verschlagwortet mit %s
 tagging#:#tagging_search_users#:#Benutzer suchen
@@ -17086,6 +17122,12 @@ ui#:#ui_table_no_records#:#Keine Einträge
 ui#:#ui_transcription#:#Abschrift
 user#:#all_roles_has_starting_point#:#Alle Rollen mit definierter Startseite
 user#:#back_to_starting_points_list#:#Zurück zu Startseiten
+user#:#change_email_email_confirmation_body#:#Die E-Mail-Adresse des Kontos %s wurde geändert. Bitte klicken Sie auf diesen Link %s , um die Änderung zu bestätigen. Der Link ist für %s Minuten gültig.
+user#:#change_email_email_confirmation_subject#:#Bestätigung der Änderung der E-Mail-Adresse
+user#:#change_email_email_information_body#:#Es wurde eine Änderung der E-Mail-Adresse des Kontos %s auf %s angestossen. Eine E-Mail mit einem Link zur Bestätigung wurde an die neue Adresse geschickt. Der Link ist für %s Minuten gültig.
+user#:#change_email_email_information_subject#:#Information über Änderung der E-Mail-Adresse
+user#:#change_email_email_sent#:#Die E-Mail zum Bestätigen Ihrer E-Mail-Adresse wurde verschickt. Bitte schauen Sie in Ihre Inbox und überprüfen Sie Ihren Spam-Ordner, wenn Sie in den nächsten Minuten keine E-mail erhalten.
+user#:#change_email_info_message#:#Für dieses Konto gibt es einen hängigen Prozess zur Änderung der E-Mail-Adresse.
 user#:#clipboard_add_btn#:#Der Zwischenablage hinzufügen
 user#:#clipboard_add_from_btn#:#Aus der Zwischenablage hinzufügen
 user#:#clipboard_empty_btn#:#Zwischenablage leeren
@@ -17094,6 +17136,7 @@ user#:#clipboard_table_title#:#Zwischenablage (Anmeldekonten)
 user#:#clipboard_user_added#:#Die ausgewählten Benutzer wurden der Zwischenablage hinzugefügt.
 user#:#confirm_delete_starting_point#:#Sind Sie sich sicher, dass diese Regel gelöscht werden soll?
 user#:#confirm_logout_for_email_change#:#Sie haben Ihre E-Mail-Adresse geändert. Um diese Änderung abzuschliessen, ist die Eingabe Ihres Passworts notwendig. Sie werden daher abgemeldet und haben daraufhin 5 Minuten Zeit, sich wieder anzumelden, um die Änderungen abzuschliessen. Alle anderen Änderungen werden gespeichert, bevor Sie abgemeldet werden.
+user#:#confirm_logout_for_email_change_with_confirmation#:#Im Anschluss wird Ihnen eine E-Mail auf die neue E-Mail gesendet, um zu bestätigen, dass diese Adresse Ihnen gehört. Erst nachdem Sie den Link in der E-Mail angeklickt haben, wird die Adresse in Ihrem Profil geändert.
 user#:#create_starting_point#:#Regel erstellen
 user#:#criteria#:#Kriterium
 user#:#del_mail_body#:#Hallo %1$s, %2$s Sie haben sich seit längerer Zeit nicht mehr auf %3$s angemeldet. Daher wird ihr ILIAS-Konto voraussichtlich am %4$s gelöscht. Um Ihr ILIAS-Konto zu behalten, müssen Sie sich vor dem genannten Tag erneut einloggen.
@@ -17195,7 +17238,8 @@ user#:#user_profile_info_text_info#:#Dieser Text erscheint über dem Eingabeform
 user#:#user_profile_portfolio#:#Wenn Sie ein Portfolio als Ihr Profil nutzen möchten, setzen Sie im Portfolio-Bereich das Attribut "Mein Profil".
 user#:#user_profile_portfolio_selected#:#Sie benutzen momentan ein Portfolio als Ihr Profil. Die Aktivierung erfolgt dort über den Reiter "Freigabe".
 user#:#user_profile_preview#:#Vorschau des Profils
-user#:#user_profile_prompt_text_info#:#Dieser Text ersetzt den obigen Infotext, wenn Sie die Aufforderung zur Profilveröffentlichung nutzen.###Modified as part of gender mainstreaming activities for ILIAS 8
+user#:#user_profile_prompt_text#:#Text bei Aufforderung zur Profilveröffentlichung
+user#:#user_profile_prompt_text_info#:#Diese Texte ersetzen den obigen Infotext, wenn Sie die Aufforderung zur Profilveröffentlichung nutzen.###Modified as part of gender mainstreaming activities for ILIAS 8
 user#:#user_prompt_incomplete#:#Nie
 user#:#user_prompt_incomplete_info#:#Der Benutzer wird niemals zur Veröffentlichung seines Profils aufgefordert.
 user#:#user_prompt_once_after_login#:#Nach einer bestimmten Zeit nach dem ersten Login
@@ -17203,7 +17247,7 @@ user#:#user_prompt_once_after_login_info#:#Nach dieser Zeit wird der Benutzer au
 user#:#user_prompt_repeat#:#Wiederholt nach x Tagen
 user#:#user_prompt_repeat_info#:#Benutzer werden wiederholt aufgefordert ihr Profil zu veröffentlichen, falls es nicht bereits veröffentlicht ist.
 user#:#user_prompting_recurrence#:#Häufigkeit
-user#:#user_prompting_settings#:#Aufforderung Profilveröffentlichung
+user#:#user_prompting_settings#:#Aufforderung zur Profilveröffentlichung
 user#:#user_public_profile_info#:#Bitte wählen Sie aus, welche Daten in Ihrem Profil erscheinen sollen und welche Benutzer es betrachten können.
 user#:#user_publish_options#:#Profil veröffentlichen
 user#:#user_role_selection#:#Rollenauswahl

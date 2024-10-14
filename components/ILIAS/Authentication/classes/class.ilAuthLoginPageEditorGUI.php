@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Style\Content\GUIService;
+
 /**
  * @ilCtrl_isCalledBy ilAuthLoginPageEditorGUI: ilObjAuthSettingsGUI
  * @ilCtrl_Calls      ilAuthLoginPageEditorGUI: ilLoginPageGUI
@@ -35,6 +37,8 @@ class ilAuthLoginPageEditorGUI
     private \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
     private ?string $redirect_source = null;
     private ?int $key = null;
+    private GUIService $content_style_gui;
+    private int $ref_id;
 
     public function __construct(int $a_ref_id)
     {
@@ -53,9 +57,13 @@ class ilAuthLoginPageEditorGUI
 
         $this->lng->loadLanguageModule('auth');
 
-        $this->content_style_domain = $DIC->contentStyle()
-                                          ->domain()
-                                          ->styleForRefId($a_ref_id);
+        $this->ref_id = $a_ref_id;
+
+        $content_style = $DIC->contentStyle();
+        $this->content_style_domain = $content_style
+            ->domain()
+            ->styleForRefId($a_ref_id);
+        $this->content_style_gui = $content_style->gui();
 
         $query_wrapper = $DIC->http()->wrapper()->query();
         $post_wrapper = $DIC->http()->wrapper()->post();
@@ -82,7 +90,7 @@ class ilAuthLoginPageEditorGUI
                     $this->ctrl->getLinkTarget($this, 'show')
                 );
 
-                if (strtolower((string) $this->redirect_source) !== strtolower(ilInternalLinkGUI::class)) {
+                if (strtolower($this->redirect_source ?? '') !== strtolower(ilInternalLinkGUI::class)) {
                     $this->forwardToPageObject();
                 }
                 break;
@@ -127,6 +135,7 @@ class ilAuthLoginPageEditorGUI
 
         $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
         $this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
+        $this->content_style_gui->addCss($this->tpl, $this->ref_id);
 
         $this->ctrl->setReturnByClass(ilLoginPageGUI::class, 'edit');
         $page_gui = new ilLoginPageGUI($this->key);
@@ -175,7 +184,8 @@ class ilAuthLoginPageEditorGUI
                 break;
 
             case 'edit':
-                $this->ctrl->setParameter($this, 'loginpage_languages_key', current($keys));
+                $this->ctrl->setParameter($this, 'loginpage_languages_key', (string) current($keys));
+                $this->ctrl->setParameter($this, 'key', ilLanguage::lookupId((string) current($keys)));
                 $this->ctrl->redirectByClass(ilLoginPageGUI::class, 'edit');
 
                 // no break
@@ -199,7 +209,7 @@ class ilAuthLoginPageEditorGUI
 
         $lang_keys = $this->lng->getInstalledLanguages();
 
-        if (current($keys) !== 'ALL_OBJECTS') {
+        if ((string) current($keys) !== 'ALL_OBJECTS') {
             $lang_keys = array_intersect($keys, $lang_keys);
         }
 

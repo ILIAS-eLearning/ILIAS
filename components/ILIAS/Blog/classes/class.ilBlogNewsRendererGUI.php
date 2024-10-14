@@ -26,13 +26,16 @@ class ilBlogNewsRendererGUI extends ilNewsDefaultRendererGUI
 {
     public function getObjectLink(): string
     {
+        global $DIC;
+
+        $pl = $DIC->blog()->internal()->gui()->permanentLink($this->getNewsRefId());
+
         $n = $this->getNewsItem();
-        $add = "";
+        $posting_id = 0;
         if ($n->getContextSubObjType() === "blp"
             && $n->getContextSubObjId() > 0) {
-            $add = "_" . $n->getContextSubObjId();
+            $posting_id = $n->getContextSubObjId();
         }
-
-        return ilLink::_getLink($this->getNewsRefId(), "", array(), $add);
+        return $pl->getPermanentLink($posting_id);
     }
 }

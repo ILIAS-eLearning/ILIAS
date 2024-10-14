@@ -24,13 +24,17 @@ use ILIAS\Data;
 use ILIAS\UI;
 use ilArrayUtil;
 use Psr\Http\Message\ServerRequestInterface;
-use ilAuthLoginPageEditorSettings;
 use ilLanguage;
-use ilCtrl;
+use ilCtrlInterface;
 use ilAuthLogoutPageEditorSettings;
 
 class LogoutPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieval
 {
+    private const ACTIVATE = 'activate';
+    private const DEACTIVATE = 'deactivate';
+    private const EDIT = 'edit';
+
+
     private ServerRequestInterface $request;
     private Data\Factory $data_factory;
     /**
@@ -39,7 +43,7 @@ class LogoutPageLanguagesOverviewTable implements UI\Component\Table\DataRetriev
     private ?array $records = null;
 
     public function __construct(
-        private readonly ilCtrl $ctrl,
+        private readonly ilCtrlInterface $ctrl,
         private readonly ilLanguage $lng,
         \ILIAS\HTTP\Services $http,
         private readonly \ILIAS\UI\Factory $ui_factory,
@@ -106,19 +110,19 @@ class LogoutPageLanguagesOverviewTable implements UI\Component\Table\DataRetriev
         );
 
         return [
-            'edit' => $this->ui_factory->table()->action()->single(
+            self::EDIT => $this->ui_factory->table()->action()->single(
                 $this->lng->txt('edit'),
-                $overview_url_builder->withParameter($overview_action_parameter, 'edit'),
+                $overview_url_builder->withParameter($overview_action_parameter, self::EDIT),
                 $overview_row_id
             ),
-            'activate' => $this->ui_factory->table()->action()->standard(
+            self::ACTIVATE => $this->ui_factory->table()->action()->standard(
                 $this->lng->txt('page_design_activate'),
-                $overview_url_builder->withParameter($overview_action_parameter, 'activate'),
+                $overview_url_builder->withParameter($overview_action_parameter, self::ACTIVATE),
                 $overview_row_id
             ),
-            'deactivate' => $this->ui_factory->table()->action()->standard(
+            self::DEACTIVATE => $this->ui_factory->table()->action()->standard(
                 $this->lng->txt('page_design_deactivate'),
-                $overview_url_builder->withParameter($overview_action_parameter, 'deactivate'),
+                $overview_url_builder->withParameter($overview_action_parameter, self::DEACTIVATE),
                 $overview_row_id
             )
         ];
@@ -179,7 +183,7 @@ class LogoutPageLanguagesOverviewTable implements UI\Component\Table\DataRetriev
 
         foreach ($records as $record) {
             $row_id = (string) $record['key'];
-            $deactivate_action = (bool) $record['status'] == true ? 'activate' : 'deactivate';
+            $deactivate_action = (bool) $record['status'] === true ? self::ACTIVATE : self::DEACTIVATE;
             yield $row_builder->buildDataRow($row_id, $record)->withDisabledAction($deactivate_action);
         }
     }

@@ -109,7 +109,7 @@ class ilChatroomUserTest extends ilChatroomAbstractTestBase
             ],
         ]);
 
-        $this->ilUserMock->expects($this->once())->method('getLogin')->willReturn($username);
+        $this->ilUserMock->expects($this->once())->method('getPublicName')->willReturn($username);
         $this->ilChatroomMock->method('getRoomId')->willReturn($roomId);
 
         $this->assertSame($username, $this->user->getUsername());

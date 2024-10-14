@@ -1,6 +1,6 @@
 # Roadmap
 
-Certificates are used by different Services/Modules to
+Certificates are used by different components to
 symbolize the successful completion of the Service/Module.
 
 This file aims to serve a basic overview of the planned and

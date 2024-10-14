@@ -85,6 +85,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
 
     public function showPage(): string
     {
+        $this->tpl->addCss(ilObjStyleSheet::getContentStylePath($this->getStyleId()));
         if ($this->getOutputMode() == ilPageObjectGUI::EDIT) {
             $delete_button = $this->ui->factory()->button()->standard(
                 $this->lng->txt('dcl_empty_detailed_view'),

@@ -25,9 +25,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
-use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\DI\UIServices;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\LegalDocuments\ConsumerToolbox\User;
@@ -95,12 +93,7 @@ class BlocksTest extends TestCase
     public function testUi(): void
     {
         $container = $this->mock(Container::class);
-
-        $ui = $this->mock(UIServices::class);
-        $ui->expects(self::once())->method('factory')->willReturn($this->mock(UIFactory::class));
-        $ui->expects(self::once())->method('mainTemplate')->willReturn($this->mock(ilGlobalTemplateInterface::class));
-
-        $container->method('ui')->willReturn($ui);
+        $container->expects(self::once())->method('ui')->willReturn($this->mock(UIServices::class));
         $container->expects(self::once())->method('language')->willReturn($this->mock(ilLanguage::class));
 
         $instance = new Blocks(

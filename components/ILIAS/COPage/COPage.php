@@ -80,5 +80,16 @@ class COPage implements Component\Component
                 return "components/ILIAS/COPage/css";
             }
         };
+        $contribute[Component\Resource\PublicAsset::class] = static fn() => new class () implements Component\Resource\PublicAsset {
+            public function getSource(): string
+            {
+                return "components/ILIAS/COPage/IntLink/resources/ilIntLink.js";
+            }
+            public function getTarget(): string
+            {
+                return "assets/js/ilIntLink.js";
+            }
+        };
+
     }
 }

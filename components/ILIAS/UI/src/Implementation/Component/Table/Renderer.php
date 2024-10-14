@@ -29,7 +29,6 @@ use ILIAS\Data\Order;
 use ILIAS\Data\URI;
 use ILIAS\UI\Implementation\Component\Table\Action\Action;
 use ILIAS\UI\Implementation\Component\Input\ViewControl\Pagination;
-
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 
 class Renderer extends AbstractComponentRenderer
@@ -250,7 +249,7 @@ class Renderer extends AbstractComponentRenderer
                 $view_controls->getInputs(),
                 static fn($i): bool => $i instanceof Component\Input\ViewControl\Sortation
             );
-            if($sortation_view_control) {
+            if ($sortation_view_control) {
                 $sortation_signal = array_shift($sortation_view_control)->getInternalSignal();
                 $sortation_signal->addOption('parent_container', $id);
             }
@@ -529,7 +528,7 @@ class Renderer extends AbstractComponentRenderer
         $cell_tpl = $this->getTemplate("tpl.orderingcell.html", true, true);
         $this->fillCells($component, $cell_tpl, $default_renderer);
 
-        if($component->isOrderingDisabled()) {
+        if ($component->isOrderingDisabled()) {
             return $cell_tpl->get();
         }
 
@@ -620,7 +619,7 @@ class Renderer extends AbstractComponentRenderer
         );
 
 
-        if(!$component->isOrderingDisabled()) {
+        if (!$component->isOrderingDisabled()) {
             $component = $component->withAdditionalOnLoadCode(
                 static fn($id): string => "il.UI.table.ordering.init('{$id}');"
             );
@@ -629,7 +628,7 @@ class Renderer extends AbstractComponentRenderer
         $tableid = $this->bindJavaScript($component) ?? $this->createId();
         $total_number_of_cols = count($component->getVisibleColumns());
 
-        if(!$component->isOrderingDisabled()) {
+        if (!$component->isOrderingDisabled()) {
             $total_number_of_cols = $total_number_of_cols + 1;
             $submit = $this->getUIFactory()->button()->standard($this->txt('sorting_save'), "")
                 ->withOnLoadCode(static fn($id) => "document.getElementById('$id').addEventListener('click',
@@ -690,7 +689,7 @@ class Renderer extends AbstractComponentRenderer
     {
         parent::registerResources($registry);
         $registry->register('assets/js/table.min.js');
-        $registry->register('assets/js/modal.js');
+        $registry->register('assets/js/modal.min.js');
     }
 
     protected function registerSignals(Component\Table\PresentationRow $component): Component\JavaScriptBindable

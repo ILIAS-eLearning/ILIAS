@@ -18,6 +18,15 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\Profile\ChecklistStatus;
+use ILIAS\User\Profile\Mode as ProfileMode;
+use ILIAS\User\Profile\ChangeMailStatus;
+use ILIAS\User\Profile\ChangeMailMail;
+use ILIAS\User\Profile\Prompt\Repository as PromptRepository;
+use ILIAS\User\Profile\GUIRequest;
+use ILIAS\User\Profile\ChangeMailTokenRepository;
+use ILIAS\User\Profile\ChangeMailTokenDBRepository;
+use ILIAS\Language\Language;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\ResourceStorage\Services as IRSS;
@@ -25,9 +34,7 @@ use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Modal\Interruptive;
-use ILIAS\User\ProfileGUIRequest;
-use ILIAS\User\Profile\ProfileChangeMailTokenRepository;
-use ILIAS\User\Profile\ProfileChangeMailTokenDBRepository;
+use ILIAS\StaticURL\Services as StaticUrlServices;
 
 /**
  * GUI class for personal profile
@@ -43,13 +50,11 @@ class ilPersonalProfileGUI
     private ?ilUserDefinedFields $user_defined_fields = null;
     private ilAppEventHandler $eventHandler;
     private ilPropertyFormGUI $form;
-    private string $password_error;
-    private string $upload_error;
     private ilSetting $settings;
     private ilObjUser $user;
     private ilAuthSession $auth_session;
-
-    private ilLanguage $lng;
+    private StaticUrlServices $static_url;
+    private Language $lng;
     private ilCtrl $ctrl;
     private ilTabsGUI $tabs;
     private ilToolbarGUI $toolbar;
@@ -57,13 +62,15 @@ class ilPersonalProfileGUI
     private ilErrorHandling $error_handler;
     private ilProfileChecklistGUI $checklist;
     private ilUserSettingsConfig $user_settings_config;
-    private ilProfileChecklistStatus $checklist_status;
+    private ChecklistStatus $checklist_status;
     private UIFactory $ui_factory;
     private UIRenderer $ui_renderer;
 
-    private ProfileChangeMailTokenRepository $change_mail_token_repo;
-    private ProfileGUIRequest $profile_request;
+    private ChangeMailTokenRepository $change_mail_token_repo;
+    private PromptRepository $prompt_repository;
+    private GUIRequest $profile_request;
 
+    private ilLogger $logger;
     private FileUpload $uploads;
     private IRSS $irss;
     private ResourceStakeholder $stakeholder;
@@ -90,33 +97,40 @@ class ilPersonalProfileGUI
         $this->ui_renderer = $DIC['ui.renderer'];
         $this->uploads = $DIC['upload'];
         $this->irss = $DIC['resource_storage'];
-        $this->stakeholder = new ilUserProfilePictureStakeholder();
-
-        $this->user_defined_fields = ilUserDefinedFields::_getInstance();
-
-        $this->change_mail_token_repo = new ProfileChangeMailTokenDBRepository($DIC['ilDB']);
-
-        $this->lng->loadLanguageModule('jsmath');
-        $this->lng->loadLanguageModule('pd');
-        $this->upload_error = '';
-        $this->password_error = '';
-        $this->lng->loadLanguageModule('user');
-        $this->ctrl->saveParameter($this, 'prompted');
-
-        $this->checklist = new ilProfileChecklistGUI();
-        $this->checklist_status = new ilProfileChecklistStatus();
-
-        $this->user_settings_config = new ilUserSettingsConfig();
-
         $this->ui_factory = $DIC['ui.factory'];
         $this->ui_renderer = $DIC['ui.renderer'];
         $this->auth_session = $DIC['ilAuthSession'];
-        $this->change_mail_token_repo = new ProfileChangeMailTokenDBRepository($DIC['ilDB']);
+        $this->static_url = $DIC['static_url'];
 
-        $this->profile_request = new ProfileGUIRequest(
+        $this->logger = ilLoggerFactory::getLogger('user');
+        $this->stakeholder = new ilUserProfilePictureStakeholder();
+        $this->user_defined_fields = ilUserDefinedFields::_getInstance();
+        $this->change_mail_token_repo = new ChangeMailTokenDBRepository(
+            $DIC['ilDB'],
+            $this->settings
+        );
+        $this->checklist = new ilProfileChecklistGUI();
+        $this->checklist_status = new ChecklistStatus(
+            $this->lng,
+            $this->settings,
+            $this->user,
+            new ProfileMode($this->lng, $this->settings, $this->user)
+        );
+        $this->prompt_repository = new PromptRepository(
+            $DIC['ilDB'],
+            $this->lng,
+            new ilSetting('user')
+        );
+        $this->user_settings_config = new ilUserSettingsConfig();
+        $this->profile_request = new GUIRequest(
             $DIC->http(),
             $DIC->refinery()
         );
+
+        $this->lng->loadLanguageModule('jsmath');
+        $this->lng->loadLanguageModule('pd');
+        $this->lng->loadLanguageModule('user');
+        $this->ctrl->saveParameter($this, 'prompted');
     }
 
     public function executeCommand(): void
@@ -135,7 +149,7 @@ class ilPersonalProfileGUI
                 $this->setHeader();
                 $this->setTabs();
                 $this->tabs->activateTab('visibility_settings');
-                $this->showChecklist(ilProfileChecklistStatus::STEP_VISIBILITY_OPTIONS);
+                $this->showChecklist(ChecklistStatus::STEP_VISIBILITY_OPTIONS);
                 $gui = new ilUserPrivacySettingsGUI();
                 $this->ctrl->forwardCommand($gui);
                 break;
@@ -448,35 +462,12 @@ class ilPersonalProfileGUI
     public function showPersonalData(
         bool $a_no_init = false
     ): void {
-        $prompt_service = new ilUserProfilePromptService();
-
         $this->tabs->activateTab('personal_data');
 
-        $it = '';
-        if ($this->profile_request->getPrompted() == 1) {
-            $it = $prompt_service->data()->getSettings()->getPromptText($this->user->getLanguage());
-        }
-        if ($it === '') {
-            $it = $prompt_service->data()->getSettings()->getInfoText($this->user->getLanguage());
-        }
-        if (trim($it) !== '') {
-            $pub_prof = in_array($this->user->prefs['public_profile'] ?? '', ['y', 'n', 'g'])
-                ? $this->user->prefs['public_profile']
-                : 'n';
-            $box = $this->ui_factory->messageBox()->info($it);
-            if ($pub_prof === 'n') {
-                $box = $box->withLinks(
-                    [$this->ui_factory->link()->standard(
-                        $this->lng->txt('user_make_profile_public'),
-                        $this->ctrl->getLinkTarget($this, 'showPublicProfile')
-                    )]
-                );
-            }
-            $it = $this->ui_renderer->render($box);
-        }
+
         $this->setHeader();
 
-        $this->showChecklist(ilProfileChecklistStatus::STEP_PROFILE_DATA);
+        $this->showChecklist(ChecklistStatus::STEP_PROFILE_DATA);
 
         if (!$a_no_init) {
             $this->initPersonalDataForm();
@@ -491,9 +482,48 @@ class ilPersonalProfileGUI
             $modal = $this->ui_renderer->render($this->email_change_confirmation_modal);
         }
 
-        $this->tpl->setContent($it . $this->form->getHTML() . $modal);
+        $this->tpl->setContent($this->buildInfoText() . $this->form->getHTML() . $modal);
 
         $this->tpl->printToStdout();
+    }
+
+    private function buildInfoText(): string
+    {
+        $change_mail_info = '';
+        if ($this->change_mail_token_repo->hasUserValidEmailConfirmationToken($this->user)) {
+            $change_mail_info = $this->lng->txt('change_email_info_message');
+        }
+
+        $it = '';
+        if ($this->profile_request->getPrompted() === 1) {
+            $it = $this->prompt_repository->getSettings()->getPromptText($this->user->getLanguage());
+        }
+        if ($it === '') {
+            $it = $this->prompt_repository->getSettings()->getInfoText($this->user->getLanguage());
+        }
+        if (trim($it) === '') {
+            return $change_mail_info === ''
+                ? ''
+                : $this->ui_renderer->render($this->ui_factory->messageBox()->info($change_mail_info));
+        }
+
+        if ($change_mail_info !== '') {
+            $it .= '<br>' . $change_mail_info;
+        }
+
+        $pub_prof = in_array($this->user->prefs['public_profile'] ?? '', ['y', 'n', 'g'])
+            ? $this->user->prefs['public_profile']
+            : 'n';
+        $box = $this->ui_factory->messageBox()->info($it);
+        if ($pub_prof === 'n') {
+            $box = $box->withLinks(
+                [$this->ui_factory->link()->standard(
+                    $this->lng->txt('user_make_profile_public'),
+                    $this->ctrl->getLinkTarget($this, 'showPublicProfile')
+                )]
+            );
+        }
+        return $this->ui_renderer->render($box);
     }
 
     public function initPersonalDataForm(): void
@@ -504,9 +534,7 @@ class ilPersonalProfileGUI
         $this->form->setFormAction($this->ctrl->getFormAction($this));
         $this->form->setId(self::PERSONAL_DATA_FORM_ID);
 
-        // user defined fields
         $user_defined_data = $this->user->getUserDefinedData();
-
 
         foreach ($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition) {
             $value = $user_defined_data['f_' . $field_id] ?? '';
@@ -558,7 +586,7 @@ class ilPersonalProfileGUI
 
         $this->savePersonalDataForm();
 
-        $this->checklist_status->saveStepSucess(ilProfileChecklistStatus::STEP_PROFILE_DATA);
+        $this->checklist_status->saveStepSucess(ChecklistStatus::STEP_PROFILE_DATA);
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
 
         $this->ctrl->redirect($this, 'showPublicProfile');
@@ -592,10 +620,16 @@ class ilPersonalProfileGUI
     private function addEmailChangeModal(): bool
     {
         $form_id = 'form_' . self::PERSONAL_DATA_FORM_ID;
+
+        $message = $this->lng->txt('confirm_logout_for_email_change');
+        if ((int) $this->settings->get('new_registration_type', '1') === ilRegistrationSettings::IL_REG_ACTIVATION) {
+            $message .= '<br>' . $this->lng->txt('confirm_logout_for_email_change_with_confirmation');
+        }
+
         $modal = $this->ui_factory->modal()->interruptive(
             $this->lng->txt('confirm'),
-            $this->lng->txt('confirm_logout_for_email_change'),
-            '#'
+            $message,
+            ''
         )->withActionButtonLabel($this->lng->txt('change'));
         $this->email_change_confirmation_modal = $modal->withOnLoad($modal->getShowSignal())
             ->withAdditionalOnLoadCode(
@@ -662,8 +696,14 @@ class ilPersonalProfileGUI
         ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
         $this->auth_session->logout();
         session_unset();
-        $token = $this->change_mail_token_repo->getNewTokenForUser($this->user, $this->form->getInput('usr_email'));
-        $this->ctrl->redirectToURL('login.php?cmd=force_login&target=usr_' . self::CHANGE_EMAIL_CMD . $token);
+        $token = $this->change_mail_token_repo->getNewTokenForUser(
+            $this->user,
+            $this->form->getInput('usr_email'),
+            time()
+        );
+        $this->ctrl->redirectToURL(
+            $token->getUriForStatus($this->static_url->builder())->__toString()
+        );
     }
 
     private function savePersonalDataForm(): void
@@ -747,29 +787,48 @@ class ilPersonalProfileGUI
 
     public function changeEmail(): void
     {
-        $token = $this->profile_request->getToken();
-        $new_email = $this->change_mail_token_repo->getNewEmailForUser($this->user, $token);
+        $token = $this->change_mail_token_repo->getTokenForTokenString(
+            $this->profile_request->getToken(),
+            $this->user
+        );
 
-        if ($new_email !== '') {
-            $this->user->setEmail($new_email);
-            $this->user->update();
-            $this->change_mail_token_repo->deleteEntryByToken($token);
-            $this->tpl->setOnScreenMessage(
-                'success',
-                $this->lng->txt('saved_successfully')
-            );
+        if ($token === null) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('email_could_not_be_changed'));
             $this->showPublicProfile();
             return;
         }
 
-        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('email_could_not_be_changed'));
+        if ($token->getStatus() === ChangeMailStatus::Login
+            && (int) $this->settings->get('new_registration_type', '1') === ilRegistrationSettings::IL_REG_ACTIVATION) {
+            (new ChangeMailMail(
+                $this->user,
+                $this->change_mail_token_repo->moveToNextStep($token, time())
+                        ->getUriForStatus($this->static_url->builder()),
+                $this->lng,
+                $this->logger
+            ))->send($token->getNewEmail(), ChangeMailStatus::EmailConfirmation->getValidity($this->settings));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('change_email_email_sent'));
+            $this->showPublicProfile();
+            return;
+        }
+
+        $this->user->setEmail($token->getNewEmail());
+        $this->user->update();
+        $this->change_mail_token_repo->deleteEntryByToken($token->getToken());
+        $this->change_mail_token_repo->deleteExpiredEntries();
+
+        $this->tpl->setOnScreenMessage(
+            'success',
+            $this->lng->txt('saved_successfully')
+        );
         $this->showPublicProfile();
+        return;
     }
 
     public function showPublicProfile(bool $a_no_init = false): void
     {
         $this->tabs->activateTab('public_profile');
-        $this->showChecklist(ilProfileChecklistStatus::STEP_PUBLISH_OPTIONS);
+        $this->showChecklist(ChecklistStatus::STEP_PUBLISH_OPTIONS);
 
         $this->setHeader();
 
@@ -803,7 +862,7 @@ class ilPersonalProfileGUI
             // Activate public profile
             $radg = new ilRadioGroupInputGUI($this->lng->txt('user_activate_public_profile'), 'public_profile');
             $info = $this->lng->txt('user_activate_public_profile_info');
-            $profile_mode = new ilPersonalProfileMode($this->user, $this->settings);
+            $profile_mode = new ProfileMode($this->lng, $this->settings, $this->user);
             $pub_prof = $profile_mode->getMode();
             $radg->setValue($pub_prof);
             $op1 = new ilRadioOption($this->lng->txt('usr_public_profile_disabled'), 'n', $this->lng->txt('usr_public_profile_disabled_info'));
@@ -1075,7 +1134,7 @@ class ilPersonalProfileGUI
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
 
-            $this->checklist_status->saveStepSucess(ilProfileChecklistStatus::STEP_PUBLISH_OPTIONS);
+            $this->checklist_status->saveStepSucess(ChecklistStatus::STEP_PUBLISH_OPTIONS);
 
             if (ilSession::get('orig_request_target')) {
                 $target = ilSession::get('orig_request_target');
@@ -1107,7 +1166,7 @@ class ilPersonalProfileGUI
             if (strpos($k, 'chk_') !== 0) {
                 continue;
             }
-            if  (substr($k, -2) === $key_suffix) {
+            if (substr($k, -2) === $key_suffix) {
                 $k = str_replace(['-1', '-2'], '', $k);
             }
             $checked_values[$k] = $v;

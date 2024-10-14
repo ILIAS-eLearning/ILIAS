@@ -16,8 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
 
 /**
  * @version		$Id$
@@ -28,9 +28,10 @@ use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
  */
 class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable
 {
-    private $ilTabs;
-    private GlyphFactory $glyph_factory;
-    private UIRenderer $renderer;
+    private const DEFAULT_MODAL_ID = 'ilGapModal';
+
+    private readonly UIFactory $ui_factory;
+    private readonly UIRenderer $ui_renderer;
 
     private ?ilPropertyFormGUI $edit_form = null;
 
@@ -43,13 +44,9 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         }
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
-        $ilTabs = $DIC['ilTabs'];
-        $lng = $DIC['lng'];
-        $this->ilTabs = $ilTabs;
-        $this->lng = $lng;
-        $this->glyph_factory = $DIC['ui.factory']->symbol()->glyph();
-        $this->renderer = $DIC['ui.renderer'];
-
+        $this->lng = $DIC['lng'];
+        $this->ui_factory = $DIC['ui.factory'];
+        $this->ui_renderer = $DIC['ui.renderer'];
     }
 
     /**
@@ -61,7 +58,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
     {
         $user_solution = [];
         if ($active_id) {
-            $solutions = $this->object->getTestOutputSolutions($active_id, $pass);
+            $solutions = $this->object->getSolutionValues($active_id, $pass, true);
             // hey.
             foreach ($solutions as $idx => $solution_value) {
                 $user_solution[$solution_value["value1"]] = $solution_value["value2"];
@@ -138,7 +135,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         }
 
         $correct_answers = $this->stripSlashesRecursive(json_decode($this->request->raw('hidden_correct_answers')));
-        foreach($correct_answers as $answer) {
+        foreach ($correct_answers as $answer) {
             if (!is_numeric(str_replace(',', '.', $answer[1]))) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('points_non_numeric_or_negative_msg'));
                 return false;
@@ -238,12 +235,6 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $button->setHtml($tpl->get());
         $form->addItem($button);
 
-        $modal = ilModalGUI::getInstance();
-        $modal->setHeading('');
-        $modal->setId("ilGapModal");
-        //$modal->setBackdrop(ilModalGUI::BACKDROP_OFF);
-        $modal->setBody('');
-
         $min_auto_complete = new ilNumberInputGUI($this->lng->txt('min_auto_complete'), 'min_auto_complete');
 
         $auto_complete = $this->object->getMinAutoComplete();
@@ -290,7 +281,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $answers = $this->object->getAnswersObject();
 
         if ($this->request->isset('hidden_text_files')) {
-            $question_parts['list'] = json_decode($this->request->raw('hidden_correct_answers'));
+            $question_parts['list'] = json_decode($this->request->raw('hidden_correct_answers')) ?? [];
             $answers = $this->request->raw('hidden_text_files');
         }
 
@@ -310,11 +301,11 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $tpl->setVariable('MISSING_VALUE', $this->lng->txt('msg_input_is_required'));
         $tpl->setVariable('SAVE', $this->lng->txt('save'));
         $tpl->setVariable('CANCEL', $this->lng->txt('cancel'));
-        $tpl->setVariable('ADD_BUTTON', $this->renderer->render(
-            $this->glyph_factory->add()->withAction('#')
+        $tpl->setVariable('ADD_BUTTON', $this->ui_renderer->render(
+            $this->ui_factory->symbol()->glyph()->add()->withAction('#')
         ));
-        $tpl->setVariable('REMOVE_BUTTON', $this->renderer->render(
-            $this->glyph_factory->remove()->withAction('#')
+        $tpl->setVariable('REMOVE_BUTTON', $this->ui_renderer->render(
+            $this->ui_factory->symbol()->glyph()->remove()->withAction('#')
         ));
         $tag_input = new ilTagInputGUI();
         $tag_input->setPostVar('taggable');
@@ -322,17 +313,34 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $tag_input->setTypeAheadMinLength(1);
         $tpl->setVariable("TAGGING_PROTOTYPE", $tag_input->render(''));
 
-        $tpl->setVariable("MY_MODAL", $modal->getHTML());
-
+        $modal_id = self::DEFAULT_MODAL_ID;
+        $tpl->setVariable('MY_MODAL', $this->getModalHtml($modal_id));
+        $this->tpl->addOnLoadCode(
+            'longMenuQuestion.Init(' .
+            implode(', ', [
+                json_encode($long_menu_language),
+                json_encode($question_parts),
+                $answers === '' ? '{}' : $answers,
+                json_encode($modal_id)
+            ])
+            . ');'
+        );
         $tpl->parseCurrentBlock();
-        $this->tpl->addOnLoadCode('longMenuQuestion.Init(' .
-            json_encode($long_menu_language) . ', ' .
-            json_encode($question_parts) . ', ' .
-            $answers . ');');
+
         $button = new ilCustomInputGUI('&nbsp;', '');
         $button->setHtml($tpl->get());
         $form->addItem($button);
         return $form;
+    }
+
+    private function getModalHtml(string &$modal_id): string
+    {
+        $modal = $this->ui_factory->modal()->interruptive('', '', '');
+        $doc = new DOMDocument();
+        @$doc->loadHTML($this->ui_renderer->render($modal));
+        $dialogs = $doc->getElementsByTagName('dialog');
+        $modal_id = $dialogs->item(0)->attributes->getNamedItem('id')->nodeValue ?? self::DEFAULT_MODAL_ID;
+        return $doc->saveHTML();
     }
 
     /**

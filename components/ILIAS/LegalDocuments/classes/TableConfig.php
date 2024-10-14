@@ -20,10 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments;
 
-use Closure;
-use ILIAS\UI\Component\Component;
-use ILIAS\UI\Factory;
-
 interface TableConfig
 {
     public function setTitle(

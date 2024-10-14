@@ -417,7 +417,9 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                     if (!$has_no_team_yet) {
                         $this->tpl->setVariable(
                             "VAL_" . strtoupper($col),
-                            ilLegacyFormElementsUtil::prepareFormOutput(trim((string) $a_row[$col]))
+                            ilLegacyFormElementsUtil::prepareFormOutput(
+                                trim((string) ($a_row[$col] ?? ""))
+                            )
                         );
                     }
                     break;
@@ -457,7 +459,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                     }
                     $this->tpl->setVariable(
                         "VAL_" . strtoupper($col),
-                        $a_row[$col]
+                        ($a_row[$col] ?? false)
                             ? ilDatePresentation::formatDate(
                                 new ilDateTime($a_row[$col], IL_CAL_DATETIME),
                                 false,
@@ -609,7 +611,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
             );
         }
 
-        $actions = $this->ui_factory->dropdown()->standard($items)->withLabel($this->lng->txt("actions"));
+        $actions = $this->ui_factory->dropdown()->standard($items);
 
         $this->tpl->setVariable("ACTIONS", $this->ui_renderer->render($actions));
     }

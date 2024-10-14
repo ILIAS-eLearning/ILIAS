@@ -552,6 +552,9 @@ assessment#:#backtocallingpage#:#Back to the question page
 assessment#:#backtocallingpool#:#Back to the question pool
 assessment#:#backtocallingtest#:#Back to the test
 assessment#:#baseunit#:#Base Unit
+assessment#:#bulkedit_author#:#Set Author
+assessment#:#bulkedit_lifecycle#:#Set Lifecycle
+assessment#:#bulkedit_taxonomies#:#Set Taxonomies
 assessment#:#button_request_next_question_hint#:#Request Next Hint
 assessment#:#button_request_question_hint#:#Request Hint
 assessment#:#cancel_test#:#Suspend the Test
@@ -1005,6 +1008,9 @@ assessment#:#previous_question_rows#:#<< Questions %d - %d of %d
 assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment of questions available for the selected question. The question has not yet been used in a test.
 assessment#:#qpl_assessment_total_of_answers#:#Total of Answers
 assessment#:#qpl_assessment_total_of_right_answers#:#Total Percentage of Correct Answers (percentage of maximum points)
+assessment#:#qpl_bulk_save_add#:#Add
+assessment#:#qpl_bulk_save_overwrite#:#Overwrite
+assessment#:#qpl_bulkedit_success#:#Modifications saved.
 assessment#:#qpl_cancel_skill_assigns_update#:#Cancel
 assessment#:#qpl_confirm_delete_questions#:#Are you sure you want to remove the following questions?
 assessment#:#qpl_copy_insert_clipboard#:#The selected question(s) are copied to the clipboard
@@ -2135,12 +2141,26 @@ auth#:#auth_saml_username_claim_info#:#Define the attribute ILIAS uses to genera
 auth#:#auth_sync#:#User Synchronisation
 auth#:#auth_sync_cas#:#Automatic generation of user accounts
 auth#:#auth_sync_cas_info#:#Automatically create ILIAS user accounts for users who have successfully authenticated themselves using CAS, but do not yet have an ILIAS account.
+auth#:#destination_after_logout#:#Destination After Logout
+auth#:#destination_external_ressource#:#Show External Ressource
+auth#:#destination_external_ressource_url#:#External URL
+auth#:#destination_internal_ressource#:#Show Internal Ressource
+auth#:#destination_internal_ressource_ref_id#:#Internal Reference Id
+auth#:#destination_login_screen#:#Show Login Screen
+auth#:#destination_login_screen_info#:#Make sure that, for example, an SSO is not addressed that leads to immediate login.
+auth#:#destination_logout_screen#:#Show Logout Screen
 auth#:#err_auth_ldap_failed#:#Authentication failed. Please contact your ILIAS administrator.
 auth#:#err_auth_saml_failed#:#Authentication failed. Please contact your system administrator.
 auth#:#err_auth_saml_no_ilias_user#:#Authentication failed. Please contact your system administrator.
 auth#:#language_does_not_exist#:#The selected language does not exist.
 auth#:#login_page#:#Language of Login-Page
 auth#:#login_pages#:#Login-Pages
+auth#:#logout_behaviour#:#Logout Behaviour
+auth#:#logout_behaviour_invalid_ref_id#:#Please make sure the internal resource id exists and is not in trash
+auth#:#logout_behaviour_invalid_url#:#The external ressource given is not a valid URL.
+auth#:#logout_behaviour_ref_id_no_access#:#Please make sure the "Anonymous" user has access to the defined ressource.
+auth#:#logout_behaviour_ref_id_valid_status_changed#:#The configured internal resource is no longer valid. If the resource has been deleted or access for the "Anonymous" user has been restricted, please configure a new valid internal resource. Without a valid configuration, the user will be redirected to the logout screen by default.
+auth#:#logout_behaviour_settings#:#Logout Behaviour Settings
 auth#:#logout_editor#:#Design Logout-Page
 auth#:#logout_page#:#Language of Logout-Page
 auth#:#logout_pages#:#Logout-Pages
@@ -2485,6 +2505,7 @@ blog#:#blog_settings#:#Blog Administration
 blog#:#blog_settings_navigation#:#Navigation Sidebar
 blog#:#blog_show_latest#:#Show Latest Posts/Drafts
 blog#:#blog_show_print_view#:#Show Print View
+blog#:#blog_side_blocks#:#Side Blocks
 blog#:#blog_starting_page#:#Starting Page
 blog#:#blog_task_publishing_draft_title#:#Publish Draft Blog Post "%s"
 blog#:#blog_toggle_draft#:#Withdraw Publication
@@ -2862,7 +2883,7 @@ chatroom#:#autogen_usernames#:#Auto Generated User Names
 chatroom#:#autogen_usernames_info#:#Pattern for auto generated user names that is assigned to anonymous user accounts. ‘#’ will be automatically replaced by a number.
 chatroom#:#ban_question#:#Do you really want to ban the user from chat?
 chatroom#:#ban_table_title#:#Banned Users
-chatroom#:#banned#:#You have been banned from this chat room
+chatroom#:#banned#:#You have been banned from this chat room.
 chatroom#:#bans#:#Bans
 chatroom#:#chat_address#:#Address
 chatroom#:#chat_anonymous_not_allowed#:#Please login to use the chat.
@@ -2870,8 +2891,8 @@ chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for
 chatroom#:#chat_ban#:#Ban
 chatroom#:#chat_broadcast_typing#:#Broadcast Typing
 chatroom#:#chat_broadcast_typing_info#:#If enabled, your typing will be broadcasted to other participants of a conversation or chat room.
-chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> left the chat room ---
-chatroom#:#chat_connection_established#:#+++ <b>#username#</b> has entered chat room +++
+chatroom#:#chat_connection_disconnected#:##username# left the chat room.
+chatroom#:#chat_connection_established#:##username# has entered chat room.
 chatroom#:#chat_deletion_disabled#:#Disabled
 chatroom#:#chat_deletion_interval#:#Interval
 chatroom#:#chat_deletion_interval_info#:#If chosen, messages in the repository chat and On-Screen-Chat conversations will be deleted after the defined threshold.
@@ -2903,7 +2924,6 @@ chatroom#:#chat_mainroom#:#Main Room
 chatroom#:#chat_message#:#Message
 chatroom#:#chat_message_display#:#Options
 chatroom#:#chat_message_options#:#Display
-chatroom#:#chat_message_to_all#:#To All
 chatroom#:#chat_no_use_typing_broadcast#:#Typing will not be broadcasted
 chatroom#:#chat_not_use_osc#:#Not Using On-Screen-Chat
 chatroom#:#chat_osc_accept_msg#:#Allow On-Screen Chat Conversations
@@ -2993,11 +3013,11 @@ chatroom#:#invite_to_private_room#:#Invite to Chat Room
 chatroom#:#invite_username#:#Username
 chatroom#:#key#:#Key
 chatroom#:#kick_question#:#Do you really want to kick the user from chat?
-chatroom#:#kicked#:#You have been kicked from this chat room
+chatroom#:#kicked#:#You have been kicked from this chat room.
 chatroom#:#lost_connection#:#The connection to the chat server was interrupted.
 chatroom#:#main#:#Main Room
 chatroom#:#messages#:#Messages
-chatroom#:#no_further_users#:#No other users present
+chatroom#:#no_further_users#:#No other users present.
 chatroom#:#no_messages#:#There are no saved messages for the given period.
 chatroom#:#no_username_given#:#Please choose a username
 chatroom#:#osc_browser_noti_no_permission_error#:#Please remove this domain from the list of blocked domains in the notification settings of your browser or operating system. Otherwise you will not be able to receive browser notifications.
@@ -3016,17 +3036,17 @@ chatroom#:#server_further_information#:#You can find further information about t
 chatroom#:#session#:#Session
 chatroom#:#settings_general#:#General
 chatroom#:#settings_title#:#Settings
-chatroom#:#speak_to#:#Speak to <b>#user#</b>
+chatroom#:#start_private_chat#:#Start Private Chat
 chatroom#:#unable_to_connect#:#The connection to the chat server could not be established.
 chatroom#:#unban#:#Unban
+chatroom#:#user_banned#:#The user #user# has been banned.
 chatroom#:#user_in_ilias#:#Search and invite user from ILIAS
 chatroom#:#user_in_room#:#Invite user from current chat room
 chatroom#:#user_invited#:#The user has been invited.
-chatroom#:#user_invited_self#:#<b>#user#</b> invited you to the chat room <b>#room#</b>.
-chatroom#:#user_kicked#:#The user <b>#user#</b> has been kicked.
+chatroom#:#user_invited_self#:##user# invited you to the chat room #room#.
+chatroom#:#user_kicked#:#The user #user# has been kicked.
 chatroom#:#users#:#Users
-chatroom#:#welcome_to_chat#:#Welcome to the chat room
-chatroom#:#whisper_to#:#Whisper to <b>#user#</b>
+chatroom#:#welcome_to_chat#:#Welcome to the chat room.
 chatroom#:#write_message#:#New Message
 chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS cannot build a socket connection to the chat server.
 chatroom_adm#:#chat_enabled#:#Enable Chat
@@ -3772,7 +3792,6 @@ common#:#create_stylesheet#:#Create Style
 common#:#created#:#Creation Date
 common#:#cron_forum_notification#:#Send Forum Notifications via Cron Job
 common#:#cron_forum_notification_crob_desc#:#If enabled, all users who have enabled notifications for certain forums or forum threads will daily receive a notification mail about all new  or changed posts but no immediate notification for each submitted post.
-common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum threads, will get notifications by mail.
 common#:#cron_forum_notification_disabled#:#Can't be disabled when the Cron Job is active.
 common#:#cron_jobs#:#Cron Jobs
 common#:#cron_lucene_index#:#Update Lucene search index
@@ -5139,6 +5158,7 @@ common#:#objs_rglo#:#ECS Glossaries
 common#:#objs_rgrp#:#ECS Groups
 common#:#objs_rlm#:#ECS Learning Modules
 common#:#objs_role#:#Roles
+common#:#objs_rolf#:#Role Folders
 common#:#objs_rtst#:#ECS Tests
 common#:#objs_rwik#:#ECS Wikis
 common#:#objs_sahs#:#SCORM Learning Modules
@@ -5462,6 +5482,7 @@ common#:#save_settings#:#Save Settings
 common#:#save_user_related_data#:#Save user related access data
 common#:#saved_successfully#:#Saved Successfully
 common#:#saving#:#Saving...
+common#:#scope#:#Scope
 common#:#scorm_create_export_file_html#:#Create Export File (HTML)
 common#:#scorm_create_export_file_pdf#:#Create Export File (PDF)
 common#:#scorm_create_export_file_scrom12#:#Create Export File (SCORM 1.2)
@@ -6064,6 +6085,7 @@ cont#:#cont_tile_size_3#:#extra large (up to two tiles in a row)
 cont#:#cont_tile_size_4#:#full (one tile in a row)
 cont#:#cont_tile_view#:#Tiles
 cont#:#cont_tile_view_info#:#Objects located within this container are displayed in the form of thumbnail-style tiles. Images for these tiles can be uploaded in the settings of each individual object.
+cont#:#cont_trash_general_usage#:#If you want to remove a huge amount of old, deleted objects from the system it is highly advisable to start with non-container objects (i.e. Files, Glossaries, Tests,..) and thus removing all objects from the containers (Categories, Courses, Groups, Learning Sequences,...) . Using the filters "Type" and "Deleted on" helps this process. Then finally remove the containers.
 contact#:#contact_awrn_ap_contacts#:#Approved Contacts
 contact#:#contact_awrn_ap_contacts_info#:#All contacts approved by the user are listed.
 contact#:#contact_awrn_req_contacts#:#Contact Requests
@@ -9050,6 +9072,7 @@ ecs#:#ecs_protocol#:#Protocol
 ecs#:#ecs_publish_as#:#Publish as:
 ecs#:#ecs_publish_for#:#Release for:
 ecs#:#ecs_published_for#:#Published for:
+ecs#:#ecs_rcat_created_body_a#:#A new ECS Category has been created:
 ecs#:#ecs_rcrs_created_body_a#:#A new ECS Course has been created:
 ecs#:#ecs_read_remote_links#:#Update ECS Courses
 ecs#:#ecs_refresh_participants#:#Refresh ECS-Participants
@@ -9887,6 +9910,8 @@ forum#:#forums_download_attachment#:#Download file
 forum#:#forums_edit_draft#:#Edit Draft
 forum#:#forums_edit_post#:#Edit Post
 forum#:#forums_enable_notification#:#Enable Notification for this Thread
+forum#:#forums_forum_notification#:#Send Forum Notifications
+forum#:#forums_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum threads, will get notifications by mail.
 forum#:#forums_forum_notification_disabled#:#You will no longer be notified about new posts in this forum.
 forum#:#forums_info_censor2_post#:#Revoke Censorship?
 forum#:#forums_info_censor_post#:#Please provide a reason for hiding this post.
@@ -11230,6 +11255,7 @@ mail#:#link_check_affected_links#:#Affected Links
 mail#:#link_check_introduction#:#the following weblinks are invalid:
 mail#:#link_check_perma_link#:#Permanent Link
 mail#:#link_check_reason#:#You recife this mail because you enabled the notification for invalid links.
+mail#:#mail_1#:#1 Mail
 mail#:#mail_absence_auto_responder_body#:#Message
 mail#:#mail_absence_auto_responder_body_hint#:#This is an automatically generated message. If you send further messages to this user during their absence, you will not receive another automatic reply until [NEXT_AUTO_RESPONDER_DATETIME].
 mail#:#mail_absence_auto_responder_body_info#:#This message will be sent automatically during your absence if users send you a Mail from within ILIAS. <br>Users will be notified of your absence every %1$s days if they send further messages.
@@ -11245,6 +11271,7 @@ mail#:#mail_add_folder#:#Add New Sub-Folder
 mail#:#mail_add_recipient#:#Please enter a recipient in the form of a valid e-mail address or ILIAS username.
 mail#:#mail_add_subfolder#:#Add Sub-Folder
 mail#:#mail_add_subject#:#Please enter a subject.
+mail#:#mail_all_in_trash#:#All in Trash
 mail#:#mail_allow_external#:#External E-Mails
 mail#:#mail_allow_external_info#:#Allow the delivery of external e-mails (via-SMTP). Unchecking this box will prevent external mails being sent globally across this installation.
 mail#:#mail_assign_entry_to_mailing_list#:##Add One of Your Contacts to the Mailing List
@@ -11268,6 +11295,7 @@ mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#The members of
 mail#:#mail_crs_roles#:#Send Mail to Course Roles
 mail#:#mail_deleted#:#Mail(s) deleted.
 mail#:#mail_deleted_entry#:#Entries deleted.
+mail#:#mail_download_attachment#:#Download Attachment
 mail#:#mail_download_zip_no_attachments#:#No attachments could be found.
 mail#:#mail_edit_tpl#:#Edit Text Template
 mail#:#mail_email_sys_body#:#This is a test e-mail to test the delivery of system mails to external mail accounts.
@@ -11299,15 +11327,17 @@ mail#:#mail_files_deleted#:#File(s) deleted.
 mail#:#mail_filter#:#Filter
 mail#:#mail_filter_attach#:#Attachments
 mail#:#mail_filter_body#:#Body
+mail#:#mail_filter_display#:#Display
 mail#:#mail_filter_field_placeholder#:#Filter these messages ...
-mail#:#mail_filter_only_unread#:#Only Unread
-mail#:#mail_filter_only_user_mails#:#Hide System Notifications
-mail#:#mail_filter_only_with_attachments#:#With Attachments
 mail#:#mail_filter_period#:#Period
-mail#:#mail_filter_period_from#:#From
-mail#:#mail_filter_period_until#:#Until
 mail#:#mail_filter_recipients#:#Recipients
 mail#:#mail_filter_sender#:#Sender
+mail#:#mail_filter_show_read#:#Show Read
+mail#:#mail_filter_show_system_mails#:#Show System Notifications
+mail#:#mail_filter_show_unread#:#Show Unread
+mail#:#mail_filter_show_user_mails#:#Show User Mails
+mail#:#mail_filter_show_with_attachments#:#Show With Attachments
+mail#:#mail_filter_show_without_attachment#:#Show Without Attachment
 mail#:#mail_filter_subject#:#Subject
 mail#:#mail_filter_txt#:#Filter messages by
 mail#:#mail_first_email#:#First E-Mail Address
@@ -11395,7 +11425,7 @@ mail#:#mail_orphaned_mails_desc#:#Deletes orphaned mails and mails that are olde
 mail#:#mail_recipient_not_found#:#%1$s - Please correct this entry in the ‘To’ field.
 mail#:#mail_rename_folder#:#Rename Folder
 mail#:#mail_roles#:#All users with one or more of the following local roles
-mail#:#mail_s#:#Mail(s)
+mail#:#mail_s#:# %s Mails
 mail#:#mail_salutation_anonymous#:#Hello
 mail#:#mail_salutation_f#:#Dear Ms
 mail#:#mail_salutation_female#:#Output for placeholder &lbrace;&lbrace;MAIL_SALUTATION&rbrace;&rbrace;, if salutation is 'Ms'
@@ -11437,10 +11467,12 @@ mail#:#mail_smtp_user#:#User
 mail#:#mail_subject_prefix#:#Mail Subject
 mail#:#mail_subject_prefix_info#:#Enter a text which will be prepended to the subject line of outgoing auto-generated e-mails. The usage of a prefix is recommended, as it makes it easier for users to filter messages.
 mail#:#mail_subject_too_long#:#The subject is too long.
-mail#:#mail_sure_delete#:#Are you sure you want to delete the selected mail(s)?
+mail#:#mail_success_removed_user#:#User(s) successfully removed from mailing list.
+mail#:#mail_sure_delete#:#Are you sure you want to delete the following mail(s)?
 mail#:#mail_sure_delete_entry#:#Are you sure you want to delete the following entries?
 mail#:#mail_sure_delete_file#:#Are you sure you want to delete the selected file(s)?
 mail#:#mail_sure_delete_folder#:#The folder and its contents will be irrevocably deleted.
+mail#:#mail_sure_remove_user#:#Are you sure you want to remove the following user(s) from the members list?
 mail#:#mail_system_sys_env_from_addr#:#Technical Sender
 mail#:#mail_system_sys_env_from_addr_info#:#If you leave this field empty, the sender e-mail address will be used if SMTP transfer is enabled. Otherwise it is the server administrator's responsibility to configure this value.
 mail#:#mail_system_sys_from_addr#:#Sender E-Mail (From)
@@ -11486,7 +11518,7 @@ mail#:#nc_mail_unread_messages_number_s#:#1 unread mail
 mail#:#only_inbox_trash#:#Limit to Inbox / Trash
 mail#:#only_inbox_trash_info#:#Only delete e-mails that are located in the Inbox or Trash folders of users. Otherwise, all messages are deleted regardless of the folder they are in.
 mail#:#orphaned_mail_body#:#Your mailbox contains the following old or orphaned mails. Please note that these mails will soon be automatically deleted.
-mail#:#orphaned_mail_subject#:#Notification of orphaned mails
+mail#:#orphaned_mail_subject#:#Notification of old mails
 mail#:#placeholders_advise#:#Personal placeholders are only replaced with user-specific information for recipients listed in the ‘To’ field.%s Personal placeholders for recipients listed in the CC and BCC fields are NOT replaced with user-specific information and instead show up as placeholders.
 mail#:#search_content#:#Search Result
 mail#:#search_recipients#:#Look up Users
@@ -13188,6 +13220,7 @@ prg#:#prg_auto_member_select_crs#:#Courses
 prg#:#prg_auto_member_select_grp#:#Groups
 prg#:#prg_auto_member_select_role#:#Roles
 prg#:#prg_autoassignment#:#(auto)
+prg#:#prg_availability_action_not_allowed#:#Cannot set Availability Period on Study Programmes.
 prg#:#prg_belongs_to#:#Belongs to
 prg#:#prg_can_not_manage_in_repo#:#You're not allowed to manage this Study Programme, because of user assignments.
 prg#:#prg_cancel#:#Cancel
@@ -13204,6 +13237,7 @@ prg#:#prg_create_new_leaf#:#Create new leaf
 prg#:#prg_create_new_node#:#Create new node
 prg#:#prg_cron_job_configuration#:#Configuration automatic Mails
 prg#:#prg_custom_plan#:#Custom Plan
+prg#:#prg_cut_action_not_allowed#:#Cannot move Study Programmes
 prg#:#prg_dash_label_finish_until#:#Finish until
 prg#:#prg_dash_label_gain#:#Current Completion
 prg#:#prg_dash_label_minimum#:#Minimum Completion
@@ -13230,6 +13264,7 @@ prg#:#prg_description#:#Description
 prg#:#prg_edit#:#Edit Study Programme
 prg#:#prg_expiry_date#:#Expiry date
 prg#:#prg_formatted_period#:#%d days
+prg#:#prg_import_action_not_allowed#:#Cannot import into Study Programmes.
 prg#:#prg_invalidate_expired_progresses_desc#:#Marks expired progresses at Studyprogrammes as 'not passed'
 prg#:#prg_invalidate_expired_progresses_title#:#Limited validity of Studyprogramme progress
 prg#:#prg_link#:#Link
@@ -14622,7 +14657,7 @@ registration#:#reg_direct_info#:#New user registration requests are automaticall
 registration#:#reg_disabled#:#No Registration Possible
 registration#:#reg_domain#:#Domain
 registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.
-registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. 
+registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role.
 registration#:#reg_email#:#Automatic Role Assignment
 registration#:#reg_email_domains#:#The following e-mail address domains are valid: %s
 registration#:#reg_email_domains_code#:#With a registration code any E-Mail-Address is valid.
@@ -16684,6 +16719,7 @@ tagging#:#tagging_enable_all_users_info#:#Adds a section ‘All Users’ to the 
 tagging#:#tagging_enable_tagging#:#Enable Tagging
 tagging#:#tagging_forbidden_tags#:#Forbidden Tags
 tagging#:#tagging_no_obj_for_tag#:#No Resources tagged with %s.
+tagging#:#tagging_no_perm_write#:#You have no permission to change this data.
 tagging#:#tagging_other_users#:#Tags of Other Users
 tagging#:#tagging_resources_for_tag#:#Resources tagged with %s
 tagging#:#tagging_search_users#:#Search Users
@@ -17063,6 +17099,12 @@ ui#:#ui_table_no_records#:#No records
 ui#:#ui_transcription#:#Transcript
 user#:#all_roles_has_starting_point#:#All the roles have starting points
 user#:#back_to_starting_points_list#:#Back to Starting Points
+user#:#change_email_email_confirmation_body#:#The email address for the account %s was changed. To confirm this change, please click on this link %s. The link is valid for %s minutes.
+user#:#change_email_email_confirmation_subject#:#Confirm Email Address
+user#:#change_email_email_information_body#:#The process to change the email address for the account %s to %s was started. An email with a link to confirm the change was sent to the new address. The link is valid for %s minutes.
+user#:#change_email_email_information_subject#:#Information about Change of Email Address
+user#:#change_email_email_sent#:#An email with a link to confirm your change has been sent. Please check your inbox and make sure to also look in the spam-folder if the email doesn't arrive within the next minutes.
+user#:#change_email_info_message#:#There is a pending request to change the email address for this account.
 user#:#clipboard_add_btn#:#Add to Clipboard
 user#:#clipboard_add_from_btn#:#Add from Clipboard
 user#:#clipboard_empty_btn#:#Empty Clipboard
@@ -17071,6 +17113,7 @@ user#:#clipboard_table_title#:#Clipboard (User Accounts)
 user#:#clipboard_user_added#:#Added selected users to clipboard.
 user#:#confirm_delete_starting_point#:#Are you sure you want to delete this rule?
 user#:#confirm_logout_for_email_change#:#You changed your email. To finalize this change, you will need to provide your password. The system is thus going to log you out and you will have 5 minutes to log in again. All other changes will be saved before logging you out.
+user#:#confirm_logout_for_email_change_with_confirmation#:#Additionally, a confirmation that you control the new email address will be required. After you have logged in again, an email will be sent to you. Please click on the link in the email to confirm that you contoll the address. The change of the email address will only take effect once this second step is also finalized.
 user#:#create_starting_point#:#Create Rule
 user#:#criteria#:#Criteria
 user#:#del_mail_body#:#Hello %1$s, %2$s You have not logged in to %3$s for a long time. Therefore, your ILIAS account is expected to be deleted on %4$s. In order to keep your ILIAS account, you must log in again before the aforementioned date.
@@ -17172,7 +17215,8 @@ user#:#user_profile_info_text_info#:#This text is presented on top of the form f
 user#:#user_profile_portfolio#:#If you would like to use a portfolio as your profile, go to the portfolio section and select ‘Set As My Profile’ from the drop-down menu to the right of the portfolio you wish to use.
 user#:#user_profile_portfolio_selected#:#You are currently using a portfolio as your profile. Activation can be set there using the ‘Share’ tab.
 user#:#user_profile_preview#:#Preview of Profile
-user#:#user_profile_prompt_text_info#:#This text will replace the default info text, if a user has been prompted to the profile.
+user#:#user_profile_prompt_text#:#Prompt Text
+user#:#user_profile_prompt_text_info#:#This texts replace the default info text shown when a user is prompted to complete the profile.
 user#:#user_prompt_incomplete#:#Only if profile is incomplete
 user#:#user_prompt_incomplete_info#:#If the user has to enter required fields, the profile will be shown after login.
 user#:#user_prompt_once_after_login#:#Once, a specific number of days after first login

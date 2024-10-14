@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -41,12 +43,12 @@ class ObjectsManager
         $this->pool_id = $pool_id;
     }
 
-    public function getNrOfItemsForObject(int $book_obj_id) : int
+    public function getNrOfItemsForObject(int $book_obj_id): int
     {
         return $this->object_repo->getNrOfItemsForObject($book_obj_id);
     }
 
-    public function getObjectTitles() : array
+    public function getObjectTitles(): array
     {
         $titles = [];
         foreach ($this->object_repo->getObjectDataForPool($this->pool_id) as $d) {
@@ -55,19 +57,19 @@ class ObjectsManager
         return $titles;
     }
 
-    public function getObjectIds() : array
+    public function getObjectIds(): array
     {
         return array_map(static function ($d) {
             return (int) $d["booking_object_id"];
         }, $this->object_repo->getObjectDataForPool($this->pool_id));
     }
 
-    public function getColorNrForObject(int $book_obj_id) : int
+    public function getColorNrForObject(int $book_obj_id): int
     {
         return $this->object_repo->getColorNrForObject($book_obj_id);
     }
 
-    public function getDataArrayFromInputString(string $input) : array
+    public function getDataArrayFromInputString(string $input): array
     {
         $rows = explode("\n", $input);
         $data = [];
@@ -85,7 +87,7 @@ class ObjectsManager
         return $data;
     }
 
-    public function createObjectsFromBulkInputString(string $input, int $schedule_id) : void
+    public function createObjectsFromBulkInputString(string $input, int $schedule_id): void
     {
         foreach ($this->getDataArrayFromInputString($input) as $data) {
             $object = new \ilBookingObject();
