@@ -517,7 +517,7 @@ class ilObjStudyProgramme extends ilContainer
                 array_unique(
                     array_map(
                         static function ($data) {
-                            return (int)$data['child'];
+                            return (int) $data['child'];
                         },
                         array_filter($ref_child_ref_ids, static function ($data) {
                             return $data["deleted"] === null;
@@ -753,8 +753,6 @@ class ilObjStudyProgramme extends ilContainer
 
     /**
      * Get courses in this program that the given user already completed.
-     *
-     * @return int[]
      */
     public function getCompletedCourses(int $usr_id): array
     {

@@ -13203,6 +13203,7 @@ prg#:#pc_prgstatus_unlimited_validation#:#Unlimited validity
 prg#:#percentage#:#%
 prg#:#prg_access_by_orgu#:#Access Control by Organisation Unit Positions
 prg#:#prg_access_by_orgu_byline#:#If enabled, additional access control rules can be defined by positions in organisational units.
+prg#:#prg_acknowledge_all_completed_courses#:#Acknowledge All Completed Courses
 prg#:#prg_acknowledge_completed_courses#:#Acknowledge Completed Courses
 prg#:#prg_add#:#Add Study Programme
 prg#:#prg_added_course_ref_successful#:#New course link was added successfully
