@@ -135,7 +135,7 @@ compatible with `rollup.js` by default. To be able to transpile CommonJS module 
 
 ```javascript
 import copyright from './scripts/Copyright-Checker/copyright';
-import resolve from '@rollup/plugin-node-resolve';
+import nodeResolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 
 export default {
@@ -144,11 +144,11 @@ export default {
     file: './dist/index.js',
     format: 'iife',
     banner: copyright,
-    plugins: [
-      commonjs(),
-      resolve(),
-    ],
   },
+  plugins: [
+    nodeResolve(),
+    commonjs(),
+  ],
 };
 ```
 
