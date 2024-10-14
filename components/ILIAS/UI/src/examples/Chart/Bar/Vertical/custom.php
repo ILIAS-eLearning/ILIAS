@@ -53,11 +53,11 @@ function custom()
 
     //Generating Bar Configurations
     $b1 = new BarConfig();
-    $b1 = $b1->withColor($df->color("#d38000"));
+    $b1 = $b1->withColor($df->color("#12436D"));
     $b2 = new BarConfig();
-    $b2 = $b2->withColor($df->color("#307C88"));
+    $b2 = $b2->withColor($df->color("#28A197"));
     $b3 = new BarConfig();
-    $b3 = $b3->withColor($df->color("#557b2e"));
+    $b3 = $b3->withColor($df->color("#801650"));
 
     $bars = [
         "Dataset 1" => $b1,
