@@ -278,7 +278,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
             $hintsHref = $this->getQuestionEditLink($a_set, 'ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
             $actions[] = $this->ui_factory->link()->standard($this->lng->txt('tst_question_hints_tab'), $hintsHref);
         }
-        $dropdown = $this->ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt('actions'));
+        $dropdown = $this->ui_factory->dropdown()->standard($actions);
 
         $this->tpl->setVariable('ROW_ACTIONS', $this->ui_renderer->render($dropdown));
         if ($this->isQuestionRemoveRowButtonEnabled()) {
