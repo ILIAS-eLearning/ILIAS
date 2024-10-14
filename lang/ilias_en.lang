@@ -15232,7 +15232,7 @@ search#:#search_sort_creation_date_asc#:#Oldest
 search#:#search_sort_creation_date_desc#:#Latest
 search#:#search_sort_generic_asc#:#%s, asc.
 search#:#search_sort_generic_desc#:#%s, desc.
-search#:#search_sort_relevance#:#by Relevance
+search#:#search_sort_relevance#:#By Relevance
 search#:#search_sort_title_asc#:#Alphabetically: A-Z
 search#:#search_sort_title_desc#:#Alphabetically: Z-A
 search#:#search_term_combination#:#Combination
