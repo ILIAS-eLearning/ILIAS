@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\RequestDataCollector;
+
 /**
  * Class ilTestDashboardGUITest
  * @author Marvin Beym <mbeym@databay.de>
@@ -55,7 +57,7 @@ class ilTestDashboardGUITest extends ilTestBaseTestCase
             $DIC['ilTabs'],
             $DIC['ilToolbar'],
             $this->createMock(ilTestQuestionSetConfig::class),
-            $this->createMock(\ILIAS\Test\RequestDataCollector::class)
+            $this->createMock(RequestDataCollector::class)
         );
     }
 

@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\RequestDataCollector;
+
 /**
  * Class ilTestParticipantsGUITest
  * @author Marvin Beym <mbeym@databay.de>
@@ -51,7 +53,7 @@ class ilTestParticipantsGUITest extends ilTestBaseTestCase
             $DIC['ilDB'],
             $DIC['ilTabs'],
             $DIC['ilToolbar'],
-            $this->createMock(\ILIAS\Test\RequestDataCollector::class)
+            $this->createMock(RequestDataCollector::class)
         );
     }
 

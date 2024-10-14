@@ -18,10 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\RequestDataCollector;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-
-use ILIAS\Test\RequestDataCollector;
 
 /**
  * Class ilTestParticipantsGUI
@@ -141,26 +140,30 @@ class ilTestParticipantsGUI
         }
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     public function addParticipants($user_ids = []): ?bool
     {
         $filter_closure = $this->participant_access_filter->getManageParticipantsUserFilter($this->getTestObj()->getRefId());
         $filtered_user_ids = $filter_closure($user_ids);
 
-        $countusers = 0;
+        $count_users = 0;
         foreach ($filtered_user_ids as $user_id) {
-            $client_ip = $_POST["client_ip"][$countusers] ?? '';
+            $client_ip = $this->testrequest->getArrayOfStringsFromPost('client_ip')[$count_users] ?? '';
+
             $this->getTestObj()->inviteUser($user_id, $client_ip);
-            $countusers++;
+            $count_users++;
         }
 
-        $message = "";
-        if ($countusers) {
-            $message = $this->lng->txt("tst_invited_selected_users");
+        $message = '';
+        if ($count_users) {
+            $message = $this->lng->txt('tst_invited_selected_users');
         }
-        if (strlen($message)) {
+        if ($message !== '') {
             $this->main_tpl->setOnScreenMessage('info', $message, true);
         } else {
-            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("tst_invited_nobody"), true);
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('tst_invited_nobody'), true);
             return false;
         }
 
@@ -319,33 +322,48 @@ class ilTestParticipantsGUI
         $toolbar->addComponent($finish_all_user_passes_btn);
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     protected function saveClientIpCmd(): void
     {
         $filter_closure = $this->participant_access_filter->getManageParticipantsUserFilter($this->getTestObj()->getRefId());
         $selected_users = $filter_closure($this->testrequest->raw('chbUser') ?? []);
 
         if ($selected_users === []) {
-            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("select_one_user"), true);
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('select_one_user'), true);
         }
 
         foreach ($selected_users as $user_id) {
-            $this->getTestObj()->setClientIP($user_id, $_POST["clientip_" . $user_id]);
+            $client_ip = $this->testrequest->getStringFromPost('clientip_' . $user_id);
+
+            if ($client_ip === '') {
+                continue;
+            }
+
+            $this->getTestObj()->setClientIP($user_id, $client_ip);
         }
 
         $this->ctrl->redirect($this, self::CMD_SHOW);
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     protected function removeParticipantsCmd(): void
     {
         $filter_closure = $this->participant_access_filter->getManageParticipantsUserFilter($this->getTestObj()->getRefId());
-        $a_user_ids = $filter_closure((array) $_POST["chbUser"]);
+
+        $chb_user = $this->testrequest->getArrayOfIntsFromPost('chbUser');
+
+        $a_user_ids = $filter_closure($chb_user);
 
         if (is_array($a_user_ids)) {
             foreach ($a_user_ids as $user_id) {
                 $this->getTestObj()->disinviteUser($user_id);
             }
         } else {
-            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("select_one_user"), true);
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('select_one_user'), true);
         }
 
         $this->ctrl->redirect($this, self::CMD_SHOW);

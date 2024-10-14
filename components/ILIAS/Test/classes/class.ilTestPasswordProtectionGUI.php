@@ -109,9 +109,12 @@ class ilTestPasswordProtectionGUI
         );
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     private function saveEnteredPasswordCmd(): void
     {
-        $this->password_checker->setUserEnteredPassword($_POST["password"]);
+        $this->password_checker->setUserEnteredPassword($this->testrequest->getStringFromPost('password'));
 
         if (!$this->password_checker->isUserEnteredPasswordCorrect()) {
             $this->password_checker->logWrongEnteredPassword();

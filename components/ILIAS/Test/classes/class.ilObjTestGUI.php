@@ -693,6 +693,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->component_repository,
                     $this->getTestObject(),
                     $this->questionrepository,
+                    $this->testrequest,
                     $this->ref_id
                 );
                 $this->ctrl->forwardCommand($gui);
@@ -2199,7 +2200,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
        */
     public function participantsActionObject(): void
     {
-        $command = $this->testrequest->strVal('command');
+        $command = $this->testrequest->getStringFromPost('command', '');
+
         if ($command === '') {
             $method = $command . 'Object';
             if (method_exists($this, $method)) {
@@ -2385,10 +2387,11 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     /**
      * Applies the selected test defaults
      */
-    public function applyDefaultsObject($confirmed = false)
+    public function applyDefaultsObject($confirmed = false): void
     {
-        $defaults = $this->testrequest->getArrayOfStringsFromPost('chb_defaults');
-        if ($defaults !== null && $defaults !== []) {
+        $defaults = $this->testrequest->getArrayOfIntsFromPost('chb_defaults');
+
+        if ($defaults !== []) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('tst_defaults_apply_select_one'));
 
             $this->defaultsObject();
@@ -2429,7 +2432,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
             default:
 
-                $confirmation = new ilTestSettingsChangeConfirmationGUI($this->getTestObject());
+                $confirmation = new ilTestSettingsChangeConfirmationGUI($this->testrequest, $this->getTestObject());
 
                 $confirmation->setFormAction($this->ctrl->getFormAction($this));
                 $confirmation->setCancel($this->lng->txt('cancel'), 'defaults');
@@ -2471,7 +2474,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     */
     public function addDefaultsObject()
     {
-        $name = $this->testrequest->strVal('name');
+        $name = $this->testrequest->getStringFromPost('name');
         if ($name !== '') {
             $this->getTestObject()->addDefaults($name);
         } else {

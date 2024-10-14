@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\RequestDataCollector;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -39,6 +41,7 @@ class ilTestSkillLevelThresholdsGUI
         private readonly ilGlobalTemplateInterface $tpl,
         private readonly ilLanguage $lng,
         private readonly ilDBInterface $db,
+        private readonly RequestDataCollector $testrequest,
         private readonly int $test_id
     ) {
     }
@@ -86,20 +89,20 @@ class ilTestSkillLevelThresholdsGUI
 
     private function saveSkillThresholdsCmd(): void
     {
-        if (strtolower($_SERVER['REQUEST_METHOD']) == 'post') {
+        if (strtolower($_SERVER['REQUEST_METHOD']) === 'post') {
             $assignment_list = $this->buildSkillQuestionAssignmentList();
             $assignment_list->loadFromDb();
 
             $valid = true;
 
             $table = $this->getPopulatedTable();
-            $elements = $table->getInputElements((array) ($_POST['rendered'] ?? []));
+            $elements = $table->getInputElements($this->testrequest->getArrayOfStringsFromPost('rendered'));
             foreach ($elements as $elm) {
                 if (!$elm->checkInput()) {
                     $valid = false;
                 }
 
-                $elm->setValue($_POST[$elm->getPostVar()]);
+                $elm->setValue($this->testrequest->getStringFromPost($elm->getPostVar(), null));
             }
 
             if (!$valid) {
@@ -111,9 +114,9 @@ class ilTestSkillLevelThresholdsGUI
             $threshold = [];
             foreach ($elements as $elm) {
                 $key = $elm->getPostVar();
-                $value = $_POST[$key];
                 $matches = null;
                 if (preg_match('/^threshold_(\d+?):(\d+?)_(\d+?)$/', $key, $matches) && is_array($matches)) {
+                    $value = $this->testrequest->getIntFromPost($key, null);
                     $threshold[$matches[1] . ':' . $matches[2]][$matches[3]] = $value;
                 }
             }
@@ -129,7 +132,7 @@ class ilTestSkillLevelThresholdsGUI
                 $thresholds_by_level = [];
 
                 foreach ($levels as $level) {
-                    if (isset($threshold[$skillKey]) && isset($threshold[$skillKey][$level['id']])) {
+                    if (isset($threshold[$skillKey][$level['id']])) {
                         $skill_level_threshold = new ilTestSkillLevelThreshold($this->db);
 
                         $skill_level_threshold->setTestId($this->getTestId());

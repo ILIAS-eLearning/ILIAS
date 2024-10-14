@@ -18,10 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\RequestDataCollector;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-
-use ILIAS\Test\RequestDataCollector;
 
 /**
  * Class ilTestDashboardGUI
@@ -107,6 +106,9 @@ class ilTestDashboardGUI
         $this->objective_parent = $objective_parent;
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     public function executeCommand(): void
     {
         if (!$this->getTestAccess()->checkManageParticipantsAccess()) {
@@ -149,7 +151,8 @@ class ilTestDashboardGUI
                     $this->lng,
                     $this->db,
                     $this->main_tpl,
-                    new ilTestParticipantAccessFilterFactory($this->access)
+                    new ilTestParticipantAccessFilterFactory($this->access),
+                    $this->testrequest
                 );
                 $this->ctrl->forwardCommand($gui);
                 break;

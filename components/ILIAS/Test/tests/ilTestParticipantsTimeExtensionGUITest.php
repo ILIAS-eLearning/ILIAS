@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\RequestDataCollector;
+
 /**
  * Class ilTestParticipantsTimeExtensionGUITest
  * @author Marvin Beym <mbeym@databay.de>
@@ -43,7 +45,8 @@ class ilTestParticipantsTimeExtensionGUITest extends ilTestBaseTestCase
             $DIC['lng'],
             $DIC['ilDB'],
             $DIC['tpl'],
-            $this->createMock(ilTestParticipantAccessFilterFactory::class)
+            $this->createMock(ilTestParticipantAccessFilterFactory::class),
+            $this->createMock(RequestDataCollector::class)
         );
     }
 

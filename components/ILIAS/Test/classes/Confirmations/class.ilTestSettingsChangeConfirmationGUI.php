@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\RequestDataCollector;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -26,15 +28,14 @@ declare(strict_types=1);
  */
 class ilTestSettingsChangeConfirmationGUI extends ilConfirmationGUI
 {
-    protected ilObjTest $testOBJ;
     private ?string $oldQuestionSetType;
     private ?string $newQuestionSetType;
     private ?bool $questionLossInfoEnabled;
 
-    public function __construct(ilObjTest $testOBJ)
-    {
-        $this->testOBJ = $testOBJ;
-
+    public function __construct(
+        private readonly RequestDataCollector $testrequest,
+        protected readonly ilObjTest $testOBJ
+    ) {
         parent::__construct();
     }
 
@@ -93,15 +94,18 @@ class ilTestSettingsChangeConfirmationGUI extends ilConfirmationGUI
 
     public function populateParametersFromPost(): void
     {
-        foreach ($_POST as $key => $value) {
-            if (strcmp($key, "cmd") != 0) {
+        foreach ($this->testrequest->getPostKeys() as $key) {
+            if ($key !== 'cmd') {
+                $value = $this->testrequest->getArrayOfStringsOrStringFromPost($key);
+
                 if (is_array($value)) {
                     foreach ($value as $k => $v) {
                         $this->addHiddenItem("{$key}[{$k}]", $v);
                     }
-                } else {
-                    $this->addHiddenItem($key, $value);
+                    continue;
                 }
+
+                $this->addHiddenItem($key, $value);
             }
         }
     }

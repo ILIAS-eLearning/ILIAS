@@ -1535,12 +1535,12 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $this->tpl->setContent($this->ctrl->getHTML($confirm));
     }
 
-    public function cancelDeletePass()
+    public function cancelDeletePass(): void
     {
-        $this->redirectToPassDeletionContext($_POST['context']);
+        $this->redirectToPassDeletionContext($this->testrequest->getStringFromPost('context'));
     }
 
-    private function redirectToPassDeletionContext($context)
+    private function redirectToPassDeletionContext($context): void
     {
         switch ($context) {
             case ilTestPassDeletionConfirmationGUI::CONTEXT_PASS_OVERVIEW:
@@ -1554,13 +1554,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         }
     }
 
-    public function performDeletePass()
+    /**
+     * @throws ilCtrlException|ilTestException
+     */
+    public function performDeletePass(): void
     {
-        if (isset($_POST['context']) && strlen($_POST['context'])) {
-            $context = $_POST['context'];
-        } else {
-            $context = ilTestPassDeletionConfirmationGUI::CONTEXT_PASS_OVERVIEW;
-        }
+        $context = $this->testrequest->getStringFromPost('context', ilTestPassDeletionConfirmationGUI::CONTEXT_PASS_OVERVIEW);
+        $active_fi = $this->testrequest->getIntFromPost('active_id', null);
+        $pass = $this->testrequest->getIntFromPost('pass', null);
 
         if (!$this->object->isPassDeletionAllowed()) {
             $this->redirectToPassDeletionContext($context);
@@ -1568,22 +1569,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $ilDB = $this->db;
 
-        $active_fi = null;
-        $pass = null;
-
-        if (isset($_POST['active_id']) && (int) $_POST['active_id']) {
-            $active_fi = $_POST['active_id'];
-        }
-
-        if (isset($_POST['pass']) && is_numeric($_POST['pass'])) {
-            $pass = $_POST['pass'];
-        }
-
         if (is_null($active_fi) || is_null($pass)) {
             $this->ctrl->redirect($this, 'outUserResultsOverview');
         }
 
-        if ($pass == $this->object->_getResultPass($active_fi)) {
+        if ($pass === $this->object::_getResultPass($active_fi)) {
             $this->ctrl->redirect($this, 'outUserResultsOverview');
         }
 

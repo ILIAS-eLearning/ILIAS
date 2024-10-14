@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\RequestDataCollector;
+
 /**
  * Class ilTestParticipantsTimeExtensionGUI
  *
@@ -41,7 +43,8 @@ class ilTestParticipantsTimeExtensionGUI
         private illanguage $lng,
         private ilDBInterface $db,
         private ilGlobalTemplateInterface $main_tpl,
-        private ilTestParticipantAccessFilterFactory $participant_access_filter
+        private ilTestParticipantAccessFilterFactory $participant_access_filter,
+        private RequestDataCollector $testrequest
     ) {
     }
 
@@ -193,8 +196,16 @@ class ilTestParticipantsTimeExtensionGUI
         $extratime->setSize(5);
         $form->addItem($extratime);
 
-        if (is_array($_POST) && isset($_POST['cmd']['timing']) && $_POST['cmd']['timing'] != '') {
-            $form->setValuesByArray($_POST);
+        $cmd = $this->testrequest->getArrayOfStringsFromPost('cmd');
+
+        if (isset($cmd['timing']) && $cmd['timing'] !== '') {
+            $values = [];
+
+            foreach ($this->testrequest->getPostKeys() as $key) {
+                $values[$key] = $this->testrequest->getArrayOfStringsOrStringFromPost($key);
+            }
+
+            $form->setValuesByArray($values);
         }
 
         $form->addCommandButton(self::CMD_SET_TIMING, $this->lng->txt("save"));
