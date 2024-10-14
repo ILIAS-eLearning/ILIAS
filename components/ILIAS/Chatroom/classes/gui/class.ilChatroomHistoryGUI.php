@@ -144,31 +144,31 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
         if ($export) {
             foreach ($messages as $message) {
                 switch ($message['message']->type) {
-                case 'message':
-                    $message_date = new ilDate($message['timestamp'], IL_CAL_UNIX);
-                    $message_date_time = new ilDateTime($message['timestamp'], IL_CAL_UNIX);
-                    $message_date_time_presentation = ilDatePresentation::formatDate($message_date_time);
+                    case 'message':
+                        $message_date = new ilDate($message['timestamp'], IL_CAL_UNIX);
+                        $message_date_time = new ilDateTime($message['timestamp'], IL_CAL_UNIX);
+                        $message_date_time_presentation = ilDatePresentation::formatDate($message_date_time);
 
-                    $this->renderDateTimeInformation(
-                        $roomTpl,
-                        $prev_date_time,
-                        $message_date_time,
-                        $message_date,
-                        $prev_date_time_presentation,
-                        $message_date_time_presentation,
-                        $time_format
-                    );
+                        $this->renderDateTimeInformation(
+                            $roomTpl,
+                            $prev_date_time,
+                            $message_date_time,
+                            $message_date,
+                            $prev_date_time_presentation,
+                            $message_date_time_presentation,
+                            $time_format
+                        );
 
-                    $roomTpl->setCurrentBlock('message_line');
-                    $roomTpl->setVariable('MESSAGECONTENT', htmlspecialchars($message['message']->content, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8')); // oops... it is a message? ^^
-                    $roomTpl->setVariable('MESSAGESENDER', htmlspecialchars($message['message']->from->username, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8'));
-                    $roomTpl->parseCurrentBlock();
+                        $roomTpl->setCurrentBlock('message_line');
+                        $roomTpl->setVariable('MESSAGECONTENT', htmlspecialchars($message['message']->content, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8')); // oops... it is a message? ^^
+                        $roomTpl->setVariable('MESSAGESENDER', htmlspecialchars($message['message']->from->username, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8'));
+                        $roomTpl->parseCurrentBlock();
 
-                    $roomTpl->setCurrentBlock('row');
-                    $roomTpl->parseCurrentBlock();
+                        $roomTpl->setCurrentBlock('row');
+                        $roomTpl->parseCurrentBlock();
 
-                    ++$num_messages_shown;
-                    break;
+                        ++$num_messages_shown;
+                        break;
                 }
             }
         }

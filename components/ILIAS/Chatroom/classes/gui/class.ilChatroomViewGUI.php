@@ -491,7 +491,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         foreach ($actions as $key => $bus_id) {
             $label = $translations[$key] ?? false;
             if ($label) {
-                $buttons[] = $this->uiFactory->button()->shy($label, '')->withAdditionalOnLoadCode(fn (string $id): string => (
+                $buttons[] = $this->uiFactory->button()->shy($label, '')->withAdditionalOnLoadCode(fn(string $id): string => (
                     'il.Chatroom.bus.send(' . json_encode($bus_id) . ', document.getElementById(' . json_encode($id) . '));'
                 ));
             }
