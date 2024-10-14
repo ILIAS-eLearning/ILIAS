@@ -15,7 +15,7 @@
 
 import il from 'ilias';
 import orderingHandler from './orderingverticalHandler';
-import makeDraggable from './makeDraggable';
+import makeDraggable from '../makeDraggable';
 
 il.test = il.test || {};
 il.test.orderingvertical = il.test.orderingvertical || {};

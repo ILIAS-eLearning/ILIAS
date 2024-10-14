@@ -15,13 +15,12 @@
 
 import il from 'ilias';
 import orderingHandler from './orderinghorizontalHandler';
-import makeDraggable from './makeDraggable';
+import makeDraggable from '../makeDraggable';
 
 il.test = il.test || {};
 il.test.orderinghorizontal = il.test.orderinghorizontal || {};
 
-il.test.orderinghorizontal.init = (parentElement, questionId) => orderingHandler(
+il.test.orderinghorizontal.init = (parentElement) => orderingHandler(
   parentElement,
   makeDraggable,
-  questionId,
 );

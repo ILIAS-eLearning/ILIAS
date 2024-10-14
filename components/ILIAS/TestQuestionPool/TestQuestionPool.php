@@ -56,6 +56,8 @@ class TestQuestionPool implements Component\Component
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, 'js/dist/orderinghorizontal.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, 'js/dist/orderingvertical.js');
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, 'js/dist/matchingpairwizard.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, 'js/dist/identifiedwizardinput.js');
@@ -63,8 +65,6 @@ class TestQuestionPool implements Component\Component
             new Component\Resource\ComponentJS($this, 'js/dist/ilMatchingQuestion.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, 'js/dist/ilAssMultipleChoice.js');
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, 'js/dist/nested_ordering.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, 'js/dist/testQuestionPoolTagInput.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
@@ -83,13 +83,5 @@ class TestQuestionPool implements Component\Component
             new Component\Resource\ComponentJS($this, 'js/dist/bootstrap-tagsinput_2015_25_03.js');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, 'js/dist/typeahead_0.11.1.js');
-        /* This library was missing after discussing dependencies for ILIAS 10
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\NodeModule('@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js');
-        */
-        /* This library was missing after discussing dependencies for ILIAS 10
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\NodeModule('nestable2/dist/jquery.nestable.min.js');
-        */
     }
 }

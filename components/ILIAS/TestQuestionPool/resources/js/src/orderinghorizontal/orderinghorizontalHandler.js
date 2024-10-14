@@ -33,21 +33,31 @@ const placeholderClass = 'c-test__dropzone';
  */
 let parentElement;
 
+function setup() {
+  const answers = parentElement.querySelectorAll(`.${answerElementClass}`);
+  let elementWidth = 0;
+  answers.forEach((elem) => { elementWidth += elem.offsetWidth; });
+  parentElement.querySelectorAll(`.${placeholderClass}`).forEach(
+    (elem) => {
+      elem.style.width = `${elementWidth / answers.length}px`;
+      elem.style.height = `${answers.item(0).offsetHeight}px`;
+    }
+  );
+}
+
 function changeHandler() {
   const currentAnswer = [];
   const placeholderElement = parentElement.querySelector(`.${placeholderClass}`);
 
-  if (parentElement.firstElementChild.classList.contains('answers')) {
-    parentElement.prepend(placeholderElement.cloneNode());
-  }
-
-  if (parentElement.lastElementChild.classList.contains('answers')) {
-    parentElement.append(placeholderElement.cloneNode());
-  }
-
-  parentElement.querySelectorAll(`.${answerElementClass} + .${answerElementClass}`).forEach(
+  parentElement.querySelectorAll(`.${answerElementClass}`).forEach(
     (elem) => {
-      elem.parentNode.insertBefore(placeholderElement.cloneNode(), elem);
+      if (!elem.previousElementSibling?.classList.contains(placeholderClass)) {
+        elem.parentNode.insertBefore(placeholderElement.cloneNode(), elem);
+      }
+
+      if (!elem.nextElementSibling?.classList.contains(placeholderClass)) {
+        elem.parentNode.insertBefore(placeholderElement.cloneNode(), elem.nextElementSibling);
+      }
     },
   );
 
@@ -65,5 +75,6 @@ function changeHandler() {
 
 export default function orderingHorizontalHandler(parentElementParam, makeDraggable) {
   parentElement = parentElementParam;
+  setup();
   makeDraggable(parentElement, answerElementClass, placeholderClass, changeHandler);
 }

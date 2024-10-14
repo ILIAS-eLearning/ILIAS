@@ -254,25 +254,29 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
     {
         $elements = [];
 
-        $position = 0;
-
+        $content = $values;
         if (array_key_exists('content', $values)) {
-            $values = $values['content'];
+            $content = $values['content'];
         }
-        foreach ($values as $identifier => $value) {
+
+        if (array_key_exists('indentation', $values)) {
+            $indentation = $values['indentation'];
+        }
+
+        if (array_key_exists('position', $values)) {
+            $position = $values['position'];
+        }
+
+        $counter = 0;
+        foreach ($content as $identifier => $value) {
             $element = new ilAssOrderingElement();
 
             $element->setRandomIdentifier((int) $identifier);
+            $element->setPosition((int) $position[$identifier] ?? $counter);
+            $element->setContent($value);
+            $element->setIndentation((int) $indentation[$identifier] ?? 0);
 
-            $element->setPosition($position++);
-
-            if ($this->getContext() == self::CONTEXT_MAINTAIN_HIERARCHY) {
-                $element->setIndentation((int) $value);
-            } else {
-                $element->setContent($value);
-            }
-
-            if ($this->getContext() == self::CONTEXT_MAINTAIN_ELEMENT_IMAGE) {
+            if ($this->getContext() === self::CONTEXT_MAINTAIN_ELEMENT_IMAGE) {
                 $element->setUploadImageName($this->fetchSubmittedImageFilename($identifier));
                 $element->setUploadImageFile($this->fetchSubmittedUploadFilename($identifier));
 

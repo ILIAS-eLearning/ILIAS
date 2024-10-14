@@ -73,12 +73,17 @@ function dragstartHandler(event) {
  */
 function touchstartHandler(event) {
   event.preventDefault();
+  event.stopPropagation();
   startMoving(event.target.closest(`.${draggableClass}`));
+  let width = draggedElement.offsetWidth;
+  let height = draggedElement.offsetHeight;
   clonedElementForTouch = draggedElement.cloneNode(true);
   draggedElement.parentNode.insertBefore(clonedElementForTouch, draggedElement);
   draggedElement.style.position = 'fixed';
-  draggedElement.style.left = `${event.touches[0].clientX - draggedElement.offsetWidth / 2}px`;
-  draggedElement.style.top = `${event.touches[0].clientY - draggedElement.offsetHeight / 2}px`;
+  draggedElement.style.left = `${event.touches[0].clientX - width / 2}px`;
+  draggedElement.style.top = `${event.touches[0].clientY - height / 2}px`;
+  draggedElement.style.width = `${width}px`;
+  draggedElement.style.height = `${height}px`;
   draggedElement.addEventListener('touchmove', touchmoveHandler);
   draggedElement.addEventListener('touchend', touchendHandler);
 }
@@ -101,10 +106,12 @@ function startMoving(target) {
 
   parentElement.querySelectorAll(`.${placeholderClass}`).forEach(
     (elem) => {
-      elem.style.width = `${draggedElement.offsetWidth}px`;
-      elem.style.height = `${draggedElement.offsetHeight}px`;
       elem.classList.add(activeClass);
     },
+  );
+
+  draggedElement.querySelectorAll(`.${placeholderClass}`).forEach(
+    (elem) => { elem.classList.remove(activeClass); }
   );
 }
 
@@ -116,9 +123,26 @@ function touchmoveHandler(event) {
   draggedElement.style.left = `${event.touches[0].clientX - draggedElement.offsetWidth / 2}px`;
   draggedElement.style.top = `${event.touches[0].clientY - draggedElement.offsetHeight / 2}px`;
 
+  let documentElement = parentElement.ownerDocument.documentElement;
+  if (event.touches[0].clientY > documentElement.clientHeight * 0.8) {
+    documentElement.scroll({
+      left: 0,
+      top: event.touches[0].pageY * 0.8,
+      behavior: 'smooth'
+    });
+  }
+
+  if (event.touches[0].clientY < documentElement.clientHeight * 0.2) {
+    documentElement.scroll({
+      left: 0,
+      top: event.touches[0].pageY * 0.8,
+      behavior: 'smooth'
+    });
+  }
+
   const element = parentElement.ownerDocument.elementsFromPoint(
-    event.changedTouches[0].pageX,
-    event.changedTouches[0].pageY,
+    event.changedTouches[0].clientX,
+    event.changedTouches[0].clientY,
   ).filter((elem) => elem.classList.contains(placeholderClass));
 
   if ((element.length === 0 && typeof currentHoverElementForTouch !== 'undefined')) {
@@ -182,8 +206,8 @@ function touchendHandler(event) {
   event.preventDefault();
 
   const element = parentElement.ownerDocument.elementsFromPoint(
-    event.changedTouches[0].pageX,
-    event.changedTouches[0].pageY,
+    event.changedTouches[0].clientX,
+    event.changedTouches[0].clientY,
   ).filter((elem) => elem.classList.contains(placeholderClass));
 
   dragendHandler();
@@ -200,7 +224,7 @@ function touchendHandler(event) {
  */
 function stopMoving(target) {
   target.parentNode.insertBefore(draggedElement, target);
-  onChangeHandler();
+  onChangeHandler(draggedElement, target);
 }
 
 /**
