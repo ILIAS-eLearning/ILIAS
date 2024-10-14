@@ -22,7 +22,7 @@ namespace ILIAS\Repository\Deletion;
 
 use ILIAS\Repository\InternalDomainService;
 
-class EventStandardAdapter implements PermissionInterface
+class EventStandardAdapter implements EventInterface
 {
     protected \ilLogger $log;
     protected \ilAppEventHandler $event_handler;

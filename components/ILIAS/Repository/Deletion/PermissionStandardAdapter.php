@@ -57,4 +57,8 @@ class PermissionStandardAdapter implements PermissionInterface
         return $not_deletable;
     }
 
+    public function revokePermission(int $ref_id): void
+    {
+        // TODO: Implement revokePermission() method.
+    }
 }
