@@ -103,8 +103,8 @@ class ilWACToken
             unlink(self::SALT_FILE_PATH);
         }
         $template = file_get_contents(__DIR__ . '/../wacsalt.php.template');
-        $random = new \ilRandom();
-        $salt = md5(time() * $random->int(1000, 9999) . self::SALT_FILE_PATH);
+        $random = new \Random\Randomizer();
+        $salt = md5(time() * $random->getInt(1000, 9999) . self::SALT_FILE_PATH);
         self::setSALT($salt);
         $template = str_replace('INSERT_SALT', $salt, $template);
         if (is_writable(dirname(self::SALT_FILE_PATH))) {

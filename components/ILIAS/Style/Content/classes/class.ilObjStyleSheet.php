@@ -1584,8 +1584,8 @@ class ilObjStyleSheet extends ilObject
 
         $ilSetting = $DIC->settings();
 
-        $random = new \ilRandom();
-        $rand = $random->int(1, 999999);
+        $random = new \Random\Randomizer();
+        $rand = $random->getInt(1, 999999);
 
 
         // check global fixed content style
