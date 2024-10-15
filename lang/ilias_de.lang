@@ -2440,7 +2440,7 @@ blog#:#blog_number_users_notes_or_comments#:#Anzahl der Benutzer, die zu diesem 
 blog#:#blog_posting#:#Beitrag
 blog#:#blog_posting_deleted#:#Der Beitrag wurde gelöscht.
 blog#:#blog_posting_deletion_confirmation#:#Wollen Sie diesen Beitrag wirklich löschen?
-blog#:#blog_posting_edit_approval_info#:#Der Beitrag muss durch die Blog-Redaktion freigeschaltet werden, bevor er sichtbar wird. Die Freischaltung kann nur stattfinden, wenn der Beitrag schon veröffentlicht wurde. 
+blog#:#blog_posting_edit_approval_info#:#Der Beitrag muss durch die Blog-Redaktion freigeschaltet werden, bevor er sichtbar wird. Die Freischaltung kann nur stattfinden, wenn der Beitrag schon veröffentlicht wurde.
 blog#:#blog_posting_not_found#:#Der Beitrag ist nicht verfügbar.
 blog#:#blog_postings#:#Beiträge
 blog#:#blog_presentation_frame#:#Darstellung
@@ -6095,7 +6095,7 @@ cont#:#cont_tile_size_3#:#sehr groß (bis zu zwei Kacheln in einer Zeile)
 cont#:#cont_tile_size_4#:#volle Breite (eine Kachel in einer Zeile)
 cont#:#cont_tile_view#:#Kacheln
 cont#:#cont_tile_view_info#:#Untergeordnete Objekte als Kacheln anzeigen. Bilder für diese Kacheln können in den Einstellungen jedes einzelnen Objekts hochgeladen werden.
-cont#:#cont_trash_general_usage#:#Um größere Mengen alter, gelöschter Objekte aus dem System zu entfernen, ist es empfehlenswert zunächst die Nicht-Container (etwa Dateien, Glossare, Tests, ..) und so alle Objekte aus den Container-Objekten (Kategorien, Kurse, Gruppen, Lernsequenzen,..) zu entfernen. Die Filter "Typ" und "Gelöscht am" unterstützen den Vorgang. Abschließend löschen Sie dann die Container. 
+cont#:#cont_trash_general_usage#:#Um größere Mengen alter, gelöschter Objekte aus dem System zu entfernen, ist es empfehlenswert zunächst die Nicht-Container (etwa Dateien, Glossare, Tests, ..) und so alle Objekte aus den Container-Objekten (Kategorien, Kurse, Gruppen, Lernsequenzen,..) zu entfernen. Die Filter "Typ" und "Gelöscht am" unterstützen den Vorgang. Abschließend löschen Sie dann die Container.
 contact#:#contact_awrn_ap_contacts#:#Bestätigte Kontakte
 contact#:#contact_awrn_ap_contacts_info#:#Alle bestätigten Kontakte eines Benutzers werden aufgelistet.
 contact#:#contact_awrn_req_contacts#:#Kontaktanfragen
@@ -17157,7 +17157,7 @@ ui#:#datatable_multiaction_label#:#Sammelaktionen
 ui#:#datatable_multiactionmodal_actionlabel#:#Aktion für alle Einträge
 ui#:#datatable_multiactionmodal_apply#:#Ausführen
 ui#:#datatable_multiactionmodal_listentry#:#Aktionen für gesamte Tabelle
-ui#:#datatable_multiactionmodal_msg#:#Die ausgewählte Aktion wirkt sich auf alle Einträge in diser Tabelle aus.
+ui#:#datatable_multiactionmodal_msg#:#Die ausgewählte Aktion wirkt sich auf alle Einträge in dieser Tabelle aus.
 ui#:#datatable_multiactionmodal_title#:#Aktionen für gesamte Tabelle
 ui#:#duration_default_label_end#:#Ende
 ui#:#duration_default_label_start#:#Beginn
