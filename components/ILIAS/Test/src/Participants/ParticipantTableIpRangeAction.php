@@ -20,30 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Participants;
 
-use ilCtrlInterface;
-use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\HTTP\Services as HttpService;
-use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Test\Logging\TestLogger;
 use ILIAS\UI\Component\Input\Container\Form\Standard;
 use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\UI\Component\Modal\RoundTrip;
-use ILIAS\UI\Component\Table\DataRow;
-use ILIAS\UI\Factory as UIFactory;
-use ILIAS\UI\Implementation\Component\Table\AbstractTable;
-use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\URLBuilder;
-use ILIAS\UI\URLBuilderToken;
-use ilLanguage;
-use ilTestParticipantsGUI;
-
-use function array_map;
-use function count;
-use function dump;
-use function ILIAS\UI\examples\Symbol\Glyph\Filter\filter;
-use function is_array;
-use function sprintf;
 
 class ParticipantTableIpRangeAction extends ParticipantTableModalAction
 {
@@ -54,25 +34,16 @@ class ParticipantTableIpRangeAction extends ParticipantTableModalAction
         return self::ACTION_ID;
     }
 
-    /**
-     * @param Participant $record
-     */
-    public function onDataRow(DataRow $row, mixed $record): DataRow
-    {
-        if (!$record->isInvitedParticipant()) {
-            return $row->withDisabledAction($this->getActionId());
-        }
-
-        return $row;
-    }
-
-    protected function onSubmit(Standard|Modal $modal, array|string $selected_participants): void
+    protected function onSubmit(Standard|Modal $modal, array $participants): void
     {
         $data = $modal->getData();
-
-        $participants = $this->resolveSelectedParticipants($selected_participants);
-
         $this->repository->updateIpRange($participants, $data['ip_range']);
+
+        $this->tpl->setOnScreenMessage(
+            \ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS,
+            $this->lng->txt('ip_range_updated'),
+            true
+        );
     }
 
     protected function getModal(URLBuilder $url_builder, array|string $selected_participants): Modal|Standard
@@ -135,4 +106,8 @@ class ParticipantTableIpRangeAction extends ParticipantTableModalAction
         return 'ip_range_for_selected_participants';
     }
 
+    protected function allowActionForRecord(Participant $record): bool
+    {
+        return $record->isInvitedParticipant();
+    }
 }

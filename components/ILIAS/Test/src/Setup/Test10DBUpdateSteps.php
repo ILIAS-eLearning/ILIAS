@@ -305,10 +305,47 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
             );
         }
 
-        //       @TODO migrate all client ip data.
-        //        if($this->db->tableColumnExists('tst_invited_user', 'clientip')) {
-        //            $this->db->manipulate('UPDATE tst_invited_user SET ip_range_from = clientip, ip_range_to = clientip WHERE ip_range_from IS NULL AND ip_range_to IS NULL');
-        //            $this->db->dropTableColumn('tst_invited_user', 'clientip');
-        //        }
+
+        if ($this->db->tableColumnExists('tst_invited_user', 'clientip')) {
+            $this->db->manipulate('UPDATE tst_invited_user SET ip_range_from = clientip, ip_range_to = clientip WHERE ip_range_from IS NULL AND ip_range_to IS NULL');
+            $this->db->dropTableColumn('tst_invited_user', 'clientip');
+        }
+    }
+
+    public function step_5(): void
+    {
+        if (!$this->db->tableColumnExists('tst_addtime', 'user_fi')) {
+            $this->db->addTableColumn(
+                'tst_tests',
+                'user_fi',
+                [
+                    'type' => \ilDBConstants::T_INTEGER,
+                    'length' => 8,
+                    'notnull' => true
+                ]
+            );
+        }
+        if (!$this->db->tableColumnExists('tst_addtime', 'test_fi')) {
+            $this->db->addTableColumn(
+                'tst_addtime',
+                'test_fi',
+                [
+                    'type' => \ilDBConstants::T_INTEGER,
+                    'length' => 8,
+                    'notnull' => true
+                ]
+            );
+        }
+
+        $this->db->addPrimaryKey("tst_addtime", ['user_fi', 'test_fi']);
+
+        if ($this->db->tableColumnExists('tst_addtime', 'active_fi')) {
+            $this->db->manipulate(
+                '
+                UPDATE tst_addtime INNER JOIN tst_active ON tst_active.active_id = tst_addtime.active_fi 
+                SET tst_addtime.test_fi = tst_active.test_fi, tst_addtime.user_fi = tst_active.user_fi'
+            );
+            $this->db->dropTableColumn('tst_addtime', 'active_fi');
+        }
     }
 }

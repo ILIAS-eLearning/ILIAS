@@ -28,7 +28,6 @@ use ILIAS\Test\Participants\ParticipantTableIpRangeAction;
 use Pimple\Container as PimpleContainer;
 use ILIAS\DI\Container as ILIASContainer;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Test\TestManScoringDoneHelper;
 use ILIAS\Test\Scoring\Marks\MarksRepository;
 use ILIAS\Test\Scoring\Marks\MarksDatabaseRepository;
 use ILIAS\Test\Settings\MainSettings\MainSettingsRepository;
@@ -179,6 +178,7 @@ class TestDIC extends PimpleContainer
             new ParticipantTableIpRangeAction(
                 $DIC['ilCtrl'],
                 $DIC['lng'],
+                $DIC->ui()->mainTemplate(),
                 $DIC['ui.factory'],
                 $DIC['ui.renderer'],
                 $DIC['refinery'],
@@ -191,6 +191,7 @@ class TestDIC extends PimpleContainer
             new ParticipantTableExtraTimeAction(
                 $DIC['ilCtrl'],
                 $DIC['lng'],
+                $DIC->ui()->mainTemplate(),
                 $DIC['ui.factory'],
                 $DIC['ui.renderer'],
                 $DIC['refinery'],
@@ -204,12 +205,19 @@ class TestDIC extends PimpleContainer
             new ParticipantTableFinishTestAction(
                 $DIC['ilCtrl'],
                 $DIC['lng'],
+                $DIC->ui()->mainTemplate(),
                 $DIC['ui.factory'],
                 $DIC['ui.renderer'],
                 $DIC['refinery'],
                 $c['request_data_collector'],
                 $c['response_handler'],
                 $c['participant.repository'],
+                $DIC['ilDB'],
+                new \ilTestProcessLockerFactory(
+                    new \ilSetting('assessment'),
+                    $DIC['ilDB']
+                ),
+                $DIC['ilUser']
             );
 
         return $dic;

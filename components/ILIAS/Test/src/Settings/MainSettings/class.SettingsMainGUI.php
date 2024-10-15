@@ -25,6 +25,7 @@ use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Test\Settings\MainSettings\MainSettingsRepository;
@@ -476,9 +477,9 @@ class SettingsMainGUI extends TestSettingsGUI
     private function removeAllParticipantsIfRequired(): void
     {
         if (!$this->test_object->participantDataExist() && !$this->test_object->getFixedParticipants()) {
-            //            foreach (array_keys($this->test_object->getInvitedUsers()) as $usr_id) {
-            //                $this->test_object->disinviteUser($usr_id);
-            //            }
+            foreach (array_keys($this->test_object->getInvitedUsers()) as $usr_id) {
+                $this->test_object->disinviteUser($usr_id);
+            }
         }
     }
 

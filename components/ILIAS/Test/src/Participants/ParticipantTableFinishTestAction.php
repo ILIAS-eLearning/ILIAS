@@ -20,17 +20,48 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Participants;
 
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
+use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
+use ILIAS\Test\RequestDataCollector;
+use ILIAS\Test\ResponseHandler;
 use ILIAS\UI\Component\Input\Container\Form\Standard;
 use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\UI\URLBuilder;
-
-use function array_map;
-use function count;
-use function sprintf;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\Refinery\Factory as Refinery;
+use ilTestSessionFactory;
 
 class ParticipantTableFinishTestAction extends ParticipantTableModalAction
 {
     private const ACTION_ID = 'finish_test';
+
+    public function __construct(
+        \ilCtrlInterface $ctrl,
+        \ilLanguage $lng,
+        \ilGlobalTemplateInterface $template,
+        UIFactory $ui_factory,
+        UIRenderer $ui_renderer,
+        Refinery $refinery,
+        RequestDataCollector $test_request,
+        ResponseHandler $test_response,
+        ParticipantRepository $repository,
+        private readonly \ilDBInterface $db,
+        private readonly \ilTestProcessLockerFactory $process_locker_factory,
+        private readonly \ilObjUser $user
+    ) {
+        parent::__construct(
+            $ctrl,
+            $lng,
+            $template,
+            $ui_factory,
+            $ui_renderer,
+            $refinery,
+            $test_request,
+            $test_response,
+            $repository
+        );
+    }
 
     public function getActionId(): string
     {
@@ -53,7 +84,7 @@ class ParticipantTableFinishTestAction extends ParticipantTableModalAction
             $modal = $modal->withAffectedItems(
                 array_map(
                     fn(Participant $participant) => $this->ui_factory->modal()->interruptiveItem()->standard(
-                        $participant->getUsrId(),
+                        (string) $participant->getUsrId(),
                         sprintf(
                             '%s, %s',
                             $participant->getLastname(),
@@ -68,9 +99,47 @@ class ParticipantTableFinishTestAction extends ParticipantTableModalAction
         return $modal;
     }
 
-    protected function onSubmit(Standard|Modal $modal, array|string $selected_participants): void
+    protected function onSubmit(Standard|Modal $modal, array $participants): void
     {
-        // TODO: Implement onSubmit() method.
+        // This is required here because of late test object binding
+        $test_session_factory = new ilTestSessionFactory(
+            $this->test_object,
+            $this->db,
+            $this->user
+        );
+
+        foreach ($participants as $participant) {
+            $process_locker = $this->process_locker_factory->withContextId($participant->getActiveId())->getLocker();
+
+            $test_pass_finisher = new \ilTestPassFinishTasks(
+                $test_session_factory->getSession($participant->getActiveId()),
+                $this->test_object->getTestId()
+            );
+            $test_pass_finisher->performFinishTasks($process_locker);
+        }
+
+        $logger = $this->test_object->getTestLogger();
+        if ($logger->isLoggingEnabled()) {
+            $logger->logTestAdministrationInteraction(
+                $logger->getInteractionFactory()->buildTestAdministrationInteraction(
+                    $this->test_object->getRefId(),
+                    $this->user->getId(),
+                    TestAdministrationInteractionTypes::TEST_RUN_OF_PARTICIPANT_CLOSED,
+                    [
+                        AdditionalInformationGenerator::KEY_USERS => array_map(
+                            fn(Participant $participant) => $participant->getUsrId(),
+                            $participants
+                        )
+                    ]
+                )
+            );
+        }
+
+        $this->tpl->setOnScreenMessage(
+            \ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS,
+            $this->lng->txt('test_attempts_finished'),
+            true
+        );
     }
 
     private function resolveMessage(array|string $selected_participants, array $participants): string
@@ -91,5 +160,10 @@ class ParticipantTableFinishTestAction extends ParticipantTableModalAction
         }
 
         return $this->lng->txt('finish_test_multiple');
+    }
+
+    protected function allowActionForRecord(Participant $record): bool
+    {
+        return $record->hasUnfinishedPasses();
     }
 }

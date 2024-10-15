@@ -38,6 +38,7 @@ abstract class ParticipantTableModalAction implements TableAction
     public function __construct(
         protected readonly \ilCtrlInterface $ctrl,
         protected readonly \ilLanguage $lng,
+        protected readonly \ilGlobalTemplateInterface $tpl,
         protected readonly UIFactory $ui_factory,
         protected readonly UIRenderer $ui_renderer,
         protected readonly Refinery $refinery,
@@ -80,7 +81,14 @@ abstract class ParticipantTableModalAction implements TableAction
 
     public function onDataRow(DataRow $row, mixed $record): DataRow
     {
-        return $row;
+        return $this->allowActionForRecord($record)
+            ? $row
+            : $row->withDisabledAction($this->getActionId());
+    }
+
+    public function isEnabled(): bool
+    {
+        return true;
     }
 
     protected function showModal(URLBuilder $url_builder, URLBuilderToken $id_token, URLBuilderToken $action_token, bool $is_async = true): void
@@ -105,21 +113,38 @@ abstract class ParticipantTableModalAction implements TableAction
 
     protected function submitModal(URLBuilder $url_builder, URLBuilderToken $id_token, URLBuilderToken $action_token): void
     {
-
         $selected_participants = $this->test_request->getMultiSelectionIds($id_token->getName());
 
-        $modal = $this->getModal($url_builder, $selected_participants)
-            ->withRequest($this->test_request->getRequest());
-        $modal->getData(); // call to validate data
+        $modal = $this->getModal($url_builder, $selected_participants);
 
-        if ($modal->getError()) {
-            $this->showModal($url_builder, $id_token, $action_token, false);
-            return;
+        if ($modal instanceof Standard) {
+            $modal = $modal->withRequest($this->test_request->getRequest());
+            $modal->getData(); // call to validate data
+
+            if ($modal->getError()) {
+                $this->showModal($url_builder, $id_token, $action_token, false);
+                return;
+            }
+        }
+
+        $participants = $this->resolveSelectedParticipants($selected_participants);
+
+        if (count($participants) === 0) {
+            $this->tpl->setOnScreenMessage(
+                \ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
+                $this->lng->txt("no_valid_participant_selection"),
+                true
+            );
+
+            $this->ctrl->redirectByClass(
+                \ilTestParticipantsGUI::class,
+                \ilTestParticipantsGUI::CMD_SHOW
+            );
         }
 
         $this->onSubmit(
             $modal,
-            $selected_participants
+            $participants
         );
 
         $this->ctrl->redirectByClass(
@@ -148,9 +173,14 @@ abstract class ParticipantTableModalAction implements TableAction
             $selected_participants = $participant_list->getAllActiveIds();
         }
 
-        return array_map(
-            fn(int $active_id) => $this->repository->loadParticipantByActiveId($active_id),
-            $selected_participants
+        return array_filter(
+            array_map(
+                fn(int $user_id) => $this->repository->loadParticipantBy($this->test_object->getTestId(), [
+                    'user_fi' => ['integer', $user_id]
+                ]),
+                $selected_participants
+            ),
+            fn(Participant $participant) => $this->allowActionForRecord($participant)
         );
     }
 
@@ -158,5 +188,13 @@ abstract class ParticipantTableModalAction implements TableAction
 
     abstract protected function getModal(URLBuilder $url_builder, array|string $selected_participants): Modal|Standard;
 
-    abstract protected function onSubmit(Modal|Standard $modal, array|string $selected_participants): void;
+    /**
+     * @param Modal|Standard     $modal
+     * @param array<Participant> $participants
+     *
+     * @return void
+     */
+    abstract protected function onSubmit(Modal|Standard $modal, array $participants): void;
+
+    abstract protected function allowActionForRecord(Participant $record): bool;
 }

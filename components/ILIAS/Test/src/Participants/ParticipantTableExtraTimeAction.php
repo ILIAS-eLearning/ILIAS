@@ -20,10 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Participants;
 
-use ILIAS\HTTP\Services as HttpService;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Test\Logging\AdditionalInformationGenerator;
-use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\ResponseHandler;
 use ILIAS\UI\Component\Input\Container\Form\Standard;
@@ -39,6 +36,7 @@ class ParticipantTableExtraTimeAction extends ParticipantTableModalAction
     public function __construct(
         \ilCtrlInterface $ctrl,
         \ilLanguage $lng,
+        \ilGlobalTemplateInterface $template,
         UIFactory $ui_factory,
         UIRenderer $ui_renderer,
         Refinery $refinery,
@@ -50,6 +48,7 @@ class ParticipantTableExtraTimeAction extends ParticipantTableModalAction
         parent::__construct(
             $ctrl,
             $lng,
+            $template,
             $ui_factory,
             $ui_renderer,
             $refinery,
@@ -64,29 +63,21 @@ class ParticipantTableExtraTimeAction extends ParticipantTableModalAction
         return self::ACTION_ID;
     }
 
-    protected function onSubmit(Standard|Modal $modal, array|string $selected_participants): void
+    public function isEnabled(): bool
+    {
+        return $this->test_object->getEnableProcessingTime();
+    }
+
+    protected function onSubmit(Standard|Modal $modal, array $participants): void
     {
         $data = $modal->getData();
+        $this->test_object->addExtraTime($participants, $data['extra_time']);
 
-        $participants = $this->resolveSelectedParticipants($selected_participants);
-        $this->repository->updateExtraTime($participants, $data['extra_time']);
-
-        $logger = $this->test_object->getTestLogger();
-        if ($logger->isLoggingEnabled()) {
-            $logger->logTestAdministrationInteraction(
-                $logger->getInteractionFactory()->buildTestAdministrationInteraction(
-                    $this->test_object->getRefId(),
-                    $this->user->getId(),
-                    TestAdministrationInteractionTypes::EXTRA_TIME_ADDED,
-                    [
-                        AdditionalInformationGenerator::KEY_USERS => array_map(
-                            fn(\ilTestParticipant $participant) => $participant->getUsrId(),
-                            $participants
-                        ),
-                    ]
-                )
-            );
-        }
+        $this->tpl->setOnScreenMessage(
+            \ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS,
+            $this->lng->txt('extratime_added'),
+            true
+        );
     }
 
     protected function getModal(URLBuilder $url_builder, array|string $selected_participants): Modal|Standard
@@ -118,7 +109,7 @@ class ParticipantTableExtraTimeAction extends ParticipantTableModalAction
                     $this->lng->txt('extra_time_byline')
                 )
             ],
-            $url_builder->buildURI()
+            (string) $url_builder->buildURI()
         )->withSubmitLabel($this->lng->txt('add'));
     }
 
@@ -157,5 +148,11 @@ class ParticipantTableExtraTimeAction extends ParticipantTableModalAction
             fn(\ilTestParticipant $participant) => $participant->getExtraTime(),
             $participants
         ))) > 1;
+    }
+
+    protected function allowActionForRecord(Participant $record): bool
+    {
+        return true;
+        #return $this->test_object->getEnableProcessingTime();
     }
 }

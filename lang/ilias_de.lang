@@ -710,6 +710,7 @@ assessment#:#extra_time_for_selected_participants#:#Sie bearbeiten die Extrazeit
 assessment#:#extra_time_for_selected_participants_different#:#Sie haben Teilnehmer mit unterschiedlicher Extrazeit ausgewählt.
 assessment#:#extra_time_for_single_participant#:#Sie fügen Extrazeit dem folgenden Teilnehmer hinzu:
 assessment#:#extratime#:#Zeitverlängerung
+assessment#:#extratime_added#:#Die extra Zeit wurde für die gewählten Teilnehmer gespeichert.
 assessment#:#factor#:#Faktor
 assessment#:#failed_official#:#nicht bestanden
 assessment#:#failed_short#:#nicht bestanden
@@ -746,6 +747,7 @@ assessment#:#finish_test_multiple#:#Sind Sie sicher, dass Sie den Testdurchlauf 
 assessment#:#finish_test_single#:#Sind Sie sicher, dass Sie den Testdurchlauf für den Teilnehmer "%s" beenden möchten?
 assessment#:#finish_unfinished_passes#:#Beendet noch offene Testdurchläufe
 assessment#:#finish_unfinished_passes_desc#:#Noch nicht beendete Testdurchläufe werden automatisch beendet – vorausgesetzt, es wurde für diese Tests ein Endzeitpunkt festgelegt oder Teilnehmende haben die maximale Bearbeitungsdauer überschritten.
+assessment#:#finished#:#Beendet
 assessment#:#finished_by_administrator#:#Beendet durch Administrator
 assessment#:#finished_by_cronjob#:#Beendet durch Cronjob
 assessment#:#finished_by_duration#:#Beendet aufgrund Zeitlimit
@@ -796,6 +798,7 @@ assessment#:#ip_range_for_selected_participants#:#Sie bearbeiten die IP Range f�
 assessment#:#ip_range_for_single_participant#:#Sie bearbeiten die IP Range für folgenden Teilnehmer:
 assessment#:#ip_range_info#:#Nur Geräte mit einer IP aus der festgelegten Spanne können den Test starten.
 assessment#:#ip_range_label#:#Beschränkung auf IPs
+assessment#:#ip_range_updated#:#Die IP-Rang wurde für die gewählten Teilnehmer aktualisiert.
 assessment#:#javaapplet#:#Java-Applet
 assessment#:#kiosk#:#Prüfungsansicht
 assessment#:#kiosk_description#:#Die Prüfungsansicht zeigt den Test im Kiosk-Modus. Dabei werden alle Bildschirmelemente, die nicht zum Test gehören, ausgeblendet. Um Teilnehmer effektiv daran zu hindern, während des Tests andere Webseiten zu öffnen, setzen Sie bitte zusätzlich einen auf E-Klausuren spezialisierten Browser ein (z.B. den 'Safe Exam Browser').
@@ -844,6 +847,7 @@ assessment#:#lacex_assSingleChoice_NumberOfResultExpression_e#:#R = +2+
 assessment#:#lacex_assTextSubset_StringResultExpression_d#:#Für die 2te Anwortoption wurde der Text „Natriumchlorid“ eingetragen
 assessment#:#lacex_assTextSubset_StringResultExpression_e#:#R[2] = ~Natriumchlorid~
 assessment#:#lacex_example_header#:#Beispiele
+assessment#:#list_of_participants#:#Teilnehmer
 assessment#:#locked#:#gesperrt
 assessment#:#log_deletion_not_allowed#:#Es fehlen Ihnen die Berechtigung, um Protokolleinträge zu löschen.
 assessment#:#log_entry_type#:#Typ des Protokolleintrags
@@ -950,6 +954,7 @@ assessment#:#no_selection#:#--- Keine Auswahl ---
 assessment#:#no_selection_for_move#:#Keine Frage zum Verschieben ausgewählt
 assessment#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswählen!
 assessment#:#no_user_or_group_selected#:#Bitte wählen Sie eine Zielgruppe aus, in der die Suche durchgeführt werden soll (Benutzer und/oder Gruppen)!
+assessment#:#no_valid_participant_selection#:#Es wurden keine gültigen Teilnehmer für diese Aktion ausgewählt.
 assessment#:#not_all_obligations_answered#:#Sie müssen alle verpflichtenden Fragen beantworten, bevor Sie den Test abschließen können.
 assessment#:#not_evaluated_users#:#Noch nicht bewertete Benutzer
 assessment#:#not_started#:#Noch nicht gestartet
@@ -1249,6 +1254,7 @@ assessment#:#solution#:#Lösungen
 assessment#:#solutionText#:#Text
 assessment#:#solution_contain_keywords#:#Punkte werden auf Basis des Vorkommens der folgenden Begriffe vergeben:
 assessment#:#solution_hint#:#Zugeordneter Inhalt zur Wiederholung
+assessment#:#solutions#:#Lösungen
 assessment#:#start_tag#:#Start-Marke
 assessment#:#statistical_data#:#Statistische Daten
 assessment#:#statistics#:#Statistik
@@ -1268,6 +1274,7 @@ assessment#:#term#:#Term
 assessment#:#term_image#:#Bild
 assessment#:#term_text#:#Text
 assessment#:#terms#:#Terme
+assessment#:#test_attempts_finished#:#Der Testdurchlauf wurde für die gewählten Teilnehmer beendet.
 assessment#:#test_confirm_template_reset#:#Sind Sie sicher, dass Sie die Vorlage nicht mehr verwenden wollen?
 assessment#:#test_delete_page#:#Frage entfernen
 assessment#:#test_edit_settings#:#Einstellungen bearbeiten

@@ -710,6 +710,7 @@ assessment#:#extra_time_for_selected_participants#:#You are adding extra time to
 assessment#:#extra_time_for_selected_participants_different#:#You have selected participants with different additional times.
 assessment#:#extra_time_for_single_participant#:#Your are adding extra time to the following participant:
 assessment#:#extratime#:#Extra Time
+assessment#:#extratime_added#:#The extra time has been added to the selected participants.
 assessment#:#factor#:#Factor
 assessment#:#failed_official#:#failed
 assessment#:#failed_short#:#failed
@@ -746,6 +747,7 @@ assessment#:#finish_test_multiple#:#Are you sure you want to finish the test att
 assessment#:#finish_test_single#:#Are you sure you want to finish the test attempt for the participant "%s"?
 assessment#:#finish_unfinished_passes#:#Finish Uncompleted Attempts
 assessment#:#finish_unfinished_passes_desc#:#Test attempts which have a set finishing time or a time limit will be closed by this cron job.
+assessment#:#finished#:#Finished
 assessment#:#finished_by_administrator#:#Finished by Administrator
 assessment#:#finished_by_cronjob#:#Finished by Cronjob
 assessment#:#finished_by_duration#:#Finished by time limit
@@ -796,6 +798,7 @@ assessment#:#ip_range_for_selected_participants#:#You are changing the IP Range 
 assessment#:#ip_range_for_single_participant#:#You are changing the IP Range of the selected participants.
 assessment#:#ip_range_info#:#Only clients with an IP in the provided range will be able to access the test.
 assessment#:#ip_range_label#:#IP Range
+assessment#:#ip_range_updated#:#The IP-Range has been update for the selected participants.
 assessment#:#javaapplet#:#Java Applet
 assessment#:#kiosk#:#Exam View
 assessment#:#kiosk_description#:#Runs tests in kiosk mode. This hides the browser bar, navigation and all other screen elements that are not part of the test. Participants are prevented from opening other websites.<br />Effectively preventing participants from opening other websites during tests additionally requires the deployment of a suitable browser (e.g. Safe Exam Browser).
@@ -844,6 +847,7 @@ assessment#:#lacex_assSingleChoice_NumberOfResultExpression_e#:#R = +2+
 assessment#:#lacex_assTextSubset_StringResultExpression_d#:#For the second answer option the answer „sodium chloride“ was entered
 assessment#:#lacex_assTextSubset_StringResultExpression_e#:#R[2] = ~sodium chloride~
 assessment#:#lacex_example_header#:#Examples
+assessment#:#list_of_participants#:#Participants
 assessment#:#locked#:#locked
 assessment#:#log_deletion_not_allowed#:#You don't have the necessary permissions to delete log entries.
 assessment#:#log_entry_type#:#Log Entry Type
@@ -1249,6 +1253,7 @@ assessment#:#solution#:#Solution
 assessment#:#solutionText#:#Text
 assessment#:#solution_contain_keywords#:#Score is granted based on the occurrence of the following keywords:
 assessment#:#solution_hint#:#Assigned Content for Recapitulation
+assessment#:#solutions#:#Solutions
 assessment#:#start_tag#:#Start Tag
 assessment#:#statistical_data#:#Statistical Data
 assessment#:#statistics#:#Statistics
@@ -1268,6 +1273,7 @@ assessment#:#term#:#Term
 assessment#:#term_image#:#Term Image
 assessment#:#term_text#:#Term Text
 assessment#:#terms#:#Terms
+assessment#:#test_attempts_finished#:#The test pass has been finished for the selected participants.
 assessment#:#test_confirm_template_reset#:#Are you sure that you do not want to use the template anymore?
 assessment#:#test_delete_page#:#Delete Question
 assessment#:#test_edit_settings#:#Edit Settings
