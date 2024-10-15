@@ -74,7 +74,7 @@ class ilTestTabsManager
     public const SETTINGS_SUBTAB_ID_EDIT_INTRODUCTION_PAGE = 'edit_introduction';
     public const SETTINGS_SUBTAB_ID_EDIT_CONCLUSION_PAGE = 'edit_concluding_remarks';
     private const SETTINGS_SUBTAB_ID_CERTIFICATE = 'certificate';
-    private const SETTINGS_SUBTAB_ID_PERSONAL_DEFAULT_SETTINGS = 'tst_default_settings';
+    public const SETTINGS_SUBTAB_ID_PERSONAL_DEFAULT_SETTINGS = 'tst_default_settings';
 
     /**
      * @var ilObjTest
@@ -845,9 +845,9 @@ class ilTestTabsManager
 
         $this->tabs->addSubTabTarget(
             self::SETTINGS_SUBTAB_ID_PERSONAL_DEFAULT_SETTINGS,
-            $this->ctrl->getLinkTargetByClass('ilObjTestGUI', 'defaults'),
+            $this->ctrl->getLinkTargetByClass(TestPersonalDefaultSettingsGUI::class, 'defaults'),
             ['defaults', 'deleteDefaults', 'addDefaults', 'applyDefaults'],
-            ['', 'ilobjtestgui', 'ilcertificategui']
+            ['', 'ilobjtestgui', 'ilcertificategui', strtolower(TestPersonalDefaultSettingsGUI::class)]
         );
 
         $lti_settings = new ilLTIProviderObjectSettingGUI($this->test_object->getRefId());

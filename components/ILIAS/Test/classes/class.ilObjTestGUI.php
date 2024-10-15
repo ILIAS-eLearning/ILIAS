@@ -93,6 +93,7 @@ use ILIAS\ResourceStorage\Services as IRSS;
  * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionPreviewGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestQuestionBrowserTableGUI, ilTestInfoScreenToolbarGUI, ilLTIProviderObjectSettingGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestPageGUI
+ * @ilCtrl_Calls ilObjTestGUI: TestPersonalDefaultSettingsGUI
  *
  * @ingroup components\ILIASTest
  */
@@ -276,6 +277,24 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->determineObjectiveOrientedContainer();
 
         switch ($next_class) {
+            case strtolower(TestPersonalDefaultSettingsGUI::class):
+                if (!$this->access->checkAccess('write', '', $this->ref_id)) {
+                    $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_test'), true);
+                    $this->ctrl->redirect($this, 'infoScreen');
+                }
+
+                $this->prepareOutput();
+                $this->addHeaderAction(); //@todo find out why this is needed
+
+                $this->tabs_manager->getSettingsSubTabs();
+                $this->tabs_gui->activateTab(ilTestTabsManager::TAB_ID_SETTINGS);
+                $this->tabs_gui->activateSubTab(ilTestTabsManager::SETTINGS_SUBTAB_ID_PERSONAL_DEFAULT_SETTINGS);
+
+                $gui = new TestPersonalDefaultSettingsGUI($this->lng, $this->ui_factory, $this->obj_id, $this->ui_renderer, $this->http, $this->tpl, $this->ctrl, $this->toolbar, $this->getTestObject(), $this->http, $this->refinery, $this->test_question_set_config_factory);
+
+                $this->ctrl->forwardCommand($gui);
+                break;
+
             case 'illtiproviderobjectsettinggui':
                 if ((!$this->access->checkAccess("read", "", $this->testrequest->getRefId()))) {
                     $this->redirectAfterMissingRead();
@@ -2334,150 +2353,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $template->parseCurrentBlock();
 
         $this->tpl->setVariable("PRINT_CONTENT", $template->get());
-    }
-
-    /**
-     * Displays the settings page for test defaults
-     */
-    public function defaultsObject()
-    {
-        if (!$this->access->checkAccess("write", "", $this->ref_id)) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt("cannot_edit_test"), true);
-            $this->ctrl->redirect($this, "infoScreen");
-        }
-
-        $this->tabs_gui->activateTab(ilTestTabsManager::TAB_ID_SETTINGS);
-
-        $this->toolbar->setFormAction($this->ctrl->getFormAction($this, 'addDefaults'));
-        $this->toolbar->addFormButton($this->lng->txt('add'), 'addDefaults');
-        $this->toolbar->addInputItem(new ilTextInputGUI($this->lng->txt('tst_defaults_defaults_of_test'), 'name'), true);
-        $table = new ilTestPersonalDefaultSettingsTableGUI($this, 'defaults');
-        $defaults = $this->getTestObject()->getAvailableDefaults();
-        $table->setData($defaults);
-        $this->tpl->setContent($table->getHTML());
-    }
-
-    /**
-     * Deletes selected test defaults
-     */
-    public function deleteDefaultsObject()
-    {
-        $defaults_ids = $this->testrequest->getArrayOfIntsFromPost('chb_defaults');
-        if ($defaults_ids !== null && $defaults_ids !== []) {
-            foreach ($defaults_ids as $test_default_id) {
-                $this->getTestObject()->deleteDefaults($test_default_id);
-            }
-        } else {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('select_one'));
-        }
-        $this->defaultsObject();
-    }
-
-    /**
-     *
-     */
-    public function confirmedApplyDefaultsObject()
-    {
-        $this->applyDefaultsObject(true);
-        return;
-    }
-
-    /**
-     * Applies the selected test defaults
-     */
-    public function applyDefaultsObject($confirmed = false)
-    {
-        $defaults = $this->testrequest->getArrayOfStringsFromPost('chb_defaults');
-        if ($defaults !== null && $defaults !== []) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('tst_defaults_apply_select_one'));
-
-            $this->defaultsObject();
-            return;
-        }
-
-        // do not apply if user datasets exist
-        if ($this->getTestObject()->evalTotalPersons() > 0) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('tst_defaults_apply_not_possible'));
-            $this->defaultsObject();
-            return;
-        }
-
-        $default_settings = unserialize($defaults[0]['defaults'], ['allowed_classes' => false]);
-
-        if (isset($default_settings['isRandomTest'])) {
-            if ($default_settings['isRandomTest']) {
-                $new_question_set_type = ilObjTest::QUESTION_SET_TYPE_RANDOM;
-                $this->getTestObject()->setQuestionSetType(ilObjTest::QUESTION_SET_TYPE_RANDOM);
-            } else {
-                $new_question_set_type = ilObjTest::QUESTION_SET_TYPE_FIXED;
-                $this->getTestObject()->setQuestionSetType(ilObjTest::QUESTION_SET_TYPE_FIXED);
-            }
-        } elseif (isset($default_settings['questionSetType'])) {
-            $new_question_set_type = $default_settings['questionSetType'];
-        }
-        $old_question_set_type = $this->getTestObject()->getQuestionSetType();
-        $question_set_type_setting_switched = ($old_question_set_type != $new_question_set_type);
-
-        $old_question_set_config = $this->test_question_set_config_factory->getQuestionSetConfig();
-
-        switch (true) {
-            case !$question_set_type_setting_switched:
-            case !$old_question_set_config->doesQuestionSetRelatedDataExist():
-            case $confirmed:
-
-                break;
-
-            default:
-
-                $confirmation = new ilTestSettingsChangeConfirmationGUI($this->getTestObject());
-
-                $confirmation->setFormAction($this->ctrl->getFormAction($this));
-                $confirmation->setCancel($this->lng->txt('cancel'), 'defaults');
-                $confirmation->setConfirm($this->lng->txt('confirm'), 'confirmedApplyDefaults');
-
-                $confirmation->setOldQuestionSetType($this->getTestObject()->getQuestionSetType());
-                $confirmation->setNewQuestionSetType($new_question_set_type);
-                $confirmation->setQuestionLossInfoEnabled(false);
-                $confirmation->build();
-
-                $confirmation->populateParametersFromPost();
-
-                $this->tpl->setContent($this->ctrl->getHTML($confirmation));
-
-                return;
-        }
-
-        if ($question_set_type_setting_switched && !$this->getTestObject()->getOfflineStatus()) {
-            $this->getTestObject()->setOfflineStatus(true);
-
-            $info = $this->lng->txt('tst_set_offline_due_to_switched_question_set_type_setting');
-
-            $this->tpl->setOnScreenMessage('info', $info, true);
-        }
-
-        $this->getTestObject()->applyDefaults($defaults);
-
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('tst_defaults_applied'), true);
-
-        if ($question_set_type_setting_switched && $old_question_set_config->doesQuestionSetRelatedDataExist()) {
-            $old_question_set_config->removeQuestionSetRelatedData();
-        }
-
-        $this->ctrl->redirect($this, 'defaults');
-    }
-
-    /**
-    * Adds the defaults of this test to the defaults
-    */
-    public function addDefaultsObject()
-    {
-        $name = $this->testrequest->strVal('name');
-        if ($name !== '') {
-            $this->getTestObject()->addDefaults($name);
-        } else {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('tst_defaults_enter_name'));
-        }
-        $this->defaultsObject();
     }
 
     private function isCommandClassAnyInfoScreenChild(): bool

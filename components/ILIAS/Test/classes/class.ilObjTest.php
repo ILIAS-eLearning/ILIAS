@@ -6088,6 +6088,15 @@ class ilObjTest extends ilObject
         );
     }
 
+    public function deleteAllDefaults(): void
+    {
+        $this->db->manipulateF(
+            "DELETE FROM tst_test_defaults",
+            [],
+            []
+        );
+    }
+
     /**
     * Adds the defaults of this test to the test defaults
     *
