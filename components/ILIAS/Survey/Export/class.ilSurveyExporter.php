@@ -34,7 +34,7 @@ class ilSurveyExporter extends ilXmlExporter
 
         $this->domain = $DIC->survey()->internal()->domain();
         $this->ds = new ilSurveyDataSet();
-        $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+        $this->ds->initByExporter($this);
         $this->ds->setDSPrefix("ds");
     }
 

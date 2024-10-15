@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Exporter class for object related data (please note that title and description
  * are usually included in the specific object exporter classes, this class
@@ -32,7 +32,7 @@ class ilObjectExporter extends ilXmlExporter
     public function init(): void
     {
         $this->ds = new ilObjectDataSet();
-        $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+        $this->ds->initByExporter($this);
         $this->ds->setDSPrefix("ds");
     }
 
@@ -47,7 +47,7 @@ class ilObjectExporter extends ilXmlExporter
 
     public function getXmlRepresentation(string $entity, string $schema_version, string $id): string
     {
-        $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+        $this->ds->initByExporter($this);
         return $this->ds->getXmlRepresentation($entity, $schema_version, [$id], "", true, true);
     }
 

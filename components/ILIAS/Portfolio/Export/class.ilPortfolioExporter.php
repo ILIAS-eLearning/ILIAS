@@ -74,7 +74,7 @@ class ilPortfolioExporter extends ilXmlExporter
         string $a_schema_version,
         string $a_id
     ): string {
-        $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+        $this->ds->initByExporter($this);
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 

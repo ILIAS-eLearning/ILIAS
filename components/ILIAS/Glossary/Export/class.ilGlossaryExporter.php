@@ -31,7 +31,7 @@ class ilGlossaryExporter extends ilXmlExporter
         global $DIC;
 
         $this->ds = new ilGlossaryDataSet();
-        $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+        $this->ds->initByExporter($this);
         $this->ds->setDSPrefix("ds");
         $this->metadata = $DIC->glossary()->internal()->domain()->metadata();
     }
