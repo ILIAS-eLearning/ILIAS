@@ -2143,15 +2143,15 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
         $info->enablePrivateNotes();
 
-        $info->addSection($this->lng->txt("tst_general_properties"));
+        $info->addSection($this->lng->txt('tst_general_properties'));
         $info->addProperty(
-            $this->lng->txt("author"),
+            $this->lng->txt('author'),
             $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
                 $this->getTestObject()->getAuthor()
             )
         );
         $info->addProperty(
-            $this->lng->txt("title"),
+            $this->lng->txt('title'),
             $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
                 $this->getTestObject()->getTitle()
             )
@@ -2161,75 +2161,80 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $info->hideFurtherSections(false);
         }
 
-        $info->addSection($this->lng->txt("tst_sequence_properties"));
+        $info->addSection($this->lng->txt('tst_sequence_properties'));
         $info->addProperty(
-            $this->lng->txt("tst_sequence"),
+            $this->lng->txt('tst_sequence'),
             $this->lng->txt(
                 $this->getTestObject()->getMainSettings()->getParticipantFunctionalitySettings()->getPostponedQuestionsMoveToEnd()
-                    ? "tst_sequence_postpone" : "tst_sequence_fixed"
+                    ? 'tst_sequence_postpone' : 'tst_sequence_fixed'
             )
         );
 
-        $info->addSection($this->lng->txt("tst_heading_scoring"));
+        $info->addSection($this->lng->txt('tst_heading_scoring'));
         $info->addProperty(
-            $this->lng->txt("tst_text_count_system"),
+            $this->lng->txt('tst_text_count_system'),
             $this->lng->txt(
-                ($this->getTestObject()->getCountSystem() == SettingsScoring::COUNT_PARTIAL_SOLUTIONS) ? "tst_count_partial_solutions" : "tst_count_correct_solutions"
+                ($this->getTestObject()->getCountSystem() == SettingsScoring::COUNT_PARTIAL_SOLUTIONS) ? 'tst_count_partial_solutions' : 'tst_count_correct_solutions'
             )
         );
         if ($this->getTestObject()->isRandomTest()) {
-            $info->addProperty($this->lng->txt("tst_pass_scoring"), $this->lng->txt(($this->getTestObject()->getPassScoring() == ilObjTest::SCORE_BEST_PASS) ? "tst_pass_best_pass" : "tst_pass_last_pass"));
+            $info->addProperty($this->lng->txt('tst_pass_scoring'), $this->lng->txt(($this->getTestObject()->getPassScoring() == ilObjTest::SCORE_BEST_PASS) ? 'tst_pass_best_pass' : 'tst_pass_last_pass'));
         }
 
-        $info->addSection($this->lng->txt("tst_score_reporting"));
-        $score_reporting_text = "";
+        $info->addSection($this->lng->txt('tst_score_reporting'));
+        $score_reporting_text = '';
         switch ($this->getTestObject()->getScoreReporting()) {
             case SettingsResultSummary::SCORE_REPORTING_FINISHED:
-                $score_reporting_text = $this->lng->txt("tst_report_after_test");
+                $score_reporting_text = $this->lng->txt('tst_report_after_test');
                 break;
             case SettingsResultSummary::SCORE_REPORTING_IMMIDIATLY:
-                $score_reporting_text = $this->lng->txt("tst_report_after_first_question");
+                $score_reporting_text = $this->lng->txt('tst_report_after_first_question');
                 break;
             case SettingsResultSummary::SCORE_REPORTING_DATE:
-                $score_reporting_text = $this->lng->txt("tst_report_after_date");
+                $score_reporting_text = $this->lng->txt('tst_report_after_date');
                 break;
             case SettingsResultSummary::SCORE_REPORTING_AFTER_PASSED:
-                $score_reporting_text = $this->lng->txt("tst_report_after_passed");
+                $score_reporting_text = $this->lng->txt('tst_report_after_passed');
                 break;
             default:
-                $score_reporting_text = $this->lng->txt("tst_report_never");
+                $score_reporting_text = $this->lng->txt('tst_report_never');
                 break;
         }
-        $info->addProperty($this->lng->txt("tst_score_reporting"), $score_reporting_text);
-        $reporting_date = $this->getTestObject()->getReportingDate();
-        if ($reporting_date) {
+        $info->addProperty($this->lng->txt('tst_score_reporting'), $score_reporting_text);
+        $reporting_date = $this->getTestObject()
+            ->getScoreSettings()
+            ->getResultSummarySettings()
+            ->getReportingDate();
+        if ($reporting_date !== null) {
             $info->addProperty(
                 $this->lng->txt('tst_score_reporting_date'),
-                ilDatePresentation::formatDate(new ilDateTime($reporting_date, IL_CAL_TIMESTAMP))
+                $reporting_date
+                    ->setTimezone(new DateTimeZone($this->user->getTimeZone()))
+                    ->format($this->user->getDateTimeFormat())
             );
         }
 
-        $info->addSection($this->lng->txt("tst_session_settings"));
-        $info->addProperty($this->lng->txt("tst_nr_of_tries"), $this->getTestObject()->getNrOfTries() === 0 ? $this->lng->txt("unlimited") : (string) $this->getTestObject()->getNrOfTries());
+        $info->addSection($this->lng->txt('tst_session_settings'));
+        $info->addProperty($this->lng->txt('tst_nr_of_tries'), $this->getTestObject()->getNrOfTries() === 0 ? $this->lng->txt('unlimited') : (string) $this->getTestObject()->getNrOfTries());
         if ($this->getTestObject()->getNrOfTries() != 1) {
             $info->addProperty(
                 $this->lng->txt('tst_nr_of_tries_of_user'),
                 ($this->test_session_factory->getSession()->getPass() === 0) ?
-                    $this->lng->txt("tst_no_tries") : (string) $this->test_session_factory->getSession()->getPass()
+                    $this->lng->txt('tst_no_tries') : (string) $this->test_session_factory->getSession()->getPass()
             );
         }
 
         if ($this->getTestObject()->getEnableProcessingTime()) {
-            $info->addProperty($this->lng->txt("tst_processing_time"), $this->getTestObject()->getProcessingTime());
+            $info->addProperty($this->lng->txt('tst_processing_time'), $this->getTestObject()->getProcessingTime());
         }
 
         $starting_time = $this->getTestObject()->getStartingTime();
         if ($this->getTestObject()->isStartingTimeEnabled() && $starting_time !== 0) {
-            $info->addProperty($this->lng->txt("tst_starting_time"), ilDatePresentation::formatDate(new ilDateTime($starting_time, IL_CAL_UNIX)));
+            $info->addProperty($this->lng->txt('tst_starting_time'), ilDatePresentation::formatDate(new ilDateTime($starting_time, IL_CAL_UNIX)));
         }
         $ending_time = $this->getTestObject()->getEndingTime();
         if ($this->getTestObject()->isEndingTimeEnabled() && $ending_time != 0) {
-            $info->addProperty($this->lng->txt("tst_ending_time"), ilDatePresentation::formatDate(new ilDateTime($ending_time, IL_CAL_UNIX)));
+            $info->addProperty($this->lng->txt('tst_ending_time'), ilDatePresentation::formatDate(new ilDateTime($ending_time, IL_CAL_UNIX)));
         }
         $info->addMetaDataSections($this->getTestObject()->getId(), 0, $this->getTestObject()->getType());
 
