@@ -2714,11 +2714,19 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 break;
         }
         $info->addProperty($this->lng->txt("tst_score_reporting"), $score_reporting_text);
-        $reporting_date = $this->object->getReportingDate();
-        if ($reporting_date) {
+        $reporting_date = $this->getTestObject()
+            ->getScoreSettings()
+            ->getResultSummarySettings()
+            ->getReportingDate();
+        if ($reporting_date !== null) {
             $info->addProperty(
                 $this->lng->txt('tst_score_reporting_date'),
-                ilDatePresentation::formatDate(new ilDateTime($reporting_date, IL_CAL_TIMESTAMP))
+                ilDatePresentation::formatDate(new ilDateTime(
+                    $reporting_date
+                        ->setTimezone(new DateTimeZone($this->user->getTimeZone()))
+                        ->format('YmdHis'),
+                    IL_CAL_TIMESTAMP
+                ))
             );
         }
 
