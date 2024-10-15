@@ -972,7 +972,6 @@ assessment#:#ordertext_info#:#Please enter the text that should be ordered horiz
 assessment#:#out_of_range#:#Out of range
 assessment#:#output#:#Output
 assessment#:#output_mode#:#Output Mode
-assessment#:#parent_title#:#Parent Object Title
 assessment#:#parseQuestion#:#Parse Question
 assessment#:#part_received_a_of_b_points#:#The participant received %s of %s possible points
 assessment#:#participants#:#Participants
@@ -1267,6 +1266,7 @@ assessment#:#test_question_set_type_random_info#:#Each test participant will see
 assessment#:#test_results#:#Summary Test Results
 assessment#:#test_scoring#:#Scoring Options
 assessment#:#test_template_reset#:#The template has been removed.
+assessment#:#test_title#:#Test Title
 assessment#:#test_using_template#:#This test uses the template %s. If you do not want to use a template and have access to all settings, please click here: %s.
 assessment#:#test_using_template_link#:#Do not use template anymore
 assessment#:#text_correct#:#Correct Text

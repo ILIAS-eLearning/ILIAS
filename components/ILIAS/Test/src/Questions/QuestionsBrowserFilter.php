@@ -28,7 +28,6 @@ use ILIAS\UI\Component\Input\Container\Filter\Filter;
 use ilLanguage;
 use ilObjQuestionPool;
 use ilUIService;
-
 use Psr\Http\Message\ServerRequestInterface;
 
 class QuestionsBrowserFilter
@@ -37,7 +36,8 @@ class QuestionsBrowserFilter
         private readonly ilUIService $ui_service,
         private readonly ilLanguage $lng,
         private readonly UIFactory $ui_factory,
-        private readonly string $filter_id
+        private readonly string $filter_id,
+        private readonly string $parent_title
     ) {
     }
 
@@ -86,7 +86,7 @@ class QuestionsBrowserFilter
             'type' => [$input->select($this->lng->txt('tst_question_type'), $this->resolveQuestionTypeFilterOptions()), true],
             'author' => [$input->text($this->lng->txt('author')), false],
             'lifecycle' => [$input->select($this->lng->txt('qst_lifecycle'), $lifecycle_options), false],
-            'parent_title' => [$input->text($this->lng->txt('parent_title')), true],
+            'parent_title' => [$input->text($this->lng->txt($this->parent_title)), true],
             'taxonomy_title' => [$input->text($this->lng->txt('taxonomy_title')), false],
             'taxonomy_node_title' => [$input->text($this->lng->txt('taxonomy_node_title')), false],
             'feedback' => [$input->select($this->lng->txt('feedback'), $yes_no_all_options), false],

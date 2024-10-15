@@ -55,7 +55,8 @@ class QuestionsBrowserTable implements DataRetrieval
         protected \ilTree $tree,
         protected RequestDataCollector $testrequest,
         protected TaxonomyService $taxonomy,
-        protected \Closure $getQuestionPoolLink
+        protected \Closure $getQuestionPoolLink,
+        protected string $parent_title
     ) {
     }
 
@@ -83,17 +84,17 @@ class QuestionsBrowserTable implements DataRetrieval
         $iconNo = $icon_factory->custom('assets/images/standard/icon_unchecked.svg', 'no');
         $dateFormat = $this->data_factory->dateFormat()->withTime24($this->data_factory->dateFormat()->germanShort());
 
-        return [
+        $columns = [
             'title' => $column_factory->text(
                 $this->lng->txt('tst_question_title')
             )->withIsOptional(false, true),
             'description' => $column_factory->text(
                 $this->lng->txt('description')
-            )->withIsOptional(false, true),
+            )->withIsOptional(true, true),
             'type_tag' => $column_factory->text(
                 $this->lng->txt('tst_question_type')
             )->withIsOptional(false, true),
-            'points' => $column_factory->text(
+            'points' => $column_factory->number(
                 $this->lng->txt('points')
             )->withIsOptional(false, true),
             'author' => $column_factory->text(
@@ -103,7 +104,7 @@ class QuestionsBrowserTable implements DataRetrieval
                 $this->lng->txt('qst_lifecycle')
             )->withIsOptional(true, false),
             'parent_title' => $column_factory->text(
-                $this->lng->txt('parent_title')
+                $this->lng->txt($this->parent_title)
             )->withIsOptional(false, true),
             'taxonomies' => $column_factory->text(
                 $this->lng->txt('qpl_settings_subtab_taxonomies')
@@ -127,6 +128,8 @@ class QuestionsBrowserTable implements DataRetrieval
                 $dateFormat
             )->withIsOptional(true, false)
         ];
+
+        return array_map(static fn(Column $column): Column => $column->withIsSortable(true), $columns);
     }
 
     /**
@@ -188,7 +191,7 @@ class QuestionsBrowserTable implements DataRetrieval
         return count($this->loadRecords($filter_data));
     }
 
-    private function getViewControlledRecords(?array $filter_data, Range $range, Order $order)
+    private function getViewControlledRecords(?array $filter_data, Range $range, Order $order): array
     {
         return $this->limitRecords(
             $this->sortRecords(
@@ -199,8 +202,9 @@ class QuestionsBrowserTable implements DataRetrieval
         );
     }
 
-    private function loadRecords(array $filter): array
+    private function loadRecords(?array $filter): array
     {
+        $filter ??= [];
         if ($this->records !== null) {
             return $this->records;
         }
@@ -254,7 +258,45 @@ class QuestionsBrowserTable implements DataRetrieval
         }
 
         $this->question_list->load();
-        return $this->records = $this->question_list->getQuestionDataArray();
+        $records = $this->filterRecordsByTaxonomyOrNodeTitle(
+            $this->question_list->getQuestionDataArray(),
+            $filter['taxonomy_title'] ?? '',
+            $filter['taxonomy_node_title'] ?? ''
+        );
+
+        return $this->records = $records;
+    }
+
+    private function filterRecordsByTaxonomyOrNodeTitle(array $records, string $taxonomyTitle = '', string $taxonomyNodeTitle = ''): array
+    {
+        if (empty($taxonomyTitle) && empty($taxonomyNodeTitle)) {
+            return $records;
+        }
+
+        foreach ($records as $key => $record) {
+            $obj_fi = $record['obj_fi'];
+            $data = $this->loadTaxonomyAssignmentData($obj_fi, $key, $this->taxonomy->getUsageOfObject($obj_fi));
+            $safe = false;
+
+            foreach ($data as $taxonomyId => $taxData) {
+                $titleCheck = empty($taxonomyTitle) || is_int(mb_stripos(\ilObject::_lookupTitle($taxonomyId), $taxonomyTitle));
+
+                if ($titleCheck) {
+                    foreach ($taxData as $node) {
+                        if (empty($taxonomyNodeTitle) || is_int(mb_stripos(\ilTaxonomyNode::_lookupTitle($node['node_id']), $taxonomyNodeTitle))) {
+                            $safe = true;
+                            break 2;
+                        }
+                    }
+                }
+            }
+
+            if (!$safe) {
+                unset($records[$key]);
+            }
+        }
+
+        return $records;
     }
 
     private function getQuestionParentObjIds(int $repositoryRootNode): array
