@@ -90,14 +90,4 @@ interface Presentation extends Table, HasViewControls, JavaScriptBindable
      * @return array<mixed>
      */
     public function getData(): array;
-
-    /**
-     * Get the signal to show show additional information in this table.
-     */
-    public function getExpandAllSignal(): Signal;
-
-    /**
-     * Get the signal to show hide additional information in this table.
-     */
-    public function getCollapseAllSignal(): Signal;
 }
