@@ -81,6 +81,7 @@ class ilECSUserConsentModalGUI
         $this->ctrl = $DIC->ctrl();
         $this->objDefinition = $DIC['objDefinition'];
 
+        $this->toolbar = $DIC->toolbar();
         $this->remote_object = $this->initRemoteObject();
         $this->initMidAndServer();
         $this->obj_id = $this->remote_object->getId();
