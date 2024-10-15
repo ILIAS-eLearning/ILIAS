@@ -16038,7 +16038,7 @@ survey#:#SurveyTextQuestion#:#Essay
 survey#:#add_heading#:#Add Heading
 survey#:#already_completed_survey#:#You have already finished the survey! You are not able to enter the survey again.
 survey#:#anonymization#:#Anonymization
-survey#:#anonymize_anonymous_introduction#:#To grant you access to the survey, you must use a 5-character survey code which you can receive from the creator/maintainer of this survey.<br />Please enter it in the text field above.
+survey#:#anonymize_anonymous_introduction#:#To grant you access to the survey, you must use a 5-character survey code which you can receive from the creator/maintainer of this survey.
 survey#:#answer#:#Answer
 survey#:#arithmetic_mean#:#Arithmetic Mean
 survey#:#browse_for_questions#:#Add from Pool
@@ -16327,8 +16327,8 @@ survey#:#survey_360_add_external_rater#:#Add External Rater
 survey#:#survey_360_add_self_appraisee#:#Add yourself as appraisee to this survey
 survey#:#survey_360_appraisee#:#Appraisee
 survey#:#survey_360_appraisee_close_action#:#Close Survey For Raters
-survey#:#survey_360_appraisee_close_action_info#:#This will give access to your statistics.
-survey#:#survey_360_appraisee_close_action_info_skill#:#This will give access to your statistics and update your competence levels.
+survey#:#survey_360_appraisee_close_action_info#:#Closing the survey for raters will finalise the survey results and give you access to the results.
+survey#:#survey_360_appraisee_close_action_info_skill#:#Closing the survey for raters will finalise the survey results, give you access to the results and update your competence levels.
 survey#:#survey_360_appraisee_close_action_status#:#Survey was closed on %s.
 survey#:#survey_360_appraisee_close_action_success#:#You have closed your 360° survey for your raters.
 survey#:#survey_360_appraisee_close_action_success_admin#:#The 360° surveys of the appraisees were closed for the raters.
@@ -16341,7 +16341,8 @@ survey#:#survey_360_mode#:#360° Feedback
 survey#:#survey_360_mode_info#:#Use for peer-reviewing of persons
 survey#:#survey_360_no_appraisees#:#There are currently no appraisees for you to rate.
 survey#:#survey_360_no_closed_appraisees#:#No appraisee has closed his survey yet.
-survey#:#survey_360_rate_other_appraisees#:#Rate appraisees
+survey#:#survey_360_rate_other_appraisee#:#Rate Appraisee
+survey#:#survey_360_rate_other_appraisees#:#Rate Appraisees
 survey#:#survey_360_rater_finished#:#Survey Finished
 survey#:#survey_360_rater_mail_sent#:#Mail sent
 survey#:#survey_360_rater_message_content_anonymous#:#Message Content (Anonymous)
@@ -16630,12 +16631,16 @@ survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#workingtime#:#Working time
 svy#:#survey_360_appraisees_remind_info#:#If self evaluation is activated, appraisees that have not yet finished the survey will be reminded.
 svy#:#survey_360_raters_remind_info#:#Raters that have not yet finished the survey will be reminded.
+svy#:#svy_0_open_appraisees#:#You cannot perform the survey for any appraisee anymore.
 svy#:#svy_all_pages#:#All Pages
 svy#:#svy_all_participants#:#All Participants
 svy#:#svy_all_questions#:#All Questions
+svy#:#svy_code#:#Access Code
 svy#:#svy_codes#:#Access Codes
 svy#:#svy_current_page#:#Current Page
 svy#:#svy_finish_survey#:#Finish survey '%1'
+svy#:#svy_finished_x_appraisees#:#You have finished the survey for %s appraisee(s).
+svy#:#svy_information#:#Information
 svy#:#svy_invite_participants#:#Invite Participants
 svy#:#svy_link_to_svy#:#Link to Survey
 svy#:#svy_part_overview#:#Overview
@@ -16658,6 +16663,11 @@ svy#:#svy_user_added_rater_mail#:#You have been added as a rater to the survey.
 svy#:#svy_user_added_rater_reminder_mail#:#Please finish to rate the following appraisees:
 svy#:#svy_user_not_found#:#User not found.
 svy#:#svy_users_invited#:#Users have been invited.
+svy#:#svy_x_appraisees_closed_for_raters#:#%s appraisee(s) has/have closed the survey for raters.
+svy#:#svy_x_open_appraisees#:#%s appraisee(s) are open for you to rate.
+svy#:#svy_your_appraisees#:#Your Appraisees
+svy#:#svy_your_raters#:#Your Raters
+svy#:#svy_your_raters_finished#:#%s of your raters have finished the survey.
 sysc#:#sysc_action_list_tree#:#Create Repository Tree Dump
 sysc#:#sysc_action_repair#:#Repair
 sysc#:#sysc_action_show_tree#:#Show Repository Tree Dump

@@ -16061,7 +16061,7 @@ survey#:#SurveyTextQuestion#:#Freitext eingeben
 survey#:#add_heading#:#Überschrift hinzufügen
 survey#:#already_completed_survey#:#Sie haben die Umfrage bereits durchgeführt! Eine Umfrage kann kein zweites Mal durchgeführt werden.
 survey#:#anonymization#:#Anonymisierung
-survey#:#anonymize_anonymous_introduction#:#Um Ihnen Zugang zu dieser Umfrage gewähren zu können, müssen Sie einen fünfstelligen Zugangsschlüssel verwenden, den Sie von der verantwortlichen Person für diese Umfrage erhalten.<br />Bitte geben Sie diesen Zugangsschlüssel in das obige Textfeld ein.
+survey#:#anonymize_anonymous_introduction#:#Um Ihnen Zugang zu dieser Umfrage gewähren zu können, müssen Sie einen fünfstelligen Zugangsschlüssel verwenden, den Sie von der verantwortlichen Person für diese Umfrage erhalten.
 survey#:#answer#:#Antwort
 survey#:#arithmetic_mean#:#Arithmetisches Mittel
 survey#:#browse_for_questions#:#Aus Pool hinzufügen
@@ -16350,8 +16350,8 @@ survey#:#survey_360_add_external_rater#:#Externen Feedback-Geber hinzufügen
 survey#:#survey_360_add_self_appraisee#:#Fügen Sie sich selbst als Feedback-Nehmer hinzu.
 survey#:#survey_360_appraisee#:#Feedback-Nehmer
 survey#:#survey_360_appraisee_close_action#:#Umfrage für Feedback-Geber schließen
-survey#:#survey_360_appraisee_close_action_info#:#Damit erhalten Sie Zugriff zu den Statistiken.
-survey#:#survey_360_appraisee_close_action_info_skill#:#Damit erhalten Sie Zugriff zu den Statistiken und Ihre Kompetenzstufen werden aktualisiert.
+survey#:#survey_360_appraisee_close_action_info#:#Wenn die Umfrage für die Feedback-Geber geschlossen werden, werden die Resultate finalisiert und der Zugriff auf diese für Sie freigegeben.
+survey#:#survey_360_appraisee_close_action_info_skill#:#Wenn die Umfrage für die Feedback-Geber geschlossen werden, werden die Resultate finalisiert und der Zugriff auf diese für Sie freigegeben. Zusätzlich wird Ihre Kompetenzeinschätzung ermittelt.
 survey#:#survey_360_appraisee_close_action_status#:#Umfrage wurde am %s geschlossen.
 survey#:#survey_360_appraisee_close_action_success#:#Sie haben Ihre 360°-Umfrage für die Feedback-Geber geschlossen.
 survey#:#survey_360_appraisee_close_action_success_admin#:#Die 360°-Umfragen der Feedback-Nehmer wurden geschlossen.
@@ -16364,6 +16364,7 @@ survey#:#survey_360_mode#:#360°-Feedback
 survey#:#survey_360_mode_info#:#Mehrere Personen evaluieren sich gegenseitig, Rückmeldungen zu einem Feedback-Nehmer werden zu einem Zeitpunkt aggregiert ausgewertet.
 survey#:#survey_360_no_appraisees#:#Sie können momentan kein Feedback geben.
 survey#:#survey_360_no_closed_appraisees#:#Es sind noch keine Umfragen geschlossen worden.
+survey#:#survey_360_rate_other_appraisee#:#Feedback geben
 survey#:#survey_360_rate_other_appraisees#:#Feedback geben
 survey#:#survey_360_rater_finished#:#Umfrage abgeschlossen
 survey#:#survey_360_rater_mail_sent#:#Mail versendet
@@ -16653,12 +16654,16 @@ survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#workingtime#:#Bearbeitungsdauer
 svy#:#survey_360_appraisees_remind_info#:#Falls die Selbsteinschätzung aktiviert ist, erhalten Feedback-Nehmer, die die Umfrage noch nicht abgeschlossen haben, eine Erinnerungsnachricht.
 svy#:#survey_360_raters_remind_info#:#Feedback-Geber, die die Umfrage noch nicht abgeschlossen haben, erhalten eine Erinnerungsnachricht.
+svy#:#svy_0_open_appraisees#:#Sie können die Umfrage für keinen Feedback-Nehmer mehr durchführen.
 svy#:#svy_all_pages#:#Alle Seiten
 svy#:#svy_all_participants#:#Alle Befragte
 svy#:#svy_all_questions#:#Alle Fragen
+svy#:#svy_code#:#Zugangsschlüssel
 svy#:#svy_codes#:#Zugangsschlüssel
 svy#:#svy_current_page#:#Aktuelle Seite
 svy#:#svy_finish_survey#:#Umfrage "%1" bearbeiten
+svy#:#svy_finished_x_appraisees#:#Sie haben die Umfrage bereits für %s Feedback-Nehmer beendet.
+svy#:#svy_information#:#Information
 svy#:#svy_invite_participants#:#Als To-Do eintragen für
 svy#:#svy_link_to_svy#:#Link zur Umfrage
 svy#:#svy_part_overview#:#Übersicht
@@ -16681,6 +16686,11 @@ svy#:#svy_user_added_rater_mail#:#Sie wurden als Feedback-Geber hinzugefügt.
 svy#:#svy_user_added_rater_reminder_mail#:#Bitte bewerten Sie noch die folgenden Feedback-Nehmer:
 svy#:#svy_user_not_found#:#Es wurde kein entsprechender Benutzer gefunden.
 svy#:#svy_users_invited#:#Das To-Do wurde eingetragen.
+svy#:#svy_x_appraisees_closed_for_raters#:#%s Ihrer Feedback-Nehmer hat/haben die Umfrage für Feedback-Geber geschlossen.
+svy#:#svy_x_open_appraisees#:#Sie können die Umfrage noch für %s Feedback-Nehmer durchführen.
+svy#:#svy_your_appraisees#:#Ihre Feedback-Nehmer
+svy#:#svy_your_raters#:#Ihre Feedback-Geber
+svy#:#svy_your_raters_finished#:#%s Ihrer Feedback-Geber haben die Umfrage beendet.
 sysc#:#sysc_action_list_tree#:#Dump der Baumstruktur erzeugen
 sysc#:#sysc_action_repair#:#Reparieren
 sysc#:#sysc_action_show_tree#:#Baumstruktur anzeigen
