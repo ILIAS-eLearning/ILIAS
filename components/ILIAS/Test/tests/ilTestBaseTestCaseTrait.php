@@ -391,7 +391,15 @@ trait ilTestBaseTestCaseTrait
             );
         $local_dic_mock['results.presentation.factory'] = fn(Pimple\Container $c)
             => $this->createMock(
-                \ilTestResultsPresentationFactory::class
+                ILIAS\Test\Results\Presentation\Factory::class
+            );
+        $local_dic_mock['results.data.factory'] = fn(Pimple\Container $c)
+            => $this->createMock(
+                ILIAS\Test\Results\Data\Factory::class
+            );
+        $local_dic_mock['questions.properties.repository'] = fn(Pimple\Container $c)
+            => $this->createMock(
+                ILIAS\Test\Questions\Properties\DatabaseRepository::class
             );
         return $local_dic_mock;
     }

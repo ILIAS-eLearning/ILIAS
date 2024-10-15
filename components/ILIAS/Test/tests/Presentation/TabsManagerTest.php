@@ -69,7 +69,7 @@ class TabsManagerTest extends \ilTestBaseTestCase
     public function testActivateSubTab(): void
     {
         global $DIC;
-        $DIC['ilTabs']->expects($this->exactly(10))->method('activateSubTab');
+        $DIC['ilTabs']->expects($this->exactly(9))->method('activateSubTab');
 
         $this->testObj->activateSubTab(TabsManager::SUBTAB_ID_FIXED_PARTICIPANTS);
         $this->testObj->activateSubTab(TabsManager::SUBTAB_ID_TIME_EXTENSION);

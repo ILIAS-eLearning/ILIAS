@@ -18,17 +18,19 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\Access\test;
+namespace ILIAS\Test\Tests\Results\Presentation;
 
+use ILIAS\Test\Results\Presentation\Settings;
 use PHPUnit\Framework\TestCase;
 
-class ilTestPassResultsSettingsTest extends TestCase
+class SettingsTest extends TestCase
 {
     public function testTestResultsSettingsDefaults(): void
     {
-        $trs = new \ilTestPassResultsSettings();
+        $trs = new Settings(0);
         $this->assertFalse($trs->getShowHiddenQuestions());
         $this->assertFalse($trs->getShowOptionalQuestions());
+        $this->assertFalse($trs->getShowHints());
         $this->assertTrue($trs->getShowBestSolution());
         $this->assertTrue($trs->getShowFeedback());
         $this->assertFalse($trs->getQuestionTextOnly());
@@ -37,17 +39,19 @@ class ilTestPassResultsSettingsTest extends TestCase
 
     public function testTestResultsSettingsBasicProps(): void
     {
-        $trs = new \ilTestPassResultsSettings(true, true, true, true, true, true);
+        $trs = new Settings(0, true, true, true, true, true, true, true);
         $this->assertTrue($trs->getShowHiddenQuestions());
         $this->assertTrue($trs->getShowOptionalQuestions());
+        $this->assertTrue($trs->getShowHints());
         $this->assertTrue($trs->getShowBestSolution());
         $this->assertTrue($trs->getShowFeedback());
         $this->assertTrue($trs->getQuestionTextOnly());
         $this->assertTrue($trs->getShowRecapitulation());
 
-        $trs = new \ilTestPassResultsSettings(false, false, false, false, false, false);
+        $trs = new Settings(0, false, false, false, false, false, false, false);
         $this->assertFalse($trs->getShowHiddenQuestions());
         $this->assertFalse($trs->getShowOptionalQuestions());
+        $this->assertFalse($trs->getShowHints());
         $this->assertFalse($trs->getShowBestSolution());
         $this->assertFalse($trs->getShowFeedback());
         $this->assertFalse($trs->getQuestionTextOnly());

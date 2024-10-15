@@ -21,9 +21,8 @@ declare(strict_types=1);
 namespace ILIAS\Test\Tests\Questions\Presentation;
 
 use ILIAS\Test\Questions\Presentation\QuestionsTable;
-use ILIAS\Test\Questions\Presentation\QuestionsTableQuery;
+use ILIAS\Test\Questions\Presentation\QuestionsTableActions;
 use ILIAS\UI\Component\Table;
-use ILIAS\UI\Component\Modal;
 use ILIAS\Test\Questions\Properties\DatabaseRepository as QuestionsRepository;
 
 /**
@@ -47,21 +46,12 @@ class QuestionsTableTest extends \ilTestBaseTestCase
             ->getMock();
 
 
-        $commands = $this->getMockBuilder(QuestionsTableQuery::class)
+        $actions = $this->getMockBuilder(QuestionsTableActions::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $commands->method('getRowBoundURLBuilder')
-            ->willReturn(
-                [
-                    $this->getMockBuilder(\ILIAS\UI\URLBuilder::class)
-                        ->disableOriginalConstructor()
-                        ->getMock(),
-                    $this->getMockBuilder(\ILIAS\UI\URLBuilderToken::class)
-                        ->disableOriginalConstructor()
-                        ->getMock(),
-
-                ]
-            );
+        $actions->expects($this->any())
+            ->method('getQuestionTargetLinkBuilder')
+            ->willReturn(fn(int $q): string => '');
 
         $questionrepository = $this->getMockBuilder(QuestionsRepository::class)
             ->disableOriginalConstructor()
@@ -95,18 +85,12 @@ class QuestionsTableTest extends \ilTestBaseTestCase
 
         $this->table_gui = new QuestionsTable(
             $DIC['ui.factory'],
-            $DIC['ui.renderer'],
-            $DIC['tpl'],
             $DIC['http']->request(),
-            $commands,
+            $actions,
             $DIC['lng'],
-            $DIC['ilCtrl'],
             $obj_test,
             $questionrepository,
             $title_builder,
-            false,
-            false,
-            false
         );
     }
 
@@ -118,22 +102,5 @@ class QuestionsTableTest extends \ilTestBaseTestCase
     public function testQuestionsTableGUIwillReturnProperTypes(): void
     {
         $this->assertInstanceOf(Table\Ordering::class, $this->table_gui->getTableComponent());
-        $this->assertInstanceOf(Modal\Interruptive::class, $this->table_gui->getDeleteConfirmation([]));
-    }
-
-    public function testQuestionsTableDefinesActions(): void
-    {
-        $row = $this->createMock(Table\OrderingRow::class);
-        $row->expects($this->exactly(8))
-            ->method('withDisabledAction')
-            ->willReturn($row);
-
-        $row_builder = $this->getMockBuilder(Table\OrderingRowBuilder::class)->getMock();
-        $row_builder
-            ->expects($this->once())
-            ->method('buildOrderingRow')
-            ->willReturn($row);
-
-        iterator_to_array($this->table_gui->getRows($row_builder, []));
     }
 }

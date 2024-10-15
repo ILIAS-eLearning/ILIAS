@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Tests\Results\Data;
 
-use ILIAS\Test\Results\Presentation\QuestionResult;
+use ILIAS\Test\Results\Data\QuestionResult;
 use PHPUnit\Framework\TestCase;
 
 class QuestionResultTest extends TestCase
