@@ -1828,6 +1828,14 @@ class ilInitialisation
             ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for goto target: ' . $target);
             return true;
         }
+
+        if ($a_current_script === 'ilias.php' &&
+            $requestBaseClass === strtolower(ilRepositoryGUI::class) &&
+            $DIC->ctrl()->getCmd() === 'showRepTree') {
+            ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for repository target: ' . $target);
+            return true;
+        }
+
         ilLoggerFactory::getLogger('auth')->debug('Authentication required');
         return false;
     }
