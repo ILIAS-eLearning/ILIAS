@@ -23,7 +23,6 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Test\TestDIC;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-
 use ILIAS\Test\ExportImport\Factory as ExportImportFactory;
 use ILIAS\Test\ExportImport\Types as ExportImportTypes;
 use ILIAS\Test\RequestDataCollector;
@@ -155,6 +154,10 @@ class ilTestParticipantsGUI
     {
         $this->addUserSearchControls($this->toolbar);
 
+        if ($this->getTestObj()->evalTotalPersons() > 0) {
+            $this->addExportDropdown($this->toolbar);
+        }
+
         $components = $this->getParticipantTable()->getComponents(
             $this->getTableActionUrlBuilder(),
             $this->ctrl->getLinkTarget($this, 'show')
@@ -206,60 +209,9 @@ class ilTestParticipantsGUI
         $toolbar->addComponent($search_btn);
     }
 
-    public function addParticipants($user_ids = []): ?bool
-    {
-        $filter_closure = $this->participant_access_filter->getManageParticipantsUserFilter($this->getTestObj()->getRefId());
-        $filtered_user_ids = $filter_closure($user_ids);
-
-        foreach ($filtered_user_ids as $user_id) {
-            $this->getTestObj()->inviteUser($user_id, "");
-        }
-
-        if (count($filtered_user_ids)) {
-            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("tst_invited_selected_users"), true);
-        } else {
-            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("tst_invited_nobody"), true);
-            return false;
-        }
-
-        $this->ctrl->redirect($this, self::CMD_SHOW);
-        return true;
-    }
-
-    protected function initToolbarControls(ilTestParticipantList $participant_list): void
-    {
-        if ($this->getTestObj()->getFixedParticipants()) {
-            $this->addUserSearchControls($this->toolbar);
-        }
-
-        if ($this->getTestObj()->getFixedParticipants() && $participant_list->hasUnfinishedPasses()) {
-            $this->toolbar->addSeparator();
-        }
-
-        if ($participant_list->hasUnfinishedPasses()) {
-            $this->addFinishAllPassesButton($this->toolbar);
-        }
-
-        if ($this->getTestObj()->evalTotalPersons() > 0) {
-            $this->addExportDropdown($this->toolbar);
-        }
-    }
-
-    protected function addFinishAllPassesButton(ilToolbarGUI $toolbar): void
-    {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
-        $finish_all_user_passes_btn = $DIC->ui()->factory()->button()->standard(
-            $DIC->language()->txt('finish_all_user_passes'),
-            $DIC->ctrl()->getLinkTargetByClass('iltestevaluationgui', 'finishAllUserPasses')
-        );
-        $toolbar->addComponent($finish_all_user_passes_btn);
-    }
-
     private function addExportDropdown(ilToolbarGUI $toolbar): void
     {
-        $toolbar->setFormName('form_output_eval');
-        $toolbar->setFormAction($this->ctrl->getFormActionByClass(self::class, 'exportEvaluation'));
+        $toolbar->addSeparator();
 
         if ($this->getTestObj()->getAnonymity()) {
             $this->ctrl->setParameterByClass(self::class, self::EXPORT_TYPE_PARAMETER, 'all_test_runs_a');
