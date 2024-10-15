@@ -2350,6 +2350,7 @@ bibl#:#bibtex#:#Bibtex
 bibl#:#changes_saved#:#Changes were saved.
 bibl#:#custom#:#Custom
 bibl#:#detail_view#:#Detail View
+bibl#:#detailed_information#:#Detailed Information
 bibl#:#download_original_file#:#Download Original File
 bibl#:#field#:#Field
 bibl#:#fields#:#Fields
@@ -2397,6 +2398,12 @@ bibl#:#ris_default_u2#:#User Defined
 bibl#:#ris_default_ur#:#URL
 bibl#:#ris_default_vl#:#Volume
 bibl#:#ris_default_y1#:#Year
+bibl#:#sorting_1#:#By Title (Ascending)
+bibl#:#sorting_2#:#By Title (Descending)
+bibl#:#sorting_3#:#By Author (Ascending)
+bibl#:#sorting_4#:#By Author (Descending)
+bibl#:#sorting_5#:#By Year (Ascending)
+bibl#:#sorting_6#:#By Year (Descending)
 bibl#:#standard#:#Standard
 bibl#:#translate#:#Translate
 bkm#:#bkm_fold_created#:#Bookmark folder has been created.

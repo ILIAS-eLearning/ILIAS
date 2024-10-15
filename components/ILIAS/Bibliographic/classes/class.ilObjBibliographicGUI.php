@@ -710,9 +710,8 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
             );
             $this->toolbar->addComponent($btn_overwrite_bibliographic_file);
 
-            $table = new ilBiblEntryTableGUI($this, $this->facade, $this->ui());
-            $html = $table->getHTML();
-            $DIC->ui()->mainTemplate()->setContent($html);
+            $table_gui = new ilBiblEntryTableGUI($this, $this->facade, $this->ui());
+            $DIC->ui()->mainTemplate()->setContent($table_gui->getRenderedTableAndExistingFilters());
 
             //Permanent Link
             $DIC->ui()->mainTemplate()->setPermanentLink("bibl", $this->object->getRefId());

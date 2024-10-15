@@ -2308,7 +2308,7 @@ bibl#:#Type#:#Typ
 bibl#:#add_filter#:#Felder hinzufügen
 bibl#:#bib_default_abstract#:#Abstract
 bibl#:#bib_default_address#:#Adresse
-bibl#:#bib_default_author#:#Autor
+bibl#:#bib_default_author#:#Autor:in
 bibl#:#bib_default_cite#:#Bib Cite
 bibl#:#bib_default_edition#:#Auflage
 bibl#:#bib_default_howpublished#:#Publikations-Typ
@@ -2320,7 +2320,7 @@ bibl#:#bib_default_note#:#Notiz
 bibl#:#bib_default_number#:#Nummer
 bibl#:#bib_default_organization#:#Organisation
 bibl#:#bib_default_pages#:#Seiten
-bibl#:#bib_default_publisher#:#Verleger
+bibl#:#bib_default_publisher#:#Verleger:in
 bibl#:#bib_default_series#:#Serie
 bibl#:#bib_default_title#:#Titel
 bibl#:#bib_default_type#:#Typ
@@ -2350,6 +2350,7 @@ bibl#:#bibtex#:#Bibtex
 bibl#:#changes_saved#:#Die Änderungen wurden gespeichert.
 bibl#:#custom#:#Benutzerdefiniert
 bibl#:#detail_view#:#Detailansicht
+bibl#:#detailed_information#:#Detaillierte Informationen
 bibl#:#download_original_file#:#Original-Datei herunterladen
 bibl#:#field#:#Feld
 bibl#:#fields#:#Felder
@@ -2373,8 +2374,8 @@ bibl#:#override_entries#:#Einträge überschreiben
 bibl#:#replace_bibliography_file#:#Literaturliste ersetzen
 bibl#:#replace_bibliography_file_info#:#Die aktuelle Literaturlisten-Datei wird durch die neue Datei ersetzt. Alle vorhandenen Einträge der aktuellen Datei werden dabei gelöscht.
 bibl#:#ris#:#Ris
-bibl#:#ris_default_a2#:#Zweiter Autor
-bibl#:#ris_default_au#:#Autor
+bibl#:#ris_default_a2#:#Zweite:r Autor:in
+bibl#:#ris_default_au#:#Autor:in
 bibl#:#ris_default_cy#:#Herausgabeort
 bibl#:#ris_default_ep#:#letzte Seite
 bibl#:#ris_default_id#:#Referenz-ID
@@ -2385,7 +2386,7 @@ bibl#:#ris_default_m1#:#Nummer
 bibl#:#ris_default_m3#:#Misc. 3
 bibl#:#ris_default_n1#:#Notizen
 bibl#:#ris_default_n2#:#Abstract
-bibl#:#ris_default_pb#:#Herausgeber
+bibl#:#ris_default_pb#:#Herausgeber:in
 bibl#:#ris_default_py#:#Erscheinungsjahr
 bibl#:#ris_default_sn#:#ISSN/ISBN/ASIN
 bibl#:#ris_default_t1#:#Haupttitel
@@ -2397,6 +2398,12 @@ bibl#:#ris_default_u2#:#Benutzerdefiniert
 bibl#:#ris_default_ur#:#URL
 bibl#:#ris_default_vl#:#Volume
 bibl#:#ris_default_y1#:#Jahr
+bibl#:#sorting_1#:#Titel (aufsteigend)
+bibl#:#sorting_2#:#Titel (absteigend)
+bibl#:#sorting_3#:#Autor:in (aufsteigend)
+bibl#:#sorting_4#:#Autor:in (absteigend)
+bibl#:#sorting_5#:#Jahr (aufsteigend)
+bibl#:#sorting_6#:#Jahr (absteigend)
 bibl#:#standard#:#Standard
 bibl#:#translate#:#Übersetzen
 bkm#:#bkm_fold_created#:#Bookmark-Ordner wurde angelegt.
@@ -8527,7 +8534,7 @@ dcl#:#dcl_add_perm_desc#:#Es können Einträge in dieser Tabelle erstellt werden
 dcl#:#dcl_additional_info_desc#:#Der Inhalt wird oberhalb der Tabelle angezeigt.
 dcl#:#dcl_all_entries#:#Alle Einträge
 dcl#:#dcl_any#:#Alle
-dcl#:#dcl_asc#:#Aufsteigend ↑  
+dcl#:#dcl_asc#:#Aufsteigend ↑
 dcl#:#dcl_boolean#:#Checkbox
 dcl#:#dcl_boolean_desc#:#Kontrollkästchen, das abgehakt werden kann
 dcl#:#dcl_cant_delete_last_table#:#Die Tabelle selbst kann nicht gelöscht werden, da sie die einzige Tabelle dieser Datensammlung ist. Es wurden aber Inhalt und Struktur der Tabelle erfolgreich gelöscht.
