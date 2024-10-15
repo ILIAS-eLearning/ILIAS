@@ -20,6 +20,22 @@ declare(strict_types=1);
 
 class ilStudyProgrammeEvents implements StudyProgrammeEvents
 {
+    public const PUBLIC_EVENTS = [
+        self::EVENT_USER_ASSIGNED,
+        self::EVENT_USER_DEASSIGNED,
+        self::EVENT_USER_REASSIGNED,
+    ];
+    /*
+        self::EVENT_USER_SUCCESSFUL,
+        self::EVENT_USER_NOT_SUCCESSFUL,
+        self::EVENT_VALIDITY_CHANGE,
+        self::EVENT_SCORE_CHANGE
+
+        will all trigger self::EVENT_USER_SUCCESSFUL on ilAppEventHandler,
+        but only once! and for root-prg only.
+        This prevents e.g. certificate to rebuild on every (sucessive) change
+    */
+
     public function __construct(
         protected ilLogger $logger,
         protected ilAppEventHandler $app_event_handler,
@@ -80,19 +96,15 @@ class ilStudyProgrammeEvents implements StudyProgrammeEvents
         if ($event === self::EVENT_USER_REASSIGNED) {
             $this->prg_event_handler->sendReAssignedMail($parameter['ass_id'], $parameter['root_prg_id']);
         }
-
-        if (in_array($event, [
-            self::EVENT_USER_ASSIGNED,
-            self::EVENT_USER_DEASSIGNED
-        ])) {
-            $this->app_event_handler->raise(self::COMPONENT, $event, $parameter);
-        }
-
         if ($event === self::EVENT_VALIDITY_CHANGE) {
             $this->prg_event_handler->resetMailFlagValidity($parameter['ass_id'], $parameter['root_prg_id']);
         }
         if ($event === self::EVENT_DEADLINE_CHANGE) {
             $this->prg_event_handler->resetMailFlagDeadline($parameter['ass_id'], $parameter['root_prg_id']);
+        }
+
+        if (in_array($event, self::PUBLIC_EVENTS)) {
+            $this->app_event_handler->raise(self::COMPONENT, $event, $parameter);
         }
     }
 
