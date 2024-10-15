@@ -15164,7 +15164,6 @@ search#:#lucene_port#:#Port
 search#:#lucene_prefix_wildcard#:#Prefix Wildcard Queries
 search#:#lucene_prefix_wildcard_info#:#Supports prefix wildcard queries: ‘*LIAS’ finds ‘ILIAS’
 search#:#lucene_relevance#:#Relevance of Search Results
-search#:#lucene_relevance_short#:#Relevance
 search#:#lucene_settings_tab#:#Lucene
 search#:#lucene_settings_title#:#Lucene Settings
 search#:#lucene_show_relevance#:#Show Relevance
@@ -15236,6 +15235,14 @@ search#:#search_show_inactive_user#:#Show Inactive Users
 search#:#search_show_inactive_user_info#:#If enabled, the user search will show inactive users, too.
 search#:#search_show_limited_user#:#Show Users with Limited Access
 search#:#search_show_limited_user_info#:#If enabled, the user search will also show users with limited access outside their allowed time period.
+search#:#search_sort_by#:#Sortation: %s
+search#:#search_sort_creation_date_asc#:#Oldest
+search#:#search_sort_creation_date_desc#:#Latest
+search#:#search_sort_generic_asc#:#%s, asc.
+search#:#search_sort_generic_desc#:#%s, desc.
+search#:#search_sort_relevance#:#By Relevance
+search#:#search_sort_title_asc#:#Alphabetically: A-Z
+search#:#search_sort_title_desc#:#Alphabetically: Z-A
 search#:#search_term_combination#:#Combination
 search#:#search_title_description#:#Title / Description
 search#:#search_tst_svy#:#Tests/Surveys

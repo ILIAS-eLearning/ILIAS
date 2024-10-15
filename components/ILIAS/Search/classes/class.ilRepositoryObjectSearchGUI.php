@@ -1,7 +1,22 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
@@ -153,10 +168,9 @@ class ilRepositoryObjectSearchGUI
     public function getResultTableInstance(): ?object
     {
         $class = $this->obj_definition->getClassName($this->getObject()->getType());
-        $location = $this->obj_definition->getLocation($this->getObject()->getType());
         $full_class = "ilObj" . $class . "SearchResultTableGUI";
 
-        if (include_once($location . "/class." . $full_class . ".php")) {
+        if (class_exists($full_class)) {
             return new $full_class(
                 $this,
                 'performSearch',

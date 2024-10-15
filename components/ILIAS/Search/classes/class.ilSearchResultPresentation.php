@@ -1,10 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
-use ILIAS\HTTP\GlobalHttpState;
-use ILIAS\Refinery\Factory;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -20,6 +15,11 @@ use ILIAS\Refinery\Factory;
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
+
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory;
 
 /**
 * Presentation of search results using object list gui
@@ -276,7 +276,7 @@ class ilSearchResultPresentation
         $result_table = new ilSearchResultTableGUI($this->container, "showSavedResults", $this);
         $result_table->setCustomPreviousNext($this->prev, $this->next);
 
-        $result_table->setData($set);
+        $result_table->setDataAndApplySortation($set);
         $this->thtml = $result_table->getHTML();
         return true;
     }
