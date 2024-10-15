@@ -2817,7 +2817,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                         $reporting_date
                             ->setTimezone(new DateTimeZone($this->user->getTimeZone()))
                             ->format('YmdHis'),
-                        IL_CAL_TIMESTAMP
+                        IL_CAL_TIMESTAMP,
+                        $reporting_date->getTimezone()->getName()
                     ))
                 );
             }
