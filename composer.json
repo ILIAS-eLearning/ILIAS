@@ -49,6 +49,7 @@
 		"ext-xml": "*",
 		"ext-zip": "*",
 		"ext-imagick": "*",
+		"firebase/php-jwt": "*",
 		"apereo/phpcas": "^1.6.1",
 		"league/commonmark": "^2.4",
 		"ramsey/uuid": "^4.4.0",
