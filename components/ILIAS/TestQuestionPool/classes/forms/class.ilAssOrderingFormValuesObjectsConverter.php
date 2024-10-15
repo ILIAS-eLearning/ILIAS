@@ -259,12 +259,14 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
             $content = $values['content'];
         }
 
-        if (array_key_exists('indentation', $values)) {
-            $indentation = $values['indentation'];
-        }
-
+        $position = [];
         if (array_key_exists('position', $values)) {
             $position = $values['position'];
+        }
+
+        $indentation = [];
+        if (array_key_exists('indentation', $values)) {
+            $indentation = $values['indentation'];
         }
 
         $counter = 0;
@@ -272,9 +274,9 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
             $element = new ilAssOrderingElement();
 
             $element->setRandomIdentifier((int) $identifier);
-            $element->setPosition((int) $position[$identifier] ?? $counter);
+            $element->setPosition((int) ($position[$identifier] ?? $counter));
             $element->setContent($value);
-            $element->setIndentation((int) $indentation[$identifier] ?? 0);
+            $element->setIndentation((int) ($indentation[$identifier] ?? 0));
 
             if ($this->getContext() === self::CONTEXT_MAINTAIN_ELEMENT_IMAGE) {
                 $element->setUploadImageName($this->fetchSubmittedImageFilename($identifier));
