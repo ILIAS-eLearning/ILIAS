@@ -22,9 +22,7 @@ use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\RequestDataCollector;
 use ILIAS\TestQuestionPool\Presentation\QuestionTable;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-use ILIAS\DI\RBACServices;
 use ILIAS\Taxonomy\Service;
-use Psr\Http\Message\ServerRequestInterface as HttpRequest;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use ILIAS\UI\Component\Input\Field\Select;
 use ILIAS\UI\Component\Input\Input;
@@ -71,11 +69,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     public const DEFAULT_CMD = 'questions';
 
     private HTTPServices $http;
-    private HttpRequest $http_request;
     protected Service $taxonomy;
-    public ?ilObject $object;
     protected ilDBInterface $db;
-    protected RBACServices $rbac;
     protected ilComponentLogger $log;
     protected ilHelpGUI $help;
     protected GlobalScreen $global_screen;
@@ -99,7 +94,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->type = 'qpl';
 
         $this->db = $DIC['ilDB'];
-        $this->rbac = $DIC->rbac();
         $this->log = $DIC['ilLog'];
         $this->help = $DIC['ilHelp'];
         $this->global_screen = $DIC['global_screen'];
@@ -108,7 +102,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->navigation_history = $DIC['ilNavigationHistory'];
         $this->ui_service = $DIC->uiService();
         $this->taxonomy = $DIC->taxonomy();
-        $this->http_request = $DIC->http()->request();
         $this->http = $DIC->http();
         $this->archives = $DIC->archives();
 
@@ -472,7 +465,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                     $this->refinery,
                     $this->ui_factory,
                     $this->ui_renderer,
-                    $this->http_request,
+                    $this->request,
                 );
                 $this->ctrl->forwardCommand($gui);
                 break;
@@ -542,7 +535,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                     $this->ui_factory,
                     $this->ui_renderer,
                     $this->refinery,
-                    $this->http_request,
+                    $this->request,
                     $this->request_wrapper,
                     $this->object->getId(),
                 );
