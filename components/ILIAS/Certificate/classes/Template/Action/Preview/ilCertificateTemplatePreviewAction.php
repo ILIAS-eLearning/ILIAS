@@ -25,7 +25,6 @@ class ilCertificateTemplatePreviewAction
 {
     private readonly ilObjUser $user;
     private readonly ilCertificateUtilHelper $utilHelper;
-    private readonly ilCertificateMathJaxHelper $mathJaxHelper;
     private readonly ilCertificateUserDefinedFieldsHelper $userDefinedFieldsHelper;
     private readonly ilCertificateRpcClientFactoryHelper $rpcClientFactoryHelper;
     private readonly ilCertificatePdfFileNameFactory $pdfFileNameFactory;
@@ -36,7 +35,6 @@ class ilCertificateTemplatePreviewAction
         private readonly string $rootDirectory = CLIENT_WEB_DIR,
         ?ilObjUser $user = null,
         ?ilCertificateUtilHelper $utilHelper = null,
-        ?ilCertificateMathJaxHelper $mathJaxHelper = null,
         ?ilCertificateUserDefinedFieldsHelper $userDefinedFieldsHelper = null,
         ?ilCertificateRpcClientFactoryHelper $rpcClientFactoryHelper = null,
         ?ilCertificatePdfFileNameFactory $pdfFileNameFactory = null
@@ -52,11 +50,6 @@ class ilCertificateTemplatePreviewAction
             $utilHelper = new ilCertificateUtilHelper();
         }
         $this->utilHelper = $utilHelper;
-
-        if (null === $mathJaxHelper) {
-            $mathJaxHelper = new ilCertificateMathJaxHelper();
-        }
-        $this->mathJaxHelper = $mathJaxHelper;
 
         if (null === $userDefinedFieldsHelper) {
             $userDefinedFieldsHelper = new ilCertificateUserDefinedFieldsHelper();
@@ -85,11 +78,8 @@ class ilCertificateTemplatePreviewAction
 
         $xslfo = $this->exchangeCertificateVariables($xslfo, $template, $objectId);
 
-        // render tex as fo graphics
-        $xlsfo = $this->mathJaxHelper->fillXlsFoContent($xslfo);
-
         $pdf_base64 = $this->rpcClientFactoryHelper
-            ->ilFO2PDF('RPCTransformationHandler', $xlsfo);
+            ->ilFO2PDF('RPCTransformationHandler', $xslfo);
 
         $pdfPresentation = new ilUserCertificatePresentation(
             $template->getObjId(),

@@ -67,12 +67,6 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
         $rpcHelper->method('ilFO2PDF')
             ->willReturn($pdf);
 
-        $mathJaxHelper = $this->getMockBuilder(ilCertificateMathJaxHelper::class)
-            ->getMock();
-
-        $mathJaxHelper->method('fillXlsFoContent')
-            ->willReturn('<xml> Some filled XML content </xml>');
-
         $pdfFileNameFactory = $this->getMockBuilder(ilCertificatePdfFileNameFactory::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -85,8 +79,7 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
             $userCertificateRepository,
             $rpcHelper,
             $pdfFileNameFactory,
-            $language,
-            $mathJaxHelper
+            $language
         );
 
         $pdfGenerator->generate(100);
@@ -134,12 +127,6 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
         $rpcHelper->method('ilFO2PDF')
             ->willReturn($pdf);
 
-        $mathJaxHelper = $this->getMockBuilder(ilCertificateMathJaxHelper::class)
-            ->getMock();
-
-        $mathJaxHelper->method('fillXlsFoContent')
-            ->willReturn('<xml> Some filled XML content </xml>');
-
         $pdfFileNameFactory = $this->getMockBuilder(ilCertificatePdfFileNameFactory::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -152,8 +139,7 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
             $userCertificateRepository,
             $rpcHelper,
             $pdfFileNameFactory,
-            $language,
-            $mathJaxHelper
+            $language
         );
 
         $pdfGenerator->generateCurrentActiveCertificate(100, 200);

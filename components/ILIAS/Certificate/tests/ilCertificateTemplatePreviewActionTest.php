@@ -62,12 +62,6 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
             ->expects($this->once())
             ->method('deliverData');
 
-        $mathJaxHelper = $this->getMockBuilder(ilCertificateMathJaxHelper::class)
-            ->getMock();
-
-        $mathJaxHelper->method('fillXlsFoContent')
-            ->willReturn('<xml> Some filled XML content </xml>');
-
         $userDefinedFieldsHelper = $this->getMockBuilder(ilCertificateUserDefinedFieldsHelper::class)
             ->getMock();
 
@@ -109,7 +103,6 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
             'some/where/',
             $user,
             $utilHelper,
-            $mathJaxHelper,
             $userDefinedFieldsHelper,
             $rpcClientFactoryHelper,
             $pdfFileNameFactory
