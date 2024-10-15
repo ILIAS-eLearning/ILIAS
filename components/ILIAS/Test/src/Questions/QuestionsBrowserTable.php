@@ -55,7 +55,8 @@ class QuestionsBrowserTable implements DataRetrieval
         protected \ilTree $tree,
         protected RequestDataCollector $testrequest,
         protected TaxonomyService $taxonomy,
-        protected \Closure $getQuestionPoolLink
+        protected \Closure $getQuestionPoolLink,
+        protected string $parent_title
     ) {
     }
 
@@ -89,7 +90,7 @@ class QuestionsBrowserTable implements DataRetrieval
             )->withIsOptional(false, true),
             'description' => $column_factory->text(
                 $this->lng->txt('description')
-            )->withIsOptional(false, true),
+            )->withIsOptional(true, true),
             'type_tag' => $column_factory->text(
                 $this->lng->txt('tst_question_type')
             )->withIsOptional(false, true),
@@ -103,7 +104,7 @@ class QuestionsBrowserTable implements DataRetrieval
                 $this->lng->txt('qst_lifecycle')
             )->withIsOptional(true, false),
             'parent_title' => $column_factory->text(
-                $this->lng->txt('parent_title')
+                $this->lng->txt($this->parent_title)
             )->withIsOptional(false, true),
             'taxonomies' => $column_factory->text(
                 $this->lng->txt('qpl_settings_subtab_taxonomies')
@@ -254,7 +255,45 @@ class QuestionsBrowserTable implements DataRetrieval
         }
 
         $this->question_list->load();
-        return $this->records = $this->question_list->getQuestionDataArray();
+        $records = $this->filterRecordsByTaxonomyOrNodeTitle(
+            $this->question_list->getQuestionDataArray(),
+            $filter['taxonomy_title'] ?? '',
+            $filter['taxonomy_node_title'] ?? ''
+        );
+
+        return $this->records = $records;
+    }
+
+    private function filterRecordsByTaxonomyOrNodeTitle(array $records, string $taxonomyTitle = '', string $taxonomyNodeTitle = ''): array
+    {
+        if (empty($taxonomyTitle) && empty($taxonomyNodeTitle)) {
+            return $records;
+        }
+
+        foreach ($records as $key => $record) {
+            $obj_fi = $record['obj_fi'];
+            $data = $this->loadTaxonomyAssignmentData($obj_fi, $key, $this->taxonomy->getUsageOfObject($obj_fi));
+            $safe = false;
+
+            foreach ($data as $taxonomyId => $taxData) {
+                $titleCheck = empty($taxonomyTitle) || is_int(mb_stripos(\ilObject::_lookupTitle($taxonomyId), $taxonomyTitle));
+
+                if ($titleCheck) {
+                    foreach ($taxData as $node) {
+                        if (empty($taxonomyNodeTitle) || is_int(mb_stripos(\ilTaxonomyNode::_lookupTitle($node['node_id']), $taxonomyNodeTitle))) {
+                            $safe = true;
+                            break 2;
+                        }
+                    }
+                }
+            }
+
+            if (!$safe) {
+                unset($records[$key]);
+            }
+        }
+
+        return $records;
     }
 
     private function getQuestionParentObjIds(int $repositoryRootNode): array

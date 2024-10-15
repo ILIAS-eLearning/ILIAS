@@ -103,11 +103,15 @@ class ilTestQuestionBrowserTableGUI
         $this->ctrl->setParameter($this, self::MODE_PARAMETER, $this->testrequest->raw(self::MODE_PARAMETER));
         $action = $this->ctrl->getLinkTarget($this, self::CMD_BROWSE_QUESTIONS);
 
+        $mode = $this->ctrl->getParameterArrayByClass(self::class)[self::MODE_PARAMETER];
+        $parent_title = ($mode === self::MODE_BROWSE_TESTS ? 'test_title' : 'tst_source_question_pool');
+
         $filter = (new QuestionsBrowserFilter(
             $this->ui_service,
             $this->lng,
             $this->ui_factory,
-            'question_browser_filter'
+            'question_browser_filter',
+            $parent_title
         ))->getComponent($action, $this->http_state->request());
 
         $this->main_tpl->setContent(
@@ -125,7 +129,8 @@ class ilTestQuestionBrowserTableGUI
                     $this->tree,
                     $this->testrequest,
                     $this->taxonomy,
-                    $this->questionPoolLinkBuilder
+                    $this->questionPoolLinkBuilder,
+                    $parent_title
                 ))->getComponent(
                     $this->http_state->request(),
                     $this->ui_service->filter()->getData($filter)
