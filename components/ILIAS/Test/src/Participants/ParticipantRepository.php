@@ -123,7 +123,7 @@ class ParticipantRepository
     public function getParticipantByUserId(int $test_id, int $user_id): ?Participant
     {
         return $this->fetchParticipant(
-            "{$this->getBaseQuery()} WHERE user_id = %s",
+            "{$this->getBaseQuery()} WHERE user_fi = %s",
             ['integer', 'integer', 'integer'],
             [$test_id, $test_id, $user_id]
         );
