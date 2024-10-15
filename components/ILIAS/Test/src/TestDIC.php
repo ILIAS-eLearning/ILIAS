@@ -43,14 +43,11 @@ use ILIAS\Test\Questions\Properties\Repository as TestQuestionsRepository;
 use ILIAS\Test\Questions\Properties\DatabaseRepository as TestQuestionsDatabaseRepository;
 use ILIAS\Test\Results\Data\Factory as ResultsDataFactory;
 use ILIAS\Test\Results\Presentation\Factory as ResultsPresentationFactory;
-
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\TestQuestionPool\RequestDataCollector as QPLRequestDataCollector;
-
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\DI\Container as ILIASContainer;
 use Pimple\Container as PimpleContainer;
-use ILIAS\Data\Factory as DataFactory;
 
 class TestDIC extends PimpleContainer
 {

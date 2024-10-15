@@ -340,7 +340,7 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
         if ($this->db->tableColumnExists('tst_addtime', 'active_fi')) {
             $this->db->manipulate(
                 '
-                UPDATE tst_addtime INNER JOIN tst_active ON tst_active.active_id = tst_addtime.active_fi 
+                UPDATE tst_addtime INNER JOIN tst_active ON tst_active.active_id = tst_addtime.active_fi
                 SET tst_addtime.test_fi = tst_active.test_fi, tst_addtime.user_fi = tst_active.user_fi'
             );
 
@@ -352,14 +352,14 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
         }
     }
 
-    public function step_5(): void
+    public function step_6(): void
     {
         if ($this->db->tableColumnExists('tst_tests', 'broken')) {
             $this->db->dropTableColumn('tst_tests', 'broken');
         }
     }
 
-    public function step_5(): void
+    public function step_7(): void
     {
         if ($this->db->tableColumnExists('tst_tests', 'obligations_enabled')) {
             $this->db->dropTableColumn('tst_tests', 'obligations_enabled');

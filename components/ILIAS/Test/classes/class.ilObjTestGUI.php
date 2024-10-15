@@ -143,7 +143,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     protected ?QuestionsTableQuery $table_query = null;
     protected ?QuestionsTableActions $table_actions = null;
     protected DataFactory $data_factory;
-    protected ilUIService $ui_service;
 
     protected bool $create_question_mode;
 
