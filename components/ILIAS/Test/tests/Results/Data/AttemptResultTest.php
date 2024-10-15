@@ -18,29 +18,15 @@
 
 namespace ILIAS\Test\Tests\Results\Data;
 
-use ILIAS\Test\Results\Presentation\AttemptResult;
-use ILIAS\Test\Results\Presentation\QuestionResult;
+use ILIAS\Test\Results\Data\AttemptResult;
+use ILIAS\Test\Results\Data\QuestionResult;
 
 class AttemptResultTest extends \ilTestBaseTestCase
 {
-    /**
-     * @dataProvider getSettingsDataProvider
-     */
-    public function testGetSettings(ilTestPassResultsSettings $IO): void
-    {
-        $ilTestPassResult = new AttemptResult(
-            $IO,
-            0,
-            0,
-            []
-        );
-        $this->assertEquals($IO, $ilTestPassResult->getSettings());
-    }
-
     public static function getSettingsDataProvider(): array
     {
         return [
-            [new ilTestPassResultsSettings()]
+            [new \ilTestPass()]
         ];
     }
 
@@ -50,7 +36,6 @@ class AttemptResultTest extends \ilTestBaseTestCase
     public function testGetActiveId(int $IO): void
     {
         $ilTestPassResult = new AttemptResult(
-            new ilTestPassResultsSettings(),
             $IO,
             0,
             []
@@ -70,15 +55,14 @@ class AttemptResultTest extends \ilTestBaseTestCase
     /**
      * @dataProvider getPassDataProvider
      */
-    public function testGetPass(int $IO): void
+    public function testGetAttempt(int $IO): void
     {
         $ilTestPassResult = new AttemptResult(
-            new ilTestPassResultsSettings(),
             0,
             $IO,
             []
         );
-        $this->assertEquals($IO, $ilTestPassResult->getPass());
+        $this->assertEquals($IO, $ilTestPassResult->getAttempt());
     }
 
     public static function getPassDataProvider(): array
@@ -97,7 +81,6 @@ class AttemptResultTest extends \ilTestBaseTestCase
     {
         $IO = $IO($this);
         $ilTestPassResult = new AttemptResult(
-            new ilTestPassResultsSettings(),
             0,
             0,
             $IO
