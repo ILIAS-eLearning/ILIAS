@@ -4997,23 +4997,6 @@ class ilObjTest extends ilObject
         );
     }
 
-
-    /**
-     * @param $user_id
-     * @param $client_ip
-     *
-     * @return void
-     * @deprecated
-     */
-    public function setClientIP($user_id, $client_ip)
-    {
-        $this->db->manipulateF(
-            "UPDATE tst_invited_user SET clientip = %s, tstamp = %s WHERE test_fi=%s and user_fi=%s",
-            ['text', 'integer', 'integer', 'integer'],
-            [(strlen($client_ip)) ? $client_ip : null, time(), $this->getTestId(), $user_id]
-        );
-    }
-
     /**
      * get solved questions
      *
@@ -7465,10 +7448,7 @@ class ilObjTest extends ilObject
 
     public function getExtraTime($active_id)
     {
-        $participant = $this->participant_repository->loadParticipantBy($this->getTestId(), [
-            'active_id' => ['integer', $active_id]
-        ]);
-
+        $participant = $this->participant_repository->getParticipantByActiveId($this->getTestId(), $active_id);
         return $participant?->getExtraTime() ?? 0;
     }
 

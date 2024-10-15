@@ -23,6 +23,8 @@ namespace ILIAS\Test\Participants;
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;
 
+use function join;
+
 class ParticipantRepository
 {
     public function __construct(
@@ -78,7 +80,7 @@ class ParticipantRepository
     /**
      * @param array<string, mixed> $filter
      */
-    public function loadParticipants(int $test_id, array $filter, ?Range $range, Order $order): \Generator
+    public function getParticipants(int $test_id, array $filter, ?Range $range, Order $order): \Generator
     {
         $query = $this->getBaseQuery();
         [$where, $types, $values] = $this->applyFilter(
@@ -107,6 +109,24 @@ class ParticipantRepository
         while ($row = $this->database->fetchAssoc($statement)) {
             yield $this->arrayToObject($row);
         }
+    }
+
+    public function getParticipantByActiveId(int $test_id, int $active_id): ?Participant
+    {
+        return $this->fetchParticipant(
+            "{$this->getBaseQuery()} WHERE active_id = %s",
+            ['integer', 'integer', 'integer'],
+            [$test_id, $test_id, $active_id]
+        );
+    }
+
+    public function getParticipantByUserId(int $test_id, int $user_id): ?Participant
+    {
+        return $this->fetchParticipant(
+            "{$this->getBaseQuery()} WHERE user_id = %s",
+            ['integer', 'integer', 'integer'],
+            [$test_id, $test_id, $user_id]
+        );
     }
 
     public function updateExtraTime(Participant $participant, int $minutes): void
@@ -158,30 +178,70 @@ class ParticipantRepository
         }
     }
 
-    /**
-     * @param int   $test_id
-     * @param array<string, array{0: string, 1: mixed}> $parameters
-     *
-     * @return Participant|null
-     */
-    public function loadParticipantBy(int $test_id, array $parameters): ?Participant
+    protected function loadTestStartTime(?int $active_id, int $pass): ?\DateTimeImmutable
     {
-        $where = [];
-        $types = ['integer', 'integer'];
-        $values = [$test_id, $test_id];
-
-        foreach ($parameters as $name => $parameter) {
-            $where[] = "$name = %s";
-            $types[] = $parameter[0];
-            $values[] = $parameter[1];
+        if (!$active_id) {
+            return null;
         }
 
-        $query = $this->getBAseQuery();
-        if (!empty($where)) {
-            $where = join(' AND ', $where);
-            $query .= " WHERE {$where}";
+        $statement = $this->database->queryF(
+            'SELECT started FROM tst_times WHERE active_fi = %s AND pass = %s ORDER BY started ASC LIMIT 1',
+            ['integer', 'integer'],
+            [$active_id, $pass]
+        );
+
+        $row = $this->database->fetchAssoc($statement);
+
+        if (!$row) {
+            return null;
         }
 
+        return new \DateTimeImmutable($row['started']);
+    }
+
+    protected function loadTestEndTime(?int $active_id, int $pass): ?\DateTimeImmutable
+    {
+        if (!$active_id) {
+            return null;
+        }
+
+        $statement = $this->database->queryF(
+            'SELECT finished FROM tst_times WHERE active_fi = %s AND pass = %s ORDER BY started DESC LIMIT 1',
+            ['integer', 'integer'],
+            [$active_id, $pass]
+        );
+
+        $row = $this->database->fetchAssoc($statement);
+
+        if (!$row) {
+            return null;
+        }
+
+        return new \DateTimeImmutable($row['finished']);
+    }
+
+    protected function loadHasSolutions(int $active_id): bool
+    {
+        $statement = $this->database->queryF(
+            'SELECT MAX(answeredquestions) as answeredquestions FROM tst_pass_result WHERE active_fi = %s',
+            ['integer'],
+            [$active_id]
+        );
+
+        $row = $this->database->fetchAssoc($statement);
+        if (!$row) {
+            return false;
+        }
+
+        return $row['answeredquestions'] > 0;
+    }
+
+    /**
+     * @param array<int, string> $types
+     * @param array<int, mixed> $values
+     */
+    private function fetchParticipant(string $query, array $types, array $values): ?Participant
+    {
         $statement = $this->database->queryF($query, $types, $values);
         $row = $this->database->fetchAssoc($statement);
 
@@ -293,63 +353,6 @@ class ParticipantRepository
         return $participant;
     }
 
-    protected function loadTestStartTime(?int $active_id, int $pass): ?\DateTimeImmutable
-    {
-        if (!$active_id) {
-            return null;
-        }
-
-        $statement = $this->database->queryF(
-            'SELECT started FROM tst_times WHERE active_fi = %s AND pass = %s ORDER BY started ASC LIMIT 1',
-            ['integer', 'integer'],
-            [$active_id, $pass]
-        );
-
-        $row = $this->database->fetchAssoc($statement);
-
-        if (!$row) {
-            return null;
-        }
-
-        return new \DateTimeImmutable($row['started']);
-    }
-
-    protected function loadTestEndTime(?int $active_id, int $pass): ?\DateTimeImmutable
-    {
-        if (!$active_id) {
-            return null;
-        }
-
-        $statement = $this->database->queryF(
-            'SELECT finished FROM tst_times WHERE active_fi = %s AND pass = %s ORDER BY started DESC LIMIT 1',
-            ['integer', 'integer'],
-            [$active_id, $pass]
-        );
-
-        $row = $this->database->fetchAssoc($statement);
-
-        if (!$row) {
-            return null;
-        }
-
-        return new \DateTimeImmutable($row['finished']);
-    }
-
-    protected function loadHasSolutions(int $active_id): bool
-    {
-        $statement = $this->database->queryF(
-            'SELECT MAX(answeredquestions) as answeredquestions FROM tst_pass_result WHERE active_fi = %s',
-            ['integer'],
-            [$active_id]
-        );
-
-        $row = $this->database->fetchAssoc($statement);
-        if (!$row) {
-            return false;
-        }
-
-        return $row['answeredquestions'] > 0;
-    }
 
     /**
      * @return string

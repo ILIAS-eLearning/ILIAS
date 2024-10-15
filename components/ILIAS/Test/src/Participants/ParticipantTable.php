@@ -315,7 +315,7 @@ class ParticipantTable implements DataRetrieval
             return $this->records;
         }
 
-        $records = $this->repository->loadParticipants($this->test_object->getTestId(), $filter, null, $order);
+        $records = $this->repository->getParticipants($this->test_object->getTestId(), $filter, null, $order);
         $records = iterator_to_array($records);
 
         $access_filter = $this->participant_access_filter->getManageParticipantsUserFilter($this->test_object->getRefId());

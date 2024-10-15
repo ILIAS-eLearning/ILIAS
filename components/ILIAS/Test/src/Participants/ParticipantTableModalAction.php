@@ -175,9 +175,7 @@ abstract class ParticipantTableModalAction implements TableAction
 
         return array_filter(
             array_map(
-                fn(int $user_id) => $this->repository->loadParticipantBy($this->test_object->getTestId(), [
-                    'user_fi' => ['integer', $user_id]
-                ]),
+                fn(int $user_id) => $this->repository->getParticipantByUserId($this->test_object->getTestId(), $user_id),
                 $selected_participants
             ),
             fn(Participant $participant) => $this->allowActionForRecord($participant)

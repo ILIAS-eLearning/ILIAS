@@ -218,22 +218,6 @@ class ilTestParticipantsGUI
         return true;
     }
 
-    protected function saveClientIpCmd(): void
-    {
-        $filter_closure = $this->participant_access_filter->getManageParticipantsUserFilter($this->getTestObj()->getRefId());
-        $selected_users = $filter_closure($this->testrequest->raw('chbUser') ?? []);
-
-        if ($selected_users === []) {
-            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("select_one_user"), true);
-        }
-
-        foreach ($selected_users as $user_id) {
-            $this->getTestObj()->setClientIP($user_id, $_POST["clientip_" . $user_id]);
-        }
-
-        $this->ctrl->redirect($this, self::CMD_SHOW);
-    }
-
     protected function removeParticipantsCmd(): void
     {
         $filter_closure = $this->participant_access_filter->getManageParticipantsUserFilter($this->getTestObj()->getRefId());
