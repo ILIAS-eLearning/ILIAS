@@ -63,7 +63,11 @@ class StaticUrlHandler
         if ($context->isUserLoggedIn() and $context->checkPermission("read", $ref_id->toInt())) {
             $access_granted = true;
         }
-        if ($context->getUserId() === ANONYMOUS_USER_ID and $context->isPublicSectionActive()) {
+        if (
+            $context->getUserId() === ANONYMOUS_USER_ID and
+            $context->isPublicSectionActive() and
+            $context->checkPermission('read', $ref_id->toInt())
+        ) {
             $access_granted = true;
         }
         if (
