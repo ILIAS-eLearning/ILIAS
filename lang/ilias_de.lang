@@ -3148,6 +3148,13 @@ cmix#:#conf_bypass_proxy_enabled#:#CronJob zur Abfrage des Learning Record Store
 cmix#:#conf_bypass_proxy_info#:#In den meisten Fällen wird empfohlen, den xAPI-Proxy zu verwenden. Verwenden Sie den CronJob bei Einschränkungen hinsichtlich Ressourcen oder Server.
 cmix#:#conf_cronjob_neccessary#:#CronJob notwendig für den Lernfortschritt
 cmix#:#conf_cronjob_neccessary_info#:#Durch Aktivieren dieser Option können die diesen LRS-Typ nutzenden xAPI-Objekte den xAPI-Proxy nicht nutzen, der zeitlich unmittelbar Daten zur Erkennung des Lernfortschritts liefert. Verwenden Sie nur den CronJob bei Einschränkungen hinsichtlich Ressourcen oder Server.
+cmix#:#conf_delete_data#:#Daten im LRS löschen
+cmix#:#conf_delete_data_info#:#Löschen ist aktuell nur mit dem Learning Record Store (LRS) LearningLocker möglich. Nutzen Sie die Optionen zum Löschen der Benutzeridentifikation nur dann, wenn die Daten im LRS pseudonymisiert wurden.
+cmix#:#conf_delete_data_opt0#:#nie
+cmix#:#conf_delete_data_opt1#:#nie - doch wenn Benutzer gelöscht und wenn xAPI/cmi-Objekte in den Papierkorb verschoben oder gelöscht werden, werden Daten durch Löschen der - Benutzeridentifikation für ILIAS nicht mehr zuordnenbar sein
+cmix#:#conf_delete_data_opt11#:#wenn Benutzer gelöscht und wenn xAPI/cmi-Objekte in den Papierkorb verschoben oder gelöscht werden
+cmix#:#conf_delete_data_opt12#:#zusätzlich wenn Benutzer aus Kursen oder Gruppen entfernt werden
+cmix#:#conf_delete_data_opt2#:#nie - doch zusätzlich wenn Benutzer aus Kursen oder Gruppen entfernt werden, werden Daten durch Löschen der Benutzeridentifikation für ILIAS nicht mehr zuordnenbar sein
 cmix#:#conf_description#:#Beschreibung
 cmix#:#conf_external_lrs#:#Externer LRS
 cmix#:#conf_keep_lp#:#Verschlechterung des Lernfortschritts vermeiden
@@ -3199,6 +3206,10 @@ cmix#:#conf_privacy_setting_force#:#Die Einstellungen sind für Objekte nicht ä
 cmix#:#conf_privacy_setting_info#:#Konfigurationsoptionen für die Datenschutzeinstellungen
 cmix#:#conf_remarks#:#Interne Kommentare
 cmix#:#conf_title#:#Titel
+cmix#:#conf_use_proxy#:#xAPI-Proxy
+cmix#:#conf_use_proxy_info#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cronjob „xAPI/cmi5 Ergebnisse holen“. Für cmi5-Objekte ist der xAPI-Proxy zwingend erforderlich und wird automatisch aktiviert.
+cmix#:#conf_use_proxy_info_cmi5#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Für cmi5-Objekte ist der xAPI-Proxy zwingend erforderlich.
+cmix#:#conf_use_proxy_info_xapi#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cronjob „xAPI/cmi5 Ergebnisse holen“.
 cmix#:#conf_user_ident#:#Identifikation der Person
 cmix#:#conf_user_ident#:#Schlüssel zur Identifikation einer Person
 cmix#:#conf_user_ident_il_uuid_ext_account#:#ID-externes-Konto@ILIAS-Plattform-ID.ilias
