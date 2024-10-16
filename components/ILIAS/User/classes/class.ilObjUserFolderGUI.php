@@ -2228,7 +2228,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
     {
         $checked = $this->user_request->getChecked();
         $selected = $this->user_request->getSelect();
-        $input = $this->user_request->getInput();
 
         $user_settings_config = $this->user_settings_config;
 
@@ -2399,12 +2398,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
             }
         }
 
-        if (isset($input['default_session_reminder'])) {
-            $this->ilias->setSetting(
-                'session_reminder_lead_time',
-                $input['default_session_reminder']
-            );
-        }
+        $this->ilias->setSetting(
+            'session_reminder_lead_time',
+            $this->user_request->getDefaultSessionReminder()
+        );
 
         if (isset($checked['export_preferences']) && $checked['export_preferences'] === 1) {
             $this->ilias->setSetting(
