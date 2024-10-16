@@ -20,12 +20,14 @@ declare(strict_types=1);
 
 use ILIAS\Test\TestDIC;
 use ILIAS\Test\RequestDataCollector;
+use ILIAS\Test\ResponseHandler;
 use ILIAS\Test\Utilities\TitleColumnsBuilder;
 use ILIAS\Test\Questions\Presentation\QuestionsTable;
 use ILIAS\Test\Questions\Presentation\QuestionsTableQuery;
 use ILIAS\Test\Questions\Presentation\QuestionsTableActions;
 use ILIAS\Test\Questions\Presentation\Printer as QuestionPrinter;
 use ILIAS\Test\Questions\Properties\Repository as TestQuestionsRepository;
+use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\Settings\MainSettings\SettingsMainGUI;
 use ILIAS\Test\Settings\ScoreReporting\SettingsScoringGUI;
 use ILIAS\Test\Scoring\Settings\Settings as SettingsScoring;
@@ -140,6 +142,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     protected IRSS $irss;
     private Archives $archives;
     protected RequestDataCollector $testrequest;
+    protected ResponseHandler $response_handler;
+    protected ParticipantRepository $participant_repository;
     protected ?QuestionsTableQuery $table_query = null;
     protected ?QuestionsTableActions $table_actions = null;
     protected DataFactory $data_factory;
@@ -180,6 +184,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->qplrequest = $local_dic['question.request_data_wrapper'];
         $this->title_builder = $local_dic['title_columns_builder'];
         $this->testrequest = $local_dic['request_data_collector'];
+        $this->response_handler = $local_dic['response_handler'];
+        $this->participant_repository = $local_dic['participant.repository'];
         $this->export_factory = $local_dic['exportimport.factory'];
         $this->participant_access_filter_factory = $local_dic['participant.access_filter.factory'];
 
@@ -366,6 +372,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->ui_service,
                     $this->data_factory,
                     $this->lng,
+                    $this->refinery,
                     $this->db,
                     $this->ctrl,
                     $this->tabs_gui,
@@ -374,6 +381,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->component_factory,
                     $this->export_factory,
                     $this->testrequest,
+                    $this->response_handler,
+                    $this->participant_repository,
                     $this->test_question_set_config_factory->getQuestionSetConfig(),
                     $this->getObjectiveOrientedContainer()
                 );

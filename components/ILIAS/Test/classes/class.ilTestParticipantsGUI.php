@@ -18,14 +18,22 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\ResponseHandler;
 use ILIAS\Test\Participants\ParticipantTable;
-use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Test\TestDIC;
-use ILIAS\UI\Factory as UIFactory;
-use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Test\ExportImport\Factory as ExportImportFactory;
 use ILIAS\Test\ExportImport\Types as ExportImportTypes;
 use ILIAS\Test\RequestDataCollector;
+use ILIAS\Test\Participants\ParticipantRepository;
+use ILIAS\Test\Participants\ParticipantTableModalActions;
+use ILIAS\Test\Participants\ParticipantTableIpRangeAction;
+use ILIAS\Test\Participants\ParticipantTableExtraTimeAction;
+use ILIAS\Test\Participants\ParticipantTableFinishTestAction;
+use ILIAS\Test\Participants\ParticipantTableDeleteResultsAction;
+use ILIAS\Test\Participants\ParticipantTableShowResultsAction;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\URLBuilder;
 
 /**
@@ -49,15 +57,15 @@ class ilTestParticipantsGUI
     private const EXPORT_TYPE_PARAMETER = 'export_type';
     private const EXPORT_PLUGIN_TYPE_PARAMETER = 'export_plugin_type';
 
-    protected ilTestObjectiveOrientedContainer $objective_parent;
-    protected ilTestAccess $test_access;
-
     protected ilTestParticipantAccessFilterFactory $participant_access_filter;
 
     public function __construct(
         protected ilObjTest $test_obj,
-        protected ilTestQuestionSetConfig $question_set_config,
+        protected readonly ilObjUser $current_user,
+        protected readonly ilTestObjectiveOrientedContainer $objective_parent,
+        protected readonly ilTestQuestionSetConfig $question_set_config,
         protected ilAccess $access,
+        protected ilTestAccess $test_access,
         protected ilGlobalTemplateInterface $main_tpl,
         protected UIFactory $ui_factory,
         protected UIRenderer $ui_renderer,
@@ -65,54 +73,17 @@ class ilTestParticipantsGUI
         protected DataFactory $data_factory,
         protected ilLanguage $lng,
         protected ilCtrlInterface $ctrl,
+        protected Refinery $refinery,
         protected ilDBInterface $db,
         protected ilTabsGUI $tabs,
         protected ilToolbarGUI $toolbar,
         protected ilComponentFactory $component_factory,
         protected ExportImportFactory $export_factory,
-        protected RequestDataCollector $testrequest
+        protected RequestDataCollector $testrequest,
+        protected ResponseHandler $response_handler,
+        protected ParticipantRepository $participant_repository
     ) {
         $this->participant_access_filter = new ilTestParticipantAccessFilterFactory($access);
-    }
-
-    public function getTestObj(): ilObjTest
-    {
-        return $this->test_obj;
-    }
-
-    public function setTestObj(ilObjTest $test_obj): void
-    {
-        $this->test_obj = $test_obj;
-    }
-
-    public function getQuestionSetConfig(): ilTestQuestionSetConfig
-    {
-        return $this->question_set_config;
-    }
-
-    public function setQuestionSetConfig(ilTestQuestionSetConfig $question_set_config): void
-    {
-        $this->question_set_config = $question_set_config;
-    }
-
-    public function getObjectiveParent(): ilTestObjectiveOrientedContainer
-    {
-        return $this->objective_parent;
-    }
-
-    public function setObjectiveParent(ilTestObjectiveOrientedContainer $objective_parent): void
-    {
-        $this->objective_parent = $objective_parent;
-    }
-
-    public function getTestAccess(): ilTestAccess
-    {
-        return $this->test_access;
-    }
-
-    public function setTestAccess(ilTestAccess $test_access): void
-    {
-        $this->test_access = $test_access;
     }
 
     public function executeCommand(): void
@@ -123,7 +94,7 @@ class ilTestParticipantsGUI
                 $gui->setCallback($this, self::CALLBACK_ADD_PARTICIPANT, []);
 
                 $gui->addUserAccessFilterCallable($this->participant_access_filter->getManageParticipantsUserFilter(
-                    $this->getTestObj()->getRefId()
+                    $this->test_obj->getRefId()
                 ));
 
 
@@ -133,9 +104,9 @@ class ilTestParticipantsGUI
                 break;
 
             case "iltestevaluationgui":
-                $gui = new ilTestEvaluationGUI($this->getTestObj());
-                $gui->setObjectiveOrientedContainer($this->getObjectiveParent());
-                $gui->setTestAccess($this->getTestAccess());
+                $gui = new ilTestEvaluationGUI($this->test_obj);
+                $gui->setObjectiveOrientedContainer($this->objective_parent);
+                $gui->setTestAccess($this->test_access);
                 $this->tabs->clearTargets();
                 $this->tabs->clearSubTabs();
 
@@ -154,13 +125,13 @@ class ilTestParticipantsGUI
     {
         $this->addUserSearchControls($this->toolbar);
 
-        if ($this->getTestObj()->evalTotalPersons() > 0) {
+        if ($this->test_obj->evalTotalPersons() > 0) {
             $this->addExportDropdown($this->toolbar);
         }
 
         $components = $this->getParticipantTable()->getComponents(
             $this->getTableActionUrlBuilder(),
-            $this->ctrl->getLinkTarget($this, 'show')
+            $this->ctrl->getLinkTargetByClass(self::class, 'show')
         );
 
         $this->main_tpl->setContent(
@@ -171,22 +142,27 @@ class ilTestParticipantsGUI
     public function executeTableActionCmd(): void
     {
         $this->getParticipantTable()->execute($this->getTableActionUrlBuilder());
+        $this->showCmd();
     }
 
     private function getParticipantTable(): ParticipantTable
     {
-        $test_dic = TestDIC::dic();
-
-        return $test_dic['participant.table']
-            ->withTableAction($test_dic['participant.action.ip_range'])
-            ->withTableAction($test_dic['participant.action.extra_time'])
-            ->withTableAction($test_dic['participant.action.finish_test'])
-            ->withTestObject($this->getTestObj());
+        return new ParticipantTable(
+            $this->ui_factory,
+            $this->ui_service,
+            $this->lng,
+            $this->data_factory,
+            $this->testrequest,
+            $this->participant_access_filter,
+            $this->participant_repository,
+            $this->test_obj,
+            $this->buildParticipantTableActions()
+        );
     }
 
     private function getTableActionUrlBuilder(): URLBuilder
     {
-        $uri = $this->ctrl->getLinkTarget($this, 'executeTableAction', "", true);
+        $uri = $this->ctrl->getLinkTargetByClass(self::class, 'executeTableAction', '', true);
         return new URLBuilder($this->data_factory->uri(ILIAS_HTTP_PATH . '/' . $uri));
     }
 
@@ -213,7 +189,7 @@ class ilTestParticipantsGUI
     {
         $toolbar->addSeparator();
 
-        if ($this->getTestObj()->getAnonymity()) {
+        if ($this->test_obj->getAnonymity()) {
             $this->ctrl->setParameterByClass(self::class, self::EXPORT_TYPE_PARAMETER, 'all_test_runs_a');
             $options = [
                 $this->ui_factory->button()->shy(
@@ -279,7 +255,7 @@ class ilTestParticipantsGUI
     private function addPluginExportsToOptions(array $options): array
     {
         foreach ($this->component_factory->getActivePluginsInSlot('texp') as $plugin) {
-            $plugin->setTest($this->getTestObj());
+            $plugin->setTest($this->test_obj);
             $this->ctrl->setParameterByClass(self::class, self::EXPORT_TYPE_PARAMETER, ExportImportTypes::PLUGIN->value);
             $this->ctrl->setParameterByClass(self::class, self::EXPORT_PLUGIN_TYPE_PARAMETER, $plugin->getFormat());
             $options[] = $this->ui_factory->button()->shy(
@@ -309,7 +285,7 @@ class ilTestParticipantsGUI
         }
 
         $this->export_factory->getExporter(
-            $this->getTestObj(),
+            $this->test_obj,
             $export_type,
             $plugin_type
         )->deliver();
@@ -318,7 +294,7 @@ class ilTestParticipantsGUI
 
     protected function saveClientIpCmd(): void
     {
-        $filter_closure = $this->participant_access_filter->getManageParticipantsUserFilter($this->getTestObj()->getRefId());
+        $filter_closure = $this->participant_access_filter->getManageParticipantsUserFilter($this->test_obj->getRefId());
         $selected_users = $filter_closure($this->testrequest->raw('chbUser') ?? []);
 
         if ($selected_users === []) {
@@ -326,7 +302,7 @@ class ilTestParticipantsGUI
         }
 
         foreach ($selected_users as $user_id) {
-            $this->getTestObj()->setClientIP($user_id, $_POST["clientip_" . $user_id]);
+            $this->test_obj->setClientIP($user_id, $_POST["clientip_" . $user_id]);
         }
 
         $this->ctrl->redirect($this, self::CMD_SHOW);
@@ -334,17 +310,60 @@ class ilTestParticipantsGUI
 
     protected function removeParticipantsCmd(): void
     {
-        $filter_closure = $this->participant_access_filter->getManageParticipantsUserFilter($this->getTestObj()->getRefId());
+        $filter_closure = $this->participant_access_filter->getManageParticipantsUserFilter($this->test_obj->getRefId());
         $a_user_ids = $filter_closure((array) $_POST["chbUser"]);
 
         if (is_array($a_user_ids)) {
             foreach ($a_user_ids as $user_id) {
-                $this->getTestObj()->disinviteUser($user_id);
+                $this->test_obj->disinviteUser($user_id);
             }
         } else {
             $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("select_one_user"), true);
         }
 
         $this->ctrl->redirect($this, self::CMD_SHOW);
+    }
+
+    private function buildParticipantTableActions(): ParticipantTableModalActions
+    {
+        return new ParticipantTableModalActions(
+            $this->ctrl,
+            $this->lng,
+            $this->main_tpl,
+            $this->ui_factory,
+            $this->ui_renderer,
+            $this->refinery,
+            $this->testrequest,
+            $this->response_handler,
+            $this->participant_repository,
+            $this->test_obj,
+            [
+                ParticipantTableIpRangeAction::ACTION_ID => new ParticipantTableIpRangeAction(
+                    $this->lng,
+                    $this->main_tpl,
+                    $this->ui_factory,
+                    $this->refinery,
+                    $this->participant_repository
+                ),
+                ParticipantTableExtraTimeAction::ACTION_ID => new ParticipantTableExtraTimeAction(
+                    $this->lng,
+                    $this->main_tpl,
+                    $this->ui_factory,
+                    $this->test_obj
+                ),
+                ParticipantTableFinishTestAction::ACTION_ID => new ParticipantTableFinishTestAction(
+                    $this->lng,
+                    $this->main_tpl,
+                    $this->ui_factory,
+                    $this->db,
+                    new \ilTestProcessLockerFactory(
+                        new \ilSetting('assessment'),
+                        $this->db
+                    ),
+                    $this->current_user,
+                    $this->test_obj
+                )
+            ]
+        );
     }
 }

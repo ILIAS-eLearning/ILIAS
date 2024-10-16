@@ -580,8 +580,7 @@ assessment#:#code#:#Kod
 assessment#:#codebase#:#Kodna osnova
 assessment#:#concatenation#:#Povezivanje
 assessment#:#conf_delete_pass#:#Jeste li sigurni da želite izbrisati svoje postojeće odgovore?
-assessment#:#confirm_delete_all_user_data#:#Jeste li sigurni da želite izbrisati sve podatke svih korisnika testa?
-assessment#:#confirm_delete_single_user_data#:#Jeste li sigurni da želite ukloniti testne podatke odabranih korisnika?
+assessment#:#confirm_delete_user_data#:#Jeste li sigurni da želite ukloniti testne podatke odabranih korisnika?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#Pitanje, koje ste promijenili, je kopija koja je izrađena za uporabu s aktivnim testom. Želite li promijeniti i izvorno pitanje?
 assessment#:#coordinates#:#Koordinate
@@ -604,7 +603,7 @@ assessment#:#delete_all_user_data#:#Ukloni testne podatke svih sudionika
 assessment#:#delete_all_user_data_confirmation#:#Želite li stvarno izbrisati testne podatke svih sudionika ovoga testa?
 assessment#:#delete_image_header#:#Ukloni sliku
 assessment#:#delete_image_question#:#Želite li zaista ukloniti sliku?
-assessment#:#delete_user_data#:#Ukloni testne podatke odabranih sudionika
+assessment#:#delete_selected_user_data_confirmation#:#Ukloni testne podatke odabranih sudionika
 assessment#:#description_maxchars#:#Ako se ne unese ništa, maksimalni broj znakova za ovaj tekstualni odgovor je neograničen.
 assessment#:#detail_ending_time_reached#:#Vrijeme predviđeno za ovaj test je sada isteklo. Test više nije bio dostupan od %s.
 assessment#:#detail_max_processing_time_reached#:#Dosegli ste maksimalno dopušteno vrijeme za rješavanje testa!

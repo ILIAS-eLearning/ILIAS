@@ -21,10 +21,12 @@ declare(strict_types=1);
 use ILIAS\Test\ExportImport\Factory as ExportImportFactory;
 use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\Test\RequestDataCollector;
-
+use ILIAS\Test\ResponseHandler;
+use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * Class ilTestDashboardGUI
@@ -50,6 +52,7 @@ class ilTestDashboardGUI
         protected readonly ilUIService $ui_service,
         protected readonly DataFactory $data_factory,
         protected readonly ilLanguage $lng,
+        protected readonly Refinery $refinery,
         protected readonly ilDBInterface $db,
         protected readonly ilCtrl $ctrl,
         protected ilTabsGUI $tabs,
@@ -58,6 +61,8 @@ class ilTestDashboardGUI
         protected readonly \ilComponentFactory $component_factory,
         protected readonly ExportImportFactory $export_factory,
         protected readonly RequestDataCollector $testrequest,
+        protected readonly ResponseHandler $response_handler,
+        protected readonly ParticipantRepository $participant_repository,
         protected ilTestQuestionSetConfig $question_set_config,
         protected ilTestObjectiveOrientedContainer $objective_parent
     ) {
@@ -78,8 +83,11 @@ class ilTestDashboardGUI
 
                 $gui = new ilTestParticipantsGUI(
                     $this->test_obj,
+                    $this->user,
+                    $this->objective_parent,
                     $this->question_set_config,
                     $this->access,
+                    $this->test_access,
                     $this->main_tpl,
                     $this->ui_factory,
                     $this->ui_renderer,
@@ -87,15 +95,16 @@ class ilTestDashboardGUI
                     $this->data_factory,
                     $this->lng,
                     $this->ctrl,
+                    $this->refinery,
                     $this->db,
                     $this->tabs,
                     $this->toolbar,
                     $this->component_factory,
                     $this->export_factory,
-                    $this->testrequest
+                    $this->testrequest,
+                    $this->response_handler,
+                    $this->participant_repository
                 );
-                $gui->setTestAccess($this->test_access);
-                $gui->setObjectiveParent($this->objective_parent);
                 $this->ctrl->forwardCommand($gui);
                 break;
 

@@ -580,8 +580,7 @@ assessment#:#code#:#Kód
 assessment#:#codebase#:#Databáze kódu
 assessment#:#concatenation#:#Sřetězení
 assessment#:#conf_delete_pass#:#Really delete pass?###28 08 2012 new variable
-assessment#:#confirm_delete_all_user_data#:#Skutečně chcete smazat všechna data uživatelů tohoto testu?
-assessment#:#confirm_delete_single_user_data#:#Skutečně chcete smazat všechna data vybraných uživatelů tohoto testu?
+assessment#:#confirm_delete_user_data#:#Skutečně chcete smazat všechna data vybraných uživatelů tohoto testu?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#Vámi změněné otázky jsou kopií vytvořenou pro použití v aktivním testu. Chcete změnit také původní otázky?
 assessment#:#coordinates#:#Souřadnice
@@ -604,7 +603,7 @@ assessment#:#delete_all_user_data#:#Smazat data testů všech uživatelů
 assessment#:#delete_all_user_data_confirmation#:#Skutečně chcete smazat data testů všech uživatelů tohoto testu?
 assessment#:#delete_image_header#:#Smazat obrázek
 assessment#:#delete_image_question#:#Skutečně chcete smazat tento obrázek?
-assessment#:#delete_user_data#:#Smazat data testů vybraných účastníků testu
+assessment#:#delete_selected_user_data_confirmation#:#Smazat data testů vybraných účastníků testu
 assessment#:#description_maxchars#:#Nebude-li nic vloženo, maximální počet znaků pro tuto textovou odpověď je neomezen.
 assessment#:#detail_ending_time_reached#:#Vyčerpal(a) jste čas na zpracování tohoto testu. Test není dostupný od %s
 assessment#:#detail_max_processing_time_reached#:#Vyčerpal(a) jste maximum povoleného času ke zpracování tohoto testu!

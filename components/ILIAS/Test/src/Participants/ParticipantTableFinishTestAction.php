@@ -22,45 +22,27 @@ namespace ILIAS\Test\Participants;
 
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
-use ILIAS\Test\RequestDataCollector;
-use ILIAS\Test\ResponseHandler;
-use ILIAS\UI\Component\Input\Container\Form\Standard;
-use ILIAS\UI\Component\Modal\Modal;
-use ILIAS\UI\URLBuilder;
+use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;
-use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\Refinery\Factory as Refinery;
-use ilTestParticipantsGUI;
+use ILIAS\UI\Component\Modal\Modal;
+use ILIAS\UI\Component\Table\Action\Action;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
+use Psr\Http\Message\ServerRequestInterface;
 
-class ParticipantTableFinishTestAction extends ParticipantTableModalAction
+class ParticipantTableFinishTestAction implements TableAction
 {
-    private const ACTION_ID = 'finish_test';
+    public const ACTION_ID = 'finish_test';
 
     public function __construct(
-        \ilCtrlInterface $ctrl,
-        \ilLanguage $lng,
-        \ilGlobalTemplateInterface $template,
-        UIFactory $ui_factory,
-        UIRenderer $ui_renderer,
-        Refinery $refinery,
-        RequestDataCollector $test_request,
-        ResponseHandler $test_response,
-        ParticipantRepository $repository,
+        private readonly Language $lng,
+        private readonly \ilGlobalTemplateInterface $tpl,
+        private readonly UIFactory $ui_factory,
         private readonly \ilDBInterface $db,
         private readonly \ilTestProcessLockerFactory $process_locker_factory,
-        private readonly \ilObjUser $user
+        private readonly \ilObjUser $user,
+        private readonly \ilObjTest $test_obj
     ) {
-        parent::__construct(
-            $ctrl,
-            $lng,
-            $template,
-            $ui_factory,
-            $ui_renderer,
-            $refinery,
-            $test_request,
-            $test_response,
-            $repository
-        );
     }
 
     public function getActionId(): string
@@ -68,19 +50,38 @@ class ParticipantTableFinishTestAction extends ParticipantTableModalAction
         return self::ACTION_ID;
     }
 
-    protected function getModal(URLBuilder $url_builder, array|string $selected_participants): Modal|Standard
+    public function isEnabled(): bool
     {
-        $participants = $selected_participants !== 'ALL_OBJECTS'
-            ? $this->resolveSelectedParticipants($selected_participants)
-            : [];
+        return true;
+    }
 
+    public function getTableAction(
+        URLBuilder $url_builder,
+        URLBuilderToken $row_id_token,
+        URLBuilderToken $action_token,
+        URLBuilderToken $action_type_token
+    ): Action {
+        return $this->ui_factory->table()->action()->standard(
+            $this->lng->txt(self::ACTION_ID),
+            $url_builder
+                ->withParameter($action_token, self::ACTION_ID)
+                ->withParameter($action_type_token, ParticipantTableModalActions::SHOW_ACTION),
+            $row_id_token
+        )->withAsync();
+    }
+
+    public function getModal(
+        URLBuilder $url_builder,
+        array $selected_participants,
+        bool $all_participants_selected
+    ): ?Modal {
         $modal = $this->ui_factory->modal()->interruptive(
             $this->lng->txt('finish_test'),
-            $this->resolveMessage($selected_participants, $participants),
-            (string) $url_builder->buildURI()
+            $this->resolveMessage($selected_participants),
+            $url_builder->buildURI()->__toString()
         )->withActionButtonLabel($this->lng->txt('finish_test'));
 
-        if (count($participants) > 1) {
+        if (count($selected_participants) > 1) {
             $modal = $modal->withAffectedItems(
                 array_map(
                     fn(Participant $participant) => $this->ui_factory->modal()->interruptiveItem()->standard(
@@ -91,7 +92,7 @@ class ParticipantTableFinishTestAction extends ParticipantTableModalAction
                             $participant->getFirstname()
                         )
                     ),
-                    $participants
+                    $selected_participants
                 )
             );
         }
@@ -99,36 +100,39 @@ class ParticipantTableFinishTestAction extends ParticipantTableModalAction
         return $modal;
     }
 
-    protected function onSubmit(Standard|Modal $modal, array $participants): void
-    {
+    public function onSubmit(
+        URLBuilder $url_builder,
+        ServerRequestInterface $request,
+        array $selected_participants
+    ): void {
         // This is required here because of late test object binding
         $test_session_factory = new \ilTestSessionFactory(
-            $this->test_object,
+            $this->test_obj,
             $this->db,
             $this->user
         );
 
-        foreach ($participants as $participant) {
+        foreach ($selected_participants as $participant) {
             $process_locker = $this->process_locker_factory->withContextId($participant->getActiveId())->getLocker();
 
             $test_pass_finisher = new \ilTestPassFinishTasks(
                 $test_session_factory->getSession($participant->getActiveId()),
-                $this->test_object->getTestId()
+                $this->test_obj->getTestId()
             );
             $test_pass_finisher->performFinishTasks($process_locker);
         }
 
-        $logger = $this->test_object->getTestLogger();
+        $logger = $this->test_obj->getTestLogger();
         if ($logger->isLoggingEnabled()) {
             $logger->logTestAdministrationInteraction(
                 $logger->getInteractionFactory()->buildTestAdministrationInteraction(
-                    $this->test_object->getRefId(),
+                    $this->test_obj->getRefId(),
                     $this->user->getId(),
                     TestAdministrationInteractionTypes::TEST_RUN_OF_PARTICIPANT_CLOSED,
                     [
                         AdditionalInformationGenerator::KEY_USERS => array_map(
                             fn(Participant $participant) => $participant->getUsrId(),
-                            $participants
+                            $selected_participants
                         )
                     ]
                 )
@@ -142,32 +146,30 @@ class ParticipantTableFinishTestAction extends ParticipantTableModalAction
         );
     }
 
-    private function resolveMessage(array|string $selected_participants, array $participants): string
+    public function allowActionForRecord(Participant $record): bool
     {
-        if ($selected_participants === 'ALL_OBJECTS') {
+        return $record->hasUnfinishedPasses();
+    }
+
+    private function resolveMessage(
+        array $selected_participants,
+        bool $all_participants_selected
+    ): string {
+        if ($all_participants_selected) {
             return $this->lng->txt('finish_test_all');
         }
 
-        if (count($participants) === 0) {
-            return $this->lng->txt('no_valid_participant_selection');
-        }
-
-        if (count($participants) === 1) {
+        if (count($selected_participants) === 1) {
             return sprintf(
                 $this->lng->txt('finish_test_single'),
                 sprintf(
                     '%s, %s',
-                    $participants[0]->getLastname(),
-                    $participants[0]->getFirstname()
+                    $selected_participants[0]->getLastname(),
+                    $selected_participants[0]->getFirstname()
                 )
             );
         }
 
         return $this->lng->txt('finish_test_multiple');
-    }
-
-    protected function allowActionForRecord(Participant $record): bool
-    {
-        return $record->hasUnfinishedPasses();
     }
 }

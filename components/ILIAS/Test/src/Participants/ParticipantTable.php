@@ -20,15 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Participants;
 
+use ILIAS\Language\Language;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;
 use ILIAS\Test\RequestDataCollector;
-use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Input\Container\Filter\FilterInput;
 use ILIAS\UI\Component\Input\Container\Filter\Standard as FilterComponent;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\Component\Table\Column\Column;
 use ILIAS\UI\Component\Table\DataRetrieval;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Factory as UIFactory;
@@ -38,53 +36,24 @@ use Psr\Http\Message\ServerRequestInterface;
 class ParticipantTable implements DataRetrieval
 {
     private const ID = 'participant_table';
-
     private ?iterable $records = null;
-
-    /**
-     * @var array<ParticipantTableModalAction>
-     */
-    private array $table_actions = [];
-
-    private ?\ilObjTest $test_object = null;
 
     public function __construct(
         private readonly UIFactory $ui_factory,
         private readonly \ilUIService $ui_service,
-        private readonly \ilLanguage $lng,
+        private readonly Language $lng,
         private readonly DataFactory $data_factory,
         private readonly RequestDataCollector $test_request,
         private readonly \ilTestParticipantAccessFilterFactory $participant_access_filter,
         private readonly ParticipantRepository $repository,
+        private readonly \ilObjTest $test_object,
+        private readonly ParticipantTableModalActions $table_actions
     ) {
-    }
-
-    public function withTableAction(ParticipantTableModalAction $table_action): self
-    {
-        $clone = clone $this;
-        $clone->table_actions[$table_action->getActionId()] = $table_action->withTestObject($this->test_object);
-        return $clone;
-    }
-
-    public function withTestObject(?\ilObjTest $test_object): self
-    {
-        $clone = clone $this;
-        $clone->test_object = $test_object;
-
-        foreach ($this->table_actions as $table_action) {
-            $clone->table_actions[$table_action->getActionId()] = $table_action->withTestObject($test_object);
-        }
-
-        return $clone;
     }
 
     public function execute(URLBuilder $url_builder)
     {
-        [$url_builder, $table_action_token] = $url_builder->acquireParameter([self::ID], 'action');
-
-        $action = $this->test_request->strVal($table_action_token->getName());
-        $table_action = $this->table_actions[$action];
-        $table_action->execute($url_builder->withParameter($table_action_token, $table_action->getActionId()));
+        $this->table_actions->execute(...$this->acquireParameters($url_builder));
     }
 
     /**
@@ -98,23 +67,9 @@ class ParticipantTable implements DataRetrieval
             $this->ui_service->filter()->getData($filter)
         );
 
-        [$url_builder, $table_action_token] = $url_builder->acquireParameter([self::ID], 'action');
-
-        foreach ($this->table_actions as $table_action) {
-            if (!$table_action->isEnabled()) {
-                continue;
-            }
-
-            $table = $table->withActions(
-                $table_action->getActions(
-                    $url_builder->withParameter($table_action_token, $table_action->getActionId())
-                )
-            );
-        }
-
         return [
             $filter,
-            $table
+            $table->withActions($this->table_actions->getEnabledActions(...$this->acquireParameters($url_builder)))
         ];
     }
 
@@ -155,13 +110,21 @@ class ParticipantTable implements DataRetrieval
                 'remaining_duration' => sprintf('%d min', $record->getRemainingDuration($processing_time) / 60),
             ];
 
-            $data_row = $row_builder->buildDataRow((string) $record->getUsrId(), $row);
-            foreach ($this->table_actions as $table_action) {
-                $data_row = $table_action->onDataRow($data_row, $record);
-            }
-
-            yield $data_row;
+            yield $this->table_actions->onDataRow(
+                $row_builder->buildDataRow((string) $record->getUsrId(), $row),
+                $record
+            );
         }
+    }
+
+    private function acquireParameters($url_builder): array
+    {
+        return $url_builder->acquireParameters(
+            [self::ID],
+            ParticipantTableModalActions::ROW_ID_PARAMETER,
+            ParticipantTableModalActions::ACTION_PARAMETER,
+            ParticipantTableModalActions::ACTION_TYPE_PARAMETER,
+        );
     }
 
     /**
@@ -316,8 +279,14 @@ class ParticipantTable implements DataRetrieval
             return $this->records;
         }
 
-        $records = $this->repository->getParticipants($this->test_object->getTestId(), $filter, null, $order);
-        $records = iterator_to_array($records);
+        $records = iterator_to_array(
+            $this->repository->getParticipants(
+                $this->test_object->getTestId(),
+                $filter,
+                null,
+                $order
+            )
+        );
 
         $access_filter = $this->participant_access_filter->getManageParticipantsUserFilter($this->test_object->getRefId());
         $filtered_user_ids = $access_filter(array_map(

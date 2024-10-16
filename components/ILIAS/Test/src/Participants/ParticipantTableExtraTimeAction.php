@@ -20,42 +20,24 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Participants;
 
-use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Test\RequestDataCollector;
-use ILIAS\Test\ResponseHandler;
-use ILIAS\UI\Component\Input\Container\Form\Standard;
-use ILIAS\UI\Component\Modal\Modal;
+use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;
-use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\Component\Modal\Modal;
+use ILIAS\UI\Component\Table\Action\Action;
 use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
+use Psr\Http\Message\ServerRequestInterface;
 
-class ParticipantTableExtraTimeAction extends ParticipantTableModalAction
+class ParticipantTableExtraTimeAction implements TableAction
 {
     public const ACTION_ID = 'extratime';
 
     public function __construct(
-        \ilCtrlInterface $ctrl,
-        \ilLanguage $lng,
-        \ilGlobalTemplateInterface $template,
-        UIFactory $ui_factory,
-        UIRenderer $ui_renderer,
-        Refinery $refinery,
-        RequestDataCollector $test_request,
-        ResponseHandler $test_response,
-        ParticipantRepository $repository,
-        private readonly \ilObjUser $user,
+        private readonly Language $lng,
+        private readonly \ilGlobalTemplateInterface $tpl,
+        private readonly UIFactory $ui_factory,
+        private readonly \ilObjTest $test_obj
     ) {
-        parent::__construct(
-            $ctrl,
-            $lng,
-            $template,
-            $ui_factory,
-            $ui_renderer,
-            $refinery,
-            $test_request,
-            $test_response,
-            $repository,
-        );
     }
 
     public function getActionId(): string
@@ -65,27 +47,30 @@ class ParticipantTableExtraTimeAction extends ParticipantTableModalAction
 
     public function isEnabled(): bool
     {
-        return $this->test_object->getEnableProcessingTime();
+        return $this->test_obj->getEnableProcessingTime();
     }
 
-    protected function onSubmit(Standard|Modal $modal, array $participants): void
-    {
-        $data = $modal->getData();
-        $this->test_object->addExtraTime($participants, $data['extra_time']);
-
-        $this->tpl->setOnScreenMessage(
-            \ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS,
-            $this->lng->txt('extratime_added'),
-            true
-        );
+    public function getTableAction(
+        URLBuilder $url_builder,
+        URLBuilderToken $row_id_token,
+        URLBuilderToken $action_token,
+        URLBuilderToken $action_type_token
+    ): Action {
+        return $this->ui_factory->table()->action()->standard(
+            $this->lng->txt(self::ACTION_ID),
+            $url_builder
+                ->withParameter($action_token, self::ACTION_ID)
+                ->withParameter($action_type_token, ParticipantTableModalActions::SHOW_ACTION),
+            $row_id_token
+        )->withAsync();
     }
 
-    protected function getModal(URLBuilder $url_builder, array|string $selected_participants): Modal|Standard
-    {
-        $participants = is_array($selected_participants) ? $this->resolveSelectedParticipants($selected_participants) : [];
-        $has_different_extra_time = $this->resolveHasDifferentExtraTime($participants);
-
-        $participants = is_array($selected_participants) ? $this->resolveSelectedParticipants($selected_participants) : [];
+    public function getModal(
+        URLBuilder $url_builder,
+        array $selected_participants,
+        bool $all_participants_selected
+    ): ?Modal {
+        $has_different_extra_time = $this->resolveHasDifferentExtraTime($selected_participants);
         $participant_rows = join("\n", array_map(
             fn(Participant $participant) => sprintf(
                 '<p>%s, %s <em class="muted">(%s)</em></p>',
@@ -93,16 +78,22 @@ class ParticipantTableExtraTimeAction extends ParticipantTableModalAction
                 $participant->getFirstname(),
                 sprintf($this->lng->txt('already_added_extra_time'), $participant->getExtraTime())
             ),
-            $participants
+            $selected_participants
         ));
 
         return $this->ui_factory->modal()->roundtrip(
             $this->lng->txt('extratime'),
             [
                 $this->ui_factory->messageBox()->info(
-                    $this->lng->txt($this->resolveInfoMessage($selected_participants, $has_different_extra_time))
+                    $this->lng->txt(
+                        $this->resolveInfoMessage(
+                            $selected_participants,
+                            $all_participants_selected,
+                            $has_different_extra_time
+                        )
+                    )
                 ),
-                $this->ui_factory->legacy("<ul>$participant_rows</ul>")
+                $this->ui_factory->legacy("<ul>{$participant_rows}</ul>")
             ],
             [
                 'extra_time' => $this->ui_factory->input()->field()->numeric(
@@ -111,27 +102,40 @@ class ParticipantTableExtraTimeAction extends ParticipantTableModalAction
                     $this->lng->txt('extra_time_byline')
                 )
             ],
-            (string) $url_builder->buildURI()
+            $url_builder->buildURI()->__toString()
         )->withSubmitLabel($this->lng->txt('add'));
     }
 
-    /**
-     * @param array|string $selected_participants
-     * @param bool  $has_different_extra_time
-     *
-     * @return string
-     */
+    public function onSubmit(
+        URLBuilder $url_builder,
+        ServerRequestInterface $request,
+        array $selected_participants
+    ): void {
+        $data = $this->getModal(
+            $url_builder,
+            $selected_participants
+        )->withReqest($request)->getData();
+        $this->test_obj->addExtraTime($selected_participants, $data['extra_time']);
+
+        $this->tpl->setOnScreenMessage(
+            \ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS,
+            $this->lng->txt('extratime_added'),
+            true
+        );
+    }
+
+    public function allowActionForRecord(Participant $record): bool
+    {
+        return true;
+    }
+
     private function resolveInfoMessage(
-        mixed $selected_participants,
+        array $selected_participants,
+        bool $all_participants_selected,
         bool $has_different_extra_time
     ): string {
-
-        if ($selected_participants === 'ALL_OBJECTS') {
+        if ($all_participants_selected) {
             return 'extra_time_for_all_participants';
-        }
-
-        if (count($selected_participants) === 0) {
-            return $this->lng->txt('no_valid_participant_selection');
         }
 
         if (count($selected_participants) === 1) {
@@ -145,9 +149,7 @@ class ParticipantTableExtraTimeAction extends ParticipantTableModalAction
     }
 
     /**
-     * @param array $participants
-     *
-     * @return bool
+     * @param array<ilTestParticipant> $participants
      */
     private function resolveHasDifferentExtraTime(array $participants): bool
     {
@@ -155,11 +157,5 @@ class ParticipantTableExtraTimeAction extends ParticipantTableModalAction
             fn(\ilTestParticipant $participant) => $participant->getExtraTime(),
             $participants
         ))) > 1;
-    }
-
-    protected function allowActionForRecord(Participant $record): bool
-    {
-        return true;
-        #return $this->test_object->getEnableProcessingTime();
     }
 }

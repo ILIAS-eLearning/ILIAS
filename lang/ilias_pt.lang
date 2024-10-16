@@ -580,8 +580,7 @@ assessment#:#code#:#Código
 assessment#:#codebase#:#Base do código
 assessment#:#concatenation#:#Concatenação
 assessment#:#conf_delete_pass#:#Tem a certeza que quer remover as suas respostas existentes?
-assessment#:#confirm_delete_all_user_data#:#Tem a certeza que quer apagar todos os dados do utilizador do teste?
-assessment#:#confirm_delete_single_user_data#:#Tem a certeza que quer remover os dados do teste dos utilizadores selecionados?
+assessment#:#confirm_delete_user_data#:#Tem a certeza que quer remover os dados do teste dos utilizadores selecionados?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#A pergunta que alterou é uma cópia que foi criada para ser usada com o teste ativo. Quer mudar também o original da pergunta?
 assessment#:#coordinates#:#Coordenadas
@@ -604,7 +603,7 @@ assessment#:#delete_all_user_data#:#Apagar dados de teste de todos os utilizador
 assessment#:#delete_all_user_data_confirmation#:#Tem a certeza que quer apagar os dados de teste de todos os utilizadores neste teste?
 assessment#:#delete_image_header#:#Remover imagem
 assessment#:#delete_image_question#:#Deseja realmente remover a imagem?
-assessment#:#delete_user_data#:#Remover dados de teste dos utilizadores selecionados
+assessment#:#delete_selected_user_data_confirmation#:#Remover dados de teste dos utilizadores selecionados
 assessment#:#description_maxchars#:#Se não estiver nada introduzido, o número máximo de caracteres para esta resposta de texto é ilimitado.
 assessment#:#detail_ending_time_reached#:#O tempo atribuído a este teste terminou. O teste não estava disponível desde %s
 assessment#:#detail_max_processing_time_reached#:#Chegou ao tempo máximo de processamento permitido para o teste!

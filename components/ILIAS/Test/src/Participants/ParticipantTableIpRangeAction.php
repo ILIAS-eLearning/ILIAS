@@ -20,54 +20,82 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Participants;
 
-use ILIAS\UI\Component\Input\Container\Form\Standard;
+use ILIAS\Language\Language;
+use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Modal\Modal;
-use ILIAS\UI\Component\Modal\RoundTrip;
+use ILIAS\UI\Component\Table\Action\Action;
 use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
+use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\Refinery\Factory as Refinery;
 
-class ParticipantTableIpRangeAction extends ParticipantTableModalAction
+class ParticipantTableIpRangeAction implements TableAction
 {
     public const ACTION_ID = 'client_ip_range';
+
+    public function __construct(
+        private readonly Language $lng,
+        private readonly \ilGlobalTemplateInterface $tpl,
+        private readonly UIFactory $ui_factory,
+        private readonly Refinery $refinery,
+        protected readonly ParticipantRepository $participant_repository
+    ) {
+    }
 
     public function getActionId(): string
     {
         return self::ACTION_ID;
     }
 
-    protected function onSubmit(Standard|Modal $modal, array $participants): void
+    public function isEnabled(): bool
     {
-        $data = $modal->getData();
-        $this->repository->updateIpRange($participants, $data['ip_range']);
-
-        $this->tpl->setOnScreenMessage(
-            \ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS,
-            $this->lng->txt('ip_range_updated'),
-            true
-        );
+        return true;
     }
 
-    protected function getModal(URLBuilder $url_builder, array|string $selected_participants): Modal|Standard
-    {
+    public function getTableAction(
+        URLBuilder $url_builder,
+        URLBuilderToken $row_id_token,
+        URLBuilderToken $action_token,
+        URLBuilderToken $action_type_token
+    ): Action {
+        return $this->ui_factory->table()->action()->standard(
+            $this->lng->txt(self::ACTION_ID),
+            $url_builder
+                ->withParameter($action_token, self::ACTION_ID)
+                ->withParameter($action_type_token, ParticipantTableModalActions::SHOW_ACTION),
+            $row_id_token
+        )->withAsync();
+    }
+
+    public function getModal(
+        URLBuilder $url_builder,
+        array $selected_participants,
+        bool $all_participants_selected
+    ): ?Modal {
         $valid_ip_constraint = $this->refinery->custom()->constraint(
             fn(?string $ip): bool => $ip === null || filter_var($ip, FILTER_VALIDATE_IP) !== false,
             $this->lng->txt('invalid_ip')
         );
-        $participants = is_array($selected_participants) ? $this->resolveSelectedParticipants($selected_participants) : [];
+
         $participant_rows = join("\n", array_map(
             fn(Participant $participant) => sprintf(
                 '<li>%s, %s</li>',
                 $participant->getLastname(),
                 $participant->getFirstname()
             ),
-            $participants
+            $selected_participants
         ));
 
-        /** @var RoundTrip|Standard $modal */
         return $this->ui_factory->modal()->roundtrip(
             $this->lng->txt('client_ip_range'),
             [
                 $this->ui_factory->messageBox()->info(
-                    $this->lng->txt($this->resolveInfoMessage($selected_participants))
+                    $this->lng->txt(
+                        $this->resolveInfoMessage(
+                            $selected_participants,
+                            $all_participants_selected
+                        )
+                    )
                 ),
                 $this->ui_factory->legacy("<ul>$participant_rows</ul>")
             ],
@@ -82,20 +110,41 @@ class ParticipantTableIpRangeAction extends ParticipantTableModalAction
                     )->withAdditionalTransformation($valid_ip_constraint)
                 ])
             ],
-            (string) $url_builder->buildURI()
+            $url_builder->buildURI()->__toString()
         )->withSubmitLabel($this->lng->txt('change'));
     }
 
+    public function onSubmit(
+        URLBuilder $url_builder,
+        ServerRequestInterface $request,
+        array $selected_participants
+    ): void {
+        $data = $this->getModal(
+            $url_builder,
+            $selected_participants
+        )->withReqest($request)->getData();
+        $this->participant_repository->updateIpRange($selected_participants, $data['ip_range']);
+
+        $this->tpl->setOnScreenMessage(
+            \ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS,
+            $this->lng->txt('ip_range_updated'),
+            true
+        );
+    }
+
+    public function allowActionForRecord(Participant $record): bool
+    {
+        return $record->isInvitedParticipant();
+    }
+
     /**
-     * @param array|string $selected_participants
-     *
-     * @return string
+     * @param array $selected_participants
      */
     private function resolveInfoMessage(
-        mixed $selected_participants,
+        array $selected_participants,
+        bool $all_participants_selected
     ): string {
-
-        if ($selected_participants === 'ALL_OBJECTS') {
+        if ($all_participants_selected) {
             return 'ip_range_for_all_participants';
         }
         if (count($selected_participants) === 0) {
@@ -107,10 +156,5 @@ class ParticipantTableIpRangeAction extends ParticipantTableModalAction
         }
 
         return 'ip_range_for_selected_participants';
-    }
-
-    protected function allowActionForRecord(Participant $record): bool
-    {
-        return $record->isInvitedParticipant();
     }
 }
