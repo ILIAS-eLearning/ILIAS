@@ -56,6 +56,9 @@ class ilObjLearningSequenceContentGUI
             case self::CMD_CANCEL:
                 $this->ctrl->redirect($this, self::CMD_MANAGE_CONTENT);
                 break;
+            case 'view':
+                $cmd = self::CMD_MANAGE_CONTENT;
+                // no break
             case self::CMD_MANAGE_CONTENT:
             case self::CMD_SAVE:
             case self::CMD_DELETE:
