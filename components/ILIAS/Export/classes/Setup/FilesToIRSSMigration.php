@@ -28,7 +28,7 @@ use ilFileUtils;
 use ILIAS\Setup\Migration;
 use ILIAS\Setup\Environment;
 use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\Export\ExportHandler\Repository\ResourceStakeholder;
+use ILIAS\Export\ExportHandler\Repository\Stakeholder\Handler as ResourceStakeholder;
 use ilIniFilesLoadedObjective;
 use ilObject;
 use ilResourceStorageMigrationHelper;
