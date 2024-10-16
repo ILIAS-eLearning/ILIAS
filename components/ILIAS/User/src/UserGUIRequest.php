@@ -139,7 +139,7 @@ class UserGUIRequest
 
     public function getDefaultSessionReminder(): ?string
     {
-        return $this->str('default_session_reminder') ?: (string) ilSessionReminder::LEAD_TIME_DISABLED;
+        return $this->str('default_session_reminder') ?: (string) \ilSessionReminder::LEAD_TIME_DISABLED;
     }
 
     public function getFiles(): array
