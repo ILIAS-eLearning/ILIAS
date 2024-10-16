@@ -187,7 +187,7 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
                     $this->tpl->setVariable("PROFILE_OPTION_DEFAULT_VALUE", "default_" . $field);
                     $this->tpl->parseCurrentBlock();
                     break;
-                case 'session_reminder_lead_time':
+                case 'numeric':
                     $this->tpl->setCurrentBlock('def_input');
 
                     $this->tpl->setVariable('PROFILE_OPTION_DEFAULT_VALUE', 'default_' . $field);
