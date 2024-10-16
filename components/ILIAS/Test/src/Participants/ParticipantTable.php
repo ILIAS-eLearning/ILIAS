@@ -241,8 +241,9 @@ class ParticipantTable implements DataRetrieval
         ];
 
         $status_of_attempt_options = [
-            'running' => $this->lng->txt('running'),
-            'finished' => $this->lng->txt('finished'),
+            Participant::ATTEMPT_NOT_STARTED => $this->lng->txt(Participant::ATTEMPT_NOT_STARTED),
+            Participant::ATTEMPT_RUNNING => $this->lng->txt(Participant::ATTEMPT_RUNNING),
+            Participant::ATTEMPT_FINISHED => $this->lng->txt(Participant::ATTEMPT_FINISHED),
             #'finished_by_participant' => $this->lng->txt('finished_by_participant'),
             #'finished_by_administrator' => $this->lng->txt('finished_by_administrator'),
             #'finished_by_duration' => $this->lng->txt('finished_by_duration'),
@@ -294,7 +295,7 @@ class ParticipantTable implements DataRetrieval
             'login' => $column_factory->text($this->lng->txt('login'))->withIsSortable(true),
             'ip_range' => $column_factory->text($this->lng->txt('client_ip_range'))->withIsOptional(true)->withIsSortable(true),
             'started_at' => $column_factory->text($this->lng->txt('tst_started'))->withIsSortable(true),
-            'total_attempts' => $column_factory->text($this->lng->txt('total_attempts'))->withIsOptional(true)->withIsSortable(true),
+            'total_attempts' => $column_factory->number($this->lng->txt('total_attempts'))->withIsOptional(true)->withIsSortable(true),
             'status_of_attempt' => $column_factory->text($this->lng->txt('status_of_attempt'))->withIsSortable(true),
         ];
 

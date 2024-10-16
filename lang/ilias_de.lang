@@ -444,6 +444,7 @@ assessment#:#all_participants#:#Alle Teilnehmer
 assessment#:#allow_images#:#Grafikunterstützung für Antworten
 assessment#:#allowedextensions#:#Erlaubte Dateierweiterungen
 assessment#:#allowedextensions_info#:#Geben Sie eine kommagetrennte Liste der erlaubten Dateierweiterungen an, wenn Sie das Hochladen auf bestimmte Dateitypen einschränken wollen (z.B. doc, pdf, odt).
+assessment#:#already_added_extra_time#:#bereits hinzugefügt: %s min
 assessment#:#analyze_errortext#:#Text analysieren
 assessment#:#answer#:#Antwort
 assessment#:#answer_characters#:# Zeichen zugelassen, Anzahl der eingegebenen Zeichen:

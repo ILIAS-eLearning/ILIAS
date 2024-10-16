@@ -22,9 +22,9 @@ namespace ILIAS\Test\Participants;
 
 class Participant extends \ilTestParticipant
 {
-    private const ATTEMPT_NOT_STARTED = 'not_started';
-    private const ATTEMPT_RUNNING = 'running';
-    private const ATTEMPT_FINISHED = 'finished';
+    public const ATTEMPT_NOT_STARTED = 'not_started';
+    public const ATTEMPT_RUNNING = 'running';
+    public const ATTEMPT_FINISHED = 'finished';
     private const ATTEMPT_FINISHED_BY_PARTICIPANT = 'finished_by_participant';
     private const ATTEMPT_FINISHED_BY_ADMINISTRATOR = 'finished_by_administrator';
     private const ATTEMPT_FINISHED_BY_DURATION = 'finished_by_duration';

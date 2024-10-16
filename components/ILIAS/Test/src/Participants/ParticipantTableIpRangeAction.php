@@ -53,6 +53,14 @@ class ParticipantTableIpRangeAction extends ParticipantTableModalAction
             $this->lng->txt('invalid_ip')
         );
         $participants = is_array($selected_participants) ? $this->resolveSelectedParticipants($selected_participants) : [];
+        $participant_rows = join("\n", array_map(
+            fn(Participant $participant) => sprintf(
+                '<li>%s, %s</li>',
+                $participant->getLastname(),
+                $participant->getFirstname()
+            ),
+            $participants
+        ));
 
         /** @var RoundTrip|Standard $modal */
         return $this->ui_factory->modal()->roundtrip(
@@ -61,16 +69,7 @@ class ParticipantTableIpRangeAction extends ParticipantTableModalAction
                 $this->ui_factory->messageBox()->info(
                     $this->lng->txt($this->resolveInfoMessage($selected_participants))
                 ),
-                ...array_map(
-                    fn(\ilTestParticipant $participant) => $this->ui_factory->legacy(
-                        sprintf(
-                            '<p>%s, %s</p>',
-                            $participant->getLastname(),
-                            $participant->getFirstname()
-                        )
-                    ),
-                    $participants
-                )
+                $this->ui_factory->legacy("<ul>$participant_rows</ul>")
             ],
             [
                 'ip_range' => $this->ui_factory->input()->field()->group([
@@ -99,6 +98,10 @@ class ParticipantTableIpRangeAction extends ParticipantTableModalAction
         if ($selected_participants === 'ALL_OBJECTS') {
             return 'ip_range_for_all_participants';
         }
+        if (count($selected_participants) === 0) {
+            return $this->lng->txt('no_valid_participant_selection');
+        }
+
         if (count($selected_participants) === 1) {
             return 'ip_range_for_single_participant';
         }

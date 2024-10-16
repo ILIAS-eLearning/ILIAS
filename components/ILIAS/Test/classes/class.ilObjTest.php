@@ -7448,7 +7448,7 @@ class ilObjTest extends ilObject
 
     public function getExtraTime($active_id)
     {
-        $participant = $this->participant_repository->getParticipantByActiveId($this->getTestId(), $active_id);
+        $participant = $this->participant_repository->getParticipantByActiveId($this->getTestId(), (int) $active_id);
         return $participant?->getExtraTime() ?? 0;
     }
 

@@ -220,7 +220,7 @@ class ParticipantRepository
         return new \DateTimeImmutable($row['finished']);
     }
 
-    protected function loadHasSolutions(int $active_id): bool
+    protected function loadHasSolutions(?int $active_id): bool
     {
         $statement = $this->database->queryF(
             'SELECT MAX(answeredquestions) as answeredquestions FROM tst_pass_result WHERE active_fi = %s',
@@ -270,8 +270,8 @@ class ParticipantRepository
 
         if ($this->isFilterSet($filter, 'login')) {
             $where[] = '(login LIKE %s)';
-            $types = array_merge($types, ['string', 'string']);
-            $values = array_merge($values, ["%{$filter['name']}%", "%{$filter['name']}%"]);
+            $types = array_merge($types, ['string']);
+            $values = array_merge($values, ["%{$filter['login']}%"]);
         }
 
         if ($this->isFilterSet($filter, 'extra_time')) {

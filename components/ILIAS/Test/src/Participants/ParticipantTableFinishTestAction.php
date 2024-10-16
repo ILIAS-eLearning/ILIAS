@@ -30,7 +30,7 @@ use ILIAS\UI\URLBuilder;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as Refinery;
-use ilTestSessionFactory;
+use ilTestParticipantsGUI;
 
 class ParticipantTableFinishTestAction extends ParticipantTableModalAction
 {
@@ -78,7 +78,7 @@ class ParticipantTableFinishTestAction extends ParticipantTableModalAction
             $this->lng->txt('finish_test'),
             $this->resolveMessage($selected_participants, $participants),
             (string) $url_builder->buildURI()
-        );
+        )->withActionButtonLabel($this->lng->txt('finish_test'));
 
         if (count($participants) > 1) {
             $modal = $modal->withAffectedItems(
@@ -102,7 +102,7 @@ class ParticipantTableFinishTestAction extends ParticipantTableModalAction
     protected function onSubmit(Standard|Modal $modal, array $participants): void
     {
         // This is required here because of late test object binding
-        $test_session_factory = new ilTestSessionFactory(
+        $test_session_factory = new \ilTestSessionFactory(
             $this->test_object,
             $this->db,
             $this->user
@@ -146,6 +146,10 @@ class ParticipantTableFinishTestAction extends ParticipantTableModalAction
     {
         if ($selected_participants === 'ALL_OBJECTS') {
             return $this->lng->txt('finish_test_all');
+        }
+
+        if (count($participants) === 0) {
+            return $this->lng->txt('no_valid_participant_selection');
         }
 
         if (count($participants) === 1) {
