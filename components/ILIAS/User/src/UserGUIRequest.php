@@ -137,9 +137,9 @@ class UserGUIRequest
         return $this->strArray('select');
     }
 
-    public function getInput(): array
+    public function getDefaultSessionReminder(): ?string
     {
-        return $this->strArray('input');
+        return $this->str('default_session_reminder') ?: (string) ilSessionReminder::LEAD_TIME_DISABLED;
     }
 
     public function getFiles(): array

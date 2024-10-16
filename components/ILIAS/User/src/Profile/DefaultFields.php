@@ -392,7 +392,7 @@ class DefaultFields
             'group' => 'settings'
         ],
         'session_reminder' => [
-            'input' => 'session_reminder_lead_time',
+            'input' => 'numeric',
             'default' => 'y',
             'required_hide' => true,
             'visib_reg_hide' => true,
