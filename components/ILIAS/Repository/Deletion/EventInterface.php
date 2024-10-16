@@ -33,6 +33,14 @@ interface EventInterface
         string $title
     ): void;
 
+    public function failedRemoval(
+        int $obj_id,
+        int $ref_id,
+        string $type,
+        string $title,
+        string $message
+    ): void;
+
     public function afterObjectRemoval(
         int $obj_id,
         int $ref_id,

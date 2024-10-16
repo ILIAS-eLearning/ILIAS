@@ -123,7 +123,18 @@ class Deletion
                 // the recovery folder (what results in broken pools, if the are deleted)
                 // Alex, 2006-07-21
                 if (!$direct_from_tree || $node_obj->getType() !== "fold") {
-                    $node_obj->delete();
+                    try {
+                        $node_obj->delete();
+                    } catch (\Exception $e) {
+                        $this->event->failedRemoval(
+                            $node_obj->getId(),
+                            $node_obj->getRefId(),
+                            $node_obj->getType(),
+                            $node_obj->getTitle(),
+                            $e->getMessage()
+                        );
+                    }
+
                 }
             }
 
@@ -193,7 +204,17 @@ class Deletion
                                 $object->getType(),
                                 $object->getTitle()
                             );
-                            $object->delete();
+                            try {
+                                $object->delete();
+                            } catch (\Exception $e) {
+                                $this->event->failedRemoval(
+                                    $object->getId(),
+                                    $object->getRefId(),
+                                    $object->getType(),
+                                    $object->getTitle(),
+                                    $e->getMessage()
+                                );
+                            }
                         }
                     }
                 }

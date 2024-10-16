@@ -82,6 +82,22 @@ class EventStandardAdapter implements EventInterface
         );
     }
 
+    public function failedRemoval(
+        int $obj_id,
+        int $ref_id,
+        string $type,
+        string $title,
+        string $message
+    ): void {
+        $this->log->error(
+            'failed to remove obj_id: ' . $obj_id .
+            ', ref_id: ' . $ref_id .
+            ', type: ' . $type .
+            ', title: ' . $title .
+            ', message: ' . $message
+        );
+    }
+
     public function afterObjectRemoval(
         int $obj_id,
         int $ref_id,
