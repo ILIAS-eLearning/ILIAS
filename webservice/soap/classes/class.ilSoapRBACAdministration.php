@@ -115,12 +115,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
             return $this->raiseError('Check access failed. No permission to assign users', 'Server');
         }
 
-        if (!$rbacadmin->assignUser($role_id, $user_id)) {
-            return $this->raiseError(
-                'Error rbacadmin->assignUser()',
-                'Server'
-            );
-        }
+        $rbacadmin->assignUser($role_id, $user_id);
         return true;
     }
 
@@ -160,12 +155,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
             return $this->raiseError('Check access failed. No permission to deassign users', 'Server');
         }
 
-        if (!$rbacadmin->deassignUser($role_id, $user_id)) {
-            return $this->raiseError(
-                'Error rbacadmin->deassignUser()',
-                'Server'
-            );
-        }
+        $rbacadmin->deassignUser($role_id, $user_id);
         return true;
     }
 
