@@ -539,6 +539,13 @@ class ilForumAppEventListener implements ilAppEventListener
                 implode(', ', $recipients)
             ));
 
+            if (defined('ANONYMOUS_USER_ID')) {
+                $recipients = array_filter(
+                    $recipients,
+                    static fn(int $recipient): bool => $recipient !== ANONYMOUS_USER_ID
+                );
+            }
+
             $mailNotification = new ilForumMailEventNotificationSender($provider, $logger);
             $mailNotification->setType($notificationTypes);
             $mailNotification->setRecipients($recipients);
