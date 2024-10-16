@@ -322,7 +322,7 @@ of ILIAS. The file contains the following fields:
 * **Certificate**
     * Authority to Sign off on Conceptual Changes: [mjansen](https://docu.ilias.de/go/usr/8784)
     * Authority to Sign off on Code Changes: [mjansen](https://docu.ilias.de/go/usr/8784)
-    * Authority to Curate Test Cases: [mjansen](https://docu.ilias.de/go/usr/8784)
+  * Authority to Curate Test Cases: [mjansen](https://docu.ilias.de/go/usr/8784), [ChrisPotter](https://docu.ilias.de/go/usr/90855)
     * Authority to (De-)Assign Authorities: [mjansen (Databay AG)](https://docu.ilias.de/go/usr/8784)
 	* Tester: [m-gregory-m](https://docu.ilias.de/go/usr/51332)
     * Assignee for Security Reports: [mjansen](https://docu.ilias.de/go/usr/8784)
