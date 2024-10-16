@@ -18,12 +18,12 @@
 
 declare(strict_types=1);
 
+use ILIAS\StaticURL\Context;
+use ILIAS\StaticURL\Handler\BaseHandler;
 use ILIAS\StaticURL\Handler\Handler;
 use ILIAS\StaticURL\Request\Request;
-use ILIAS\StaticURL\Context;
-use ILIAS\StaticURL\Response\Response;
 use ILIAS\StaticURL\Response\Factory;
-use ILIAS\StaticURL\Handler\BaseHandler;
+use ILIAS\StaticURL\Response\Response;
 
 class TestStaticURLHandler extends BaseHandler implements Handler
 {
@@ -34,6 +34,9 @@ class TestStaticURLHandler extends BaseHandler implements Handler
         return 'tst';
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     public function handle(
         Request $request,
         Context $context,
@@ -51,6 +54,9 @@ class TestStaticURLHandler extends BaseHandler implements Handler
         return $response_factory->can($uri);
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     private function buildQuestionURL(string $q_id, ilCtrl $ctrl): string
     {
         $ctrl->setParameterByClass(ilAssQuestionPreviewGUI::class, 'q_id', $q_id);

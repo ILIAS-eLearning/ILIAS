@@ -18,14 +18,20 @@
 
 declare(strict_types=1);
 
-/**
- * Class TestScoringByQuestionGUITest
- * @author Marvin Beym <mbeym@databay.de>
- */
-class TestScoringByQuestionsGUITest extends ilTestBaseTestCase
+namespace ILIAS\Test\Tests;
+
+use ilTestArchiver;
+use ilTestBaseTestCase;
+use PHPUnit\Framework\MockObject\Exception;
+use ReflectionException;
+
+class ilTestArchiverTest extends ilTestBaseTestCase
 {
-    public function testSuppressWarning(): void
+    /**
+     * @throws ReflectionException|Exception
+     */
+    public function testConstruct(): void
     {
-        $this->assertTrue(true);
+        $this->assertInstanceOf(ilTestArchiver::class, $this->createInstanceOf(ilTestArchiver::class));
     }
 }

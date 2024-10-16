@@ -31,14 +31,9 @@ class RequestDataCollector
 
     protected array $params;
 
-    public function __construct(
-        HTTPServices $http,
-        Refinery $refinery
-    ) {
-        $this->initRequest(
-            $http,
-            $refinery
-        );
+    public function __construct(HTTPServices $http, Refinery $refinery)
+    {
+        $this->initRequest($http, $refinery);
     }
 
     public function getRequest(): RequestInterface
@@ -58,13 +53,15 @@ class RequestDataCollector
 
     public function getRefId(): int
     {
-        return $this->int("ref_id");
+        return $this->int('ref_id');
     }
 
-    /** @return string[] */
+    /**
+     * @return string[]
+     */
     public function getIds(): array
     {
-        return $this->strArray("id");
+        return $this->strArray('id');
     }
 
     public function hasQuestionId(): bool
@@ -97,13 +94,9 @@ class RequestDataCollector
         return $this->int('pass_id');
     }
 
-    /**
-     * @return mixed|null
-     */
-    public function raw(string $key)
+    public function raw(string $key): mixed
     {
-        $no_transform = $this->refinery->identity();
-        return $this->get($key, $no_transform);
+        return $this->get($key, $this->refinery->identity());
     }
 
     public function strVal(string $key): string
@@ -118,33 +111,33 @@ class RequestDataCollector
 
     public function getArrayOfIntsFromPost(string $key): ?array
     {
-        $p = $this->http->wrapper()->post();
-        $r = $this->refinery;
-        if (!$p->has($key)) {
-            return null;
+        $post_wrapper = $this->http->wrapper()->post();
+
+        if ($post_wrapper->has($key)) {
+            return $post_wrapper->retrieve(
+                $key,
+                $this->refinery->container()->mapValues(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
         }
 
-        return $p->retrieve(
-            $key,
-            $r->container()->mapValues(
-                $r->kindlyTo()->int()
-            )
-        );
+        return null;
     }
 
     public function getArrayOfStringsFromPost(string $key): ?array
     {
-        $p = $this->http->wrapper()->post();
-        $r = $this->refinery;
-        if (!$p->has($key)) {
-            return null;
+        $post_wrapper = $this->http->wrapper()->post();
+
+        if ($post_wrapper->has($key)) {
+            return $post_wrapper->retrieve(
+                $key,
+                $this->refinery->container()->mapValues(
+                    $this->refinery->kindlyTo()->string()
+                )
+            );
         }
 
-        return $p->retrieve(
-            $key,
-            $r->container()->mapValues(
-                $r->kindlyTo()->string()
-            )
-        );
+        return null;
     }
 }

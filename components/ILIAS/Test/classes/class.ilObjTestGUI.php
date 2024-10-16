@@ -3254,7 +3254,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 return $this->lng->txt('tst_question_not_from_pool_info');
             }
 
-            return $this->buildPossiblyLinkedQuestonPoolTitle(
+            return $this->buildPossiblyLinkedQuestionPoolTitle(
                 $this->ctrl,
                 $this->access,
                 $this->lng,

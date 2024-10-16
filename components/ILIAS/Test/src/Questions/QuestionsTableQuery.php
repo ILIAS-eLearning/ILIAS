@@ -20,14 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Questions;
 
-use Psr\Http\Message\ServerRequestInterface;
-use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper as RequestWrapper;
-use ILIAS\HTTP\Services as HTTPService;
-use ILIAS\UI\URLBuilder;
-use ILIAS\UI\URLBuilderToken;
-use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\URI;
+use ILIAS\HTTP\Services as HTTPService;
+use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper as RequestWrapper;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
+use ilObjTest;
+use Psr\Http\Message\ServerRequestInterface;
 
 class QuestionsTableQuery
 {
@@ -47,10 +48,10 @@ class QuestionsTableQuery
         $this->request_wrapper = $http->wrapper()->query();
 
         $url_builder = $this->getUrlBuilder();
-        list($url_builder, $action_token, $row_id_token) = $url_builder->acquireParameters(
+        [$url_builder, $action_token, $row_id_token] = $url_builder->acquireParameters(
             $namespace,
-            "action",
-            "ids"
+            'action',
+            'ids'
         );
         $this->url_builder = $url_builder;
         $this->action_token = $action_token;
@@ -70,34 +71,38 @@ class QuestionsTableQuery
          * getUriFromGlobals() includes the port (getUri does not) - but it's
          * the port from the actual machine, not the proxy.
          */
-        $url = $this->request->getUriFromGlobals();
-        $port = ':' . (string) $url->getPort();
-        $url = str_replace($port, ':', $url->__toString()) ?? $url->__toString();
-        return $url;
+        $url = $this->request::getUriFromGlobals();
+        return str_replace(':' . $url->getPort(), ':', $url->__toString()) ?? $url->__toString();
     }
 
     public function getQueryCommand(): ?string
     {
-        if (! $this->request_wrapper->has($this->action_token->getName())) {
-            return null;
+        $action_token_name = $this->action_token->getName();
+
+        if ($this->request_wrapper->has($action_token_name)) {
+            return $this->request_wrapper->retrieve(
+                $action_token_name,
+                $this->refinery->kindlyTo()->string()
+            );
         }
-        return $this->request_wrapper->retrieve(
-            $this->action_token->getName(),
-            $this->refinery->kindlyTo()->string()
-        );
+
+        return null;
     }
 
-    public function getRowIds(\ilObjTest $obj_test): ?array
+    public function getRowIds(ilObjTest $obj_test): ?array
     {
-        if ($this->request_wrapper->retrieve(
-            $this->row_id_token->getName(),
-            $this->refinery->identity()
-        ) === ['ALL_OBJECTS']) {
+        if (
+            $this->request_wrapper->retrieve(
+                $this->row_id_token->getName(),
+                $this->refinery->identity()
+            ) === ['ALL_OBJECTS']
+        ) {
             return array_map(
-                fn($record) => $record['question_id'],
+                static fn($record) => $record['question_id'],
                 $obj_test->getTestQuestions()
             );
         }
+
         return $this->request_wrapper->retrieve(
             $this->row_id_token->getName(),
             $this->refinery->kindlyTo()->listOf(
@@ -111,10 +116,7 @@ class QuestionsTableQuery
 
     public function getActionURL(string $action): URI
     {
-        return $this->url_builder->withParameter(
-            $this->action_token,
-            $action
-        )->buildURI();
+        return $this->url_builder->withParameter($this->action_token, $action)->buildURI();
     }
 
     public function getRowBoundURLBuilder(string $action): array

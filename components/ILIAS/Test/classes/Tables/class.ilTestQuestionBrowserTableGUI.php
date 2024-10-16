@@ -438,7 +438,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
     {
         switch ($this->fetchModeParameter()) {
             case self::MODE_BROWSE_POOLS:
-                return $this->buildPossiblyLinkedQuestonPoolTitle(
+                return $this->buildPossiblyLinkedQuestionPoolTitle(
                     $this->ctrl,
                     $this->access,
                     $this->lng,

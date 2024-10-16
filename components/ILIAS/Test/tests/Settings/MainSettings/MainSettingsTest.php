@@ -18,21 +18,37 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\Settings\TestSettings;
+namespace ILIAS\Test\Tests\Settings\MainSettings;
+
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\Test\Settings\MainSettings\MainSettings;
+use ILIAS\Test\Settings\MainSettings\SettingsAccess;
+use ILIAS\Test\Settings\MainSettings\SettingsAdditional;
+use ILIAS\Test\Settings\MainSettings\SettingsFinishing;
 use ILIAS\Test\Settings\MainSettings\SettingsGeneral;
 use ILIAS\Test\Settings\MainSettings\SettingsIntroduction;
-use ILIAS\Test\Settings\MainSettings\SettingsAccess;
-use ILIAS\Test\Settings\MainSettings\SettingsTestBehaviour;
-use ILIAS\Test\Settings\MainSettings\SettingsQuestionBehaviour;
 use ILIAS\Test\Settings\MainSettings\SettingsParticipantFunctionality;
-use ILIAS\Test\Settings\MainSettings\SettingsFinishing;
-use ILIAS\Test\Settings\MainSettings\SettingsAdditional;
+use ILIAS\Test\Settings\MainSettings\SettingsQuestionBehaviour;
+use ILIAS\Test\Settings\MainSettings\SettingsTestBehaviour;
+use ILIAS\Test\Settings\TestSettings;
+use ilTestBaseTestCase;
+use LogicException;
+use PHPUnit\Framework\MockObject\Exception;
+use ReflectionException;
 
 class MainSettingsTest extends ilTestBaseTestCase
 {
     /**
+     * @throws ReflectionException|Exception
+     */
+    public function testConstruct(): void
+    {
+        $this->assertInstanceOf(MainSettings::class, $this->createInstanceOf(MainSettings::class));
+    }
+
+    /**
      * @dataProvider throwOnDifferentTestIdDataProvider
+     * @throws Exception|ReflectionException
      */
     public function testThrowOnDifferentTestId(int $IO): void
     {
@@ -58,19 +74,19 @@ class MainSettingsTest extends ilTestBaseTestCase
     public static function throwOnDifferentTestIdDataProvider(): array
     {
         return [
-            [-1],
-            [0],
-            [1]
+            'negative_one' => [-1],
+            'zero' => [0],
+            'one' => [1]
         ];
     }
 
     /**
      * @dataProvider throwOnDifferentTestIdExceptionDataProvider
+     * @throws Exception|ReflectionException
      */
     public function testThrowOnDifferentTestIdException(array $input): void
     {
-        $test_settings = $this->createMock(TestSettings::class);
-        $test_settings->method('getTestId')->willReturn($input['test_id_1']);
+        $test_settings = $this->createConfiguredMock(TestSettings::class, ['getTestId' => $input['test_id_1']]);
         $main_settings = new MainSettings(
             $input['test_id_2'],
             0,
@@ -83,21 +99,27 @@ class MainSettingsTest extends ilTestBaseTestCase
             $this->createConfiguredMock(SettingsFinishing::class, ['getTestId' => $input['test_id_2']]),
             $this->createConfiguredMock(SettingsAdditional::class, ['getTestId' => $input['test_id_2']])
         );
+
         $this->expectException(LogicException::class);
+
         self::callMethod($main_settings, 'throwOnDifferentTestId', [$test_settings]);
     }
 
     public static function throwOnDifferentTestIdExceptionDataProvider(): array
     {
         return [
-            [['test_id_1' => -1, 'test_id_2' => 0]],
-            [['test_id_1' => 0, 'test_id_2' => 1]],
-            [['test_id_1' => 1, 'test_id_2' => -1]]
+            'negative_one_zero' => [['test_id_1' => -1, 'test_id_2' => 0]],
+            'negative_one_one' => [['test_id_1' => -1, 'test_id_2' => 1]],
+            'zero_negative_one' => [['test_id_1' => 0, 'test_id_2' => -1]],
+            'zero_one' => [['test_id_1' => 0, 'test_id_2' => 1]],
+            'one_negative_one' => [['test_id_1' => 1, 'test_id_2' => -1]],
+            'one_negative_zero' => [['test_id_1' => 1, 'test_id_2' => 0]]
         ];
     }
 
     /**
      * @dataProvider getAndWithTestIdDataProvider
+     * @throws Exception
      */
     public function testGetAndWithTestId(int $IO): void
     {
@@ -138,7 +160,6 @@ class MainSettingsTest extends ilTestBaseTestCase
             )
         ))->withTestId($IO);
 
-
         $this->assertInstanceOf(MainSettings::class, $main_settings);
         $this->assertEquals($IO, $main_settings->getTestId());
     }
@@ -146,257 +167,177 @@ class MainSettingsTest extends ilTestBaseTestCase
     public static function getAndWithTestIdDataProvider(): array
     {
         return [
-            [-1],
-            [0],
-            [1]
+            'negative_one' => [-1],
+            'zero' => [0],
+            'one' => [1]
         ];
     }
 
     /**
-     * @dataProvider getAndWithGeneralSettingsDataProvider
+     * @dataProvider getAndWithObjIdDataProvider
+     * @throws ReflectionException|Exception
      */
-    public function testGetAndWithGeneralSettings(\Closure $IO): void
+    public function testGetAndWithObjId(int $IO): void
     {
-        $IO = $IO($this);
-        $main_settings = (new MainSettings(
-            0,
-            0,
-            $this->createMock(SettingsGeneral::class),
-            $this->createMock(SettingsIntroduction::class),
-            $this->createMock(SettingsAccess::class),
-            $this->createMock(SettingsTestBehaviour::class),
-            $this->createMock(SettingsQuestionBehaviour::class),
-            $this->createMock(SettingsParticipantFunctionality::class),
-            $this->createMock(SettingsFinishing::class),
-            $this->createMock(SettingsAdditional::class)
-        ))->withGeneralSettings($IO);
+        $main_settings = $this->createInstanceOf(MainSettings::class, [
+            'test_id' => 0,
+            'obj_id' => 0
+        ])->withObjId($IO);
 
         $this->assertInstanceOf(MainSettings::class, $main_settings);
-        $this->assertEquals($IO, $main_settings->getGeneralSettings());
+        $this->assertEquals($IO, $main_settings->getObjId());
     }
 
-    public static function getAndWithGeneralSettingsDataProvider(): array
+    public static function getAndWithObjIdDataProvider(): array
     {
-        return [[
-            static fn(self $test_case): SettingsGeneral =>
-                $test_case->createMock(SettingsGeneral::class)
-        ]];
+        return [
+            'negative_one' => [-1],
+            'zero' => [0],
+            'one' => [1]
+        ];
     }
 
     /**
-     * @dataProvider getAndWithIntroductionSettingsDataProvider
+     * @throws Exception|ReflectionException
      */
-    public function testGetAndWithIntroductionSettings(\Closure $IO): void
+    public function testGetAndWithGeneralSettings(): void
     {
-        $IO = $IO($this);
-        $main_settings = (new MainSettings(
-            0,
-            0,
-            $this->createMock(SettingsGeneral::class),
-            $this->createMock(SettingsIntroduction::class),
-            $this->createMock(SettingsAccess::class),
-            $this->createMock(SettingsTestBehaviour::class),
-            $this->createMock(SettingsQuestionBehaviour::class),
-            $this->createMock(SettingsParticipantFunctionality::class),
-            $this->createMock(SettingsFinishing::class),
-            $this->createMock(SettingsAdditional::class)
-        ))->withIntroductionSettings($IO);
+        $settings_general = $this->createMock(SettingsGeneral::class);
+        $main_settings = $this->createInstanceOf(MainSettings::class, [
+            'test_id' => 0,
+            'obj_id' => 0
+        ])->withGeneralSettings($settings_general);
 
         $this->assertInstanceOf(MainSettings::class, $main_settings);
-        $this->assertEquals($IO, $main_settings->getIntroductionSettings());
-    }
-
-    public static function getAndWithIntroductionSettingsDataProvider(): array
-    {
-        return [[
-            static fn(self $test_case): SettingsIntroduction =>
-                $test_case->createMock(SettingsIntroduction::class)
-        ]];
+        $this->assertEquals($settings_general, $main_settings->getGeneralSettings());
     }
 
     /**
-     * @dataProvider getAndWithAccessSettingsDataProvider
+     * @throws Exception|ReflectionException
      */
-    public function testGetAndWithAccessSettings(\Closure $IO): void
+    public function testGetAndWithIntroductionSettings(): void
     {
-        $IO = $IO($this);
-        $main_settings = (new MainSettings(
-            0,
-            0,
-            $this->createMock(SettingsGeneral::class),
-            $this->createMock(SettingsIntroduction::class),
-            $this->createMock(SettingsAccess::class),
-            $this->createMock(SettingsTestBehaviour::class),
-            $this->createMock(SettingsQuestionBehaviour::class),
-            $this->createMock(SettingsParticipantFunctionality::class),
-            $this->createMock(SettingsFinishing::class),
-            $this->createMock(SettingsAdditional::class)
-        ))->withAccessSettings($IO);
+        $settings_introduction = $this->createMock(SettingsIntroduction::class);
+        $main_settings = $this->createInstanceOf(MainSettings::class, [
+            'test_id' => 0,
+            'obj_id' => 0
+        ])->withIntroductionSettings($settings_introduction);
 
         $this->assertInstanceOf(MainSettings::class, $main_settings);
-        $this->assertEquals($IO, $main_settings->getAccessSettings());
-    }
-
-    public static function getAndWithAccessSettingsDataProvider(): array
-    {
-        return [[
-            static fn(self $test_case): SettingsAccess =>
-                $test_case->createMock(SettingsAccess::class)
-        ]];
+        $this->assertEquals($settings_introduction, $main_settings->getIntroductionSettings());
     }
 
     /**
-     * @dataProvider getAndWithTestBehaviourSettingsDataProvider
+     * @throws Exception|ReflectionException
      */
-    public function testGetAndWithTestBehaviourSettings(\Closure $IO): void
+    public function testGetAndWithAccessSettings(): void
     {
-        $IO = $IO($this);
-        $main_settings = (new MainSettings(
-            0,
-            0,
-            $this->createMock(SettingsGeneral::class),
-            $this->createMock(SettingsIntroduction::class),
-            $this->createMock(SettingsAccess::class),
-            $this->createMock(SettingsTestBehaviour::class),
-            $this->createMock(SettingsQuestionBehaviour::class),
-            $this->createMock(SettingsParticipantFunctionality::class),
-            $this->createMock(SettingsFinishing::class),
-            $this->createMock(SettingsAdditional::class)
-        ))->withTestBehaviourSettings($IO);
+        $settings_access = $this->createMock(SettingsAccess::class);
+        $main_settings = $this->createInstanceOf(MainSettings::class, [
+            'test_id' => 0,
+            'obj_id' => 0
+        ])->withAccessSettings($settings_access);
 
         $this->assertInstanceOf(MainSettings::class, $main_settings);
-        $this->assertEquals($IO, $main_settings->getTestBehaviourSettings());
-    }
-
-    public static function getAndWithTestBehaviourSettingsDataProvider(): array
-    {
-        return [[
-            static fn(self $test_case): SettingsTestBehaviour =>
-                $test_case->createMock(SettingsTestBehaviour::class)
-        ]];
+        $this->assertEquals($settings_access, $main_settings->getAccessSettings());
     }
 
     /**
-     * @dataProvider getAndWithQuestionBehaviourSettingsDataProvider
+     * @throws Exception|ReflectionException
      */
-    public function testGetAndWithQuestionBehaviourSettings(\Closure $IO): void
+    public function testGetAndWithTestBehaviourSettings(): void
     {
-        $IO = $IO($this);
-        $main_settings = (new MainSettings(
-            0,
-            0,
-            $this->createMock(SettingsGeneral::class),
-            $this->createMock(SettingsIntroduction::class),
-            $this->createMock(SettingsAccess::class),
-            $this->createMock(SettingsTestBehaviour::class),
-            $this->createMock(SettingsQuestionBehaviour::class),
-            $this->createMock(SettingsParticipantFunctionality::class),
-            $this->createMock(SettingsFinishing::class),
-            $this->createMock(SettingsAdditional::class)
-        ))->withQuestionBehaviourSettings($IO);
+        $settings_test_behaviour = $this->createMock(SettingsTestBehaviour::class);
+        $main_settings = $this->createInstanceOf(MainSettings::class, [
+            'test_id' => 0,
+            'obj_id' => 0
+        ])->withTestBehaviourSettings($settings_test_behaviour);
 
         $this->assertInstanceOf(MainSettings::class, $main_settings);
-        $this->assertEquals($IO, $main_settings->getQuestionBehaviourSettings());
-    }
-
-    public static function getAndWithQuestionBehaviourSettingsDataProvider(): array
-    {
-        return [[
-            static fn(self $test_case): SettingsQuestionBehaviour =>
-                $test_case->createMock(SettingsQuestionBehaviour::class)
-        ]];
+        $this->assertEquals($settings_test_behaviour, $main_settings->getTestBehaviourSettings());
     }
 
     /**
-     * @dataProvider getAndWithParticipantFunctionalitySettingsDataProvider
+     * @throws Exception|ReflectionException
      */
-    public function testGetAndWithParticipantFunctionalitySettings(\Closure $IO): void
+    public function testGetAndWithQuestionBehaviourSettings(): void
     {
-        $IO = $IO($this);
-        $main_settings = (new MainSettings(
-            0,
-            0,
-            $this->createMock(SettingsGeneral::class),
-            $this->createMock(SettingsIntroduction::class),
-            $this->createMock(SettingsAccess::class),
-            $this->createMock(SettingsTestBehaviour::class),
-            $this->createMock(SettingsQuestionBehaviour::class),
-            $this->createMock(SettingsParticipantFunctionality::class),
-            $this->createMock(SettingsFinishing::class),
-            $this->createMock(SettingsAdditional::class)
-        ))->withParticipantFunctionalitySettings($IO);
+        $settings_question_behaviour = $this->createMock(SettingsQuestionBehaviour::class);
+        $main_settings = $this->createInstanceOf(MainSettings::class, [
+            'test_id' => 0,
+            'obj_id' => 0
+        ])->withQuestionBehaviourSettings($settings_question_behaviour);
 
         $this->assertInstanceOf(MainSettings::class, $main_settings);
-        $this->assertEquals($IO, $main_settings->getParticipantFunctionalitySettings());
-    }
-
-    public static function getAndWithParticipantFunctionalitySettingsDataProvider(): array
-    {
-        return [[
-            static fn(self $test_case): SettingsParticipantFunctionality =>
-                $test_case->createMock(SettingsParticipantFunctionality::class)
-        ]];
+        $this->assertEquals($settings_question_behaviour, $main_settings->getQuestionBehaviourSettings());
     }
 
     /**
-     * @dataProvider getAndWithFinishingSettingsDataProvider
+     * @throws Exception|ReflectionException
      */
-    public function testGetAndWithFinishingSettings(\Closure $IO): void
+    public function testGetAndWithParticipantFunctionalitySettings(): void
     {
-        $IO = $IO($this);
-        $main_settings = (new MainSettings(
-            0,
-            0,
-            $this->createMock(SettingsGeneral::class),
-            $this->createMock(SettingsIntroduction::class),
-            $this->createMock(SettingsAccess::class),
-            $this->createMock(SettingsTestBehaviour::class),
-            $this->createMock(SettingsQuestionBehaviour::class),
-            $this->createMock(SettingsParticipantFunctionality::class),
-            $this->createMock(SettingsFinishing::class),
-            $this->createMock(SettingsAdditional::class)
-        ))->withFinishingSettings($IO);
+        $settings_participant_functionality = $this->createMock(SettingsParticipantFunctionality::class);
+        $main_settings = $this->createInstanceOf(MainSettings::class, [
+            'test_id' => 0,
+            'obj_id' => 0
+        ])->withParticipantFunctionalitySettings($settings_participant_functionality);
 
         $this->assertInstanceOf(MainSettings::class, $main_settings);
-        $this->assertEquals($IO, $main_settings->getFinishingSettings());
-    }
-
-    public static function getAndWithFinishingSettingsDataProvider(): array
-    {
-        return [[
-            static fn(self $test_case): SettingsFinishing =>
-                $test_case->createMock(SettingsFinishing::class)
-        ]];
+        $this->assertEquals($settings_participant_functionality, $main_settings->getParticipantFunctionalitySettings());
     }
 
     /**
-     * @dataProvider getAndWithAdditionalSettingsDataProvider
+     * @throws Exception|ReflectionException
      */
-    public function testGetAndWithAdditionalSettings(\Closure $IO): void
+    public function testGetAndWithFinishingSettings(): void
     {
-        $IO = $IO($this);
-        $main_settings = (new MainSettings(
-            0,
-            0,
-            $this->createMock(SettingsGeneral::class),
-            $this->createMock(SettingsIntroduction::class),
-            $this->createMock(SettingsAccess::class),
-            $this->createMock(SettingsTestBehaviour::class),
-            $this->createMock(SettingsQuestionBehaviour::class),
-            $this->createMock(SettingsParticipantFunctionality::class),
-            $this->createMock(SettingsFinishing::class),
-            $this->createMock(SettingsAdditional::class)
-        ))->withAdditionalSettings($IO);
+        $settings_finishing = $this->createMock(SettingsFinishing::class);
+        $main_settings = $this->createInstanceOf(MainSettings::class, [
+            'test_id' => 0,
+            'obj_id' => 0
+        ])->withFinishingSettings($settings_finishing);
 
         $this->assertInstanceOf(MainSettings::class, $main_settings);
-        $this->assertEquals($IO, $main_settings->getAdditionalSettings());
+        $this->assertEquals($settings_finishing, $main_settings->getFinishingSettings());
     }
 
-    public static function getAndWithAdditionalSettingsDataProvider(): array
+    /**
+     * @throws Exception|ReflectionException
+     */
+    public function testGetAndWithAdditionalSettings(): void
     {
-        return [[
-            static fn(self $test_case): SettingsAdditional =>
-                $test_case->createMock(SettingsAdditional::class)
-        ]];
+        $settings_additional = $this->createMock(SettingsAdditional::class);
+        $main_settings = $this->createInstanceOf(MainSettings::class, [
+            'test_id' => 0,
+            'obj_id' => 0
+        ])->withAdditionalSettings($settings_additional);
+
+        $this->assertInstanceOf(MainSettings::class, $main_settings);
+        $this->assertEquals($settings_additional, $main_settings->getAdditionalSettings());
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testGetArrayForLog(): void
+    {
+        $main_settings = new MainSettings(
+            0,
+            0,
+            $this->createConfiguredMock(SettingsGeneral::class, ['toLog' => []]),
+            $this->createConfiguredMock(SettingsIntroduction::class, ['toLog' => []]),
+            $this->createConfiguredMock(SettingsAccess::class, ['toLog' => []]),
+            $this->createConfiguredMock(SettingsTestBehaviour::class, ['toLog' => []]),
+            $this->createConfiguredMock(SettingsQuestionBehaviour::class, ['toLog' => []]),
+            $this->createConfiguredMock(SettingsParticipantFunctionality::class, ['toLog' => []]),
+            $this->createConfiguredMock(SettingsFinishing::class, ['toLog' => []]),
+            $this->createConfiguredMock(SettingsAdditional::class, ['toLog' => []])
+        );
+
+        $array_for_log = $main_settings->getArrayForLog($this->createMock(AdditionalInformationGenerator::class));
+
+        $this->assertIsArray($array_for_log);
+        $this->assertCount(0, $array_for_log);
     }
 }
