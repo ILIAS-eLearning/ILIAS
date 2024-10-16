@@ -3908,7 +3908,7 @@ common#:#dislike#:#Dislike
 common#:#domain#:#Domain
 common#:#down#:#Down
 common#:#download#:#Download
-common#:#download_all_returned_files#:#Download all Submissions
+common#:#download_all_returned_files#:#Download All Submissions
 common#:#download_link#:#Download Link
 common#:#download_multiple_objects#:#Download Multiple Objects
 common#:#download_selected_items#:#Download
@@ -9357,8 +9357,8 @@ exc#:#exc_msg_participants_removed#:#The participants have been removed from the
 exc#:#exc_msg_public_submission#:#All submissions will be published after the deadline.
 exc#:#exc_msg_saved_grades#:#Grades and comments have been saved.
 exc#:#exc_msg_sure_to_deassign_participant#:#Are you sure that you want to remove the participants from all assignments of the exercise? This will also delete all their handed in resources!
-exc#:#exc_multi_feedb_info#:#On this screen you can upload multiple feedbacks in one file. First click on ‘Download ZIP Structure’, save the ZIP file and extract it on your local computer. Put the feedback files into the corresponding user directories. Now compress the whole directory as one ZIP file again. Browse your local filesystem for the file and select it as the ‘Multi-Feedback File’ in the form below. After that click ‘Upload’. A confirmation screen will list the files. Please avoid using any special characters in your file names.
-exc#:#exc_multi_feedback#:#Evaluation for many Participants
+exc#:#exc_multi_feedb_info#:#On this screen you can upload feedback for multiple participants in one file. First click on ‘Download ZIP Structure’, save the ZIP file and extract it on your local computer. Then put the feedback files into the corresponding user directories. Now compress the whole directory as one ZIP file again. Browse your local filesystem for the file and select it as the ‘Multi-Feedback File’ in the form below. After that click ‘Upload’. A confirmation screen will list the files. Please avoid using any special characters in your file names.
+exc#:#exc_multi_feedback#:#Evaluate Multiple Participants
 exc#:#exc_multi_feedback_file#:#Multi-Feedback File
 exc#:#exc_multi_feedback_files#:#Multi-Feedback Files
 exc#:#exc_needs_deadline#:#This feature does only work with an assignment deadline.
@@ -15186,8 +15186,8 @@ search#:#lucene_show_sub_relevance#:#Show Sub-Item Relevance
 search#:#lucene_size_frag_info#:#Please choose the maximum size of highlighted text fragments. To do this, enter the number of characters including spaces.
 search#:#lucene_size_fragments#:#Size of Text Fragments
 search#:#lucene_tbl_create_ini#:#Create Java-Server Ini-File
-search#:#search_add_members_from_container_crs#:#Add Users of Current Course
-search#:#search_add_members_from_container_grp#:#Add Users of Current Group
+search#:#search_add_members_from_container_crs#:#Add Users From Current Course
+search#:#search_add_members_from_container_grp#:#Add Users From Current Group
 search#:#search_adv_md#:#Custom Metadata
 search#:#search_advanced#:#Advanced Search
 search#:#search_all_words#:#All words <small>(<i>AND</i>)</small>
