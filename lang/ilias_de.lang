@@ -2148,10 +2148,10 @@ background_tasks#:#proceed_job#:#Weiter
 background_tasks#:#remove#:#Entfernen
 background_tasks#:#scheduled#:#Geplant
 background_tasks#:#task_might_be_failed#:#Diese Aufgabe hat seit einiger Zeit nicht geantwortet, Sie können sie beenden, falls nötig.
-background_tasks#:#ui_msg_files_violate_maxsize#:#Die Gesamtdownloadgrösse überschreitet das globale Limit. Der Download wird abgebrochen.
+background_tasks#:#ui_msg_files_violate_maxsize#:#Die Gesamtdownloadgröße überschreitet das globale Limit. Der Download wird abgebrochen.
 background_tasks#:#ui_msg_no_files_found#:#Es wurden keine Dateien gefunden. Der Download wird abgebrochen.
 background_tasks#:#ui_msg_num_files#:#%s Datei(-en) wurden gefunden, möchten Sie fortfahren?
-background_tasks#:#ui_msg_sum_file_sizes#:#Die Gesamtdownloadgrösse vor Erstellung des Zip-Ordners beträgt %s. Möchten Sie fortfahren?
+background_tasks#:#ui_msg_sum_file_sizes#:#Die Gesamtdownloadgröße vor Erstellung des Zip-Ordners beträgt %s. Möchten Sie fortfahren?
 background_tasks#:#waiting#:#Warten
 badge#:#awarded_by#:#Vergeben durch
 badge#:#badge_activity_badges#:#Automatisch vergebenes Badge
@@ -2251,8 +2251,8 @@ bgtask#:#bgtask_setting_limit#:#Größenlimit Download-Paket
 bgtask#:#bgtask_setting_limit_info#:#Der Download eines Ordners oder mehrerer Objekte ist nur möglich, wenn die Dateigrößen in Summe den eingegebenen Wert nicht überschreiten.
 bgtask#:#bgtask_setting_threshold_count#:#Minimale Anzahl
 bgtask#:#bgtask_setting_threshold_count_info#:#Ab diesem Wert erfolgt der Download asynchron.
-bgtask#:#bgtask_setting_threshold_size#:#Minimale Grösse
-bgtask#:#bgtask_setting_threshold_size_info#:#Ab dieser Grösse erfolgt der Download asynchron.
+bgtask#:#bgtask_setting_threshold_size#:#Minimale Größe
+bgtask#:#bgtask_setting_threshold_size_info#:#Ab dieser Größe erfolgt der Download asynchron.
 bibl#:#Type#:#Typ
 bibl#:#add_filter#:#Felder hinzufügen
 bibl#:#bib_default_abstract#:#Abstract
@@ -2448,7 +2448,7 @@ blog#:#blog_presentation_overview#:#Präsentation der Beiträge
 blog#:#blog_preview#:#Vorschau
 blog#:#blog_preview_banner#:#Personalisiertes Banner
 blog#:#blog_preview_banner_height#:#Höhe des Banners
-blog#:#blog_preview_banner_info#:#Standardgrösse ist 1370x100 Pixel.
+blog#:#blog_preview_banner_info#:#Standardgröße ist 1370x100 Pixel.
 blog#:#blog_preview_banner_width#:#Breite des Banners
 blog#:#blog_profile_picture#:#Profil-Bild anzeigen
 blog#:#blog_profile_picture_repository_info#:#Profilbilder werden nur für einzelne Beiträge angezeigt, nicht auf Übersichtsseiten.###Modified as part of gender mainstreaming activities for ILIAS 8
@@ -9785,7 +9785,7 @@ file#:#storage_id#:#Storage ID
 file#:#suffix_specific_icons#:#Suffix-spezifische Icons
 file#:#suffixes#:#Suffixe
 file#:#upload_files#:#Dateien hochladen
-file#:#upload_files_limit#:#Die maximale Grösse einer Datei beträgt %s.
+file#:#upload_files_limit#:#Die maximale Größe einer Datei beträgt %s.
 file#:#upload_files_title#:#Dateien hochladen
 file#:#upload_info#:#Datei
 file#:#upload_info_desc#:#Sie können die Dateien und die Dateiversionen im Tab "Versionen" verwalten.
@@ -10480,14 +10480,14 @@ irss#:#action_remove_resource_msg#:#Möchten Sie die folgende(n) Ressource(n) l�
 irss#:#action_show_revisions#:#Revisionen anzeigen
 irss#:#by_creation_date_asc#:#Erstellungsdatum (aufsteigend)
 irss#:#by_creation_date_desc#:#Erstellungsdatum (absteigend)
-irss#:#by_size_asc#:#Dateigrösse (aufsteigend)
-irss#:#by_size_desc#:#Dateigrösse (absteigend)
+irss#:#by_size_asc#:#Dateigröße (aufsteigend)
+irss#:#by_size_desc#:#Dateigröße (absteigend)
 irss#:#by_title_asc#:#Titel (aufsteigend)
 irss#:#by_title_desc#:#Titel (absteigend)
 irss#:#creation_date#:#Erstellungsdatum (Diese Revision)
-irss#:#file_size#:#Dateigrösse (Diese Revision)
-irss#:#file_size_bigger_than#:#Dateigrösse > MB
-irss#:#full_size#:#Ressourcengrössse (Alle Revisionen)
+irss#:#file_size#:#Dateigröße (Diese Revision)
+irss#:#file_size_bigger_than#:#Dateigröße > MB
+irss#:#full_size#:#Ressourcengröße (Alle Revisionen)
 irss#:#max_revision#:#Max. Revision
 irss#:#msg_upload#:#Dateien zum Hinzufügen hier ablegen
 irss#:#resource_id#:#Resource ID
@@ -10505,8 +10505,8 @@ irss#:#rids_updated#:#Ressource(n) aktualisiert
 irss#:#sorting#:#Sortierung
 irss#:#sorting_1#:#Titel (aufsteigend)
 irss#:#sorting_2#:#Titel (absteigend)
-irss#:#sorting_3#:#Dateigrösse (aufsteigend)
-irss#:#sorting_4#:#Dateigrösse (absteigend)
+irss#:#sorting_3#:#Dateigröße (aufsteigend)
+irss#:#sorting_4#:#Dateigröße (absteigend)
 irss#:#sorting_5#:#Erstellungsdatum (aufsteigend)
 irss#:#sorting_6#:#Erstellungsdatum (absteigend)
 irss#:#stakeholders#:#Ursprung
@@ -13520,7 +13520,7 @@ prtf#:#prtf_portfolio_page_deleted#:#Portfolio- bzw. Blog-Seite wurde gelöscht.
 prtf#:#prtf_portfolios#:#Portfolios
 prtf#:#prtf_preview_banner#:#Personalisiertes Banner
 prtf#:#prtf_preview_banner_height#:#Banner Höhe
-prtf#:#prtf_preview_banner_info#:#Standardgrösse ist 1370x100 Pixel.
+prtf#:#prtf_preview_banner_info#:#Standardgröße ist 1370x100 Pixel.
 prtf#:#prtf_preview_banner_width#:#Banner Breite
 prtf#:#prtf_print_options#:#Auswahl zum PDF
 prtf#:#prtf_print_selection#:#Auswahl
@@ -17186,7 +17186,7 @@ ui#:#ui_error_switchable_group_required#:#Bitte treffen Sie eine Auswahl.
 ui#:#ui_file_input_general_error#:#Es ist ein Fehler aufgetreten. Sie können in der JavaSkript-Konsole Ihres Browser nachschauen, ob es weitere Informationen zu diesem Fehler gibt, und/oder die Administration Ihrer ILIAS-Installation über den Vorfall informieren.
 ui#:#ui_file_input_invalid_amount#:#Sie dürfen nicht so viele Dateien auf einmal hochladen! Entfernen Sie einige Dateien, um fortzufahren.
 ui#:#ui_file_input_invalid_mime#:#Dateien vom Typ „%s“ sind nicht erlaubt.
-ui#:#ui_file_input_invalid_size#:#Datei überschreitet die maximale Dateigrösse von %s.
+ui#:#ui_file_input_invalid_size#:#Datei überschreitet die maximale Dateigröße von %s.
 ui#:#ui_invalid_url#:#Das Format der URL ist nicht korrekt.
 ui#:#ui_link_label#:#Label
 ui#:#ui_link_url#:#URL
