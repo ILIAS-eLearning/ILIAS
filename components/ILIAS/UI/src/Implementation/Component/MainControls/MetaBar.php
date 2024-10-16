@@ -45,7 +45,7 @@ class MetaBar implements MainControls\MetaBar
     /**
      * @var array<string, Button\Bulky|Link\Bulky|Slate>
      */
-    protected array $entries;
+    protected array $entries = [];
 
     public function __construct(SignalGeneratorInterface $signal_generator)
     {
