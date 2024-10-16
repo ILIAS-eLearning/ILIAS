@@ -3232,7 +3232,7 @@ cmix#:#info_availability#:#Hereby you can operate the availability of the LRS-ty
 cmix#:#info_description#:#Diese Beschreibung wird bei der Auswahl des LRS-Typs für neue Objekte angezeigt.
 cmix#:#info_external_lrs#:#Bei einem externen Learning Record Store (LRS) wird dem Anwender ein Hinweis angezeigt. Ein externer LRS ist gekennzeichnet durch einen unzureichenden Einfluss auf den LRS und durch den Betreiber von ILIAS. Dies ist der Fall, wenn es keine Rechte zum Löschen gibt.
 cmix#:#info_lrs_endpoint#:#URL des Endpoints ohne „/“ am Ende
-cmix#:#info_lrs_key#:#Key oder Login für den Zugriff von ILIAS auf den LRS
+cmix#:#info_lrs_key#:#Key oder Anmeldename für den Zugriff von ILIAS auf den LRS
 cmix#:#info_lrs_secret#:#Gemeinsames Secret / Passwort
 cmix#:#info_privacy_comment_default#:#Bitte geben Sie bei Verwendung dieses LRS bei Bedarf einen zusätzlichen Hinweis auf die Datensicherheit an.
 cmix#:#info_remarks#:#Hier können Sie Ihre Kommentare zu diesem LRS-Typ festhalten.
@@ -4518,10 +4518,10 @@ common#:#logic_or#:#oder
 common#:#login#:#Anmeldename
 common#:#login_as#:#Angemeldet als
 common#:#login_data#:#Anmeldedaten
-common#:#login_exists#:#Dieser Anmeldename ist bereits vergeben. Bitte wählen Sie einen anderen Anmeldenamen.
-common#:#login_information#:#Login-Informationen
-common#:#login_information_desc#:#Geben Sie hier für die jeweilige Sprache eine Login-Information ein.
-common#:#login_information_settings_saved#:#Die Login-Informationen wurden erfolgreich gespeichert
+common#:#login_exists#:#Dieser Anmeldename ist bereits vergeben. Bitte wählen Sie einen anderen.
+common#:#login_information#:#Informationen zur Anmeldung
+common#:#login_information_desc#:#Geben Sie hier für die jeweilige Sprache einen entsprechenden Informationstext ein.
+common#:#login_information_settings_saved#:#Die Informationen wurden erfolgreich gespeichert.
 common#:#login_invalid#:#Ihr Anmeldename muss mindestens drei Zeichen lang sein und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_to_ilias#:#Bei ILIAS anmelden
 common#:#login_to_ilias_via_cas#:#Bei ILIAS über zentrales Authentifizierungssystem anmelden
