@@ -493,3 +493,27 @@ $icon-font-svg-id:        "glyphicons_halflingsregular" !default;
 	font-family: il-icons;
 	content: "\e001";
 }
+.glyphicon-enlarge:before {
+  font-family: il-icons;
+  content: "\e906";
+}
+.glyphicon-listView:before {
+  font-family: il-icons;
+  content: "\e908";
+}
+.glyphicon-preview:before {
+  font-family: il-icons;
+  content: "\e907";
+}
+.glyphicon-sort:before {
+  font-family: il-icons;
+  content: "\e90b";
+}
+.glyphicon-columnSelection:before {
+  font-family: il-icons;
+  content: "\e905";
+}
+.glyphicon-tileView:before {
+  font-family: il-icons;
+  content: "\e909";
+}

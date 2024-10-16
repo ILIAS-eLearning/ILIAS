@@ -432,4 +432,52 @@ class Factory implements G\Factory
     {
         return new Glyph(G\Glyph::LAUNCH, "launch", $action);
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function enlarge(string $action = null): G\Glyph
+    {
+        return new Glyph(G\Glyph::ENLARGE, "enlarge", $action);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function listView(string $action = null): G\Glyph
+    {
+        return new Glyph(G\Glyph::LIST_VIEW, "list_view", $action);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function preview(string $action = null): G\Glyph
+    {
+        return new Glyph(G\Glyph::PREVIEW, "preview", $action);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function sort(string $action = null): G\Glyph
+    {
+        return new Glyph(G\Glyph::SORT, "sort", $action);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function columnSelection(string $action = null): G\Glyph
+    {
+        return new Glyph(G\Glyph::COLUMN_SELECTION, "column_selection", $action);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function tileView(string $action = null): G\Glyph
+    {
+        return new Glyph(G\Glyph::TILE_VIEW, "tile_view", $action);
+    }
 }

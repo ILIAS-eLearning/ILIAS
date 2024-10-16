@@ -84,7 +84,13 @@ class Glyph implements C\Symbol\Glyph\Glyph
         self::ITALIC,
         self::BOLD,
         self::LINK,
-        self::LAUNCH
+        self::LAUNCH,
+        self::ENLARGE,
+        self::LIST_VIEW,
+        self::PREVIEW,
+        self::SORT,
+        self::COLUMN_SELECTION,
+        self::TILE_VIEW
     ];
 
     private string $type;
