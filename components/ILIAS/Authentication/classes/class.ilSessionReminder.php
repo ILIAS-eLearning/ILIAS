@@ -79,7 +79,10 @@ class ilSessionReminder
         $min_value = self::MIN_LEAD_TIME;
         $max_value = $this->getMaxPossibleLeadTime();
 
-        if ($lead_time < $min_value || $lead_time > $max_value) {
+        if (
+            $lead_time !== self::LEAD_TIME_DISABLED &&
+            ($lead_time < $min_value || $lead_time > $max_value)
+        ) {
             $lead_time = self::SUGGESTED_LEAD_TIME;
         }
 
