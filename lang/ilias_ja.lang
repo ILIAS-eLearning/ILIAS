@@ -17528,7 +17528,6 @@ wsp#:#wsp_type_blog#:#ブログ
 wsp#:#wsp_type_cmxv#:#証明書: xAPI/cmi5
 wsp#:#wsp_type_crsv#:#証明書: コース
 wsp#:#wsp_type_excv#:#ファイル
-wsp#:#wsp_type_excv#:#証明書: 演習問題
 wsp#:#wsp_type_file#:#File###19 08 2022 new variable
 wsp#:#wsp_type_ltiv#:#証明書: LTI Consumer
 wsp#:#wsp_type_scov#:#証明書: SCORM
