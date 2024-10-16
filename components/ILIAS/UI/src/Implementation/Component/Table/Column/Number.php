@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Table\Column;
 
 use ILIAS\UI\Component\Table\Column as C;
+use ILIAS\UI\Component\Table\EmptyCell;
 
 class Number extends Column implements C\Number
 {
@@ -63,8 +64,12 @@ class Number extends Column implements C\Number
         return $clone;
     }
 
-    public function format($value): string
+    public function format($value): string|EmptyCell
     {
+        if ($value === null) {
+            return $this->asEmptyCell();
+        }
+
         $value = number_format(
             $value,
             $this->decimals,

@@ -21,12 +21,16 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Table\Column;
 
 use ILIAS\UI\Component\Table\Column as C;
+use ILIAS\UI\Component\Table\EmptyCell;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
 
 class StatusIcon extends Column implements C\StatusIcon
 {
-    public function format($value): Icon
+    public function format($value): Icon|EmptyCell
     {
+        if(empty($value)) {
+            return $this->asEmptyCell();
+        }
         $this->checkArgInstanceOf('value', $value, Icon::class);
         return $value;
     }

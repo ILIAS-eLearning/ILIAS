@@ -23,6 +23,7 @@ namespace ILIAS\UI\Implementation\Component\Table\Column;
 use ILIAS\UI\Component\Table\Column as C;
 use ILIAS\Data\DateFormat\DateFormat;
 use ILIAS\Language\Language;
+use ILIAS\UI\Component\Table\EmptyCell;
 
 class Date extends Column implements C\Date
 {
@@ -39,8 +40,11 @@ class Date extends Column implements C\Date
         return $this->format;
     }
 
-    public function format($value): string
+    public function format($value): string|EmptyCell
     {
+        if(empty($value)) {
+            return $this->asEmptyCell();
+        }
         $this->checkArgInstanceOf('value', $value, \DateTimeImmutable::class);
         return $value->format($this->getFormat()->toString());
     }

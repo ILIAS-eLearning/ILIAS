@@ -24,6 +24,7 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Component\Table\Column as C;
 use ILIAS\UI\Component\Component;
 use ILIAS\Language\Language;
+use ILIAS\UI\Implementation\Component\Table\EmptyCell;
 
 abstract class Column implements C\Column
 {
@@ -38,6 +39,7 @@ abstract class Column implements C\Column
     protected int $index;
     protected ?string $asc_label = null;
     protected ?string $desc_label = null;
+    protected ?string $empty_placeholder = null;
 
     public function __construct(
         protected Language $lng,
@@ -132,8 +134,23 @@ abstract class Column implements C\Column
         return $this->highlighted;
     }
 
+    public function withEmptyPlaceholder(string $empty_placeholder): self
+    {
+        $clone = clone $this;
+        $clone->empty_placeholder = $empty_placeholder;
+        return $clone;
+    }
+
+    protected function asEmptyCell(): EmptyCell
+    {
+        return new EmptyCell($this->empty_placeholder ?? '');
+    }
+
     public function format($value): string|Component
     {
+        if(empty($value)) {
+            return $this->asEmptyCell();
+        }
         return (string) $value;
     }
 }

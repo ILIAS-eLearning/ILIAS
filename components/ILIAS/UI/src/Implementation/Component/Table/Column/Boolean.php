@@ -24,7 +24,7 @@ use ILIAS\UI\Component\Table\Column as C;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 use ILIAS\UI\Component\Symbol\Symbol;
-use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Table\EmptyCell;
 use ILIAS\Language\Language;
 
 class Boolean extends Column implements C\Boolean
@@ -47,8 +47,11 @@ class Boolean extends Column implements C\Boolean
         }
     }
 
-    public function format($value): string|Icon|Glyph
+    public function format($value): string|Icon|Glyph|EmptyCell
     {
+        if($value === null) {
+            return $this->asEmptyCell();
+        }
         $this->checkBoolArg('value', $value);
         return $value ? $this->true_option : $this->false_option;
     }
