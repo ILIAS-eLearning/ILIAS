@@ -96,35 +96,10 @@ const ClozeQuestionGapBuilder = (function () {
     $(`#remove_gap_${counter}`).parent().appendTo($(`#gap_error_${counter}`).find(ClozeGlobals.form_value_class));
   };
 
-  pro.addModalFakeFooter = function () {
-    if (ClozeGlobals.jour_fixe_incompatible === false) {
-      if ($('.modal-fake-footer').length === 0) {
-        const footer = $(`<div class="modal-fake-footer"><input type="button" class="btn btn-default btn-sm btn-dummy modal_ok_button" value="${ClozeSettings.ok_text}"> <input type="button" class="btn btn-default btn-sm btn-dummy modal_cancel_button" value="${ClozeSettings.cancel_text}"></div>`);
-        $(footer).find('.modal_ok_button').on('click', () => {
-          pro.closeModalWithOkButton();
-        });
-        $(footer).find('.modal_cancel_button').on('click', () => {
-          pro.closeModalWithCancelButton();
-        });
-        footer.appendTo('.modal-content');
-      }
-    }
-  };
-
   pro.moveFooterBelow = function () {
     $('#gap_json_post').appendTo(ClozeGlobals.form_class);
     $('#gap_json_combination_post').appendTo(ClozeGlobals.form_class);
     $(ClozeGlobals.form_footer_class).appendTo(ClozeGlobals.form_class);
-  };
-
-  pro.closeModalWithOkButton = function () {
-    ClozeGlobals.gap_restore = false;
-    $('#ilGapModal').modal('hide');
-  };
-
-  pro.closeModalWithCancelButton = function () {
-    pro.restoreSavedGap();
-    $('#ilGapModal').modal('hide');
   };
 
   pro.restoreSavedGap = function () {
@@ -1034,56 +1009,9 @@ const ClozeQuestionGapBuilder = (function () {
   };
 
   pro.focusOnFormular = function (pos) {
-    pro.cloneFormPart(pos[0]);
     // ToDo: fix fokus
-    $('#ilGapModal').modal('show');
     ClozeGlobals.gap_restore = true;
-    const gap = parseInt(pos[0], 10) - 1;
-    const lightBoxInner = $('#ilGapModal');
     $('#cloze_text').focus();
-    lightBoxInner.find(`#gap_${gap}\\[answer\\]\\[0\\]`).focus();
-    lightBoxInner.find(`#gap_${gap}_numeric`).focus();
-
-    $('#ilGapModal').off('hidden.bs.modal');
-    $('#ilGapModal').on('hidden.bs.modal', () => {
-      pro.restoreSavedGap();
-      pro.checkForm();
-    });
-  };
-
-  pro.cloneFormPart = function (pos) {
-    ClozeGlobals.clone_active = pos;
-    pos = parseInt(pos, 10) - 1;
-
-    if (ClozeSettings.gaps_php[0][pos]) {
-      $('.modal-body').html('');
-      if (ClozeGlobals.jour_fixe_incompatible === false) {
-        ClozeSettings.gap_backup = JSON.parse(JSON.stringify({
-          id: pos,
-          values: ClozeSettings.gaps_php[0][pos],
-        }));
-      }
-
-      let clone_type = ClozeSettings.gaps_php[0][pos].type;
-      if (clone_type === '') {
-        clone_type = 'text';
-      }
-      if (clone_type == 'text') {
-        $(`#text_row_${pos}_0`).clone(true).removeAttr('id').appendTo('.modal-body');
-      } else if (clone_type == 'select') {
-        $(`#text_row_${pos}_0`).clone(true).removeAttr('id').appendTo('.modal-body');
-      } else if (clone_type == 'numeric') {
-        $(`#numeric_answers_${pos}`).clone(true).removeAttr('id').appendTo('.modal-body');
-        $(`#numeric_answers_lower_${pos}`).clone(true).removeAttr('id').appendTo('.modal-body');
-        $(`#numeric_answers_upper_${pos}`).clone(true).removeAttr('id').appendTo('.modal-body');
-        $(`#numeric_answers_points_${pos}`).clone(true).removeAttr('id').appendTo('.modal-body');
-        $(`#remove_gap_container_${pos}`).clone(true).appendTo('.modal-body');
-      }
-      $(`.error_answer_${pos}`).clone(true).removeAttr('id').appendTo('.modal-body');
-      const gapName = parseInt(pos, 10) + 1;
-      $('.modal-title').html(`Gap ${gapName}`);
-      pro.addModalFakeFooter();
-    }
   };
 
   pro.removeSelectOption = (e) => {
@@ -1189,14 +1117,10 @@ const ClozeQuestionGapBuilder = (function () {
     $('.remove_gap_button').on('click', (e) => {
       const target = e.currentTarget;
       const position = $(target).attr('id').split('_');
-      const whereAmI = $(target).parents().eq(4).attr('class');
       if (confirm($('#delete_gap_question').text())) {
         ClozeSettings.gaps_php[0].splice(position[2], 1);
         pro.removeFromTextarea(position[2]);
         pub.paintGaps();
-        if (whereAmI == 'modal-body') {
-          $('#ilGapModal').modal('hide');
-        }
       }
     });
   };
@@ -1266,9 +1190,6 @@ const ClozeQuestionGapBuilder = (function () {
     pro.bindInputHandler();
     pro.appendEventListenerToBeRefactored();
     pro.checkForm();
-    if (ClozeGlobals.clone_active != -1) {
-      pro.cloneFormPart(ClozeGlobals.clone_active);
-    }
     if (typeof (tinyMCE) !== 'undefined') {
       ilTinyMceInitCallbackRegistry.addCallback(pro.bindTextareaHandlerTiny);
     }

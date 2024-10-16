@@ -341,11 +341,7 @@ JS;
         }
 
         if (!$checkonly) {
-            $modal = ilModalGUI::getInstance();
-            $modal->setHeading($this->lng->txt(''));
-            $modal->setId('ilGapModal');
-            $modal->setBody('');
-            $this->renderEditForm($form, $modal->getHTML());
+            $this->renderEditForm($form);
         }
         return $errors;
     }
