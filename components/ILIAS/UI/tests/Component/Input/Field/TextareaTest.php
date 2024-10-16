@@ -126,7 +126,9 @@ class TextareaTest extends ILIAS_UI_TestBase
             '
             <textarea id="id_1" class="c-field-textarea" name="name_0"></textarea>
             ',
-            $byline
+            $byline,
+            'id_1',
+            'id_2',
         );
         $this->assertEquals($expected, $this->render($textarea));
     }
@@ -141,6 +143,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $this->testWithNoByline($textarea);
         $this->testWithRequired($textarea);
         $this->testWithDisabled($textarea);
+        $this->testWithAdditionalOnloadCodeRendersId($textarea);
     }
 
     public function testRendererWithMinLimit(): void
@@ -156,7 +159,9 @@ class TextareaTest extends ILIAS_UI_TestBase
             '
             <textarea id="id_1" class="c-field-textarea" name="name_0" minlength="5"></textarea>
             ',
-            $byline
+            $byline,
+            'id_1',
+            'id_2'
         );
         $this->assertEquals($expected, $this->render($textarea));
     }
@@ -175,7 +180,9 @@ class TextareaTest extends ILIAS_UI_TestBase
                 <textarea id="id_1" class="c-field-textarea" name="name_0" maxlength="20"></textarea>
                 <div class="ui-input-textarea-remainder"> ui_chars_remaining<span data-action="remainder">20</span></div>
             ',
-            $byline
+            $byline,
+            'id_1',
+            'id_2'
         );
         $this->assertEquals($expected, $this->render($textarea));
     }

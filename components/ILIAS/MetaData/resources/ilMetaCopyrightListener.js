@@ -1,3 +1,18 @@
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
 /* eslint-env jquery */
 /* eslint-env browser */
 il.MetaDataCopyrightListener = {
@@ -14,16 +29,14 @@ il.MetaDataCopyrightListener = {
   init(modalSignalId, radioGroupId) {
     this.modalSignalId = modalSignalId;
     this.radioGroupId = radioGroupId;
-    this.form = $(`input[id^='${this.radioGroupId}']`)[0].form;
+    this.form = document.querySelector(`#${this.radioGroupId}`).form;
     this.formButton = $(':submit', this.form);
-
-    this.initialValue = $(`input[id^='${this.radioGroupId}']:checked`).val();
+    this.initialValue = this.form.querySelector(`#${this.radioGroupId} input:checked`).value;
 
     $(this.form).on(
       'submit',
       (event) => {
-        const currentValue = $(`input[id^='${il.MetaDataCopyrightListener.radioGroupId}']:checked`).val();
-
+        const currentValue = document.querySelector(`#${il.MetaDataCopyrightListener.radioGroupId} input:checked`).value;
         if (currentValue !== il.MetaDataCopyrightListener.initialValue) {
           if (!il.MetaDataCopyrightListener.confirmed) {
             event.preventDefault();

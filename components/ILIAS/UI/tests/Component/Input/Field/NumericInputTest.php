@@ -62,7 +62,8 @@ class NumericInputTest extends ILIAS_UI_TestBase
             'numeric-field-input',
             $label,
             '<input id="id_1" type="number" name="name_0" class="c-field-number" />',
-            $byline
+            $byline,
+            'id_1'
         );
         $this->assertEquals($expected, $this->render($numeric));
     }
@@ -77,6 +78,7 @@ class NumericInputTest extends ILIAS_UI_TestBase
         $this->testWithNoByline($numeric);
         $this->testWithRequired($numeric);
         $this->testWithDisabled($numeric);
+        $this->testWithAdditionalOnloadCodeRendersId($numeric);
     }
 
     public function testRenderValue(): void
@@ -90,7 +92,8 @@ class NumericInputTest extends ILIAS_UI_TestBase
             'numeric-field-input',
             $label,
             '<input id="id_1" type="number" value="10" name="name_0" class="c-field-number" />',
-            null
+            null,
+            'id_1'
         );
         $this->assertEquals($expected, $this->render($numeric));
     }
