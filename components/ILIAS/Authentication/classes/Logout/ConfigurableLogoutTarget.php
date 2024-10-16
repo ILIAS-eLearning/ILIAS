@@ -21,13 +21,13 @@ declare(strict_types=1);
 namespace ILIAS\components\Authentication\Logout;
 
 use ilLink;
-use ilAccess;
 use ilObject;
 use ilSetting;
 use ILIAS\Data\URI;
 use ilCtrlInterface;
 use InvalidArgumentException;
 use ILIAS\Authentication\Logout\LogoutDestinations;
+use ilAccessHandler;
 
 class ConfigurableLogoutTarget implements LogoutTarget
 {
@@ -37,7 +37,7 @@ class ConfigurableLogoutTarget implements LogoutTarget
     public function __construct(
         private readonly ilCtrlInterface $ctrl,
         private readonly ilSetting $settings,
-        private readonly ilAccess $access,
+        private readonly ilAccessHandler $access,
         private readonly string $http_path = ILIAS_HTTP_PATH,
     ) {
     }
