@@ -435,6 +435,7 @@ assessment#:#add_gap#:#Lückentext hinzufügen
 assessment#:#add_imagemap#:#Imagemap importieren
 assessment#:#add_poly#:#Polygon hinzufügen
 assessment#:#add_rect#:#Rechteck hinzufügen
+assessment#:#add_users#:#Benutzer hinzufügen
 assessment#:#additional_rating_info#:#Bitte beachten Sie, dass die hier angegebenen Werte in Prozent angegeben werden und sich diese auf 100 summieren müssen.
 assessment#:#advanced_rating#:#Erweiterte Bewertung
 assessment#:#advanced_rating_info#:#Die erweiterte Bewertung ist nur dann möglich, wenn Sie für das Ergebnis eine Einheit bestimmt haben. Weitere Bewertungseinstellungen werden nach dem Speichern der festgelegten Einheiten angezeigt.
@@ -443,6 +444,7 @@ assessment#:#all_participants#:#Alle Teilnehmer
 assessment#:#allow_images#:#Grafikunterstützung für Antworten
 assessment#:#allowedextensions#:#Erlaubte Dateierweiterungen
 assessment#:#allowedextensions_info#:#Geben Sie eine kommagetrennte Liste der erlaubten Dateierweiterungen an, wenn Sie das Hochladen auf bestimmte Dateitypen einschränken wollen (z.B. doc, pdf, odt).
+assessment#:#already_added_extra_time#:#bereits hinzugefügt: %s min
 assessment#:#analyze_errortext#:#Text analysieren
 assessment#:#answer#:#Antwort
 assessment#:#answer_characters#:# Zeichen zugelassen, Anzahl der eingegebenen Zeichen:
@@ -573,6 +575,7 @@ assessment#:#checkbox_unchecked#:#Nicht ausgewählt
 assessment#:#circle#:#Kreis
 assessment#:#circle_click_center#:#Bitte klicken Sie auf den Mittelpunkt der gewünschten Region
 assessment#:#circle_click_circle#:#Bitte klicken Sie auf einen Punkt auf dem Umkreis der gewünschten Region
+assessment#:#client_ip_range#:#Client IP Range
 assessment#:#clientip#:#Client IP
 assessment#:#close_text_hint#:#Um eine Lücke in den Text einzufügen, setzen Sie den Cursor an die entsprechende Position und nutzen Sie die Schaltfläche "Textlücke". Anschließend stehen weiter unten entsprechende Bearbeitungsbereiche zur Verfügung. Ebenso können Sie die Lücken zur Bearbeitung im Lückentext direkt anklicken.
 assessment#:#cloze_answer_text_info#:#Vorangestellte oder nachfolgende Leerzeichen werden beim Speichern aus der Antwort gelöscht.
@@ -702,7 +705,13 @@ assessment#:#export_cert_no_users#:#Ein Zertifikats-Archiv kann nicht generiert 
 assessment#:#export_essay_qst_with_html#:#Exportiere Freitext-Frage mit HTML Code
 assessment#:#export_essay_qst_with_html_desc#:#Wenn aktiviert, haben Sie die Möglichkeit Freitext-Fragen mit dem eingegebenen HTML-Code nach Excel zu exportieren.
 assessment#:#export_legacy_logs#:#Legacy-Log-Daten exportieren
+assessment#:#extra_time_byline#:#Tragen Sie hier die Extrazeit in Minuten ein. Bereits vorhandene Zeiten werden addiert.
+assessment#:#extra_time_for_all_participants#:#Sie bearbeiten die Extrazeit für alle Teilnehmer.
+assessment#:#extra_time_for_selected_participants#:#Sie bearbeiten die Extrazeit für mehrere Teilnehmer.
+assessment#:#extra_time_for_selected_participants_different#:#Sie haben Teilnehmer mit unterschiedlicher Extrazeit ausgewählt.
+assessment#:#extra_time_for_single_participant#:#Sie fügen Extrazeit dem folgenden Teilnehmer hinzu:
 assessment#:#extratime#:#Zeitverlängerung
+assessment#:#extratime_added#:#Die extra Zeit wurde für die gewählten Teilnehmer gespeichert.
 assessment#:#factor#:#Faktor
 assessment#:#failed_official#:#nicht bestanden
 assessment#:#failed_short#:#nicht bestanden
@@ -734,8 +743,16 @@ assessment#:#finish_pass_for_all_users_in_processing_time#:#Sie können die Durc
 assessment#:#finish_pass_for_user_confirmation#:#Wollen Sie den Test Durchlauf für den Teilnehmer „%s“ wirklich beenden?
 assessment#:#finish_pass_for_user_in_processing_time#:#WARNUNG: die Bearbeitungszeit für diesen Benutzer ist noch nicht vorbei! Sie sollten den Testlauf nur bei zwingendem Grund (z.B. Ausschluss vom Test) beenden.
 assessment#:#finish_test#:#Test beenden
+assessment#:#finish_test_all#:#Sind Sie sicher, dass die den Testdurchlauf für alle Teilnehmer beenden möchten?
+assessment#:#finish_test_multiple#:#Sind Sie sicher, dass Sie den Testdurchlauf für folgende Teilnehmer beenden möchten?
+assessment#:#finish_test_single#:#Sind Sie sicher, dass Sie den Testdurchlauf für den Teilnehmer "%s" beenden möchten?
 assessment#:#finish_unfinished_passes#:#Beendet noch offene Testdurchläufe
 assessment#:#finish_unfinished_passes_desc#:#Noch nicht beendete Testdurchläufe werden automatisch beendet – vorausgesetzt, es wurde für diese Tests ein Endzeitpunkt festgelegt oder Teilnehmende haben die maximale Bearbeitungsdauer überschritten.
+assessment#:#finished#:#Beendet
+assessment#:#finished_by_administrator#:#Beendet durch Administrator
+assessment#:#finished_by_cronjob#:#Beendet durch Cronjob
+assessment#:#finished_by_duration#:#Beendet aufgrund Zeitlimit
+assessment#:#finished_by_participant#:#Beendet durch Teilnehmer
 assessment#:#fixed_participants_hint#:#Dieser Test ist nur für die nachfolgend definierte Gruppe von Teilnehmern verfügbar. Soll der Test für alle Personen verfügbar sein, deren Rollen Lesezugriff auf den Test gewähren, müssen Sie im Reiter „Einstellungen“ die Option „Nur ausgewählte Teilnehmer“ deaktivieren.
 assessment#:#fixedparticipants_subtab#:#Ausgewählte Teilnehmer
 assessment#:#flashfile#:#Flash-Datei
@@ -776,8 +793,13 @@ assessment#:#internal_links#:#Interne Verweise
 assessment#:#intprecision#:#Teilbar durch
 assessment#:#intprecision_info#:#"Teilbar durch" hat nur Auswirkungen auf die Variablenerzeugung, wenn der Wert für die Präzision 0 beträgt. In diesem Fall legt "Teilbar durch" fest, durch welche ganze Zahl die erzeugte Variable teilbar sein muss. Ein Wert von 10 erzeugt also nur ganze Zahlen, die durch 10 teilbar sind, ein Wert von 5 erzeugt ganze Zahlen, die durch 5 teilbar sind usw. Bei einer Präzision von 0 ist "Teilbar durch" ein Pflichtfeld und muss eine positive, ganze Zahl enthalten. Voreingestellt ist der Wert 1 für beliebige ganze Zahlen.
 assessment#:#invalid_ip#:#Ungültige IP
+assessment#:#ip_range_byline#:#NUr IP Adressen die innerhalb der IP Range liegen, können den Test starten. Sie können entweder IPv4 ODER IPv6 verwenden.
+assessment#:#ip_range_for_all_participants#:#Sie bearbeiten die IP Range für alle Teilnehmer.
+assessment#:#ip_range_for_selected_participants#:#Sie bearbeiten die IP Range für die folgende Teilnehmer:
+assessment#:#ip_range_for_single_participant#:#Sie bearbeiten die IP Range für folgenden Teilnehmer:
 assessment#:#ip_range_info#:#Nur Geräte mit einer IP aus der festgelegten Spanne können den Test starten.
 assessment#:#ip_range_label#:#Beschränkung auf IPs
+assessment#:#ip_range_updated#:#Die IP-Rang wurde für die gewählten Teilnehmer aktualisiert.
 assessment#:#javaapplet#:#Java-Applet
 assessment#:#kiosk#:#Prüfungsansicht
 assessment#:#kiosk_description#:#Die Prüfungsansicht zeigt den Test im Kiosk-Modus. Dabei werden alle Bildschirmelemente, die nicht zum Test gehören, ausgeblendet. Um Teilnehmer effektiv daran zu hindern, während des Tests andere Webseiten zu öffnen, setzen Sie bitte zusätzlich einen auf E-Klausuren spezialisierten Browser ein (z.B. den 'Safe Exam Browser').
@@ -826,6 +848,7 @@ assessment#:#lacex_assSingleChoice_NumberOfResultExpression_e#:#R = +2+
 assessment#:#lacex_assTextSubset_StringResultExpression_d#:#Für die 2te Anwortoption wurde der Text „Natriumchlorid“ eingetragen
 assessment#:#lacex_assTextSubset_StringResultExpression_e#:#R[2] = ~Natriumchlorid~
 assessment#:#lacex_example_header#:#Beispiele
+assessment#:#list_of_participants#:#Teilnehmer
 assessment#:#locked#:#gesperrt
 assessment#:#log_deletion_not_allowed#:#Es fehlen Ihnen die Berechtigung, um Protokolleinträge zu löschen.
 assessment#:#log_entry_type#:#Typ des Protokolleintrags
@@ -889,6 +912,7 @@ assessment#:#manscoring_not_allowed#:#Die manuelle Bewertung wurde für keinen F
 assessment#:#manscoring_questions_not_found#:#Dieser Testdurchlauf beinhaltet keine Fragetypen, die manuell bewertet werden können.
 assessment#:#manscoring_results_pass#:#Manuell bewertbare Fragen für Testdurchlauf %s
 assessment#:#manual_editing#:#Manuelle Editierung
+assessment#:#manual_entry#:#Manuell Eintragen
 assessment#:#mark_schema#:#Notenschema
 assessment#:#mark_schema_invalid#:#Das Notenschema konnte nicht erfolgreich validiert werden. Bitte erstellen Sie ein gültiges Schema.
 assessment#:#matches#:#passt zu
@@ -931,8 +955,10 @@ assessment#:#no_selection#:#--- Keine Auswahl ---
 assessment#:#no_selection_for_move#:#Keine Frage zum Verschieben ausgewählt
 assessment#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswählen!
 assessment#:#no_user_or_group_selected#:#Bitte wählen Sie eine Zielgruppe aus, in der die Suche durchgeführt werden soll (Benutzer und/oder Gruppen)!
+assessment#:#no_valid_participant_selection#:#Es wurden keine gültigen Teilnehmer für diese Aktion ausgewählt.
 assessment#:#not_all_obligations_answered#:#Sie müssen alle verpflichtenden Fragen beantworten, bevor Sie den Test abschließen können.
 assessment#:#not_evaluated_users#:#Noch nicht bewertete Benutzer
+assessment#:#not_started#:#Noch nicht gestartet
 assessment#:#not_yet_accessed#:#Noch kein Zugriff erfolgt
 assessment#:#nr_of_correct_answers#:#Anzahl der erwünschten Antworten
 assessment#:#number_of_answers#:#Anzahl der Antworten
@@ -1151,6 +1177,7 @@ assessment#:#redirect_always#:#immer zur definierten Zielseite
 assessment#:#redirect_in_kiosk_mode#:#nur bei aktivierter Prüfungsansicht
 assessment#:#redirection_url#:#URL Zielseite
 assessment#:#region#:#Region
+assessment#:#remaining_duration#:#Restdauer
 assessment#:#remove_as_participant#:#Als festen Teilnehmer entfernen
 assessment#:#remove_gap#:#Lücke entfernen
 assessment#:#remove_question#:#Entfernen
@@ -1180,6 +1207,7 @@ assessment#:#resulttable_incorrect#:#Inkorrekte/Unvollständige
 assessment#:#resulttable_vc_sort_iooa#:#Reihenfolge im Test
 assessment#:#resulttable_vc_sort_posscore#:#Höchste (mögliche) Punktzahl zuerst
 assessment#:#review_view#:#Vorschau
+assessment#:#running#:#Aktiv
 assessment#:#saveOrder#:#Sortierung abspeichern
 assessment#:#saveOrderAndObligations#:#Sortierung und Obligationen abspeichern
 assessment#:#save_and_next#:#Speichern und weiter
@@ -1223,12 +1251,15 @@ assessment#:#show_requested_question_hints#:#Zeige angeforderte Lösungshinweise
 assessment#:#show_user_answers#:#Antworten (bewerteter Testdurchlauf)
 assessment#:#shuffle_answers#:#Antworten mischen
 assessment#:#skip_question#:#Nicht antworten und weiter
+assessment#:#solution#:#Lösungen
 assessment#:#solutionText#:#Text
 assessment#:#solution_contain_keywords#:#Punkte werden auf Basis des Vorkommens der folgenden Begriffe vergeben:
 assessment#:#solution_hint#:#Zugeordneter Inhalt zur Wiederholung
+assessment#:#solutions#:#Lösungen
 assessment#:#start_tag#:#Start-Marke
 assessment#:#statistical_data#:#Statistische Daten
 assessment#:#statistics#:#Statistik
+assessment#:#status_of_attempt#:#Status des Versuchs
 assessment#:#submit_and_check#:#Antwort speichern und Rückmeldung anfordern
 assessment#:#submit_answer#:#Speichern und weiter
 assessment#:#suggest_range#:#Bereich vorschlagen
@@ -1244,6 +1275,7 @@ assessment#:#term#:#Term
 assessment#:#term_image#:#Bild
 assessment#:#term_text#:#Text
 assessment#:#terms#:#Terme
+assessment#:#test_attempts_finished#:#Der Testdurchlauf wurde für die gewählten Teilnehmer beendet.
 assessment#:#test_confirm_template_reset#:#Sind Sie sicher, dass Sie die Vorlage nicht mehr verwenden wollen?
 assessment#:#test_delete_page#:#Frage entfernen
 assessment#:#test_edit_settings#:#Einstellungen bearbeiten
@@ -1290,6 +1322,8 @@ assessment#:#toplist_col_percentage#:#Prozentwert
 assessment#:#toplist_col_rank#:#Platz
 assessment#:#toplist_col_score#:#Punktzahl
 assessment#:#toplist_col_wtime#:#Bearbeitungszeit
+assessment#:#total_attempts#:#Versuche Gesamt
+assessment#:#total_duration#:#Dauer Gesamt
 assessment#:#true#:#Wahr
 assessment#:#tst_access_code_created#:#Damit Sie dauerhaften Zugriff auf Ihre Testergebnisse haben und einen unterbrochenen Test wieder aufnehmen können, wurde für Sie ein persönlicher Zugangsschlüssel erzeugt. Bitte notieren Sie sich den nachfolgenden Code, um später den Test fortführen zu können.
 assessment#:#tst_activate_skill_service#:#Kompetenzen
@@ -2029,7 +2063,9 @@ assessment#:#variables#:#Variablen
 assessment#:#wait_for_next_pass_hint_msg#:#Erneuter Durchlauf möglich ab folgendem Zeitpunkt: %s
 assessment#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 assessment#:#width#:#Breite
+assessment#:#with_solution#:#Teilnahmen mit Lösungen
 assessment#:#with_solutions_participants#:#Teilnehmer mit Antworten
+assessment#:#without_solution#:#Teilnahmen ohne Lösungen
 assessment#:#without_solutions_participants#:#Teilnehmer ohne Antworten
 assessment#:#worked_through#:#Bearbeitet
 assessment#:#working_time#:#Bearbeitungsdauer

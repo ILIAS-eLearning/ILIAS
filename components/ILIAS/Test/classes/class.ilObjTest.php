@@ -18,15 +18,15 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Participants\Participant;
+use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\TestDIC;
 use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\TestManScoringDoneHelper;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestLogViewer;
-
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Logging\TestScoringInteractionTypes;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
@@ -44,7 +44,6 @@ use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsDatabaseRepository;
 use ILIAS\Test\Settings\ScoreReporting\SettingsResultSummary;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettings;
 use ILIAS\Test\Export\CSVExportTrait;
-
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Stream\Streams;
@@ -147,6 +146,7 @@ class ilObjTest extends ilObject
     private Filesystem $filesystem_web;
 
     protected ?ilTestParticipantList $access_filtered_participant_list = null;
+    protected ParticipantRepository $participant_repository;
 
     protected LOMetadata $lo_metadata;
 
@@ -179,6 +179,7 @@ class ilObjTest extends ilObject
         $this->marks_repository = $local_dic['marks.repository'];
         $this->questionrepository = $local_dic['question.general_properties.repository'];
         $this->testrequest = $local_dic['request_data_collector'];
+        $this->participant_repository = $local_dic['participant.repository'];
 
         parent::__construct($id, $a_call_by_reference);
 
@@ -4964,6 +4965,8 @@ class ilObjTest extends ilObject
     *
     * @param integer $user_id The database id of the disinvited user
     * @access public
+     *
+     * @deprecated
     */
     public function disinviteUser($user_id)
     {
@@ -4988,19 +4991,9 @@ class ilObjTest extends ilObject
             [$this->getTestId(), $user_id]
         );
         $this->db->manipulateF(
-            "INSERT INTO tst_invited_user (test_fi, user_fi, clientip, tstamp) VALUES (%s, %s, %s, %s)",
-            ['integer', 'integer', 'text', 'integer'],
-            [$this->getTestId(), $user_id, (strlen($client_ip)) ? $client_ip : null, time()]
-        );
-    }
-
-
-    public function setClientIP($user_id, $client_ip)
-    {
-        $this->db->manipulateF(
-            "UPDATE tst_invited_user SET clientip = %s, tstamp = %s WHERE test_fi=%s and user_fi=%s",
-            ['text', 'integer', 'integer', 'integer'],
-            [(strlen($client_ip)) ? $client_ip : null, time(), $this->getTestId(), $user_id]
+            "INSERT INTO tst_invited_user (test_fi, user_fi, ip_range_from, ip_range_to, tstamp) VALUES (%s, %s, %s, %s, %s)",
+            ['integer', 'integer', 'text', 'text', 'integer'],
+            [$this->getTestId(), $user_id, (strlen($client_ip)) ? $client_ip : null, (strlen($client_ip)) ? $client_ip : null,time()]
         );
     }
 
@@ -7455,57 +7448,20 @@ class ilObjTest extends ilObject
 
     public function getExtraTime($active_id)
     {
-        $result = $this->db->queryF(
-            "SELECT additionaltime FROM tst_addtime WHERE active_fi = %s",
-            ['integer'],
-            [$active_id]
-        );
-        if ($result->numRows() > 0) {
-            $row = $this->db->fetchAssoc($result);
-            return $row['additionaltime'];
-        }
-        return 0;
+        $participant = $this->participant_repository->getParticipantByActiveId($this->getTestId(), (int) $active_id);
+        return $participant?->getExtraTime() ?? 0;
     }
 
-    public function addExtraTime(int $active_id, int $minutes)
+    /**
+     * @param array<Participant> $participants
+     * @param int                $minutes
+     *
+     * @return void
+     */
+    public function addExtraTime(array $participants, int $minutes): void
     {
-        $participantData = new ilTestParticipantData($this->db, $this->lng);
-        $participantData->setParticipantAccessFilter(
-            $this->participant_access_filter->getManageParticipantsUserFilter($this->getRefId())
-        );
-
-        if ($active_id) {
-            $participantData->setActiveIdsFilter([$active_id]);
-        }
-
-        $participantData->load($this->getTestId());
-
-        foreach ($participantData->getActiveIds() as $active_fi) {
-            $result = $this->db->queryF(
-                "SELECT active_fi FROM tst_addtime WHERE active_fi = %s",
-                ['integer'],
-                [$active_fi]
-            );
-
-            if ($result->numRows() > 0) {
-                $this->db->manipulateF(
-                    "DELETE FROM tst_addtime WHERE active_fi = %s",
-                    ['integer'],
-                    [$active_fi]
-                );
-            }
-
-            $this->db->manipulateF(
-                "UPDATE tst_active SET tries = %s, submitted = %s, submittimestamp = %s WHERE active_id = %s",
-                ['integer','integer','timestamp','integer'],
-                [0, 0, null, $active_fi]
-            );
-
-            $this->db->manipulateF(
-                "INSERT INTO tst_addtime (active_fi, additionaltime, tstamp) VALUES (%s, %s, %s)",
-                ['integer','integer','integer'],
-                [$active_fi, $minutes, time()]
-            );
+        foreach ($participants as $participant) {
+            $this->participant_repository->updateExtraTime($participant, $minutes);
         }
 
         if ($this->logger->isLoggingEnabled()) {
@@ -7515,7 +7471,10 @@ class ilObjTest extends ilObject
                     $this->user->getId(),
                     TestAdministrationInteractionTypes::EXTRA_TIME_ADDED,
                     [
-                        AdditionalInformationGenerator::KEY_USERS => $participantData->getUserIds()
+                        AdditionalInformationGenerator::KEY_USERS => array_map(
+                            fn(Participant $participant) => $participant->getUsrId(),
+                            $participants
+                        )
                     ]
                 )
             );
@@ -7735,6 +7694,7 @@ class ilObjTest extends ilObject
     {
         return $this->getMainSettings()->getQuestionBehaviourSettings()->getForceInstantFeedbackOnNextQuestion();
     }
+
 
     public static function isParticipantsLastPassActive(int $test_ref_id, int $user_id): bool
     {
