@@ -35,10 +35,10 @@ class RequestProcessorListSetsTest extends RequestProcessorTestCase
         );
 
         $expected_response = <<<XML
-            <error_response>
+            <response>
               <response_info>base url:ListSets:</response_info>
-              <error>noSetHierarchy</error>
-            </error_response>
+              <set>default:default</set>
+            </response>
             XML;
 
         $response = $processor->getResponseToRequest($this->getRequest('base url', Verb::LIST_SETS, []));
@@ -46,7 +46,7 @@ class RequestProcessorListSetsTest extends RequestProcessorTestCase
         $this->assertXmlStringEqualsXmlString($expected_response, $response->saveXML());
     }
 
-    public function testGetResponseToRequestListSetsNoSetsAndAdditionalArgumentError(): void
+    public function testGetResponseToRequestListSetsAdditionalArgumentError(): void
     {
         $processor = new RequestProcessor(
             $this->getWriter(),
@@ -59,7 +59,6 @@ class RequestProcessorListSetsTest extends RequestProcessorTestCase
             <error_response>
               <response_info>base url:ListSets:identifier=some id</response_info>
               <error>badArgument</error>
-              <error>noSetHierarchy</error>
             </error_response>
             XML;
 
@@ -73,7 +72,7 @@ class RequestProcessorListSetsTest extends RequestProcessorTestCase
         $this->assertXmlStringEqualsXmlString($expected_response, $response->saveXML());
     }
 
-    public function testGetResponseToRequestListSetsWithTokenNoSetsError(): void
+    public function testGetResponseToRequestListSetsWithTokenBadResumptionTokenError(): void
     {
         $processor = new RequestProcessor(
             $this->getWriter(),
@@ -85,7 +84,7 @@ class RequestProcessorListSetsTest extends RequestProcessorTestCase
         $expected_response = <<<XML
             <error_response>
               <response_info>base url:ListSets:resumptionToken=token</response_info>
-              <error>noSetHierarchy</error>
+              <error>badResumptionToken</error>
             </error_response>
             XML;
 

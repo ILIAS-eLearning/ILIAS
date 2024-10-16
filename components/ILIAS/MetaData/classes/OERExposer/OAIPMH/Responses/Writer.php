@@ -169,6 +169,24 @@ class Writer implements WriterInterface
         return $xml;
     }
 
+    public function writeSet(
+        string $spec,
+        string $name
+    ): \DOMDocument {
+        $xml = new \DomDocument('1.0', 'UTF-8');
+
+        $root = $xml->createElement('set');
+        $xml->appendChild($root);
+
+        $spec_xml = $xml->createElement('setSpec', $spec);
+        $root->appendChild($spec_xml);
+
+        $name_xml = $xml->createElement('setName', $name);
+        $root->appendChild($name_xml);
+
+        return $xml;
+    }
+
     public function writeResumptionToken(
         string $token,
         int $complete_list_size,

@@ -266,6 +266,24 @@ class WriterTest extends TestCase
         $this->assertXmlStringEqualsXmlString($expected_xml, $xml->saveXML());
     }
 
+    public function testWriteSet(): void
+    {
+        $expected_xml = <<<XML
+            <set>
+              <setSpec>some spec</setSpec>
+              <setName>some name</setName>
+            </set>
+            XML;
+
+        $writer = $this->getWriter();
+        $xml = $writer->writeSet(
+            'some spec',
+            'some name'
+        );
+
+        $this->assertXmlStringEqualsXmlString($expected_xml, $xml->saveXML());
+    }
+
     public function testWriteResumptionToken(): void
     {
         $expected_xml = <<<XML
