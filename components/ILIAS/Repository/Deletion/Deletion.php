@@ -96,13 +96,14 @@ class Deletion
             }
 
             // dive in recursive manner in each already deleted subtrees and remove these objects too
-            // @todo Why only for the main id not the subnodes!?
-            $this->removeDeletedNodes($id, $checked, true, $affected_ids);
 
             foreach ($subtree_nodes as $node) {
                 if (!$node_obj = $this->object->getInstanceByRefId($node["ref_id"])) {
                     continue;
                 }
+
+                // NOTE: This has been outside of the for loop before
+                $this->removeDeletedNodes($node["ref_id"], $checked, true, $affected_ids);
 
                 $this->event->beforeObjectRemoval(
                     $node_obj->getId(),
@@ -158,21 +159,23 @@ class Deletion
     protected function removeDeletedNodes(
         int $a_node_id,
         array $a_checked,
-        bool $a_delete_objects,
+        bool $a_delete_objects,     // seems to be always true
         array &$a_affected_ids
     ): void {
 
         foreach ($this->tree->getTrashedSubtrees($a_node_id) as $tree_id) {
+            // $tree_id is negative here
             // only continue recursion if fetched node wasn't touched already!
             if (!in_array($tree_id, $a_checked)) {
                 $deleted_tree = $this->tree->getTree($tree_id);
                 $a_checked[] = $tree_id;
 
                 $tree_id *= (-1);
+                // $tree_id is positive here
                 $del_node_data = $deleted_tree->getNodeData($tree_id);
                 $del_subtree_nodes = $deleted_tree->getSubTree($del_node_data);
                 // delete trash in the trash of trash...
-                self::removeDeletedNodes($tree_id, $a_checked, $a_delete_objects, $a_affected_ids);
+                $this->removeDeletedNodes($tree_id, $a_checked, $a_delete_objects, $a_affected_ids);
 
                 if ($a_delete_objects) {
                     foreach ($del_subtree_nodes as $node) {

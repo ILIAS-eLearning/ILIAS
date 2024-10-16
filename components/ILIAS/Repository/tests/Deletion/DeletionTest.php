@@ -9,12 +9,26 @@ class DeletionTest extends TestCase
     protected array $test_tree_data = [
         1 => [ // data id
                1 => [  // tree id
-                       1 => ["child" => 1, "parent" => 0],
-                       2 => ["child" => 2, "parent" => 1],
-                       3 => ["child" => 3, "parent" => 1],
-                       4 => ["child" => 4, "parent" => 2],
-                       5 => ["child" => 5, "parent" => 3],
-                       6 => ["child" => 6, "parent" => 3],
+                       /**
+                        * 1
+                        * - 2
+                        *   - 4
+                        * - 3
+                        *   - 5
+                        *   - 6
+                        *     - 7
+                        *     - 8
+                        *       - 9
+                        */
+                       1 => ["tree" => 1, "child" => 1, "ref_id" => 1, "obj_id" => 1, "parent" => 0],
+                       2 => ["tree" => 1, "child" => 2, "ref_id" => 2, "obj_id" => 2, "parent" => 1],
+                       3 => ["tree" => 1, "child" => 3, "ref_id" => 3, "obj_id" => 3, "parent" => 1],
+                       4 => ["tree" => 1, "child" => 4, "ref_id" => 4, "obj_id" => 4, "parent" => 2],
+                       5 => ["tree" => 1, "child" => 5, "ref_id" => 5, "obj_id" => 5, "parent" => 3],
+                       6 => ["tree" => 1, "child" => 6, "ref_id" => 6, "obj_id" => 6, "parent" => 3],
+                       7 => ["tree" => 1, "child" => 7, "ref_id" => 7, "obj_id" => 7, "parent" => 6],
+                       8 => ["tree" => 1, "child" => 8, "ref_id" => 8, "obj_id" => 8, "parent" => 6],
+                       9 => ["tree" => 1, "child" => 9, "ref_id" => 9, "obj_id" => 9, "parent" => 8],
                ]
         ]
     ];
@@ -117,6 +131,7 @@ class DeletionTest extends TestCase
                  foreach ($mock->getSubTree($mock->getNodeData($child)) as $subnode) {
                      if (isset($this->tree_data[$tree_id][$subnode["child"]])) {
                          unset($this->tree_data[$tree_id][$subnode["child"]]);
+                         $subnode["tree"] = -$child;
                          $this->tree_data[-$child][$subnode["child"]] = $subnode;
                          $moved = true;
                      }
@@ -201,7 +216,9 @@ class DeletionTest extends TestCase
 
         // Configure the getId method
         $mock->method('getId')
-             ->willReturn(42);
+            ->willReturnCallback(function () use ($ref_id) {
+                return $ref_id;
+            });
 
         // Configure the getType method
         $mock->method('getType')
@@ -220,6 +237,14 @@ class DeletionTest extends TestCase
         return $mock;
     }
 
+    protected function log(string $message): void
+    {
+        $log = false;
+        if ($log) {
+            echo $message . PHP_EOL;
+        }
+    }
+
     public function createEventInterfaceMock(): EventInterface
     {
         // Create the mock object
@@ -228,6 +253,7 @@ class DeletionTest extends TestCase
         // Configure the beforeMoveToTrash method
         $mock->method('beforeMoveToTrash')
              ->willReturnCallback(function (int $ref_id, array $subnodes) {
+                 $this->log('beforeMoveToTrash: ' . $ref_id);
                  // No return value as the method is void
              });
 
@@ -240,12 +266,14 @@ class DeletionTest extends TestCase
         // Configure the beforeSubtreeRemoval method
         $mock->method('beforeSubtreeRemoval')
              ->willReturnCallback(function (int $obj_id) {
+                 $this->log('beforeSubtreeRemoval: ' . $obj_id);
                  // No return value as the method is void
              });
 
         // Configure the beforeObjectRemoval method
         $mock->method('beforeObjectRemoval')
              ->willReturnCallback(function (int $obj_id, int $ref_id, string $type, string $title) {
+                 $this->log('beforeObjectRemoval: ' . $obj_id);
                  // No return value as the method is void
              });
 
@@ -258,6 +286,7 @@ class DeletionTest extends TestCase
         // Configure the afterTreeDeletion method
         $mock->method('afterTreeDeletion')
              ->willReturnCallback(function (int $tree_id, int $child) {
+                 $this->log('afterTreeDeletion: ' . $tree_id . ", " . $child);
                  // No return value as the method is void
              });
 
@@ -307,6 +336,14 @@ class DeletionTest extends TestCase
         static::assertInstanceOf(Deletion::class, $deletion);
     }
 
+    /**
+     * - trash enabled
+     * - access given
+     * - delete 2
+     * - check if 2 is in trash (isDeleted)
+     * - check if -2 is trashed subtree of 1
+     * - check if nothing has been finally deleted
+     */
     public function testDeletionDeleteWithTrash(): void
     {
         $this->loadTreeData(1);
@@ -322,6 +359,199 @@ class DeletionTest extends TestCase
         $this->assertEquals(true, $tree_mock->isDeleted(2));
 
         $this->assertEquals([-2], $tree_mock->getTrashedSubtrees(1));
+
+        // nothing has been finally deleted
+        $this->assertEquals([], $this->deleted_ref_ids);
+    }
+
+    /**
+     * - trash enabled
+     * - access given
+     * - delete 2
+     * - delete 3
+     * - check if 2,3 are in trash (isDeleted)
+     * - check if -2,-3 are trashed subtrees of 1
+     * - check if nothing has been finally deleted
+     */
+    public function testDeletionDeleteWithTrashMultiple(): void
+    {
+        $this->loadTreeData(1);
+        $this->resetDeleteRefIds();
+        $tree_mock = $this->createTreeInterfaceMock(1);
+        $deletion = $this->initDeletion(
+            $tree_mock,
+            true,
+            true
+        );
+
+        $deletion->deleteObjectsByRefIds([2]);
+        $deletion->deleteObjectsByRefIds([3]);
+        $this->assertEquals(true, $tree_mock->isDeleted(2));
+        $this->assertEquals(true, $tree_mock->isDeleted(3));
+
+        $this->assertEquals([-2, -3], $tree_mock->getTrashedSubtrees(1));
+
+        // nothing has been finally deleted
+        $this->assertEquals([], $this->deleted_ref_ids);
+    }
+
+    /**
+     * - trash disabled
+     * - access given
+     * - delete 2
+     * - check if 2 is NOT in trash (isDeleted)
+     * - check if 1 does not have trashed subtrees
+     * - check if 2,4 are finally deleted
+     */
+    public function testDeletionDeleteWithoutTrash(): void
+    {
+        $this->loadTreeData(1);
+        $this->resetDeleteRefIds();
+        $tree_mock = $this->createTreeInterfaceMock(1);
+        $deletion = $this->initDeletion(
+            $tree_mock,
+            false,
+            true
+        );
+
+        // delete tree 2
+        $deletion->deleteObjectsByRefIds([2]);
+
+        // tree is not in trash
+        $this->assertEquals(false, $tree_mock->isDeleted(2));
+
+        // no trashed subtrees
+        $this->assertEquals([], $tree_mock->getTrashedSubtrees(1));
+
+        // 2 has been deleted
+        $this->assertEquals([2,4], $this->deleted_ref_ids);
+    }
+
+    /**
+     * - trash enabled
+     * - access given
+     * - delete 2
+     * - removeFromSystem 2
+     * - check if 2 is NOT in trash (isDeleted)
+     * - check if 1 does not have trashed subtrees
+     * - check if 2,4 are finally deleted
+     */
+    public function testDeletionDeleteRemoveFromSystem(): void
+    {
+        $this->loadTreeData(1);
+        $this->resetDeleteRefIds();
+        $tree_mock = $this->createTreeInterfaceMock(1);
+        $deletion = $this->initDeletion(
+            $tree_mock,
+            true,
+            true
+        );
+
+        // delete tree 2
+        $deletion->deleteObjectsByRefIds([2]);
+
+        $deletion->removeObjectsFromSystemByRefIds([2]);
+
+        // 2 is not in trash
+        $this->assertEquals(false, $tree_mock->isDeleted(2));
+
+        // no left trashed subtrees
+        $this->assertEquals([], $tree_mock->getTrashedSubtrees(1));
+
+        // 2,4 have been deleted
+        $this->assertEquals([2,4], $this->deleted_ref_ids);
+    }
+
+    /**
+     * - trash enabled
+     * - access given
+     * - delete 6
+     * - delete 3
+     * - removeFromSystem 3
+     * - check if 3,5,6,7,8,9 are finally deleted
+     */
+    public function testDeletionDeleteRemoveFromSystemMultiple(): void
+    {
+        $this->log(PHP_EOL . "---testDeletionDeleteRemoveFromSystemMultiple");
+        $this->loadTreeData(1);
+        $this->resetDeleteRefIds();
+        $tree_mock = $this->createTreeInterfaceMock(1);
+        $deletion = $this->initDeletion(
+            $tree_mock,
+            true,
+            true
+        );
+
+        // delete tree 2
+        $this->log("---call: deleteObjectsByRefIds 6");
+        $deletion->deleteObjectsByRefIds([6]);
+        $this->log("---call: deleteObjectsByRefIds 3");
+        $deletion->deleteObjectsByRefIds([3]);
+
+        $this->log("---call: removeObjectsFromSystemByRefIds 3");
+        $deletion->removeObjectsFromSystemByRefIds([3]);
+
+        // 3,5,6,7,8 are not in trash
+        $this->assertEquals(false, $tree_mock->isDeleted(3));
+        $this->assertEquals(false, $tree_mock->isDeleted(5));
+        $this->assertEquals(false, $tree_mock->isDeleted(6));
+        $this->assertEquals(false, $tree_mock->isDeleted(7));
+        $this->assertEquals(false, $tree_mock->isDeleted(8));
+        $this->assertEquals(false, $tree_mock->isDeleted(9));
+
+        // no left trashed subtrees
+        $this->assertEquals([], $tree_mock->getTrashedSubtrees(1));
+        $this->assertEquals([], $tree_mock->getTrashedSubtrees(2));
+
+        // 3,5,6,7,8 have been deleted
+        $this->assertEqualsCanonicalizing([3,5,6,7,8,9], $this->deleted_ref_ids);
+        $this->log("---END---testDeletionDeleteRemoveFromSystemMultiple");
+    }
+
+    /**
+     * - trash enabled
+     * - access given
+     * - delete 8
+     * - delete 3
+     * - removeFromSystem 3
+     * - check if 3,5,6,7,8,9 are finally deleted
+     */
+    public function testDeletionDeleteRemoveFromSystemDeepSubtree(): void
+    {
+        $this->log(PHP_EOL . "---testDeletionDeleteRemoveFromSystemMultiple");
+        $this->loadTreeData(1);
+        $this->resetDeleteRefIds();
+        $tree_mock = $this->createTreeInterfaceMock(1);
+        $deletion = $this->initDeletion(
+            $tree_mock,
+            true,
+            true
+        );
+
+        // delete tree 2
+        $this->log("---call: deleteObjectsByRefIds 8");
+        $deletion->deleteObjectsByRefIds([8]);
+        $this->log("---call: deleteObjectsByRefIds 3");
+        $deletion->deleteObjectsByRefIds([3]);
+
+        $this->log("---call: removeObjectsFromSystemByRefIds 3");
+        $deletion->removeObjectsFromSystemByRefIds([3]);
+
+        // 3,5,6,7,8 are not in trash
+        $this->assertEquals(false, $tree_mock->isDeleted(3));
+        $this->assertEquals(false, $tree_mock->isDeleted(5));
+        $this->assertEquals(false, $tree_mock->isDeleted(6));
+        $this->assertEquals(false, $tree_mock->isDeleted(7));
+        $this->assertEquals(false, $tree_mock->isDeleted(8));
+        $this->assertEquals(false, $tree_mock->isDeleted(9));
+
+        // no left trashed subtrees
+        $this->assertEquals([], $tree_mock->getTrashedSubtrees(1));
+        $this->assertEquals([], $tree_mock->getTrashedSubtrees(2));
+
+        // 3,5,6,7,8,9 have been deleted
+        $this->assertEqualsCanonicalizing([3,5,6,7,8,9], $this->deleted_ref_ids);
+        $this->log("---END---testDeletionDeleteRemoveFromSystemMultiple");
     }
 
 }
