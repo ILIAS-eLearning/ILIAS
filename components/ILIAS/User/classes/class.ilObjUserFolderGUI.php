@@ -24,7 +24,6 @@ use ILIAS\User\Profile\Prompt\Repository as PromptRepository;
 use ILIAS\User\Profile\ChangeListeners\UserFieldAttributesChangeListener;
 use ILIAS\User\Profile\ChangeListeners\InterestedUserFieldChangeListener;
 use ILIAS\User\Profile\ChangeListeners\ChangedUserFieldAttribute;
-
 use ILIAS\DI\Container as DIContainer;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\FileUpload\FileUpload;

@@ -19,7 +19,6 @@
 declare(strict_types=1);
 
 use ILIAS\User\UserGUIRequest;
-
 use ILIAS\Language\Language;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\ResourceStorage\Services as ResourceStorageServices;
