@@ -239,6 +239,10 @@ class ilForumCronNotification extends ilCronJob
                 self::$deleted_ids_cache[$row['deleted_id']] = $row['deleted_id'];
             }
 
+            if (defined('ANONYMOUS_USER_ID') && (int) $row['user_id'] === ANONYMOUS_USER_ID) {
+                continue;
+            }
+
             $ref_id = $this->getFirstAccessibleRefIdBUserAndObjId((int) $row['user_id'], (int) $row['obj_id']);
             if ($ref_id < 1) {
                 $this->logger->debug(
@@ -307,7 +311,7 @@ class ilForumCronNotification extends ilCronJob
             $mailNotification->send();
 
             $this->num_sent_messages += count($provider->getCronRecipients());
-            $this->logger->info("Sent notifications ... ");
+            $this->logger->info('Sent notifications ... ');
 
             ++$i;
         }
