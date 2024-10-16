@@ -276,18 +276,14 @@ EOT;
                     <div class="modal-dialog" role="document" data-replace-marker="component">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <form>
-                                    <button formmethod="dialog" class="close" aria-label="close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </form>
+                                <button formmethod="dialog" class="close" aria-label="close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                                 <h1 class="modal-title">Modal1</h1>
                             </div>
                             <div class="modal-body">PhpUnit</div>
                             <div class="modal-footer">
-                                <form>
-                                    <button formmethod="dialog" class="btn btn-default" data-dismiss="modal">cancel</button>
-                                </form>
+                                <button formmethod="dialog" class="btn btn-default" data-dismiss="modal">cancel</button>
                             </div>
                         </div>
                     </div>
@@ -296,18 +292,14 @@ EOT;
                     <div class="modal-dialog" role="document" data-replace-marker="component">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <form>
-                                    <button formmethod="dialog" class="close" aria-label="close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </form>
+                                <button formmethod="dialog" class="close" aria-label="close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                                 <h1 class="modal-title">Modal2</h1>
                             </div>
                             <div class="modal-body">PhpUnit</div>
                             <div class="modal-footer">
-                                <form>
-                                    <button formmethod="dialog" class="btn btn-default" data-dismiss="modal">cancel</button>
-                                </form>
+                                <button formmethod="dialog" class="btn btn-default" data-dismiss="modal">cancel</button>
                             </div>
                         </div>
                     </div>
