@@ -90,7 +90,10 @@ class UpdateSteps implements ilDatabaseUpdateSteps
             $s = sprintf('REPLACE(%s, %s, %s)', $s, $this->db->quote($from, ilDBConstants::T_TEXT), $this->db->quote($to, ilDBConstants::T_TEXT));
         }
 
-        $this->db->manipulate('UPDATE chatroom_history SET message = JSON_SET(message, "$.content", ' . $s . ') WHERE JSON_VALUE(message, "$.type") = "message"');
+        $this->db->manipulate(
+            'UPDATE chatroom_history SET message = JSON_SET(message, "$.content", ' . $s . ') ' .
+            'WHERE JSON_VALID(message) = 1 AND JSON_VALUE(message, "$.type") = ' . $this->db->quote('message', ilDBConstants::T_TEXT)
+        );
     }
 
     private function dropColumnWhenExists(string $table, string $column): void

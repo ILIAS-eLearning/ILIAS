@@ -398,7 +398,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
         $response = [];
 
-        $request = json_decode($this->http->request()->getBody()->getContents(), true);
+        $request = json_decode($this->http->request()->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
 
         ilWACSignedPath::setTokenMaxLifetimeInSeconds(30);
 
@@ -429,7 +429,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
                 $public_image = $avatar->getUrl();
             }
 
-            $response[json_encode($user)] = $public_image;
+            $response[json_encode($user, JSON_THROW_ON_ERROR)] = $public_image;
         }
 
         $this->sendJSONResponse($response);
@@ -492,7 +492,10 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
             $label = $translations[$key] ?? false;
             if ($label) {
                 $buttons[] = $this->uiFactory->button()->shy($label, '')->withAdditionalOnLoadCode(fn(string $id): string => (
-                    'il.Chatroom.bus.send(' . json_encode($bus_id) . ', document.getElementById(' . json_encode($id) . '));'
+                    'il.Chatroom.bus.send(' . json_encode(
+                        $bus_id,
+                        JSON_THROW_ON_ERROR
+                    ) . ', document.getElementById(' . json_encode($id, JSON_THROW_ON_ERROR) . '));'
                 ));
             }
         }
