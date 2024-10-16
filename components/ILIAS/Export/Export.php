@@ -20,6 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\MetaData\Elements\Set;
+use ILIAS\Setup\Agent as SetupAgent;
+use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\Export\Setup\Agent as ilExportSetupAgent;
+
 class Export implements Component\Component
 {
     public function init(
@@ -32,5 +37,6 @@ class Export implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
+        $contribute[SetupAgent::class] = fn() => new ilExportSetupAgent($pull[RefineryFactory::class]);
     }
 }

@@ -383,12 +383,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 $this->addHeaderAction();
                 $ilTabs->activateTab("export");
                 $exp_gui = new ilExportGUI($this);
-                $exp_gui->addFormat("xml");
-                $ot = ilObjectTranslation::getInstance($this->object->getId());
-                if ($ot->getContentActivated()) {
-                    $exp_gui->addFormat("xml_master", "XML (" . $lng->txt("mep_master_language_only") . ")", $this, "export");
-                    $exp_gui->addFormat("xml_masternomedia", "XML (" . $lng->txt("mep_master_language_only_no_media") . ")", $this, "export");
-                }
                 $this->ctrl->forwardCommand($exp_gui);
                 $this->tpl->printToStdout();
                 break;

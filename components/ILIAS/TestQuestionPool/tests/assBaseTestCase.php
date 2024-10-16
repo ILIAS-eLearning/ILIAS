@@ -57,6 +57,10 @@ abstract class assBaseTestCase extends TestCase
         $this->addGlobal_http();
         $this->addGlobal_upload();
         $this->addGlobal_ilCtrl();
+        $this->addGlobal_resourceStorage();
+        $this->addGlobal_filesystem();
+        $this->addGlobal_static_url();
+        $this->addGlobal_ilIliasIniFile();
 
         $this->defineGlobalConstants();
 

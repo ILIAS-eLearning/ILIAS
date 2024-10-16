@@ -57,11 +57,11 @@ abstract class ilDataSet
     protected string $import_directory = "";
     protected string $entity = "";
     protected string $schema_version = "";
-    protected string $relative_export_dir = "";
-    protected string $absolute_export_dir = "";
+    protected string $component_export_dir = "";
     protected string $ds_prefix = "ds";
     protected string $version = "";
     protected ilSurveyImporter $import;
+    protected ilExport $export;
 
     public function __construct()
     {
@@ -116,8 +116,7 @@ abstract class ilDataSet
 
     public function initByExporter(ilXmlExporter $xml_exporter): void
     {
-        $this->relative_export_dir = $xml_exporter->getRelativeExportDirectory();
-        $this->absolute_export_dir = $xml_exporter->getAbsoluteExportDirectory();
+        $this->export = $xml_exporter->getExport();
     }
 
     public function setImportDirectory(string $a_val): void
@@ -277,7 +276,6 @@ abstract class ilDataSet
         ?string $a_field = ""
     ): void {
         $types = $this->getXmlTypes($a_entity, $a_schema_version);
-
         $this->ds_log->debug("...read data");
         $this->readData($a_entity, $a_schema_version, $a_ids);
         $this->ds_log->debug("...data: " . print_r($this->data, true));
@@ -289,36 +287,27 @@ abstract class ilDataSet
             $a_writer->xmlStartTag($this->getXMLEntityTag($a_entity, ''));
             $rec = $this->getXmlRecord($a_entity, $a_schema_version, $d);
             foreach ($rec as $f => $c) {
-                if ($this->absolute_export_dir !== "" && $this->relative_export_dir !== "") {
-                    if (($types[$f] ?? "") === "directory") {
-                        ilFileUtils::makeDirParents($this->absolute_export_dir . "/dsDir_" . $this->dircnt);
-                        $sdir = realpath($c);
-                        $tdir = realpath($this->absolute_export_dir . "/dsDir_" . $this->dircnt);
-                        try {
-                            ilFileUtils::rCopy($sdir, $tdir);
-                        } catch (\ILIAS\Filesystem\Exception\FileNotFoundException $e) {
-                            $this->ds_log->error($e->getMessage());
-                        }
-                        $c = $this->relative_export_dir . "/dsDir_" . $this->dircnt;
-                        $this->dircnt++;
+                if (isset($this->export) and ($types[$f] ?? "") === "directory") {
+                    $sdir = realpath($c);
+                    $path_in_container = $this->export->getExportDirInContainer() . "/dsDir_" . $this->dircnt;
+                    $this->export->getExportWriter()->writeDirectory(
+                        $sdir,
+                        $path_in_container
+                    );
+                    $c = $path_in_container;
+                    $this->dircnt++;
+                }
+                if (isset($this->export) and ($types[$f] ?? "") === "rscollection") {
+                    $path_in_container = $this->export->getExportDirInContainer() . "/dsDir_" . $this->dircnt;
+                    $collection = $this->getCollection($rec, $a_entity, $a_schema_version, $f, $c);
+                    if (!is_null($collection)) {
+                        $this->export->getExportWriter()->writeFilesByResourceCollection(
+                            $collection,
+                            $path_in_container
+                        );
                     }
-                    if (($types[$f] ?? "") === "rscollection") {
-                        $tdir = $this->absolute_export_dir . "/dsDir_" . $this->dircnt;
-                        ilFileUtils::makeDirParents($tdir);
-                        $tdir = realpath($tdir);
-                        if ($collection = $this->getCollection($rec, $a_entity, $a_schema_version, $f, $c)) {
-                            foreach ($collection->getResourceIdentifications() as $rid) {
-                                $info = $this->irss->manage()->getResource($rid)
-                                                   ->getCurrentRevision()
-                                                   ->getInformation();
-                                $stream = $this->irss->consume()->stream($rid);
-                                $name = $tdir . "/" . $info->getTitle();
-                                file_put_contents($name, $stream->getStream()->getContents());
-                            }
-                        }
-                        $c = $this->relative_export_dir . "/dsDir_" . $this->dircnt;
-                        $this->dircnt++;
-                    }
+                    $c = $path_in_container;
+                    $this->dircnt++;
                 }
                 // this changes schema/dtd
                 //$a_writer->xmlElement($a_prefixes[$a_entity].":".$f,

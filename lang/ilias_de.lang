@@ -9676,6 +9676,7 @@ exp#:#exp_error_disabled#:#Der Export von Container-Objekten ist deaktiviert. Be
 exp#:#exp_error_too_many_objects#:#Der Export überschreitet die maximal erlaubte Zahl an Objekten (%1). Bitte wählen Sie eine kleinere Anzahl an Objekten.
 exp#:#exp_export_files#:#Exportdateien
 exp#:#exp_file_created#:#Eine Exportdatei wurde erstellt.
+exp#:#exp_html#:#HTML
 exp#:#exp_import_validation_err_no_matching_xsd#:#Eine Schema Datei für Version %s existiert nicht.
 exp#:#exp_print_pdf#:#Drucken/PDF
 exp#:#exp_print_pdf_info#:#Um ein PDF zu erstellen, wählen Sie bitte anschließend in der Druckansicht "Als PDF speichern" als Ziel.
@@ -9684,10 +9685,21 @@ exp#:#exp_show_print_view#:#Druckansicht anzeigen
 exp#:#exp_xml#:#XML
 exp#:#export_created#:#Eine neue Exportdatei wurde erstellt.
 exp#:#export_files_deleted#:#Die ausgewählten Exportdateien wurden gelöscht.
+exp#:#export_options#:#Export Optionen
+exp#:#export_type#:#Export Typ
+export#:#exp_export_dropdown#:#Export
+export#:#exp_file#:#Dateiname
+export#:#exp_public_access#:#Öffentlicher Zugriff aktiv
+export#:#exp_size#:#Dateigröße (MB)
+export#:#exp_timestamp#:#Erstellungsdatum
+export#:#exp_toggle_public_access#:#Öffentlichen Zugriff (de-)aktivieren
+export#:#exp_type#:#Type
 export#:#export_create#:#Neu erstellen
 export#:#export_create_new_file#:#Neue Exportdatei erstellen
 export#:#export_existing#:#Wiederverwenden
 export#:#export_export_date#:#Exportdatum
+export#:#export_info_public_access#:#Öffentlich zugängliche Exportdatei
+export#:#export_info_public_access_download#:#Download
 export#:#export_last_export#:#Letzter Export
 export#:#export_last_export_file#:#Letzte Exportdatei benutzen
 export#:#export_last_file#:#Letzte Datei
@@ -12210,6 +12222,7 @@ meta#:#meta_idea#:#Idee
 meta#:#meta_identifier#:#Kennung
 meta#:#meta_identifier_plural#:#Kennungen
 meta#:#meta_index#:#Index
+meta#:#meta_info_licence_section#:#Lizenz und Nachbenutzung
 meta#:#meta_info_only_repository_objects#:#Nachfolgend werden nur Magazinobjekte angezeigt, nicht aber Medienobjekte oder Lernmodulseiten.
 meta#:#meta_initiator#:#Initiator
 meta#:#meta_installation_remarks#:#Installationsanmerkungen

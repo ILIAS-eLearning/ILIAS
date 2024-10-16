@@ -18,8 +18,14 @@
 
 declare(strict_types=1);
 
-use ILIAS\Refinery\Factory as Factory;
-use ILIAS\HTTP\Services as Services;
+use ILIAS\Data\ObjectId;
+use ILIAS\DI\UIServices as ilUIServices;
+use ILIAS\Export\ExportHandler\I\Consumer\Context\HandlerInterface as ilExportHandlerConsumerContextInterface;
+use ILIAS\Export\ExportHandler\I\Consumer\ExportOption\CollectionInterface as ilExportHandlerConsumerExportOptionCollectionInterface;
+use ILIAS\Export\ExportHandler\I\Consumer\ExportOption\HandlerInterface as ilExportHandlerConsumerExportOptionInterface;
+use ILIAS\Export\ExportHandler\Factory as ilExportHandler;
+use ILIAS\HTTP\Services as ilHTTPServices;
+use ILIAS\Refinery\Factory as ilRefineryFactory;
 
 /**
  * Export User Interface Class
@@ -28,87 +34,130 @@ use ILIAS\HTTP\Services as Services;
  */
 class ilExportGUI
 {
-    protected \ILIAS\Export\InternalGUIService $gui;
-    protected Factory $refinery;
-    protected Services $http;
-    protected array $formats = array();
-    protected array $custom_columns = array();
-    protected array $custom_multi_commands = array();
+    public const CMD_LIST_EXPORT_FILES = "listExportFiles";
+    public const CMD_EXPORT_XML = "createXmlExportFile";
+    protected const CMD_SAVE_ITEM_SELECTION = "saveItemSelection";
+    protected const CMD_EXPORT_OPTION_PREFIX = "exportOption";
 
-    private object $parent_gui;
-    protected ilObject $obj;
+    protected ilExportHandlerConsumerExportOptionCollectionInterface $export_options;
+    protected ilUIServices $ui_services;
+    protected ilHTTPServices $http;
+    protected ilRefineryFactory $refinery;
+    protected ilObjUser $il_user;
     protected ilLanguage $lng;
+    protected ilObject $obj;
     protected ilGlobalTemplateInterface $tpl;
     protected ilCtrlInterface $ctrl;
     protected ilAccessHandler $access;
     protected ilErrorHandling $error;
-    protected ilToolbarGUI $toolbar;
-    protected ilObjectDefinition $objDefinition;
-    protected ilTree $tree;
 
+    protected ilToolbarGUI $toolbar;
+    protected ilObjectDefinition $obj_definition;
+    protected ilTree $tree;
+    protected ilExportHandler $export_handler;
+    protected ilExportHandlerConsumerContextInterface $context;
+    protected object $parent_gui;
 
     public function __construct(object $a_parent_gui, ?ilObject $a_main_obj = null)
     {
         global $DIC;
-
-        $this->lng = $DIC->language();
-        $this->lng->loadLanguageModule("exp");
-
+        $this->ui_services = $DIC->ui();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
-
+        $this->il_user = $DIC->user();
+        $this->lng = $DIC->language();
+        $this->lng->loadLanguageModule("exp");
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC->ctrl();
         $this->access = $DIC->access();
         $this->error = $DIC['ilErr'];
         $this->toolbar = $DIC->toolbar();
         $this->parent_gui = $a_parent_gui;
-        $this->objDefinition = $DIC['objDefinition'];
+        $this->obj_definition = $DIC['objDefinition'];
         $this->tree = $DIC->repositoryTree();
-        if ($a_main_obj == null) {
-            $this->obj = $a_parent_gui->getObject();
-        } else {
-            $this->obj = $a_main_obj;
-        }
-        $this->gui = $DIC->export()->internal()->gui();
+        $this->obj = $a_main_obj ?? $a_parent_gui->getObject();
+        $this->export_handler = new ilExportHandler();
+        $this->context = $this->export_handler->consumer()->context()->handler($this, $this->obj);
+        $this->export_options = $this->export_handler->consumer()->exportOption()->collection();
+        $this->initExportOptions();
+        $this->enableStandardXMLExport();
     }
 
-    protected function initFileIdentifierFromQuery(): string
+    public function executeCommand(): void
     {
-        if ($this->http->wrapper()->query()->has('file')) {
-            return $this->http->wrapper()->query()->retrieve(
-                'file',
-                $this->refinery->kindlyTo()->string()
-            );
+        // this should work (at least) for repository objects
+        if (method_exists($this->obj, 'getRefId') and $this->obj->getRefId()) {
+            if (!$this->access->checkAccess('write', '', $this->obj->getRefId())) {
+                $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->WARNING);
+            }
+            // check export activation of container
+            $exp_limit = new ilExportLimitation();
+            if ($this->obj_definition->isContainer(ilObject::_lookupType($this->obj->getRefId(), true)) &&
+                $exp_limit->getLimitationMode() == ilExportLimitation::SET_EXPORT_DISABLED) {
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exp_error_disabled"));
+                return;
+            }
         }
-        return '';
+        $cmd = $this->ctrl->getCmd(self::CMD_LIST_EXPORT_FILES);
+        if (str_starts_with($cmd, self::CMD_EXPORT_OPTION_PREFIX)) {
+            foreach ($this->export_options as $export_option) {
+                if ($cmd === $this->builtExportOptionCommand($export_option)) {
+                    $export_option->onExportOptionSelected($this->context);
+                }
+            }
+        }
+        switch ($cmd) {
+            case self::CMD_EXPORT_XML:
+                $this->createXMLExportFile();
+                break;
+            case self::CMD_SAVE_ITEM_SELECTION:
+                $this->saveItemSelection();
+                break;
+            case self::CMD_LIST_EXPORT_FILES:
+            default:
+                $this->displayExportFiles();
+                break;
+        }
     }
 
-    protected function initFileIdentifiersFromPost(): array
+    /**
+     * @depricated
+     */
+    public function addFormat(): void
     {
-        if ($this->http->wrapper()->post()->has('file')) {
-            return $this->http->wrapper()->post()->retrieve(
-                'file',
-                $this->refinery->kindlyTo()->listOf(
-                    $this->refinery->kindlyTo()->string()
-                )
-            );
-        }
+
+    }
+
+    /**
+     * @depricated
+     */
+    public function addCustomColumn(): void
+    {
+
+    }
+
+    /**
+     * @depricated
+     */
+    public function addCustomMultiCommand(): void
+    {
+
+    }
+
+    public function listExportFiles(): void
+    {
+        $this->displayExportFiles();
+    }
+
+    /**
+     * @depricated
+     */
+    public function getFormats(): array
+    {
         return [];
     }
 
-    protected function initFormatFromPost(): string
-    {
-        if ($this->http->wrapper()->post()->has('format')) {
-            return $this->http->wrapper()->post()->retrieve(
-                'format',
-                $this->refinery->kindlyTo()->string()
-            );
-        }
-        return '';
-    }
-
-    protected function initExportOptionsFromPost(): array
+    final protected function initExportOptionsFromPost(): array
     {
         $options = [];
         if ($this->http->wrapper()->post()->has('cp_options')) {
@@ -125,287 +174,100 @@ class ilExportGUI
         return $options;
     }
 
-
-    protected function buildExportTableGUI(): ilExportTableGUI
+    final protected function builtExportOptionCommand(ilExportHandlerConsumerExportOptionInterface $export_option): string
     {
-        return new ilExportTableGUI($this, "listExportFiles", $this->obj);
+        return self::CMD_EXPORT_OPTION_PREFIX . $export_option->getExportOptionId();
     }
 
-    protected function getParentGUI(): object
+    final protected function enableStandardXMLExport(): void
     {
-        return $this->parent_gui;
-    }
-
-    public function addFormat(
-        string $a_key,
-        string $a_txt = "",
-        object $a_call_obj = null,
-        string $a_call_func = ""
-    ): void {
-        if ($a_txt == "") {
-            $a_txt = $this->lng->txt("exp_" . $a_key);
+        # Exception for Test, TestQuestionPool, OrgUnit
+        if (in_array($this->obj->getType(), ["tst", "qpl"])) {
+            return;
         }
-        $this->formats[] = array(
-            "key" => $a_key,
-            "txt" => $a_txt,
-            "call_obj" => $a_call_obj,
-            "call_func" => $a_call_func
-        );
+        $this->export_options = $this->export_options->withElement(new ilExportExportOptionXML());
     }
 
-    public function getFormats(): array
+    final protected function initExportOptions(): void
     {
-        return $this->formats;
-    }
-
-    public function addCustomColumn(string $a_txt, object $a_obj, string $a_func): void
-    {
-        $this->custom_columns[] = array("txt" => $a_txt,
-                                        "obj" => $a_obj,
-                                        "func" => $a_func
-        );
-    }
-
-    public function addCustomMultiCommand(string $a_txt, object $a_obj, string $a_func): void
-    {
-        $this->custom_multi_commands[] = array("txt" => $a_txt,
-                                               "obj" => $a_obj,
-                                               "func" => $a_func
-        );
-    }
-
-    public function getCustomMultiCommands(): array
-    {
-        return $this->custom_multi_commands;
-    }
-
-    public function getCustomColumns(): array
-    {
-        return $this->custom_columns;
-    }
-
-    public function executeCommand(): void
-    {
-        // this should work (at least) for repository objects
-        if (method_exists($this->obj, 'getRefId') and $this->obj->getRefId()) {
-            if (!$this->access->checkAccess('write', '', $this->obj->getRefId())) {
-                $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->WARNING);
-            }
-
-            // check export activation of container
-            $exp_limit = new ilExportLimitation();
-            if ($this->objDefinition->isContainer(ilObject::_lookupType($this->obj->getRefId(), true)) &&
-                $exp_limit->getLimitationMode() == ilExportLimitation::SET_EXPORT_DISABLED) {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exp_error_disabled"));
-                return;
+        $export_options = $this->export_handler->consumer()->exportOption()->allExportOptions();
+        foreach ($export_options as $export_option) {
+            if (
+                in_array($this->obj->getType(), $export_option->getSupportedRepositoryObjectTypes()) and
+                $export_option->isObjectSupported(new ObjectId($this->obj->getId()))
+            ) {
+                $this->export_options = $this->export_options->withElement($export_option);
             }
         }
-
-        $cmd = $this->ctrl->getCmd("listExportFiles");
-
-        switch ($cmd) {
-            case "listExportFiles":
-                $this->$cmd();
-                break;
-
-            default:
-                if (substr($cmd, 0, 7) == "create_") {
-                    $this->createExportFile();
-                } elseif (substr($cmd, 0, 6) == "multi_") {    // custom multi command
-                    $this->handleCustomMultiCommand();
-                } else {
-                    $this->$cmd();
-                }
-                break;
-        }
     }
 
-    public function listExportFiles(): void
+    final protected function displayExportFiles(): void
     {
-        // creation buttons
-        $this->toolbar->setFormAction($this->ctrl->getFormAction($this));
-        if (count($this->getFormats()) > 1) {
-            // type selection
-            $options = [];
-            foreach ($this->getFormats() as $f) {
-                $options[$f["key"]] = $f["txt"];
+        if ($this->export_options->count() === 0) {
+            return;
+        }
+        $table = $this->export_handler->table()->handler()
+            ->withExportOptions($this->export_options)
+            ->withContext($this->context);
+        $table->handleCommands();
+        $infos = [];
+        foreach ($this->export_options as $export_option) {
+            $infos[$export_option->getLabel()] = $this->ctrl->getLinkTarget($this, $this->builtExportOptionCommand($export_option));
+        }
+        if (count($infos) === 1) {
+            $this->toolbar->addComponent($this->ui_services->factory()->button()->standard(
+                array_keys($infos)[0],
+                array_values($infos)[0]
+            ));
+        }
+        if (count($infos) > 1) {
+            $links = [];
+            foreach ($infos as $label => $link) {
+                $links[] = $this->ui_services->factory()->link()->standard($label, $link);
             }
-            $si = new ilSelectInputGUI($this->lng->txt("type"), "format");
-            $si->setOptions($options);
-            $this->toolbar->addInputItem($si, true);
-
-            $this->gui->button(
-                $this->lng->txt("exp_create_file"),
-                "createExportFile"
-            )->submit()->toToolbar();
-        } else {
-            $format = $this->getFormats();
-            $format = $format[0];
-
-            $this->gui->button(
-                $this->lng->txt("exp_create_file") . " (" . $format["txt"] . ")",
-                "create_" . $format["key"]
-            )->submit()->toToolbar();
-        }
-
-        $table = $this->buildExportTableGUI();
-        $table->setSelectAllCheckbox("file");
-        foreach ($this->getCustomColumns() as $c) {
-            $table->addCustomColumn($c["txt"], $c["obj"], $c["func"]);
-        }
-        foreach ($this->getCustomMultiCommands() as $c) {
-            $table->addCustomMultiCommand($c["txt"], "multi_" . $c["func"]);
+            $this->toolbar->addComponent(
+                $this->ui_services->factory()->dropdown()->standard($links)
+                    ->withLabel($this->lng->txt("exp_export_dropdown"))
+            );
         }
         $this->tpl->setContent($table->getHTML());
     }
 
-    public function createExportFile(): void
+    final protected function createXMLExportFile(): void
     {
-        if ($this->ctrl->getCmd() == "createExportFile") {
-            $format = $this->initFormatFromPost();
-        } else {
-            $format = substr($this->ctrl->getCmd(), 7);
+        if ($this->parent_gui instanceof  ilContainerGUI) {
+            $this->showItemSelection();
+            return;
         }
-        foreach ($this->getFormats() as $f) {
-            if ($f["key"] == $format) {
-                if (is_object($f["call_obj"])) {
-                    $f["call_obj"]->{$f["call_func"]}();
-                } elseif ($this->getParentGUI() instanceof ilContainerGUI) {
-                    $this->showItemSelection();
-                    return;
-                } elseif ($format == "xml") {        // standard procedure
-                    $exp = new ilExport();
-                    $exp->exportObject($this->obj->getType(), $this->obj->getId());
-                }
-            }
-        }
-
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("exp_file_created"), true);
-        $this->ctrl->redirect($this, "listExportFiles");
-    }
-
-    /**
-     * Confirm file deletion
-     */
-    public function confirmDeletion(): void
-    {
-        $files = $this->initFileIdentifiersFromPost();
-        if (!count($files)) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_checkbox"), true);
-            $this->ctrl->redirect($this, "listExportFiles");
-        } else {
-            $cgui = new ilConfirmationGUI();
-            $cgui->setFormAction($this->ctrl->getFormAction($this));
-            $cgui->setHeaderText($this->lng->txt("exp_really_delete"));
-            $cgui->setCancel($this->lng->txt("cancel"), "listExportFiles");
-            $cgui->setConfirm($this->lng->txt("delete"), "delete");
-
-            foreach ($files as $i) {
-                if (strpos($i, ':') !== false) {
-                    $iarr = explode(":", $i);
-                    $filename = $iarr[1];
-                } else {
-                    $filename = $i;
-                }
-                $cgui->addItem("file[]", $i, $filename);
-            }
-            $this->tpl->setContent($cgui->getHTML());
-        }
-    }
-
-    public function delete(): void
-    {
-        $files = $this->initFileIdentifiersFromPost();
-        foreach ($files as $file) {
-            $file = explode(":", $file);
-
-            $file[1] = basename($file[1]);
-
-            $export_dir = ilExport::_getExportDirectory(
-                $this->obj->getId(),
-                str_replace("..", "", $file[0]),
-                $this->obj->getType()
-            );
-
-            $exp_file = $export_dir . "/" . str_replace("..", "", $file[1]);
-            $exp_dir = $export_dir . "/" . substr($file[1], 0, strlen($file[1]) - 4);
-            if (is_file($exp_file)) {
-                unlink($exp_file);
-            }
-            if (is_dir($exp_dir)) {
-                ilFileUtils::delDir($exp_dir);
-            }
-
-            // delete entry in database
-            $info = new ilExportFileInfo($this->obj->getId(), $file[0], $file[1]);
-            $info->delete();
-        }
-        if (count($files) > 0) {
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('export_files_deleted'), true);
-        }
-        $this->ctrl->redirect($this, "listExportFiles");
-    }
-
-    /**
-     * Download file
-     */
-    public function download(): void
-    {
-        $file = $this->initFileIdentifierFromQuery();
-        if (!$file) {
-            $this->ctrl->redirect($this, "listExportFiles");
-        }
-
-        $file = explode(":", trim($file));
-        $export_dir = ilExport::_getExportDirectory(
-            $this->obj->getId(),
-            str_replace("..", "", $file[0]),
-            $this->obj->getType()
+        $this->createXMLExport();
+        $this->tpl->setOnScreenMessage(
+            ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS,
+            $this->lng->txt("exp_file_created"),
+            true
         );
-
-        $file[1] = basename($file[1]);
-
-        ilFileDelivery::deliverFileLegacy(
-            $export_dir . "/" . $file[1],
-            $file[1]
-        );
-    }
-
-    public function handleCustomMultiCommand(): void
-    {
-        $cmd = substr($this->ctrl->getCmd(), 6);
-        foreach ($this->getCustomMultiCommands() as $c) {
-            if ($c["func"] == $cmd) {
-                $c["obj"]->{$c["func"]}($this->initFileIdentifiersFromPost());
-            }
-        }
+        $this->ctrl->redirect($this, self::CMD_LIST_EXPORT_FILES);
     }
 
     /**
      * Show container item selection table
      */
-    protected function showItemSelection(): void
+    final protected function showItemSelection(): void
     {
         $this->tpl->addJavaScript('assets/js/ilContainer.js');
         $this->tpl->setVariable('BODY_ATTRIBUTES', 'onload="ilDisableChilds(\'cmd\');"');
-
-        $table = new ilExportSelectionTableGUI($this, 'listExportFiles');
-        $table->parseContainer($this->getParentGUI()->getObject()->getRefId());
+        $table = new ilExportSelectionTableGUI($this, self::CMD_LIST_EXPORT_FILES, $this->export_handler);
+        $table->parseContainer($this->parent_gui->getObject()->getRefId());
         $this->tpl->setContent($table->getHTML());
     }
 
-    protected function saveItemSelection(): void
+    final protected function saveItemSelection(): void
     {
-        $eo = ilExportOptions::newInstance(ilExportOptions::allocateExportId());
-        $eo->addOption(ilExportOptions::KEY_ROOT, 0, 0, $this->obj->getId());
-
-        $cp_options = $this->initExportOptionsFromPost();
-
         // check export limitation
+        $cp_options = $this->initExportOptionsFromPost();
         $exp_limit = new ilExportLimitation();
         try {
             $exp_limit->checkLimitation(
-                $this->getParentGUI()->getObject()->getRefId(),
+                $this->parent_gui->getObject()->getRefId(),
                 $cp_options
             );
         } catch (Exception $e) {
@@ -413,71 +275,80 @@ class ilExportGUI
             $this->showItemSelection();
             return;
         }
-
-        $items_selected = false;
-        foreach ($this->tree->getSubTree($root = $this->tree->getNodeData($this->getParentGUI()->getObject()->getRefId())) as $node) {
-            if ($node['type'] === 'rolf') {
-                continue;
-            }
-            if ($node['ref_id'] == $this->getParentGUI()->getObject()->getRefId()) {
-                $eo->addOption(
-                    ilExportOptions::KEY_ITEM_MODE,
-                    (int) $node['ref_id'],
-                    (int) $node['obj_id'],
-                    ilExportOptions::EXPORT_BUILD
-                );
-                continue;
-            }
-            // no export available or no access
-            if (!$this->objDefinition->allowExport($node['type']) || !$this->access->checkAccess(
-                'write',
-                '',
-                (int) $node['ref_id']
-            )) {
-                $eo->addOption(
-                    ilExportOptions::KEY_ITEM_MODE,
-                    (int) $node['ref_id'],
-                    (int) $node['obj_id'],
-                    ilExportOptions::EXPORT_OMIT
-                );
-                continue;
-            }
-
-            $mode = $cp_options[$node['ref_id']]['type'] ?? ilExportOptions::EXPORT_OMIT;
-            $eo->addOption(
-                ilExportOptions::KEY_ITEM_MODE,
-                (int) $node['ref_id'],
-                (int) $node['obj_id'],
-                $mode
-            );
-            if ($mode != ilExportOptions::EXPORT_OMIT) {
-                $items_selected = true;
-            }
-        }
-
-        if ($items_selected) {
-            // TODO: move this to background soap
-            $eo->read();
-            $exp = new ilExport();
-            foreach ($eo->getSubitemsForCreation($this->obj->getRefId()) as $ref_id) {
-                $obj_id = ilObject::_lookupObjId($ref_id);
-                $type = ilObject::_lookupType($obj_id);
-                $exp->exportObject($type, $obj_id);
-            }
-            // Fixme: there is a naming conflict between the container settings xml and the container subitem xml.
-            sleep(1);
-            // Export container
-            $cexp = new ilExportContainer($eo);
-            $cexp->exportObject($this->obj->getType(), $this->obj->getId());
-        } else {
-            $exp = new ilExport();
-            $exp->exportObject($this->obj->getType(), $this->obj->getId());
-        }
-
-        // Delete export options
-        $eo->delete();
-
+        // create export
+        $this->createXMLExport();
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('export_created'), true);
-        $this->ctrl->redirect($this, "listExportFiles");
+        $this->ctrl->redirect($this, self::CMD_LIST_EXPORT_FILES);
+    }
+
+    final protected function createXMLExport()
+    {
+        $tree_nodes = $this->tree->getSubTree($this->tree->getNodeData($this->parent_gui->getObject()->getRefId()));
+        $post_export_options = $this->initExportOptionsFromPost();
+        $eo = ilExportOptions::newInstance(ilExportOptions::allocateExportId());
+        $eo->addOption(ilExportOptions::KEY_ROOT, 0, 0, $this->obj->getId());
+        $items_selected = $eo->addOptions(
+            $this->parent_gui->getObject()->getRefId(),
+            $this->obj_definition,
+            $this->access,
+            $tree_nodes,
+            $post_export_options
+        );
+
+        $ref_ids_export = [$this->parent_gui->getObject()->getRefId()];
+        $ref_ids_all = [$this->parent_gui->getObject()->getRefId()];
+        $tree_ref_ids = array_map(function ($node) { return (int) $node['ref_id']; }, $tree_nodes);
+        $post_ref_ids = array_map(function ($key) {return (int) $key; }, array_keys($post_export_options));
+        $valid_ref_ids = array_intersect($post_ref_ids, $tree_ref_ids);
+        foreach ($valid_ref_ids as $ref_id) {
+            $info = $post_export_options[$ref_id];
+            $export_option_id = (int) $info["type"];
+            if (
+                $export_option_id === ilExportOptions::EXPORT_OMIT ||
+                !$this->obj_definition->allowExport(ilObject::_lookupType($ref_id, true)) ||
+                !$this->access->checkAccess('write', '', $ref_id)
+            ) {
+                continue;
+            }
+            if ($export_option_id === ilExportOptions::EXPORT_BUILD) {
+                $ref_ids_export[] = $ref_id;
+            }
+            if (
+                $export_option_id === ilExportOptions::EXPORT_BUILD ||
+                $export_option_id === ilExportOptions::EXPORT_EXISTING
+            ) {
+                $ref_ids_all[] = $ref_id;
+            }
+        }
+        $manager = $this->export_handler->manager()->handler();
+        if (count($ref_ids_all) === 1) {
+            $export_info = $manager->getExportInfo(
+                new ObjectId($this->obj->getId()),
+                time()
+            );
+            $element = $manager->createExport(
+                $this->il_user->getId(),
+                $export_info,
+                ""
+            );
+        }
+        if (count($ref_ids_all) > 1) {
+            $obj_ids_export = array_map(function (int $ref_id) { return ilObject::_lookupObjId($ref_id); }, $ref_ids_export);
+            $obj_ids_all = array_map(function (int $ref_id) { return ilObject::_lookupObjId($ref_id); }, $ref_ids_all);
+            $object_id_collection_builder = $manager->getObjectIdCollectioBuilder();
+            foreach ($obj_ids_all as $obj_id) {
+                $object_id_collection_builder = $object_id_collection_builder->addObjectId(
+                    new ObjectId($obj_id),
+                    in_array($obj_id, $obj_ids_export)
+                );
+            }
+            $container_export_info = $manager->getContainerExportInfo(
+                new ObjectId($obj_ids_all[0]),
+                $object_id_collection_builder->getCollection()
+            );
+            $element = $manager->createContainerExport($this->il_user->getId(), $container_export_info);
+        }
+
+        $eo->delete();
     }
 }
