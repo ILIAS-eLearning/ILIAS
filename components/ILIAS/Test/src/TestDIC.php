@@ -202,63 +202,6 @@ class TestDIC extends PimpleContainer
         $dic['participant.repository'] = static fn($c): ParticipantRepository =>
             new ParticipantRepository($DIC['ilDB']);
 
-        $dic['participant.table'] = static fn($c): ParticipantTable =>
-            new ParticipantTable(
-                $DIC['ui.factory'],
-                $DIC->uiService(),
-                $DIC['lng'],
-                new DataFactory(),
-                $c['request_data_collector'],
-                $c['participant.access_filter.factory'],
-                $c['participant.repository']
-            );
-
-        $dic['participant.action.ip_range'] = static fn($c): ParticipantTableIpRangeAction =>
-            new ParticipantTableIpRangeAction(
-                $DIC['ilCtrl'],
-                $DIC['lng'],
-                $DIC->ui()->mainTemplate(),
-                $DIC['ui.factory'],
-                $DIC['ui.renderer'],
-                $DIC['refinery'],
-                $c['request_data_collector'],
-                $c['response_handler'],
-                $c['participant.repository']
-            );
-
-        $dic['participant.action.extra_time'] = static fn($c): ParticipantTableExtraTimeAction =>
-            new ParticipantTableExtraTimeAction(
-                $DIC['ilCtrl'],
-                $DIC['lng'],
-                $DIC->ui()->mainTemplate(),
-                $DIC['ui.factory'],
-                $DIC['ui.renderer'],
-                $DIC['refinery'],
-                $c['request_data_collector'],
-                $c['response_handler'],
-                $c['participant.repository'],
-                $DIC['ilUser'],
-            );
-
-        $dic['participant.action.finish_test'] = static fn($c): ParticipantTableFinishTestAction =>
-            new ParticipantTableFinishTestAction(
-                $DIC['ilCtrl'],
-                $DIC['lng'],
-                $DIC->ui()->mainTemplate(),
-                $DIC['ui.factory'],
-                $DIC['ui.renderer'],
-                $DIC['refinery'],
-                $c['request_data_collector'],
-                $c['response_handler'],
-                $c['participant.repository'],
-                $DIC['ilDB'],
-                new \ilTestProcessLockerFactory(
-                    new \ilSetting('assessment'),
-                    $DIC['ilDB']
-                ),
-                $DIC['ilUser']
-            );
-
         return $dic;
     }
 }

@@ -16,16 +16,41 @@
  *
  *********************************************************************/
 
-declare(strict_types=1);
-
 namespace ILIAS\Test\Participants;
 
-use ILIAS\UI\Component\Table\DataRow;
 use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
+use ILIAS\UI\Component\Modal\Modal as Modal;
+use ILIAS\UI\Component\Table\Action\Action;
+use Psr\Http\Message\ServerRequestInterface;
 
 interface TableAction
 {
-    public function execute(URLBuilder $url_builder);
-    public function getActions(URLBuilder $url_builder);
-    public function onDataRow(DataRow $row, mixed $record): DataRow;
+    public function getActionId(): string;
+    public function isEnabled(): bool;
+    public function getTableAction(
+        URLBuilder $url_builder,
+        URLBuilderToken $row_id_token,
+        URLBuilderToken $action_token,
+        URLBuilderToken $action_type_token
+    ): Action;
+
+    /**
+     * @param array<Participant> $selected_participants
+     */
+    public function getModal(
+        URLBuilder $url_builder,
+        array $selected_participants,
+        bool $all_participants_selected
+    ): ?Modal;
+
+    /**
+     * @param array<Participant> $selected_participants
+     */
+    public function onSubmit(
+        URLBuilder $url_builder,
+        ServerRequestInterface $request,
+        array $selected_participants
+    ): void;
+    public function allowActionForRecord(Participant $record): bool;
 }

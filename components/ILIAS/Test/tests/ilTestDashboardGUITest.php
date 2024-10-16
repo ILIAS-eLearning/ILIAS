@@ -45,6 +45,7 @@ class ilTestDashboardGUITest extends ilTestBaseTestCase
             $DIC['ui.factory'],
             $DIC['ui.renderer'],
             $DIC['lng'],
+            $DIC['refinery'],
             $DIC['ilDB'],
             $DIC['ilCtrl'],
             $DIC['ilTabs'],
@@ -53,6 +54,8 @@ class ilTestDashboardGUITest extends ilTestBaseTestCase
             $DIC['component.factory'],
             $this->createMock(\ILIAS\Test\ExportImport\Factory::class),
             $this->createMock(\ILIAS\Test\RequestDataCollector::class),
+            $this->createMock(\ILIAS\Test\ResponseHandler::class),
+            $this->createMock(\ILIAS\Test\Participants\ParticipantRepository::class),
             $this->createMock(ilTestQuestionSetConfig::class),
             $this->createMock(ilTestObjectiveOrientedContainer::class)
         );

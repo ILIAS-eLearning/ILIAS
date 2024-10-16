@@ -134,7 +134,7 @@ class ParticipantRepository
         $participant->addExtraTime($minutes);
 
         $this->database->manipulatef(
-            "INSERT INTO tst_addtime (user_fi, test_fi, additionaltime, tstamp) VALUES (%s, %s, %s, %s) 
+            "INSERT INTO tst_addtime (user_fi, test_fi, additionaltime, tstamp) VALUES (%s, %s, %s, %s)
                         ON DUPLICATE KEY UPDATE tstamp = %s, additionaltime = %s",
             ['integer', 'integer', 'integer','timestamp','timestamp', 'integer'],
             [$participant->getUsrId(), $participant->getTestId(), $participant->getExtraTime(), time(), time(), $participant->getExtraTime()]
@@ -152,7 +152,7 @@ class ParticipantRepository
             $participant->setClientIpTo($ip_range['to']);
 
             $this->database->manipulatef(
-                "INSERT INTO tst_invited_user (test_fi, user_fi, ip_range_from, ip_range_to, tstamp) VALUES (%s, %s, %s, %s, %s) 
+                "INSERT INTO tst_invited_user (test_fi, user_fi, ip_range_from, ip_range_to, tstamp) VALUES (%s, %s, %s, %s, %s)
                         ON DUPLICATE KEY UPDATE ip_range_from = %s, ip_range_to = %s, tstamp = %s",
                 [
                     'integer',

@@ -580,8 +580,7 @@ assessment#:#code#:#Codice
 assessment#:#codebase#:#Base dei codici
 assessment#:#concatenation#:#Concatenazione
 assessment#:#conf_delete_pass#:#Vuoi davvero cancellare il passaggio?
-assessment#:#confirm_delete_all_user_data#:#Sei sicuro di voler eliminare tutti i dati del test degli utenti?
-assessment#:#confirm_delete_single_user_data#:#Sei sicuro di voler eliminare tutti i dati del test degli utenti selezionati?
+assessment#:#confirm_delete_user_data#:#Sei sicuro di voler eliminare tutti i dati del test degli utenti selezionati?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#La domanda, che &
 assessment#:#coordinates#:#Coordinate
@@ -604,7 +603,7 @@ assessment#:#delete_all_user_data#:#Cancella i dati di test di tutti gli utenti
 assessment#:#delete_all_user_data_confirmation#:#Vuoi cancellare i dati di test di tutti gli utenti?
 assessment#:#delete_image_header#:#Cancella immagine
 assessment#:#delete_image_question#:#Vuoi davvero cancellare l'immagine?
-assessment#:#delete_user_data#:#Elimina del test tutti i dati degli utenti selezionati
+assessment#:#delete_selected_user_data_confirmation#:#Elimina del test tutti i dati degli utenti selezionati
 assessment#:#description_maxchars#:#Se in questo campo testo non viene inserito un valore, non ci sara' limite alle dimensioni della risposta.
 assessment#:#detail_ending_time_reached#:#Il tempo disponibile per l&
 assessment#:#detail_max_processing_time_reached#:#Hai raggiunto il tempo massimo consentito per l&

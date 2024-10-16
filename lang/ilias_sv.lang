@@ -580,8 +580,7 @@ assessment#:#code#:#Kod
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Länk
 assessment#:#conf_delete_pass#:#Vill du verkligen ta bort passagen?
-assessment#:#confirm_delete_all_user_data#:#Är du säker på att du vill radera alla poster från undersökningen?
-assessment#:#confirm_delete_single_user_data#:#Är du säker på att du vill ta bort alla testdata för de valda användarna?
+assessment#:#confirm_delete_user_data#:#Är du säker på att du vill ta bort alla testdata för de valda användarna?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#Frågan du ändrade skapades som en kopia av ett original när du infogade den i testet. Vill du nu tillämpa dina ändringar på den ursprungliga frågan?
 assessment#:#coordinates#:#Koordinater
@@ -604,7 +603,7 @@ assessment#:#delete_all_user_data#:#Ta bort testdata från alla deltagare
 assessment#:#delete_all_user_data_confirmation#:#Vill du verkligen radera testdata för alla deltagare?
 assessment#:#delete_image_header#:#Ta bort bild
 assessment#:#delete_image_question#:#Vill du verkligen ta bort bilden?
-assessment#:#delete_user_data#:#Ta bort testdata
+assessment#:#delete_selected_user_data_confirmation#:#Ta bort testdata
 assessment#:#description_maxchars#:#Om inget anges är det maximala antalet tecken för detta textsvar obegränsat.
 assessment#:#detail_ending_time_reached#:#Du har överskridit den längsta möjliga behandlingstiden för testet. Testet kunde endast slutföras av %s.
 assessment#:#detail_max_processing_time_reached#:#Du har överskridit den maximala tidsgränsen för testet. Du får inte fortsätta att arbeta på provet!
