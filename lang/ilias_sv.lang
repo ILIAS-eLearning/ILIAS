@@ -16017,7 +16017,6 @@ survey#:#cancel_survey#:#Undersökning om avbrott
 survey#:#cannot_read_survey#:#Du har inte tillräcklig behörighet för att komma åt undersökningsdata!
 survey#:#cannot_switch_to_online_no_questions#:#Statusen kan inte ändras till &quot;online (aktiverad)&quot; eftersom inga frågor har lagts till i enkäten ännu!
 survey#:#cant_send_email_smtp_disabled#:#Att skicka externa e-postmeddelanden är för närvarande globalt avaktiverat.
-survey#:#categories#:#Svar
 survey#:#category#:#Svar
 survey#:#category_nr_selected#:#Antal valmöjligheter
 survey#:#chart#:#Diagram
@@ -16473,6 +16472,7 @@ survey#:#svy_answer_too_long#:#Ditt svar är för långt (%s tecken). Vänligen 
 survey#:#svy_app_see_rater_info#:#Feedbacknehemde kan på resultatsidorna se vilka feedbackgivare som har gett svaren, inkl. namn och e-post, om dessa angavs när feedbackgivarna skapades.
 survey#:#svy_appraisses_cannot_be_raters#:#Användare kan inte ange sig själva som feedbackgivare. Använd istället alternativet "Självutvärdering" i undersökningsinställningarna.
 survey#:#svy_back#:#Tillbaka
+survey#:#svy_categories#:#Svar
 survey#:#svy_check_evaluation_access_introduction#:#Då denna utvärdering endast är tillgänglig för deltagare i undersökningen, måste du ange din undersökningsåtkomstnyckel för att öppna utvärderingen.
 survey#:#svy_check_evaluation_authentication_needed#:#Autentisering krävs
 survey#:#svy_check_evaluation_wrong_key#:#Du har angett en felaktig åtkomstnyckel för undersökningen eller har inte deltagit i undersökningen. Du nekades därför åtkomst till utvärderingen.

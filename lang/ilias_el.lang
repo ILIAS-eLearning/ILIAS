@@ -16018,7 +16018,6 @@ survey#:#cancel_survey#:#Διακοπή της έρευνας
 survey#:#cannot_read_survey#:#Δεν διαθέτετε επαρκή δικαιώματα για να διαβάσετε τα δεδομένα της έρευνας!
 survey#:#cannot_switch_to_online_no_questions#:#Η κατάσταση δεν μπορεί ν' αλλάξει &quot;σε σύνδεση&quot; επειδή δεν υπάρχουν ερωτήσεις στην εξέταση!
 survey#:#cant_send_email_smtp_disabled#:#Sending external mails is not available. This option is deactivated globally.###07 02 2017 new variable
-survey#:#categories#:#Απαντήσεις
 survey#:#category#:#Απάντηση
 survey#:#category_nr_selected#:#Αριθμός χρηστών που επέλεξαν αυτή την κατηγορία
 survey#:#chart#:#Γράφημα
@@ -16474,6 +16473,7 @@ survey#:#svy_answer_too_long#:#Your current answer is too long (%s characters). 
 survey#:#svy_app_see_rater_info#:#Appraisees can access rater information in the results screens, including names and e-mail addresses, if entered before when adding raters.###29 07 2022 new variable
 survey#:#svy_appraisses_cannot_be_raters#:#User cannot be added as rater. Use self evaluation option in the survey settings instead.###07 02 2020 new variable
 survey#:#svy_back#:#Back###24 10 2013 new variable
+survey#:#svy_categories#:#Απαντήσεις
 survey#:#svy_check_evaluation_access_introduction#:#Καθώς η αξιολόγηση αυτής της έρευνας είναι προσπελάσιμη μόνο από τους συμμετέχοντες στην έρευνα θα χρειαστεί να εισάγετε το κωδικό πρόσβασης στην έρευνα για να ανοίξετε την αξιολόγηση.
 survey#:#svy_check_evaluation_authentication_needed#:#Απαιτείται επικύρωση
 survey#:#svy_check_evaluation_wrong_key#:#Εισάγατε λανθασμένο κωδικό πρόσβασης στην έρευνα ή δεν συμμετείχατε στην έρευνα. Η πρόσβαση στην αξιολόγηση της έρευνας απορρίπτεται.

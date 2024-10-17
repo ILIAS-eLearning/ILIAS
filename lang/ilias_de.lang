@@ -16139,7 +16139,6 @@ survey#:#cancel_survey#:#Umfrage unterbrechen
 survey#:#cannot_read_survey#:#Sie haben keine ausreichende Berechtigung, um auf die Umfragedaten zugreifen zu können!
 survey#:#cannot_switch_to_online_no_questions#:#Der Status kann nicht auf &quot;online (aktiviert)&quot; geändert werden, da der Umfrage noch keine Fragen hinzugefügt wurden!
 survey#:#cant_send_email_smtp_disabled#:#Das Versenden von externen E-Mails ist zurzeit global deaktiviert.
-survey#:#categories#:#Antworten
 survey#:#category#:#Antwort
 survey#:#category_nr_selected#:#Anzahl der Auswahlen
 survey#:#chart#:#Diagramm
@@ -16596,6 +16595,7 @@ survey#:#svy_answer_too_long#:#Ihre Antwort ist zu lang (%s Zeichen). Bitte kür
 survey#:#svy_app_see_rater_info#:#Feedbacknehmende können auf den Ergebnisseiten einsehen, welche Feedbackgebenden die Antworten gegeben haben, inkl. Namen und E-Mail, sofern diese beim Anlegen der Feedbackgebenden angegeben wurden.
 survey#:#svy_appraisses_cannot_be_raters#:#Benutzer können sich nicht selbst als Feedback-Geber zuordnen. Nutzen Sie stattdessen die Option "Selbsteinschätzung" in den Einstellungen der Umfrage.
 survey#:#svy_back#:#Zurück
+survey#:#svy_categories#:#Antworten
 survey#:#svy_check_evaluation_access_introduction#:#Da diese Auswertung nur für befragte Personen verfügbar ist, müssen Sie Ihren Zugangsschlüssel für die Umfrage angeben, um die Auswertung zu öffnen.
 survey#:#svy_check_evaluation_authentication_needed#:#Authentifizierung erforderlich
 survey#:#svy_check_evaluation_wrong_key#:#Sie haben einen falschen Zugangsschlüssel für die Umfrage angegeben oder nicht an der Umfrage teilgenommen. Der Zugang zur Auswertung wurde Ihnen deshalb verwehrt.

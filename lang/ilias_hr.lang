@@ -16017,7 +16017,6 @@ survey#:#cancel_survey#:#Obustavi anketu
 survey#:#cannot_read_survey#:#Nemate dovoljna prava za čitanje podataka ankete!
 survey#:#cannot_switch_to_online_no_questions#:#Status se ne može promijeniti u &quot; online& quot; jer u anketi nema pitanja!
 survey#:#cant_send_email_smtp_disabled#:#Slanje vanjske pošte nije dostupno. Ova je opcija globalno deaktivirana.
-survey#:#categories#:#Odgovori
 survey#:#category#:#Odgovor
 survey#:#category_nr_selected#:#Broj odabira
 survey#:#chart#:#Grafikon
@@ -16473,6 +16472,7 @@ survey#:#svy_answer_too_long#:#Vaš je trenutačni odgovor je predugačak (%s zn
 survey#:#svy_app_see_rater_info#:#Appraisees can access rater information in the results screens, including names and e-mail addresses, if entered before when adding raters.###29 07 2022 new variable
 survey#:#svy_appraisses_cannot_be_raters#:#Korisnik se ne može dodati kao ocjenjivač. Umjesto toga upotrijebite opciju samoevaluacije u postavkama ankete.
 survey#:#svy_back#:#Natrag
+survey#:#svy_categories#:#Odgovori
 survey#:#svy_check_evaluation_access_introduction#:#Budući da ovoj evaluaciji ankete mogu pristupiti samo sudionici ankete, morate unijeti pristupni kod ankete da biste je otvorili.
 survey#:#svy_check_evaluation_authentication_needed#:#Potrebna je provjera autentičnosti
 survey#:#svy_check_evaluation_wrong_key#:#Unijeli ste pogrešan pristupni kod ankete ili niste sudjelovali u anketi. Vaš pristup evaluaciji ankete je odbijen.
