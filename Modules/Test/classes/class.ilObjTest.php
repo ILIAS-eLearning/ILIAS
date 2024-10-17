@@ -6498,7 +6498,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
         $reporting_date = $testsettings['ReportingDate'];
         if (is_string($reporting_date)) {
-            $reporting_date = DateTimeImmutable($testsettings['ReportingDate'], new DateTimeZone('UTC'));
+            $reporting_date = new DateTimeImmutable($testsettings['ReportingDate'], new DateTimeZone('UTC'));
         }
 
         $score_settings = $this->getScoreSettings();
