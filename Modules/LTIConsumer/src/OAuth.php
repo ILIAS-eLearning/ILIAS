@@ -34,7 +34,7 @@ $DefaultSignatureMethodPlaintext = false;
 // * OAuth PECL extension includes an OAuth Exception class, so we need to wrap
 // * the definition of this class in order to avoid a PHP error.
 // */
-if (!class_exists('OAuthException')) {
+if (!class_exists(OAuthException::class)) {
     /*
      * Generic exception class
      */
@@ -44,7 +44,7 @@ if (!class_exists('OAuthException')) {
     }
 }
 
-if (!class_exists('OAuthConsumer')) {
+if (!class_exists(OAuthConsumer::class)) {
     class OAuthConsumer
     {
         /** @var string */
@@ -79,7 +79,7 @@ if (!class_exists('OAuthConsumer')) {
         }
     }
 }
-if (!class_exists('OAuthToken')) {
+if (!class_exists(OAuthToken::class)) {
     class OAuthToken
     {
         // access tokens and request tokens
@@ -130,7 +130,7 @@ if (!class_exists('OAuthToken')) {
  * A class for implementing a Signature Method
  * See section 9 ("Signing Requests") in the spec
  */
-if (!class_exists('OAuthSignatureMethod')) {
+if (!class_exists(OAuthSignatureMethod::class)) {
     abstract class OAuthSignatureMethod
     {
         /**
@@ -185,42 +185,42 @@ if (!class_exists('OAuthSignatureMethod')) {
  * character (ASCII code 38) even if empty.
  *   - Chapter 9.2 ("HMAC-SHA1")
  */
-//if (!class_exists('OAuthSignatureMethod_HMAC_SHA1')) {
-class OAuthSignatureMethod_HMAC_SHA1 extends OAuthSignatureMethod
-{
-    public function get_name(): string
+if (!class_exists(OAuthSignatureMethod_HMAC_SHA1::class)) {
+    class OAuthSignatureMethod_HMAC_SHA1 extends OAuthSignatureMethod
     {
-        return "HMAC-SHA1";
-    }
+        public function get_name(): string
+        {
+            return "HMAC-SHA1";
+        }
 
 
-    /**
-     * @param OAuthToken $token|null
-     */
-    public function build_signature(OAuthRequest $request, OAuthConsumer $consumer, ?OAuthToken $token): string
-    {
-        $base_string = $request->get_signature_base_string();
-        $request->base_string = $base_string;
+        /**
+         * @param OAuthToken $token|null
+         */
+        public function build_signature(OAuthRequest $request, OAuthConsumer $consumer, ?OAuthToken $token): string
+        {
+            $base_string = $request->get_signature_base_string();
+            $request->base_string = $base_string;
 
-        $key_parts = [
-        $consumer->secret,
-        ($token) ? $token->secret : ""
-        ];
+            $key_parts = [
+            $consumer->secret,
+            ($token) ? $token->secret : ""
+            ];
 
-        /** @var array $key_parts */
-        $key_parts = OAuthUtil::urlencode_rfc3986($key_parts);
-        $key = implode('&', $key_parts);
+            /** @var array $key_parts */
+            $key_parts = OAuthUtil::urlencode_rfc3986($key_parts);
+            $key = implode('&', $key_parts);
 
-        return base64_encode(hash_hmac('sha1', $base_string, $key, true));
+            return base64_encode(hash_hmac('sha1', $base_string, $key, true));
+        }
     }
 }
-//}
 /**
  * The PLAINTEXT method does not provide any security protection and SHOULD only be used
  * over a secure channel such as HTTPS. It does not use the Signature Base String.
  *   - Chapter 9.4 ("PLAINTEXT")
  */
-if (!class_exists('OAuthSignatureMethod_PLAINTEXT')) {
+if (!class_exists(OAuthSignatureMethod_PLAINTEXT::class)) {
     class OAuthSignatureMethod_PLAINTEXT extends OAuthSignatureMethod
     {
         public function get_name(): string
@@ -264,7 +264,7 @@ if (!class_exists('OAuthSignatureMethod_PLAINTEXT')) {
  * specification.
  *   - Chapter 9.3 ("RSA-SHA1")
  */
-if (!class_exists('OAuthSignatureMethod_RSA_SHA1')) {
+if (!class_exists(OAuthSignatureMethod_RSA_SHA1::class)) {
     abstract class OAuthSignatureMethod_RSA_SHA1 extends OAuthSignatureMethod
     {
         public function get_name(): string
@@ -343,7 +343,7 @@ if (!class_exists('OAuthSignatureMethod_RSA_SHA1')) {
         }
     }
 }
-if (!class_exists('OAuthRequest')) {
+if (!class_exists(OAuthRequest::class)) {
     class OAuthRequest
     {
         /** @var array */
@@ -700,7 +700,7 @@ if (!class_exists('OAuthRequest')) {
         }
     }
 }
-if (!class_exists('OAuthServer')) {
+if (!class_exists(OAuthServer::class)) {
     class OAuthServer
     {
         /** @var int */
@@ -976,7 +976,7 @@ if (!class_exists('OAuthServer')) {
         }
     }
 }
-if (!class_exists('OAuthDataStore')) {
+if (!class_exists(OAuthDataStore::class)) {
     abstract class OAuthDataStore
     {
         abstract public function lookup_consumer(string $consumer_key);
@@ -1001,7 +1001,7 @@ if (!class_exists('OAuthDataStore')) {
         abstract public function new_access_token(OAuthToken $token, OAuthConsumer $consumer, ?string $verifier = null);
     }
 }
-if (!class_exists('OAuthUtil')) {
+if (!class_exists(OAuthUtil::class)) {
     class OAuthUtil
     {
         /**
