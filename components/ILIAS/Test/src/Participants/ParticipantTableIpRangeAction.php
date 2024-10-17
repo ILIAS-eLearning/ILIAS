@@ -123,7 +123,13 @@ class ParticipantTableIpRangeAction implements TableAction
             $url_builder,
             $selected_participants
         )->withReqest($request)->getData();
-        $this->participant_repository->updateIpRange($selected_participants, $data['ip_range']);
+        $this->participant_repository->updateIpRange(
+            array_map(
+                static fn(Participant $v) => $v->withClientIpFrom($data['from'])
+                    ->withClientIpTo($data['to']),
+                $selected_participants
+            )
+        );
 
         $this->tpl->setOnScreenMessage(
             \ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS,

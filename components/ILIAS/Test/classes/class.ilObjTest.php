@@ -2142,64 +2142,6 @@ class ilObjTest extends ilObject
     }
 
     /**
-    * Returns the first and last visit of a participant
-    *
-    * @param integer $active_id The active ID of the participant
-    * @return array The first and last visit of a participant
-    * @access public
-    */
-    public function getVisitTimeOfParticipant($active_id): array
-    {
-        return ilObjTest::_getVisitTimeOfParticipant($this->getTestId(), $active_id);
-    }
-
-    /**
-    * Returns the first and last visit of a participant
-    *
-    * @param integer $test_id The database ID of the test
-    * @param integer $active_id The active ID of the participant
-    * @return array The first and last visit of a participant
-    * @access public
-    */
-    public function _getVisitTimeOfParticipant($test_id, $active_id): array
-    {
-        $result = $this->db->queryF(
-            "SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi AND tst_active.active_id = %s ORDER BY tst_times.started",
-            ['integer','integer'],
-            [$test_id, $active_id]
-        );
-        $firstvisit = 0;
-        $lastvisit = 0;
-        while ($row = $this->db->fetchAssoc($result)) {
-            preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row["started"], $matches);
-            $epoch_1 = mktime(
-                (int) $matches[4],
-                (int) $matches[5],
-                (int) $matches[6],
-                (int) $matches[2],
-                (int) $matches[3],
-                (int) $matches[1]
-            );
-            if ($firstvisit == 0 || $epoch_1 < $firstvisit) {
-                $firstvisit = $epoch_1;
-            }
-            preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row["finished"], $matches);
-            $epoch_2 = mktime(
-                (int) $matches[4],
-                (int) $matches[5],
-                (int) $matches[6],
-                (int) $matches[2],
-                (int) $matches[3],
-                (int) $matches[1]
-            );
-            if ($epoch_2 > $lastvisit) {
-                $lastvisit = $epoch_2;
-            }
-        }
-        return ["firstvisit" => $firstvisit, "lastvisit" => $lastvisit];
-    }
-
-    /**
     * Returns the statistical evaluation of the test for a specified user
     */
     public function evalStatistical($active_id): array
@@ -5296,7 +5238,7 @@ class ilObjTest extends ilObject
 
         $testPassesSelector = new ilTestPassesSelector($this->db, $this);
         $testPassesSelector->setActiveId($active_id);
-        $testPassesSelector->setLastFinishedPass($test_session->getLastFinishedPass());
+        $testPassesSelector->setLastFinishedPass($test_session->getLastFinishedAttempt());
 
         if ($this->hasNrOfTriesRestriction() && ($active_id > 0)) {
             $closedPasses = $testPassesSelector->getClosedPasses();
@@ -7214,35 +7156,6 @@ class ilObjTest extends ilObject
     {
         $participant = $this->participant_repository->getParticipantByActiveId($this->getTestId(), (int) $active_id);
         return $participant?->getExtraTime() ?? 0;
-    }
-
-    /**
-     * @param array<Participant> $participants
-     * @param int                $minutes
-     *
-     * @return void
-     */
-    public function addExtraTime(array $participants, int $minutes): void
-    {
-        foreach ($participants as $participant) {
-            $this->participant_repository->updateExtraTime($participant, $minutes);
-        }
-
-        if ($this->logger->isLoggingEnabled()) {
-            $this->logger->logTestAdministrationInteraction(
-                $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
-                    $this->getRefId(),
-                    $this->user->getId(),
-                    TestAdministrationInteractionTypes::EXTRA_TIME_ADDED,
-                    [
-                        AdditionalInformationGenerator::KEY_USERS => array_map(
-                            fn(Participant $participant) => $participant->getUsrId(),
-                            $participants
-                        )
-                    ]
-                )
-            );
-        }
     }
 
     public function getMaxPassOfTest(): int

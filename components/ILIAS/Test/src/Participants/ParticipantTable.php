@@ -42,6 +42,7 @@ class ParticipantTable implements DataRetrieval
         private readonly UIFactory $ui_factory,
         private readonly \ilUIService $ui_service,
         private readonly Language $lng,
+        private readonly \ilTestAccess $test_access,
         private readonly DataFactory $data_factory,
         private readonly RequestDataCollector $test_request,
         private readonly \ilTestParticipantAccessFilterFactory $participant_access_filter,
@@ -91,27 +92,29 @@ class ParticipantTable implements DataRetrieval
         foreach ($this->getViewControlledRecords($filter_data, $range, $order) as $record) {
             $date_format = $this->data_factory->dateFormat()->withTime24($this->data_factory->dateFormat()->germanShort());
 
-            $last_access = $record->getTestEndDate();
-            $started_at = $record->getTestStartDate();
+            $first_access = $record->getFirstAccess();
+            $last_access = $record->getLastAccess();
             $total_duration = $record->getTotalDuration($processing_time);
 
             $row = [
                 'name' => sprintf('%s, %s', $record->getLastname(), $record->getFirstname()),
                 'login' => $record->getLogin(),
-                'started_at' => $started_at ? $date_format->applyTo($started_at) : "",
+                'matriculation' => $record->getMatriculation(),
+                'started_at' => $first_access !== null ? $date_format->applyTo($first_access) : '',
                 'status_of_attempt' => $this->lng->txt($record->getStatusOfAttempt()),
-                'last_access' => $last_access ? $date_format->applyTo($last_access) : "",
-                'ip_range' => $record->getClientIpTo() !== "" || $record->getClientIpFrom() !== ""
-                    ? sprintf("%s - %s", $record->getClientIpFrom(), $record->getClientIpTo())
-                    : "",
-                'total_attempts' => $record->getTries(),
-                'extra_time' => $record->getExtraTime() > 0 ? sprintf('%d min', $record->getExtraTime()) : "",
-                'total_duration' => $total_duration > 0 ? sprintf('%d min', $total_duration / 60) : "",
+                'id_of_attempt' => $record?->getAttemptOverviewInformation()->getExamId(),
+                'last_access' => $last_access !== null ? $date_format->applyTo($last_access) : '',
+                'ip_range' => $record->getClientIpTo() !== '' || $record->getClientIpFrom() !== ''
+                    ? sprintf('%s - %s', $record->getClientIpFrom(), $record->getClientIpTo())
+                    : '',
+                'total_attempts' => $record->getAttempts(),
+                'extra_time' => $record->getExtraTime() > 0 ? sprintf('%d min', $record->getExtraTime()) : '',
+                'total_duration' => $total_duration > 0 ? sprintf('%d min', $total_duration / 60) : '',
                 'remaining_duration' => sprintf('%d min', $record->getRemainingDuration($processing_time) / 60),
             ];
 
             yield $this->table_actions->onDataRow(
-                $row_builder->buildDataRow((string) $record->getUsrId(), $row),
+                $row_builder->buildDataRow((string) $record->getUserId(), $row),
                 $record
             );
         }
@@ -133,9 +136,9 @@ class ParticipantTable implements DataRetrieval
     private function getPostLoadFilters(): array
     {
         return [
-            'solution' => fn(string $value, $record) =>
-                $value === 'true' ? $record->hasSolutions() : !$record->hasSolutions(),
-            'status_of_attempt' => fn(string $value, $record) => $record->getStatusOfAttempt() === $value,
+            'solution' => fn(string $value, Participant $record) =>
+                $value === 'true' ? $record->hasAnsweredQuestionsForScoredAttempt() : !$record->hasAnsweredQuestionsForScoredAttempt(),
+            'status_of_attempt' => fn(string $value, Participant $record) => $record->getStatusOfAttempt() === $value,
         ];
     }
 
@@ -256,16 +259,46 @@ class ParticipantTable implements DataRetrieval
         $columns = [
             'name' => $column_factory->text($this->lng->txt('name'))->withIsSortable(true),
             'login' => $column_factory->text($this->lng->txt('login'))->withIsSortable(true),
+            'matriculation' => $column_factory->text($this->lng->txt('matriculation'))->withIsSortable(false)->withIsOptional(true),
             'ip_range' => $column_factory->text($this->lng->txt('client_ip_range'))->withIsOptional(true)->withIsSortable(true),
             'started_at' => $column_factory->text($this->lng->txt('tst_started'))->withIsSortable(true),
             'total_attempts' => $column_factory->number($this->lng->txt('total_attempts'))->withIsOptional(true)->withIsSortable(true),
-            'status_of_attempt' => $column_factory->text($this->lng->txt('status_of_attempt'))->withIsSortable(true),
         ];
 
         if ($this->test_object->getEnableProcessingTime()) {
             $columns['extra_time'] = $column_factory->text($this->lng->txt('extratime'))->withIsOptional(true);
             $columns['total_duration'] = $column_factory->text($this->lng->txt('total_duration'))->withIsOptional(true);
             $columns['remaining_duration'] = $column_factory->text($this->lng->txt('remaining_duration'))->withIsOptional(true);
+        }
+
+        $columns['status_of_attempt'] = $column_factory->text($this->lng->txt('status_of_attempt'))->withIsSortable(true);
+        $columns['id_of_attempt'] = $column_factory->text($this->lng->txt('test_id'))->withIsOptional(true);
+
+        if ($this->test_access->checkParticipantsResultsAccess()) {
+            $columns['reached_points'] = $column_factory->number($this->lng->txt('tst_reached_points'))
+                ->withIsSortable(true);
+            $columns['nr_of_answered_questions'] = $column_factory->number($this->lng->txt('tst_answered_questions'))
+                ->withIsOptional(true)
+                ->withIsSortable(true);
+            $columns['percent_solved'] = $column_factory->text($this->lng->txt('tst_percent_solved'))
+                ->withIsOptional(true)
+                ->withIsSortable(true);
+            $columns['test_passed'] = $column_factory->boolean(
+                $this->lng->txt('tst_percent_solved'),
+                $this->ui_factory->symbol()->icon()->custom(
+                    'assets/images/standard/icon_checked.svg',
+                    $this->lng->txt('yes'),
+                    'small'
+                ),
+                $this->ui_factory->symbol()->icon()->custom(
+                    'assets/images/standard/icon_unchecked.svg',
+                    $this->lng->txt('no'),
+                    'small'
+                )
+            )->withIsSortable(true);
+            $columns['mark'] = $column_factory->text($this->lng->txt('txt_mark'))
+                ->withIsOptional(true)
+                ->withIsSortable(true);
         }
 
         $columns['last_access'] = $column_factory->text($this->lng->txt('last_access'));
@@ -290,13 +323,13 @@ class ParticipantTable implements DataRetrieval
 
         $access_filter = $this->participant_access_filter->getManageParticipantsUserFilter($this->test_object->getRefId());
         $filtered_user_ids = $access_filter(array_map(
-            fn(Participant $participant) => $participant->getUsrId(),
+            fn(Participant $participant) => $participant->getUserId(),
             $records
         ));
 
         $this->records = array_filter(
             $records,
-            fn(Participant $participant) => in_array($participant->getUsrId(), $filtered_user_ids),
+            fn(Participant $participant) => in_array($participant->getUserId(), $filtered_user_ids),
         );
 
         return $this->records;

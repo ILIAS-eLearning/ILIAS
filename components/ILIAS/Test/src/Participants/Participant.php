@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Participants;
 
-class Participant extends \ilTestParticipant
+class Participant
 {
     public const ATTEMPT_NOT_STARTED = 'not_started';
     public const ATTEMPT_RUNNING = 'running';
@@ -30,53 +30,37 @@ class Participant extends \ilTestParticipant
     private const ATTEMPT_FINISHED_BY_DURATION = 'finished_by_duration';
     private const ATTEMPT_FINISHED_BY_CRONJOB = 'finished_by_cronjob';
 
-    protected ?int $test_id = null;
-    protected int $extra_time = 0;
-    protected int $tries = 0;
-    protected ?string $client_ip_from = null;
-    protected ?string $client_ip_to = null;
-    protected ?int $invitation_date = null;
-    protected ?bool $submitted = null;
-    protected ?int $submitted_timestamp = null;
-    protected ?int $last_started_pass = null;
-    protected ?int $last_finished_pass = null;
-    protected null|\DateTimeInterface|\Closure $test_start_date = null;
-    protected null|\DateTimeInterface|\Closure $test_end_date = null;
-    protected bool|\Closure $has_solutions;
-
-    public function getExtraTime(): int
-    {
-        return $this->extra_time;
+    public function __construct(
+        private readonly int $user_id,
+        private readonly ?int $active_id = null,
+        private readonly ?int $test_id = null,
+        private readonly ?int $anonymous_id = null,
+        private readonly string $firstname = '',
+        private readonly string $lastname = '',
+        private readonly string $login = '',
+        private readonly string $matriculation = '',
+        private int $extra_time = 0,
+        private readonly int $attempts = 0,
+        private ?string $client_ip_from = null,
+        private ?string $client_ip_to = null,
+        private readonly ?int $invitation_date = null,
+        private readonly ?bool $submitted = null,
+        private readonly ?int $last_started_attempt = null,
+        private readonly ?int $last_finished_attempt = null,
+        private readonly bool $unfinished_attempts = false,
+        private readonly ?\DateTimeImmutable $first_access = null,
+        private readonly ?\DateTimeImmutable $last_access = null
+    ) {
     }
 
-    public function setExtraTime(int $extra_time): void
+    public function getUserId(): int
     {
-        $this->extra_time = $extra_time;
+        return $this->user_id;
     }
 
-    public function addExtraTime(int $extra_time): void
+    public function getActiveId(): ?int
     {
-        $this->extra_time += $extra_time;
-    }
-
-    public function getClientIpFrom(): ?string
-    {
-        return $this->client_ip_from;
-    }
-
-    public function setClientIpFrom(?string $client_ip_from): void
-    {
-        $this->client_ip_from = $client_ip_from;
-    }
-
-    public function getClientIpTo(): ?string
-    {
-        return $this->client_ip_to;
-    }
-
-    public function setClientIpTo(?string $client_ip_to): void
-    {
-        $this->client_ip_to = $client_ip_to;
+        return $this->active_id;
     }
 
     public function getTestId(): ?int
@@ -84,29 +68,80 @@ class Participant extends \ilTestParticipant
         return $this->test_id;
     }
 
-    public function setTestId(?int $test_id): void
+    public function getAnonymousId(): ?int
     {
-        $this->test_id = $test_id;
+        return $this->anonymous_id;
     }
 
-    public function getTries(): int
+    public function getFirstname(): string
     {
-        return $this->tries;
+        return $this->firstname;
     }
 
-    public function setTries(int $tries): void
+    public function getLastname(): string
     {
-        $this->tries = $tries;
+        return $this->lastname;
     }
 
-    public function setInvitationDate(?int $invitation_date): void
+    public function getLogin(): string
     {
-        $this->invitation_date = $invitation_date;
+        return $this->login;
+    }
+
+    public function getMatriculation(): string
+    {
+        return $this->matriculation;
+    }
+
+    public function getExtraTime(): int
+    {
+        return $this->extra_time;
+    }
+
+    public function withAddedExtraTime(int $extra_time): self
+    {
+        $clone = clone $this;
+        $clone->extra_time += $extra_time;
+        return $clone;
+    }
+
+    public function getAttempts(): int
+    {
+        return $this->attempts;
+    }
+
+    public function getClientIpFrom(): ?string
+    {
+        return $this->client_ip_from;
+    }
+
+    public function withClientIpFrom(string $ip): self
+    {
+        $clone = clone $this;
+        $clone->client_ip_from = $ip;
+        return $clone;
+    }
+
+    public function getClientIpTo(): ?string
+    {
+        return $this->client_ip_to;
+    }
+
+    public function withClientIpTo(string $ip): self
+    {
+        $clone = clone $this;
+        $clone->client_ip_to = $ip;
+        return $clone;
     }
 
     public function isInvitedParticipant(): bool
     {
         return $this->invitation_date > 0;
+    }
+
+    public function getSubmitted(): ?bool
+    {
+        return $this->submitted;
     }
 
     public function getTotalDuration(?int $processing_time): int
@@ -118,44 +153,19 @@ class Participant extends \ilTestParticipant
         return $processing_time + $this->extra_time * 60;
     }
 
-    public function getSubmitted(): ?bool
+    public function getLastStartedAttempt(): ?int
     {
-        return $this->submitted;
+        return $this->last_started_attempt;
     }
 
-    public function setSubmitted(?bool $submitted): void
+    public function getLastFinishedAttempt(): ?int
     {
-        $this->submitted = $submitted;
+        return $this->last_finished_attempt;
     }
 
-    public function getSubmittedTimestamp(): ?int
+    public function hasUnfinishedAttempts(): ?bool
     {
-        return $this->submitted_timestamp;
-    }
-
-    public function setSubmittedTimestamp(?int $submitted_timestamp): void
-    {
-        $this->submitted_timestamp = $submitted_timestamp;
-    }
-
-    public function getLastStartedPass(): ?int
-    {
-        return $this->last_started_pass;
-    }
-
-    public function setLastStartedPass(?int $last_started_pass): void
-    {
-        $this->last_started_pass = $last_started_pass;
-    }
-
-    public function getLastFinishedPass(): ?int
-    {
-        return $this->last_finished_pass;
-    }
-
-    public function setLastFinishedPass(?int $last_finished_pass): void
-    {
-        $this->last_finished_pass = $last_finished_pass;
+        return $this->unfinished_attempts;
     }
 
     public function getTestStartDate(): ?\DateTimeInterface
@@ -163,19 +173,9 @@ class Participant extends \ilTestParticipant
         return $this->lazy($this->test_start_date);
     }
 
-    public function setTestStartDate(\DateTimeInterface|\Closure|null $test_start_date): void
-    {
-        $this->test_start_date = $test_start_date;
-    }
-
     public function getTestEndDate(): ?\DateTimeInterface
     {
         return $this->lazy($this->test_end_date);
-    }
-
-    public function setTestEndDate(\DateTimeInterface|\Closure|null $test_end_date): void
-    {
-        $this->test_end_date = $test_end_date;
     }
 
     public function hasSolutions(): bool
@@ -183,17 +183,12 @@ class Participant extends \ilTestParticipant
         return $this->lazy($this->has_solutions);
     }
 
-    public function setHasSolutions(bool|\Closure $has_solutions): void
-    {
-        $this->has_solutions = $has_solutions;
-    }
-
     public function getRemainingDuration(int $processing_time): int
     {
         $remaining = $this->getTotalDuration($processing_time);
         $remaining += $this->getTestStartDate()?->getTimestamp() ?? 0;
 
-        if ($this->isTestFinished()) {
+        if ($this->submitted) {
             $remaining -= $this->getTestEndDate()?->getTimestamp() ?? time();
         } else {
             $remaining -= time();
@@ -208,7 +203,7 @@ class Participant extends \ilTestParticipant
             return self::ATTEMPT_NOT_STARTED;
         }
 
-        if (!$this->isTestFinished()) {
+        if (!$this->submitted) {
             return self::ATTEMPT_RUNNING;
         }
 

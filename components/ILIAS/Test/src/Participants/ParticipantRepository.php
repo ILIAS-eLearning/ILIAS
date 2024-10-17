@@ -32,22 +32,6 @@ class ParticipantRepository
     ) {
     }
 
-    public function lookupTestIdByActiveId(int $active_id): int
-    {
-        $result = $this->database->queryF(
-            "SELECT test_fi FROM tst_active WHERE active_id = %s",
-            ['integer'],
-            [$active_id]
-        );
-        $test_id = -1;
-        if ($this->database->numRows($result) > 0) {
-            $row = $this->database->fetchAssoc($result);
-            $test_id = (int) $row["test_fi"];
-        }
-
-        return $test_id;
-    }
-
     /**
      * @param int $test_id
      * @param array<string, mixed> $filter
@@ -129,10 +113,8 @@ class ParticipantRepository
         );
     }
 
-    public function updateExtraTime(Participant $participant, int $minutes): void
+    public function updateExtraTime(Participant $participant): void
     {
-        $participant->addExtraTime($minutes);
-
         $this->database->manipulatef(
             "INSERT INTO tst_addtime (user_fi, test_fi, additionaltime, tstamp) VALUES (%s, %s, %s, %s)
                         ON DUPLICATE KEY UPDATE tstamp = %s, additionaltime = %s",
@@ -143,36 +125,19 @@ class ParticipantRepository
 
     /**
      * @param array<Participant> $participants
-     * @param array{from: string, to: string} $ip_range
      */
-    public function updateIpRange(array $participants, array $ip_range): void
+    public function updateIpRange(array $participants): void
     {
         foreach ($participants as $participant) {
-            $participant->setClientIpFrom($ip_range['from']);
-            $participant->setClientIpTo($ip_range['to']);
-
-            $this->database->manipulatef(
-                "INSERT INTO tst_invited_user (test_fi, user_fi, ip_range_from, ip_range_to, tstamp) VALUES (%s, %s, %s, %s, %s)
-                        ON DUPLICATE KEY UPDATE ip_range_from = %s, ip_range_to = %s, tstamp = %s",
+            $this->database->replace(
                 [
-                    'integer',
-                    'integer',
-                    'text',
-                    'text',
-                    'timestamp',
-                    'text',
-                    'text',
-                    'timestamp',
+                    'test_fi' => [\ilDBConstants::T_INTEGER, $participant->getTestId()],
+                    'user_fi' => [\ilDBConstants::T_INTEGER, $participant->getUserId]
                 ],
                 [
-                    $participant->getTestId(),
-                    $participant->getUsrId(),
-                    $participant->getClientIpFrom(),
-                    $participant->getClientIpTo(),
-                    time(),
-                    $participant->getClientIpFrom(),
-                    $participant->getClientIpTo(),
-                    time()
+                    'ip_range_to' => $participant->getClientIpFrom(),
+                    'ip_range_to' => $participant->getClientIpTo(),
+                    'tstamp' => time()
                 ]
             );
         }
@@ -326,31 +291,27 @@ class ParticipantRepository
 
     private function arrayToObject(array $row): Participant
     {
-        $participant = new Participant();
-        $participant->setActiveId((int) $row['active_id']);
-        $participant->setUsrId((int) $row['user_fi']);
-        $participant->setTestId((int) $row['test_fi']);
-        $participant->setAnonymousId((int) $row['anonymous_id']);
-        $participant->setFirstname($row['firstname']);
-        $participant->setLastname($row['lastname']);
-        $participant->setLogin($row['login']);
-        $participant->setMatriculation($row['matriculation']);
-        $participant->setExtraTime((int) $row['extra_time']);
-        $participant->setTries((int) $row['tries']);
-        $participant->setClientIpFrom($row['ip_range_from']);
-        $participant->setClientIpTo($row['ip_range_to']);
-        $participant->setInvitationDate((int) $row['invitation_date']);
-        $participant->setSubmitted((bool) $row['submitted']);
-        $participant->setSubmittedTimestamp((int) $row['submittimestamp']);
-        $participant->setLastFinishedPass($row['last_finished_pass']);
-        $participant->setLastStartedPass($row['last_started_pass']);
-        $participant->setUnfinishedPasses((bool) $row['unfinished_passes']);
-        $participant->setTestFinished((bool) $row['submitted']);
-        $participant->setTestStartDate(fn() => $this->loadTestStartTime($row['active_id'], (int) $row['last_started_pass']));
-        $participant->setTestEndDate(fn() => $this->loadTestEndTime($row['active_id'], (int) $row['last_started_pass']));
-        $participant->setHasSolutions(fn() => $this->loadHasSolutions($row['active_id']));
-
-        return $participant;
+        return new Participant(
+            $row['user_fi'],
+            $row['active_id'],
+            $row['test_fi'],
+            $row['anonymous_id'],
+            $row['firstname'] ?? '',
+            $row['lastname'] ?? '',
+            $row['login'] ?? '',
+            $row['matriculation'] ?? '',
+            $row['extra_time'] ?? 0,
+            $row['tries'],
+            $row['ip_range_from'],
+            $row['ip_range_to'],
+            $row['invitation_date'],
+            $row['submitted'] === 1,
+            $row['last_started_pass'],
+            $row['last_finished_pass'],
+            $row['unfinished_attempts'] === 1,
+            $row['first_access'] === null ? null : new \DateTimeImmutable($row['first_access']),
+            $row['last_access'] === null ? null : new \DateTimeImmutable($row['last_access'])
+        );
     }
 
 
@@ -366,24 +327,25 @@ class ParticipantRepository
 						ta.anonymous_id,
 						ta.tries,
 						ta.submitted,
-						ta.submittimestamp,
 						ta.last_finished_pass,
 						ta.last_started_pass,
-						COALESCE(ta.last_started_pass, -1) <> COALESCE(ta.last_finished_pass, -1) as unfinished_passes,
+						COALESCE(ta.last_started_pass, -1) <> COALESCE(ta.last_finished_pass, -1) as unfinished_attempts,
 						ud.firstname,
 						ud.lastname,
 						ud.login,
 						ud.matriculation,
-						ttime.additionaltime extra_time,
+                        (SELECT MIN(started) FROM tst_times WHERE active_fi = ta.active_id) as first_access,
+						(SELECT MAX(finished) FROM tst_times WHERE active_fi = ta.active_id) as last_access,
+						tatime.additionaltime extra_time,
 			            tinvited.ip_range_from,
 			            tinvited.ip_range_to,
                         tinvited.tstamp as invitation_date
 			FROM		tst_active ta
 			LEFT JOIN	usr_data ud
 			ON 			ud.usr_id = ta.user_fi
-			LEFT JOIN   tst_addtime ttime
-			ON			ttime.user_fi = ta.user_fi
-            AND         ttime.test_fi = ta.test_fi
+			LEFT JOIN   tst_addtime tatime
+			ON			tatime.user_fi = ta.user_fi
+            AND         tatime.test_fi = ta.test_fi
             LEFT JOIN   tst_invited_user tinvited
 			ON          tinvited.test_fi = ta.test_fi
             AND         tinvited.user_fi = ta.user_fi
@@ -403,24 +365,25 @@ class ParticipantRepository
 						ta.anonymous_id,
 						ta.tries,
 						ta.submitted,
-						ta.submittimestamp,
 						ta.last_finished_pass,
 						ta.last_started_pass,
-						COALESCE(ta.last_started_pass, -1) <> COALESCE(ta.last_finished_pass, -1) as unfinished_passes,
+						COALESCE(ta.last_started_pass, -1) <> COALESCE(ta.last_finished_pass, -1) as unfinished_attempts,
 						ud.firstname,
 						ud.lastname,
 						ud.login,
 						ud.matriculation,
-						ttime.additionaltime extra_time,
+                        NULL as first_access,
+                        NULL as last_access,
+						tatime.additionaltime extra_time,
 			            tinvited.ip_range_from,
 			            tinvited.ip_range_to,
                         tinvited.tstamp as invitation_date
 			FROM		tst_invited_user tinvited
 			LEFT JOIN	usr_data ud
 			ON 			ud.usr_id = tinvited.user_fi
-			LEFT JOIN   tst_addtime ttime
-			ON			ttime.user_fi = tinvited.user_fi
-            AND         ttime.test_fi = tinvited.test_fi
+			LEFT JOIN   tst_addtime tatime
+			ON			tatime.user_fi = tinvited.user_fi
+            AND         tatime.test_fi = tinvited.test_fi
             LEFT JOIN   tst_active ta
 			ON          tinvited.test_fi = ta.test_fi
             AND         tinvited.user_fi = ta.user_fi

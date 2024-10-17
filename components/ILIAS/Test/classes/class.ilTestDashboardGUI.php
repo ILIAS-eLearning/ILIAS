@@ -22,6 +22,8 @@ use ILIAS\Test\ExportImport\Factory as ExportImportFactory;
 use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\ResponseHandler;
+use ILIAS\Test\Results\Data\Factory as ResultsDataFactory;
+use ILIAS\Test\Results\Presentation\Factory as ResultsPresentationFactory;
 use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
@@ -63,6 +65,8 @@ class ilTestDashboardGUI
         protected readonly RequestDataCollector $testrequest,
         protected readonly ResponseHandler $response_handler,
         protected readonly ParticipantRepository $participant_repository,
+        protected readonly ResultsDataFactory $results_data_factory,
+        protected readonly ResultsPresentationFactory $results_presentation_factory,
         protected ilTestQuestionSetConfig $question_set_config,
         protected ilTestObjectiveOrientedContainer $objective_parent
     ) {
@@ -103,7 +107,9 @@ class ilTestDashboardGUI
                     $this->export_factory,
                     $this->testrequest,
                     $this->response_handler,
-                    $this->participant_repository
+                    $this->participant_repository,
+                    $this->results_data_factory,
+                    $this->results_presentation_factory
                 );
                 $this->ctrl->forwardCommand($gui);
                 break;
