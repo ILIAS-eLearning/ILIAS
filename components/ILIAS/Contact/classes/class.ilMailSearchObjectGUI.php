@@ -23,6 +23,7 @@ use ILIAS\Refinery\Factory as Refinery;
 
 abstract class ilMailSearchObjectGUI
 {
+    private ilTabsGUI $tabs;
     protected GlobalHttpState $http;
     protected Refinery $refinery;
     protected ?string $view = null;
@@ -61,6 +62,7 @@ abstract class ilMailSearchObjectGUI
         $this->refinery = $DIC->refinery();
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
+        $this->tabs = $DIC->tabs();
 
         $this->ctrl->saveParameter($this, 'mobj_id');
         $this->ctrl->saveParameter($this, 'ref');
@@ -136,137 +138,54 @@ abstract class ilMailSearchObjectGUI
         $this->ctrl->redirectByClass(ilWorkspaceAccessGUI::class, 'share');
     }
 
-    protected function share(): void
+    private function shareObjects(): void
     {
-        $view = '';
-        if ($this->http->wrapper()->query()->has('view')) {
-            $view = $this->http->wrapper()->query()->retrieve('view', $this->refinery->kindlyTo()->string());
-        }
+        $obj_ids = $this->http->wrapper()->query()->retrieve(
+            'contact_mailinglist_search_obj_ids',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->int()),
+                $this->refinery->always([])
+            ])
+        );
 
-        if ($view === 'myobjects') {
-            $obj_ids = [];
-            if ($this->http->wrapper()->query()->has('search_' . $this->getObjectType())) {
-                $obj_ids = [
-                    $this->http->wrapper()->query()->retrieve(
-                        'search_' . $this->getObjectType(),
-                        $this->refinery->kindlyTo()->int()
-                    )
-                ];
-            } elseif ($this->http->wrapper()->post()->has('search_' . $this->getObjectType())) {
-                $obj_ids = $this->http->wrapper()->post()->retrieve(
-                    'search_' . $this->getObjectType(),
-                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
-                );
-            }
-
-            if ($obj_ids !== []) {
-                $this->addPermission($obj_ids);
-            } else {
-                $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_' . $this->getObjectType()));
-                $this->showMyObjects();
-            }
-        } elseif ($view === $this->getObjectType() . '_members') {
-            $usr_ids = [];
-            if ($this->http->wrapper()->query()->has('search_members')) {
-                $usr_ids = [
-                    $this->http->wrapper()->query()->retrieve(
-                        'search_members',
-                        $this->refinery->kindlyTo()->int()
-                    )
-                ];
-            } elseif ($this->http->wrapper()->post()->has('search_members')) {
-                $usr_ids = $this->http->wrapper()->post()->retrieve(
-                    'search_members',
-                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
-                );
-            }
-
-            if ($usr_ids !== []) {
-                $this->addPermission($usr_ids);
-            } else {
-                $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_one_entry'));
-                $this->showMembers();
-            }
+        if ($obj_ids !== []) {
+            $this->addPermission($obj_ids);
         } else {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_course'));
             $this->showMyObjects();
         }
     }
 
-    protected function mail(): void
+    private function shareMembers(): void
     {
-        $view = '';
-        if ($this->http->wrapper()->query()->has('view')) {
-            $view = $this->http->wrapper()->query()->retrieve('view', $this->refinery->kindlyTo()->string());
-        }
+        $usr_ids = $this->http->wrapper()->query()->retrieve(
+            'contact_mailinglist_search_members_ids',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                $this->refinery->always([])
+            ])
+        );
 
-        if ($view === 'myobjects') {
-            $obj_ids = [];
-            if ($this->http->wrapper()->query()->has('search_' . $this->getObjectType())) {
-                $obj_ids = [
-                    $this->http->wrapper()->query()->retrieve(
-                        'search_' . $this->getObjectType(),
-                        $this->refinery->kindlyTo()->int()
-                    )
-                ];
-            } elseif ($this->http->wrapper()->post()->has('search_' . $this->getObjectType())) {
-                $obj_ids = $this->http->wrapper()->post()->retrieve(
-                    'search_' . $this->getObjectType(),
-                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
-                );
-            }
-
-            if ($obj_ids !== []) {
-                $this->mailObjects();
-            } else {
-                $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_' . $this->getObjectType()));
-                $this->showMyObjects();
-            }
-        } elseif ($view === $this->getObjectType() . '_members') {
-            $usr_ids = [];
-            if ($this->http->wrapper()->query()->has('search_members')) {
-                $usr_ids = [
-                    $this->http->wrapper()->query()->retrieve(
-                        'search_members',
-                        $this->refinery->kindlyTo()->int()
-                    )
-                ];
-            } elseif ($this->http->wrapper()->post()->has('search_members')) {
-                $usr_ids = $this->http->wrapper()->post()->retrieve(
-                    'search_members',
-                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
-                );
-            }
-
-            if ($usr_ids !== []) {
-                $this->mailMembers();
-            } else {
-                $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_one_entry'));
-                $this->showMembers();
-            }
+        if ($usr_ids !== []) {
+            $this->addPermission(array_unique($usr_ids));
         } else {
-            $this->showMyObjects();
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_one_entry'));
+            $this->showMembers();
         }
     }
 
-    protected function mailObjects(): void
+    private function mailObjects(): void
     {
         $members = [];
         $mail_data = $this->umail->retrieveFromStage();
 
-        $obj_ids = [];
-        if ($this->http->wrapper()->query()->has('search_' . $this->getObjectType())) {
-            $obj_ids = [
-                $this->http->wrapper()->query()->retrieve(
-                    'search_' . $this->getObjectType(),
-                    $this->refinery->kindlyTo()->int()
-                )
-            ];
-        } elseif ($this->http->wrapper()->post()->has('search_' . $this->getObjectType())) {
-            $obj_ids = $this->http->wrapper()->post()->retrieve(
-                'search_' . $this->getObjectType(),
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
-            );
-        }
+        $obj_ids = $this->http->wrapper()->query()->retrieve(
+            'contact_mailinglist_search_obj_ids',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                $this->refinery->always([])
+            ])
+        );
 
         foreach ($obj_ids as $obj_id) {
             $ref_ids = ilObject::_getAllReferences($obj_id);
@@ -276,6 +195,7 @@ abstract class ilMailSearchObjectGUI
                     $this->user->getId(),
                     ilMailGlobalServices::getMailObjectRefId()
                 );
+
                 if (!$can_send_mails) {
                     continue;
                 }
@@ -292,7 +212,10 @@ abstract class ilMailSearchObjectGUI
             }
         }
 
-        $mail_data = $members !== [] ? $this->umail->appendSearchResult(array_unique($members), 'to') : $this->umail->retrieveFromStage();
+        $mail_data = $members !== [] ? $this->umail->appendSearchResult(
+            array_unique($members),
+            'to'
+        ) : $this->umail->retrieveFromStage();
 
         $this->umail->persistToStage(
             (int) $mail_data['user_id'],
@@ -313,20 +236,14 @@ abstract class ilMailSearchObjectGUI
     public function mailMembers(): void
     {
         $members = [];
-        $usr_ids = [];
-        if ($this->http->wrapper()->query()->has('search_members')) {
-            $usr_ids = [
-                $this->http->wrapper()->query()->retrieve(
-                    'search_members',
-                    $this->refinery->kindlyTo()->int()
-                )
-            ];
-        } elseif ($this->http->wrapper()->post()->has('search_members')) {
-            $usr_ids = $this->http->wrapper()->post()->retrieve(
-                'search_members',
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
-            );
-        }
+
+        $usr_ids = $this->http->wrapper()->query()->retrieve(
+            'contact_mailinglist_search_members_ids',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                $this->refinery->always([])
+            ])
+        );
 
         $mail_data = $this->umail->retrieveFromStage();
         foreach ($usr_ids as $usr_id) {
@@ -335,6 +252,7 @@ abstract class ilMailSearchObjectGUI
                 $members[] = $login;
             }
         }
+
         $mail_data = $this->umail->appendSearchResult(array_unique($members), 'to');
 
         $this->umail->persistToStage(
@@ -369,31 +287,24 @@ abstract class ilMailSearchObjectGUI
 
     public function showMembers(): void
     {
-        $obj_ids = [];
-        if ($this->http->wrapper()->query()->has('search_' . $this->getObjectType())) {
-            $obj_ids = $this->refinery->kindlyTo()->listOf(
-                $this->refinery->kindlyTo()->int()
-            )->transform(explode(',', (string) $this->http->wrapper()->query()->retrieve(
-                'search_' . $this->getObjectType(),
-                $this->refinery->kindlyTo()->string()
-            )));
-        } elseif ($this->http->wrapper()->post()->has('search_' . $this->getObjectType())) {
-            $obj_ids = $this->http->wrapper()->post()->retrieve(
-                'search_' . $this->getObjectType(),
-                $this->refinery->kindlyTo()->listOf(
-                    $this->refinery->kindlyTo()->int()
-                )
-            );
-        } elseif (ilSession::get('search_' . $this->getObjectType())) {
-            $obj_ids = $this->refinery->kindlyTo()->listOf(
-                $this->refinery->kindlyTo()->int()
-            )->transform(explode(',', (string) ilSession::get('search_' . $this->getObjectType())));
-            ilSession::set('search_' . $this->getObjectType(), '');
-        }
+        $this->tabs->clearTargets();
+        $this->tabs->setBackTarget(
+            $this->lng->txt('back'),
+            $this->ctrl->getLinkTarget($this, 'showMyObjects')
+        );
+
+        $obj_ids = $this->http->wrapper()->query()->retrieve(
+            'contact_mailinglist_search_obj_ids',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                $this->refinery->always([])
+            ])
+        );
 
         if ($obj_ids === []) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_' . $this->getObjectType()));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_course'));
             $this->showMyObjects();
+
             return;
         }
 
@@ -406,8 +317,12 @@ abstract class ilMailSearchObjectGUI
             $object->setRefId($ref_id);
 
             if (!$this->doesExposeMembers($object)) {
-                $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_crs_list_members_not_available_for_at_least_one_crs'));
+                $this->tpl->setOnScreenMessage(
+                    'info',
+                    $this->lng->txt('mail_crs_list_members_not_available_for_at_least_one_crs')
+                );
                 $this->showMyObjects();
+
                 return;
             }
         }
@@ -420,65 +335,40 @@ abstract class ilMailSearchObjectGUI
         }
         $this->tpl->setVariable('ACTION', $this->ctrl->getFormAction($this));
         $this->ctrl->clearParameters($this);
-
         $this->lng->loadLanguageModule($this->getObjectType());
 
         $context = $this->getContext();
+        $searchTpl = new ilTemplate(
+            'tpl.mail_search_template.html',
+            true,
+            true,
+            'components/ILIAS/Contact'
+        );
 
-        $table = new ilMailSearchObjectMembershipsTableGUI(
-            $this,
+        $table = new MailSearchObjectMembershipsTable(
+            $obj_ids,
             $this->getObjectType(),
             $context,
-            $obj_ids
+            $this->user->getId(),
+            $this->ctrl,
+            $this->lng,
+            $this->ui_factory,
+            $this->http,
+            $this->cache
         );
-        $tableData = [];
 
-        $searchTpl = new ilTemplate('tpl.mail_search_template.html', true, true, 'components/ILIAS/Contact');
-        foreach ($obj_ids as $obj_id) {
-            $members_obj = ilParticipants::getInstanceByObjId($obj_id);
-            $usr_ids = array_map('intval', ilUtil::_sortIds($members_obj->getParticipants(), 'usr_data', 'lastname', 'usr_id'));
-            foreach ($usr_ids as $usr_id) {
-                $user = new ilObjUser($usr_id);
-                if (!$user->getActive()) {
-                    continue;
-                }
-
-                $fullname = '';
-                if (in_array(ilObjUser::_lookupPref($user->getId(), 'public_profile'), ['g', 'y'])) {
-                    $fullname = $user->getLastname() . ', ' . $user->getFirstname();
-                }
-
-                $rowData = [
-                    'members_id' => $user->getId(),
-                    'members_login' => $user->getLogin(),
-                    'members_name' => $fullname,
-                    'members_crs_grp' => $this->cache->lookupTitle((int) $obj_id),
-                    'search_' . $this->getObjectType() => $obj_id
-                ];
-
-                if ('mail' === $context && ilBuddySystem::getInstance()->isEnabled()) {
-                    $relation = ilBuddyList::getInstanceByGlobalUser()->getRelationByUserId($user->getId());
-                    $state_name = ilStr::convertUpperCamelCaseToUnderscoreCase($relation->getState()->getName());
-                    $rowData['status'] = '';
-                    if ($user->getId() !== $this->user->getId()) {
-                        if ($relation->isOwnedByActor()) {
-                            $rowData['status'] = $this->lng->txt('buddy_bs_state_' . $state_name . '_a');
-                        } else {
-                            $rowData['status'] = $this->lng->txt('buddy_bs_state_' . $state_name . '_p');
-                        }
-                    }
-                }
-
-                $tableData[] = $rowData;
-            }
+        if ($context === 'mail') {
+            $mail = new ilMail($this->user->getId());
+            $table->setMailingAllowed(
+                $this->rbacsystem->checkAccess('internal_mail', $mail->getMailObjectReferenceId())
+            );
         }
-        $table->setData($tableData);
 
-        if ($tableData !== []) {
+        if (count($obj_ids) > 0) {
             $searchTpl->setVariable('TXT_MARKED_ENTRIES', $this->lng->txt('marked_entries'));
         }
 
-        $searchTpl->setVariable('TABLE', $table->getHTML());
+        $searchTpl->setVariable('TABLE', $this->ui_renderer->render($table->getComponent()));
         $this->tpl->setContent($searchTpl->get());
 
         if ($this->isDefaultRequestContext()) {
@@ -492,129 +382,47 @@ abstract class ilMailSearchObjectGUI
     {
         $this->tpl->setTitle($this->lng->txt('mail_addressbook'));
 
-        $searchTpl = new ilTemplate('tpl.mail_search_template.html', true, true, 'components/ILIAS/Contact');
+        $searchTpl = new ilTemplate(
+            'tpl.mail_search_template.html',
+            true,
+            true,
+            'components/ILIAS/Contact'
+        );
 
         $this->lng->loadLanguageModule('crs');
 
-        $table = new ilMailSearchObjectsTableGUI(
-            $this,
+        $context = $this->getContext();
+
+        $table = new MailSearchObjectsTable(
+            $this->user,
             $this->getObjectType(),
-            $this->getContext()
+            $context,
+            $this->ctrl,
+            $this->lng,
+            $this->ui_factory,
+            $this->http,
+            $this->tree,
+            $this->rbacsystem
         );
-        $table->setId('search_' . $this->getObjectType() . '_tbl');
 
-        $objs_ids = ilParticipants::_getMembershipByType($this->user->getId(), [$this->getObjectType()]);
-        $counter = 0;
-        $tableData = [];
-        if ($objs_ids !== []) {
-            $num_courses_hidden_members = 0;
-            foreach ($objs_ids as $obj_id) {
-                /** @var ilObjCourse|ilObjGroup $object */
-                $object = ilObjectFactory::getInstanceByObjId($obj_id);
+        if ($context === 'mail') {
+            $mail = new ilMail($this->user->getId());
+            $table->setMailingAllowed(
+                $this->rbacsystem->checkAccess('internal_mail', $mail->getMailObjectReferenceId())
+            );
+        }
 
-                $ref_ids = array_keys(ilObject::_getAllReferences($object->getId()));
-                $ref_id = $ref_ids[0];
-                $object->setRefId($ref_id);
-
-                $has_untrashed_references = ilObject::_hasUntrashedReference($object->getId());
-                $can_send_mails = ilParticipants::canSendMailToMembers(
-                    $object->getRefId(),
-                    $this->user->getId(),
-                    ilMailGlobalServices::getMailObjectRefId()
-                );
-
-                $exposes_members = $this->doesExposeMembers($object);
-                ;
-                if ($has_untrashed_references && ($can_send_mails || $exposes_members)) {
-                    $participants = ilParticipants::getInstanceByObjId($object->getId());
-                    $usr_ids = $participants->getParticipants();
-
-                    foreach ($usr_ids as $key => $usr_id) {
-                        $is_active = ilObjUser::_lookupActive($usr_id);
-                        if (!$is_active) {
-                            unset($usr_ids[$key]);
-                        }
-                    }
-                    $usr_ids = array_values($usr_ids);
-
-                    if (!$exposes_members) {
-                        ++$num_courses_hidden_members;
-                    }
-
-                    $path_arr = $this->tree->getPathFull($object->getRefId(), $this->tree->getRootId());
-                    $path = '';
-                    foreach ($path_arr as $data) {
-                        if ($path !== '') {
-                            $path .= ' -> ';
-                        }
-                        $path .= $data['title'];
-                    }
-
-                    $this->ctrl->setParameter($this, 'search_' . $this->getObjectType(), $object->getId());
-                    $this->ctrl->setParameter($this, 'view', 'myobjects');
-                    $buttons = [];
-
-                    if ($this->isDefaultRequestContext()) {
-                        if ($this->mailing_allowed && $can_send_mails) {
-                            $buttons[] = $this->ui_factory
-                                ->button()
-                                ->shy(
-                                    $this->lng->txt('mail_members'),
-                                    $this->ctrl->getLinkTarget($this, 'mail')
-                                );
-                        }
-                    } else {
-                        $buttons[] = $this->ui_factory
-                            ->button()
-                            ->shy(
-                                $this->lng->txt('wsp_share_with_members'),
-                                $this->ctrl->getLinkTarget($this, 'share')
-                            );
-                    }
-
-                    if ($exposes_members) {
-                        $buttons[] = $this->ui_factory
-                            ->button()
-                            ->shy(
-                                $this->lng->txt('mail_list_members'),
-                                $this->ctrl->getLinkTarget($this, 'showMembers')
-                            );
-                    }
-
-                    $this->ctrl->clearParameters($this);
-
-                    $drop_down = null;
-                    if ($buttons !== []) {
-                        $drop_down = $this->ui_factory
-                            ->dropdown()
-                            ->standard($buttons)
-                            ->withLabel($this->lng->txt('actions'));
-                    }
-
-                    $rowData = [
-                        'OBJECT_ID' => $object->getId(),
-                        'OBJECT_NAME' => $object->getTitle(),
-                        'OBJECT_NO_MEMBERS' => count($usr_ids),
-                        'OBJECT_PATH' => $path,
-                        'COMMAND_SELECTION_LIST' => $drop_down ? $this->ui_renderer->render($drop_down) : '',
-                        'hidden_members' => !$exposes_members,
-                    ];
-                    $counter++;
-                    $tableData[] = $rowData;
-                }
-            }
-
-            if ($num_courses_hidden_members > 0) {
-                $searchTpl->setCurrentBlock('caption_block');
-                $searchTpl->setVariable('TXT_LIST_MEMBERS_NOT_AVAILABLE', $this->lng->txt('mail_crs_list_members_not_available'));
-                $searchTpl->parseCurrentBlock();
-            }
+        if ($table->getNumHiddenMembers() > 0) {
+            $searchTpl->setCurrentBlock('caption_block');
+            $searchTpl->setVariable(
+                'TXT_LIST_MEMBERS_NOT_AVAILABLE',
+                $this->lng->txt('mail_crs_list_members_not_available')
+            );
+            $searchTpl->parseCurrentBlock();
         }
 
         $searchTpl->setVariable('TXT_MARKED_ENTRIES', $this->lng->txt('marked_entries'));
-
-        $table->setData($tableData);
-        $searchTpl->setVariable('TABLE', $table->getHTML());
+        $searchTpl->setVariable('TABLE', $this->ui_renderer->render($table->getComponent()));
         $this->tpl->setContent($searchTpl->get());
 
         if ($this->isDefaultRequestContext()) {
@@ -647,5 +455,42 @@ abstract class ilMailSearchObjectGUI
         }
 
         return true;
+    }
+
+    private function handleMailSearchObjectActions(): void
+    {
+        $query = $this->http->wrapper()->query();
+
+        if (!$query->has('contact_mailinglist_search_action')) {
+            return;
+        }
+
+        $action = $query->retrieve('contact_mailinglist_search_action', $this->refinery->to()->string());
+
+        switch ($action) {
+            case 'mailObjects':
+                $this->mailObjects();
+                break;
+
+            case 'mailMembers':
+                $this->mailMembers();
+                break;
+
+            case 'shareObjects':
+                $this->shareObjects();
+                break;
+
+            case 'shareMembers':
+                $this->shareMembers();
+                break;
+
+            case 'showMembers':
+                $this->showMembers();
+                break;
+
+            default:
+                $this->ctrl->redirect($this, 'showMyObjects');
+                break;
+        }
     }
 }
