@@ -24,7 +24,6 @@ use ILIAS\User\Profile\Prompt\Repository as PromptRepository;
 use ILIAS\User\Profile\ChangeListeners\UserFieldAttributesChangeListener;
 use ILIAS\User\Profile\ChangeListeners\InterestedUserFieldChangeListener;
 use ILIAS\User\Profile\ChangeListeners\ChangedUserFieldAttribute;
-
 use ILIAS\DI\Container as DIContainer;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\FileUpload\FileUpload;
@@ -1746,8 +1745,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
             'dpro_withdrawal_usr_deletion' => (bool) $this->settings->get('dpro_withdrawal_usr_deletion'),
             'tos_withdrawal_usr_deletion' => (bool) $this->settings->get('tos_withdrawal_usr_deletion'),
 
-            'session_reminder_enabled' => $this->settings->get('session_reminder_enabled'),
-
             'login_max_attempts' => $security->getLoginMaxAttempts(),
             'ps_prevent_simultaneous_logins' => (int) $security->isPreventionOfSimultaneousLoginsEnabled(),
             'password_assistance' => (bool) $this->settings->get('password_assistance'),
@@ -1896,14 +1893,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     $this->form->getInput('password_assistance')
                 );
 
-                // BEGIN SESSION SETTINGS
-
-                $this->settings->set(
-                    'session_reminder_enabled',
-                    $this->form->getInput('session_reminder_enabled')
-                );
-
-                // END SESSION SETTINGS
                 $this->settings->set(
                     'letter_avatars',
                     $this->form->getInput('letter_avatars')
@@ -2034,45 +2023,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
             'session_allow_client_maintenance',
             (string) ilSessionControl::DEFAULT_ALLOW_CLIENT_MAINTENANCE
         );
-
-
-        // create session reminder subform
-        $session_reminder = new ilCheckboxInputGUI(
-            $this->lng->txt('session_reminder'),
-            'session_reminder_enabled'
-        );
-        $expires = ilSession::getSessionExpireValue();
-        $time = ilDatePresentation::secondsToString(
-            $expires,
-            true
-        );
-        $session_reminder->setInfo(
-            $this->lng->txt('session_reminder_info') . '<br />' .
-            sprintf(
-                $this->lng->txt('session_reminder_session_duration'),
-                $time
-            )
-        );
-
-        // add radio group to form
-        if ($allow_client_maintenance) {
-            // just shows the status wether the session
-            //setting maintenance is allowed by setup
-            $this->form->addItem($session_reminder);
-        } else {
-            // just shows the status wether the session
-            //setting maintenance is allowed by setup
-            $session_config = new ilNonEditableValueGUI(
-                $this->lng->txt('session_config'),
-                'session_config'
-            );
-            $session_config->setValue($this->lng->txt('session_config_maintenance_disabled'));
-            $session_reminder->setDisabled(true);
-            $session_config->addSubItem($session_reminder);
-            $this->form->addItem($session_config);
-        }
-
-        // END SESSION SETTINGS
 
         $this->lng->loadLanguageModule('ps');
 
@@ -2446,6 +2396,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $this->ilias->deleteSetting('require_' . $field);
             }
         }
+
+        $this->ilias->setSetting(
+            'session_reminder_lead_time',
+            $this->user_request->getDefaultSessionReminder()
+        );
 
         if (isset($checked['export_preferences']) && $checked['export_preferences'] === 1) {
             $this->ilias->setSetting(
