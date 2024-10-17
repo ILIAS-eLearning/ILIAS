@@ -227,7 +227,9 @@ class PageContentProvider extends AbstractModificationProvider
                 $links[] = $f->link()->standard($accessibility_report_title, $accessibility_report_url);
             }
 
-            $footer = $f->mainControls()->footer($links, $text);
+            $footer = $f->mainControls()->footer()
+                                        ->withAdditionalLink(...$links)
+                                        ->withAdditionalText($text);
 
             $footer = $this->dic['legalDocuments']->modifyFooter($footer);
 
