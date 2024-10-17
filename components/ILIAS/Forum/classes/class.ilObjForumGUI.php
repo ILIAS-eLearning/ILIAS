@@ -2571,18 +2571,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->replyEditForm->addItem($hidden_draft_id);
 
         if (in_array($this->requestAction, ['showreply', 'ready_showreply', 'editdraft'])) {
-            $rtestring = ilRTE::_getRTEClassname();
-            $show_rte = $this->http->wrapper()->post()->retrieve(
-                'show_rte',
-                $this->refinery->byTrying([$this->refinery->kindlyTo()->int(), $this->refinery->always(0)])
-            );
-
-            if ($show_rte) {
-                ilObjAdvancedEditing::_setRichTextEditorUserState($show_rte);
-            }
-
-            if ((strtolower($rtestring) !== 'iltinymce' || !ilObjAdvancedEditing::_getRichTextEditorUserState()) &&
-                $quotingAllowed) {
+            if ($quotingAllowed) {
                 $this->replyEditForm->addCommandButton('quotePost', $this->lng->txt('forum_add_quote'));
             }
 
