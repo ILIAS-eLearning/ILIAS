@@ -22,8 +22,8 @@ $modal-header-border-color:   #e5e5e5 !default;
 //** Modal footer border color
 $modal-footer-border-color:   $modal-header-border-color !default;
 
-$modal-md:                    $il-column-standard-width * 2 + $il-padding-xlarge-horizontal * 2 + 2 !default;
-$modal-sm:                    $il-column-standard-width + $il-padding-xlarge-horizontal * 2 + 2 !default;
+$legacy-modal-md:                    $il-column-standard-width * 2 + $il-padding-xlarge-horizontal * 2 + 2 !default;
+$legacy-modal-sm:                    $il-column-standard-width + $il-padding-xlarge-horizontal * 2 + 2 !default;
 
 $modal-title-padding: $il-padding-xlarge-vertical $il-padding-xlarge-horizontal;
 $modal-title-line-height: $il-line-height-base;
@@ -40,7 +40,7 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
 // --------------------------------------------------
 
 .c-modal {
-	border: 0;
+	border: none;
 	background: none;
 	@include box-shadow($il-shadow--large);
 }
@@ -206,58 +206,92 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
 	overflow: scroll;
   }
 
-  // Scale up the modal
-  @media (min-width: $il-grid-float-breakpoint-max) {
-	// Automatically set modal's width for larger viewports
-	.modal .modal-dialog {
-	  width: $modal-md;
-	  margin: 30px auto;
+
+
+
+	// legacy modal sizing: Scale up the modal
+	@media (min-width: $il-grid-float-breakpoint-max) {
+		// Automatically set modal's width for larger viewports
+		.modal .modal-dialog {
+			width: $legacy-modal-md;
+			margin: 30px auto;
+		}
+		.modal .modal-content {
+			@include box-shadow(0 5px 15px rgba(0, 0, 0, .5));
+		}
+
+		// Modal sizes
+		.modal .modal-sm { width: $legacy-modal-sm; }
 	}
-	.modal .modal-content {
-	  @include box-shadow(0 5px 15px rgba(0, 0, 0, .5));
+
+	@media (min-width: $screen-md-min) {
+		.modal .modal-lg { width: $legacy-modal-md; }
 	}
 
-	// Modal sizes
-	.modal-sm { width: $modal-sm; }
-  }
+	// end of section based on bootstrap 3
 
-  @media (min-width: $screen-md-min) {
-	.modal-lg { width: $modal-md; }
-  }
-
-// end of section based on bootstrap 3
-
-.il-modal-roundtrip {
-	//Override the grid system for forms in modals, see #33172
-	.il-standard-form {
-		.row {
-			.col-sm-4, .col-md-3, .col-lg-2 {
-				width: 33.33%;
-			}
-			.col-sm-8, .col-md-9, .col-lg-10 {
-				width: 66.67%
+// modal sizes responsive and variants
+.c-modal {
+	@include on-screen-size(small) {
+		margin: 0;
+		padding: 0;
+		max-width: 100vw;
+		max-width: 100svw;
+	}
+	.modal-dialog {
+		width: 70vw;
+		width: 70svw;
+		&.modal-sm {
+			width: 40vw;
+			width: 40svw;
+		}
+		&.modal-lg {
+			width: 80vw;
+			width: 80svw;
+		}
+		&, &.modal-sm, &.modal-lg {
+			@include on-screen-size(small) {
+				width: 100vw;
+				width: 100svw;
+				max-height: 100vh;
+				max-height: 100svh;
 			}
 		}
 	}
 }
 
-.c-modal--interruptive {
-	.c-modal--interruptive__items {
+	.il-modal-roundtrip {
+		//Override the grid system for forms in modals, see #33172
+		.il-standard-form {
+			.row {
+				.col-sm-4, .col-md-3, .col-lg-2 {
+					width: 33.33%;
+				}
+				.col-sm-8, .col-md-9, .col-lg-10 {
+					width: 66.67%
+				}
+			}
+		}
+	}
+
+	.c-modal--interruptive {
+		.c-modal--interruptive__items {
 			margin-bottom: $il-margin-xxxlarge-vertical;
-		.c-modal--interruptive__items__key-value {
-			.c-modal--interruptive__items__key-value__key {
-				float: left;
-				clear: left;
-				font-weight: initial;
-			}
-			.c-modal--interruptive__items__key-value__value {
-				white-space: nowrap;
-				overflow: hidden;
-				text-overflow: ellipsis;
-				font-style: italic;
-				color: $il-text-light-color;
-				padding-left: $il-padding-small-horizontal;
+			.c-modal--interruptive__items__key-value {
+				.c-modal--interruptive__items__key-value__key {
+					float: left;
+					clear: left;
+					font-weight: initial;
+				}
+				.c-modal--interruptive__items__key-value__value {
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					font-style: italic;
+					color: $il-text-light-color;
+					padding-left: $il-padding-small-horizontal;
+				}
 			}
 		}
 	}
-}
+
