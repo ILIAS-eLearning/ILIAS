@@ -2911,7 +2911,7 @@ abstract class assQuestion implements Question
         $this->removeResultRecord($activeId, $pass);
 
         $test = new ilObjTest(
-            $this->test_id,
+            ilObjTest::_lookupTestObjIdForQuestionId($this->getId()),
             false
         );
         $test->updateTestPassResults(
