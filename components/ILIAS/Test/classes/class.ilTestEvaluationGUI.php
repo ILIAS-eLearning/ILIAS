@@ -122,15 +122,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
     public function showResults()
     {
-        if ($this->testrequest->isset('active_id')) {
-            $selected_users = [$this->testrequest->int('active_id')];
-        } else {
-            $selected_users = ilSession::get('show_user_results');
-        }
+        $selected_users = explode(',', $this->testrequest->strVal('q_ids'));
 
         $this->addPrintButtonToToolbar();
         $this->addToggleBestSolutionButtonToToolbar();
-
 
         $test_overview = $this->ui_factory->card()->standard($this->lng->txt('overview'))->withSections([
             $this->results_data_factory->getOverviewDataForTest($this->object)
@@ -893,188 +888,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         return $filtered_test_result;
     }
 
-    public function finishTestPassForSingleUser()
-    {
-        $active_id = (int) $this->testrequest->raw("active_id");
-        $access_filter = $this->participant_access_filter->getManageParticipantsUserFilter($this->ref_id);
-
-        $participant_data = new ilTestParticipantData($this->db, $this->lng);
-        $participant_data->setActiveIdsFilter([$active_id]);
-        $participant_data->setParticipantAccessFilter($access_filter);
-        $participant_data->load($this->object->getTestId());
-
-        if (!in_array($active_id, $participant_data->getActiveIds())) {
-            $this->redirectBackToParticipantsScreen();
-        }
-
-        $testSession = new ilTestSession($this->db, $this->user);
-        $testSession->loadFromDb($active_id);
-
-        if ($testSession->isSubmitted()) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_already_submitted'), true);
-            $this->redirectBackToParticipantsScreen();
-        }
-
-        if (($this->object->isEndingTimeEnabled() || $this->object->getEnableProcessingTime())
-            && !$this->object->endingTimeReached()
-            && !$this->object->isMaxProcessingTimeReached(
-                $this->object->getStartingTimeOfUser($active_id),
-                $active_id
-            )) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('finish_pass_for_user_in_processing_time'));
-        }
-
-        $cgui = new ilConfirmationGUI();
-
-        $cgui->setHeaderText(sprintf(
-            $this->lng->txt("finish_pass_for_user_confirmation"),
-            $participant_data->getFormatedFullnameByActiveId($active_id)
-        ));
-
-        $this->ctrl->setParameter($this, 'active_id', $active_id);
-        $cgui->setFormAction($this->ctrl->getFormAction($this, "participants"));
-
-        $cgui->setCancel($this->lng->txt("cancel"), "redirectBackToParticipantsScreen");
-        $cgui->setConfirm($this->lng->txt("proceed"), "confirmFinishTestPassForUser");
-
-        $this->tpl->setContent($cgui->getHTML());
-    }
-
-    public function confirmFinishTestPassForUser()
-    {
-        $active_id = (int) $this->testrequest->raw("active_id");
-        $access_filter = $this->participant_access_filter->getManageParticipantsUserFilter($this->ref_id);
-
-        $participant_data = new ilTestParticipantData($this->db, $this->lng);
-        $participant_data->setActiveIdsFilter([$active_id]);
-        $participant_data->setParticipantAccessFilter($access_filter);
-        $participant_data->load($this->object->getTestId());
-
-        if (!in_array($active_id, $participant_data->getActiveIds())) {
-            $this->redirectBackToParticipantsScreen();
-        }
-
-        $test_session = new ilTestSession($this->db, $this->user);
-        $test_session->loadFromDb($active_id);
-
-        if ($test_session->isSubmitted()) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_already_submitted'), true);
-            $this->redirectBackToParticipantsScreen();
-        }
-
-        $this->object->updateTestPassResults(
-            $active_id,
-            $test_session->getPass(),
-            null,
-            $this->object->getId()
-        );
-
-        $this->finishTestPass(
-            $participant_data->getUserIdByActiveId($active_id),
-            $active_id,
-            $this->object->getId()
-        );
-
-        $this->redirectBackToParticipantsScreen();
-    }
-
-    public function finishAllUserPasses()
-    {
-        if ($this->hasUsersWithWorkingTimeAvailable()) {
-            $this->tpl->setOnScreenMessage(
-                'failure',
-                $this->lng->txt('finish_pass_for_all_users_in_processing_time'),
-                true
-            );
-            $this->redirectBackToParticipantsScreen();
-        }
-
-        $cgui = new ilConfirmationGUI();
-        $cgui->setFormAction($this->ctrl->getFormAction($this));
-        $cgui->setHeaderText($this->lng->txt("finish_pass_for_all_users"));
-        $cgui->setCancel($this->lng->txt("cancel"), "redirectBackToParticipantsScreen");
-        $cgui->setConfirm($this->lng->txt("proceed"), "confirmFinishTestPassForAllUser");
-        $this->tpl->setContent($cgui->getHTML());
-    }
-
-    private function hasUsersWithWorkingTimeAvailable(): bool
-    {
-        if (!$this->object->isEndingTimeEnabled() && !$this->object->getEnableProcessingTime()
-            || $this->object->endingTimeReached()) {
-            return false;
-        }
-
-        $access_filter = $this->participant_access_filter->getManageParticipantsUserFilter($this->ref_id);
-        $participant_list = new ilTestParticipantList($this->object, $this->user, $this->lng, $this->db);
-        $participant_list->initializeFromDbRows($this->object->getTestParticipants());
-
-        foreach ($participant_list->getAccessFilteredList($access_filter) as $participant) {
-            if ($participant->hasUnfinishedPasses()
-                && !$this->object->isMaxProcessingTimeReached(
-                    $this->object->getStartingTimeOfUser($participant->getActiveId()),
-                    $participant->getActiveId()
-                )) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public function confirmFinishTestPassForAllUser()
-    {
-        $access_filter = $this->participant_access_filter->getManageParticipantsUserFilter($this->ref_id);
-
-        $participant_list = new ilTestParticipantList($this->object, $this->user, $this->lng, $this->db);
-        $participant_list->initializeFromDbRows($this->object->getTestParticipants());
-        $filtered_participant_list = $participant_list->getAccessFilteredList($access_filter);
-
-        foreach ($filtered_participant_list as $participant) {
-            if (!$participant->hasUnfinishedPasses()) {
-                continue;
-            }
-
-            $test_session = new ilTestSession($this->db, $this->user);
-            $test_session->loadFromDb($participant->getActiveId());
-
-            $this->object->updateTestPassResults(
-                $participant->getActiveId(),
-                $test_session->getPass(),
-                null,
-                $this->object->getId()
-            );
-
-            $this->finishTestPass($participant->getUsrId(), $participant->getActiveId(), $this->object->getId());
-        }
-
-
-        $this->redirectBackToParticipantsScreen();
-    }
-
-    protected function finishTestPass(int $user_id, int $active_id, int $obj_id)
-    {
-        $process_locker = $this->processLockerFactory->withContextId($active_id)->getLocker();
-
-        $test_pass_finisher = new ilTestPassFinishTasks($this->test_session_factory->getSession($active_id), $obj_id);
-        $test_pass_finisher->performFinishTasks($process_locker);
-
-        if ($this->logger->isLoggingEnabled()) {
-            $this->logger->logTestAdministrationInteraction(
-                $this->logger->getInteractionFactory()->buildTestAdministrationInteraction(
-                    $this->object->getRefId(),
-                    $this->user->getId(),
-                    TestAdministrationInteractionTypes::TEST_RUN_OF_PARTICIPANT_CLOSED,
-                    [
-                        AdditionalInformationGenerator::KEY_USER => $user_id
-                    ]
-                )
-            );
-        }
-    }
-
     protected function redirectBackToParticipantsScreen()
     {
-        $this->ctrl->redirectByClass('ilTestParticipantsGUI');
+        $this->ctrl->redirectByClass(ilTestParticipantsGUI::class);
     }
 
     protected function sendPage(string $page)

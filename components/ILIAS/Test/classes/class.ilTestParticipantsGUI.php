@@ -103,7 +103,7 @@ class ilTestParticipantsGUI
 
                 break;
 
-            case "iltestevaluationgui":
+            case 'iltestevaluationgui':
                 $gui = new ilTestEvaluationGUI($this->test_obj);
                 $gui->setObjectiveOrientedContainer($this->objective_parent);
                 $gui->setTestAccess($this->test_access);
@@ -115,7 +115,6 @@ class ilTestParticipantsGUI
                 break;
 
             default:
-
                 $command = $this->ctrl->getCmd(self::CMD_SHOW) . 'Cmd';
                 $this->{$command}();
         }
@@ -361,6 +360,20 @@ class ilTestParticipantsGUI
                         $this->db
                     ),
                     $this->current_user,
+                    $this->test_obj
+                ),
+                ParticipantTableDeleteResultsAction::ACTION_ID => new ParticipantTableDeleteResultsAction(
+                    $this->lng,
+                    $this->main_tpl,
+                    $this->ui_factory,
+                    $this->test_access,
+                    $this->test_obj
+                ),
+                ParticipantTableShowResultsAction::ACTION_ID => new ParticipantTableShowResultsAction(
+                    $this->lng,
+                    $this->ui_factory,
+                    $this->test_access,
+                    $this->ctrl,
                     $this->test_obj
                 )
             ]
