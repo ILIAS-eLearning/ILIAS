@@ -12473,7 +12473,7 @@ meta#:#meta_oer_copyright_selection#:#Lizenzauswahl
 meta#:#meta_oer_copyright_selection_info#:#Nur Objekte, die unter einer der ausgewählten Lizenzen veröffentlicht wurden, werden in die OER-Kategorie verknüpft.
 meta#:#meta_oer_exposed_source#:#Kategorie für veröffentlichte OER
 meta#:#meta_oer_harvester#:#OER Harvester
-meta#:#meta_oer_harvester_desc#:#Der OER-Harvester sammelt alle Ressourcen unter ausgewählten CC-Lizenzen und fügt sie der in den Cron-Job-Einstellungen definierten Kategorie hinzu. Damit dieser Cronjob Ergebnisse liefern kann, muss die Copyright-Auswahl in der Metadaten-Administration aktiviert und konfiguriert sein. Nur Dateiobjekte, Glossare, Inhaltsseiten, Lernmodule (ILIAS, SCORM, und HTML), Fragenpools (für Umfragen und Tests), und Medienpools werden unterstützt.
+meta#:#meta_oer_harvester_desc#:#Der OER-Harvester sammelt alle Ressourcen unter ausgewählten CC-Lizenzen, fügt sie einer in den Cron-Job-Einstellungen definierten Kategorie hinzu, und generiert wenn nötig Exportdateien für sie. Für die für Veröffentlichung bereite Ressourcen werden Einträge angelegt, die (wenn aktiviert) über eine OAI-PMH Schnittstelle ausgelesen werden können. Damit dieser Cronjob Ergebnisse liefern kann, muss die Copyright-Auswahl in der Metadaten-Administration aktiviert und konfiguriert sein. Nur Dateiobjekte, Glossare, Inhaltsseiten, Lernmodule (ILIAS, SCORM, und HTML), Fragenpools (für Umfragen und Tests), und Medienpools werden unterstützt.
 meta#:#meta_oer_object_type_selection#:#Zulässige Objekttypen
 meta#:#meta_oer_target#:#Kategorie für freigegebene OER
 meta#:#meta_opera#:#Opera

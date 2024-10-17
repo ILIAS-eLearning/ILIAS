@@ -111,7 +111,7 @@ compiled for an Object if the following conditions are fulfilled:
 - The Object must not be blocked from being harvested (see
   [below](#blocking-individual-objects)).
 - The Object must have a reference in the Category for published OER.
-That reference can also be in a (nested) Subobject of the Category.
+  That reference can also be in a (nested) Subobject of the Category.
 - In the Harvester's cron job configuration, a Category for published OER
   must be set.
 
