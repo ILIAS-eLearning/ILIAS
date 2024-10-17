@@ -10,6 +10,8 @@ declare(strict_types=1);
  */
 class ilAdvancedMDFieldDefinitionFloat extends ilAdvancedMDFieldDefinitionInteger
 {
+    private const MIN_DECIMALS  = 1;
+
     protected int $decimals;
 
     public function getType(): int
@@ -45,7 +47,7 @@ class ilAdvancedMDFieldDefinitionFloat extends ilAdvancedMDFieldDefinitionIntege
      */
     public function setDecimals($a_value)
     {
-        $this->decimals = max(1, abs((int) $a_value));
+        $this->decimals = max(self::MIN_DECIMALS, abs((int) $a_value));
     }
 
     /**
@@ -65,7 +67,7 @@ class ilAdvancedMDFieldDefinitionFloat extends ilAdvancedMDFieldDefinitionIntege
     protected function importFieldDefinition(array $a_def): void
     {
         parent::importFieldDefinition($a_def);
-        $this->setDecimals($a_def["decimals"]);
+        $this->setDecimals($a_def["decimals"] ?? self::MIN_DECIMALS);
     }
 
     protected function getFieldDefinition(): array
