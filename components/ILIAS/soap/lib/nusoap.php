@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 /*
 $Id$
 
@@ -2166,6 +2182,8 @@ class soapval extends nusoap_base
 */
 class soap_transport_http extends nusoap_base
 {
+    public $fp;
+    public $tryagain;
     public $url = '';
     public $uri = '';
     public $digest_uri = '';
@@ -3501,6 +3519,7 @@ class soap_transport_http extends nusoap_base
 */
 class nusoap_server extends nusoap_base
 {
+    public $opData;
     /**
      * HTTP headers of request
      * @var array
@@ -3573,6 +3592,7 @@ class nusoap_server extends nusoap_base
      * @access public
      */
     public $decode_utf8 = true;
+    public $class;
 
     /**
      * HTTP headers of response
@@ -4597,6 +4617,9 @@ class soap_server extends nusoap_server
 class wsdl extends nusoap_base
 {
     // URL or filename of the root of this WSDL
+    public $serviceName;
+    public $opStatus;
+    public $currentPortOperation;
     public $wsdl;
     // define internal arrays of bindings, ports, operations, messages, etc.
     public $schemas = array();
@@ -6524,6 +6547,8 @@ class wsdl extends nusoap_base
 */
 class nusoap_parser extends nusoap_base
 {
+    public $methodNamespace;
+    public $parser;
     public $xml = '';
     public $xml_encoding = '';
     public $method = '';
@@ -7184,6 +7209,11 @@ class soap_parser extends nusoap_parser
 */
 class nusoap_client extends nusoap_base
 {
+    public $return;
+    public $wsdl;
+    public $wsdlFile;
+    public $opData;
+    public $operation;
     public $username = '';				// Username for HTTP authentication
     public $password = '';				// Password for HTTP authentication
     public $authtype = '';				// Type of HTTP authentication
