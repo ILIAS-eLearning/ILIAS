@@ -121,6 +121,7 @@ class ChartBarTest extends ILIAS_UI_TestBase
         );
     }
 
+    // This test can only be performed when there will be a Dimension in the future, which is not compatible with Bar Charts
     /*
     public function testInvalidDatasetDimension() : void
     {
@@ -276,6 +277,30 @@ class ChartBarTest extends ILIAS_UI_TestBase
 
         $this->assertEquals([], $horizontal->getBarConfigs());
         $this->assertEquals($bars, $horizontal1->getBarConfigs());
+    }
+
+    public function testWithGroupConfigs(): void
+    {
+        $f = $this->getFactory();
+        $df = $this->getDataFactory();
+
+        $dataset = $this->getSimpleDataset();
+
+        $gc = new C\Chart\Bar\GroupConfig();
+        $gc = $gc->withStacked();
+
+        $groups = [
+            "Group" => $gc,
+        ];
+
+        $horizontal = $f->horizontal(
+            "Horizontal Bar",
+            $dataset
+        );
+        $horizontal1 = $horizontal->withGroupConfigs($groups);
+
+        $this->assertEquals([], $horizontal->getGroupConfigs());
+        $this->assertEquals($groups, $horizontal1->getGroupConfigs());
     }
 
     public function testIndexAxis(): void

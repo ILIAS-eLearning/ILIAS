@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\examples\Chart\Bar\Vertical;
+namespace ILIAS\UI\examples\Chart\Bar\Horizontal;
 
 use ILIAS\UI\Component\Chart\Bar\Bar;
 use ILIAS\UI\Component\Chart\Bar\BarConfig;
-use ILIAS\UI\Component\Chart\Bar\YAxis;
+use ILIAS\UI\Component\Chart\Bar\GroupConfig;
+use ILIAS\UI\Component\Chart\Bar\XAxis;
 
-function custom()
+function stacked()
 {
     //Loading factories
     global $DIC;
@@ -21,33 +22,35 @@ function custom()
 
     //Generating Dataset with points and tooltips
     $dataset = $df->dataset([
-       "Dataset 1" => $c_dimension,
-        "Dataset 2" => $c_dimension,
-        "Dataset 3" => $c_dimension,
+        "Dataset 1.1" => $c_dimension,
+        "Dataset 1.2" => $c_dimension,
+        "Dataset 1.3" => $c_dimension,
+    ], [
+        "Grouped Dataset" => $df->dimension()->group("Dataset 1.1", "Dataset 1.2", "Dataset 1.3"),
     ]);
 
     $dataset = $dataset->withPoint(
         "Item 1",
         [
-            "Dataset 1" => 75,
-            "Dataset 2" => 80,
-            "Dataset 3" => 100
+            "Dataset 1.1" => 3,
+            "Dataset 1.2" => 2,
+            "Dataset 1.3" => 1
         ]
     );
     $dataset = $dataset->withPoint(
         "Item 2",
         [
-            "Dataset 1" => 45,
-            "Dataset 2" => 30,
-            "Dataset 3" => 90
+            "Dataset 1.1" => 2,
+            "Dataset 1.2" => 0,
+            "Dataset 1.3" => 3
         ]
     );
     $dataset = $dataset->withPoint(
         "Item 3",
         [
-            "Dataset 1" => 50,
-            "Dataset 2" => 100,
-            "Dataset 3" => 65.5
+            "Dataset 1.1" => 1,
+            "Dataset 1.2" => 3,
+            "Dataset 1.3" => 4
         ]
     );
 
@@ -58,26 +61,25 @@ function custom()
     $b2 = $b2->withColor($df->color("#28A197"));
     $b3 = new BarConfig();
     $b3 = $b3->withColor($df->color("#801650"));
+    $g = new GroupConfig();
+    $g = $g->withStacked(true);
 
     $bars = [
-        "Dataset 1" => $b1,
-        "Dataset 2" => $b2,
-        "Dataset 3" => $b3
+        "Dataset 1.1" => $b1,
+        "Dataset 1.2" => $b2,
+        "Dataset 1.3" => $b3
+    ];
+    $groups = [
+        "Grouped Dataset" => $g
     ];
 
     //Generating and rendering the vertical chart
-    $bar = $f->chart()->bar()->vertical(
-        "A vertical bar chart",
+    $bar = $f->chart()->bar()->horizontal(
+        "A horizontal stacked bar chart",
         $dataset,
-        $bars
+        $bars,
+        $groups
     );
-    $bar = $bar->withTitleVisible(false);
-    $bar = $bar->withLegendPosition("left");
-    $y_axis = new YAxis();
-    $y_axis = $y_axis->withPosition("right");
-    $y_axis = $y_axis->withStepSize(10);
-    $y_axis = $y_axis->withBeginAtZero(false);
-    $bar = $bar->withCustomYAxis($y_axis);
 
     // render
     return $renderer->render($bar);

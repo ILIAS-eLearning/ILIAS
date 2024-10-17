@@ -18,19 +18,24 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Data\Dimension;
+require_once('./vendor/composer/vendor/autoload.php');
 
-/**
- * @author Thomas Famula <famula@leifos.de>
- */
-abstract class Dimension
+use ILIAS\Data\Dimension;
+use PHPUnit\Framework\TestCase;
+
+class DimensionGroupTest extends TestCase
 {
-    protected array $value_labels = [];
+    protected Dimension\Factory $f;
 
-    public function getLabels(): array
+    protected function setUp(): void
     {
-        return $this->value_labels;
+        $this->f = new Dimension\Factory();
     }
 
-    abstract public function checkValue($value): void;
+    public function testDimensionKeys(): void
+    {
+        $labels = ["dimension1", "dimension2", "dimension3"];
+        $g = $this->f->group(...$labels);
+        $this->assertEquals($labels, $g->getDimensionKeys());
+    }
 }

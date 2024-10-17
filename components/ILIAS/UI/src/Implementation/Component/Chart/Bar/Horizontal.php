@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Chart\Bar;
 
 use ILIAS\UI\Component as C;
@@ -28,9 +28,9 @@ class Horizontal extends Bar implements C\Chart\Bar\Horizontal
 {
     protected XAxis $x_axis;
 
-    public function __construct(string $title, Dataset $dataset, array $bar_configs = [])
+    public function __construct(string $title, Dataset $dataset, array $bar_configs = [], array $group_configs = [])
     {
-        parent::__construct($title, $dataset, $bar_configs);
+        parent::__construct($title, $dataset, $bar_configs, $group_configs);
         $this->x_axis = new XAxis();
     }
 
