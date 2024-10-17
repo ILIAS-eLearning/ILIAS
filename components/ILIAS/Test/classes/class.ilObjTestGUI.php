@@ -40,6 +40,8 @@ use ILIAS\Test\Logging\TestQuestionAdministrationInteractionTypes;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Presentation\TestScreenGUI;
 use ILIAS\Test\Presentation\TabsManager;
+use ILIAS\Test\Results\Data\Factory as ResultsDataFactory;
+use ILIAS\Test\Results\Presentation\Factory as ResultsPresentationFactory;
 use ILIAS\Test\ExportImport\Factory as ExportImportFactory;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\TestQuestionPool\RequestDataCollector as QPLRequestDataCollector;
@@ -144,6 +146,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     protected RequestDataCollector $testrequest;
     protected ResponseHandler $response_handler;
     protected ParticipantRepository $participant_repository;
+    protected ResultsDataFactory $results_data_factory;
+    protected ResultsPresentationFactory $results_presentation_factory;
     protected ?QuestionsTableQuery $table_query = null;
     protected ?QuestionsTableActions $table_actions = null;
     protected DataFactory $data_factory;
@@ -186,6 +190,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->testrequest = $local_dic['request_data_collector'];
         $this->response_handler = $local_dic['response_handler'];
         $this->participant_repository = $local_dic['participant.repository'];
+        $this->results_data_factory = $local_dic['results.data.factory'];
+        $this->results_presentation_factory = $local_dic['results.presentation.factory'];
         $this->export_factory = $local_dic['exportimport.factory'];
         $this->participant_access_filter_factory = $local_dic['participant.access_filter.factory'];
 
@@ -383,6 +389,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->testrequest,
                     $this->response_handler,
                     $this->participant_repository,
+                    $this->results_data_factory,
+                    $this->results_presentation_factory,
                     $this->test_question_set_config_factory->getQuestionSetConfig(),
                     $this->getObjectiveOrientedContainer()
                 );
@@ -2218,7 +2226,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $this->lng->txt('tst_score_reporting_date'),
                 $reporting_date
                     ->setTimezone(new DateTimeZone($this->user->getTimeZone()))
-                    ->format($this->user->getDateTimeFormat())
+                    ->format($this->user->getDateTimeFormat()->toString())
             );
         }
 

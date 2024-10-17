@@ -56,6 +56,8 @@ class ilTestDashboardGUITest extends ilTestBaseTestCase
             $this->createMock(\ILIAS\Test\RequestDataCollector::class),
             $this->createMock(\ILIAS\Test\ResponseHandler::class),
             $this->createMock(\ILIAS\Test\Participants\ParticipantRepository::class),
+            $this->createMock(ILIAS\Test\Results\Data\Factory::class),
+            $this->createMock(ILIAS\Test\Results\Presentation\Factory::class),
             $this->createMock(ilTestQuestionSetConfig::class),
             $this->createMock(ilTestObjectiveOrientedContainer::class)
         );

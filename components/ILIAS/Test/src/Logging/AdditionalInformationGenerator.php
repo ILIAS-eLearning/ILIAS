@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\Test\Logging;
 
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Listing\Descriptive as DescriptiveListing;
 use ILIAS\Refinery\Factory as Refinery;
@@ -76,6 +75,7 @@ class AdditionalInformationGenerator
     public const KEY_TEST_PASSWAITING_ENABLED = 'tst_pass_waiting_enabled';
     public const KEY_TEST_PROCESSING_TIME_ENABLED = 'tst_processing_time_duration';
     public const KEY_TEST_RESET_PROCESSING_TIME = 'tst_reset_processing_time';
+    public const KEY_TEST_ADDED_PROCESSING_TIME = 'minutes';
     public const KEY_TEST_KIOSK_ENABLED = 'kiosk';
     public const KEY_TEST_KIOSK_SHOW_TITLE = 'kiosk_show_title';
     public const KEY_TEST_KIOSK_SHOW_PARTICIPANT_NAME = 'kiosk_show_participant';

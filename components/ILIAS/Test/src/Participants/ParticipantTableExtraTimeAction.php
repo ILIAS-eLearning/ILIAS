@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Participants;
 
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Modal\Modal;
@@ -115,7 +116,7 @@ class ParticipantTableExtraTimeAction implements TableAction
             $url_builder,
             $selected_participants
         )->withReqest($request)->getData();
-        $this->test_obj->addExtraTime($selected_participants, $data['extra_time']);
+        $this->saveExtraTime($selected_participants, $data['extra_time']);
 
         $this->tpl->setOnScreenMessage(
             \ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS,
@@ -157,5 +158,32 @@ class ParticipantTableExtraTimeAction implements TableAction
             fn(\ilTestParticipant $participant) => $participant->getExtraTime(),
             $participants
         ))) > 1;
+    }
+
+    /**
+     * @param array<Participant> $participants
+     */
+    public function saveExtraTime(array $participants, int $minutes): void
+    {
+        foreach ($participants as $participant) {
+            $this->participant_repository->updateExtraTime($participant->withAddedExtraTime($minutes));
+        }
+
+        if ($this->test_obj->getTestLogger()->isLoggingEnabled()) {
+            $this->test_obj->getTestLogger()->logTestAdministrationInteraction(
+                $this->test_obj->getTestLogger()->getInteractionFactory()->buildTestAdministrationInteraction(
+                    $this->getRefId(),
+                    $this->user->getId(),
+                    TestAdministrationInteractionTypes::EXTRA_TIME_ADDED,
+                    [
+                        AdditionalInformationGenerator::KEY_USERS => array_map(
+                            fn(Participant $participant) => $participant->getUsrId(),
+                            $participants
+                        ),
+                        AdditionalInformationGenerator::KEY_TEST_ADDED_PROCESSING_TIME => $minutes
+                    ]
+                )
+            );
+        }
     }
 }

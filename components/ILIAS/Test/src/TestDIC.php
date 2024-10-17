@@ -21,10 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\Test;
 
 use ILIAS\Test\Participants\ParticipantRepository;
-use ILIAS\Test\Participants\ParticipantTable;
-use ILIAS\Test\Participants\ParticipantTableExtraTimeAction;
-use ILIAS\Test\Participants\ParticipantTableFinishTestAction;
-use ILIAS\Test\Participants\ParticipantTableIpRangeAction;
 use ILIAS\Test\Utilities\TitleColumnsBuilder;
 use ILIAS\Test\TestManScoringDoneHelper;
 use ILIAS\Test\Scoring\Marks\MarksRepository;

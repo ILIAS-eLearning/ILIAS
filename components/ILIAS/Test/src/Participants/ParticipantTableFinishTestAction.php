@@ -148,7 +148,7 @@ class ParticipantTableFinishTestAction implements TableAction
 
     public function allowActionForRecord(Participant $record): bool
     {
-        return $record->hasUnfinishedPasses();
+        return $record->hasUnfinishedAttempts();
     }
 
     private function resolveMessage(

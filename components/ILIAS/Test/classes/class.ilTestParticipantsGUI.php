@@ -23,6 +23,8 @@ use ILIAS\Test\Participants\ParticipantTable;
 use ILIAS\Test\ExportImport\Factory as ExportImportFactory;
 use ILIAS\Test\ExportImport\Types as ExportImportTypes;
 use ILIAS\Test\RequestDataCollector;
+use ILIAS\Test\Results\Data\Factory as ResultsDataFactory;
+use ILIAS\Test\Results\Presentation\Factory as ResultsPresentationFactory;
 use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\Participants\ParticipantTableModalActions;
 use ILIAS\Test\Participants\ParticipantTableIpRangeAction;
@@ -81,7 +83,9 @@ class ilTestParticipantsGUI
         protected ExportImportFactory $export_factory,
         protected RequestDataCollector $testrequest,
         protected ResponseHandler $response_handler,
-        protected ParticipantRepository $participant_repository
+        protected ParticipantRepository $participant_repository,
+        protected readonly ResultsDataFactory $results_data_factory,
+        protected readonly ResultsPresentationFactory $results_presentation_factory
     ) {
         $this->participant_access_filter = new ilTestParticipantAccessFilterFactory($access);
     }
@@ -150,10 +154,16 @@ class ilTestParticipantsGUI
             $this->ui_factory,
             $this->ui_service,
             $this->lng,
+            $this->test_access,
             $this->data_factory,
             $this->testrequest,
             $this->participant_access_filter,
             $this->participant_repository,
+            $this->results_data_factory,
+            $this->results_presentation_factory->getAttemptResultsSettings(
+                $this->test_obj,
+                false
+            ),
             $this->test_obj,
             $this->buildParticipantTableActions()
         );
