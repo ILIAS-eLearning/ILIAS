@@ -244,7 +244,7 @@ class StandardPagePartProvider implements PagePartProvider
      */
     public function getFooter(): ?Footer
     {
-        return $this->ui->factory()->mainControls()->footer([]);
+        return $this->ui->factory()->mainControls()->footer();
     }
 
     /**
