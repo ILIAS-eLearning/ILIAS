@@ -43,6 +43,13 @@ interface Factory
      *   effect: >
      *      All controls of the original context are inaccessible until the modal is completed.
      *      Upon completion the user returns to the original context.
+     *   rivals:
+     *     Prompt: >
+     *       A Modal represents a specific way to bring something to a users attention. Prompt,
+     *       on the other hand, describes the logic of the component in the flow. Try to use
+     *       Prompt whenever possible, because it has stronger semantics. For a more detailed
+     *       explanation what this could mean, have a look into the item "Mark Some Components
+     *       as Internal" on the roadmap of the UI framework.
      *
      * rules:
      *   usage:
@@ -105,6 +112,14 @@ interface Factory
      *   effect: >
      *     Round-Trip modals perform sub-workflow involving some kind of user input. Sub-workflow is completed
      *     and user is returned to starting point allowing for continuing the overriding workflow.
+     *   rivals:
+     *     Prompt: >
+     *       A Modal represents a specific way to bring something to a users attention. Prompt,
+     *       on the other hand, describes the logic of the component in the flow. Try to use
+     *       Prompt whenever possible, because it has stronger semantics. For a more detailed
+     *       explanation what this could mean, have a look into the item "Mark Some Components
+     *       as Internal" on the roadmap of the UI framework.
+     *
      *
      * rules:
      *   usage:

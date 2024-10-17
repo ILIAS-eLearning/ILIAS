@@ -55,7 +55,8 @@ class Factory implements \ILIAS\UI\Factory
         protected C\Toast\Factory $toast_factory,
         protected C\Legacy\Factory $legacy_factory,
         protected C\launcher\Factory $launcher_factory,
-        protected C\Entity\Factory $entity_factory
+        protected C\Entity\Factory $entity_factory,
+        protected C\Prompt\Factory $prompt_factory,
     ) {
     }
 
@@ -294,5 +295,10 @@ class Factory implements \ILIAS\UI\Factory
     public function entity(): C\Entity\Factory
     {
         return $this->entity_factory;
+    }
+
+    public function prompt(): C\Prompt\Factory
+    {
+        return $this->prompt_factory;
     }
 }

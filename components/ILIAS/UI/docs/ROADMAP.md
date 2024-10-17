@@ -246,6 +246,52 @@ to be refined once more.
 
 ## Long Term
 
+### Mark Some Components as Internal
+
+The creation of the UI framework has begun in 2016. The first components we have
+build aimed to replace simple thingies we already had in the legacy UI code.
+Stuff like Glyphs, Buttons, Modals. We then imagined that we would have a system
+where we build complex components from simple parts, like legos, someday. Over time
+we moved on to more complex components. We then found that these are in fact build
+from smaller parts, like legos. But other then initially imagined, this wasn't
+necessarily the best interface to provide to users of the UI framework. Also, the
+more complex components carry a specific semantic, but the actual legos we have
+built them from are design choices.
+
+Take, for example, the View Control Sortation. The semantic is something like:
+a control that allows a user to sort some data. When viewed as legos, we have
+a Dropdown, containing Links, attached to a Button. But this is neither the
+best interface to expose to other coders, nor is that specific structure essential
+to the component. So while the View Control Sortation is in fact build from these
+smaller components, the actual choices of them is neither interesting for the
+semantic of the component nor something we want to move to other coders.
+
+We also began to notice, that some components carry a semantic that actually
+tells a lot about the what and why of a component, with wording close to the users
+intentions and state of mind, while others simply encoded specific visual choices
+or simply bundled some code to be used in many places. We began to talk about the
+further components as having a "strong" semantic and the latter of having a "weak"
+semantic. We currently feel that working on components with a "strong" semantic
+allows us to make informed choices for implementation, now and in the future, while
+taking away mental burden from other coders that use these components. Components
+with a weak semantic, on the other hand, ask for one size fits many solutions and
+require other coders to think about a lot of tangential questions. We hence strive
+to build and propagate components with strong semantics whenever possible.
+
+This does not mean that we want to abandon components with weak semantics completely,
+though. We still need them to talk about how other components can be implemented,
+to actually implement these components and to make our code manageable. We also
+recognize that we will always have parts of the system, be it in the core we maintain
+together or in plugins maintained by others, that are not (yet?) ready to be displayed
+by components with a strong semantic. But we want to encourage everyone to use
+components with strong semantics whenever possible, for their ease of mind and our
+power to build a coherent and appealing UI.
+
+We hence are looking to create a category for "internal" components, to make this
+distinction and argumentation visible to the coders that use the components from
+the UI framework.
+
+
 ### Make Constraint in Tag Input Field work again
 
 In the commit where this entry was added, a check in Tag Input Field was removed.
@@ -375,29 +421,6 @@ laying (too much) work on the shoulders of Global Screen, Notification Slate and
 However, just building such a UI Component, would not do the trick. This needs
 to go hand in hand with a proper discussion on what a Notification Center should be
 and do for us. Current state, see: [FR: Notification Center](https://docu.ilias.de/goto_docu_wiki_wpage_5118_1357.html).
-
-### Introduce Modal Content component (beginner/advanced)
-
-Currently, Modals combine two things: Presentation of content and opening an
-overlay layer. With the separation of those we will gain several advantages:
-- the content-part could be more specific, as there should be variants for the
-  intended purpose/content
-- content-parts might be used without the modal; e.g., on mobile devices, you might
-  just want to change the page instead of using overlays
-- Modals could allow further Components as content by simply adding the Interface
-  For example, the Message Boxes are a good candidate
-- the content parts might be retrieved via AJAX-calls (and thus be build according 
-  to runtime-parameters)
-Especially (but not only) with the DataTable's async-Actions, this would allow to 
-better control the responses.
-
-### Improve async Modals(beginner/advanced)
-
-Along with the separation of Modal-layer and its contents (see above), the asynch
-abilities of Modals should be improved; it should be possible:
-- to replace the contents only (in order to stay in contexts of ids and JS)
-- alter the target-URL of the RPC-call by a previous response
-- probably alter the Labels and functions of Buttons
 
 ### Exchange webui-popover library (advanced)
 

@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Modal;
 
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
-use ILIAS\UI\Implementation\Component\Input\Container\Form\FormWithoutSubmitButton;
+use ILIAS\UI\Implementation\Component\Input\Container\Form\Standard as Form;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\ReplaceSignal;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
@@ -50,7 +50,7 @@ class RoundTrip extends Modal implements M\RoundTrip
 
     protected ReplaceSignal $replace_signal;
     protected Signal $submit_signal;
-    protected FormWithoutSubmitButton $form;
+    protected Form $form;
     protected string $title;
     protected ?string $cancel_button_label = null;
     protected ?string $submit_button_label = null;
@@ -73,7 +73,7 @@ class RoundTrip extends Modal implements M\RoundTrip
         $content = (null !== $content) ? $this->toArray($content) : [];
         $this->checkArgListElements('content', $content, [Component::class]);
 
-        $this->form = new FormWithoutSubmitButton(
+        $this->form = new Form(
             $signal_generator,
             $field_factory,
             $name_source,
@@ -87,7 +87,7 @@ class RoundTrip extends Modal implements M\RoundTrip
         $this->initSignals();
     }
 
-    public function getForm(): FormWithoutSubmitButton
+    public function getForm(): Form
     {
         return $this->form;
     }
@@ -245,5 +245,21 @@ class RoundTrip extends Modal implements M\RoundTrip
     public function withDedicatedName(string $dedicated_name): self
     {
         return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getPromptButtons(): array
+    {
+        return $this->buttons;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getPromptTitle(): string
+    {
+        return $this->type;
     }
 }

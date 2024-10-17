@@ -92,7 +92,10 @@ class FormTest extends ILIAS_UI_TestBase
 
     protected function buildFactory(): Input\Container\Form\Factory
     {
-        return new Input\Container\Form\Factory($this->buildInputFactory());
+        return new Input\Container\Form\Factory(
+            $this->buildInputFactory(),
+            new SignalGenerator()
+        );
     }
 
     protected function buildInputFactory(): Input\Field\Factory

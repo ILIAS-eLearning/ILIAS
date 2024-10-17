@@ -39,16 +39,17 @@ class FormFactoryTest extends AbstractFactoryTestCase
     final public function buildFactory(): I\Container\Form\Factory
     {
         $df = new Data\Factory();
+        $signal_generator = new SignalGenerator();
         $language = $this->createMock(ILIAS\Language\Language::class);
         return new I\Container\Form\Factory(
             new I\Field\Factory(
                 $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
-                new SignalGenerator(),
+                $signal_generator,
                 $df,
                 new Factory($df, $language),
                 $language
             ),
-            new DefNamesource()
+            $signal_generator
         );
     }
 
