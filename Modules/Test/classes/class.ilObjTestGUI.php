@@ -1365,36 +1365,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $questionPageParser->setQuestionMapping($qtiParser->getImportMapping());
             $questionPageParser->startParsing();
 
-            foreach ($qtiParser->getQuestionIdMapping() as $oldQuestionId => $newQuestionId) {
-                $map->addMapping(
-                    "Services/Taxonomy",
-                    "tax_item",
-                    "tst:quest:$oldQuestionId",
-                    $newQuestionId
-                );
-
-                $map->addMapping(
-                    "Services/Taxonomy",
-                    "tax_item_obj_id",
-                    "tst:quest:$oldQuestionId",
-                    $newObj->getId()
-                );
-
-                $map->addMapping(
-                    "Modules/Test",
-                    "quest",
-                    $oldQuestionId,
-                    $newQuestionId
-                );
-            }
-
-            if ($newObj->isRandomTest()) {
-                $newObj->questions = [];
-                $parser = new ilObjTestXMLParser(ilSession::get("tst_import_xml_file"));
-                $parser->setTestOBJ($newObj);
-                $parser->setImportMapping($map);
-                $parser->startParsing();
-            }
+            $test_importer = new ilTestImporter();
+            $test_importer->addTexonomyAndQuestionsMapping($qtiParser->getQuestionIdMapping(), $newObj->getId(), $map);
+            $test_importer->importRandomQuestionSetConfig($newObj, ilSession::get("tst_import_xml_file"), $map);
 
             if (file_exists(ilSession::get("tst_import_results_file"))) {
                 $results = new ilTestResultsImportParser(ilSession::get("tst_import_results_file"), $newObj);
