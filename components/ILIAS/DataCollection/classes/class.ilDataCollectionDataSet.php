@@ -141,6 +141,12 @@ class ilDataCollectionDataSet extends ilDataSet
                 $new_obj->update(); //clone mode, so no table will be created
                 $this->import_dc_object = $new_obj;
                 $a_mapping->addMapping('components/ILIAS/DataCollection', 'dcl', $a_rec['id'], (string) $new_obj->getId());
+                $a_mapping->addMapping(
+                    'components/ILIAS/MetaData',
+                    'md',
+                    $a_rec['id'] . ':0:dcl',
+                    $new_obj->getId() . ':0:dcl'
+                );
                 break;
             case 'il_dcl_table':
                 $table = new ilDclTable();
