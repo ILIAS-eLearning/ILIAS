@@ -117,7 +117,8 @@ class ilTestImporter extends ilXmlImporter
         $a_mapping->addMapping("Modules/Test", "tst", $a_id, $newObj->getId());
     }
 
-    public function addTexonomyAndQuestionsMapping(array $question_id_mapping, int $new_obj_id, ilImportMapping $mapping): ilImportMapping {
+    public function addTexonomyAndQuestionsMapping(array $question_id_mapping, int $new_obj_id, ilImportMapping $mapping): ilImportMapping
+    {
         foreach ($question_id_mapping as $oldQuestionId => $newQuestionId) {
             $mapping->addMapping(
                 "Services/Taxonomy",
