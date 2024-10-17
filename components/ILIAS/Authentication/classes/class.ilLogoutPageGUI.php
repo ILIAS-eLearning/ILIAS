@@ -27,6 +27,6 @@ class ilLogoutPageGUI extends ilPageObjectGUI
 {
     public function __construct(int $a_id = 0, int $a_old_nr = 0)
     {
-        parent::__construct('aout', $a_id, $a_old_nr);
+        parent::__construct(ilLogoutPage::PAGE_TYPE, $a_id, $a_old_nr);
     }
 }
