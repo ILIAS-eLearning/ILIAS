@@ -26,12 +26,28 @@ use ILIAS\Language\Language;
 
 class Date extends Column implements C\Date
 {
+    protected \DateTimeZone $tz;
+
     public function __construct(
         Language $lng,
+        \DateTimeZone $user_tz,
         string $title,
-        protected DateFormat $format
+        protected DateFormat $format,
     ) {
         parent::__construct($lng, $title);
+        $this->tz = $user_tz;
+    }
+
+    public function withTimeZone(\DateTimeZone $tz): C\Date
+    {
+        $clone = clone $this;
+        $clone->tz = $tz;
+        return $clone;
+    }
+
+    public function getTimeZone(): \DateTimeZone
+    {
+        return $this->tz;
     }
 
     public function getFormat(): DateFormat
@@ -42,7 +58,7 @@ class Date extends Column implements C\Date
     public function format($value): string
     {
         $this->checkArgInstanceOf('value', $value, \DateTimeImmutable::class);
-        return $value->format($this->getFormat()->toString());
+        return $value->setTimezone($this->getTimeZone())->format($this->getFormat()->toString());
     }
 
     /**

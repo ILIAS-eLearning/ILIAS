@@ -25,4 +25,9 @@ use ILIAS\Data\DateFormat\DateFormat;
 interface Date extends Column
 {
     public function getFormat(): DateFormat;
+
+    /**
+     * You may want to specify a timezone for the date to be formatted in. By default, the user's timezone is used.
+     */
+    public function withTimeZone(\DateTimeZone $tz): Date;
 }
