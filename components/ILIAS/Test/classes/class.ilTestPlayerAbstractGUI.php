@@ -40,6 +40,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     public const FIXED_SHUFFLER_SEED_MIN_LENGTH = 8;
 
+    public const DISCARD_SOLUTION_MODAL_ID = 'tst_discard_solution_modal';
+
     public bool $max_processing_time_reached;
     public bool $ending_time_reached;
     public int $ref_id;
@@ -2632,7 +2634,11 @@ JS;
         return ilTestPlayerCommands::QUESTION_SUMMARY;
     }
 
-    protected function populateInstantResponseModal(assQuestionGUI $question_gui, $navUrl)
+
+    /**
+     * @throws ilTemplateException
+     */
+    protected function populateInstantResponseModal(assQuestionGUI $question_gui, $navUrl): void
     {
         $question_gui->setNavigationGUI(null);
         $question_gui->getQuestionHeaderBlockBuilder()->setQuestionAnswered(true);
@@ -2668,17 +2674,27 @@ JS;
 
         $tpl->setVariable('QUESTION_OUTPUT', $pageoutput);
 
-        $button = $this->ui_factory->button()->primary($this->lng->txt('proceed'), $navUrl);
-        $tpl->setVariable('BUTTON', $this->ui_renderer->render($button));
+        $modal_id = 'tst_question_feedback_modal';
+        $this->tpl->setVariable('INSTANT_RESPONSE_MODAL', $this->getQuestionFeedbackModalHtml($tpl, $navUrl, $modal_id));
+        $this->tpl->addOnLoadCode('$("#' . $modal_id . '").modal("show");');
+    }
 
-        $modal = ilModalGUI::getInstance();
-        $modal->setType(ilModalGUI::TYPE_LARGE);
-        $modal->setId('tst_question_feedback_modal');
-        $modal->setHeading($this->lng->txt('tst_instant_feedback'));
-        $modal->setBody($tpl->get());
+    /**
+     * @throws ilTemplateException
+     */
+    private function getQuestionFeedbackModalHtml(ilTemplate $tpl, string $navUrl, string &$modal_id): string
+    {
+        $rendered_modal = $this->ui_renderer->render($this->ui_factory->modal()->interruptive(
+            $this->lng->txt('tst_instant_feedback'),
+            $tpl->get(),
+            $navUrl
+        )->withActionButtonLabel($this->lng->txt('proceed')));
 
-        $this->tpl->addOnLoadCode("$('#tst_question_feedback_modal').modal('show');");
-        $this->tpl->setVariable('INSTANT_RESPONSE_MODAL', $modal->getHTML());
+        $doc = new DOMDocument();
+        @$doc->loadHTML($rendered_modal);
+        $modal_id = $doc->getElementsByTagName('div')->item(0)->attributes->getNamedItem('id')->nodeValue ?? $modal_id;
+
+        return $rendered_modal;
     }
     // fau;
 
@@ -2964,57 +2980,59 @@ JS;
         $this->tpl->setVariable($this->getContentBlockName(), $content_html);
     }
 
-    protected function populateModals()
+    /**
+     * @throws ilTemplateException
+     */
+    protected function populateModals(): void
     {
         $this->populateDiscardSolutionModal();
 
         if ($this->object->isFollowupQuestionAnswerFixationEnabled()) {
             $this->populateNextLocksChangedModal();
-
             $this->populateNextLocksUnchangedModal();
         }
     }
 
-    protected function populateDiscardSolutionModal()
+    /**
+     * @throws ilTemplateException
+     */
+    protected function populateDiscardSolutionModal(): void
+    {
+        $this->tpl->setCurrentBlock('discard_solution_modal');
+        $this->tpl->setVariable('DISCARD_SOLUTION_MODAL', $this->getDiscardSolutionModal());
+        $this->tpl->parseCurrentBlock();
+    }
+
+    /**
+     * @throws ilTemplateException
+     */
+    private function getDiscardSolutionModal(): string
     {
         $tpl = new ilTemplate('tpl.tst_player_confirmation_modal.html', true, true, 'components/ILIAS/Test');
-
         $tpl->setVariable('CONFIRMATION_TEXT', $this->lng->txt('discard_answer_confirmation'));
 
-        $button = $this->ui_factory->button()->standard($this->lng->txt('discard_answer'), '#')
-        ->withAdditionalOnLoadCode(
-            fn($id) => "document.getElementById('$id').addEventListener(
-                'click',
-                 (event)=>{
-                    event.target.name = 'cmd[discardSolution]';
-                    event.target.form.requestSubmit(event.target);
-                }
-            )"
-        );
+        $modal = $this->ui_factory->modal()->interruptive(
+            $this->lng->txt('discard_answer'),
+            $tpl->get(),
+            ''
+        )
+            ->withActionButtonLabel($this->lng->txt('discard_answer'))
+            ->withAdditionalOnLoadCode(
+                fn($id) => "$('#" . self::DISCARD_SOLUTION_MODAL_ID . " input[type=submit]').click(
+                     (event) => {
+                        event.target.name = 'cmd[discardSolution]';
+                        event.target.form.requestSubmit(event.target);
+                    }
+                )"
+            );
 
-        $tpl->setCurrentBlock('buttons');
-        $tpl->setVariable('BUTTON', $this->ui_renderer->render($button));
-        $tpl->parseCurrentBlock();
+        $rendered_modal = $this->ui_renderer->render($modal);
 
-        $button = $this->ui_factory->button()->primary($this->lng->txt('cancel'), '#')
-        ->withAdditionalOnLoadCode(
-            fn($id) => "document.getElementById('$id').addEventListener(
-                'click',
-                 ()=>$('#tst_discard_solution_modal').modal('hide')
-            );"
-        );
-        $tpl->setCurrentBlock('buttons');
-        $tpl->setVariable('BUTTON', $this->ui_renderer->render($button));
-        $tpl->parseCurrentBlock();
+        $doc = new DOMDocument();
+        @$doc->loadHTML($rendered_modal);
+        $doc->getElementsByTagName('div')->item(0)->attributes->getNamedItem('id')->nodeValue = self::DISCARD_SOLUTION_MODAL_ID;
 
-        $modal = ilModalGUI::getInstance();
-        $modal->setId('tst_discard_solution_modal');
-        $modal->setHeading($this->lng->txt('discard_answer'));
-        $modal->setBody($tpl->get());
-
-        $this->tpl->setCurrentBlock('discard_solution_modal');
-        $this->tpl->setVariable('DISCARD_SOLUTION_MODAL', $modal->getHTML());
-        $this->tpl->parseCurrentBlock();
+        return $doc->saveHTML();
     }
 
     protected function populateNextLocksUnchangedModal()

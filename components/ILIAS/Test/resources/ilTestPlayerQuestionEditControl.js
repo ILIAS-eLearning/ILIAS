@@ -119,6 +119,10 @@ il.TestPlayerQuestionEditControl = new function() {
      */
     var navUrl = '';
 
+    /**
+     * @type string
+     */
+    const discard_solution_modal_id = 'tst_discard_solution_modal';
 
     /**
 	 * Initialize the Control
@@ -506,7 +510,7 @@ il.TestPlayerQuestionEditControl = new function() {
      */
     function showDiscardSolutionModal() {
         if (answered) {
-            $('#tst_discard_solution_modal').modal('show');
+            $('#' + discard_solution_modal_id).modal('show');
         }
     }
 
@@ -514,7 +518,7 @@ il.TestPlayerQuestionEditControl = new function() {
      * Hide the discard solution modal
      */
     function hideDiscardSolutionModal() {
-        $('#tst_discard_solution_modal').modal('hide');
+        $('#' + discard_solution_modal_id).modal('hide');
     }
 
     function showFollowupQuestionLocksCurrentAnswerModal()
