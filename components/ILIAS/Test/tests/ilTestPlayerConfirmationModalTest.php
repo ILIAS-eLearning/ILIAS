@@ -28,64 +28,61 @@ class ilTestPlayerConfirmationModalTest extends ilTestBaseTestCase
 
     protected function setUp(): void
     {
-        global $DIC;
         parent::setUp();
+        global $DIC;
+        $ui = $DIC->ui();
 
-        $this->testObj = new ilTestPlayerConfirmationModal($DIC['ui.renderer']);
+        $this->testObj = new ilTestPlayerConfirmationModal($ui->renderer(), $ui->factory());
     }
 
-    public function test_instantiateObject_shouldReturnInstance(): void
+    public function testConstruct(): void
     {
         $this->assertInstanceOf(ilTestPlayerConfirmationModal::class, $this->testObj);
     }
 
-    public function testModalId(): void
+    public function testSetAndGetHeaderText(): void
     {
-        $modalId = '12345';
-        $this->testObj->setModalId($modalId);
-        $this->assertEquals($modalId, $this->testObj->getModalId());
+        $header_text = 'testString';
+        $this->assertEquals($this->testObj, $this->testObj->setHeaderText($header_text));
+        $this->assertEquals($header_text, $this->testObj->getHeaderText());
     }
 
-    public function testHeaderText(): void
+    public function testSetAndGetConfirmationText(): void
     {
-        $headerText = 'testString';
-        $this->testObj->setHeaderText($headerText);
-        $this->assertEquals($headerText, $this->testObj->getHeaderText());
+        $confirmation_text = 'testString';
+        $this->assertEquals($this->testObj, $this->testObj->setConfirmationText($confirmation_text));
+        $this->assertEquals($confirmation_text, $this->testObj->getConfirmationText());
     }
 
-    public function testConfirmationText(): void
+    public function testSetAndGetConfirmationCheckboxName(): void
     {
-        $confirmationText = 'testString';
-        $this->testObj->setConfirmationText($confirmationText);
-        $this->assertEquals($confirmationText, $this->testObj->getConfirmationText());
+        $confirmation_checkbox_name = 'testString';
+        $this->assertEquals($this->testObj, $this->testObj->setConfirmationCheckboxName($confirmation_checkbox_name));
+        $this->assertEquals($confirmation_checkbox_name, $this->testObj->getConfirmationCheckboxName());
     }
 
-    public function testConfirmationCheckboxName(): void
+    public function testSetAndGetConfirmationCheckboxLabel(): void
     {
-        $confirmationCheckboxName = 'testString';
-        $this->testObj->setConfirmationCheckboxName($confirmationCheckboxName);
-        $this->assertEquals($confirmationCheckboxName, $this->testObj->getConfirmationCheckboxName());
+        $confirmation_checkbox_label = 'testString';
+        $this->assertEquals($this->testObj, $this->testObj->setConfirmationCheckboxLabel($confirmation_checkbox_label));
+        $this->assertEquals($confirmation_checkbox_label, $this->testObj->getConfirmationCheckboxLabel());
     }
 
-    public function testConfirmationCheckboxLabel(): void
+    public function testSetAndGetActionButtonLabel(): void
     {
-        $confirmationCheckboxLabel = 'testString';
-        $this->testObj->setConfirmationCheckboxLabel($confirmationCheckboxLabel);
-        $this->assertEquals($confirmationCheckboxLabel, $this->testObj->getConfirmationCheckboxLabel());
+        $action_button_label = 'testString';
+        $this->assertEquals($this->testObj, $this->testObj->setActionButtonLabel($action_button_label));
+        $this->assertEquals($action_button_label, $this->testObj->getActionButtonLabel());
     }
 
-    public function testAddParameter(): void
+    public function testAddAndGetParameters(): void
     {
         $this->addGlobal_ilCtrl();
-
         $this->addGlobal_lng();
 
         foreach ([51, 291, 15, 681] as $id) {
             $hiddenInput = new ilHiddenInputGUI('postVar_' . $id);
             $expected[] = $hiddenInput;
-        }
-
-        foreach ($expected ?? [] as $hiddenInput) {
             $this->testObj->addParameter($hiddenInput);
         }
 
@@ -96,8 +93,8 @@ class ilTestPlayerConfirmationModalTest extends ilTestBaseTestCase
     {
         $this->assertFalse($this->testObj->isConfirmationCheckboxRequired());
 
-        $this->testObj->setConfirmationCheckboxName('testName');
-        $this->testObj->setConfirmationCheckboxLabel('testLabel');
+        $this->assertEquals($this->testObj, $this->testObj->setConfirmationCheckboxName('testName'));
+        $this->assertEquals($this->testObj, $this->testObj->setConfirmationCheckboxLabel('testLabel'));
         $this->assertTrue($this->testObj->isConfirmationCheckboxRequired());
     }
 }

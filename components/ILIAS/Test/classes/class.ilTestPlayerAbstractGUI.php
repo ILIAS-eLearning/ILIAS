@@ -2964,13 +2964,15 @@ JS;
         $this->tpl->setVariable($this->getContentBlockName(), $content_html);
     }
 
-    protected function populateModals()
+    /**
+     * @throws ilTemplateException
+     */
+    protected function populateModals(): void
     {
         $this->populateDiscardSolutionModal();
 
         if ($this->object->isFollowupQuestionAnswerFixationEnabled()) {
             $this->populateNextLocksChangedModal();
-
             $this->populateNextLocksUnchangedModal();
         }
     }
@@ -3017,48 +3019,43 @@ JS;
         $this->tpl->parseCurrentBlock();
     }
 
-    protected function populateNextLocksUnchangedModal()
+    /**
+     * @throws ilTemplateException
+     */
+    protected function populateNextLocksUnchangedModal(): void
     {
-        $modal = new ilTestPlayerConfirmationModal($this->ui_renderer);
-        $modal->setModalId('tst_next_locks_unchanged_modal');
-
-        $modal->setHeaderText($this->lng->txt('tst_nav_next_locks_empty_answer_header'));
-        $modal->setConfirmationText($this->lng->txt('tst_nav_next_locks_empty_answer_confirm'));
-
-        $button = $this->ui_factory->button()->standard($this->lng->txt('tst_proceed'), '#');
-        $modal->addButton($button);
-
-        $button = $this->ui_factory->button()->primary($this->lng->txt('cancel'), '#');
-        $modal->addButton($button);
+        $modal = (new ilTestPlayerConfirmationModal($this->ui_renderer, $this->ui_factory))
+            ->setActionButtonLabel($this->lng->txt('tst_proceed'))
+            ->setHeaderText($this->lng->txt('tst_nav_next_locks_empty_answer_header'))
+            ->setConfirmationText($this->lng->txt('tst_nav_next_locks_empty_answer_confirm'));
 
         $this->tpl->setCurrentBlock('next_locks_unchanged_modal');
-        $this->tpl->setVariable('NEXT_LOCKS_UNCHANGED_MODAL', $modal->getHTML());
+        $modal_id = 'tst_next_locks_unchanged_modal';
+        $this->tpl->setVariable('NEXT_LOCKS_UNCHANGED_MODAL', $modal->getHTML($modal_id));
+        $this->tpl->addOnLoadCode('unchanged_modal_id = "' . $modal_id . '";');
         $this->tpl->parseCurrentBlock();
     }
 
-    protected function populateNextLocksChangedModal()
+    /**
+     * @throws ilTemplateException
+     */
+    protected function populateNextLocksChangedModal(): void
     {
         if ($this->isFollowUpQuestionLocksConfirmationPrevented()) {
             return;
         }
 
-        $modal = new ilTestPlayerConfirmationModal($this->ui_renderer);
-        $modal->setModalId('tst_next_locks_changed_modal');
-
-        $modal->setHeaderText($this->lng->txt('tst_nav_next_locks_current_answer_header'));
-        $modal->setConfirmationText($this->lng->txt('tst_nav_next_locks_current_answer_confirm'));
-
-        $modal->setConfirmationCheckboxName(self::FOLLOWUP_QST_LOCKS_PREVENT_CONFIRMATION_PARAM);
-        $modal->setConfirmationCheckboxLabel($this->lng->txt('tst_dont_show_msg_again_in_current_session'));
-
-        $button = $this->ui_factory->button()->primary($this->lng->txt('tst_save_and_proceed'), '#');
-        $modal->addButton($button);
-
-        $button = $this->ui_factory->button()->standard($this->lng->txt('cancel'), '#');
-        $modal->addButton($button);
+        $modal = (new ilTestPlayerConfirmationModal($this->ui_renderer, $this->ui_factory))
+            ->setActionButtonLabel($this->lng->txt('tst_save_and_proceed'))
+            ->setHeaderText($this->lng->txt('tst_nav_next_locks_current_answer_header'))
+            ->setConfirmationText($this->lng->txt('tst_nav_next_locks_current_answer_confirm'))
+            ->setConfirmationCheckboxName(self::FOLLOWUP_QST_LOCKS_PREVENT_CONFIRMATION_PARAM)
+            ->setConfirmationCheckboxLabel($this->lng->txt('tst_dont_show_msg_again_in_current_session'));
 
         $this->tpl->setCurrentBlock('next_locks_changed_modal');
-        $this->tpl->setVariable('NEXT_LOCKS_CHANGED_MODAL', $modal->getHTML());
+        $modal_id = 'tst_next_locks_changed_modal';
+        $this->tpl->setVariable('NEXT_LOCKS_CHANGED_MODAL', $modal->getHTML($modal_id));
+        $this->tpl->addOnLoadCode('changed_modal_id = "' . $modal_id . '";');
         $this->tpl->parseCurrentBlock();
     }
 
