@@ -378,239 +378,100 @@ abstract class ilBlockGUI
     {
         $this->initCommands();
 
-        // old rendering is obsolete
-        //if ($this->new_rendering) {
-        return $this->getHTMLNew();
-        //}
+        $access = $this->access;
+        $panel = null;
 
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        $ilAccess = $this->access;
-        $ilUser = $this->user;
-        $objDefinition = $this->obj_def;
+        $ctrl = $this->ctrl;
 
         if ($this->isRepositoryObject()) {
-            if (!$ilAccess->checkAccess("read", "", $this->getRefId())) {
+            if (!$access->checkAccess("read", "", $this->getRefId())) {
                 return "";
             }
         }
 
-        $this->tpl = new ilTemplate("tpl.block.html", true, true, "Services/Block");
+        $this->addRepoCommands();
 
-        //		$this->handleConfigStatus();
-
-        $this->fillDataSection();
-        if ($this->getRepositoryMode() && $this->isRepositoryObject()) {
-            // #10993
-            // @todo: fix this in new presentation somehow
-            if ($this->getAdminCommands()) {
-                $this->tpl->setCurrentBlock("block_check");
-                $this->tpl->setVariable("BL_REF_ID", $this->getRefId());
-                $this->tpl->parseCurrentBlock();
-            }
-
-            if ($ilAccess->checkAccess("delete", "", $this->getRefId())) {
-                $this->addBlockCommand(
-                    "ilias.php?baseClass=ilRepositoryGUI&ref_id=" . $this->requested_ref_id . "&cmd=delete" .
-                    "&item_ref_id=" . $this->getRefId(),
-                    $lng->txt("delete")
+        switch ($this->getPresentation()) {
+            case self::PRES_SEC_LEG:
+                $panel = $this->factory->panel()->secondary()->legacy(
+                    $this->specialCharsAsEntities($this->getTitle()),
+                    $this->factory->legacy($this->getLegacyContent())
                 );
+                break;
 
-                // see ilObjectListGUI::insertCutCommand();
-                $this->addBlockCommand(
-                    "ilias.php?baseClass=ilRepositoryGUI&ref_id=" . $this->requested_ref_id . "&cmd=cut" .
-                    "&item_ref_id=" . $this->getRefId(),
-                    $lng->txt("move")
+            case self::PRES_MAIN_LEG:
+                $panel = $this->factory->panel()->standard(
+                    $this->specialCharsAsEntities($this->getTitle()),
+                    $this->factory->legacy($this->getLegacyContent())
                 );
-            }
+                break;
 
-            // #14595 - see ilObjectListGUI::insertCopyCommand()
-            if ($ilAccess->checkAccess("copy", "", $this->getRefId())) {
-                $parent_type = ilObject::_lookupType($this->requested_ref_id, true);
-                $parent_gui = "ilObj" . $objDefinition->getClassName($parent_type) . "GUI";
-
-                $ilCtrl->setParameterByClass("ilobjectcopygui", "source_id", $this->getRefId());
-                $copy_cmd = $ilCtrl->getLinkTargetByClass(
-                    array("ilrepositorygui", $parent_gui, "ilobjectcopygui"),
-                    "initTargetSelection"
+            case self::PRES_SEC_LIST:
+                $this->handleNavigation();
+                $panel = $this->factory->panel()->secondary()->listing(
+                    $this->specialCharsAsEntities($this->getTitle()),
+                    $this->getListItemGroups()
                 );
+                break;
 
-                // see ilObjectListGUI::insertCopyCommand();
-                $this->addBlockCommand(
-                    $copy_cmd,
-                    $lng->txt("copy")
+            case self::PRES_MAIN_TILE:
+            case self::PRES_MAIN_LIST:
+                $this->handleNavigation();
+                $panel = $this->factory->panel()->listing()->standard(
+                    $this->specialCharsAsEntities($this->getTitle()),
+                    $this->getListItemGroups()
+                );
+                break;
+        }
+
+        // check for empty list panel
+        if (in_array($this->getPresentation(), [self::PRES_SEC_LIST, self::PRES_MAIN_LIST], true) &&
+            ($panel->getItemGroups() === [] || (count($panel->getItemGroups()) === 1 && $panel->getItemGroups()[0]->getItems() === []))) {
+            if ($this->getPresentation() === self::PRES_SEC_LIST) {
+                $panel = $this->factory->panel()->secondary()->legacy(
+                    $this->specialCharsAsEntities($this->getTitle()),
+                    $this->factory->legacy($this->getNoItemFoundContent())
+                );
+            } else {
+                $panel = $this->factory->panel()->standard(
+                    $this->specialCharsAsEntities($this->getTitle()),
+                    $this->factory->legacy($this->getNoItemFoundContent())
                 );
             }
         }
 
-        $this->dropdown = array();
-
-        // commands
-        if (count($this->getBlockCommands()) > 0) {
-            foreach ($this->getBlockCommands() as $command) {
-                if ($command["onclick"]) {
-                    $command["onclick"] = "ilBlockJSHandler('" . "block_" . $this->getBlockType() . "_" . $this->block_id .
-                        "','" . $command["onclick"] . "')";
-                }
-                $this->dropdown[] = $command;
-            }
+        $actions = $this->getActionsForPanel();
+        if ($actions !== null) {
+            $panel = $panel->withActions($actions);
+        }
+        $viewControls = $this->getViewControlsForPanel();
+        if ($viewControls !== [] &&
+            (
+                $panel instanceof StandardPanel ||
+                $panel instanceof SecondaryListingPanel ||
+                $panel instanceof SecondaryLegacyPanel ||
+                $panel instanceof StandardListingPanel
+            )
+        ) {
+            $panel = $panel->withViewControls($viewControls);
         }
 
-        // fill previous next
-        $this->fillPreviousNext();
-
-        // fill footer
-        $this->fillFooter();
-
-
-        //$this->fillHeaderCommands();
-        $this->fillHeaderTitleBlock();
-
-        if ($this->getPresentation() === self::PRES_MAIN_LEG) {
-            $this->tpl->touchBlock("hclassb");
+        if ($ctrl->isAsynch()) {
+            $html = $this->renderer->renderAsync([$panel, ...$this->modals]);
         } else {
-            $this->tpl->touchBlock("hclass");
+            $html = $this->renderer->render([$panel, ...$this->modals]);
         }
 
-        if ($ilCtrl->isAsynch()) {
-            // return without div wrapper
-            echo $this->tpl->get();
-            //echo $this->tpl->getAsynch();
+
+        if ($ctrl->isAsynch()) {
+            $this->send($html);
         } else {
             // return incl. wrapping div with id
-            return '<div id="' . "block_" . $this->getBlockType() . "_" . $this->block_id . '">' .
-                $this->tpl->get() . '</div>';
-        }
-        return "";
-    }
-
-    public function fillHeaderTitleBlock(): void
-    {
-        $lng = $this->lng;
-
-
-        // header title
-        $this->tpl->setCurrentBlock("header_title");
-        $this->tpl->setVariable(
-            "BTID",
-            "block_" . $this->getBlockType() . "_" . $this->block_id
-        );
-        $this->tpl->setVariable(
-            "BLOCK_TITLE",
-            $this->getTitle()
-        );
-        $this->tpl->setVariable(
-            "TXT_BLOCK",
-            $lng->txt("block")
-        );
-        $this->tpl->parseCurrentBlock();
-
-        $this->tpl->setCurrentBlock("hitem");
-        $this->tpl->parseCurrentBlock();
-    }
-
-    /**
-     * Call this from overwritten fillDataSection(), if standard row based data is not used.
-     */
-    public function setDataSection(string $a_content): void
-    {
-        $this->tpl->setCurrentBlock("data_section");
-        $this->tpl->setVariable("DATA", $a_content);
-        $this->tpl->parseCurrentBlock();
-        $this->tpl->setVariable("BLOCK_ROW", "");
-    }
-
-    /**
-     * Standard implementation for row based data.
-     * Overwrite this and call setContent for other data.
-     */
-    public function fillDataSection(): void
-    {
-        $req_nav_par = $this->request->getNavPar($this->getNavParameter());
-        if ($req_nav_par != "") {
-            $this->nav_value = $req_nav_par;
-        }
-        $this->nav_value = ($this->nav_value != "")
-            ? $this->nav_value
-            : $this->block_manager->getNavPar($this->getNavParameter());
-
-        $this->block_manager->setNavPar(
-            $this->getNavParameter(),
-            $this->nav_value
-        );
-
-        $nav = explode(":", $this->nav_value);
-        if (isset($nav[2])) {
-            $this->setOffset((int) $nav[2]);
-        } else {
-            $this->setOffset(0);
+            $html = '<div id="' . 'block_' . $this->getBlockType() . '_' . $this->block_id . '">' .
+                $html . '</div>';
         }
 
-        // data
-        $this->tpl->addBlockFile(
-            "BLOCK_ROW",
-            "block_row",
-            $this->getRowTemplateName(),
-            $this->getRowTemplateDir()
-        );
-
-        $data = $this->getData();
-        $this->max_count = count($data);
-        $data = array_slice($data, $this->getOffset(), $this->getLimit());
-
-        $this->preloadData($data);
-
-        foreach ($data as $record) {
-            $this->tpl->setCurrentBlock("block_row");
-            $this->fillRowColor();
-            $this->fillRow($record);
-            $this->tpl->setCurrentBlock("block_row");
-            $this->tpl->parseCurrentBlock();
-        }
-    }
-
-    public function fillRow(array $a_set): void
-    {
-        foreach ($a_set as $key => $value) {
-            $this->tpl->setVariable("VAL_" . strtoupper($key), $value);
-        }
-    }
-
-    public function fillFooter(): void
-    {
-    }
-
-    final protected function fillRowColor(string $a_placeholder = "CSS_ROW"): void
-    {
-        $this->css_row = ($this->css_row != "ilBlockRow1")
-            ? "ilBlockRow1"
-            : "ilBlockRow2";
-        $this->tpl->setVariable($a_placeholder, $this->css_row);
-    }
-
-    public function fillPreviousNext(): void
-    {
-        $lng = $this->lng;
-
-        // table pn numinfo
-        $numinfo = "";
-        if ($this->getEnableNumInfo() && $this->max_count > 0) {
-            $start = $this->getOffset() + 1;                // compute num info
-            $end = $this->getOffset() + $this->getLimit();
-
-            if ($end > $this->max_count or $this->getLimit() == 0) {
-                $end = $this->max_count;
-            }
-
-            $numinfo = "(" . $start . "-" . $end . " " . strtolower($lng->txt("of")) . " " . $this->max_count . ")";
-        }
-
-        $this->setPreviousNextLinks();
-        $this->tpl->setVariable("NUMINFO", $numinfo);
-    }
-
-    public function setPreviousNextLinks(): void
-    {
+        return $html;
     }
 
     /**
@@ -630,13 +491,6 @@ abstract class ilBlockGUI
         header("Content-type: text/html; charset=UTF-8");
         return $this->tpl->get();
     }
-
-    //
-    // New rendering
-    //
-
-    // temporary flag
-    protected bool $new_rendering = false;
 
 
     /**
@@ -838,104 +692,6 @@ abstract class ilBlockGUI
                 );
             }
         }
-    }
-
-    public function getHTMLNew(): string
-    {
-        $access = $this->access;
-        $panel = null;
-
-        $ctrl = $this->ctrl;
-
-        if ($this->isRepositoryObject()) {
-            if (!$access->checkAccess("read", "", $this->getRefId())) {
-                return "";
-            }
-        }
-
-        $this->addRepoCommands();
-
-        switch ($this->getPresentation()) {
-            case self::PRES_SEC_LEG:
-                $panel = $this->factory->panel()->secondary()->legacy(
-                    $this->specialCharsAsEntities($this->getTitle()),
-                    $this->factory->legacy($this->getLegacyContent())
-                );
-                break;
-
-            case self::PRES_MAIN_LEG:
-                $panel = $this->factory->panel()->standard(
-                    $this->specialCharsAsEntities($this->getTitle()),
-                    $this->factory->legacy($this->getLegacyContent())
-                );
-                break;
-
-            case self::PRES_SEC_LIST:
-                $this->handleNavigation();
-                $panel = $this->factory->panel()->secondary()->listing(
-                    $this->specialCharsAsEntities($this->getTitle()),
-                    $this->getListItemGroups()
-                );
-                break;
-
-            case self::PRES_MAIN_TILE:
-            case self::PRES_MAIN_LIST:
-                $this->handleNavigation();
-                $panel = $this->factory->panel()->listing()->standard(
-                    $this->specialCharsAsEntities($this->getTitle()),
-                    $this->getListItemGroups()
-                );
-                break;
-        }
-
-        // check for empty list panel
-        if (in_array($this->getPresentation(), [self::PRES_SEC_LIST, self::PRES_MAIN_LIST], true) &&
-            ($panel->getItemGroups() === [] || (count($panel->getItemGroups()) === 1 && $panel->getItemGroups()[0]->getItems() === []))) {
-            if ($this->getPresentation() === self::PRES_SEC_LIST) {
-                $panel = $this->factory->panel()->secondary()->legacy(
-                    $this->specialCharsAsEntities($this->getTitle()),
-                    $this->factory->legacy($this->getNoItemFoundContent())
-                );
-            } else {
-                $panel = $this->factory->panel()->standard(
-                    $this->specialCharsAsEntities($this->getTitle()),
-                    $this->factory->legacy($this->getNoItemFoundContent())
-                );
-            }
-        }
-
-        $actions = $this->getActionsForPanel();
-        if ($actions !== null) {
-            $panel = $panel->withActions($actions);
-        }
-        $viewControls = $this->getViewControlsForPanel();
-        if ($viewControls !== [] &&
-            (
-                $panel instanceof StandardPanel ||
-                $panel instanceof SecondaryListingPanel ||
-                $panel instanceof SecondaryLegacyPanel ||
-                $panel instanceof StandardListingPanel
-            )
-        ) {
-            $panel = $panel->withViewControls($viewControls);
-        }
-
-        if ($ctrl->isAsynch()) {
-            $html = $this->renderer->renderAsync([$panel, ...$this->modals]);
-        } else {
-            $html = $this->renderer->render([$panel, ...$this->modals]);
-        }
-
-
-        if ($ctrl->isAsynch()) {
-            $this->send($html);
-        } else {
-            // return incl. wrapping div with id
-            $html = '<div id="' . 'block_' . $this->getBlockType() . '_' . $this->block_id . '">' .
-                $html . '</div>';
-        }
-
-        return $html;
     }
 
     protected function getActionsForPanel(): ?Dropdown

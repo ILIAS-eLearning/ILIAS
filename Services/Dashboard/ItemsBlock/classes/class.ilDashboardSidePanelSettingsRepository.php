@@ -61,10 +61,17 @@ class ilDashboardSidePanelSettingsRepository
     public function getPositions(): array
     {
         $positions = $this->setting->get('side_panel_positions', '');
+        $modules = [];
         if ($positions !== '') {
-            return unserialize($positions, ['allowed_classes' => false]);
+            $modules = unserialize($positions, ['allowed_classes' => false]);
         }
-        return $this->getValidModules();
+        $all_modules = $this->getValidModules();
+        foreach ($all_modules as $mod) {
+            if (!in_array($mod, $modules, true)) {
+                $modules[] = $mod;
+            }
+        }
+        return $modules;
     }
 
     protected function isValidModule(string $mod): bool
