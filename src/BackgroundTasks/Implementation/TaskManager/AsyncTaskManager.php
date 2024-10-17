@@ -48,12 +48,16 @@ class AsyncTaskManager extends BasicTaskManager
         $soap_client->enableWSDL(true);
         $soap_client->init();
         $session_id = session_id();
-        $client_id = $DIC->http()->wrapper()->cookie()->has('ilClientId')
-            ? $DIC->http()->wrapper()->cookie()->retrieve(
-                'ilClientId',
-                $DIC->refinery()->kindlyTo()->string()
-            )
-            : '';
+        $client_id = $DIC->http()->wrapper()->cookie()->retrieve(
+            'ilClientId',
+            $DIC->refinery()->byTrying([
+                $DIC->refinery()->kindlyTo()->string(),
+                $DIC->refinery()->always(
+                    defined('CLIENT_ID') ? CLIENT_ID : null
+                )
+            ])
+        );
+
         try {
             $soap_client->call(self::CMD_START_WORKER, array(
                 $session_id . '::' . $client_id,
