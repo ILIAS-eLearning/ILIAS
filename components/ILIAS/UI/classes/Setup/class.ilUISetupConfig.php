@@ -18,15 +18,17 @@
 
 declare(strict_types=1);
 
-interface ilMathJaxConfigRespository
-{
-    /**
-     * Get the MathJax Configuration
-     */
-    public function getConfig(): ilMathJaxConfig;
+use ILIAS\Setup;
 
-    /**
-     * Update the MathJax Configuration
-     */
-    public function updateConfig(ilMathJaxConfig $config): void;
+class ilUISetupConfig implements Setup\Config
+{
+    public function __construct(
+        protected readonly bool $mathjax_enabled
+    ) {
+    }
+
+    public function isMathJaxEnabled(): bool
+    {
+        return $this->mathjax_enabled;
+    }
 }

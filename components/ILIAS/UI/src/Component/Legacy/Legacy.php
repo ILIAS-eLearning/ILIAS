@@ -24,12 +24,14 @@ use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Layout\Alignment\Block;
+use ILIAS\UI\Implementation\Render\DecoratedRenderer;
+use ILIAS\UI\Component\LatexAwareComponent;
 
 /**
  * Interface Legacy
  * @package ILIAS\UI\Component\Legacy
  */
-interface Legacy extends Component, JavaScriptBindable, Block
+interface Legacy extends Component, JavaScriptBindable, Block, LatexAwareComponent
 {
     /**
      * Get content as string stored in this component.

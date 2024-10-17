@@ -1856,6 +1856,8 @@ abstract class assQuestionGUI
         bool $prepare_for_latex_output = false,
         bool $omitNl2BrWhenTextArea = false
     ): string {
+        global $DIC;
+
         if ($txt_output === null || $txt_output === '') {
             return '';
         }
@@ -1887,20 +1889,24 @@ abstract class assQuestionGUI
             }
         }
 
-        // since server side mathjax rendering does include svg-xml structures that indeed have linebreaks,
-        // do latex conversion AFTER replacing linebreaks with <br>. <svg> tag MUST NOT contain any <br> tags.
-        if ($prepare_for_latex_output) {
-            $result = ilMathJax::getInstance()->insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>");
-            $result = ilMathJax::getInstance()->insertLatexImages($result, "\[tex\]", "\[\/tex\]");
-        }
-
-        if ($prepare_for_latex_output) {
-            // replace special characters to prevent problems with the ILIAS template system
-            // eg. if someone uses {1} as an answer, nothing will be shown without the replacement
-            $result = str_replace("{", "&#123;", $result);
-            $result = str_replace("}", "&#125;", $result);
-            $result = str_replace("\\", "&#92;", $result);
-        }
+        // Fred Neumann, 14.7.2024
+        // The only call of this static function is in \assOrderingHorizontalGUI::populateQuestionSpecificFormPart
+        // here the parameter $prepare_for_latex_output is false, so this code was never processed
+        //
+        //        // since server side mathjax rendering does include svg-xml structures that indeed have linebreaks,
+        //        // do latex conversion AFTER replacing linebreaks with <br>. <svg> tag MUST NOT contain any <br> tags.
+        //        if ($prepare_for_latex_output) {
+        //            $result = ilMathJax::getInstance()->insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>");
+        //            $result = ilMathJax::getInstance()->insertLatexImages($result, "\[tex\]", "\[\/tex\]");
+        //        }
+        //
+        //        if ($prepare_for_latex_output) {
+        //            // replace special characters to prevent problems with the ILIAS template system
+        //            // eg. if someone uses {1} as an answer, nothing will be shown without the replacement
+        //            $result = str_replace("{", "&#123;", $result);
+        //            $result = str_replace("}", "&#125;", $result);
+        //            $result = str_replace("\\", "&#92;", $result);
+        //        }
 
         return $result;
     }

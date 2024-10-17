@@ -17,6 +17,7 @@
     "jstree": "^3.3.16",
     "linkify-element": "^4.1.3",
     "linkifyjs": "^4.1.3",
+    "mathjax": "^3.2.2",
     "moment": "^2.29.4",
     "tinymce": "^7.3.0",
     "jstree": "^3.3.16"

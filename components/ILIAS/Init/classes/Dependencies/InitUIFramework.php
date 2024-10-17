@@ -278,7 +278,8 @@ class InitUIFramework
                             $c["ui.pathresolver"],
                             $c["ui.data_factory"],
                             $c["help.text_retriever"],
-                            $c["ui.upload_limit_resolver"]
+                            $c["ui.upload_limit_resolver"],
+                            $c["ui.mathjax_config"]
                         ),
                         new ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory(
                             $c["ui.factory"],
@@ -288,7 +289,8 @@ class InitUIFramework
                             $c["ui.pathresolver"],
                             $c["ui.data_factory"],
                             $c["help.text_retriever"],
-                            $c["ui.upload_limit_resolver"]
+                            $c["ui.upload_limit_resolver"],
+                            $c["ui.mathjax_config"]
                         ),
                         new ILIAS\UI\Implementation\Component\Symbol\Icon\IconRendererFactory(
                             $c["ui.factory"],
@@ -298,7 +300,8 @@ class InitUIFramework
                             $c["ui.pathresolver"],
                             $c["ui.data_factory"],
                             $c["help.text_retriever"],
-                            $c["ui.upload_limit_resolver"]
+                            $c["ui.upload_limit_resolver"],
+                            $c["ui.mathjax_config"]
                         ),
                         new ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory(
                             $c["ui.factory"],
@@ -308,7 +311,8 @@ class InitUIFramework
                             $c["ui.pathresolver"],
                             $c["ui.data_factory"],
                             $c["help.text_retriever"],
-                            $c["ui.upload_limit_resolver"]
+                            $c["ui.upload_limit_resolver"],
+                            $c["ui.mathjax_config"]
                         )
                     )
                 )
@@ -344,6 +348,14 @@ class InitUIFramework
 
         $c["ui.factory.entity"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Entity\Factory();
+        };
+
+        $c["ui.mathjax_config"] = function ($c) {
+            // this reads the enabling/disabling setting for MathJax rendering in the browser
+            $setting = new ilSetting('UI');
+            return new \ILIAS\UI\Implementation\Render\MathJaxDefaultConfig(
+                (bool) $setting->get('mathjax_enabled'),
+            );
         };
 
         // currently this is will be a session storage because we cannot store

@@ -29,9 +29,13 @@ use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use iljQueryUtil;
 use ilUIFramework;
 use LogicException;
+use ILIAS\UI\Implementation\Render\LatexAwareRenderer;
+use ILIAS\UI\Implementation\Component\LatexAwareRendererTrait;
 
-class Renderer extends AbstractComponentRenderer
+class Renderer extends AbstractComponentRenderer implements LatexAwareRenderer
 {
+    use LatexAwareRendererTrait;
+
     public const COOKIE_NAME_SLATES_ENGAGED = 'il_mb_slates';
 
     /**
@@ -53,6 +57,12 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.standardpage.html", true, true);
 
         $tpl->setVariable('FAVICON_PATH', $component->getFaviconPath());
+
+        // This activates a restrictive policy for latex rendering
+        // Only components that set an enabling cladd will get latex rendered by MathJax
+        if ($this->getMathJaxConfig()->isMathJaxEnabled()) {
+            $tpl->setVariable('MATHJAX_GLOBAL_DISABLING_CLASS', $this->getMathJaxConfig()->getGlobalDisablingClass());
+        }
 
         $id = $this->bindJavaScript($component);
         $tpl->setVariable("ID", $id);

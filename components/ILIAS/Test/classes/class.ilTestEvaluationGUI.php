@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
-
 use ILIAS\Filesystem\Stream\Streams;
 
 /**
@@ -658,7 +657,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             }
         }
 
-        if($cmd == '') {
+        if ($cmd == '') {
             $cmd = $this->testrequest->raw("export_type");
         }
         switch ($cmd) {
@@ -994,7 +993,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $content = [];
         $anchors = [];
 
-        foreach($show_user_results as $selected_user) {
+        foreach ($show_user_results as $selected_user) {
             $active_id = (int) $selected_user;
             $pass = ilObjTest::_getResultPass($active_id);
 
@@ -2040,8 +2039,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $tpl->addCss(\ilObjStyleSheet::getContentPrintStyle());
         $tpl->addCss(\ilObjStyleSheet::getSyntaxStylePath());
         $tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css"), "print");
-
-        ilMathJax::getInstance()->includeMathJax($tpl);
 
         foreach ($this->global_screen->layout()->meta()->getJs()->getItemsInOrderOfDelivery() as $js) {
             $path = explode("?", $js->getContent());

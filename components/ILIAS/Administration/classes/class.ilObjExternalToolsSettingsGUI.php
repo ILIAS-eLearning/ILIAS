@@ -22,7 +22,7 @@ declare(strict_types=1);
  * Class ilObjExternalToolsSettingsGUI
  *
  * @author Sascha Hofmann <saschahofmann@gmx.de>
- * @ilCtrl_Calls ilObjExternalToolsSettingsGUI: ilPermissionGUI, ilMathJaxSettingsGUI
+ * @ilCtrl_Calls ilObjExternalToolsSettingsGUI: ilPermissionGUI
  */
 class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 {
@@ -51,7 +51,6 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
         $lng->loadLanguageModule("delic");
         $lng->loadLanguageModule("maps");
-        $lng->loadLanguageModule("mathjax");
         $lng->loadLanguageModule("wopi");
     }
 
@@ -70,7 +69,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
             $this->tabs_gui->addTarget(
                 "settings",
                 $this->ctrl->getLinkTarget($this, "view"),
-                array("editMaps", "editMathJax", ""),
+                array("editMaps", ""),
                 "",
                 ""
             );
@@ -192,7 +191,6 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
     public function initSubTabs(string $a_cmd): void
     {
         $maps = $a_cmd === 'editMaps';
-        $mathjax = $a_cmd === 'editMathJax';
         $wopi = $a_cmd === self::EDIT_WOPI;
 
         $this->tabs_gui->addSubTabTarget(
@@ -202,14 +200,6 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
             "",
             "",
             $maps
-        );
-        $this->tabs_gui->addSubTabTarget(
-            "mathjax_mathjax",
-            $this->ctrl->getLinkTargetByClass('ilMathJaxSettingsGUI'),
-            "",
-            "",
-            "",
-            $mathjax
         );
         $this->tabs_gui->addSubTabTarget(
             "wopi_settings",
@@ -232,12 +222,6 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
         }
 
         switch ($next_class) {
-            case 'ilmathjaxsettingsgui':
-                $this->tabs_gui->setTabActive('settings');
-                $this->initSubTabs("editMathJax");
-                $this->ctrl->forwardCommand(new ilMathJaxSettingsGUI());
-                break;
-
             case 'ilecssettingsgui':
                 $this->tabs_gui->setTabActive('ecs_server_settings');
                 $this->ctrl->forwardCommand(new ilECSSettingsGUI());

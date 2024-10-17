@@ -19,13 +19,11 @@
 declare(strict_types=1);
 use ILIAS\Setup;
 
-class ilMathJaxConfigStoredObjective implements Setup\Objective
+class ilUIConfigStoredObjective implements Setup\Objective
 {
-    protected \ilMathJaxSetupConfig $config;
-
-    public function __construct(\ilMathJaxSetupConfig $config)
-    {
-        $this->config = $config;
+    public function __construct(
+        private readonly ilUISetupConfig $config
+    ) {
     }
 
     public function getHash(): string
@@ -35,7 +33,7 @@ class ilMathJaxConfigStoredObjective implements Setup\Objective
 
     public function getLabel(): string
     {
-        return "Store configuration of Services/MathJax";
+        return "Store configuration of component UI";
     }
 
     public function isNotable(): bool
@@ -54,9 +52,9 @@ class ilMathJaxConfigStoredObjective implements Setup\Objective
     {
         /** @var ilSettingsFactory $factory */
         $factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
-        $repo = new ilMathJaxConfigSettingsRepository($factory->settingsFor('MathJax'));
-        $repo->updateConfig($this->config->applyTo($repo->getConfig()));
-
+        /** @var ilSetting $settings */
+        $settings = $factory->settingsFor('UI');
+        $settings->set('mathjax_enabled', $this->config->isMathJaxEnabled() ? '1' : 0);
         return $environment;
     }
 
@@ -64,8 +62,8 @@ class ilMathJaxConfigStoredObjective implements Setup\Objective
     {
         /** @var ilSettingsFactory $factory */
         $factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
-        $repo = new ilMathJaxConfigSettingsRepository($factory->settingsFor('MathJax'));
-
-        return $this->config->isApplicableTo($repo->getConfig());
+        /** @var ilSetting $settings */
+        $settings = $factory->settingsFor('UI');
+        return $this->config->isMathJaxEnabled() !== (bool) $settings->get('mathjax_enabled');
     }
 }
