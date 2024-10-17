@@ -132,7 +132,7 @@ class ilTestExportOptionXML extends ilBasicLegacyExportOption
     public function onExportOptionSelected(
         ilExportHandlerConsumerContextInterface $context
     ): void {
-        $this->ctrl->redirect($context->exportGUIObject(), $context->exportGUIObject()::CMD_EXPORT_XML);
+        $this->ctrl->redirect($context->exportGUIObject(), ilExportGUI::CMD_EXPORT_XML);
     }
 
     protected function getExportFiles(
@@ -152,7 +152,7 @@ class ilTestExportOptionXML extends ilBasicLegacyExportOption
                 $zip_archive = new ZipArchive();
                 $zip_archive->open($directory . DIRECTORY_SEPARATOR . $entry);
                 $is_result = false;
-                for($i = 0; $i < $zip_archive->numFiles; $i++) {
+                for ($i = 0; $i < $zip_archive->numFiles; $i++) {
                     $stat = $zip_archive->statIndex($i);
                     if (str_contains(basename($stat['name']), "results")) {
                         $is_result = true;
