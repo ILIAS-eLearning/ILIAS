@@ -25,7 +25,7 @@ declare(strict_types=1);
  *
  * @author Alex Killing <killing@leifos.de>
  */
-class ilObjectExporter extends ilXmlExporter
+class ilILIASObjectExporter extends ilXmlExporter
 {
     private ilObjectDataSet $ds;
 
