@@ -202,7 +202,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         // general properties
         $this->tabs_gui->addSubTab(
             "properties",
-            $this->lng->txt("blog_properties"),
+            $this->lng->txt("general"),
             $this->ctrl->getLinkTarget($this, 'edit')
         );
 

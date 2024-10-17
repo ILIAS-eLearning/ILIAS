@@ -729,7 +729,7 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
     {
         $this->tabs_gui->addSubTab(
             "settings_misc",
-            $this->lng->txt("settings"),
+            $this->lng->txt("general"),
             $this->ctrl->getLinkTarget($this, "edit")
         );
 

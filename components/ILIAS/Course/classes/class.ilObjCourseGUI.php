@@ -988,7 +988,7 @@ class ilObjCourseGUI extends ilContainerGUI
     public function editObject(ilPropertyFormGUI $form = null): void
     {
         $this->setSubTabs('properties');
-        $this->tabs_gui->setSubTabActive('crs_settings');
+        $this->tabs_gui->setSubTabActive('general');
 
         if ($form instanceof ilPropertyFormGUI) {
             $GLOBALS['DIC']['tpl']->setContent($form->getHTML());
