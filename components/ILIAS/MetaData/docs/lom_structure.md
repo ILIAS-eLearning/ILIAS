@@ -220,148 +220,23 @@ hyphen-separated suffixes to the base codes.
 
 ### Vocabulary Value (`vocab_value`)
 
-The value of vocabulary source-data must be one the values in a
-finite set, pre-defined for each element with this data
-type separately. Listed below are the permissible values, if the
-associated `source` element exists and  has the value `LOMv1.0`.
+The value of vocabulary value-data should be set to one of the values in a
+vocabulary, pre-defined for each element with this data type separately.
+These vocabularies can be configured in the ILIAS Administration, for more
+information see [here](vocabularies.md).
 
-Note that the LOM standard allows for using different vocabularies
-from different sources, but this is not implemented in ILIAS.
-
-#### general > structure
-
-````
-atomic, collection, networked, hierarchical, linear
-````
-
-#### general > aggregationLevel
-
-````
-1, 2, 3, 4
-````
-
-#### lifeCycle > status
-
-````
-draft, final, revised, unavailable
-````
-
-#### lifeCycle > contribute > role
-
-````
-author, publisher, unknown, initiator, terminator, editor,
-graphical designer, technical implementer, content provider,
-technical validator, educational validator, script writer,
-instructional designer, subject matter expert
-````
-
-#### metaMetadata > contribute > role
-
-````
-creator, validator
-````
-
-#### technical > requirement > orComposite > type
-
-````
-operating system, browser
-````
-
-#### technical > requirement > orComposite > name
-
-The `name` and `type` elements must either both be present, or not at
-all, and the permissible values of the `name` element depends of the
-value of  the `type` element. If the `type` element has the value
-`operating system`, then permissible values are
-
-````
-pc-dos, ms-windows, macos, unix, multi-os, none
-````
-
-and if it has the value `browser` 
-
-````
-any, netscape communicator, ms-internet explorer, opera, amaya
-````
-
-#### educational > interactivityType
-
-````
-active, expositive, mixed
-````
-
-#### educational > learningResourceType
-
-````
-exercise, simulation, questionnaire, diagram, figure, graph, index,
-slide, table, narrative text, exam, experiment, problem statement,
-self assessment, lecture
-````
-
-#### educational > interactivityLevel
-
-````
-very low, low, medium, high, very high
-````
-
-#### educational > semanticDensity
-
-````
-very low, low, medium, high, very high
-````
-
-#### educational > intendedEndUserRole
-
-````
-teacher, author, learner, manager
-````
-
-#### educational > context
-
-````
-school, higher education, training, other
-````
-
-#### educational > difficulty
-
-````
-very easy, easy, medium, difficult, very difficult
-````
-
-#### rights > cost
-
-````
-yes, no
-````
-
-#### rights > copyrightAndOtherRestrictions
-
-````
-yes, no
-````
-
-#### relation > kind
-
-````
-ispartof, haspart, isversionof, hasversion, isformatof, hasformat,
-references, isreferencedby, isbasedon, isbasisfor, requires,
-isrequiredby
-````
-
-#### classification > purpose
-
-````
-discipline, idea, prerequisite, educational objective,
-accessibility restrictions, educational level, skill level,
-security level, competency
-````
+Note that elements with other values than those from the element-specific
+vocabularies are not treated as invalid by ILIAS. This is to avoid
+information being lost on import/export between installations with 
+differently configured vocabularies, or when re-configuring vocabularies.
 
 ### Vocabulary Source (`vocab_source`)
 
-Vocabulary source-data in ILIAS always has the value `LOMv1.0`. 
-As explained above, the LOM standard allows for adding further
-vocabularies from different sources, but this is not implemented
-in ILIAS.
+Vocabulary source-data should be set to the source of the vocabulary
+that the associate `value` element is from. For more information see
+[here](vocabularies.md). As described [above](#vocabulary-source-vocab_source),
+elements with values not conforming to this are not treated as
+invalid in ILIAS.
 
 ### Datetime (`datetime`)
 
@@ -409,7 +284,7 @@ synchronized with the  title of the ILIAS object the LOM set belongs
 to, neither it nor its super-elements can be deleted.
 
 The sub-elements of the first `general > identifier` are fixed and can
-neither be edited nor deleted, along with their super-elements. The
+neither be edited nor deleted, along with their super-element. The
 `catalog` sub-element is always set to `ILIAS` and the `entry` to
 `il_{Installation ID}_{Object Type}_{Object ID}`. `Object ID` refers
 here to either the `sub_id` if it is non-zero, and otherwise to the
