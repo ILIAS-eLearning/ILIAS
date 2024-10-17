@@ -580,7 +580,7 @@ assessment#:#code#:#コード
 assessment#:#codebase#:#コードベース
 assessment#:#concatenation#:#結び付け
 assessment#:#conf_delete_pass#:#パスを本当に削除しますか?
-assessment#:#confirm_delete_user_data#:#本当に選択したユーザのテストデータを削除しますか?
+assessment#:#confirm_delete_all_user_data#:#本当に全ユーザのテストデータを削除しますか?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#変更した問題は実際のテストで使用するために作成したコピーです。オリジナルの問題も合わせて変更しますか?
 assessment#:#coordinates#:#座標
@@ -603,7 +603,8 @@ assessment#:#delete_all_user_data#:#全ユーザのテストデータを削除
 assessment#:#delete_all_user_data_confirmation#:#本当にこのテストの全ユーザのテストデータを削除しますか?
 assessment#:#delete_image_header#:#イメージを削除
 assessment#:#delete_image_question#:#本当にイメージを削除しますか?
-assessment#:#delete_selected_user_data_confirmation#:#選択したユーザのテストデータを削除
+assessment#:#delete_selected_user_data_confirmation#:#本当に選択したユーザのテストデータを削除しますか?
+assessment#:#delete_user_data#:#選択したユーザのテストデータを削除
 assessment#:#description_maxchars#:#未入力の場合はこのテキスト解答に対する最大文字数の制限はありません。
 assessment#:#detail_ending_time_reached#:#テスト時間は終了しました。%sを過ぎた後のテスト続行はできません。
 assessment#:#detail_max_processing_time_reached#:#テスト所要制限時間を過ぎました!
@@ -1362,7 +1363,6 @@ assessment#:#tst_defaults_available#:#利用可能なテスト初期設定
 assessment#:#tst_defaults_defaults_of_test#:#このテストの設定名
 assessment#:#tst_defaults_enter_name#:#テスト初期設定の名前を入力してください!
 assessment#:#tst_defaults_not_defined#:#テスト初期設定が未定義です。
-assessment#:#tst_delete_dyn_test_results_btn#:#テスト結果の削除
 assessment#:#tst_delete_missing_mark#:#削除を進むには一つはマークを選択してください。
 assessment#:#tst_derive_new_pool#:#新規問題集を得る
 assessment#:#tst_derive_new_pools#:#新規問題集を得る

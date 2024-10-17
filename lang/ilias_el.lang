@@ -581,7 +581,7 @@ assessment#:#code#:#Κώδικας
 assessment#:#codebase#:#Κωδικοσελίδα
 assessment#:#concatenation#:#Συγχώνευση
 assessment#:#conf_delete_pass#:#Really delete pass?###28 08 2012 new variable
-assessment#:#confirm_delete_user_data#:#Είστε σίγουροι ότι θέλετε να διαγράψετε τα δεδομένα διαγωνίσματος των επιλεγμένων χρηστών;
+assessment#:#confirm_delete_all_user_data#:#Είστε σίγουροι ότι θέλετε να διαγράψετε όλα τα δεδομένα χρήστη του διαγωνίσματος;
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#Η ερώτηση που αλλάξατε είναι αντίγραφο το οποίο δημιουργήθηκε για χρήση από το ενεργό τεστ. Θέλετε να αλλάξετε και την πρωτότυπη ερώτηση;
 assessment#:#coordinates#:#Συντεταγμένες
@@ -604,7 +604,8 @@ assessment#:#delete_all_user_data#:#Διαγραφή ολων δεδομένων
 assessment#:#delete_all_user_data_confirmation#:#Θέλετε να διαγράψετε τα δεδομένα τέστ όλων των χρηστών στο τέστ ;
 assessment#:#delete_image_header#:#Delete image###06 08 2009 new variable
 assessment#:#delete_image_question#:#Do you really want to delete the image?###06 08 2009 new variable
-assessment#:#delete_selected_user_data_confirmation#:#Διαγραφή δεδομένων διαγωνίσματος των επιλεγμένων χρηστών
+assessment#:#delete_selected_user_data_confirmation#:#Είστε σίγουροι ότι θέλετε να διαγράψετε τα δεδομένα διαγωνίσματος των επιλεγμένων χρηστών;
+assessment#:#delete_user_data#:#Διαγραφή δεδομένων διαγωνίσματος των επιλεγμένων χρηστών
 assessment#:#description_maxchars#:#Αν δεν εισάγατε τίποτα τότε ο μέγιστος αριθμός χαρακτήρων για το κείμενο της απάντησης είναι απεριόριστο.
 assessment#:#detail_ending_time_reached#:#Φθάσατε στο τέλος του τεστ. Το τεστ δεν είναι διαθέσιμο εδώ και %s
 assessment#:#detail_max_processing_time_reached#:#Φθάσατε στο τέλος του μέγιστου χρόνου επεξεργασίας τεστ!
@@ -1363,7 +1364,6 @@ assessment#:#tst_defaults_available#:#Διαθέσιμες προεπιλογέ�
 assessment#:#tst_defaults_defaults_of_test#:#οι προεπιλογές του τέστ ώς...
 assessment#:#tst_defaults_enter_name#:#Παρακαλώ εισάγετε ενα όνομα για τις προεπιλογές του τέστ σας!
 assessment#:#tst_defaults_not_defined#:#Δεν έχετε ορίσει προεπιλογές τέστ
-assessment#:#tst_delete_dyn_test_results_btn#:#Delete Test Results###20 07 2014 new variable
 assessment#:#tst_delete_missing_mark#:#Παρακαλώ επιλέξτε τουλάχιστον ένα βήμα βαθμού προς διαγραφή
 assessment#:#tst_derive_new_pool#:#Derive New Question Pool###25 10 2016 new variable
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools###25 10 2016 new variable

@@ -582,7 +582,7 @@ assessment#:#code#:#Código
 assessment#:#codebase#:#URL Base (Localización en Internet)
 assessment#:#concatenation#:#Concatenación
 assessment#:#conf_delete_pass#:#¿Desea borrar la contraseña?
-assessment#:#confirm_delete_user_data#:#¿Está seguro de que desea eliminar los datos de test de los usuarios seleccionados?
+assessment#:#confirm_delete_all_user_data#:#¿Está usted seguro de que desea eliminar todos los datos de usuario del test?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#La pregunta modificada es una copia que ha sido creada para usar con el test activo. Quiere cambiar la pregunta original también?
 assessment#:#coordinates#:#Coordenadas
@@ -605,7 +605,8 @@ assessment#:#delete_all_user_data#:#Eliminar los datos de test de todos los usua
 assessment#:#delete_all_user_data_confirmation#:#¿Realmente quiere eliminar los datos de test de todos los usuarios para este test?
 assessment#:#delete_image_header#:#Borrar imagen
 assessment#:#delete_image_question#:#¿Estás seguro de querer eliminar la imagen?
-assessment#:#delete_selected_user_data_confirmation#:#Eliminar datos de test de los usuarios seleccionados
+assessment#:#delete_selected_user_data_confirmation#:#¿Está seguro de que desea eliminar los datos de test de los usuarios seleccionados?
+assessment#:#delete_user_data#:#Eliminar datos de test de los usuarios seleccionados
 assessment#:#description_maxchars#:#Si no introduce ningun valor, el máximo número de caracteres para esta respuesta es ilimitada.
 assessment#:#detail_ending_time_reached#:#Se ha terminado el tiempo para el test. El test no está disponible desde %s
 assessment#:#detail_max_processing_time_reached#:#¡Se ha superado el tiempo máximo permitido para el test!
@@ -1364,7 +1365,6 @@ assessment#:#tst_defaults_available#:#Configuraciones de test personal por defec
 assessment#:#tst_defaults_defaults_of_test#:#Nombre para grabar la configuración de este test como nueva configuración personal de test:
 assessment#:#tst_defaults_enter_name#:#Por favor introduzca un nombre para sus valores por defecto
 assessment#:#tst_defaults_not_defined#:#No ha definido aún ningún valor por defecto para este test
-assessment#:#tst_delete_dyn_test_results_btn#:#Borrar resultados del test
 assessment#:#tst_delete_missing_mark#:#Por favor seleccione al menos un rango de calificación para eliminarlo
 assessment#:#tst_derive_new_pool#:#Obtener nuevo banco de preguntas
 assessment#:#tst_derive_new_pools#:#Obtener nuevos bancos de preguntas

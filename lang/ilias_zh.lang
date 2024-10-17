@@ -579,7 +579,7 @@ assessment#:#code#:#代码
 assessment#:#codebase#:#代码库
 assessment#:#concatenation#:#级联
 assessment#:#conf_delete_pass#:#真的要删除通过的(pass)？
-assessment#:#confirm_delete_user_data#:#您确信要删除所选用户的测试数据吗？
+assessment#:#confirm_delete_all_user_data#:#您确信要删除所有用户的测试数据吗？
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?
 assessment#:#coordinates#:#匹配
@@ -602,7 +602,8 @@ assessment#:#delete_all_user_data#:#删除所有用户的测试数据
 assessment#:#delete_all_user_data_confirmation#:#您确信要删除这个测试的所有用户的测试数据吗？
 assessment#:#delete_image_header#:#删除图像
 assessment#:#delete_image_question#:#您确信要删除图像吗？
-assessment#:#delete_selected_user_data_confirmation#:#删除所选用户的测试数据
+assessment#:#delete_selected_user_data_confirmation#:#您确信要删除所选用户的测试数据吗？
+assessment#:#delete_user_data#:#删除所选用户的测试数据
 assessment#:#description_maxchars#:#如果没有输入任何文本答案的字符数最大限制，则表示无限制。
 assessment#:#detail_ending_time_reached#:#您的测试结束时间已到。您的测试因为%s而无效。
 assessment#:#detail_max_processing_time_reached#:#您已用完此次测试所允许的最大时间限制！
@@ -1361,7 +1362,6 @@ assessment#:#tst_defaults_available#:#有效的默认测试
 assessment#:#tst_defaults_defaults_of_test#:#做为本次测试的默认测试是...
 assessment#:#tst_defaults_enter_name#:#请为您的测试输入一个名字！Please enter a name for your test defaults!
 assessment#:#tst_defaults_not_defined#:#您还没有定义任何测试默认值
-assessment#:#tst_delete_dyn_test_results_btn#:#Delete Test Results###20 07 2014 new variable
 assessment#:#tst_delete_missing_mark#:#请至少选择一个标记步骤去删除它
 assessment#:#tst_derive_new_pool#:#Derive New Question Pool###25 10 2016 new variable
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools###25 10 2016 new variable

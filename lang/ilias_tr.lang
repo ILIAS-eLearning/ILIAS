@@ -580,7 +580,7 @@ assessment#:#code#:#Kod
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Birleştirme
 assessment#:#conf_delete_pass#:#Geçenler gerçekten silinsin mi ?
-assessment#:#confirm_delete_user_data#:#Seçili kullanıcıların test verileri silmek istediğinizden emin misiniz?
+assessment#:#confirm_delete_all_user_data#:#Testin tüm kullanıcı verilerini silmek istediğinizden emin misiniz?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#Değiştirdiğiniz soru aktif test için oluşturulmuş bir sorunun kopyasıdır. Orjinali ile değiştirmek istiyor musunuz ?
 assessment#:#coordinates#:#Koordinatlar
@@ -603,7 +603,8 @@ assessment#:#delete_all_user_data#:#Tüm kullanıcıların test verilerini sil
 assessment#:#delete_all_user_data_confirmation#:#Bu testteki tüm kullanıcıların test verilerini silmek istiyor musunuz ?
 assessment#:#delete_image_header#:#Resimn sil
 assessment#:#delete_image_question#:#Gerçekten resmi silmek istiyor musunuz ?
-assessment#:#delete_selected_user_data_confirmation#:#Seçilmiş Kullanıcıların Test Verilerini Sil
+assessment#:#delete_selected_user_data_confirmation#:#Seçili kullanıcıların test verileri silmek istediğinizden emin misiniz?
+assessment#:#delete_user_data#:#Seçilmiş Kullanıcıların Test Verilerini Sil
 assessment#:#description_maxchars#:#Bu cevap metni için karakter sınırlaması girilmediyse karakter limiti yoktur.
 assessment#:#detail_ending_time_reached#:#Test süresi dolmuştur. Teste %s den sonra erişilemez
 assessment#:#detail_max_processing_time_reached#:#Testin süresi bitmiştir!
@@ -1362,7 +1363,6 @@ assessment#:#tst_defaults_available#:#Mevcut Test Varsayılanları
 assessment#:#tst_defaults_defaults_of_test#:#yeni varsayılan test ayarı için bir isim girin
 assessment#:#tst_defaults_enter_name#:#Varsayılan test ayarları için bir isim giriniz!
 assessment#:#tst_defaults_not_defined#:#Henüz herhangi bir varsayılan test ayarları tanımınız yok.
-assessment#:#tst_delete_dyn_test_results_btn#:#Delete Test Results###20 07 2014 new variable
 assessment#:#tst_delete_missing_mark#:#Silmek için en az bir adım seçiniz.
 assessment#:#tst_derive_new_pool#:#Derive New Question Pool###25 10 2016 new variable
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools###25 10 2016 new variable

@@ -59,7 +59,7 @@ class ParticipantTableDeleteResultsAction implements TableAction
         URLBuilderToken $action_type_token
     ): Action {
         return $this->ui_factory->table()->action()->standard(
-            $this->lng->txt(self::ACTION_ID),
+            $this->lng->txt('delete_user_data'),
             $url_builder
                 ->withParameter($action_token, self::ACTION_ID)
                 ->withParameter($action_type_token, ParticipantTableModalActions::SHOW_ACTION),
@@ -124,9 +124,9 @@ class ParticipantTableDeleteResultsAction implements TableAction
     private function resolveMessage(bool $all_participants_selected): string
     {
         if ($all_participants_selected) {
-            return $this->lng->txt('delete_all_user_data_confirmation');
+            return $this->lng->txt('confirm_delete_all_user_data');
         }
 
-        return $this->lng->txt('confirm_delete_user_data');
+        return $this->lng->txt('confirm_delete_selected_user_data');
     }
 }
