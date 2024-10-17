@@ -163,8 +163,8 @@ class NoSubmitFormTest extends \ILIAS_UI_TestBase
         $data = $form->getData();
 
         $expected_html =
-            "<form id=\"id_1\" role=\"form\" class=\"c-form c-form--horizontal\" enctype=\"multipart/form-data\" action=\"$post_url\" method=\"post\" novalidate=\"novalidate\">" .
-            "<div class=\"c-form__error-msg alert alert-danger\" role=\"alert\">$error_lang_var</div>" .
+            "<form id=\"id_2\" role=\"form\" class=\"c-form c-form--horizontal\" enctype=\"multipart/form-data\" describedby=\"id_1\" action=\"$post_url\" method=\"post\" novalidate=\"novalidate\">" .
+            "<div id=\"id_1\" class=\"c-form__error-msg alert alert-danger\">$error_lang_var</div>" .
             $dummy_input->getCanonicalName() .
             "</form>";
 
