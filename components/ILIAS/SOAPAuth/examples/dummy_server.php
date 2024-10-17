@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-exit; // Copy this script to the publically(!) available ILIAS (root) folder 
+exit; // Copy this script to the publically(!) available ILIAS (root) folder
 
 chdir('../..');
 
