@@ -580,7 +580,7 @@ assessment#:#code#:#کد
 assessment#:#codebase#:#پایگاه کد
 assessment#:#concatenation#:#Concatenation
 assessment#:#conf_delete_pass#:#Really delete pass?###28 08 2012 new variable
-assessment#:#confirm_delete_user_data#:#Are you sure you want to delete the test data of the selected users?
+assessment#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the test?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active test. Do you want to change the original of the question too?
 assessment#:#coordinates#:#مختصات
@@ -603,7 +603,8 @@ assessment#:#delete_all_user_data#:#پاک کردن داده تست همه کا�
 assessment#:#delete_all_user_data_confirmation#:#Do you really want to delete the test data of all users in this test?
 assessment#:#delete_image_header#:#پاک کردن عکس
 assessment#:#delete_image_question#:#آیا واقعا می خواهید این عکس را پاک کنید؟
-assessment#:#delete_selected_user_data_confirmation#:#پاک کردن داده تست کاربران انتخاب شده
+assessment#:#delete_selected_user_data_confirmation#:#Are you sure you want to delete the test data of the selected users?
+assessment#:#delete_user_data#:#پاک کردن داده تست کاربران انتخاب شده
 assessment#:#description_maxchars#:#خالی گذاشتن به معنی بی نهایت است.
 assessment#:#detail_ending_time_reached#:#You have reached the ending time of the test. The test isn't available since %s
 assessment#:#detail_max_processing_time_reached#:#شما حداکثر زمان پردازش مجاز برای این تست را استفاده کرده اید!
@@ -1362,7 +1363,6 @@ assessment#:#tst_defaults_available#:#پیش فرض های تست موجود
 assessment#:#tst_defaults_defaults_of_test#:#تنظیمات این تست به عنوان
 assessment#:#tst_defaults_enter_name#:#Please enter a name for your test defaults!
 assessment#:#tst_defaults_not_defined#:#هنوز پیش فرضی برای تست تعریف نکرده اید.
-assessment#:#tst_delete_dyn_test_results_btn#:#Delete Test Results###20 07 2014 new variable
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it
 assessment#:#tst_derive_new_pool#:#Derive New Question Pool###25 10 2016 new variable
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools###25 10 2016 new variable

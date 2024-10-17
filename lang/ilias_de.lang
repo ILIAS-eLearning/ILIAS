@@ -586,6 +586,7 @@ assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Verknüpfung
 assessment#:#conf_delete_pass#:#Durchgang wirklich löschen?
+assessment#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Datensätze der Umfrage löschen wollen?
 assessment#:#confirm_log_deletion#:#Sind Sie sicher, dass Sie die ausgewählten Protokolleinträge löschen möchten? Die gelöschten Einträge werden unwiderruflich gelöscht.
 assessment#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in den Test als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
 assessment#:#coordinates#:#Koordinaten
@@ -608,8 +609,8 @@ assessment#:#delete_all_user_data#:#Testdaten aller Teilnehmer entfernen
 assessment#:#delete_all_user_data_confirmation#:#Wollen Sie wirklich die Testdaten aller Teilnehmer löschen?
 assessment#:#delete_image_header#:#Bild entfernen
 assessment#:#delete_image_question#:#Möchten Sie das Bild wirklich entfernen?
-assessment#:#delete_selected_user_data_confirmation#:#Sind Sie sicher, dass Sie alle Testergebnisse der ausgewählten Benutzer entfernen wollen?
-assessment#:#delete_selected_user_data_confirmation#:#Testergebnisse entfernen
+assessment#:#delete_selected_user_data_confirmation#:#Sind Sie sicher, dass Sie alle Testdaten der ausgewählten Benutzer entfernen wollen?
+assessment#:#delete_user_data#:#Testergebnisse entfernen
 assessment#:#description_maxchars#:#Wenn nichts eingegeben wird, ist die maximale Anzahl von Zeichen für diese Textantwort unbegrenzt.
 assessment#:#detail_ending_time_reached#:#Sie haben die längstmögliche Bearbeitungsdauer des Tests überschritten. Der Test konnte nur bis %s Uhr bearbeitet werden.
 assessment#:#detail_max_processing_time_reached#:#Sie haben die maximale Bearbeitungsdauer des Tests überschritten. Sie dürfen den Test nicht weiter bearbeiten!
@@ -1241,6 +1242,7 @@ assessment#:#show_old_concluding_remarks#:#Alte Abschliessende Bemerkungen anzei
 assessment#:#show_old_introduction#:#Alten Einleitungstext anzeigen
 assessment#:#show_pass_overview#:#Ergebnisübersicht (bewerteter Testdurchlauf)
 assessment#:#show_requested_question_hints#:#Zeige angeforderte Lösungshinweise
+assessment#:#show_results#:#Testergebnisse anzeigen
 assessment#:#show_user_answers#:#Antworten (bewerteter Testdurchlauf)
 assessment#:#shuffle_answers#:#Antworten mischen
 assessment#:#skip_question#:#Nicht antworten und weiter
@@ -1408,7 +1410,6 @@ assessment#:#tst_defaults_available#:#Verfügbare Standardeinstellungen
 assessment#:#tst_defaults_defaults_of_test#:#der Einstellungen dieses Tests als neue Standardeinstellung mit dem Namen
 assessment#:#tst_defaults_enter_name#:#Bitte geben Sie einen Namen für die neuen Standardeinstellungen an!
 assessment#:#tst_defaults_not_defined#:#Sie haben noch keine Standardeinstellungen definiert.
-assessment#:#tst_delete_dyn_test_results_btn#:#Testergebnisse entfernen
 assessment#:#tst_delete_missing_mark#:#Bitte wählen Sie mindestens eine Notenstufe zum Entfernen aus!
 assessment#:#tst_derive_new_pool#:#Neuen Fragenpool ableiten
 assessment#:#tst_derive_new_pools#:#Neue Fragenpools ableiten

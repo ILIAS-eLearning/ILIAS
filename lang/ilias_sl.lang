@@ -580,7 +580,7 @@ assessment#:#code#:#Koda
 assessment#:#codebase#:#Osnova kode
 assessment#:#concatenation#:#Povezava
 assessment#:#conf_delete_pass#:#Ali ste prepričani, da želite izbrisati obdelavo?
-assessment#:#confirm_delete_user_data#:#Ali ste prepričani, da želite odstraniti testne podatke izbranih uporabnikov?
+assessment#:#confirm_delete_all_user_data#:#Ali ste prepričani, da želite odstraniti testne podatke vseh uporabnikov testa?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#Vprašanje, ki ste ga spremenili, je bilo z vnosom v test ustvarjeno kot kopija izvirnika. Ali želite spremembe zdaj uporabiti tudi za prvotno vprašanje?
 assessment#:#coordinates#:#Koordinate
@@ -603,7 +603,8 @@ assessment#:#delete_all_user_data#:#Odstranite testne podatke vseh udeležencev
 assessment#:#delete_all_user_data_confirmation#:#Ali res želite izbrisati testne podatke vseh udeležencev?
 assessment#:#delete_image_header#:#Odstranite sliko
 assessment#:#delete_image_question#:#Ali res želite odstraniti sliko?
-assessment#:#delete_selected_user_data_confirmation#:#Odstranite testne podatke
+assessment#:#delete_selected_user_data_confirmation#:#Ali ste prepričani, da želite odstraniti testne podatke izbranih uporabnikov?
+assessment#:#delete_user_data#:#Odstranite testne podatke
 assessment#:#description_maxchars#:#Če ni nič vneseno, je maksimalno število znakov za ta besedilni odgovor neomejeno.
 assessment#:#detail_ending_time_reached#:#Presegli ste najdaljši možni čas, namenjen za obdelavo testa. Test je bil rešen le do %s.
 assessment#:#detail_max_processing_time_reached#:#Presegli ste najdaljše možno trajanje obdelave testa. Testa ne smete več obdelovati!
@@ -1362,7 +1363,6 @@ assessment#:#tst_defaults_available#:#Razpoložljive standardne nastavitve
 assessment#:#tst_defaults_defaults_of_test#:#nastavitve tega testa kot nove privzete nastavitve z imenom
 assessment#:#tst_defaults_enter_name#:#Vnesite ime za nove privzete nastavitve!
 assessment#:#tst_defaults_not_defined#:#Nimate še definiranih privzetih nastavitev.
-assessment#:#tst_delete_dyn_test_results_btn#:#Odstranite rezultate testa
 assessment#:#tst_delete_missing_mark#:#Izberite vsaj eno oceno, ki jo želite odstraniti!
 assessment#:#tst_derive_new_pool#:#Izpelji novo skupino vprašanj
 assessment#:#tst_derive_new_pools#:#Ustvarite nove skupine vprašanj

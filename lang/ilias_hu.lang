@@ -580,7 +580,7 @@ assessment#:#code#:#Kód
 assessment#:#codebase#:#Kódbázis
 assessment#:#concatenation#:#Szavak összekapcsolása
 assessment#:#conf_delete_pass#:#Biztos, hogy törli a már létező válaszát?
-assessment#:#confirm_delete_user_data#:#Biztos, hogy eltávolítja a kiválasztott felhasználók tesztadatait?
+assessment#:#confirm_delete_all_user_data#:#Biztos, hogy eltávolítja minden felhasználójának tesztadatát?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#A módosított kérdés egy aktív teszt kérdésének másolata. Módosítja az eredeti kérdést is?
 assessment#:#coordinates#:#Koordináták
@@ -603,7 +603,8 @@ assessment#:#delete_all_user_data#:#Összes felhasználó tesztadatának eltávo
 assessment#:#delete_all_user_data_confirmation#:#Biztos, hogy eltávolítja ebben a tesztben minden felhasználó tesztadatát?
 assessment#:#delete_image_header#:#Kép eltávolítása
 assessment#:#delete_image_question#:#Biztos, hogy eltávolítja a képet?
-assessment#:#delete_selected_user_data_confirmation#:#A kiválasztott felhasználók tesztadatinak eltávolítása
+assessment#:#delete_selected_user_data_confirmation#:#Biztos, hogy eltávolítja a kiválasztott felhasználók tesztadatait?
+assessment#:#delete_user_data#:#A kiválasztott felhasználók tesztadatinak eltávolítása
 assessment#:#description_maxchars#:#Ha üres, ennek a szöveges válasznak a maximális karakterszáma nincs korlátozva.
 assessment#:#detail_ending_time_reached#:#A tesztre előírt idő lejárt. A teszt nem elérhető % óta
 assessment#:#detail_max_processing_time_reached#:#Lejárt a teszt kitöltési ideje.
@@ -1362,7 +1363,6 @@ assessment#:#tst_defaults_available#:#Elérhető saját alapbeállítások teszt
 assessment#:#tst_defaults_defaults_of_test#:#ennek a tesztnek a beállításait egy saját alapbeállításként a következő néven:
 assessment#:#tst_defaults_enter_name#:#Adjon nevet tesztje új alapbeállításának!
 assessment#:#tst_defaults_not_defined#:#Még egy alapbeállítása sincs.
-assessment#:#tst_delete_dyn_test_results_btn#:#Teszt végeredményeinek eltávolítása
 assessment#:#tst_delete_missing_mark#:#Válasszon legalább egy érdemjegyet az eltávolításhoz!
 assessment#:#tst_derive_new_pool#:#Új kérdésgyűjtemény származtatása
 assessment#:#tst_derive_new_pools#:#Új kérdésgyűjtemények származtatása

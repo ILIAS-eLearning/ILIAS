@@ -580,7 +580,7 @@ assessment#:#code#:#Kood
 assessment#:#codebase#:#Koodibaas
 assessment#:#concatenation#:#Jätkamine
 assessment#:#conf_delete_pass#:#Really delete pass?
-assessment#:#confirm_delete_user_data#:#Oled kindel, et soovid kustutada valitud kasutaja(te) testiandmeid?
+assessment#:#confirm_delete_all_user_data#:#Oled kindel, et soovi kustutada kõigi kasutajate testiandmed?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#Muudetud küsimus oli aktiivses testis kasutamiseks mõeldud koopia. Kas soovid muuta ka küsimuse originaali?
 assessment#:#coordinates#:#Koordinaadid
@@ -603,7 +603,8 @@ assessment#:#delete_all_user_data#:#Kustuta kõikide kasutajate testiandmed
 assessment#:#delete_all_user_data_confirmation#:#Kas oled tõesti kindel, et soovid kustutada kõikide kasutajate andmed selles testis?
 assessment#:#delete_image_header#:#Kustuta pilt
 assessment#:#delete_image_question#:#Kas oled kindel, et soovid selle pildi kustutada?
-assessment#:#delete_selected_user_data_confirmation#:#Kustuta valitud kasutajate andmed
+assessment#:#delete_selected_user_data_confirmation#:#Oled kindel, et soovid kustutada valitud kasutaja(te) testiandmeid?
+assessment#:#delete_user_data#:#Kustuta valitud kasutajate andmed
 assessment#:#description_maxchars#:#Tühjaks jätmise korral on tekstivastuse tähemärkide maksimumarv piiramatu
 assessment#:#detail_ending_time_reached#:#Test on suletud alates %s
 assessment#:#detail_max_processing_time_reached#:#Lubatud maksimumaeg testi tegemiseks on täis!
@@ -1362,7 +1363,6 @@ assessment#:#tst_defaults_available#:#Võimalikud testi vaikevalikud
 assessment#:#tst_defaults_defaults_of_test#:#selle testi vaikevalikuteks
 assessment#:#tst_defaults_enter_name#:#Palun sisesta oma testi vaikeseadete jaoks nimi!
 assessment#:#tst_defaults_not_defined#:#Testi vaikevalikuid pole veel määratud.
-assessment#:#tst_delete_dyn_test_results_btn#:#Delete Test Results
 assessment#:#tst_delete_missing_mark#:#Valige kustutamiseks vähemalt üks hinne
 assessment#:#tst_derive_new_pool#:#Derive New Question Pool###25 10 2016 new variable
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools###25 10 2016 new variable

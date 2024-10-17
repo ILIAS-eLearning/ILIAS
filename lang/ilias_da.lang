@@ -580,7 +580,7 @@ assessment#:#code#:#Kode
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Konkatnering
 assessment#:#conf_delete_pass#:#Really delete pass?###28 08 2012 new variable
-assessment#:#confirm_delete_user_data#:#Are you sure you want to delete the test data of the selected users?
+assessment#:#confirm_delete_all_user_data#:#Er du sikker på at du vil slette alle besvarelser i testen?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#Spørgsmålet du har ændret er en kopi som er blevet lavet for at blive brugt i en aktiv test. ønsker du at ændre det originale spørgsmål?
 assessment#:#coordinates#:#Koordinater
@@ -603,7 +603,8 @@ assessment#:#delete_all_user_data#:#Slet alle besvarelser
 assessment#:#delete_all_user_data_confirmation#:#Ønsker du at fortsætte og dermed slette alle brugernes besvarelser i denne test?
 assessment#:#delete_image_header#:#Slet billede
 assessment#:#delete_image_question#:#Er du sikker på du vil slette billedet?
-assessment#:#delete_selected_user_data_confirmation#:#Slet testdata for valgte brugere
+assessment#:#delete_selected_user_data_confirmation#:#Are you sure you want to delete the test data of the selected users?
+assessment#:#delete_user_data#:#Slet testdata for valgte brugere
 assessment#:#description_maxchars#:#Hvis intet indtastet er det maksimale antal bogstaver for dette svar uendeligt.
 assessment#:#detail_ending_time_reached#:#Du er nået til sluttidspunktet for denne test. Testen er ikke tilgængelig efter %s
 assessment#:#detail_max_processing_time_reached#:#Du har brugt dem maksimalt tilladte tid på denne test!
@@ -1362,7 +1363,6 @@ assessment#:#tst_defaults_available#:#Mulige test standardvalg
 assessment#:#tst_defaults_defaults_of_test#:#the defaults of this test as###25 02 2007 new variable
 assessment#:#tst_defaults_enter_name#:#Du skal indtaste et navn til teststandarderne.
 assessment#:#tst_defaults_not_defined#:#Der er endnu ikke defineret nogen standard.
-assessment#:#tst_delete_dyn_test_results_btn#:#Delete Test Results###20 07 2014 new variable
 assessment#:#tst_delete_missing_mark#:#Vælg venligst mindst en karakter for at slette den
 assessment#:#tst_derive_new_pool#:#Derive New Question Pool###25 10 2016 new variable
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools###25 10 2016 new variable

@@ -580,7 +580,7 @@ assessment#:#code#:#Kod
 assessment#:#codebase#:#Codebase###10 Jul 2006 new variable
 assessment#:#concatenation#:#Concatenation ### 2006-8-11 --- Add new translation here.
 assessment#:#conf_delete_pass#:#Really delete pass?###28 08 2012 new variable
-assessment#:#confirm_delete_user_data#:#Are you sure you want to delete the test data of the selected users?###06 Nov 2005 new variable
+assessment#:#confirm_delete_all_user_data#:#Da li ste sigurni da želite da obrišete sve podatke o korisniku testa?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#Pitanje koje ste promenili je kopija koja je kreirana za upotrebu sa aktivnim testom. Da li želite da izmenite i izvorno pitanje?
 assessment#:#coordinates#:#Koordinate
@@ -603,7 +603,8 @@ assessment#:#delete_all_user_data#:#Delete Test Data of all Users###10 05 2007 n
 assessment#:#delete_all_user_data_confirmation#:#Do you really want to delete the test data of all users in this test?###10 05 2007 new variable
 assessment#:#delete_image_header#:#Delete image###06 08 2009 new variable
 assessment#:#delete_image_question#:#Do you really want to delete the image?###06 08 2009 new variable
-assessment#:#delete_selected_user_data_confirmation#:#Delete test data of the selected users###06 Nov 2005 new variable
+assessment#:#delete_selected_user_data_confirmation#:#Are you sure you want to delete the test data of the selected users?###06 Nov 2005 new variable
+assessment#:#delete_user_data#:#Delete test data of the selected users###06 Nov 2005 new variable
 assessment#:#description_maxchars#:#Ukoliko ništa nije uneto, maksimalan broj karaktera za ovaj tekstualni odgovor je neogranicen.
 assessment#:#detail_ending_time_reached#:#Stigli ste do kraja testa. Test nije dostupan od %s###10 Jul 2006 content changed
 assessment#:#detail_max_processing_time_reached#:#Ostvarili ste maksimalno dozvoljeno vreme obrade testa!
@@ -1362,7 +1363,6 @@ assessment#:#tst_defaults_available#:#Available test defaults###25 02 2007 new v
 assessment#:#tst_defaults_defaults_of_test#:#the defaults of this test as###25 02 2007 new variable
 assessment#:#tst_defaults_enter_name#:#Please enter a name for your test defaults!###25 02 2007 new variable
 assessment#:#tst_defaults_not_defined#:#You don't have any test defaults defined yet.###25 02 2007 new variable
-assessment#:#tst_delete_dyn_test_results_btn#:#Delete Test Results###20 07 2014 new variable
 assessment#:#tst_delete_missing_mark#:#Molimo odaberite bar jedan postupak ocenjivanja da biste ga obrisali
 assessment#:#tst_derive_new_pool#:#Derive New Question Pool###25 10 2016 new variable
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools###25 10 2016 new variable

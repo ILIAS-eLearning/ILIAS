@@ -580,7 +580,7 @@ assessment#:#code#:#Kod
 assessment#:#codebase#:#Baza kodu
 assessment#:#concatenation#:#Złączenie
 assessment#:#conf_delete_pass#:#Czy naprawdę usunąć przebieg?
-assessment#:#confirm_delete_user_data#:#Czy chcesz usunąć dane testu wybranych użytkowników?
+assessment#:#confirm_delete_all_user_data#:#Czy chcesz usunąć wszystkie dane użytkownika testu?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#Pytanie, które zmieniłeś jest kopią utworzoną dla aktywnej ankiety. Czy chcesz również zmienić oryginalne pytanie?
 assessment#:#coordinates#:#Koordynaty
@@ -603,7 +603,8 @@ assessment#:#delete_all_user_data#:#Usuń dane testowe wszystkich użytkowników
 assessment#:#delete_all_user_data_confirmation#:#Czy chcesz usunąć dane testowe wszystkich użytkowników tego testu?
 assessment#:#delete_image_header#:#Usuń obraz
 assessment#:#delete_image_question#:#Czy naprawdę chcesz usunąć obraz?
-assessment#:#delete_selected_user_data_confirmation#:#Usuń dane testu wybranych użytkowników
+assessment#:#delete_selected_user_data_confirmation#:#Czy chcesz usunąć dane testu wybranych użytkowników?
+assessment#:#delete_user_data#:#Usuń dane testu wybranych użytkowników
 assessment#:#description_maxchars#:#Puste pole oznacza, iż maksymalna ilość znaków tego tekstu nie będzie limitowana.
 assessment#:#detail_ending_time_reached#:#Wyczerpałeś czas na wykonanie testu. Test nie jest dostępny od %s
 assessment#:#detail_max_processing_time_reached#:#Osiągnąłeś maksymalny czas przeznaczony na rozwiązanie testu!
@@ -1362,7 +1363,6 @@ assessment#:#tst_defaults_available#:#Dostępne ustawienia domyślne testu
 assessment#:#tst_defaults_defaults_of_test#:#Ustawienia tego testu jako nowe ustawienie domyślne testu o nazwie
 assessment#:#tst_defaults_enter_name#:#Podaj nazwę dla twoich ustawień domyślnych testu!
 assessment#:#tst_defaults_not_defined#:#Jeszcze nie zdefiniowałeś żadnych ustawień domyślnych dla testu.
-assessment#:#tst_delete_dyn_test_results_btn#:#Usuń wyniki testu
 assessment#:#tst_delete_missing_mark#:#Wybierz co najmniej jedną pozycję, aby ją usunąć!
 assessment#:#tst_derive_new_pool#:#Utwórz nową pulę pytań
 assessment#:#tst_derive_new_pools#:#Utwórz nowe pule pytań
