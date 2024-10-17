@@ -92,6 +92,11 @@ class ExamplesTest extends ILIAS_UI_TestBase
 
         $this->dic["help.text_retriever"] = new ILIAS\UI\Help\TextRetriever\Echoing();
 
+        $this->dic["ilUser"] = $this->getMockBuilder(\ilObjUser::class)
+                ->disableOriginalConstructor()
+                ->onlyMethods(["getDateFormat"])
+                ->getMock();
+
         (new InitHttpServices())->init($this->dic);
     }
 

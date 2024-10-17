@@ -70,7 +70,7 @@ class Data extends Table implements T\Data, JSBindable
     protected Signal $selection_signal;
     protected Signal $async_action_signal;
     protected ?ServerRequestInterface $request = null;
-    protected int $number_of_rows = 800;
+    protected int $number_of_rows = 25;
     /**
      * @var string[]
      */

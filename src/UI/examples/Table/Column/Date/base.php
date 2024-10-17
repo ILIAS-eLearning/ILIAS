@@ -15,10 +15,12 @@ function base()
     $f = $DIC['ui.factory'];
     $r = $DIC['ui.renderer'];
     $df = new \ILIAS\Data\Factory();
+    $current_user = $DIC['ilUser'];
 
     $columns = [
         'd1' => $f->table()->column()->date("German Long", $df->dateFormat()->germanLong()),
-        'd2' => $f->table()->column()->date("German Short", $df->dateFormat()->germanShort())
+        'd2' => $f->table()->column()->date("Time Only", $df->dateFormat()->custom()->hours24()->colon()->minutes()->get()),
+        'd3' => $f->table()->column()->date("User Preference", $current_user->getDateFormat()),
     ];
 
     $data_retrieval = new class () implements I\DataRetrieval {
@@ -34,7 +36,8 @@ function base()
             $dat = new \DateTimeImmutable();
             $record = [
                 'd1' => $dat,
-                'd2' => $dat
+                'd2' => $dat,
+                'd3' => $dat
             ];
             yield $row_builder->buildDataRow($row_id, $record);
         }
