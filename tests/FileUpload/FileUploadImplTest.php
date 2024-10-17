@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\FileUpload;
 
 require_once('./libs/composer/vendor/autoload.php');
@@ -190,6 +206,9 @@ class FileUploadImplTest extends TestCase
     public function testHasUploadsWithSingleUploadedFile()
     {
         $uploadedFile = Mockery::mock(UploadedFileInterface::class);
+        $uploadedFile->shouldReceive('getError')
+            ->once()
+            ->andReturn(0);
 
         $this->globalHttpStateMock->shouldReceive('request->getUploadedFiles')
                                   ->once()
@@ -206,7 +225,11 @@ class FileUploadImplTest extends TestCase
     {
         $files = [];
         for ($i = 0; $i < 10; $i++) {
-            $files[] = Mockery::mock(UploadedFileInterface::class);
+            $mock = Mockery::mock(UploadedFileInterface::class);
+            $mock->shouldReceive('getError')
+                ->once()
+                ->andReturn(0);
+            $files[] = $mock;
         }
 
         $this->globalHttpStateMock->shouldReceive('request->getUploadedFiles')
