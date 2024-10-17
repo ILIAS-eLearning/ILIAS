@@ -58,7 +58,7 @@ class ilObjectXMLParser extends ilSaxParser
                 $this->addProperty(
                     'obj_id',
                     is_numeric($a_attribs['obj_id']) ? (int) $a_attribs["obj_id"] : ilUtil::__extractId(
-                        $a_attribs["obj_id"],
+                        $a_attribs["obj_id"] ?? '',
                         IL_INST_ID
                     )
                 );
