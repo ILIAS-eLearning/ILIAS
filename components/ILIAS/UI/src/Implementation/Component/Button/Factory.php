@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Button;
 
@@ -86,9 +86,9 @@ class Factory implements B\Factory
     /**
      * @inheritdoc
      */
-    public function bulky(Symbol $icon_or_glyph, string $label, string $action): B\Bulky
+    public function bulky(Symbol $symbol, string $label, string $action): B\Bulky
     {
-        return new Bulky($icon_or_glyph, $label, $action);
+        return (new Bulky($label, $action))->withSymbol($symbol);
     }
 
     /**

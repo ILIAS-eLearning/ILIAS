@@ -24,9 +24,17 @@ function base()
     $glyph = $f->symbol()->glyph()->briefcase();
     $link2 = $f->link()->bulky($glyph, 'Link to ilias.de with Glyph', $target);
 
+    $link3 = $f->link()->bulky($glyph, '', $target);
+    $link4 = $f->link()->bulky($ico, '', $target);
+
+
     return $renderer->render([
         $link,
         $f->divider()->horizontal(),
         $link2,
+        $f->divider()->horizontal(),
+        $link3,
+        $f->divider()->horizontal(),
+        $link4,
     ]);
 }

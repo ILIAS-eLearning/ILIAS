@@ -100,6 +100,7 @@ class Glyph implements C\Symbol\Glyph\Glyph
 
         $this->type = $type;
         $this->label = $label;
+        // @deprecated with 10 - parameter $action will be removed; use a Button with a Glyph as label
         $this->action = $action;
         $this->counters = array();
         $this->highlighted = false;
@@ -121,8 +122,16 @@ class Glyph implements C\Symbol\Glyph\Glyph
         return $this->label;
     }
 
+    public function withLabel(string $label): self
+    {
+        $clone = clone $this;
+        $clone->label = $label;
+        return $clone;
+    }
+
     /**
      * @inheritdoc
+     * @deprecated with 10; use a Button with a Glyph as label
      */
     public function getAction(): ?string
     {
@@ -167,6 +176,7 @@ class Glyph implements C\Symbol\Glyph\Glyph
 
     /**
      * @inheritdoc
+     * @deprecated with 10; use a Button with a Glyph as label
      */
     public function isActive(): bool
     {
@@ -175,6 +185,7 @@ class Glyph implements C\Symbol\Glyph\Glyph
 
     /**
      * @inheritdoc
+     * @deprecated with 10; use a Button with a Glyph as label
      */
     public function withUnavailableAction(): C\Symbol\Glyph\Glyph
     {
@@ -185,6 +196,7 @@ class Glyph implements C\Symbol\Glyph\Glyph
 
     /**
      * @inheritdoc
+     * @deprecated with 10; use a Button with a Glyph as label
      */
     public function withOnClick(Signal $signal): C\Clickable
     {
@@ -193,6 +205,7 @@ class Glyph implements C\Symbol\Glyph\Glyph
 
     /**
      * @inheritdoc
+     * @deprecated with 10; use a Button with a Glyph as label
      */
     public function appendOnClick(Signal $signal): C\Clickable
     {
@@ -201,6 +214,7 @@ class Glyph implements C\Symbol\Glyph\Glyph
 
     /**
     * @inheritdoc
+    * @deprecated with 10; use a Button with a Glyph as label
     */
     public function withAction($action): C\Symbol\Glyph\Glyph
     {
@@ -211,6 +225,7 @@ class Glyph implements C\Symbol\Glyph\Glyph
 
     /**
      * @inheritdoc
+     * @deprecated with 10; use a Button with a Glyph as label
      */
     public function isTabbable(): bool
     {
