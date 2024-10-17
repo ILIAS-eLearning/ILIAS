@@ -23,11 +23,8 @@ namespace ILIAS\UI\Component\Symbol\Glyph;
 use ILIAS\UI\Component\Counter\Counter;
 use ILIAS\UI\Component\Clickable;
 use ILIAS\UI\Component\Symbol\Symbol;
+use ILIAS\UI\Component\Signal;
 
-/**
- * This describes how a glyph could be modified during construction of UI.
- * @deprecated with 10, the Clickable interface will be removed from Glyphs; use a Button with a Glyph as label instead
- */
 interface Glyph extends Symbol, Clickable
 {
     // Types of glyphs:
@@ -139,4 +136,25 @@ interface Glyph extends Symbol, Clickable
      * @deprecated with 10; use a Button with a Glyph as label
      */
     public function withAction(string $action): Glyph;
+
+    /** @deprecated will be removed in ILIAS 11. please use a Button instead. */
+    public function withOnClick(Signal $signal);
+
+    /** @deprecated will be removed in ILIAS 11. please use a Button instead. */
+    public function appendOnClick(Signal $signal);
+
+    /** @deprecated will be removed in ILIAS 11. please use a Button instead. */
+    public function withResetTriggeredSignals();
+
+    /** @deprecated will be removed in ILIAS 11. please use a Button instead. */
+    public function getTriggeredSignals(): array;
+
+    /** @deprecated will be removed in ILIAS 11. please use a Button instead. */
+    public function withOnLoadCode(\Closure $binder);
+
+    /** @deprecated will be removed in ILIAS 11. please use a Button instead. */
+    public function withAdditionalOnLoadCode(\Closure $binder);
+
+    /** @deprecated will be removed in ILIAS 11. please use a Button instead. */
+    public function getOnLoadCode(): ?\Closure;
 }
