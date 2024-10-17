@@ -17,7 +17,7 @@ declare(strict_types=1);
  *****************************************************************************/
 
 exit;
-include_once './components/ILIAS/soap/lib/nusoap.php';
+require_once __DIR__ . '/../../soap/lib/nusoap.php';
 
 $server = $_GET["server"] ?: "http://localhost/Services/SOAPAuth/dummy_server.php";
 
@@ -39,7 +39,7 @@ echo '<form>' .
 echo "<br /><br />----------------------------------------------<br /><br /> Calling Server...";
 
 // initialize soap client
-require_once './components/ILIAS/soap/lib/nusoap.php';
+require_once __DIR__ . '/../../soap/lib/nusoap.php';
 $client = new nusoap_client($server);
 if ($err = $client->getError()) {
     echo '<h2>Constructor error</h2><pre>' . $err . '</pre>';

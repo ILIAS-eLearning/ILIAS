@@ -18,17 +18,14 @@
 
 declare(strict_types=1);
 
-exit; // Copy this script to the publically(!) available ILIAS (root) folder 
+if (!defined('ILIAS_MODULE') || ILIAS_MODULE !== 'components/ILIAS/soap') {
+    //direct call to this endpoint
+    chdir('../..');
+    define('ILIAS_MODULE', 'components/ILIAS/soap');
+    define('IL_SOAPMODE_NUSOAP', 0);
+    define('IL_SOAPMODE_INTERNAL', 1);
+    define('IL_SOAPMODE', IL_SOAPMODE_NUSOAP);
+}
 
-chdir('../..');
-
-require_once 'vendor/composer/vendor/autoload.php';
-
-global $HTTP_RAW_POST_DATA;
-
-// Initialize the error_reporting level, until it will be overwritte when ILIAS gets initialized
-ini_set('display_errors', '1');
-error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
-
-$server = new ilSoapDummyAuthServer();
+$server = new ilNusoapUserAdministrationAdapter(true);
 $server->start();

@@ -1,36 +1,28 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
-/*
- +-----------------------------------------------------------------------------+
- | ILIAS open source                                                           |
- +-----------------------------------------------------------------------------+
- | Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
- |                                                                             |
- | This program is free software; you can redistribute it and/or               |
- | modify it under the terms of the GNU General Public License                 |
- | as published by the Free Software Foundation; either version 2              |
- | of the License, or (at your option) any later version.                      |
- |                                                                             |
- | This program is distributed in the hope that it will be useful,             |
- | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
- | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
- | GNU General Public License for more details.                                |
- |                                                                             |
- | You should have received a copy of the GNU General Public License           |
- | along with this program; if not, write to the Free Software                 |
- | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
- +-----------------------------------------------------------------------------+
-*/
 
 /**
  * soap server
  * Base class for all SOAP registered methods. E.g ilSoapUserAdministration
  * @author Stefan Meyer <meyer@leifos.com>
  */
-
-include_once './components/ILIAS/soap/lib/nusoap.php';
-include_once("./components/ILIAS/Authentication/classes/class.ilAuthUtils.php");        // to get auth mode constants
 
 use ILIAS\Data\Result\Ok;
 use ILIAS\Data\Result\Error;
@@ -54,7 +46,7 @@ class ilSoapAdministration
         if (
             defined('IL_SOAPMODE') &&
             defined('IL_SOAPMODE_NUSOAP') &&
-            IL_SOAPMODE == IL_SOAPMODE_NUSOAP
+            IL_SOAPMODE === IL_SOAPMODE_NUSOAP
         ) {
             $this->error_method = self::NUSOAP;
         } else {
@@ -102,7 +94,7 @@ class ilSoapAdministration
             $set = new ilSetting();
             $this->setMessage('SOAP is not enabled in ILIAS administration for this client');
             $this->setMessageCode('Server');
-            return ((int) $set->get("soap_user_administration", '0')) === 1;
+            return ((int) $set->get('soap_user_administration', '0')) === 1;
         }
 
         return true;
@@ -169,7 +161,7 @@ class ilSoapAdministration
     {
         if (ilContext::getType() === ilContext::CONTEXT_SOAP) {
             try {
-                require_once("Services/Init/classes/class.ilInitialisation.php");
+                require_once('Services/Init/classes/class.ilInitialisation.php');
                 ilInitialisation::reInitUser();
             } catch (Exception $e) {
             }
@@ -190,6 +182,7 @@ class ilSoapAdministration
     {
         switch ($this->error_method) {
             case self::NUSOAP:
+                require_once __DIR__ . '/../lib/nusoap.php';
                 return new soap_fault($a_code, '', $a_message);
             case self::PHP5:
                 return new SoapFault($a_code, $a_message);
@@ -201,6 +194,7 @@ class ilSoapAdministration
     {
         switch ($this->error_method) {
             case self::NUSOAP:
+                require_once __DIR__ . '/../lib/nusoap.php';
                 return $object instanceof soap_fault;
             case self::PHP5:
                 return $object instanceof SoapFault;
@@ -238,7 +232,7 @@ class ilSoapAdministration
         $type = ilObject::_lookupType(ilObject::_lookupObjId($ref_id));
         if (!in_array($type, $expected_type, true)) {
             return $this->raiseError(
-                "Wrong type $type for id. Expected: " . implode(",", $expected_type),
+                "Wrong type $type for id. Expected: " . implode(',', $expected_type),
                 'CLIENT_OBJECT_WRONG_TYPE'
             );
         }
@@ -264,7 +258,7 @@ class ilSoapAdministration
 
         ilInitialisation::initILIAS();
 
-        $clientdirs = glob(ILIAS_WEB_DIR . "/*", GLOB_ONLYDIR);
+        $clientdirs = glob(ILIAS_WEB_DIR . '/*', GLOB_ONLYDIR);
         $writer = new ilSoapInstallationInfoXMLWriter();
         $writer->start();
         if (is_array($clientdirs)) {
@@ -285,7 +279,7 @@ class ilSoapAdministration
 
         ilInitialisation::initILIAS();
 
-        $clientdir = ILIAS_WEB_DIR . "/" . $clientid;
+        $clientdir = ILIAS_WEB_DIR . '/' . $clientid;
         $writer = new ilSoapInstallationInfoXMLWriter();
         $writer->start();
         if (!$writer->addClient($clientdir)) {

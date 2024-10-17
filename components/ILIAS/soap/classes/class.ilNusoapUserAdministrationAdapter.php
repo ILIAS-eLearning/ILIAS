@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -35,8 +36,8 @@ use ILIAS\OrgUnit\Webservices\SOAP\SuperiorPositionId;
 use ILIAS\OrgUnit\Webservices\SOAP\UserIdsOfPosition;
 use ILIAS\OrgUnit\Webservices\SOAP\UserIdsOfPositionAndOrgUnit;
 
-include_once './components/ILIAS/soap/lib/nusoap.php';
-include_once './components/ILIAS/soap/include/inc.soap_functions.php';
+require_once __DIR__ . '/../lib/nusoap.php';
+require_once __DIR__ . '/../include/inc.soap_functions.php';
 
 class ilNusoapUserAdministrationAdapter
 {
