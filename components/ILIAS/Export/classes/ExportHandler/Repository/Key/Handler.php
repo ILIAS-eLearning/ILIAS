@@ -85,4 +85,28 @@ class Handler implements ilExportHandlerRepositoryKeyInterface
             $this->resource_identification_serialized !== self::EMPTY_RESOURCE_IDENTIFICATION
         );
     }
+
+    public function equals(
+        ilExportHandlerRepositoryKeyInterface $other_repository_key
+    ): bool {
+        $object_id_equals =
+            (
+                isset($this->object_id) and
+                isset($other_repository_key->object_id) and
+                $this->object_id->toInt() === $other_repository_key->object_id->toInt()
+            ) || (
+                !isset($this->object_id) and
+                !isset($other_repository_key->object_id)
+            );
+        $resource_id_equals =
+            (
+                isset($this->resource_identification_serialized) and
+                isset($other_repository_key->resource_identification_serialized) and
+                $this->resource_identification_serialized === $other_repository_key->resource_identification_serialized
+            ) || (
+                !isset($this->resource_identification_serialized) and
+                !isset($other_repository_key->resource_identification_serialized)
+            );
+        return $resource_id_equals and $object_id_equals;
+    }
 }

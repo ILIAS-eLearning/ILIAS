@@ -30,7 +30,7 @@ use ILIAS\Export\ExportHandler\I\Info\Export\HandlerInterface as ilExportHandler
 use ILIAS\Export\ExportHandler\I\Repository\Element\HandlerInterface as ilExportHandlerRepositoryElementInterface;
 use ILIAS\Export\ExportHandler\I\Target\HandlerInterface as ilExportHandlerTargetInterface;
 
-class handler implements ilExportHandlerExportInfoInterface
+class Handler implements ilExportHandlerExportInfoInterface
 {
     protected ilExportHandlerFactoryInterface $export_handler;
     protected ilExportHandlerTargetInterface $export_target;

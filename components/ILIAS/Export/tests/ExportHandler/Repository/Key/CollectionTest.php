@@ -49,15 +49,15 @@ class CollectionTest extends TestCase
             ->withElement($element_1)
             ->withElement($element_2)
             ->withElement($element_3);
-        $this->assertEquals(3, $collection_with_elements->count());
-        $this->assertTrue($collection_with_elements->valid());
+        self::assertEquals(3, $collection_with_elements->count());
+        self::assertTrue($collection_with_elements->valid());
         $index = 1;
         foreach ($collection_with_elements as $element) {
-            $this->assertEquals($index, $element->getObjectId()->toInt());
-            $this->assertEquals('r' . $index, $element->getResourceIdSerialized());
+            self::assertEquals($index, $element->getObjectId()->toInt());
+            self::assertEquals('r' . $index, $element->getResourceIdSerialized());
             $index++;
         }
-        $this->assertEquals(0, $empty_collection->count());
-        $this->assertFalse($empty_collection->valid());
+        self::assertEquals(0, $empty_collection->count());
+        self::assertFalse($empty_collection->valid());
     }
 }

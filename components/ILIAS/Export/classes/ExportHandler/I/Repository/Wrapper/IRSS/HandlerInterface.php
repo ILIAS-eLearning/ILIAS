@@ -33,9 +33,11 @@ interface HandlerInterface
     public function createEmptyContainer(
         ilExportHandlerExportInfoInterface $info,
         ilExportHandlerRepositoryStakeholderInterface $stakeholder
-    ): ResourceIdentification;
+    ): string;
 
-    public function getCreationDate(ResourceIdentification $resource_id): DateTimeImmutable;
+    public function getCreationDate(
+        string $resource_identification_serialized
+    ): DateTimeImmutable;
 
     public function removeContainer(
         string $resource_identification_serialized,

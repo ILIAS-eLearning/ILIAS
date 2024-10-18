@@ -33,7 +33,7 @@ use ILIAS\Export\ExportHandler\I\Info\Export\HandlerInterface as ilExportHandler
 use ILIAS\Export\ExportHandler\I\Manager\HandlerInterface as ilExportHandlerManagerInterface;
 use ILIAS\Export\ExportHandler\I\Repository\Element\HandlerInterface as ilExportHandlerRepositoryElementInterface;
 use ILIAS\Export\ExportHandler\I\Target\HandlerInterface as ilExportHandlerTargetInterface;
-use ILIAS\Export\ExportHandler\Info\Export\handler as ilExportHandlerExportInfo;
+use ILIAS\Export\ExportHandler\Info\Export\Handler as ilExportHandlerExportInfo;
 use ILIAS\Filesystem\Stream\Streams;
 use ilImportExportFactory;
 use ilObject;
