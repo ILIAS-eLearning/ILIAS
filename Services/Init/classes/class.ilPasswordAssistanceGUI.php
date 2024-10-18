@@ -331,7 +331,8 @@ class ilPasswordAssistanceGUI implements ilCtrlSecurityInterface
                     $user->getAuthMode(true) != ilAuthUtils::AUTH_LOCAL ||
                     ($user->getAuthMode(true) == $defaultAuth && $defaultAuth != ilAuthUtils::AUTH_LOCAL)
                 ) && !(
-                    $user->getAuthMode(true) == ilAuthUtils::AUTH_SAML
+                    (int) $user->getAuthMode(true) === ilAuthUtils::AUTH_SAML &&
+                    \ilAuthUtils::isLocalPasswordEnabledForAuthMode($user->getAuthMode(true))
                 )
             ) {
                 ilLoggerFactory::getLogger('usr')->info(
