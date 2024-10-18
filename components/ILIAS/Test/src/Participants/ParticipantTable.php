@@ -106,7 +106,7 @@ class ParticipantTable implements DataRetrieval
                 'matriculation' => $record->getMatriculation(),
                 'started_at' => $first_access !== null ? $date_format->applyTo($first_access) : '',
                 'status_of_attempt' => $this->lng->txt($record->getStatusOfAttempt()),
-                'id_of_attempt' => $record?->getAttemptOverviewInformation()->getExamId(),
+                'id_of_attempt' => $record->getAttemptOverviewInformation()?->getExamId(),
                 'last_access' => $last_access !== null ? $date_format->applyTo($last_access) : '',
                 'ip_range' => $record->getClientIpTo() !== '' || $record->getClientIpFrom() !== ''
                     ? sprintf('%s - %s', $record->getClientIpFrom(), $record->getClientIpTo())
@@ -117,23 +117,27 @@ class ParticipantTable implements DataRetrieval
                 'remaining_duration' => sprintf('%d min', $record->getRemainingDuration($processing_time) / 60),
             ];
 
-            if ($this->test_access->checkResultsAccessForActiveId(
-                $record->getActiveId(),
-                $this->test_object->getTestId()
-            )) {
+            if ($record->getActiveId() !== null
+                && $this->test_access->checkResultsAccessForActiveId(
+                    $record->getActiveId(),
+                    $this->test_object->getTestId()
+                ) || $record === null && $this->test_access->checkParticipantsResultsAccess()) {
                 $row['reached_points'] = sprintf(
                     $this->lng->txt('tst_reached_points_of_max'),
-                    $record?->getAttemptOverviewInformation()->getReachedPoints(),
-                    $record?->getAttemptOverviewInformation()->getAvailablePoints()
+                    $record->getAttemptOverviewInformation()?->getReachedPoints(),
+                    $record->getAttemptOverviewInformation()?->getAvailablePoints()
                 );
                 $row['nr_of_answered_questions'] = sprintf(
                     $this->lng->txt('tst_answered_questions_of_total'),
-                    $record?->getAttemptOverviewInformation()->getNrOfAnsweredQuestions(),
-                    $record?->getAttemptOverviewInformation()->getNrOfTotalQuestions()
+                    $record->getAttemptOverviewInformation()?->getNrOfAnsweredQuestions(),
+                    $record->getAttemptOverviewInformation()?->getNrOfTotalQuestions()
                 );
-                $row['percent_of_available_points'] = sprintf('%.2f%%', $record?->getAttemptOverviewInformation()->getReachedPointsInPercent());
-                $row['test_passed'] = $record?->getAttemptOverviewInformation()->hasPassingMark();
-                $row['mark'] = $record?->getAttemptOverviewInformation()->getMark();
+                $row['percent_of_available_points'] = sprintf(
+                    '%.2f%%',
+                    $record->getAttemptOverviewInformation()?->getReachedPointsInPercent()
+                );
+                $row['test_passed'] = $record->getAttemptOverviewInformation()?->hasPassingMark();
+                $row['mark'] = $record->getAttemptOverviewInformation()?->getMark();
             }
 
             yield $this->table_actions->onDataRow(
@@ -190,27 +194,27 @@ class ParticipantTable implements DataRetrieval
             'reached_points' => static fn(
                 Participant $a,
                 Participant $b
-            ) => $a?->getAttemptOverviewInformation()->getReachedPoints()
-                <=> $b?->getAttemptOverviewInformation()->getReachedPoints(),
+            ) => $a->getAttemptOverviewInformation()?->getReachedPoints()
+                <=> $b->getAttemptOverviewInformation()?->getReachedPoints(),
             'nr_of_answered_questions' => static fn(
                 Participant $a,
                 Participant $b
-            ) => $a?->getAttemptOverviewInformation()->getNrOfAnsweredQuestions()
-                <=> $b?->getAttemptOverviewInformation()->getNrOfAnsweredQuestions(),
+            ) => $a->getAttemptOverviewInformation()?->getNrOfAnsweredQuestions()
+                <=> $b->getAttemptOverviewInformation()?->getNrOfAnsweredQuestions(),
             'percent_of_available_points' => static fn(
                 Participant $a,
                 Participant $b
-            ) => $a?->getAttemptOverviewInformation()->getReachedPointsInPercent()
-                <=> $b?->getAttemptOverviewInformation()->getReachedPointsInPercent(),
+            ) => $a->getAttemptOverviewInformation()?->getReachedPointsInPercent()
+                <=> $b->getAttemptOverviewInformation()?->getReachedPointsInPercent(),
             'test_passed' => static fn(
                 Participant $a,
                 Participant $b
-            ) => $a?->getAttemptOverviewInformation()->hasPassingMark()
-                <=> $b?->getAttemptOverviewInformation()->hasPassingMark(),
+            ) => $a->getAttemptOverviewInformation()?->hasPassingMark()
+                <=> $b->getAttemptOverviewInformation()?->hasPassingMark(),
             'mark' => static fn(
                 Participant $a,
                 Participant $b
-            ) => $a?->getAttemptOverviewInformation()->getMark() <=> $b?->getAttemptOverviewInformation()->getMark()
+            ) => $a->getAttemptOverviewInformation()?->getMark() <=> $b->getAttemptOverviewInformation()?->getMark()
 
         ];
     }
