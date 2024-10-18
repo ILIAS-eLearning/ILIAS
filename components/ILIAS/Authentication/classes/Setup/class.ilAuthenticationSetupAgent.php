@@ -25,23 +25,49 @@ class ilAuthenticationSetupAgent implements Setup\Agent
 {
     use Setup\Agent\HasNoNamedObjective;
 
+    protected const DEFAULT_SESSION_EXPIRE = 30;
+
+    public function __construct(protected Refinery\Factory $refinery)
+    {
+    }
+
     public function hasConfig(): bool
     {
-        return false;
+        return true;
     }
 
     public function getArrayToConfigTransformation(): Refinery\Transformation
     {
-        throw new LogicException('Agent has no config.');
+        return $this->refinery->custom()->transformation(function ($data): \ilAuthenticationSetupConfig {
+            return new ilAuthenticationSetupConfig($data["session_max_idle"] ?? self::DEFAULT_SESSION_EXPIRE);
+        });
     }
 
     public function getInstallObjective(Setup\Config $config = null): Setup\Objective
     {
-        return new Setup\Objective\NullObjective();
+        if ($config !== null) {
+            return new ilSessionMaxIdleIsSetObjective($config);
+        }
+
+        return new ilSessionMaxIdleIsSetObjective(new ilAuthenticationSetupConfig(self::DEFAULT_SESSION_EXPIRE));
     }
 
     public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
+        if ($config !== null) {
+            return new Setup\ObjectiveCollection(
+                'Authentication',
+                true,
+                new ilDatabaseUpdateStepsExecutedObjective(
+                    new ilAuthenticationDatabaseUpdateSteps8()
+                ),
+                new ilDatabaseUpdateStepsExecutedObjective(
+                    new AbandonAuthRichTextEditorDatabaseUpdateSteps()
+                ),
+                new ilSessionMaxIdleIsSetObjective($config)
+            );
+        }
+
         return new Setup\ObjectiveCollection(
             'Authentication',
             true,

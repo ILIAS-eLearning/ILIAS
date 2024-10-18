@@ -1,19 +1,22 @@
 <?php
 
-declare(strict_types=1);
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * class ilProxySettings
@@ -25,20 +28,18 @@ class ilProxySettings
     protected string $host = '';
     protected int $port = 80;
     protected bool $active = false;
-    protected ilSetting $setting;
 
-    protected function __construct()
-    {
-        global $DIC;
-
-        $this->setting = $DIC->settings();
+    public function __construct(
+        protected ilSetting $setting
+    ) {
         $this->read();
     }
 
     public static function _getInstance(): ilProxySettings
     {
         if (null === self::$_instance) {
-            self::$_instance = new self();
+            global $DIC;
+            self::$_instance = new self($DIC->settings());
         }
 
         return self::$_instance;
