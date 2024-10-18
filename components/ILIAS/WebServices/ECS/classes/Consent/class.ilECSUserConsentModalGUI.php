@@ -179,7 +179,7 @@ class ilECSUserConsentModalGUI
         $form = $this->initConsentForm();
         $form_id = 'form_' . $form->getId();
         $agree = $this->ui_factory->button()
-                                  ->primary('Agree and Proceed', '#')
+                                  ->primary($this->lng->txt('ecs_consent_modal_btn_accept'), '#')
                                   ->withOnLoadCode(
                                       function ($id) use ($form_id) {
                                           return "$('#$id').click(function() { $('#$form_id').submit(); return false; });";

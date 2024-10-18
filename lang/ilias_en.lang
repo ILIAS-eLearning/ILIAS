@@ -8951,6 +8951,7 @@ ecs#:#ecs_cms_tree_synchronized#:#The tree has been synchronized.
 ecs#:#ecs_communities#:#Participants
 ecs#:#ecs_confirm_delete_tree#:#Do you really want to delete all assignments for this campus management tree?
 ecs#:#ecs_connection_settings#:#Connection Settings
+ecs#:#ecs_consent_modal_btn_accept#:#Agree and Proceed
 ecs#:#ecs_consent_modal_title#:#Consent for data transfer
 ecs#:#ecs_consent_reset_confirm_title#:#Reset user consent for this participant
 ecs#:#ecs_cron_task_scheduler#:#ECS Task Scheduler

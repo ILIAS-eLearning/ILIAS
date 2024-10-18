@@ -8958,6 +8958,7 @@ ecs#:#ecs_cms_tree_synchronized#:#Der Baum wurde synchronisiert.
 ecs#:#ecs_communities#:#Teilnehmer
 ecs#:#ecs_confirm_delete_tree#:#Wollen Sie wirklich alle Zuweisungen zu diesem CMS-Baum löschen?
 ecs#:#ecs_connection_settings#:#Verbindungsdaten
+ecs#:#ecs_consent_modal_btn_accept#:#Zustimmen und fortfahren
 ecs#:#ecs_consent_modal_title#:#Einwilligung zur Datenübertragung
 ecs#:#ecs_consent_reset_confirm_title#:#Benutzerzustimmung für diesen Teilnehmer zurücksetzen
 ecs#:#ecs_cron_task_scheduler#:#ECS-Aufgaben ausführen
