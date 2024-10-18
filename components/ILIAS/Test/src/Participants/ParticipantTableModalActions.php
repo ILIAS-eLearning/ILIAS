@@ -151,7 +151,7 @@ class ParticipantTableModalActions
             $this->ui_renderer->renderAsync(
                 $action->getModal(
                     $url_builder
-                        ->withParameter($row_id_token, $selected_participants)
+                        ->withParameter($row_id_token, $selected_participants_from_request)
                         ->withParameter($action_token, $action->getActionId())
                         ->withParameter($action_type_token, self::SUBMIT_ACTION),
                     $selected_participants,

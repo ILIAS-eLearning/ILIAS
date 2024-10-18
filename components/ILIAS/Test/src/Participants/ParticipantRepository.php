@@ -130,14 +130,15 @@ class ParticipantRepository
     {
         foreach ($participants as $participant) {
             $this->database->replace(
+                'tst_invited_user',
                 [
                     'test_fi' => [\ilDBConstants::T_INTEGER, $participant->getTestId()],
-                    'user_fi' => [\ilDBConstants::T_INTEGER, $participant->getUserId]
+                    'user_fi' => [\ilDBConstants::T_INTEGER, $participant->getUserId()]
                 ],
                 [
-                    'ip_range_to' => $participant->getClientIpFrom(),
-                    'ip_range_to' => $participant->getClientIpTo(),
-                    'tstamp' => time()
+                    'ip_range_from' => [\ilDBConstants::T_TEXT, $participant->getClientIpFrom()],
+                    'ip_range_to' => [\ilDBConstants::T_TEXT, $participant->getClientIpTo()],
+                    'tstamp' => [\ilDBConstants::T_INTEGER, time()]
                 ]
             );
         }
@@ -267,7 +268,7 @@ class ParticipantRepository
             $row['login'] ?? '',
             $row['matriculation'] ?? '',
             $row['extra_time'] ?? 0,
-            $row['tries'],
+            $row['tries'] ?? 0,
             $row['ip_range_from'],
             $row['ip_range_to'],
             $row['invitation_date'],

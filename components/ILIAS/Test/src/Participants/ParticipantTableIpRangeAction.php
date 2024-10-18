@@ -121,8 +121,9 @@ class ParticipantTableIpRangeAction implements TableAction
     ): void {
         $data = $this->getModal(
             $url_builder,
-            $selected_participants
-        )->withReqest($request)->getData();
+            $selected_participants,
+            false
+        )->withRequest($request)->getData();
         $this->participant_repository->updateIpRange(
             array_map(
                 static fn(Participant $v) => $v->withClientIpFrom($data['from'])
