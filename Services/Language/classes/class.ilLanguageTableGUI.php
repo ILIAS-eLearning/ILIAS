@@ -81,14 +81,18 @@ class ilLanguageTableGUI extends ilTable2GUI
     public function getItems(): void
     {
         $languages = $this->folder->getLanguages();
-        $data = array();
+        $data = [];
+        $names = [];
+        $installed = [];
+
         foreach ($languages as $k => $l) {
-            $data[] = array_merge($l, array("key" => $k));
+            $data[] = array_merge($l, ["key" => $k]);
+            $names[] = $l['name'];
+            $installed[] = str_starts_with($l["desc"], 'installed') ? 1 : 2;
         }
 
-        // sort alphabetically but shoe installed languages first
-        $data = ilArrayUtil::stableSortArray($data, "name", "asc", false);
-        $data = ilArrayUtil::stableSortArray($data, "desc", "asc", false);
+        // sort alphabetically but show installed languages first
+        array_multisort($installed, SORT_ASC, $names, SORT_ASC, $data);
 
         $this->setData($data);
     }
