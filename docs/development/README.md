@@ -9,8 +9,7 @@ A general overview on our processes can be found in the [development guide](http
 
 ## Maintenance
 
-- [Maintenance](maintenance.md): How the source code is maintained
-- [Coordinators](maintenance-coordinator.md): Detailed information on the coordinator model which is being used for some important libraries and services
+- [Maintenance](maintenance.md): How the source code is maintained, the different Authorities and our different models of social structures for the maintaining of units in the code of ILIAS
 - [Supported Versions](supported-versions.md): When new versions of ILIAS are released and how long they are supported
 
 ## Coding
@@ -24,18 +23,25 @@ A general overview on our processes can be found in the [development guide](http
 
 ### Server Side (PHP)
 
-- [PHP Coding Guidelines](coding-style.md): PSR-2 based coding style guidelines for PHP
+- [PHP Coding Guidelines](php-coding-style.md): PSR-2 based coding style guidelines for PHP
 - [Namespaces](namespaces.md): Guidelines for using namespaces.
-- [Basic Architecture](https://docu.ilias.de/goto_docu_pg_199_42.html): Slightly outdated, but still relevant. Additionally code is going into our core libraries in the [src directory](../../src/README.md).
-- [PHP Unit Tests](../../tests/README.md): How to write PHP unit tests
-- [Dependency Management](../../libs/README.md): Managing dependencies to third party PHP and JS libs.
+- [Structure](components-and-directories.md): Structure of the ILIAS Source Code
+- [Process Component Revision](components-and-directories-process.md): Implementation of the new structure of Components and Directories
+- [Base Architecture](https://docu.ilias.de/go/pg/199_42): Outdated
+- [PHP Unit Tests](unit-test-usage.md): How to write PHP unit tests
+- [Dependency Management](../../vendor/README.md): Managing dependencies to third party PHP and JS libs.
 - [Input Processing](input-processing.md): Securely process user input
 - [API overview](api-overview.md): Overview on APIs and services
 
 ### Client Side (Javascript)
 
 - [Javascript Coding Guidelines](js-coding-style.md): Airbnb based coding style guidelines for Javascript
-- [Javascript Unit Tests](js/js-unit-test.md): How to write Javascript unit tests
-- [Javascript Modules](js/js-modules.md): How to modularise your Javascript code
-- [Javascript Bundling](js/js-bundling.md): How to bundle your Javascript code files
+- [Javascript Unit Tests](js-unit-test.md): How to write Javascript unit tests
+- [Javascript Modules](js-modules.md): How to modularise your Javascript code
+- [Javascript Bundling](js-bundling.md): How to bundle your Javascript code files
 - [Javascript Third-Party Libs](js-libraries.md): Managing Javascript third-party libs or frameworks
+
+### Templating
+
+- [System Styles](../../templates/README.md): Information about templating in ILIAS
+- [SCSS Guidelines](../../templeates/Guidelines_SCSS-Coding.md): Guidelines about the use of SCSS syntax in ILIAS for style code changes.
