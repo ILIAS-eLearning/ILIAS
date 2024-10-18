@@ -610,6 +610,27 @@ Nginx:
     }
 ```
 
+### Deny Access to file info.php
+
+The file info.php is necessary for the setup process. So it should only be delivered to localhost (127.0.0.1).
+
+Apache2 .htaccess (implemented per default):
+
+```
+    <Files info.php>
+        Require ip 127.0.0.1
+    </Files>
+```
+
+Nginx:
+
+```
+    location /info.php {
+        allow 127.0.0.1;
+        deny all;
+    }
+```
+
 ## Integrity check of ILIAS code in docroot
 
 Local changes of the code of ILIAS can indicate a potential intrusion.
