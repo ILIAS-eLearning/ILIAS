@@ -188,10 +188,10 @@ class ilObjLinkResourceGUI extends ilObject2GUI
             $this->checkLinkInput(self::LINK_MOD_CREATE, $valid, 0) &&
             $this->form->getInput('tar_mode_type') === 'single'
         ) {
-            parent::save();
+            $this->saveObject();
         } elseif ($valid && $this->form->getInput('tar_mode_type') == 'list') {
             $this->initList(self::LINK_MOD_CREATE);
-            parent::save();
+            $this->saveObject();
         } else {
             // Data incomplete or invalid
             $this->tpl->setOnScreenMessage(
@@ -201,6 +201,42 @@ class ilObjLinkResourceGUI extends ilObject2GUI
             $this->form->setValuesByPost();
             $this->tpl->setContent($this->form->getHTML());
         }
+    }
+
+    public function saveObject(): void
+    {
+        // create permission is already checked in createObject. This check here is done to prevent hacking attempts
+        if (!$this->checkPermissionBool("create", "", $this->requested_new_type)) {
+            $this->error->raiseError($this->lng->txt("no_create_permission"), $this->error->MESSAGE);
+        }
+
+        $this->lng->loadLanguageModule($this->requested_new_type);
+        $this->ctrl->setParameter($this, "new_type", $this->requested_new_type);
+
+        $form = $this->initCreateForm($this->requested_new_type);
+        if ($form->checkInput()) {
+            $this->ctrl->setParameter($this, "new_type", "");
+
+            $class_name = "ilObj" . $this->obj_definition->getClassName($this->requested_new_type);
+            $newObj = new $class_name();
+            $newObj->setType($this->requested_new_type);
+            $newObj->setTitle($form->getInput("title"));
+            $newObj->setDescription($form->getInput("desc"));
+            $newObj->processAutoRating();
+            $newObj->create();
+
+            $this->putObjectInTree($newObj);
+
+            $dtpl = $this->getDidacticTemplateVar("dtpl");
+            if ($dtpl) {
+                $newObj->applyDidacticTemplate($dtpl);
+            }
+
+            $this->afterSave($newObj);
+        }
+
+        $form->setValuesByPost();
+        $this->tpl->setContent($form->getHTML());
     }
 
     protected function afterSave(ilObject $new_object): void
