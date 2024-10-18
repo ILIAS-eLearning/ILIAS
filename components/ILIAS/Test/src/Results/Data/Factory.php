@@ -95,7 +95,7 @@ class Factory
         $found_participants = $eval->getParticipants();
         $participant_data = $eval->getParticipant($active_id);
         if ($attempt_id === null) {
-            $attempt_id = $participant_data->getScoredPass();
+            $attempt_id = $participant_data?->getScoredPass();
         }
         if ($found_participants === []
             || $attempt_id === null) {

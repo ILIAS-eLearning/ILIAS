@@ -136,7 +136,7 @@ class ParticipantTable implements DataRetrieval
                     '%.2f%%',
                     $record->getAttemptOverviewInformation()?->getReachedPointsInPercent()
                 );
-                $row['test_passed'] = $record->getAttemptOverviewInformation()?->hasPassingMark();
+                $row['test_passed'] = $record->getAttemptOverviewInformation()?->hasPassingMark() ?? false;
                 $row['mark'] = $record->getAttemptOverviewInformation()?->getMark();
             }
 
