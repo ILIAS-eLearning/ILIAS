@@ -143,62 +143,28 @@ class ParticipantRepository
         }
     }
 
-    protected function loadTestStartTime(?int $active_id, int $pass): ?\DateTimeImmutable
+    public function getFirstAndLastVisitForActiveId(int $active_id): array
     {
-        if (!$active_id) {
-            return null;
-        }
-
-        $statement = $this->database->queryF(
-            'SELECT started FROM tst_times WHERE active_fi = %s AND pass = %s ORDER BY started ASC LIMIT 1',
-            ['integer', 'integer'],
-            [$active_id, $pass]
+        $times = $this->database->fetchAssoc(
+            $this->database->queryF(
+                'SELECT MIN(started) AS first_access, MAX(finished) AS last_access '
+                    . 'FROM tst_times WHERE active_fi = %s',
+                ['integer'],
+                [$active_id]
+            )
         );
 
-        $row = $this->database->fetchAssoc($statement);
-
-        if (!$row) {
-            return null;
+        $start_time = null;
+        if ($times['first_access'] !== null) {
+            $start_time = new \DateTimeImmutable($times['first_access']);
         }
 
-        return new \DateTimeImmutable($row['started']);
-    }
-
-    protected function loadTestEndTime(?int $active_id, int $pass): ?\DateTimeImmutable
-    {
-        if (!$active_id) {
-            return null;
+        $end_time = null;
+        if ($times['last_access'] !== null) {
+            $end_time = new \DateTimeImmutable($times['last_access']);
         }
 
-        $statement = $this->database->queryF(
-            'SELECT finished FROM tst_times WHERE active_fi = %s AND pass = %s ORDER BY started DESC LIMIT 1',
-            ['integer', 'integer'],
-            [$active_id, $pass]
-        );
-
-        $row = $this->database->fetchAssoc($statement);
-
-        if (!$row) {
-            return null;
-        }
-
-        return new \DateTimeImmutable($row['finished']);
-    }
-
-    protected function loadHasSolutions(?int $active_id): bool
-    {
-        $statement = $this->database->queryF(
-            'SELECT MAX(answeredquestions) as answeredquestions FROM tst_pass_result WHERE active_fi = %s',
-            ['integer'],
-            [$active_id]
-        );
-
-        $row = $this->database->fetchAssoc($statement);
-        if (!$row) {
-            return false;
-        }
-
-        return $row['answeredquestions'] > 0;
+        return ['first_access' => $start_time, 'last_access' => $end_time];
     }
 
     /**

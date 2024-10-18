@@ -324,7 +324,7 @@ class ResultsExportExcel implements Exporter
 
                 $this->worksheet->setCell($current_row, $col++, $test_attempt_data->getReachedPoints());
                 $this->worksheet->setCell($current_row, $col++, $test_attempt_data->getMaxpoints());
-                $this->worksheet->setCell($current_row, $col++, $test_attempt_data->getMark());
+                $this->worksheet->setCell($current_row, $col++, $test_attempt_data->getMark()->getShortName());
                 $this->worksheet->setCell($current_row, $col++, $test_attempt_data->getQuestionCount());
                 $this->worksheet->setCell($current_row, $col++, $test_attempt_data->getNrOfAnsweredQuestions());
                 $this->worksheet->setCell($current_row, $col++, $test_attempt_data->getReachedPointsInPercent());
@@ -502,13 +502,13 @@ class ResultsExportExcel implements Exporter
         return sprintf('%02d:%02d:%02d', $diff_hours, $diff_minutes, $seconds);
     }
 
-    private function convertToUserDateFormat(int $linux_ts): string
+    private function convertToUserDateFormat(?\DateTimeImmutable $date_time): string
     {
-        if ($linux_ts === 0) {
+        if ($date_time === null) {
             return '';
         }
 
-        return (new \DateTimeImmutable("@{$linux_ts}"))
+        return $date_time
             ->setTimezone(new \DateTimeZone($this->current_user->getTimeZone()))
             ->format($this->user_date_format->toString());
     }

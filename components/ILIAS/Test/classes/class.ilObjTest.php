@@ -2624,10 +2624,7 @@ class ilObjTest extends ilObject
             );
 
             if ($mark !== null) {
-                $user_data->setMark($mark->getShortName());
-                $user_data->setMarkOfficial($mark->getOfficialName());
-
-                $user_data->setPassed($mark->getPassed());
+                $user_data->setMark($mark);
             }
 
             for ($i = 0;$i < $user_data->getPassCount();$i++) {
@@ -2636,15 +2633,14 @@ class ilObjTest extends ilObject
                     $pass_data->getReachedPointsInPercent()
                 );
                 if ($mark !== null) {
-                    $pass_data->setMark($mark->getShortName());
-                    $pass_data->setMarkOfficial($mark->getOfficialName());
+                    $pass_data->setMark($mark);
                 }
             }
 
-            $visiting_time = $this->getVisitTimeOfParticipant($active_id);
+            $visiting_time = $this->participant_repository->getFirstAndLastVisitForActiveId($active_id);
 
-            $user_data->setFirstVisit($visiting_time["firstvisit"]);
-            $user_data->setLastVisit($visiting_time["lastvisit"]);
+            $user_data->setFirstVisit($visiting_time['first_access']);
+            $user_data->setLastVisit($visiting_time['last_access']);
         }
 
         return $data;
@@ -5238,7 +5234,7 @@ class ilObjTest extends ilObject
 
         $testPassesSelector = new ilTestPassesSelector($this->db, $this);
         $testPassesSelector->setActiveId($active_id);
-        $testPassesSelector->setLastFinishedPass($test_session->getLastFinishedAttempt());
+        $testPassesSelector->setLastFinishedPass($test_session->getLastFinishedPass());
 
         if ($this->hasNrOfTriesRestriction() && ($active_id > 0)) {
             $closedPasses = $testPassesSelector->getClosedPasses();
@@ -6606,7 +6602,7 @@ class ilObjTest extends ilObject
         $found_participants = $data->getParticipants();
         $results = ['overview' => [], 'questions' => []];
         if ($found_participants !== []) {
-            $results['overview']['tst_stat_result_mark_median'] = $data->getStatistics()->getEvaluationDataOfMedianUser()?->getMark() ?? '';
+            $results['overview']['tst_stat_result_mark_median'] = $data->getStatistics()->getEvaluationDataOfMedianUser()?->getMark()->getShortName() ?? '';
             $results['overview']['tst_stat_result_rank_median'] = $data->getStatistics()->rankMedian();
             $results['overview']['tst_stat_result_total_participants'] = $data->getStatistics()->count();
             $results['overview']['tst_stat_result_median'] = $data->getStatistics()->median();
@@ -6622,7 +6618,7 @@ class ilObjTest extends ilObject
             $total_passed_max = 0;
             $total_passed_time = 0;
             foreach ($found_participants as $userdata) {
-                if ($userdata->getPassed()) {
+                if ($userdata->getMark()->getPassed()) {
                     $total_passed++;
                     $total_passed_reached += $userdata->getReached();
                     $total_passed_max += $userdata->getMaxpoints();

@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Scoring\Marks\Mark;
+
 /**
 * Class ilTestEvaluationUserData
 *
@@ -36,12 +38,9 @@ class ilTestEvaluationUserData
     private string $login = '';
     private ?int $user_id = null;
     private bool $submitted;
-    private string $mark;
-    private string $mark_official;
-    private string $time_on_task;
-    private int $first_visit;
-    private int $last_visit;
-    private bool $passed = false;
+    private Mark $mark;
+    private \DateTimeImmutable $first_visit;
+    private \DateTimeImmutable $last_visit;
 
     /**
     * @var array<int, ilTestEvaluationPassData>
@@ -70,16 +69,6 @@ class ilTestEvaluationUserData
     public function setPassScoring(int $passScoring): void
     {
         $this->pass_scoring = $passScoring;
-    }
-
-    public function getPassed(): bool
-    {
-        return $this->passed;
-    }
-
-    public function setPassed(bool $passed): void
-    {
-        $this->passed = $passed;
     }
 
     public function getName(): string
@@ -127,12 +116,12 @@ class ilTestEvaluationUserData
         return $this->getMaxPoints() ? $this->getReached() / $this->getMaxPoints() * 100.0 : 0.0;
     }
 
-    public function getMark(): string
+    public function getMark(): Mark
     {
         return $this->mark;
     }
 
-    public function setMark(string $mark): void
+    public function setMark(Mark $mark): void
     {
         $this->mark = $mark;
     }
@@ -175,22 +164,22 @@ class ilTestEvaluationUserData
         return $time;
     }
 
-    public function getFirstVisit(): int
+    public function getFirstVisit(): \DateTimeImmutable
     {
         return $this->first_visit;
     }
 
-    public function setFirstVisit(int $time): void
+    public function setFirstVisit(?\DateTimeImmutable $time): void
     {
         $this->first_visit = $time;
     }
 
-    public function getLastVisit(): int
+    public function getLastVisit(): \DateTimeImmutable
     {
         return $this->last_visit;
     }
 
-    public function setLastVisit(int $time): void
+    public function setLastVisit(\DateTimeImmutable $time): void
     {
         $this->last_visit = $time;
     }
@@ -387,16 +376,6 @@ class ilTestEvaluationUserData
     public function getUserID(): ?int
     {
         return $this->user_id;
-    }
-
-    public function setMarkOfficial(string $a_mark_official): void
-    {
-        $this->mark_official = $a_mark_official;
-    }
-
-    public function getMarkOfficial(): string
-    {
-        return $this->mark_official;
     }
 
     /**

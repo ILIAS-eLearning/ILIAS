@@ -681,6 +681,7 @@ assessment#:#eval_legend_link#:#Please refer to the legend for the meaning of th
 assessment#:#evaluated_users#:#Evaluated Users
 assessment#:#exam_id#:#Test ID:
 assessment#:#exam_id_label#:#Test ID
+assessment#:#exam_id_of_attempt#:#ID of Attempt
 assessment#:#examid_in_test_pass#:#Display Test ID
 assessment#:#examid_in_test_pass_desc#:#A Test ID is displayed in the test. A new, unique ID is generated for every test attempt.
 assessment#:#examid_in_test_res#:#Display ILIAS Test ID
