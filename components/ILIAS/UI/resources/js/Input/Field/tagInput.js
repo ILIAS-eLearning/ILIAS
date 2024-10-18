@@ -1,4 +1,19 @@
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+/**
  * Wraps the TagsInput
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -39,7 +54,7 @@ il.UI.Input = il.UI.Input || {};
 
       // Initialize ID and Configuration
       _CONFIG = $.extend(_CONFIG, config);
-      _CONFIG.id = raw_id;
+      _CONFIG.id = document.querySelector(`#${raw_id} .c-input__field .c-field-tag__wrapper input`)?.id;
 
       const settings = _getSettings();
       settings.delimiters = null;

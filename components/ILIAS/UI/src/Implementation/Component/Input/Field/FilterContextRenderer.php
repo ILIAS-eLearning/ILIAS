@@ -124,20 +124,18 @@ class FilterContextRenderer extends Renderer
         FormInput $component,
         string $label,
         string $input_html,
-        string $id_pointing_to_input = '',
-        string $dependant_group_html = '',
-        bool $bind_label_with_for = true
+        ?string $id_for_label = null,
+        ?string $dependant_group_html = null
     ): string {
-        return $this->wrapInFilterContext($component, $input_html, $this->getOriginalDefaultRenderer(), $id_pointing_to_input);
+        return $this->wrapInFilterContext($component, $input_html, $this->getOriginalDefaultRenderer(), $id_for_label);
     }
 
     protected function wrapInFilterContext(
         FormInput $component,
         string $input_html,
         RendererInterface $default_renderer,
-        string $id_pointing_to_input = '',
-        string $dependant_group_html = '',
-        bool $bind_label_with_for = true
+        ?string $id_pointing_to_input = null,
+        string $dependant_group_html = ''
     ): string {
         $f = $this->getUIFactory();
         $tpl = $this->getTemplate("tpl.context_filter.html", true, true);
@@ -152,7 +150,7 @@ class FilterContextRenderer extends Renderer
 
         $tpl->setCurrentBlock("addon_left");
         $tpl->setVariable("LABEL", $component->getLabel());
-        if ($id_pointing_to_input && $bind_label_with_for) {
+        if ($id_pointing_to_input) {
             $tpl->setCurrentBlock("for");
             $tpl->setVariable("ID", $id_pointing_to_input);
             $tpl->parseCurrentBlock();

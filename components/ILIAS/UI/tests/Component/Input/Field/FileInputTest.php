@@ -150,7 +150,7 @@ class FileInputTest extends ILIAS_UI_TestBase
             'file-field-input',
             $label,
             '
-            <div id="id_3" class="ui-input-file">
+            <div class="ui-input-file">
                 <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
                 <div class="ui-input-file-input-dropzone">
                     <button class="btn btn-link" data-action="#" id="id_2">select_files_from_computer</button>
@@ -160,7 +160,8 @@ class FileInputTest extends ILIAS_UI_TestBase
             </div>
             ',
             $byline,
-            null
+            null,
+            'id_3'
         );
         $this->assertEquals($expected, $this->render($file_input));
     }
@@ -174,6 +175,7 @@ class FileInputTest extends ILIAS_UI_TestBase
         $this->testWithNoByline($file_input);
         $this->testWithRequired($file_input);
         $this->testWithDisabled($file_input);
+        $this->testWithAdditionalOnloadCodeRendersId($file_input);
     }
 
     public function testRenderValue(): void
@@ -197,7 +199,7 @@ class FileInputTest extends ILIAS_UI_TestBase
             'file-field-input',
             '',
             '
-            <div id="id_4" class="ui-input-file">
+            <div class="ui-input-file">
                 <div class="ui-input-file-input-list ui-input-dynamic-inputs-list">
                     <div class="ui-input-file-input ui-input-dynamic-input">
                         <div class="ui-input-file-info">
@@ -228,7 +230,8 @@ class FileInputTest extends ILIAS_UI_TestBase
             </div>
             ',
             null,
-            null
+            null,
+            'id_4'
         );
         $this->assertEquals($expected, $this->render($file_input));
     }
@@ -255,7 +258,7 @@ class FileInputTest extends ILIAS_UI_TestBase
             'file-field-input',
             $label,
             '
-            <div id="id_6" class="ui-input-file">
+            <div class="ui-input-file">
                 <div class="ui-input-file-input-list ui-input-dynamic-inputs-list">
                     <div class="ui-input-file-input ui-input-dynamic-input">
                         <div class="ui-input-file-info">
@@ -300,7 +303,8 @@ class FileInputTest extends ILIAS_UI_TestBase
             </div>
             ',
             null,
-            null
+            null,
+            'id_6',
         );
         $this->assertEquals($expected, $this->render($file_input));
     }
@@ -336,7 +340,7 @@ class FileInputTest extends ILIAS_UI_TestBase
             'file-field-input',
             $label,
             '
-            <div id="id_6" class="ui-input-file">
+            <div class="ui-input-file">
                 <div class="ui-input-file-input-list ui-input-dynamic-inputs-list">
                     <div class="ui-input-file-input ui-input-dynamic-input">
                         <div class="ui-input-file-info">
@@ -381,7 +385,8 @@ class FileInputTest extends ILIAS_UI_TestBase
             </div>
             ',
             null,
-            null
+            null,
+            'id_6'
         );
         $this->assertEquals($expected, $this->render($file_input));
     }

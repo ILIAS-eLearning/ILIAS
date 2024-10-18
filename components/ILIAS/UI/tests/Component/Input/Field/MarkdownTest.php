@@ -129,8 +129,8 @@ class MarkdownTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML(
             "
-            <fieldset class=\"c-input\" data-il-ui-component=\"markdown-field-input\" data-il-ui-input-name=\"name_0\">
-                <label for=\"id_1\">$label</label>
+            <fieldset class=\"c-input\" data-il-ui-component=\"markdown-field-input\" data-il-ui-input-name=\"name_0\" id=\"id_8\" tabindex=\"0\">
+                <label>$label</label>
                 <div class=\"c-input__field\">
 
                     <div class=\"c-field-markdown\">
@@ -184,8 +184,8 @@ class MarkdownTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML(
             "
-            <fieldset class=\"c-input\" data-il-ui-component=\"markdown-field-input\" data-il-ui-input-name=\"name_0\">
-                <label for=\"id_1\">$label</label>
+            <fieldset class=\"c-input\" data-il-ui-component=\"markdown-field-input\" data-il-ui-input-name=\"name_0\" id=\"id_8\" tabindex=\"0\">
+                <label>$label</label>
                 <div class=\"c-input__field\">
 
                     <div class=\"c-field-markdown\">
@@ -246,8 +246,8 @@ class MarkdownTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML(
             "
-            <fieldset class=\"c-input\" data-il-ui-component=\"markdown-field-input\" data-il-ui-input-name=\"name_0\">
-                <label for=\"id_1\">$label</label>
+            <fieldset class=\"c-input\" data-il-ui-component=\"markdown-field-input\" data-il-ui-input-name=\"name_0\" id=\"id_8\" tabindex=\"0\">
+                <label>$label</label>
                 <div class=\"c-input__field\">
 
                     <div class=\"c-field-markdown\">
@@ -304,8 +304,8 @@ class MarkdownTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML(
             "
-            <fieldset class=\"c-input\" data-il-ui-component=\"markdown-field-input\" data-il-ui-input-name=\"name_0\" disabled=\"disabled\">
-                <label for=\"id_1\">$label</label>
+            <fieldset class=\"c-input\" data-il-ui-component=\"markdown-field-input\" data-il-ui-input-name=\"name_0\" disabled=\"disabled\" id=\"id_2\" tabindex=\"0\">
+                <label>$label</label>
                 <div class=\"c-input__field\">
 
                     <div class=\"c-field-markdown\">
@@ -332,7 +332,7 @@ class MarkdownTest extends ILIAS_UI_TestBase
                                 </span>
                             </div>
                         </div>
-                             <textarea id=\"id_1\" class=\"c-field-textarea\" name=\"name_0\" disabled=\"disabled\"></textarea>
+                             <textarea id=\"id_1\" class=\"c-field-textarea\" name=\"name_0\"></textarea>
                         <div class=\"c-field-markdown__preview hidden\">
                         </div>
                     </div>
@@ -361,8 +361,8 @@ class MarkdownTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML(
             "
-            <fieldset class=\"c-input\" data-il-ui-component=\"markdown-field-input\" data-il-ui-input-name=\"name_0\">
-                <label for=\"id_1\">$label<span class=\"asterisk\">*</span></label>
+            <fieldset class=\"c-input\" data-il-ui-component=\"markdown-field-input\" data-il-ui-input-name=\"name_0\" id=\"id_8\" tabindex=\"0\">
+                <label>$label<span class=\"asterisk\" aria-label=\"required_field\">*</span></label>
                 <div class=\"c-input__field\">
 
                         <div class=\"c-field-markdown\">
@@ -418,9 +418,45 @@ class MarkdownTest extends ILIAS_UI_TestBase
         )->withError($error)->withNameFrom($this->name_source);
 
         $expected = $this->brutallyTrimHTML(
-            html: <<<EOF
-        <fieldset class="c-input" data-il-ui-component="markdown-field-input" data-il-ui-input-name="name_0" aria-describedby="id_8"><label for="id_1">test_label</label><div class="c-input__field"><div class="c-field-markdown"><div class="c-field-markdown__controls"> view_control_mode<div class="c-field-markdown__actions"><span data-action="insert-heading"><button class="btn btn-default" data-action="#" id="id_2">header</button></span><span data-action="insert-link"><button class="btn btn-default" data-action="#" id="id_3">link</button></span><span data-action="insert-bold"><button class="btn btn-default" data-action="#" id="id_4">bold</button></span><span data-action="insert-italic"><button class="btn btn-default" data-action="#" id="id_5">italic</button></span><span data-action="insert-bullet-points"><button class="btn btn-default" data-action="#" id="id_7">bulletpoint</button></span><span data-action="insert-enumeration"><button class="btn btn-default" data-action="#" id="id_6">numberedlist</button></span></div></div><textarea id="id_1" class="c-field-textarea" name="name_0"></textarea><div class="c-field-markdown__preview hidden"></div></div></div><div class="c-input__error-msg alert alert-danger" id="id_8"><span class="sr-only">ui_error:</span>test_error</div><div class="c-input__help-byline">test_byline</div></fieldset>
-        EOF
+            "
+            <fieldset class=\"c-input\" data-il-ui-component=\"markdown-field-input\" data-il-ui-input-name=\"name_0\" aria-describedby=\"id_9\" id=\"id_8\" tabindex=\"0\">
+                <label>$label</label>
+                <div class=\"c-input__field\">
+
+                        <div class=\"c-field-markdown\">
+                            <div class=\"c-field-markdown__controls\">
+                                view_control_mode
+                                <div class=\"c-field-markdown__actions\">
+                                    <span data-action=\"insert-heading\">
+                                        <button class=\"btn btn-default\" data-action=\"#\" id=\"id_2\">header</button>
+                                    </span>
+                                    <span data-action=\"insert-link\">
+                                        <button class=\"btn btn-default\" data-action=\"#\" id=\"id_3\">link</button>
+                                    </span>
+                                    <span data-action=\"insert-bold\">
+                                        <button class=\"btn btn-default\" data-action=\"#\" id=\"id_4\">bold</button>
+                                    </span>
+                                    <span data-action=\"insert-italic\">
+                                        <button class=\"btn btn-default\" data-action=\"#\" id=\"id_5\">italic</button>
+                                    </span>
+                                    <span data-action=\"insert-bullet-points\">
+                                        <button class=\"btn btn-default\" data-action=\"#\" id=\"id_7\">bulletpoint</button>
+                                    </span>
+                                    <span data-action=\"insert-enumeration\">
+                                        <button class=\"btn btn-default\" data-action=\"#\" id=\"id_6\">numberedlist</button>
+                                    </span>
+                                </div>
+                            </div>
+                                 <textarea id=\"id_1\" class=\"c-field-textarea\" name=\"name_0\"></textarea>
+                        <div class=\"c-field-markdown__preview hidden\">
+                        </div>
+                    </div>
+
+                </div>
+                <div class=\"c-input__error-msg alert alert-danger\" id=\"id_9\"><span class=\"sr-only\">ui_error:</span>$error</div>
+                <div class=\"c-input__help-byline\">$byline</div>
+            </fieldset>
+            "
         );
 
         $html = $this->brutallyTrimHTML($this->getRendererWithStubs()->render($input));

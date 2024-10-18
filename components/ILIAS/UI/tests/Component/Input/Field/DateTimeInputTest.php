@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../../../vendor/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
+require_once(__DIR__ . "/CommonFieldRendering.php");
 
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
@@ -30,6 +31,8 @@ use ILIAS\UI\Implementation\Component\Symbol as S;
 
 class DateTimeInputTest extends ILIAS_UI_TestBase
 {
+    use CommonFieldRendering;
+
     protected DefNamesource $name_source;
     protected Data\Factory $data_factory;
     protected I\Input\Field\Factory $factory;
@@ -185,5 +188,17 @@ class DateTimeInputTest extends ILIAS_UI_TestBase
         </fieldset>
         ');
         $this->assertEquals($expected, $html);
+    }
+
+    public function testCommonRendering(): void
+    {
+        $datetime = $this->factory->dateTime('label')
+            ->withNameFrom($this->name_source);
+
+        $this->testWithError($datetime);
+        $this->testWithNoByline($datetime);
+        $this->testWithRequired($datetime);
+        $this->testWithDisabled($datetime);
+        $this->testWithAdditionalOnloadCodeRendersId($datetime);
     }
 }

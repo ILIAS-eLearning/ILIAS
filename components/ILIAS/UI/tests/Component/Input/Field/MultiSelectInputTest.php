@@ -123,7 +123,7 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         $expected = $this->getFormWrappedHtml(
             'multi-select-field-input',
             $label,
-            '<ul class="c-field-multiselect" id="id_1">'
+            '<ul class="c-field-multiselect">'
             . $expected_options .
             '</ul>',
             $byline,
@@ -169,7 +169,7 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         $expected = $this->getFormWrappedHtml(
             'multi-select-field-input',
             $label,
-            '<ul class="c-field-multiselect" id="id_1">'
+            '<ul class="c-field-multiselect">'
                 . $expected_options .
             '</ul>',
             $byline,
@@ -188,6 +188,7 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         $this->testWithNoByline($multi_select);
         $this->testWithRequired($multi_select);
         $this->testWithDisabled($multi_select);
+        $this->testWithAdditionalOnloadCodeRendersId($multi_select);
     }
 
     public function testRenderNoOptions(): void
@@ -202,10 +203,10 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         $label = $ms->getLabel();
         $byline = $ms->getByline();
         $expected = '
-        <fieldset class="c-input" data-il-ui-component="multi-select-field-input" data-il-ui-input-name="name_0" disabled="disabled">
+        <fieldset class="c-input" data-il-ui-component="multi-select-field-input" data-il-ui-input-name="name_0" disabled="disabled" tabindex="0">
             <label>label</label>
             <div class="c-input__field">
-                <ul class="c-field-multiselect" id="id_1">
+                <ul class="c-field-multiselect">
                     <li>-</li>
                 </ul>
             </div>
