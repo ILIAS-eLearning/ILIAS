@@ -23,7 +23,7 @@ namespace ILIAS\Export\ExportHandler\Info\Export;
 use ILIAS\Export\ExportHandler\I\Info\Export\CollectionInterface as ilExportHandlerExportInfoCollectionInterface;
 use ILIAS\Export\ExportHandler\I\Info\Export\HandlerInterface as ilExportHandlerExportInfoInterface;
 
-class collection implements ilExportHandlerExportInfoCollectionInterface
+class Collection implements ilExportHandlerExportInfoCollectionInterface
 {
     protected array $elements;
     protected int $index;

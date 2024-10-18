@@ -181,7 +181,7 @@ class ilExportGUI
 
     final protected function enableStandardXMLExport(): void
     {
-        # Exception for Test, TestQuestionPool, OrgUnit
+        # Exception for Test, TestQuestionPool
         if (in_array($this->obj->getType(), ["tst", "qpl"])) {
             return;
         }

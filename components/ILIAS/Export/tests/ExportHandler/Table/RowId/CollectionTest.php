@@ -36,7 +36,6 @@ class CollectionTest extends TestCase
         $table_row_id_mock_2->method('getFileIdentifier')->willReturn("2");
         $table_row_id_mock_2->method('getExportOptionId')->willReturn("e");
         $table_row_id_mock_2->method('getCompositId')->willReturn("e:2");
-        ;
         $table_row_id_mock_3 = $this->createMock(ilExportHandlerTableRowId::class);
         $table_row_id_mock_3->method('getFileIdentifier')->willReturn("3");
         $table_row_id_mock_3->method('getExportOptionId')->willReturn("e");
@@ -46,15 +45,15 @@ class CollectionTest extends TestCase
             ->withElement($table_row_id_mock_1)
             ->withElement($table_row_id_mock_2)
             ->withElement($table_row_id_mock_3);
-        $this->assertEquals(0, $empty_collection->count());
-        $this->assertFalse($empty_collection->valid());
-        $this->assertEquals(3, $collection_with_elements->count());
-        $this->assertTrue($collection_with_elements->valid());
+        self::assertEquals(0, $empty_collection->count());
+        self::assertFalse($empty_collection->valid());
+        self::assertEquals(3, $collection_with_elements->count());
+        self::assertTrue($collection_with_elements->valid());
         $index = 1;
         foreach ($collection_with_elements as $element) {
-            $this->assertEquals("" . $index, $element->getFileIdentifier());
-            $this->assertEquals("e", $element->getExportOptionId());
-            $this->assertEquals("e:" . $index, $element->getCompositId());
+            self::assertEquals("" . $index, $element->getFileIdentifier());
+            self::assertEquals("e", $element->getExportOptionId());
+            self::assertEquals("e:" . $index, $element->getCompositId());
             $index++;
         }
     }

@@ -39,10 +39,10 @@ class HandlerTest extends TestCase
             ->withClassname($class_name)
             ->withTargetRelease($target_release)
             ->withObjectIds($object_ids);
-        $this->assertEquals($type, $target_1->getType());
-        $this->assertEquals($component, $target_1->getComponent());
-        $this->assertEquals($class_name, $target_1->getClassname());
-        $this->assertEquals($target_release, $target_1->getTargetRelease());
-        $this->assertEmpty(array_diff($object_ids, $target_1->getObjectIds()));
+        self::assertEquals($type, $target_1->getType());
+        self::assertEquals($component, $target_1->getComponent());
+        self::assertEquals($class_name, $target_1->getClassname());
+        self::assertEquals($target_release, $target_1->getTargetRelease());
+        self::assertEmpty(array_diff($object_ids, $target_1->getObjectIds()));
     }
 }

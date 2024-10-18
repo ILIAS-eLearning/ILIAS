@@ -21,16 +21,25 @@ declare(strict_types=1);
 namespace ILIAS\Export\ExportHandler\I\Repository\Values;
 
 use DateTimeImmutable;
+use ILIAS\Export\ExportHandler\I\Repository\Values\HandlerInterface as ilExportHandlerRepositoryValuesInterface;
 
 interface HandlerInterface
 {
-    public function withOwnerId(int $owner_id): HandlerInterface;
+    public function withOwnerId(
+        int $owner_id
+    ): HandlerInterface;
 
-    public function withCreationDate(DateTimeImmutable $creation_date): HandlerInterface;
+    public function withCreationDate(
+        DateTimeImmutable $creation_date
+    ): HandlerInterface;
 
     public function getOwnerId(): int;
 
     public function getCreationDate(): DateTimeImmutable;
 
     public function isValid(): bool;
+
+    public function equals(
+        ilExportHandlerRepositoryValuesInterface $other_repository_values
+    ): bool;
 }
