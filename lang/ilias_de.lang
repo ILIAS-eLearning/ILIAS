@@ -13203,6 +13203,7 @@ prg#:#pc_prgstatus_unlimited_validation#:#unbegrenzt gültig
 prg#:#percentage#:#%
 prg#:#prg_access_by_orgu#:#Zugriffsregelungen nach Organisationseinheiten
 prg#:#prg_access_by_orgu_byline#:#Wenn aktiviert, können zusätzliche Zugriffsregelungen über Positionen in Organisationseinheiten vergeben werden.
+prg#:#prg_acknowledge_all_completed_courses#:#Alle bestandenen Kurse anerkennen
 prg#:#prg_acknowledge_completed_courses#:#Bestandene Kurse anerkennen
 prg#:#prg_add#:#Studienprogramm anlegen
 prg#:#prg_added_course_ref_successful#:#Neuer Kurslink erfolgreich hinzugefügt.
