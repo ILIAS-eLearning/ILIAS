@@ -42,8 +42,6 @@ class TabsManagerTest extends \ilTestBaseTestCase
             $DIC['ilTabs'],
             $this->createMock(\ilLanguage::class),
             $this->createMock(\ilCtrl::class),
-            $this->createMock(RequestWrapper::class),
-            $this->createMock(Refinery::class),
             $this->createMock(\ilAccess::class),
             $this->createMock(\ilTestAccess::class),
             $this->getTestObjMock(),

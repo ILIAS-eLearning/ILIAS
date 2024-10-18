@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Test\ResponseHandler;
+use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\Test\Participants\ParticipantTable;
 use ILIAS\Test\ExportImport\Factory as ExportImportFactory;
 use ILIAS\Test\ExportImport\Types as ExportImportTypes;
@@ -77,7 +78,7 @@ class ilTestParticipantsGUI
         protected ilCtrlInterface $ctrl,
         protected Refinery $refinery,
         protected ilDBInterface $db,
-        protected ilTabsGUI $tabs,
+        protected TabsManager $tabs_manager,
         protected ilToolbarGUI $toolbar,
         protected ilComponentFactory $component_factory,
         protected ExportImportFactory $export_factory,
@@ -92,6 +93,9 @@ class ilTestParticipantsGUI
 
     public function executeCommand(): void
     {
+        if (!$this->test_access->checkManageParticipantsAccess()) {
+            ilObjTestGUI::accessViolationRedirect();
+        }
         switch ($this->ctrl->getNextClass($this)) {
             case 'ilrepositorysearchgui':
                 $gui = new ilRepositorySearchGUI();
@@ -111,8 +115,7 @@ class ilTestParticipantsGUI
                 $gui = new ilTestEvaluationGUI($this->test_obj);
                 $gui->setObjectiveOrientedContainer($this->objective_parent);
                 $gui->setTestAccess($this->test_access);
-                $this->tabs->clearTargets();
-                $this->tabs->clearSubTabs();
+                $this->tabs_manager->resetTabsAndAddBacklink;
 
                 $this->ctrl->forwardCommand($gui);
 
@@ -147,12 +150,14 @@ class ilTestParticipantsGUI
             return false;
         }
 
-        $this->ctrl->redirect($this, self::CMD_SHOW);
+        $this->showCmd();
         return null;
     }
 
     public function showCmd(): void
     {
+        $this->tabs_manager->activateTab(TabsManager::TAB_ID_EXAM_DASHBOARD);
+
         $this->addUserSearchControls($this->toolbar);
 
         if ($this->test_obj->evalTotalPersons() > 0) {
@@ -341,7 +346,7 @@ class ilTestParticipantsGUI
             $this->test_obj->setClientIP($user_id, $_POST["clientip_" . $user_id]);
         }
 
-        $this->ctrl->redirect($this, self::CMD_SHOW);
+        $this->showCmd();
     }
 
     protected function removeParticipantsCmd(): void
@@ -357,7 +362,7 @@ class ilTestParticipantsGUI
             $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("select_one_user"), true);
         }
 
-        $this->ctrl->redirect($this, self::CMD_SHOW);
+        $this->showCmd();
     }
 
     private function buildParticipantTableActions(): ParticipantTableModalActions

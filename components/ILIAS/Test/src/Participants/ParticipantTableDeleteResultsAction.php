@@ -102,12 +102,18 @@ class ParticipantTableDeleteResultsAction implements TableAction
             );
             return;
         }
-        $this->test_obj->removeTestResultsByUserIds(
+
+        $access_filter = $this->participant_access_filter_factory->getManageParticipantsUserFilter($this->getTestObj()->getRefId());
+        $participant_data = new ilTestParticipantData($this->db, $this->lng);
+        $participant_data->setParticipantAccessFilter($access_filter);
+        $participant_data->setActiveIdsFilter(
             array_map(
                 static fn(Participant $v): int => $v->getUserId(),
                 $selected_participants
             )
         );
+        $participant_data->load($this->test_obj->getTestId());
+        $this->test_obj->removeTestResults($participant_data);
 
         $this->tpl->setOnScreenMessage(
             \ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS,
@@ -127,6 +133,6 @@ class ParticipantTableDeleteResultsAction implements TableAction
             return $this->lng->txt('confirm_delete_all_user_data');
         }
 
-        return $this->lng->txt('confirm_delete_selected_user_data');
+        return $this->lng->txt('delete_selected_user_data_confirmation');
     }
 }

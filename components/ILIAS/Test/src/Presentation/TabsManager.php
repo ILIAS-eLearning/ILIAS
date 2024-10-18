@@ -82,8 +82,6 @@ class TabsManager
         private readonly \ilTabsGUI $tabs,
         private readonly \ilLanguage $lng,
         private readonly \ilCtrlInterface $ctrl,
-        private readonly RequestWrapper $wrapper,
-        private readonly Refinery $refinery,
         private readonly \ilAccess $access,
         private readonly \ilTestAccess $test_access,
         private readonly \ilObjTest $test_object,
@@ -193,7 +191,7 @@ class TabsManager
         return \ilLearningProgressAccess::checkAccess($this->test_object->getRefId());
     }
 
-    protected function checkDashboardTabAccess(): bool
+    protected function checkParticipantsTabAccess(): bool
     {
         if ($this->test_access->checkManageParticipantsAccess()) {
             return true;
@@ -415,11 +413,11 @@ class TabsManager
             ],
         );
 
-        if ($this->needsDashboardTab()) {
+        if ($this->needsParticipantsTab()) {
             $this->tabs->addTab(
                 self::TAB_ID_EXAM_DASHBOARD,
                 $this->lng->txt('dashboard_tab'),
-                $this->getDashboardTabTarget()
+                $this->getParticipantsTabTarget()
             );
         }
 
@@ -676,9 +674,9 @@ class TabsManager
         }
     }
 
-    protected function needsDashboardTab(): bool
+    protected function needsParticipantsTab(): bool
     {
-        if (!$this->checkDashboardTabAccess()) {
+        if (!$this->checkParticipantsTabAccess()) {
             return false;
         }
 
@@ -698,39 +696,9 @@ class TabsManager
         return true;
     }
 
-    protected function getDashboardTabTarget(): string
+    protected function getParticipantsTabTarget(): string
     {
-        return $this->ctrl->getLinkTargetByClass([\ilObjTestGUI::class, \ilTestDashboardGUI::class, \ilTestParticipantsGUI::class]);
-    }
-
-    public function getDashboardSubTabs(): void
-    {
-        if (!$this->test_access->checkManageParticipantsAccess()) {
-            return;
-        }
-
-        $this->tabs->addSubTab(
-            self::SUBTAB_ID_FIXED_PARTICIPANTS,
-            $this->getDashbardParticipantsSubTabLabel(),
-            $this->ctrl->getLinkTargetByClass('ilTestParticipantsGUI')
-        );
-
-        if ($this->needsTimeExtensionSubTab()) {
-            $this->tabs->addSubTab(
-                self::SUBTAB_ID_TIME_EXTENSION,
-                $this->lng->txt('timing'),
-                $this->ctrl->getLinkTargetByClass('ilTestParticipantsTimeExtensionGUI')
-            );
-        }
-    }
-
-    protected function getDashbardParticipantsSubTabLabel(): string
-    {
-        if ($this->test_object->getFixedParticipants()) {
-            return $this->lng->txt('fixedparticipants_subtab');
-        }
-
-        return $this->lng->txt('autoparticipants_subtab');
+        return $this->ctrl->getLinkTargetByClass([\ilObjTestGUI::class, \ilTestParticipantsGUI::class]);
     }
 
     public function needsYourResultsTab(): bool
