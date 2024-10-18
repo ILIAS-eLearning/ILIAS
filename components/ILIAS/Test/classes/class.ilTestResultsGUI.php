@@ -230,14 +230,14 @@ class ilTestResultsGUI
                 if (!$this->test_object->hasAnyTestResult($this->test_session)) {
                     $message = sprintf(
                         $this->lng->txt('tst_res_tab_msg_res_after_date_no_res'),
-                        $date->format($this->user->getDateTimeFormat())
+                        $date->format($this->user->getDateTimeFormat()->toString())
                     );
                     break;
                 }
 
                 $message = sprintf(
                     $this->lng->txt('tst_res_tab_msg_res_after_date'),
-                    $date->format($this->user->getDateTimeFormat())
+                    $date->format($this->user->getDateTimeFormat()->toString())
                 );
                 break;
 

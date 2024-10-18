@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Scoring\Marks\Mark;
+
 /**
 * Class ilTestEvaluationPassData
 *
@@ -41,8 +43,7 @@ class ilTestEvaluationPassData
     private int $questioncount;
     private float $maxpoints;
     private float $reachedpoints;
-    private string $mark;
-    private string $mark_official;
+    private Mark $mark;
     private int $nrOfAnsweredQuestions;
     private int $pass;
     private ?int $requestedHintsCount = null;
@@ -100,24 +101,14 @@ class ilTestEvaluationPassData
         return $this->getMaxPoints() ? $this->getReachedPoints() / $this->getMaxPoints() * 100.0 : 0.0;
     }
 
-    public function getMark(): string
+    public function getMark(): Mark
     {
         return $this->mark;
     }
 
-    public function setMark(string $mark): void
+    public function setMark(Mark $mark): void
     {
         $this->mark = $mark;
-    }
-
-    public function setMarkOfficial(string $a_mark_official): void
-    {
-        $this->mark_official = $a_mark_official;
-    }
-
-    public function getMarkOfficial(): string
-    {
-        return $this->mark_official;
     }
 
     public function getQuestionCount(): int

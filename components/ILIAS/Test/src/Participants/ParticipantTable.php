@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Participants;
 
+use ILIAS\Test\Results\Data\Factory as ResultsDataFactory;
+use ILIAS\Test\Results\Presentation\Settings as ResultsPresentationSettings;
 use ILIAS\Language\Language;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Order;
@@ -47,6 +49,8 @@ class ParticipantTable implements DataRetrieval
         private readonly RequestDataCollector $test_request,
         private readonly \ilTestParticipantAccessFilterFactory $participant_access_filter,
         private readonly ParticipantRepository $repository,
+        private readonly ResultsDataFactory $results_data_factory,
+        private readonly ResultsPresentationSettings $results_presentation_settings,
         private readonly \ilObjTest $test_object,
         private readonly ParticipantTableModalActions $table_actions
     ) {
@@ -113,6 +117,25 @@ class ParticipantTable implements DataRetrieval
                 'remaining_duration' => sprintf('%d min', $record->getRemainingDuration($processing_time) / 60),
             ];
 
+            if ($this->test_access->checkResultsAccessForActiveId(
+                $record->getActiveId(),
+                $this->test_object->getTestId()
+            )) {
+                $row['reached_points'] = sprintf(
+                    $this->lng->txt('tst_reached_points_of_max'),
+                    $record?->getAttemptOverviewInformation()->getReachedPoints(),
+                    $record?->getAttemptOverviewInformation()->getAvailablePoints()
+                );
+                $row['nr_of_answered_questions'] = sprintf(
+                    $this->lng->txt('tst_answered_questions_of_total'),
+                    $record?->getAttemptOverviewInformation()->getNrOfAnsweredQuestions(),
+                    $record?->getAttemptOverviewInformation()->getNrOfTotalQuestions()
+                );
+                $row['percent_of_available_points'] = sprintf('%.2f%%', $record?->getAttemptOverviewInformation()->getReachedPointsInPercent());
+                $row['test_passed'] = $record?->getAttemptOverviewInformation()->hasPassingMark();
+                $row['mark'] = $record?->getAttemptOverviewInformation()->getMark();
+            }
+
             yield $this->table_actions->onDataRow(
                 $row_builder->buildDataRow((string) $record->getUserId(), $row),
                 $record
@@ -150,20 +173,45 @@ class ParticipantTable implements DataRetrieval
         $processing_time = $this->test_object->getProcessingTimeInSeconds();
 
         return [
-            'started_at' => fn(Participant $a, Participant $b) => $a->getTestStartDate() <=> $b->getTestStartDate(),
-            'total_duration' => fn(
+            'started_at' => static fn(Participant $a, Participant $b) => $a->getFirstAccess() <=> $b->getLastAccess(),
+            'total_duration' => static fn(
                 Participant $a,
                 Participant $b
             ) => $a->getTotalDuration($processing_time) <=> $b->getTotalDuration($processing_time),
-            'remaining_duration' => fn(
+            'remaining_duration' => static fn(
                 Participant $a,
                 Participant $b
             ) => $a->getRemainingDuration($processing_time) <=> $b->getRemainingDuration($processing_time),
-            'last_access' => fn(Participant $a, Participant $b) => $a->getTestEndDate() <=> $b->getTestEndDate(),
-            'status_of_attempt' => fn(
+            'last_access' => static fn(Participant $a, Participant $b) => $a->getTestEndDate() <=> $b->getTestEndDate(),
+            'status_of_attempt' => static fn(
                 Participant $a,
                 Participant $b
             ) => $a->getStatusOfAttempt() <=> $b->getStatusOfAttempt(),
+            'reached_points' => static fn(
+                Participant $a,
+                Participant $b
+            ) => $a?->getAttemptOverviewInformation()->getReachedPoints()
+                <=> $b?->getAttemptOverviewInformation()->getReachedPoints(),
+            'nr_of_answered_questions' => static fn(
+                Participant $a,
+                Participant $b
+            ) => $a?->getAttemptOverviewInformation()->getNrOfAnsweredQuestions()
+                <=> $b?->getAttemptOverviewInformation()->getNrOfAnsweredQuestions(),
+            'percent_of_available_points' => static fn(
+                Participant $a,
+                Participant $b
+            ) => $a?->getAttemptOverviewInformation()->getReachedPointsInPercent()
+                <=> $b?->getAttemptOverviewInformation()->getReachedPointsInPercent(),
+            'test_passed' => static fn(
+                Participant $a,
+                Participant $b
+            ) => $a?->getAttemptOverviewInformation()->hasPassingMark()
+                <=> $b?->getAttemptOverviewInformation()->hasPassingMark(),
+            'mark' => static fn(
+                Participant $a,
+                Participant $b
+            ) => $a?->getAttemptOverviewInformation()->getMark() <=> $b?->getAttemptOverviewInformation()->getMark()
+
         ];
     }
 
@@ -272,19 +320,20 @@ class ParticipantTable implements DataRetrieval
         }
 
         $columns['status_of_attempt'] = $column_factory->text($this->lng->txt('status_of_attempt'))->withIsSortable(true);
-        $columns['id_of_attempt'] = $column_factory->text($this->lng->txt('test_id'))->withIsOptional(true);
+        $columns['id_of_attempt'] = $column_factory->text($this->lng->txt('exam_id_of_attempt'))
+            ->withIsSortable(false)->withIsOptional(true);
 
         if ($this->test_access->checkParticipantsResultsAccess()) {
-            $columns['reached_points'] = $column_factory->number($this->lng->txt('tst_reached_points'))
+            $columns['reached_points'] = $column_factory->text($this->lng->txt('tst_reached_points'))
                 ->withIsSortable(true);
-            $columns['nr_of_answered_questions'] = $column_factory->number($this->lng->txt('tst_answered_questions'))
+            $columns['nr_of_answered_questions'] = $column_factory->text($this->lng->txt('tst_answered_questions'))
                 ->withIsOptional(true)
                 ->withIsSortable(true);
-            $columns['percent_solved'] = $column_factory->text($this->lng->txt('tst_percent_solved'))
+            $columns['percent_of_available_points'] = $column_factory->text($this->lng->txt('tst_percent_solved'))
                 ->withIsOptional(true)
                 ->withIsSortable(true);
             $columns['test_passed'] = $column_factory->boolean(
-                $this->lng->txt('tst_percent_solved'),
+                $this->lng->txt('tst_passed'),
                 $this->ui_factory->symbol()->icon()->custom(
                     'assets/images/standard/icon_checked.svg',
                     $this->lng->txt('yes'),
@@ -296,7 +345,7 @@ class ParticipantTable implements DataRetrieval
                     'small'
                 )
             )->withIsSortable(true);
-            $columns['mark'] = $column_factory->text($this->lng->txt('txt_mark'))
+            $columns['mark'] = $column_factory->text($this->lng->txt('tst_mark'))
                 ->withIsOptional(true)
                 ->withIsSortable(true);
         }
@@ -344,7 +393,11 @@ class ParticipantTable implements DataRetrieval
         return $this->limitRecords(
             $this->sortRecords(
                 $this->filterRecords(
-                    $this->loadRecords($filter_data, $order),
+                    $records = $this->results_data_factory->addAttemptOverviewInformationToParticipants(
+                        $this->results_presentation_settings,
+                        $this->test_object,
+                        $this->loadRecords($filter_data, $order)
+                    ),
                     $filter_data
                 ),
                 $order

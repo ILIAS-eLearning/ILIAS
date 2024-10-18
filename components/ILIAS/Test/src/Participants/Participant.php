@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Participants;
 
+use ILIAS\Test\Results\Data\AttemptOverview;
+
 class Participant
 {
     public const ATTEMPT_NOT_STARTED = 'not_started';
@@ -29,6 +31,8 @@ class Participant
     private const ATTEMPT_FINISHED_BY_ADMINISTRATOR = 'finished_by_administrator';
     private const ATTEMPT_FINISHED_BY_DURATION = 'finished_by_duration';
     private const ATTEMPT_FINISHED_BY_CRONJOB = 'finished_by_cronjob';
+
+    private ?AttemptOverview $attempt_overview = null;
 
     public function __construct(
         private readonly int $user_id,
@@ -163,33 +167,37 @@ class Participant
         return $this->last_finished_attempt;
     }
 
-    public function hasUnfinishedAttempts(): ?bool
+    public function hasUnfinishedAttempts(): bool
     {
         return $this->unfinished_attempts;
     }
 
-    public function getTestStartDate(): ?\DateTimeInterface
+    public function getFirstAccess(): ?\DateTimeImmutable
     {
-        return $this->lazy($this->test_start_date);
+        return $this->first_access;
     }
 
-    public function getTestEndDate(): ?\DateTimeInterface
+    public function getLastAccess(): ?\DateTimeImmutable
     {
-        return $this->lazy($this->test_end_date);
+        return $this->last_access;
     }
 
-    public function hasSolutions(): bool
+    public function hasAnsweredQuestionsForScoredAttempt(): bool
     {
-        return $this->lazy($this->has_solutions);
+        if (!$this->hasAttemptOverviewInformation()) {
+            return false;
+        }
+
+        return $this->attempt_overview->hasAnsweredQuestions();
     }
 
     public function getRemainingDuration(int $processing_time): int
     {
         $remaining = $this->getTotalDuration($processing_time);
-        $remaining += $this->getTestStartDate()?->getTimestamp() ?? 0;
+        $remaining += $this->getFirstAccess()?->getTimestamp() ?? 0;
 
         if ($this->submitted) {
-            $remaining -= $this->getTestEndDate()?->getTimestamp() ?? time();
+            $remaining -= $this->getLastAccess()?->getTimestamp() ?? time();
         } else {
             $remaining -= time();
         }
@@ -210,13 +218,15 @@ class Participant
         return self::ATTEMPT_FINISHED;
     }
 
-    private function lazy(mixed &$value): mixed
+    public function getAttemptOverviewInformation(): ?AttemptOverview
     {
-        if (is_callable($value)) {
-            $callable = $value;
-            $value = $callable();
-        }
+        return $this->attempt_overview;
+    }
 
-        return $value;
+    public function withAttemptOverviewInformation(AttemptOverview $attempt_overview): self
+    {
+        $clone = clone $this;
+        $clone->attempt_overview = $attempt_overview;
+        return $clone;
     }
 }

@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Results\Data;
 
 use ILIAS\Test\Results\Presentation\Settings as ResultPresentationSettings;
+use ILIAS\Test\Participants\Participant;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 
@@ -62,7 +63,7 @@ class Factory
         $total_passed_max = 0.0;
         $total_passed_time = 0;
         foreach ($found_participants as $userdata) {
-            if ($userdata->getPassed()) {
+            if ($userdata->getMark()->getPassed()) {
                 $total_passed++;
                 $total_passed_reached += $userdata->getReached();
                 $total_passed_max += $userdata->getMaxpoints();
@@ -78,7 +79,7 @@ class Factory
             $test_obj->evalTotalStartedAverageTime($eval->getParticipantIds()),
             $total_passed_time,
             $eval->getStatistics()->rankMedian(),
-            $eval->getStatistics()->getEvaluationDataOfMedianUser()?->getMark() ?? '',
+            $eval->getStatistics()->getEvaluationDataOfMedianUser()?->getMark()->getShortName() ?? '',
             $eval->getStatistics()->median(),
             $total_passed === 0 ? 0 : $total_passed_reached / $total_passed
         );
@@ -88,14 +89,21 @@ class Factory
         ResultPresentationSettings $settings,
         \ilObjTest $test_obj,
         int $active_id,
-        int $attempt_id
+        ?int $attempt_id
     ): ?AttemptOverview {
         $eval = $this->retrieveResultData($test_obj);
         $found_participants = $eval->getParticipants();
         $participant_data = $eval->getParticipant($active_id);
-        $attempt_data = $participant_data?->getPass($attempt_id);
+        if ($attempt_id === null) {
+            $attempt_id = $participant_data->getScoredPass();
+        }
         if ($found_participants === []
-            || $attempt_data === null) {
+            || $attempt_id === null) {
+            return null;
+        }
+
+        $attempt_data = $participant_data?->getPass($attempt_id);
+        if ($attempt_data === null) {
             return null;
         }
 
@@ -103,16 +111,44 @@ class Factory
             $active_id,
             $attempt_id,
             $settings,
+            $attempt_data->getExamId(),
             $attempt_data->getReachedPoints(),
             $attempt_data->getMaxPoints(),
             $attempt_data->getMark(),
+            $attempt_data->getAnsweredQuestionCount(),
+            $attempt_data->getQuestionCount(),
             $attempt_data->getRequestedHintsCount(),
             $attempt_data->getWorkingTime(),
-            new \DateTimeImmutable('@' . $participant_data->getFirstVisit()),
-            new \DateTimeImmutable('@' . $participant_data->getLastVisit()),
+            $participant_data->getFirstVisit(),
+            $participant_data->getLastVisit(),
             $participant_data->getPassCount(),
             $participant_data->getScoredPass(),
             $eval->getStatistics()->rank($participant_data->getReached())
+        );
+    }
+
+    /**
+     *
+     * @param array<ILIAS\Test\Participants\Participant> $participants
+     * @return array<ILIAS\Test\Participants\Participant>
+     */
+    public function addAttemptOverviewInformationToParticipants(
+        ResultPresentationSettings $settings,
+        \ilObjTest $test_obj,
+        array $participants
+    ): array {
+        return array_map(
+            fn(Participant $v): Participant => $v->getActiveId() === null
+                ? $v
+                : $v->withAttemptOverviewInformation(
+                    $this->getAttemptOverviewFor(
+                        $settings,
+                        $test_obj,
+                        $v->getActiveId(),
+                        null
+                    )
+                ),
+            $participants
         );
     }
 

@@ -24,6 +24,7 @@ use ILIAS\Test\Results\Presentation\Settings as ResultPresentationSettings;
 use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Listing\Descriptive as DescriptiveListing;
+use ILIAS\Test\Scoring\Marks\Mark;
 
 class AttemptOverview
 {
@@ -31,9 +32,12 @@ class AttemptOverview
         private readonly int $active_id,
         private readonly int $attempt_id,
         private readonly ResultPresentationSettings $settings,
+        private readonly string $exam_id = '',
         private readonly float $reached_points = 0.0,
-        private readonly float $reachable_points = 0.0,
-        private readonly string $mark = '',
+        private readonly float $available_points = 0.0,
+        private readonly ?Mark $mark = null,
+        private readonly int $nr_of_answered_questions = 0,
+        private readonly int $nr_of_questions_in_attempt = 0,
         private readonly ?int $requested_hints_count = null,
         private readonly int $time_on_task = 0,
         private readonly ?\DateTimeImmutable $first_access = null,
@@ -54,6 +58,64 @@ class AttemptOverview
         return $this->attempt_id;
     }
 
+    public function getExamId(): string
+    {
+        return $this->exam_id;
+    }
+
+    public function getFirstAccess(): \DateTimeImmutable
+    {
+        return $this->first_access;
+    }
+
+    public function getLastAccess(): \DateTimeImmutable
+    {
+        return $this->last_access;
+    }
+
+    public function getNrOfAnsweredQuestions(): int
+    {
+        return $this->nr_of_answered_questions;
+    }
+
+    public function getNrOfTotalQuestions(): int
+    {
+        return $this->nr_of_questions_in_attempt;
+    }
+
+    public function hasAnsweredQuestions(): bool
+    {
+        return $this->nr_of_answered_questions > 0;
+    }
+
+    public function getMark(): string
+    {
+        return $this->mark->getShortName();
+    }
+
+    public function hasPassingMark(): bool
+    {
+        return $this->mark->getPassed();
+    }
+
+    public function getReachedPoints(): float
+    {
+        return $this->reached_points;
+    }
+
+    public function getAvailablePoints(): float
+    {
+        return $this->available_points;
+    }
+
+    public function getReachedPointsInPercent(): float
+    {
+        if ($this->reached_points === 0.0 || $this->available_points === 0.0) {
+            return 0.0;
+        }
+        return $this->reached_points / $this->available_points * 100;
+    }
+
     public function getAsDescriptiveListing(
         Language $lng,
         UIFactory $ui_factory,
@@ -61,9 +123,9 @@ class AttemptOverview
     ): DescriptiveListing {
         $items = [
             $lng->txt('tst_stat_result_resultspoints') => $this->reached_points
-                . ' ' . strtolower($lng->txt('of')) . ' ' . $this->reachable_points
+                . ' ' . strtolower($lng->txt('of')) . ' ' . $this->available_points
             . ' (' . sprintf('%2.2f', $this->getReachedPointsInPercent()) . ' %)',
-            $lng->txt('tst_stat_result_resultsmarks') => $this->mark
+            $lng->txt('tst_stat_result_resultsmarks') => $this->mark->getShortName()
         ];
 
         if ($this->settings->getShowHints()) {
@@ -84,14 +146,6 @@ class AttemptOverview
                 $lng->txt('tst_stat_result_rank_participant') => (string) $this->rank
             ]
         );
-    }
-
-    private function getReachedPointsInPercent(): float
-    {
-        if ($this->reachable_points === 0.0 || $this->reachable_points === 0.0) {
-            return 0.0;
-        }
-        return $this->reached_points / $this->reachable_points * 100;
     }
 
     private function buildHumanReadableTime(int $time): string
