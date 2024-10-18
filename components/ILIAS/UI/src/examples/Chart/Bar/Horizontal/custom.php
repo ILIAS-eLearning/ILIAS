@@ -144,13 +144,13 @@ function custom()
     $b1 = $b1->withColor($df->color("#000000"));
     $b2 = new BarConfig();
     $b2 = $b2->withRelativeWidth(0.6);
-    $b2 = $b2->withColor($df->color("#d38000"));
+    $b2 = $b2->withColor($df->color("#12436D"));
     $b3 = new BarConfig();
     $b3 = $b3->withRelativeWidth(0.6);
-    $b3 = $b3->withColor($df->color("#307C88"));
+    $b3 = $b3->withColor($df->color("#28A197"));
     $b4 = new BarConfig();
     $b4 = $b4->withRelativeWidth(0.6);
-    $b4 = $b4->withColor($df->color("#557b2e"));
+    $b4 = $b4->withColor($df->color("#801650"));
 
     $bars = [
         "Target" => $b1,
