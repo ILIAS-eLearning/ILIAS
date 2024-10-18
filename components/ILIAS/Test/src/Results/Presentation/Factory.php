@@ -43,18 +43,6 @@ class Factory
     ) {
     }
 
-    public function getTestResultsOverviewlisting(
-        TestOverview $overview
-    ): DescriptiveListing {
-        return $this->ui_factory->listing()->descriptive([]);
-    }
-
-    public function getAttemptResultsOverviewListing(
-        AttemptResult $attempt_result
-    ): DescriptiveListing {
-        return $this->ui_factory->listing()->descriptive([]);
-    }
-
     public function getAttemptResultsPresentationTable(
         AttemptResult $attempt_result,
         Settings $settings,
