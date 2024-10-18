@@ -542,7 +542,7 @@ class ilForumAppEventListener implements ilAppEventListener
             if (defined('ANONYMOUS_USER_ID')) {
                 $recipients = array_filter(
                     $recipients,
-                    static fn(int $recipient): bool => $recipient !== ANONYMOUS_USER_ID
+                    static fn (int $recipient): bool => $recipient !== ANONYMOUS_USER_ID
                 );
             }
 
