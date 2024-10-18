@@ -166,7 +166,7 @@ class RequestDataCollector
         return $p->retrieve(
             $key,
             $r->custom()->transformation(function ($value) {
-                return $value[0] === 'ALL_OBJECTS' ? 'ALL_OBJECTS' : array_map('intval', $value);
+                return $value === 'ALL_OBJECTS' || $value[0] === 'ALL_OBJECTS' ? 'ALL_OBJECTS' : array_map('intval', $value);
             })
         );
     }
