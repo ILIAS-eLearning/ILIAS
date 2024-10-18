@@ -223,7 +223,7 @@ class Participant
         return $this->attempt_overview;
     }
 
-    public function withAttemptOverviewInformation(AttemptOverview $attempt_overview): self
+    public function withAttemptOverviewInformation(?AttemptOverview $attempt_overview): self
     {
         $clone = clone $this;
         $clone->attempt_overview = $attempt_overview;
