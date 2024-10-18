@@ -29,9 +29,13 @@ interface HandlerInterface
 {
     public const ELEMENT_TYPE = 'xml';
 
-    public function withKey(ilExportHandlerRepositoryKeyInterface $key): HandlerInterface;
+    public function withKey(
+        ilExportHandlerRepositoryKeyInterface $key
+    ): HandlerInterface;
 
-    public function withValues(ilExportHandlerRepositoryValuesInterface $values): HandlerInterface;
+    public function withValues(
+        ilExportHandlerRepositoryValuesInterface $values
+    ): HandlerInterface;
 
     public function getKey(): ilExportHandlerRepositoryKeyInterface;
 
@@ -44,4 +48,8 @@ interface HandlerInterface
     public function getFileType(): string;
 
     public function isStorable(): bool;
+
+    public function equals(
+        HandlerInterface $other_element
+    ): bool;
 }
