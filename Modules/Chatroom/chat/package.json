@@ -4,12 +4,12 @@
   "version": "2.0.0",
   "dependencies": {
     "async": "^3.2",
-    "express": "^4.21.0",
+    "express": "^4.21.1",
     "mysql": "^2.18.1",
     "node-mysql": "^0.4.2",
     "node-schedule": "^2.1.0",
     "node-uuid": "^1.4.8",
-    "socket.io": "^4.7.5",
+    "socket.io": "^4.8.0",
     "socket.io-client": "^4.7.5",
     "winston": "^2.4.1"
   }
