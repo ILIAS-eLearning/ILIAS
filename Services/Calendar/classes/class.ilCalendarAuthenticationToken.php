@@ -143,7 +143,13 @@ class ilCalendarAuthenticationToken
      */
     public function isIcalExpired(): bool
     {
-        return true;
+        if (!ilCalendarSettings::_getInstance()->isSynchronisationCacheEnabled()) {
+            return true;
+        }
+        if (!ilCalendarSettings::_getInstance()->getSynchronisationCacheMinutes()) {
+            return true;
+        }
+        return time() > ($this->ical_ctime + 60 * ilCalendarSettings::_getInstance()->getSynchronisationCacheMinutes());
     }
 
     public function add(): string
