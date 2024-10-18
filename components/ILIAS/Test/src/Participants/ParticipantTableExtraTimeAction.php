@@ -177,7 +177,7 @@ class ParticipantTableExtraTimeAction implements TableAction
                     TestAdministrationInteractionTypes::EXTRA_TIME_ADDED,
                     [
                         AdditionalInformationGenerator::KEY_USERS => array_map(
-                            fn(Participant $participant) => $participant->getUsrId(),
+                            fn(Participant $participant) => $participant->getUserId(),
                             $participants
                         ),
                         AdditionalInformationGenerator::KEY_TEST_ADDED_PROCESSING_TIME => $minutes

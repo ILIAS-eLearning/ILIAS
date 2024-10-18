@@ -119,7 +119,7 @@ class ParticipantRepository
             "INSERT INTO tst_addtime (user_fi, test_fi, additionaltime, tstamp) VALUES (%s, %s, %s, %s)
                         ON DUPLICATE KEY UPDATE tstamp = %s, additionaltime = %s",
             ['integer', 'integer', 'integer','timestamp','timestamp', 'integer'],
-            [$participant->getUsrId(), $participant->getTestId(), $participant->getExtraTime(), time(), time(), $participant->getExtraTime()]
+            [$participant->getUserId(), $participant->getTestId(), $participant->getExtraTime(), time(), time(), $participant->getExtraTime()]
         );
     }
 

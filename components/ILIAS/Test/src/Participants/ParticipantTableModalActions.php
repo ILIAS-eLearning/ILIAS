@@ -192,7 +192,7 @@ class ParticipantTableModalActions
         $participant_list = $this->test_obj->getActiveParticipantList();
 
         if ($selected_participants === 'ALL_OBJECTS') {
-            $selected_participants = $participant_list->getAllActiveIds();
+            $selected_participants = $participant_list->getAllUserIds();
         }
 
         return array_filter(

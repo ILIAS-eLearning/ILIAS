@@ -85,7 +85,7 @@ class ParticipantTableFinishTestAction implements TableAction
             $modal = $modal->withAffectedItems(
                 array_map(
                     fn(Participant $participant) => $this->ui_factory->modal()->interruptiveItem()->standard(
-                        (string) $participant->getUsrId(),
+                        (string) $participant->getUserId(),
                         sprintf(
                             '%s, %s',
                             $participant->getLastname(),
@@ -131,7 +131,7 @@ class ParticipantTableFinishTestAction implements TableAction
                     TestAdministrationInteractionTypes::TEST_RUN_OF_PARTICIPANT_CLOSED,
                     [
                         AdditionalInformationGenerator::KEY_USERS => array_map(
-                            fn(Participant $participant) => $participant->getUsrId(),
+                            fn(Participant $participant) => $participant->getUserId(),
                             $selected_participants
                         )
                     ]

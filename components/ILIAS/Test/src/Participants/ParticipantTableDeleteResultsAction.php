@@ -79,10 +79,10 @@ class ParticipantTableDeleteResultsAction implements TableAction
         )->withAffectedItems(
             array_map(
                 fn(Participant $v) => $this->ui_factory->modal()->interruptiveItem()->standard(
-                    (string) $v->getUsrId(),
+                    (string) $v->getUserId(),
                     $this->test_obj->getAnonymity()
                         ? $this->lng->txt('anonymous')
-                        : \ilObjUser::_lookupFullname($v->getUsrId())
+                        : \ilObjUser::_lookupFullname($v->getUserId())
                 ),
                 $selected_participants
             )
@@ -104,7 +104,7 @@ class ParticipantTableDeleteResultsAction implements TableAction
         }
         $this->test_obj->removeTestResultsByUserIds(
             array_map(
-                static fn(Participant $v): int => $v->getUsrId(),
+                static fn(Participant $v): int => $v->getUserId(),
                 $selected_participants
             )
         );
