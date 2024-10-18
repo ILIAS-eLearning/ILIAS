@@ -3678,53 +3678,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->toolbar->addComponent($sortingDirectionViewControl);
     }
 
-    private function getModifiedReOnSubject(bool $on_reply = false): string
+    private function getModifiedReOnSubject(): string
     {
-        $modified_subject = '';
-        $subject = $this->objCurrentPost->getSubject();
-        $re_txt = $this->lng->txt('post_reply');
-
-        $re_txt_with_num = str_replace(':', '(', $re_txt);
-        $search_length = strlen($re_txt_with_num);
-        $comp = substr_compare($re_txt_with_num, substr($subject, 0, $search_length), 0, $search_length);
-
-        if ($comp === 0) {
-            $modified_subject = $subject;
-            if ($on_reply) {
-                // i.e. $subject = "Re(12):"
-                $str_pos_start = strpos($subject, '(');
-                $str_pos_end = strpos($subject, ')');
-
-                $length = ((int) $str_pos_end - (int) $str_pos_start);
-                $str_pos_start++;
-                $txt_number = substr($subject, $str_pos_start, $length - 1);
-
-                if (is_numeric($txt_number)) {
-                    $re_count = (int) $txt_number + 1;
-                    $modified_subject = substr($subject, 0, $str_pos_start) . $re_count . substr(
-                        $subject,
-                        $str_pos_end
-                    );
-                }
-            }
-        } else {
-            $re_count = substr_count($subject, $re_txt);
-            if ($re_count >= 1 && $on_reply) {
-                $subject = str_replace($re_txt, '', $subject);
-
-                // i.e. $subject = "Re: Re: Re: ... " -> "Re(4):"
-                $re_count++;
-                $modified_subject = sprintf($this->lng->txt('post_reply_count'), $re_count) . ' ' . trim($subject);
-            } elseif ($re_count >= 1 && !$on_reply) {
-                // possibility to modify the subject only for output
-                // i.e. $subject = "Re: Re: Re: ... " -> "Re(3):"
-                $modified_subject = sprintf($this->lng->txt('post_reply_count'), $re_count) . ' ' . trim($subject);
-            } elseif ($re_count === 0) {
-                // the first reply to a thread
-                $modified_subject = $this->lng->txt('post_reply') . ' ' . $this->objCurrentPost->getSubject();
-            }
-        }
-        return $modified_subject;
+        return (new PostingReplySubjectBuilder(
+            $this->lng->txt('post_reply'),
+            $this->lng->txt('post_reply_count')
+        ))->build($this->objCurrentPost->getSubject());
     }
 
     public function showUserObject(): void
@@ -5993,7 +5952,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         if ($action !== 'editdraft') {
             switch ($this->objProperties->getSubjectSetting()) {
                 case 'add_re_to_subject':
-                    $subject = $this->getModifiedReOnSubject(true);
+                    $subject = $this->getModifiedReOnSubject();
                     break;
 
                 case 'preset_subject':
