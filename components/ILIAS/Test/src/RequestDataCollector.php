@@ -24,6 +24,9 @@ use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Repository\BaseGUIRequest;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
+
+use function array_map;
 
 class RequestDataCollector
 {
@@ -41,7 +44,7 @@ class RequestDataCollector
         );
     }
 
-    public function getRequest(): RequestInterface
+    public function getRequest(): ServerRequestInterface
     {
         return $this->http->request();
     }
@@ -145,6 +148,26 @@ class RequestDataCollector
             $r->container()->mapValues(
                 $r->kindlyTo()->string()
             )
+        );
+    }
+
+    /**
+     * @return array|string<int>
+     */
+    public function getMultiSelectionIds(string $key): array|string
+    {
+        $p = $this->http->wrapper()->query();
+        $r = $this->refinery;
+
+        if (!$p->has($key)) {
+            return [];
+        }
+
+        return $p->retrieve(
+            $key,
+            $r->custom()->transformation(function ($value) {
+                return $value === 'ALL_OBJECTS' || $value[0] === 'ALL_OBJECTS' ? 'ALL_OBJECTS' : array_map('intval', $value);
+            })
         );
     }
 }
