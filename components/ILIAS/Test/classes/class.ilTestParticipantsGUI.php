@@ -124,6 +124,33 @@ class ilTestParticipantsGUI
         }
     }
 
+    public function addParticipants($user_ids = []): ?bool
+    {
+        $filter_closure = $this->participant_access_filter->getManageParticipantsUserFilter($this->test_obj->getRefId());
+        $filtered_user_ids = $filter_closure($user_ids);
+
+        $countusers = 0;
+        foreach ($filtered_user_ids as $user_id) {
+            $client_ip = $this->testrequest->raw('client_ip')[$countusers] ?? '';
+            $this->test_obj->inviteUser($user_id, $client_ip);
+            $countusers++;
+        }
+
+        $message = "";
+        if ($countusers) {
+            $message = $this->lng->txt("tst_invited_selected_users");
+        }
+        if (strlen($message)) {
+            $this->main_tpl->setOnScreenMessage('info', $message, true);
+        } else {
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("tst_invited_nobody"), true);
+            return false;
+        }
+
+        $this->ctrl->redirect($this, self::CMD_SHOW);
+        return null;
+    }
+
     public function showCmd(): void
     {
         $this->addUserSearchControls($this->toolbar);

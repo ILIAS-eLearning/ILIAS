@@ -229,7 +229,7 @@ class ParticipantTable implements DataRetrieval
             [$filter_inputs[$filter_id], $is_input_initially_rendered[$filter_id]] = $filter;
         }
 
-        $component = $this->ui_service->filter()->standard(
+        return $this->ui_service->filter()->standard(
             'participant_filter',
             $action,
             $filter_inputs,
@@ -237,8 +237,6 @@ class ParticipantTable implements DataRetrieval
             true,
             true
         );
-
-        return $request->getMethod() === 'POST' ? $component->withRequest($request) : $component;
     }
 
     /**
