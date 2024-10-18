@@ -89,6 +89,8 @@ class TestScreenGUI
             return;
         }
 
+        $this->tabs_manager->activateTab(TabsManager::TAB_ID_TEST);
+
         if (!$this->object->getMainSettings()->getAdditionalSettings()->getHideInfoTab()) {
             $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
         }

@@ -59,7 +59,7 @@ class TabsManagerTest extends \ilTestBaseTestCase
     {
         global $DIC;
         $DIC['ilTabs']->expects($this->exactly(2))->method('activateTab');
-        $this->testObj->activateTab(TabsManager::TAB_ID_EXAM_DASHBOARD);
+        $this->testObj->activateTab(TabsManager::TAB_ID_PARTICIPANTS);
         $this->testObj->activateTab(TabsManager::TAB_ID_YOUR_RESULTS);
         $this->testObj->activateTab('randomString');
     }
@@ -79,7 +79,7 @@ class TabsManagerTest extends \ilTestBaseTestCase
         $this->testObj->activateSubTab(TabsManager::SUBTAB_ID_MY_SOLUTIONS);
         $this->testObj->activateSubTab(TabsManager::SUBTAB_ID_QST_LIST_VIEW);
         $this->testObj->activateSubTab(TabsManager::SUBTAB_ID_QST_PAGE_VIEW);
-        $this->testObj->activateSubTab(TabsManager::TAB_ID_EXAM_DASHBOARD);
+        $this->testObj->activateSubTab(TabsManager::TAB_ID_PARTICIPANTS);
         $this->testObj->activateSubTab('randomString');
     }
 
