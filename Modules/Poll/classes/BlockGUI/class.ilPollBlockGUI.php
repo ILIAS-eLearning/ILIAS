@@ -14,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -33,7 +32,6 @@ class ilPollBlockGUI extends ilBlockGUI
     public static string $block_type = "poll";
     protected ilPollBlock $poll_block;
     public static bool $js_init = false;
-    protected bool $new_rendering = true;
     protected UIFactory $ui_factory;
     protected UIRenderer $ui_renderer;
     protected ilPollStateInfo $state;
@@ -243,15 +241,6 @@ class ilPollBlockGUI extends ilBlockGUI
     {
         $this->comments->getNumberOfCommentsForRedraw();
     }
-
-    public function fillDataSection(): void
-    {
-        $this->setDataSection($this->getLegacyContent());
-    }
-
-    //
-    // New rendering
-    //
 
     protected function getLegacyContent(): string
     {

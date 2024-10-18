@@ -268,25 +268,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
         return '';
     }
 
-    public function fillDataSection(): void
-    {
-        if ($this->display_mode != "mmon") {
-            $this->setRowTemplate("tpl.pd_event_list.html", "Services/Calendar");
-
-            ilBlockGUI::fillDataSection();
-        } else {
-            $tpl = new ilTemplate(
-                "tpl.calendar_block.html",
-                true,
-                true,
-                "Services/Calendar"
-            );
-
-            $this->addMiniMonth($tpl, true);
-            $this->setDataSection($tpl->get());
-        }
-    }
-
     public function getTargetGUIClassPath(): array
     {
         $target_class = array();
@@ -838,12 +819,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
         }
         exit();
     }
-
-    //
-    // New rendering
-    //
-
-    protected bool $new_rendering = true;
 
     public function getViewControlsForPanel(): array
     {
