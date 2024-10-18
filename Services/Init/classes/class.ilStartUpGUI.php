@@ -235,6 +235,9 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                         'username' => $this->user->getLogin()
                     )
                 );
+
+                $this->dic->user()->setId($auth_session->getUserId());
+                $this->dic->user()->read();
             }
             $this->logger->debug('Show login page');
             if (isset($messages) && count($messages) > 0) {
@@ -1321,6 +1324,12 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         global $DIC;
 
         $ilIliasIniFile = $DIC['ilIliasIniFile'];
+
+        if (!$DIC['ilAuthSession']->isExpired() &&
+            $DIC['ilAuthSession']->isAuthenticated() &&
+            !ilObjUser::_isAnonymous($DIC['ilAuthSession']->getUserId())) {
+            $this->ctrl->redirectToURL(ilUserUtil::getStartingPointAsUrl());
+        }
 
         $this->help->setSubScreenId('logout');
 
