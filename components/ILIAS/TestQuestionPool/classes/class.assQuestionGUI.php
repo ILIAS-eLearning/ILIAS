@@ -894,7 +894,6 @@ abstract class assQuestionGUI
             $question->setRteTags(ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
             $question->setUseTagsForRteOnly(false);
         }
-        $question->removePlugin('ilimgupload');
 
         $question_type = new ilHiddenInputGUI('question_type');
         $question_type->setValue((string) $this->getQuestionType());

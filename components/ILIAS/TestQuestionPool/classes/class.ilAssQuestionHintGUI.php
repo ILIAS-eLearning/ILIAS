@@ -174,7 +174,6 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 
             $areaInp->setRTESupport($this->question_obj->getId(), 'qpl', 'assessment');
 
-            $areaInp->removePlugin('ilimgupload');
             $form->addItem($areaInp);
         }
 
