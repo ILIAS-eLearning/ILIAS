@@ -3768,6 +3768,7 @@ common#:#copy_all#:#Alle kopieren
 common#:#copy_n_of_suffix#:#- Kopie (%1$s)
 common#:#copy_of#:#Kopie von
 common#:#copy_of_suffix#:#- Kopie
+common#:#copy_perma_link#:#Link in Zwischenablage kopieren
 common#:#copy_selected_items#:#Kopieren
 common#:#count#:#Anzahl
 common#:#counter_novelty#:#Neuigkeiten
@@ -5250,6 +5251,7 @@ common#:#pd_items_news#:#Einschließlich Neuigkeiten der ausgewählten Objekte
 common#:#pdf_export#:#PDF-Export
 common#:#perm_settings#:#Rechte
 common#:#perma_link#:#Link zu dieser Seite
+common#:#perma_link_copied#:#Link zu dieser Seite wurde in die Zwischenablage kopiert.
 common#:#permission#:#Recht
 common#:#permission_denied#:#Kein Zugriffsrecht
 common#:#permission_settings#:#Rechteeinstellungen
