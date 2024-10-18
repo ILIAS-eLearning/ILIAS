@@ -23,7 +23,6 @@ namespace ExportHandler\Repository\Element;
 use DateTimeImmutable;
 use ILIAS\Data\ObjectId;
 use PHPUnit\Framework\TestCase;
-
 use ILIAS\Export\ExportHandler\Repository\Element\Handler as ilExportHandlerRepositoryElement;
 use ILIAS\Export\ExportHandler\Repository\Element\Wrapper\IRSSInfo\Factory as ilExportHandlerRepositoryElementIRSSInfoWrapperFactory;
 use ILIAS\Export\ExportHandler\Repository\Element\Wrapper\IRSSInfo\Handler as ilExportHandlerRepositoryElementIRSSInfoWrapper;
@@ -71,14 +70,14 @@ class HandlerTest extends TestCase
         $element_not_storable_1 = $element_not_storable_0->withValues($value_mock);
         $element_not_storable_2 = $element_not_storable_0->withKey($key_mock);
 
-        $this->assertFalse($element_not_storable_0->isStorable());
-        $this->assertFalse($element_not_storable_1->isStorable());
-        $this->assertFalse($element_not_storable_2->isStorable());
-        $this->assertEquals($irss_wrapper_factory_mock->handler(), $element->getIRSS());
-        $this->assertEquals($irss_info_wrapper_factory_mock->handler(), $element->getIRSSInfo());
-        $this->assertEquals($value_mock, $element->getValues());
-        $this->assertEquals($key_mock, $element->getKey());
-        $this->assertTrue($element->isStorable());
-        $this->assertEquals("xml", $element->getFileType());
+        self::assertFalse($element_not_storable_0->isStorable());
+        self::assertFalse($element_not_storable_1->isStorable());
+        self::assertFalse($element_not_storable_2->isStorable());
+        self::assertEquals($irss_wrapper_mock, $element->getIRSS());
+        self::assertEquals($irss_info_wrapper_mock, $element->getIRSSInfo());
+        self::assertEquals($value_mock, $element->getValues());
+        self::assertEquals($key_mock, $element->getKey());
+        self::assertTrue($element->isStorable());
+        self::assertEquals("xml", $element->getFileType());
     }
 }

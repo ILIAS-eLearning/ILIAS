@@ -24,7 +24,7 @@ use ILIAS\Export\ExportHandler\I\FactoryInterface as ilExportHandlerFactoryInter
 use ILIAS\Export\ExportHandler\I\Info\Export\FactoryInterface as ilExportHandlerExportInfoFactoryInterface;
 use ILIAS\Export\ExportHandler\I\Info\FactoryInterface as ilExportHandlerInfoFactoryInterface;
 use ILIAS\Export\ExportHandler\I\Info\File\FactoryInterface as ilExportHandlerFileInfoFactoryInterface;
-use ILIAS\Export\ExportHandler\Info\Export\factory as ilExportHandlerExportInfoFactory;
+use ILIAS\Export\ExportHandler\Info\Export\Factory as ilExportHandlerExportInfoFactory;
 use ILIAS\Export\ExportHandler\Info\File\Factory as ilExportHandlerFileInfoFactory;
 use ILIAS\ResourceStorage\Services as ResourcesStorageService;
 

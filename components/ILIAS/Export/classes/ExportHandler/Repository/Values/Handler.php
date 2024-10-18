@@ -59,4 +59,28 @@ class Handler implements ilExportHandlerRepositoryValuesInterface
             isset($this->creation_date)
         );
     }
+
+    public function equals(
+        ilExportHandlerRepositoryValuesInterface $other_repository_values
+    ): bool {
+        $owner_id_equals =
+            (
+                isset($this->owner_id) and
+                isset($other_repository_values->owner_id) and
+                $this->owner_id = $other_repository_values->owner_id
+            ) || (
+                !isset($this->owner_id) and
+                !isset($other_repository_values->owner_id)
+            );
+        $creation_date_equals =
+            (
+                isset($this->creation_date) and
+                isset($other_repository_values->creation_date) and
+                $this->creation_date->getTimestamp() === $other_repository_values->creation_date->getTimestamp()
+            ) || (
+                !isset($this->creation_date) and
+                !isset($other_repository_values->creation_date)
+            );
+        return $owner_id_equals and $creation_date_equals;
+    }
 }

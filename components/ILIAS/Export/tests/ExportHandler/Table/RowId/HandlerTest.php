@@ -35,11 +35,11 @@ class HandlerTest extends TestCase
             ->withFileIdentifier($file_identifier)
             ->withExportOptionId($export_option_id);
         $table_row_id_2 = $table_row_id->withCompositId($composit_id);
-        $this->assertEquals($file_identifier, $table_row_id_1->getFileIdentifier());
-        $this->assertEquals($export_option_id, $table_row_id_1->getExportOptionId());
-        $this->assertEquals($composit_id, $table_row_id_1->getCompositId());
-        $this->assertEquals($file_identifier, $table_row_id_2->getFileIdentifier());
-        $this->assertEquals($export_option_id, $table_row_id_2->getExportOptionId());
-        $this->assertEquals($composit_id, $table_row_id_2->getCompositId());
+        self::assertEquals($file_identifier, $table_row_id_1->getFileIdentifier());
+        self::assertEquals($export_option_id, $table_row_id_1->getExportOptionId());
+        self::assertEquals($composit_id, $table_row_id_1->getCompositId());
+        self::assertEquals($file_identifier, $table_row_id_2->getFileIdentifier());
+        self::assertEquals($export_option_id, $table_row_id_2->getExportOptionId());
+        self::assertEquals($composit_id, $table_row_id_2->getCompositId());
     }
 }

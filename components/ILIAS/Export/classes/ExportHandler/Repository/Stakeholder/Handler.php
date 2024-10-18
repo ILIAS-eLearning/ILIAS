@@ -27,9 +27,9 @@ class Handler extends AbstractResourceStakeholder implements ilExportHandlerRepo
 {
     protected int $owner_id;
 
-    public function __construct(int $usr_id = 6)
+    public function __construct(int $usr_id = null)
     {
-        $this->owner_id = $usr_id;
+        $this->owner_id = $usr_id ?? self::DEFAULT_OWNER_ID;
     }
 
     public function getId(): string

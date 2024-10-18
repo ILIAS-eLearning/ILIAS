@@ -21,15 +21,20 @@ declare(strict_types=1);
 namespace ILIAS\Export\ExportHandler\I\Repository\Key;
 
 use ILIAS\Data\ObjectId;
+use ILIAS\Export\ExportHandler\I\Repository\Key\HandlerInterface as ilExportHandlerRepositoryKeyInterface;
 
 interface HandlerInterface
 {
     public const EMPTY_RESOURCE_IDENTIFICATION = "";
     public const EMPTY_OBJECT_ID = -1;
 
-    public function withObjectId(ObjectId $object_id): HandlerInterface;
+    public function withObjectId(
+        ObjectId $object_id
+    ): HandlerInterface;
 
-    public function withResourceIdSerialized(string $resource_identification_serialized): HandlerInterface;
+    public function withResourceIdSerialized(
+        string $resource_identification_serialized
+    ): HandlerInterface;
 
     public function getObjectId(): ObjectId;
 
@@ -40,4 +45,8 @@ interface HandlerInterface
     public function isObjectIdKey(): bool;
 
     public function isResourceIdKey(): bool;
+
+    public function equals(
+        ilExportHandlerRepositoryKeyInterface $other_repository_key
+    ): bool;
 }
