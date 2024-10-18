@@ -100,9 +100,6 @@ class TabsManager
     public function activateSubTab(string $sub_tab_id): void
     {
         switch ($sub_tab_id) {
-            case self::SUBTAB_ID_FIXED_PARTICIPANTS:
-            case self::SUBTAB_ID_TIME_EXTENSION:
-
             case self::SUBTAB_ID_MY_RESULTS:
             case self::SUBTAB_ID_LO_RESULTS:
             case self::SUBTAB_ID_HIGHSCORE:

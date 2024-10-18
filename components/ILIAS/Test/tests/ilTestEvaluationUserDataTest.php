@@ -69,15 +69,6 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
         $this->assertEquals($passScoring, $this->testObj->getPassScoring());
     }
 
-    public function testPassed(): void
-    {
-        $this->testObj->setPassed(true);
-        $this->assertTrue($this->testObj->getPassed());
-
-        $this->testObj->setPassed(false);
-        $this->assertFalse($this->testObj->getPassed());
-    }
-
     public function testName(): void
     {
         $name = 'testName';
@@ -138,7 +129,7 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
 
     public function testMark(): void
     {
-        $a_mark = 'testMark';
+        $a_mark = new \ILIAS\Test\Scoring\Marks\Mark('testMark');
         $this->testObj->setMark($a_mark);
         $this->assertEquals($a_mark, $this->testObj->getMark());
     }
@@ -200,7 +191,7 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
 
     public function testFirstVisit(): void
     {
-        $time = 2125;
+        $time = new \DateTimeImmutable();
         $this->testObj->setFirstVisit($time);
 
         $this->assertEquals($time, $this->testObj->getFirstVisit());
@@ -208,7 +199,7 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
 
     public function testLastVisit(): void
     {
-        $time = 2125;
+        $time = new \DateTimeImmutable();
         $this->testObj->setLastVisit($time);
 
         $this->assertEquals($time, $this->testObj->getLastVisit());
@@ -372,12 +363,5 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
         $user_id = 120;
         $this->testObj->setUserID($user_id);
         $this->assertEquals($user_id, $this->testObj->getUserID());
-    }
-
-    public function testMarkOfficial(): void
-    {
-        $a_mark_official = 'test';
-        $this->testObj->setMarkOfficial($a_mark_official);
-        $this->assertEquals($a_mark_official, $this->testObj->getMarkOfficial());
     }
 }
