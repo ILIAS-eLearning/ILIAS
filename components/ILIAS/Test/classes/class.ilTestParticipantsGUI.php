@@ -156,7 +156,7 @@ class ilTestParticipantsGUI
 
     public function showCmd(): void
     {
-        $this->tabs_manager->activateTab(TabsManager::TAB_ID_EXAM_DASHBOARD);
+        $this->tabs_manager->activateTab(TabsManager::TAB_ID_PARTICIPANTS);
 
         $this->addUserSearchControls($this->toolbar);
 

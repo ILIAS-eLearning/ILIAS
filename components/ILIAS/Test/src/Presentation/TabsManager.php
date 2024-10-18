@@ -25,8 +25,6 @@ use ILIAS\Test\Settings\ScoreReporting\SettingsScoringGUI;
 use ILIAS\Test\Scoring\Manual\TestScoringByQuestionGUI;
 use ILIAS\Test\Scoring\Marks\MarkSchemaGUI;
 use ILIAS\Test\Presentation\TestScreenGUI;
-use ILIAS\HTTP\Wrapper\RequestWrapper;
-use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -53,9 +51,7 @@ class TabsManager
     public const TAB_ID_EXPORT = 'export';
     public const TAB_ID_PERMISSIONS = 'perm_settings';
 
-    public const TAB_ID_EXAM_DASHBOARD = 'dashboard_tab';
-    public const SUBTAB_ID_FIXED_PARTICIPANTS = 'fixedparticipants';
-    public const SUBTAB_ID_TIME_EXTENSION = 'timeextension';
+    public const TAB_ID_PARTICIPANTS = 'participants';
 
     public const TAB_ID_YOUR_RESULTS = 'your_results';
     public const SUBTAB_ID_PARTICIPANTS_RESULTS = 'participantsresults';
@@ -93,10 +89,10 @@ class TabsManager
     public function activateTab(string $tab_id): void
     {
         switch ($tab_id) {
-            case self::TAB_ID_EXAM_DASHBOARD:
+            case self::TAB_ID_PARTICIPANTS:
             case self::TAB_ID_YOUR_RESULTS:
             case self::TAB_ID_SETTINGS:
-
+            case self::TAB_ID_TEST:
                 $this->tabs->activateTab($tab_id);
         }
     }
@@ -415,8 +411,8 @@ class TabsManager
 
         if ($this->needsParticipantsTab()) {
             $this->tabs->addTab(
-                self::TAB_ID_EXAM_DASHBOARD,
-                $this->lng->txt('dashboard_tab'),
+                self::TAB_ID_PARTICIPANTS,
+                $this->lng->txt('participants'),
                 $this->getParticipantsTabTarget()
             );
         }
