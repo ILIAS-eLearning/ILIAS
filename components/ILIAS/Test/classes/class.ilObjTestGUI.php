@@ -74,7 +74,7 @@ use ILIAS\ResourceStorage\Services as IRSS;
  * @ilCtrl_Calls ilObjTestGUI: ilObjCourseGUI, ilObjectMetaDataGUI, ilCertificateGUI, ilPermissionGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestPlayerFixedQuestionSetGUI, ilTestPlayerRandomQuestionSetGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestExpresspageObjectGUI, ilAssQuestionPageGUI
- * @ilCtrl_Calls ilObjTestGUI: ilTestDashboardGUI, ilTestResultsGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilTestParticipantsGUI, ilTestResultsGUI
  * @ilCtrl_Calls ilObjTestGUI: ilLearningProgressGUI, ILIAS\Test\Scoring\Marks\MarkSchemaGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssGenFeedbackPageGUI, ilAssSpecFeedbackPageGUI
@@ -230,8 +230,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->tabs_gui,
             $this->lng,
             $this->ctrl,
-            $this->request_wrapper,
-            $this->refinery,
             $this->access,
             $this->test_access,
             $this->getTestObject(),
@@ -357,19 +355,18 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $this->ctrl->forwardCommand($md_gui);
                 break;
 
-            case 'iltestdashboardgui':
+            case strtolower(ilTestParticipantsGUI::class):
                 if ((!$this->access->checkAccess("read", "", $this->testrequest->getRefId()))) {
                     $this->redirectAfterMissingRead();
                 }
 
-                if (!$this->ctrl->isAsynch()) {
-                    $this->prepareOutput();
-                    $this->addHeaderAction();
-                }
-
-                $gui = new ilTestDashboardGUI(
+                $this->prepareOutput();
+                $this->addHeaderAction();
+                $gui = new ilTestParticipantsGUI(
                     $this->getTestObject(),
                     $this->user,
+                    $this->getObjectiveOrientedContainer(),
+                    $this->test_question_set_config_factory->getQuestionSetConfig(),
                     $this->access,
                     $this->test_access,
                     $this->tpl,
@@ -378,10 +375,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->ui_service,
                     $this->data_factory,
                     $this->lng,
+                    $this->ctrl,
                     $this->refinery,
                     $this->db,
-                    $this->ctrl,
-                    $this->tabs_gui,
                     $this->tabs_manager,
                     $this->toolbar,
                     $this->component_factory,
@@ -390,9 +386,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->response_handler,
                     $this->participant_repository,
                     $this->results_data_factory,
-                    $this->results_presentation_factory,
-                    $this->test_question_set_config_factory->getQuestionSetConfig(),
-                    $this->getObjectiveOrientedContainer()
+                    $this->results_presentation_factory
                 );
 
                 $this->ctrl->forwardCommand($gui);
