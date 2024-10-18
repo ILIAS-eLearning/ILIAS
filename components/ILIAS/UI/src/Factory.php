@@ -678,6 +678,36 @@ interface Factory
      * ---
      * description:
      *   purpose: >
+     *     A Progress component is designed to represent the users advancement within
+     *     a certain process or task. They are of informative nature and provide feedback
+     *     about the current state and said advancement of the process/task. Their goal
+     *     is to guide users by communicating how much of a process/task is completed,
+     *     what remains, and what is ahead of them.
+     *   composition: >
+     *     Progress components are composed out of appropriate scales and status indicators,
+     *     which clearly convey the state of the users advancement.
+     *
+     * rules:
+     *   usage:
+     *     1: A Progress component SHOULD be used whenever a process/task is time-consuming.
+     *     2: >
+     *       A progress component MUST NOT be used to convey any other type of information
+     *       than the users advancement.
+     *   interaction:
+     *     1: Progress components are passive and MUST NOT be operable in any way for the user.
+     *   accessibility:
+     *     1: >
+     *       A progress component MUST be fully accessible using a screen-reader. Any colouring
+     *       or other visual indicators MUST provide according alternative-texts.
+     * ---
+     * @return \ILIAS\UI\Component\Progress\Factory
+     */
+    public function progress(): C\Progress\Factory;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
      *     Dropzones are containers used to drop either files or other HTML elements.
      *   composition: >
      *     A dropzone is a container on the page. Depending on the type of the dropzone,
