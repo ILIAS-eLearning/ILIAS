@@ -327,7 +327,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
             'label',
             '<input id="id_2" type="text" name="form_0/input_1" class="c-field-text"/>',
             'byline',
-            'id_1',
+            'id_2',
             null,
             'form_0/input_1'
         );
