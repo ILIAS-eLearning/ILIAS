@@ -67,11 +67,8 @@ class TabsManagerTest extends \ilTestBaseTestCase
     public function testActivateSubTab(): void
     {
         global $DIC;
-        $DIC['ilTabs']->expects($this->exactly(9))->method('activateSubTab');
+        $DIC['ilTabs']->expects($this->exactly(7))->method('activateSubTab');
 
-        $this->testObj->activateSubTab(TabsManager::SUBTAB_ID_FIXED_PARTICIPANTS);
-        $this->testObj->activateSubTab(TabsManager::SUBTAB_ID_TIME_EXTENSION);
-        $this->testObj->activateSubTab(TabsManager::SUBTAB_ID_PARTICIPANTS_RESULTS);
         $this->testObj->activateSubTab(TabsManager::SUBTAB_ID_MY_RESULTS);
         $this->testObj->activateSubTab(TabsManager::SUBTAB_ID_LO_RESULTS);
         $this->testObj->activateSubTab(TabsManager::SUBTAB_ID_HIGHSCORE);
@@ -79,7 +76,6 @@ class TabsManagerTest extends \ilTestBaseTestCase
         $this->testObj->activateSubTab(TabsManager::SUBTAB_ID_MY_SOLUTIONS);
         $this->testObj->activateSubTab(TabsManager::SUBTAB_ID_QST_LIST_VIEW);
         $this->testObj->activateSubTab(TabsManager::SUBTAB_ID_QST_PAGE_VIEW);
-        $this->testObj->activateSubTab(TabsManager::TAB_ID_PARTICIPANTS);
         $this->testObj->activateSubTab('randomString');
     }
 
