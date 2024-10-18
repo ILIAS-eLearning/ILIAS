@@ -44,7 +44,7 @@ class ilTestExportTableGUI extends ilExportTableGUI
         $this->ctrl->setParameter($this->getParentObject(), 'file', $filename);
         $actions[] = $this->ui_factory->link()->standard($this->lng->txt('download'), $this->ctrl->getLinkTarget($this->getParentObject(), 'download'));
         $this->ctrl->setParameter($this->getParentObject(), 'file', '');
-        $dropdown = $this->ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt('actions'));
+        $dropdown = $this->ui_factory->dropdown()->standard($actions);
         return $this->ui_renderer->render($dropdown);
     }
 
