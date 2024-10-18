@@ -114,7 +114,7 @@ class ParticipantTableShowResultsAction implements TableAction
 
     public function allowActionForRecord(Participant $record): bool
     {
-        return $this->test_access->checkResultsAccessForActiveId(
+        return $record->getActiveId() !== null && $this->test_access->checkResultsAccessForActiveId(
             $record->getActiveId(),
             $this->test_obj->getTestId()
         );
