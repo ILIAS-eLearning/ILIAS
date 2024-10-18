@@ -221,7 +221,6 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             $long_menu_text->setRteTags(ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
             $long_menu_text->setUseTagsForRteOnly(false);
         }
-        $long_menu_text->removePlugin('ilimgupload');
 
         $long_menu_text->setValue($this->object->getLongMenuTextValue());
         $form->addItem($long_menu_text);

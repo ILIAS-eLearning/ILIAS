@@ -383,7 +383,6 @@ JS;
             $cloze_text->setRteTags(ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
             $cloze_text->setUseTagsForRteOnly(false);
         }
-        $cloze_text->removePlugin('ilimgupload');
         $cloze_text->setRTESupport($this->object->getId(), "qpl", "assessment");
         $form->addItem($cloze_text);
 

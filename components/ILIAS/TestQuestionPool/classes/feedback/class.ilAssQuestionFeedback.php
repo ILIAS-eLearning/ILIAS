@@ -154,7 +154,7 @@ abstract class ilAssQuestionFeedback
 
             $page_object_id = $this->getGenericFeedbackId($this->questionOBJ->getId(), true);
 
-            if($page_object_id === -1) {
+            if ($page_object_id === -1) {
                 $this->ctrl->setParameterByClass(ilAssQuestionFeedbackEditingGUI::class, 'feedback_type', $page_object_type);
                 $this->ctrl->setParameterByClass(ilAssQuestionFeedbackEditingGUI::class, 'fb_mode', 'complete');
                 $link = $this->ctrl->getLinkTargetByClass(ilAssQuestionFeedbackEditingGUI::class, 'createFeedbackPage');
@@ -260,7 +260,6 @@ abstract class ilAssQuestionFeedback
                 $property->setUseTagsForRteOnly(false);
             }
 
-            $property->removePlugin('ilimgupload');
             $property->setRTESupport($this->questionOBJ->getId(), "qpl", "assessment");
         }
 
