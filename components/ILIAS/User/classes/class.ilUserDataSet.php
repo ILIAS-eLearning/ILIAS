@@ -243,7 +243,7 @@ class ilUserDataSet extends ilDataSet
                         "public_profile", "public_sel_country", "public_street", "public_title", "public_upload", "public_zipcode",
                         "screen_reader_optimization", "show_users_online",
                         "store_last_visited", "time_format", "user_tz", "weekstart",
-                        "session_reminder_enabled", "session_reminder_lead_time", "usr_starting_point",
+                        "session_reminder_lead_time", "usr_starting_point",
                         "chat_broadcast_typing"];
 
                     if (version_compare($a_version, '5.2.0', '>=')) {

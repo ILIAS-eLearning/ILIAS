@@ -5569,8 +5569,9 @@ common#:#session_mail_subject_registered#:#Registrierung von Benutzer/in „%s�
 common#:#session_reminder#:#Session-Reminder
 common#:#session_reminder_alert#:#Ihre Sitzung läuft in %1$s um %2$s ab!  Klicken Sie auf OK, um Ihre Sitzung zu verlängern! Wollen Sie dagegen in der aktuellen Browser-Sitzung nicht mehr erinnert werden, wählen Sie bitte Abbrechen.  Betroffene Installation: %3$s.
 common#:#session_reminder_info#:#Wenn aktiviert, erhalten Sie eine Erinnerung, bevor Ihre Sitzung abläuft.
+common#:#session_reminder_input#:#Session-Reminder (in Minuten)
 common#:#session_reminder_lead_time#:#Vorlaufzeit
-common#:#session_reminder_lead_time_info#:#Hier können Sie festlegen, wann ILIAS Sie vor dem Ablauf Ihrer Sitzung warnen soll. Sie erhalten dann einen Hinweis und können einfach per Mausklick die Sitzung verlängern. Geben Sie einen Wert in Minuten ein. Empfohlen sind 5 Minuten.<br />Der aktuelle Wert für die Dauer einer Sitzung in diesem ILIAS beträgt %s.
+common#:#session_reminder_lead_time_info#:#Bitte geben Sie an, wie viele Minuten vor Ablauf einer Sitzung Sie eine Erinnerung erhalten möchten.<br / >Die Funktion ist deaktiviert, wenn der Wert „%s“ ist. Der empfohlene Wert ist %s.<br / >Ihre aktuelle Dauer einer Sitzung ist %s.
 common#:#session_reminder_session_duration#:#(Aktuelle Sessiondauer: %s).
 common#:#set#:#Setzen
 common#:#setSystemLanguage#:#Systemsprache ändern

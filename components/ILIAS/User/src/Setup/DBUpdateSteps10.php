@@ -79,4 +79,35 @@ class DBUpdateSteps10 implements \ilDatabaseUpdateSteps
             $this->db->addPrimaryKey(ChangeMailTokenDBRepository::TABLE_NAME, ['token']);
         }
     }
+
+    public function step_3(): void
+    {
+        $query = 'SELECT * FROM settings WHERE module = %s AND keyword = %s';
+        $result = $this->db->queryF(
+            $query,
+            [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
+            ['common', 'session_reminder_enabled']
+        );
+        $session_reminder = $result->numRows() ? (bool) $this->db->fetchAssoc($result)['value'] : false;
+        if ($session_reminder) {
+            $query = 'INSERT INTO settings (module, keyword, value) VALUES (%s, %s, %s)';
+            $this->db->manipulateF(
+                $query,
+                [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_INTEGER],
+                ['common', 'session_reminder_lead_time', \ilSessionReminder::SUGGESTED_LEAD_TIME]
+            );
+            $query = 'DELETE FROM settings WHERE module = %s AND keyword = %s';
+            $this->db->manipulateF(
+                $query,
+                [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
+                ['common', 'session_reminder_enabled']
+            );
+        }
+        $query = 'INSERT INTO settings (module, keyword, value) VALUES (%s, %s, %s)';
+        $this->db->manipulateF(
+            $query,
+            [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_INTEGER],
+            ['common', 'session_reminder_lead_time', \ilSessionReminder::LEAD_TIME_DISABLED]
+        );
+    }
 }

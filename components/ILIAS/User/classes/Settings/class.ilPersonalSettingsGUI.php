@@ -276,46 +276,29 @@ class ilPersonalSettingsGUI
         $lv->setValue($last_visited);
         $this->form->addItem($lv);
 
-        if (ilSessionReminder::isGloballyActivated()) {
-            $cb = new ilCheckboxInputGUI($this->lng->txt('session_reminder'), 'session_reminder_enabled');
-            $cb->setInfo($this->lng->txt('session_reminder_info'));
-            $cb->setValue('1');
-            $cb->setChecked((bool) $this->user->getPref('session_reminder_enabled'));
-
-            $expires = ilSession::getSessionExpireValue();
-            $lead_time_gui = new ilNumberInputGUI(
-                $this->lng->txt('session_reminder_lead_time'),
+        if ($this->userSettingVisible('session_reminder')) {
+            $session_reminder = new ilNumberInputGUI(
+                $this->lng->txt('session_reminder_input'),
                 'session_reminder_lead_time'
             );
-            $lead_time_gui->setInfo(
+            $session_reminder_object = ilSessionReminder::byLoggedInUser();
+            $expires = ilSession::getSessionExpireValue();
+            $session_reminder->setInfo(
                 sprintf(
                     $this->lng->txt('session_reminder_lead_time_info'),
+                    ilSessionReminder::LEAD_TIME_DISABLED,
+                    ilSessionReminder::SUGGESTED_LEAD_TIME,
                     ilDatePresentation::secondsToString($expires, true)
                 )
             );
-
-            $min_value = ilSessionReminder::MIN_LEAD_TIME;
-            $max_value = max($min_value, ($expires / 60) - 1);
-
-            $current_user_value = $this->user->getPref('session_reminder_lead_time');
-            if ($current_user_value < $min_value || $current_user_value > $max_value) {
-                $current_user_value = ilSessionReminder::SUGGESTED_LEAD_TIME;
-            }
-            $value = min(
-                max(
-                    $min_value,
-                    $current_user_value
-                ),
-                $max_value
+            $session_reminder->setDisabled(!$this->workWithUserSetting('session_reminder'));
+            $session_reminder->setValue(
+                (string) $session_reminder_object->getEffectiveLeadTime()
             );
-
-            $lead_time_gui->setValue((string) $value);
-            $lead_time_gui->setSize(3);
-            $lead_time_gui->setMinValue($min_value);
-            $lead_time_gui->setMaxValue($max_value);
-            $cb->addSubItem($lead_time_gui);
-
-            $this->form->addItem($cb);
+            $session_reminder->setSize(3);
+            $session_reminder->setMinValue(ilSessionReminder::LEAD_TIME_DISABLED);
+            $session_reminder->setMaxValue($session_reminder_object->getMaxPossibleLeadTime());
+            $this->form->addItem($session_reminder);
         }
 
         // calendar settings (copied here to be reachable when calendar is inactive)
@@ -434,8 +417,7 @@ class ilPersonalSettingsGUI
                 }
             }
 
-            if (ilSessionReminder::isGloballyActivated()) {
-                $this->user->setPref('session_reminder_enabled', $this->form->getInput('session_reminder_enabled'));
+            if ($this->workWithUserSetting('session_reminder')) {
                 $this->user->setPref(
                     'session_reminder_lead_time',
                     (string) $this->form->getInput('session_reminder_lead_time')
