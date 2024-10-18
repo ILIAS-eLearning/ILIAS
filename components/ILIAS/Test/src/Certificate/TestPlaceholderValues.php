@@ -27,7 +27,6 @@ class TestPlaceholderValues implements \ilCertificatePlaceholderValues
 {
     private readonly \ilDefaultPlaceholderValues $defaultPlaceholderValuesObject;
     private readonly \ilCertificateObjectHelper $objectHelper;
-    private readonly CertificateTestObjectHelper $testObjectHelper;
     private readonly \ilCertificateUserObjectHelper $userObjectHelper;
     private readonly \ilCertificateUtilHelper $utilHelper;
     private readonly \ilCertificateLPStatusHelper $lpStatusHelper;
@@ -38,7 +37,6 @@ class TestPlaceholderValues implements \ilCertificatePlaceholderValues
         ?\ilDefaultPlaceholderValues $defaultPlaceholderValues = null,
         ?\ilLanguage $language = null,
         ?\ilCertificateObjectHelper $objectHelper = null,
-        ?CertificateTestObjectHelper $testObjectHelper = null,
         ?\ilCertificateUserObjectHelper $userObjectHelper = null,
         ?\ilCertificateLPStatusHelper $lpStatusHelper = null,
         ?\ilCertificateUtilHelper $utilHelper = null,
@@ -60,11 +58,6 @@ class TestPlaceholderValues implements \ilCertificatePlaceholderValues
             $objectHelper = new \ilCertificateObjectHelper();
         }
         $this->objectHelper = $objectHelper;
-
-        if (null === $testObjectHelper) {
-            $testObjectHelper = new CertificateTestObjectHelper();
-        }
-        $this->testObjectHelper = $testObjectHelper;
 
         if (null === $userObjectHelper) {
             $userObjectHelper = new \ilCertificateUserObjectHelper();
@@ -104,7 +97,7 @@ class TestPlaceholderValues implements \ilCertificatePlaceholderValues
         $testObject = $this->objectHelper->getInstanceByObjId($obj_id);
 
         $active_id = $testObject->getActiveIdOfUser($user_id);
-        $pass = $this->testObjectHelper->getResultPass($active_id);
+        $pass = \ilObjTest::_getResultPass($active_id);
 
         $result_array = $testObject->getTestResult($active_id);
         if ($pass !== null) {

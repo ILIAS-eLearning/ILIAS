@@ -18,39 +18,153 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\Access\test;
+namespace ILIAS\Test\Tests;
 
-use PHPUnit\Framework\TestCase;
+use ilTestBaseTestCase;
+use ilTestPassResultsSettings;
+use PHPUnit\Framework\MockObject\Exception;
+use ReflectionException;
 
-class ilTestPassResultsSettingsTest extends TestCase
+class ilTestPassResultsSettingsTest extends ilTestBaseTestCase
 {
-    public function testTestResultsSettingsDefaults(): void
+    /**
+     * @throws ReflectionException|Exception
+     */
+    public function testConstruct(): void
     {
-        $trs = new \ilTestPassResultsSettings();
-        $this->assertFalse($trs->getShowHiddenQuestions());
-        $this->assertFalse($trs->getShowOptionalQuestions());
-        $this->assertTrue($trs->getShowBestSolution());
-        $this->assertTrue($trs->getShowFeedback());
-        $this->assertFalse($trs->getQuestionTextOnly());
-        $this->assertFalse($trs->getShowRecapitulation());
+        $test_pass_results_settings = $this->createInstanceOf(ilTestPassResultsSettings::class);
+        $this->assertInstanceOf(ilTestPassResultsSettings::class, $test_pass_results_settings);
     }
 
-    public function testTestResultsSettingsBasicProps(): void
+    /**
+     * @dataProvider getShowHiddenQuestionsProvider
+     * @throws ReflectionException|Exception
+     */
+    public function testGetShowHiddenQuestions(?bool $IO): void
     {
-        $trs = new \ilTestPassResultsSettings(true, true, true, true, true, true);
-        $this->assertTrue($trs->getShowHiddenQuestions());
-        $this->assertTrue($trs->getShowOptionalQuestions());
-        $this->assertTrue($trs->getShowBestSolution());
-        $this->assertTrue($trs->getShowFeedback());
-        $this->assertTrue($trs->getQuestionTextOnly());
-        $this->assertTrue($trs->getShowRecapitulation());
+        $test_pass_results_settings = $IO === null
+            ? $this->createInstanceOf(ilTestPassResultsSettings::class)
+            : $this->createInstanceOf(ilTestPassResultsSettings::class, ['show_hidden_questions' => $IO]);
 
-        $trs = new \ilTestPassResultsSettings(false, false, false, false, false, false);
-        $this->assertFalse($trs->getShowHiddenQuestions());
-        $this->assertFalse($trs->getShowOptionalQuestions());
-        $this->assertFalse($trs->getShowBestSolution());
-        $this->assertFalse($trs->getShowFeedback());
-        $this->assertFalse($trs->getQuestionTextOnly());
-        $this->assertFalse($trs->getShowRecapitulation());
+        $this->assertEquals($IO ?? false, $test_pass_results_settings->getShowHiddenQuestions());
+    }
+
+    public static function getShowHiddenQuestionsProvider(): array
+    {
+        return [
+            'default' => [null],
+            'true' => [true],
+            'false' => [false]
+        ];
+    }
+
+    /**
+     * @dataProvider getShowOptionalQuestionsProvider
+     * @throws ReflectionException|Exception
+     */
+    public function testGetShowOptionalQuestions(?bool $IO): void
+    {
+        $test_pass_results_settings = $IO === null
+            ? $this->createInstanceOf(ilTestPassResultsSettings::class)
+            : $this->createInstanceOf(ilTestPassResultsSettings::class, ['show_optional_questions' => $IO]);
+
+        $this->assertEquals($IO ?? false, $test_pass_results_settings->getShowOptionalQuestions());
+    }
+
+    public static function getShowOptionalQuestionsProvider(): array
+    {
+        return [
+            'default' => [null],
+            'true' => [true],
+            'false' => [false]
+        ];
+    }
+
+    /**
+     * @dataProvider getShowBestSolutionProvider
+     * @throws ReflectionException|Exception
+     */
+    public function testGetShowBestSolution(?bool $IO): void
+    {
+        $test_pass_results_settings = $IO === null
+            ? $this->createInstanceOf(ilTestPassResultsSettings::class)
+            : $this->createInstanceOf(ilTestPassResultsSettings::class, ['show_best_solution' => $IO]);
+
+        $this->assertEquals($IO ?? true, $test_pass_results_settings->getShowBestSolution());
+    }
+
+    public static function getShowBestSolutionProvider(): array
+    {
+        return [
+            'default' => [null],
+            'true' => [true],
+            'false' => [false]
+        ];
+    }
+
+    /**
+     * @dataProvider getShowFeedbackProvider
+     * @throws ReflectionException|Exception
+     */
+    public function testGetShowFeedback(?bool $IO): void
+    {
+        $test_pass_results_settings = $IO === null
+            ? $this->createInstanceOf(ilTestPassResultsSettings::class)
+            : $this->createInstanceOf(ilTestPassResultsSettings::class, ['show_feedback' => $IO]);
+
+        $this->assertEquals($IO ?? true, $test_pass_results_settings->getShowFeedback());
+    }
+
+    public static function getShowFeedbackProvider(): array
+    {
+        return [
+            'default' => [null],
+            'true' => [true],
+            'false' => [false]
+        ];
+    }
+
+    /**
+     * @dataProvider getQuestionTextOnlyProvider
+     * @throws ReflectionException|Exception
+     */
+    public function testGetQuestionTextOnly(?bool $IO): void
+    {
+        $test_pass_results_settings = $IO === null
+            ? $this->createInstanceOf(ilTestPassResultsSettings::class)
+            : $this->createInstanceOf(ilTestPassResultsSettings::class, ['question_text_only' => $IO]);
+
+        $this->assertEquals($IO ?? false, $test_pass_results_settings->getQuestionTextOnly());
+    }
+
+    public static function getQuestionTextOnlyProvider(): array
+    {
+        return [
+            'default' => [null],
+            'true' => [true],
+            'false' => [false]
+        ];
+    }
+
+    /**
+     * @dataProvider getShowRecapitulationProvider
+     * @throws ReflectionException|Exception
+     */
+    public function testGetShowRecapitulation(?bool $IO): void
+    {
+        $test_pass_results_settings = $IO === null
+            ? $this->createInstanceOf(ilTestPassResultsSettings::class)
+            : $this->createInstanceOf(ilTestPassResultsSettings::class, ['show_recapitulation' => $IO]);
+
+        $this->assertEquals($IO ?? false, $test_pass_results_settings->getShowRecapitulation());
+    }
+
+    public static function getShowRecapitulationProvider(): array
+    {
+        return [
+            'default' => [null],
+            'true' => [true],
+            'false' => [false]
+        ];
     }
 }
