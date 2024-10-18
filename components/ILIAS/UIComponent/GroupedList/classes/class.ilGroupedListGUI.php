@@ -144,27 +144,6 @@ class ilGroupedListGUI
                         }
                         $tpl->parseCurrentBlock();
                         $tpl->touchBlock("item");
-                        if ($i["ttip"] != "" && $i["id"] != "") {
-                            if ($ilCtrl->isAsynch()) {
-                                $tt_calls .= " " . ilTooltipGUI::getToolTip(
-                                    $i["id"],
-                                    $i["ttip"],
-                                    "",
-                                    $i["tt_my"],
-                                    $i["tt_at"],
-                                    $i["tt_use_htmlspecialchars"]
-                                );
-                            } else {
-                                ilTooltipGUI::addTooltip(
-                                    $i["id"],
-                                    $i["ttip"],
-                                    "",
-                                    $i["tt_my"],
-                                    $i["tt_at"],
-                                    $i["tt_use_htmlspecialchars"]
-                                );
-                            }
-                        }
                     } else {
                         $tpl->setCurrentBlock("unlinked_entry");
                         if ($i["add_class"] != "") {

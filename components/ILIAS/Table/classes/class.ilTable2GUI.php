@@ -1050,17 +1050,6 @@ class ilTable2GUI extends ilTableGUI
         $ccnt = 0;
         foreach ($this->column as $column) {
             $ccnt++;
-            //tooltip
-            if ($column["tooltip"] != "") {
-                ilTooltipGUI::addTooltip(
-                    "thc_" . $this->getId() . "_" . $ccnt,
-                    $column["tooltip"],
-                    "",
-                    "bottom center",
-                    "top center",
-                    !$column["tooltip_html"]
-                );
-            }
 
             if ($column['is_checkbox_action_column'] && $this->select_all_on_top) {
                 $this->tpl->setCurrentBlock('tbl_header_top_select_all');

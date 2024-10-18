@@ -452,21 +452,6 @@ class ilTabsGUI
                 $tpl->setCurrentBlock($pre . "tab");
                 $tpl->setVariable("ID", $pre . "tab_" . $target["id"]);
 
-                // tooltip
-                if (!$this->getSetupMode()) {
-                    $ttext = $ilHelp->getTabTooltipText($target["id"]);
-                    if ($ttext !== "") {
-                        ilTooltipGUI::addTooltip(
-                            $pre . "tab_" . $target["id"],
-                            $ttext,
-                            "",
-                            "bottom center",
-                            "top center",
-                            false
-                        );
-                    }
-                }
-
                 // bs-patch: start
                 $tabtype = in_array($tabtype, array("tabactive", "subtabactive"))
                     ? "active"
@@ -503,21 +488,6 @@ class ilTabsGUI
                     $tpl->setVariable("TAB_TARGET", $link["frame"]);
                     $tpl->setVariable("ID", "nontab_" . $link["id"]);
                     $tpl->parseCurrentBlock();
-
-                    // tooltip
-                    if (!$this->getSetupMode()) {
-                        $ttext = $ilHelp->getTabTooltipText($link["id"]);
-                        if ($ttext !== "") {
-                            ilTooltipGUI::addTooltip(
-                                "nontab_" . $link["id"],
-                                $ttext,
-                                "",
-                                "bottom center",
-                                "top center",
-                                false
-                            );
-                        }
-                    }
                 }
             }
 
