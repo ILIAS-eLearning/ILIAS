@@ -36,6 +36,8 @@ class ParticipantTableDeleteResultsAction implements TableAction
         private readonly Language $lng,
         private readonly \ilGlobalTemplateInterface $tpl,
         private readonly UIFactory $ui_factory,
+        private readonly \ilDBInterface $db,
+        private readonly \ilTestParticipantAccessFilterFactory $participant_access_filter_factory,
         private readonly \ilTestAccess $test_access,
         private readonly \ilObjTest $test_obj
     ) {
@@ -103,8 +105,9 @@ class ParticipantTableDeleteResultsAction implements TableAction
             return;
         }
 
-        $access_filter = $this->participant_access_filter_factory->getManageParticipantsUserFilter($this->getTestObj()->getRefId());
-        $participant_data = new ilTestParticipantData($this->db, $this->lng);
+        $access_filter = $this->participant_access_filter_factory
+            ->getManageParticipantsUserFilter($this->test_obj->getRefId());
+        $participant_data = new \ilTestParticipantData($this->db, $this->lng);
         $participant_data->setParticipantAccessFilter($access_filter);
         $participant_data->setActiveIdsFilter(
             array_map(
