@@ -18,12 +18,10 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
-use ILIAS\Test\Logging\AdditionalInformationGenerator;
-use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\Test\Results\Presentation\TitlesBuilder as ResultsTitlesBuilder;
 use ILIAS\UI\Implementation\Component\ViewControl\Mode as ViewControlMode;
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\UI\Component\Signal;
 
 /**
  * Output class for assessment test evaluation
@@ -142,6 +140,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $content = [];
         $anchors = [];
+        $expand_singals = [];
+        $collapse_signals = [];
         foreach ($selected_users as $selected_user) {
             $active_id = (int) $selected_user;
 
@@ -173,18 +173,19 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 $test_overview = null;
             }
 
+            $presentation_table = $this->results_presentation_factory->getAttemptResultsPresentationTable(
+                $this->results_data_factory->getAttemptResultsFor(
+                    $settings,
+                    $this->object,
+                    $active_id,
+                    $attempt_id,
+                    false
+                ),
+                $settings
+            )->getTableComponent();
             $attempt_details = $this->ui_factory->panel()->sub(
                 $this->lng->txt('details'),
-                $this->results_presentation_factory->getAttemptResultsPresentationTable(
-                    $this->results_data_factory->getAttemptResultsFor(
-                        $settings,
-                        $this->object,
-                        $active_id,
-                        $attempt_id,
-                        false
-                    ),
-                    $settings
-                )->getTableComponent()
+                $presentation_table
             );
 
             $fullname = ilObjUser::_lookupFullname($this->object->_getUserIdFromActiveId($active_id));
@@ -210,6 +211,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                     $fullname,
                     '#participant_active_' . $active_id
                 );
+                $expand_singals[] = $presentation_table->getExpandAllSignal();
+                $collapse_signals[] = $presentation_table->getCollapseAllSignal();
                 $content[] = $this->ui_factory->panel()->sub(
                     $this->buildResultsTitle($fullname, $attempt_id),
                     [
@@ -222,6 +225,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         }
         if (count($selected_users) > 1) {
             $this->addParticipantSelectorToToolbar($anchors);
+            $this->addExpandCollapseButtonsToToolbar($expand_singals, $collapse_signals);
             $content = $this->ui_factory->panel()->report(
                 $this->lng->txt('tst_results'),
                 $content
@@ -962,6 +966,31 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $this->ctrl->clearParameters($this, 'show_best_solutions');
     }
 
+    private function addExpandCollapseButtonsToToolbar(
+        array $expand_signals,
+        array $collapse_signals
+    ): void {
+        $this->toolbar->addSeparator();
+
+        $this->toolbar->addComponent(
+            $this->ui_factory->button()->standard($this->lng->txt('presentation_table_expand'), '')
+                ->withAdditionalOnLoadCode(
+                    fn($id): string => "document.getElementById('{$id}').addEventListener('click', "
+                    . '(e) => {' . $this->buildExpandCollapseSignalString($expand_signals) . '}'
+                    . ');'
+                )
+        );
+
+        $this->toolbar->addComponent(
+            $this->ui_factory->button()->standard($this->lng->txt('presentation_table_collapse'), '')
+                ->withAdditionalOnLoadCode(
+                    fn($id): string => "document.getElementById('{$id}').addEventListener('click', "
+                    . '(e) => {' . $this->buildExpandCollapseSignalString($collapse_signals) . '}'
+                    . ');'
+                )
+        );
+    }
+
     private function addParticipantSelectorToToolbar(array $selector_entries): void
     {
         $this->toolbar->addSeparator();
@@ -1005,5 +1034,15 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             ),
             $this->lng->txt('select_attempt')
         )->withActive("{$this->lng->txt('tst_attempt')} {$selected_attempt}");
+    }
+
+    private function buildExpandCollapseSignalString(array $signals): string
+    {
+        return array_reduce(
+            $signals,
+            fn(string $c, Signal $v) => "{$c}$(document).trigger('{$v->getId()}',"
+                . '{"options" : ' . json_encode($v->getOptions()) . '}); ',
+            ''
+        );
     }
 }

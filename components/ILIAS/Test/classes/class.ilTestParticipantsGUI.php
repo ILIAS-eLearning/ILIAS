@@ -115,7 +115,7 @@ class ilTestParticipantsGUI
                 $gui = new ilTestEvaluationGUI($this->test_obj);
                 $gui->setObjectiveOrientedContainer($this->objective_parent);
                 $gui->setTestAccess($this->test_access);
-                $this->tabs_manager->resetTabsAndAddBacklink;
+                $this->tabs_manager->resetTabsAndAddBacklink($this->ctrl->getLinkTargetByClass(self::class, self::CMD_SHOW));
 
                 $this->ctrl->forwardCommand($gui);
 
