@@ -955,7 +955,7 @@ assessment#:#no_selection#:#--- No Selection ---
 assessment#:#no_selection_for_move#:#No question selected for moving
 assessment#:#no_target_selected_for_move#:#You must select a target position!
 assessment#:#no_user_or_group_selected#:#Please check an option what are you searching for (users, groups, roles)!
-assessment#:#no_valid_participant_selection#:#No valid Participants selected
+assessment#:#no_valid_participant_selection#:#No valid Participants selected.
 assessment#:#not_all_obligations_answered#:#You must answer all compulsory questions before you can finish the test.
 assessment#:#not_evaluated_users#:#Not Yet Evaluated User
 assessment#:#not_started#:#Not started yet
