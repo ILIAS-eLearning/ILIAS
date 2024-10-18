@@ -408,6 +408,8 @@ class ilTestParticipantsGUI
                     $this->lng,
                     $this->main_tpl,
                     $this->ui_factory,
+                    $this->db,
+                    $this->participant_access_filter,
                     $this->test_access,
                     $this->test_obj
                 ),
