@@ -54,7 +54,7 @@ class ilUIConfigStoredObjective implements Setup\Objective
         $factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
         /** @var ilSetting $settings */
         $settings = $factory->settingsFor('UI');
-        $settings->set('mathjax_enabled', $this->config->isMathJaxEnabled() ? '1' : 0);
+        $settings->set('mathjax_enabled', $this->config->isMathJaxEnabled() ? '1' : '0');
         return $environment;
     }
 
