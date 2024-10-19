@@ -3989,7 +3989,7 @@ class ilObjSurvey extends ilObject
     public function prepareTextareaOutput(
         string $txt_output
     ): string {
-        return ilLegacyFormElementsUtil::prepareTextareaOutput($txt_output);
+        return ilLegacyFormElementsUtil::prepareTextareaOutput($txt_output, true);
     }
 
     /**

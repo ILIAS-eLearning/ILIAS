@@ -362,7 +362,7 @@ abstract class AbstractUIModifier implements UIModifier
 
         // question "overview"
         $qst_title = $question->getTitle();
-        $svy_text = nl2br($question->getQuestiontext());
+        $svy_text = nl2br(\ilLegacyFormElementsUtil::prepareTextareaOutput($question->getQuestiontext(), true));
 
         // Question title anchor
         $anchor_id = "svyrdq" . $question->getId();
