@@ -51,7 +51,7 @@ trait CommonFieldRendering
     {
         $error = "an_error";
         $expected = '<div class="c-input__error-msg alert alert-danger"';
-        $expected2 = '" role="alert">' . $error . '</div>';
+        $expected2 = 'ui_error:</span>' . $error . '</div>';
         $html = $this->render($component->withError($error));
         $this->assertStringContainsString($expected, $html);
         $this->assertStringContainsString($expected2, $html);
@@ -92,7 +92,7 @@ trait CommonFieldRendering
         $html .= $payload_field;
         $html .= '
             </div>';
-        if($byline) {
+        if ($byline) {
             $html .= '
             <div class="c-input__help-byline">' . $byline . '</div>';
         }

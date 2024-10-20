@@ -207,4 +207,4 @@ $collection_builder = $collection_builder->withSPLFileInfo(
 ```
 
 ## Example implementation:
-The implementation of the default xml export option can be found here: [Implementation](../class.ilExportExportOptionXML.php)
+The implementation of the default xml export option can be found here: [Implementation](./classes/class.ilExportExportOptionXML.php)

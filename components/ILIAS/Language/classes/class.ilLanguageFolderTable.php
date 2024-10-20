@@ -117,13 +117,17 @@ class ilLanguageFolderTable implements DataTableInterface\DataRetrieval
     {
         $languages = $this->folder->getLanguages();
         $data = [];
+        $names = [];
+        $installed = [];
+
         foreach ($languages as $k => $l) {
             $data[] = array_merge($l, ["key" => $k]);
+            $names[] = $l['name'];
+            $installed[] = str_starts_with($l["desc"], 'installed') ? 1 : 2;
         }
 
         // sort alphabetically but show installed languages first
-        usort($data, fn($a, $b) => $a["name"] <=> $b["name"]);
-        usort($data, fn($a, $b) => $a["desc"] <=> $b["desc"]);
+        array_multisort($installed, SORT_ASC, $names, SORT_ASC, $data);
 
         if ($range) {
             $data = array_slice($data, $range->getStart(), $range->getLength());

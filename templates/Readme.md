@@ -18,18 +18,12 @@ soon.
 ### Tools
 
 To generate a customized System Style, first install the necessary tools to your
-server. These tools include nodejs and the node packet manager. After that you
-can install the sass compiler that is used to turn SCSS into CSS using:
+server. These tools include nodejs and the node packet manager. With ILIAS 10 the sass package
+is included in the package.json as devDependency and therefore does not have to get installed manually
+from the dart-sass website/github profile. Please make sure that the NPM packages were installed correctly 
+through the package.json.
 
-```
-npm install -g sass
-```
-
-or
-
-Download [Dart SASS from Github](https://github.com/sass/dart-sass/releases/) and add it to the machine's PATH.
-
-If you want to create system styles throught frontend, make sure, that your webserver
+If you want to create system styles through frontend, make sure, that your webserver
 has the permission to read and execute your newly installed sass compiler.
 
 ### How-To 1 (Through Frontend)
@@ -215,9 +209,10 @@ cd node
 ./configure
 make
 sudo make install
-Install Sass
-sudo npm install -g sass
 ```
+
+Make sure all NPM packages where installed through the package.json, as with ILIAS 10 sass is now part
+of the NPM packaging.
 
 Edit the File Applications/MAMP/Library/bin/envars.
 Add the line export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin" to the envars file. 

@@ -16018,7 +16018,6 @@ survey#:#cancel_survey#:#Kérdőív kitöltésének felfüggesztése
 survey#:#cannot_read_survey#:#Nincs megfelelő jogosultsága a kérdőív adatainak olvasásához.
 survey#:#cannot_switch_to_online_no_questions#:#Nem módosítható &quot;online (aktív)&quot;-ra az állapot, mert nincsenek kérdések a kérdőívben.
 survey#:#cant_send_email_smtp_disabled#:#Külső e-mail küldése központilag le van tiltva.
-survey#:#categories#:#Válaszok
 survey#:#category#:#Válasz
 survey#:#category_nr_selected#:#Kiválasztások száma
 survey#:#chart#:#Diagram
@@ -16474,6 +16473,7 @@ survey#:#svy_answer_too_long#:#Jelenlegi válasza túl hosszú (%s karakter), k�
 survey#:#svy_app_see_rater_info#:#Appraisees can access rater information in the results screens, including names and e-mail addresses, if entered before when adding raters.###29 07 2022 new variable
 survey#:#svy_appraisses_cannot_be_raters#:#A felhasználó nem adható hozzá értékelőnek. Használja inkább a kérdőív beállításaiban lévő önértékelés lehetőséget.
 survey#:#svy_back#:#Vissza
+survey#:#svy_categories#:#Válaszok
 survey#:#svy_check_evaluation_access_introduction#:#Mivel ez a kérdőíves kiértékelés csak a kérdőívben válaszadók számára elérhető, meg kell adnia kérdőív-hozzáférési kódját a kiértékelés megnyitásához.
 survey#:#svy_check_evaluation_authentication_needed#:#Azonosítás szükséges
 survey#:#svy_check_evaluation_wrong_key#:#Rossz kérdőív-hozzáférési kódot adott meg, vagy nem jogosult a kérdőív kitöltésére. Hozzáférését a kérdőív kiértékeléséhez elutasítottuk.

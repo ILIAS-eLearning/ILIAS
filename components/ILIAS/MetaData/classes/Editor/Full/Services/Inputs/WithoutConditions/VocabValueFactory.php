@@ -22,74 +22,122 @@ namespace ILIAS\MetaData\Editor\Full\Services\Inputs\WithoutConditions;
 
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\MetaData\Elements\ElementInterface;
-use ILIAS\MetaData\Elements\Data\DataInterface;
-use ILIAS\MetaData\Vocabularies\VocabulariesInterface;
 use ILIAS\UI\Component\Input\Field\Factory as UIFactory;
 use ILIAS\MetaData\Repository\Validation\Dictionary\DictionaryInterface as ConstraintDictionary;
 use ILIAS\MetaData\Editor\Presenter\PresenterInterface;
 use ILIAS\MetaData\Elements\Data\Type;
 use ILIAS\MetaData\Paths\FactoryInterface as PathFactory;
+use ILIAS\MetaData\Vocabularies\ElementHelper\ElementHelperInterface;
+use ILIAS\MetaData\Vocabularies\Slots\Identifier as SlotIdentifier;
+use ILIAS\MetaData\Vocabularies\Slots\Identifier;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\MetaData\Paths\PathInterface;
 
 class VocabValueFactory extends BaseFactory
 {
-    protected VocabulariesInterface $vocabularies;
+    protected ElementHelperInterface $element_vocab_helper;
+    protected Refinery $refinery;
+    protected PathFactory $path_factory;
 
     public function __construct(
         UIFactory $ui_factory,
         PresenterInterface $presenter,
         ConstraintDictionary $constraint_dictionary,
-        VocabulariesInterface $vocabularies
+        ElementHelperInterface $element_vocab_helper,
+        Refinery $refinery,
+        PathFactory $path_factory
     ) {
         parent::__construct($ui_factory, $presenter, $constraint_dictionary);
-        $this->vocabularies = $vocabularies;
+        $this->element_vocab_helper = $element_vocab_helper;
+        $this->refinery = $refinery;
+        $this->path_factory = $path_factory;
     }
 
     protected function rawInput(
         ElementInterface $element,
         ElementInterface $context_element,
-        string $condition_value = ''
+        SlotIdentifier $slot,
+        bool $add_value_from_data
     ): FormInput {
         $data = null;
-        if ($element->getDefinition()->dataType() !== Type::NULL) {
-            $data = $this->dataValueForInput($element->getData());
+        if ($element->getData()->type() !== Type::NULL) {
+            $data = $element->getData()->value();
         }
+
+        $raw_values = [];
+        $sources_by_value = [];
+        foreach ($this->element_vocab_helper->vocabulariesForSlot($slot) as $vocab) {
+            $values_from_vocab = iterator_to_array($vocab->values());
+
+            $raw_values = array_merge($raw_values, $values_from_vocab);
+            $sources_by_value = array_merge(
+                $sources_by_value,
+                array_fill_keys($values_from_vocab, $vocab->source())
+            );
+        }
+        if ($add_value_from_data && isset($data) && !in_array($data, $raw_values)) {
+            array_unshift($raw_values, $data);
+        }
+
         $values = [];
-        $use_data_as_value = false;
-        foreach ($this->vocabularies->vocabulariesForElement($element) as $vocab) {
-            if ($condition_value !== '' && $vocab->condition()?->value() !== $condition_value) {
-                continue;
-            }
-            foreach ($vocab->values() as $value) {
-                if ($data === $value) {
-                    $use_data_as_value = true;
-                }
-                $values[$value] = $this->presenter->data()->vocabularyValue($value);
-            }
+        foreach ($this->presenter->data()->vocabularyValues($slot, ...$raw_values) as $labelled_value) {
+            $values[$labelled_value->value()] = $labelled_value->label();
         }
-        $input = $this->ui_factory->select('placeholder', $values);
-        if ($use_data_as_value && isset($data)) {
+
+        $input = $this->ui_factory->select(
+            $this->getInputLabelFromElement($this->presenter, $element, $context_element),
+            $values
+        );
+        if ($add_value_from_data && isset($data)) {
             $input = $input->withValue($data);
         }
-        return $input;
+
+        $source_path = $this->getPathToSourceElement($element);
+        return $this->addConstraintsFromElement($this->constraint_dictionary, $element, $input)
+                    ->withAdditionalTransformation(
+                        $this->refinery->custom()->transformation(function ($vs) use ($sources_by_value, $source_path) {
+                            $source = $sources_by_value[$vs] ?? null;
+                            return [
+                                $vs,
+                                [$source_path->toString() => $source]
+                            ];
+                        })
+                    );
     }
 
-    protected function dataValueForInput(DataInterface $data): string
-    {
-        $value = strtolower(
-            preg_replace('/(?<=[a-z])(?=[A-Z])/', ' ', $data->value())
+    public function getInput(
+        ElementInterface $element,
+        ElementInterface $context_element
+    ): FormInput {
+        return $this->rawInput(
+            $element,
+            $context_element,
+            $slot = $this->element_vocab_helper->slotForElement($element),
+            true
         );
-        $exceptions = [
-            'is part of' => 'ispartof', 'has part' => 'haspart',
-            'is version of' => 'isversionof', 'has version' => 'hasversion',
-            'is format of' => 'isformatof', 'has format' => 'hasformat',
-            'references' => 'references',
-            'is referenced by' => 'isreferencedby',
-            'is based on' => 'isbasedon', 'is basis for' => 'isbasisfor',
-            'requires' => 'requires', 'is required by' => 'isrequiredby',
-        ];
-        if (array_key_exists($value, $exceptions)) {
-            $value = $exceptions[$value];
+    }
+
+    public function getInputInCondition(
+        ElementInterface $element,
+        ElementInterface $context_element,
+        SlotIdentifier $conditional_slot
+    ): FormInput {
+        $slot = $this->element_vocab_helper->slotForElement($element);
+        return $this->rawInput(
+            $element,
+            $context_element,
+            $conditional_slot,
+            $slot === $conditional_slot
+        );
+    }
+
+    public function getPathToSourceElement(ElementInterface $element): PathInterface
+    {
+        foreach ($element->getSuperElement()->getSubElements() as $el) {
+            if ($el->getDefinition()->dataType() === Type::VOCAB_SOURCE) {
+                return $this->path_factory->toElement($el, true);
+            }
         }
-        return $value;
+        throw new \ilMDEditorException('Vocab values must not be separated from their source.');
     }
 }

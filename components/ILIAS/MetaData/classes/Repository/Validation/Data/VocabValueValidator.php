@@ -25,33 +25,11 @@ use ILIAS\MetaData\Elements\ElementInterface;
 class VocabValueValidator implements DataValidatorInterface
 {
     use DataFetcher;
-    use VocabularyBridge;
 
     public function isValid(
         ElementInterface $element,
         bool $ignore_marker
     ): bool {
-        $vocab_values = [];
-        foreach ($this->vocabularies($element, $ignore_marker) as $vocabulary) {
-            $vocab_values = array_merge(
-                $vocab_values,
-                iterator_to_array($vocabulary->values())
-            );
-        }
-        return in_array(
-            $this->normalize($this->dataValue($element, $ignore_marker)),
-            array_map(
-                fn (string $s) => $this->normalize($s),
-                $vocab_values
-            )
-        );
-    }
-
-    /**
-     * This is done to ensure backwards compatibility.
-     */
-    protected function normalize(string $string): string
-    {
-        return str_replace(' ', '', strtolower($string));
+        return true;
     }
 }

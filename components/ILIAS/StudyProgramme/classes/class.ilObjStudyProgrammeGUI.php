@@ -599,7 +599,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
             case 'settings':
                 $this->tabs_gui->addSubTab(
                     'settings',
-                    $this->lng->txt('settings'),
+                    $this->lng->txt('general'),
                     $this->getLinkTarget('settings')
                 );
 

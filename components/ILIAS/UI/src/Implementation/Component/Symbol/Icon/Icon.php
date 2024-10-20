@@ -66,6 +66,13 @@ abstract class Icon implements C\Symbol\Icon\Icon
         $this->label = $label;
     }
 
+    public function withLabel(string $label): self
+    {
+        $clone = clone $this;
+        $clone->label = $label;
+        return $clone;
+    }
+
     /**
      * @inheritdoc
      */

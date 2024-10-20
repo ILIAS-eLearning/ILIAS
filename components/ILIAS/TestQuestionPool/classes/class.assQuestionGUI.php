@@ -888,9 +888,6 @@ abstract class assQuestionGUI
             if ($this->object->getAdditionalContentEditingMode() !== assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_IPE) {
                 $question->setUseRte(true);
                 $question->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
-                $question->addPlugin("latex");
-                $question->addButton("latex");
-                $question->addButton("pastelatex");
                 $question->setRTESupport($this->object->getId(), "qpl", "assessment");
             }
         } else {

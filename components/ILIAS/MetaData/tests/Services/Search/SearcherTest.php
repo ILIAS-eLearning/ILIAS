@@ -21,14 +21,14 @@ declare(strict_types=1);
 namespace ILIAS\MetaData\Services\Search;
 
 use PHPUnit\Framework\TestCase;
-use ILIAS\MetaData\Repository\Search\Clauses\NullFactory as NullClauseFactory;
-use ILIAS\MetaData\Repository\Search\Filters\NullFactory as NullFilterFactory;
-use ILIAS\MetaData\Repository\Search\Filters\FilterInterface;
-use ILIAS\MetaData\Repository\Search\Filters\NullFilter;
+use ILIAS\MetaData\Search\Clauses\NullFactory as NullClauseFactory;
+use ILIAS\MetaData\Search\Filters\NullFactory as NullFilterFactory;
+use ILIAS\MetaData\Search\Filters\FilterInterface;
+use ILIAS\MetaData\Search\Filters\NullFilter;
 use ILIAS\MetaData\Repository\NullRepository;
-use ILIAS\MetaData\Repository\Search\Clauses\ClauseInterface;
-use ILIAS\MetaData\Repository\Search\Clauses\NullClause;
-use ILIAS\MetaData\Repository\Search\Filters\Placeholder;
+use ILIAS\MetaData\Search\Clauses\ClauseInterface;
+use ILIAS\MetaData\Search\Clauses\NullClause;
+use ILIAS\MetaData\Search\Filters\Placeholder;
 
 class SearcherTest extends TestCase
 {

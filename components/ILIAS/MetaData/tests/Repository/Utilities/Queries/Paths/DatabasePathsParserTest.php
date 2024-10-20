@@ -31,7 +31,7 @@ use ILIAS\MetaData\Paths\Steps\StepInterface;
 use ILIAS\MetaData\Elements\Data\Type as DataType;
 use ILIAS\MetaData\Paths\Filters\FilterType;
 use ILIAS\MetaData\Repository\Dictionary\NullTag;
-use ILIAS\MetaData\Vocabularies\Dictionary\LOMDictionaryInitiator as LOMVocabInitiator;
+use ILIAS\MetaData\Vocabularies\Factory\FactoryInterface as LOMVocabInitiator;
 use ILIAS\MetaData\Paths\Steps\StepToken;
 use ILIAS\MetaData\Paths\Filters\FilterInterface as PathFilter;
 use ILIAS\MetaData\Paths\Filters\NullFilter as NullPathFilter;
@@ -81,9 +81,7 @@ class DatabasePathsParserTest extends TestCase
             protected function getTagForCurrentStepOfNavigator(
                 StructureNavigatorInterface $navigator
             ): ?TagInterface {
-                return $navigator->currentStep()->tag->data_type === DataType::VOCAB_SOURCE ?
-                    null :
-                    $navigator->currentStep()->tag;
+                return $navigator->currentStep()->tag;
             }
 
             protected function getDataTypeForCurrentStepOfNavigator(StructureNavigatorInterface $navigator): DataType
@@ -387,28 +385,6 @@ class DatabasePathsParserTest extends TestCase
         );
     }
 
-    public function testGetSelectForQueryWithPathToVocabSourceAdded(): void
-    {
-        $parser = $this->getDatabasePathsParser();
-        $data_column = $parser->addPathAndGetColumn(
-            $this->getPath(
-                $this->getTag('table', '', '', 'step1'),
-                $this->getTag('', '', '', 'step2', DataType::VOCAB_SOURCE)
-            ),
-            false
-        );
-
-        $this->assertSame(
-            '~text:' . LOMVocabInitiator::SOURCE . '~',
-            $data_column
-        );
-        $this->assertSame(
-            'SELECT ~identifier:p1t1~.rbac_id, ~identifier:p1t1~.obj_id, ~identifier:p1t1~.obj_type ' .
-            'FROM ~identifier:table_name~ AS ~identifier:p1t1~',
-            $parser->getSelectForQuery()
-        );
-    }
-
     public function testGetSelectForQueryWithSinglePathAddedMultipleTimes(): void
     {
         $parser = $this->getDatabasePathsParser();
@@ -694,37 +670,6 @@ class DatabasePathsParserTest extends TestCase
             '~identifier:table2_name~ AS ~identifier:p1t2~ ON ' .
             "COALESCE(~identifier:p1t1~.~identifier:filter_data~, '') " .
             'IN (~text:some data~, ~text:some other data~, ~text:more~) AND ' .
-            '~identifier:p1t1~.rbac_id = ~identifier:p1t2~.rbac_id AND ' .
-            '~identifier:p1t1~.obj_id = ~identifier:p1t2~.obj_id AND ' .
-            '~identifier:p1t1~.obj_type = ~identifier:p1t2~.obj_type AND ' .
-            'p1t1.~identifier:table1_id~ = ~identifier:p1t2~.parent_id AND ' .
-            '~text:table1~ = ~identifier:p1t2~.parent_type',
-            $parser->getSelectForQuery()
-        );
-    }
-
-    public function testGetSelectForQueryWithPathWithDataFilterOnVocabSourceAdded(): void
-    {
-        $parser = $this->getDatabasePathsParser();
-        $filter = $this->getPathFilter(
-            FilterType::DATA,
-            'some data'
-        );
-        $data_column = $parser->addPathAndGetColumn(
-            $this->getPath(
-                $this->getTag('table1', '', '', 'step1'),
-                $this->getTag('table1', '', 'filter_data', 'step2', DataType::VOCAB_SOURCE, $filter),
-                $this->getTag('table2', 'table1', '', 'step3'),
-                $this->getTag('table2', 'table1', 'data', 'step4')
-            ),
-            false
-        );
-
-        $this->assertSame(
-            'SELECT ~identifier:p1t1~.rbac_id, ~identifier:p1t1~.obj_id, ~identifier:p1t1~.obj_type ' .
-            'FROM ~identifier:table1_name~ AS ~identifier:p1t1~ JOIN ' .
-            '~identifier:table2_name~ AS ~identifier:p1t2~ ON ' .
-            '~text:' . LOMVocabInitiator::SOURCE . '~ IN (~text:some data~) AND ' .
             '~identifier:p1t1~.rbac_id = ~identifier:p1t2~.rbac_id AND ' .
             '~identifier:p1t1~.obj_id = ~identifier:p1t2~.obj_id AND ' .
             '~identifier:p1t1~.obj_type = ~identifier:p1t2~.obj_type AND ' .

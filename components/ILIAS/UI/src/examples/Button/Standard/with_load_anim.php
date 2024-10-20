@@ -22,16 +22,17 @@ function with_load_anim()
         $f->button()->standard("Do Something", "")
             ->withLoadingAnimationOnClick(true)
             ->withOnLoadCode(function ($id) {
-                return
-                    "$('#$id').click(function(e) {
-							$('#$id').html('Working...');
-							setInterval(
-								function(){
-									$('#$id').html('Done');
-									il.UI.button.deactivateLoadingAnimation('$id');
-								}
-							,3000);
-					});";
+                return " $('#$id').click(
+                    function(e) {
+                       $('#$id').html('Working...');
+                       setInterval(
+                            function(){
+                                $('#$id').html('Done');
+                                il.UI.button.deactivateLoadingAnimation('$id');
+                            }
+                            ,3000
+                        );
+                    });";
             })
     );
 }

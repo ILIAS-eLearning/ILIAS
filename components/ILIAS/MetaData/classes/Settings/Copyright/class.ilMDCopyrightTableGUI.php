@@ -29,7 +29,6 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
 {
     protected UIFactory $ui_factory;
     protected UIRenderer $ui_renderer;
-    protected ilMDSettingsModalService $modal_service;
 
     protected bool $has_write;
 
@@ -41,7 +40,7 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
     protected array $edit_modal_signals = [];
 
     public function __construct(
-        ilMDCopyrightSelectionGUI $parent_obj,
+        ilMDCopyrightConfigurationGUI $parent_obj,
         string $parent_cmd = '',
         bool $has_write = false
     ) {
@@ -49,9 +48,6 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
 
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
-        $this->modal_service = new ilMDSettingsModalService(
-            $this->ui_factory
-        );
 
         $this->has_write = $has_write;
 

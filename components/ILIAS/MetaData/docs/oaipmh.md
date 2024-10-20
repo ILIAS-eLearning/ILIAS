@@ -8,16 +8,33 @@ The OER Harvester is a cron job that can find and collect Objects under
 appropriate [copyright licences](copyrights.md) in the Repository of the installation.
 These objects are referenced in a pre-configured Category such that for
 example a public area on an installation can automatically be populated
-with OER found on the installation.
+with OER found on the installation. Additionally, the Harvester automatically
+generates 'Public Access' export files for harvested Objects without one.
 
 Further, an OAI-PMH interface can be activated, with which appropriate Objects
-in a Category can be queried externally. For example, OER referatories can
-then harvest the OER previously collected in the public area.
+in a Category can be queried externally. The information given out contains,
+among other useful metadata, static links to the Objects, and download links
+for their 'Public Access' export files. For example, OER referatories can
+then harvest the OER previously collected in the public area, and directly link
+to the Objects and their exports.
 
 ### Supported Object Types
 
-Currently, the OER Harvester and OAI-PMH interface only work with File
-objects.
+Currently, the OER Harvester and OAI-PMH interface only work with the
+following objects:
+
+- File
+- Glossary
+- Content Page
+- Learning Module ILIAS
+- Learning Module SCORM
+- Learning Module HTML
+- Question Pool Survey
+- Question Pool Test
+- Mediapool
+
+In the OER Harvester cron job configuration, these types can be disabled
+individually.
 
 ## OER Harvester
 
@@ -27,7 +44,8 @@ The OER Harvester needs to be activated in the 'Cron Jobs' Administration.
 For it to actually harvest Objects, copyright selection has to be enabled in
 the 'Metadata' Administration. In the cron job configuration of the Harvester,
 to-be-collected licences then need to be chosen, along with Categories
-for the harvested and published OER (see below for details).
+for the harvested and published OER (see below for details). Further,
+supported object types can be disabled indivdiually.
 
 Disabling the copyright selection again after Objects have already had
 licences assigned is not recommended, and can lead to unpredictable results
@@ -36,33 +54,44 @@ when running the OER Harvester.
 ### Harvesting
 
 When executed, the OER Harvester will search the installation for eligible
-Objects, and reference them in the pre-configured Category for harvested OER.
+Objects. All Objects found are then referenced in the pre-configured Category
+for harvested OER. In addition, if the Objects do not have an export file flagged
+as 'Public Access', a new export file is automatically generated for
+them, and set to 'Public Access'.
+
 The following conditions must be fulfilled for an Object to be harvested:
 
 - The Object must be in the Repository, and it must not be in the
   Trash (or deleted entirely).
-- The Object must be of a supported type.
+- The Object must be of a supported type, and that type must not be
+  disabled in the Harvester's cron job configuration.
 - In the Object's LOM, the copyright must be one of those selected in the
-Harvester's cron job configuration.
+  Harvester's cron job configuration.
 - The Object must not be blocked from being harvested (see 
-[below](#blocking-individual-objects)).
+  [below](#blocking-individual-objects)).
 - The Object must not already be harvested. Objects whose reference was 
-manually deleted from the Category for harvested OER still count as harvested.
+  manually deleted from the Category for harvested OER still count as harvested.
 - In the Harvester's cron job configuration, a Category for harvested OER
-must be set.
+  must be set.
 
 If any of these conditions except the last two are not fulfilled any more for a
 previously harvested Object, the Harvester deletes its reference from the
-Category for harvested OER. Additionally, it does not count as harvested
+Category for harvested OER. It does however not also deleted automatically
+generated export files. The Object then does not count as harvested
 any more, and could thus be harvested again in the future. Only Objects
 unflagged in this way can be harvested again.
-
 
 ### Blocking Individual Objects
 
 Users with access to an Object's 'Metadata'-tab can block the Object from
 being harvested. The option is offered when choosing an eligible copyright
-licence for an Object with a type supported by the Harvester.
+licence for an Object with a type supported by the Harvester (and not
+disabled in the configuration).
+
+Note that when an Object's copyright is changed in the 'Metadata'-tab (but
+not in the full LOM editor), and the option to block an object from
+being harvested is offered but not taken, the user is notified about the
+Object potentially being published, and asked for confirmation.
 
 Blocking an already harvested Object will lead to its reference in the
 Category for harvested OER being deleted when the Harvester is executed next.
@@ -75,13 +104,14 @@ compiled for an Object if the following conditions are fulfilled:
 
 - The Object must be in the Repository, and it must not be in the
   Trash (or deleted entirely).
-- The Object must be of a supported type.
+- The Object must be of a supported type, and that type must not be
+  disabled in the Harvester's cron job configuration.
 - In the Object's LOM, the copyright must be one of those selected in the
   Harvester's cron job configuration.
 - The Object must not be blocked from being harvested (see
   [below](#blocking-individual-objects)).
 - The Object must have a reference in the Category for published OER.
-That reference can also be in a (nested) Subobject of the Category.
+  That reference can also be in a (nested) Subobject of the Category.
 - In the Harvester's cron job configuration, a Category for published OER
   must be set.
 
@@ -130,9 +160,9 @@ some information has to be filled out there to determine how the installation
 should identify itself via the interface:
 
 - **Repository Name and Contact E-Mail** are used in responses to
-`Identify`-requests to the interface.
+  `Identify`-requests to the interface.
 - **OAI Prefix** is used as a namespace for the identifiers of records.
-The identifiers are generated as `{prefix}il__{Object Type}_{Object ID}`.
+  The identifiers are generated as `{prefix}il__{Object Type}_{Object ID}`.
 
 While it is technically possible to enable the interface but not the OER
 Harvester, no records will be returned without it. It is also recommended
@@ -142,12 +172,13 @@ always kept up to date.
 ### Implementation
 
 The implementation of the OAI-PMH interface is for the most part minimal, as specified 
-[here](https://www.openarchives.org/OAI/2.0/guidelines-repository.htm#MinimalImplementation).
-The only supported metadata format is Simple DC, there are no `about` containers,
-sets are not implemented, responses are not compressed, deletion of records
-is not tracked, and granularity of datestamps is `YYYY-MM-DD`.
+[here](https://www.openarchives.org/OAI/2.0/guidelines-repository.htm#MinimalImplementation). The only supported metadata format is Simple DC, there are
+no `about` containers, responses are not compressed, deletion of records
+is not tracked, and granularity of datestamps is `YYYY-MM-DD`. Only one
+trivial set named 'default' is implemented, which always contains all
+records, in case any consumers of the interface strictly require a set.
 
-However, the interface will return resumption tokens for lists with more
+The interface will however return resumption tokens for lists with more
 than 100 entries. The state of the request is encoded in the token, nothing
 is cached.
 
@@ -157,19 +188,19 @@ Records returned by the interface are compiled by the OER Harvester from
 Objects and their LOM. The Simple DC metadata elements in these records
 are derived as follows:
 
-| **DC Element** | **From LOM Element(s)**                                                                                   | **No. of Occurences** | **Additional Information**                                                                                                                               |
-|----------------|-----------------------------------------------------------------------------------------------------------|-----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| title          | `general > title > string`                                                                                | 1                     | with `general > title > language` as `xml:lang` attribute                                                                                                |
-| creator        | `entity` of `lifecycle > contribute` where `role > value` is 'author'                                     | any                   | order of authors will be respected                                                                                                                       |
-| subject        | `general > keyword > string`, and `taxonPath` of `classification` where `purpose > value` is 'discipline' | any                   | with corresponding `general > keyword > language` as `xml:lang` attribute, and each `taxonPath` represented by colon-separated `taxon > entry > strings` |
-| description    | `general > description > string`                                                                          | any                   | with corresponding `general > description > language` as `xml:lang` attribute                                                                            |
-| publisher      | `entity` of `lifecycle > contribute` where `role > value` is 'publisher'                                  | any                   | order of publishers will be respected                                                                                                                    |
-| contributor    | `entity` of `lifecycle > contribute` where `role > value` is not 'author' or 'publisher'                  | any                   | order of contributors will be respected                                                                                                                  |
-| date           | first `lifecycle > contribute > date`                                                                     | 0 or 1                | will be in `YYYY-MM-DD` format                                                                                                                           |
-| type           | `educational > learningResourceType > value`                                                              | any                   |                                                                                                                                                          |
-| format         | `technical > format`                                                                                      | any                   |                                                                                                                                                          |
-| identifier     | -                                                                                                         | 1                     | static link to the Object in the Category for published OER                                                                                              |
-| source         | `resource > identifier > entry` of `relation` where `kind > value` is 'isbasedon'                         | any                   |                                                                                                                                                          |
-| relation       | `resource > identifier > entry` of `relation` where `kind > value` is not 'isbasedon'                     | any                   |                                                                                                                                                          |
-| coverage       | `general > coverage > string`                                                                             | any                   | with corresponding `general > coverage > language` as `xml:lang` attribute                                                                               |
-| rights         | `rights > description > string`                                                                           | 1                     | If a [pre-configured license](copyrights.md) is chosen for the Object, it is given by its full name and link.                                            |
+| **DC Element** | **From LOM Element(s)**                                                                                   | **No. of Occurences** | **Additional Information**                                                                                                                                                                                         |
+|----------------|-----------------------------------------------------------------------------------------------------------|-----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| title          | `general > title > string`                                                                                | 1                     | with `general > title > language` as `xml:lang` attribute                                                                                                                                                          |
+| creator        | `entity` of `lifecycle > contribute` where `role > value` is 'author'                                     | any                   | order of authors will be respected                                                                                                                                                                                 |
+| subject        | `general > keyword > string`, and `taxonPath` of `classification` where `purpose > value` is 'discipline' | any                   | with corresponding `general > keyword > language` as `xml:lang` attribute, and each `taxonPath` represented by colon-separated `taxon > entry > strings`                                                           |
+| description    | `general > description > string`                                                                          | any                   | with corresponding `general > description > language` as `xml:lang` attribute                                                                                                                                      |
+| publisher      | `entity` of `lifecycle > contribute` where `role > value` is 'publisher'                                  | any                   | order of publishers will be respected                                                                                                                                                                              |
+| contributor    | `entity` of `lifecycle > contribute` where `role > value` is not 'author' or 'publisher'                  | any                   | order of contributors will be respected                                                                                                                                                                            |
+| date           | first `lifecycle > contribute > date`                                                                     | 0 or 1                | will be in `YYYY-MM-DD` format                                                                                                                                                                                     |
+| type           | `educational > learningResourceType > value`                                                              | any                   |                                                                                                                                                                                                                    |
+| format         | `technical > format`                                                                                      | any                   |                                                                                                                                                                                                                    |
+| identifier     | -                                                                                                         | 1 or 2                | The first identifier always contains static link to the Object in the Category for published OER. If the Object has a 'Public Access' export file, a download link to the file is included in a second identifier. |
+| source         | `resource > identifier > entry` of `relation` where `kind > value` is 'isbasedon'                         | any                   |                                                                                                                                                                                                                    |
+| relation       | `resource > identifier > entry` of `relation` where `kind > value` is not 'isbasedon'                     | any                   |                                                                                                                                                                                                                    |
+| coverage       | `general > coverage > string`                                                                             | any                   | with corresponding `general > coverage > language` as `xml:lang` attribute                                                                                                                                         |
+| rights         | `rights > description > string`                                                                           | 1                     | If a [pre-configured license](copyrights.md) is chosen for the Object, it is given by its full name and link.                                                                                                      |

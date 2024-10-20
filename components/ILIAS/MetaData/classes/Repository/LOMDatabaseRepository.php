@@ -20,15 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\Repository;
 
-use ILIAS\MetaData\Repository\Validation\CleanerInterface;
+use ILIAS\MetaData\Repository\Validation\ProcessorInterface;
 use ILIAS\MetaData\Elements\RessourceID\RessourceIDInterface;
 use ILIAS\MetaData\Repository\Utilities\DatabaseManipulatorInterface;
 use ILIAS\MetaData\Elements\SetInterface;
 use ILIAS\MetaData\Paths\PathInterface;
 use ILIAS\MetaData\Repository\Utilities\DatabaseReaderInterface;
 use ILIAS\MetaData\Elements\RessourceID\RessourceIDFactoryInterface;
-use ILIAS\MetaData\Repository\Search\Clauses\ClauseInterface;
-use ILIAS\MetaData\Repository\Search\Filters\FilterInterface;
+use ILIAS\MetaData\Search\Clauses\ClauseInterface;
+use ILIAS\MetaData\Search\Filters\FilterInterface;
 use ILIAS\MetaData\Repository\Utilities\Queries\DatabaseSearcherInterface;
 use ILIAS\MetaData\Repository\IdentifierHandler\IdentifierHandlerInterface;
 
@@ -38,7 +38,7 @@ class LOMDatabaseRepository implements RepositoryInterface
     protected DatabaseManipulatorInterface $manipulator;
     protected DatabaseReaderInterface $reader;
     protected DatabaseSearcherInterface $searcher;
-    protected CleanerInterface $cleaner;
+    protected ProcessorInterface $processor;
     protected IdentifierHandlerInterface $identifier_handler;
 
     public function __construct(
@@ -46,14 +46,14 @@ class LOMDatabaseRepository implements RepositoryInterface
         DatabaseManipulatorInterface $manipulator,
         DatabaseReaderInterface $reader,
         DatabaseSearcherInterface $searcher,
-        CleanerInterface $cleaner,
+        ProcessorInterface $processor,
         IdentifierHandlerInterface $identifier_handler
     ) {
         $this->ressource_factory = $ressource_factory;
         $this->manipulator = $manipulator;
         $this->reader = $reader;
         $this->searcher = $searcher;
-        $this->cleaner = $cleaner;
+        $this->processor = $processor;
         $this->identifier_handler = $identifier_handler;
     }
 
@@ -62,7 +62,7 @@ class LOMDatabaseRepository implements RepositoryInterface
         int $sub_id,
         string $type
     ): SetInterface {
-        return $this->cleaner->clean(
+        return $this->processor->finishAndCleanData(
             $this->reader->getMD(
                 $this->ressource_factory->ressourceID($obj_id, $sub_id, $type)
             )
@@ -75,7 +75,7 @@ class LOMDatabaseRepository implements RepositoryInterface
         int $sub_id,
         string $type
     ): SetInterface {
-        return $this->cleaner->clean(
+        return $this->processor->finishAndCleanData(
             $this->reader->getMDOnPath(
                 $path,
                 $this->ressource_factory->ressourceID($obj_id, $sub_id, $type)
@@ -97,7 +97,7 @@ class LOMDatabaseRepository implements RepositoryInterface
 
     public function manipulateMD(SetInterface $set): void
     {
-        $this->cleaner->checkMarkers($set);
+        $this->processor->checkMarkers($set);
         $this->manipulator->manipulateMD($set);
     }
 
@@ -111,9 +111,9 @@ class LOMDatabaseRepository implements RepositoryInterface
         $to_ressource_id = $this->ressource_factory->ressourceID($to_obj_id, $to_sub_id, $to_type);
 
         if ($throw_error_if_invalid) {
-            $this->cleaner->checkMarkers($from_set);
+            $this->processor->checkMarkers($from_set);
         } else {
-            $this->cleaner->cleanMarkers($from_set);
+            $this->processor->cleanMarkers($from_set);
         }
         $from_set = $this->identifier_handler->prepareUpdateOfIdentifier($from_set, $to_ressource_id);
         $this->manipulator->deleteAllMD($to_ressource_id);

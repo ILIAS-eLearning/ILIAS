@@ -3210,7 +3210,6 @@ cmix#:#conf_use_proxy#:#xAPI-Proxy
 cmix#:#conf_use_proxy_info#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cronjob „xAPI/cmi5 Ergebnisse holen“. Für cmi5-Objekte ist der xAPI-Proxy zwingend erforderlich und wird automatisch aktiviert.
 cmix#:#conf_use_proxy_info_cmi5#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Für cmi5-Objekte ist der xAPI-Proxy zwingend erforderlich.
 cmix#:#conf_use_proxy_info_xapi#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cronjob „xAPI/cmi5 Ergebnisse holen“.
-cmix#:#conf_user_ident#:#Identifikation der Person
 cmix#:#conf_user_ident#:#Schlüssel zur Identifikation einer Person
 cmix#:#conf_user_ident_il_uuid_ext_account#:#ID-externes-Konto@ILIAS-Plattform-ID.ilias
 cmix#:#conf_user_ident_il_uuid_ext_account_info#:#Die E-Mail-Adresse setzt sich zusammen aus der ID eines externen Kontos und einer eigens generierten Plattform-ID. Diese Option ermöglicht Rückschlüsse auf die Person.zulassen.
@@ -11865,7 +11864,13 @@ meta#:#md_days#:#Tage:
 meta#:#md_delete_cp_sure#:#Möchten Sie wirklich die ausgewählten Vorgaben entfernen?
 meta#:#md_delimiter#:#Trennzeichen
 meta#:#md_delimiter_info#:#Das Trennzeichen wird in der Schnellbearbeitung der Metadaten verwendet, um mehrere Angaben zu trennen. Standardzeichen ist ','.###Modified as part of gender mainstreaming activities for ILIAS 8
+meta#:#md_editor_custom_input#:#Eigene Angabe
+meta#:#md_editor_from_vocab_input#:#Aus Vokabular
+meta#:#md_editor_value#:#Begriff
 meta#:#md_fields#:#Felder
+meta#:#md_import_file_vocab#:#Importdatei
+meta#:#md_import_vocab#:#Import
+meta#:#md_import_vocab_modal#:#Aus Datei importieren
 meta#:#md_months#:#Monate:
 meta#:#md_oai_contact_mail#:#E-Mail-Kontaktadresse
 meta#:#md_oai_identifier_prefix#:#OAI Präfix
@@ -11879,7 +11884,35 @@ meta#:#md_record_export_table#:#Exportdateien
 meta#:#md_record_list_table#:#Benutzerdefinierte Metadatensätze
 meta#:#md_separated_by#:#Getrennt mit %s
 meta#:#md_time#:#Zeit:
+meta#:#md_unknown_vocabulary_flag#:#(unbekanntes Vokabular)
 meta#:#md_used#:#Verwendung (Anzahl)
+meta#:#md_vocab_activate_action#:#Aktivieren
+meta#:#md_vocab_active_column#:#Aktiv
+meta#:#md_vocab_all_values_title#:#Begriffe für %s (%s)
+meta#:#md_vocab_allow_custom_input_action#:#Eigene Angaben erlauben
+meta#:#md_vocab_custom_input_column#:#Erlaubt eigene Angaben
+meta#:#md_vocab_deactivate_action#:#Deaktivieren
+meta#:#md_vocab_delete_action#:#Löschen
+meta#:#md_vocab_delete_confirmation_text#:#Sind Sie sicher, dass sie dass Vokabular %s (%s) mit den folgenden Begriffen löschen wollen?
+meta#:#md_vocab_delete_confirmation_title#:#Vokabular löschen
+meta#:#md_vocab_deletion_successful#:#Vokabular erfolgreich gelöscht.
+meta#:#md_vocab_disallow_custom_input_action#:#Keine eigenen Angaben erlauben
+meta#:#md_vocab_element_column#:#Element
+meta#:#md_vocab_element_with_condition#:#%s mit %s %s
+meta#:#md_vocab_import_invalid#:#Die Importdatei ist ungültig:<br/>%s
+meta#:#md_vocab_import_successful#:#Vokabular erfolgreich imported.
+meta#:#md_vocab_import_upload_failed#:#Das Hochladen der Importdatei ist fehlgeschlagen.
+meta#:#md_vocab_preview_column#:#Vorschau
+meta#:#md_vocab_show_all_action#:#Alle Begriffe anzeigen
+meta#:#md_vocab_source_column#:#Quelle
+meta#:#md_vocab_table_title#:#Vokabulare
+meta#:#md_vocab_type_column#:#Typ
+meta#:#md_vocab_type_controlled_string#:#Kontrollierter Text
+meta#:#md_vocab_type_controlled_vocab_value#:#Kontrollierte Auswahl
+meta#:#md_vocab_type_copyright#:#Copyright
+meta#:#md_vocab_type_standard#:#Standard
+meta#:#md_vocab_update_successful#:#Vokabular erfolgreich aktualisiert.
+meta#:#md_vocabularies_config#:#LOM Vokabulare
 meta#:#meta_1#:#1
 meta#:#meta_2#:#2
 meta#:#meta_3#:#3
@@ -12168,6 +12201,7 @@ meta#:#meta_contribute_plural#:#Beiträge
 meta#:#meta_copyright#:#Copyright
 meta#:#meta_copyright_and_other_restrictions#:#Copyright und andere Einschränkungen
 meta#:#meta_copyright_change_info#:#Beachten Sie unbedingt das Urheberrecht, wenn Sie die Lizenz für dieses Objekt ändern. Bitte fahren Sie nur fort, wenn Sie befugt sind, über die Nutzungsrechte an dem Objekt zu entscheiden.###Modified as part of gender mainstreaming activities for ILIAS 8
+meta#:#meta_copyright_change_oer_info#:#Die Lizenz, die Sie ausgewählt haben, zeichnet das Object als Open Educational Resource aus. Wenn Sie fortfahren, wird es eventuell als solches mit einer Exportdatei gelistet, und über diese Plattform hinaus veröffentlicht.
 meta#:#meta_copyright_change_warning_title#:#Lizenz ändern###Modified as part of gender mainstreaming activities for ILIAS 8
 meta#:#meta_copyright_in_use#:#Aktuell
 meta#:#meta_copyright_outdated#:#Veraltet
@@ -12438,7 +12472,8 @@ meta#:#meta_oer_copyright_selection#:#Lizenzauswahl
 meta#:#meta_oer_copyright_selection_info#:#Nur Objekte, die unter einer der ausgewählten Lizenzen veröffentlicht wurden, werden in die OER-Kategorie verknüpft.
 meta#:#meta_oer_exposed_source#:#Kategorie für veröffentlichte OER
 meta#:#meta_oer_harvester#:#OER Harvester
-meta#:#meta_oer_harvester_desc#:#Scannt alle Dateiobjekte im Magazin auf ihre Lizenz. Der OER-Harvester fügt alle Ressourcen unter ausgewählten CC-Lizenzen der in den Cron-Job-Einstellungen definierten Kategorie hinzu. Damit dieser Cronjob Ergebnisse liefern kann, muss die Copyright-Auswahl in der Metadaten-Administration aktiviert und konfiguriert sein.
+meta#:#meta_oer_harvester_desc#:#Der OER-Harvester sammelt alle Ressourcen unter ausgewählten CC-Lizenzen, fügt sie einer in den Cron-Job-Einstellungen definierten Kategorie hinzu, und generiert wenn nötig Exportdateien für sie. Für die für Veröffentlichung bereite Ressourcen werden Einträge angelegt, die (wenn aktiviert) über eine OAI-PMH Schnittstelle ausgelesen werden können. Damit dieser Cronjob Ergebnisse liefern kann, muss die Copyright-Auswahl in der Metadaten-Administration aktiviert und konfiguriert sein. Nur Dateiobjekte, Glossare, Inhaltsseiten, Lernmodule (ILIAS, SCORM, und HTML), Fragenpools (für Umfragen und Tests), und Medienpools werden unterstützt.
+meta#:#meta_oer_object_type_selection#:#Zulässige Objekttypen
 meta#:#meta_oer_target#:#Kategorie für freigegebene OER
 meta#:#meta_opera#:#Opera
 meta#:#meta_operating_system#:#Betriebssystem
@@ -16103,7 +16138,6 @@ survey#:#cancel_survey#:#Umfrage unterbrechen
 survey#:#cannot_read_survey#:#Sie haben keine ausreichende Berechtigung, um auf die Umfragedaten zugreifen zu können!
 survey#:#cannot_switch_to_online_no_questions#:#Der Status kann nicht auf &quot;online (aktiviert)&quot; geändert werden, da der Umfrage noch keine Fragen hinzugefügt wurden!
 survey#:#cant_send_email_smtp_disabled#:#Das Versenden von externen E-Mails ist zurzeit global deaktiviert.
-survey#:#categories#:#Antworten
 survey#:#category#:#Antwort
 survey#:#category_nr_selected#:#Anzahl der Auswahlen
 survey#:#chart#:#Diagramm
@@ -16560,6 +16594,7 @@ survey#:#svy_answer_too_long#:#Ihre Antwort ist zu lang (%s Zeichen). Bitte kür
 survey#:#svy_app_see_rater_info#:#Feedbacknehmende können auf den Ergebnisseiten einsehen, welche Feedbackgebenden die Antworten gegeben haben, inkl. Namen und E-Mail, sofern diese beim Anlegen der Feedbackgebenden angegeben wurden.
 survey#:#svy_appraisses_cannot_be_raters#:#Benutzer können sich nicht selbst als Feedback-Geber zuordnen. Nutzen Sie stattdessen die Option "Selbsteinschätzung" in den Einstellungen der Umfrage.
 survey#:#svy_back#:#Zurück
+survey#:#svy_categories#:#Antworten
 survey#:#svy_check_evaluation_access_introduction#:#Da diese Auswertung nur für befragte Personen verfügbar ist, müssen Sie Ihren Zugangsschlüssel für die Umfrage angeben, um die Auswertung zu öffnen.
 survey#:#svy_check_evaluation_authentication_needed#:#Authentifizierung erforderlich
 survey#:#svy_check_evaluation_wrong_key#:#Sie haben einen falschen Zugangsschlüssel für die Umfrage angegeben oder nicht an der Umfrage teilgenommen. Der Zugang zur Auswertung wurde Ihnen deshalb verwehrt.
@@ -17148,6 +17183,7 @@ ui#:#table_posinput_col_title#:#Position
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Verbleibende Buchstaben
+ui#:#ui_error#:#Fehler
 ui#:#ui_error_in_group#:#Es gibt einen Fehler in diesem Bereich.
 ui#:#ui_error_switchable_group_required#:#Bitte treffen Sie eine Auswahl.
 ui#:#ui_file_input_general_error#:#Es ist ein Fehler aufgetreten. Sie können in der JavaSkript-Konsole Ihres Browser nachschauen, ob es weitere Informationen zu diesem Fehler gibt, und/oder die Administration Ihrer ILIAS-Installation über den Vorfall informieren.

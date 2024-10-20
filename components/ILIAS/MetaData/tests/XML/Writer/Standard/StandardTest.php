@@ -36,16 +36,13 @@ use ILIAS\MetaData\XML\Version;
 use ILIAS\MetaData\XML\Dictionary\TagInterface;
 use ILIAS\MetaData\XML\Dictionary\NullTag;
 use ILIAS\MetaData\XML\SpecialCase;
-use ILIAS\MetaData\Manipulator\ScaffoldProvider\NullScaffoldProvider;
-use ILIAS\MetaData\Manipulator\ScaffoldProvider\ScaffoldProviderInterface;
 use ILIAS\MetaData\Paths\NullFactory as NullPathFactory;
 use ILIAS\MetaData\Paths\BuilderInterface;
 use ILIAS\MetaData\Paths\NullBuilder;
 use ILIAS\MetaData\Paths\PathInterface;
 use ILIAS\MetaData\Paths\NullPath;
 use ILIAS\MetaData\Manipulator\NullManipulator;
-
-use function PHPUnit\Framework\assertGreaterThanOrEqual;
+use ILIAS\MetaData\Elements\Data\NullData;
 
 class StandardTest extends TestCase
 {
@@ -79,7 +76,7 @@ class StandardTest extends TestCase
 
             public function getData(): DataInterface
             {
-                return new class ($this->element_as_array) implements DataInterface {
+                return new class ($this->element_as_array) extends NullData {
                     public function __construct(protected array $element_as_array)
                     {
                     }

@@ -21,14 +21,20 @@ declare(strict_types=1);
 namespace ILIAS\MetaData\Elements\Data;
 
 use PHPUnit\Framework\TestCase;
+use ILIAS\MetaData\Vocabularies\Slots\Identifier as SlotIdentifier;
 
 class DataTest extends TestCase
 {
     public function testTypeAndValue(): void
     {
-        $data = new Data(Type::VOCAB_VALUE, 'value');
+        $data = new Data(
+            Type::VOCAB_VALUE,
+            'value',
+            SlotIdentifier::CLASSIFICATION_TAXON_ENTRY
+        );
 
         $this->assertSame($data->type(), Type::VOCAB_VALUE);
         $this->assertSame($data->value(), 'value');
+        $this->assertSame($data->vocabularySlot(), SlotIdentifier::CLASSIFICATION_TAXON_ENTRY);
     }
 }

@@ -13,7 +13,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -25,37 +26,37 @@ class ilSOAPAuth
 
         $settings = $ilSetting->getAll();
 
-        $server_hostname = (string) ($settings["soap_auth_server"] ?? '');
-        $server_port = (int) ($settings["soap_auth_port"] ?? 0);
-        $server_uri = (string) ($settings["soap_auth_uri"] ?? '');
-        $namespace = (string) ($settings["soap_auth_namespace"] ?? '');
-        $use_dotnet = (bool) ($settings["soap_auth_use_dotnet"] ?? false);
-        $uri = "http://";
-        if (isset($settings["soap_auth_use_https"]) && $settings["soap_auth_use_https"]) {
-            $uri = "https://";
+        $server_hostname = (string) ($settings['soap_auth_server'] ?? '');
+        $server_port = (int) ($settings['soap_auth_port'] ?? 0);
+        $server_uri = (string) ($settings['soap_auth_uri'] ?? '');
+        $namespace = (string) ($settings['soap_auth_namespace'] ?? '');
+        $use_dotnet = (bool) ($settings['soap_auth_use_dotnet'] ?? false);
+        $uri = 'http://';
+        if (isset($settings['soap_auth_use_https']) && $settings['soap_auth_use_https']) {
+            $uri = 'https://';
         }
 
         $uri .= $server_hostname;
 
         if ($server_port > 0) {
-            $uri .= ":" . $server_port;
+            $uri .= ':' . $server_port;
         }
 
-        if ($server_uri !== "") {
-            $uri .= "/" . $server_uri;
+        if ($server_uri !== '') {
+            $uri .= '/' . $server_uri;
         }
 
-        require_once './components/ILIAS/soap/lib/nusoap.php';
+        require_once __DIR__ . '/../../soap/lib/nusoap.php';
         $soap_client = new nusoap_client($uri);
         if ($err = $soap_client->getError()) {
-            return "SOAP Authentication Initialisation Error: " . $err;
+            return 'SOAP Authentication Initialisation Error: ' . $err;
         }
 
-        $soapAction = "";
-        $nspref = "";
+        $soapAction = '';
+        $nspref = '';
         if ($use_dotnet) {
-            $soapAction = $namespace . "/isValidSession";
-            $nspref = "ns1:";
+            $soapAction = $namespace . '/isValidSession';
+            $nspref = 'ns1:';
         }
 
         $valid = $soap_client->call(
@@ -70,10 +71,10 @@ class ilSOAPAuth
         );
 
         return
-            "<br>== Request ==" .
-            '<br><pre>' . htmlspecialchars(str_replace("\" ", "\"\n ", str_replace(">", ">\n", $soap_client->request)), ENT_QUOTES) . '</pre><br>' .
-            "<br>== Response ==" .
-            "<br>Valid: -" . $valid["valid"] . "-" .
-            '<br><pre>' . htmlspecialchars(str_replace("\" ", "\"\n ", str_replace(">", ">\n", $soap_client->response)), ENT_QUOTES) . '</pre>';
+            '<br>== Request ==' .
+            '<br><pre>' . htmlspecialchars(str_replace('" ', "\"\n ", str_replace('>', ">\n", $soap_client->request)), ENT_QUOTES) . '</pre><br>' .
+            '<br>== Response ==' .
+            '<br>Valid: -' . $valid['valid'] . '-' .
+            '<br><pre>' . htmlspecialchars(str_replace('" ', "\"\n ", str_replace('>', ">\n", $soap_client->response)), ENT_QUOTES) . '</pre>';
     }
 }

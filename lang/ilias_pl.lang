@@ -16017,7 +16017,6 @@ survey#:#cancel_survey#:#Wstrzymaj ankietę
 survey#:#cannot_read_survey#:#Nie masz wystarczających uprawnień do czytania danych ankiety!
 survey#:#cannot_switch_to_online_no_questions#:#Status nie może być zmieniony na &quot;online&quot;, ponieważ brak pytań w teście!
 survey#:#cant_send_email_smtp_disabled#:#Wysyłka zewnętrznych wiadomości mailowych aktualnie wyłączona jest globalnie.
-survey#:#categories#:#Odpowiedzi
 survey#:#category#:#Kategoria
 survey#:#category_nr_selected#:#Ilość użytkowników, którzy wybrali tę kategorię
 survey#:#chart#:#Wykres
@@ -16473,6 +16472,7 @@ survey#:#svy_answer_too_long#:#Your current answer is too long (%s characters). 
 survey#:#svy_app_see_rater_info#:#Appraisees can access rater information in the results screens, including names and e-mail addresses, if entered before when adding raters.###29 07 2022 new variable
 survey#:#svy_appraisses_cannot_be_raters#:#User cannot be added as rater. Use self evaluation option in the survey settings instead.###07 02 2020 new variable
 survey#:#svy_back#:#Powrót
+survey#:#svy_categories#:#Odpowiedzi
 survey#:#svy_check_evaluation_access_introduction#:#Dopóki ewaluacja ankiety jest dostępna tylko dla uczestników musisz podawać swój kod dostępu dla otwarcia ewaluacji.
 survey#:#svy_check_evaluation_authentication_needed#:#Konieczna identyfikacja
 survey#:#svy_check_evaluation_wrong_key#:#Wprowadziłeś błędny kod dostępu do ankiety i nie możesz uczestniczyć w ankiecie. Dostęp do ewaluacji ankiety jest zabroniony.

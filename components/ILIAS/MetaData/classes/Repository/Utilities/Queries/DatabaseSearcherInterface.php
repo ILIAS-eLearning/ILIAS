@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\Repository\Utilities\Queries;
 
-use ILIAS\MetaData\Repository\Search\Filters\FilterInterface;
-use ILIAS\MetaData\Repository\Search\Clauses\ClauseInterface;
+use ILIAS\MetaData\Search\Filters\FilterInterface;
+use ILIAS\MetaData\Search\Clauses\ClauseInterface;
 
 interface DatabaseSearcherInterface
 {

@@ -199,13 +199,13 @@ class Renderer extends AbstractComponentRenderer
 
         $error = $component->getError();
         if ($error) {
+            $error_id = $this->createId();
+            $tpl->setVariable("ERROR_LABEL", $this->txt("ui_error"));
+            $tpl->setVariable("ERROR_ID", $error_id);
             $tpl->setVariable("ERROR", $error);
-            if ($id_pointing_to_input) {
-                $tpl->setVariable("ERROR_FOR_ID", $id_pointing_to_input);
-            }
         }
 
-        if($dependant_group_html !== '') {
+        if ($dependant_group_html !== '') {
             $tpl->setVariable("DEPENDANT_GROUP", $dependant_group_html);
         }
         return $tpl->get();
@@ -470,7 +470,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("HIDDEN", "hidden");
         }
 
-        if(!($value && $component->isRequired())) {
+        if (!($value && $component->isRequired())) {
             $tpl->setVariable("VALUE", null);
             $tpl->setVariable("VALUE_STR", $component->isRequired() ? $this->txt('ui_select_dropdown_label') : '-');
             $tpl->parseCurrentBlock();
@@ -1057,7 +1057,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        if(!$component->isRequired()) {
+        if (!$component->isRequired()) {
             $tpl->setVariable('NEUTRAL_ID', $id . '-0');
             $tpl->setVariable('NEUTRAL_NAME', $component->getName());
             $tpl->setVariable('NEUTRAL_LABEL', $this->txt('reset_stars'));

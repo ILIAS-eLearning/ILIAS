@@ -570,7 +570,7 @@ class ilSurveyEvaluationGUI
         if ($a_grid) {
             // header
             $a_excel->setColors("B" . $a_excel_row . ":E" . $a_excel_row, self::EXCEL_SUBTITLE);
-            $a_excel->setCell($a_excel_row, 0, $this->lng->txt("categories"));
+            $a_excel->setCell($a_excel_row, 0, $this->lng->txt("svy_categories"));
             foreach ($a_grid["cols"] as $col_idx => $col) {
                 $a_excel->setCell($a_excel_row, $col_idx + 1, $col);
             }

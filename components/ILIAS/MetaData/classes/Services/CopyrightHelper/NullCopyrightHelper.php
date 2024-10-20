@@ -22,8 +22,8 @@ namespace ILIAS\MetaData\Services\CopyrightHelper;
 
 use ILIAS\MetaData\Services\Reader\ReaderInterface;
 use ILIAS\MetaData\Services\Manipulator\ManipulatorInterface;
-use ILIAS\MetaData\Repository\Search\Clauses\ClauseInterface as SearchClause;
-use ILIAS\MetaData\Repository\Search\Clauses\NullClause;
+use ILIAS\MetaData\Search\Clauses\ClauseInterface as SearchClause;
+use ILIAS\MetaData\Search\Clauses\NullClause;
 
 class NullCopyrightHelper implements CopyrightHelperInterface
 {

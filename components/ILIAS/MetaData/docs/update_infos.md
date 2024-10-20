@@ -30,8 +30,11 @@ corrected manually in the database if necessary.
 
 ## With ILIAS 10
 
-In ILIAS 10, the LOM elements mentioned [above](#with-ilias-9) will also
-not be exported and imported anymore, and 'Mozilla' will not be found as
-a browser name in the Advanced Search.
+In ILIAS 10, `Mozilla` as `name` under `technical > requirement > orComposite` where
+`type` is `browser` is not ignored anymore, and instead treated as a
+value from an unknown vocabulary (if not otherwise configured).
+
+The other LOM elements mentioned [above](#with-ilias-9) will not be exported and
+imported anymore.
 
 Elements with invalid values can still be corrected manually in the database.

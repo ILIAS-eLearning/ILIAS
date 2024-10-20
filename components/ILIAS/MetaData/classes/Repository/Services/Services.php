@@ -32,7 +32,7 @@ use ILIAS\MetaData\Structure\Services\Services as StructureServices;
 use ILIAS\MetaData\Repository\Dictionary\TagFactory as RepositoryTagFactory;
 use ILIAS\MetaData\Repository\Utilities\DatabaseReader;
 use ILIAS\MetaData\Elements\Factory as ElementFactory;
-use ILIAS\MetaData\Repository\Validation\Cleaner;
+use ILIAS\MetaData\Repository\Validation\Processor;
 use ILIAS\DI\Container as GlobalContainer;
 use ILIAS\MetaData\Repository\Validation\Data\DataValidator;
 use ILIAS\MetaData\Repository\Validation\Data\DataValidatorService;
@@ -44,10 +44,6 @@ use ILIAS\MetaData\DataHelper\Services\Services as DataHelperServices;
 use ILIAS\MetaData\Repository\Utilities\Queries\DatabaseQuerier;
 use ILIAS\MetaData\Repository\Utilities\Queries\Results\ResultFactory;
 use ILIAS\MetaData\Repository\Utilities\Queries\Assignments\AssignmentFactory;
-use ILIAS\Metadata\Repository\Search\Clauses\FactoryInterface as ClauseFactoryInterface;
-use ILIAS\MetaData\Repository\Search\Filters\FactoryInterface as FilterFactoryInterface;
-use ILIAS\MetaData\Repository\Search\Clauses\Factory as ClauseFactory;
-use ILIAS\MetaData\Repository\Search\Filters\Factory as FilterFactory;
 use ILIAS\MetaData\Repository\Utilities\Queries\DatabaseSearcher;
 use ILIAS\MetaData\Repository\Utilities\Queries\Paths\DatabasePathsParserFactory;
 use ILIAS\MetaData\Repository\IdentifierHandler\IdentifierHandler;
@@ -59,8 +55,6 @@ class Services
     protected RepositoryInterface $repository;
     protected ValidationDictionary $validation_dictionary;
     protected RepositoryDictionary $repository_dictionary;
-    protected ClauseFactoryInterface $search_clause_factory;
-    protected FilterFactoryInterface $search_filter_factory;
 
 
     protected GlobalContainer $dic;
@@ -152,17 +146,15 @@ class Services
                 ),
                 $this->dic->database()
             ),
-            new Cleaner(
+            new Processor(
                 $element_factory,
                 new MarkerFactory(),
                 $this->structure_services->structure(),
                 new DataValidator(
-                    new DataValidatorService(
-                        $this->vocabularies_services->vocabularies(),
-                        $this->data_helper_services->dataHelper()
-                    )
+                    new DataValidatorService($this->data_helper_services->dataHelper())
                 ),
                 $this->constraintDictionary(),
+                $this->vocabularies_services->elementHelper(),
                 $logger
             ),
             new IdentifierHandler(
@@ -170,21 +162,5 @@ class Services
                 $this->path_services->pathFactory()
             )
         );
-    }
-
-    public function SearchClauseFactory(): ClauseFactoryInterface
-    {
-        if (isset($this->search_clause_factory)) {
-            return $this->search_clause_factory;
-        }
-        return $this->search_clause_factory = new ClauseFactory();
-    }
-
-    public function SearchFilterFactory(): FilterFactoryInterface
-    {
-        if (isset($this->search_filter_factory)) {
-            return $this->search_filter_factory;
-        }
-        return $this->search_filter_factory = new FilterFactory();
     }
 }

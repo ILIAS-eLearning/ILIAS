@@ -1,4 +1,4 @@
-<fieldset class="c-input" data-il-ui-component="{UI_COMPONENT}" data-il-ui-input-name="{INPUT_NAME}" {DISABLED}>
+<fieldset class="c-input" data-il-ui-component="{UI_COMPONENT}" data-il-ui-input-name="{INPUT_NAME}"<!-- BEGIN described --> aria-describedby="{ERROR_ID}"<!-- END described --> {DISABLED}>
 
 	<label <!-- BEGIN for -->for="{ID}" <!-- END for -->>{LABEL}<!-- BEGIN required --><span class="asterisk">*</span><!-- END required --></label>
 
@@ -7,7 +7,7 @@
 	</div>
 
 	<!-- BEGIN error -->
-	<div class="c-input__error-msg alert alert-danger"<!-- BEGIN described --> aria-describedby="{ERROR_FOR_ID}"<!-- END described --> role="alert">{ERROR}</div>
+	<div class="c-input__error-msg alert alert-danger" id="{ERROR_ID}"><span class="sr-only">{ERROR_LABEL}: </span>{ERROR}</div>
 	<!-- END error -->
 
 	<!-- BEGIN byline -->

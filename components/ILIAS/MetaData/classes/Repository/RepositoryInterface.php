@@ -23,8 +23,8 @@ namespace ILIAS\MetaData\Repository;
 use ILIAS\MetaData\Elements\SetInterface;
 use ILIAS\MetaData\Paths\PathInterface;
 use ILIAS\MetaData\Elements\RessourceID\RessourceIDInterface;
-use ILIAS\MetaData\Repository\Search\Clauses\ClauseInterface;
-use ILIAS\MetaData\Repository\Search\Filters\FilterInterface;
+use ILIAS\MetaData\Search\Clauses\ClauseInterface;
+use ILIAS\MetaData\Search\Filters\FilterInterface;
 
 interface RepositoryInterface
 {

@@ -16017,7 +16017,6 @@ survey#:#cancel_survey#:#Suspender o inquérito
 survey#:#cannot_read_survey#:#Não possui permissões suficientes para ler os dados do inquérito!
 survey#:#cannot_switch_to_online_no_questions#:#The status cannot be changed to &quot;online&quot; because there are no questions in the test!
 survey#:#cant_send_email_smtp_disabled#:#Não está disponível a função de enviar mails externos. Esta opção está desativada globalmente.
-survey#:#categories#:#Respostas
 survey#:#category#:#Category
 survey#:#category_nr_selected#:#Number of users that selected this category
 survey#:#chart#:#Gráfico
@@ -16473,6 +16472,7 @@ survey#:#svy_answer_too_long#:#A sua resposta atual é demasiado comprida (%s ca
 survey#:#svy_app_see_rater_info#:#Appraisees can access rater information in the results screens, including names and e-mail addresses, if entered before when adding raters.###29 07 2022 new variable
 survey#:#svy_appraisses_cannot_be_raters#:#O utilizador não pode ser adicionado como examinador. Em vez disso, deve usar a opção de autoavaliação nas definições do inquérito.
 survey#:#svy_back#:#Voltar
+survey#:#svy_categories#:#Respostas
 survey#:#svy_check_evaluation_access_introduction#:#Since this survey evaluation is only accessable by survey participants you need to enter your survey access code to open the evaluation.
 survey#:#svy_check_evaluation_authentication_needed#:#Requer autenticação
 survey#:#svy_check_evaluation_wrong_key#:#Inseriu um código de acesso ao inquérito errado ou não participou no inquérito. O seu acesso à avaliação do inquérito foi negado.

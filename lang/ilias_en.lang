@@ -11855,7 +11855,13 @@ meta#:#md_days#:#Days:
 meta#:#md_delete_cp_sure#:#Are you sure you want to delete the following entries?
 meta#:#md_delimiter#:#Delimiter
 meta#:#md_delimiter_info#:#The delimiter is used in the quick editing screen to separate multiple keywords and/or authors. Default is ‘,’.
+meta#:#md_editor_custom_input#:#Custom
+meta#:#md_editor_from_vocab_input#:#From Vocabulary
+meta#:#md_editor_value#:#Value
 meta#:#md_fields#:#Fields
+meta#:#md_import_file_vocab#:#Import File
+meta#:#md_import_vocab#:#Import
+meta#:#md_import_vocab_modal#:#Import From File
 meta#:#md_months#:#Months:
 meta#:#md_oai_contact_mail#:#Contact E-Mail
 meta#:#md_oai_identifier_prefix#:#OAI Prefix
@@ -11869,7 +11875,35 @@ meta#:#md_record_export_table#:#Export Files
 meta#:#md_record_list_table#:#Custom Metadata Sets
 meta#:#md_separated_by#:#Separated by %s
 meta#:#md_time#:#Time:
+meta#:#md_unknown_vocabulary_flag#:#(unknown vocabulary)
 meta#:#md_used#:#Current Number of Usages
+meta#:#md_vocab_activate_action#:#Activate
+meta#:#md_vocab_active_column#:#Active
+meta#:#md_vocab_all_values_title#:#Values for %s (%s)
+meta#:#md_vocab_allow_custom_input_action#:#Allow Custom Input
+meta#:#md_vocab_custom_input_column#:#Custom Input Allowed
+meta#:#md_vocab_deactivate_action#:#Deactivate
+meta#:#md_vocab_delete_action#:#Delete
+meta#:#md_vocab_delete_confirmation_text#:#Are you sure you want to delete the vocabulary for %s (%s) with the following values?
+meta#:#md_vocab_delete_confirmation_title#:#Delete Vocabulary
+meta#:#md_vocab_deletion_successful#:#Vocabulary successfully deleted.
+meta#:#md_vocab_disallow_custom_input_action#:#Disallow Custom Input
+meta#:#md_vocab_element_column#:#Element
+meta#:#md_vocab_element_with_condition#:#%s where %s is %s
+meta#:#md_vocab_import_invalid#:#The import file is invalid:<br/>%s
+meta#:#md_vocab_import_successful#:#Vocabulary successfully imported.
+meta#:#md_vocab_import_upload_failed#:#Upload of the import file failed.
+meta#:#md_vocab_preview_column#:#Preview
+meta#:#md_vocab_show_all_action#:#Show All Values
+meta#:#md_vocab_source_column#:#Source
+meta#:#md_vocab_table_title#:#Vocabularies
+meta#:#md_vocab_type_column#:#Type
+meta#:#md_vocab_type_controlled_string#:#Controlled Text
+meta#:#md_vocab_type_controlled_vocab_value#:#Controlled Selection
+meta#:#md_vocab_type_copyright#:#Copyright
+meta#:#md_vocab_type_standard#:#Standard
+meta#:#md_vocab_update_successful#:#Vocabulary successfully updated.
+meta#:#md_vocabularies_config#:#LOM Vocabularies
 meta#:#meta_1#:#1
 meta#:#meta_2#:#2
 meta#:#meta_3#:#3
@@ -12158,6 +12192,7 @@ meta#:#meta_contribute_plural#:#Contribute
 meta#:#meta_copyright#:#Copyright
 meta#:#meta_copyright_and_other_restrictions#:#Copyright and Other Restrictions
 meta#:#meta_copyright_change_info#:#You are about to change the copyright licence assigned to this content. This should only be done with the permission of the copyright holder. Please continue only if the new licence is not more restrictive than the one used before.
+meta#:#meta_copyright_change_oer_info#:#The copyright licence you have selected makes this object eligible to be harvested as an Open Educational Resource. If you continue, it might be listed as such along with an export file, and it might get published beyond this platform.
 meta#:#meta_copyright_change_warning_title#:#Changing a Copyright
 meta#:#meta_copyright_in_use#:#In use
 meta#:#meta_copyright_outdated#:#Outdated / No longer in use
@@ -12428,7 +12463,8 @@ meta#:#meta_oer_copyright_selection#:#Copyright Selection
 meta#:#meta_oer_copyright_selection_info#:#Only objects that have been published with one of the selected copyrights will be linked to the OER Category.
 meta#:#meta_oer_exposed_source#:#Category for Published OER Content
 meta#:#meta_oer_harvester#:#OER Harvester
-meta#:#meta_oer_harvester_desc#:#Scans all File objects in the repository for their license. The OER Harvester adds all resources under selected CC licenses to the category defined in the cronjob settings. To get results from this cronjob it is necessary to activate and configurate the copyright selection in the administration of 'Metadata'.
+meta#:#meta_oer_harvester_desc#:#The OER Harvester collects all resources under selected CC licenses, adds them to a category defined in the cronjob settings, and if necessary generates export files for them. For harvested resource marked for publishing, records are compiled that can then (if enabled) be queried via an OAI-PMH interface. To get results from this cronjob it is necessary to activate and configure the copyright selection in the administration of 'Metadata'. The object types eligible to be harvested are Files, Glossaries, Content Pages, Learning Modules (ILIAS, SCORM, and HTML), Question Pools (both Survey and Test), and Mediapools.
+meta#:#meta_oer_object_type_selection#:#Harvested Object Types
 meta#:#meta_oer_target#:#Category for Harvested OER Content
 meta#:#meta_opera#:#Opera
 meta#:#meta_operating_system#:#Operating System
@@ -16082,7 +16118,6 @@ survey#:#cancel_survey#:#Suspend the Survey
 survey#:#cannot_read_survey#:#You do not possess sufficient permissions to read the survey data!
 survey#:#cannot_switch_to_online_no_questions#:#The status cannot be changed to &quot;online&quot; because there are no questions in the survey!
 survey#:#cant_send_email_smtp_disabled#:#Sending external mails is not available. This option is deactivated globally.
-survey#:#categories#:#Answers###LangRefactoring: needs new Language_ID
 survey#:#category#:#Answer
 survey#:#category_nr_selected#:#Number of selections
 survey#:#chart#:#Chart
@@ -16539,6 +16574,7 @@ survey#:#svy_answer_too_long#:#Your current answer is too long (%s characters). 
 survey#:#svy_app_see_rater_info#:#Appraisees can access rater information in the results screens, including names and e-mail addresses, if entered before when adding raters.
 survey#:#svy_appraisses_cannot_be_raters#:#User cannot be added as rater. Use self evaluation option in the survey settings instead.
 survey#:#svy_back#:#Back
+survey#:#svy_categories#:#Answers
 survey#:#svy_check_evaluation_access_introduction#:#Since this survey evaluation is only accessible by survey participants you need to enter your survey access code to open the evaluation.
 survey#:#svy_check_evaluation_authentication_needed#:#Authentication needed
 survey#:#svy_check_evaluation_wrong_key#:#You entered a wrong survey access code or you have not participated the survey. Your access to the survey evaluation is denied.
@@ -17127,6 +17163,7 @@ ui#:#table_posinput_col_title#:#Position
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Characters remaining:
+ui#:#ui_error#:#Error
 ui#:#ui_error_in_group#:#There is some error in this part.
 ui#:#ui_error_switchable_group_required#:#Please select an option.
 ui#:#ui_file_input_general_error#:#An error occurred! You can check the JavaScript console of your browser for more information and/or contact your ILIAS system administration about this incident.

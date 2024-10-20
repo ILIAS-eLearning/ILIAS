@@ -21,12 +21,16 @@ declare(strict_types=1);
 namespace ILIAS\MetaData\Presentation;
 
 use ILIAS\MetaData\Elements\Data\DataInterface as ElementsDataInterface;
+use ILIAS\MetaData\Vocabularies\Slots\Identifier as SlotIdentifier;
 
 interface DataInterface
 {
     public function dataValue(ElementsDataInterface $data): string;
 
-    public function vocabularyValue(string $value): string;
+    public function vocabularyValue(
+        string $value,
+        SlotIdentifier $vocabulary_slot
+    ): string;
 
     public function language(string $language): string;
 

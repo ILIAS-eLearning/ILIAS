@@ -25,16 +25,11 @@ use ILIAS\MetaData\Elements\ElementInterface;
 class VocabSourceValidator implements DataValidatorInterface
 {
     use DataFetcher;
-    use VocabularyBridge;
 
     public function isValid(
         ElementInterface $element,
         bool $ignore_marker
     ): bool {
-        $sources = [];
-        foreach ($this->vocabularies($element, $ignore_marker) as $vocabulary) {
-            $sources[] = $vocabulary->source();
-        }
-        return in_array($this->dataValue($element, $ignore_marker), $sources);
+        return true;
     }
 }

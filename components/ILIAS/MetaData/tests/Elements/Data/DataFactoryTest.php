@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\MetaData\Elements\Data;
 
 use PHPUnit\Framework\TestCase;
+use ILIAS\MetaData\Vocabularies\Slots\Identifier as SlotIdentifier;
 
 class DataFactoryTest extends TestCase
 {
@@ -28,6 +29,18 @@ class DataFactoryTest extends TestCase
     {
         $factory = new DataFactory();
         $data = $factory->data(Type::VOCAB_VALUE, 'value');
+
+        $this->assertInstanceOf(DataInterface::class, $data);
+    }
+
+    public function testCreateDataSlotNotNull(): void
+    {
+        $factory = new DataFactory();
+        $data = $factory->data(
+            Type::VOCAB_VALUE,
+            'value',
+            SlotIdentifier::CLASSIFICATION_PURPOSE
+        );
 
         $this->assertInstanceOf(DataInterface::class, $data);
     }

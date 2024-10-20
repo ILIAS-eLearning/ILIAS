@@ -37,6 +37,10 @@ $input-min-height-large: s-form.$il-input-min-height * 1.8;
 
 .btn {
   @include make-button($set-basics: true, $set-design: false, $set-size: true);
+  .glyph, 
+  .glyph .glyphicon {
+    color: unset;
+  }
 }
 
 a.btn {

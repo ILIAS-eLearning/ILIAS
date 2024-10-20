@@ -5,6 +5,11 @@
 Reused constants should be collected into bespoke classes as 
 appropriate, instead of being scattered across the component.
 
+### Get URI from Data Factory
+
+Get URI from the data factory, instead of instantiating it
+directly.
+
 ### Clean up Remains of Migrations for Ilias 10
 
 With ILIAS 10, the migrations `ilMDLOMConformanceMigration` and
@@ -28,10 +33,6 @@ Check whether the field 'location_type' in the table
 the old MD editor, but is not part of the LOM standard. It
 would be nice to get rid of it, should it not be used anywhere
 else in ILIAS.
-
-### Copyright in API
-
-Information about copyright entries should be available vai the API.
 
 ### Replace Generic Generators With Custom Iterators
 
@@ -65,19 +66,6 @@ The `Derivator` in the API could be expanded to contain methods like
 `prepareOmit` and `prepareAddOrChange` to allow changes to the derived
 LOM set before it is persisted. The repository would need to take into
 account more types of markers/scaffolds in `transferMD`.
-
-### Vocabularies
-
-Allow adding other vocabularies than LOM. This could be implemented
-along similar lines as the 'copyright' tab in the administration
-settings for MD.
-
-To this end, 'source' fields have to be introduced for every
-vocabulary field in the database.
-
-Note that the usage of non-LOMv1.0 sources for
-vocabularies in a MD set means that also the element 'metadataSchema'
-has to be appendend, see the LOM standard.
 
 ### Abandon the old backend
 
@@ -116,24 +104,35 @@ can be stored in LOM.
 This would need expansive changes to the database structure, and a new
 input element for multilangual text input.
 
+### Clean up Dependency Management
+
+Most of the dependency management happens in the `Services` folders,
+but in some places `Initiators` are used in tandem with the `Services`.
+Either `Initiators` should be used consistently for every entry point
+into `MetaData` (and `Services` reserved for things used across
+'sub-components'), or everthing should be done in `Services`.
+
+Further, `Settings` should also be refactored to use `Services` properly.
+
 ### Improve Unit Test Coverage
 
 The following classes are not yet covered by unit tests:
 
 - everything in `Editor`
-- everything in `Settings`
+- everything in `Settings` except `Vocabularies\Import`
 - `GlobalScreen/ilMDKeywordExposer`
 - `Manipulator/ScaffoldProvider`
 - everything in `Paths`
-- everything in `Repository` except `Repository/Search`,
+- everything in `Repository`,
 `Repository/Utilities/Queries/DatabaseSearcher`, and
 `Repository/Utilities/Queries/Paths`
 - `Services\InternalServices` (along with all `Services` used by it),
 also all methods in `Services\Services` that don't do anything except
 lazily instantiate an object
-- everything in `Vocabularies`
-- `XML/Links`, `XML/Dictionary`, `XML/Writer/SimpleDC`, and
-`XML/Reader/Standard/Legacy`
+- `Vocabularies\Standard\Assignment`, `Vocabularies\Controlled`, `Vocabularies\Manager`,
+`Vocabularies\ElementHelper`, and everything in `Vocabularies\Slots`
+- `XML/Copyright`, `XML/Links`, `XML/Dictionary`, `XML/Writer/SimpleDC`,
+and `XML/Reader/Standard/Legacy`
 - `OERExposer/OAIPMH/HTTP`, `OERExposer/OAIPMH/Initiator`
 - `OERHarvester/RepositoryObjects`, `OERHarvester/Settings`,
 `OERHarvester/Results`, `OERHarvester/Initiator`

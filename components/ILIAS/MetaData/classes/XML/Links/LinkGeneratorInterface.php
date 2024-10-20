@@ -22,11 +22,20 @@ namespace ILIAS\MetaData\XML\Copyright\Links;
 
 use ILIAS\Data\URI;
 use ILIAS\Data\ReferenceId;
+use ILIAS\Data\ObjectId;
 
 interface LinkGeneratorInterface
 {
     public function generateLinkForReference(
-        ReferenceId $ref_id,
+        int $ref_id,
         string $type
     ): URI;
+
+    public function doesReferenceHavePublicAccessExport(
+        int $ref_id
+    ): bool;
+
+    public function generateLinkForPublicAccessExportOfReference(
+        int $ref_id
+    ): ?URI;
 }

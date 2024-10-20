@@ -25,9 +25,16 @@ interface SettingsInterface
     /**
      * @return string[]
      */
+    public function getObjectTypesEligibleForHarvesting(): array;
+
+    /**
+     * @return string[]
+     */
     public function getObjectTypesSelectedForHarvesting(): array;
 
     public function isObjectTypeSelectedForHarvesting(string $type): bool;
+
+    public function saveObjectTypesSelectedForHarvesting(string ...$types): void;
 
     /**
      * @return int[]
