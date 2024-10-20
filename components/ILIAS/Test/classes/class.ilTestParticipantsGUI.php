@@ -43,13 +43,8 @@ use ILIAS\UI\URLBuilder;
  * Class ilTestParticipantsGUI
  *
  * @author    Björn Heyser <info@bjoernheyser.de>
- * @version    $Id$
  *
- * @package components\ILIAS/Test
- *
- * @ilCtrl_Calls ilTestParticipantsGUI: ilTestParticipantsTableGUI
  * @ilCtrl_Calls ilTestParticipantsGUI: ilRepositorySearchGUI
- * @ilCtrl_Calls ilTestParticipantsGUI: ilTestEvaluationGUI
  */
 class ilTestParticipantsGUI
 {
@@ -107,16 +102,6 @@ class ilTestParticipantsGUI
 
 
                 $this->ctrl->setReturnByClass(self::class, self::CMD_SHOW);
-                $this->ctrl->forwardCommand($gui);
-
-                break;
-
-            case 'iltestevaluationgui':
-                $gui = new ilTestEvaluationGUI($this->test_obj);
-                $gui->setObjectiveOrientedContainer($this->objective_parent);
-                $gui->setTestAccess($this->test_access);
-                $this->tabs_manager->resetTabsAndAddBacklink($this->ctrl->getLinkTargetByClass(self::class, self::CMD_SHOW));
-
                 $this->ctrl->forwardCommand($gui);
 
                 break;
