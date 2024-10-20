@@ -27,6 +27,7 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;
 use ILIAS\Test\RequestDataCollector;
+use LIAS\UI\Component\Modal\Modal;
 use ILIAS\UI\Component\Input\Container\Filter\Standard as FilterComponent;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Table\DataRetrieval;
@@ -56,9 +57,9 @@ class ParticipantTable implements DataRetrieval
     ) {
     }
 
-    public function execute(URLBuilder $url_builder)
+    public function execute(URLBuilder $url_builder): ?Modal
     {
-        $this->table_actions->execute(...$this->acquireParameters($url_builder));
+        return $this->table_actions->execute(...$this->acquireParameters($url_builder));
     }
 
     /**

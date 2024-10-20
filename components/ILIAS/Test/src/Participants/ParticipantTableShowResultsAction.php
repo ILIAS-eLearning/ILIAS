@@ -79,7 +79,7 @@ class ParticipantTableShowResultsAction implements TableAction
         URLBuilder $url_builder,
         ServerRequestInterface $request,
         array $selected_participants
-    ): void {
+    ): ?Modal {
         foreach ($selected_participants as $participant) {
             if (!$this->test_access->checkResultsAccessForActiveId(
                 $participant->getActiveId(),
@@ -90,7 +90,7 @@ class ParticipantTableShowResultsAction implements TableAction
                     $this->lng->txt('no_permission'),
                     true
                 );
-                return;
+                return null;
             }
         }
         $this->ctrl->setParameterByClass(

@@ -72,15 +72,15 @@ class ParticipantTableExtraTimeAction implements TableAction
         bool $all_participants_selected
     ): ?Modal {
         $has_different_extra_time = $this->resolveHasDifferentExtraTime($selected_participants);
-        $participant_rows = join("\n", array_map(
+        $participant_rows = array_map(
             fn(Participant $participant) => sprintf(
-                '<p>%s, %s <em class="muted">(%s)</em></p>',
+                '%s, %s (%s)',
                 $participant->getLastname(),
                 $participant->getFirstname(),
                 sprintf($this->lng->txt('already_added_extra_time'), $participant->getExtraTime())
             ),
             $selected_participants
-        ));
+        );
 
         return $this->ui_factory->modal()->roundtrip(
             $this->lng->txt('extratime'),
@@ -94,7 +94,7 @@ class ParticipantTableExtraTimeAction implements TableAction
                         )
                     )
                 ),
-                $this->ui_factory->legacy("<ul>{$participant_rows}</ul>")
+                $this->ui_factory->listing()->unordered($participant_rows)
             ],
             [
                 'extra_time' => $this->ui_factory->input()->field()->numeric(
@@ -111,11 +111,17 @@ class ParticipantTableExtraTimeAction implements TableAction
         URLBuilder $url_builder,
         ServerRequestInterface $request,
         array $selected_participants
-    ): void {
-        $data = $this->getModal(
+    ): ?Modal {
+        $modal = $this->getModal(
             $url_builder,
             $selected_participants
-        )->withReqest($request)->getData();
+        )->withReqest($request);
+
+        $data = $modal->getData();
+        if ($data === null) {
+            return $modal->withOnLoad($modal->getShowSignal());
+        }
+
         $this->saveExtraTime($selected_participants, $data['extra_time']);
 
         $this->tpl->setOnScreenMessage(
