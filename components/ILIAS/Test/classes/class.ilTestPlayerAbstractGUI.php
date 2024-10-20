@@ -1076,7 +1076,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
                 $this->ctrl->redirectByClass(['ilTestResultsGUI', 'ilTestEvalObjectiveOrientedGUI']);
             }
 
-            $this->ctrl->redirectByClass(['ilTestResultsGUI', 'ilMyTestResultsGUI', 'ilTestEvaluationGUI']);
+            $this->ctrl->redirectByClass([ilTestResultsGUI::class, ilMyTestResultsGUI::class, ilTestEvaluationGUI::class]);
         }
 
         $this->ctrl->redirectByClass(TestScreenGUI::class, TestScreenGUI::DEFAULT_CMD);
@@ -2121,7 +2121,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     public function outUserResultsOverviewCmd()
     {
         $this->ctrl->redirectByClass(
-            ['ilRepositoryGUI', 'ilObjTestGUI', 'ilTestEvaluationGUI'],
+            [ilRepositoryGUI::class, ilObjTestGUI::class, ilTestEvaluationGUI::class],
             "outUserResultsOverview"
         );
     }

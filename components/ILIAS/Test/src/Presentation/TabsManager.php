@@ -391,7 +391,7 @@ class TabsManager
         }
 
         if ($this->test_object->isRandomTest()) {
-            $target = $this->ctrl->getLinkTargetByClass('ilTestRandomQuestionSetConfigGUI');
+            $target = $this->ctrl->getLinkTargetByClass(\ilTestRandomQuestionSetConfigGUI::class);
         }
 
         $this->tabs->addTarget(
@@ -463,7 +463,7 @@ class TabsManager
         if ($this->isHistoryAccessGranted()) {
             $this->tabs->addTarget(
                 self::TAB_ID_HISTORY,
-                $this->ctrl->getLinkTargetByClass('ilObjTestGUI', 'history'),
+                $this->ctrl->getLinkTargetByClass(\ilObjTestGUI::class, 'history'),
                 'history',
                 ''
             );
@@ -492,7 +492,7 @@ class TabsManager
         if ($this->isPermissionsAccessGranted()) {
             $this->tabs->addTarget(
                 self::TAB_ID_PERMISSIONS,
-                $this->ctrl->getLinkTargetByClass(['ilObjTestGUI','ilpermissiongui'], 'perm'),
+                $this->ctrl->getLinkTargetByClass([\ilObjTestGUI::class, \ilPermissionGUI::class], 'perm'),
                 ['perm','info','owner'],
                 'ilpermissiongui'
             );
@@ -510,7 +510,7 @@ class TabsManager
             );
             $this->tabs->addTarget(
                 'tst_browse_for_questions',
-                $this->ctrl->getLinkTargetByClass('ilObjTestGUI', 'browseForQuestions'),
+                $this->ctrl->getLinkTargetByClass(\ilObjTestGUI::class, 'browseForQuestions'),
                 ['browseForQuestions', 'filter', 'resetFilter', 'resetTextFilter', 'insertQuestions'],
                 '',
                 '',
@@ -525,11 +525,11 @@ class TabsManager
             // edit page
             $this->tabs->setBackTarget(
                 $this->lng->txt('backtocallingtest'),
-                $this->ctrl->getLinkTargetByClass(ilTestRandomQuestionSetConfigGUI, \ilObjTestGUI::SHOW_QUESTIONS_CMD)
+                $this->ctrl->getLinkTargetByClass(\ilTestRandomQuestionSetConfigGUI::class, \ilObjTestGUI::SHOW_QUESTIONS_CMD)
             );
             $this->tabs->addTarget(
                 'random_selection',
-                $this->ctrl->getLinkTargetByClass('ilObjTestGUI', 'randomQuestions'),
+                $this->ctrl->getLinkTargetByClass(\ilObjTestGUI::class, 'randomQuestions'),
                 ['randomQuestions'],
                 '',
                 ''
@@ -628,7 +628,7 @@ class TabsManager
         if ($validator->validate() === true) {
             $this->tabs->addSubTabTarget(
                 self::SETTINGS_SUBTAB_ID_CERTIFICATE,
-                $this->ctrl->getLinkTargetByClass('ilObjTestGUI', 'certificate'),
+                $this->ctrl->getLinkTargetByClass(\ilObjTestGUI::class, 'certificate'),
                 ['certificate', 'certificateEditor', 'certificateRemoveBackground', 'ceateSave',
                     'certificatePreview', 'certificateDelete', 'certificateUpload', 'certificateImport'],
                 ['', 'ilobjtestgui', 'ilcertificategui']
@@ -651,7 +651,7 @@ class TabsManager
 
         $this->tabs->addSubTabTarget(
             self::SETTINGS_SUBTAB_ID_PERSONAL_DEFAULT_SETTINGS,
-            $this->ctrl->getLinkTargetByClass('ilObjTestGUI', 'defaults'),
+            $this->ctrl->getLinkTargetByClass(\ilObjTestGUI::class, 'defaults'),
             ['defaults', 'deleteDefaults', 'addDefaults', 'applyDefaults'],
             ['', 'ilobjtestgui', 'ilcertificategui']
         );
@@ -706,10 +706,10 @@ class TabsManager
         }
 
         if ($this->needsYourSolutionsSubTab()) {
-            return $this->ctrl->getLinkTargetByClass(['ilTestResultsGUI', 'ilMyTestSolutionsGUI', 'ilTestEvaluationGUI']);
+            return $this->ctrl->getLinkTargetByClass([\ilTestResultsGUI::class, \ilMyTestSolutionsGUI::class, \ilTestEvaluationGUI::class]);
         }
 
-        return $this->ctrl->getLinkTargetByClass(['ilTestResultsGUI', 'ilMyTestResultsGUI', 'ilTestEvaluationGUI']);
+        return $this->ctrl->getLinkTargetByClass([\ilTestResultsGUI::class, \ilMyTestResultsGUI::class, \ilTestEvaluationGUI::class]);
     }
 
     protected function needsYourResultsSubTab(): bool
@@ -755,7 +755,7 @@ class TabsManager
             $this->tabs->addSubTab(
                 self::SUBTAB_ID_LO_RESULTS,
                 $this->lng->txt('tst_tab_results_objective_oriented'),
-                $this->ctrl->getLinkTargetByClass(['ilTestResultsGUI', 'ilTestEvalObjectiveOrientedGUI'])
+                $this->ctrl->getLinkTargetByClass([\ilTestResultsGUI::class, \ilTestEvalObjectiveOrientedGUI::class])
             );
         }
 
@@ -769,7 +769,7 @@ class TabsManager
             $this->tabs->addSubTab(
                 self::SUBTAB_ID_MY_RESULTS,
                 $myResultsLabel,
-                $this->ctrl->getLinkTargetByClass(['ilTestResultsGUI', 'ilMyTestResultsGUI', 'ilTestEvaluationGUI'])
+                $this->ctrl->getLinkTargetByClass([\ilTestResultsGUI::class, \ilMyTestResultsGUI::class, \ilTestEvaluationGUI::class])
             );
         }
 
@@ -777,7 +777,7 @@ class TabsManager
             $this->tabs->addSubTab(
                 self::SUBTAB_ID_SKILL_RESULTS,
                 $this->lng->txt('tst_show_comp_results'),
-                $this->ctrl->getLinkTargetByClass(['ilTestResultsGUI', 'ilTestSkillEvaluationGUI'])
+                $this->ctrl->getLinkTargetByClass([\ilTestResultsGUI::class, \ilTestSkillEvaluationGUI::class])
             );
         }
 
@@ -785,7 +785,7 @@ class TabsManager
             $this->tabs->addSubTab(
                 self::SUBTAB_ID_HIGHSCORE,
                 $this->lng->txt('tst_show_toplist'),
-                $this->ctrl->getLinkTargetByClass(['ilTestResultsGUI', 'ilTestToplistGUI'], 'outResultsToplist')
+                $this->ctrl->getLinkTargetByClass([\ilTestResultsGUI::class, \ilTestToplistGUI::class], 'outResultsToplist')
             );
         }
 
@@ -793,7 +793,7 @@ class TabsManager
             $this->tabs->addSubTab(
                 self::SUBTAB_ID_MY_SOLUTIONS,
                 $this->lng->txt('tst_list_of_answers_show'),
-                $this->ctrl->getLinkTargetByClass(['ilTestResultsGUI', 'ilMyTestSolutionsGUI', 'ilTestEvaluationGUI'])
+                $this->ctrl->getLinkTargetByClass([\ilTestResultsGUI::class, \ilMyTestSolutionsGUI::class, \ilTestEvaluationGUI::class])
             );
         }
     }
