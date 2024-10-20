@@ -77,14 +77,14 @@ class ParticipantTableIpRangeAction implements TableAction
             $this->lng->txt('invalid_ip')
         );
 
-        $participant_rows = join("\n", array_map(
+        $participant_rows = array_map(
             fn(Participant $participant) => sprintf(
-                '<li>%s, %s</li>',
+                '%s, %s',
                 $participant->getLastname(),
                 $participant->getFirstname()
             ),
             $selected_participants
-        ));
+        );
 
         return $this->ui_factory->modal()->roundtrip(
             $this->lng->txt('client_ip_range'),
@@ -97,7 +97,7 @@ class ParticipantTableIpRangeAction implements TableAction
                         )
                     )
                 ),
-                $this->ui_factory->legacy("<ul>$participant_rows</ul>")
+                $this->ui_factory->listing()->unordered($participant_rows)
             ],
             [
                 'ip_range' => $this->ui_factory->input()->field()->group([
@@ -118,12 +118,18 @@ class ParticipantTableIpRangeAction implements TableAction
         URLBuilder $url_builder,
         ServerRequestInterface $request,
         array $selected_participants
-    ): void {
-        $data = $this->getModal(
+    ): ?Modal {
+        $modal = $this->getModal(
             $url_builder,
             $selected_participants,
             false
-        )->withRequest($request)->getData();
+        )->withRequest($request);
+
+        $data = $modal->getData();
+        if ($data === null) {
+            return $modal->withOnLoad($modal->getShowSignal());
+        }
+
         $this->participant_repository->updateIpRange(
             array_map(
                 static fn(Participant $v) => $v->withClientIpFrom($data['from'])

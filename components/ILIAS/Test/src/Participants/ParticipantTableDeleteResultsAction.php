@@ -95,14 +95,14 @@ class ParticipantTableDeleteResultsAction implements TableAction
         URLBuilder $url_builder,
         ServerRequestInterface $request,
         array $selected_participants
-    ): void {
+    ): ?Modal {
         if (!$this->test_access->getAccess()->checkAccess('write', '', $this->test_obj->getRefId())) {
             $this->tpl->setOnScreenMessage(
                 \ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS,
                 $this->lng->txt('no_permission'),
                 true
             );
-            return;
+            return null;
         }
 
         $access_filter = $this->participant_access_filter_factory

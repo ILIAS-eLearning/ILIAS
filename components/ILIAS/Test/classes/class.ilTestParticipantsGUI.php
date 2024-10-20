@@ -38,6 +38,7 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\URLBuilder;
+use ILIAS\UI\Component\Modal\Modal;
 
 /**
  * Class ilTestParticipantsGUI
@@ -139,7 +140,7 @@ class ilTestParticipantsGUI
         return null;
     }
 
-    public function showCmd(): void
+    public function showCmd(?Modal $modal = null): void
     {
         $this->tabs_manager->activateTab(TabsManager::TAB_ID_PARTICIPANTS);
 
@@ -154,6 +155,10 @@ class ilTestParticipantsGUI
             $this->ctrl->getLinkTargetByClass(self::class, 'show')
         );
 
+        if ($modal !== null) {
+            $components[] = $modal;
+        }
+
         $this->main_tpl->setContent(
             $this->ui_renderer->render($components)
         );
@@ -161,8 +166,8 @@ class ilTestParticipantsGUI
 
     public function executeTableActionCmd(): void
     {
-        $this->getParticipantTable()->execute($this->getTableActionUrlBuilder());
-        $this->showCmd();
+        $modal = $this->getParticipantTable()->execute($this->getTableActionUrlBuilder());
+        $this->showCmd($modal);
     }
 
     private function getParticipantTable(): ParticipantTable

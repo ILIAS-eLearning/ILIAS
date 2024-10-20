@@ -20,7 +20,7 @@ namespace ILIAS\Test\Participants;
 
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
-use ILIAS\UI\Component\Modal\Modal as Modal;
+use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\UI\Component\Table\Action\Action;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -51,6 +51,6 @@ interface TableAction
         URLBuilder $url_builder,
         ServerRequestInterface $request,
         array $selected_participants
-    ): void;
+    ): ?Modal;
     public function allowActionForRecord(Participant $record): bool;
 }

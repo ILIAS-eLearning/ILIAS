@@ -104,7 +104,7 @@ class ParticipantTableFinishTestAction implements TableAction
         URLBuilder $url_builder,
         ServerRequestInterface $request,
         array $selected_participants
-    ): void {
+    ): ?Modal {
         // This is required here because of late test object binding
         $test_session_factory = new \ilTestSessionFactory(
             $this->test_obj,

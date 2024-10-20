@@ -26,6 +26,7 @@ use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Table\DataRow;
 use ILIAS\UI\Component\Table\Action\Standard as StandardAction;
+use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\URLBuilder;
@@ -96,8 +97,8 @@ class ParticipantTableModalActions
         URLBuilderToken $row_id_token,
         URLBuilderToken $action_token,
         URLBuilderToken $action_type_token
-    ): void {
-        match($this->test_request->strVal($action_type_token->getName())) {
+    ): ?Modal {
+        return match($this->test_request->strVal($action_type_token->getName())) {
             self::SUBMIT_ACTION => $this->submit(
                 $url_builder,
                 $row_id_token,
