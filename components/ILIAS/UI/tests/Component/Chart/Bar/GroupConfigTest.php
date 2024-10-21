@@ -18,40 +18,33 @@
 
 declare(strict_types=1);
 
+namespace Component\Chart\Bar;
+
 require_once(__DIR__ . "/../../../../../../../vendor/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
-use ILIAS\UI\Component\Chart\Bar\BarConfig;
+use ILIAS\UI\Component\Chart\Bar\GroupConfig;
+use ILIAS;
+use ILIAS_UI_TestBase;
 
 /**
- * Test on Bar Configuration implementation.
+ * Test on Group Configuration implementation.
  */
-class BarConfigTest extends ILIAS_UI_TestBase
+class GroupConfigTest extends ILIAS_UI_TestBase
 {
     public function getDataFactory(): ILIAS\Data\Factory
     {
         return new ILIAS\Data\Factory();
     }
 
-    public function testWithColor(): void
+    public function testWithStacked(): void
     {
         $df = $this->getDataFactory();
 
-        $bc = new BarConfig();
-        $color = $df->color("#000000");
-        $bc1 = $bc->withColor($color);
+        $gc = new GroupConfig();
+        $gc1 = $gc->withStacked();
 
-        $this->assertEquals(null, $bc->getColor());
-        $this->assertEquals($color, $bc1->getColor());
-    }
-
-    public function testWithWidth(): void
-    {
-        $bc = new BarConfig();
-        $width = 0.5;
-        $bc1 = $bc->withRelativeWidth($width);
-
-        $this->assertEquals(null, $bc->getRelativeWidth());
-        $this->assertEquals($width, $bc1->getRelativeWidth());
+        $this->assertFalse($gc->isStacked());
+        $this->assertTrue($gc1->isStacked());
     }
 }

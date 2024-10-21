@@ -295,6 +295,15 @@ class Renderer extends AbstractComponentRenderer
         if ($x_axis->getMaxValue()) {
             $scales->x->max = $x_axis->getMaxValue();
         }
+        $dimension_groups = $component->getDataset()->getDimensionGroups();
+        foreach ($component->getGroupConfigs() as $group_name => $config) {
+            if (!isset($dimension_groups[$group_name]) || !$config->isStacked()) {
+                continue;
+            }
+            $scales->y->stacked = true;
+            $scales->x->stacked = true;
+            break;
+        }
 
         // hide pseudo y axes
         $dimension_scales = $component->getDataset()->getDimensions();
@@ -326,6 +335,15 @@ class Renderer extends AbstractComponentRenderer
         }
         if ($y_axis->getMaxValue()) {
             $scales->y->max = $y_axis->getMaxValue();
+        }
+        $dimension_groups = $component->getDataset()->getDimensionGroups();
+        foreach ($component->getGroupConfigs() as $group_name => $config) {
+            if (!isset($dimension_groups[$group_name]) || !$config->isStacked()) {
+                continue;
+            }
+            $scales->x->stacked = true;
+            $scales->y->stacked = true;
+            break;
         }
 
         // hide pseudo x axes
@@ -360,8 +378,20 @@ class Renderer extends AbstractComponentRenderer
     {
         $points_per_dimension = $component->getDataset()->getPointsPerDimension();
         $dimensions = $component->getDataset()->getDimensions();
+        $dimension_groups = $component->getDataset()->getDimensionGroups();
         $bar_configs = $component->getBarConfigs();
+        $group_configs = $component->getGroupConfigs();
         $data = [];
+        $stacking_groups = [];
+
+        foreach ($group_configs as $group_name => $config) {
+            if (!isset($dimension_groups[$group_name]) || !$config->isStacked()) {
+                continue;
+            }
+            foreach ($dimension_groups[$group_name]->getDimensionKeys() as $dimension_name) {
+                $stacking_groups[$dimension_name] = $group_name;
+            }
+        }
 
         foreach ($points_per_dimension as $dimension_name => $item_points) {
             $data[$dimension_name]["label"] = $dimension_name;
@@ -370,6 +400,9 @@ class Renderer extends AbstractComponentRenderer
             }
             if (isset($bar_configs[$dimension_name]) && $bar_configs[$dimension_name]->getRelativeWidth()) {
                 $data[$dimension_name]["barPercentage"] = $bar_configs[$dimension_name]->getRelativeWidth();
+            }
+            if (isset($stacking_groups[$dimension_name])) {
+                $data[$dimension_name]["stack"] = $stacking_groups[$dimension_name];
             }
 
             $points_as_objects = [];

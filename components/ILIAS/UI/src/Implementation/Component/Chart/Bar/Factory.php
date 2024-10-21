@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Chart\Bar;
 
 use ILIAS\Data\Chart\Dataset;
@@ -27,16 +27,18 @@ class Factory implements \ILIAS\UI\Component\Chart\Bar\Factory
     public function vertical(
         string $title,
         Dataset $dataset,
-        array $bar_configs = []
+        array $bar_configs = [],
+        array $group_configs = []
     ): Vertical {
-        return new Vertical($title, $dataset, $bar_configs);
+        return new Vertical($title, $dataset, $bar_configs, $group_configs);
     }
 
     public function horizontal(
         string $title,
         Dataset $dataset,
-        array $bar_configs = []
+        array $bar_configs = [],
+        array $group_configs = []
     ): Horizontal {
-        return new Horizontal($title, $dataset, $bar_configs);
+        return new Horizontal($title, $dataset, $bar_configs, $group_configs);
     }
 }

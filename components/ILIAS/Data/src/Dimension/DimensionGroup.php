@@ -23,14 +23,20 @@ namespace ILIAS\Data\Dimension;
 /**
  * @author Thomas Famula <famula@leifos.de>
  */
-abstract class Dimension
+class DimensionGroup
 {
-    protected array $value_labels = [];
+    /**
+     * @var string[]
+     */
+    protected array $dimension_keys = [];
 
-    public function getLabels(): array
+    public function __construct(array $dimension_keys = [])
     {
-        return $this->value_labels;
+        $this->dimension_keys = $dimension_keys;
     }
 
-    abstract public function checkValue($value): void;
+    public function getDimensionKeys(): array
+    {
+        return $this->dimension_keys;
+    }
 }

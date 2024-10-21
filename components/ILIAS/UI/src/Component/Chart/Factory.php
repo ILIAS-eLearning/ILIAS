@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Chart;
 
@@ -115,6 +115,9 @@ interface Factory
      *     1: >
      *        For each dimension, the measurement-item-value-pairs MUST be presented
      *        in a textual form, which MUST be accessible for screen readers.
+     *     2: >
+     *        When displaying a multi-dimensional dataset in a Bar Chart, the colors of
+     *        adjacent bars MUST have high contrast between each other.
      * ---
      * @return \ILIAS\UI\Component\Chart\Bar\Factory
      */
