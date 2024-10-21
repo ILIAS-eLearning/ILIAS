@@ -396,6 +396,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                  */
                 $this->prepareOutput();
                 $this->addHeaderAction();
+                $this->tabs_manager->activateTab(TabsManager::TAB_ID_PARTICIPANTS);
 
                 break;
 
