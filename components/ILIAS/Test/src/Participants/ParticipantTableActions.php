@@ -32,7 +32,7 @@ use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 
-class ParticipantTableModalActions
+class ParticipantTableActions
 {
     public const ROW_ID_PARAMETER = 'p_id';
     public const ACTION_PARAMETER = 'action';

@@ -62,7 +62,7 @@ class ParticipantTableDeleteParticipantAction implements TableAction
             $this->lng->txt('remove_participants'),
             $url_builder
                 ->withParameter($action_token, self::ACTION_ID)
-                ->withParameter($action_type_token, ParticipantTableModalActions::SHOW_ACTION),
+                ->withParameter($action_type_token, ParticipantTableActions::SHOW_ACTION),
             $row_id_token
         )->withAsync();
     }

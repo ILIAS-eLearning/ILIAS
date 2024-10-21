@@ -53,7 +53,7 @@ class ParticipantTable implements DataRetrieval
         private readonly ResultsDataFactory $results_data_factory,
         private readonly ResultsPresentationSettings $results_presentation_settings,
         private readonly \ilObjTest $test_object,
-        private readonly ParticipantTableModalActions $table_actions
+        private readonly ParticipantTableActions $table_actions
     ) {
     }
 
@@ -152,9 +152,9 @@ class ParticipantTable implements DataRetrieval
     {
         return $url_builder->acquireParameters(
             [self::ID],
-            ParticipantTableModalActions::ROW_ID_PARAMETER,
-            ParticipantTableModalActions::ACTION_PARAMETER,
-            ParticipantTableModalActions::ACTION_TYPE_PARAMETER
+            ParticipantTableActions::ROW_ID_PARAMETER,
+            ParticipantTableActions::ACTION_PARAMETER,
+            ParticipantTableActions::ACTION_TYPE_PARAMETER
         );
     }
 
