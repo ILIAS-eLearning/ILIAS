@@ -143,6 +143,7 @@ class ParticipantTableIpRangeAction implements TableAction
             $this->lng->txt('ip_range_updated'),
             true
         );
+        return null;
     }
 
     public function allowActionForRecord(Participant $record): bool
