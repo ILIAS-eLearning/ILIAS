@@ -1,13 +1,39 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Popover\Standard;
 
 /**
  * ---
+ * description: >
+ *   Example for rendering a standard popover with different positions.
+ *
  * expected output: >
- *   ILIAS shows the rendered Component.
+ *   In this example ILIAS shows depending on the screen size and scroll position the popover's text accordingly.
+ *   ILIAS shows three different buttons:
+ *   - Auto Popover
+ *   - Vertical Popover
+ *   - Horizontal Popover
+ *   Click onto the button and check if the popover's behaviour aligns with the description in the first sentence of this example's
+ *   expected output.
+ *   Please do some tests with different size and scroll positions on your browser window to see if the functions still work.
  * ---
  */
 function show_popover_with_different_positions()

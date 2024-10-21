@@ -6,8 +6,15 @@ namespace ILIAS\UI\examples\ViewControl\Pagination;
 
 /**
  * ---
+ * description: >
+ *   Example of rendering a pagination view control with many pages as dropdown
+ *
  * expected output: >
- *   ILIAS shows the rendered Component.
+ *   ILIAS shows two dropdown fields in between the "Back" (<) and "Next" (>) glyph. Clicking onto one of the dropdown fields
+ *   will open a list of numbers. You can navigate to other pages through clicking the number in the dropdown control. If
+ *   a number was clicked you will get redirected to the specific page and the number appears also in the label of the second
+ *   dropdown. You can also use the glyphs to navigate through the pages, but please note that the "Back" glyph can't be used
+ *   on the first page and the "Next" glyph can't be used on the last page.
  * ---
  */
 function many_pages_dropdown()

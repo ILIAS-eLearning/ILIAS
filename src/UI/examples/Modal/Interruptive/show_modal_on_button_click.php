@@ -1,13 +1,37 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Modal\Interruptive;
 
 /**
  * ---
+ * description: >
+ *   Example for rendering a interruptive modal on a click onto a button.
+ *
  * expected output: >
- *   ILIAS shows the rendered Component.
+ *   ILIAS shows three buttons: "Delete First Item", "Delete Second Item" and "Delete Thrid Item".
+ *   A click onto the buttons will open a modal each.
+ *   The buttons "Delete" and "Cancel" are displayed too.
+ *   A click onto "Delete" will reload the page and displays a confirmation below the example ("Affected Items...").
+ *   A click onto "Cancel" will hide the modal.
+ *   You can leave each modal by clicking onto the greyed out ILIAS in the background outside of the modal.
  * ---
  */
 function show_modal_on_button_click()

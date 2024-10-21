@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Input\Field\Url;
@@ -11,7 +27,9 @@ namespace ILIAS\UI\examples\Input\Field\Url;
  *   attached to it. It does also contain data processing.
  *
  * expected output: >
- *   ILIAS shows the rendered Component.
+ *   ILIAS shows an input field titled "Basic Input". The field is pre-filled with the text "https://www.iliasd.de/".
+ *   If you enter a URL and click "Save" your input should be displayed in the field. If you enter a random text (no URL)
+ *   and save your input an error message should be displayed (There is some error in this part.).
  * ---
  */
 function with_value()

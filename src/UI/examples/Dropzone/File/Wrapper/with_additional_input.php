@@ -1,13 +1,35 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Dropzone\File\Wrapper;
 
 /**
  * ---
+ * description: >
+ *   Example for rendering a file dropzone wrapper with additional input.
+ *
  * expected output: >
- *   ILIAS shows the rendered Component.
+ *   ILIAS shows a blue box titled "Drag and drop files onto me!". If you drag a file into the box a small window opens
+ *   including two buttons named "Save" and "Close". The file will be shown too. Additionally a text input titled "Additional
+ *   Input" is rendered below the file entry. Below the input "Additional input which affects all files of this upload" is
+ *   written. You can remove a uploaded file by clicking onto the "X" on the right side.
  * ---
  */
 function with_additional_input()

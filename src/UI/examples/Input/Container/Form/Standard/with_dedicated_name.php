@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Input\Container\Form\Standard;
@@ -10,10 +26,9 @@ namespace ILIAS\UI\examples\Input\Container\Form\Standard;
  *   Example showing a Form with an optional dedicated name which is used as NAME attribute on the rendered form.
  *
  * expected output: >
- *   Ilias zeigt ein Input Feld mit einem Beschreibungstext "Just Another Input" an.
- *   Unter dem Feld steht der Text "I'm just another input".
- *   Drücken sie auf Speichern.
- *   Es sollte einfach das Feld wieder erscheinen.
+ *   ILIAS shows an input field titled "Just Another Input".
+ *   A text "I'm just another input" is displayed below the field.
+ *   After clicking "Save" the input field should get reloaded.
  * ---
  */
 function with_dedicated_name()

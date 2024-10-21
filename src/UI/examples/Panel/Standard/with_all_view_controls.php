@@ -1,13 +1,39 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Panel\Standard;
 
 /**
  * ---
+ * description: >
+ *   Example for rendering a standard panel with an all view control.
+ *
  * expected output: >
- *   ILIAS shows the rendered Component.
+ *   ILIAS shows a panel with a large title "Panel Title", a text "Some Content" and a menu displayed by
+ *   an triangle symbol pointing down. It also includes two subtitles and three items.
+ *   On the left next to the menu a pagination field is displayed. The counter jumps back/forth if you click the <> symbols.
+ *   Clicking the number will select those.
+ *   On the left next to the pagination field a format selection field is displayed. Selection "Tile View" will change the
+ *   display of the content to tiles. The standard text listing will be activated if you select "List View".
+ *   On the left next to the format selection field a sortation button is displayed. Here you can sort the content of the panel.
+ *   Selection a sortation will reload the page. The content won't be changed.
  * ---
  */
 function with_all_view_controls(): string

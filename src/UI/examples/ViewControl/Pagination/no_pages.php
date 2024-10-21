@@ -6,6 +6,9 @@ namespace ILIAS\UI\examples\ViewControl\Pagination;
 
 /**
  * ---
+ * description: >
+ *   Example for a pagination view control with no pages
+ *
  * expected output: >
  *   A Pagination with one page only will render as empty string
  * ---

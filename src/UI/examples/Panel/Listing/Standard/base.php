@@ -1,13 +1,34 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Panel\Listing\Standard;
 
 /**
  * ---
+ * description: >
+ *   Example for rendering a panel standard listing.
+ *
  * expected output: >
- *   ILIAS shows the rendered Component.
+ *   ILIAS shows a panel title "List Title" including two item groups (see the specific test cases) titled "Subtitle 1"
+ *   and "Subtitle 2". The first item group includes tow items with an action menue each. The second item group includes
+ *   one item with an action menu.
  * ---
  */
 function base()

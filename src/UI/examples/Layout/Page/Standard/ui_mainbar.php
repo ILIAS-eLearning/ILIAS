@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Layout\Page\Standard;
@@ -11,8 +27,74 @@ use ILIAS\UI\Component\MainControls\MainBar;
 
 /**
  * ---
+ * description: >
+ *   Example for rendering a UI mainbar.
+ *
  * expected output: >
- *   ILIAS shows the rendered Component.
+ *   ILIAS shows a box with two links. The first link redirects to a ILIAS standard page with an reduced menu. If you
+ *   click onto "Menu" on the left in the menu tree ILIAS opens some example entries. You can navigate to different sub
+ *   pages with different content.
+ *   The second link redirects also to a ILIAS standard page but this time multiple menu entries are displayed. Clicking
+ *   onto "Tools" will show an example for help entries. Clicking onto "Tier des Jahres" opens a submenu. Clicking onto
+ *   "Barock" a list of entries is displayed.
+ *
+ *   Identify mainbar aria roles:
+ *   Use "search elements" (F12) - a function from the developer tools.
+ *   1. Check the HTML element which shows the whole mainbar.
+ *      The mainbar is characterized by <nav>. Therefore the ARIA landmark role "navigation" available. Additionally the
+ *      HTML element includes an attribute role="menubar".
+ *   2. Check the HTML element which shows a single mainbar entry.
+ *      The mainbar entry has got the attribute role="menuitem".
+ *   Try other versions as following:
+ *   1. The screenreader tells you that you are operating the ARIA landmark role "navigation". This is specified by the
+ *      screenreaders output, e.g. "Navigation", "Point of Reference" etc. Additionally the screenreader specifies that
+ *      you're operating a navigation bar. The output can be different depending on the screenreader.
+ *   2. The screenreader tells you that you're operating a navigation bar. The output can be different depending on the
+ *      screenreader.
+ *
+ *   Mobile Revision Mainbar:
+ *   - Show entries:
+ *      - Those entries that do not fit into the mainbar are summarised in the More-Menu.
+ *      - Clicking onto "More" opens something like a "drawer" (full page). There you can find the rest of the menu entries.
+ *   - Invoke entries:
+ *      1. The content page "Dashboard" is opened.
+ *      2. Something like a "drawer" with more menu entries is opened.
+ *      3. The "drawer" is closed. The content is not hidden anymore.
+ *   - Open subentries:
+ *      1. The rest of the entries are displayed among each other.
+ *      2. The "drawer's" content will be exchanged with the subentries.
+ *      3. The subentries are collapsed and therefore are not hidden.
+ *   - Close the slate (drawer):
+ *      - The drawer including it's entries is closed. In the background you can see the content and a new "drawer" opens
+ *          up including other entries.
+ *      - Different version: The "drawer" on the top closes, only the "drawer" on the bottom is opened.
+ *   - Tools:
+ *      - The compenent is visisble.
+ *      - The slate, regarding the component, will be closed. Therefore the content is not hidden anymore.
+ *
+ *   Desktop Revision Mainbar:
+ *   - Invoke menu entries:
+ *     Step 1: On the left border a mainbar with menu entries is displayed.
+ *     Step 2: Something like a "drawer" is opened from the left to the right. It includes entires regarding
+ *             the selected menu. The content is pressed together.
+ *     Step 3 and 5: The drawer closes. The content is being pulled apart.
+ *   - Open subentries:
+ *     Step 2: The entry is collapsed and the magazine tree is displayed.The entries below are being pushed
+ *             further down.
+ *     Step 3: The entry is closed. The entries below are being pushed further up.
+ *     Step 4: The magazine page is being displayed in the content area. Nothing changes regarding the "drawer".
+ *             The drawer remains open.
+ *   - Tools:
+ *     Step 1: An additional, colored tile is included to the mainbar on the left top. The tile is open and shows an entry
+ *             (Medienpool = folder structure).
+ *     Step 2: The drawer closes.
+ *     Step 3: The tool entry remains closed.
+ *     Step 4: The tool entry opens, the drawer including the content (Medienpool = folder structure) is displayed.
+ *     Step 5: The tool entry disappears.
+ *     Another version: The different tool's entries are clickable one by one and show different content.
+ *   - Scrolling with open mainbar:
+ *     - The mainbar remains as it was before. The entries are not scrollable.
+ *     - You can scroll through the content area.
  * ---
  */
 function ui_mainbar(): string

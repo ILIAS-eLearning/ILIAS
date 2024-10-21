@@ -6,8 +6,15 @@ namespace ILIAS\UI\examples\ViewControl\Pagination;
 
 /**
  * ---
+ * description: >
+ *   Example of rendering a pagination view control with a lot of pages
+ *
  * expected output: >
- *   ILIAS shows the rendered Component.
+ *   ILIAS shows a series of numbers 1-500 in between the "Back" (<) and "Next" (>) glyph. The series of numbers is not
+ *   displayed completely as it is limited to six elements (e.g. 1, 2, 3, 4, 5, 500). Clicking a number loads a new page:
+ *   ILIAS shows a updated number under the series of numbers, e.g. "entries 8 to 10" after clicking "5". You can browse
+ *   through the pages with the glyphs too, but  please note that the "Back" glyph can't be used on the first page and
+ *   the "Next" glyph can't be used on the last page.
  * ---
  */
 function many_pages()

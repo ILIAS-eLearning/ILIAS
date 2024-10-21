@@ -1,13 +1,38 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Button\Tag;
 
 /**
  * ---
+ * descriptions: >
+ *   Example for rendering a Tag Button.
+ *
  * expected output: >
- *   ILIAS shows the rendered Component.
+ *   ILIAS shows four different buttons titled "simple tag" in following order:
+ *   1. Five buttons in shaded colors. The cursor will change while hovering above the button which confirms that the
+ *      buttons are clickable.
+ *   2. with unavailable action: five grey buttons which are not clickable. A click won't activate any actions.
+ *   3. with additional class(es): a very broad button with a loading animation at the right side.
+ *   4. with fix colors: three buttons with different background colors and different text colors. Hovering over the
+ *      buttons will change the cursor which confirms that the buttons are clickable.
  * ---
  */
 function base()

@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Input\Container\Form\Standard;
@@ -11,10 +27,9 @@ namespace ILIAS\UI\examples\Input\Container\Form\Standard;
  *   not contain any data processing.
  *
  * expected output: >
- *  ILIAS zeigt einen Abschnitt mit dem Titel "Section 1" an.
- *  Dieser enthält ein Eingabefeld mit dem Titel "Basic Input".
- *  Sie können Zahlen und Buchstaben eingeben.
- *  Ein Klick auf die Schaltfläche Speichern lädt die Seite neu.
+ *  ILIAS shows a section titled "Section 1" including an input field titled "Basic Input".
+ *  You can enter numbers and letters.
+ *  Clicking "Save" relaods the page.
  * ---
  */
 function base()

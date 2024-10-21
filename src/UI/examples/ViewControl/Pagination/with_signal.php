@@ -6,8 +6,12 @@ namespace ILIAS\UI\examples\ViewControl\Pagination;
 
 /**
  * ---
+ * description: >
+ *   Example for rendering a pagination view control with a signal
+ *
  * expected output: >
- *   ILIAS shows the rendered Component.
+ *   ILIAS shows a series of numbers 1-10 in between the "Back" (<) and "Next" (>) glyph. Clicking a number  or a glyph
+ *   will open a modal including an image.
  * ---
  */
 function with_signal()

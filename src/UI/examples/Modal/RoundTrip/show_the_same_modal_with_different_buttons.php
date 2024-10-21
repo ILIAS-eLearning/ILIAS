@@ -1,13 +1,34 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Modal\RoundTrip;
 
 /**
  * ---
+ * description: >
+ *   Example for rendering a round trip modal with different buttons.
+ *
  * expected output: >
- *   ILIAS shows the rendered Component.
+ *   ILIAS shows three buttons with different titles. After clicking one of the first two buttonns a modal with primary
+ *   and secondary buttons is opened. Both buttons do not have any functions. The modal can be closed by hitting the ESC
+ *   key or clicking the "Close" button or the "X" glyph. A click onto the third button does not activate any actions.
  * ---
  */
 function show_the_same_modal_with_different_buttons()

@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Input\Field\Section;
@@ -12,7 +28,10 @@ namespace ILIAS\UI\examples\Input\Field\Section;
  *   constraint violations to the user.
  *
  * expected output: >
- *   ILIAS shows the rendered Component.
+ *   ILIAS shows a section with two input fields and a byline. The section is titled "Equals 10", the input fields are
+ *   labeled "Left" and "Right". You can insert numbers. Clicking "Save" will reload the page. If the addition of the
+ *   inserted numbers is 10 ILIAS will output a display accordingly. Else an error message "The sum must equal ten" will
+ *   be displayed under the fields.
  * ---
  */
 function base()

@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Layout\Page\Standard;
@@ -10,8 +26,93 @@ use ILIAS\DI\Container;
 
 /**
  * ---
+ * description: >
+ *   Example for rendering a UI.
+ *
  * expected output: >
- *   ILIAS shows the rendered Component.
+ *   ILIAS shows a box with a link "See UI in fullscreen-mode". Clicking the link will redirect to a ILIAS standard
+ *   page. Clicking onto "Tools" in the navigation tree on the left side will open a slate with dummy buttons.
+ *
+ *   Identify the main aria roles:
+ *   Use "search element" or F12 - a function from the developer tools.
+ *   1. Check the HTML element which shows the Page Header including the logo, title and metabar:
+ *      The Header is characterized by <header>. Therefore he ARIA landmark role "banner" is available.
+ *   2. Check the HTML element which shows the Page Content:
+ *      The Content is characterized by <main>. Therefore the ARIA landmark role "main" available.
+ *   3. Check the HTML element which shows the Page Footer:
+ *      The Footer is characterized by <footer>. Additionally it includes the attribute role="contentinfo". Therefore
+ *      the ARIA landmark "contentinfo" is available.
+ *   Try other versions as following:
+ *   1. The screenreader tells you that you are operating the ARIA landmark role "banner" area. This is specified by the
+ *      screenreaders output, e.g. "Banner", "Logo" etc.
+ *   2. The screenreader tells you that you are operating the ARIA landmark role "main" area. This is specified by the
+ *      screenreaders output, e.g. "Main", "Main Content", etc.
+ *   3. The screenreader tells you that you are operating the ARIA landmark role "contentinfo". This is specified by the
+ *      screenreaders output, e.g. "Index", "Table of Contents", "content-based information" etc.
+ *
+ *   Identify metabar aria roles:
+ *   Use "search element" or F12- a function from the developer tools.
+ *   1. Check the HTML element which shows the whole metabar.
+ *      The metabar includes the attribute role="menubar".
+ *   2. Check the HTML element which shows a single menu entry in the metabar.
+ *      The entry includes the attribute role="menuitem".
+ *   3. Check the HTML element which shows the whole slate opened. The slate has to be opened in the metabar.
+ *      The slate includes the attribute role="menu".
+ *   Try other versions as following:
+ *   1. The screenreader tells you that you are operating a menu bar. The output can differ depending on the screenreader.
+ *   2. The screenreader tells you that you are operating a menu element. The output can differ depending on the screenreader.
+ *   3. The screenreader tells you that you are operating a menu. The output can differ depending on the screenreader.
+ *   Please keep in mind the following answer by Timon/Amanda Mace: https://mantis.ilias.de/view.php?id=33915
+ *
+ *   Identify tree aria roles:
+ *   Use "search element" or F12 - a function from the developer tools.
+ *   1. Check the HTML element which shows the whole tree.
+ *      The tree inludes the attribute role="tree".
+ *   2. Check the HTML element which shows a tree node but no sub node.
+ *      The tree node includes the attribute role="none".
+ *   3. Check the HTML element which shows a tree node and sub nodes.
+ *      The tree node includes the attribute role="treeitem".
+ *   4. Check the HTML element which shows the group of sub nodes from check 3.
+ *      The sub node includes the attribute role="group".
+ *   Try other versions as following:
+ *   1. The screenreader tells you that you are operating a tree/list. The output can differ depending on the screenreader.
+ *   2. The screenreader tells you that you are operating a list element. The output can differ depending on the screenreader.
+ *   3. The screenreader tells you that you are operating a tree element. The output can differ depending on the screenreader.
+ *   4. The screenreader tells you that you are operating a group. The output can differ depending on the screenreader.
+ *
+ *   Identify breadcrumb aria roles:
+ *   Use "search element" or F12 - a function from the developer tools.
+ *   - Check the HTML element which shows the breadcrumbs. The breadcrumb element is named <nav>. Therefore the ARIA landmark
+ *     role "navigation" is available.
+ *   - Use a screenreader: the screenreader tells you that you are operating the ARIA landmark role "navigation" area. The
+ *     output might be something like "Navigation", "Point of Reference" etc.
+ *
+ *   Mobile Revision Metabar:
+ *   - Notification Counter:
+ *     - The disclosure glyph has got two counters: on the top the number of new messages in the notification center are
+ *        displayed. Below the number of users are displayed, but only those who are visible by the Who-is-online feature.
+ *     - Some other versions:
+ *        1. The counter does not change.
+ *        2. The counter's number changes because a new message is available in the notification center.
+ *   - Opening subentries:
+ *     Step 1: The metabar's drawer opens including the main entries.
+ *     Step 2: The drawer's content is exchanged with the search function.
+ *     Step 3: The drawer's content is exchanged with the main entries (e.g. notification center and search).
+ *     Step 4: The drawer closes.
+ *
+ *   Mobile Revision Breadcrumb:
+ *   - Using breadcrumbs:
+ *     Step 1: The course title will be displayed with a prefixed ">". It's centered in the top of the metabar.
+ *     Step 2: A drawer on the top is opened. The complete path/breadcrumb is displayed.
+ *     Step 3: The user is redirected to the appropriate page. The drawer closes.
+ *
+ *   Desktop Revision Metabar:
+ *   - Breadcrumb: The user is redirected to the appropriate page.
+ *   - Invoke entries:
+ *     Step 1: A small "drawer" opens up including the service's contents.
+ *     Step 2: The drawer closes.
+ *     Step 3: The search drawer opens.
+ *     Step 4: The drawer closes.
  * ---
  */
 function ui(): string

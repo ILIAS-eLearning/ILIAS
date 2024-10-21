@@ -1,13 +1,35 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Item\Notification;
 
 /**
  * ---
+ * description: >
+ *   Example for rendering a notificication item including aggregates.
+ *
  * expected output: >
- *   ILIAS shows the rendered Component.
+ *   ILIAS shows a box titled "Item" on a white background and following text: "Notification Item with Aggregates".
+ *   Clicking the item's heading will collapse another field with the same content. On the right side an "X" for closing the
+ *   boxes is displayed. Additionally you can see two dropdown fields on the right side including two entries each.
+ *   On the top the heading "<Back" is displayed. Clicking "Back" will fold up the boxes.
  * ---
  */
 function include_aggregates()

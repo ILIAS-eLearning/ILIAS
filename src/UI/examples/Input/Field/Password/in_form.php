@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Input\Field\Password;
@@ -11,7 +27,17 @@ namespace ILIAS\UI\examples\Input\Field\Password;
  *   Note that the value of Password is a Data\Password, not a string-primitive.
  *
  * expected output: >
- *   ILIAS shows the rendered Component.
+ *   ILIAS shows an input field titled "Password". An inserted text won't be displayed but exchanged with dots. Clicking
+ *   the Eyeopen-Glyph will display your input. Clicking that gyph again will hide your input. Clicking "Save" will
+ *   reload the page and display your input in the following format in the box above:
+ *
+ *   Array
+ *   (
+ *      [password] => ILIAS\Data\Password Object
+ *      (
+ *          [pass:ILIAS\Data\Password:private] => Passwort Test
+ *      )
+ *   )
  * ---
  */
 function in_form()

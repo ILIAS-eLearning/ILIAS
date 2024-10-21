@@ -1,13 +1,35 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Panel\Secondary\Listing;
 
 /**
  * ---
+ * description: >
+ *   Example for rendering a panel secondary listing.
+ *
  * expected output: >
- *   ILIAS shows the rendered Component.
+ *   ILIAS shows a panel titled "Listing Panel Title", an action menu and two item groups titled "Listing Subtitle 1" and
+ *   "Listing Subtitle 2". The first item group includes two items which displays action menu symbols (arrows on the right).
+ *   The menu opens weblinks to ilias.de and GitHub. The second item group displays one item.
+ *   The whole display is more compact in comparison to the standard listing panel.
  * ---
  */
 function base()

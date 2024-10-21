@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\Examples\Popover\Standard;
@@ -8,8 +24,16 @@ use ILIAS\UI\Implementation\Component\ReplaceContentSignal;
 
 /**
  * ---
+ * description: >
+ *   Example for rendering a standard popover with dynamic changing content.
+ *
  * expected output: >
- *   ILIAS shows the rendered Component.
+ *   ILIAS shows a button titled "Show Popover".
+ *   A click onto the button opens the popover including...
+ *   - a popover title: Pages
+ *   - popover content: a list with three buttons which open a new page within the popover by clicking them.
+ *   - you can navigate to the overview by clicking the "Back" button.
+ *   You can close the popover by clicking onto the ILIAS background outside of the popover.
  * ---
  */
 function show_popover_with_dynamic_changing_content()

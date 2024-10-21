@@ -1,13 +1,39 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Dropzone\File\Standard;
 
 /**
  * ---
+ * description: >
+ *   Example for rendering a standard file dropzone with additional input.
+ *
  * expected output: >
- *   ILIAS shows the rendered Component.
+ *   ILIAS shows a white box with a dashed border. You can see a text "Upload files" (displayed as a link) on the left
+ *   side and on the right side the text "Drag files in here to upload them". Clicking onto the link or dragging a file
+ *   into the box opens a small window with the buttons "Save" and "Cancel". If you dragged a file into the box you can
+ *   see the file in said small window too including a text input under the file. The text input is labeled "Additional
+ *   Input". Below said input "Additional input which affects all files of this upload" is written. You can upload any
+ *   amount of files. The window will be closed if you click onto the "Save" button. An upload doesn't happen in this
+ *   example. If a file got listed after saving your selection you can remove the file by clicking the "X" on the right
+ *   side.
  * ---
  */
 function with_additional_input()

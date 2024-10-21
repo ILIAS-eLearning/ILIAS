@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Symbol\Glyph\SortAscending;
@@ -7,11 +23,19 @@ namespace ILIAS\UI\examples\Symbol\Glyph\SortAscending;
 /**
  * ---
  * description: >
- *   Note that this example does not provide any functionality, it just shows, how this Glyph
- *   can be rendered. The functionality needs to be provided by some surrounding component (e.g. Table)
+ *   Example for rendring a sort ascending glyph.
  *
  * expected output: >
- *   ILIAS shows the rendered Component.
+ *   Active:
+ *   ILIAS shows a monochrome arrow-up symbol on a grey background. Moving the cursor above the symbol will darken it's
+ *   color slightly. Additionally the cursor's form will change and it indicates a linking.
+ *
+ *   Inactive:
+ *   ILIAS shows the same symbol, but it's greyed out. Moving the cursor will not change the presentation.
+ *
+ *   Highlighted:
+ *   ILIAS shows the same symbol but it's highlighted particularly. Moving the cursor above the symbol will darken it's
+ *   color slightly. Additionally the cursor's form will change and it indicates a linking.
  * ---
  */
 function sort_ascending()

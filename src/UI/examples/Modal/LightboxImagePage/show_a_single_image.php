@@ -1,13 +1,36 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Modal\LightboxImagePage;
 
 /**
  * ---
+ * description: >
+ *   Example for rendering a lightbox image page modal with a single image.
+ *
  * expected output: >
- *   ILIAS shows the rendered Component.
+ *   ILIAS shows a buttonn titled "Show Image".
+ *   A click onto the button greys out ILIAS, opens a moidal titled "Mountains" including an "X" glyph on the right top,
+ *   an image and a Copyright note above the image.
+ *   You can close the modal by hitting the ESC key, clicking onto the greyed out ILIAS in the background outside of the
+ *   modal or by clicking the "X" glyph.
  * ---
  */
 function show_a_single_image()
