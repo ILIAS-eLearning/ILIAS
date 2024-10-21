@@ -28,16 +28,15 @@ use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 use Psr\Http\Message\ServerRequestInterface;
 
-class ParticipantTableDeleteResultsAction implements TableAction
+class ParticipantTableDeleteParticipantAction implements TableAction
 {
-    public const ACTION_ID = 'delete_results';
+    public const ACTION_ID = 'delete_pax';
 
     public function __construct(
         private readonly Language $lng,
         private readonly \ilGlobalTemplateInterface $tpl,
         private readonly UIFactory $ui_factory,
-        private readonly \ilDBInterface $db,
-        private readonly \ilTestParticipantAccessFilterFactory $participant_access_filter_factory,
+        private readonly ParticipantRepository $participant_repository,
         private readonly \ilTestAccess $test_access,
         private readonly \ilObjTest $test_obj
     ) {
@@ -50,8 +49,7 @@ class ParticipantTableDeleteResultsAction implements TableAction
 
     public function isEnabled(): bool
     {
-        return $this->test_access->getAccess()->checkAccess('write', '', $this->test_obj->getRefId())
-            && $this->test_obj->evalTotalPersons() > 0;
+        return $this->test_access->getAccess()->checkAccess('write', '', $this->test_obj->getRefId());
     }
 
     public function getTableAction(
@@ -61,7 +59,7 @@ class ParticipantTableDeleteResultsAction implements TableAction
         URLBuilderToken $action_type_token
     ): Action {
         return $this->ui_factory->table()->action()->standard(
-            $this->lng->txt('delete_user_data'),
+            $this->lng->txt('remove_participants'),
             $url_builder
                 ->withParameter($action_token, self::ACTION_ID)
                 ->withParameter($action_type_token, ParticipantTableModalActions::SHOW_ACTION),
@@ -76,7 +74,7 @@ class ParticipantTableDeleteResultsAction implements TableAction
     ): ?Modal {
         return $this->ui_factory->modal()->interruptive(
             $this->lng->txt('confirm'),
-            $this->resolveMessage($all_participants_selected),
+            $this->lng->txt('remove_selected_participants_confirmation'),
             $url_builder->buildURI()->__toString()
         )->withAffectedItems(
             array_map(
@@ -88,7 +86,7 @@ class ParticipantTableDeleteResultsAction implements TableAction
                 ),
                 $selected_participants
             )
-        );
+        )->withActionButtonLabel($this->lng->txt('remove'));
     }
 
     public function onSubmit(
@@ -106,18 +104,7 @@ class ParticipantTableDeleteResultsAction implements TableAction
             return null;
         }
 
-        $access_filter = $this->participant_access_filter_factory
-            ->getManageParticipantsUserFilter($this->test_obj->getRefId());
-        $participant_data = new \ilTestParticipantData($this->db, $this->lng);
-        $participant_data->setParticipantAccessFilter($access_filter);
-        $participant_data->setActiveIdsFilter(
-            array_map(
-                static fn(Participant $v): int => $v->getActiveId(),
-                $selected_participants
-            )
-        );
-        $participant_data->load($this->test_obj->getTestId());
-        $this->test_obj->removeTestResults($participant_data);
+        $this->participant_repository->removeParticipants($selected_participants);
 
         $this->tpl->setOnScreenMessage(
             \ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS,
@@ -129,15 +116,6 @@ class ParticipantTableDeleteResultsAction implements TableAction
 
     public function allowActionForRecord(Participant $record): bool
     {
-        return $record->getActiveId() !== null;
-    }
-
-    private function resolveMessage(bool $all_participants_selected): string
-    {
-        if ($all_participants_selected) {
-            return $this->lng->txt('confirm_delete_all_user_data');
-        }
-
-        return $this->lng->txt('delete_selected_user_data_confirmation');
+        return $record->getActiveId() === null;
     }
 }

@@ -1133,8 +1133,8 @@ assessment#:#redirect_always#:#sempre para a página da web definida
 assessment#:#redirect_in_kiosk_mode#:#apenas quando a vista de exame está ativada
 assessment#:#redirection_url#:#URL da página web
 assessment#:#region#:#Região
-assessment#:#remove_as_participant#:#Remover como participante fixo
 assessment#:#remove_gap#:#Remover intervalo
+assessment#:#remove_participants#:#Remover como participante fixo
 assessment#:#remove_question#:#Remover
 assessment#:#remove_solution#:#Remover conteúdo para recapitulação
 assessment#:#res_contains_undef_res#:#Uma fórmula de resultado contém um resultado indefinido!

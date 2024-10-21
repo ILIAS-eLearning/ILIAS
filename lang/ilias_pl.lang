@@ -1133,8 +1133,8 @@ assessment#:#redirect_always#:#zawsze na określoną stronę docelową
 assessment#:#redirect_in_kiosk_mode#:#tylko w przypadku aktywnego widoku egzaminacyjnym
 assessment#:#redirection_url#:#Strona docelowa URL
 assessment#:#region#:#Region
-assessment#:#remove_as_participant#:#Usuń stałego uczestnika
 assessment#:#remove_gap#:#Usuń lukę
+assessment#:#remove_participants#:#Usuń stałego uczestnika
 assessment#:#remove_question#:#Usuń
 assessment#:#remove_solution#:#Usuń sugerowaną odpowiedź
 assessment#:#res_contains_undef_res#:#W formule używane są wyniki, które nie występują w tekście pytań.

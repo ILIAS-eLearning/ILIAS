@@ -1135,8 +1135,8 @@ assessment#:#redirect_always#:#siempre hacia la página definida
 assessment#:#redirect_in_kiosk_mode#:#Redirigir solo en el modo kiosko
 assessment#:#redirection_url#:#Destino de redirección
 assessment#:#region#:#Región
-assessment#:#remove_as_participant#:#Eliminar como participante fijo
 assessment#:#remove_gap#:#Eliminar hueco
+assessment#:#remove_participants#:#Eliminar como participante fijo
 assessment#:#remove_question#:#Borrar
 assessment#:#remove_solution#:#Eliminar solución recomendada
 assessment#:#res_contains_undef_res#:#Una fórmula de resultados contiene un resultado indefinido!

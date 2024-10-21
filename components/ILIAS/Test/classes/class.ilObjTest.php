@@ -4748,55 +4748,6 @@ class ilObjTest extends ilObject
         return $result;
     }
 
-
-    /**
-    * Invites all users of a group to a test
-    *
-    * @param integer $group_id The database id of the invited group
-    * @access public
-    */
-    public function inviteGroup($group_id)
-    {
-        $group = new ilObjGroup($group_id);
-        $members = $group->getGroupMemberIds();
-        foreach ($members as $user_id) {
-            $this->inviteUser($user_id, ilObjUser::_lookupClientIP($user_id));
-        }
-    }
-
-    /**
-    * Invites all users of a role to a test
-    *
-    * @param integer $group_id The database id of the invited group
-    * @access public
-    */
-    public function inviteRole($role_id)
-    {
-        $members = $this->rbac_review->assignedUsers($role_id);
-        foreach ($members as $user_id) {
-            $this->inviteUser($user_id, ilObjUser::_lookupClientIP($user_id));
-        }
-    }
-
-
-
-    /**
-    * Disinvites a user from a test
-    *
-    * @param integer $user_id The database id of the disinvited user
-    * @access public
-     *
-     * @deprecated
-    */
-    public function disinviteUser($user_id)
-    {
-        $affectedRows = $this->db->manipulateF(
-            "DELETE FROM tst_invited_user WHERE test_fi = %s AND user_fi = %s",
-            ['integer', 'integer'],
-            [$this->getTestId(), $user_id]
-        );
-    }
-
     /**
     * Invites a user to a test
     *

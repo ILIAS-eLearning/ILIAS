@@ -1133,8 +1133,8 @@ assessment#:#redirect_always#:#always to defined webpage###27 01 2015 new variab
 assessment#:#redirect_in_kiosk_mode#:#Redirect only in kiosk mode###24 10 2013 new variable
 assessment#:#redirection_url#:#Redirection target###24 10 2013 new variable
 assessment#:#region#:#Regiune
-assessment#:#remove_as_participant#:#Remove as Fixed Participant###12 11 2006 new variable
 assessment#:#remove_gap#:#Remove Gap###26 09 2014 new variable
+assessment#:#remove_participants#:#Remove Participant(s)###12 11 2006 new variable
 assessment#:#remove_question#:#Indepartati
 assessment#:#remove_solution#:#Indepartati solutia sugerata
 assessment#:#res_contains_undef_res#:#A result formula contains an undefined result!###24 10 2013 new variable

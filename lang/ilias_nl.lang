@@ -1133,8 +1133,8 @@ assessment#:#redirect_always#:#always to defined webpage###06 02 2015 new variab
 assessment#:#redirect_in_kiosk_mode#:#Doorsturen alleen in kiosk modus
 assessment#:#redirection_url#:#Omleiden naar
 assessment#:#region#:#Regio
-assessment#:#remove_as_participant#:#Verwijder als vaste deelnemer
 assessment#:#remove_gap#:#Verwijder Gap
+assessment#:#remove_participants#:#Verwijder als vaste deelnemer
 assessment#:#remove_question#:#Verwijder
 assessment#:#remove_solution#:#Verwijder voorgestelde oplossing
 assessment#:#res_contains_undef_res#:#Een resultaatvariabele bevat een ongedefinieerd resultaat!

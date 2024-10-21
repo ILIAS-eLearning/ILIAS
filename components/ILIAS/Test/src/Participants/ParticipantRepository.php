@@ -144,6 +144,26 @@ class ParticipantRepository
         }
     }
 
+    /**
+     *
+     * @param array<Participant> $selected_participants
+     */
+    public function removeParticipants(array $selected_participants): void
+    {
+        $this->database->manipulate(
+            "DELETE FROM tst_invited_user WHERE test_fi = {$selected_participants[0]->getTestId()} AND "
+                . $this->database->in(
+                    'user_fi',
+                    array_map(
+                        fn(Participant $participant): int => $participant->getUserId(),
+                        $selected_participants
+                    ),
+                    false,
+                    \ilDBConstants::T_INTEGER
+                )
+        );
+    }
+
     public function getFirstAndLastVisitForActiveId(int $active_id): array
     {
         $times = $this->database->fetchAssoc(

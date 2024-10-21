@@ -1170,9 +1170,10 @@ assessment#:#redirect_in_kiosk_mode#:#only when ‘Exam View’ is activated
 assessment#:#redirection_url#:#URL of webpage
 assessment#:#region#:#Region
 assessment#:#remaining_duration#:#Remaining Duration
-assessment#:#remove_as_participant#:#Remove as Fixed Participant
 assessment#:#remove_gap#:#Remove Gap
+assessment#:#remove_participants#:#Remove Participant(s)
 assessment#:#remove_question#:#Remove
+assessment#:#remove_selected_participants_confirmation#:#Are you sure you want to remove the selected participants from the test?
 assessment#:#remove_solution#:#Remove Content for Recapitulation
 assessment#:#res_contains_undef_res#:#A result formula contains an undefined result!
 assessment#:#res_contains_undef_var#:#A result formula contains an undefined variable!
