@@ -223,6 +223,10 @@ class ilTestAccess
         $range_start = $participant->getClientIpFrom();
         $range_end = $participant->getClientIpTo();
 
+        if ($range_start === null || $range_end === null) {
+            return false;
+        }
+
         if ($this->isIpTypeOf(FILTER_FLAG_IPV4, $ip, $range_start, $range_end)) {
             return $this->isIpv4Between($ip, $range_start, $range_end);
         }
