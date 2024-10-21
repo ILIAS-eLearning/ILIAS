@@ -211,7 +211,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
     }
 
     /**
-     * @return Iterator <Generator&isItem[]>
+     * @return Generator|isItem[]
      */
     public function getRawItems(): Iterator
     {
