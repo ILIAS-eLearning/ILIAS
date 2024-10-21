@@ -161,7 +161,7 @@ class ParticipantTableExtraTimeAction implements TableAction
     private function resolveHasDifferentExtraTime(array $participants): bool
     {
         return count(array_unique(array_map(
-            fn(\ilTestParticipant $participant) => $participant->getExtraTime(),
+            fn(Participant $participant) => $participant->getExtraTime(),
             $participants
         ))) > 1;
     }
