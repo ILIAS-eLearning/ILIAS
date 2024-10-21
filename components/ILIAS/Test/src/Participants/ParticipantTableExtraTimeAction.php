@@ -110,12 +110,14 @@ class ParticipantTableExtraTimeAction implements TableAction
     public function onSubmit(
         URLBuilder $url_builder,
         ServerRequestInterface $request,
-        array $selected_participants
+        array $selected_participants,
+        bool $all_participants_selected
     ): ?Modal {
         $modal = $this->getModal(
             $url_builder,
-            $selected_participants
-        )->withReqest($request);
+            $selected_participants,
+            $all_participants_selected
+        )->withRequest($request);
 
         $data = $modal->getData();
         if ($data === null) {

@@ -166,11 +166,13 @@ class ParticipantTableModalActions
         URLBuilder $url_builder,
         URLBuilderToken $row_id_token,
         URLBuilderToken $action_token
-    ): void {
+    ): ?Modal {
         $action = $this->actions[$this->test_request->strVal($action_token->getName())];
+        $selected_participants_from_request = $this->test_request
+            ->getMultiSelectionIds($row_id_token->getName());
         $selected_participants = $this->resolveSelectedParticipants(
             $action,
-            $this->test_request->getMultiSelectionIds($row_id_token->getName())
+            $selected_participants_from_request
         );
 
         if ($selected_participants === []) {
@@ -181,10 +183,11 @@ class ParticipantTableModalActions
             );
         }
 
-        $action->onSubmit(
+        return $action->onSubmit(
             $url_builder,
             $this->test_request->getRequest(),
-            $selected_participants
+            $selected_participants,
+            $selected_participants_from_request === 'ALL_OBJECTS'
         );
     }
 

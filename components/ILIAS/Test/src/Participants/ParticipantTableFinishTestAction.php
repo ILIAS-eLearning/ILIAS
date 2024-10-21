@@ -103,7 +103,8 @@ class ParticipantTableFinishTestAction implements TableAction
     public function onSubmit(
         URLBuilder $url_builder,
         ServerRequestInterface $request,
-        array $selected_participants
+        array $selected_participants,
+        bool $all_participants_selected
     ): ?Modal {
         // This is required here because of late test object binding
         $test_session_factory = new \ilTestSessionFactory(

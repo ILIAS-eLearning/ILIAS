@@ -50,7 +50,8 @@ interface TableAction
     public function onSubmit(
         URLBuilder $url_builder,
         ServerRequestInterface $request,
-        array $selected_participants
+        array $selected_participants,
+        bool $all_participants_selected
     ): ?Modal;
     public function allowActionForRecord(Participant $record): bool;
 }
