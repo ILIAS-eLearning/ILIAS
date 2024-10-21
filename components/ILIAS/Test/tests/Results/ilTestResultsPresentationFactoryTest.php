@@ -16,29 +16,61 @@
  *
  *********************************************************************/
 
-namespace Results;
+namespace ILIAS\Tests\Tests\Results;
 
 use ilTestBaseTestCase;
+use ilTestPassResult;
+use ilTestPassResultsTable;
 use ilTestResultsPresentationFactory;
-use ILIAS\UI\Factory as UIFactory;
-use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\HTTP\Services as HTTPService;
-use ILIAS\Data\Factory as DataFactory;
-use ilLanguage;
+use PHPUnit\Framework\MockObject\Exception;
+use ReflectionException;
 
 class ilTestResultsPresentationFactoryTest extends ilTestBaseTestCase
 {
+    /**
+     * @throws ReflectionException|Exception
+     */
     public function testConstruct(): void
     {
-        $ilTestResultsPresentationFactory = new ilTestResultsPresentationFactory(
-            $this->createMock(UIFactory::class),
-            $this->createMock(UIRenderer::class),
-            $this->createMock(Refinery::class),
-            $this->createMock(DataFactory::class),
-            $this->createMock(HTTPService::class),
-            $this->createMock(ilLanguage::class)
-        );
-        $this->assertInstanceOf(ilTestResultsPresentationFactory::class, $ilTestResultsPresentationFactory);
+        $il_test_results_presentation_factory = $this->createInstanceOf(ilTestResultsPresentationFactory::class);
+        $this->assertInstanceOf(ilTestResultsPresentationFactory::class, $il_test_results_presentation_factory);
+    }
+
+    /**
+     * @dataProvider getPassResultsPresentationTableDataProvider
+     * @throws ReflectionException|Exception
+     */
+    public function testGetPassResultsPresentationTable(?string $IO): void
+    {
+        $this->markTestSkipped();
+
+        $il_test_results_presentation_factory = $this->createInstanceOf(ilTestResultsPresentationFactory::class);
+        $il_test_pass_result = $this->createInstanceOf(ilTestPassResult::class);
+
+        if ($IO === null) {
+            $test_pass_results_table = $il_test_results_presentation_factory->getPassResultsPresentationTable(
+                $il_test_pass_result
+            );
+        } else {
+            $test_pass_results_table = $il_test_results_presentation_factory->getPassResultsPresentationTable(
+                $il_test_pass_result,
+                $IO
+            );
+        }
+
+        $this->assertInstanceOf(ilTestPassResultsTable::class, $test_pass_results_table);
+        $this->assertEquals($il_test_pass_result, $test_pass_results_table);
+        $this->assertEquals($IO ?? '', $test_pass_results_table, self::getNonPublicPropertyValue($test_pass_results_table, 'title'));
+    }
+
+    public static function getPassResultsPresentationTableDataProvider(): array
+    {
+        return [
+            'default' => [null],
+            'empty' => [''],
+            'string' => ['string'],
+            'strING' => ['strING'],
+            'STRING' => ['STRING']
+        ];
     }
 }

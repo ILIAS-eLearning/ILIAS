@@ -16,10 +16,47 @@
  *
  *********************************************************************/
 
+namespace ILIAS\Test\Tests\Settings\MainSettings;
+
+use ilFormPropertyGUI;
+use ILIAS\Test\Settings\TestSettingsGUI;
+use ilObjTest;
+use ilPropertyFormGUI;
+use ilTestBaseTestCase;
+use PHPUnit\Framework\MockObject\Exception;
+use ReflectionException;
+
 class TestSettingsGUITest extends ilTestBaseTestCase
 {
-    public function testSuppressWarning(): void
+    /**
+     * @throws ReflectionException|Exception
+     */
+    public function testConstruct(): void
     {
-        $this->assertTrue(true);
+        $il_obj_test = $this->createMock(ilObjTest::class);
+        $test_settings_gui = new class($il_obj_test) extends TestSettingsGUI {};
+
+        $this->assertInstanceOf(TestSettingsGUI::class, $test_settings_gui);
+    }
+
+    /**
+     * @dataProvider formPropertyExistsDataProvider
+     * @throws ReflectionException|Exception
+     */
+    public function testFormPropertyExists(?string $input, bool $output): void
+    {
+        $il_obj_test = $this->createMock(ilObjTest::class);
+        $test_settings_gui = new class($il_obj_test) extends TestSettingsGUI {};
+        $il_property_form_gui = $this->createConfiguredMock(ilPropertyFormGUI::class, ['getItemByPostVar' => $input ? $this->createMock($input) : null]);
+
+        $this->assertEquals($output, self::callMethod($test_settings_gui, 'formPropertyExists', [$il_property_form_gui, '']));
+    }
+
+    public static function formPropertyExistsDataProvider(): array
+    {
+        return [
+            'ilFormPropertyGUI' => ['input' => ilFormPropertyGUI::class, 'output' => true],
+            'null' => ['input' => null, 'output' => false],
+        ];
     }
 }

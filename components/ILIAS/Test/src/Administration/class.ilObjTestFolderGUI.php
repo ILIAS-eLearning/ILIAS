@@ -63,7 +63,7 @@ class ilObjTestFolderGUI extends ilObjectGUI
 
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
 
-        if (!$rbacsystem->checkAccess('read', $this->object->getRefId())) {
+        if ($this->object instanceof ilObject && !$rbacsystem->checkAccess('read', $this->object->getRefId())) {
             $this->ilias->raiseError($this->lng->txt("msg_no_perm_read_assf"), $this->ilias->error_obj->WARNING);
         }
 

@@ -20,14 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Scoring\Marks;
 
+use ilDBInterface;
+
 class MarksDatabaseRepository implements MarksRepository
 {
     private const DB_TABLE = 'tst_mark';
 
-
-    public function __construct(
-        private readonly \ilDBInterface $db
-    ) {
+    public function __construct(private readonly ilDBInterface $db)
+    {
     }
 
     public function getMarkSchemaFor(int $test_id): MarkSchema
@@ -39,6 +39,7 @@ class MarksDatabaseRepository implements MarksRepository
             ['integer'],
             [$test_id]
         );
+
         if ($this->db->numRows($result) > 0) {
             $mark_steps = [];
             while ($data = $this->db->fetchAssoc($result)) {
@@ -66,6 +67,7 @@ class MarksDatabaseRepository implements MarksRepository
             ['integer'],
             [$mark_schema->getTestId()]
         );
+
         if ($mark_schema->getMarkSteps() === []) {
             return;
         }

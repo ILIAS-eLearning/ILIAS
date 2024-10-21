@@ -20,12 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Scoring\Settings;
 
-use ILIAS\Test\Settings\TestSettings;
-use ILIAS\Test\Logging\AdditionalInformationGenerator;
-
-use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
+use ILIAS\Test\Settings\TestSettings;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
+use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
+use ilLanguage;
 
 class Settings extends TestSettings
 {
@@ -37,35 +37,31 @@ class Settings extends TestSettings
     protected int $pass_scoring = 0;
 
 
-    public function __construct(int $test_id)
-    {
-        parent::__construct($test_id);
-    }
-
     public function toForm(
-        \ilLanguage $lng,
+        ilLanguage $lng,
         FieldFactory $f,
         Refinery $refinery,
         array $environment = null
     ): FormInput {
-        $trafo = $refinery->kindlyTo()->Int();
+        $transformation = $refinery->kindlyTo()->Int();
         $fields = [
-            'count_system' => $f->radio($lng->txt('tst_text_count_system'), "")
+            'count_system' => $f->radio($lng->txt('tst_text_count_system'), '')
                 ->withOption('0', $lng->txt('tst_count_partial_solutions'), $lng->txt('tst_count_partial_solutions_desc'))
                 ->withOption('1', $lng->txt('tst_count_correct_solutions'), $lng->txt('tst_count_correct_solutions_desc'))
                 ->withValue($this->getCountSystem())
-                ->withAdditionalTransformation($trafo),
-            'score_cutting' => $f->radio($lng->txt('tst_score_cutting'), "")
+                ->withAdditionalTransformation($transformation),
+            'score_cutting' => $f->radio($lng->txt('tst_score_cutting'), '')
                 ->withOption('0', $lng->txt('tst_score_cut_question'), $lng->txt('tst_score_cut_question_desc'))
                 ->withOption('1', $lng->txt('tst_score_cut_test'), $lng->txt('tst_score_cut_test_desc'))
                 ->withValue($this->getScoreCutting())
-                ->withAdditionalTransformation($trafo),
-            'pass_scoring' => $f->radio($lng->txt('tst_pass_scoring'), "")
+                ->withAdditionalTransformation($transformation),
+            'pass_scoring' => $f->radio($lng->txt('tst_pass_scoring'), '')
                 ->withOption('0', $lng->txt('tst_pass_last_pass'), $lng->txt('tst_pass_last_pass_desc'))
                 ->withOption('1', $lng->txt('tst_pass_best_pass'), $lng->txt('tst_pass_best_pass_desc'))
                 ->withValue($this->getPassScoring())
-                ->withAdditionalTransformation($trafo)
+                ->withAdditionalTransformation($transformation)
         ];
+
         return $f->section($fields, $lng->txt('test_scoring'))
             ->withAdditionalTransformation(
                 $refinery->custom()->transformation(

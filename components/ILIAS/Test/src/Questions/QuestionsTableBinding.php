@@ -20,31 +20,38 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Questions;
 
-use ILIAS\UI\Component\Table;
-use ILIAS\UI\Component\Link;
+use Closure;
+use Generator;
+use ilAssQuestionLifecycle;
+use ILIAS\UI\Component\Link\Standard;
+use ILIAS\UI\Component\Table\OrderingBinding;
+use ILIAS\UI\Component\Table\OrderingRowBuilder;
+use ilLanguage;
+use ilTestQuestionPoolInvalidArgumentException;
 
-class QuestionsTableBinding implements Table\OrderingBinding
+class QuestionsTableBinding implements OrderingBinding
 {
     public function __construct(
         protected array $records,
-        protected \ilLanguage $lng,
-        protected \Closure $title_link_builder,
-        protected \Closure $qpl_link_builder,
+        protected ilLanguage $lng,
+        protected Closure $title_link_builder,
+        protected Closure $qpl_link_builder,
         protected string $context,
-        protected bool $editing_enabled,
+        protected bool $editing_enabled
     ) {
     }
 
-    public function getRows(
-        Table\OrderingRowBuilder $row_builder,
-        array $visible_column_ids
-    ): \Generator {
-        foreach ($this->records as $position_index => $record) {
+    /**
+     * @throws ilTestQuestionPoolInvalidArgumentException
+     */
+    public function getRows(OrderingRowBuilder $row_builder, array $visible_column_ids): Generator
+    {
+        foreach ($this->records as $record) {
             $row_id = (string) $record['question_id'];
             $record['title'] = $this->getTitleLink($record['title'], $row_id);
             $record['type_tag'] = $this->lng->txt($record['type_tag']);
             $record['complete'] = (bool) $record['complete'];
-            $record['lifecycle'] = \ilAssQuestionLifecycle::getInstance($record['lifecycle'])->getTranslation($this->lng) ?? '';
+            $record['lifecycle'] = ilAssQuestionLifecycle::getInstance($record['lifecycle'])->getTranslation($this->lng) ?? '';
             $record['qpl'] = $this->getQuestionPoolLink($record['orig_obj_fi']);
 
             $default_and_edit = !($this->context === QuestionsTable::CONTEXT_DEFAULT && $this->editing_enabled);
@@ -61,15 +68,13 @@ class QuestionsTableBinding implements Table\OrderingBinding
         }
     }
 
-    private function getTitleLink($title, $question_id): Link\Standard
+    private function getTitleLink($title, $question_id): Standard
     {
-        $f = $this->title_link_builder;
-        return $f($title, $question_id);
+        return ($this->title_link_builder)($title, $question_id);
     }
 
     private function getQuestionPoolLink(?int $qpl_id): string
     {
-        $f = $this->qpl_link_builder;
-        return $f($qpl_id);
+        return ($this->qpl_link_builder)($qpl_id);
     }
 }

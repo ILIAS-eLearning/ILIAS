@@ -22,6 +22,7 @@ namespace ILIAS\Test\Settings\MainSettings;
 
 use ILIAS\Test\Settings\TestSettings;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
+use LogicException;
 
 class MainSettings
 {
@@ -69,10 +70,10 @@ class MainSettings
         $this->settings_additional = $settings_additional;
     }
 
-    protected function throwOnDifferentTestId(TestSettings $setting)
+    protected function throwOnDifferentTestId(TestSettings $setting): void
     {
         if ($setting->getTestId() !== $this->getTestId()) {
-            throw new \LogicException('TestId mismatch in ' . get_class($setting));
+            throw new LogicException('TestId mismatch in ' . get_class($setting));
         }
     }
 
@@ -100,7 +101,7 @@ class MainSettings
         return $this->obj_id;
     }
 
-    public function withObjId(int $obj_id): int
+    public function withObjId(int $obj_id): self
     {
         $clone = clone $this;
         $clone->obj_id = $obj_id;

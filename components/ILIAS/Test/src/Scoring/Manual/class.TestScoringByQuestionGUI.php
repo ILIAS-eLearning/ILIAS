@@ -28,11 +28,6 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
     public const ONLY_FINALIZED = 1;
     public const EXCEPT_FINALIZED = 2;
 
-    public function __construct(\ilObjTest $object)
-    {
-        parent::__construct($object);
-    }
-
     protected function getDefaultCommand(): string
     {
         return 'showManScoringByQuestionParticipantsTable';

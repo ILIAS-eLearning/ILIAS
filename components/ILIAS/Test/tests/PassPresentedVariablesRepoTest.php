@@ -18,15 +18,21 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\Certificate;
+namespace ILIAS\Test\Tests;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
-class CertificateTestObjectHelper
+use ilTestBaseTestCase;
+use PassPresentedVariablesRepo;
+use PHPUnit\Framework\MockObject\Exception;
+use ReflectionException;
+
+class PassPresentedVariablesRepoTest extends ilTestBaseTestCase
 {
-    public function getResultPass(int $active_id): ?int
+    /**
+     * @throws ReflectionException|Exception
+     */
+    public function testConstruct(): void
     {
-        return \ilObjTest::_getResultPass($active_id);
+        $pass_presented_variables_repo = $this->createInstanceOf(PassPresentedVariablesRepo::class);
+        $this->assertInstanceOf(PassPresentedVariablesRepo::class, $pass_presented_variables_repo);
     }
 }

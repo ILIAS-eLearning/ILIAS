@@ -20,6 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings;
 
+use ilFormPropertyGUI;
+use ilObjTest;
+use ilPropertyFormGUI;
+
 /**
  * GUI class that manages the editing of general test settings/properties
  * shown on "general" subtab
@@ -28,12 +32,12 @@ namespace ILIAS\Test\Settings;
  */
 abstract class TestSettingsGUI
 {
-    public function __construct(protected \ilObjTest $test_object)
+    public function __construct(protected ilObjTest $test_object)
     {
     }
 
-    protected function formPropertyExists(\ilPropertyFormGUI $form, $propertyId): bool
+    protected function formPropertyExists(ilPropertyFormGUI $form, string $propertyId): bool
     {
-        return $form->getItemByPostVar($propertyId) instanceof \ilFormPropertyGUI;
+        return $form->getItemByPostVar($propertyId) instanceof ilFormPropertyGUI;
     }
 }
