@@ -38,7 +38,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class ParticipantTable implements DataRetrieval
 {
-    private const ID = 'participant_table';
+    private const ID = 'pt';
     private ?iterable $records = null;
 
     public function __construct(
