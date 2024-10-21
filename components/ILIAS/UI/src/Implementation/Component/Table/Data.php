@@ -136,6 +136,7 @@ class Data extends AbstractTable implements T\Data
                 ->withRange($range)
                 ->withOrder($order)
                 ->withSelectedOptionalColumns($data[self::VIEWCONTROL_KEY_FIELDSELECTION] ?? null);
+            $view_controls = $table->applyValuesToViewcontrols($table->getViewControls($total_count), $request);
         }
 
         return [
