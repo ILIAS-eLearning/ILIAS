@@ -194,8 +194,12 @@ class Participant
     public function getRemainingDuration(int $processing_time): int
     {
         $remaining = $this->getTotalDuration($processing_time);
-        $remaining += $this->getFirstAccess()?->getTimestamp() ?? 0;
 
+        if ($this->getFirstAccess()?->getTimestamp() === null) {
+            return $remaining;
+        }
+
+        $remaining += $this->getFirstAccess()->getTimestamp();
         if ($this->submitted) {
             $remaining -= $this->getLastAccess()?->getTimestamp() ?? time();
         } else {
