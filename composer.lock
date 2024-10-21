@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9d1fe43363bd0eaf4b28cb79f415045d",
+    "content-hash": "a76d50e264734da04e87304c7c061beb",
     "packages": [
         {
             "name": "apereo/phpcas",
@@ -136,6 +136,51 @@
                 }
             ],
             "time": "2023-11-29T23:19:16+00:00"
+        },
+        {
+            "name": "celtic/lti",
+            "version": "v5.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/celtic-project/LTI-PHP.git",
+                "reference": "b5a4bc14328899086a8b065b1da9b558a935ee10"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/celtic-project/LTI-PHP/zipball/b5a4bc14328899086a8b065b1da9b558a935ee10",
+                "reference": "b5a4bc14328899086a8b065b1da9b558a935ee10",
+                "shasum": ""
+            },
+            "require": {
+                "firebase/php-jwt": "^6.8",
+                "php": ">=8.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ceLTIc\\LTI\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Stephen P Vickers",
+                    "email": "stephen@spvsoftwareproducts.com"
+                }
+            ],
+            "description": "PHP class library for building LTI integrations",
+            "homepage": "https://github.com/celtic-project/LTI-PHP",
+            "keywords": [
+                "LTI"
+            ],
+            "support": {
+                "issues": "https://github.com/celtic-project/LTI-PHP/issues",
+                "source": "https://github.com/celtic-project/LTI-PHP/tree/v5.1.3"
+            },
+            "time": "2024-10-03T23:03:24+00:00"
         },
         {
             "name": "cweagans/composer-patches",
