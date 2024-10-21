@@ -687,7 +687,7 @@ class SettingsMainGUI extends TestSettingsGUI
     {
         $test_behaviour_settings = $this->main_settings->getTestBehaviourSettings()
             ->withKioskMode($section['kiosk_mode'])
-            ->withExamIdInTestPassEnabled($section['show_exam_id']);
+            ->withExamIdInTestAttemptEnabled($section['show_exam_id']);
 
         if ($this->test_object->participantDataExist()) {
             return $test_behaviour_settings;

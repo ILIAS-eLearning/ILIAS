@@ -3309,7 +3309,7 @@ class ilObjTest extends ilObject
                     $finishing_settings = $finishing_settings->withRedirectionUrl($metadata['entry']);
                     break;
                 case 'examid_in_test_pass':
-                    $test_behaviour_settings = $test_behaviour_settings->withExamIdInTestPassEnabled((bool) $metadata['entry']);
+                    $test_behaviour_settings = $test_behaviour_settings->withExamIdInTestAttemptEnabled((bool) $metadata['entry']);
                     break;
                 case 'examid_in_test_res':
                     $result_details_settings = $result_details_settings->withShowExamIdInTestResults((bool) $metadata["entry"]);
@@ -3653,7 +3653,7 @@ class ilObjTest extends ilObject
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "examid_in_test_pass");
-        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $main_settings->getTestBehaviourSettings()->getExamIdInTestPassEnabled()));
+        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $main_settings->getTestBehaviourSettings()->getExamIdInTestAttemptEnabled()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
@@ -5924,7 +5924,7 @@ class ilObjTest extends ilObject
             'ProcessingTime' => $main_settings->getTestBehaviourSettings()->getProcessingTime(),
             'ResetProcessingTime' => $main_settings->getTestBehaviourSettings()->getResetProcessingTime(),
             'Kiosk' => $main_settings->getTestBehaviourSettings()->getKioskMode(),
-            'examid_in_test_pass' => (int) $main_settings->getTestBehaviourSettings()->getExamIdInTestPassEnabled(),
+            'examid_in_test_pass' => (int) $main_settings->getTestBehaviourSettings()->getExamIdInTestAttemptEnabled(),
 
             'TitleOutput' => $main_settings->getQuestionBehaviourSettings()->getQuestionTitleOutputMode(),
             'autosave' => (int) $main_settings->getQuestionBehaviourSettings()->getAutosaveEnabled(),
@@ -6052,7 +6052,7 @@ class ilObjTest extends ilObject
                 ->withProcessingTimeEnabled((bool) $testsettings['EnableProcessingTime'])
                 ->withProcessingTime($testsettings['ProcessingTime'])
                 ->withResetProcessingTime((bool) $testsettings['ResetProcessingTime'])
-                ->withExamIdInTestPassEnabled((bool) ($testsettings['examid_in_test_pass'] ?? 0))
+                ->withExamIdInTestAttemptEnabled((bool) ($testsettings['examid_in_test_pass'] ?? 0))
             )
             ->withQuestionBehaviourSettings(
                 $main_settings->getQuestionBehaviourSettings()
@@ -7198,7 +7198,7 @@ class ilObjTest extends ilObject
 
     public function isShowExamIdInTestPassEnabled(): bool
     {
-        return $this->getMainSettings()->getTestBehaviourSettings()->getExamIdInTestPassEnabled();
+        return $this->getMainSettings()->getTestBehaviourSettings()->getExamIdInTestAttemptEnabled();
     }
 
     public function isShowExamIdInTestResultsEnabled(): bool

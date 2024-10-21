@@ -164,10 +164,10 @@ class SettingsTestBehaviourTest extends ilTestBaseTestCase
      */
     public function testGetAndWithExamIdInTestPassEnabled(bool $io): void
     {
-        $Settings_test_behaviour = (new SettingsTestBehaviour(0))->withExamIdInTestPassEnabled($io);
+        $Settings_test_behaviour = (new SettingsTestBehaviour(0))->withExamIdInTestAttemptEnabled($io);
 
         $this->assertInstanceOf(SettingsTestBehaviour::class, $Settings_test_behaviour);
-        $this->assertEquals($io, $Settings_test_behaviour->getExamIdInTestPassEnabled());
+        $this->assertEquals($io, $Settings_test_behaviour->getExamIdInTestAttemptEnabled());
     }
 
     public static function getAndWithExamIdInTestPassEnabledDataProvider(): array

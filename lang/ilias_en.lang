@@ -1355,7 +1355,7 @@ assessment#:#tst_answer_fixation_on_instantfb_or_followupqst_desc#:#A participan
 assessment#:#tst_answer_status_answered#:#Answered###fau: testNav
 assessment#:#tst_answer_status_editing#:# (editing)###fau: testNav
 assessment#:#tst_answer_status_not_answered#:#Not answered###fau: testNav
-assessment#:#tst_answered_questions#:#Answered Questions
+assessment#:#tst_answered_questions#:#Nr. of Answered Questions
 assessment#:#tst_answered_questions_of_total#:#%s of %s
 assessment#:#tst_answered_questions_test#:#Questions answered in this test
 assessment#:#tst_attached_xls_file#:#You can find the test results for this participant in the attached Excel file.
