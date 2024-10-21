@@ -380,7 +380,8 @@ class ilTestParticipantsGUI
                     $this->lng,
                     $this->main_tpl,
                     $this->ui_factory,
-                    $this->refinery,
+                    $this->participant_repository,
+                    $this->current_user,
                     $this->test_obj
                 ),
                 ParticipantTableFinishTestAction::ACTION_ID => new ParticipantTableFinishTestAction(

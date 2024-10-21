@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Participants;
 
+use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;
@@ -27,7 +28,6 @@ use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\UI\Component\Table\Action\Action;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
-use ILIAS\Refinery\Factory as Refinery;
 use Psr\Http\Message\ServerRequestInterface;
 
 class ParticipantTableExtraTimeAction implements TableAction
@@ -38,7 +38,8 @@ class ParticipantTableExtraTimeAction implements TableAction
         private readonly Language $lng,
         private readonly \ilGlobalTemplateInterface $tpl,
         private readonly UIFactory $ui_factory,
-        private readonly Refinery $refinery,
+        private readonly ParticipantRepository $participant_repository,
+        private readonly \ilObjUser $current_user,
         private readonly \ilObjTest $test_obj
     ) {
     }
@@ -185,8 +186,8 @@ class ParticipantTableExtraTimeAction implements TableAction
         if ($this->test_obj->getTestLogger()->isLoggingEnabled()) {
             $this->test_obj->getTestLogger()->logTestAdministrationInteraction(
                 $this->test_obj->getTestLogger()->getInteractionFactory()->buildTestAdministrationInteraction(
-                    $this->getRefId(),
-                    $this->user->getId(),
+                    $this->test_obj->getRefId(),
+                    $this->current_user->getId(),
                     TestAdministrationInteractionTypes::EXTRA_TIME_ADDED,
                     [
                         AdditionalInformationGenerator::KEY_USERS => array_map(
