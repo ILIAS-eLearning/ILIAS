@@ -609,7 +609,7 @@ assessment#:#delete_all_user_data#:#Testdaten aller Teilnehmer entfernen
 assessment#:#delete_all_user_data_confirmation#:#Wollen Sie wirklich die Testdaten aller Teilnehmer löschen?
 assessment#:#delete_image_header#:#Bild entfernen
 assessment#:#delete_image_question#:#Möchten Sie das Bild wirklich entfernen?
-assessment#:#delete_selected_user_data_confirmation#:#Sind Sie sicher, dass Sie alle Testdaten der ausgewählten Benutzer entfernen wollen?
+assessment#:#delete_selected_user_data_confirmation#:#Sind Sie sicher, dass Sie alle Testdaten der ausgewählten Teilnehmenden entfernen wollen?
 assessment#:#delete_user_data#:#Testergebnisse entfernen
 assessment#:#description_maxchars#:#Wenn nichts eingegeben wird, ist die maximale Anzahl von Zeichen für diese Textantwort unbegrenzt.
 assessment#:#detail_ending_time_reached#:#Sie haben die längstmögliche Bearbeitungsdauer des Tests überschritten. Der Test konnte nur bis %s Uhr bearbeitet werden.
@@ -1170,9 +1170,10 @@ assessment#:#redirect_in_kiosk_mode#:#nur bei aktivierter Prüfungsansicht
 assessment#:#redirection_url#:#URL Zielseite
 assessment#:#region#:#Region
 assessment#:#remaining_duration#:#Restdauer
-assessment#:#remove_as_participant#:#Als festen Teilnehmer entfernen
 assessment#:#remove_gap#:#Lücke entfernen
+assessment#:#remove_participants#:#Teilnehmende entfernen
 assessment#:#remove_question#:#Entfernen
+assessment#:#remove_selected_participants_confirmation#:#Sind Sie sicher, dass Sie die ausgewählten Teilnehmenden entfernen wollen?
 assessment#:#remove_solution#:#Hinweis auf Inhalte zur Wiederholung entfernen
 assessment#:#res_contains_undef_res#:#In der Formel werden Ergebnisse verwendet, die im Fragen-Text nicht vorhanden sind.
 assessment#:#res_contains_undef_var#:#In der Formel werden Variablen verwendet, die im Fragen-Text nicht vorhanden sind.

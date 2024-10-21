@@ -308,7 +308,7 @@ class ParticipantTable implements DataRetrieval
             'login' => $column_factory->text($this->lng->txt('login'))->withIsSortable(true),
             'matriculation' => $column_factory->text($this->lng->txt('matriculation'))->withIsSortable(false)->withIsOptional(true),
             'ip_range' => $column_factory->text($this->lng->txt('client_ip_range'))->withIsOptional(true)->withIsSortable(true),
-            'attempt_started_at' => $column_factory->text($this->lng->txt('tst_started'))->withIsSortable(true),
+            'attempt_started_at' => $column_factory->text($this->lng->txt('tst_attempt_started'))->withIsSortable(true),
             'total_attempts' => $column_factory->number($this->lng->txt('total_attempts'))->withIsOptional(true)->withIsSortable(true),
         ];
 

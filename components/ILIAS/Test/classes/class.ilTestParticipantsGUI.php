@@ -28,6 +28,7 @@ use ILIAS\Test\Results\Data\Factory as ResultsDataFactory;
 use ILIAS\Test\Results\Presentation\Factory as ResultsPresentationFactory;
 use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\Participants\ParticipantTableModalActions;
+use ILIAS\Test\Participants\ParticipantTableDeleteParticipantAction;
 use ILIAS\Test\Participants\ParticipantTableIpRangeAction;
 use ILIAS\Test\Participants\ParticipantTableExtraTimeAction;
 use ILIAS\Test\Participants\ParticipantTableFinishTestAction;
@@ -125,14 +126,14 @@ class ilTestParticipantsGUI
             $countusers++;
         }
 
-        $message = "";
+        $message = '';
         if ($countusers) {
-            $message = $this->lng->txt("tst_invited_selected_users");
+            $message = $this->lng->txt('tst_invited_selected_users');
         }
         if (strlen($message)) {
             $this->main_tpl->setOnScreenMessage('info', $message, true);
         } else {
-            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("tst_invited_nobody"), true);
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('tst_invited_nobody'), true);
             return false;
         }
 
@@ -338,6 +339,14 @@ class ilTestParticipantsGUI
             $this->participant_repository,
             $this->test_obj,
             [
+                ParticipantTableDeleteParticipantAction::ACTION_ID => new ParticipantTableDeleteParticipantAction(
+                    $this->lng,
+                    $this->main_tpl,
+                    $this->ui_factory,
+                    $this->participant_repository,
+                    $this->test_access,
+                    $this->test_obj
+                ),
                 ParticipantTableIpRangeAction::ACTION_ID => new ParticipantTableIpRangeAction(
                     $this->lng,
                     $this->main_tpl,

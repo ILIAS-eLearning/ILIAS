@@ -1133,8 +1133,8 @@ assessment#:#redirect_always#:#常に決められたwebページへ
 assessment#:#redirect_in_kiosk_mode#:#試験ビューが有効の際にのみ
 assessment#:#redirection_url#:#webページのURL
 assessment#:#region#:#Region
-assessment#:#remove_as_participant#:#固定の受験者として削除
 assessment#:#remove_gap#:#ギャップを削除
+assessment#:#remove_participants#:#固定の受験者として削除
 assessment#:#remove_question#:#削除
 assessment#:#remove_solution#:#要約用のコンテンツを削除
 assessment#:#res_contains_undef_res#:#結果式に未定義結果が含まれます!

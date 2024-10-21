@@ -1133,8 +1133,8 @@ assessment#:#redirect_always#:#vždy na definovanou webovou stránku
 assessment#:#redirect_in_kiosk_mode#:#Přesměrovat jen v kioskovém módu
 assessment#:#redirection_url#:#Cíl přesměrování
 assessment#:#region#:#Oblast
-assessment#:#remove_as_participant#:#Odstranit jako fixního účastníka
 assessment#:#remove_gap#:#Odstranit mezeru
+assessment#:#remove_participants#:#Odstranit jako fixního účastníka
 assessment#:#remove_question#:#Odstranit
 assessment#:#remove_solution#:#Odstranit doporučené řešení
 assessment#:#res_contains_undef_res#:#Výsledkový vzorec obsahuje nedefinovaný výsledek!

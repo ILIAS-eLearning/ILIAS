@@ -1133,8 +1133,8 @@ assessment#:#redirect_always#:#uvijek na definiranu internetsku stranicu
 assessment#:#redirect_in_kiosk_mode#:#samo kada je aktiviran prikaz testa
 assessment#:#redirection_url#:#URL internetske stranice
 assessment#:#region#:#Regija
-assessment#:#remove_as_participant#:#Ukloni kao fiksnog sudionika
 assessment#:#remove_gap#:#Ukloni prazninu
+assessment#:#remove_participants#:#Ukloni kao fiksnog sudionika
 assessment#:#remove_question#:#Ukloni
 assessment#:#remove_solution#:#Ukloni sadržaj za rekapitulaciju
 assessment#:#res_contains_undef_res#:#U formuli se koriste rezultati koji ne postoje u tekstu pitanja!

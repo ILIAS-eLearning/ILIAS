@@ -1133,8 +1133,8 @@ assessment#:#redirect_always#:# alltid till den definierade målsidan
 assessment#:#redirect_in_kiosk_mode#:#Nur när granskningsvyn är aktiverad
 assessment#:#redirection_url#:#URL målsida
 assessment#:#region#:#Region
-assessment#:#remove_as_participant#:#Avlägsna som fast deltagare
 assessment#:#remove_gap#:#Ta bort gap
+assessment#:#remove_participants#:#Avlägsna som fast deltagare
 assessment#:#remove_question#:#Remove
 assessment#:#remove_solution#:#Ta bort hänvisning till innehåll för upprepning
 assessment#:#res_contains_undef_res#:#I formeln används resultat som inte finns med i frågetexten.

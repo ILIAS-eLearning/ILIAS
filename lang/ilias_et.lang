@@ -1133,8 +1133,8 @@ assessment#:#redirect_always#:#always to defined webpage
 assessment#:#redirect_in_kiosk_mode#:#Redirect only in kiosk mode
 assessment#:#redirection_url#:#Redirection target
 assessment#:#region#:#Piirkond
-assessment#:#remove_as_participant#:#Eemalda kui kutsutud kasutaja
 assessment#:#remove_gap#:#Remove Gap
+assessment#:#remove_participants#:#Eemalda kui kutsutud kasutaja
 assessment#:#remove_question#:#Eemalda
 assessment#:#remove_solution#:#Eemalda soovitatud vastus
 assessment#:#res_contains_undef_res#:#A result formula contains an undefined result!

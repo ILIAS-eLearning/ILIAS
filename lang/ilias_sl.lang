@@ -1133,8 +1133,8 @@ assessment#:#redirect_always#:#vedno na določeno spletno mesto
 assessment#:#redirect_in_kiosk_mode#:#samo ko je aktiviran prikaz preizkusa
 assessment#:#redirection_url#:#URL spletne strani
 assessment#:#region#:#Regija
-assessment#:#remove_as_participant#:#Odstrani kot stalnega udeleženca
 assessment#:#remove_gap#:#Odstrani praznino
+assessment#:#remove_participants#:#Odstrani kot stalnega udeleženca
 assessment#:#remove_question#:#Odstrani
 assessment#:#remove_solution#:#Odstrani opozorilo glede vsebine ponavljanje
 assessment#:#res_contains_undef_res#:#Formula uporablja rezultate, ki jih ni v besedilu vprašanja!

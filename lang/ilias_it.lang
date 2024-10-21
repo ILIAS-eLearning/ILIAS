@@ -1133,8 +1133,8 @@ assessment#:#redirect_always#:#sempre alla pagine web definita
 assessment#:#redirect_in_kiosk_mode#:#Redirect only in kiosk mode
 assessment#:#redirection_url#:#Redirection target
 assessment#:#region#:#Regione
-assessment#:#remove_as_participant#:#Rimuovere tutti i partecipanti fissi
 assessment#:#remove_gap#:#Rimuovi spazio
+assessment#:#remove_participants#:#Rimuovere tutti i partecipanti fissi
 assessment#:#remove_question#:#Rimuovi
 assessment#:#remove_solution#:#Rimuovi la soluzione suggerita
 assessment#:#res_contains_undef_res#:#Una formula di risultato contiene un risultato non definito!

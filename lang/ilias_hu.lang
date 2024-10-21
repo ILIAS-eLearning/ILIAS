@@ -1133,8 +1133,8 @@ assessment#:#redirect_always#:#mindig a megadott URL-re
 assessment#:#redirect_in_kiosk_mode#:#csak akkor, ha a vizsganézet be van kapcsolva
 assessment#:#redirection_url#:#URL
 assessment#:#region#:#Régió
-assessment#:#remove_as_participant#:#Meghatározottként eltávolítás
 assessment#:#remove_gap#:#Kitöltendő hely eltávolítása
+assessment#:#remove_participants#:#Meghatározottként eltávolítás
 assessment#:#remove_question#:#Eltávolítás
 assessment#:#remove_solution#:#Ismétlő összefoglaló tartalmának eltávolítása
 assessment#:#res_contains_undef_res#:#Egy végeredmény-képlet nem definiált végeredményt tartalmaz!

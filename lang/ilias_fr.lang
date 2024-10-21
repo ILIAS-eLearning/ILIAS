@@ -1118,8 +1118,8 @@ assessment#:#redirect_always#:#Toujours vers la page web définie
 assessment#:#redirect_in_kiosk_mode#:#Rediriger uniquement en mode kiosque
 assessment#:#redirection_url#:#Cible de la redirection
 assessment#:#region#:#Zone
-assessment#:#remove_as_participant#:#Retirer de la Liste des Participants
 assessment#:#remove_gap#:#Supprimer Gap
+assessment#:#remove_participants#:#Retirer de la Liste des Participants
 assessment#:#remove_question#:#Retirer
 assessment#:#remove_solution#:#Supprimer la Ressource
 assessment#:#res_contains_undef_res#:#Une formule de résultat contient un résultat indéfini !
