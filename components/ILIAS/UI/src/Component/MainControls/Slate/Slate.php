@@ -25,11 +25,12 @@ use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\UI\Component\Triggerer;
+use ILIAS\UI\Component\HasHelpTopics;
 
 /**
  * This describes a Slate
  */
-interface Slate extends Component, JavaScriptBindable, Triggerer
+interface Slate extends Component, JavaScriptBindable, Triggerer, HasHelpTopics
 {
     /**
      * Get the name of this slate

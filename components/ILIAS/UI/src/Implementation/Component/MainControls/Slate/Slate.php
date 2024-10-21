@@ -29,12 +29,14 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\ReplaceSignal as ReplaceSignalImplementation;
 use ILIAS\UI\Implementation\Component\Triggerer;
+use ILIAS\UI\Implementation\Component\HasHelpTopics;
 
 abstract class Slate implements ISlate\Slate
 {
     use ComponentHelper;
     use JavaScriptBindable;
     use Triggerer;
+    use HasHelpTopics;
 
     // allowed ARIA roles
     public const MENU = 'menu';
