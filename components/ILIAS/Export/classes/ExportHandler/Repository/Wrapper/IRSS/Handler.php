@@ -29,7 +29,6 @@ use ILIAS\Filesystem\Filesystems;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Filesystem\Util\Archive\Zip;
 use ILIAS\Filesystem\Util\Archive\ZipOptions;
-use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Services as ResourcesStorageService;
 use SplFileInfo;
 

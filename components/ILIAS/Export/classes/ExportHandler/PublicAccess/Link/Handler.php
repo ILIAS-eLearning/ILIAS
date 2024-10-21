@@ -23,6 +23,7 @@ namespace ILIAS\Export\ExportHandler\PublicAccess\Link;
 use ILIAS\Data\ReferenceId;
 use ILIAS\Data\URI;
 use ILIAS\Export\ExportHandler\I\PublicAccess\Link\HandlerInterface as ilExportHandlerPublicAccessLinkHandlerInterface;
+use ILIAS\Export\ExportHandler\I\PublicAccess\Link\Wrapper\StaticURL\HandlerInterface as ilExportHandlerPublicAccessLinkStaticURLWrapperInterface;
 use ILIAS\Export\ExportHandler\StaticUrlHandler as ilExportHandlerStaticUrlHandler;
 use ILIAS\StaticURL\Context;
 use ILIAS\StaticURL\Handler\BaseHandler;
@@ -30,21 +31,21 @@ use ILIAS\StaticURL\Handler\Handler as StaticURLHandler;
 use ILIAS\StaticURL\Request\Request;
 use ILIAS\StaticURL\Response\Factory;
 use ILIAS\StaticURL\Response\Response;
-use ILIAS\StaticURL\Services as StaticUrl;
 
 class Handler extends BaseHandler implements ilExportHandlerPublicAccessLinkHandlerInterface, StaticURLHandler
 {
-    protected StaticURL $static_url;
+    protected ilExportHandlerPublicAccessLinkStaticURLWrapperInterface $static_url_wrapper;
     protected ReferenceId $reference_id;
 
     public function __construct()
     {
     }
 
-    public function withStaticUrl(StaticURL $static_url): ilExportHandlerPublicAccessLinkHandlerInterface
-    {
+    public function withStaticURLWrapper(
+        ilExportHandlerPublicAccessLinkStaticURLWrapperInterface $static_url_wrapper
+    ): ilExportHandlerPublicAccessLinkHandlerInterface {
         $clone = clone $this;
-        $clone->static_url = $static_url;
+        $clone->static_url_wrapper = $static_url_wrapper;
         return $clone;
     }
 
@@ -60,13 +61,14 @@ class Handler extends BaseHandler implements ilExportHandlerPublicAccessLinkHand
         return $this->reference_id;
     }
 
+    public function getStaticURLWrapper(): ilExportHandlerPublicAccessLinkStaticURLWrapperInterface
+    {
+        return $this->static_url_wrapper;
+    }
+
     public function getLink(): URI
     {
-        return $this->static_url->builder()->build(
-            ilExportHandlerStaticUrlHandler::NAMESPACE,
-            $this->reference_id,
-            [ilExportHandlerStaticUrlHandler::DOWNLOAD]
-        );
+        return $this->static_url_wrapper->buildDownloadURI($this->reference_id);
     }
 
     public function getNamespace(): string

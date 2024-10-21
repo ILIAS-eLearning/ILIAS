@@ -18,17 +18,15 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Export\ExportHandler\PublicAccess\Link;
+namespace ILIAS\Export\ExportHandler\PublicAccess\Link\Wrapper;
 
 use ILIAS\Export\ExportHandler\I\FactoryInterface as ilExportHandlerFactoryInterface;
-use ILIAS\Export\ExportHandler\I\PublicAccess\Link\FactoryInterface as ilExportHandlerPublicAccessLinkFactoryInterface;
-use ILIAS\Export\ExportHandler\I\PublicAccess\Link\HandlerInterface as ilExportHandlerPublicAccessLinkInterface;
 use ILIAS\Export\ExportHandler\I\PublicAccess\Link\Wrapper\FactoryInterface as ilExportHandlerPublicAccessLinkWrapperFactoryInterface;
-use ILIAS\Export\ExportHandler\PublicAccess\Link\Handler as ilExportHandlerPublicAccessLink;
-use ILIAS\Export\ExportHandler\PublicAccess\Link\Wrapper\Factory as ilExportHandlerPublicAccessLinkWrapperFactory;
+use ILIAS\Export\ExportHandler\I\PublicAccess\Link\Wrapper\StaticURL\FactoryInterface as ilExportHandlerPublicAccessLinkStaticURLWrapperFactoryInterface;
+use ILIAS\Export\ExportHandler\PublicAccess\Link\Wrapper\StaticURL\Factory as ilExportHandlerPublicAccessLinkStaticURLWrapperFactory;
 use ILIAS\StaticURL\Services as StaticUrl;
 
-class Factory implements ilExportHandlerPublicAccessLinkFactoryInterface
+class Factory implements ilExportHandlerPublicAccessLinkWrapperFactoryInterface
 {
     protected ilExportHandlerFactoryInterface $export_handler;
     protected StaticURL $static_url;
@@ -41,15 +39,9 @@ class Factory implements ilExportHandlerPublicAccessLinkFactoryInterface
         $this->static_url = $static_url;
     }
 
-    public function handler(): ilExportHandlerPublicAccessLinkInterface
+    public function staticURL(): ilExportHandlerPublicAccessLinkStaticURLWrapperFactoryInterface
     {
-        return (new ilExportHandlerPublicAccessLink())
-            ->withStaticURLWrapper($this->wrapper()->staticURL()->handler());
-    }
-
-    public function wrapper(): ilExportHandlerPublicAccessLinkWrapperFactoryInterface
-    {
-        return new ilExportHandlerPublicAccessLinkWrapperFactory(
+        return new ilExportHandlerPublicAccessLinkStaticURLWrapperFactory(
             $this->export_handler,
             $this->static_url
         );

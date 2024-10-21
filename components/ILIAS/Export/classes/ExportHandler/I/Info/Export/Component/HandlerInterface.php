@@ -22,7 +22,6 @@ namespace ILIAS\Export\ExportHandler\I\Info\Export\Component;
 
 use ilExport;
 use ILIAS\Export\ExportHandler\I\Info\Export\Component\CollectionInterface as ilExportHandlerExportComponentInfoCollectionInterface;
-use ILIAS\Export\ExportHandler\I\Repository\Element\HandlerInterface as ilExportHandlerRepositoryElementInterface;
 use ILIAS\Export\ExportHandler\I\Target\HandlerInterface as ilExportHandlerTargetInterface;
 use ilXmlExporter;
 
