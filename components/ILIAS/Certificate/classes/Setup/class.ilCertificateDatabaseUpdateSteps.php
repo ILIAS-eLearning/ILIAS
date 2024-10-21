@@ -181,15 +181,10 @@ class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         $row = $this->db->fetchAssoc($res);
         $defaultImageFileName = $row['value'] ?? '';
 
-        try {
-        } catch (Exception $e) {
-            $rid = '-';
-        }
-
         $this->db->manipulate("DELETE FROM settings WHERE keyword = 'defaultImageFileName'");
         $this->db->insert('settings', [
             'keyword' => ['text', 'cert_bg_image'],
-            'value' => ['text', $rid],
+            'value' => ['text', $defaultImageFileName],
         ]);
     }
 }
