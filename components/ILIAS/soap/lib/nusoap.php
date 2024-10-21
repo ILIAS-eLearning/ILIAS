@@ -4592,6 +4592,19 @@ class nusoap_server extends nusoap_base
             'location'=>$endpoint,
             'bindingType'=>'http://schemas.xmlsoap.org/wsdl/soap/');
     }
+
+    public function addInternalPort(string $serviceName, string $url): void
+    {
+        $port = $this->wsdl->ports[$serviceName . 'Port'] ?? [
+            'binding'=> $serviceName . 'Binding',
+            'location'=> [],
+            'bindingType'=>'http://schemas.xmlsoap.org/wsdl/soap/'
+        ];
+
+        $port['location'] = is_array($port['location']) ? array_merge($port['location'], [$url]) : [$port['location'], $url];
+
+        $this->wsdl->ports[$serviceName . 'Port'] = $port;
+    }
 }
 
 /**
@@ -5619,10 +5632,14 @@ class wsdl extends nusoap_base
         if (count($this->ports) >= 1) {
             foreach ($this->ports as $pName => $attrs) {
                 $xml .= "\n" . '  <port name="' . $pName . '" binding="tns:' . $attrs['binding'] . '">';
-                $address = $attrs['location'] . ($debug || $has_client ? "?" : "")
-                           . ($debug ? 'debug=1' : '') . ($debug && $has_client ? "&amp;" : "")
-                           . ($has_client ? 'client_id=' . $_GET['client_id'] : '');
-                $xml .= "\n" . '    <soap:address location="' . $address . '"/>';
+                $locations = $attrs['location'];
+                $locations = is_array($locations) ? $locations : [$locations];
+                foreach ($locations as $location) {
+                    $address = $location . ($debug || $has_client ? "?" : "")
+                        . ($debug ? 'debug=1' : '') . ($debug && $has_client ? "&amp;" : "")
+                        . ($has_client ? 'client_id=' . $_GET['client_id'] : '');
+                    $xml .= "\n" . '    <soap:address location="' . $address . '"/>';
+                }
                 $xml .= "\n" . '  </port>';
             }
         }

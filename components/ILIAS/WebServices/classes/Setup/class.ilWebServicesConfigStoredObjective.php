@@ -11,9 +11,9 @@ use ILIAS\Setup;
  */
 class ilWebServicesConfigStoredObjective implements Setup\Objective
 {
-    protected Setup\Config $config;
+    protected ilWebServicesSetupConfig $config;
 
-    public function __construct(Setup\Config $config)
+    public function __construct(ilWebServicesSetupConfig $config)
     {
         $this->config = $config;
     }
@@ -54,6 +54,11 @@ class ilWebServicesConfigStoredObjective implements Setup\Objective
         $settings->set("soap_response_timeout", (string) $this->config->getSoapResponseTimeout());
         $settings->set("rpc_server_host", $this->config->getRPCServerHost());
         $settings->set("rpc_server_port", (string) $this->config->getRPCServerPort());
+
+        $settings->set('soap_internal_wsdl_path', (string) $this->config->getSoapInternalWsdlPath());
+        $settings->set('soap_internal_wsdl_verify_peer', (string) $this->config->getSoapInternalWsdlVerifyPeer());
+        $settings->set('soap_internal_wsdl_verify_peer_name', (string) $this->config->getSoapInternalWsdlVerifyPeerName());
+        $settings->set('soap_internal_wsdl_allow_self_signed', (string) $this->config->getSoapInternalWsdlAllowSelfSigned());
 
         return $environment;
     }

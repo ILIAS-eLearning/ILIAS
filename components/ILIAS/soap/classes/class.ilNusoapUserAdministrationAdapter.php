@@ -54,7 +54,8 @@ class ilNusoapUserAdministrationAdapter
         $this->server->class = "ilSoapFunctions";
 
         if ($a_use_wsdl) {
-            $this->enableWSDL();
+            global $DIC;
+            $this->enableWSDL($DIC->settings());
         }
 
         $this->registerMethods();
@@ -67,9 +68,13 @@ class ilNusoapUserAdministrationAdapter
         exit();
     }
 
-    private function enableWSDL(): void
+    private function enableWSDL(ilSetting $setting): void
     {
         $this->server->configureWSDL(SERVICE_NAME, SERVICE_NAMESPACE);
+        $internal_path = $setting->get('soap_internal_wsdl_path', '');
+        if ($internal_path) {
+            $this->server->addInternalPort(SERVICE_NAME, $internal_path);
+        }
     }
 
     private function registerMethods(): void
