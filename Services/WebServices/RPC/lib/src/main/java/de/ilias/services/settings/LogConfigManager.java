@@ -80,7 +80,7 @@ public class LogConfigManager {
 		try (FileReader fileReader = new FileReader(path)) {
 			ini.read(fileReader);
 			for (String section : ini.getSections()) {
-				if (section.equals("Server")) {
+				if (section != null && section.equals("Server")) {
 					SubnodeConfiguration sectionConfig = ini.getSection(section);
 					if (sectionConfig.containsKey("LogLevel")) {
 						setLogLevel(purgeString(sectionConfig.getProperty("LogLevel").toString()));
