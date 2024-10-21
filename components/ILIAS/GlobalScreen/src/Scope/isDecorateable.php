@@ -18,24 +18,26 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
+namespace ILIAS\GlobalScreen\Scope;
 
 use Closure;
-use ILIAS\UI\Component\Symbol\Symbol;
-use ILIAS\GlobalScreen\Scope\isDecorateable;
+use ILIAS\GlobalScreen\isGlobalScreenItem;
+use ILIAS\UI\Help\Topic;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-interface hasSymbol extends isItem
+interface isDecorateable
 {
-    public function withSymbol(Symbol $symbol): hasSymbol;
+    public function withTopics(Topic ...$topics): self;
 
-    public function getSymbol(): Symbol;
+    public function getTopics(): array;
 
-    public function hasSymbol(): bool;
+    /**
+     * @description Add a Closure to decorate the Component using withAdditionalOnloadCode
+     * @deprecated  Use addTriggererDecorator instead in Items which support it (more precise to the triggerer inside the MainBar/MetaBar)
+     */
+    public function addComponentDecorator(Closure $component_decorator): self;
 
-    public function addSymbolDecorator(Closure $symbol_decorator): isDecorateable;
-
-    public function getSymbolDecorator(): ?Closure;
+    public function getComponentDecorator(): ?Closure;
 }

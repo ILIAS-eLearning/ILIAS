@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\GlobalScreen\Scope\MetaBar\Collector;
 
 use ILIAS\GlobalScreen\Collector\AbstractBaseCollector;
@@ -25,6 +26,8 @@ use ILIAS\GlobalScreen\Scope\MetaBar\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\isParent;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
 use Generator;
+use ILIAS\GlobalScreen\Scope\isDecorateable;
+use ILIAS\UI\Help\Topic;
 
 /**
  * Class MetaBarMainCollector
@@ -33,40 +36,62 @@ use Generator;
 class MetaBarMainCollector extends AbstractBaseCollector implements ItemCollector
 {
     /**
-     * @var StaticMetaBarProvider[]
-     */
-    private array $providers;
-    /**
      * @var isItem[]
      */
     private array $items = [];
+    private array $raw_items = [];
+    private readonly Map $map;
 
-    /**
-     * MetaBarMainCollector constructor.
-     * @param array $providers
-     */
-    public function __construct(array $providers)
-    {
-        $this->providers = $providers;
+    private bool $default_topics = false;
+
+    public function __construct(
+        private readonly array $providers
+    ) {
+        $this->map = new Map();
     }
+
+    private function getProvidersFromList(): \Iterator
+    {
+        yield from $this->providers;
+    }
+
 
     public function collectStructure(): void
     {
-        $items_to_merge = [];
-        foreach ($this->providers as $provider) {
-            $items_to_merge[] = $provider->getMetaBarItems();
+
+        foreach ($this->getProvidersFromList() as $provider) {
+            $this->map->addMultiple(...$provider->getMetaBarItems());
         }
-        $this->items = array_merge([], ...$items_to_merge);
     }
 
     public function filterItemsByVisibilty(bool $async_only = false): void
     {
-        $this->items = array_filter($this->items, $this->getVisibleFilter());
+        $this->map->filter($this->getVisibleFilter());
+    }
+
+    public function getRawItems(): array
+    {
+        return iterator_to_array($this->map->getAllFromRaw());
     }
 
     public function prepareItemsForUIRepresentation(): void
     {
-        // noting to do here
+        if ($this->default_topics) {
+            $add_default_topic = static function (isItem &$item) use (&$add_default_topic): isItem {
+                if ($item instanceof isDecorateable) {
+                    $item = $item->withTopics(new Topic($item->getProviderIdentification()->getInternalIdentifier()));
+                }
+                if ($item instanceof isParent) {
+                    foreach ($item->getChildren() as $child) {
+                        $child = $add_default_topic($child);
+                    }
+                }
+
+                return $item;
+            };
+
+            $this->map->walk($add_default_topic);
+        }
     }
 
     public function cleanupItemsForUIRepresentation(): void
@@ -76,38 +101,37 @@ class MetaBarMainCollector extends AbstractBaseCollector implements ItemCollecto
 
     public function sortItemsForUIRepresentation(): void
     {
-        $this->sortItems($this->items);
-        array_walk($this->items, $this->getChildSorter());
+        $this->map->sort();
     }
 
-    /**
-     * @return Generator
-     */
     public function getItemsForUIRepresentation(): Generator
     {
-        yield from $this->items;
+        foreach ($this->map->getAllFromFilter() as $item) {
+            yield $item;
+        }
     }
 
     public function hasItems(): bool
     {
-        return count($this->items) > 0;
+        return $this->map->has();
     }
 
     public function hasVisibleItems(): bool
     {
-        return $this->hasItems();
+        if (!$this->hasItems()) {
+            return false;
+        }
+        foreach ($this->getItemsForUIRepresentation() as $item) {
+            return $item instanceof isItem;
+        }
+        return false;
     }
 
-    private function sortItems(&$items)
-    {
-        usort($items, $this->getItemSorter());
-    }
+
 
     private function getItemSorter(): callable
     {
-        return static function (isItem $a, isItem $b): int {
-            return $a->getPosition() - $b->getPosition();
-        };
+        return static fn(isItem $a, isItem $b): int => $a->getPosition() - $b->getPosition();
     }
 
     private function getChildSorter(): callable
@@ -123,8 +147,6 @@ class MetaBarMainCollector extends AbstractBaseCollector implements ItemCollecto
 
     protected function getVisibleFilter(): callable
     {
-        return static function (isItem $item): bool {
-            return ($item->isAvailable() && $item->isVisible());
-        };
+        return static fn(isItem $item): bool => $item->isAvailable() && $item->isVisible();
     }
 }

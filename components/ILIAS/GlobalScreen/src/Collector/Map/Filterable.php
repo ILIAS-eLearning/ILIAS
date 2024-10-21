@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,19 +16,20 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Map;
+declare(strict_types=1);
+
+namespace ILIAS\GlobalScreen\Collector\Map;
 
 use Closure;
 
 /**
- * Class Walkable
- * @author  Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
  * @internal
  */
-interface Walkable
+interface Filterable
 {
     /**
      * @param Closure $c
      */
-    public function walk(Closure $c): void;
+    public function filter(Closure $c): void;
 }

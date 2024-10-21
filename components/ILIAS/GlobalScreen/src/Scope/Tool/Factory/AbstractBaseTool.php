@@ -22,16 +22,12 @@ namespace ILIAS\GlobalScreen\Scope\Tool\Factory;
 
 use Closure;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractParentItem;
-use ILIAS\GlobalScreen\Scope\SymbolDecoratorTrait;
 
 /**
- * Class AbstractBaseTool
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
 abstract class AbstractBaseTool extends AbstractParentItem implements isToolItem
 {
-    use SymbolDecoratorTrait;
-
     protected ?Closure $close_callback = null;
 
     protected bool $initially_hidden = false;

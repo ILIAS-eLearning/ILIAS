@@ -23,14 +23,23 @@ namespace ILIAS\GlobalScreen\Collector\Renderer;
 use ILIAS\GlobalScreen\isGlobalScreenItem;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Symbol\Symbol;
+use ILIAS\GlobalScreen\Scope\isDecorateable;
+use ILIAS\UI\Component\JavaScriptBindable;
+use ILIAS\UI\Component\HasHelpTopics;
+use ILIAS\UI\Help\Topic;
+use ILIAS\GlobalScreen\Scope;
 
 /**
- * Trait ComponentDecoratorApplierTrait
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
-trait ComponentDecoratorApplierTrait
+trait DecoratorApplierTrait
 {
-    public function applyDecorator(Component $component, isGlobalScreenItem $item): Component
+    private function applyTopics(HasHelpTopics $component, isDecorateable $item): Component
+    {
+        return $component->withHelpTopics(...$item->getTopics());
+    }
+
+    public function applyComponentDecorator(Component $component, isGlobalScreenItem $item): Component
     {
         $c = $item->getComponentDecorator();
         if ($c !== null) {

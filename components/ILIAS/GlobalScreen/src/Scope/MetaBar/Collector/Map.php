@@ -18,18 +18,17 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Map;
+namespace ILIAS\GlobalScreen\Scope\MetaBar\Collector;
 
 use ILIAS\GlobalScreen\Collector\Map\AbstractMap;
 use ArrayObject;
 use Closure;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
+use ILIAS\GlobalScreen\Scope\Metabar\Factory\isItem;
+use ILIAS\GlobalScreen\Scope\MetaBar\Factory\hasTitle;
+use ILIAS\GlobalScreen\Scope\MetaBar\Factory\MetaBarItemFactory;
+use ILIAS\GlobalScreen\isGlobalScreenItem;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -37,9 +36,12 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
  */
 class Map extends AbstractMap
 {
-    public function __construct(private readonly MainMenuItemFactory $factory)
+    private readonly MetaBarItemFactory $factory;
+
+    public function __construct(MetaBarItemFactory $factory = null)
     {
         parent::__construct();
+        //        $this->factory = $factory;
     }
 
     protected function getTitleSorter(): Closure
@@ -58,24 +60,9 @@ class Map extends AbstractMap
         return static fn(isItem $item_one, isItem $item_two): int => $item_one->getPosition() - $item_two->getPosition();
     }
 
-    public function sort(): void
+    protected function getLostItem(IdentificationInterface $identification): isGlobalScreenItem
     {
-        parent::sort();
-
-        $replace_children_sorted = function (isItem &$item): void {
-            if ($item instanceof isParent) {
-                $children = $item->getChildren();
-                uasort($children, $this->getPositionSorter());
-                $item = $item->withChildren($children);
-            }
-        };
-        $this->walk($replace_children_sorted);
-    }
-
-    protected function getLostItem(IdentificationInterface $identification): Lost
-    {
-        return $this->factory->custom(Lost::class, new NullIdentification($identification))
-                             ->withAlwaysAvailable(true)
+        return $this->factory->topParentItem($identification)
                              ->withVisibilityCallable(
                                  fn(): bool => false
                              )->withTitle('Lost');

@@ -22,33 +22,46 @@ namespace ILIAS\GlobalScreen\Scope;
 
 use Closure;
 use ILIAS\UI\Component\Component;
-use LogicException;
-use ReflectionFunction;
-use ReflectionType;
-use Throwable;
 use ILIAS\GlobalScreen\isGlobalScreenItem;
+use ILIAS\UI\Component\JavaScriptBindable;
+use ILIAS\UI\Component\Symbol\Symbol;
+use ILIAS\UI\Help\Topic;
 
 /**
- * Trait ComponentDecoratorTrait
- * @package ILIAS\GlobalScreen\Scope
- * @author  Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
 trait ComponentDecoratorTrait
 {
-    private ?Closure $component_decorator = null;
+    use CheckClosureTrait;
 
-    /**
-     * @param Closure $component_decorator
-     * @return isGlobalScreenItem
-     */
-    public function addComponentDecorator(Closure $component_decorator): isGlobalScreenItem
+    private ?Closure $component_decorator = null;
+    private ?Closure $triggerer_decorator = null;
+    private ?Closure $symbol_decorator = null;
+
+    private array $topics = [];
+
+    public function withTopics(Topic ...$topics): self
     {
-        if (!$this->checkClosure($component_decorator)) {
-            throw new LogicException('first argument and return value of closure must be type-hinted to \ILIAS\UI\Component\Component');
-        }
+        $this->topics = $topics;
+
+        return $this;
+    }
+
+    public function getTopics(): array
+    {
+        return $this->topics;
+    }
+
+    public function addComponentDecorator(Closure $component_decorator): self
+    {
+        $this->checkClosureForSignature($component_decorator, Component::class);
+
         if ($this->component_decorator instanceof Closure) {
             $existing = $this->component_decorator;
-            $this->component_decorator = static function (Component $c) use ($component_decorator, $existing): Component {
+            $this->component_decorator = static function (Component $c) use (
+                $component_decorator,
+                $existing
+            ): Component {
                 $component = $existing($c);
 
                 return $component_decorator($component);
@@ -60,36 +73,31 @@ trait ComponentDecoratorTrait
         return $this;
     }
 
-    /**
-     * @return Closure|null
-     */
     public function getComponentDecorator(): ?Closure
     {
         return $this->component_decorator;
     }
 
-    private function checkClosure(Closure $c): bool
+    public function addSymbolDecorator(Closure $symbol_decorator): isDecorateable
     {
-        try {
-            $r = new ReflectionFunction($c);
-            if (count($r->getParameters()) !== 1) {
-                return false;
-            }
-            $first_param_type = $r->getParameters()[0]->getType();
-            if ($first_param_type instanceof ReflectionType && $first_param_type->getName() !== Component::class) {
-                return false;
-            }
-            $return_type = $r->getReturnType();
-            if ($return_type === null) {
-                return false;
-            }
-            if ($return_type->getName() !== Component::class) {
-                return false;
-            }
+        $this->checkClosureForSignature($symbol_decorator, Symbol::class);
 
-            return true;
-        } catch (Throwable $i) {
-            return false;
+        if ($this->symbol_decorator instanceof Closure) {
+            $existing = $this->symbol_decorator;
+            $this->symbol_decorator = static function (Symbol $c) use ($symbol_decorator, $existing): Symbol {
+                $component = $existing($c);
+
+                return $symbol_decorator($component);
+            };
+        } else {
+            $this->symbol_decorator = $symbol_decorator;
         }
+
+        return $this;
+    }
+
+    public function getSymbolDecorator(): ?Closure
+    {
+        return $this->symbol_decorator;
     }
 }
