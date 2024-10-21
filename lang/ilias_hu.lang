@@ -1313,6 +1313,7 @@ assessment#:#tst_answered_questions_test#:#Ebben a tesztben megválaszolt kérd�
 assessment#:#tst_attached_xls_file#:#A csatolt Excel fájlban találja a résztvevő teszteredményét.
 assessment#:#tst_attempt#:#Próbálkozás
 assessment#:#tst_attempt_limit_message#:#Your limit of test attempts is <b>%s</b>.###26 08 2024 new variable
+assessment#:#tst_attempt_started#:#Teszt megkezdve
 assessment#:#tst_back_to_pass_details#:#Vissza a kitöltés részleteihez
 assessment#:#tst_back_to_question_list#:#Vissza kérdéslistához
 assessment#:#tst_back_to_top#:#Vissza a tetejére
@@ -1893,7 +1894,6 @@ assessment#:#tst_src_quest_pool_def_list_table#:#Véletlenszerűen kiválasztott
 assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Teszt indítása a jelenlegi kérdéskiválasztással
 assessment#:#tst_start_new_test_pass#:#Új tesztkitöltés elkezdése
 assessment#:#tst_start_test#:#Teszt indítása
-assessment#:#tst_started#:#Teszt megkezdve
 assessment#:#tst_starting_time#:#Kezdő időpont
 assessment#:#tst_starting_time_desc#:#Az az időpont, ami után az 'Indítás' gomb megnyomásával a résztvevők megkezdhetik a válaszadást.
 assessment#:#tst_stat_result_atimeofwork#:#Munkaidő átlaga

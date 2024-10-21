@@ -1313,6 +1313,7 @@ assessment#:#tst_answered_questions_test#:#Pytania, na które udzielono odpowied
 assessment#:#tst_attached_xls_file#:#Wyniki testu tego uczestnika znajdziesz w załączonym pliku Excel.
 assessment#:#tst_attempt#:#Próba
 assessment#:#tst_attempt_limit_message#:#Your limit of test attempts is <b>%s</b>.###26 08 2024 new variable
+assessment#:#tst_attempt_started#:#Test rozpoczęty
 assessment#:#tst_back_to_pass_details#:#Powrót do widoku ogólnego przebiegu
 assessment#:#tst_back_to_question_list#:#Powrót do listy pytań
 assessment#:#tst_back_to_top#:#Powrót do góry
@@ -1893,7 +1894,6 @@ assessment#:#tst_src_quest_pool_def_list_table#:#Zasada wyboru przypadkowego pyt
 assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Rozpocznij test z aktualnie wybranymi pytaniami
 assessment#:#tst_start_new_test_pass#:#Rozpocznij nowe wykonanie testu
 assessment#:#tst_start_test#:#Rozpoczęcie testu
-assessment#:#tst_started#:#Test rozpoczęty
 assessment#:#tst_starting_time#:#Czas rozpoczęcia
 assessment#:#tst_starting_time_desc#:#Czas, po upływie którego można rozpocząć test. Istnieje możliwość kliknięcia na opcję 'Rozpoczęcie testu', a uczestnicy mogą udzielać odpowiedzi na pytania.
 assessment#:#tst_stat_result_atimeofwork#:#Średni czas pracy

@@ -1313,6 +1313,7 @@ assessment#:#tst_answered_questions_test#:#Вопросы на которые б
 assessment#:#tst_attached_xls_file#:#You find the test result for this participant in the attached Excel file.###27 01 2015 new variable
 assessment#:#tst_attempt#:#Attempt###30 08 2015 new variable
 assessment#:#tst_attempt_limit_message#:#Your limit of test attempts is <b>%s</b>.###26 08 2024 new variable
+assessment#:#tst_attempt_started#:#Тест запущен
 assessment#:#tst_back_to_pass_details#:#Back to Pass Details###26 09 2014 new variable
 assessment#:#tst_back_to_question_list#:#Back to Question List###26 09 2014 new variable
 assessment#:#tst_back_to_top#:#Back to Top###26 09 2014 new variable
@@ -1893,7 +1894,6 @@ assessment#:#tst_src_quest_pool_def_list_table#:#Правила для случ�
 assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Запустить тест с текущим набором вопросов
 assessment#:#tst_start_new_test_pass#:#Начать новое прохождение теста
 assessment#:#tst_start_test#:#Начать тест
-assessment#:#tst_started#:#Тест запущен
 assessment#:#tst_starting_time#:#Время начала
 assessment#:#tst_starting_time_desc#:#Point in time after which the test can be started by clicking the button ‚Start‘, participants can provide answers to questions.###07 11 2014 new variable
 assessment#:#tst_stat_result_atimeofwork#:#Среднее время работы

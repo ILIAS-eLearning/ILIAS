@@ -1313,6 +1313,7 @@ assessment#:#tst_answered_questions_test#:#Vragen beantwoord in deze toets
 assessment#:#tst_attached_xls_file#:#You find the test result for this participant in the attached Excel file.###06 02 2015 new variable
 assessment#:#tst_attempt#:#Attempt###30 08 2015 new variable
 assessment#:#tst_attempt_limit_message#:#Your limit of test attempts is <b>%s</b>.###26 08 2024 new variable
+assessment#:#tst_attempt_started#:#Toets gestart
 assessment#:#tst_back_to_pass_details#:#Terug naar details van poging
 assessment#:#tst_back_to_question_list#:#Terug naar vragenlijst
 assessment#:#tst_back_to_top#:#Terug naar Top
@@ -1893,7 +1894,6 @@ assessment#:#tst_src_quest_pool_def_list_table#:#Source Question Pool Definition
 assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Start test with Current Question Selection
 assessment#:#tst_start_new_test_pass#:#Start nieuwe toetspoging
 assessment#:#tst_start_test#:#Start de toets
-assessment#:#tst_started#:#Toets gestart
 assessment#:#tst_starting_time#:#Starttijd
 assessment#:#tst_starting_time_desc#:#Tijdstip waarop toets kan worden gestart en deelnemers vragen kunnen beantwoorden.
 assessment#:#tst_stat_result_atimeofwork#:#Gemiddelde werktijd

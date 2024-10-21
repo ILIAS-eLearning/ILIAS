@@ -1313,6 +1313,7 @@ assessment#:#tst_answered_questions_test#:#Frågor som besvaras i detta test
 assessment#:#tst_attached_xls_file#:#Testresultaten för denna deltagare finns i den bifogade Excel-filen.
 assessment#:#tst_attempt#:#Försök
 assessment#:#tst_attempt_limit_message#:#Your limit of test attempts is <b>%s</b>.###21 11 2023 new variable
+assessment#:#tst_attempt_started#:#Testet påbörjat
 assessment#:#tst_back_to_pass_details#:#Tillbaka till översikten av körningen
 assessment#:#tst_back_to_question_list#:#Tillbaka till frågelistan
 assessment#:#tst_back_to_top#:#Tillbaka till toppen
@@ -1893,7 +1894,6 @@ assessment#:#tst_src_quest_pool_def_list_table#:#Regler för slumpmässigt urval
 assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Starta testet med aktuellt frågeval
 assessment#:#tst_start_new_test_pass#:#Starta en ny testkörning
 assessment#:#tst_start_test#:#Starta test
-assessment#:#tst_started#:#Testet påbörjat
 assessment#:#tst_starting_time#:#Start
 assessment#:#tst_starting_time_desc#:#Tid från vilken testet kan startas. Från och med nu är det möjligt att klicka på knappen "Starta test" och deltagarna kan svara på frågor.
 assessment#:#tst_stat_result_atimeofwork#:#Genomsnittlig bearbetningstid

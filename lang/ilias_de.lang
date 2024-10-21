@@ -1361,6 +1361,7 @@ assessment#:#tst_answered_questions_test#:#In diesem Test beantwortete Fragen
 assessment#:#tst_attached_xls_file#:#Sie finden die Testergebnisse für diesen Teilnehmer in der angehängten Excel-Datei.
 assessment#:#tst_attempt#:#Versuch
 assessment#:#tst_attempt_limit_message#:#Ihr Limit für Testversuche beträgt <b>%s</b>.
+assessment#:#tst_attempt_started#:#Versuch gestartet
 assessment#:#tst_back_to_pass_details#:#Zurück zur Übersicht des Durchlaufs
 assessment#:#tst_back_to_question_list#:#Zurück zur Fragenliste
 assessment#:#tst_back_to_top#:#Zurück nach oben
@@ -1941,7 +1942,6 @@ assessment#:#tst_src_quest_pool_def_list_table#:#Regeln für zufällige Auswahl 
 assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Test mit aktueller Fragenauswahl starten
 assessment#:#tst_start_new_test_pass#:#Neuen Testdurchlauf starten
 assessment#:#tst_start_test#:#Test starten
-assessment#:#tst_started#:#Test gestartet
 assessment#:#tst_starting_time#:#Start
 assessment#:#tst_starting_time_desc#:#Zeitpunkt, ab dem der Test begonnen werden kann. Ab diesem Moment ist das Klicken des Buttons „Test starten“ möglich, und Teilnehmer können Fragen beantworten.
 assessment#:#tst_stat_result_atimeofwork#:#Durchschnittliche Bearbeitungsdauer pro Frage

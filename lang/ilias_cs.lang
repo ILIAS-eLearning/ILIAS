@@ -1313,6 +1313,7 @@ assessment#:#tst_answered_questions_test#:#Zodpovězené otázky v tomto testu
 assessment#:#tst_attached_xls_file#:#Výsledek testu tohoto účastníka najdete v přiloženém souboru aplikace Excel.
 assessment#:#tst_attempt#:#Pokus
 assessment#:#tst_attempt_limit_message#:#Your limit of test attempts is <b>%s</b>.###26 08 2024 new variable
+assessment#:#tst_attempt_started#:#Test spuštěn
 assessment#:#tst_back_to_pass_details#:#Podrobnosti zpět na průchodu
 assessment#:#tst_back_to_question_list#:#Zpět na seznam otázek
 assessment#:#tst_back_to_top#:#Zpět nahoru
@@ -1893,7 +1894,6 @@ assessment#:#tst_src_quest_pool_def_list_table#:#Definice zdrojového zásobník
 assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Spustit test s aktuálním výběrem otázek
 assessment#:#tst_start_new_test_pass#:#Spustit nový průchod testem
 assessment#:#tst_start_test#:#Spustit test
-assessment#:#tst_started#:#Test spuštěn
 assessment#:#tst_starting_time#:#Čas spuštění
 assessment#:#tst_starting_time_desc#:#Časový bod, po kterém může být test spuštěn kliknutím na tlačítko „Start“, účastníci mohou odpovídat na otázky.
 assessment#:#tst_stat_result_atimeofwork#:#Průměrný čas práce

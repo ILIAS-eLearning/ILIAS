@@ -1313,6 +1313,7 @@ assessment#:#tst_answered_questions_test#:#このテストへの解答結果
 assessment#:#tst_attached_xls_file#:#添付のExcelファイルにこの受験者のテスト結果があります。
 assessment#:#tst_attempt#:#試み
 assessment#:#tst_attempt_limit_message#:#Your limit of test attempts is <b>%s</b>.###26 08 2024 new variable
+assessment#:#tst_attempt_started#:#テスト開始済み
 assessment#:#tst_back_to_pass_details#:#合格詳細へ戻る
 assessment#:#tst_back_to_question_list#:#問題リストへ戻る
 assessment#:#tst_back_to_top#:#トップへ戻る
@@ -1893,7 +1894,6 @@ assessment#:#tst_src_quest_pool_def_list_table#:#問題集ソースの定義
 assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#現在の問題選択でテストを開始
 assessment#:#tst_start_new_test_pass#:#新しい試験を開始
 assessment#:#tst_start_test#:#テストを開始
-assessment#:#tst_started#:#テスト開始済み
 assessment#:#tst_starting_time#:#開始時間
 assessment#:#tst_starting_time_desc#:#開始ボタンのクリックでテストを開始した時点以降受験者は問題へ解答することができます。
 assessment#:#tst_stat_result_atimeofwork#:#平均解答時間

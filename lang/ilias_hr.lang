@@ -1313,6 +1313,7 @@ assessment#:#tst_answered_questions_test#:#Pitanja odgovorena u ovom testu
 assessment#:#tst_attached_xls_file#:#Rezultati testa za ovog sudionika nalaze se u priloženoj Excel datoteci.
 assessment#:#tst_attempt#:#Pokušaj
 assessment#:#tst_attempt_limit_message#:#Your limit of test attempts is <b>%s</b>.###26 08 2024 new variable
+assessment#:#tst_attempt_started#:#Test započet
 assessment#:#tst_back_to_pass_details#:#Natrag na detalje prolaza
 assessment#:#tst_back_to_question_list#:#Natrag na popis pitanja
 assessment#:#tst_back_to_top#:#Natrag na vrh
@@ -1893,7 +1894,6 @@ assessment#:#tst_src_quest_pool_def_list_table#:#Pravilo za slučajni odabir pit
 assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Pokretni test s trenutačnim izborom pitanja
 assessment#:#tst_start_new_test_pass#:#Pokreni novi prolaz testa
 assessment#:#tst_start_test#:#Započnite test
-assessment#:#tst_started#:#Test započet
 assessment#:#tst_starting_time#:#Vrijeme početka
 assessment#:#tst_starting_time_desc#:#Trenutak nakon kojeg se test može započeti klikom na gumb ‘Početak’ te sudionici mogu davati odgovore na pitanja.
 assessment#:#tst_stat_result_atimeofwork#:#Prosječno vrijeme obrade
