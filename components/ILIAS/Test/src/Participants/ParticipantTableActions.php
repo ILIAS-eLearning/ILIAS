@@ -102,7 +102,8 @@ class ParticipantTableActions
             self::SUBMIT_ACTION => $this->submit(
                 $url_builder,
                 $row_id_token,
-                $action_token
+                $action_token,
+                $action_type_token
             ),
             default => $this->showModal(
                 $url_builder,
@@ -128,7 +129,7 @@ class ParticipantTableActions
         URLBuilder $url_builder,
         URLBuilderToken $row_id_token,
         URLBuilderToken $action_token,
-        URLBuilderToken $action_type_token,
+        URLBuilderToken $action_type_token
     ): void {
         $action = $this->actions[$this->test_request->strVal($action_token->getName())];
         $selected_participants_from_request = $this->test_request
@@ -165,7 +166,8 @@ class ParticipantTableActions
     protected function submit(
         URLBuilder $url_builder,
         URLBuilderToken $row_id_token,
-        URLBuilderToken $action_token
+        URLBuilderToken $action_token,
+        URLBuilderToken $action_type_token
     ): ?Modal {
         $action = $this->actions[$this->test_request->strVal($action_token->getName())];
         $selected_participants_from_request = $this->test_request
@@ -184,7 +186,10 @@ class ParticipantTableActions
         }
 
         return $action->onSubmit(
-            $url_builder,
+            $url_builder
+                ->withParameter($row_id_token, $selected_participants_from_request)
+                ->withParameter($action_token, $action->getActionId())
+                ->withParameter($action_type_token, self::SUBMIT_ACTION),
             $this->test_request->getRequest(),
             $selected_participants,
             $selected_participants_from_request === 'ALL_OBJECTS'
