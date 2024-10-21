@@ -154,7 +154,7 @@ class ParticipantTable implements DataRetrieval
             [self::ID],
             ParticipantTableModalActions::ROW_ID_PARAMETER,
             ParticipantTableModalActions::ACTION_PARAMETER,
-            ParticipantTableModalActions::ACTION_TYPE_PARAMETER,
+            ParticipantTableModalActions::ACTION_TYPE_PARAMETER
         );
     }
 
@@ -260,11 +260,7 @@ class ParticipantTable implements DataRetrieval
         $status_of_attempt_options = [
             Participant::ATTEMPT_NOT_STARTED => $this->lng->txt(Participant::ATTEMPT_NOT_STARTED),
             Participant::ATTEMPT_RUNNING => $this->lng->txt(Participant::ATTEMPT_RUNNING),
-            Participant::ATTEMPT_FINISHED => $this->lng->txt(Participant::ATTEMPT_FINISHED),
-            #'finished_by_participant' => $this->lng->txt('finished_by_participant'),
-            #'finished_by_administrator' => $this->lng->txt('finished_by_administrator'),
-            #'finished_by_duration' => $this->lng->txt('finished_by_duration'),
-            #'finished_by_cronjob' => $this->lng->txt('finished_by_cronjob')
+            Participant::ATTEMPT_FINISHED => $this->lng->txt(Participant::ATTEMPT_FINISHED)
         ];
 
         $filters = [
