@@ -142,8 +142,6 @@ class ilTestParticipantsGUI
 
     public function showCmd(?Modal $modal = null): void
     {
-        $this->tabs_manager->activateTab(TabsManager::TAB_ID_PARTICIPANTS);
-
         $this->addUserSearchControls($this->toolbar);
 
         if ($this->test_obj->evalTotalPersons() > 0) {
