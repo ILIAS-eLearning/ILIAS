@@ -167,7 +167,11 @@ class ilTestParticipantsGUI
     public function executeTableActionCmd(): void
     {
         $modal = $this->getParticipantTable()->execute($this->getTableActionUrlBuilder());
-        $this->showCmd($modal);
+        if ($modal !== null) {
+            $this->showCmd($modal);
+            return;
+        }
+        $this->ctrl->redirectByClass(self::class, self::CMD_SHOW);
     }
 
     private function getParticipantTable(): ParticipantTable
