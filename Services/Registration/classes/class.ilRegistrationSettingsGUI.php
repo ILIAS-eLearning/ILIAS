@@ -1008,9 +1008,6 @@ class ilRegistrationSettingsGUI
     {
         $this->checkAccess("write");
 
-        global $DIC;
-
-        $ilErr = $DIC['ilErr'];
         $ids = [];
         if ($this->http->wrapper()->post()->has('id')) {
             $ids = $this->http->wrapper()->post()->retrieve(
@@ -1034,7 +1031,7 @@ class ilRegistrationSettingsGUI
 
         $data = ilRegistrationCode::loadCodesByIds($ids);
         foreach ($data as $code) {
-            $gui->addItem("id[]", $code["code_id"], $code["code"]);
+            $gui->addItem("id[]", (string) $code["code_id"], $code["code"]);
         }
         $this->tpl->setContent($gui->getHTML());
     }
