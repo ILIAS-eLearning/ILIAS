@@ -35,7 +35,7 @@ class ilConditionSelector extends ilRepositorySelectorExplorerGUI
         $a_parent_obj,
         string $a_parent_cmd,
         $a_selection_gui = null,
-        string $a_selection_cmd = "add",
+        string $a_selection_cmd = 'addConditionTrigger',
         string $a_selection_par = "source_id"
     ) {
         parent::__construct(

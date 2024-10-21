@@ -20,6 +20,13 @@ declare(strict_types=1);
 
 use ILIAS\Refinery\Factory;
 use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Conditions\Configuration\ConditionTriggerTableGUI;
+use ILIAS\Conditions\Configuration\ConditionTriggerProvider as ConditionTriggerProvider;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
+use ILIAS\UI\Component\Input\Field\Section as Section;
 
 /**
  * class ilConditionHandlerGUI
@@ -45,6 +52,8 @@ class ilConditionHandlerGUI
     protected ilObjectDefinition $objectDefinition;
     private GlobalHttpState $http;
     private Factory $refinery;
+    private UIFactory $ui_factory;
+    private UIRenderer $ui_renderer;
 
     protected ilConditionHandler $ch_obj;
     protected ?ilObject $target_obj = null;
@@ -72,6 +81,8 @@ class ilConditionHandlerGUI
         $this->objectDefinition = $DIC['objDefinition'];
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
 
         if ($a_ref_id) {
             $target_obj = ilObjectFactory::getInstanceByRefId($a_ref_id);
@@ -83,6 +94,7 @@ class ilConditionHandlerGUI
             }
         }
     }
+
 
     protected function initConditionIdFromQuery(): int
     {
@@ -162,7 +174,7 @@ class ilConditionHandlerGUI
         return 0;
     }
 
-    public static function translateOperator(int $a_obj_id, string $a_operator): string
+    public static function translateOperator(int $a_obj_id, string $a_operator, string $value): string
     {
         global $DIC;
 
@@ -173,6 +185,17 @@ class ilConditionHandlerGUI
 
                 $obj_settings = new ilLPObjSettings($a_obj_id);
                 return ilLPObjSettings::_mode2Text($obj_settings->getMode());
+
+            case ilConditionHandler::OPERATOR_RESULT_RANGE_PERCENTAGE:
+                $value_arr = unserialize($value);
+                if ($value_arr !== false) {
+                    $postfix = ', ';
+                    if (ilObject::_lookupType($a_obj_id) === 'crs') {
+                        $postfix .= ilCourseObjective::lookupObjectiveTitle((int) $value_arr['objective']) . ' ';
+                    }
+                    $postfix .= $value_arr['min_percentage'] . ' - ' . $value_arr['max_percentage'] . '%';
+                }
+                return $lng->txt('condition_' . $a_operator) . $postfix;
 
             default:
                 $lng->loadLanguageModule('rbac');
@@ -278,146 +301,8 @@ class ilConditionHandlerGUI
         return $this->target_title;
     }
 
-    protected function listConditions(): void
-    {
-        // check if parent deals with conditions
-        if (
-            $this->getTargetRefId() > 0 &&
-            $this->conditionUtil->isUnderParentControl($this->getTargetRefId())
-        ) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt("cond_under_parent_control"));
-            return;
-        }
 
-        $this->toolbar->addButton($this->lng->txt('add_condition'), $this->ctrl->getLinkTarget($this, 'selector'));
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.list_conditions.html', 'components/ILIAS/AccessControl');
 
-        $optional_conditions = ilConditionHandler::getPersistedOptionalConditionsOfTarget(
-            $this->getTargetRefId(),
-            $this->getTargetId(),
-            $this->getTargetType()
-        );
-        $list_mode = $this->initListModeFromPost();
-        if (count($optional_conditions)) {
-            if ($list_mode === self::LIST_MODE_UNDEFINED) {
-                $list_mode = self::LIST_MODE_SUBSET;
-            }
-        } elseif ($list_mode === self::LIST_MODE_UNDEFINED) {
-            $list_mode = self::LIST_MODE_ALL;
-        }
-
-        // Show form only if conditions are availabe
-        if (count(ilConditionHandler::_getPersistedConditionsOfTarget(
-            $this->getTargetRefId(),
-            $this->getTargetId(),
-            $this->getTargetType()
-        ))
-        ) {
-            $form = $this->showObligatoryForm($list_mode);
-            if ($form instanceof ilPropertyFormGUI) {
-                $this->tpl->setVariable('TABLE_SETTINGS', $form->getHTML());
-            }
-        }
-
-        $table = new ilConditionHandlerTableGUI($this, 'listConditions', $list_mode !== self::LIST_MODE_ALL);
-        $table->setConditions(
-            ilConditionHandler::_getPersistedConditionsOfTarget(
-                $this->getTargetRefId(),
-                $this->getTargetId(),
-                $this->getTargetType()
-            )
-        );
-
-        $h = $table->getHTML();
-        $this->tpl->setVariable('TABLE_CONDITIONS', $h);
-    }
-
-    protected function saveObligatorySettings(): void
-    {
-        $form = $this->showObligatoryForm();
-        if ($form !== null && $form->checkInput()) {
-            $old_mode = $form->getInput("old_list_mode");
-            switch ($form->getInput("list_mode")) {
-                case "all":
-                    if ($old_mode !== "all") {
-                        $optional_conditions = ilConditionHandler::getPersistedOptionalConditionsOfTarget(
-                            $this->getTargetRefId(),
-                            $this->getTargetId(),
-                            $this->getTargetType()
-                        );
-                        // Set all optional conditions to obligatory
-                        foreach ($optional_conditions as $item) {
-                            ilConditionHandler::updateObligatory($item["condition_id"], true);
-                        }
-                    }
-                    break;
-
-                case "subset":
-                    $num_req = $form->getInput('required');
-                    if ($old_mode !== "subset") {
-                        $all_conditions = ilConditionHandler::_getPersistedConditionsOfTarget(
-                            $this->getTargetRefId(),
-                            $this->getTargetId(),
-                            $this->getTargetType()
-                        );
-                        foreach ($all_conditions as $item) {
-                            ilConditionHandler::updateObligatory($item["condition_id"], false);
-                        }
-                    }
-                    ilConditionHandler::saveNumberOfRequiredTriggers(
-                        $this->getTargetRefId(),
-                        $this->getTargetId(),
-                        (int) $num_req
-                    );
-                    break;
-            }
-
-            $cond = new ilConditionHandler();
-            $cond->setTargetRefId($this->getTargetRefId());
-            $cond->updateHiddenStatus((bool) $form->getInput('hidden'));
-
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
-            $this->ctrl->redirect($this, 'listConditions');
-        }
-
-        $form->setValuesByPost();
-        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
-        $this->tpl->setContent($form->getHTML());
-    }
-
-    protected function saveObligatoryList(): void
-    {
-        $all_conditions = ilConditionHandler::_getPersistedConditionsOfTarget(
-            $this->getTargetRefId(),
-            $this->getTargetId(),
-            $this->getTargetType()
-        );
-
-        $obligatory_ids = $this->initObligatoryItemsFromPost();
-        if (count($obligatory_ids) > count($all_conditions) - 2) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("rbac_precondition_minimum_optional"), true);
-            $this->ctrl->redirect($this, 'listConditions');
-        }
-
-        foreach ($all_conditions as $item) {
-            $status = false;
-            if (in_array($item['condition_id'], $obligatory_ids->toArray(), true)) {
-                $status = true;
-            }
-            ilConditionHandler::updateObligatory($item["condition_id"], $status);
-        }
-
-        // re-calculate
-        ilConditionHandler::calculatePersistedRequiredTriggers(
-            $this->getTargetRefId(),
-            $this->getTargetId(),
-            $this->getTargetType(),
-            true
-        );
-
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
-        $this->ctrl->redirect($this, 'listConditions');
-    }
 
     protected function showObligatoryForm(
         string $list_mode = self::LIST_MODE_ALL
@@ -549,56 +434,7 @@ class ilConditionHandlerGUI
         $this->ctrl->redirect($this, 'listConditions');
     }
 
-    public function askDelete(): void
-    {
-        $condition_ids = $this->initConditionsIdsFromPost();
-        if (!count($condition_ids)) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_condition_selected'));
-            $this->listConditions();
-            return;
-        }
-
-        // display confirmation message
-        $cgui = new ilConfirmationGUI();
-        $cgui->setFormAction($this->ctrl->getFormAction($this, "listConditions"));
-        $cgui->setHeaderText($this->lng->txt("rbac_condition_delete_sure"));
-        $cgui->setCancel($this->lng->txt("cancel"), "listConditions");
-        $cgui->setConfirm($this->lng->txt("delete"), "delete");
-
-        // list conditions that should be deleted
-        foreach ($condition_ids as $condition_id) {
-            $condition = ilConditionHandler::_getCondition($condition_id);
-
-            $title = ilObject::_lookupTitle($condition['trigger_obj_id']) .
-                " (" . $this->lng->txt("condition") . ": " .
-                $this->lng->txt('condition_' . $condition['operator']) . ")";
-            $icon = ilUtil::getImagePath('standard/icon_' . $condition['trigger_type'] . '.svg');
-            $alt = $this->lng->txt('obj_' . $condition['trigger_type']);
-
-            $cgui->addItem("conditions[]", (string) $condition_id, $title, $icon, $alt);
-        }
-
-        $this->tpl->setContent($cgui->getHTML());
-    }
-
-    public function delete(): void
-    {
-        $condition_ids = $this->initConditionsIdsFromPost();
-        if (!count($condition_ids)) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_condition_selected'));
-            $this->listConditions();
-            return;
-        }
-
-        foreach ($condition_ids as $condition_id) {
-            $this->ch_obj->deleteCondition($condition_id);
-        }
-        $this->adjustConditionsAfterDeletion();
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('condition_deleted'), true);
-        $this->ctrl->redirect($this, 'listConditions');
-    }
-
-    protected function adjustConditionsAfterDeletion()
+    protected function adjustConditionsAfterDeletion(): void
     {
         $conditions = ilConditionHandler::_getPersistedConditionsOfTarget(
             $this->getTargetRefId(),
@@ -856,4 +692,638 @@ class ilConditionHandlerGUI
         }
         return $form;
     }
+
+    protected function listConditions(bool $load_form_with_request = false): void
+    {
+        $optional_conditions = ilConditionHandler::getPersistedOptionalConditionsOfTarget(
+            $this->getTargetRefId(),
+            $this->getTargetId(),
+            $this->getTargetType()
+        );
+        $allow_optional_preconditions = (bool) count($optional_conditions);
+        $table = new ConditionTriggerTableGUI(
+            new ConditionTriggerProvider(
+                $this->getTargetRefId(),
+                $this->getTargetId(),
+                $this->getTargetType()
+            ),
+            $allow_optional_preconditions
+        );
+
+        // add condition button
+        $add_condition_trigger_button = $this->ui_factory->button()->standard(
+            $this->lng->txt('add_condition'),
+            $this->ctrl->getLinkTarget($this, 'selector')
+        );
+        $add_condition_trigger_button = $this->ui_renderer->render($add_condition_trigger_button);
+
+        $form = $this->initCompulsoryForm($load_form_with_request);
+        $form_content = '';
+        if ($form instanceof StandardForm) {
+            $form_content = $this->ui_renderer->render([$form]);
+        }
+        $this->tpl->setContent(
+            $add_condition_trigger_button .
+            $form_content .
+            $table->render()
+        );
+    }
+
+    protected function handleConditionTriggerTableActions(): void
+    {
+        $action = $this->http->wrapper()->query()->retrieve(
+            ConditionTriggerTableGUI::ACTION_TOKEN_NS,
+            $this->refinery->byTrying(
+                [
+                    $this->refinery->kindlyTo()->string(),
+                    $this->refinery->always('')
+                ]
+            )
+        );
+        match ($action) {
+            'editConditionTrigger' => $this->editConditionTrigger(),
+            'saveCompulsory' => $this->saveCompulsoryStatus(),
+            'confirmDeleteConditionTrigger' => $this->confirmDeleteConditionTrigger(),
+            default => $this->ctrl->redirect($this, 'listConditions')
+        };
+    }
+
+    protected function saveCompulsoryStatus(): void
+    {
+        $all_conditions = ilConditionHandler::_getPersistedConditionsOfTarget(
+            $this->getTargetRefId(),
+            $this->getTargetId(),
+            $this->getTargetType()
+        );
+
+        $compulsory_ids = $this->http->wrapper()->query()->retrieve(
+            ConditionTriggerTableGUI::ID_TOKEN_NS,
+            $this->refinery->byTrying(
+                [
+                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                    $this->refinery->always([])
+                ]
+            )
+        );
+
+        if (count($compulsory_ids) > (count($all_conditions) - 2)) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("rbac_precondition_minimum_optional"), true);
+            $this->ctrl->redirect($this, 'listConditions');
+        }
+
+        foreach ($all_conditions as $item) {
+            $status = false;
+            if (in_array($item['condition_id'], $compulsory_ids)) {
+                $status = true;
+            }
+            ilConditionHandler::updateObligatory($item['condition_id'], $status);
+        }
+
+        // re-calculate
+        ilConditionHandler::calculatePersistedRequiredTriggers(
+            $this->getTargetRefId(),
+            $this->getTargetId(),
+            $this->getTargetType(),
+            true
+        );
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
+        $this->ctrl->redirect($this, 'listConditions');
+    }
+
+    protected function confirmDeleteConditionTrigger(): void
+    {
+        $condition_trigger_ids = $this->http->wrapper()->query()->retrieve(
+            ConditionTriggerTableGUI::ID_TOKEN_NS,
+            $this->refinery->byTrying(
+                [
+                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                    $this->refinery->always([])
+                ]
+            )
+        );
+
+        $items = [];
+        foreach ($condition_trigger_ids as $condition_trigger_id) {
+            $condition = ilConditionHandler::_getCondition($condition_trigger_id);
+            $items[] = $this->ui_factory->modal()->interruptiveItem()->standard(
+                (string) $condition_trigger_id,
+                ilObject::_lookupTitle($condition['trigger_obj_id']) .
+                ' (' . $this->lng->txt('condition') . ':' .
+                $this->lng->txt('condition_' . $condition['operator']) . ')'
+            );
+        }
+
+        $output = $this->ui_renderer->renderAsync(
+            [
+                $this->ui_factory->modal()->interruptive(
+                    $this->lng->txt('confirm'),
+                    $this->lng->txt('rbac_condition_delete_sure'),
+                    $this->ctrl->getFormAction($this, 'deleteConditionTrigger')
+                )->withAffectedItems($items)
+        ]
+        );
+
+        $this->http->saveResponse($this->http->response()->withBody(
+            Streams::ofString($output)
+        ));
+        $this->http->sendResponse();
+        $this->http->close();
+    }
+
+    protected function deleteConditionTrigger(): void
+    {
+        $condition_trigger_ids = $this->http->wrapper()->post()->retrieve(
+            'interruptive_items',
+            $this->refinery->byTrying(
+                [
+                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                    $this->refinery->always([])
+                ]
+            )
+        );
+        if (!count($condition_trigger_ids)) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_condition_selected'));
+            $this->listConditions();
+            return;
+        }
+
+        foreach ($condition_trigger_ids as $condition_id) {
+            $this->ch_obj->deleteCondition($condition_id);
+        }
+        $this->adjustConditionsAfterDeletion();
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('condition_deleted'), true);
+        $this->ctrl->redirect($this, 'listConditions');
+    }
+
+    protected function initCompulsoryForm(bool $with_request = false): ?StandardForm
+    {
+        if (!$this->objectDefinition->isRBACObject($this->getTargetType())) {
+            return null;
+        }
+
+        $all_conditions = ilConditionHandler::_getPersistedConditionsOfTarget($this->getTargetRefId(), $this->getTargetId());
+        $optional_conditions = ilConditionHandler::getPersistedOptionalConditionsOfTarget(
+            $this->getTargetRefId(),
+            $this->getTargetId(),
+            $this->getTargetType()
+        );
+
+        $old_status = $this->ui_factory->input()->field()->hidden()->withValue(
+            (string) (count($optional_conditions) ? self::LIST_MODE_SUBSET : self::LIST_MODE_ALL)
+        );
+
+        $hidden = $this->ui_factory->input()->field()->checkbox(
+            $this->lng->txt('rbac_precondition_hide'),
+            $this->lng->txt('rbac_precondition_hide_info')
+        )->withValue(ilConditionHandler::lookupPersistedHiddenStatusByTarget($this->getTargetRefId()));
+
+        $condition_mode_all = $this->ui_factory->input()->field()->group(
+            [],
+            $this->lng->txt('rbac_precondition_mode_all'),
+            $this->lng->txt('rbac_precondition_mode_all_info')
+        );
+        $list_mode_items[self::LIST_MODE_ALL] = $condition_mode_all;
+
+        $subset_limit = [];
+        if (count($all_conditions) > 1) {
+
+            $num_required = ilConditionHandler::lookupObligatoryConditionsOfTarget(
+                $this->getTargetRefId(),
+                $this->getTargetId()
+            );
+            $subset_limit['num_compulsory'] =
+                $this->ui_factory->input()
+                                 ->field()
+                                 ->numeric(
+                                     $this->lng->txt('precondition_num_obligatory'),
+                                     $this->lng->txt('precondition_num_optional_info')
+                                 )
+                                 ->withValue($num_required > 0 ? $num_required : null)
+                                 ->withAdditionalTransformation(
+                                     $this->refinery->logical()->parallel(
+                                         [
+                                             $this->refinery->int()->isGreaterThan(0),
+                                             $this->refinery->int()->isLessThan(count($all_conditions))
+                                         ]
+                                     )
+                                 );
+        }
+        if (count($all_conditions) > 1) {
+            $condition_mode_subset = $this->ui_factory->input()->field()->group(
+                $subset_limit,
+                $this->lng->txt('rbac_precondition_mode_subset'),
+                $this->lng->txt('rbac_precondition_mode_subset_info')
+            );
+            $list_mode_items[self::LIST_MODE_SUBSET] = $condition_mode_subset;
+        }
+
+        $list_mode = $this->ui_factory->input()->field()->switchableGroup(
+            $list_mode_items,
+            $this->lng->txt('rbac_precondition_mode')
+        )->withValue(
+            count(ilConditionHandler::getPersistedOptionalConditionsOfTarget(
+                $this->getTargetRefId(),
+                $this->getTargetId(),
+                $this->getTargetType()
+            )) ? self::LIST_MODE_SUBSET : self::LIST_MODE_ALL
+        );
+
+        $main_section = $this->ui_factory->input()->field()->section(
+            [
+                'old_status' => $old_status,
+                'hidden_status' => $hidden,
+                'list_mode' => $list_mode
+            ],
+            $this->lng->txt('precondition_obligatory_settings')
+        );
+        $form = $this->ui_factory->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, 'saveCompulsoryForm'),
+            [
+                'compulsory_configuration' => $main_section
+            ]
+        );
+        if ($with_request) {
+            $form = $form->withRequest($this->http->request());
+        }
+        return $form;
+    }
+
+    protected function saveCompulsoryForm(): void
+    {
+        $form = $this->initCompulsoryForm(true);
+        $data = $form->getData();
+        if (!$data) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
+            $this->listConditions(true);
+            return;
+        }
+        $cond = new ilConditionHandler();
+        $cond->setTargetRefId($this->getTargetRefId());
+        $cond->updateHiddenStatus($data['compulsory_configuration']['hidden_status']);
+
+        $old_status = $data['compulsory_configuration']['old_status'];
+        switch ($data['compulsory_configuration']['list_mode'][0]) {
+            case self::LIST_MODE_ALL:
+                if ($old_status != self::LIST_MODE_ALL) {
+                    $optional_conditions = ilConditionHandler::getPersistedOptionalConditionsOfTarget(
+                        $this->getTargetRefId(),
+                        $this->getTargetId(),
+                        $this->getTargetType()
+                    );
+                    // Set all optional conditions to obligatory
+                    foreach ($optional_conditions as $item) {
+                        ilConditionHandler::updateObligatory($item["condition_id"], true);
+                    }
+                }
+                break;
+            case self::LIST_MODE_SUBSET:
+                $num_required = $data['compulsory_configuration']['list_mode'][1]['num_compulsory'];
+                if ($old_status != self::LIST_MODE_SUBSET) {
+                    $all_conditions = ilConditionHandler::_getPersistedConditionsOfTarget(
+                        $this->getTargetRefId(),
+                        $this->getTargetId(),
+                        $this->getTargetType()
+                    );
+                    foreach ($all_conditions as $item) {
+                        ilConditionHandler::updateObligatory($item["condition_id"], false);
+                    }
+                }
+                ilConditionHandler::saveNumberOfRequiredTriggers(
+                    $this->getTargetRefId(),
+                    $this->getTargetId(),
+                    (int) $num_required
+                );
+                break;
+        }
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
+        $this->ctrl->redirect($this, 'listConditions');
+    }
+
+    protected function addConditionTrigger(bool $with_request = false): void
+    {
+        $source_id = $this->initSourceIdFromQuery();
+        if (!$source_id) {
+            $this->tpl->setOnScreenMessage('failure', "Missing id: condition_id");
+            $this->selector();
+            return;
+        }
+        $this->ctrl->setParameter($this, 'source_id', $source_id);
+        $form = $this->initConditionTriggerForm($with_request, $source_id, 0);
+        $this->tpl->setContent($this->ui_renderer->render([$form]));
+    }
+
+    protected function editConditionTrigger(bool $with_request = false): void
+    {
+        if ($this->http->wrapper()->query()->has(ConditionTriggerTableGUI::ID_TOKEN_NS)) {
+            $condition_id = $this->http->wrapper()->query()->retrieve(
+                ConditionTriggerTableGUI::ID_TOKEN_NS,
+                $this->refinery->byTrying(
+                    [
+                        $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                        $this->refinery->always([])
+                    ]
+                )
+            );
+            $condition_id = end($condition_id);
+        } else {
+            $condition_id = $this->initConditionIdFromQuery();
+        }
+        if (!$condition_id) {
+            $this->tpl->setOnScreenMessage('failure', "Missing id: condition_id");
+            $this->listConditions();
+            return;
+        }
+        $condition = ilConditionHandler::_getCondition($condition_id);
+        $this->ctrl->setParameter($this, 'condition_id', $condition_id);
+        $form = $this->initConditionTriggerForm(
+            $with_request,
+            $condition['trigger_ref_id'],
+            $condition_id,
+            'edit'
+        );
+        $this->tpl->setContent($this->ui_renderer->render([$form]));
+    }
+
+    private function initConditionTriggerForm(bool $with_request, int $trigger_id, int $condition_id, string $mode = 'add'): StandardForm
+    {
+        $trigger_type = ilObject::_lookupType($trigger_id, true);
+        $trigger_obj_id = ilObject::_lookupObjId($trigger_id);
+        $condition_handler = new ilConditionHandler();
+        $condition = ilConditionHandler::_getCondition($condition_id);
+
+        if ($mode == 'edit') {
+            $main_section_items['obligatory'] = $this->ui_factory->input()->field()->hidden()
+                ->withValue($condition['obligatory']);
+        }
+
+        $group_items = [];
+        foreach ($condition_handler->getOperatorsByTriggerType($trigger_type) as $operator) {
+            switch ($operator) {
+                case ilConditionHandler::OPERATOR_RESULT_RANGE_PERCENTAGE:
+                    $group_items[$operator] = $this->ui_factory->input()->field()->group(
+                        [
+                            'result_range_percentage' => $this->initRangeConditionInputItem(
+                                $trigger_id,
+                                $trigger_obj_id,
+                                $condition
+                            )
+                        ],
+                        $this->lng->txt('condition_' . $operator)
+                    );
+                    break;
+                default:
+                    $group_items[$operator] = $this->ui_factory->input()->field()->group(
+                        [],
+                        $this->lng->txt('condition_' . $operator)
+                    );
+
+            }
+        }
+        $main_section_items['operator'] = $this->ui_factory->input()->field()->switchableGroup(
+            $group_items,
+            $this->lng->txt('condition')
+        )->withRequired(true);
+        if ($mode == 'edit') {
+            $main_section_items['operator'] = $main_section_items['operator']->withValue((string) ($condition['operator']));
+        }
+
+        // main section
+        $main_section = $this->ui_factory->input()->field()->section(
+            $main_section_items,
+            $this->lng->txt('add_condition') . ' (' . ilObject::_lookupTitle($trigger_obj_id) . ')'
+        );
+        // form
+        $form = $this->ui_factory->input()->container()->form()->standard(
+            $this->ctrl->getLinkTarget($this, $mode === 'add' ? 'saveConditionTrigger' : 'updateConditionTrigger'),
+            [
+                'condition_configuration' => $main_section
+            ]
+        );
+        if ($with_request) {
+            $form = $form->withRequest($this->http->request());
+        }
+        return $form;
+    }
+
+    protected function initRangeConditionInputItem(int $trigger_ref_id, int $trigger_obj_id, array $condition): Section
+    {
+        list($stored_objective_id, $stored_min, $stored_max) = $this->extractValueOptionsFromCondition($condition);
+        if (ilObject::_lookupType($trigger_obj_id) === 'crs') {
+            $course = ilObjectFactory::getInstanceByRefId($trigger_ref_id);
+            if (($course instanceof ilObjCourse) && $course->getViewMode() == ilCourseConstants::IL_CRS_VIEW_OBJECTIVE) {
+                $select_options = [];
+                foreach (ilCourseObjective::_getObjectiveIds($trigger_obj_id) as $objective_id) {
+                    $objective = new ilCourseObjective($course, $objective_id);
+                    $select_options[$objective_id] = $objective->getTitle();
+                }
+                $this->lng->loadLanguageModule('crs');
+                $sections['objective'] = $this->ui_factory->input()->field()->select(
+                    $this->lng->txt('crs_objectives'),
+                    $select_options,
+                )->withRequired(true);
+                if ($stored_objective_id > 0) {
+                    $sections['objective'] = $sections['objective']->withValue($stored_objective_id);
+                }
+            }
+        }
+        $sections['min'] = $this->ui_factory->input()->field()->numeric(
+            $this->lng->txt('precondition_operator_range_min'),
+        )->withAdditionalTransformation(
+            $this->refinery->logical()->parallel(
+                [
+                    $this->refinery->int()->isGreaterThanOrEqual(0),
+                    $this->refinery->int()->isLessThanOrEqual(100)
+                ]
+            )
+        )->withRequired(true)
+         ->withValue($stored_min);
+        $sections['max'] = $this->ui_factory->input()->field()->numeric(
+            $this->lng->txt('precondition_operator_range_max'),
+        )->withAdditionalTransformation(
+            $this->refinery->logical()->parallel(
+                [
+                    $this->refinery->int()->isGreaterThan(0),
+                    $this->refinery->int()->isLessThanOrEqual(100)
+                ]
+            )
+        )->withRequired(true)
+         ->withValue($stored_max);
+        return $this->ui_factory->input()->field()->section(
+            $sections,
+            ''
+        )->withAdditionalTransformation(
+            $this->refinery->custom()->constraint(
+                function ($min_max) {
+                    return $min_max['min'] < $min_max['max'];
+                },
+                $this->lng->txt('precondition_operator_range_err_min_max')
+            )
+        );
+    }
+
+    protected function extractValueOptionsFromInput(array $data): string
+    {
+        if ($data['condition_configuration']['operator'][0] !== ilConditionHandler::OPERATOR_RESULT_RANGE_PERCENTAGE) {
+            return '';
+        }
+        return serialize(
+            [
+                'objective' => $data['condition_configuration']['operator'][1]['result_range_percentage']['objective'] ?? null,
+                'min_percentage' => $data['condition_configuration']['operator'][1]['result_range_percentage']['min'],
+                'max_percentage' => $data['condition_configuration']['operator'][1]['result_range_percentage']['max']
+
+            ]
+        );
+    }
+
+    protected function extractValueOptionsFromCondition(array $condition): array
+    {
+        if (($condition['value'] ?? '') === '') {
+            return [0,0,0];
+        }
+        $value_arr = unserialize($condition['value']);
+        if ($value_arr === false) {
+            return [0,0,0];
+        }
+        return [
+            $value_arr['objective'] ?? 0,
+            $value_arr['min_percentage'] ?? 0,
+            $value_arr['max_percentage'] ?? 0
+        ];
+    }
+
+    protected function updateConditionTrigger(): void
+    {
+        $condition_id = $this->initConditionIdFromQuery();
+        if (!$condition_id) {
+            $this->tpl->setOnScreenMessage('failure', "Missing id: condition_id");
+            $this->listConditions();
+            return;
+        }
+        $condition = ilConditionHandler::_getCondition($condition_id);
+        $form = $this->initConditionTriggerForm(true, $condition['trigger_ref_id'], $condition_id, 'edit');
+        $data = $form->getData();
+        if (!$data) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
+            $this->editConditionTrigger(true);
+            return;
+        }
+
+        // Update condition
+        $condition_handler = new ilConditionHandler();
+        $condition_handler->setOperator($data['condition_configuration']['operator'][0]);
+        $condition_handler->setObligatory((bool) $data['condition_configuration']['obligatory']);
+        $condition_handler->setTargetRefId($this->getTargetRefId());
+        $condition_handler->setValue($this->extractValueOptionsFromInput($data));
+        $condition_handler->updateCondition($condition_id);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
+        $this->ctrl->redirect($this, 'listConditions');
+
+        /**
+        switch ($this->getTargetType()) {
+            case 'st':
+                $condition_handler->setReferenceHandlingType((int) $form->getInput('ref_handling'));
+                break;
+
+            default:
+                $condition_handler->setReferenceHandlingType(ilConditionHandler::UNIQUE_CONDITIONS);
+                break;
+        }
+        $condition_handler->updateCondition($condition['id']);
+
+        // Update relevant sco's
+        if ($condition['trigger_type'] === 'sahs') {
+            $olp = ilObjectLP::getInstance($condition['trigger_obj_id']);
+            $collection = $olp->getCollectionInstance();
+            if ($collection) {
+                $collection->delete();
+            }
+            $item_ids = $this->initItemIdsFromPost();
+            if (count($item_ids)) { // #12901
+                $collection->activateEntries($item_ids->toArray());
+            }
+            ilLPStatusWrapper::_refreshStatus($condition['trigger_obj_id']);
+        }
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
+        $this->ctrl->redirect($this, 'listConditions');
+         *
+         */
+
+    }
+
+    protected function saveConditionTrigger(): void
+    {
+        $source_id = $this->initSourceIdFromQuery();
+        if (!$source_id) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_condition_selected'), true);
+            $this->ctrl->redirect($this, 'listConditions');
+            return;
+        }
+
+        $form = $this->initConditionTriggerForm(true, $source_id, 0);
+        $data = $form->getData();
+        if (!$data) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
+            $this->addConditionTrigger(true);
+            return;
+        }
+
+        $condition = new ilConditionHandler();
+        $condition->setTargetRefId($this->getTargetRefId());
+        $condition->setTargetObjId($this->getTargetId());
+        $condition->setTargetType($this->getTargetType());
+        $trigger = ilObjectFactory::getInstanceByRefId($source_id, false);
+        if ($trigger instanceof ilObject) {
+            $condition->setTriggerRefId($trigger->getRefId());
+            $condition->setTriggerObjId($trigger->getId());
+            $condition->setTriggerType($trigger->getType());
+        }
+        $condition->setOperator($data['condition_configuration']['operator'][0]);
+        $condition->setObligatory((bool) ($data['condition_configuration']['obligatory'] ?? true));
+        $condition->setHiddenStatus(ilConditionHandler::lookupPersistedHiddenStatusByTarget($this->getTargetRefId()));
+        $condition->setValue($this->extractValueOptionsFromInput($data));
+        $condition->enableAutomaticValidation($this->getAutomaticValidation());
+        if (!$condition->storeCondition()) {
+            $this->tpl->setOnScreenMessage('failure', $condition->getErrorMessage(), true);
+        } else {
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('added_new_condition'), true);
+        }
+        $this->ctrl->redirect($this, 'listConditions');
+
+        /**
+        switch ($this->getTargetType()) {
+            case 'st':
+                $this->ch_obj->setReferenceHandlingType((int) $form->getInput('ref_handling'));
+                break;
+
+            default:
+                $this->ch_obj->setReferenceHandlingType(ilConditionHandler::UNIQUE_CONDITIONS);
+                break;
+        }
+        // this has to be changed, if non referenced trigger are implemted
+        $this->ch_obj->setOperator($form->getInput('operator'));
+        $this->ch_obj->setObligatory((bool) $form->getInput('obligatory'));
+        $this->ch_obj->setHiddenStatus(ilConditionHandler::lookupPersistedHiddenStatusByTarget($this->getTargetRefId()));
+        $this->ch_obj->setValue('');
+
+        // Save assigned sco's
+        if ($this->ch_obj->getTriggerType() === 'sahs') {
+            $olp = ilObjectLP::getInstance($this->ch_obj->getTriggerObjId());
+            $collection = $olp->getCollectionInstance();
+            if ($collection) {
+                $collection->delete();
+            }
+
+            $items_ids = $this->initItemIdsFromPost();
+            if (count($items_ids)) { // #12901
+                $collection->activateEntries($items_ids->toArray());
+            }
+        }
+         */
+
+
+    }
+
+
 }

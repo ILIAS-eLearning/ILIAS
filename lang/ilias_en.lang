@@ -13918,6 +13918,7 @@ rbac#:#coms_visible#:#Administration of Comments is visible.
 rbac#:#coms_write#:#User can edit settings of administration of Comments.
 rbac#:#condition_failed#:#Failed
 rbac#:#condition_learning_progress#:#Learning Progress Status: Completed
+rbac#:#condition_result_range_percentage#:#Result Range
 rbac#:#contribute#:#Contribute
 rbac#:#copa_copy#:#Copy Content Page
 rbac#:#copa_delete#:#User can move or delete Content Page
@@ -14282,6 +14283,9 @@ rbac#:#precondition_obligatory#:#Compulsory
 rbac#:#precondition_obligatory_alt#:#Precondition must be fulfilled
 rbac#:#precondition_obligatory_info#:#Compulsory preconditions must be fulfilled, for having access.
 rbac#:#precondition_obligatory_settings#:#Precondition Settings
+rbac#:#precondition_operator_range_err_min_max#:#The minimum value must be less than the maximum value. 
+rbac#:#precondition_operator_range_max#:#Maximum Percentage
+rbac#:#precondition_operator_range_min#:#Minimum Percentage
 rbac#:#prfa_edit_permission#:#User can change permission settings of Portfolio administration
 rbac#:#prfa_read#:#User has read access to Portfolio administration
 rbac#:#prfa_visible#:#Portfolio administration is visible
