@@ -608,11 +608,11 @@ abstract class assQuestionGUI
         }
     }
 
-    protected function renderEditForm(ilPropertyFormGUI $form, string $additional_content = ''): void
+    protected function renderEditForm(ilPropertyFormGUI $form): void
     {
         $this->addSaveOnEnterOnLoadCode();
         $this->getQuestionTemplate();
-        $this->tpl->setVariable('QUESTION_DATA', $form->getHTML() . $additional_content . $this->question_sync_modal);
+        $this->tpl->setVariable('QUESTION_DATA', $form->getHTML() . $this->question_sync_modal);
     }
 
     /**
