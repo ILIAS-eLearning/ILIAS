@@ -18,14 +18,21 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Export\ExportHandler\I\PublicAccess\Link;
+namespace ILIAS\Export\ExportHandler\I\PublicAccess\Link\Wrapper\StaticURL;
 
-use ILIAS\Export\ExportHandler\I\PublicAccess\Link\HandlerInterface as ilExportHandlerPublicAccessLinkInterface;
-use ILIAS\Export\ExportHandler\I\PublicAccess\Link\Wrapper\FactoryInterface as ilExportHandlerPublicAccessLinkWrapperFactoryInterface;
+use ILIAS\Data\ReferenceId;
+use ILIAS\Data\URI;
+use ILIAS\StaticURL\Services as StaticUrl;
 
-interface FactoryInterface
+interface HandlerInterface
 {
-    public function handler(): ilExportHandlerPublicAccessLinkInterface;
+    public function withStaticURL(
+        StaticUrl $static_url
+    ): HandlerInterface;
 
-    public function wrapper(): ilExportHandlerPublicAccessLinkWrapperFactoryInterface;
+    public function getStatucURL(): StaticUrl;
+
+    public function buildDownloadURI(
+        ReferenceId $reference_id
+    ): URI;
 }

@@ -23,7 +23,6 @@ namespace ILIAS\Export\ExportHandler\I\Repository\Wrapper\IRSS;
 use DateTimeImmutable;
 use ILIAS\Export\ExportHandler\I\Info\Export\HandlerInterface as ilExportHandlerExportInfoInterface;
 use ILIAS\Export\ExportHandler\I\Repository\Stakeholder\HandlerInterface as ilExportHandlerRepositoryStakeholderInterface;
-use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 interface HandlerInterface
 {

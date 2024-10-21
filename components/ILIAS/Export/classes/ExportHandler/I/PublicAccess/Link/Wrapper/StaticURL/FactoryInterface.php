@@ -18,14 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Export\ExportHandler\I\PublicAccess\Link;
+namespace ILIAS\Export\ExportHandler\I\PublicAccess\Link\Wrapper\StaticURL;
 
-use ILIAS\Export\ExportHandler\I\PublicAccess\Link\HandlerInterface as ilExportHandlerPublicAccessLinkInterface;
-use ILIAS\Export\ExportHandler\I\PublicAccess\Link\Wrapper\FactoryInterface as ilExportHandlerPublicAccessLinkWrapperFactoryInterface;
+use ILIAS\Export\ExportHandler\I\PublicAccess\Link\Wrapper\StaticURL\HandlerInterface as ilExportHandlerPublicAccessLinkStaticURLWrapperInterface;
 
 interface FactoryInterface
 {
-    public function handler(): ilExportHandlerPublicAccessLinkInterface;
-
-    public function wrapper(): ilExportHandlerPublicAccessLinkWrapperFactoryInterface;
+    public function handler(): ilExportHandlerPublicAccessLinkStaticURLWrapperInterface;
 }

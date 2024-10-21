@@ -22,7 +22,6 @@ namespace ILIAS\Export\ExportHandler\Consumer\ExportOption;
 
 use ilCtrl;
 use ilExport;
-use ilExportFileInfo;
 use ilFileDelivery;
 use ilFileUtils;
 use ILIAS\Data\ObjectId;
