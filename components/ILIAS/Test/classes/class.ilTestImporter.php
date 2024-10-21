@@ -164,6 +164,12 @@ class ilTestImporter extends ilXmlImporter
         $this->importSkillLevelThresholds($a_mapping, $importedAssignmentList, $new_obj, $xmlfile);
 
         $a_mapping->addMapping("components/ILIAS/Test", "tst", (string) $a_id, (string) $new_obj->getId());
+        $a_mapping->addMapping(
+            "components/ILIAS/MetaData",
+            "md",
+            $a_id . ":0:tst",
+            $new_obj->getId() . ":0:tst"
+        );
     }
 
     /**

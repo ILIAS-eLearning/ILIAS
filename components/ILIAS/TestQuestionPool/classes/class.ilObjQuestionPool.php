@@ -351,7 +351,7 @@ class ilObjQuestionPool extends ilObject
         $a_xml_writer->xmlStartTag('ContentObject', $attrs);
 
         // MetaData
-        $this->exportXMLMetaData($a_xml_writer);
+        $this->exportTitleAndDescription($a_xml_writer);
 
         // Settings
         $this->exportXMLSettings($a_xml_writer);
@@ -401,18 +401,11 @@ class ilObjQuestionPool extends ilObject
         $skillQuestionAssignmentExporter->export();
     }
 
-    /**
-     * export content objects meta data to xml (see ilias_co.dtd)
-     *
-     * @param object $a_xml_writer            ilXmlWriter object that receives the
-     *                                        xml data
-     */
-    public function exportXMLMetaData(&$a_xml_writer): void
+    public function exportTitleAndDescription(&$a_xml_writer): void
     {
-        $md2xml = new ilMD2XML($this->getId(), 0, $this->getType());
-        $md2xml->setExportMode(true);
-        $md2xml->startExport();
-        $a_xml_writer->appendXML($md2xml->getXML());
+        $title_xml = '<Title>' . $this->getTitle() . '</Title>';
+        $description_xml = '<Description>' . $this->getDescription() . '</Description>';
+        $a_xml_writer->appendXML($title_xml . $description_xml);
     }
 
     public function modifyExportIdentifier($a_tag, $a_param, $a_value)
