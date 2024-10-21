@@ -1313,6 +1313,7 @@ assessment#:#tst_answered_questions_test#:#Perguntas respondidas neste teste
 assessment#:#tst_attached_xls_file#:#Encontrará o resultado do teste deste participante no ficheiro Excel anexado.
 assessment#:#tst_attempt#:#Tentativa
 assessment#:#tst_attempt_limit_message#:#Your limit of test attempts is <b>%s</b>.###26 08 2024 new variable
+assessment#:#tst_attempt_started#:#Teste iniciado
 assessment#:#tst_back_to_pass_details#:#Regressar aos detalhes da tentativa
 assessment#:#tst_back_to_question_list#:#Regressar à lista de perguntas
 assessment#:#tst_back_to_top#:#Regressar ao topo
@@ -1893,7 +1894,6 @@ assessment#:#tst_src_quest_pool_def_list_table#:#Não foram assumidas respostas 
 assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Iniciar teste com a seleção atual de perguntas
 assessment#:#tst_start_new_test_pass#:#ilimitado
 assessment#:#tst_start_test#:#Material carregado
-assessment#:#tst_started#:#Teste iniciado
 assessment#:#tst_starting_time#:#Esta pergunta refere-se a um objetivo de aprendizagem já aprovado.
 assessment#:#tst_starting_time_desc#:#Momento após o qual o teste pode ser iniciado clicando no botão ‘Iniciar’, os participantes podem fornecer respostas às perguntas.
 assessment#:#tst_stat_result_atimeofwork#:#Não é suposto fazer este teste.

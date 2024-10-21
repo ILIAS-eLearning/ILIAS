@@ -1298,6 +1298,7 @@ assessment#:#tst_answered_questions_test#:#Questions avec réponse du test
 assessment#:#tst_attached_xls_file#:#Vous trouverez le résultat du test pour ce participant dans le fichier Excel ci-joint.
 assessment#:#tst_attempt#:#Tentative
 assessment#:#tst_attempt_limit_message#:#Your limit of test attempts is <b>%s</b>.###31 10 2023 new variable
+assessment#:#tst_attempt_started#:#Commencé
 assessment#:#tst_back_to_pass_details#:#Retour aux détails d’essai
 assessment#:#tst_back_to_question_list#:#Retour à la liste de questions
 assessment#:#tst_back_to_top#:#Retour en haut de la page
@@ -1878,7 +1879,6 @@ assessment#:#tst_src_quest_pool_def_list_table#:#Définition des Banques de Ques
 assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Démarrer le Test avec la Sélection de Questions Courante
 assessment#:#tst_start_new_test_pass#:#Recommencer le Test
 assessment#:#tst_start_test#:#Commencer le Test
-assessment#:#tst_started#:#Commencé
 assessment#:#tst_starting_time#:#Heure de Début
 assessment#:#tst_starting_time_desc#:#Moment après lequel le test peut être démarré en cliquant sur le bouton 'Démarrer' et les participants peuvent apporter des réponses aux questions.
 assessment#:#tst_stat_result_atimeofwork#:#Durée moyenne par question

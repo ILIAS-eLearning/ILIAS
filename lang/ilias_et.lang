@@ -1313,6 +1313,7 @@ assessment#:#tst_answered_questions_test#:#Selles testis vastatud küsimused
 assessment#:#tst_attached_xls_file#:#You find the test result for this participant in the attached Excel file.
 assessment#:#tst_attempt#:#Attempt###30 08 2015 new variable
 assessment#:#tst_attempt_limit_message#:#Your limit of test attempts is <b>%s</b>.###26 08 2024 new variable
+assessment#:#tst_attempt_started#:#Alustas sooritust
 assessment#:#tst_back_to_pass_details#:#Back to Pass Details
 assessment#:#tst_back_to_question_list#:#Back to Question List
 assessment#:#tst_back_to_top#:#Back to Top
@@ -1893,7 +1894,6 @@ assessment#:#tst_src_quest_pool_def_list_table#:#Source Question Pool Definition
 assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Start Test with Current Question Selection
 assessment#:#tst_start_new_test_pass#:#Alusta uut sooritust
 assessment#:#tst_start_test#:#Alusta testi
-assessment#:#tst_started#:#Alustas sooritust
 assessment#:#tst_starting_time#:#Alustamisaeg
 assessment#:#tst_starting_time_desc#:#Point in time after which the test can be started by clicking the button ‚Start‘, participants can provide answers to questions.
 assessment#:#tst_stat_result_atimeofwork#:#Keskmine küsimusele kulunud aeg

@@ -1315,6 +1315,7 @@ assessment#:#tst_answered_questions_test#:#Preguntas contestadas en este test
 assessment#:#tst_attached_xls_file#:#Puede encontrar el resultado del test para este participante en el fichero Excel adjunto
 assessment#:#tst_attempt#:#Intento
 assessment#:#tst_attempt_limit_message#:#Your limit of test attempts is <b>%s</b>.###26 08 2024 new variable
+assessment#:#tst_attempt_started#:#Test comenzado
 assessment#:#tst_back_to_pass_details#:#Volver a detalles de realización
 assessment#:#tst_back_to_question_list#:#Volver a la lista de preguntas
 assessment#:#tst_back_to_top#:#Volver arriba
@@ -1895,7 +1896,6 @@ assessment#:#tst_src_quest_pool_def_list_table#:#Seleccione de banco de pregunta
 assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Comenzar test con la selección actual de preguntas
 assessment#:#tst_start_new_test_pass#:#Comenzar nueva ejecución de test
 assessment#:#tst_start_test#:#Comenzar el Test
-assessment#:#tst_started#:#Test comenzado
 assessment#:#tst_starting_time#:#Fecha de comienzo
 assessment#:#tst_starting_time_desc#:#Una vez inciada el test haciendo clic en el botón 'Comenzar el Test', los participantes pueden responder las preguntas.
 assessment#:#tst_stat_result_atimeofwork#:#Tiempo medio de trabajo
