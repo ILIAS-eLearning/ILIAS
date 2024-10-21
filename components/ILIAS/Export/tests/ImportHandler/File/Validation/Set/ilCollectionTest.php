@@ -39,7 +39,7 @@ class ilCollectionTest extends TestCase
             ->withElement($set3);
 
         $this->assertCount(3, $collection);
-        for($i = 0; $i < 3; $i++) {
+        for ($i = 0; $i < 3; $i++) {
             $sets[$i] = $collection->toArray()[$i];
         }
     }
