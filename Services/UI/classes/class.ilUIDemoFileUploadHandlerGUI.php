@@ -47,21 +47,6 @@ class ilUIDemoFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         return $this->ctrl->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_INFO);
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function getFileRemovalURL(): string
-    {
-        return $this->ctrl->getLinkTargetByClass(
-            [ilUIPluginRouterGUI::class, self::class],
-            self::CMD_REMOVE,
-            null,
-            false
-        );
-    }
-
-
     /**
      * @inheritDoc
      */
@@ -79,15 +64,6 @@ class ilUIDemoFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         $status = HandlerResult::STATUS_OK;
         $identifier = md5(random_bytes(65));
         $message = 'Everything ok';
-
-        return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $identifier, $message);
-    }
-
-
-    protected function getRemoveResult(string $identifier): HandlerResult
-    {
-        $status = HandlerResult::STATUS_OK;
-        $message = 'File Deleted';
 
         return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $identifier, $message);
     }

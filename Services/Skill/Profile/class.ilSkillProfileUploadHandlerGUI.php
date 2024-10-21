@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,8 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+declare(strict_types=1);
 
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\Handler\AbstractCtrlAwareUploadHandler;
@@ -67,18 +65,6 @@ class ilSkillProfileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         }
 
         return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $identifier, $message);
-    }
-
-    protected function getRemoveResult(string $identifier): HandlerResultInterface
-    {
-        $id = $this->storage->manage()->find($identifier);
-        if ($id !== null) {
-            $this->storage->manage()->remove($id, $this->stakeholder);
-
-            return new BasicHandlerResult($this->getFileIdentifierParameterName(), HandlerResultInterface::STATUS_OK, $identifier, 'file deleted');
-        } else {
-            return new BasicHandlerResult($this->getFileIdentifierParameterName(), HandlerResultInterface::STATUS_FAILED, $identifier, 'file not found');
-        }
     }
 
     public function getInfoResult(string $identifier): ?FileInfoResult
