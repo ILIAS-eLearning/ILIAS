@@ -94,7 +94,8 @@ class ParticipantTableDeleteResultsAction implements TableAction
     public function onSubmit(
         URLBuilder $url_builder,
         ServerRequestInterface $request,
-        array $selected_participants
+        array $selected_participants,
+        bool $all_participants_selected
     ): ?Modal {
         if (!$this->test_access->getAccess()->checkAccess('write', '', $this->test_obj->getRefId())) {
             $this->tpl->setOnScreenMessage(

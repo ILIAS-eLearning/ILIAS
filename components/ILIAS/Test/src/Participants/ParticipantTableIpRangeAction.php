@@ -117,12 +117,13 @@ class ParticipantTableIpRangeAction implements TableAction
     public function onSubmit(
         URLBuilder $url_builder,
         ServerRequestInterface $request,
-        array $selected_participants
+        array $selected_participants,
+        bool $all_participants_selected
     ): ?Modal {
         $modal = $this->getModal(
             $url_builder,
             $selected_participants,
-            false
+            $all_participants_selected
         )->withRequest($request);
 
         $data = $modal->getData();

@@ -78,7 +78,8 @@ class ParticipantTableShowResultsAction implements TableAction
     public function onSubmit(
         URLBuilder $url_builder,
         ServerRequestInterface $request,
-        array $selected_participants
+        array $selected_participants,
+        bool $all_participants_selected
     ): ?Modal {
         foreach ($selected_participants as $participant) {
             if (!$this->test_access->checkResultsAccessForActiveId(
