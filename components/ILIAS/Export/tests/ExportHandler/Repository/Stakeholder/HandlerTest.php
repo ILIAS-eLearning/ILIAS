@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ExportHandler\Repository\Stakeholder;
+namespace ILIAS\Export\Test\ExportHandler\Repository\Stakeholder;
 
 use DateTimeImmutable;
 use Exception;

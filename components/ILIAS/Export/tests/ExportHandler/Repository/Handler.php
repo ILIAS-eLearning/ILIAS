@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ExportHandler\Repository;
+namespace ILIAS\Export\Test\ExportHandler\Repository;
 
 use DateTimeImmutable;
 use Exception;
