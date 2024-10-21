@@ -33,6 +33,7 @@
 /Services/UICore/artifacts/ctrl_base_classes.php
 /Services/UICore/artifacts/ctrl_security.php
 /Services/Component/artifacts/*
+/Services/GlobalCache/classes/Apc/flush_timestamp.php
 
 # Directories
 /data

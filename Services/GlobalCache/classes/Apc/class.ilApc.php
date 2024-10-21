@@ -25,9 +25,31 @@
 class ilApc extends ilGlobalCacheService implements ilGlobalCacheServiceInterface
 {
     /**
+     * @var string
+     */
+    public const APC_DATA_PATH = "Services/GlobalCache/classes/Apc";
+
+    /**
+     * @var string
+     */
+    public const APC_DATA_FILE = "flush_timestamp.php";
+
+    /**
+     * @var string
+     */
+    private const APC_LAST_FLUSH_TIME = "apc_last_flush_time";
+
+    /**
      * @var int
      */
     private const MIN_MEMORY = 16;
+
+    public function __construct(string $service_id, string $component)
+    {
+        parent::__construct($service_id, $component);
+
+        $this->flushOnTimeGap();
+    }
 
     public function exists(string $key): bool
     {
@@ -60,8 +82,15 @@ class ilApc extends ilGlobalCacheService implements ilGlobalCacheServiceInterfac
 
     public function flush(bool $complete = false): bool
     {
-        // incomplete flushing is not supported by APCu, an own implementation coused issues like https://mantis.ilias.de/view.php?id=28201
-        return function_exists('apcu_clear_cache') && apcu_clear_cache();
+        // incomplete flushing is not supported by APCu,
+        // an own implementation caused issues like https://mantis.ilias.de/view.php?id=28201
+        $flushed = false;
+        if (function_exists('apcu_clear_cache')) {
+            $flushed = apcu_clear_cache();
+            apcu_store(self::APC_LAST_FLUSH_TIME, $this->serialize(time()));
+        }
+
+        return $flushed;
     }
 
     /**
@@ -145,5 +174,27 @@ class ilApc extends ilGlobalCacheService implements ilGlobalCacheServiceInterfac
     public function isValid(string $key): bool
     {
         return true;
+    }
+
+    protected function flushOnTimeGap() : void
+    {
+        if (!$this->getActive()) {
+            return;
+        }
+
+        if (!file_exists(self::APC_DATA_PATH . "/" . self::APC_DATA_FILE)) {
+            return;
+        }
+
+        if (!apcu_exists(self::APC_LAST_FLUSH_TIME)) {
+            apcu_store(self::APC_LAST_FLUSH_TIME, time());
+            return;
+        }
+
+        $artifact_timestamp = include self::APC_DATA_PATH . "/" . self::APC_DATA_FILE;
+
+        if ($artifact_timestamp[0] > apcu_fetch(self::APC_LAST_FLUSH_TIME)) {
+            $this->flush(true);
+        }
     }
 }
