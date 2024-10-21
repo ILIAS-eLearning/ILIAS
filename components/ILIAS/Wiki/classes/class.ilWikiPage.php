@@ -634,8 +634,8 @@ class ilWikiPage extends ilPageObject
             return "";
         }
 
-        $random = new \ilRandom();
-        $rand = $random->int(1, $cnt);
+        $random = new \Random\Randomizer();
+        $rand = $random->getInt(1, $cnt);
 
         $ilDB->setLimit(1, $rand);
         $query = "SELECT title FROM il_wiki_page" .
