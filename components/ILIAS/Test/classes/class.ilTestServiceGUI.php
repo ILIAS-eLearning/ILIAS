@@ -578,18 +578,6 @@ class ilTestServiceGUI
 
         $invited_user = array_pop($this->object->getInvitedUsers($user_id));
         $title_client = '';
-        if (is_array($invited_user)
-            && array_key_exists('clientip', $invited_user)
-            && is_string($invited_user['clientip'])
-            && trim($invited_user['clientip']) !== ''
-        ) {
-            $template->setCurrentBlock("client_ip");
-            $template->setVariable("TXT_CLIENT_IP", $this->lng->txt("client_ip"));
-            $template->setVariable("VALUE_CLIENT_IP", $invited_user["clientip"]);
-            $template->parseCurrentBlock();
-            $title_client = " - " . $this->lng->txt("clientip") . ": " . $invited_user["clientip"];
-        }
-
         $template->setVariable("TXT_TEST_TITLE", $this->lng->txt("title"));
         $template->setVariable("VALUE_TEST_TITLE", $this->object->getTitle());
 

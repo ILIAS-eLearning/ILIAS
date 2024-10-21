@@ -114,16 +114,6 @@ class ilTestParticipant
         $this->active_status = $active_status;
     }
 
-    public function getClientIp(): ?string
-    {
-        return $this->client_id;
-    }
-
-    public function setClientIp(string $client_id): void
-    {
-        $this->client_id = $client_id;
-    }
-
     public function getFinishedTries(): ?int
     {
         return $this->finished_tries;

@@ -507,7 +507,7 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
                 $this->participant_access_filter->getScoreParticipantsUserFilter($this->ref_id)
             );
 
-            $table->setData($filtered_participant_list->getParticipantsTableRows());
+            $table->setData($filtered_participant_list->getScoringTableRows());
         }
 
         return $table;
