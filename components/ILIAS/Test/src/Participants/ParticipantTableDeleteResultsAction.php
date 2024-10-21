@@ -112,7 +112,7 @@ class ParticipantTableDeleteResultsAction implements TableAction
         $participant_data->setParticipantAccessFilter($access_filter);
         $participant_data->setActiveIdsFilter(
             array_map(
-                static fn(Participant $v): int => $v->getUserId(),
+                static fn(Participant $v): int => $v->getActiveId(),
                 $selected_participants
             )
         );

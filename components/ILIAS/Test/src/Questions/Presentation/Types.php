@@ -19,14 +19,20 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\ExportImport;
+namespace ILIAS\Test\Questions\Presentation;
+
+use ILIAS\Language\Language;
 
 enum Types: string
 {
-    case SCORED_RUN = 'scored_test_run';
-    case ALL_RUNS = 'all_test_runs';
-    case CERTIFICATE_ARCHIVE = 'certificate';
-    case XML = 'xml';
-    case XML_WITH_RESULTS = 'xml_with_results';
-    case PLUGIN = 'plugin';
+    case RESULTS_VIEW_TYPE_SHOW = 'show';
+    case RESULTS_VIEW_TYPE_HIDE = 'hide';
+
+    public function getLabel(Language $lng): string
+    {
+        return match($this) {
+            self::RESULTS_VIEW_TYPE_SHOW => $lng->txt('show_best_solution'),
+            self::RESULTS_VIEW_TYPE_HIDE => $lng->txt('hide_best_solution')
+        };
+    }
 }

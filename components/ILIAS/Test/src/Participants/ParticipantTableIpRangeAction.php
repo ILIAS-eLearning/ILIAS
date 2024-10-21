@@ -133,8 +133,8 @@ class ParticipantTableIpRangeAction implements TableAction
 
         $this->participant_repository->updateIpRange(
             array_map(
-                static fn(Participant $v) => $v->withClientIpFrom($data['from'])
-                    ->withClientIpTo($data['to']),
+                static fn(Participant $v) => $v->withClientIpFrom($data['ip_range']['from'])
+                    ->withClientIpTo($data['ip_range']['to']),
                 $selected_participants
             )
         );

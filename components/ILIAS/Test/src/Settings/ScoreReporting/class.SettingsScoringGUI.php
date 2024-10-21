@@ -236,8 +236,8 @@ class SettingsScoringGUI extends TestSettingsGUI
             return false;
         }
 
-        if ($this->testOBJ->getScoreReporting() === ilObjTest::SCORE_REPORTING_DATE) {
-            $reporting_date = $this->testOBJ->getScoreSettings()->getResultSummarySettings()->getReportingDate();
+        if ($this->test_object->getScoreReporting() === SettingsResultSummary::SCORE_REPORTING_DATE) {
+            $reporting_date = $this->test_object->getScoreSettings()->getResultSummarySettings()->getReportingDate();
             return $reporting_date <= new DateTimeImmutable('now', new DateTimeZone('UTC'));
         }
 
