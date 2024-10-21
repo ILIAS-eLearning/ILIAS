@@ -360,8 +360,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->redirectAfterMissingRead();
                 }
 
-                $this->prepareOutput();
-                $this->addHeaderAction();
                 $gui = new ilTestParticipantsGUI(
                     $this->getTestObject(),
                     $this->user,
@@ -390,6 +388,15 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 );
 
                 $this->ctrl->forwardCommand($gui);
+
+                /**
+                 * @skergomard 2024-10-21: I've moved this down here, to avoid
+                 * errors when initializing async-modals and to avoid an unnecessary
+                 * redirect on errors.
+                 */
+                $this->prepareOutput();
+                $this->addHeaderAction();
+
                 break;
 
             case 'iltestresultsgui':
