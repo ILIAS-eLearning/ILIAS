@@ -16,6 +16,7 @@
  *
  *********************************************************************/
 
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\FileUpload;
@@ -53,9 +54,9 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     protected string $filename = '';
     protected string $filetype = '';
     protected int $filesize;
-    protected int $version = 1;
-    protected int $max_version = 1;
-    protected ?int $copyright_id = null;
+    protected int $version = 0;
+    protected int $max_version = 0;
+    protected ?string $copyright_id = null;
     protected string $action = '';
     protected ?string $resource_id = null;
     public string $mode = self::MODE_OBJECT;
@@ -79,8 +80,6 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->implementation = new ilObjFileImplementationEmpty();
         $this->stakeholder = new ilObjFileStakeholder($DIC->user()->getId());
         $this->upload = $DIC->upload();
-        $this->version = 0;
-        $this->max_version = 0;
         $this->log = ilLoggerFactory::getLogger(self::OBJECT_TYPE);
 
         parent::__construct($a_id, $a_call_by_reference);
@@ -90,11 +89,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     protected function initFileInfo(int $id, bool $is_ref_id): void
     {
         $repository = new ilObjFileInfoRepository(true);
-        if ($is_ref_id) {
-            $this->file_info = $repository->getByRefId($id);
-        } else {
-            $this->file_info = ($repository)->getByObjectId($id);
-        }
+        $this->file_info = $is_ref_id ? $repository->getByRefId($id) : ($repository)->getByObjectId($id);
     }
 
     public function getPresentationTitle(): string
@@ -106,7 +101,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     {
         if ($this->resource_id && ($id = $this->manager->find(
             $this->resource_id
-        )) instanceof \ILIAS\ResourceStorage\Identification\ResourceIdentification) {
+        )) instanceof ResourceIdentification) {
             $resource = $this->manager->getResource($id);
             $this->implementation = new ilObjFileImplementationStorage($resource);
             $this->max_version = $resource->getMaxRevision(false);
@@ -143,9 +138,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
             $suffix = $filename_suffix;
         }
 
-        $title = $this->ensureSuffix($title, $suffix);
-
-        return $title;
+        return $this->ensureSuffix($title, $suffix);
     }
 
     /**
@@ -353,12 +346,12 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         throw new LogicException('cannot change max-version');
     }
 
-    public function getCopyrightID(): ?int
+    public function getCopyrightID(): ?string
     {
         return $this->copyright_id;
     }
 
-    public function setCopyrightID(?int $copyright_id): void
+    public function setCopyrightID(?string $copyright_id): void
     {
         $this->copyright_id = $copyright_id;
     }
@@ -524,7 +517,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     {
         // check, if file is used somewhere
         $usages = $this->getUsages();
-        return count($usages) === 0;
+        return $usages === [];
     }
 
     protected function doDelete(): void
@@ -536,13 +529,13 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         ilHistory::_removeEntriesForObject($this->getId());
 
         // delete meta data
-        if ($this->getMode() != self::MODE_FILELIST) {
+        if ($this->getMode() !== self::MODE_FILELIST) {
             $this->deleteMetaData();
         }
 
         // delete resource
         $identification = $this->getResourceId();
-        if ($identification && $identification != '-') {
+        if ($identification && $identification !== '-') {
             $resource = $this->manager->find($identification);
             if ($resource !== null) {
                 $this->manager->remove($resource, $this->stakeholder);
