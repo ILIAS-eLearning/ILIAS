@@ -16452,6 +16452,7 @@ survey#:#svy_app_see_rater_info#:#Appraisees can access rater information in the
 survey#:#svy_appraisses_cannot_be_raters#:#User cannot be added as rater. Use self evaluation option in the survey settings instead.###07 02 2020 new variable
 survey#:#svy_back#:#Terug
 survey#:#svy_categories#:#Antwoorden
+survey#:#svy_categories#:#Antwoorden
 survey#:#svy_check_evaluation_access_introduction#:#De vragenlijst evaluatie is enkel toegankelijk voor vragenlijstdeelnemers, je moet een toegangscode ingeven om de evaluatie te bekijken
 survey#:#svy_check_evaluation_authentication_needed#:#Authenticatie nodig
 survey#:#svy_check_evaluation_wrong_key#:#Je hebt een verkeerd toegangscode ingegeven voor vragenlijstevaluatie of je hebt niet deelgenomen aan de vragenlijst. Je toegang tot de onderzoeksevaluatie wordt geweigerd.

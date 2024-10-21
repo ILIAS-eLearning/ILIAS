@@ -319,8 +319,10 @@ class ParticipantTable implements DataRetrieval
         }
 
         $columns['status_of_attempt'] = $column_factory->text($this->lng->txt('status_of_attempt'))->withIsSortable(true);
-        $columns['id_of_attempt'] = $column_factory->text($this->lng->txt('exam_id_of_attempt'))
-            ->withIsSortable(false)->withIsOptional(true);
+        if ($this->test_object->getMainSettings()->getTestBehaviourSettings()->getExamIdInTestAttemptEnabled()) {
+            $columns['id_of_attempt'] = $column_factory->text($this->lng->txt('exam_id_of_attempt'))
+                ->withIsSortable(false)->withIsOptional(true);
+        }
 
         if ($this->test_access->checkParticipantsResultsAccess()) {
             $columns['reached_points'] = $column_factory->text($this->lng->txt('tst_reached_points'))

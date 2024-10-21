@@ -22,7 +22,6 @@ namespace ILIAS\Test\Settings\MainSettings;
 
 use ILIAS\Test\Settings\TestSettings;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
-
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
@@ -40,7 +39,7 @@ class SettingsTestBehaviour extends TestSettings
         protected ?string $processing_time = null,
         protected bool $reset_processing_time = false,
         protected int $kiosk_mode = 0,
-        protected bool $examid_in_test_pass_enabled = false
+        protected bool $examid_in_test_attempt_enabled = false
     ) {
         $this->pass_waiting = $this->cleanupPassWaiting($this->pass_waiting);
         parent::__construct($test_id);
@@ -75,7 +74,7 @@ class SettingsTestBehaviour extends TestSettings
         $inputs['show_exam_id'] = $f->checkbox(
             $lng->txt('examid_in_test_pass'),
             $lng->txt('examid_in_test_pass_desc')
-        )->withValue($this->getExamIdInTestPassEnabled());
+        )->withValue($this->getExamIdInTestAttemptEnabled());
 
         return $f->section($inputs, $lng->txt('tst_settings_header_test_run'));
     }
@@ -340,7 +339,7 @@ class SettingsTestBehaviour extends TestSettings
             'processing_time' => ['string', $this->getProcessingTime()],
             'reset_processing_time' => ['integer', (int) $this->getResetProcessingTime()],
             'kiosk' => ['integer', $this->getKioskMode()],
-            'examid_in_test_pass' => ['integer', (int) $this->getExamIdInTestPassEnabled()]
+            'examid_in_test_pass' => ['integer', (int) $this->getExamIdInTestAttemptEnabled()]
         ];
     }
 
@@ -373,7 +372,7 @@ class SettingsTestBehaviour extends TestSettings
         }
 
         $log_array[AdditionalInformationGenerator::KEY_TEST_SHOW_EXAM_ID] = $additional_info
-            ->getEnabledDisabledTagForBool($this->getExamIdInTestPassEnabled());
+            ->getEnabledDisabledTagForBool($this->getExamIdInTestAttemptEnabled());
         return $log_array;
     }
 
@@ -496,15 +495,15 @@ class SettingsTestBehaviour extends TestSettings
         return ($this->kiosk_mode & 4) > 0;
     }
 
-    public function getExamIdInTestPassEnabled(): bool
+    public function getExamIdInTestAttemptEnabled(): bool
     {
-        return $this->examid_in_test_pass_enabled;
+        return $this->examid_in_test_attempt_enabled;
     }
 
-    public function withExamIdInTestPassEnabled(bool $exam_id_in_test_pass_enabled): self
+    public function withExamIdInTestAttemptEnabled(bool $exam_id_in_test_pass_enabled): self
     {
         $clone = clone $this;
-        $clone->examid_in_test_pass_enabled = $exam_id_in_test_pass_enabled;
+        $clone->examid_in_test_attempt_enabled = $exam_id_in_test_pass_enabled;
         return $clone;
     }
 }
