@@ -17141,6 +17141,11 @@ ui#:#duration_default_label_end#:#end
 ui#:#duration_default_label_start#:#start
 ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.
 ui#:#filter_nodes_in#:#Filter Nodes in %s
+ui#:#footer_icons#:#Footer Icons
+ui#:#footer_link_groups#:#Footer Link-Groups
+ui#:#footer_links#:#Footer Links
+ui#:#footer_permanent_link#:#Footer Permanent Link
+ui#:#footer_texts#:#Footer Texts
 ui#:#label_fieldselection#:#Field Selection
 ui#:#label_fieldselection_refresh#:#Apply
 ui#:#label_pagination_limit#:#Pagination Number of Rows

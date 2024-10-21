@@ -17161,6 +17161,11 @@ ui#:#duration_default_label_end#:#Ende
 ui#:#duration_default_label_start#:#Beginn
 ui#:#duration_end_must_not_be_earlier_than_start#:#Der Beginn muss zeitlich vor dem Ende liegen.
 ui#:#filter_nodes_in#:#Einträge in %s filtern
+ui#:#footer_icons#:#Footer Icons
+ui#:#footer_link_groups#:#Footer Link-Gruppen
+ui#:#footer_links#:#Footer Links
+ui#:#footer_permanent_link#:#Footer Permanent Link
+ui#:#footer_texts#:#Footer Texte
 ui#:#label_fieldselection#:#Spaltenauswahl
 ui#:#label_fieldselection_refresh#:#Anwenden
 ui#:#label_pagination_limit#:#Pagination - Anzahl der Zeilen

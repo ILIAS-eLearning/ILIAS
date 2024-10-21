@@ -1,64 +1,66 @@
-@use "../../../010-settings/"as *;
+@use "../../../010-settings/" as *;
 @use "../../../050-layout/basics" as *;
-@use "../../../050-layout/standardpage/" as *;
+@use "../../../050-layout/_layout_breakpoints" as brk;
+@use "../../../060-elements/_elements_typography" as e-typo;
 
 //== Footer
 
-$il-footer-padding: 10px 0 10px 5px;
-
-
-footer{
-	text-align: left;
+.c-maincontrols__footer {
 	background-color: $il-footer-bg-color;
-	padding: $il-footer-padding;
-	border-top: 1px solid $il-main-border-color;
-}
-.il-maincontrols-footer {
+	font-size: $il-font-size-base;
 	color: $il-footer-color;
-	font-size: $il-font-size-small;
-	padding: $il-padding-small-vertical $il-padding-large-horizontal;
 
-	.il-footer-content div {
-		display: inline-block;
-	}
-
-	.il-footer-links {
-		ul {
-			list-style: none;
-			padding: 0px;
-			margin: 0px;
-		}
-		li {
-			display: inline-block;
-			margin-right: $il-margin-xs-horizontal;
-			a, button {
-				color: $il-footer-link-color;
-			}
-			a:hover, button:hover {
-				color: $il-footer-link-hover-color;
-			}
-			button {
-				vertical-align: baseline;
-			}
-		}
-		li:first-child:before {
-			content: "\00b7";
-			margin-right: 10px;
-		}
-		li:after {
-			content: "\00b7";
-			margin-left: 10px;
-		}
-		li:last-child:after {
-			content: " ";
+	& a,
+	& .btn-link {
+		color: $il-footer-link-color;
+		&:hover,
+		&:focus {
+			color: $il-footer-link-hover-color;
 		}
 	}
 
-	.il-footer-permanent-url {
-		margin-right: $il-margin-xs-horizontal;
+	& .btn-link {
+		min-height: 0;
+		border: none;
+		padding: 0;
 	}
 
-	.il-footer-text {
-		margin: $il-margin-small-vertical $il-margin-xs-horizontal $il-margin-large-vertical 0px;
+	&-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		column-gap: $il-footer-gap-base;
+		border-top: $il-main-border;
+	}
+
+	&-grid__item {
+		height: auto;
+		padding: $il-padding-large-vertical $il-padding-large-horizontal;
+		--l-bar__element__margin-bottom: 0;
+	}
+
+	& ul {
+		@include e-typo.list-unstyled;
+		margin: 0;
+	}
+
+	& ul li {
+		padding: $il-padding-large-vertical 0 0 0;
+	}
+
+	@include brk.on-screen-size(large) {
+		font-size: $il-font-size-small;
+		&-grid {
+			grid-template-columns: repeat(4, 1fr);
+		}
+	}
+
+	@include brk.on-screen-size(small) {
+		font-size: $il-font-size-base;
+		&-grid {
+			grid-template-columns: repeat(1, 1fr);
+		}
+		& ul li {
+			padding: $il-padding-large-vertical 0;
+		}
 	}
 }

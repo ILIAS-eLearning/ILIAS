@@ -176,8 +176,7 @@ class ExamplesTest extends ILIAS_UI_TestBase
     public static function getListOfFullscreenExamples(): array
     {
         return [
-            ['ILIAS\UI\examples\MainControls\Footer\renderFooterInFullscreenMode', "components/ILIAS/UI/src/examples/MainControls/Footer/footer.php"],
-            ['ILIAS\UI\examples\MainControls\Footer\renderFooterWithModalsInFullscreenMode', "components/ILIAS/UI/src/examples/MainControls/Footer/footer_with_modals.php"],
+            ['ILIAS\UI\examples\MainControls\Footer\base', "components/ILIAS/UI/src/examples/MainControls/Footer/base.php"],
             ['ILIAS\UI\examples\MainControls\MetaBar\renderMetaBarInFullscreenMode', "components/ILIAS/UI/src/examples/MainControls/MetaBar/base_metabar.php"],
             ['ILIAS\UI\examples\Layout\Page\Standard\getUIMainbarExampleCondensed', "components/ILIAS/UI/src/examples/Layout/Page/Standard/ui_mainbar.php"],
             ['ILIAS\UI\examples\Layout\Page\Standard\getUIMainbarExampleFull', "components/ILIAS/UI/src/examples/Layout/Page/Standard/ui_mainbar.php"],

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\MainControls;
 
 use ILIAS\UI\Component\MainControls;
@@ -33,33 +33,88 @@ class Footer implements MainControls\Footer
 {
     use ComponentHelper;
 
-    /**
-     * @var [Modal\RoundTrip, Button\Shy][]
-     */
-    private array $modalsWithTriggers = [];
+    /** @var Modal\RoundTrip[] */
+    private array $modals = [];
+
     protected ?URI $permanent_url = null;
+
+    /** @var array<array{0: string, 1: array<Link|Shy}> (use as [$title, $actions] = <entry>) */
+    protected array $link_groups = [];
+
+    /** @var array<array{0: Icon, 1: Signal|URI|null}> (use as [$icon, $action] = <entry>) */
+    protected array $icons = [];
+
+    /** @var array<Link|Shy> */
+    protected array $links = [];
+
+    /** @var string[] */
+    protected array $texts = [];
 
     /**
      * @inheritDoc
      */
     public function withAdditionalLinkGroup(string $title, array $actions): MainControls\Footer
     {
-        throw new \ILIAS\UI\NotImplementedException();
+        $this->checkArgListElements('actions', $actions, [Link::class, Shy::class]);
+
+        $clone = clone $this;
+        $clone->link_groups[] = [$title, $actions];
+        return $clone;
+    }
+
+    /**
+     * @return array<array{0: string, 1: array<Link|Shy}> (use as [$title, $actions] = <entry>)
+     */
+    public function getAdditionalLinkGroups(): array
+    {
+        return $this->link_groups;
     }
 
     public function withAdditionalLink(Link|Shy ...$actions): MainControls\Footer
     {
-        throw new \ILIAS\UI\NotImplementedException();
+        $this->checkArgListElements('actions', $actions, [Link::class, Shy::class]);
+
+        $clone = clone $this;
+        array_push($clone->links, ...$actions);
+        return $clone;
+    }
+
+    /**
+     * @return array<Link|Shy>
+     */
+    public function getAdditionalLinks(): array
+    {
+        return $this->links;
     }
 
     public function withAdditionalIcon(Icon $icon, Signal|URI|null $action = null): MainControls\Footer
     {
-        throw new \ILIAS\UI\NotImplementedException();
+        $clone = clone $this;
+        $clone->icons[] = [$icon, $action];
+        return $clone;
+    }
+
+    /**
+     * @return array<array{0: Icon, 1: Signal|URI|null}> (use as [$icon, $action] = <entry>)
+     */
+    public function getAdditionalIcons(): array
+    {
+        return $this->icons;
     }
 
     public function withAdditionalText(string ...$texts): MainControls\Footer
     {
-        throw new \ILIAS\UI\NotImplementedException();
+        $clone = clone $this;
+        array_push($clone->texts, ...$texts);
+        return $clone;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getAdditionalTexts(): array
+    {
+        return $this->texts;
     }
 
     public function withPermanentURL(URI $url): MainControls\Footer
@@ -75,21 +130,20 @@ class Footer implements MainControls\Footer
     }
 
     /**
-     * @return array containing entries with [Modal\RoundTrip, Button\Shy]
+     * @return Modal\RoundTrip[]
      */
     public function getModals(): array
     {
-        return $this->modalsWithTriggers;
+        return $this->modals;
     }
 
-    public function withAdditionalModalAndTrigger(
-        Modal\RoundTrip $roundTripModal,
-        Shy $shyButton
-    ): self {
-        $shyButton = $shyButton->withOnClick($roundTripModal->getShowSignal());
+    public function withAdditionalModalAndTrigger(Modal\RoundTrip $roundTripModal, Shy $shyButton): self
+    {
+        $linked_shy_button = $shyButton->withOnClick($roundTripModal->getShowSignal());
 
         $clone = clone $this;
-        $clone->modalsWithTriggers[] = [$roundTripModal, $shyButton];
+        $clone->links[] = $linked_shy_button;
+        $clone->modals[] = $roundTripModal;
         return $clone;
     }
 }
