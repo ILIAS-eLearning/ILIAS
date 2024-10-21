@@ -156,7 +156,7 @@ class QuestionsBrowserTable implements DataRetrieval
         [$url_builder, $row_id_token] = $url_builder->acquireParameters(['qlist'], 'q_id');
 
         return $this->ui_factory->table()->action()->standard(
-            $this->lng->txt('insert'),
+            $this->lng->txt('tst_insert_in_test'),
             $url_builder,
             $row_id_token
         );
