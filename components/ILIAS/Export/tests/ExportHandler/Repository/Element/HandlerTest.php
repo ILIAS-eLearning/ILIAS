@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ExportHandler\Repository\Element;
+namespace ILIAS\Export\Test\ExportHandler\Repository\Element;
 
 use DateTimeImmutable;
 use ILIAS\Data\ObjectId;
