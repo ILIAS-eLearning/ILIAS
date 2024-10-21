@@ -98,7 +98,12 @@ class ilTestEvaluationData
 							usr_data.login,
 							tst_pass_result.*,
 							tst_active.submitted,
-							tst_active.last_finished_pass
+							tst_active.last_finished_pass,
+                            (SELECT MIN(started) AS attempt_started
+                                FROM tst_times
+                                WHERE active_fi = tst_active.active_id
+                                    AND pass = tst_pass_result.pass
+                            ) as start_time
 			FROM			tst_pass_result, tst_active
 			LEFT JOIN		usr_data
 			ON				tst_active.user_fi = usr_data.usr_id
@@ -159,7 +164,7 @@ class ilTestEvaluationData
                 $this->getParticipant($row['active_fi'])->setLastFinishedPass($row['last_finished_pass']);
             }
 
-            if (!is_object($this->getParticipant($row['active_fi'])->getPass($row['pass']))) {
+            if ($this->getParticipant($row['active_fi'])->getPass($row['pass']) === null) {
                 $pass = new ilTestEvaluationPassData();
                 $pass->setPass($row['pass']);
                 $this->getParticipant($row['active_fi'])->addPass($row['pass'], $pass);
@@ -176,6 +181,7 @@ class ilTestEvaluationData
                 $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setQuestionCount($row['questioncount']);
             }
 
+            $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setStartTime($row['start_time']);
             $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setNrOfAnsweredQuestions($row['answeredquestions']);
             $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setWorkingTime($row['workingtime']);
             $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setExamId((string) $row['exam_id']);

@@ -97,7 +97,7 @@ class ParticipantTable implements DataRetrieval
         foreach ($this->getViewControlledRecords($filter_data, $range, $order) as $record) {
             $date_format = $this->data_factory->dateFormat()->withTime24($this->data_factory->dateFormat()->germanShort());
 
-            $first_access = $record->getFirstAccess();
+            $first_access = $record->getAttemptOverviewInformation()?->getStartedDate();
             $last_access = $record->getLastAccess();
             $total_duration = $record->getTotalDuration($processing_time);
 
@@ -105,7 +105,7 @@ class ParticipantTable implements DataRetrieval
                 'name' => sprintf('%s, %s', $record->getLastname(), $record->getFirstname()),
                 'login' => $record->getLogin(),
                 'matriculation' => $record->getMatriculation(),
-                'started_at' => $first_access !== null ? $date_format->applyTo($first_access) : '',
+                'attempt_started_at' => $first_access !== null ? $date_format->applyTo($first_access) : '',
                 'status_of_attempt' => $this->lng->txt($record->getStatusOfAttempt()),
                 'id_of_attempt' => $record->getAttemptOverviewInformation()?->getExamId(),
                 'last_access' => $last_access !== null ? $date_format->applyTo($last_access) : '',
@@ -178,7 +178,7 @@ class ParticipantTable implements DataRetrieval
         $processing_time = $this->test_object->getProcessingTimeInSeconds();
 
         return [
-            'started_at' => static fn(Participant $a, Participant $b) => $a->getFirstAccess() <=> $b->getLastAccess(),
+            'attempt_started_at' => static fn(Participant $a, Participant $b) => $a->getFirstAccess() <=> $b->getFirstAccess(),
             'total_duration' => static fn(
                 Participant $a,
                 Participant $b
@@ -308,7 +308,7 @@ class ParticipantTable implements DataRetrieval
             'login' => $column_factory->text($this->lng->txt('login'))->withIsSortable(true),
             'matriculation' => $column_factory->text($this->lng->txt('matriculation'))->withIsSortable(false)->withIsOptional(true),
             'ip_range' => $column_factory->text($this->lng->txt('client_ip_range'))->withIsOptional(true)->withIsSortable(true),
-            'started_at' => $column_factory->text($this->lng->txt('tst_started'))->withIsSortable(true),
+            'attempt_started_at' => $column_factory->text($this->lng->txt('tst_started'))->withIsSortable(true),
             'total_attempts' => $column_factory->number($this->lng->txt('total_attempts'))->withIsOptional(true)->withIsSortable(true),
         ];
 
