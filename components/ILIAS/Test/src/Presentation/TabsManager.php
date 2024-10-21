@@ -422,20 +422,6 @@ class TabsManager
             );
         }
 
-        if ($this->isLpAccessGranted()) {
-            $this->tabs->addTarget(
-                self::TAB_ID_LEARNING_PROGRESS,
-                $this->ctrl->getLinkTargetByClass([\ilObjTestGUI::class, \ilLearningProgressGUI::class], ''),
-                '',
-                [
-                    'illplistofobjectsgui',
-                    'illplistofsettingsgui',
-                    'illearningprogressgui',
-                    'illplistofprogressgui'
-                ]
-            );
-        }
-
         if ($this->checkScoreParticipantsTabAccess()) {
             if ($this->test_object->getGlobalSettings()->isManualScoringEnabled()) {
                 // scoring tab
@@ -466,6 +452,20 @@ class TabsManager
                 $this->ctrl->getLinkTargetByClass(\ilObjTestGUI::class, 'history'),
                 'history',
                 ''
+            );
+        }
+
+        if ($this->isLpAccessGranted()) {
+            $this->tabs->addTarget(
+                self::TAB_ID_LEARNING_PROGRESS,
+                $this->ctrl->getLinkTargetByClass([\ilObjTestGUI::class, \ilLearningProgressGUI::class], ''),
+                '',
+                [
+                    'illplistofobjectsgui',
+                    'illplistofsettingsgui',
+                    'illearningprogressgui',
+                    'illplistofprogressgui'
+                ]
             );
         }
 
