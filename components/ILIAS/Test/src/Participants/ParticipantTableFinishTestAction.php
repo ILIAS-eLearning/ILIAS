@@ -144,6 +144,7 @@ class ParticipantTableFinishTestAction implements TableAction
             $this->lng->txt('test_attempts_finished'),
             true
         );
+        return null;
     }
 
     public function allowActionForRecord(Participant $record): bool

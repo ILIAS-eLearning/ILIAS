@@ -123,6 +123,7 @@ class ParticipantTableDeleteResultsAction implements TableAction
             $this->lng->txt('tst_selected_user_data_deleted'),
             true
         );
+        return null;
     }
 
     public function allowActionForRecord(Participant $record): bool

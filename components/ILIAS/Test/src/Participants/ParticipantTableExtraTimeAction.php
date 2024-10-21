@@ -129,6 +129,7 @@ class ParticipantTableExtraTimeAction implements TableAction
             $this->lng->txt('extratime_added'),
             true
         );
+        return null;
     }
 
     public function allowActionForRecord(Participant $record): bool
