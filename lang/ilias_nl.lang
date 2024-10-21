@@ -16017,7 +16017,6 @@ survey#:#cancel_survey#:#Opschorten van enquête
 survey#:#cannot_read_survey#:#U bent niet in het bezit van voldoende toestemmingen om de vragenlijsts gegevens te lezen!
 survey#:#cannot_switch_to_online_no_questions#:#U bent niet in het bezit van voldoende rechten om de zinnen te beheren!
 survey#:#cant_send_email_smtp_disabled#:#Sending external mails is not available. This option is deactivated globally.###07 02 2017 new variable
-survey#:#svy_categories#:#Antwoorden
 survey#:#category#:#Antwoord
 survey#:#category_nr_selected#:#Aantal gebruikers dat dit antwoord selecteerden
 survey#:#chart#:#Grafiek
