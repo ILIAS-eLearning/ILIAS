@@ -202,7 +202,7 @@ class QuestionsBrowserTable implements DataRetrieval
         );
     }
 
-    private function loadRecords(?array $filter): array
+    public function loadRecords(?array $filter): array
     {
         $filter ??= [];
         if ($this->records !== null) {
