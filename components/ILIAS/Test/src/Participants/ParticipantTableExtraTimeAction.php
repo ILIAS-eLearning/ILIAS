@@ -64,7 +64,7 @@ class ParticipantTableExtraTimeAction implements TableAction
             $this->lng->txt(self::ACTION_ID),
             $url_builder
                 ->withParameter($action_token, self::ACTION_ID)
-                ->withParameter($action_type_token, ParticipantTableModalActions::SHOW_ACTION),
+                ->withParameter($action_type_token, ParticipantTableActions::SHOW_ACTION),
             $row_id_token
         )->withAsync();
     }

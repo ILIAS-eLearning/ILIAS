@@ -27,7 +27,7 @@ use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\Results\Data\Factory as ResultsDataFactory;
 use ILIAS\Test\Results\Presentation\Factory as ResultsPresentationFactory;
 use ILIAS\Test\Participants\ParticipantRepository;
-use ILIAS\Test\Participants\ParticipantTableModalActions;
+use ILIAS\Test\Participants\ParticipantTableActions;
 use ILIAS\Test\Participants\ParticipantTableDeleteParticipantAction;
 use ILIAS\Test\Participants\ParticipantTableIpRangeAction;
 use ILIAS\Test\Participants\ParticipantTableExtraTimeAction;
@@ -325,9 +325,9 @@ class ilTestParticipantsGUI
         $this->showCmd();
     }
 
-    private function buildParticipantTableActions(): ParticipantTableModalActions
+    private function buildParticipantTableActions(): ParticipantTableActions
     {
-        return new ParticipantTableModalActions(
+        return new ParticipantTableActions(
             $this->ctrl,
             $this->lng,
             $this->main_tpl,
