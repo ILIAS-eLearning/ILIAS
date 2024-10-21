@@ -325,38 +325,6 @@ class ilTestParticipantsGUI
         $this->showCmd();
     }
 
-    protected function saveClientIpCmd(): void
-    {
-        $filter_closure = $this->participant_access_filter->getManageParticipantsUserFilter($this->test_obj->getRefId());
-        $selected_users = $filter_closure($this->testrequest->raw('chbUser') ?? []);
-
-        if ($selected_users === []) {
-            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("select_one_user"), true);
-        }
-
-        foreach ($selected_users as $user_id) {
-            $this->test_obj->setClientIP($user_id, $_POST["clientip_" . $user_id]);
-        }
-
-        $this->showCmd();
-    }
-
-    protected function removeParticipantsCmd(): void
-    {
-        $filter_closure = $this->participant_access_filter->getManageParticipantsUserFilter($this->test_obj->getRefId());
-        $a_user_ids = $filter_closure((array) $_POST["chbUser"]);
-
-        if (is_array($a_user_ids)) {
-            foreach ($a_user_ids as $user_id) {
-                $this->test_obj->disinviteUser($user_id);
-            }
-        } else {
-            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("select_one_user"), true);
-        }
-
-        $this->showCmd();
-    }
-
     private function buildParticipantTableActions(): ParticipantTableModalActions
     {
         return new ParticipantTableModalActions(

@@ -2092,11 +2092,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->tpl->setVariable("TITLE", $this->object->getTitle());
         $this->tpl->setVariable("TXT_TEST_PROLOG", $this->lng->txt("tst_your_answers"));
         $invited_user = &$this->object->getInvitedUsers($this->user->getId());
-        $pagetitle = $this->object->getTitle() . " - " . $this->lng->txt("clientip") .
-            ": " . $invited_user[$this->user->getId()]["clientip"] . " - " .
-            $this->lng->txt("matriculation") . ": " .
-            $invited_user[$this->user->getId()]["matriculation"];
-        $this->tpl->setVariable("PAGETITLE", $pagetitle);
+        $pagetitle = $this->object->getTitle() . ' - ' . $this->lng->txt('clientip') .
+            ': ' . $_SERVER['REMOTE_ADDR'] . ' - ' .
+            $this->lng->txt('matriculation') . ': ' .
+            $invited_user[$this->user->getId()]['matriculation'];
+        $this->tpl->setVariable('PAGETITLE', $pagetitle);
         $this->tpl->parseCurrentBlock();
     }
 

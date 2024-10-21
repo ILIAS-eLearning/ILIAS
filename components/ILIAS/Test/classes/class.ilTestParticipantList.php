@@ -188,13 +188,7 @@ class ilTestParticipantList implements Iterator
             $participant->setLastname($row_data['lastname']);
             $participant->setFirstname($row_data['firstname'] ?? '');
             $participant->setMatriculation($row_data['matriculation'] ?? '');
-
             $participant->setActiveStatus((bool) ($row_data['active'] ?? false));
-
-            if (isset($row_data['clientip'])) {
-                $participant->setClientIp($row_data['clientip']);
-            }
-
             $participant->setFinishedTries((int) $row_data['tries']);
             $participant->setTestFinished((bool) $row_data['test_finished']);
             $participant->setUnfinishedPasses((bool) $row_data['unfinished_passes']);
@@ -255,7 +249,7 @@ class ilTestParticipantList implements Iterator
         return $query;
     }
 
-    public function getParticipantsTableRows(): array
+    public function getScoringTableRows(): array
     {
         $rows = [];
 
@@ -264,15 +258,8 @@ class ilTestParticipantList implements Iterator
                 'usr_id' => $participant->getUsrId(),
                 'active_id' => $participant->getActiveId(),
                 'login' => $participant->getLogin(),
-                'clientip' => $participant->getClientIp(),
                 'firstname' => $participant->getFirstname(),
-                'lastname' => $participant->getLastname(),
-                'name' => $this->buildFullname($participant),
-                'started' => ($participant->getActiveId() > 0) ? 1 : 0,
-                'unfinished' => $participant->hasUnfinishedPasses() ? 1 : 0,
-                'finished' => $participant->isTestFinished() ? 1 : 0,
-                'access' => $this->lookupLastAccess($participant->getActiveId()),
-                'tries' => $this->lookupNrOfTries($participant->getActiveId())
+                'lastname' => $participant->getLastname()
             ];
 
             $rows[] = $row;

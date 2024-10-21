@@ -96,13 +96,6 @@ class ilTestParticipantTest extends ilTestBaseTestCase
         $this->assertTrue($this->testObj->isActiveStatus());
     }
 
-    public function testClientIp(): void
-    {
-        $client_id = '127.0.0.1';
-        $this->testObj->setClientIp($client_id);
-        $this->assertEquals($client_id, $this->testObj->getClientIp());
-    }
-
     public function testFinishedTries(): void
     {
         $finished_tries = 125;

@@ -218,14 +218,6 @@ class Printer
             $template->parseCurrentBlock();
         }
 
-        $invited_user = array_pop($this->test_obj->getInvitedUsers($user_id));
-        if (isset($invited_user['clientip']) && $invited_user['clientip'] !== '') {
-            $template->setCurrentBlock('client_ip');
-            $template->setVariable('TXT_CLIENT_IP', $this->lng->txt('client_ip'));
-            $template->setVariable('VALUE_CLIENT_IP', $invited_user['clientip']);
-            $template->parseCurrentBlock();
-        }
-
         $template->setVariable('TXT_USR_NAME', $this->lng->txt('name'));
         $uname = $this->test_obj->userLookupFullName($user_id, false);
         $template->setVariable('VALUE_USR_NAME', $uname);
