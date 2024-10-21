@@ -23,7 +23,6 @@ namespace ILIAS\Test\ExportImport;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\FileDelivery\Services as FileDeliveryServices;
-use ILIAS\Data\Factory as DataFactory;
 
 class Factory
 {
@@ -48,15 +47,25 @@ class Factory
         ?string $plugin_type = null
     ): Exporter {
         switch ($export_type) {
-            case Types::SCORED_RUN:
-                return (new ResultsExportExcel($this->lng, $this->current_user, $test_obj, $test_obj->getTitle() . '_results', true))
-                    ->withAggregatedResultsPage()
+            case Types::SCORED_ATTEMPT:
+                return (new ResultsExportExcel(
+                    $this->lng,
+                    $this->current_user,
+                    $test_obj,
+                    "{$test_obj->getTitle()}_{$this->lng->txt('scored_pass')}_results",
+                    true
+                ))->withAggregatedResultsPage()
                     ->withResultsPage()
                     ->withUserPages();
 
-            case Types::ALL_RUNS:
-                return (new ResultsExportExcel($this->lng, $this->current_user, $test_obj, $test_obj->getTitle() . '_results', false))
-                    ->withAggregatedResultsPage()
+            case Types::ALL_ATTEMPTS:
+                return (new ResultsExportExcel(
+                    $this->lng,
+                    $this->current_user,
+                    $test_obj,
+                    "{$test_obj->getTitle()}_{$this->lng->txt('all')}_results",
+                    false
+                ))->withAggregatedResultsPage()
                     ->withResultsPage()
                     ->withUserPages();
 

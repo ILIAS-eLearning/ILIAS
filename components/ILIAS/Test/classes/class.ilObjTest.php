@@ -6697,7 +6697,7 @@ class ilObjTest extends ilObject
 
         $path = $this->export_factory->getExporter(
             $this,
-            ExportImportTypes::SCORED_RUN
+            ExportImportTypes::SCORED_ATTEMPT
         )->withFilterByActiveId($active_id)
             ->withResultsPage()
             ->withUserPages()

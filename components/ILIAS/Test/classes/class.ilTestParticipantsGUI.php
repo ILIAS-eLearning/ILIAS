@@ -136,8 +136,7 @@ class ilTestParticipantsGUI
             return false;
         }
 
-        $this->showCmd();
-        return null;
+        $this->ctrl->redirectByClass(self::class, self::CMD_SHOW);
     }
 
     public function showCmd(?Modal $modal = null): void
@@ -247,14 +246,14 @@ class ilTestParticipantsGUI
      */
     private function buildOptionsForTestWithNames(): array
     {
-        $this->ctrl->setParameterByClass(self::class, self::EXPORT_TYPE_PARAMETER, ExportImportTypes::SCORED_RUN->value);
+        $this->ctrl->setParameterByClass(self::class, self::EXPORT_TYPE_PARAMETER, ExportImportTypes::SCORED_ATTEMPT->value);
         $options = [
             $this->ui_factory->button()->shy(
                 $this->lng->txt('exp_scored_test_attempt'),
                 $this->ctrl->getLinkTargetByClass(self::class, 'exportResults')
             )
         ];
-        $this->ctrl->setParameterByClass(self::class, self::EXPORT_TYPE_PARAMETER, ExportImportTypes::ALL_RUNS->value);
+        $this->ctrl->setParameterByClass(self::class, self::EXPORT_TYPE_PARAMETER, ExportImportTypes::ALL_ATTEMPTS->value);
         $options[] = $this->ui_factory->button()->shy(
             $this->lng->txt('exp_all_test_runs'),
             $this->ctrl->getLinkTargetByClass(self::class, 'exportResults')
@@ -307,7 +306,7 @@ class ilTestParticipantsGUI
         );
 
         if ($export_type === null) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('failure'));
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('error'));
             $this->showCmd();
             return;
         }
