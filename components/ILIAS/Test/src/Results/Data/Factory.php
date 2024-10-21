@@ -119,8 +119,7 @@ class Factory
             $attempt_data->getQuestionCount(),
             $attempt_data->getRequestedHintsCount(),
             $attempt_data->getWorkingTime(),
-            $participant_data->getFirstVisit(),
-            $participant_data->getLastVisit(),
+            $attempt_data->getStartTime(),
             $participant_data->getPassCount(),
             $participant_data->getScoredPass(),
             $eval->getStatistics()->rank($participant_data->getReached())

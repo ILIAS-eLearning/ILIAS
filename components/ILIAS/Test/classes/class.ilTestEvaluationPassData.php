@@ -39,6 +39,7 @@ class ilTestEvaluationPassData
     * @var array<int>
     */
     public array $answeredQuestions;
+    private ?\DateTimeImmutable $start_time = null;
     private int $workingtime;
     private int $questioncount;
     private float $maxpoints;
@@ -119,6 +120,18 @@ class ilTestEvaluationPassData
     public function setQuestionCount(int $questioncount): void
     {
         $this->questioncount = $questioncount;
+    }
+
+    public function getStartTime(): ?\DateTimeImmutable
+    {
+        return $this->start_time;
+    }
+
+    public function setStartTime(?string $start_time): void
+    {
+        if ($start_time !== null) {
+            $this->start_time = new \DateTimeImmutable($start_time);
+        }
     }
 
     public function getWorkingTime(): int
