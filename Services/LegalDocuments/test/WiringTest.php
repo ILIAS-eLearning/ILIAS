@@ -200,6 +200,33 @@ class WiringTest extends TestCase
         $this->assertSame($map, $instance->hasPublicApi($public_api)->map());
     }
 
+    public function testHasPublicPage(): void
+    {
+        $map = $this->mock(Map::class);
+        $public_page = fn() => null;
+
+        $instance = new Wiring(
+            $this->mockTree(SlotConstructor::class, ['id' => 'foo']),
+            $this->mockMethod(Map::class, 'set', ['public-page', 'foo', $public_page], $map)
+        );
+
+        $this->assertSame($map, $instance->hasPublicPage($public_page)->map());
+    }
+
+    public function testHasPublicPageWithGotoLink(): void
+    {
+        $m = $this->mock(Map::class);
+        $map = $this->mockMethod(Map::class, 'add', ['goto'], $m);
+        $public_page = fn() => null;
+
+        $instance = new Wiring(
+            $this->mockTree(SlotConstructor::class, ['id' => 'foo']),
+            $this->mockMethod(Map::class, 'set', ['public-page', 'foo', $public_page], $map)
+        );
+
+        $this->assertSame($m, $instance->hasPublicPage($public_page, 'foo')->map());
+    }
+
     public function testMap(): void
     {
         $map = $this->mock(Map::class);
