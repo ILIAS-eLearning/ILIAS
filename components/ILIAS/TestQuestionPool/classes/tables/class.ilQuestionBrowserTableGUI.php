@@ -63,9 +63,9 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 
         // Bugfix: #0019539
         if ($confirmdelete) {
-            $this->setId("qpl_confirm_del_" . $a_parent_obj->object->getRefId());
+            $this->setId("qpl_confirm_del_" . $a_parent_obj->getObject()->getRefId());
         } else {
-            $this->setId("qpl_qst_brows_" . $a_parent_obj->object->getRefId());
+            $this->setId("qpl_qst_brows_" . $a_parent_obj->getObject()->getRefId());
         }
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
