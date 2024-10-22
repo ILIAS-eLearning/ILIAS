@@ -1737,12 +1737,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->test_session->setLastSequence(0);
         $this->test_session->saveToDb();
 
-        $this->test_pass_result_repository->finalizeTestPassResult(
-            $this->test_session->getActiveId(),
-            $this->test_session->getPass(),
-            StatusOfAttempt::FINISHED_BY_DURATION
-        );
-
         $this->redirectBackCmd();
     }
 

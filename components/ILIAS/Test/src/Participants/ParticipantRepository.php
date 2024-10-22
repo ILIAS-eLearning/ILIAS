@@ -412,7 +412,7 @@ class ParticipantRepository
             return StatusOfAttempt::NOT_YET_STARTED;
         }
 
-        if (!$row['submitted']) {
+        if ($row['unfinished_attempts'] === 1) {
             return StatusOfAttempt::RUNNING;
         }
 
