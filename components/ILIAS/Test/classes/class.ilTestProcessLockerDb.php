@@ -78,6 +78,7 @@ class ilTestProcessLockerDb extends ilTestProcessLocker
     protected function onBeforeExecutingTestFinishOperation()
     {
         $this->atom_query->addTableLock('tst_active');
+        $this->atom_query->addTableLock('tst_pass_result');
     }
 
     /**

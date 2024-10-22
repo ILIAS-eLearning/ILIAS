@@ -80,7 +80,7 @@ class ParticipantTableFinishTestAction implements TableAction
     ): ?Modal {
         $modal = $this->ui_factory->modal()->interruptive(
             $this->lng->txt('finish_test'),
-            $this->resolveMessage($selected_participants),
+            $this->resolveMessage($selected_participants, $all_participants_selected),
             $url_builder->buildURI()->__toString()
         )->withActionButtonLabel($this->lng->txt('finish_test'));
 

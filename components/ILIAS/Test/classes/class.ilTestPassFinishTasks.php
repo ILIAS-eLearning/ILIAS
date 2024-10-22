@@ -37,6 +37,8 @@ class ilTestPassFinishTasks
     public function performFinishTasks(ilTestProcessLocker $process_locker, StatusOfAttempt $status_of_attempt)
     {
         $process_locker->executeTestFinishOperation(function () use ($status_of_attempt) {
+            $pass = $this->test_session->getPass();
+
             if (!$this->test_session->isSubmitted()) {
                 $this->test_session->setSubmitted();
                 $this->test_session->setSubmittedTimestamp();
@@ -58,7 +60,7 @@ class ilTestPassFinishTasks
 
             $this->test_pass_result_repository->finalizeTestPassResult(
                 $this->test_session->getActiveId(),
-                $this->test_session->getPass(),
+                $pass,
                 $status_of_attempt
             );
         });

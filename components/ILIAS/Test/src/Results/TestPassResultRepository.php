@@ -34,7 +34,7 @@ class TestPassResultRepository
         }
 
         $this->db->manipulateF(
-            'UPDATE tst_test_result SET tstamp = %s, finalized_by = %s WHERE active_fi = %s AND pass = %s',
+            'UPDATE tst_pass_result SET tstamp = %s, finalized_by = %s WHERE active_fi = %s AND pass = %s',
             ['integer', 'text', 'integer', 'integer'],
             [time(), $status_of_attempt->value, $active_id, $pass]
         );
