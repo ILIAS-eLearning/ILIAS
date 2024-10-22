@@ -258,6 +258,7 @@ class ilDclFieldEditGUI
             foreach (ilDclDatatype::getAllDatatype() as $datatype) {
                 $model = new ilDclBaseFieldModel();
                 $model->setDatatypeId($datatype->getId());
+                $model = ilDclFieldFactory::getFieldModelInstanceByClass($model);
                 $field_representation = ilDclFieldFactory::getFieldRepresentationInstance($model);
                 $field_representation->addFieldCreationForm($edit_datatype, $this->getDataCollectionObject());
             }
