@@ -269,8 +269,12 @@ class ilBadgeImageTemplate
     {
         $this->setId($a_row["id"]);
         $this->setTitle($a_row["title"]);
-        $this->setImage($a_row["image"]);
-        $this->setImageRid($a_row["image_rid"]);
+        if(isset($a_row["image"])) {
+            $this->setImage($a_row["image"]);
+        }
+        if(isset($a_row["image_rid"])) {
+            $this->setImageRid($a_row["image_rid"]);
+        }
         $this->setTypes($a_row["types"]);
     }
 
