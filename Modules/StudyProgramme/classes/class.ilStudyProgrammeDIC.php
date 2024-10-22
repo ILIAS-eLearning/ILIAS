@@ -43,7 +43,7 @@ class ilStudyProgrammeDIC
                 ilOrgUnitGlobalSettings::getInstance(),
                 $DIC['ilObjDataCache'],
                 new ilOrgUnitPositionAccess($DIC['ilAccess']),
-                (int)$prg->getRefid()
+                (int) $prg->getRefid()
             );
         };
 
@@ -228,6 +228,8 @@ class ilStudyProgrammeDIC
                 $DIC->http()->wrapper(),
                 $DIC->refinery(),
                 $DIC['ui.factory'],
+                $DIC['ui.renderer'],
+                $DIC->http()->request(),
             );
         $dic['ilObjStudyProgrammeAutoMembershipsGUI'] = static fn($dic) =>
             new ilObjStudyProgrammeAutoMembershipsGUI(
