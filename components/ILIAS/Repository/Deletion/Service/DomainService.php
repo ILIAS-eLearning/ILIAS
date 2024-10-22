@@ -38,7 +38,7 @@ class DomainService
     public function deletion(): Deletion
     {
         $trash_enabled = (bool) $this->domain->settings()->get('enable_trash');
-        return $this->instance['deletion'] ??= new Deletion(
+        return self::$instance['deletion'] ??= new Deletion(
             $this->tree(),
             $this->permission(),
             $this->event(),
@@ -49,7 +49,7 @@ class DomainService
 
     protected function permission(): PermissionStandardAdapter
     {
-        return $this->instance['permission'] ??=
+        return self::$instance['permission'] ??=
             new PermissionStandardAdapter(
                 $this->domain->access(),
                 $this->domain->rbac()->admin(),
@@ -59,19 +59,19 @@ class DomainService
 
     protected function event(): EventStandardAdapter
     {
-        return $this->instance['event'] ??=
+        return self::$instance['event'] ??=
             new EventStandardAdapter($this->domain);
     }
 
     protected function object(): ObjectStandardAdapter
     {
-        return $this->instance['object'] ??=
-            new ObjectStandardAdapter();
+        return self::$instance['object'] ??=
+            new ObjectStandardAdapter(0);
     }
 
     protected function tree(): TreeStandardAdapter
     {
-        return $this->instance['tree'] ??=
+        return self::$instance['tree'] ??=
             new TreeStandardAdapter(
                 $this->repo,
                 $this->domain->repositoryTree(),

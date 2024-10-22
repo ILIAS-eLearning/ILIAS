@@ -26,6 +26,7 @@ use ILIAS\Repository\Trash\TrashGUIRequest;
  */
 class ilRepositoryTrashGUI
 {
+    protected \ILIAS\Repository\Deletion\Deletion $deletion;
     protected ilLanguage $lng;
     protected ilSetting $settings;
     protected ilCtrl $ctrl;
@@ -61,6 +62,7 @@ class ilRepositoryTrashGUI
             ->gui()
             ->trash()
             ->request();
+        $this->deletion = $DIC->repository()->internal()->domain()->deletion();
     }
 
     /**
@@ -410,7 +412,7 @@ class ilRepositoryTrashGUI
             $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
         } else {
             try {
-                ilRepUtil::deleteObjects($a_cur_ref_id, $a_ref_ids);
+                $this->deletion->deleteObjectsByRefIds($a_ref_ids);
                 if ($ilSetting->get('enable_trash')) {
                     $this->tpl->setOnScreenMessage('success', $lng->txt("info_deleted"), true);
                 } else {
