@@ -16,135 +16,231 @@
  *
  *********************************************************************/
 
-use ILIAS\DI\UIServices;
-use ILIAS\Badge\Tile;
+use ILIAS\UI\Factory;
+use ILIAS\UI\URLBuilder;
+use ILIAS\Data\Order;
+use ILIAS\Data\Range;
+use ILIAS\UI\Renderer;
+use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\HTTP\Services;
+use Psr\Http\Message\RequestInterface;
+use ILIAS\UI\Component\Table\DataRowBuilder;
+use ILIAS\UI\Component\Table\DataRetrieval;
+use ILIAS\UI\URLBuilderToken;
+use ILIAS\Data\URI;
+use ILIAS\UI\Implementation\Component\Link\Standard;
+use ILIAS\Badge\ilBadgeImage;
+use ILIAS\Badge\PresentationHeader;
+use ILIAS\UI\Implementation\Component\Image\Image;
+use ILIAS\Badge\ModalBuilder;
 
-/**
- * TableGUI class for user badge listing
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+/*
+ * @ilCtrl_IsCalledBy ilObjBadgeAdministration: ilObjectBadgeTable
  */
-class ilBadgePersonalTableGUI extends ilTable2GUI
+
+class ilBadgePersonalTableGUI
 {
-    protected ilObjUser $user;
-    private readonly UIServices $ui;
-    private readonly Tile $tile;
-    private readonly ilLanguage $language;
-
-    public function __construct(
-        object $a_parent_obj,
-        string $a_parent_cmd,
-        int $a_user_id = null
-    ) {
+    private readonly Factory $factory;
+    private readonly Renderer $renderer;
+    private readonly \ILIAS\Refinery\Factory $refinery;
+    private readonly ServerRequestInterface|RequestInterface $request;
+    private readonly Services $http;
+    private readonly ilLanguage $lng;
+    private readonly ilGlobalTemplateInterface $tpl;
+    public function __construct() {
         global $DIC;
-
         $this->lng = $DIC->language();
-        $this->user = $DIC->user();
-        $this->ctrl = $DIC->ctrl();
-        $this->tpl = $DIC["tpl"];
-        $this->ui = $DIC->ui();
-        $this->tile = new Tile($DIC);
-        $this->language = $DIC->language();
-        $lng = $DIC->language();
-        $ilUser = $DIC->user();
-        $ilCtrl = $DIC->ctrl();
-        $tpl = $DIC["tpl"];
-
-        if (!$a_user_id) {
-            $a_user_id = $ilUser->getId();
-        }
-
-        $this->setId("bdgprs");
-
-        parent::__construct($a_parent_obj, $a_parent_cmd);
-
-        $this->setTitle($lng->txt("badge_personal_badges"));
-        $this->setEnableTitle(false);
-        $this->setEnableNumInfo(false);
-        $this->setShowRowsSelector(false);
-        $this->setLimit(PHP_INT_MAX);
-        $this->addColumn("", "", 1);
-        $this->addColumn($lng->txt("title"), "title");
-        $this->addColumn($lng->txt("awarded_by"), "parent_title");
-        $this->addColumn($lng->txt("badge_issued_on"), "issued_on");
-        $this->addColumn($lng->txt("badge_in_profile"), "active");
-
-        $this->setDefaultOrderField("title");
-
-        $this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
-        $this->setRowTemplate("tpl.personal_row.html", "components/ILIAS/Badge");
-
-        $this->addMultiCommand("activate", $lng->txt("badge_add_to_profile"));
-        $this->addMultiCommand("deactivate", $lng->txt("badge_remove_from_profile"));
-        $this->setSelectAllCheckbox("badge_id");
-
-        $this->getItems($a_user_id);
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->factory = $DIC->ui()->factory();
+        $this->renderer = $DIC->ui()->renderer();
+        $this->refinery = $DIC->refinery();
+        $this->request = $DIC->http()->request();
+        $this->http = $DIC->http();
     }
 
-    public function getItems(int $a_user_id): void
+    protected function buildDataRetrievalObject(Factory $f, Renderer $r) : DataRetrieval
     {
-        $lng = $this->lng;
+        return new class ($f, $r) implements DataRetrieval {
+            private readonly ilBadgeImage $badge_image_service;
+            private readonly Factory $factory;
+            private readonly Renderer $renderer;
+            private readonly ilObjUser $user;
+            private readonly ilAccess $access;
 
-        $data = [];
+            private readonly ilLanguage $lng;
 
-        foreach (ilBadgeAssignment::getInstancesByUserId($a_user_id) as $ass) {
-            $badge = new ilBadge($ass->getBadgeId());
+            public function __construct(
+                protected Factory $ui_factory,
+                protected Renderer $ui_renderer
+            ) {
+                global $DIC;
+                $this->badge_image_service = new ilBadgeImage($DIC->resourceStorage(), $DIC->upload(), $DIC->ui()->mainTemplate());
+                $this->factory = $this->ui_factory;
+                $this->renderer = $this->ui_renderer;
+                $this->user = $DIC->user();
+                $this->access = $DIC->access();
+                $this->lng = $DIC->language();
+            }
 
-            $parent = null;
-            if ($badge->getParentId()) {
-                $parent = $badge->getParentMeta();
-                if ($parent["type"] === "bdga") {
-                    $parent = null;
+
+            public function getRows(
+                DataRowBuilder $row_builder,
+                array $visible_column_ids,
+                Range $range,
+                Order $order,
+                ?array $filter_data,
+                ?array $additional_parameters
+            ) : Generator {
+                $records = $this->getRecords($range, $order);
+                foreach ($records as $idx => $record) {
+                    $row_id = (string) $record['id'];
+                    yield $row_builder->buildDataRow($row_id, $record);
                 }
             }
 
-            $data[] = array(
-                "id" => $badge->getId(),
-                "title" => $badge->getTitle(),
-                "image" => $badge->getImagePath(),
-                "issued_on" => $ass->getTimestamp(),
-                "parent_title" => $parent ? $parent["title"] : null,
-                "parent" => $parent,
-                "active" => (bool) $ass->getPosition(),
-                "renderer" => fn() => $this->tile->asTitle(
-                    $this->tile->modalContentWithAssignment($badge, $ass)
-                ),
-            );
-        }
+            public function getTotalRowCount(
+                ?array $filter_data,
+                ?array $additional_parameters
+            ) : ?int {
+                return count($this->getRecords());
+            }
 
-        $this->setData($data);
+            protected function getRecords(Range $range = null, Order $order = null) : array
+            {
+                $data = [];
+                $a_user_id = $this->user->getId();
+                $badge_img_large = new Image(Image::STANDARD,'', '');
+
+                foreach (ilBadgeAssignment::getInstancesByUserId($a_user_id) as $ass) {
+                    $image_html = '';
+                    $badge = new ilBadge($ass->getBadgeId());
+                    $modal_container = new ModalBuilder($ass);
+                    $image_rid = $this->badge_image_service->getImageFromBadge($badge);
+                    if($image_rid != '') {
+                        $badge_img = $this->factory->image()->responsive($image_rid, $badge->getTitle());
+                        $image_html = $this->renderer->render($badge_img);
+
+                        $image_html_large = $this->badge_image_service->getImageFromResourceId($badge, $badge->getImageRid(), 0);
+                        if($image_html_large !== '') {
+                            $badge_img_large = $this->ui_factory->image()->responsive(
+                                $image_html_large,
+                                $badge->getTitle()
+                            );
+                        }
+                    }
+                    $parent = null;
+                    if ($badge->getParentId()) {
+                        $parent = $badge->getParentMeta();
+                        if ($parent["type"] === "bdga") {
+                            $parent = null;
+                        }
+                    }
+                    $awarded_by = '';
+                    if($parent !== null) {
+                        $ref_ids = ilObject::_getAllReferences($parent['id']);
+                        reset($ref_ids);
+                        $ref_id = current($ref_ids);
+
+                        if ($this->access->checkAccess('read', '', $ref_id)) {
+                            $container_url = ilLink::_getLink($ref_id);
+                            $awarded_by = $this->renderer->render(new Standard($parent['title'], new URI($container_url)));
+                        }
+                    }
+
+                    $information = [
+                        'awarded_by' => $awarded_by
+                    ];
+
+                    $modal = $modal_container->constructModal($badge_img_large, $badge->getTitle(), '', $information);
+
+                    $data[] = [
+                        'id' => $badge->getId(),
+                        'image' => $this->ui_renderer->render($this->ui_factory->button()->shy($image_html, $modal->getShowSignal())) . ' ' .  $this->ui_renderer->render($modal),
+                        'title' =>  $this->ui_renderer->render($this->ui_factory->button()->shy($badge->getTitle(), $modal->getShowSignal())),
+                        'user' => '',
+                        'badge_in_profile' => '',
+                        "badge_issued_on" =>  (new \DateTimeImmutable())->setTimestamp($ass->getTimestamp()),
+                        "awarded_by" => $awarded_by,
+                        "parent" => $parent,
+                        "active" => (bool) $ass->getPosition()
+                    ];
+                }
+                return $data;
+            }
+        };
     }
 
-    protected function fillRow(array $a_set): void
-    {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
+    /**
+     * @param URLBuilder      $url_builder
+     * @param URLBuilderToken $action_parameter_token
+     * @param URLBuilderToken $row_id_token
+     * @return array
+     */
+    protected function getActions(
+        URLBuilder $url_builder,
+        URLBuilderToken $action_parameter_token,
+        URLBuilderToken  $row_id_token
+    ) : array {
+        $f = $this->factory;
 
-        $current = $a_set["active"] ? [
-            'target' => 'deactivate',
-            'text' => 'badge_remove_from_profile',
-            'active' => $this->language->txt('yes'),
-        ] : [
-            'target' => 'activate',
-            'text' => 'badge_add_to_profile',
-            'active' => $this->language->txt('no'),
+        return [
+            'obj_badge_activate' => $f->table()->action()->multi( //never in multi actions
+                $this->lng->txt("activate"),
+                $url_builder->withParameter($action_parameter_token, "obj_badge_activate"),
+                $row_id_token
+            ),
+            'obj_badge_deactivate' =>
+                $f->table()->action()->multi( //in both
+                    $this->lng->txt("deactivate"),
+                    $url_builder->withParameter($action_parameter_token, "obj_badge_deactivate"),
+                    $row_id_token
+                )
+        ];
+    }
+
+    public function renderTable() : void
+    {
+        $f = $this->factory;
+        $r = $this->renderer;
+        $refinery = $this->refinery;
+        $request = $this->request;
+        $df = new \ILIAS\Data\Factory();
+        $data_format = $df->dateFormat();
+        $date_format = $data_format->withTime24($df->dateFormat()->germanShort());
+
+        $columns = [
+            'image' => $f->table()->column()->text($this->lng->txt("image")),
+            'title' => $f->table()->column()->text($this->lng->txt("title")),
+            'awarded_by' => $f->table()->column()->text($this->lng->txt("awarded_by")),
+            'badge_issued_on' => $f->table()->column()->date($this->lng->txt("badge_issued_on"), $date_format),
+            'active' => $f->table()->column()->boolean($this->lng->txt("badge_in_profile"), $this->lng->txt("yes"), $this->lng->txt("no")),
         ];
 
-        $this->tpl->setVariable("VAL_ID", $a_set["id"]);
-        $this->tpl->setVariable("PREVIEW", $this->ui->renderer()->render($a_set["renderer"]()));
-        $this->tpl->setVariable("TXT_ISSUED_ON", ilDatePresentation::formatDate(new ilDateTime($a_set["issued_on"], IL_CAL_UNIX)));
-        $this->tpl->setVariable("TXT_ACTIVE", $current["active"]);
+        $table_uri = $df->uri($request->getUri()->__toString());
+        $url_builder = new URLBuilder($table_uri);
+        $query_params_namespace = ['badge'];
 
-        if ($a_set["parent"]) {
-            $this->tpl->setVariable("TXT_PARENT", $a_set["parent_title"]);
-            $this->tpl->setVariable(
-                "SRC_PARENT",
-                ilObject::_getIcon((int) $a_set["parent"]["id"], "big", $a_set["parent"]["type"])
+        list($url_builder, $action_parameter_token, $row_id_token) =
+            $url_builder->acquireParameters(
+                $query_params_namespace,
+                "table_action",
+                "id"
             );
-        }
 
-        $ilCtrl->setParameter($this->getParentObject(), "badge_id", $a_set["id"]);
-        $url = $ilCtrl->getLinkTarget($this->getParentObject(), $current['target']);
-        $ilCtrl->setParameter($this->getParentObject(), "badge_id", "");
+        $data_retrieval = $this->buildDataRetrievalObject($f, $r);
+
+        $actions = $this->getActions($url_builder, $action_parameter_token, $row_id_token);
+
+        $table = $f->table()
+                   ->data('', $columns, $data_retrieval)
+                   ->withActions($actions)
+                   ->withRequest($request);
+
+        global $DIC;
+        $pres = new PresentationHeader($DIC, ilBadgeProfileGUI::class);
+        $pres->show($this->lng->txt('table_view'));
+        $out = [$table];
+        $this->tpl->setContent($r->render($out));
     }
+
 }

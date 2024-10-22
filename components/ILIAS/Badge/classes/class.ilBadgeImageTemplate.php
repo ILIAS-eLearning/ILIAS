@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\FileUpload\Exception\IllegalStateException;
+
 /**
  * Badge Template
  *
@@ -27,13 +29,20 @@ class ilBadgeImageTemplate
     protected int $id = 0;
     protected string $title = "";
     protected string $image = "";
+    protected ?string $image_rid = "";
     /** @var string[] */
     protected ?array $types = null;
+    protected $resource_storage;
+    protected $upload_service;
+    protected $main_template;
 
     public function __construct(int $a_id = null)
     {
         global $DIC;
 
+        $this->resource_storage = $DIC->resourceStorage();
+        $this->upload_service = $DIC->upload();
+        $this->main_template = $DIC->ui()->mainTemplate();
         $this->db = $DIC->database();
         if ($a_id) {
             $this->read($a_id);
@@ -111,9 +120,11 @@ class ilBadgeImageTemplate
         return $this->title;
     }
 
-    protected function setImage(string $a_value): void
+    protected function setImage(?string $a_value): void
     {
-        $this->image = trim($a_value);
+        if($a_value !== null) {
+            $this->image = trim($a_value);
+        }
     }
 
     /**
@@ -146,7 +157,6 @@ class ilBadgeImageTemplate
             $a_upload_meta["tmp_name"]) {
             $path = $this->getFilePath($this->getId());
 
-
             $filename = ilFileUtils::getValidFilename($a_upload_meta["name"]);
 
             $exp = explode(".", $filename);
@@ -157,6 +167,28 @@ class ilBadgeImageTemplate
                 $this->setImage($filename);
                 $this->update();
             }
+        }
+    }
+
+    public function processImageUpload( $badge) : void
+    {
+        try {
+            if (!$this->upload_service->hasBeenProcessed()) {
+                $this->upload_service->process();
+            }
+            if($this->upload_service->hasUploads()) {
+                $array_result = $this->upload_service->getResults();
+                $array_result = array_pop($array_result);
+                if($array_result->getName() !== '') {
+                    $stakeholder = new ilBadgeFileStakeholder();
+                    $identification = $this->resource_storage->manage()->upload($array_result, $stakeholder);
+                    $this->resource_storage->flavours()->ensure($identification, new \ilBadgePictureDefinition());
+                    $badge->setImageRid($identification);
+                    $badge->update();
+                }
+            }
+        } catch (IllegalStateException $e) {
+            $this->main_template->setOnScreenMessage('failure', $e->getMessage(), true);
         }
     }
 
@@ -238,6 +270,7 @@ class ilBadgeImageTemplate
         $this->setId($a_row["id"]);
         $this->setTitle($a_row["title"]);
         $this->setImage($a_row["image"]);
+        $this->setImageRid($a_row["image_rid"]);
         $this->setTypes($a_row["types"]);
     }
 
@@ -303,7 +336,8 @@ class ilBadgeImageTemplate
     {
         return [
             "title" => ["text", $this->getTitle()],
-            "image" => ["text", $this->getImage()]
+            "image" => ["text", $this->getImage()],
+            "image_rid" => ["text", $this->getImageRid()]
         ];
     }
 
@@ -325,5 +359,38 @@ class ilBadgeImageTemplate
                 }
             }
         }
+    }
+
+    public function getImageRid() : ?string
+    {
+        return $this->image_rid;
+    }
+
+    public function setImageRid(?string $image_rid = null) : void
+    {
+        $this->image_rid = $image_rid;
+    }
+
+    public function getImageFromResourceId(?string $image_rid, int $badge_id = null, $size = 4) : string
+    {
+        $image_src = '';
+
+        if ($image_rid !== null) {
+            $identification = $this->resource_storage->manage()->find($image_rid);
+            if ($identification !== null) {
+                $flavour = $this->resource_storage->flavours()->get($identification, new \ilBadgePictureDefinition());
+                $urls = $this->resource_storage->consume()->flavourUrls($flavour)->getURLsAsArray(false);
+                if(sizeof($urls) === 5 && isset($urls[$size])) {
+                    $image_src = $urls[$size];
+                }
+            }
+        } else {
+            if($badge_id !== null) {
+                $badge = new ilBadge($badge_id);
+                $image_src = $badge->getImage();
+            }
+        }
+
+        return $image_src;
     }
 }

@@ -2224,7 +2224,9 @@ badge#:#badge_create#:#Create Badge
 badge#:#badge_create_image_processing_failed#:#The badge could not be created, an error occurred while processing the image.
 badge#:#badge_criteria#:#Criteria
 badge#:#badge_crs_merit#:#Merit
+badge#:#badge_deletion#:#Badge successfully deleted.
 badge#:#badge_deletion_confirmation#:#Are you sure you want to delete the following badges and all their respective assignments?
+badge#:##:#Are you sure you want to delete the following badges and all their respective assignments?
 badge#:#badge_edit_with_published#:#%s users have already added this badge to their backpack. Because of this changing badge attributes will lead to inconsistencies. Creating a new badge might be a better solution.
 badge#:#badge_image_from_template#:#Use Template
 badge#:#badge_image_from_upload#:#Upload Image
@@ -2260,6 +2262,7 @@ badge#:#badge_profile_more#:#Show all
 badge#:#badge_profile_view#:#View
 badge#:#badge_remove_badge#:#Revoke Badge
 badge#:#badge_remove_from_profile#:#Remove from Profile
+badge#:#badge_select_one#:#You have to select at least one badge
 badge#:#badge_service_activate#:#Activate Service
 badge#:#badge_service_activate_info#:#Activate the service to make badges available.
 badge#:#badge_settings#:#Badge Settings
@@ -14283,7 +14286,7 @@ rbac#:#precondition_obligatory#:#Compulsory
 rbac#:#precondition_obligatory_alt#:#Precondition must be fulfilled
 rbac#:#precondition_obligatory_info#:#Compulsory preconditions must be fulfilled, for having access.
 rbac#:#precondition_obligatory_settings#:#Precondition Settings
-rbac#:#precondition_operator_range_err_min_max#:#The minimum value must be less than the maximum value. 
+rbac#:#precondition_operator_range_err_min_max#:#The minimum value must be less than the maximum value.
 rbac#:#precondition_operator_range_max#:#Maximum Percentage
 rbac#:#precondition_operator_range_min#:#Minimum Percentage
 rbac#:#prfa_edit_permission#:#User can change permission settings of Portfolio administration
