@@ -69,13 +69,13 @@ il.MetaDataCopyrightListener = {
     $('.modal-dialog').find('form').find('input').prop('value', buttonName);
     $('.modal-dialog').find('form').on(
       'submit',
-      (event) => {
+      () => {
         $(this.form).off();
         $(this.formButton).off();
         this.confirmed = true;
         $(this.formButton).click();
         return false;
-      }
+      },
     );
 
     // Show modal
