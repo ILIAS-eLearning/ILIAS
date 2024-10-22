@@ -40,6 +40,7 @@ use ILIAS\LegalDocuments\ConsumerToolbox\ConsumerSlots\PublicApi;
 final class Consumer implements ConsumerInterface
 {
     public const ID = 'dpro';
+    public const GOTO_NAME = 'data_protection';
 
     private readonly Container $container;
 
@@ -68,7 +69,7 @@ final class Consumer implements ConsumerInterface
                      ->hasPublicApi($public_api);
 
         if (!$is_active) {
-            return $slot;
+            return $slot->hasPublicPage($blocks->notAvailable(...), self::GOTO_NAME);
         }
 
         $user = $build_user($this->container->user());
@@ -80,10 +81,10 @@ final class Consumer implements ConsumerInterface
 
         if ($global_settings->noAcceptance()->value()) {
             $slot = $slot->showInFooter($this->showMatchingDocument($user, $blocks->ui(), $provide))
-                         ->hasPublicPage($agreement->showAgreement(...));
+                         ->hasPublicPage($agreement->showAgreement(...), self::GOTO_NAME);
         } else {
             $slot = $slot->canWithdraw($blocks->slot()->withdrawProcess($user, $global_settings, $this->userHasWithdrawn(...)))
-                         ->hasAgreement($agreement)
+                         ->hasAgreement($agreement, self::GOTO_NAME)
                          ->showInFooter($blocks->slot()->modifyFooter($user))
                          ->onSelfRegistration($blocks->slot()->selfRegistration($user, $build_user))
                          ->hasOnlineStatusFilter($blocks->slot()->onlineStatusFilter($this->usersWhoDidntAgree($this->container->database())))

@@ -67,8 +67,8 @@ interface UseSlot
     /**
      * @param callable(string, string): PageFragment $public_page
      */
-    public function hasPublicPage(callable $public_page): self;
-    public function hasAgreement(Agreement $on_login): self;
+    public function hasPublicPage(callable $public_page, ?string $goto_name = null): self;
+    public function hasAgreement(Agreement $on_login, ?string $goto_name = null): self;
     public function hasHistory(): self;
     public function onSelfRegistration(SelfRegistration $self_registration): self;
     public function canReadInternalMails(Constraint $constraint): self;

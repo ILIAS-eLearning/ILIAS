@@ -62,10 +62,11 @@ class ConsumerTest extends TestCase
         $slot->expects(self::once())->method('hasDocuments')->willReturn($slot);
         $slot->expects(self::once())->method('hasHistory')->willReturn($slot);
         $slot->expects(self::once())->method('hasPublicApi')->willReturn($slot);
+        $slot->expects(self::once())->method('hasPublicPage')->willReturn($slot);
 
         $instance = new Consumer($container);
 
-        $instance->uses($slot, $this->mock(LazyProvide::class));
+        $this->assertSame($slot, $instance->uses($slot, $this->mock(LazyProvide::class)));
     }
 
     public function testUses(): void

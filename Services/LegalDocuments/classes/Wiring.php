@@ -80,16 +80,18 @@ class Wiring implements UseSlot
         return $this->addTo('show-on-login-page', $this->slot->id(), Closure::fromCallable($show));
     }
 
-    public function hasPublicPage(callable $public_page): self
+    public function hasPublicPage(callable $public_page, ?string $goto_name = null): self
     {
-        return $this->addTo('public-page', $this->slot->id(), fn(...$args) => new Ok($public_page(...$args)));
+        $wiring = $this->addTo('public-page', $this->slot->id(), fn(...$args) => new Ok($public_page(...$args)));
+        return null === $goto_name ?
+            $wiring :
+            $wiring->addTo('goto', new ConditionalGotoLink($goto_name, fn() => new Target(ilStartUpGUI::class, 'showLegalDocuments', ['id' => $this->slot->id()])));
     }
 
     public function hasAgreement(Agreement $on_login, ?string $goto_name = null): self
     {
-        $public_target = new Target(ilStartUpGUI::class, 'showLegalDocuments');
-        $agreement_target = new Target($this->path(ilLegalDocumentsAgreementGUI::class));
-
+        $public_target = new Target(ilStartUpGUI::class, 'showLegalDocuments', ['id' => $this->slot->id()]);
+        $agreement_target = new Target($this->path(ilLegalDocumentsAgreementGUI::class), '', ['id' => $this->slot->id()]);
 
         $wiring = $this->addTo('public-page', $this->slot->id(), fn(...$args) => new Ok($on_login->showAgreement(...$args)))
                        ->addTo('agreement-form', $this->slot->id(), $this->protect($on_login->showAgreementForm(...), $on_login->needsToAgree(...)))
@@ -97,7 +99,7 @@ class Wiring implements UseSlot
 
         return null === $goto_name ?
                     $wiring :
-                    $wiring->addTo('goto', new ConditionalGotoLink($goto_name, fn() => $on_login->needsToAgree() ? $public_target : $agreement_target));
+                    $wiring->addTo('goto', new ConditionalGotoLink($goto_name, fn() => $on_login->needsToAgree() ? $agreement_target : $public_target));
     }
 
     public function hasHistory(): self
