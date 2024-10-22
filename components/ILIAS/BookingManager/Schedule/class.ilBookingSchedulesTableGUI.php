@@ -24,7 +24,7 @@ class ilBookingSchedulesTableGUI extends ilTable2GUI
 {
     protected \ILIAS\BookingManager\InternalGUIService $gui;
     protected \ILIAS\BookingManager\InternalDomainService $domain;
-    protected ilAccessHandler $access;
+    protected \ILIAS\BookingManager\Access\AccessManager $access;
     protected ilObjectDataCache $obj_data_cache;
     protected int $ref_id;
 
@@ -37,7 +37,7 @@ class ilBookingSchedulesTableGUI extends ilTable2GUI
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
-        $this->access = $DIC->access();
+        $this->access = $DIC->bookingManager()->internal()->domain()->access();
         $this->obj_data_cache = $DIC["ilObjDataCache"];
         $ilCtrl = $DIC->ctrl();
         $ilObjDataCache = $DIC["ilObjDataCache"];
@@ -81,7 +81,6 @@ class ilBookingSchedulesTableGUI extends ilTable2GUI
     protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
-        $ilAccess = $this->access;
         $ilCtrl = $this->ctrl;
         $ui_factory = $this->gui->ui()->factory();
         $ui_renderer = $this->gui->ui()->renderer();
@@ -98,7 +97,7 @@ class ilBookingSchedulesTableGUI extends ilTable2GUI
 
         $actions = [];
 
-        if ($ilAccess->checkAccess('write', '', $this->ref_id)) {
+        if ($this->access->canManageSettings($this->ref_id)) {
             $actions[] = $ui_factory->link()->standard(
                 $lng->txt('edit'),
                 $ilCtrl->getLinkTarget($this->parent_obj, 'edit')

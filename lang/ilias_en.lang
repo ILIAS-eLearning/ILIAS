@@ -13857,6 +13857,8 @@ rbac#:#blog_write#:#User can edit blog settings
 rbac#:#book_copy#:#User can copy booking pool
 rbac#:#book_delete#:#User can move or delete booking pool
 rbac#:#book_edit_permission#:#User can change permission settings for booking pool
+rbac#:#book_manage_all_reservations#:#User can manage all reservations
+rbac#:#book_manage_own_reservations#:#User can manage own reservations
 rbac#:#book_read#:#User can book resources / objects in booking pool
 rbac#:#book_visible#:#Booking pool is visible
 rbac#:#book_write#:#User can edit settings and content of booking pool
@@ -14194,9 +14196,11 @@ rbac#:#mail_smtp_mail#:#User can send e-mails per SMTP to external addresses
 rbac#:#mail_to_global_roles#:#Global Mails
 rbac#:#mail_visible#:#Mail administration is visible
 rbac#:#mail_write#:#User can edit settings in Mail administration
+rbac#:#manage_all_reservations#:#Manage All Reservations
 rbac#:#manage_comp#:#Edit Competences
 rbac#:#manage_comp_temp#:#Edit Competence Templates
 rbac#:#manage_materials#:#Manage Materials
+rbac#:#manage_own_reservations#:#Manage Own Reservations
 rbac#:#manage_profiles#:#Edit Competence Profiles
 rbac#:#mcst_copy#:#User can copy mediacast
 rbac#:#mcst_delete#:#User can move or delete mediacast

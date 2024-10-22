@@ -13877,6 +13877,8 @@ rbac#:#blog_write#:#Blog bearbeiten
 rbac#:#book_copy#:#Buchungspool kopieren
 rbac#:#book_delete#:#Buchungspool löschen oder verschieben
 rbac#:#book_edit_permission#:#Rechteeinstellungen für Buchungspool ändern
+rbac#:#book_manage_all_reservations#:#Benutzer kann alle Reservierungen verwalten
+rbac#:#book_manage_own_reservations#:#Benutzer kann die eigenen Reservierungen verwalten
 rbac#:#book_read#:#Buchungen in Buchungspool durchführen
 rbac#:#book_visible#:#Buchungspool ist sichtbar
 rbac#:#book_write#:#Buchungsobjekte anlegen und Einstellungen des Buchungspools bearbeiten
@@ -14214,9 +14216,11 @@ rbac#:#mail_smtp_mail#:#Benutzer darf E-Mails per SMTP an externe Adressen sende
 rbac#:#mail_to_global_roles#:#Globale Mails
 rbac#:#mail_visible#:#Mail-Administration ist sichtbar
 rbac#:#mail_write#:#Einstellungen im Mail-Administration bearbeiten
+rbac#:#manage_all_reservations#:#Alle Reservierungen verwalten
 rbac#:#manage_comp#:#Kompetenzen bearbeiten
 rbac#:#manage_comp_temp#:#Kompetenzvorlagen bearbeiten
 rbac#:#manage_materials#:#Materialien verwalten
+rbac#:#manage_own_reservations#:#Eigene Reservierungen verwalten
 rbac#:#manage_profiles#:#Kompetenzprofile bearbeiten
 rbac#:#mcst_copy#:#Mediacast kopieren
 rbac#:#mcst_delete#:#Mediacast löschen oder verschieben

@@ -23,9 +23,9 @@
 class ilBookingObjectsTableGUI extends ilTable2GUI
 {
     protected string $process_class;
+    protected \ILIAS\BookingManager\Access\AccessManager $access;
     protected \ILIAS\UI\Renderer $ui_renderer;
     protected \ILIAS\UI\Factory $ui_factory;
-    protected ilAccessHandler $access;
     protected ilObjUser $user;
     protected int $ref_id;
     protected int $pool_id;
@@ -55,7 +55,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
-        $this->access = $DIC->access();
+        $this->access = $DIC->bookingManager()->internal()->domain()->access();
         $this->user = $DIC->user();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
@@ -69,9 +69,9 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
         $this->overall_limit = $a_pool_overall_limit;
         $this->active_management = $active_management;
         $this->may_edit = ($this->active_management &&
-            $ilAccess->checkAccess('write', '', $this->ref_id));
+            $this->access->canManageObjects($this->ref_id));
         $this->may_assign = ($this->active_management &&
-            $ilAccess->checkAccess('write', '', $this->ref_id));
+            $this->access->canManageAllReservations($this->ref_id));
 
         $this->advmd = ilObjBookingPool::getAdvancedMDFields($this->ref_id);
 
@@ -292,7 +292,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
         $ilUser = $this->user;
 
         $has_booking = false;
-        $booking_possible = true;
+        $booking_possible = $this->access->canManageOwnReservations($this->ref_id);
         $assign_possible = true;
         $has_reservations = false;
 
