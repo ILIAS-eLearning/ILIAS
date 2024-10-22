@@ -26,7 +26,7 @@
 class ilBiblLibraryFormGUI extends ilPropertyFormGUI
 {
     use \ILIAS\components\OrgUnit\ARHelper\DIC;
-    protected \ilBiblLibraryInterface $object;
+    protected ilBiblLibraryInterface $object;
 
 
     /**
@@ -35,7 +35,7 @@ class ilBiblLibraryFormGUI extends ilPropertyFormGUI
     public function __construct(ilBiblLibraryInterface $library)
     {
         $this->object = $library;
-        $this->ctrl()->saveParameterByClass(ilBiblLibraryGUI::class, ilBiblLibraryGUI::F_LIB_ID);
+        $this->ctrl()->setParameterByClass(ilBiblLibraryGUI::class, ilBiblLibraryGUI::F_LIB_ID, $library->getId());
         $this->initForm();
 
         if ($this->object->getId()) {

@@ -1,4 +1,17 @@
 <?php
+
+use ILIAS\UI\Component\Table\DataRetrieval;
+use ILIAS\UI\Component\Table\DataRowBuilder;
+use ILIAS\Data\Range;
+use ILIAS\Data\Order;
+use Psr\Http\Message\ServerRequestInterface AS HttpRequest;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer AS UIRenderer;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\Component\Table\Data AS DataTable;
+use ILIAS\UI\URLBuilderToken;
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,67 +28,175 @@
  *
  *********************************************************************/
 
-/**
- * Bibliographic ilBiblLibraryTableGUI
- *
- * @author  Theodor Truffer <tt@studer-raimann.ch>
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- */
-class ilBiblLibraryTableGUI extends ilTable2GUI
+
+class ilBiblLibraryTableGUI implements DataRetrieval
 {
-    use \ILIAS\components\OrgUnit\ARHelper\DIC;
+    private ilAccessHandler $access;
+    private ilCtrlInterface $ctrl;
+    private DataFactory $data_factory;
+    private HttpRequest $http_request;
+    private ilLanguage $lng;
+    private UIFactory $ui_factory;
+    private UIRenderer $ui_renderer;
 
+    private DataTable $table;
 
-    /**
-     * ilObjBibliographicAdminTableGUI constructor.
-     */
-    public function __construct(ilBiblLibraryGUI $parent_gui)
+    public function __construct(private readonly ilBiblAdminLibraryFacadeInterface $facade)
     {
-        parent::__construct($parent_gui);
-        $this->setTitle($this->lng()->txt('bibl_settings_libraries'));
-        $this->setId('bibl_libraries_tbl');
-        $this->initColumns();
-        $this->setEnableNumInfo(false);
-        $this->setFormAction($this->ctrl()->getFormAction($parent_gui));
-        $this->setRowTemplate('tpl.bibl_settings_lib_list_row.html', 'components/ILIAS/Bibliographic');
+        global $DIC;
+
+        $this->access = $DIC->access();
+        $this->ctrl = $DIC->ctrl();
+        $this->data_factory = new DataFactory();
+        $this->http_request = $DIC->http()->request();
+        $this->lng = $DIC->language();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
+
+        $this->table = $this->buildTable();
     }
 
 
-    public function fillRow(array $a_set): void
+    public function getRenderedTable(): string
     {
-        $this->tpl->setVariable('VAL_LIBRARY_NAME', $a_set['name']);
-        $this->tpl->setVariable('VAL_LIBRARY_URL', $a_set['url']);
-        $this->tpl->setVariable('VAL_LIBRARY_IMG', $a_set['img']);
+        return $this->ui_renderer->render([$this->table]);
+    }
 
-        if ($this->checkPermissionBoolAndReturn('write')) {
-            $this->ctrl()->setParameter($this->parent_obj, ilBiblLibraryGUI::F_LIB_ID, $a_set['id']);
-            // build edit action entry
-            $action_entries['edit'] = $this->ui()->factory()->button()->shy(
-                $this->lng->txt(ilBiblLibraryGUI::CMD_EDIT),
-                $this->ctrl()->getLinkTarget($this->parent_obj, ilBiblLibraryGUI::CMD_EDIT)
-            );
-            // build delete action entry
-            $action_entries['delete'] = $this->ui()->factory()->button()->shy(
-                $this->lng->txt(ilBiblLibraryGUI::CMD_DELETE),
-                $this->ctrl()->getLinkTarget($this->parent_obj, ilBiblLibraryGUI::CMD_DELETE)
-            );
-            // build actions dropdown
-            $actions = $this->ui()->factory()->dropdown()->standard($action_entries)->withLabel($this->lng->txt("actions"));
-            $rendered_actions = $this->ui()->renderer()->render($actions);
 
-            $this->tpl->setVariable('VAL_ACTIONS', $rendered_actions);
-        } else {
-            $this->tpl->setVariable('VAL_ACTIONS', "&nbsp;");
+    private function buildTable(): DataTable
+    {
+        return $this->ui_factory->table()->data(
+            $this->lng->txt('bibl_settings_libraries'),
+            $this->getColumns(),
+            $this
+        )->withActions(
+            $this->getActions()
+        )->withRange(
+            new Range(0, 10)
+        )->withOrder(
+            new Order('bibl_library_name', Order::ASC)
+        )->withRequest($this->http_request);
+    }
+
+
+    private function getColumns(): array
+    {
+        return [
+            'bibl_library_name' => $this->ui_factory->table()->column()->text($this->lng->txt('bibl_library_name')),
+            'bibl_library_url' => $this->ui_factory->table()->column()->text($this->lng->txt('bibl_library_url')),
+            'bibl_library_img' => $this->ui_factory->table()->column()->text($this->lng->txt('bibl_library_img'))
+        ];
+    }
+
+
+    private function getActions(): array
+    {
+        $namespace = ['lib'];
+
+        $actions = [];
+        if ($this->access->checkAccess('write', '', $this->http_request->getQueryParams()['ref_id'])) {
+            $uri_edit = $this->data_factory->uri(
+                ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(
+                    ilBiblLibraryGUI::class,
+                    ilBiblLibraryGUI::CMD_EDIT
+                )
+            );
+            /**
+             * @var URLBuilder      $url_builder_edit
+             * @var URLBuilderToken $action_parameter_token_edit
+             * @var URLBuilderToken $row_id_token_edit
+             */
+            [$url_builder_edit, $action_parameter_token_edit, $row_id_token_edit] = (
+                new URLBuilder($uri_edit)
+            )->acquireParameters(
+                $namespace,
+                'action',
+                'ids'
+            );
+
+            $uri_delete = $this->data_factory->uri(
+                ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(
+                    ilBiblLibraryGUI::class,
+                    ilBiblLibraryGUI::CMD_DELETE
+                )
+            );
+            /**
+             * @var URLBuilder      $url_builder_delete
+             * @var URLBuilderToken $action_parameter_token_delete
+             * @var URLBuilderToken $row_id_token_delete
+             */
+            [$url_builder_delete, $action_parameter_token_delete, $row_id_token_delete] = (
+                new URLBuilder($uri_delete)
+            )->acquireParameters(
+                $namespace,
+                'action',
+                'ids'
+            );
+
+            $actions = [
+                'edit' => $this->ui_factory->table()->action()->single(
+                    $this->lng->txt('edit'),
+                    $url_builder_edit->withParameter($action_parameter_token_edit, 'edit'),
+                    $row_id_token_edit
+                ),
+                'delete' => $this->ui_factory->table()->action()->standard(
+                    $this->lng->txt('delete'),
+                    $url_builder_delete->withParameter($action_parameter_token_delete, 'delete'),
+                    $row_id_token_delete
+                )
+            ];
+        }
+
+        return $actions;
+    }
+
+
+    public function getRows(
+        DataRowBuilder $row_builder,
+        array $visible_column_ids,
+        Range $range,
+        Order $order,
+        ?array $filter_data,
+        ?array $additional_parameters
+    ): Generator {
+        $records = $this->getRecords($range, $order);
+        foreach ($records as $record) {
+            $row_id = (string) $record['bibl_library_id'];
+            yield $row_builder->buildDataRow($row_id, $record);
         }
     }
 
 
-    protected function initColumns(): void
+    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
     {
-        $this->addColumn($this->lng()->txt('bibl_library_name'), '', '30%');
-        $this->addColumn($this->lng()->txt('bibl_library_url'), '30%');
-        $this->addColumn($this->lng()->txt('bibl_library_img'), '', '30%');
-        $this->addColumn($this->lng()->txt('actions'), '', '8%');
+        return count($this->getRecords());
+    }
+
+
+    private function getRecords(Range $range = null, Order $order = null): array
+    {
+        $records = [];
+        $libraries = $this->facade->libraryFactory()->getAll();
+        foreach ($libraries as $library) {
+            $records[] = [
+                "bibl_library_id" => $library->getId(),
+                "bibl_library_name" => $library->getName(),
+                "bibl_library_url" => $library->getUrl(),
+                "bibl_library_img" => $library->getImg(),
+            ];
+        }
+
+        if ($order) {
+            [$order_field, $order_direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
+            usort($records, static fn($a, $b) => $a[$order_field] <=> $b[$order_field]);
+            if ($order_direction === 'DESC') {
+                $records = array_reverse($records);
+            }
+        }
+        if ($range) {
+            $records = array_slice($records, $range->getStart(), $range->getLength());
+        }
+
+        return $records;
     }
 }
