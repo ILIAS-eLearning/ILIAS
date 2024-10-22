@@ -25,6 +25,7 @@ use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\FileUpload\FileUpload;
+use ILIAS\Tests\Refinery\ilLanguageMock;
 
 class ilSystemStyleOverviewGUITest extends ilSystemStyleBaseFS
 {

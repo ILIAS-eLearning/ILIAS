@@ -69,9 +69,6 @@ class ilSystemStylesTableGUI extends ilTable2GUI
 
             $this->addColumn($this->lng->txt('actions'));
         }
-        if ($management_enabled) {
-            $this->addMultiCommand('deleteStyles', $this->lng->txt('delete'));
-        }
     }
 
     /**
@@ -197,15 +194,6 @@ class ilSystemStylesTableGUI extends ilTable2GUI
 
             /** @noinspection PhpIfWithCommonPartsInspection */
 
-            if ($this->isReadDocumentation() && $a_set['skin_id'] != 'other') {
-                $this->ctrl->setParameterByClass(ilSystemStyleDocumentationGUI::class, 'skin_id', $a_set['skin_id']);
-                $this->ctrl->setParameterByClass(ilSystemStyleDocumentationGUI::class, 'style_id', $a_set['style_id']);
-                $action_items[] = $this->ui->factory()->link()->standard(
-                    $this->lng->txt('open_documentation'),
-                    $this->ctrl->getLinkTargetByClass('ilSystemStyleDocumentationGUI', 'entries')
-                );
-            }
-
             if ($this->isManagementEnabled() && $a_set['skin_id'] != 'other') {
                 $this->ctrl->setParameterByClass(ilSystemStyleConfigGUI::class, 'skin_id', $a_set['skin_id']);
                 $this->ctrl->setParameterByClass(ilSystemStyleConfigGUI::class, 'style_id', $a_set['style_id']);
@@ -213,33 +201,32 @@ class ilSystemStylesTableGUI extends ilTable2GUI
                 $this->ctrl->setParameterByClass(ilSystemStyleOverviewGUI::class, 'skin_id', $a_set['skin_id']);
                 $this->ctrl->setParameterByClass(ilSystemStyleOverviewGUI::class, 'style_id', $a_set['style_id']);
 
-                $config = new ilSystemStyleConfig();
-                if ($a_set['skin_id'] != $config->getDefaultSkinId()) {
-                    $action_items = $this->addManagementActionsToList($action_items);
-                    $this->addMultiActions($a_set['id']);
-                }
-
-                if (!$is_substyle && $a_set['skin_id'] != 'default') {
+                if ($is_substyle) {
                     $action_items[] = $this->ui->factory()->link()->standard(
-                        $this->lng->txt('export'),
-                        $this->ctrl->getLinkTargetByClass(ilSystemStyleOverviewGUI::class, 'export')
+                        $this->lng->txt('sty_cat_assignments'),
+                        $this->ctrl->getLinkTargetByClass('ilsystemstyleconfiggui', 'assignStyle')
                     );
-                }
-            }
+                } else {
+                    if ($a_set['skin_id'] != 'default') {
+                        $action_items[] = $this->ui->factory()->link()->standard(
+                            $this->lng->txt('export'),
+                            $this->ctrl->getLinkTargetByClass(ilSystemStyleOverviewGUI::class, 'export')
+                        );
+                    }
 
-            if (!$is_substyle) {
-                $this->ctrl->setParameterByClass(ilSystemStyleOverviewGUI::class, 'old_skin_id', $a_set['skin_id']);
-                $this->ctrl->setParameterByClass(ilSystemStyleOverviewGUI::class, 'old_style_id', $a_set['style_id']);
+                    $this->ctrl->setParameterByClass(ilSystemStyleOverviewGUI::class, 'old_skin_id', $a_set['skin_id']);
+                    $this->ctrl->setParameterByClass(ilSystemStyleOverviewGUI::class, 'old_style_id', $a_set['style_id']);
 
-                $assignment_modal = $this->parent_obj->getAssignmentCreationModal($a_set['style_name']);
+                    $assignment_modal = $this->parent_obj->getAssignmentCreationModal($a_set['style_name']);
 
-                if($assignment_modal) {
-                    $this->modals[] = $assignment_modal;
+                    if ($assignment_modal) {
+                        $this->modals[] = $assignment_modal;
 
-                    $action_items[] = $this->ui->factory()->button()->shy(
-                        $this->lng->txt('change_assignment'),
-                        "#"
-                    )->withOnClick($assignment_modal->getShowSignal());
+                        $action_items[] = $this->ui->factory()->button()->shy(
+                            $this->lng->txt('user_assignment'),
+                            "#"
+                        )->withOnClick($assignment_modal->getShowSignal());
+                    }
                 }
             }
 
@@ -252,29 +239,9 @@ class ilSystemStylesTableGUI extends ilTable2GUI
         }
     }
 
-    public function getModalsHtml()
+    public function getModalsHtml(): string
     {
         return $this->ui->renderer()->render($this->modals);
-    }
-
-    protected function addManagementActionsToList(array $action_items): array
-    {
-        $action_items[] = $this->ui->factory()->link()->standard(
-            $this->lng->txt('edit'),
-            $this->ctrl->getLinkTargetByClass('ilsystemstyleconfiggui')
-        );
-        $action_items[] = $this->ui->factory()->link()->standard(
-            $this->lng->txt('delete'),
-            $this->ctrl->getLinkTargetByClass('ilSystemStyleOverviewGUI', 'deleteStyle')
-        );
-        return $action_items;
-    }
-
-    protected function addMultiActions($id)
-    {
-        $this->tpl->setCurrentBlock('multi_actions');
-        $this->tpl->setVariable('MULTI_ACTIONS_ID', $id);
-        $this->tpl->parseCurrentBlock();
     }
 
     public function isWithActions(): bool

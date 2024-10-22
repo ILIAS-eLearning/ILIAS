@@ -17,27 +17,19 @@
  *********************************************************************/
 
 declare(strict_types=1);
-
-use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\Filesystem\Util\Archive\Archives;
-use ILIAS\Filesystem\Util\Archive\ZipOptions;
-use ILIAS\Filesystem\Util\Archive\UnzipOptions;
-use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
+use ILIAS\Language\Language;
 
 /**
  * Factory to create Skin classes holds an manages the basic data of a skin as provide by the template of the skin.
  */
 class ilSkinFactory
 {
-    private Archives $archives;
     protected ilSystemStyleConfig $config;
-    protected ilLanguage $lng;
+    protected Language $lng;
 
-    public function __construct(ilLanguage $lng, ?ilSystemStyleConfig $config = null)
+    public function __construct(Language $lng, ?ilSystemStyleConfig $config = null)
     {
-        global $DIC;
         $this->lng = $lng;
-        $this->archives = new Archives();
 
         if ($config) {
             $this->config = $config;
@@ -58,7 +50,7 @@ class ilSkinFactory
 
         try {
             $xml = new SimpleXMLElement(file_get_contents($path));
-        } catch (Exception $e) {
+        } catch (Exception) {
             throw new ilSystemStyleException(ilSystemStyleException::FILE_OPENING_FAILED, $path);
         }
 
@@ -118,68 +110,5 @@ class ilSkinFactory
                 $this->config,
             );
         }
-    }
-
-    /**
-     * Imports a skin from zip
-     * @throws ilSystemStyleException
-     */
-    public function skinStyleContainerFromZip(
-        string $import_zip_path,
-        string $name,
-        ilSystemStyleMessageStack $message_stack
-    ): ilSkinStyleContainer {
-        $skin_id = preg_replace('/[^A-Za-z0-9\-_]/', '', rtrim($name, '.zip'));
-
-        while (ilStyleDefinition::skinExists($skin_id, $this->config)) {
-            $skin_id .= 'Copy';
-        }
-
-        $skin_path = $this->config->getCustomizingSkinPath() . $skin_id;
-        $zip_path = $skin_path . ".zip";
-        rename($import_zip_path, $zip_path);
-
-        $this->archives->unzip(
-            Streams::ofResource(fopen($zip_path, 'rb')),
-            $this->archives->unzipOptions()
-             ->withZipOutputPath($skin_path)
-             ->withOverwrite(false)
-             ->withDirectoryHandling(ZipDirectoryHandling::KEEP_STRUCTURE)
-        )->extract();
-
-        unlink($zip_path);
-        return $this->skinStyleContainerFromId($skin_id, $message_stack);
-    }
-
-    /**
-     * Copies a complete Skin
-     * @throws ilSystemStyleException
-     */
-    public function copyFromSkinStyleContainer(
-        ilSkinStyleContainer $container,
-        ilFileSystemHelper $file_system,
-        ilSystemStyleMessageStack $message_stack,
-        string $new_skin_txt_addon = 'Copy'
-    ): ilSkinStyleContainer {
-        $new_skin_id_addon = '';
-        $new_skin_name_addon = '';
-
-        while (ilStyleDefinition::skinExists(
-            $container->getSkin()->getId() . $new_skin_id_addon,
-            $container->getSystemStylesConf()
-        )) {
-            $new_skin_id_addon .= $new_skin_txt_addon;
-            $new_skin_name_addon .= ' ' . $new_skin_txt_addon;
-        }
-
-        $new_skin_path = rtrim($container->getSkinDirectory(), '/') . $new_skin_id_addon;
-
-        mkdir($new_skin_path, 0775, true);
-        $file_system->recursiveCopy($container->getSkinDirectory(), $new_skin_path);
-        $skin_container = $this->skinStyleContainerFromId($container->getSkin()->getId() . $new_skin_id_addon, $message_stack);
-        $skin_container->getSkin()->setName($skin_container->getSkin()->getName() . $new_skin_name_addon);
-        $skin_container->getSkin()->setVersion('0.1');
-        $skin_container->updateSkin($skin_container->getSkin());
-        return $skin_container;
     }
 }
