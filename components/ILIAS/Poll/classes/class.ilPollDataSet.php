@@ -18,6 +18,11 @@
 
 declare(strict_types=1);
 
+use ILIAS\Poll\Image\I\FactoryInterface as PollImageFactoryInterface;
+use ILIAS\Poll\Image\Factory as PollImageFactory;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Notes\Service as NotesService;
+
 /**
  * Poll Dataset class
  *
@@ -30,7 +35,10 @@ declare(strict_types=1);
 class ilPollDataSet extends ilDataSet
 {
     protected const ENTITY = "poll";
-    protected \ILIAS\Notes\Service $notes;
+    protected NotesService $notes;
+    protected DataFactory $data_factory;
+    protected ilObjuser $user;
+    protected PollImageFactoryInterface $poll_image_factory;
 
     public function __construct()
     {
@@ -38,11 +46,14 @@ class ilPollDataSet extends ilDataSet
 
         parent::__construct();
         $this->notes = $DIC->notes();
+        $this->data_factory = new DataFactory();
+        $this->user = $DIC->user();
+        $this->poll_image_factory = new PollImageFactory();
     }
 
     public function getSupportedVersions(): array
     {
-        return array("4.3.0", "5.0.0");
+        return array("4.3.0", "5.0.0", "10.0");
     }
 
     protected function getXmlNamespace(string $a_entity, string $a_schema_version): string
@@ -88,6 +99,24 @@ class ilPollDataSet extends ilDataSet
 
                     );
                     break;
+                case "10.0":
+                    return array(
+                        "Id" => "integer",
+                        "Title" => "text",
+                        "Description" => "text",
+                        "Question" => "text",
+                        "Image" => "text", // Image now contains the full path, not just the name
+                        "ViewResults" => "integer",
+                        "ShowResultsAs" => "integer",
+                        "ShowComments" => "integer",
+                        "MaxAnswers" => "integer",
+                        "ResultSort" => "integer",
+                        "NonAnon" => "integer",
+                        "Period" => "integer",
+                        "PeriodBegin" => "integer",
+                        "PeriodEnd" => "integer"
+                    );
+                    break;
             }
         }
 
@@ -95,6 +124,7 @@ class ilPollDataSet extends ilDataSet
             switch ($a_version) {
                 case "4.3.0":
                 case "5.0.0":
+                case "10.0":
                     return array(
                         "Id" => "integer",
                         "PollId" => "integer",
@@ -131,6 +161,15 @@ class ilPollDataSet extends ilDataSet
                         " WHERE " . $ilDB->in("pl.id", $a_ids, false, "integer") .
                         " AND od.type = " . $ilDB->quote("poll", "text"));
                     break;
+                case "10.0":
+                    $this->getDirectDataFromQuery("SELECT pl.id,od.title,od.description" .
+                        ",pl.question,pl.view_results,pl.show_results_as" .
+                        ",pl.max_answers,pl.result_sort,pl.non_anon,pl.period,pl.period_begin,pl.period_end" .
+                        " FROM il_poll pl" .
+                        " JOIN object_data od ON (od.obj_id = pl.id)" .
+                        " WHERE " . $ilDB->in("pl.id", $a_ids, false, "integer") .
+                        " AND od.type = " . $ilDB->quote("poll", "text"));
+                    break;
             }
         }
 
@@ -138,6 +177,7 @@ class ilPollDataSet extends ilDataSet
             switch ($a_version) {
                 case "4.3.0":
                 case "5.0.0":
+                case "10.0":
                     $this->getDirectDataFromQuery("SELECT id,poll_id,answer,pos" .
                         " FROM il_poll_answer WHERE " .
                         $ilDB->in("poll_id", $a_ids, false, "integer"));
@@ -164,8 +204,27 @@ class ilPollDataSet extends ilDataSet
     public function getXmlRecord(string $a_entity, string $a_version, array $a_set): array
     {
         if ($a_entity === self::ENTITY) {
-            $dir = ilObjPoll::initStorage((int) $a_set["Id"]);
-            $a_set["Dir"] = $dir;
+            $resource = $this->poll_image_factory->handler()->getRessource(
+                $this->data_factory->objId((int) $a_set["Id"])
+            );
+            if ($resource !== null) {
+                $title = $resource->getTitle();
+                $path_in_container = ltrim($this->export->getExportDirInContainer(), '/') . '/image/' . $title;
+                $this->export->getExportWriter()->writeFilesByResourceId(
+                    $resource->getIdentification()->serialize(),
+                    $path_in_container
+                );
+                /*
+                 * For some reason, the name of the import file itself is included in getImportDirectory,
+                 * so has to be removed here. Might need to take this out again if anything changes.
+                 */
+                $path_to_image = explode('/', $path_in_container);
+                unset($path_to_image[0]);
+                $path_to_image = implode('/', $path_to_image);
+                $a_set["Image"] = $path_to_image;
+            } else {
+                $a_set["Image"] = '';
+            }
 
             $a_set["ShowComments"] = $this->notes->domain()->commentsActive((int) $a_set["Id"]);
         }
@@ -220,7 +279,6 @@ class ilPollDataSet extends ilDataSet
                 }
                 $newObj->setShowComments((bool) ($a_rec["ShowComments"] ?? false));
                 $newObj->setQuestion((string) ($a_rec["Question"] ?? ''));
-                $newObj->setImage((string) ($a_rec["Image"] ?? ''));
                 $newObj->setViewResults((int) ($a_rec["ViewResults"] ?? ilObjPoll::VIEW_RESULTS_AFTER_VOTE));
                 $newObj->setVotingPeriod((bool) ($a_rec["Period"] ?? 0));
                 $newObj->setVotingPeriodBegin((int) ($a_rec["PeriodBegin"] ?? 0));
@@ -228,13 +286,21 @@ class ilPollDataSet extends ilDataSet
                 $newObj->update();
 
                 // handle image(s)
-                if ($a_rec["Image"]) {
+                if ($a_rec["Image"] && $this->getImportDirectory() !== "") {
                     $dir = str_replace("..", "", (string) ($a_rec["Dir"] ?? ''));
-                    if ($dir !== "" && $this->getImportDirectory() !== "") {
-                        $source_dir = $this->getImportDirectory() . "/" . $dir;
-                        $target_dir = ilObjPoll::initStorage($newObj->getId());
-                        ilFileUtils::rCopy($source_dir, $target_dir);
+                    if ($a_schema_version === "4.3.0" || $a_schema_version === "5.0.0") {
+                        $source = $this->getImportDirectory() . "/" . $dir . "/org_" . $a_rec["Image"];
+                        $name = $a_rec["Image"];
+                    } else {
+                        $source = $this->getImportDirectory() . "/" . $a_rec["Image"];
+                        $name = basename($source);
                     }
+                    $this->poll_image_factory->handler()->uploadImage(
+                        $this->data_factory->objId($newObj->getId()),
+                        $source,
+                        $name,
+                        $this->user->getId()
+                    );
                 }
 
                 $a_mapping->addMapping("components/ILIAS/Poll", "poll", (string) ($a_rec["Id"] ?? "0"), (string) $newObj->getId());

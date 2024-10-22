@@ -22,6 +22,8 @@ declare(strict_types=1);
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Poll\Image\I\FactoryInterface as ilPollImageFactoryInterface;
+use ILIAS\Poll\Image\Factory as ilPollImageFactory;
 
 /**
  * BlockGUI class for polls.
@@ -40,6 +42,7 @@ class ilPollBlockGUI extends ilBlockGUI
     protected Refinery $refinery;
     protected ilPollStateInfo $state;
     protected ilPollCommentsHandler $comments;
+    protected ilPollImageFactoryInterface $poll_image_factory;
 
     public function __construct()
     {
@@ -57,7 +60,7 @@ class ilPollBlockGUI extends ilBlockGUI
 
         $this->lng->loadLanguageModule("poll");
         $this->setRowTemplate("tpl.block.html", "components/ILIAS/Poll");
-
+        $this->poll_image_factory = new ilPollImageFactory();
         $this->comments = new ilPollCommentsHandler(
             $DIC->notes(),
             $DIC->http(),
@@ -211,7 +214,8 @@ class ilPollBlockGUI extends ilBlockGUI
             new ilPollResultsRenderer(
                 $this->getRefId(),
                 $this->refinery
-            )
+            ),
+            $this->poll_image_factory
         );
     }
 
