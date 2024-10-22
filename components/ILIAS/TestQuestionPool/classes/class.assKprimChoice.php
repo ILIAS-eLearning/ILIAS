@@ -21,7 +21,6 @@ declare(strict_types=1);
 use ILIAS\TestQuestionPool\Questions\QuestionLMExportable;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\TestQuestionPool\ManipulateImagesInChoiceQuestionsTrait;
-
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
 /**
@@ -480,7 +479,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         };
     }
 
-    public function isValidOptionLabel(string $option_label): bool
+    public function isValidOptionLabel(?string $option_label): bool
     {
         $valid_labels = $this->getValidOptionLabels();
         return in_array($option_label, $valid_labels);
