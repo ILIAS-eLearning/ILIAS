@@ -162,7 +162,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
         $actions = [];
         $actions[] = $this->ui_factory->link()->standard($this->lng->txt('edit'), $this->getEditHref($sourcePoolDefinitionId));
         $actions[] = $this->ui_factory->link()->standard($this->lng->txt('delete'), $this->getDeleteHref($sourcePoolDefinitionId));
-        $dropdown = $this->ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt('actions'));
+        $dropdown = $this->ui_factory->dropdown()->standard($actions);
         return $this->ui_renderer->render($dropdown);
     }
 
