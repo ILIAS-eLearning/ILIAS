@@ -227,16 +227,12 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
 
         switch ($this->getHeaderMode()) {
             case 1:
-
                 $header_block .= " - " . $this->getQuestionTitle();
                 $header_block .= $this->buildQuestionPostponedString();
-                $header_block .= $this->buildQuestionObligatoryString();
                 break;
 
             case 2:
-
                 $header_block .= $this->buildQuestionPostponedString();
-                $header_block .= $this->buildQuestionObligatoryString();
                 break;
 
             case 0:
