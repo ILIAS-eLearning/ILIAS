@@ -157,7 +157,7 @@ class WordOnlyMarkdownShape extends SimpleDocumentMarkdownShape
 
 class SimpleDocumentMarkdownShape extends MarkdownShape 
 {
-    /* will support paragraphs, headlines and lists on top */
+    /* will support paragraphs, headlines, lists, blockquotes, code and links on top */
 }
 
 /* ... */
