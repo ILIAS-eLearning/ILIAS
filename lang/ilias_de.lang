@@ -13127,6 +13127,7 @@ poll#:#poll_block_message_already_voted#:#Sie haben bereits abgestimmt.
 poll#:#poll_block_message_no_answers#:#Diese Abstimmung ist nicht komplett.
 poll#:#poll_block_results_available_on#:#Die Ergebnisse werden %s veröffentlicht.
 poll#:#poll_cannot_set_online_no_answers#:#Der Status kann nicht auf &quot;online (aktiviert)&quot; geändert werden, da der Abstimmung noch keine Frage hinzugefügt wurde!
+poll#:#poll_chart_votes#:#Stimmen
 poll#:#poll_comments#:#Kommentare
 poll#:#poll_copy#:#Abstimmung kopieren
 poll#:#poll_delete_votes#:#Stimmen aller Teilnehmenden löschen
@@ -13151,7 +13152,6 @@ poll#:#poll_notification_deactivated#:#Änderungs-Benachrichtigung deaktiviert
 poll#:#poll_notification_subscribe#:#Benachrichtigung aktivieren
 poll#:#poll_notification_unsubscribe#:#Benachrichtigung deaktivieren
 poll#:#poll_percentage#:#Aktueller Anteil
-poll#:#poll_piechart#:#Kuchendiagramm
 poll#:#poll_population#:#%s Teilnehmende
 poll#:#poll_population_singular#:#1 Teilnehmer
 poll#:#poll_question#:#Frage
@@ -13163,6 +13163,7 @@ poll#:#poll_result_sorting_votes#:#Nach Anzahl der Stimmen (absteigend)
 poll#:#poll_result_users#:#Teilnehmer
 poll#:#poll_show_results_as#:#Ergebnisse anzeigen als
 poll#:#poll_sortorder#:#Sortierung
+poll#:#poll_stacked_chart#:#Stapeldiagramm
 poll#:#poll_view_results#:#Ergebnisse anzeigen
 poll#:#poll_view_results_after_period#:#Nach Stimmperiode
 poll#:#poll_view_results_after_period_impossible#:#Die Stimmperiode ist nicht zeitlich begrenzt.

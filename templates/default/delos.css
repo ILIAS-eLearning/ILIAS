@@ -13076,23 +13076,6 @@ img.ilPollQuestionImage {
 
 .ilPollQuestionResults {
   margin: 10px;
-  font-size: 0.75rem;
-}
-
-.ilPollQuestionResult {
-  margin-bottom: 5px;
-}
-
-.ilPollQuestionResult .progress .progress-bar {
-  background-color: #4c6586;
-}
-
-.ilPollLegend {
-  margin-bottom: 5px;
-}
-
-.ilPollLegend td.legendLabel {
-  font-size: 1rem;
 }
 
 /* Modules/Portfolio */
