@@ -103,7 +103,12 @@ class ilTestEvaluationData
                                 FROM tst_times
                                 WHERE active_fi = tst_active.active_id
                                     AND pass = tst_pass_result.pass
-                            ) as start_time
+                            ) as start_time,
+                            (SELECT MAX(finished) AS attempt_started
+                                FROM tst_times
+                                WHERE active_fi = tst_active.active_id
+                                    AND pass = tst_pass_result.pass
+                            ) as last_access_time
 			FROM			tst_pass_result, tst_active
 			LEFT JOIN		usr_data
 			ON				tst_active.user_fi = usr_data.usr_id
@@ -182,6 +187,7 @@ class ilTestEvaluationData
             }
 
             $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setStartTime($row['start_time']);
+            $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setLastAccessTime($row['last_access_time']);
             $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setNrOfAnsweredQuestions($row['answeredquestions']);
             $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setWorkingTime($row['workingtime']);
             $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setExamId((string) $row['exam_id']);

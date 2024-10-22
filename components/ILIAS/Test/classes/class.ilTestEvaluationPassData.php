@@ -40,6 +40,7 @@ class ilTestEvaluationPassData
     */
     public array $answeredQuestions;
     private ?\DateTimeImmutable $start_time = null;
+    private ?\DateTimeImmutable $last_access_time = null;
     private int $workingtime;
     private int $questioncount;
     private float $maxpoints;
@@ -131,6 +132,18 @@ class ilTestEvaluationPassData
     {
         if ($start_time !== null) {
             $this->start_time = new \DateTimeImmutable($start_time);
+        }
+    }
+
+    public function getLastAccessTime(): ?\DateTimeImmutable
+    {
+        return $this->last_access_time;
+    }
+
+    public function setLastAccessTime(?string $last_access_time): void
+    {
+        if ($last_access_time !== null) {
+            $this->last_access_time = new \DateTimeImmutable($last_access_time);
         }
     }
 

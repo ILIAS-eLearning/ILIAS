@@ -120,6 +120,7 @@ class Factory
             $attempt_data->getRequestedHintsCount(),
             $attempt_data->getWorkingTime(),
             $attempt_data->getStartTime(),
+            $attempt_data->getLastAccessTime(),
             $participant_data->getPassCount(),
             $participant_data->getScoredPass(),
             $eval->getStatistics()->rank($participant_data->getReached())
