@@ -282,7 +282,7 @@ class ParticipantTable implements DataRetrieval
         return $filters;
     }
 
-    private function getTableComponent(ServerRequestInterface $request, array $filter)
+    private function getTableComponent(ServerRequestInterface $request, ?array $filter)
     {
         return $this->ui_factory
             ->table()
@@ -429,8 +429,12 @@ class ParticipantTable implements DataRetrieval
         }
     }
 
-    private function matchFilter(Participant $record, array $filter): bool
+    private function matchFilter(Participant $record, ?array $filter): bool
     {
+        if ($filter === null) {
+            return true;
+        }
+
         $post_load_filters = $this->getPostLoadFilters();
         $allow = true;
 
