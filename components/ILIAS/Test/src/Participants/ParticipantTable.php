@@ -306,32 +306,45 @@ class ParticipantTable implements DataRetrieval
         $columns = [
             'name' => $column_factory->text($this->lng->txt('name'))->withIsSortable(true),
             'login' => $column_factory->text($this->lng->txt('login'))->withIsSortable(true),
-            'matriculation' => $column_factory->text($this->lng->txt('matriculation'))->withIsSortable(false)->withIsOptional(true),
-            'ip_range' => $column_factory->text($this->lng->txt('client_ip_range'))->withIsOptional(true)->withIsSortable(true),
-            'attempt_started_at' => $column_factory->text($this->lng->txt('tst_attempt_started'))->withIsSortable(true),
-            'total_attempts' => $column_factory->number($this->lng->txt('total_attempts'))->withIsOptional(true)->withIsSortable(true),
+            'matriculation' => $column_factory->text($this->lng->txt('matriculation'))
+                ->withIsOptional(true, false)
+                ->withIsSortable(false),
+            'ip_range' => $column_factory->text($this->lng->txt('client_ip_range'))
+                ->withIsOptional(true, false)
+                ->withIsSortable(true),
+            'attempt_started_at' => $column_factory->text($this->lng->txt('tst_attempt_started'))
+                ->withIsSortable(true),
+            'total_attempts' => $column_factory->number($this->lng->txt('total_attempts'))
+                ->withIsOptional(true, false)
+                ->withIsSortable(true),
         ];
 
         if ($this->test_object->getEnableProcessingTime()) {
-            $columns['extra_time'] = $column_factory->text($this->lng->txt('extratime'))->withIsOptional(true);
-            $columns['total_duration'] = $column_factory->text($this->lng->txt('total_duration'))->withIsOptional(true);
-            $columns['remaining_duration'] = $column_factory->text($this->lng->txt('remaining_duration'))->withIsOptional(true);
+            $columns['extra_time'] = $column_factory->text($this->lng->txt('extratime'))
+                ->withIsOptional(true, false);
+            $columns['total_duration'] = $column_factory->text($this->lng->txt('total_duration'))
+                ->withIsOptional(true, false);
+            $columns['remaining_duration'] = $column_factory->text($this->lng->txt('remaining_duration'))
+                ->withIsOptional(true);
         }
 
-        $columns['status_of_attempt'] = $column_factory->text($this->lng->txt('status_of_attempt'))->withIsSortable(true);
+        $columns['status_of_attempt'] = $column_factory->text($this->lng->txt('status_of_attempt'))
+            ->withIsSortable(true);
+
         if ($this->test_object->getMainSettings()->getTestBehaviourSettings()->getExamIdInTestAttemptEnabled()) {
             $columns['id_of_attempt'] = $column_factory->text($this->lng->txt('exam_id_of_attempt'))
-                ->withIsSortable(false)->withIsOptional(true);
+                ->withIsOptional(true, false)
+                ->withIsSortable(false);
         }
 
         if ($this->test_access->checkParticipantsResultsAccess()) {
             $columns['reached_points'] = $column_factory->text($this->lng->txt('tst_reached_points'))
                 ->withIsSortable(true);
             $columns['nr_of_answered_questions'] = $column_factory->text($this->lng->txt('tst_answered_questions'))
-                ->withIsOptional(true)
+                ->withIsOptional(true, false)
                 ->withIsSortable(true);
             $columns['percent_of_available_points'] = $column_factory->text($this->lng->txt('tst_percent_solved'))
-                ->withIsOptional(true)
+                ->withIsOptional(true, false)
                 ->withIsSortable(true);
             $columns['test_passed'] = $column_factory->boolean(
                 $this->lng->txt('tst_passed'),
@@ -347,7 +360,7 @@ class ParticipantTable implements DataRetrieval
                 )
             )->withIsSortable(true);
             $columns['mark'] = $column_factory->text($this->lng->txt('tst_mark'))
-                ->withIsOptional(true)
+                ->withIsOptional(true, false)
                 ->withIsSortable(true);
         }
 
