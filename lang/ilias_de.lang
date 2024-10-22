@@ -2058,6 +2058,8 @@ auth#:#auth_info_migrate#:#Wenn Sie bereits ein ILIAS-Konto besitzen, geben Sie 
 auth#:#auth_ldap_server_ds#:#LDAP-Server
 auth#:#auth_login_editor#:#Login-Seite gestalten
 auth#:#auth_oidc#:#OpenID Connect
+auth#:#auth_oidc_configured_scopes#:#Standard-Profildatenzuordnung für konfigurierte Scopes
+auth#:#auth_oidc_here#:#hier
 auth#:#auth_oidc_failed#:#Login mittels OpenID Connect fehlgeschlagen
 auth#:#auth_oidc_login_element_info#:#Bei ILIAS anmelden über OpenID Connect
 auth#:#auth_oidc_mapping_table#:#Zuordnung von Datenfeldern der ILIAS-Konten zu OpenID-Connect-Attributen
@@ -2065,15 +2067,21 @@ auth#:#auth_oidc_profile#:#Zuordnung der Profildaten
 auth#:#auth_oidc_role_info#:#OpenID Connect Attribut::Wert (zum Beispiel: "roles::Mitarbeitende").
 auth#:#auth_oidc_role_mapping_table#:#Zuordnung von ILIAS-Rollen zu OpenID-Connect-Attributen
 auth#:#auth_oidc_roles#:#Rollenzuordnung
+auth#:#auth_oidc_saved_values#:#Effektive Profildatenzuordnung
+auth#:#auth_odic_scope_info#:#In dieser Maske werden anhand der %s konfigurierten OpenID Connect-Scopes die Standard-Claims als Vorschlag für eine Profildatenzuordnung dargestellt. Sie können diesen Vorschlag durch Klick auf "%s" als effektive Profildatenzuordnung übernehmen, oder aber eigene Anpassungen durch Änderung in den Textfeldern vornehmen.
+auth#:#auth_odic_scope_tab_info#:#In dieser Maske können Sie die Zuordnung von OpenID Connect-Claims zu ILIAS-Profildaten vornehmen. Tragen Sie dazu in die entsprechenden Textfelder für das jeweilige Profildatum jenen Scope ein, aus dem die Information bei erfolgreicher Authentifizierung übernommen werden soll. Aktivieren Sie die entsprechende Checkbox, wenn die Daten auch bei bereits existierendem ILIAS-Benutzerkonto übernommen werden sollen. Eine Liste von Standard-Claims können Sie %s einsehen.
+auth#:#auth_oidc_scopes#:#Scopes
 auth#:#auth_oidc_settings#:#Server-Einstellungen
 auth#:#auth_oidc_settings_activation#:#OpenID Connect aktivieren
 auth#:#auth_oidc_settings_additional_scopes#:#Zusätzliche Scopes
+auth#:#auth_oidc_settings_additional_scopes_info#:#Standard-Scopes: address, email, phone, profile
 auth#:#auth_oidc_settings_client_id#:#Client-ID
 auth#:#auth_oidc_settings_custom_session_duration#:#Sitzungsdauer
 auth#:#auth_oidc_settings_custom_session_duration_option#:#Eigene Sitzungsdauer
 auth#:#auth_oidc_settings_custom_session_duration_type#:#Einstellungen zur Sitzungsdauer
 auth#:#auth_oidc_settings_default_role#:#Rollenzuordnung
 auth#:#auth_oidc_settings_default_role_info#:#Bitte wählen Sie eine globale Rolle für neu anzulegende ILIAS-Benutzer aus!
+auth#:#auth_oidc_settings_default_scopes#:#Standard Scope
 auth#:#auth_oidc_settings_discovery_error#:#Die Discovery URL konnte nicht abgerufen werden. Fehler: %s
 auth#:#auth_oidc_settings_discovery_url#:#Discovery URL des Providers
 auth#:#auth_oidc_settings_img#:#Bild
@@ -2101,7 +2109,7 @@ auth#:#auth_oidc_settings_user_attr#:#Attributname der Anmeldekonten
 auth#:#auth_oidc_settings_user_sync#:#Automatische Synchronisierung
 auth#:#auth_oidc_settings_user_sync_info#:#Für Personen, die noch kein ILIAS-Konto besitzen, sich aber erfolgreich gegen Open ID Connect authentifiziert haben, wird automatisch ein neues ILIAS-Konto erzeugt.
 auth#:#auth_oidc_settings_validate_scope_custom#:#Eigene OpenID Connect Discovery URL angeben
-auth#:#auth_oidc_settings_validate_scope_default#:#:Provider-URL:/.well-known/openid-configuration verwenden
+auth#:#auth_oidc_settings_validate_scope_default#:#[PROVIDER_URL]/.well-known/openid-configuration verwenden
 auth#:#auth_oidc_settings_validate_scope_none#:#Scopes beim speichern nicht überprüfen
 auth#:#auth_oidc_settings_validate_scopes#:#OpenID Connect Scopes beim speichern überprüfen
 auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren
@@ -8527,7 +8535,7 @@ dcl#:#dcl_add_perm_desc#:#Es können Einträge in dieser Tabelle erstellt werden
 dcl#:#dcl_additional_info_desc#:#Der Inhalt wird oberhalb der Tabelle angezeigt.
 dcl#:#dcl_all_entries#:#Alle Einträge
 dcl#:#dcl_any#:#Alle
-dcl#:#dcl_asc#:#Aufsteigend ↑  
+dcl#:#dcl_asc#:#Aufsteigend ↑
 dcl#:#dcl_boolean#:#Checkbox
 dcl#:#dcl_boolean_desc#:#Kontrollkästchen, das abgehakt werden kann
 dcl#:#dcl_cant_delete_last_table#:#Die Tabelle selbst kann nicht gelöscht werden, da sie die einzige Tabelle dieser Datensammlung ist. Es wurden aber Inhalt und Struktur der Tabelle erfolgreich gelöscht.

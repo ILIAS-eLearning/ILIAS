@@ -178,7 +178,7 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider
             $this->settings->getClientId(),
             $this->settings->getSecret()
         );
-
+        $oidc->setCodeChallengeMethod('S256');
         return $oidc;
     }
 }

@@ -24,15 +24,23 @@ declare(strict_types=1);
 class ilOpenIdConnectUserSync
 {
     public const AUTH_MODE = 'oidc';
+
+    private ilOpenIdConnectSettings $settings;
     private readonly ilLogger $logger;
     private readonly ilXmlWriter $writer;
+    private stdClass $user_info;
     private string $ext_account = '';
     private string $int_account = '';
     private int $usr_id = 0;
 
-    public function __construct(private readonly ilOpenIdConnectSettings $settings, private readonly stdClass $user_info)
+    private ilUserDefinedFields $udf;
+
+    public function __construct(ilOpenIdConnectSettings $settings, stdClass $user_info)
     {
         global $DIC;
+
+        $this->settings = $settings;
+        $this->user_info = $user_info;
 
         $this->logger = $DIC->logger()->auth();
         $this->writer = new ilXmlWriter();
@@ -109,17 +117,17 @@ class ilOpenIdConnectUserSync
             $this->writer->xmlElement('Login', [], $this->int_account);
         }
 
-        $this->writer->xmlElement('ExternalAccount', [], $this->ext_account);
-        $this->writer->xmlElement('AuthMode', ['type' => self::AUTH_MODE], null);
+        $this->writer->xmlElement('ExternalAccount', array(), $this->ext_account);
+        $this->writer->xmlElement('AuthMode', array('type' => self::AUTH_MODE), null);
 
         $this->parseRoleAssignments();
 
         if ($this->needsCreation()) {
-            $this->writer->xmlElement('Active', [], "true");
-            $this->writer->xmlElement('TimeLimitOwner', [], 7);
-            $this->writer->xmlElement('TimeLimitUnlimited', [], 1);
-            $this->writer->xmlElement('TimeLimitFrom', [], time());
-            $this->writer->xmlElement('TimeLimitUntil', [], time());
+            $this->writer->xmlElement('Active', array(), "true");
+            $this->writer->xmlElement('TimeLimitOwner', array(), 7);
+            $this->writer->xmlElement('TimeLimitUnlimited', array(), 1);
+            $this->writer->xmlElement('TimeLimitFrom', array(), time());
+            $this->writer->xmlElement('TimeLimitUntil', array(), time());
         }
 
         foreach ($this->settings->getProfileMappingFields() as $field => $lng_key) {
@@ -140,20 +148,111 @@ class ilOpenIdConnectUserSync
             }
 
             switch ($field) {
+                case 'gender':
+                    switch (strtolower($value)) {
+                        case 'm':
+                        case 'male':
+                            $this->writer->xmlElement('Gender', array(), 'm');
+                            break;
+
+                        case 'f':
+                        case 'female':
+                            $this->writer->xmlElement('Gender', array(), 'f');
+                            break;
+
+                        default:
+                            // use the default for anything that is not clearly m or f
+                            $this->writer->xmlElement('Gender', array(), 'n');
+                            break;
+                    }
+                    break;
+
                 case 'firstname':
-                    $this->writer->xmlElement('Firstname', [], $value);
+                    $this->writer->xmlElement('Firstname', array(), $value);
                     break;
 
                 case 'lastname':
-                    $this->writer->xmlElement('Lastname', [], $value);
+                    $this->writer->xmlElement('Lastname', array(), $value);
+                    break;
+
+                case 'hobby':
+                    $this->writer->xmlElement('Hobby', array(), $value);
+                    break;
+
+                case 'title':
+                    $this->writer->xmlElement('Title', array(), $value);
+                    break;
+
+                case 'institution':
+                    $this->writer->xmlElement('Institution', array(), $value);
+                    break;
+
+                case 'department':
+                    $this->writer->xmlElement('Department', array(), $value);
+                    break;
+
+                case 'street':
+                    $this->writer->xmlElement('Street', array(), $value);
+                    break;
+
+                case 'city':
+                    $this->writer->xmlElement('City', array(), $value);
+                    break;
+
+                case 'zipcode':
+                    $this->writer->xmlElement('PostalCode', array(), $value);
+                    break;
+
+                case 'country':
+                    $this->writer->xmlElement('Country', array(), $value);
+                    break;
+
+                case 'phone_office':
+                    $this->writer->xmlElement('PhoneOffice', array(), $value);
+                    break;
+
+                case 'phone_home':
+                    $this->writer->xmlElement('PhoneHome', array(), $value);
+                    break;
+
+                case 'phone_mobile':
+                    $this->writer->xmlElement('PhoneMobile', array(), $value);
+                    break;
+
+                case 'fax':
+                    $this->writer->xmlElement('Fax', array(), $value);
                     break;
 
                 case 'email':
-                    $this->writer->xmlElement('Email', [], $value);
+                    $this->writer->xmlElement('Email', array(), $value);
                     break;
 
-                case 'birthday':
-                    $this->writer->xmlElement('Birthday', [], $value);
+                case 'second_email':
+                    $this->writer->xmlElement('SecondEmail', array(), $value);
+                    break;
+
+                case 'matriculation':
+                    $this->writer->xmlElement('Matriculation', array(), $value);
+                    break;
+
+                default:
+                    // Handle user defined fields
+                    if (strpos($field, 'udf_') !== 0) {
+                        continue 2;
+                    }
+                    $id_data = explode('_', $field);
+                    if (!isset($id_data[1])) {
+                        continue 2;
+                    }
+                    $this->initUserDefinedFields();
+                    $definition = $this->udf->getDefinition((int) $id_data[1]);
+                    $this->writer->xmlElement(
+                        'UserDefinedField',
+                        array('Id' => $definition['il_id'],
+                              'Name' => $definition['field_name']
+                        ),
+                        $value
+                    );
                     break;
             }
         }
@@ -211,7 +310,7 @@ class ilOpenIdConnectUserSync
                     $this->logger->debug('User account has no ' . $role_value);
                     continue;
                 }
-            } elseif (strcmp((string) $this->user_info->{$role_attribute}, $role_value) !== 0) {
+            } elseif (strcmp($this->user_info->{$role_attribute}, $role_value) !== 0) {
                 $this->logger->debug('User account has no ' . $role_value);
                 continue;
             }
@@ -261,5 +360,10 @@ class ilOpenIdConnectUserSync
         }
 
         return (string) $this->user_info->{$connect_name};
+    }
+
+    private function initUserDefinedFields(): void
+    {
+        $this->udf = ilUserDefinedFields::_getInstance();
     }
 }
