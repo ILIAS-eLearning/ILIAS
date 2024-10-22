@@ -333,9 +333,9 @@ class TabsManager
                 'info_short',
                 $this->ctrl->getLinkTargetByClass(
                     [
-                        ilRepositoryGUI::class,
-                        ilObjTestGUI::class,
-                        ilInfoScreenGUI::class
+                        \ilRepositoryGUI::class,
+                        \ilObjTestGUI::class,
+                        \ilInfoScreenGUI::class
                     ]
                 ),
                 ['', 'outIntroductionPage', 'setAnonymousId', 'redirectToInfoScreen']
