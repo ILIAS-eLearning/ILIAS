@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\Certificate\Overview\CertificateOverviewTable;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
  * Certificate Settings.
@@ -176,11 +177,15 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
                     }
                 }
             }
-        }
+        }#
 
         if ($this->object->hasBackgroundImage()) {
             $rid = $this->object->getBackgroundImageIdentification();
-            $bgimage->setImage($this->irss->consume()->src($rid)->getSrc());
+            if ($rid instanceof ResourceIdentification) {
+                $bgimage->setImage($this->irss->consume()->src($rid)->getSrc());
+            } elseif (is_string($rid)) {
+                $bgimage->setImage($rid);
+            }
         }
         $bgimage->setInfo($this->lng->txt('default_background_info'));
         $form->addItem($bgimage);

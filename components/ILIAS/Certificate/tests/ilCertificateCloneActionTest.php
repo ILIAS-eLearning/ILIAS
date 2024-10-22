@@ -59,6 +59,8 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
                         true,
                         '/some/where/background.jpg',
                         '/some/where/card_thumb.jpg',
+                        '-',
+                        '-',
                         null
                     ),
                     new ilCertificateTemplate(
@@ -73,6 +75,8 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
                         true,
                         '/some/where/background.jpg',
                         '/some/where/card_thumb.jpg',
+                        '-',
+                        '-',
                         null
                     ),
                     new ilCertificateTemplate(
@@ -87,6 +91,8 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
                         true,
                         '/certificates/default/background.jpg',
                         '/some/where/card_thumb.jpg',
+                        '-',
+                        '-',
                         null
                     )
                 ]

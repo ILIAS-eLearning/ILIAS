@@ -184,6 +184,8 @@ class ilCertificateTemplateImportAction
             $iliasVersion,
             time(),
             false,
+            '',
+            '',
             isset($background_rid) ? $background_rid->serialize() : '',
             isset($card_thumbnail_rid) ? $card_thumbnail_rid->serialize() : ''
         );

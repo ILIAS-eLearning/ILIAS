@@ -44,6 +44,7 @@ class ilUserCertificateTableProvider
         $sql = 'SELECT 
   ' . self::TABLE_NAME . '.id,
   ' . self::TABLE_NAME . '.obj_type,
+  ' . self::TABLE_NAME . '.thumbnail_image_path,
   ' . self::TABLE_NAME . '.thumbnail_image_ident,
   ' . self::TABLE_NAME . '.acquired_timestamp,
   usr_data.firstname,
@@ -104,6 +105,7 @@ WHERE ' . self::TABLE_NAME . '.usr_id = ' . $this->database->quote($userId, 'int
                 'obj_id' => (int) $row['obj_id'],
                 'obj_type' => $row['obj_type'],
                 'date' => (int) $row['acquired_timestamp'],
+                'thumbnail_image_path' => $row['thumbnail_image_path'],
                 'thumbnail_image_ident' => $row['thumbnail_image_ident'],
                 'description' => $row['description'],
                 'firstname' => $row['firstname'],

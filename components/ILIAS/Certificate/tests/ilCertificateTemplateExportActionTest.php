@@ -42,6 +42,8 @@ class ilCertificateTemplateExportActionTest extends ilCertificateBaseTestCase
                 true,
                 '/some/where/background.jpg',
                 '/some/where/thumbnail.jpg',
+                '-',
+                '-',
                 50
             ));
 

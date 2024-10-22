@@ -68,8 +68,10 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
             'ilias_version' => ['text', $certificateTemplate->getIliasVersion()],
             'created_timestamp' => ['integer', $certificateTemplate->getCreatedTimestamp()],
             'currently_active' => ['integer', (int) $certificateTemplate->isCurrentlyActive()],
-            'background_image_ident' => ['text', $certificateTemplate->getBackgroundImageIdentification()],
             'deleted' => ['integer', (int) $certificateTemplate->isDeleted()],
+            'background_image_path' => ['text', $certificateTemplate->getBackgroundImagePath()],
+            'thumbnail_image_path' => ['text', $certificateTemplate->getThumbnailImagePath()],
+            'background_image_ident' => ['text', $certificateTemplate->getBackgroundImageIdentification()],
             'thumbnail_image_ident' => ['text', $certificateTemplate->getThumbnailImageIdentification()]
         ];
 
@@ -182,6 +184,8 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
             0,
             false,
             '',
+            '',
+            '',
             ''
         );
     }
@@ -227,6 +231,8 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
             '0',
             0,
             true,
+            '',
+            '',
             '',
             ''
         );
@@ -473,6 +479,8 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
             $row['ilias_version'],
             (int) $row['created_timestamp'],
             (bool) $row['currently_active'],
+            (string) $row['background_image_path'],
+            (string) $row['thumbnail_image_path'],
             (string) $row['background_image_ident'],
             (string) $row['thumbnail_image_ident'],
             isset($row['id']) ? (int) $row['id'] : null

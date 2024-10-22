@@ -23,6 +23,7 @@ use ILIAS\Certificate\CertificateResourceHandler;
 use ILIAS\ResourceStorage\Services as ResourceStorage;
 use ILIAS\Certificate\File\ilCertificateTemplateStakeholder;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\Filesystem\Filesystem;
 
 /**
  * Class ilObjCertificateSettings
@@ -34,6 +35,7 @@ class ilObjCertificateSettings extends ilObject
 {
     private readonly ilSetting $certificate_settings;
     private readonly ResourceStorage $irss;
+    private readonly Filesystem $filesystem;
     private readonly ilCertificateTemplateStakeholder $stakeholder;
     private readonly CertificateResourceHandler $resource_handler;
 
@@ -45,6 +47,7 @@ class ilObjCertificateSettings extends ilObject
         $this->type = 'cert';
         $this->certificate_settings = new ilSetting('certificate');
         $this->irss = $DIC->resourceStorage();
+        $this->filesystem = $DIC->filesystem()->web();
         $this->stakeholder = new ilCertificateTemplateStakeholder();
         $this->resource_handler = new CertificateResourceHandler(
             new ilUserCertificateRepository($DIC->database()),
@@ -55,11 +58,25 @@ class ilObjCertificateSettings extends ilObject
         );
     }
 
-    public function getBackgroundImageIdentification(): ?ResourceIdentification
+    public function getBackgroundImageIdentification(): ResourceIdentification|string|null
     {
         $id = $this->certificate_settings->get('cert_bg_image', '');
 
-        return $this->irss->manage()->find($id);
+        if ($rid = $this->irss->manage()->find($id)) {
+            return $rid;
+        }
+        if ($id !== '') {
+            $id = $this->getBackgroundImageDefaultFolder() . $id;
+        }
+        if ($this->filesystem->has($id)) {
+            return ilWACSignedPath::signFile(ILIAS_HTTP_PATH . '/public/' . ILIAS_WEB_DIR . '/' . CLIENT_ID . $id);
+        }
+        return null;
+    }
+
+    public function getBackgroundImageDefaultFolder(): string
+    {
+        return '/certificates/default/';
     }
 
     /**

@@ -183,6 +183,7 @@ class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
 
         $this->db->manipulate("DELETE FROM settings WHERE keyword = 'defaultImageFileName'");
         $this->db->insert('settings', [
+            'module' => ['text', 'certificate'],
             'keyword' => ['text', 'cert_bg_image'],
             'value' => ['text', $defaultImageFileName],
         ]);

@@ -97,6 +97,8 @@ class ilUserCertificateRepository
             'version' => ['integer', $version],
             'ilias_version' => ['text', $userCertificate->getIliasVersion()],
             'currently_active' => ['integer', (int) $userCertificate->isCurrentlyActive()],
+            'background_image_path' => ['text', $userCertificate->getBackgroundImagePath()],
+            'thumbnail_image_path' => ['text', $userCertificate->getThumbnailImagePath()],
             'background_image_ident' => ['text', $userCertificate->getBackgroundImageIdentification()],
             'thumbnail_image_ident' => ['text', $userCertificate->getThumbnailImageIdentification()],
             'certificate_id' => ['text', $userCertificate->getCertificateId()->asString()]
@@ -600,6 +602,8 @@ AND  usr_id = ' . $this->database->quote($userId, 'integer');
             $row['ilias_version'],
             (bool) $row['currently_active'],
             new CertificateId($row['certificate_id']),
+            (string) $row['background_image_path'],
+            (string) $row['thumbnail_image_path'],
             (string) $row['background_image_ident'],
             (string) $row['thumbnail_image_ident'],
             isset($row['id']) ? (int) $row['id'] : null

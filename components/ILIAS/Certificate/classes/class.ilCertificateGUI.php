@@ -28,6 +28,7 @@ use ILIAS\Certificate\CertificateResourceHandler;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
 use ILIAS\Certificate\File\ilCertificateTemplateStakeholder;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
  * GUI class to create PDF certificates
@@ -355,6 +356,12 @@ class ilCertificateGUI
         $current_thumbnail_rid = $this->irss->manageContainer()->find(
             $current_template->getThumbnailImageIdentification()
         );
+        $old_background_image = $current_background_rid === null
+            ? $current_template->getBackgroundImagePath() :
+            '';
+        $old_thumbnail_image = $current_thumbnail_rid === null
+            ? $current_template->getThumbnailImagePath() :
+            '';
 
         $should_delete_background =
             $this->httpWrapper->post()->retrieve(
@@ -375,6 +382,14 @@ class ilCertificateGUI
 
         $new_background_rid = $current_background_rid && !$should_delete_background ? $current_background_rid :
             $this->global_certificate_settings->getBackgroundImageIdentification();
+        if (
+            $new_background_rid instanceof ResourceIdentification &&
+            $this->global_certificate_settings->getBackgroundImageIdentification() instanceof ResourceIdentification &&
+            $current_template->getCurrentBackgroundImageUsed() === $old_background_image &&
+            $new_background_rid->serialize() === $this->global_certificate_settings->getBackgroundImageIdentification()->serialize()
+        ) {
+            $new_background_rid = null;
+        }
         $new_thumbnail_rid = !$should_delete_thumbnail ? $current_thumbnail_rid : null;
         if ($form->checkInput()) {
             try {
@@ -407,6 +422,13 @@ class ilCertificateGUI
 
                 $jsonEncodedTemplateValues = json_encode($templateValues, JSON_THROW_ON_ERROR);
 
+                if (isset($new_background_rid)) {
+                    $old_background_image = '';
+                }
+                if (isset($new_thumbnail_rid)) {
+                    $old_thumbnail_image = '';
+                }
+
                 $xslfo = $this->xlsFoParser->parse($form_fields);
                 $newHashValue = hash(
                     'sha256',
@@ -419,6 +441,7 @@ class ilCertificateGUI
                         isset($new_thumbnail_rid) ? $this->irss->manage()->getResource(
                             $new_thumbnail_rid
                         )->getStorageID() : '',
+                        $old_background_image, $old_thumbnail_image
                     ])
                 );
 
@@ -435,6 +458,8 @@ class ilCertificateGUI
                         ILIAS_VERSION_NUMERIC,
                         time(),
                         $active,
+                        $old_background_image,
+                        $old_thumbnail_image,
                         isset($new_background_rid) ? $new_background_rid->serialize() : '',
                         isset($new_thumbnail_rid) ? $new_thumbnail_rid->serialize() : '',
                     );

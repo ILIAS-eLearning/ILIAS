@@ -54,7 +54,9 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
             time(),
             false,
             '',
-            ''
+            '',
+            '',
+            '',
         );
 
         $this->templateRepository->save($certificateTemplate);
