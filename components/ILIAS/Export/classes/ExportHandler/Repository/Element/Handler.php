@@ -91,4 +91,28 @@ class Handler implements ilExportHandlerRepositoryElementInterface
             $this->values->isValid()
         );
     }
+
+    public function equals(
+        ilExportHandlerRepositoryElementInterface $other_element
+    ): bool {
+        $key_equals =
+            (
+                isset($this->key) and
+                isset($other_element->key) and
+                $this->key->equals($other_element->key)
+            ) || (
+                !isset($this->key) and
+                !isset($other_element->key)
+            );
+        $values_equals =
+            (
+                isset($this->values) and
+                isset($other_element->values) and
+                $this->values->equals($other_element->values)
+            ) || (
+                !isset($this->values) and
+                !isset($other_element->values)
+            );
+        return $key_equals and $values_equals;
+    }
 }

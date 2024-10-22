@@ -23,12 +23,12 @@ namespace ILIAS\Export\ExportHandler\Repository\Wrapper\DB;
 use DateTimeImmutable;
 use ilDBConstants;
 use ilDBInterface;
-use ILIAS\Data\ObjectId;
 use ILIAS\Export\ExportHandler\I\FactoryInterface as ilExportHandlerFactoryInterface;
 use ILIAS\Export\ExportHandler\I\Repository\Element\CollectionInterface as ilExportHandlerRepositoryElementCollectionInterface;
 use ILIAS\Export\ExportHandler\I\Repository\Element\HandlerInterface as ilExportHandlerRepositoryElementInterface;
 use ILIAS\Export\ExportHandler\I\Repository\Key\CollectionInterface as ilExportHandlerRepositoryKeyCollectionInterface;
 use ILIAS\Export\ExportHandler\I\Repository\Wrapper\DB\HandlerInterface as ilExportHandlerRepositoryDBWrapperInterface;
+use ILIAS\Export\ExportHandler\I\Wrapper\DataFactory\HandlerInterface as ilExportHandlerDataFactoryWrapperInterface;
 
 class Handler implements ilExportHandlerRepositoryDBWrapperInterface
 {
@@ -36,13 +36,16 @@ class Handler implements ilExportHandlerRepositoryDBWrapperInterface
 
     protected ilDBInterface $db;
     protected ilExportHandlerFactoryInterface $export_handler;
+    protected ilExportHandlerDataFactoryWrapperInterface $data_factory_wrapper;
 
     public function __construct(
         ilExportHandlerFactoryInterface $export_handler,
-        ilDBInterface $db
+        ilDBInterface $db,
+        ilExportHandlerDataFactoryWrapperInterface $data_factory_wrapper
     ) {
         $this->export_handler = $export_handler;
         $this->db = $db;
+        $this->data_factory_wrapper = $data_factory_wrapper;
     }
 
     public function store(
@@ -61,7 +64,7 @@ class Handler implements ilExportHandlerRepositoryDBWrapperInterface
         $res = $this->db->query($this->buildSelectQuery($keys));
         while ($row = $res->fetchAssoc()) {
             $key = $this->export_handler->repository()->key()->handler()
-                ->withObjectId(new ObjectId((int) $row['object_id']))
+                ->withObjectId($this->data_factory_wrapper->objId((int) $row['object_id']))
                 ->withResourceIdSerialized($row['rid']);
             $values = $this->export_handler->repository()->values()->handler()
                 ->withCreationDate((new DateTimeImmutable($row['timestamp'])))

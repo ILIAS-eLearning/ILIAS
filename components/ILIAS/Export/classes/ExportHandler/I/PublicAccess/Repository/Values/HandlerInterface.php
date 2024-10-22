@@ -35,4 +35,8 @@ interface HandlerInterface
     public function getLastModified(): DateTimeImmutable;
 
     public function isValid(): bool;
+
+    public function equals(
+        HandlerInterface $other
+    ): bool;
 }

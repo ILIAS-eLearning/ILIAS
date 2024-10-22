@@ -22,10 +22,9 @@ namespace ILIAS\Export\ExportHandler\Consumer\ExportOption;
 
 use ilCtrl;
 use ilExport;
-use ilExportFileInfo;
 use ilFileDelivery;
 use ilFileUtils;
-use ILIAS\Data\ObjectId;
+use ILIAS\Data\Factory as ilDataFactory;
 use ILIAS\Data\ReferenceId;
 use ILIAS\DI\Container;
 use ILIAS\Export\ExportHandler\Consumer\ExportOption\BasicHandler as ilExportHandlerConsumerBasicExportOption;
@@ -39,10 +38,12 @@ use SplFileInfo;
 abstract class BasicLegacyHandler extends ilExportHandlerConsumerBasicExportOption
 {
     protected ilCtrl $ctrl;
+    protected ilDataFactory $data_factory;
 
     public function init(Container $DIC): void
     {
         $this->ctrl = $DIC->ctrl();
+        $this->data_factory = new ilDataFactory();
     }
 
     public function onDeleteFiles(
@@ -137,7 +138,7 @@ abstract class BasicLegacyHandler extends ilExportHandlerConsumerBasicExportOpti
             [$this->getExportType()],
             $context->exportObject()->getType()
         );
-        $object_id = new ObjectId($context->exportObject()->getId());
+        $object_id = $this->data_factory->objId($context->exportObject()->getId());
         foreach ($file_infos as $file_name => $file_info) {
             $collection_builder = $collection_builder->withSPLFileInfo(
                 new SplFileInfo($dir . DIRECTORY_SEPARATOR . $file_info["file"]),

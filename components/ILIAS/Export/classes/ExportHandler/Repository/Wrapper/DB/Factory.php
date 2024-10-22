@@ -43,7 +43,8 @@ class Factory implements ilExportHandlerRepositoryDBWrapperFactoryInterface
     {
         return new ilExportHandlerRepositoryDBWrapper(
             $this->export_handler,
-            $this->db
+            $this->db,
+            $this->export_handler->wrapper()->dataFactory()->handler()
         );
     }
 }

@@ -26,12 +26,12 @@ use ILIAS\Export\ExportHandler\I\Info\Export\Component\FactoryInterface as ilExp
 use ILIAS\Export\ExportHandler\I\Info\Export\Container\FactoryInterface as ilExportHandlerContainerExportInfoFactoryInterface;
 use ILIAS\Export\ExportHandler\I\Info\Export\FactoryInterface as ilExportHandlerExportInfoFactory;
 use ILIAS\Export\ExportHandler\I\Info\Export\HandlerInterface as ilExportHandlerExportInfoInterface;
-use ILIAS\Export\ExportHandler\Info\Export\collection as ilExportHandlerExportInfoCollection;
+use ILIAS\Export\ExportHandler\Info\Export\Collection as ilExportHandlerExportInfoCollection;
 use ILIAS\Export\ExportHandler\Info\Export\Component\Factory as ilExportHandlerExportComponentInfoFactory;
 use ILIAS\Export\ExportHandler\Info\Export\Container\Factory as ilExportHandlerContainerExportInfoFactory;
-use ILIAS\Export\ExportHandler\Info\Export\handler as ilExportHandlerExportInfo;
+use ILIAS\Export\ExportHandler\Info\Export\Handler as ilExportHandlerExportInfo;
 
-class factory implements ilExportHandlerExportInfoFactory
+class Factory implements ilExportHandlerExportInfoFactory
 {
     protected ilExportHandlerFactoryInterface $export_handler;
 
@@ -43,7 +43,10 @@ class factory implements ilExportHandlerExportInfoFactory
 
     public function handler(): ilExportHandlerExportInfoInterface
     {
-        return new ilExportHandlerExportInfo($this->export_handler);
+        return new ilExportHandlerExportInfo(
+            $this->export_handler,
+            $this->export_handler->wrapper()->dataFactory()->handler()
+        );
     }
 
     public function collection(): ilExportHandlerExportInfoCollectionInterface

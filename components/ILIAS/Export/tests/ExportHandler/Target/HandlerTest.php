@@ -20,8 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\Test\ExportHandler\Target;
 
-use PHPUnit\Framework\TestCase;
+use Exception;
 use ILIAS\Export\ExportHandler\Target\Handler as ilExportHandlerTarget;
+use PHPUnit\Framework\TestCase;
 
 class HandlerTest extends TestCase
 {
@@ -33,16 +34,20 @@ class HandlerTest extends TestCase
         $class_name = "classclass";
         $v = ['10', '0'];
         $target_release = "2000.20";
-        $target_1 = (new ilExportHandlerTarget())
-            ->withType($type)
-            ->withComponent($component)
-            ->withClassname($class_name)
-            ->withTargetRelease($target_release)
-            ->withObjectIds($object_ids);
-        $this->assertEquals($type, $target_1->getType());
-        $this->assertEquals($component, $target_1->getComponent());
-        $this->assertEquals($class_name, $target_1->getClassname());
-        $this->assertEquals($target_release, $target_1->getTargetRelease());
-        $this->assertEmpty(array_diff($object_ids, $target_1->getObjectIds()));
+        try {
+            $target_1 = (new ilExportHandlerTarget())
+                ->withType($type)
+                ->withComponent($component)
+                ->withClassname($class_name)
+                ->withTargetRelease($target_release)
+                ->withObjectIds($object_ids);
+            self::assertEquals($type, $target_1->getType());
+            self::assertEquals($component, $target_1->getComponent());
+            self::assertEquals($class_name, $target_1->getClassname());
+            self::assertEquals($target_release, $target_1->getTargetRelease());
+            self::assertEmpty(array_diff($object_ids, $target_1->getObjectIds()));
+        } catch (Exception $exception) {
+            self::fail($exception->getMessage());
+        }
     }
 }

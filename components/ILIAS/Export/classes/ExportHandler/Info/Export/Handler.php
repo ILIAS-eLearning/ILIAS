@@ -29,24 +29,29 @@ use ILIAS\Export\ExportHandler\I\Info\Export\Container\HandlerInterface as ilExp
 use ILIAS\Export\ExportHandler\I\Info\Export\HandlerInterface as ilExportHandlerExportInfoInterface;
 use ILIAS\Export\ExportHandler\I\Repository\Element\HandlerInterface as ilExportHandlerRepositoryElementInterface;
 use ILIAS\Export\ExportHandler\I\Target\HandlerInterface as ilExportHandlerTargetInterface;
+use ILIAS\Export\ExportHandler\I\Wrapper\DataFactory\HandlerInterface as ilExportHandlerDataFactoryWrapperInterface;
 
-class handler implements ilExportHandlerExportInfoInterface
+class Handler implements ilExportHandlerExportInfoInterface
 {
     protected ilExportHandlerFactoryInterface $export_handler;
     protected ilExportHandlerTargetInterface $export_target;
     protected ilExportHandlerExportComponentInfoCollectionInterface $component_export_infos;
     protected ilExportHandlerContainerExportInfoInterface $container_export_info;
     protected ilExportHandlerRepositoryElementInterface $element;
+    protected ilExportHandlerDataFactoryWrapperInterface $data_factory_wrapper;
     protected array $component_counts;
     protected bool $reuse_export;
     protected int $time_stamp;
     protected int $set_number;
 
-    public function __construct(ilExportHandlerFactoryInterface $export_handler)
-    {
+    public function __construct(
+        ilExportHandlerFactoryInterface $export_handler,
+        ilExportHandlerDataFactoryWrapperInterface $data_factory_wrapper
+    ) {
         $this->export_handler = $export_handler;
         $this->component_export_infos = $this->export_handler->info()->export()->component()->collection();
         $this->component_counts = [];
+        $this->data_factory_wrapper = $data_factory_wrapper;
     }
 
     protected function getExportFilePathInContainer(string $export_folder_name, string $component, int $component_count): string
@@ -164,7 +169,7 @@ class handler implements ilExportHandlerExportInfoInterface
 
     public function getTargetObjectId(): ObjectId
     {
-        return new ObjectId($this->export_target->getObjectIds()[0]);
+        return $this->data_factory_wrapper->objId($this->export_target->getObjectIds()[0]);
     }
 
     public function getComponentCount(ilExportHandlerExportComponentInfoInterface $component_info)

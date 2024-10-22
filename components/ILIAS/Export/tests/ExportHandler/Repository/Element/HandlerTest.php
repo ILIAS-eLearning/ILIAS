@@ -18,19 +18,19 @@
 
 declare(strict_types=1);
 
-namespace ExportHandler\Repository\Element;
+namespace ILIAS\Export\Test\ExportHandler\Repository\Element;
 
 use DateTimeImmutable;
+use Exception;
 use ILIAS\Data\ObjectId;
-use PHPUnit\Framework\TestCase;
-
+use ILIAS\Export\ExportHandler\I\Repository\Element\Wrapper\IRSS\FactoryInterface as ilExportHandlerRepositoryElementIRSSWrapperFactoryInterface;
+use ILIAS\Export\ExportHandler\I\Repository\Element\Wrapper\IRSS\HandlerInterface as ilExportHandlerRepositoryElementIRSSWrapperInterface;
+use ILIAS\Export\ExportHandler\I\Repository\Element\Wrapper\IRSSInfo\FactoryInterface as ilExportHandlerRepositoryElementIRSSInfoWrapperFactoryInterface;
+use ILIAS\Export\ExportHandler\I\Repository\Element\Wrapper\IRSSInfo\HandlerInterface as ilExportHandlerRepositoryElementIRSSInfoWrapperInterface;
+use ILIAS\Export\ExportHandler\I\Repository\Key\HandlerInterface as ilExportHandlerRepositoryKeyInterface;
+use ILIAS\Export\ExportHandler\I\Repository\Values\HandlerInterface as ilExportHandlerRepositoryValuesInterface;
 use ILIAS\Export\ExportHandler\Repository\Element\Handler as ilExportHandlerRepositoryElement;
-use ILIAS\Export\ExportHandler\Repository\Element\Wrapper\IRSSInfo\Factory as ilExportHandlerRepositoryElementIRSSInfoWrapperFactory;
-use ILIAS\Export\ExportHandler\Repository\Element\Wrapper\IRSSInfo\Handler as ilExportHandlerRepositoryElementIRSSInfoWrapper;
-use ILIAS\Export\ExportHandler\Repository\Element\Wrapper\IRSS\Factory as ilExportHandlerRepositoryElementIRSSWrapperFactory;
-use ILIAS\Export\ExportHandler\Repository\Element\Wrapper\IRSS\Handler as ilExportHandlerRepositoryElementIRSSWrapper;
-use ILIAS\Export\ExportHandler\Repository\Key\Handler as ilExportHandlerRepositoryKey;
-use ILIAS\Export\ExportHandler\Repository\Values\Handler as ilExportHandlerRepositoryValues;
+use PHPUnit\Framework\TestCase;
 
 class HandlerTest extends TestCase
 {
@@ -38,47 +38,49 @@ class HandlerTest extends TestCase
     {
         $resouce_id_serialized = "keykeykey";
         $object_id_mock = $this->createMock(ObjectId::class);
-        $key_mock = $this->createMock(ilExportHandlerRepositoryKey::class);
+        $key_mock = $this->createMock(ilExportHandlerRepositoryKeyInterface::class);
         $key_mock->method("isCompleteKey")->willReturn(true);
         $key_mock->method("isObjectIdKey")->willReturn(false);
         $key_mock->method("isResourceIdKey")->willReturn(false);
         $key_mock->method("getResourceIdSerialized")->willReturn($resouce_id_serialized);
         $key_mock->method("getObjectId")->willReturn($object_id_mock);
         $date_time_mock = $this->createMock(DateTimeImmutable::class);
-        $value_mock = $this->createMock(ilExportHandlerRepositoryValues::class);
+        $value_mock = $this->createMock(ilExportHandlerRepositoryValuesInterface::class);
         $value_mock->method("isValid")->willReturn(true);
         $value_mock->method("getOwnerId")->willReturn(1);
         $value_mock->method("getCreationDate")->willReturn($date_time_mock);
-        $irss_wrapper_mock = $this->createMock(ilExportHandlerRepositoryElementIRSSWrapper::class);
+        $irss_wrapper_mock = $this->createMock(ilExportHandlerRepositoryElementIRSSWrapperInterface::class);
         $irss_wrapper_mock->method("withResourceIdSerialized")->with($resouce_id_serialized)->willReturn($irss_wrapper_mock);
-        $irss_wrapper_factory_mock = $this->createMock(ilExportHandlerRepositoryElementIRSSWrapperFactory::class);
+        $irss_wrapper_factory_mock = $this->createMock(ilExportHandlerRepositoryElementIRSSWrapperFactoryInterface::class);
         $irss_wrapper_factory_mock->method("handler")->willReturn($irss_wrapper_mock);
-        $irss_info_wrapper_mock = $this->createMock(ilExportHandlerRepositoryElementIRSSInfoWrapper::class);
+        $irss_info_wrapper_mock = $this->createMock(ilExportHandlerRepositoryElementIRSSInfoWrapperInterface::class);
         $irss_info_wrapper_mock->method("withResourceIdSerialized")->with($resouce_id_serialized)->willReturn($irss_info_wrapper_mock);
-        $irss_info_wrapper_factory_mock = $this->createMock(ilExportHandlerRepositoryElementIRSSInfoWrapperFactory::class);
+        $irss_info_wrapper_factory_mock = $this->createMock(ilExportHandlerRepositoryElementIRSSInfoWrapperFactoryInterface::class);
         $irss_info_wrapper_factory_mock->method("handler")->willReturn($irss_info_wrapper_mock);
-
-        $element = (new ilExportHandlerRepositoryElement(
-            $irss_wrapper_factory_mock,
-            $irss_info_wrapper_factory_mock
-        ))
-            ->withKey($key_mock)
-            ->withValues($value_mock);
-        $element_not_storable_0 = new ilExportHandlerRepositoryElement(
-            $irss_wrapper_factory_mock,
-            $irss_info_wrapper_factory_mock
-        );
-        $element_not_storable_1 = $element_not_storable_0->withValues($value_mock);
-        $element_not_storable_2 = $element_not_storable_0->withKey($key_mock);
-
-        $this->assertFalse($element_not_storable_0->isStorable());
-        $this->assertFalse($element_not_storable_1->isStorable());
-        $this->assertFalse($element_not_storable_2->isStorable());
-        $this->assertEquals($irss_wrapper_factory_mock->handler(), $element->getIRSS());
-        $this->assertEquals($irss_info_wrapper_factory_mock->handler(), $element->getIRSSInfo());
-        $this->assertEquals($value_mock, $element->getValues());
-        $this->assertEquals($key_mock, $element->getKey());
-        $this->assertTrue($element->isStorable());
-        $this->assertEquals("xml", $element->getFileType());
+        try {
+            $element = (new ilExportHandlerRepositoryElement(
+                $irss_wrapper_factory_mock,
+                $irss_info_wrapper_factory_mock
+            ))
+                ->withKey($key_mock)
+                ->withValues($value_mock);
+            $element_not_storable_0 = new ilExportHandlerRepositoryElement(
+                $irss_wrapper_factory_mock,
+                $irss_info_wrapper_factory_mock
+            );
+            $element_not_storable_1 = $element_not_storable_0->withValues($value_mock);
+            $element_not_storable_2 = $element_not_storable_0->withKey($key_mock);
+            self::assertFalse($element_not_storable_0->isStorable());
+            self::assertFalse($element_not_storable_1->isStorable());
+            self::assertFalse($element_not_storable_2->isStorable());
+            self::assertEquals($irss_wrapper_mock, $element->getIRSS());
+            self::assertEquals($irss_info_wrapper_mock, $element->getIRSSInfo());
+            self::assertEquals($value_mock, $element->getValues());
+            self::assertEquals($key_mock, $element->getKey());
+            self::assertTrue($element->isStorable());
+            self::assertEquals("xml", $element->getFileType());
+        } catch (Exception $exception) {
+            self::fail($exception->getMessage());
+        }
     }
 }

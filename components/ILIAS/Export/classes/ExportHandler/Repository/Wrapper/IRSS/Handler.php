@@ -29,7 +29,6 @@ use ILIAS\Filesystem\Filesystems;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Filesystem\Util\Archive\Zip;
 use ILIAS\Filesystem\Util\Archive\ZipOptions;
-use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Services as ResourcesStorageService;
 use SplFileInfo;
 
@@ -49,7 +48,7 @@ class Handler implements ilExportHandlerRepositoryIRSSWrapperInterface
     public function createEmptyContainer(
         ilExportHandlerExportInfoInterface $info,
         ilExportHandlerRepositoryStakeholderInterface $stakeholder
-    ): ResourceIdentification {
+    ): string {
         $tmp_dir_info = new SplFileInfo(ilFileUtils::ilTempnam());
         $this->filesystems->temp()->createDir($tmp_dir_info->getFilename());
         $export_dir = $tmp_dir_info->getRealPath();
@@ -62,13 +61,15 @@ class Handler implements ilExportHandlerRepositoryIRSSWrapperInterface
         $zip->addStream(Streams::ofString(self::TMP_FILE_CONTENT), self::TMP_FILE_PATH);
         $rid = $this->irss->manageContainer()->containerFromStream($zip->get(), $stakeholder);
         ilFileUtils::delDir($export_dir);
-        return $rid;
+        return $rid->serialize();
     }
 
-    public function getCreationDate(ResourceIdentification $resource_id): DateTimeImmutable
-    {
-        return $this->irss->manageContainer()->getResource($resource_id)->getCurrentRevision()->getInformation()
-            ->getCreationDate();
+    public function getCreationDate(
+        string $resource_identification_serialized
+    ): DateTimeImmutable {
+        $resource_identification = $this->irss->manageContainer()->find($resource_identification_serialized);
+        return $this->irss->manageContainer()->getResource($resource_identification)->getCurrentRevision()
+            ->getInformation()->getCreationDate();
     }
 
     public function removeContainer(

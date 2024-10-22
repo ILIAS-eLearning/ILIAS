@@ -21,8 +21,8 @@ declare(strict_types=1);
 namespace Test\ImportHandler\File\Path\Node;
 
 use ILIAS\Export\ImportHandler\File\Path\Comparison\ilHandler as ilFilePathComparisonHandler;
-use PHPUnit\Framework\TestCase;
 use ILIAS\Export\ImportHandler\File\Path\Node\ilIndex as ilIndexFilePathNode;
+use PHPUnit\Framework\TestCase;
 
 class ilIndexTest extends TestCase
 {

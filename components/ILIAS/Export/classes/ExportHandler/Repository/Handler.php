@@ -60,13 +60,13 @@ class Handler implements ilExportHandlerRepositoryInterface
         ilExportHandlerExportInfoInterface $info,
         ilExportHandlerRepositoryStakeholderInterface $stakeholder
     ): ilExportHandlerRepositoryElementInterface {
-        $resource_id = $this->irss_wrapper->createEmptyContainer($info, $stakeholder);
+        $resource_id_serialized = $this->irss_wrapper->createEmptyContainer($info, $stakeholder);
         $key = $this->key_factory->handler()
             ->withObjectId($object_id)
-            ->withResourceIdSerialized($resource_id->serialize());
+            ->withResourceIdSerialized($resource_id_serialized);
         $values = $this->values_factory->handler()
             ->withOwnerId($stakeholder->getOwnerId())
-            ->withCreationDate($this->irss_wrapper->getCreationDate($resource_id));
+            ->withCreationDate($this->irss_wrapper->getCreationDate($resource_id_serialized));
         $element = $this->element_factory->handler()
             ->withKey($key)
             ->withValues($values);

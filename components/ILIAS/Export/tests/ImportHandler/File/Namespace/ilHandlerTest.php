@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 namespace Test\ImportHandler\File\Namespace;
 
-use PHPUnit\Framework\TestCase;
 use ILIAS\Export\ImportHandler\File\Namespace\ilHandler as ilFileNamespaceHandler;
+use PHPUnit\Framework\TestCase;
 
 class ilHandlerTest extends TestCase
 {

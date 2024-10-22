@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 namespace Test\ImportHandler\File\Path\Node;
 
-use PHPUnit\Framework\TestCase;
 use ILIAS\Export\ImportHandler\File\Path\Node\ilOpenRoundBracked as ilOpenRoundBrackedFilePathNode;
+use PHPUnit\Framework\TestCase;
 
 class ilOpenRoundBrackedTest extends TestCase
 {

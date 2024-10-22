@@ -20,11 +20,11 @@ declare(strict_types=1);
 
 namespace Test\ImportHandler\File\Validation\Set;
 
-use PHPUnit\Framework\TestCase;
-use ILIAS\Export\ImportHandler\File\Validation\Set\ilHandler as ilFileValidationSetHandler;
 use ILIAS\Export\ImportHandler\File\Path\ilHandler as ilFilePathHandler;
+use ILIAS\Export\ImportHandler\File\Validation\Set\ilHandler as ilFileValidationSetHandler;
 use ILIAS\Export\ImportHandler\File\XML\ilHandler as ilXMLFileHandler;
 use ILIAS\Export\ImportHandler\File\XSD\ilHandler as ilXSDFileHandler;
+use PHPUnit\Framework\TestCase;
 
 class ilHandlerTest extends TestCase
 {
