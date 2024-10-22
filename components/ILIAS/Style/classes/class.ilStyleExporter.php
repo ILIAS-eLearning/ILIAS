@@ -42,12 +42,18 @@ class ilStyleExporter extends ilXmlExporter
     public function getValidSchemaVersions(string $a_entity): array
     {
         return array(
+            "10.0" => array(
+                "namespace" => "http://www.ilias.de/Services/Style/10_0",
+                "xsd_file" => "ilias_style_10.xsd",
+                "uses_dataset" => true,
+                "min" => "10.0",
+                "max" => ""),
             "5.1.0" => array(
                 "namespace" => "http://www.ilias.de/Services/Style/5_1",
                 "xsd_file" => "ilias_style_5_1.xsd",
                 "uses_dataset" => true,
                 "min" => "5.1.0",
-                "max" => "")
+                "max" => "9.99")
         );
     }
 }

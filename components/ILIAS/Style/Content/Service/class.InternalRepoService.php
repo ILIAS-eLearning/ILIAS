@@ -23,6 +23,7 @@ namespace ILIAS\Style\Content;
 use ILIAS\Filesystem;
 use ILIAS\FileUpload\FileUpload;
 use ilDBInterface;
+use ILIAS\Style\Content\Style\StyleRepo;
 
 /**
  * Content style internal repo service
@@ -102,4 +103,17 @@ class InternalRepoService
             $this->db
         );
     }
+
+    /**
+     * Objects without ref id (e.g. portfolios) can use
+     * the manager with a ref_id of 0, e.g. to get selectable styles
+     */
+    public function style(): StyleRepo
+    {
+        return new StyleRepo(
+            $this->db,
+            $this->data_factory
+        );
+    }
+
 }

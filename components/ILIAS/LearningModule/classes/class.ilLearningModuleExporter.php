@@ -122,14 +122,12 @@ class ilLearningModuleExporter extends ilXmlExporter
 
             // style
             foreach ($a_ids as $id) {
-                $style_id = $this->content_style_domain->styleForObjId($id)->getStyleId();
-                if ($style_id > 0) {
-                    $deps[] = array(
-                        "component" => "components/ILIAS/Style",
-                        "entity" => "sty",
-                        "ids" => $style_id
-                    );
-                }
+                $style_id = $this->content_style_domain->styleForObjId($id)->getExportStyleId();
+                $deps[] = array(
+                    "component" => "components/ILIAS/Style",
+                    "entity" => "sty",
+                    "ids" => $style_id
+                );
             }
         }
 

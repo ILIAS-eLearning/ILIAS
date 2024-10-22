@@ -109,7 +109,7 @@ class ilStyleImageTableGUI extends ilTable2GUI
         $image = $a_set["obj"];
 
         $image_file = $this->image_manager->getWebPath($image);
-        if (is_file($image_file)) {
+        if (is_file($image_file) || str_starts_with($image_file, "http")) {
             $this->tpl->setCurrentBlock("thumbnail");
             $this->tpl->setVariable("IMG_ALT", $image->getFilename());
             $this->tpl->setVariable("IMG_SRC", $image_file);
