@@ -43,7 +43,9 @@ class Factory implements ilExportHandlerInfoFactoryInterface
 
     public function export(): ilExportHandlerExportInfoFactoryInterface
     {
-        return new ilExportHandlerExportInfoFactory($this->export_handler);
+        return new ilExportHandlerExportInfoFactory(
+            $this->export_handler
+        );
     }
 
     public function file(): ilExportHandlerFileInfoFactoryInterface

@@ -22,38 +22,41 @@ namespace ILIAS\Export\Test\ExportHandler\Repository\Values;
 
 use DateTimeImmutable;
 use Exception;
-use ILIAS\Data\ObjectId;
-use PHPUnit\Framework\TestCase;
 use ILIAS\Export\ExportHandler\Repository\Values\Handler as ilExportHandlerRepositoryValues;
+use PHPUnit\Framework\TestCase;
 
 class HandlerTest extends TestCase
 {
     public function testExportHandlerRepositoryValues()
     {
         $owner_id = 10;
-        $datetime = new DateTimeImmutable();
-        $values = new ilExportHandlerRepositoryValues();
-        $values_with_owner_id = $values
-            ->withOwnerId($owner_id);
-        $values_with_datetime = $values
-            ->withCreationDate($datetime);
-        $values_complete = $values
-            ->withOwnerId($owner_id)
-            ->withCreationDate($datetime);
-        self::assertFalse($values->isValid());
-        self::assertFalse($values_with_owner_id->isValid());
-        self::assertFalse($values_with_datetime->isValid());
-        self::assertTrue($values_complete->isValid());
-        self::assertEquals($owner_id, $values_with_owner_id->getOwnerId());
-        self::assertEquals($owner_id, $values_complete->getOwnerId());
-        self::assertEquals($datetime, $values_with_datetime->getCreationDate());
-        self::assertEquals($datetime, $values_complete->getCreationDate());
-        self::assertTrue($values->equals($values));
-        self::assertTrue($values_with_owner_id->equals($values_with_owner_id));
-        self::assertTrue($values_with_datetime->equals($values_with_datetime));
-        self::assertTrue($values_complete->equals($values_complete));
-        self::assertFalse($values->equals($values_with_owner_id));
-        self::assertFalse($values->equals($values_complete));
-        self::assertFalse($values->equals($values_with_datetime));
+        try {
+            $datetime = new DateTimeImmutable();
+            $values = new ilExportHandlerRepositoryValues();
+            $values_with_owner_id = $values
+                ->withOwnerId($owner_id);
+            $values_with_datetime = $values
+                ->withCreationDate($datetime);
+            $values_complete = $values
+                ->withOwnerId($owner_id)
+                ->withCreationDate($datetime);
+            self::assertFalse($values->isValid());
+            self::assertFalse($values_with_owner_id->isValid());
+            self::assertFalse($values_with_datetime->isValid());
+            self::assertTrue($values_complete->isValid());
+            self::assertEquals($owner_id, $values_with_owner_id->getOwnerId());
+            self::assertEquals($owner_id, $values_complete->getOwnerId());
+            self::assertEquals($datetime, $values_with_datetime->getCreationDate());
+            self::assertEquals($datetime, $values_complete->getCreationDate());
+            self::assertTrue($values->equals($values));
+            self::assertTrue($values_with_owner_id->equals($values_with_owner_id));
+            self::assertTrue($values_with_datetime->equals($values_with_datetime));
+            self::assertTrue($values_complete->equals($values_complete));
+            self::assertFalse($values->equals($values_with_owner_id));
+            self::assertFalse($values->equals($values_complete));
+            self::assertFalse($values->equals($values_with_datetime));
+        } catch (Exception $exception) {
+            self::fail($exception->getMessage());
+        }
     }
 }

@@ -28,6 +28,7 @@ use ILIAS\Export\ExportHandler\I\PublicAccess\FactoryInterface as ilExportHandle
 use ILIAS\Export\ExportHandler\I\Repository\FactoryInterface as ilExportHandlerRepositoryFactoryInterface;
 use ILIAS\Export\ExportHandler\I\Table\FactoryInterface as ilExportHandlerTableFactoryInterface;
 use ILIAS\Export\ExportHandler\I\Target\FactoryInterface as ilExportHandlerTargetFactoryInterface;
+use ILIAS\Export\ExportHandler\I\Wrapper\FactoryInterface as ilExportHandlerWrapperFactoryInterface;
 
 interface FactoryInterface
 {
@@ -46,4 +47,6 @@ interface FactoryInterface
     public function consumer(): ilExportHandlderConsumerFactoryInterface;
 
     public function table(): ilExportHandlerTableFactoryInterface;
+
+    public function wrapper(): ilExportHandlerWrapperFactoryInterface;
 }

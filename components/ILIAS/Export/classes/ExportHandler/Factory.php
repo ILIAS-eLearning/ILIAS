@@ -23,6 +23,7 @@ namespace ILIAS\Export\ExportHandler;
 use ilAccessHandler;
 use ilCtrlInterface;
 use ilDBInterface;
+use ILIAS\Data\Factory as ilDataFactory;
 use ILIAS\DI\UIServices as ilUIServices;
 use ILIAS\Export\ExportHandler\Consumer\Factory as ilExportHandlderConsumerFactory;
 use ILIAS\Export\ExportHandler\I\Consumer\FactoryInterface as ilExportHandlderConsumerFactoryInterface;
@@ -34,6 +35,7 @@ use ILIAS\Export\ExportHandler\I\PublicAccess\FactoryInterface as ilExportHandle
 use ILIAS\Export\ExportHandler\I\Repository\FactoryInterface as ilExportHandlerRepositoryFactoryInterface;
 use ILIAS\Export\ExportHandler\I\Table\FactoryInterface as ilExportHandlerTableFactoryInterface;
 use ILIAS\Export\ExportHandler\I\Target\FactoryInterface as ilExportHandlerTargetFactoryInterface;
+use ILIAS\Export\ExportHandler\I\Wrapper\FactoryInterface as ilExportHandlerWrapperFactoryInterface;
 use ILIAS\Export\ExportHandler\Info\Factory as ilExportHandlerInfoFactory;
 use ILIAS\Export\ExportHandler\Manager\Factory as ilExportHandlerManagerFactory;
 use ILIAS\Export\ExportHandler\Part\Factory as ilExportHandlerPartFactory;
@@ -41,6 +43,7 @@ use ILIAS\Export\ExportHandler\PublicAccess\Factory as ilExportHandlerPublicAcce
 use ILIAS\Export\ExportHandler\Repository\Factory as ilExportHandlerRepositoryFactory;
 use ILIAS\Export\ExportHandler\Table\Factory as ilExportHandlerTableFactory;
 use ILIAS\Export\ExportHandler\Target\Factory as ilExportHandlerTargetFactory;
+use ILIAS\Export\ExportHandler\Wrapper\Factory as ilExportHandlerWrapperFactory;
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\HTTP\Services as ilHTTPServices;
 use ILIAS\Refinery\Factory as ilRefineryFactory;
@@ -66,6 +69,7 @@ class Factory implements ilExportHandlerFactoryInterface
     protected ilTree $tree;
     protected ilObjectDefinition $obj_definition;
     protected ilAccessHandler $access;
+    protected ilDataFactory $data_factory;
 
     public function __construct()
     {
@@ -83,6 +87,7 @@ class Factory implements ilExportHandlerFactoryInterface
         $this->obj_definition = $DIC['objDefinition'];
         $this->tree = $DIC->repositoryTree();
         $this->access = $DIC->access();
+        $this->data_factory = new ilDataFactory();
     }
 
     public function part(): ilExportHandlerPartFactoryInterface
@@ -130,7 +135,8 @@ class Factory implements ilExportHandlerFactoryInterface
             $this,
             $this->obj_definition,
             $this->tree,
-            $this->access
+            $this->access,
+            $this->wrapper()->dataFactory()->handler()
         );
     }
 
@@ -150,7 +156,15 @@ class Factory implements ilExportHandlerFactoryInterface
             $this->refinery,
             $this->user,
             $this->lng,
-            $this->ctrl
+            $this->ctrl,
+            $this->data_factory
+        );
+    }
+
+    public function wrapper(): ilExportHandlerWrapperFactoryInterface
+    {
+        return new ilExportHandlerWrapperFactory(
+            $this->data_factory
         );
     }
 }

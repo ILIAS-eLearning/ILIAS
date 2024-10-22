@@ -38,4 +38,8 @@ interface HandlerInterface
     public function getValues(): ilExportHandlerPublicAccessRepositoryValuesInterface;
 
     public function isStorable(): bool;
+
+    public function equals(
+        HandlerInterface $other
+    ): bool;
 }

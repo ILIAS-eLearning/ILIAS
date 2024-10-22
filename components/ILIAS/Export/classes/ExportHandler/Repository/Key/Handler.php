@@ -22,15 +22,19 @@ namespace ILIAS\Export\ExportHandler\Repository\Key;
 
 use ILIAS\Data\ObjectId;
 use ILIAS\Export\ExportHandler\I\Repository\Key\HandlerInterface as ilExportHandlerRepositoryKeyInterface;
+use ILIAS\Export\ExportHandler\I\Wrapper\DataFactory\HandlerInterface as ilExportHandlerDataFactoryWrapperInterface;
 
 class Handler implements ilExportHandlerRepositoryKeyInterface
 {
+    protected ilExportHandlerDataFactoryWrapperInterface $data_factory_wrapper;
     protected ObjectId $object_id;
     protected string $resource_identification_serialized;
 
-    public function __construct()
-    {
-        $this->object_id = new ObjectId(self::EMPTY_OBJECT_ID);
+    public function __construct(
+        ilExportHandlerDataFactoryWrapperInterface $data_factory_wrapper
+    ) {
+        $this->data_factory_wrapper = $data_factory_wrapper;
+        $this->object_id = $this->data_factory_wrapper->objId(self::EMPTY_OBJECT_ID);
         $this->resource_identification_serialized = self::EMPTY_RESOURCE_IDENTIFICATION;
     }
 

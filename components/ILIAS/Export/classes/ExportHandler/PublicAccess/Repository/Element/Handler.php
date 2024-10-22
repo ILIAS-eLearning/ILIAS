@@ -62,4 +62,32 @@ class Handler implements ilExportHandlerPublicAccessRepositoryElementInterface
             ($this->getValues()->isValid() ?? false)
         );
     }
+
+    public function equals(
+        ilExportHandlerPublicAccessRepositoryElementInterface $other
+    ): bool {
+        $key_equals =
+            (
+                (
+                    !isset($this->key) and
+                    !isset($other->key)
+                ) or (
+                    isset($this->key) and
+                    isset($other->key) and
+                    $this->key->equals($other->key)
+                )
+            );
+        $values_equals =
+            (
+                (
+                    !isset($this->values) and
+                    !isset($other->values)
+                ) or (
+                    isset($this->values) and
+                    isset($other->values) and
+                    $this->values->equals($other->values)
+                )
+            );
+        return $key_equals and $values_equals;
+    }
 }

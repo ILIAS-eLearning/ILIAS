@@ -20,10 +20,10 @@ declare(strict_types=1);
 
 namespace Test\ImportHandler\File\XML\Node\Info\Attribute;
 
-use ilLogger;
 use ILIAS\Export\ImportHandler\File\XML\Node\Info\Attribute\ilCollection as ilXMLFileNodeInfoAttributeCollection;
 use ILIAS\Export\ImportHandler\File\XML\Node\Info\Attribute\ilPair as ilXMLFileNodeInfoAttributePair;
 use ILIAS\Export\ImportHandler\File\XML\Node\Info\DOM\ilHandler as ilXMLFileNodeInfoDOMNodeHandler;
+use ilLogger;
 use PHPUnit\Framework\TestCase;
 
 class ilCollectionTest extends TestCase

@@ -65,8 +65,11 @@ class CollectionBuilder implements ilExportHandlerConsumerFileCollectionBuilderI
         return $clone;
     }
 
-    public function withResourceIdentifier(ResourceIdentification $resource_id, ObjectId $object_id, ilExportHandlerConsumerExportOptionInterface $export_option): ilExportHandlerConsumerFileCollectionBuilderInterface
-    {
+    public function withResourceIdentifier(
+        ResourceIdentification $resource_id,
+        ObjectId $object_id,
+        ilExportHandlerConsumerExportOptionInterface $export_option
+    ): ilExportHandlerConsumerFileCollectionBuilderInterface {
         $file_info = $this->file_info_factory->handler()
             ->withResourceId($resource_id)
             ->withType($export_option->getExportType())

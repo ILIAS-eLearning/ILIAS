@@ -23,7 +23,6 @@ namespace ILIAS\Export\ExportHandler\Table;
 use ilCalendarSettings;
 use ilCtrl;
 use ILIAS\Data\Factory as ilDataFactory;
-use ILIAS\Data\ObjectId;
 use ILIAS\DI\UIServices as ilUIServices;
 use ILIAS\Export\ExportHandler\Factory as ilExportHandler;
 use ILIAS\Export\ExportHandler\I\Consumer\Context\HandlerInterface as ilExportHandlerConsumerContextInterface;
@@ -77,7 +76,8 @@ class Handler implements ilExportHandlerTableInterface
         ilObjUser $user,
         ilLanguage $lng,
         ilCtrl $ctrl,
-        ilExportHandler $export_handler
+        ilExportHandler $export_handler,
+        ilDataFactory $data_factory
     ) {
         $this->http_services = $http_services;
         $this->ui_services = $ui_services;
@@ -87,7 +87,7 @@ class Handler implements ilExportHandlerTableInterface
         $this->user = $user;
         $this->ctrl = $ctrl;
         $this->export_handler = $export_handler;
-        $this->data_factory = new ilDataFactory();
+        $this->data_factory = $data_factory;
     }
 
     protected function getColumns(): array
@@ -189,7 +189,7 @@ class Handler implements ilExportHandlerTableInterface
      */
     protected function deleteItems(array $ids_sorted): void
     {
-        $object_id = new ObjectId($this->context->exportObject()->getId());
+        $object_id = $this->data_factory->objId($this->context->exportObject()->getId());
         foreach ($ids_sorted as $export_option_id => $file_identifiers) {
             $export_option = $this->export_options->getById($export_option_id);
             if (
@@ -215,7 +215,7 @@ class Handler implements ilExportHandlerTableInterface
         $pa_repository_element_factory = $this->export_handler->publicAccess()->repository()->element();
         $pa_repository_key_factory = $this->export_handler->publicAccess()->repository()->key();
         $pa_repository_values_factory = $this->export_handler->publicAccess()->repository()->values();
-        $obj_id = new ObjectId($this->context->exportObject()->getId());
+        $obj_id = $this->data_factory->objId($this->context->exportObject()->getId());
         foreach ($ids_sorted as $export_option_id => $file_identifiers) {
             $export_option = $this->export_options->getById($export_option_id);
             $type_allowed = $export_option->isPublicAccessPossible();
