@@ -377,4 +377,19 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
             $this->db->dropTableColumn('tst_result_cache', 'obligations_answered');
         }
     }
+
+    public function step_8(): void
+    {
+        if (!$this->db->tableColumnExists('tst_pass_result', 'finalized_by')) {
+            $this->db->addTableColumn(
+                'tst_pass_result',
+                'finalized_by',
+                [
+                    'type' => \ilDBConstants::T_TEXT,
+                    'length' => 256,
+                    'notnull' => false
+                ]
+            );
+        }
+    }
 }

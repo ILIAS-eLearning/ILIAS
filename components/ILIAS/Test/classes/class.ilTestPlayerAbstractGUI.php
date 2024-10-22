@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Test\Access\ParticipantAccess;
 use ILIAS\Test\Logging\TestParticipantInteractionTypes;
 use ILIAS\Test\Presentation\TestScreenGUI;
+use ILIAS\Test\Results\StatusOfAttempt;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\TestQuestionPool\Questions\QuestionPartiallySaveable;
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
@@ -814,18 +815,20 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
      */
     public function redirectAfterAutosaveCmd(): void
     {
+        $this->performTestPassFinishedTasks(StatusOfAttempt::FINISHED_BY_DURATION);
+
         $this->redirectAfterFinish();
     }
 
     public function redirectAfterDashboardCmd(): void
     {
+        $this->performTestPassFinishedTasks(StatusOfAttempt::FINISHED_BY_PARTICIPANT);
+
         $this->redirectAfterFinish();
     }
 
     protected function redirectAfterFinish(): void
     {
-        $this->performTestPassFinishedTasks();
-
         $url = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::AFTER_TEST_PASS_FINISHED, '', false, false);
 
         $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_redirect_autosave.html", "components/ILIAS/Test");
@@ -973,7 +976,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $this->test_session->getPass()
         );
 
-        $this->performTestPassFinishedTasks();
+        $this->performTestPassFinishedTasks(StatusOfAttempt::FINISHED_BY_PARTICIPANT);
 
         if ($this->logger->isLoggingEnabled()
             && !$this->getObject()->getAnonymity()
@@ -991,13 +994,14 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->ctrl->redirect($this, ilTestPlayerCommands::AFTER_TEST_PASS_FINISHED);
     }
 
-    protected function performTestPassFinishedTasks(): void
+    protected function performTestPassFinishedTasks(StatusOfAttempt $status_of_attempt): void
     {
         $finishTasks = new ilTestPassFinishTasks(
             $this->test_session,
-            $this->object->getId()
+            $this->object->getId(),
+            $this->test_pass_result_repository
         );
-        $finishTasks->performFinishTasks($this->process_locker);
+        $finishTasks->performFinishTasks($this->process_locker, $status_of_attempt);
     }
 
     protected function sendNewPassFinishedNotificationEmailIfActivated(int $active_id, int $pass)
@@ -1732,6 +1736,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->test_session->increasePass();
         $this->test_session->setLastSequence(0);
         $this->test_session->saveToDb();
+
+        $this->test_pass_result_repository->finalizeTestPassResult(
+            $this->test_session->getActiveId(),
+            $this->test_session->getPass(),
+            StatusOfAttempt::FINISHED_BY_DURATION
+        );
 
         $this->redirectBackCmd();
     }

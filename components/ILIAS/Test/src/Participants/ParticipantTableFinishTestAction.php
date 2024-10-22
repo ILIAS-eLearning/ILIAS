@@ -23,6 +23,8 @@ namespace ILIAS\Test\Participants;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Language\Language;
+use ILIAS\Test\Results\StatusOfAttempt;
+use ILIAS\Test\Results\TestPassResultRepository;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\UI\Component\Table\Action\Action;
@@ -41,7 +43,8 @@ class ParticipantTableFinishTestAction implements TableAction
         private readonly \ilDBInterface $db,
         private readonly \ilTestProcessLockerFactory $process_locker_factory,
         private readonly \ilObjUser $user,
-        private readonly \ilObjTest $test_obj
+        private readonly \ilObjTest $test_obj,
+        private readonly TestPassResultRepository $test_pass_result_repository
     ) {
     }
 
@@ -118,9 +121,10 @@ class ParticipantTableFinishTestAction implements TableAction
 
             $test_pass_finisher = new \ilTestPassFinishTasks(
                 $test_session_factory->getSession($participant->getActiveId()),
-                $this->test_obj->getTestId()
+                $this->test_obj->getTestId(),
+                $this->test_pass_result_repository
             );
-            $test_pass_finisher->performFinishTasks($process_locker);
+            $test_pass_finisher->performFinishTasks($process_locker, StatusOfAttempt::FINISHED_BY_ADMINISTRATOR);
         }
 
         $logger = $this->test_obj->getTestLogger();
