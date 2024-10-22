@@ -38,7 +38,7 @@ class ParticipantRepository
      *
      * @return int
      */
-    public function countParticipants(int $test_id, array $filter): int
+    public function countParticipants(int $test_id, ?array $filter): int
     {
         $query = "
             SELECT COUNT(participants.user_fi) as number_of_participants
@@ -64,7 +64,7 @@ class ParticipantRepository
     /**
      * @param array<string, mixed> $filter
      */
-    public function getParticipants(int $test_id, array $filter, ?Range $range, Order $order): \Generator
+    public function getParticipants(int $test_id, ?array $filter, ?Range $range, Order $order): \Generator
     {
         $query = $this->getBaseQuery();
         [$where, $types, $values] = $this->applyFilter(
@@ -228,8 +228,12 @@ class ParticipantRepository
      *
      * @return array
      */
-    private function applyFilter(array $filter, array $where, array $types, array $values): array
+    private function applyFilter(?array $filter, array $where, array $types, array $values): array
     {
+        if ($filter === null) {
+            return [$where, $types, $values];
+        }
+
         if ($this->isFilterSet($filter, 'name')) {
             $where[] = '(firstname LIKE %s OR lastname LIKE %s)';
             $types = array_merge($types, ['string', 'string']);
