@@ -252,6 +252,7 @@ class ContentAssembler
         $signal_with_oer_warning = $modal_with_oer_warning->getShowSignal();
 
         yield ContentType::MODAL => $modal;
+        yield ContentType::MODAL => $modal_with_oer_warning;
         yield ContentType::JS_SOURCE => 'assets/js/ilMetaCopyrightListener.js';
         yield ContentType::FORM => $this->getCopyrightSection(
             $set,
@@ -268,7 +269,7 @@ class ContentAssembler
         }
         $modal = $this->ui_factory->modal()->interruptive(
             $this->presenter->utilities()->txt("meta_copyright_change_warning_title"),
-            $this->presenter->utilities()->txt("meta_copyright_change_info"),
+            $message,
             (string) $this->link_factory->custom(Command::UPDATE_DIGEST)->get()
         );
 

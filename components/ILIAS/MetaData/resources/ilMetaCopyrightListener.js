@@ -32,50 +32,50 @@ il.MetaDataCopyrightListener = {
     this.modalSignalId = modalSignalId;
     this.modalWithOERWarningSignalID = modalWithOERWarningSignalID;
     this.potentialOERValues = JSON.parse(potentialOERValues);
-
     this.radioGroupId = radioGroupId;
+
     this.form = document.querySelector(`#${this.radioGroupId}`).form;
-    this.formButton = $(':submit', this.form);
-    this.initialValue = this.form.querySelector(`#${this.radioGroupId} input:checked`).value;
+    this.formButton = this.form.querySelectorAll('button[type="submit"], button:not([type])');
+    this.initialValue = this.form.querySelector(`#${this.radioGroupId} input[type=radio]:checked`).value;
 
     $(this.form).on(
       'submit',
       (event) => {
-        const currentRadioInput = $(`input[id^='${il.MetaDataCopyrightListener.radioGroupId}']:checked`);
-        const currentValue = currentRadioInput.val();
-        const harvestingBlockedCheckbox = currentRadioInput.parent().find('input:checkbox');
+        const currentRadioInput = document.querySelector(`#${this.radioGroupId} input[type=radio]:checked`);
+        const currentValue = currentRadioInput.value;
+        const harvestingBlockedCheckbox = currentRadioInput.closest('fieldset').querySelector('input[type=checkbox]');
 
         let signal = this.modalSignalId;
         if (
           this.potentialOERValues.includes(currentValue)
-          && !harvestingBlockedCheckbox.checked
+          && (harvestingBlockedCheckbox == null || !harvestingBlockedCheckbox.checked)
         ) {
           signal = this.modalWithOERWarningSignalID;
         }
 
         if (
-          currentValue !== il.MetaDataCopyrightListener.initialValue
-          && !il.MetaDataCopyrightListener.confirmed
+          currentValue !== this.initialValue
+          && !this.confirmed
         ) {
           event.preventDefault();
-          il.MetaDataCopyrightListener.triggerModal(signal, event);
+          this.triggerModal(signal, event);
         }
       },
     );
   },
 
   triggerModal(signal, event) {
-    const buttonName = il.MetaDataCopyrightListener.formButton[0].textContent;
+    const buttonName = this.formButton[0].textContent;
     $('.modal-dialog').find('form').find('input').prop('value', buttonName);
     $('.modal-dialog').find('form').on(
       'submit',
-      () => {
-        $(il.MetaDataCopyrightListener.form).off();
-        $(il.MetaDataCopyrightListener.formButton).off();
-        il.MetaDataCopyrightListener.confirmed = true;
-        $(il.MetaDataCopyrightListener.formButton).click();
+      (event) => {
+        $(this.form).off();
+        $(this.formButton).off();
+        this.confirmed = true;
+        $(this.formButton).click();
         return false;
-      },
+      }
     );
 
     // Show modal
