@@ -26,13 +26,11 @@ use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
- * Class TopLegacyItem
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
 class TopLegacyItem extends AbstractBaseItem implements isItem, hasSymbol, hasTitle, hasContentLanguage
 {
     use ContentLanguage;
-    use \ILIAS\GlobalScreen\Scope\SymbolDecoratorTrait;
 
     protected ?Symbol $symbol = null;
     protected string $title = "";

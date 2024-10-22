@@ -84,6 +84,8 @@ class ilConditionHandler
     public const OPERATOR_LP = 'learning_progress';
     public const OPERATOR_ACCREDITED_OR_PASSED = 'accredited_or_passed';
 
+    public const OPERATOR_RESULT_RANGE_PERCENTAGE = 'result_range_percentage';
+
     public const UNIQUE_CONDITIONS = 1;
 
     // conditions are used for all tree references of the target object.
@@ -999,6 +1001,7 @@ class ilConditionHandler
             'SET num_obligatory = ' . $ilDB->quote($a_num, 'integer') . ' ' .
             'WHERE target_ref_id = ' . $ilDB->quote($a_target_ref_id, 'integer') . ' ' .
             'AND target_obj_id = ' . $ilDB->quote($a_target_obj_id, 'integer');
+
         $ilDB->manipulate($query);
     }
 
@@ -1062,18 +1065,6 @@ class ilConditionHandler
         $target_obj = ilObjectFactory::getInstanceByRefId($this->getTargetRefId());
 
         if ($trigger_obj !== null && $target_obj !== null) {
-            $query = "SELECT * FROM conditions WHERE " .
-                "trigger_ref_id = " . $this->db->quote($trigger_obj->getRefId(), 'integer') . " " .
-                "AND target_ref_id = " . $this->db->quote($target_obj->getRefId(), 'integer');
-
-            $res = $this->db->query($query);
-
-            if ($res->numRows() > 1) {
-                $this->setErrorMessage($this->lng->txt('condition_already_assigned'));
-
-                unset($trigger_obj, $target_obj);
-                return false;
-            }
             // check for circle
             $this->target_obj_id = $target_obj->getId();
 

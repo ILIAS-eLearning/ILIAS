@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer;
 
 use ILIAS\Data\URI;
-use ILIAS\GlobalScreen\Collector\Renderer\ComponentDecoratorApplierTrait;
+use ILIAS\GlobalScreen\Collector\Renderer\DecoratorApplierTrait;
 use ILIAS\GlobalScreen\Collector\Renderer\isSupportedTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
@@ -32,6 +32,8 @@ use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use Throwable;
+use ILIAS\GlobalScreen\Scope\isDecorateable;
+use ILIAS\UI\Component\HasHelpTopics;
 
 /**
  * Class BaseTypeRenderer
@@ -45,7 +47,7 @@ class BaseTypeRenderer implements TypeRenderer
     }
     use isSupportedTrait;
 
-    use ComponentDecoratorApplierTrait;
+    use DecoratorApplierTrait;
 
     protected \ilLanguage $lng;
     protected Factory $ui_factory;
@@ -63,30 +65,26 @@ class BaseTypeRenderer implements TypeRenderer
         $this->lng = $DIC->language();
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getComponentForItem(isItem $item, bool $with_content = true): Component
     {
-        return $this->applyDecorator(
+        $component = $this->applyComponentDecorator(
             $with_content
                 ? $this->getComponentWithContent($item)
                 : $this->getComponentWithoutContent($item),
             $item
         );
+        if ($component instanceof HasHelpTopics) {
+            return $this->applyTopics($component, $item);
+        }
+
+        return $component;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getComponentWithContent(isItem $item): Component
     {
         return $this->ui_factory->legacy($item->getProviderIdentification()->serialize());
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getComponentWithoutContent(isItem $item): Component
     {
         if (!$this->supportsAsyncContent($item)) {
@@ -101,9 +99,8 @@ class BaseTypeRenderer implements TypeRenderer
             $content
         );
         $slate = $this->addAsyncLoadingCode($slate, $item);
-        $slate = $this->addOnloadCode($slate, $item);
 
-        return $slate;
+        return $this->addOnloadCode($slate, $item);
     }
 
     private function supportsAsyncContent(isItem $item): bool
@@ -154,7 +151,7 @@ class BaseTypeRenderer implements TypeRenderer
     {
         $uri_string = trim($uri_string, " ");
 
-        if (strpos($uri_string, 'http') === 0) {
+        if (str_starts_with($uri_string, 'http')) {
             $checker = self::getURIChecker();
             if ($checker($uri_string)) {
                 return new URI($uri_string);
@@ -171,7 +168,7 @@ class BaseTypeRenderer implements TypeRenderer
             $v = self::getURIConverter()($v);
             try {
                 new URI($v);
-            } catch (Throwable $e) {
+            } catch (Throwable) {
                 return false;
             }
             return true;
@@ -181,7 +178,7 @@ class BaseTypeRenderer implements TypeRenderer
     public static function getURIConverter(): callable
     {
         return static function (string $v): string {
-            if (strpos($v, './') === 0) {
+            if (str_starts_with($v, './')) {
                 $v = ltrim($v, './');
                 return ILIAS_HTTP_PATH . '/' . $v;
             }

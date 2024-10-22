@@ -13938,6 +13938,7 @@ rbac#:#coms_visible#:#Administration für Kommentare ist sichtbar.
 rbac#:#coms_write#:#Einstellungen in Administration für Kommentare ändern
 rbac#:#condition_failed#:#Nicht bestanden
 rbac#:#condition_learning_progress#:#Lernfortschritt-Status: Bearbeitet
+rbac#:#condition_result_range_percentage#:#Ergebnisbereich
 rbac#:#contribute#:#Beiträge erstellen
 rbac#:#copa_copy#:#Inhaltsseite kopieren
 rbac#:#copa_delete#:#Inhaltsseite löschen
@@ -14302,6 +14303,9 @@ rbac#:#precondition_obligatory#:#Verpflichtend
 rbac#:#precondition_obligatory_alt#:#Die Vorbedingung muss erfüllt werden
 rbac#:#precondition_obligatory_info#:#Verpflichtende Vorbedingungen müssen erfüllt werden, um Zugriff zu erhalten.
 rbac#:#precondition_obligatory_settings#:#Einstellungen für Vorbedingungen
+rbac#:#precondition_operator_range_err_min_max#:#Der Minimalwert muss kleiner als der Maximalwert sein.
+rbac#:#precondition_operator_range_max#:#Maximale Prozentzahl
+rbac#:#precondition_operator_range_min#:#Minimale Prozentzahl
 rbac#:#prfa_edit_permission#:#Rechteeinstellungen in Portfolio-Administration ändern
 rbac#:#prfa_read#:#Lesezugriff auf Portfolio-Administration
 rbac#:#prfa_visible#:#Portfolio-Administration ist sichtbar

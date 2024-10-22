@@ -26,20 +26,19 @@ use ILIAS\GlobalScreen\Scope\ComponentDecoratorTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
 use ILIAS\UI\Component\Legacy\Legacy;
 use Closure;
+use ILIAS\GlobalScreen\Scope\isDecorateable;
 
 /**
  * Class AbstractBaseItem
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-abstract class AbstractBaseItem implements isItem
+abstract class AbstractBaseItem implements isItem, isDecorateable
 {
     use ComponentDecoratorTrait;
 
     protected int $position = 0;
 
     private ?bool $is_visible_static = null;
-
-    protected IdentificationInterface $provider_identification;
     protected ?Closure $available_callable = null;
     protected ?Closure $active_callable = null;
     protected ?Closure $visiblility_callable = null;
@@ -51,9 +50,8 @@ abstract class AbstractBaseItem implements isItem
      * AbstractBaseItem constructor.
      * @param IdentificationInterface $provider_identification
      */
-    public function __construct(IdentificationInterface $provider_identification)
+    public function __construct(protected IdentificationInterface $provider_identification)
     {
-        $this->provider_identification = $provider_identification;
     }
 
     /**
@@ -81,7 +79,7 @@ abstract class AbstractBaseItem implements isItem
      */
     public function isVisible(): bool
     {
-        if (isset($this->is_visible_static)) {
+        if ($this->is_visible_static !== null) {
             return $this->is_visible_static;
         }
         if (!$this->isAvailable()) {
@@ -114,7 +112,7 @@ abstract class AbstractBaseItem implements isItem
      */
     public function isAvailable(): bool
     {
-        if ($this->isAlwaysAvailable() === true) {
+        if ($this->isAlwaysAvailable()) {
             return true;
         }
         if (is_callable($this->available_callable)) {
@@ -209,7 +207,8 @@ abstract class AbstractBaseItem implements isItem
             $changed = $this->hasChanged();
             if ($this instanceof isChild) {
                 return $changed;
-            } elseif ($this instanceof isTopItem) {
+            }
+            if ($this instanceof isTopItem) {
                 return !$changed;
             }
         }

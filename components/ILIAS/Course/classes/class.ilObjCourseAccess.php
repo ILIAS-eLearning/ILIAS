@@ -50,7 +50,8 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
     public static function getConditionOperators(): array
     {
         return array(
-            ilConditionHandler::OPERATOR_PASSED
+            ilConditionHandler::OPERATOR_PASSED,
+            ilConditionHandler::OPERATOR_RESULT_RANGE_PERCENTAGE
         );
     }
 
@@ -66,8 +67,34 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         switch ($a_operator) {
             case ilConditionHandler::OPERATOR_PASSED:
                 return ilCourseParticipants::_hasPassed($a_trigger_obj_id, $a_usr_id);
+
+            case ilConditionHandler::OPERATOR_RESULT_RANGE_PERCENTAGE:
+                $self = new self();
+                return $self->isObjectiveResultRangeAchieved($a_usr_id, $a_trigger_obj_id, $a_value);
         }
         return false;
+    }
+
+    protected function isObjectiveResultRangeAchieved(int $user_id, int $trigger_obj_id, string $a_value): bool
+    {
+        $value_arr = unserialize($a_value);
+        if ($value_arr === false) {
+            return false;
+        }
+        $min_percentage = $value_arr['min_percentage'] ?? 0;
+        $max_percentage = $value_arr['max_percentage'] ?? 0;
+        $objective = $value_arr['objective'] ?? 0;
+
+        $user_result = ilLOUserResults::lookupResult(
+            $trigger_obj_id,
+            $user_id,
+            $objective,
+            ilLOSettings::TYPE_TEST_QUALIFIED
+        );
+        $result_percentage = $user_result['result_perc'] ?? 0;
+        return
+            ($result_percentage >= $min_percentage) &&
+            ($result_percentage <= $max_percentage);
     }
 
     /**

@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector;
 
@@ -42,6 +43,8 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
 use Iterator;
 use Throwable;
 use Generator;
+use ILIAS\GlobalScreen\Scope\isDecorateable;
+use ILIAS\UI\Help\Topic;
 
 /**
  * Class MainMenuMainCollector
@@ -52,30 +55,19 @@ use Generator;
  */
 class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollector
 {
-    private TypeInformationCollection $type_information_collection;
-    private ?ItemInformation $information;
-    /**
-     * @var Provider[]
-     */
-    protected array $providers;
-    private Map $map;
+    private readonly TypeInformationCollection $type_information_collection;
+    private readonly Map $map;
 
-    /**
-     * MainMenuMainCollector constructor.
-     * @param array                $providers
-     * @param ItemInformation|null $information
-     * @throws Throwable
-     */
-    public function __construct(array $providers, MainMenuItemFactory $factory, ItemInformation $information = null)
+    private bool $default_topics = false;
+
+    public function __construct(protected array $providers, MainMenuItemFactory $factory, private readonly ?ItemInformation $information = null)
     {
-        $this->information = $information;
-        $this->providers = $providers;
         $this->type_information_collection = new TypeInformationCollection();
         $this->map = new Map($factory);
     }
 
     /**
-     * @return Iterator <\ILIAS\GlobalScreen\Provider\Provider[]>
+     * @return Iterator<Provider[]>
      */
     private function getProvidersFromList(): Iterator
     {
@@ -122,6 +114,15 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
 
     public function prepareItemsForUIRepresentation(): void
     {
+        if ($this->default_topics) {
+            $this->map->walk(function (isItem &$item): isItem {
+                if ($item instanceof isDecorateable) {
+                    $item = $item->withTopics(new Topic($item->getProviderIdentification()->getInternalIdentifier()));
+                }
+                return $item;
+            });
+        }
+
         $this->map->walk(function (isItem &$item): isItem {
             if (is_null($item->getTypeInformation())) {
                 $item->setTypeInformation(
@@ -146,7 +147,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
         });
 
         // Override parent from configuration
-        $this->map->walk(function (isItem $item) {
+        $this->map->walk(function (isItem $item): isItem {
             if ($item instanceof isChild || $item instanceof isInterchangeableItem) {
                 $parent = $this->map->getSingleItemFromFilter($this->information->getParent($item));
                 if ($parent instanceof isParent) {
@@ -174,19 +175,15 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
         });
 
         $this->map->walk(static function (isItem &$i): void {
-            if ($i instanceof isParent && count($i->getChildren()) === 0) {
-                $i = $i->withAvailableCallable(static function () {
-                    return false;
-                })->withVisibilityCallable(static function () {
-                    return false;
-                });
+            if ($i instanceof isParent && $i->getChildren() === []) {
+                $i = $i->withAvailableCallable(static fn(): bool => false)->withVisibilityCallable(static fn(): bool => false);
             }
         });
 
         // filter empty slates
         $this->map->filter(static function (isItem $i): bool {
             if ($i instanceof isParent) {
-                return count($i->getChildren()) > 0;
+                return $i->getChildren() !== [];
             }
 
             return true;
@@ -214,7 +211,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
     }
 
     /**
-     * @return Iterator <Generator&isItem[]>
+     * @return Generator|isItem[]
      */
     public function getRawItems(): Iterator
     {
@@ -294,7 +291,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
      */
     public function getTypeInformationForItem(isItem $item): TypeInformation
     {
-        return $this->getTypeInformationCollection()->get(get_class($item));
+        return $this->getTypeInformationCollection()->get($item::class);
     }
 
     /**

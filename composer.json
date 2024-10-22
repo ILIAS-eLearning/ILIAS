@@ -49,6 +49,7 @@
 		"ext-xml": "*",
 		"ext-zip": "*",
 		"ext-imagick": "*",
+		"firebase/php-jwt": "*",
 		"apereo/phpcas": "^1.6.1",
 		"league/commonmark": "^2.4",
 		"ramsey/uuid": "^4.4.0",
@@ -71,7 +72,8 @@
 		"simplesamlphp/simplesamlphp": "^2.2.0",
 		"phpunit/phpunit": "^10.5",
 		"monolog/monolog": "^2.9.3",
-		"phpoffice/phpspreadsheet": "^2.2"
+		"phpoffice/phpspreadsheet": "^2.2",
+		"celtic/lti": "^5.0.0"
 	},
 	"require-dev": {
 		"friendsofphp/php-cs-fixer": "^3.40",

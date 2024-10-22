@@ -27,23 +27,20 @@ This builds the bootstrap of ILIAS by reading all components and resolving the
 dependencies. If you want to use custom directives to resolve ambiguous dependencies,
 call this script with a parameter pointing a file defining the resolution.
 
+
 INFO;
 
-if (count($argv) !== 3) {
-    die("php cli/build_bootstrap.php \$dependency_resolution \$name");
+if (count($argv) < 3 || count($argv) % 2 != 1) {
+    die("php cli/build_bootstrap.php \$dependency_resolution \$name [\$another_dependency_resolution \$another_name ...]\n");
 }
 
-$resolution_file = $argv[1];
-$name = $argv[2];
-
-
-if (!file_exists($resolution_file)) {
-    die("Cannot find resolution file at {$resolution_file}.\n");
-}
+array_shift($argv);
 
 $reader = new ILIAS\Component\Dependencies\Reader();
-$resolver = new ILIAS\Component\Dependencies\Resolver();
-$renderer = new ILIAS\Component\Dependencies\Renderer();
+
+/******************************************************************************/
+/* Read information from the Components                                       */
+/******************************************************************************/
 
 $component_info = [];
 
@@ -78,15 +75,31 @@ foreach ($vendors as $vendor) {
     }
 }
 
-echo "Resolving Dependency using {$resolution_file}...\n";
-$disambiguation = require_once($resolution_file);
+/******************************************************************************/
+/* Resolve and write dependencies for all bootstraps                          */
+/******************************************************************************/
 
-$component_info = $resolver->resolveDependencies($disambiguation, ...$component_info);
+$resolver = new ILIAS\Component\Dependencies\Resolver();
+$renderer = new ILIAS\Component\Dependencies\Renderer();
 
-echo "Writing bootstrap to artifacts/bootstrap.php\n";
+while (count($argv) > 0) {
+    $resolution_file = array_shift($argv);
+    $name = array_shift($argv);
 
-$bootstrap = $renderer->render(...$component_info);
-if (!is_dir(__DIR__ . "/../artifacts")) {
-    mkdir(__DIR__ . "/../artifacts", 0755, true);
+    if (!file_exists($resolution_file)) {
+        die("Cannot find resolution file at {$resolution_file}.\n");
+    }
+
+    echo "Resolving Dependency using {$resolution_file}...\n";
+    $disambiguation = require_once($resolution_file);
+
+    $component_info = $resolver->resolveDependencies($disambiguation, ...$component_info);
+
+    echo "Writing bootstrap to artifacts/bootstrap_$name.php\n";
+
+    $bootstrap = $renderer->render(...$component_info);
+    if (!is_dir(__DIR__ . "/../artifacts")) {
+        mkdir(__DIR__ . "/../artifacts", 0755, true);
+    }
+    file_put_contents(__DIR__ . "/../artifacts/bootstrap_$name.php", $bootstrap);
 }
-file_put_contents(__DIR__ . "/../artifacts/bootstrap_$name.php", $bootstrap);

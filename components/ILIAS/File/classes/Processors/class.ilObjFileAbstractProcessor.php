@@ -28,24 +28,16 @@ use ILIAS\ResourceStorage\Services;
 abstract class ilObjFileAbstractProcessor implements ilObjFileProcessorInterface
 {
     protected ilFileServicesPolicy $policy;
-    protected ilFileServicesSettings $settings;
     protected ilCountPDFPages $page_counter;
-    protected Services $storage;
-    protected ResourceStakeholder $stakeholder;
-    protected ilObjFileGUI $gui_object;
     protected array $invalid_file_names = [];
 
     public function __construct(
-        ResourceStakeholder $stakeholder,
-        ilObjFileGUI $gui_object,
-        Services $storage,
-        ilFileServicesSettings $settings
+        protected ResourceStakeholder $stakeholder,
+        protected ilObjFileGUI $gui_object,
+        protected Services $storage,
+        protected ilFileServicesSettings $settings
     ) {
-        $this->storage = $storage;
-        $this->stakeholder = $stakeholder;
-        $this->gui_object = $gui_object;
         $this->page_counter = new ilCountPDFPages();
-        $this->settings = $settings;
         $this->policy = new ilFileServicesPolicy($this->settings);
     }
 
@@ -58,7 +50,7 @@ abstract class ilObjFileAbstractProcessor implements ilObjFileProcessorInterface
         int $parent_id,
         string $title = null,
         string $description = null,
-        int $copyright_id = null,
+        string $copyright_id = null,
         bool $create_reference = false
     ): ilObjFile {
         $revision = $this->storage->manage()->getCurrentRevision($rid);

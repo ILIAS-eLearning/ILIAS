@@ -30,21 +30,14 @@ use ILIAS\UI\Component\Tree\Tree;
 use LogicException;
 
 /**
- * Class TreeTool
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
 class TreeTool extends AbstractBaseTool implements isTopItem, hasSymbol, isToolItem
 {
-    use \ILIAS\GlobalScreen\Scope\SymbolDecoratorTrait;
-
     protected ?Symbol $symbol = null;
     protected Tree $tree;
     protected string $title;
 
-    /**
-     * @param string $title
-     * @return TreeTool
-     */
     public function withTitle(string $title): hasTitle
     {
         $clone = clone($this);
@@ -53,17 +46,11 @@ class TreeTool extends AbstractBaseTool implements isTopItem, hasSymbol, isToolI
         return $clone;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function withSymbol(Symbol $symbol): hasSymbol
     {
         // bugfix mantis 25526: make aria labels mandatory
@@ -78,9 +65,6 @@ class TreeTool extends AbstractBaseTool implements isTopItem, hasSymbol, isToolI
         return $clone;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function withTree(Tree $tree): self
     {
         $clone = clone($this);
@@ -89,25 +73,16 @@ class TreeTool extends AbstractBaseTool implements isTopItem, hasSymbol, isToolI
         return $clone;
     }
 
-    /**
-     * @return Tree
-     */
     public function getTree(): Tree
     {
         return $this->tree;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getSymbol(): Symbol
     {
         return $this->symbol;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function hasSymbol(): bool
     {
         return ($this->symbol instanceof Symbol);

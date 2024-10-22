@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Map;
 
+use ILIAS\GlobalScreen\Collector\Map\AbstractMap;
 use ArrayObject;
 use Closure;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
@@ -31,28 +32,17 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 
 /**
- * Class Map
- * @author  Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
  * @internal
  */
-class Map implements Filterable, Walkable
+class Map extends AbstractMap
 {
-    private ArrayObject $raw;
-    /**
-     * @var Closure[]
-     */
-    private array $filters = [];
-    private ArrayObject $filtered;
-    private MainMenuItemFactory $factory;
-
-
-    public function __construct(MainMenuItemFactory $factory)
+    public function __construct(private readonly MainMenuItemFactory $factory)
     {
-        $this->raw = new ArrayObject();
-        $this->factory = $factory;
+        parent::__construct();
     }
 
-    private function getTitleSorter(): Closure
+    protected function getTitleSorter(): Closure
     {
         return static function (isItem $item_one, isItem $item_two): int {
             if (!$item_one instanceof hasTitle || !$item_two instanceof hasTitle) {
@@ -63,151 +53,16 @@ class Map implements Filterable, Walkable
         };
     }
 
-    private function getPositionSorter(): Closure
+    protected function getPositionSorter(): Closure
     {
-        return static function (isItem $item_one, isItem $item_two): int {
-            return $item_one->getPosition() - $item_two->getPosition();
-        };
-    }
-
-    /**
-     * @param isItem $item
-     */
-    public function add(isItem $item): void
-    {
-        $serialize = $item->getProviderIdentification()->serialize();
-        if (0 < strlen($serialize)) {
-            $this->raw[$serialize] = $item;
-        }
-    }
-
-    /**
-     * @param isItem ...$items
-     */
-    public function addMultiple(isItem ...$items): void
-    {
-        foreach ($items as $item) {
-            $this->add($item);
-        }
-    }
-
-    /**
-     * @param IdentificationInterface $identification
-     * @return isItem
-     */
-    public function getSingleItemFromRaw(IdentificationInterface $identification): isItem
-    {
-        if ($this->raw->offsetExists($identification->serialize())) {
-            $item = $this->raw->offsetGet($identification->serialize());
-
-            return $item ?? $this->getLostItem($identification);
-        }
-        return $this->getLostItem($identification);
-    }
-
-    /**
-     * @param IdentificationInterface $identification
-     * @return isItem
-     */
-    public function getSingleItemFromFilter(IdentificationInterface $identification): isItem
-    {
-        $this->applyFilters();
-
-        if ($this->filtered->offsetExists($identification->serialize())) {
-            $item = $this->filtered->offsetGet($identification->serialize());
-        }
-
-        return $item ?? $this->getLostItem($identification);
-    }
-
-    /**
-     * @param IdentificationInterface $identification
-     */
-    public function remove(IdentificationInterface $identification): void
-    {
-        $this->raw->offsetUnset($identification->serialize());
-    }
-
-    /**
-     * @param IdentificationInterface $identification
-     * @return bool
-     */
-    public function existsInFilter(IdentificationInterface $identification): bool
-    {
-        $this->applyFilters();
-
-        return $this->filtered->offsetExists($identification->serialize());
-    }
-
-    public function has(): bool
-    {
-        return $this->raw->count() > 0;
-    }
-
-    private function applyFilters(): void
-    {
-        if (!isset($this->filtered)) {
-            $this->filtered = new ArrayObject($this->raw->getArrayCopy());
-        }
-        if (count($this->filters) > 0) {
-            if (!isset($this->filtered)) {
-                $filter_copy = $this->raw->getArrayCopy();
-            } else {
-                $filter_copy = $this->filtered->getArrayCopy();
-            }
-            foreach ($this->filters as $filter) {
-                $filter_copy = array_filter($filter_copy, $filter);
-            }
-            $this->filtered->exchangeArray($filter_copy);
-            $this->filters = [];
-        }
-    }
-
-    /**
-     * @return \Generator|isItem[]
-     */
-    public function getAllFromRaw(): \Generator
-    {
-        yield from $this->raw;
-    }
-
-    /**
-     * @return \Generator|isItem[]
-     */
-    public function getAllFromFilter(): \Generator
-    {
-        $this->applyFilters();
-
-        yield from $this->filtered;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function walk(Closure $c): void
-    {
-        $this->applyFilters();
-        $to_walk = (array) $this->filtered->getArrayCopy();
-        array_walk($to_walk, $c);
-        $this->filtered = new ArrayObject($to_walk);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function filter(Closure $c): void
-    {
-        $this->filters[] = $c;
+        return static fn(isItem $item_one, isItem $item_two): int => $item_one->getPosition() - $item_two->getPosition();
     }
 
     public function sort(): void
     {
-        $this->applyFilters();
+        parent::sort();
 
-        $this->filtered->uasort($this->getTitleSorter());
-        $this->filtered->uasort($this->getPositionSorter());
-
-        $replace_children_sorted = function (isItem &$item) {
+        $replace_children_sorted = function (isItem &$item): void {
             if ($item instanceof isParent) {
                 $children = $item->getChildren();
                 uasort($children, $this->getPositionSorter());
@@ -217,14 +72,12 @@ class Map implements Filterable, Walkable
         $this->walk($replace_children_sorted);
     }
 
-    private function getLostItem(IdentificationInterface $identification): Lost
+    protected function getLostItem(IdentificationInterface $identification): Lost
     {
         return $this->factory->custom(Lost::class, new NullIdentification($identification))
                              ->withAlwaysAvailable(true)
                              ->withVisibilityCallable(
-                                 function (): bool {
-                                     return false;
-                                 }
+                                 fn(): bool => false
                              )->withTitle('Lost');
     }
 }

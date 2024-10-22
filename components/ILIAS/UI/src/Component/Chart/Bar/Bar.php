@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Chart\Bar;
 
@@ -54,6 +54,13 @@ interface Bar extends Component, JavaScriptBindable
      * @return BarConfig[]
      */
     public function getBarConfigs(): array;
+
+    public function withGroupConfigs(array $group_configs): self;
+
+    /**
+     * @return GroupConfig[]
+     */
+    public function getGroupConfigs(): array;
 
     public function withTitleVisible(bool $title_visible): self;
 
