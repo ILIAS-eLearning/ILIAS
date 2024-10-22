@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\RequestDataCollector;
+
 /**
  * Class ilTestSkillLevelThresholdsGUITest
  * @author Marvin Beym <mbeym@databay.de>
@@ -37,6 +39,7 @@ class ilTestSkillLevelThresholdsGUITest extends ilTestBaseTestCase
             $this->createMock(ilGlobalPageTemplate::class),
             $this->createMock(ilLanguage::class),
             $this->createMock(ilDBInterface::class),
+            $this->createMock(RequestDataCollector::class),
             $this->testId
         );
     }

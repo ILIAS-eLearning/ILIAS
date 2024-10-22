@@ -18,10 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\RequestDataCollector;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\Logging\TestLogger;
-
-use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -40,13 +39,13 @@ class ilTestSkillAdministrationGUI
         private ilTabsGUI $tabs,
         private ilGlobalTemplateInterface $tpl,
         private ilLanguage $lng,
-        private Refinery $refinery,
         private ilDBInterface $db,
         private TestLogger $logger,
         private ilTree $tree,
         private ilComponentRepository $component_repository,
         private ilObjTest $test_obj,
         private GeneralQuestionPropertiesRepository $questionrepository,
+        private RequestDataCollector $testrequest,
         private int $ref_id
     ) {
     }
@@ -90,7 +89,14 @@ class ilTestSkillAdministrationGUI
 
             case 'iltestskilllevelthresholdsgui':
 
-                $gui = new ilTestSkillLevelThresholdsGUI($this->ctrl, $this->tpl, $this->lng, $this->db, $this->test_obj->getTestId());
+                $gui = new ilTestSkillLevelThresholdsGUI(
+                    $this->ctrl,
+                    $this->tpl,
+                    $this->lng,
+                    $this->db,
+                    $this->testrequest,
+                    $this->test_obj->getTestId()
+                );
                 $gui->setQuestionAssignmentColumnsEnabled(!$this->test_obj->isRandomTest());
                 $gui->setQuestionContainerId($this->test_obj->getId());
                 $this->ctrl->forwardCommand($gui);

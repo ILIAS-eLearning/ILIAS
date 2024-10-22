@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\DI\Container;
+use ILIAS\Test\RequestDataCollector;
 
 /**
  * Class ilTestSettingsChangeConfirmationGUITest
@@ -33,7 +33,8 @@ class ilTestSettingsChangeConfirmationGUITest extends ilTestBaseTestCase
         parent::setUp();
 
         $this->testSettingsChangeConfirmationGUI = new ilTestSettingsChangeConfirmationGUI(
-            $this->getMockBuilder(ilObjTest::class)->disableOriginalConstructor()->getMock()
+            $this->createMock(RequestDataCollector::class),
+            $this->createMock(ilObjTest::class)
         );
     }
 
