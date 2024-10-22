@@ -65,7 +65,7 @@ class RatingInputTest extends ILIAS_UI_TestBase
             'rating-field-input',
             'label',
             '
-            <fieldset class="input-group il-input-rating" id="id_1">
+            <fieldset class="input-group il-input-rating">
                 <legend class="il-input-rating__text" id="id_1_desc"></legend>
                 <div class="il-input-rating__stars" role="radiogroup">
                     <div class="il-input-rating__options">
@@ -106,11 +106,11 @@ class RatingInputTest extends ILIAS_UI_TestBase
             ->withCurrentAverage(3);
 
         $expected = $this->brutallyTrimHTML(
-            '<fieldset class="c-input" data-il-ui-component="rating-field-input" data-il-ui-input-name="name_0" disabled="disabled">
+            '<fieldset class="c-input" data-il-ui-component="rating-field-input" data-il-ui-input-name="name_0" disabled="disabled" tabindex="0">
             <label>label</label>
             <div class="c-input__field">
 
-                <fieldset class="input-group il-input-rating disabled" id="id_1">
+                <fieldset class="input-group il-input-rating disabled">
                     <legend class="il-input-rating__text" id="id_1_desc">question text</legend>
 
                     <div class="il-input-rating__stars" role="radiogroup">
@@ -162,6 +162,7 @@ class RatingInputTest extends ILIAS_UI_TestBase
         $this->testWithNoByline($rating);
         $this->testWithRequired($rating);
         $this->testWithDisabled($rating);
+        $this->testWithAdditionalOnloadCodeRendersId($rating);
     }
 
     public function testRatingAverage(): void

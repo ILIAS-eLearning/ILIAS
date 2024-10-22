@@ -60,7 +60,8 @@ class UrlInputTest extends ILIAS_UI_TestBase
             'url-field-input',
             $label,
             '<input id="id_1" type="url" name="name_0" class="c-field-url" />',
-            $byline
+            $byline,
+            'id_1'
         );
         $this->assertEquals($expected, $this->render($url));
     }
@@ -76,6 +77,8 @@ class UrlInputTest extends ILIAS_UI_TestBase
             'url-field-input',
             $label,
             '<input id="id_1" type="url" value="https://www.ilias.de/" name="name_0" class="c-field-url" />',
+            null,
+            'id_1'
         );
         $this->assertEquals($expected, $this->render($url));
     }
@@ -89,6 +92,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
         $this->testWithNoByline($url);
         $this->testWithRequired($url);
         $this->testWithDisabled($url);
+        $this->testWithAdditionalOnloadCodeRendersId($url);
     }
 
 }
