@@ -72,10 +72,8 @@ class ilObjLegalNoticeGUI extends ilObject2GUI
         }
     }
 
-    public function viewCmd(): string
+    public function viewCmd(): never
     {
-        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-        // $this->ctrl->setCmd('preview');
-        return $this->ctrl->forwardCommand($this->legal_notice_gui);
+        $this->ctrl->redirect($this->legal_notice_gui, 'preview');
     }
 }
