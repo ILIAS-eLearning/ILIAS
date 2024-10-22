@@ -34,17 +34,16 @@ class DateTimeFilterContextRenderer extends FilterContextRenderer
         FormInput $component,
         string $label,
         string $input_html,
-        string $id_pointing_to_input = '',
-        string $dependant_group_html = '',
-        bool $bind_label_with_for = true,
+        ?string $id_for_label = null,
+        ?string $dependant_group_html = null
     ): string {
         $tpl = $this->getTemplate("tpl.context_form.html", true, true);
 
         $tpl->setVariable("INPUT", $input_html);
 
-        if ($id_pointing_to_input && $bind_label_with_for) {
+        if ($id_for_label) {
             $tpl->setCurrentBlock("for");
-            $tpl->setVariable("ID", $id_pointing_to_input);
+            $tpl->setVariable("ID", $id_for_label);
             $tpl->parseCurrentBlock();
         }
 

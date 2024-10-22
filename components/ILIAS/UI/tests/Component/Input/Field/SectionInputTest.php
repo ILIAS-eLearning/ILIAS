@@ -52,6 +52,7 @@ class SectionInputTest extends ILIAS_UI_TestBase
             '<input id="id_1" type="text"  name="name_0/name_1" class="c-field-text" />',
             'in 1',
             'id_1',
+            null,
             'name_0/name_1'
         );
         $f2 = $this->getFormWrappedHtml(
@@ -60,6 +61,7 @@ class SectionInputTest extends ILIAS_UI_TestBase
             '<input id="id_2" type="text"  name="name_0/name_2" class="c-field-text" />',
             'in 2',
             'id_2',
+            null,
             'name_0/name_2'
         );
         $expected = $this->getFormWrappedHtml(
@@ -86,5 +88,6 @@ class SectionInputTest extends ILIAS_UI_TestBase
         $this->testWithNoByline($section);
         $this->testWithRequired($section);
         $this->testWithDisabled($section);
+        $this->testWithAdditionalOnloadCodeRendersId($section);
     }
 }
