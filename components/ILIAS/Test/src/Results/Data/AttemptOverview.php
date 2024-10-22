@@ -41,6 +41,7 @@ class AttemptOverview
         private readonly ?int $requested_hints_count = null,
         private readonly int $time_on_task = 0,
         private readonly ?\DateTimeImmutable $attempt_started_date = null,
+        private readonly ?\DateTimeImmutable $last_access = null,
         private readonly int $nr_of_attempts = 0,
         private readonly ?int $scored_attempt = null,
         private readonly ?int $rank = 0
@@ -129,7 +130,7 @@ class AttemptOverview
         return $ui_factory->listing()->descriptive(
             $items + [
                 $lng->txt('tst_stat_result_timeontask') => $this->buildHumanReadableTime($this->time_on_task),
-                $lng->txt('tst_stat_result_firstvisit') => $this->first_access
+                $lng->txt('tst_stat_result_firstvisit') => $this->attempt_started_date
                     ->setTimezone($environment['timezone'])
                     ->format($environment['datetimeformat']),
                 $lng->txt('tst_stat_result_lastvisit') => $this->last_access
