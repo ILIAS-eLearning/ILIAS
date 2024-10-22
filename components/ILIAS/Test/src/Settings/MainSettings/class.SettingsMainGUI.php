@@ -36,9 +36,6 @@ use ILIAS\UI\Component\Input\Field\OptionalGroup;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation as TransformationInterface;
-use ILIAS\Data\Factory as DataFactory;
-use ilInfoScreenGUI;
-use ilObjTestGUI;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Refinery\Constraint;
 
@@ -124,7 +121,7 @@ class SettingsMainGUI extends TestSettingsGUI
     {
         if (!$this->access->checkAccess('write', '', $this->test_gui->getRefId())) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_test'), true);
-            $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
+            $this->ctrl->redirectByClass([\ilRepositoryGUI::class, self::class, \ilInfoScreenGUI::class]);
         }
 
         $cmd = $this->ctrl->getCmd(self::CMD_SHOW_FORM);
@@ -264,8 +261,6 @@ class SettingsMainGUI extends TestSettingsGUI
         if ($this->anonymityChanged($data[self::GENERAL_SETTINGS_SECTION_LABEL]['anonymity'])) {
             $this->logger->deleteParticipantInteractionsForTest($this->test_object->getRefId());
         }
-
-        $this->removeAllParticipantsIfRequired();
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
         $this->showForm();
@@ -466,15 +461,6 @@ class SettingsMainGUI extends TestSettingsGUI
             $old_online_status,
             $this->test_object->getObjectProperties()->getPropertyIsOnline()->getIsOnline()
         );
-    }
-
-    private function removeAllParticipantsIfRequired(): void
-    {
-        if (!$this->test_object->participantDataExist() && !$this->test_object->getFixedParticipants()) {
-            foreach (array_keys($this->test_object->getInvitedUsers()) as $usr_id) {
-                $this->test_object->disinviteUser($usr_id);
-            }
-        }
     }
 
     private function getGeneralSettingsSection(array $environment): Section
