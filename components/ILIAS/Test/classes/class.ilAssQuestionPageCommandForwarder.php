@@ -68,7 +68,6 @@ class ilAssQuestionPageCommandForwarder
 
         $q_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_PREVIEW);
         $q_gui->setQuestionTabs();
-        $q_gui->outAdditionalOutput();
         $question = $q_gui->getObject();
         $question->setObjId($this->test_obj->getId());
         $q_gui->setObject($question);
