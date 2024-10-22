@@ -1002,6 +1002,7 @@ assessment#:#passed_short#:#bestanden
 assessment#:#passed_status#:#Bestanden-Status
 assessment#:#passes_finished#:#%s Durchläufe
 assessment#:#percentage#:#Prozentsatz
+assessment#:#percentage_points_achieved#:#Erreichte Punkte
 assessment#:#percentile#:#Perzentil
 assessment#:#picture#:#Bild
 assessment#:#point#:#Punkt

@@ -102,7 +102,7 @@ class QuestionsTable implements OrderingBinding
                 ->withIsOptional(true, false),
             'average_points' => $f->table()->column()->number($this->lng->txt('average_reached_points'))
                 ->withIsOptional(true, false),
-            'percentage_points_achieved' => $f->table()->column()->number($this->lng->txt('percentage_points_achieved'))
+            'percentage_points_achieved' => $f->table()->column()->text($this->lng->txt('percentage_points_achieved'))
                 ->withIsOptional(true, false),
         ];
 
