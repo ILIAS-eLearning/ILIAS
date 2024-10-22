@@ -159,6 +159,10 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
                 $this->ctrl->forwardCommand($gui);
                 break;
             default:
+                if ($next_class && $this->performNextClass($next_class)) {
+                    break;
+                }
+
                 if ($cmd === "save" || $this->getCreationMode()) {
                     $this->$cmd();
                     return;
@@ -447,5 +451,10 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
         return ilObject::_lookupTitle(ilObject::_lookupObjId(
             $this->slot_request->getRefId()
         ));
+    }
+
+    protected function performNextClass(string $next_class): bool
+    {
+        return false;
     }
 }
