@@ -1825,7 +1825,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         if ($has_started_test_runs) {
             $link = $this->ui_factory->link()->standard(
                 $this->lng->txt('test_has_datasets_warning_page_view_link'),
-                $this->ctrl->getLinkTargetByClass(['ilDashboardGUI'])
+                $this->ctrl->getLinkTargetByClass([\ilTestParticipantsGUI::class])
             );
 
             $message = $this->lng->txt('test_has_datasets_warning_page_view');
