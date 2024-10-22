@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Export\ExportHandler\Table;
 
 use ilCtrl;
+use ILIAS\Data\Factory as ilDataFactory;
 use ILIAS\DI\UIServices as ilUIServices;
 use ILIAS\Export\ExportHandler\I\FactoryInterface as ilExportHandlerFactoryInterface;
 use ILIAS\Export\ExportHandler\I\Table\DataRetrieval\HandlerInterface as ilExportHandlerTableDataRetrievalFactoryInterface;
@@ -44,6 +45,7 @@ class Factory implements ilExportHandlerTableFactoryInterface
     protected ilObjUser $user;
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
+    protected ilDataFactory $data_factory;
 
     public function __construct(
         ilExportHandlerFactoryInterface $export_handler,
@@ -52,7 +54,8 @@ class Factory implements ilExportHandlerTableFactoryInterface
         ilRefineryFactory $refinery,
         ilObjUser $user,
         ilLanguage $lng,
-        ilCtrl $ctrl
+        ilCtrl $ctrl,
+        ilDataFactory $data_factory
     ) {
         $this->export_handler = $export_handler;
         $this->ui_services = $ui_services;
@@ -61,6 +64,7 @@ class Factory implements ilExportHandlerTableFactoryInterface
         $this->user = $user;
         $this->lng = $lng;
         $this->ctrl = $ctrl;
+        $this->data_factory = $data_factory;
     }
 
     public function handler(): ilExportHandlerTableInterface
@@ -72,7 +76,8 @@ class Factory implements ilExportHandlerTableFactoryInterface
             $this->user,
             $this->lng,
             $this->ctrl,
-            $this->export_handler
+            $this->export_handler,
+            $this->data_factory
         );
     }
 

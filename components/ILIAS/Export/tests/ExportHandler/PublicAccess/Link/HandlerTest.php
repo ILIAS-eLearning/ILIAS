@@ -20,12 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\Test\ExportHandler\PublicAccess\Link;
 
-use _PHPStan_9815bbba4\Nette\Neon\Exception;
-use PHPUnit\Framework\TestCase;
-use ILIAS\Export\ExportHandler\PublicAccess\Link\Handler as ilExportHandlerPublicAccessLink;
-use ILIAS\Export\ExportHandler\PublicAccess\Link\Wrapper\StaticURL\Handler as ilExportHandlerPublicAccessLinkStaticURLWrapper;
+use Exception;
 use ILIAS\Data\ReferenceId;
 use ILIAS\Data\URI;
+use ILIAS\Export\ExportHandler\I\PublicAccess\Link\Wrapper\StaticURL\HandlerInterface as ilExportHandlerPublicAccessLinkStaticURLWrapperInterface;
+use ILIAS\Export\ExportHandler\PublicAccess\Link\Handler as ilExportHandlerPublicAccessLink;
+use PHPUnit\Framework\TestCase;
 
 class HandlerTest extends TestCase
 {
@@ -38,14 +38,18 @@ class HandlerTest extends TestCase
         $reference_id_mock = $this->createMock(ReferenceId::class);
         $reference_id_mock->method("toInt")->willReturn($reference_id);
         $reference_id_mock->method("toObjectId")->willThrowException(new Exception("unexpected conversion to object id"));
-        $static_url_wrapper_mock = $this->createMock(ilExportHandlerPublicAccessLinkStaticURLWrapper::class);
+        $static_url_wrapper_mock = $this->createMock(ilExportHandlerPublicAccessLinkStaticURLWrapperInterface::class);
         $static_url_wrapper_mock->method("withStaticURL")->willThrowException(new Exception("unexpected overwrite of static URL service object"));
         $static_url_wrapper_mock->method("buildDownloadURI")->willReturn($uri_mock);
-        $link = new ilExportHandlerPublicAccessLink();
-        $link = $link
-            ->withReferenceId($reference_id_mock)
-            ->withStaticURLWrapper($static_url_wrapper_mock);
-        self::assertEquals($download_url, $link->getLink());
-        self::assertEquals($reference_id, $link->getReferenceId()->toInt());
+        try {
+            $link = new ilExportHandlerPublicAccessLink();
+            $link = $link
+                ->withReferenceId($reference_id_mock)
+                ->withStaticURLWrapper($static_url_wrapper_mock);
+            self::assertEquals($download_url, $link->getLink());
+            self::assertEquals($reference_id, $link->getReferenceId()->toInt());
+        } catch (Exception $exception) {
+            $this->fail($exception->getMessage());
+        }
     }
 }

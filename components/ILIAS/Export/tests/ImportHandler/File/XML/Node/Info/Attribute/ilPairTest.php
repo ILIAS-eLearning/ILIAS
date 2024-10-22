@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 namespace Test\ImportHandler\File\XML\Node\Info\Attribute;
 
-use PHPUnit\Framework\TestCase;
 use ILIAS\Export\ImportHandler\File\XML\Node\Info\Attribute\ilPair as ilXMLFileNodeInfoAttributePair;
+use PHPUnit\Framework\TestCase;
 
 class ilPairTest extends TestCase
 {

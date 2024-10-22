@@ -23,21 +23,20 @@ namespace ILIAS\Export\Test\ExportHandler\Repository;
 use DateTimeImmutable;
 use Exception;
 use ILIAS\Data\ObjectId;
-use PHPUnit\Framework\Constraint\Callback;
-use PHPUnit\Framework\TestCase;
+use ILIAS\Export\ExportHandler\I\Info\Export\HandlerInterface as ilExportHandlerExportInfoInterface;
+use ILIAS\Export\ExportHandler\I\Repository\Element\CollectionInterface as ilExportHandlerRepositoryElementCollectionInterface;
+use ILIAS\Export\ExportHandler\I\Repository\Element\FactoryInterface as ilExportHandlerRepositoryElementFactoryInterface;
+use ILIAS\Export\ExportHandler\I\Repository\Element\HandlerInterface as ilExportHandlerRepositoryElementInterface;
+use ILIAS\Export\ExportHandler\I\Repository\Key\CollectionInterface as ilExportHandlerRepositoryKeyCollectionInterface;
+use ILIAS\Export\ExportHandler\I\Repository\Key\FactoryInterface as ilExportHandlerRepositoryKeyFactoryInterface;
+use ILIAS\Export\ExportHandler\I\Repository\Key\HandlerInterface as ilExportHandlerRepositoryKeyInterface;
+use ILIAS\Export\ExportHandler\I\Repository\Stakeholder\HandlerInterface as ilExportHandlerRepositoryStakeholderInterface;
+use ILIAS\Export\ExportHandler\I\Repository\Values\FactoryInterface as ilExportHandlerRepositoryValuesFactoryInterface;
+use ILIAS\Export\ExportHandler\I\Repository\Values\HandlerInterface as ilExportHandlerRepositoryValuesInterface;
+use ILIAS\Export\ExportHandler\I\Repository\Wrapper\DB\HandlerInterface as ilExportHandlerRepositoryDBWrapperInterface;
+use ILIAS\Export\ExportHandler\I\Repository\Wrapper\IRSS\HandlerInterface as ilExportHandlerRepositoryIRSSWrapperInterface;
 use ILIAS\Export\ExportHandler\Repository\Handler as ilExportHandlerRepository;
-use ILIAS\Export\ExportHandler\Repository\Stakeholder\Handler as ilExportHandlerRepositoryStakeholder;
-use ILIAS\Export\ExportHandler\Repository\Key\Factory as ilExportHandlerRepositoryKeyFactory;
-use ILIAS\Export\ExportHandler\Repository\Key\Handler as ilExportHandlerRepositoryKey;
-use ILIAS\Export\ExportHandler\Repository\Key\Collection as ilExportHandlerRepositoryKeyCollection;
-use ILIAS\Export\ExportHandler\Repository\Values\Factory as ilExportHandlerRepositoryValuesFactory;
-use ILIAS\Export\ExportHandler\Repository\Values\Handler as ilExportHandlerRepositoryValues;
-use ILIAS\Export\ExportHandler\Repository\Element\Factory as ilExportHandlerRepositoryElementFactory;
-use ILIAS\Export\ExportHandler\Repository\Element\Handler as ilExportHandlerRepositoryElement;
-use ILIAS\Export\ExportHandler\Repository\Element\Collection as ilExportHandlerRepositoryElementCollection;
-use ILIAS\Export\ExportHandler\Repository\Wrapper\DB\Handler as ilExportHandlerRepositoryDBWrapper;
-use ILIAS\Export\ExportHandler\Repository\Wrapper\IRSS\Handler as ilExportHandlerRepositoryIRSSWrapper;
-use ILIAS\Export\ExportHandler\Info\Export\Handler as ilExportHandlerExportInfo;
+use PHPUnit\Framework\TestCase;
 
 class Handler extends TestCase
 {
@@ -48,44 +47,35 @@ class Handler extends TestCase
         $resource_id_serialized = "rid";
         $owner_id = 6;
         $creation_date = new DateTimeImmutable();
-
-        $element_collection_mock01 = $this->createMock(ilExportHandlerRepositoryElementCollection::class);
-
-        $stakeholder_mock = $this->createMock(ilExportHandlerRepositoryStakeholder::class);
+        $element_collection_mock01 = $this->createMock(ilExportHandlerRepositoryElementCollectionInterface::class);
+        $stakeholder_mock = $this->createMock(ilExportHandlerRepositoryStakeholderInterface::class);
         $stakeholder_mock->method("getOwnerId")->willReturn($owner_id);
         $stakeholder_mock->method("withOwnerId")->willThrowException(new Exception("owner id changed"));
-
         $this->repository_elements = [];
-
         $object_id_mock01 = $this->createMock(ObjectId::class);
         $object_id_mock01->method("toInt")->willReturn(1);
         $object_id_mock01->method("toReferenceIds")->willThrowException(new Exception("unexpected method call"));
-
-        $key_complete_mock = $this->createMock(ilExportHandlerRepositoryKey::class);
+        $key_complete_mock = $this->createMock(ilExportHandlerRepositoryKeyInterface::class);
         $key_complete_mock->method("withObjectId")->with($object_id_mock01)->willReturn($key_complete_mock);
         $key_complete_mock->method("withResourceIdSerialized")->with($resource_id_serialized)->willReturn($key_complete_mock);
         $key_complete_mock->method("getObjectId")->willReturn($object_id_mock01);
         $key_complete_mock->method("getResourceIdSerialized")->willReturn($resource_id_serialized);
-
-        $key_obj_id_mock = $this->createMock(ilExportHandlerRepositoryKey::class);
+        $key_obj_id_mock = $this->createMock(ilExportHandlerRepositoryKeyInterface::class);
         $key_obj_id_mock->method("withObjectId")->with($object_id_mock01)->willReturn($key_obj_id_mock);
         $key_obj_id_mock->method("withResourceIdSerialized")->with($resource_id_serialized)->willReturn($key_complete_mock);
         $key_obj_id_mock->method("getObjectId")->willReturn($object_id_mock01);
         $key_obj_id_mock->method("getResourceIdSerialized")->willThrowException(new Exception("resource id not set"));
-
-        $key_res_id_mock = $this->createMock(ilExportHandlerRepositoryKey::class);
+        $key_res_id_mock = $this->createMock(ilExportHandlerRepositoryKeyInterface::class);
         $key_res_id_mock->method("withObjectId")->with($object_id_mock01)->willReturn($key_complete_mock);
         $key_res_id_mock->method("withResourceIdSerialized")->with($resource_id_serialized)->willReturn($key_res_id_mock);
         $key_res_id_mock->method("getObjectId")->willThrowException(new Exception("obj id not set"));
         $key_res_id_mock->method("getResourceIdSerialized")->willReturn($resource_id_serialized);
-
-        $key_mock = $this->createMock(ilExportHandlerRepositoryKey::class);
+        $key_mock = $this->createMock(ilExportHandlerRepositoryKeyInterface::class);
         $key_mock->method("withObjectId")->with($object_id_mock01)->willReturn($key_obj_id_mock);
         $key_mock->method("withResourceIdSerialized")->with($resource_id_serialized)->willReturn($key_res_id_mock);
         $key_mock->method("getObjectId")->willThrowException(new Exception("obj id not set"));
         $key_mock->method("getResourceIdSerialized")->willThrowException(new Exception("resource id not set"));
-
-        $key_collection_with_element_mock = $this->createMock(ilExportHandlerRepositoryKeyCollection::class);
+        $key_collection_with_element_mock = $this->createMock(ilExportHandlerRepositoryKeyCollectionInterface::class);
         $key_collection_with_element_mock->method("withElement")->willThrowException(new Exception("to many keys added to collection"));
         $key_collection_with_element_mock->method("current")->willReturn($key_complete_mock);
         $key_collection_with_element_mock->method("key")->willReturn(0, 1);
@@ -93,8 +83,7 @@ class Handler extends TestCase
         # rewind() does not return anything
         $key_collection_with_element_mock->method("valid")->willReturn(true, false);
         $key_collection_with_element_mock->method("count")->willReturn(1);
-
-        $key_collection_mock01 = $this->createMock(ilExportHandlerRepositoryKeyCollection::class);
+        $key_collection_mock01 = $this->createMock(ilExportHandlerRepositoryKeyCollectionInterface::class);
         $key_collection_mock01->method("withElement")->with($key_complete_mock)->willReturn($key_collection_with_element_mock);
         $key_collection_mock01->method("withElement")->with($key_mock)->willThrowException(new Exception("key incomplete"));
         $key_collection_mock01->method("withElement")->with($key_obj_id_mock)->willThrowException(new Exception("key incomplete"));
@@ -105,50 +94,39 @@ class Handler extends TestCase
         # rewind() does not return anything
         $key_collection_mock01->method("valid")->willReturn(false);
         $key_collection_mock01->method("count")->willReturn(0);
-
-        $key_factory_mock = $this->createMock(ilExportHandlerRepositoryKeyFactory::class);
+        $key_factory_mock = $this->createMock(ilExportHandlerRepositoryKeyFactoryInterface::class);
         $key_factory_mock->method("handler")->willReturn($key_mock);
         $key_factory_mock->method("collection")->willReturn($key_collection_mock01);
-
-        $export_info_mock = $this->createMock(ilExportHandlerExportInfo::class);
-
-        $irss_wrapper_mock = $this->createMock(ilExportHandlerRepositoryIRSSWrapper::class);
+        $export_info_mock = $this->createMock(ilExportHandlerExportInfoInterface::class);
+        $irss_wrapper_mock = $this->createMock(ilExportHandlerRepositoryIRSSWrapperInterface::class);
         $irss_wrapper_mock->method('createEmptyContainer')->with($export_info_mock, $stakeholder_mock)->willReturn($resource_id_serialized);
         $irss_wrapper_mock->method("getCreationDate")->with($resource_id_serialized)->willReturn($creation_date);
-
-        $value_mock = $this->createMock(ilExportHandlerRepositoryValues::class);
+        $value_mock = $this->createMock(ilExportHandlerRepositoryValuesInterface::class);
         $value_mock->method("withOwnerId")->with($owner_id)->willReturn($value_mock);
         $value_mock->method("withCreationDate")->with($creation_date)->willReturn($value_mock);
         $value_mock->method("getOwnerId")->willReturn($owner_id);
         $value_mock->method("getCreationDate")->willReturn($creation_date);
-
-        $values_factory = $this->createMock(ilExportHandlerRepositoryValuesFactory::class);
-        $values_factory->method("handler")->willReturn($value_mock);
-
-        $element_complete_mock = $this->createMock(ilExportHandlerRepositoryElement::class);
+        $values_factory_mock = $this->createMock(ilExportHandlerRepositoryValuesFactoryInterface::class);
+        $values_factory_mock->method("handler")->willReturn($value_mock);
+        $element_complete_mock = $this->createMock(ilExportHandlerRepositoryElementInterface::class);
         $element_complete_mock->method("isStorable")->willReturn(true);
         $element_complete_mock->method("withKey")->with($key_mock)->willReturn($element_complete_mock);
         $element_complete_mock->method("withValues")->with($value_mock)->willReturn($element_complete_mock);
-
-        $element_w_key_mock = $this->createMock(ilExportHandlerRepositoryElement::class);
+        $element_w_key_mock = $this->createMock(ilExportHandlerRepositoryElementInterface::class);
         $element_w_key_mock->method("isStorable")->willReturn(false);
         $element_w_key_mock->method("withKey")->with($key_mock)->willReturn($element_w_key_mock);
         $element_w_key_mock->method("withValues")->with($value_mock)->willReturn($element_complete_mock);
-
-        $element_w_values_mock = $this->createMock(ilExportHandlerRepositoryElement::class);
+        $element_w_values_mock = $this->createMock(ilExportHandlerRepositoryElementInterface::class);
         $element_w_values_mock->method("isStorable")->willReturn(false);
         $element_w_values_mock->method("withKey")->with($key_mock)->willReturn($element_complete_mock);
         $element_w_values_mock->method("withValues")->with($value_mock)->willReturn($element_w_values_mock);
-
-        $element_emtpy_mock = $this->createMock(ilExportHandlerRepositoryElement::class);
+        $element_emtpy_mock = $this->createMock(ilExportHandlerRepositoryElementInterface::class);
         $element_emtpy_mock->method("isStorable")->willReturn(false);
         $element_emtpy_mock->method("withKey")->with($key_mock)->willReturn($element_w_key_mock);
         $element_emtpy_mock->method("withValues")->with($value_mock)->willReturn($element_w_values_mock);
-
-        $element_factory_mock = $this->createMock(ilExportHandlerRepositoryElementFactory::class);
+        $element_factory_mock = $this->createMock(ilExportHandlerRepositoryElementFactoryInterface::class);
         $element_factory_mock->method("handler")->willReturn($element_emtpy_mock);
-
-        $db_wrapper_mock = $this->createMock(ilExportHandlerRepositoryDBWrapper::class);
+        $db_wrapper_mock = $this->createMock(ilExportHandlerRepositoryDBWrapperInterface::class);
         $db_wrapper_mock->method("getElements")->with($key_collection_mock01)->willReturnCallback(function ($x) {
             return $this->mockDBWrapperGetElements($x);
         });
@@ -158,35 +136,30 @@ class Handler extends TestCase
         $db_wrapper_mock->method("store")->with($element_complete_mock)->willReturnCallback(function ($x) {
             $this->mockDBWrapperStore($x);
         });
-
-        $export_repository = new ilExportHandlerRepository(
-            $key_factory_mock,
-            $values_factory,
-            $element_factory_mock,
-            $db_wrapper_mock,
-            $irss_wrapper_mock
-        );
-
-        $element = $export_repository->createElement(
-            $object_id_mock01,
-            $export_info_mock,
-            $stakeholder_mock
-        );
-
-        self::assertCount(1, $this->repository_elements);
-
-        $export_repository->storeElement($element_complete_mock);
-        $export_repository->storeElement($element_emtpy_mock);
-
-        self::assertCount(2, $this->repository_elements);
-
-        $elements = $export_repository->getElements($key_collection_mock01);
-
-        self::assertCount(2, $this->repository_elements);
-
-        $export_repository->deleteElements($key_collection_mock01, $stakeholder_mock);
-
-        self::assertCount(0, $this->repository_elements);
+        try {
+            $export_repository = new ilExportHandlerRepository(
+                $key_factory_mock,
+                $values_factory_mock,
+                $element_factory_mock,
+                $db_wrapper_mock,
+                $irss_wrapper_mock
+            );
+            $element = $export_repository->createElement(
+                $object_id_mock01,
+                $export_info_mock,
+                $stakeholder_mock
+            );
+            self::assertCount(1, $this->repository_elements);
+            $export_repository->storeElement($element_complete_mock);
+            $export_repository->storeElement($element_emtpy_mock);
+            self::assertCount(2, $this->repository_elements);
+            $elements = $export_repository->getElements($key_collection_mock01);
+            self::assertCount(2, $this->repository_elements);
+            $export_repository->deleteElements($key_collection_mock01, $stakeholder_mock);
+            self::assertCount(0, $this->repository_elements);
+        } catch (Exception $exception) {
+            self::fail($exception->getMessage());
+        }
     }
 
     protected function mockDBWrapperStore(
@@ -197,9 +170,9 @@ class Handler extends TestCase
 
     protected function mockDBWrapperGetElements(
         $x
-    ): ilExportHandlerRepositoryElementCollection {
+    ): ilExportHandlerRepositoryElementCollectionInterface {
         $key_collection_mock = func_get_args()[0];
-        $element_collection_mock = $this->createMock(ilExportHandlerRepositoryElementCollection::class);
+        $element_collection_mock = $this->createMock(ilExportHandlerRepositoryElementCollectionInterface::class);
         if (empty($this->repository_elements)) {
             $element_collection_mock->method("newest")->willReturn(null);
             $element_collection_mock->method("current")->willThrowException(new Exception("empty collection"));

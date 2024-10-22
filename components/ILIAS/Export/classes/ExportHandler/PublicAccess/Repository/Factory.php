@@ -64,7 +64,9 @@ class Factory implements ilExportHandlerPublicAccessRepositoryFactoryInterface
 
     public function key(): ilExportHandlerPublicAccessRepositoryKeyFactoryInterface
     {
-        return new ilExportHandlerPublicAccessRepositoryKeyFactory();
+        return new ilExportHandlerPublicAccessRepositoryKeyFactory(
+            $this->export_handler->wrapper()->dataFactory()->handler()
+        );
     }
 
     public function values(): ilExportHandlerPublicAccessRepositoryValuesFactoryInterface

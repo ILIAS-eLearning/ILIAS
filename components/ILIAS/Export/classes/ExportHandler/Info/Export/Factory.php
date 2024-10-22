@@ -43,7 +43,10 @@ class Factory implements ilExportHandlerExportInfoFactory
 
     public function handler(): ilExportHandlerExportInfoInterface
     {
-        return new ilExportHandlerExportInfo($this->export_handler);
+        return new ilExportHandlerExportInfo(
+            $this->export_handler,
+            $this->export_handler->wrapper()->dataFactory()->handler()
+        );
     }
 
     public function collection(): ilExportHandlerExportInfoCollectionInterface

@@ -20,22 +20,24 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\Test\ExportHandler\Repository\Stakeholder;
 
-use DateTimeImmutable;
 use Exception;
-use ILIAS\Data\ObjectId;
-use PHPUnit\Framework\TestCase;
-use ILIAS\Export\ExportHandler\Repository\Stakeholder\Handler as ilExportHandlerRepositoryStakeholder;
 use ILIAS\Export\ExportHandler\I\Repository\Stakeholder\HandlerInterface as ilExportHandlerRepositoryStakeholderInterface;
+use ILIAS\Export\ExportHandler\Repository\Stakeholder\Handler as ilExportHandlerRepositoryStakeholder;
+use PHPUnit\Framework\TestCase;
 
 class HandlerTest extends TestCase
 {
     public function testExportHandlerRepositoryStakeholder(): void
     {
-        $stakeholder01 = new ilExportHandlerRepositoryStakeholder(10);
-        $stakeholder02 = $stakeholder01->withOwnerId(6);
-        $stakeholder03 = new ilExportHandlerRepositoryStakeholder();
-        self::assertEquals(10, $stakeholder01->getOwnerId());
-        self::assertEquals(6, $stakeholder02->getOwnerId());
-        self::assertEquals(ilExportHandlerRepositoryStakeholderInterface::DEFAULT_OWNER_ID, $stakeholder03->getOwnerId());
+        try {
+            $stakeholder01 = new ilExportHandlerRepositoryStakeholder(10);
+            $stakeholder02 = $stakeholder01->withOwnerId(6);
+            $stakeholder03 = new ilExportHandlerRepositoryStakeholder();
+            self::assertEquals(10, $stakeholder01->getOwnerId());
+            self::assertEquals(6, $stakeholder02->getOwnerId());
+            self::assertEquals(ilExportHandlerRepositoryStakeholderInterface::DEFAULT_OWNER_ID, $stakeholder03->getOwnerId());
+        } catch (Exception $exception) {
+            self::fail($exception->getMessage());
+        }
     }
 }

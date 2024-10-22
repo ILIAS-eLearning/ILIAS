@@ -32,14 +32,16 @@ class Factory implements ilExportHandlerRepositoryKeyFactoryInterface
     protected ilExportHandlerFactoryInterface $export_handler;
 
     public function __construct(
-        ilExportHandlerFactoryInterface $export_handler,
+        ilExportHandlerFactoryInterface $export_handler
     ) {
         $this->export_handler = $export_handler;
     }
 
     public function handler(): ilExportHandlerRepositoryKeyInterface
     {
-        return new ilExportHandlerRepositoryKey();
+        return new ilExportHandlerRepositoryKey(
+            $this->export_handler->wrapper()->dataFactory()->handler()
+        );
     }
 
     public function collection(): ilExportHandlerRepositoryKeyCollectionInterface
