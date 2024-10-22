@@ -27,6 +27,7 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;
 use ILIAS\Test\RequestDataCollector;
+use ILIAS\Test\Results\StatusOfAttempt;
 use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\UI\Component\Input\Container\Filter\Standard as FilterComponent;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
@@ -106,7 +107,7 @@ class ParticipantTable implements DataRetrieval
                 'login' => $record->getLogin(),
                 'matriculation' => $record->getMatriculation(),
                 'attempt_started_at' => $first_access !== null ? $date_format->applyTo($first_access) : '',
-                'status_of_attempt' => $this->lng->txt($record->getStatusOfAttempt()),
+                'status_of_attempt' => $this->lng->txt($record->getStatusOfAttempt()->value),
                 'id_of_attempt' => $record->getAttemptOverviewInformation()?->getExamId(),
                 'last_access' => $last_access !== null ? $date_format->applyTo($last_access) : '',
                 'ip_range' => $record->getClientIpTo() !== '' || $record->getClientIpFrom() !== ''
@@ -258,9 +259,13 @@ class ParticipantTable implements DataRetrieval
         ];
 
         $status_of_attempt_options = [
-            Participant::ATTEMPT_NOT_STARTED => $this->lng->txt(Participant::ATTEMPT_NOT_STARTED),
-            Participant::ATTEMPT_RUNNING => $this->lng->txt(Participant::ATTEMPT_RUNNING),
-            Participant::ATTEMPT_FINISHED => $this->lng->txt(Participant::ATTEMPT_FINISHED)
+            StatusOfAttempt::NOT_YET_STARTED->value => $this->lng->txt(StatusOfAttempt::NOT_YET_STARTED->value),
+            StatusOfAttempt::RUNNING->value => $this->lng->txt(StatusOfAttempt::RUNNING->value),
+            StatusOfAttempt::FINISHED->value => $this->lng->txt(StatusOfAttempt::FINISHED->value),
+            StatusOfAttempt::FINISHED_BY_ADMINISTRATOR->value => $this->lng->txt(StatusOfAttempt::FINISHED_BY_ADMINISTRATOR->value),
+            StatusOfAttempt::FINISHED_BY_CRONJOB->value => $this->lng->txt(StatusOfAttempt::FINISHED_BY_CRONJOB->value),
+            StatusOfAttempt::FINISHED_BY_DURATION->value => $this->lng->txt(StatusOfAttempt::FINISHED_BY_DURATION->value),
+            StatusOfAttempt::FINISHED_BY_PARTICIPANT->value => $this->lng->txt(StatusOfAttempt::FINISHED_BY_PARTICIPANT->value),
         ];
 
         $filters = [

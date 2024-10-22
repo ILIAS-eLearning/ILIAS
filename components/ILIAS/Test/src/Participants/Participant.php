@@ -21,17 +21,10 @@ declare(strict_types=1);
 namespace ILIAS\Test\Participants;
 
 use ILIAS\Test\Results\Data\AttemptOverview;
+use ILIAS\Test\Results\StatusOfAttempt;
 
 class Participant
 {
-    public const ATTEMPT_NOT_STARTED = 'not_started';
-    public const ATTEMPT_RUNNING = 'running';
-    public const ATTEMPT_FINISHED = 'finished';
-    private const ATTEMPT_FINISHED_BY_PARTICIPANT = 'finished_by_participant';
-    private const ATTEMPT_FINISHED_BY_ADMINISTRATOR = 'finished_by_administrator';
-    private const ATTEMPT_FINISHED_BY_DURATION = 'finished_by_duration';
-    private const ATTEMPT_FINISHED_BY_CRONJOB = 'finished_by_cronjob';
-
     private ?AttemptOverview $attempt_overview = null;
 
     public function __construct(
@@ -53,7 +46,8 @@ class Participant
         private readonly ?int $last_finished_attempt = null,
         private readonly bool $unfinished_attempts = false,
         private readonly ?\DateTimeImmutable $first_access = null,
-        private readonly ?\DateTimeImmutable $last_access = null
+        private readonly ?\DateTimeImmutable $last_access = null,
+        private readonly StatusOfAttempt $status_of_attempt = StatusOfAttempt::NOT_YET_STARTED
     ) {
     }
 
@@ -209,17 +203,9 @@ class Participant
         return max(0, $remaining);
     }
 
-    public function getStatusOfAttempt(): string
+    public function getStatusOfAttempt(): StatusOfAttempt
     {
-        if (!$this->getActiveId()) {
-            return self::ATTEMPT_NOT_STARTED;
-        }
-
-        if (!$this->submitted) {
-            return self::ATTEMPT_RUNNING;
-        }
-
-        return self::ATTEMPT_FINISHED;
+        return $this->status_of_attempt;
     }
 
     public function getAttemptOverviewInformation(): ?AttemptOverview

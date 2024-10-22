@@ -22,8 +22,7 @@ namespace ILIAS\Test\Participants;
 
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;
-
-use function join;
+use ILIAS\Test\Results\StatusOfAttempt;
 
 class ParticipantRepository
 {
@@ -317,10 +316,10 @@ class ParticipantRepository
             $row['last_finished_pass'],
             $row['unfinished_attempts'] === 1,
             $row['first_access'] === null ? null : new \DateTimeImmutable($row['first_access']),
-            $row['last_access'] === null ? null : new \DateTimeImmutable($row['last_access'])
+            $row['last_access'] === null ? null : new \DateTimeImmutable($row['last_access']),
+            $this->resolveStatusOfAttempt($row)
         );
     }
-
 
     /**
      * @return string
@@ -346,7 +345,8 @@ class ParticipantRepository
 						tatime.additionaltime extra_time,
 			            tinvited.ip_range_from,
 			            tinvited.ip_range_to,
-                        tinvited.tstamp as invitation_date
+                        tinvited.tstamp as invitation_date,
+                        tpass.finalized_by as status_of_attempt
 			FROM		tst_active ta
 			LEFT JOIN	usr_data ud
 			ON 			ud.usr_id = ta.user_fi
@@ -356,6 +356,9 @@ class ParticipantRepository
             LEFT JOIN   tst_invited_user tinvited
 			ON          tinvited.test_fi = ta.test_fi
             AND         tinvited.user_fi = ta.user_fi
+			LEFT JOIN   tst_pass_result tpass
+			ON          tpass.active_fi = ta.active_id
+			AND         tpass.pass = ta.last_started_pass
 			WHERE		ta.test_fi = %s
         ";
     }
@@ -384,7 +387,8 @@ class ParticipantRepository
 						tatime.additionaltime extra_time,
 			            tinvited.ip_range_from,
 			            tinvited.ip_range_to,
-                        tinvited.tstamp as invitation_date
+                        tinvited.tstamp as invitation_date,
+                        NULL as status_of_attempt
 			FROM		tst_invited_user tinvited
 			LEFT JOIN	usr_data ud
 			ON 			ud.usr_id = tinvited.user_fi
@@ -396,5 +400,22 @@ class ParticipantRepository
             AND         tinvited.user_fi = ta.user_fi
 			WHERE		tinvited.test_fi = %s AND ta.active_id IS NULL
         ";
+    }
+
+    private function resolveStatusOfAttempt(array $row): StatusOfAttempt
+    {
+        if ($row['status_of_attempt'] !== null) {
+            return StatusOfAttempt::tryFrom($row['status_of_attempt']);
+        }
+
+        if (!$row['active_id']) {
+            return StatusOfAttempt::NOT_YET_STARTED;
+        }
+
+        if (!$row['submitted']) {
+            return StatusOfAttempt::RUNNING;
+        }
+
+        return StatusOfAttempt::FINISHED;
     }
 }
