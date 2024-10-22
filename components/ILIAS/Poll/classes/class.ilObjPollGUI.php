@@ -139,8 +139,8 @@ class ilObjPollGUI extends ilObject2GUI
         );
         $show_result_as->addOption($result_bar);
         $show_result_as->addOption(new ilRadioOption(
-            $this->lng->txt("poll_piechart"),
-            (string) ilObjPoll::SHOW_RESULTS_AS_PIECHART
+            $this->lng->txt("poll_stacked_chart"),
+            (string) ilObjPoll::SHOW_RESULTS_AS_STACKED_CHART
         ));
         $a_form->addItem($show_result_as);
 
