@@ -236,7 +236,6 @@ class ilOpenIdConnectUserSync
                     break;
 
                 default:
-                    // Handle user defined fields
                     if (strpos($field, 'udf_') !== 0) {
                         continue 2;
                     }
@@ -246,11 +245,20 @@ class ilOpenIdConnectUserSync
                     }
                     $this->initUserDefinedFields();
                     $definition = $this->udf->getDefinition((int) $id_data[1]);
+                    if (empty($definition)) {
+                        $this->logger->warning(sprintf(
+                            "Invalid/Orphaned UD field mapping detected: %s",
+                            $field
+                        ));
+                        break;
+                    }
+
                     $this->writer->xmlElement(
                         'UserDefinedField',
-                        array('Id' => $definition['il_id'],
-                              'Name' => $definition['field_name']
-                        ),
+                        [
+                            'Id' => $definition['il_id'],
+                            'Name' => $definition['field_name']
+                        ],
                         $value
                     );
                     break;
