@@ -16994,26 +16994,26 @@ trac#:#trac_measure#:#Kennzahl
 trac#:#trac_members_short#:#Teil.
 trac#:#trac_min_passed#:#Minimalanzahl zu bestehender Materialien:
 trac#:#trac_mode#:#Lernfortschrittsmodus
-trac#:#trac_mode_cmix_compl_or_passed_with_failed#:#'Bearbeitet', wenn 'completed' oder 'passed' oder 'satisfied' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'nicht bestanden'.
+trac#:#trac_mode_cmix_compl_or_passed_with_failed#:#Status „Bearbeitet“, wenn von CMI5-Modul „completed“, „passed“ oder „satisfied“ gesendet wurde. Wird „failed“ gesendet, setzt ILIAS den Status des Lernfortschritts auf „Nicht bestanden“.
 trac#:#trac_mode_cmix_compl_or_passed_with_failed_info#:#&nbsp;
-trac#:#trac_mode_cmix_compl_with_failed#:#'Bearbeitet', wenn 'completed' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'nicht bestanden'.
+trac#:#trac_mode_cmix_compl_with_failed#:#Status „Bearbeitet“, wenn „completed“ gesendet wurde. Wird „failed“ gesendet, setzt ILIAS den Status des Lernfortschritts auf „Nicht bestanden“.
 trac#:#trac_mode_cmix_compl_with_failed_info#:#&nbsp;
-trac#:#trac_mode_cmix_completed#:#'Bearbeitet', wenn 'completed' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'in Bearbeitung'.
+trac#:#trac_mode_cmix_completed#:#Status „Bearbeitet“, wenn „completed“ gesendet wurde. Wird „failed“ gesendet, setzt ILIAS den Status des Lernfortschritts auf „in Bearbeitung“.
 trac#:#trac_mode_cmix_completed_info#:#&nbsp;
-trac#:#trac_mode_cmix_completed_or_passed#:#'Bearbeitet', wenn 'completed' oder 'passed' oder 'satisfied' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'in Bearbeitung'.
+trac#:#trac_mode_cmix_completed_or_passed#:#Status „Bearbeitet“, wenn von CMI5-Modul „completed“, „passed“ oder „satisfied“ gesendet wurde. Wird „failed“ gesendet, setzt ILIAS den Status des Lernfortschritts auf „in Bearbeitung“.
 trac#:#trac_mode_cmix_completed_or_passed_info#:#&nbsp;
-trac#:#trac_mode_cmix_passed#:#'Bearbeitet', wenn 'passed' oder 'satisfied' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'in Bearbeitung'.
+trac#:#trac_mode_cmix_passed#:#Status „Bearbeitet“, wenn von CMI5-Modul „passed“ oder „satisfied“ gesendet wurde. Wird „failed“ gesendet, setzt ILIAS den Status des Lernfortschritts auf „in Bearbeitung“.
 trac#:#trac_mode_cmix_passed_info#:#&nbsp;
-trac#:#trac_mode_cmix_passed_with_failed#:#'Bearbeitet', wenn 'passed' oder 'satisfied' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'nicht bestanden'.
+trac#:#trac_mode_cmix_passed_with_failed#:#Status „Bearbeitet“, wenn von CMI5-Modul „passed“ oder „satisfied“ gesendet wurde. Wird „failed“ gesendet, setzt ILIAS den Status des Lernfortschritts auf „Nicht bestanden“.
 trac#:#trac_mode_cmix_passed_with_failed_info#:#&nbsp;
-trac#:#trac_mode_collection#:#Status wird anhand einer Auswahl von Objekten bestimmt
-trac#:#trac_mode_collection_info#:#Der Status des Lernfortschritts des Objekts wird automatisch durch den Status der ausgewählten Objekten bestimmt. <br />Nach dem Speichern dieser Einstellung können auf dieser Seite die gewünschten Objekte ausgewählt werden.
-trac#:#trac_mode_collection_manual#:#Benutzer entscheidet selbst über den Status des Lernfortschritts im jeweiligen Kapitel.
-trac#:#trac_mode_collection_manual_info#:#Benutzer entscheiden selbst, wann sie ein Kapitel des Lernmoduls erfolgreich durchgearbeitet haben. Sowie die Bearbeitung eines Kapitels abgeschlossen ist, setzen sie auf dem Reiter 'Info' den Status dieses Kapitels auf 'Bearbeitet'.<br />Nach dem Speichern dieser Einstellungen, können auf dieser Seite Kapitel für den Lernfortschritt ausgewählt werden.
+trac#:#trac_mode_collection#:#Automatische Bewertung auf Basis ausgewählter Objekte
+trac#:#trac_mode_collection_info#:#Der Status des Lernfortschritts wird automatisch durch den Status der ausgewählten Unterobjekte bestimmt. <br />Nach dem Speichern dieser Einstellung können auf dieser Seite die dafür gewünschten Objekte ausgewählt werden.
+trac#:#trac_mode_collection_manual#:#Selbsteinschätzung pro Kapitel
+trac#:#trac_mode_collection_manual_info#:#Eine Person entscheidet selbst, wann sie ein Kapitel des Lernmoduls erfolgreich durchgearbeitet haben. Sobald die Bearbeitung eines Kapitels abgeschlossen ist, wird dazu der Status des Kapitels auf „Bearbeitet“ gesetzt.<br />Nach dem Speichern der Einstellung können auf dieser Seite Kapitel für die Selbsteinschätzung ausgewählt werden.
 trac#:#trac_mode_collection_mobs#:#Auswahl an Medien-Objekten
 trac#:#trac_mode_collection_mobs_info#:#Der Lernfortschritt wird automatisch aus der Anzahl der betrachteten Medienobjekte ermittelt.
 trac#:#trac_mode_collection_tlt#:#Mindestlerndauer je Kapitel
-trac#:#trac_mode_collection_tlt_info#:#Der Status eines Benutzers wird entsprechend der Dauer, die dieser Benutzer mit der Bearbeitung eines Kapitels verbringt, automatisch gesetzt. Der Status eines Kapitels auf 'Bearbeitet' wird vergeben, wenn die 'Typische Lernzeit' aller lernfortschritts-relevanten Kapitel überschritten wird. <br />Nach dem Speichern dieser Einstellungen, können auf dieser Seite Kapitel ausgewählt und für diese die 'Typische Lernzeiten' festlegt werden.
+trac#:#trac_mode_collection_tlt_info#:#Der Status des Lernfortschritts wird automatisch entsprechend der Dauer gesetzt, die eine Person mit der Bearbeitung eines Kapitels verbringt. Ein Kapitel wird als „Bearbeitet“ gewertet, sobald die „Typische Lernzeit“ aller für den Lernfortschritt relevanten Kapitel überschritten ist. <br />Nach dem Speichern der Einstellung, können auf dieser Seite Kapitel ausgewählt und für diese jeweils die „Typische Lernzeit“ festgelegt werden.
 trac#:#trac_mode_content_visited#:#Besuch
 trac#:#trac_mode_content_visited_info#:#Der Lernstand wird über das Ausliefern des Inhalts bestimmt.
 trac#:#trac_mode_contribution_to_discussion#:#Beiträge zur Diskussion
@@ -17027,35 +17027,35 @@ trac#:#trac_mode_event_info#:#Personen mit dem Recht „Mitglieder verwalten“ 
 trac#:#trac_mode_exercise_returned#:#Manuelle Bewertung
 trac#:#trac_mode_exercise_returned_info#:#Personen mit dem Recht „Einstellungen bearbeiten“ entscheiden anhand der Einreichungen, ob die Übungseinheit gelöst wurde. Im Reiter „Abgaben und Noten“ setzen sie händisch den jeweiligen Status.
 trac#:#trac_mode_individual_assessment#:#Manuelle Bewertung
-trac#:#trac_mode_individual_assessment_info#:#Im Reiter „Teilnehmer“ können Personen mit dem Recht „Teilnehmer bearbeiten“ die Bewertung abschließen. Dadurch ändert sich der jeweilige Lernfortschrittsstatus.
+trac#:#trac_mode_individual_assessment_info#:#Ob eine Individuelle Bewertung bestanden wurde, entscheiden Personen mit dem Recht „Mitglieder verwalten“ im Reiter „Teilnehmer“. Abhängig von der Entscheidung ändert sich der Status des Lernfortschritts für die bewertete Person.
 trac#:#trac_mode_lti_outcome#:#Mastery Score muss erreicht werden
 trac#:#trac_mode_lti_outcome_info#:#Der Lernfortschritt gilt als abgeschlossen, wenn das Ergebnis des LTI-Outcome-Service mindestens so hoch wie der Mastery Score ist.
-trac#:#trac_mode_manual#:#Benutzer entscheidet selbst über den Status des Lernfortschritts für das gesamte Objekt.
-trac#:#trac_mode_manual_by_tutor#:#Die Kursadministration oder Kursbetreuung entscheidet über den Status des Lernfortschritts.
-trac#:#trac_mode_manual_by_tutor_info#:#Die Kursadministration oder Kursbetreuung entscheidet, ob Teilnehmer das Objekt erfolgreich bearbeitet haben. Dazu setzt sie händisch den Status auf „Bearbeitet“.
-trac#:#trac_mode_manual_info#:#Benutzer entscheiden selbst, wann sie das Objekt erfolgreich durchgearbeitet haben. Sowie die Bearbeitung abgeschlossen ist, setzen sie den Status im Reiter 'Info' auf 'Bearbeitet'.
+trac#:#trac_mode_manual#:#Selbsteinschätzung für gesamtes Objekt
+trac#:#trac_mode_manual_by_tutor#:#Manuelle Bewertung
+trac#:#trac_mode_manual_by_tutor_info#:#Ob eine Person das Objekt erfolgreich bearbeitet hat, entscheiden Personen mit dem Recht „Mitglieder verwalten“ (zum Beispiel die Kurs- oder Gruppenadministration). Dazu muss der Status händisch auf „Bearbeitet“ gesetzt werden.
+trac#:#trac_mode_manual_info#:#Eine Person entscheidet selbst, ob sie das Objekt erfolgreich durchgearbeitet hat. Dazu setzt sie im Reiter „Info“ den Status auf „Bearbeitet“.
 trac#:#trac_mode_objectives#:#Lernziele
 trac#:#trac_mode_objectives_info#:#Der Lernfortschritt wird automatisch aus der Anzahl der erfüllten Lernziele ermittelt.
 trac#:#trac_mode_plugin#:#Plugin
 trac#:#trac_mode_questions#:#Alle Fragen richtig beantwortet
-trac#:#trac_mode_questions_info#:#Benutzer, die alle Fragen richtig beantwortet haben, erhalten automatisch den Status 'Bearbeitet'. Bitte nutzen Sie diese Option nur, wenn auch tatsächlich Fragen im Lernmodul vorliegen.
-trac#:#trac_mode_scorm#:#Status wird anhand einer Auswahl von SCORM-Kapiteln bestimmt (je SCO)
-trac#:#trac_mode_scorm_info#:#Der Status des Lernfortschritts des gesamten Lernmoduls wird automatisch durch den Status der ausgewählten Kapitel (SCOs) bestimmt. <br />Nach dem Speichern dieser Einstellung können auf dieser Seite die gewünschten SCOs ausgewählt werden.
-trac#:#trac_mode_scorm_package#:#Status wird vom SCORM-Paket bestimmt (gesamtes Lernmodul)
-trac#:#trac_mode_scorm_package_info#:#Der Status eines Benutzers wird automatisch auf 'Bearbeitet' gesetzt, wenn das gesamte Lernmodul durchgearbeitet wurde. Alle im Paket enthaltenen SCOs werden im Lernfortschritt berücksichtigt.
+trac#:#trac_mode_questions_info#:#Ein Lernmodul gilt als „bearbeitet“, sobald alle Fragen richtig beantwortet wurden.<br />Nutzen Sie diese Option nur, wenn es Fragen im Lernmodul gibt.
+trac#:#trac_mode_scorm#:#Auswahl von SCORM-Kapiteln
+trac#:#trac_mode_scorm_info#:#Der Status des Lernfortschritts des gesamten Lernmoduls wird automatisch durch den Status der ausgewählten Kapitel (SCOs) bestimmt. <br />Nach dem Speichern der Einstellung können auf dieser Seite die gewünschten SCOs ausgewählt werden.
+trac#:#trac_mode_scorm_package#:#Durch SCORM-Paket (gesamtes Lernmodul)
+trac#:#trac_mode_scorm_package_info#:#Der Lernfortschritt wird automatisch auf „Bearbeitet“ gesetzt, wenn das gesamte Lernmodul durchgearbeitet wurde. Alle im Paket enthaltenen SCOs werden im Lernfortschritt berücksichtigt.
 trac#:#trac_mode_study_programme#:#Studienprogramm abgeschlossen
 trac#:#trac_mode_survey_finished#:#Umfrage beendet
 trac#:#trac_mode_survey_finished_info#:#Die Umfrage muss beendet werden.
-trac#:#trac_mode_test_finished#:#Benutzer müssen Test beenden
-trac#:#trac_mode_test_finished_info#:#Der Status eines Benutzers wird automatisch auf 'Bearbeitet' gesetzt, nachdem der Benutzer 'Test beenden' geklickt hat. Dabei ist es gleichgültig, ob der Benutzer den Test bestanden hat oder nicht.
-trac#:#trac_mode_test_passed#:#Benutzer müssen Test bestehen
-trac#:#trac_mode_test_passed_info#:#Der Status eines Benutzers wird automatisch auf 'Bearbeitet' gesetzt, nachdem der Benutzer den Test bestanden hat. Im Reiter 'Einstellungen' können im Abschnitt 'Notenschema' Schwellenwerte für das Bestehen des Tests festgelegt werden.
+trac#:#trac_mode_test_finished#:#Test beendet
+trac#:#trac_mode_test_finished_info#:#Der Lernfortschritt wird automatisch auf „Bearbeitet“ gesetzt, sobald im Testdurchlauf auf „Test beenden“ geklickt wurde. Dabei spielt keine Rolle, ob der Test bestanden wurde oder nicht.
+trac#:#trac_mode_test_passed#:#Test bestanden
+trac#:#trac_mode_test_passed_info#:#Der Lernfortschritt für den Test wird nur dann auf „Bearbeitet“ gesetzt, wenn der Test auch bestanden wurde. Wurde der Test nicht bestanden, setzt ILIAS automatisch den Status „Nicht bestanden“.<br />Die Schwellenwerte für das Bestehen eines Tests werden im Reiter „Einstellungen“, Unterreiter „Notenschema“' festgelegt.
 trac#:#trac_mode_tlt#:#Mindestlerndauer für gesamtes Lernmodul
-trac#:#trac_mode_tlt_info#:#Der Status eines Benutzers wird automatisch entsprechend der Dauer gesetzt, die dieser Benutzer mit der Bearbeitung des Lernmoduls verbringt. Der Status 'Bearbeitet' wird vergeben, soabld die 'Typische Lernzeit' überschritten ist. <br />Die 'Typische Lernzeit' des Lernmoduls wird im Reiter 'Metadaten' festgelegt.
+trac#:#trac_mode_tlt_info#:#Der Status des Lernfortschritts wird automatisch auf „Bearbeitet“ gesetzt, sobald die Bearbeitung des Lernmoduls länger dauert, als dies in der „Typischen Lernzeit“ definiert ist. <br />Die „Typische Lernzeit“ wird im Reiter „Metadaten“ festgelegt.
 trac#:#trac_mode_visited_pages#:#Besuchte Seiten
-trac#:#trac_mode_visited_pages_info#:#Benutzer, die alle Seiten des Lernmoduls besucht haben, erhalten automatisch den Status 'Bearbeitet'.
-trac#:#trac_mode_visits#:#Status wird anhand der Anzahl der Aufrufe bestimmt
-trac#:#trac_mode_visits_info#:#Der Status eines Benutzers wird automatisch auf 'Bearbeitet' gesetzt, wenn dieser Benutzer das Lernmodul häufiger aufgerufen hat als die Mindestanzahl der Aufrufe fordert. Benutzern wird die Anzahl ihrer Aufrufe angezeigt und zu welchem Prozentsatz sie die Mindestanforderungen erfüllen.
+trac#:#trac_mode_visited_pages_info#:#Hat eine Person alle Seiten des Lernmoduls besucht, wird der Status des Lernfortschritt automatisch auf „Bearbeitet“ gesetzt.
+trac#:#trac_mode_visits#:#Anzahl der Aufrufe
+trac#:#trac_mode_visits_info#:#Der Status des Lernfortschritts wird automatisch auf „Bearbeitet“ gesetzt, wenn eine Person das Lernmodul häufiger aufruft, als es die definierte Mindestanzahl verlangt.
 trac#:#trac_name_of_installation#:#Name der Installation
 trac#:#trac_no_attempted#:#Noch nicht bearbeitet
 trac#:#trac_not_accessed#:#Noch nicht zugegriffen
