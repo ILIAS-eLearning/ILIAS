@@ -246,7 +246,10 @@ class ilBiblFieldFilterGUI
         $token = $table->getIdToken()->getName();
         if (isset($this->http->request()->getQueryParams()[$token])) {
             $field_id = $this->http->request()->getQueryParams()[$token] ?? null;
-            return $this->facade->filterFactory()->findById($field_id[0] ?? 0);
+            if (is_array($field_id)) {
+                $field_id = $field_id[0];
+            }
+            return $this->facade->filterFactory()->findById($field_id ?? 0);
         }
 
         $field = $this->http->request()->getQueryParams()[self::FILTER_ID];
