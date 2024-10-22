@@ -34,13 +34,11 @@ class ilBookingManagerAppEventListener
     ): void {
         global $DIC;
 
-        $user_event = $DIC->bookingManager()->internal()->domain()->userEvent();
-
         switch ($a_component) {
             case "Services/User":
                 switch ($a_event) {
                     case "deleteUser":
-                        $user_event->handleDeletion((int) $a_parameter["usr_id"]);
+                        $DIC->bookingManager()->internal()->domain()->userEvent()->handleDeletion((int) $a_parameter["usr_id"]);
                         break;
                 }
                 break;
