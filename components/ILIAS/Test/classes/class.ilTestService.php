@@ -177,9 +177,9 @@ class ilTestService
         return $virtualPassResults;
     }
 
-    public function getQuestionSummaryData(ilTestSequenceSummaryProvider $testSequence, bool $obligationsFilterEnabled): array
+    public function getQuestionSummaryData(ilTestSequenceSummaryProvider $testSequence): array
     {
-        $result_array = $testSequence->getSequenceSummary($obligationsFilterEnabled);
+        $result_array = $testSequence->getSequenceSummary();
 
         $marked_questions = [];
 
@@ -229,7 +229,6 @@ class ilTestService
                 'points' => $points,
                 'marked' => $marked,
                 'sequence' => $value["sequence"],
-                'obligatory' => $value['obligatory'],
                 'isAnswered' => $value['isAnswered']
             ];
 
