@@ -1866,6 +1866,9 @@ class ilObjUserGUI extends ilObjectGUI
             $target = $DIC['legalDocuments']->findGotoLink($a_target);
             if ($target->isOK()) {
                 $ilCtrl->setTargetScript('ilias.php');
+                foreach ($target->value()->queryParams() as $key => $value) {
+                    $ilCtrl->setParameterByClass($target->value()->guiName(), (string) $key, $value);
+                }
                 $ilCtrl->redirectByClass($target->value()->guiPath(), $target->value()->command());
             }
         }
