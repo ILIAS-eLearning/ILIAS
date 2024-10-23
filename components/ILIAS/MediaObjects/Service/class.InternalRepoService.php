@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\MediaObjects;
 
 use ILIAS\MediaObjects\ImageMap\ImageMapEditSessionRepository;
@@ -27,13 +27,11 @@ use ILIAS\Exercise\IRSS\IRSSWrapper;
 class InternalRepoService
 {
     protected static array $instance = [];
-    protected IRSSWrapper $irss_wrapper;
 
     public function __construct(
         protected InternalDataService $data,
         protected \ilDBInterface $db
     ) {
-        $this->irss_wrapper = new IRSSWrapper(new \ILIAS\Exercise\InternalDataService());
     }
 
     public function imageMap(): ImageMapEditSessionRepository
@@ -51,7 +49,7 @@ class InternalRepoService
         return self::$instance["media_object"] ??=
             new MediaObjectRepository(
                 $this->db,
-                $this->irss_wrapper
+                new IRSSWrapper(new \ILIAS\Exercise\InternalDataService())
             );
     }
 
