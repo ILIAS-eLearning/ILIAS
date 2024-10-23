@@ -111,12 +111,7 @@ class McstImageGalleryGUI
                 continue;
             }
 
-            if (strcasecmp("Reference", $med->getLocationType()) == 0) {
-                $resource = $med->getLocation();
-            } else {
-                $path_to_file = \ilObjMediaObject::_getURL($mob->getId()) . "/" . $med->getLocation();
-                $resource = ilWACSignedPath::signFile($path_to_file);
-            }
+            $resource = $mob->getStandardSrc();
 
             $image = $f->image()->responsive(
                 $resource,
@@ -143,15 +138,14 @@ class McstImageGalleryGUI
                 continue;
             }
 
-            if (strcasecmp("Reference", $med->getLocationType()) == 0) {
-                $resource = $med->getLocation();
-            } else {
-                $path_to_file = \ilObjMediaObject::_getURL($mob->getId()) . "/" . $med->getLocation();
-                $resource = ilWACSignedPath::signFile($path_to_file);
-            }
+            $resource = $mob->getStandardSrc();
+
             $preview_resource = $resource;
             if ($mob->getVideoPreviewPic() != "") {
-                $preview_resource = ilWACSignedPath::signFile($mob->getVideoPreviewPic());
+                try {
+                    $preview_resource = ilWACSignedPath::signFile($mob->getVideoPreviewPic());
+                } catch (Exception $e) {
+                }
             }
 
 

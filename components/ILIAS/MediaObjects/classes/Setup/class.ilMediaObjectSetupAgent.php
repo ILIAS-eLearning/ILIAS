@@ -90,6 +90,8 @@ class ilMediaObjectSetupAgent implements Setup\Agent
 
     public function getMigrations(): array
     {
-        return [];
+        return [
+            new ilMobMigration()
+        ];
     }
 }

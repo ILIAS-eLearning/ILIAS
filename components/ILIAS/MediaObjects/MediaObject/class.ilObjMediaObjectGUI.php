@@ -716,7 +716,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             }
             $media_item = $a_mob->addMediaItemFromLegacyUpload(
                 "Standard",
-                "standard_file",
+                $_FILES["standard_file"]["tmp_name"],
+                $_FILES["standard_file"]["name"],
                 $width,
                 $height,
                 $constr_prop
