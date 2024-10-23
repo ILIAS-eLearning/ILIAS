@@ -34,6 +34,7 @@ define("IL_MODE_FULL", 3);
 class ilObjMediaObject extends ilObject
 {
     private const DEFAULT_PREVIEW_SIZE = 80;
+    protected \ILIAS\MediaObjects\MediaObjectManager $manager;
     protected InternalDomainService $domain;
     protected ilObjUser $user;
     public bool $is_alias;
@@ -57,6 +58,7 @@ class ilObjMediaObject extends ilObject
         parent::__construct($a_id, false);
         $this->image_converter = $DIC->fileConverters()->legacyImages();
         $this->domain = $DIC->mediaObjects()->internal()->domain();
+        $this->manager = $this->domain->mediaObject();
     }
 
     public static function _exists(
@@ -289,6 +291,10 @@ class ilObjMediaObject extends ilObject
         if (!$a_create_meta_data) {
             $this->createMetaData();
         }
+        $this->manager->create(
+            $id,
+            $this->getTitle()
+        );
 
         if ($a_save_media_items) {
             $media_items = $this->getMediaItems();
@@ -558,8 +564,16 @@ class ilObjMediaObject extends ilObject
                     $xml .= "<MediaItem Purpose=\"" . $item->getPurpose() . "\">";
 
                     if ($a_sign_locals && $item->getLocationType() == "LocalFile") {
-                        $location = ilWACSignedPath::signFile($this->getDataDirectory() . "/" . $item->getLocation());
-                        $location = substr($location, strrpos($location, "/") + 1);
+                        // pre irss file
+                        if (is_file($this->getDataDirectory() . "/" . $item->getLocation())) {
+                            $location = ilWACSignedPath::signFile($this->getDataDirectory() . "/" . $item->getLocation());
+                            $location = substr($location, strrpos($location, "/") + 1);
+                        } else {
+                            $location = $this->manager->getLocationSrc(
+                                $this->getId(),
+                                $item->getLocation()
+                            );
+                        }
                     } else {
                         $location = $item->getLocation();
                         if ($item->getLocationType() != "LocalFile") {  //#25941
@@ -1395,6 +1409,43 @@ class ilObjMediaObject extends ilObject
         $media_object->update();
 
         return $media_object;
+    }
+
+    public function addMediaItemFromLegacyUpload(
+        string $purpose,
+        string $upload_name,
+        int $resize_width = 0,
+        int $resize_height = 0,
+        bool $constrain_proportions = true
+    ): \ilMediaItem {
+        $media_item = new ilMediaItem();
+        $this->addMediaItem($media_item);
+        $media_item->setPurpose($purpose);
+        $location = self::fixFilename($_FILES[$upload_name]['name']);
+        $this->manager->addFileFromLegacyUpload($this->getId(), $upload_name, $location);
+
+        // get mime type
+        $format = ilObjMediaObject::getMimeType($location, true);
+
+        // resize standard images
+        if ($resize_width > 0 && $resize_height > 0 && is_int(strpos($format, "image"))) {
+            /*
+            $location = ilObjMediaObject::_resizeImage(
+                $file,
+                $resize_width,
+                $resize_height,
+                $constrain_proportions
+            );*/
+        }
+
+        // set real meta and object data
+        $media_item->setFormat($format);
+        $media_item->setLocation($location);
+        $media_item->setLocationType("LocalFile");
+        if ($purpose === "Standard") {
+            $this->generatePreviewPic(320, 240);
+        }
+        return $media_item;
     }
 
     /**

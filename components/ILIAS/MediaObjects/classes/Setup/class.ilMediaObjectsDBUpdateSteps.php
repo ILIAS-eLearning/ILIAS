@@ -114,4 +114,29 @@ class ilMediaObjectsDBUpdateSteps implements \ilDatabaseUpdateSteps
         $db->modifyTableColumn('map_area', 'coords', ['length' => 4000]);
     }
 
+    public function step_5(): void
+    {
+        $db = $this->db;
+        $db->createTable('mob_data', [
+            "id" => [
+                "type" => "integer",
+                "notnull" => true,
+                "length" => 4,
+                "default" => 0
+            ],
+            "rid" => [
+                'type' => 'text',
+                'notnull' => true,
+                'length' => 64,
+                'default' => ""
+            ]
+        ]);
+    }
+
+    public function step_6(): void
+    {
+        $db = $this->db;
+        $db->addPrimaryKey("mob_data", ["id"]);
+    }
+
 }

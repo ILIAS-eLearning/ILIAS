@@ -29,7 +29,6 @@ use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Filesystem\Util\LegacyPathHelper;
-use ILIAS\DI\Exceptions\Exception;
 use ILIAS\Filesystem\Stream\Stream;
 use ILIAS\Filesystem\Util\Archive\Archives;
 use ILIAS\Filesystem\Util\Archive\Unzip;
@@ -50,6 +49,7 @@ class IRSSWrapper
         $this->archives = $DIC->archives();
         $this->upload = $DIC->upload();
         $this->data = $data;
+        $this->archives = $DIC->archives();
     }
 
     protected function getNewCollectionId(): ResourceCollectionIdentification
@@ -398,9 +398,11 @@ class IRSSWrapper
     public function createContainer(
         ResourceStakeholder $stakeholder
     ): string {
+        // create empty container resource. empty zips are not allowed, we need at least one file which is hidden
         $empty_zip = $this->archives->zip(
             []
         );
+
         $rid = $this->irss->manageContainer()->containerFromStream(
             $empty_zip->get(),
             $stakeholder
@@ -520,5 +522,55 @@ class IRSSWrapper
     }
 
 
+
+    public function importFileFromLegacyUploadToContainer(
+        string $rid,
+        array $file_input,
+        string $target_path
+    ): void {
+        $upload = $this->upload;
+
+        if (is_array($file_input)) {
+            if (!$upload->hasBeenProcessed()) {
+                $upload->process();
+            }
+            foreach ($upload->getResults() as $name => $result) {
+                // we must check if these are files from this input
+                /*
+                if (!in_array($name, $file_input["tmp_name"] ?? [], true)) {
+                    continue;
+                }*/
+                // if the result is not OK, we skip it
+                if (!$result->isOK()) {
+                    continue;
+                }
+
+                $id = $this->getResourceIdForIdString($rid);
+
+                if (!is_null($id)) {
+                    $this->irss->manageContainer()->addUploadToContainer(
+                        $id,
+                        $result,
+                        $target_path
+                    );
+                }
+            }
+        }
+    }
+
+    public function getContainerSrc(
+        string $rid,
+        string $path
+    ): string {
+        if ($rid !== "") {
+            $uri = $this->irss->consume()->containerURI(
+                $this->getResourceIdForIdString($rid),
+                $path,
+                8 * 60
+            )->getURI();
+            return (string) $uri;
+        }
+        return "";
+    }
 
 }
