@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\Results\TestPassResultRepository;
+use ILIAS\Test\Results\Data\TestPassResultRepository;
 use ILIAS\Test\TestDIC;
 use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\ResponseHandler;

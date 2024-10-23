@@ -22,6 +22,7 @@ namespace ILIAS\Test\Results\Data;
 
 use ILIAS\Test\Results\Presentation\Settings as ResultPresentationSettings;
 use ILIAS\Language\Language;
+use ILIAS\Test\Results\Data\StatusOfAttempt;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Listing\Descriptive as DescriptiveListing;
 use ILIAS\Test\Scoring\Marks\Mark;
@@ -44,7 +45,8 @@ class AttemptOverview
         private readonly ?\DateTimeImmutable $last_access = null,
         private readonly int $nr_of_attempts = 0,
         private readonly ?int $scored_attempt = null,
-        private readonly ?int $rank = 0
+        private readonly ?int $rank = 0,
+        private readonly StatusOfAttempt $status_of_attempt = StatusOfAttempt::NOT_YET_STARTED
     ) {
     }
 
@@ -109,6 +111,11 @@ class AttemptOverview
             return 0.0;
         }
         return $this->reached_points / $this->available_points * 100;
+    }
+
+    public function getStatusOfAttempt(): StatusOfAttempt
+    {
+        return $this->status_of_attempt;
     }
 
     public function getAsDescriptiveListing(

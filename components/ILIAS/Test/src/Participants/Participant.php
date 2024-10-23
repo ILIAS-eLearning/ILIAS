@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Participants;
 
 use ILIAS\Test\Results\Data\AttemptOverview;
-use ILIAS\Test\Results\StatusOfAttempt;
+use ILIAS\Test\Results\Data\StatusOfAttempt;
 
 class Participant
 {
@@ -46,8 +46,7 @@ class Participant
         private readonly ?int $last_finished_attempt = null,
         private readonly bool $unfinished_attempts = false,
         private readonly ?\DateTimeImmutable $first_access = null,
-        private readonly ?\DateTimeImmutable $last_access = null,
-        private readonly StatusOfAttempt $status_of_attempt = StatusOfAttempt::NOT_YET_STARTED
+        private readonly ?\DateTimeImmutable $last_access = null
     ) {
     }
 
@@ -201,11 +200,6 @@ class Participant
         }
 
         return max(0, $remaining);
-    }
-
-    public function getStatusOfAttempt(): StatusOfAttempt
-    {
-        return $this->status_of_attempt;
     }
 
     public function getAttemptOverviewInformation(): ?AttemptOverview

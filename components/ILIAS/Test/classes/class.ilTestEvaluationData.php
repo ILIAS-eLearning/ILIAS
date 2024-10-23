@@ -17,6 +17,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Results\Data\StatusOfAttempt;
 use ILIAS\Test\Statistics\Statistics;
 
 /**
@@ -108,7 +109,8 @@ class ilTestEvaluationData
                                 FROM tst_times
                                 WHERE active_fi = tst_active.active_id
                                     AND pass = tst_pass_result.pass
-                            ) as last_access_time
+                            ) as last_access_time,
+			                COALESCE(tst_active.last_started_pass, -1) <> COALESCE(tst_active.last_finished_pass, -1) unfinished_attempt
 			FROM			tst_pass_result, tst_active
 			LEFT JOIN		usr_data
 			ON				tst_active.user_fi = usr_data.usr_id
@@ -191,6 +193,11 @@ class ilTestEvaluationData
             $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setNrOfAnsweredQuestions($row['answeredquestions']);
             $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setWorkingTime($row['workingtime']);
             $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setExamId((string) $row['exam_id']);
+            $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setUnfinishedAttempt((bool) $row['unfinished_attempt']);
+            $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setStatusOfAttempt(
+                $row['finalized_by'] ? StatusOfAttempt::tryFrom($row['finalized_by']) : null
+            );
+
 
             $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setRequestedHintsCount($row['hint_count']);
             $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setDeductedHintPoints($row['hint_points']);
