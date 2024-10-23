@@ -25,7 +25,7 @@ class PostingReplySubjectBuilderTest extends TestCase
     /**
      * @return Generator<string, array{"subject": string, "prefix": string, "repetition_prefix": string, "expected": string}>
      */
-    public function postingSubjectProvider(): Generator
+    public static function postingSubjectProvider(): Generator
     {
         yield 'Subject without reply prefix' => [
             'subject' => 'This is a subject',
@@ -93,7 +93,10 @@ class PostingReplySubjectBuilderTest extends TestCase
         string $optimized_repeated_reply_prefix,
         string $expected_result
     ): void {
-        $posting_subject_builder = new PostingReplySubjectBuilder($reply_prefix, $optimized_repeated_reply_prefix);
+        $posting_subject_builder = new \ILIAS\components\Forum\Subject\PostingReplySubjectBuilder(
+            $reply_prefix,
+            $optimized_repeated_reply_prefix
+        );
         $result = $posting_subject_builder->build($subject);
 
         $this->assertSame($expected_result, $result);

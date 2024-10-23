@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\components\Forum\Subject;
+
 class PostingReplySubjectBuilder
 {
     private const EXPECTED_REPLY_PREFIX_END = ':';

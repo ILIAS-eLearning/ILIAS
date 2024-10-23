@@ -3683,7 +3683,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
     private function getModifiedReOnSubject(): string
     {
-        return (new PostingReplySubjectBuilder(
+        return (new \ILIAS\components\Forum\Subject\PostingReplySubjectBuilder(
             $this->lng->txt('post_reply'),
             $this->lng->txt('post_reply_count')
         ))->build($this->objCurrentPost->getSubject());
