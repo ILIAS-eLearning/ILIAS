@@ -465,10 +465,10 @@ class ilCertificateGUI
                     );
                     $this->templateRepository->save($certificateTemplate);
 
-                    if ($current_background_rid) {
+                    if ($current_background_rid instanceof ResourceIdentification) {
                         $certificate_handler->handleResourceChange($current_background_rid);
                     }
-                    if ($current_thumbnail_rid) {
+                    if ($current_thumbnail_rid instanceof ResourceIdentification) {
                         $certificate_handler->handleResourceChange($current_thumbnail_rid);
                     }
 

@@ -96,7 +96,7 @@ class ilObjCertificateSettings extends ilObject
     public function deleteBackgroundImage(): bool
     {
         $rid = $this->getBackgroundImageIdentification();
-        if ($rid) {
+        if ($rid instanceof ResourceIdentification) {
             $this->certificate_settings->set('cert_bg_image', '');
             $this->resource_handler->handleResourceChange($rid);
 
