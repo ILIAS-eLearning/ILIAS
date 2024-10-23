@@ -22,6 +22,10 @@ namespace ILIAS\MediaObjects;
 
 use ilDBInterface;
 use ILIAS\Exercise\IRSS\IRSSWrapper;
+use ILIAS\FileUpload\DTO\UploadResult;
+use ILIAS\Filesystem\Stream\ZIPStream;
+use ILIAS\Filesystem\Stream\FileStream;
+use _PHPStan_9815bbba4\Nette\Neon\Exception;
 
 class MediaObjectRepository
 {
@@ -87,12 +91,23 @@ class MediaObjectRepository
         return "";
     }
 
-    public function addFileFromLegacyUpload(int $mob_id, string $upload_name, string $targetpath): void
+    public function addFileFromLegacyUpload(int $mob_id, string $tmp_name): void
     {
         if ($rid = $this->getRidForMobId($mob_id)) {
             $this->irss->importFileFromLegacyUploadToContainer(
                 $rid,
-                $_FILES[$upload_name],
+                $tmp_name,
+                "/"
+            );
+        }
+    }
+
+    public function addFileFromUpload(int $mob_id, UploadResult $result): void
+    {
+        if ($rid = $this->getRidForMobId($mob_id)) {
+            $this->irss->importFileFromUploadResultToContainer(
+                $rid,
+                $result,
                 "/"
             );
         }
@@ -101,6 +116,34 @@ class MediaObjectRepository
     public function getLocationSrc(int $mob_id, string $location): string
     {
         return $this->irss->getContainerSrc($this->getRidForMobId($mob_id), $location);
+    }
+
+    public function getLocationStream(
+        int $mob_id,
+        string $location
+    ): ZIPStream {
+        return $this->irss->getStreamOfContainerEntry(
+            $this->getRidForMobId($mob_id),
+            $location
+        );
+    }
+
+    public function getContainerPath(
+        int $mob_id
+    ): string {
+        return $this->irss->getResourcePath($this->getRidForMobId($mob_id));
+    }
+
+    public function addStream(
+        int $mob_id,
+        string $location,
+        FileStream $stream
+    ): void {
+        $this->irss->addStreamToContainer(
+            $this->getRidForMobId($mob_id),
+            $stream,
+            $location
+        );
     }
 
 }

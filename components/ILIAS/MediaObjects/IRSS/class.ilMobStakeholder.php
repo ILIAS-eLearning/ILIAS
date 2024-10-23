@@ -29,11 +29,10 @@ class ilMobStakeholder extends AbstractResourceStakeholder
     public function __construct(int $owner = 6)
     {
         global $DIC;
-        $this->current_user = (int) ($DIC->isDependencyAvailable('user')
+        $this->current_user = (!is_array($DIC) && (int) ($DIC->isDependencyAvailable('user'))
             ? $DIC->user()->getId()
             : (defined('ANONYMOUS_USER_ID') ? ANONYMOUS_USER_ID : 6));
         $this->owner = $owner;
-        $this->access = $DIC->access();
     }
 
     public function getId(): string
@@ -210,7 +209,9 @@ class ilMobStakeholder extends AbstractResourceStakeholder
         int $obj_id,
         string $obj_type = ''
     ): bool {
-        $ilAccess = $this->access;
+        global $DIC;
+
+        $ilAccess = $DIC->access();
         $user_id = $this->current_user;
 
         if (!$obj_type) {

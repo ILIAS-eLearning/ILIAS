@@ -67,20 +67,6 @@ class ilFFmpeg
     }
 
     /**
-     * Get desired target mime types
-     */
-    public static function getTargetMimeTypes(): array
-    {
-        $ttypes = array();
-        foreach (self::$formats as $k => $f) {
-            if ($f["target"] == true) {
-                $ttypes[] = $k;
-            }
-        }
-        return $ttypes;
-    }
-
-    /**
      * @return string[]
      */
     public static function getSourceMimeTypes(): array
@@ -115,13 +101,34 @@ class ilFFmpeg
         return PATH_TO_FFMPEG;
     }
 
-    /**
-     * Execute ffmpeg
-     */
-    public static function exec(string $args): array
+    protected static function exec(string $args): array
     {
-        return ilShellUtil::execQuoted(self::getCmd(), $args);
+        $win = (stripos(php_uname(), "win") === 0);
+        $cmd = self::getCmd();
+        if ($win && str_contains($cmd, " ") && $cmd[0] !== '"') {
+            $cmd = '"' . $cmd . '"';
+            if ($args) {
+                $cmd .= " " . $args;
+            }
+        } elseif ($args) {
+            $cmd .= " " . $args;
+        }
+        $arr = [];
+        exec($cmd, $arr);
+        return $arr;
     }
+
+    protected static function escapeShellArg(string $a_arg): string
+    {
+        setlocale(
+            LC_CTYPE,
+            "UTF8",
+            "en_US.UTF-8"
+        ); // fix for PHP escapeshellcmd bug. See: http://bugs.php.net/bug.php?id=45132
+        // see also ilias bug 5630
+        return escapeshellarg($a_arg);
+    }
+
 
     /**
      * Get last return values
@@ -168,5 +175,18 @@ class ilFFmpeg
         } else {
             throw new ilFFmpegException("It was not possible to extract an image from " . basename($a_file) . ".");
         }
+    }
+
+    public static function extractPNGFromVideoInZip(
+        string $zip,
+        string $path,
+        int $sec = 1
+    ): string {
+        $zip = self::escapeShellArg($zip);
+        $path = self::escapeShellArg("/" . $path);
+
+        $command = "unzip -p $zip $path | ffmpeg -i pipe:0 -f image2 -vframes 1 -ss $sec -vcodec png pipe:1";
+
+        return (string) shell_exec($command);
     }
 }

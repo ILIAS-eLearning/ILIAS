@@ -26,24 +26,4 @@ class ilPortfolioTemplatePage extends ilPortfolioPage
     {
         return "prtt";
     }
-
-    public function getPageDiskSize(): int
-    {
-        $quota_sum = 0;
-
-        $this->buildDom();
-        $dom = $this->getDomDoc();
-        $xpath_temp = new DOMXPath($dom);
-
-        // mobs
-        $nodes = $xpath_temp->query("//PageContent/MediaObject/MediaAlias");
-        foreach ($nodes as $node) {
-            $id = explode("_", $node->getAttribute("OriginId"));
-            $mob_id = array_pop($id);
-            $mob_dir = ilObjMediaObject::_getDirectory($mob_id);
-            $quota_sum += ilFileUtils::dirsize($mob_dir);
-        }
-
-        return $quota_sum;
-    }
 }

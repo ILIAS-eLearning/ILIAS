@@ -48,7 +48,7 @@ class InternalDomainService
 
     public function mediaCast(\ilObjMediaCast $media_cast): MediaCastManager
     {
-        return self::$instance["lp"][$media_cast->getId()] ??= new MediaCastManager($media_cast);
+        return self::$instance["cast"][$media_cast->getId()] ??= new MediaCastManager($media_cast);
     }
 
     public function learningProgress(\ilObjMediaCast $cast): LearningProgressManager
