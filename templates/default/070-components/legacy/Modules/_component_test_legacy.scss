@@ -12,7 +12,6 @@ $il-test-dropzone-border-color: $il-main-border-color;
 }
 
 .feedback {
-/*	border:  1px solid gray;*/
 	padding: 4px;
 	display: block;
 	background: #EEEEEE;
@@ -600,6 +599,7 @@ div.ilc_Page.readonly textarea[disabled]
 	top: 40px;
 }
 
+/* 2024-10-23 skergomard: We use fixed margins here because of interactions with content.css */
 .c-test__dropzone {
     display: none;
     margin: 5px 10px 5px 0;
