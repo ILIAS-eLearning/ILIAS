@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\UI\Implementation\Render\MathJaxConfig;
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -36,12 +37,14 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
     public const CMD_CANCEL_FORM = 'cancelForm';
     private \ilGlobalTemplateInterface $main_tpl;
     private GeneralQuestionPropertiesRepository $questionrepository;
+    private MathJaxConfig $mathjax_config;
 
     public function __construct(assQuestionGUI $questionGUI)
     {
         parent::__construct($questionGUI);
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
+        $this->mathjax_config = $DIC[MathJaxConfig::class];
 
         $local_dic = QuestionPoolDIC::dic();
         $this->questionrepository = $local_dic['question.general_properties.repository'];
@@ -173,6 +176,10 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
             $areaInp->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
 
             $areaInp->setRTESupport($this->question_obj->getId(), 'qpl', 'assessment');
+
+            if ($this->mathjax_config->isMathJaxEnabled()) {
+                $areaInp->setInfo($this->lng->txt('mathjax_edit_hint'));
+            }
 
             $form->addItem($areaInp);
         }
