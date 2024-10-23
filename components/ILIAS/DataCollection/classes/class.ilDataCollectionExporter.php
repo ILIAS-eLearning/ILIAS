@@ -127,6 +127,7 @@ class ilDataCollectionExporter extends ilXmlExporter
      */
     public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
+        $deps = [];
         $page_object_ids = [];
         foreach ($a_ids as $dcl_obj_id) {
             // If a DCL table has a detail view, we need to export the associated page objects!
@@ -141,15 +142,25 @@ class ilDataCollectionExporter extends ilXmlExporter
             }
         }
         if (count($page_object_ids)) {
-            return [
-                [
-                    'component' => 'components/ILIAS/COPage',
-                    'entity' => 'pg',
-                    'ids' => $page_object_ids,
-                ],
+            $deps[] = [
+                'component' => 'components/ILIAS/COPage',
+                'entity' => 'pg',
+                'ids' => $page_object_ids
             ];
         }
 
-        return [];
+        $md_ids = [];
+        foreach ($a_ids as $id) {
+            $md_ids[] = $id . ':0:dcl';
+        }
+        if ($md_ids !== []) {
+            $deps[] = [
+                'component' => 'components/ILIAS/MetaData',
+                'entity' => 'md',
+                'ids' => $md_ids,
+            ];
+        }
+
+        return $deps;
     }
 }

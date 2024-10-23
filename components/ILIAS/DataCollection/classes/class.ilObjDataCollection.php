@@ -65,6 +65,8 @@ class ilObjDataCollection extends ilObject2
             $main_table->doCreate();
         }
 
+        $this->createMetaData();
+
         $this->db->insert(
             "il_dcl_data",
             [
@@ -84,12 +86,16 @@ class ilObjDataCollection extends ilObject2
             $table->doDelete(false, true);
         }
 
+        $this->deleteMetaData();
+
         $query = "DELETE FROM il_dcl_data WHERE id = " . $this->db->quote($this->getId(), "integer");
         $this->db->manipulate($query);
     }
 
     protected function doUpdate(): void
     {
+        $this->updateMetaData();
+
         $this->db->update(
             "il_dcl_data",
             [
@@ -260,6 +266,8 @@ class ilObjDataCollection extends ilObject2
         }
 
         $new_obj->cloneStructure($this->getRefId());
+
+        $this->cloneMetaData($new_obj);
     }
 
     /**
