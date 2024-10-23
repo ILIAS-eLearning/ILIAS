@@ -20,19 +20,19 @@ declare(strict_types=1);
 
 namespace Test\ImportHandler\File\XML\Node\Info;
 
-use ILIAS\Export\ImportHandler\File\XML\Node\Info\DOM\ilHandler;
-use ILIAS\Export\ImportHandler\File\XML\Node\Info\ilCollection;
+use ILIAS\Export\ImportHandler\Parser\NodeInfo\DOM\Handler;
+use ILIAS\Export\ImportHandler\Parser\NodeInfo\Collection;
 use PHPUnit\Framework\TestCase;
 
 class ilCollectionTest extends TestCase
 {
     public function testNodeInfoCollection(): void
     {
-        $node1 = $this->createMock(ilHandler::class);
-        $node2 = $this->createMock(ilHandler::class);
-        $node3 = $this->createMock(ilHandler::class);
+        $node1 = $this->createMock(Handler::class);
+        $node2 = $this->createMock(Handler::class);
+        $node3 = $this->createMock(Handler::class);
 
-        $collection = new ilCollection();
+        $collection = new Collection();
         $collection = $collection->withElement($node1);
         $collection = $collection->withElement($node2);
         $collection = $collection->withElement($node3);

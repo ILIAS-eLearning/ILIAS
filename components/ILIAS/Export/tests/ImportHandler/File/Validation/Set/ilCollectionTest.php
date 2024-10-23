@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 namespace Test\ImportHandler\File\Validation\Set;
 
-use ILIAS\Export\ImportHandler\File\Validation\Set\ilCollection as ilFileValidationSetCollection;
-use ILIAS\Export\ImportHandler\File\Validation\Set\ilHandler as ilFileValidationSetHandler;
+use ILIAS\Export\ImportHandler\Validation\Set\Collection as ilFileValidationSetCollection;
+use ILIAS\Export\ImportHandler\Validation\Set\Handler as ilFileValidationSetHandler;
 use PHPUnit\Framework\TestCase;
 
 class ilCollectionTest extends TestCase

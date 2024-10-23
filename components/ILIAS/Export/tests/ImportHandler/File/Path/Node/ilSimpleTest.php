@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace Test\ImportHandler\File\Path\Node;
 
-use ILIAS\Export\ImportHandler\File\Path\Node\ilSimple as ilSimpleFilePathNode;
+use ILIAS\Export\ImportHandler\Path\Node\Simple as ilSimpleFilePathNode;
 use PHPUnit\Framework\TestCase;
 
 class ilSimpleTest extends TestCase

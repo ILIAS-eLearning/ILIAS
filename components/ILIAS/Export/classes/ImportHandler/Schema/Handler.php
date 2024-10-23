@@ -1,0 +1,180 @@
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\Export\ImportHandler\Schema;
+
+use ILIAS\Data\Factory as ilDataFactory;
+use ILIAS\Data\Version;
+use ILIAS\Export\ImportHandler\I\File\XSD\FactoryInterface as ilImportHandlerXSDFileFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XSD\HandlerInterface as ilImportHandlerXSDFileInterface;
+use ILIAS\Export\ImportHandler\I\Parser\FactoryInterface as ilImportHandlerParserFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\HandlerInterface as ilImportHandlerXMLFileNodeInfoInterface;
+use ILIAS\Export\ImportHandler\I\Schema\Folder\HandlerInterface as ilImportHandlerSchemaFolderInterface;
+use ILIAS\Export\ImportHandler\I\Schema\HandlerInterface as ilImportHandlerSchemaInterface;
+
+class Handler implements ilImportHandlerSchemaInterface
+{
+    protected ilImportHandlerSchemaFolderInterface $schema_folder;
+    protected ilImportHandlerParserFactoryInterface $parser_factory;
+    protected ilImportHandlerXSDFileFactoryInterface $xsd_file_factory;
+    protected ilDataFactory $data_factory;
+    protected null|string $type;
+    protected null|string $subtype;
+    protected null|Version $version;
+
+    public function __construct(
+        ilImportHandlerSchemaFolderInterface $schema_folder,
+        ilDataFactory $data_factory,
+        ilImportHandlerParserFactoryInterface $parser_factory,
+        ilImportHandlerXSDFileFactoryInterface $xsd_file_factory
+    ) {
+        $this->schema_folder = $schema_folder;
+        $this->parser_factory = $parser_factory;
+        $this->xsd_file_factory = $xsd_file_factory;
+        $this->data_factory = $data_factory;
+        $this->type = null;
+        $this->subtype = null;
+        $this->version = null;
+    }
+
+    public function getXSDFileHandlerByVersionOrLatest(): null|ilImportHandlerXSDFileInterface
+    {
+        if (
+            is_null($this->getVersion()) ||
+            is_null($this->getPrimaryType()) ||
+            is_null($this->getSecondaryType())
+        ) {
+            return null;
+        }
+        $latest_file_info = $this->schema_folder->getByVersionOrLatest(
+            $this->getVersion(),
+            $this->getPrimaryType(),
+            $this->getSecondaryType()
+        );
+        return is_null($latest_file_info)
+            ? null
+            : $this->xsd_file_factory->withFileInfo($latest_file_info);
+    }
+
+    public function getXSDFileHandlerLatest(): null|ilImportHandlerXSDFileInterface
+    {
+        if (
+            is_null($this->getPrimaryType()) ||
+            is_null($this->getSecondaryType())
+        ) {
+            return null;
+        }
+        $latest_file_info = $this->schema_folder->getLatest(
+            $this->getPrimaryType(),
+            $this->getSecondaryType()
+        );
+        return is_null($latest_file_info)
+            ? null
+            : $this->xsd_file_factory->withFileInfo($latest_file_info);
+    }
+
+    public function doesXSDFileWithMatchingVersionExist(): bool
+    {
+        if (
+            is_null($this->getVersion()) ||
+            is_null($this->getPrimaryType()) ||
+            is_null($this->getSecondaryType())
+        ) {
+            return false;
+        }
+        $file_info_with_version = $this->schema_folder->getByVersion(
+            $this->getVersion(),
+            $this->getPrimaryType(),
+            $this->getSecondaryType()
+        );
+        return !is_null($file_info_with_version);
+    }
+
+    public function withInformationOf(
+        ilImportHandlerXMLFileNodeInfoInterface $xml_file_node_info
+    ): ilImportHandlerSchemaInterface {
+        $type_str = $xml_file_node_info->getValueOfAttribute('Entity');
+        $types = str_contains($type_str, '_')
+            ? explode('_', $type_str)
+            : [$type_str, ''];
+        $version_str = $xml_file_node_info->hasAttribute('SchemaVersion')
+            ? $xml_file_node_info->getValueOfAttribute('SchemaVersion')
+            : '';
+        if ($version_str === '') {
+            return $this
+                ->withType($types[0])
+                ->withSubType($types[1]);
+        }
+        return $this
+            ->withType($types[0])
+            ->withSubType($types[1])
+            ->withVersion($this->data_factory->version($version_str));
+    }
+
+    public function withType(
+        string $type
+    ): ilImportHandlerSchemaInterface {
+        $clone = clone $this;
+        $clone->type = $type;
+        return $clone;
+    }
+
+    public function withSubType(
+        string $subtype
+    ): ilImportHandlerSchemaInterface {
+        $clone = clone $this;
+        $clone->subtype = $subtype;
+        return $clone;
+    }
+
+    public function withVersion(
+        Version $version
+    ): ilImportHandlerSchemaInterface {
+        $clone = clone $this;
+        $clone->version = $version;
+        return $clone;
+    }
+
+    public function getVersion(): null|Version
+    {
+        return $this->version;
+    }
+
+    public function getPrimaryType(): null|string
+    {
+        return $this->type;
+    }
+
+    public function getSecondaryType(): null|string
+    {
+        return $this->subtype;
+    }
+
+    public function getTypeString(): string
+    {
+        if (is_null($this->getPrimaryType())) {
+            return '';
+        }
+        if (is_null($this->getSecondaryType())) {
+            return $this->getPrimaryType();
+        }
+        return $this->getPrimaryType() . '_' . $this->getSecondaryType();
+    }
+}

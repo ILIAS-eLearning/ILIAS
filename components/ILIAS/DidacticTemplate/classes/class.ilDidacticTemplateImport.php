@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-use ILIAS\Export\ImportHandler\ilFactory as ilImportHandlerFactory;
+use ILIAS\Export\ImportHandler\Factory as ilImportHandlerFactory;
 use ILIAS\Export\ImportStatus\ilFactory as ilImportStatusFactory;
+use ILIAS\Export\ImportStatus\StatusType;
 use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ilImportStatusCollectionInterface;
-use ILIAS\Export\Schema\ilXmlSchemaFactory as ilXMLSchemaFactory;
 
 /**
  * Description of ilDidacticTemplateImport
@@ -94,17 +94,16 @@ class ilDidacticTemplateImport
         $status = new ilImportStatusFactory();
         if ($this->getInputType() !== self::IMPORT_FILE) {
             return $status->collection()->withAddedStatus($status->handler()
-                ->withType(ImportStatus\StatusType::FAILED)
+                ->withType(StatusType::FAILED)
                 ->withContent($status->content()->builder()->string()
                     ->withString("Invalid import status, import status 'IMPORT_FILE' expected.")));
         }
-        $schema = new ilXMLSchemaFactory();
         $import = new ilImportHandlerFactory();
         $xml_spl_info = new SplFileInfo($this->getInputFile());
-        $xsd_spl_info = $schema->getLatest(self::SCHEMA_TYPE);
-        $xml_file_handler = $import->file()->xml()->withFileInfo($xml_spl_info);
+        $xsd_spl_info = $import->schema()->folder()->handler()->getLatest(self::SCHEMA_TYPE);
+        $xml_file_handler = $import->file()->xml()->handler()->withFileInfo($xml_spl_info);
         $xsd_file_handler = $import->file()->xsd()->withFileInfo($xsd_spl_info);
-        return $import->file()->validation()->handler()->validateXMLFile($xml_file_handler, $xsd_file_handler);
+        return $import->validation()->handler()->validateXMLFile($xml_file_handler, $xsd_file_handler);
     }
 
     /**
