@@ -1993,7 +1993,6 @@ assessment#:#use_previous_solution_advice#:#The shown solution for the question 
 assessment#:#user_has_finished_a_test#:#A participant has finished a test.###27 01 2015 new variable
 assessment#:#user_ip_outside_range#:#You are not allowed to access the test from this IP.###26 08 2024 new variable
 assessment#:#user_not_invited#:#K této zkoušce nejste připuštěn.
-assessment#:#user_wrong_clientip#:#Nemáte oprávněnou IP adresu k použití tohoto testu.
 assessment#:#value_between_x_and_y#:#Hodnota by měla být mezi %s až %s
 assessment#:#values#:#Hodnoty
 assessment#:#variable#:#Variable###26 08 2024 new variable

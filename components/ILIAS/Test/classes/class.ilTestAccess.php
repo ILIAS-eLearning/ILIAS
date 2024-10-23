@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Test\Participants\ParticipantRepository;
+use ILIAS\Test\Participants\Participant;
 use ILIAS\Test\TestDIC;
 use ILIAS\Test\Access\ParticipantAccess;
 use ILIAS\Test\Settings\MainSettings\MainSettingsDatabaseRepository;
@@ -177,9 +178,21 @@ class ilTestAccess
         $access_settings = $this->main_settings_repository->getForObjFi($obj_id)
             ->getAccessSettings();
 
+        $participant = $this->participant_repository->getParticipantByUserId(
+            ilObjTest::_getTestIDFromObjectID(
+                ilObjTest::_lookupObjId($this->getRefId())
+            ),
+            $user_id
+        );
+
+        if ($access_settings->getFixedParticipants()
+            && ($participant === null || !$participant->isInvitedParticipant())) {
+            return ParticipantAccess::NOT_INVITED;
+        }
+
         $ip = $_SERVER['REMOTE_ADDR'];
 
-        if ($this->isParticipantBlockedByIndividualIPRange($user_id, $ip) === true) {
+        if ($this->isParticipantBlockedByIndividualIPRange($participant, $ip) === true) {
             return ParticipantAccess::INDIVIDUAL_CLIENT_IP_MISMATCH;
         }
 
@@ -195,15 +208,9 @@ class ilTestAccess
     }
 
     private function isParticipantBlockedByIndividualIPRange(
-        int $user_id,
+        ?Participant $participant,
         string $ip
     ): ?bool {
-        $participant = $this->participant_repository->getParticipantByUserId(
-            ilObjTest::_getTestIDFromObjectID(
-                ilObjTest::_lookupObjId($this->getRefId())
-            ),
-            $user_id
-        );
         $range_start = $participant?->getClientIpFrom();
         $range_end = $participant?->getClientIpTo();
 

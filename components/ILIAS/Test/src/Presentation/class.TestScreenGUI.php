@@ -238,21 +238,22 @@ class TestScreenGUI
             ;
         }
 
-        if ($this->object->getFixedParticipants() && $this->object->getInvitedUsers($this->user->getId()) === []) {
+        $participant_access = $this->test_access->isParticipantAllowed(
+            $this->object->getId(),
+            $this->user->getId()
+        );
+
+        if ($participant_access === ParticipantAccess::NOT_INVITED) {
             return $launcher
                 ->inline($this->data_factory->link('', $this->data_factory->uri($this->http->request()->getUri()->__toString())))
                 ->withButtonLabel($this->lng->txt('tst_exam_not_assigned_participant_disclaimer'), false)
             ;
         }
 
-        $participant_access = $this->test_access->isParticipantAllowed(
-            $this->object->getId(),
-            $this->user->getId()
-        );
         if ($participant_access !== ParticipantAccess::ALLOWED) {
             return $launcher
                 ->inline($this->data_factory->link('', $this->data_factory->uri($this->http->request()->getUri()->__toString())))
-                ->withButtonLabel($this->lng->txt($participant_access->value), false)
+                ->withButtonLabel($participant_access->getAccessForbiddenMessage($this->lng), false)
             ;
         }
 

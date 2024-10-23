@@ -1993,7 +1993,6 @@ assessment#:#use_previous_solution_advice#:#Prikazano rešitev, ki ste jo oddali
 assessment#:#user_has_finished_a_test#:#Udeleženec je zaključil test.
 assessment#:#user_ip_outside_range#:#You are not allowed to access the test from this IP.###26 08 2024 new variable
 assessment#:#user_not_invited#:#Niste udeleženec tega izpita.
-assessment#:#user_wrong_clientip#:#Napačen IP odjemalca
 assessment#:#value_between_x_and_y#:#Vrednost mora biti med %s in %s
 assessment#:#values#:#Vrednosti
 assessment#:#variable#:#Variable###26 08 2024 new variable

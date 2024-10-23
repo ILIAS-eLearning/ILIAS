@@ -1993,7 +1993,6 @@ assessment#:#use_previous_solution_advice#:#The shown solution for the question 
 assessment#:#user_has_finished_a_test#:#A participant has finished a test.###27 01 2015 new variable
 assessment#:#user_ip_outside_range#:#You are not allowed to access the test from this IP.###26 08 2024 new variable
 assessment#:#user_not_invited#:#Nu trebuie sa dati acest examen
-assessment#:#user_wrong_clientip#:#Nu aveti adresa IP corecta pentru acest test###10 Jul 2006 content changed
 assessment#:#value_between_x_and_y#:#The value should be between %s and %s###10 Jul 2006 new variable
 assessment#:#values#:#Values###24 07 2009 new variable
 assessment#:#variable#:#Variable###26 08 2024 new variable

@@ -1993,7 +1993,6 @@ assessment#:#use_previous_solution_advice#:#表示されている回答は前回
 assessment#:#user_has_finished_a_test#:#受験者はテストを終了しました。
 assessment#:#user_ip_outside_range#:#You are not allowed to access the test from this IP.###26 08 2024 new variable
 assessment#:#user_not_invited#:#あなたはこのテストの受験対象者ではありません。
-assessment#:#user_wrong_clientip#:#テストに使用する正しいIPがありません。
 assessment#:#value_between_x_and_y#:#値は %s と %s の間になります
 assessment#:#values#:#値
 assessment#:#variable#:#Variable###26 08 2024 new variable

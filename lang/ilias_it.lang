@@ -1993,7 +1993,6 @@ assessment#:#use_previous_solution_advice#:#La soluzione mostrata per la domanda
 assessment#:#user_has_finished_a_test#:#Un partecipante ha terminato il test.
 assessment#:#user_ip_outside_range#:#You are not allowed to access the test from this IP.###26 08 2024 new variable
 assessment#:#user_not_invited#:#Non sei ammesso ad eseguire questo test.
-assessment#:#user_wrong_clientip#:#Non hai l&
 assessment#:#value_between_x_and_y#:#Il valore deve essere tra %s e %s
 assessment#:#values#:#Valori
 assessment#:#variable#:#Variable###26 08 2024 new variable

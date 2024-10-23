@@ -1993,7 +1993,6 @@ assessment#:#use_previous_solution_advice#:#Lösningen som visas har tidigare l�
 assessment#:#user_has_finished_a_test#:#En deltagare har avslutat ett test.
 assessment#:#user_ip_outside_range#:#You are not allowed to access the test from this IP.###26 08 2024 new variable
 assessment#:#user_not_invited#:#Du är inte en deltagare i provet.
-assessment#:#user_wrong_clientip#:#Fel klient IP
 assessment#:#value_between_x_and_y#:#Värdet måste vara mellan %s och %s
 assessment#:#values#:#Värderingar
 assessment#:#variable#:#Variable###26 08 2024 new variable

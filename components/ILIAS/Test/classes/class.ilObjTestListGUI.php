@@ -96,8 +96,8 @@ class ilObjTestListGUI extends ilObjectListGUI
             return $props;
         }
 
-        $props[] = ["alert" => true, "property" => $this->lng->txt("status"),
-            "value" => $this->lng->txt($participant_access->value)];
+        $props[] = ['alert' => true, 'property' => $this->lng->txt('status'),
+            'value' => $participant_access->getAccessForbiddenMessage($this->lng)];
 
         return $props;
     }
