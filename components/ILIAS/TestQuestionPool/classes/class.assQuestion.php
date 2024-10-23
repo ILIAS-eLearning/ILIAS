@@ -26,13 +26,11 @@ use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\Questions\Files\QuestionFiles;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\TestQuestionPool\RequestDataCollector;
-
 use ILIAS\Test\Logging\TestParticipantInteraction;
 use ILIAS\Test\Logging\TestQuestionAdministrationInteraction;
 use ILIAS\Test\Logging\TestParticipantInteractionTypes;
 use ILIAS\Test\Logging\TestQuestionAdministrationInteractionTypes;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
-
 use ILIAS\Refinery\Transformation;
 use ILIAS\DI\Container;
 use ILIAS\Skill\Service\SkillUsageService;
@@ -44,6 +42,7 @@ use ILIAS\Notes\Note;
 use ILIAS\DI\LoggingServices;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\Services as HTTPServices;
+use ILIAS\UI\Implementation\Render\MathJaxConfig;
 
 /**
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
@@ -80,6 +79,7 @@ abstract class assQuestion implements Question
     protected Transformation $shuffler;
     protected LoggingServices $log;
     protected Container $dic;
+    protected MathJaxConfig $mathjax_config;
 
     private ?ilTestQuestionConfig $test_question_config = null;
     protected \ilAssQuestionLifecycle $lifecycle;
@@ -135,6 +135,7 @@ abstract class assQuestion implements Question
         $this->question_files = $local_dic['question_files'];
         $this->suggestedsolution_repo = $local_dic['question.repo.suggestedsolutions'];
         $this->current_user = $DIC['ilUser'];
+        $this->mathjax_config = $DIC[MathjaxConfig::class];
         $this->lng = $lng;
         $this->tpl = $tpl;
         $this->db = $ilDB;
@@ -1376,7 +1377,7 @@ abstract class assQuestion implements Question
     protected function removeAllImageFiles(string $image_target_path): void
     {
         $target = opendir($image_target_path);
-        while($target_file = readdir($target)) {
+        while ($target_file = readdir($target)) {
             if ($target_file === '.' || $target_file === '..') {
                 continue;
             }
@@ -1461,7 +1462,7 @@ abstract class assQuestion implements Question
             fn($n) => $n->getContext()->getSubObjId() === $source_id
         );
 
-        foreach($notes as $note) {
+        foreach ($notes as $note) {
             $new_context = $data_service->context(
                 $parent_target_id,
                 $target_id,
@@ -1491,7 +1492,7 @@ abstract class assQuestion implements Question
             $notes,
             fn($n) => $n->getContext()->getSubObjId() === $source_id
         );
-        foreach($notes as $note) {
+        foreach ($notes as $note) {
             $repo->deleteNote($note->getId());
         }
     }
@@ -1595,7 +1596,7 @@ abstract class assQuestion implements Question
     protected function copySuggestedSolutions(int $target_question_id): void
     {
         $update = [];
-        foreach($this->getSuggestedSolutions() as $index => $solution) {
+        foreach ($this->getSuggestedSolutions() as $index => $solution) {
             $solution = $solution->withQuestionId($target_question_id);
             $update[] = $solution;
         }
