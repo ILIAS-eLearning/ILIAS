@@ -103,12 +103,18 @@ class DBUpdateSteps10 implements \ilDatabaseUpdateSteps
                 [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_INTEGER],
                 ['common', 'session_reminder_lead_time', \ilSessionReminder::SUGGESTED_LEAD_TIME]
             );
-            $query = 'DELETE FROM settings WHERE module = %s AND keyword = %s';
-            $this->db->manipulateF(
-                $query,
-                [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
-                ['common', 'session_reminder_enabled']
-            );
         }
+        $query = 'DELETE FROM settings WHERE module = %s AND keyword = %s';
+        $this->db->manipulateF(
+            $query,
+            [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
+            ['common', 'session_reminder_enabled']
+        );
+        $query = 'DELETE FROM usr_pref WHERE keyword = %s';
+        $this->db->manipulateF(
+            $query,
+            [\ilDBConstants::T_TEXT],
+            ['session_reminder_enabled']
+        );
     }
 }
