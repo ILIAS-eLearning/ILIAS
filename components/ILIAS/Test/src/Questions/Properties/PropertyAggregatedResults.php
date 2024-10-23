@@ -50,7 +50,8 @@ class PropertyAggregatedResults implements Property
 
     public function getPercentageOfPointsAchieved(): float
     {
-        if ($this->number_of_answers === 0) {
+        if ($this->number_of_answers === 0.0
+            || $this->available_points === 0.0) {
             return 0.0;
         }
         return ($this->total_achieved_points / ($this->number_of_answers * $this->available_points)) * 100;
