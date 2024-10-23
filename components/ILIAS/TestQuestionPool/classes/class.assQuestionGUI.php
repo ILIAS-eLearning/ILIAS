@@ -187,8 +187,6 @@ abstract class assQuestionGUI
 
         $this->errormessage = $this->lng->txt("fill_out_all_required_fields");
         $this->notes_gui = $DIC->notes()->gui();
-
-        $this->lng->loadLanguageModule('ui');
     }
 
     abstract public function editQuestion(

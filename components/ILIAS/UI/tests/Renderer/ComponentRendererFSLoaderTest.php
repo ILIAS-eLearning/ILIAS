@@ -27,7 +27,7 @@ use ILIAS\Refinery\Factory as Refinery;
 use PHPUnit\Framework\MockObject\MockObject;
 use ILIAS\UI\Implementation\Render\FSLoader;
 use ILIAS\UI\Implementation\Render\ComponentRenderer;
-use ILIAS\UI\Implementation\Render\MathJaxDefaultConfig;
+use ILIAS\UI\Implementation\Render\MathJaxConfig;
 
 class ComponentRendererFSLoaderTest extends TestCase
 {
@@ -51,7 +51,7 @@ class ComponentRendererFSLoaderTest extends TestCase
         $data_factory = $this->getMockBuilder(ILIAS\Data\Factory::class)->getMock();
         $help_text_retriever = $this->createMock(ILIAS\UI\HelpTextRetriever::class);
         $upload_limit_resolver = $this->createMock(ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class);
-        $mathjax_config = new MathJaxDefaultConfig(false);
+        $mathjax_config = $this->createMock(MathJaxConfig::class);
 
         $default_renderer_factory = new I\Render\DefaultRendererFactory(
             $ui_factory,

@@ -45,7 +45,6 @@ use ILIAS\UI\HelpTextRetriever;
 use ILIAS\UI\Help;
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 use ILIAS\UI\Implementation\Render\MathJaxConfig;
-use ILIAS\UI\Implementation\Render\MathJaxDefaultConfig;
 
 class ilIndependentTemplateFactory implements TemplateFactory
 {
@@ -385,7 +384,7 @@ trait BaseUITestTrait
 
     public function getMathJaxConfig(): MathJaxConfig
     {
-        return new MathJaxDefaultConfig(false);
+        return $this->createMock(MathJaxConfig::class);
     }
 
     /**
