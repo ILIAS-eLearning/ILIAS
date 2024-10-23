@@ -394,17 +394,19 @@ class TabsManager
             $target = $this->ctrl->getLinkTargetByClass(\ilTestRandomQuestionSetConfigGUI::class);
         }
 
-        $this->tabs->addTarget(
-            'assQuestions',
-            $target,
-            [
-                'showQuestions', 'browseForQuestions', 'questionBrowser', 'createQuestion',
-                'filter', 'resetFilter', 'insertQuestions', 'back',
-                'executeCreateQuestion', 'cancelCreateQuestion',
-                'addQuestionpool', 'saveRandomQuestions', 'saveQuestionSelectionMode', 'print',
-                'addsource', 'removesource', 'randomQuestions'
-            ],
-        );
+        if ($this->isWriteAccessGranted()) {
+            $this->tabs->addTarget(
+                'assQuestions',
+                $target,
+                [
+                    'showQuestions', 'browseForQuestions', 'questionBrowser', 'createQuestion',
+                    'filter', 'resetFilter', 'insertQuestions', 'back',
+                    'executeCreateQuestion', 'cancelCreateQuestion',
+                    'addQuestionpool', 'saveRandomQuestions', 'saveQuestionSelectionMode', 'print',
+                    'addsource', 'removesource', 'randomQuestions'
+                ],
+            );
+        }
 
         if ($this->needsParticipantsTab()) {
             $this->tabs->addTab(
