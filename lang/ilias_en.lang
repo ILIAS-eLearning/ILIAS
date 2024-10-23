@@ -746,11 +746,11 @@ assessment#:#finish_test_multiple#:#Are you sure you want to finish the test att
 assessment#:#finish_test_single#:#Are you sure you want to finish the test attempt for the participant "%s"?
 assessment#:#finish_unfinished_passes#:#Finish Uncompleted Attempts
 assessment#:#finish_unfinished_passes_desc#:#Test attempts which have a set finishing time or a time limit will be closed by this cron job.
-assessment#:#finished#:#Finished
 assessment#:#finished_by_administrator#:#Finished by Administrator
 assessment#:#finished_by_cronjob#:#Finished by Cronjob
 assessment#:#finished_by_duration#:#Finished by time limit
 assessment#:#finished_by_participant#:#Finished by Participant
+assessment#:#finished_by_unknown#:#Finished by Unknown
 assessment#:#fixed_participants_hint#:#This test is only accessible for the manually added participants listed below. You can disable this setting by deactivating the checkbox ‘Manually Selected Participants’ in the test settings.
 assessment#:#fixedparticipants_subtab#:#Manually Selected Participants
 assessment#:#flashfile#:#Flash File

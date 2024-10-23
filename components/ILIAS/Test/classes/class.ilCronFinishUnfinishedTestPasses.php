@@ -19,8 +19,8 @@
 declare(strict_types=1);
 
 use ILIAS\Cron\Schedule\CronJobScheduleType;
-use ILIAS\Test\Results\StatusOfAttempt;
-use ILIAS\Test\Results\TestPassResultRepository;
+use ILIAS\Test\Results\Data\StatusOfAttempt;
+use ILIAS\Test\Results\Data\TestPassResultRepository;
 use ILIAS\Test\TestDIC;
 use ILIAS\Test\Logging\TestLogger;
 

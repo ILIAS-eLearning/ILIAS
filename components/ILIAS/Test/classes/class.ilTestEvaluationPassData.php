@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Results\Data\StatusOfAttempt;
 use ILIAS\Test\Scoring\Marks\Mark;
 
 /**
@@ -51,6 +52,8 @@ class ilTestEvaluationPassData
     private ?int $requestedHintsCount = null;
     private ?float $deductedHintPoints = null;
     private string $exam_id = '';
+    private ?StatusOfAttempt $status_of_attempt = null;
+    private bool $unfinished_attempt = false;
 
     public function __sleep()
     {
@@ -242,5 +245,33 @@ class ilTestEvaluationPassData
     public function setExamId(string $exam_id): void
     {
         $this->exam_id = $exam_id;
+    }
+
+    public function getStatusOfAttempt(): StatusOfAttempt
+    {
+        if ($this->status_of_attempt) {
+            return $this->status_of_attempt;
+        }
+
+        if ($this->unfinished_attempt) {
+            return StatusOfAttempt::RUNNING;
+        }
+
+        return StatusOfAttempt::FINISHED_BY_UNKNOWN;
+    }
+
+    public function setStatusOfAttempt(?StatusOfAttempt $status_of_attempt): void
+    {
+        $this->status_of_attempt = $status_of_attempt;
+    }
+
+    public function isUnfinishedAttempt(): bool
+    {
+        return $this->unfinished_attempt;
+    }
+
+    public function setUnfinishedAttempt(bool $unfinished_attempt): void
+    {
+        $this->unfinished_attempt = $unfinished_attempt;
     }
 }

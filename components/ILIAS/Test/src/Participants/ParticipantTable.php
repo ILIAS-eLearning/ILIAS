@@ -27,7 +27,7 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;
 use ILIAS\Test\RequestDataCollector;
-use ILIAS\Test\Results\StatusOfAttempt;
+use ILIAS\Test\Results\Data\StatusOfAttempt;
 use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\UI\Component\Input\Container\Filter\Standard as FilterComponent;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
@@ -101,13 +101,14 @@ class ParticipantTable implements DataRetrieval
             $first_access = $record->getAttemptOverviewInformation()?->getStartedDate();
             $last_access = $record->getLastAccess();
             $total_duration = $record->getTotalDuration($processing_time);
+            $status_of_attempt = $record->getAttemptOverviewInformation()?->getStatusOfAttempt() ?? StatusOfAttempt::NOT_YET_STARTED;
 
             $row = [
                 'name' => sprintf('%s, %s', $record->getLastname(), $record->getFirstname()),
                 'login' => $record->getLogin(),
                 'matriculation' => $record->getMatriculation(),
                 'attempt_started_at' => $first_access !== null ? $date_format->applyTo($first_access) : '',
-                'status_of_attempt' => $this->lng->txt($record->getStatusOfAttempt()->value),
+                'status_of_attempt' => $this->lng->txt($status_of_attempt->value),
                 'id_of_attempt' => $record->getAttemptOverviewInformation()?->getExamId(),
                 'last_access' => $last_access !== null ? $date_format->applyTo($last_access) : '',
                 'ip_range' => $record->getClientIpTo() !== '' || $record->getClientIpFrom() !== ''
@@ -167,7 +168,9 @@ class ParticipantTable implements DataRetrieval
         return [
             'solution' => fn(string $value, Participant $record) =>
                 $value === 'true' ? $record->hasAnsweredQuestionsForScoredAttempt() : !$record->hasAnsweredQuestionsForScoredAttempt(),
-            'status_of_attempt' => fn(string $value, Participant $record) => $record->getStatusOfAttempt() === $value,
+            'status_of_attempt' => fn(string $value, Participant $record) =>
+                ($value === StatusOfAttempt::NOT_YET_STARTED->value && $record->getAttemptOverviewInformation()?->getStatusOfAttempt() === null) ||
+                $value === $record->getAttemptOverviewInformation()?->getStatusOfAttempt()->value,
         ];
     }
 
@@ -192,7 +195,8 @@ class ParticipantTable implements DataRetrieval
             'status_of_attempt' => static fn(
                 Participant $a,
                 Participant $b
-            ) => $a->getStatusOfAttempt() <=> $b->getStatusOfAttempt(),
+            ) => $a->getAttemptOverviewInformation()?->getStatusOfAttempt()
+                <=> $b->getAttemptOverviewInformation()?->getStatusOfAttempt(),
             'reached_points' => static fn(
                 Participant $a,
                 Participant $b
@@ -261,7 +265,7 @@ class ParticipantTable implements DataRetrieval
         $status_of_attempt_options = [
             StatusOfAttempt::NOT_YET_STARTED->value => $this->lng->txt(StatusOfAttempt::NOT_YET_STARTED->value),
             StatusOfAttempt::RUNNING->value => $this->lng->txt(StatusOfAttempt::RUNNING->value),
-            StatusOfAttempt::FINISHED->value => $this->lng->txt(StatusOfAttempt::FINISHED->value),
+            StatusOfAttempt::FINISHED_BY_UNKNOWN->value => $this->lng->txt(StatusOfAttempt::FINISHED_BY_UNKNOWN->value),
             StatusOfAttempt::FINISHED_BY_ADMINISTRATOR->value => $this->lng->txt(StatusOfAttempt::FINISHED_BY_ADMINISTRATOR->value),
             StatusOfAttempt::FINISHED_BY_CRONJOB->value => $this->lng->txt(StatusOfAttempt::FINISHED_BY_CRONJOB->value),
             StatusOfAttempt::FINISHED_BY_DURATION->value => $this->lng->txt(StatusOfAttempt::FINISHED_BY_DURATION->value),

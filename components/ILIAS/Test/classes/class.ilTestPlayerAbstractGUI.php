@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ILIAS\Test\Access\ParticipantAccess;
 use ILIAS\Test\Logging\TestParticipantInteractionTypes;
 use ILIAS\Test\Presentation\TestScreenGUI;
-use ILIAS\Test\Results\StatusOfAttempt;
+use ILIAS\Test\Results\Data\StatusOfAttempt;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\TestQuestionPool\Questions\QuestionPartiallySaveable;
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;

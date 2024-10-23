@@ -24,7 +24,7 @@ use ILIAS\Test\Results\Data\Factory as ResultsDataFactory;
 use ILIAS\Test\Results\Presentation\Factory as ResultsPresentationFactory;
 use ILIAS\Test\Results\Presentation\TitlesBuilder as ResultsTitlesBuilder;
 use ILIAS\Test\Questions\Properties\Repository as TestQuestionsRepository;
-use ILIAS\Test\Results\TestPassResultRepository;
+use ILIAS\Test\Results\Data\TestPassResultRepository;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;

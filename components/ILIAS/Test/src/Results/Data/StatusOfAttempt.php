@@ -18,13 +18,13 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\Results;
+namespace ILIAS\Test\Results\Data;
 
 enum StatusOfAttempt: string
 {
-    case NOT_YET_STARTED = 'not_yet_started';
+    case NOT_YET_STARTED = 'not_started';
     case RUNNING = 'running';
-    case FINISHED = 'finished';
+    case FINISHED_BY_UNKNOWN = 'finished_by_unknown';
     case FINISHED_BY_ADMINISTRATOR = 'finished_by_administrator';
     case FINISHED_BY_DURATION = 'finished_by_duration';
     case FINISHED_BY_PARTICIPANT = 'finished_by_participant';
@@ -33,7 +33,7 @@ enum StatusOfAttempt: string
     public function isFinished(): bool
     {
         return in_array($this, [
-            self::FINISHED,
+            self::FINISHED_BY_UNKNOWN,
             self::FINISHED_BY_ADMINISTRATOR,
             self::FINISHED_BY_CRONJOB,
             self::FINISHED_BY_DURATION,

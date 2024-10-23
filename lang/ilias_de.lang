@@ -746,11 +746,11 @@ assessment#:#finish_test_multiple#:#Sind Sie sicher, dass Sie den Testdurchlauf 
 assessment#:#finish_test_single#:#Sind Sie sicher, dass Sie den Testdurchlauf für den Teilnehmer "%s" beenden möchten?
 assessment#:#finish_unfinished_passes#:#Beendet noch offene Testdurchläufe
 assessment#:#finish_unfinished_passes_desc#:#Noch nicht beendete Testdurchläufe werden automatisch beendet – vorausgesetzt, es wurde für diese Tests ein Endzeitpunkt festgelegt oder Teilnehmende haben die maximale Bearbeitungsdauer überschritten.
-assessment#:#finished#:#Beendet
 assessment#:#finished_by_administrator#:#Beendet durch Administrator
 assessment#:#finished_by_cronjob#:#Beendet durch Cronjob
 assessment#:#finished_by_duration#:#Beendet aufgrund Zeitlimit
 assessment#:#finished_by_participant#:#Beendet durch Teilnehmer
+assessment#:#finished_by_unknown#:#Beendet durch Unbekannt
 assessment#:#fixed_participants_hint#:#Dieser Test ist nur für die nachfolgend definierte Gruppe von Teilnehmern verfügbar. Soll der Test für alle Personen verfügbar sein, deren Rollen Lesezugriff auf den Test gewähren, müssen Sie im Reiter „Einstellungen“ die Option „Nur ausgewählte Teilnehmer“ deaktivieren.
 assessment#:#fixedparticipants_subtab#:#Ausgewählte Teilnehmer
 assessment#:#flashfile#:#Flash-Datei

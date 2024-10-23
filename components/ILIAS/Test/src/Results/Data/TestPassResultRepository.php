@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\Results;
+namespace ILIAS\Test\Results\Data;
 
 class TestPassResultRepository
 {
@@ -30,7 +30,7 @@ class TestPassResultRepository
     public function finalizeTestPassResult(int $active_id, int $pass, StatusOfAttempt $status_of_attempt): void
     {
         if (!$status_of_attempt->isFinished()) {
-            throw new \RuntimeException("Status of attempt must be finished to finalize test pass result");
+            throw new \RuntimeException('Status of attempt must be finished to finalize test pass result');
         }
 
         $this->db->manipulateF(

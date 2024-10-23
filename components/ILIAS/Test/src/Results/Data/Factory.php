@@ -123,7 +123,8 @@ class Factory
             $attempt_data->getLastAccessTime(),
             $participant_data->getPassCount(),
             $participant_data->getScoredPass(),
-            $eval->getStatistics()->rank($participant_data->getReached())
+            $eval->getStatistics()->rank($participant_data->getReached()),
+            $attempt_data->getStatusOfAttempt()
         );
     }
 

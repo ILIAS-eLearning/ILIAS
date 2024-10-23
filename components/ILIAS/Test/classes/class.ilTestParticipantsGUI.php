@@ -36,7 +36,7 @@ use ILIAS\Test\Participants\ParticipantTableDeleteResultsAction;
 use ILIAS\Test\Participants\ParticipantTableShowResultsAction;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Test\Results\TestPassResultRepository;
+use ILIAS\Test\Results\Data\TestPassResultRepository;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\URLBuilder;
