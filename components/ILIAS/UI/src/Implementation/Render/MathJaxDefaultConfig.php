@@ -32,41 +32,26 @@ class MathJaxDefaultConfig implements MathJaxConfig
     ) {
     }
 
-    /**
-     * @inheritdoc
-     */
     public function isMathJaxEnabled(): bool
     {
         return $this->mathjax_enabled;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getGlobalDisablingClass(): string
     {
         return 'tex2jax_ignore_global';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getPartialDisablingClass(): string
     {
         return 'tex2jax_ignore';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getPartialEnablingClass(): string
     {
         return 'tex2jax_process';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getResources(): array
     {
         return [
@@ -74,9 +59,6 @@ class MathJaxDefaultConfig implements MathJaxConfig
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getResourcesToExport(): array
     {
         $resources = [
