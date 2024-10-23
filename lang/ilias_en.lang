@@ -5836,7 +5836,6 @@ common#:#uploading#:#Uploading...
 common#:#uri#:#URI
 common#:#url#:#URL
 common#:#url_not_found#:#File Not Found
-common#:#url_to_latex#:#URL to LaTeX CGI script
 common#:#use_customized_instructions#:#Use customized instructions:
 common#:#use_default_instructions#:#Use default instructions.
 common#:#user#:#User
@@ -7156,7 +7155,6 @@ content#:#cont_text_quot#:#Quotation
 content#:#cont_text_str#:#Strongly Emphasised
 content#:#cont_text_sub#:#Subscript
 content#:#cont_text_sup#:#Superscript
-content#:#cont_text_tex#:#LaTeX Code
 content#:#cont_text_xln#:#External Link
 content#:#cont_third_and_more#:#Third or More
 content#:#cont_time#:#Time
@@ -11579,39 +11577,6 @@ maps#:#maps_std_location#:#Default Location
 maps#:#maps_std_location_desc#:#Click map to set location.
 maps#:#maps_tile_server#:#Server for Tiles
 maps#:#maps_zoom_level#:#Zoom Level
-mathjax#:#mathjax_enable_client#:#Enable MathJax in the Browser
-mathjax#:#mathjax_enable_client_info#:#Activates a client-side rendering of TeX in the browser by including the MathJax script. Mathjax 3 is supported, but MathJax 2 is recommended.
-mathjax#:#mathjax_enable_server#:#Enable MathJax on the Server
-mathjax#:#mathjax_enable_server_info#:#Activates a server-side rendering of TeX to graphics.
-mathjax#:#mathjax_home_link#:# ➜︎ MathJax web site
-mathjax#:#mathjax_limiter#:#Inline Delimiters
-mathjax#:#mathjax_limiter_info#:#Select the inline delimiters that ILIAS should produce for the MathJax script
-mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill
-mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 and MathJax 3 with current browsers not needed.
-mathjax#:#mathjax_polyfill_url_desc_line2#:#Please remove any reference to polyfill.io! See https://sansec.io/research/polyfill-supply-chain-attack
-mathjax#:#mathjax_script_url#:#URL of the MathJax Script
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. %s
-mathjax#:#mathjax_script_url_desc_line2#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. For MathJax 2 it can be activated by adding the 'Safe' parameter to the CDN url. For MathJax 3 you need to include a script that configures it before MathJax is loaded. Use for example %s
-mathjax#:#mathjax_server_address#:#Server Address
-mathjax#:#mathjax_server_address_info#:#E.g. http://localhost:8003
-mathjax#:#mathjax_server_cache_cleared#:#The MathJax cache was cleared.
-mathjax#:#mathjax_server_cache_size#:#Cache Size
-mathjax#:#mathjax_server_cache_size_info#:#Disk space used for caching rendered graphics.
-mathjax#:#mathjax_server_clear_cache#:# ➜ Clear Cache Now
-mathjax#:#mathjax_server_for_browser#:#Use for Browser
-mathjax#:#mathjax_server_for_browser_info#:#TeX will be shown as SVG graphics. Enabling MathJax in the browser is unneccessary.
-mathjax#:#mathjax_server_for_export#:#Use for HTML Export
-mathjax#:#mathjax_server_for_export_info#:#TeX will be exported as SVG graphic for learning module exports to HTML.
-mathjax#:#mathjax_server_for_pdf#:#Use for PDF Generation
-mathjax#:#mathjax_server_for_pdf_info#:#The server will be used when PDF files are generated.
-mathjax#:#mathjax_server_installation#:# ➜ Installation Manual
-mathjax#:#mathjax_server_timeout#:#Timeout
-mathjax#:#mathjax_server_timeout_info#:#Timeout for calling the MathJax server in seconds
-mathjax#:#mathjax_settings#:#MathJax Settings
-mathjax#:#mathjax_test_expression#:#Test Expression
-mathjax#:#mathjax_test_expression_info_client#:#This expression will be rendered by the script in the browser.
-mathjax#:#mathjax_test_expression_info_server#:#This expression will be rendered on the server.
 mcst#:#mcst_add_new_item#:#Add New Mediacast Item
 mcst#:#mcst_audio_files#:#Audio Files
 mcst#:#mcst_audioportable_settings_info#:#Comma separated list of file suffixes
@@ -17155,6 +17120,7 @@ ui#:#label_fieldselection_refresh#:#Apply
 ui#:#label_pagination_limit#:#Pagination Number of Rows
 ui#:#label_pagination_offset#:#Pagination Offset
 ui#:#label_sortation#:#Sortation
+ui#:#mathjax_edit_hint#:#You can enter LaTeX code between the delimiters [tex] and [/tex].
 ui#:#order_option_alphabetical_ascending#:#A to Z
 ui#:#order_option_alphabetical_descending#:#Z to A
 ui#:#order_option_chronological_ascending#:#Earliest first
