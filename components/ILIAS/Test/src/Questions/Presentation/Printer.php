@@ -64,6 +64,7 @@ class Printer
             )->withActive($selected_print_view_type->getLabel($this->lng))
         );
 
+        $this->toolbar->addSeparator();
         $this->addPrintButtonToToolbar();
 
         $template = new \ilTemplate('tpl.il_as_tst_print_questions_preview.html', true, true, 'components/ILIAS/Test');
@@ -229,7 +230,7 @@ class Printer
     private function addPrintButtonToToolbar(): void
     {
         $this->toolbar->addComponent(
-            $this->ui_factory->button()->standard('print', '')
+            $this->ui_factory->button()->standard($this->lng->txt('print'), '')
                 ->withOnLoadCode(fn($id) => "$('#$id').on('click', ()=>{window.print();})")
         );
     }

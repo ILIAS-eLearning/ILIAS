@@ -225,7 +225,7 @@ class QuestionsTableActions
             case self::ACTION_DELETE_CONFIRMED:
                 $row_ids = $this->request->getParsedBody()['interruptive_items'] ?? [];
                 if (array_filter($row_ids) === []) {
-                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_selection'));
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_questions_selected'));
                     return true;
                 }
                 $protect_by_write_protection();
@@ -240,7 +240,7 @@ class QuestionsTableActions
 
             case self::ACTION_COPY:
                 if (array_filter($row_ids) === []) {
-                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_selection'));
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_questions_selected'));
                     return true;
                 }
                 $protect_by_write_protection();
@@ -262,7 +262,7 @@ class QuestionsTableActions
 
             case self::ACTION_PRINT_QUESTIONS:
                 if (array_filter($row_ids) === []) {
-                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_selection'));
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_questions_selected'));
                     return true;
                 }
                 $protect_by_write_protection();
