@@ -32,6 +32,7 @@ class ilOpenIdConnectUserSync
     private string $ext_account = '';
     private string $int_account = '';
     private int $usr_id = 0;
+    private const UDF_STRING = 'udf_';
 
     private ilUserDefinedFields $udf;
 
@@ -130,7 +131,17 @@ class ilOpenIdConnectUserSync
             $this->writer->xmlElement('TimeLimitUntil', array(), time());
         }
 
-        foreach ($this->settings->getProfileMappingFields() as $field => $lng_key) {
+        $profile_fields = $this->settings->getProfileMappingFields();
+        $this->initUserDefinedFields();
+
+        $udf_fields = [];
+        foreach ($this->udf->getDefinitions() as $definition) {
+            $field = self::UDF_STRING . $definition['field_id'];
+            $udf_fields[$field] = $field;
+        }
+
+        $profile_and_udf_fields = $profile_fields + $udf_fields;
+        foreach ($profile_and_udf_fields as $field => $lng_key) {
             $connect_name = $this->settings->getProfileMappingFieldValue($field);
             if (!$connect_name) {
                 $this->logger->debug('Ignoring unconfigured field: ' . $field);
@@ -243,7 +254,6 @@ class ilOpenIdConnectUserSync
                     if (!isset($id_data[1])) {
                         continue 2;
                     }
-                    $this->initUserDefinedFields();
                     $definition = $this->udf->getDefinition((int) $id_data[1]);
                     if (empty($definition)) {
                         $this->logger->warning(sprintf(
