@@ -258,7 +258,7 @@ class QuestionsTableActions
                     return true;
                 }
                 $copy_and_link_to_questionpool();
-                return true;
+                return false;
 
             case self::ACTION_PRINT_QUESTIONS:
                 if (array_filter($row_ids) === []) {
