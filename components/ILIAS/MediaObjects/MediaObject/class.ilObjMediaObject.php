@@ -33,7 +33,8 @@ define("IL_MODE_FULL", 3);
  */
 class ilObjMediaObject extends ilObject
 {
-    private const DEFAULT_PREVIEW_SIZE = 80;
+    public const DEFAULT_PREVIEW_SIZE = 80;
+    protected \ILIAS\MediaObjects\MediaObjectManager $manager;
     protected InternalDomainService $domain;
     protected ilObjUser $user;
     public bool $is_alias;
@@ -57,6 +58,7 @@ class ilObjMediaObject extends ilObject
         parent::__construct($a_id, false);
         $this->image_converter = $DIC->fileConverters()->legacyImages();
         $this->domain = $DIC->mediaObjects()->internal()->domain();
+        $this->manager = $this->domain->mediaObject();
     }
 
     public static function _exists(
@@ -289,6 +291,10 @@ class ilObjMediaObject extends ilObject
         if (!$a_create_meta_data) {
             $this->createMetaData();
         }
+        $this->manager->create(
+            $id,
+            $this->getTitle()
+        );
 
         if ($a_save_media_items) {
             $media_items = $this->getMediaItems();
@@ -558,8 +564,16 @@ class ilObjMediaObject extends ilObject
                     $xml .= "<MediaItem Purpose=\"" . $item->getPurpose() . "\">";
 
                     if ($a_sign_locals && $item->getLocationType() == "LocalFile") {
-                        $location = ilWACSignedPath::signFile($this->getDataDirectory() . "/" . $item->getLocation());
-                        $location = substr($location, strrpos($location, "/") + 1);
+                        // pre irss file
+                        if (is_file($this->getDataDirectory() . "/" . $item->getLocation())) {
+                            $location = ilWACSignedPath::signFile($this->getDataDirectory() . "/" . $item->getLocation());
+                            $location = substr($location, strrpos($location, "/") + 1);
+                        } else {
+                            $location = $this->manager->getLocationSrc(
+                                $this->getId(),
+                                $item->getLocation()
+                            );
+                        }
                     } else {
                         $location = $item->getLocation();
                         if ($item->getLocationType() != "LocalFile") {  //#25941
@@ -1362,39 +1376,119 @@ class ilObjMediaObject extends ilObject
         $media_object->createDirectory();
         $mob_dir = ilObjMediaObject::_getDirectory($media_object->getId());
 
-        $media_item = new ilMediaItem();
-        $media_object->addMediaItem($media_item);
-        $media_item->setPurpose("Standard");
-
         $file = $mob_dir . "/" . $name;
         if ($upload) {
-            ilFileUtils::moveUploadedFile($tmp_name, $name, $file);
+            $media_item = $media_object->addMediaItemFromLegacyUpload(
+                "Standard",
+                $tmp_name,
+                $name,
+                0,
+                0,
+                true,
+                true
+            );
         } else {
-            copy($tmp_name, $file);
-        }
-        // get mime type
-        $format = ilObjMediaObject::getMimeType($file);
-        $location = $name;
-        // set real meta and object data
-        $media_item->setFormat($format);
-        $media_item->setLocation($location);
-        $media_item->setLocationType("LocalFile");
-        $media_object->setTitle($name);
-        $media_object->setDescription($format);
+            $media_item = new ilMediaItem();
+            $media_object->addMediaItem($media_item);
+            $media_item->setPurpose("Standard");
 
-        if (ilUtil::deducibleSize($format)) {
-            $size = ilMediaImageUtil::getImageSize($file);
-            $media_item->setWidth($size[0]);
-            $media_item->setHeight($size[1]);
+            copy($tmp_name, $file);
+            // get mime type
+            $format = ilObjMediaObject::getMimeType($file);
+            $media_item->setFormat($format);
+            $location = $name;
+            $media_item->setLocation($location);
+            $media_item->setLocationType("LocalFile");
         }
+
+        // set real meta and object data
+        $media_object->setTitle($name);
+        $media_object->setDescription($media_item->getFormat());
         $media_item->setHAlign("Left");
 
+        /*
         self::renameExecutables($mob_dir);
         ilMediaSvgSanitizer::sanitizeDir($mob_dir);	// see #20339
+        */
 
         $media_object->update();
 
         return $media_object;
+    }
+
+    public function addMediaItemFromLegacyUpload(
+        string $purpose,
+        string $tmp_name,
+        string $name,
+        int $resize_width = 0,
+        int $resize_height = 0,
+        bool $constrain_proportions = true,
+        bool $deduce_size = false
+    ): \ilMediaItem {
+        $media_item = new ilMediaItem();
+        $this->addMediaItem($media_item);
+        $media_item->setPurpose($purpose);
+        //$location = self::fixFilename($_FILES[$upload_name]['name']);
+        $location = $name;
+        $this->manager->addFileFromLegacyUpload($this->getId(), $tmp_name);
+
+        // get mime type
+        $format = self::getMimeType($location, true);
+
+        // resize standard images
+        if ($resize_width > 0 && $resize_height > 0 && is_int(strpos($format, "image"))) {
+            /*
+            $location = ilObjMediaObject::_resizeImage(
+                $file,
+                $resize_width,
+                $resize_height,
+                $constrain_proportions
+            );*/
+        }
+
+        if ($deduce_size) {
+            /*
+            if (ilUtil::deducibleSize($format)) {
+                $size = ilMediaImageUtil::getImageSize($file);
+                $media_item->setWidth($size[0]);
+                $media_item->setHeight($size[1]);
+            }*/
+        }
+
+        // set real meta and object data
+        $media_item->setFormat($format);
+        $media_item->setLocation($location);
+        $media_item->setLocationType("LocalFile");
+        if ($purpose === "Standard") {
+            $this->generatePreviewPic(320, 240);
+        }
+        return $media_item;
+    }
+
+    public function addMediaItemFromUpload(
+        string $purpose,
+        UploadResult $result,
+        string $upload_hash = "",
+    ): \ilMediaItem {
+        $media_item = new ilMediaItem();
+        $this->addMediaItem($media_item);
+        $media_item->setPurpose($purpose);
+        $this->manager->addFileFromUpload($this->getId(), $result);
+
+        // get mime type
+        $format = self::getMimeType($result->getName(), true);
+
+        // set real meta and object data
+        $media_item->setFormat($format);
+        $media_item->setLocation($result->getName());
+        $media_item->setLocationType("LocalFile");
+        if ($upload_hash !== "") {
+            $media_item->setUploadHash($upload_hash);
+        }
+        if ($purpose === "Standard") {
+            $this->generatePreviewPic(320, 240);
+        }
+        return $media_item;
     }
 
     /**
@@ -1629,69 +1723,26 @@ class ilObjMediaObject extends ilObject
         $logger->debug("Generate preview pic...");
         $logger->debug("..." . $item->getFormat());
 
-        if ($item->getLocationType() == "LocalFile") {
-            if (is_int(strpos($item->getFormat(), "image/"))) {
-                $a_width = $a_height = self::DEFAULT_PREVIEW_SIZE;
-
-                $dir = ilObjMediaObject::_getDirectory($this->getId());
-                $file = $dir . "/" .
-                    $item->getLocation();
-                if (is_file($file)) {
-                    $logger->debug("Calling image converter.");
-                    $this->image_converter->resizeToFixedSize(
-                        $file,
-                        $dir . "/mob_vpreview.png",
-                        $a_width,
-                        $a_height,
-                        true,
-                        ImageOutputOptions::FORMAT_PNG
-                    );
-                }
-            }
-        }
-
-        if (in_array($item->getFormat(), ["video/mp4", "video/webm"])) {
-            try {
-                if ($sec < 0) {
-                    $sec = 0;
-                }
-                if ($this->getVideoPreviewPic() != "") {
-                    $this->removeAdditionalFile($this->getVideoPreviewPic(true));
-                }
-                $med = $this->getMediaItem("Standard");
-                if ($med->getLocationType() == "LocalFile") {
-                    $mob_file = ilObjMediaObject::_getDirectory($this->getId()) . "/" . $med->getLocation();
-                } else {
-                    $mob_file = $med->getLocation();
-                }
-                $logger->debug(
-                    "...extract " . $mob_file . " in " .
-                    ilObjMediaObject::_getDirectory($this->getId())
-                );
-                $logger->debug("Call ffmpeg.");
-                ilFFmpeg::extractImage(
-                    $mob_file,
-                    "mob_vpreview.png",
-                    ilObjMediaObject::_getDirectory($this->getId()),
-                    $sec
-                );
-            } catch (ilException $e) {
-                $ret = ilFFmpeg::getLastReturnValues();
-
-                $message = '';
-                if (is_array($ret) && count($ret) > 0) {
-                    $message = "\n" . implode("\n", $ret);
-                }
-
-                $logger->warning($e->getMessage() . $message);
-                $logger->logStack(ilLogLevel::WARNING);
-            }
-        }
+        $this->manager->generatePreview(
+            $this->getId(),
+            $item->getLocation(),
+            $item->getLocationType() === "LocalFile",
+            $item->getFormat(),
+            $sec
+        );
     }
 
     public function getVideoPreviewPic(
         bool $a_filename_only = false
     ): string {
+
+        if (!$a_filename_only) {
+            $src = $this->manager->getLocationSrc($this->getId(), "mob_vpreview.png");
+            if ($src !== "") {
+                return $src;
+            }
+        }
+
         $dir = ilObjMediaObject::_getDirectory($this->getId());
         $ppics = array("mob_vpreview.jpg",
             "mob_vpreview.jpeg",
@@ -1856,4 +1907,50 @@ class ilObjMediaObject extends ilObject
             }
         }
     }
+
+    public function getStandardSrc(): string
+    {
+        return $this->getLocationSrc("Standard");
+    }
+
+    public function getFullscreenSrc(): string
+    {
+        return $this->getLocationSrc("Fullscreen");
+    }
+
+    protected function getLocationSrc(string $purpose): string
+    {
+        $med = $this->getMediaItem($purpose);
+        if (strcasecmp("Reference", $med->getLocationType()) === 0) {
+            $src = $med->getLocation();
+        } else {
+            $src = $this->manager->getLocationSrc(
+                $this->getId(),
+                $med->getLocation()
+            );
+            if ($src !== "") {  // fallback: old source
+                $path_to_file = \ilObjMediaObject::_getURL($this->getId()) . "/" . $med->getLocation();
+                try {
+                    $src = ilWACSignedPath::signFile($path_to_file);
+                } catch (Exception $e) {
+                }
+            }
+        }
+        return $src;
+    }
+
+    public function getPreviewSrc(): string
+    {
+        $med = $this->getMediaItem("Standard");
+        if (strcasecmp("Reference", $med->getLocationType()) === 0) {
+            $src = $med->getLocation();
+        } else {
+            $src = $this->manager->getLocationSrc(
+                $this->getId(),
+                "mob_vpreview.png"
+            );
+        }
+        return $src;
+    }
+
 }

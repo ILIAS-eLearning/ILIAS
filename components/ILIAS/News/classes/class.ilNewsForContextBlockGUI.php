@@ -847,12 +847,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $media_path = "";
         if ($mob_id > 0) {
             $mob = new ilObjMediaObject($mob_id);
-            $med = $mob->getMediaItem("Standard");
-            if (strcasecmp("Reference", $med->getLocationType()) === 0) {
-                $media_path = $med->getLocation();
-            } else {
-                $media_path = ilObjMediaObject::_getURL($mob->getId()) . "/" . $med->getLocation();
-            }
+            $media_path = $mob->getStandardSrc();
         }
         return $media_path;
     }

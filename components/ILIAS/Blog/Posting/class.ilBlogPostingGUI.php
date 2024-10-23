@@ -804,9 +804,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
                         );
 
 
-                        $location = $mob_item->getLocationType() === "Reference"
-                            ? $mob_item->getLocation()
-                            : $mob_dir . "/" . $mob_item->getLocation();
+                        $location = $mob_obj->getStandardSrc();
 
                         return '<img' .
                             ' src="' . $location . '"' .

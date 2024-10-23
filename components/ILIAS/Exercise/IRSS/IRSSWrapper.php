@@ -29,10 +29,10 @@ use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Filesystem\Util\LegacyPathHelper;
-use ILIAS\DI\Exceptions\Exception;
 use ILIAS\Filesystem\Stream\Stream;
 use ILIAS\Filesystem\Util\Archive\Archives;
 use ILIAS\Filesystem\Util\Archive\Unzip;
+use ILIAS\Filesystem\Stream\ZIPStream;
 
 class IRSSWrapper
 {
@@ -50,6 +50,7 @@ class IRSSWrapper
         $this->archives = $DIC->archives();
         $this->upload = $DIC->upload();
         $this->data = $data;
+        $this->archives = $DIC->archives();
     }
 
     protected function getNewCollectionId(): ResourceCollectionIdentification
@@ -164,7 +165,7 @@ class IRSSWrapper
         $this->irss->collection()->store($collection);
     }
 
-    public function getResourceIdForIdString(string $rid): ?ResourceIdentification
+    protected function getResourceIdForIdString(string $rid): ?ResourceIdentification
     {
         return $this->irss->manage()->find($rid);
     }
@@ -260,6 +261,7 @@ class IRSSWrapper
         $rev->setInformation($info);
         $this->irss->manage()->updateRevision($rev);
     }
+
     public function deliverFile(string $rid): void
     {
         $id = $this->getResourceIdForIdString($rid);
@@ -275,6 +277,15 @@ class IRSSWrapper
             return $this->irss->consume()->stream($id)->getStream();
         }
         return null;
+    }
+
+    public function getResourcePath(string $rid): string
+    {
+        $stream = $this->stream($rid);
+        if ($stream) {
+            return $stream->getMetadata('uri') ?? '';
+        }
+        return "";
     }
 
     public function getCollectionResourcesInfo(
@@ -351,16 +362,25 @@ class IRSSWrapper
         ResourceStakeholder $target_stakeholder
     ) {
         $entry_parts = explode("/", $entry);
-        $zip = new \ZipArchive();
-        if ($zip->open($this->stream($rid)->getMetadata()['uri'], \ZipArchive::RDONLY)) {
-            $feedback_rid = $this->irss->manage()->stream(
-                Streams::ofResource($zip->getStream($entry)),
-                $target_stakeholder,
-                $entry_parts[2]
-            );
-            $target_collection->add($feedback_rid);
-            $this->irss->collection()->store($target_collection);
-        }
+        $stream = $this->getStreamOfContainerEntry($rid, $entry);
+        $feedback_rid = $this->irss->manage()->stream(
+            $stream,
+            $target_stakeholder,
+            $entry_parts[2]
+        );
+        $target_collection->add($feedback_rid);
+        $this->irss->collection()->store($target_collection);
+    }
+
+    public function getStreamOfContainerEntry(
+        string $rid,
+        string $entry
+    ): ZIPStream {
+        $zip_path = $this->stream($rid)->getMetadata("uri");
+        return Streams::ofFileInsideZIP(
+            $zip_path,
+            $entry
+        );
     }
 
     // this currently does not work due to issues in the irss
@@ -398,9 +418,11 @@ class IRSSWrapper
     public function createContainer(
         ResourceStakeholder $stakeholder
     ): string {
+        // create empty container resource. empty zips are not allowed, we need at least one file which is hidden
         $empty_zip = $this->archives->zip(
             []
         );
+
         $rid = $this->irss->manageContainer()->containerFromStream(
             $empty_zip->get(),
             $stakeholder
@@ -521,4 +543,87 @@ class IRSSWrapper
 
 
 
+    public function importFileFromLegacyUploadToContainer(
+        string $rid,
+        string $tmp_name,
+        string $target_path
+    ): void {
+        $upload = $this->upload;
+
+        if (!$upload->hasBeenProcessed()) {
+            $upload->process();
+        }
+        foreach ($upload->getResults() as $name => $result) {
+            // we must check if these are files from this input
+            if ($name !== $tmp_name) {
+                continue;
+            }
+            // if the result is not OK, we skip it
+            if (!$result->isOK()) {
+                continue;
+            }
+
+            $id = $this->getResourceIdForIdString($rid);
+
+            if (!is_null($id)) {
+                $this->irss->manageContainer()->addUploadToContainer(
+                    $id,
+                    $result,
+                    $target_path
+                );
+            }
+        }
+    }
+
+    public function importFileFromUploadResultToContainer(
+        string $rid,
+        UploadResult $result,
+        string $target_path
+    ): void {
+        // if the result is not OK, we skip it
+        if (!$result->isOK()) {
+            return;
+        }
+
+        $id = $this->getResourceIdForIdString($rid);
+
+        if (!is_null($id)) {
+            $this->irss->manageContainer()->addUploadToContainer(
+                $id,
+                $result,
+                $target_path
+            );
+        }
+    }
+
+    public function getContainerSrc(
+        string $rid,
+        string $path
+    ): string {
+        if ($rid !== "") {
+            $uri = $this->irss->consume()->containerURI(
+                $this->getResourceIdForIdString($rid),
+                $path,
+                8 * 60
+            )->getURI();
+            return (string) $uri;
+        }
+        return "";
+    }
+
+    public function addStreamToContainer(
+        string $rid,
+        FileStream $stream,
+        string $path
+    ): void {
+        $id = $this->getResourceIdForIdString($rid);
+
+        if (!is_null($id)) {
+            $this->irss->manageContainer()->addStreamToContainer(
+                $id,
+                $stream,
+                $path
+            );
+        }
+    }
 }

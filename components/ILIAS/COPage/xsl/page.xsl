@@ -2094,7 +2094,12 @@
 			<xsl:choose>
 				<xsl:when test="$location_mode = 'curpurpose'">
 					<xsl:if test="$curType = 'LocalFile'">
-						<xsl:value-of select="$webspace_path"/>mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location"/>
+						<xsl:if test="starts-with(//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location, 'http')">
+							<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location"/>
+						</xsl:if>
+						<xsl:if test="not(starts-with(//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location, 'http'))">
+							<xsl:value-of select="$webspace_path"/>mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location"/>
+						</xsl:if>
 					</xsl:if>
 					<xsl:if test="$curType = 'Reference'">
 						<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location"/>

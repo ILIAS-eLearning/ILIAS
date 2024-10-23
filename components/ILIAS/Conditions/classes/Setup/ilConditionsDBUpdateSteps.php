@@ -16,14 +16,19 @@
  *
  *********************************************************************/
 
-/**
- * Page for portfolio template
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- */
-class ilPortfolioTemplatePage extends ilPortfolioPage
+declare(strict_types=1);
+
+class ilConditionsDBUpdateSteps implements ilDatabaseUpdateSteps
 {
-    public function getParentType(): string
+    protected ilDBInterface $db;
+
+    public function prepare(ilDBInterface $db): void
     {
-        return "prtt";
+        $this->db = $db;
+    }
+
+    public function step_1(): void
+    {
+        $this->db->modifyTableColumn('conditions', 'value', ['length' => 128]);
     }
 }
