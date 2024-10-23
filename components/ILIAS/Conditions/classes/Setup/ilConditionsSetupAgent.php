@@ -18,17 +18,19 @@
 
 declare(strict_types=1);
 
-class ilConditionDBUpdateSteps implements ilDatabaseUpdateSteps
-{
-    protected ilDBInterface $db;
 
-    public function prepare(ilDBInterface $db): void
+use ILIAS\Setup;
+use ILIAS\Setup\Config;
+
+class ilConditionsSetupAgent extends Setup\Agent\NullAgent
+{
+    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
-        $this->db = $db;
+        return new ilDatabaseUpdateStepsExecutedObjective(new ilConditionsDBUpdateSteps());
     }
 
-    public function step_1(): void
+    public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
-        $this->db->modifyTableColumn('conditions', 'value', ['length' => 128]);
+        return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilConditionsDBUpdateSteps());
     }
 }
