@@ -34,29 +34,25 @@ class InternalDomainService
 {
     use GlobalDICDomainServices;
 
-    protected InternalRepoService $repo_service;
-    protected InternalDataService $data_service;
+    protected static array $instance = [];
 
     public function __construct(
         Container $DIC,
-        InternalRepoService $repo_service,
-        InternalDataService $data_service
+        protected InternalRepoService $repo_service,
+        protected InternalDataService $data_service
     ) {
-        $this->repo_service = $repo_service;
-        $this->data_service = $data_service;
         $this->initDomainServices($DIC);
     }
 
-    /*
-    public function access(int $ref_id, int $user_id) : Access\AccessManager
+    public function mediaObject(): MediaObjectManager
     {
-        return new Access\AccessManager(
+        return self::$instance["mob"] ??= new MediaObjectManager(
+            $this->data_service,
+            $this->repo_service,
             $this,
-            $this->access,
-            $ref_id,
-            $user_id
+            new \ilMobStakeholder()
         );
-    }*/
+    }
 
     public function imageMap(): ImageMapManager
     {

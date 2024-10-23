@@ -22,30 +22,19 @@ namespace ILIAS\MediaObjects;
 
 use ILIAS\MediaObjects\ImageMap\ImageMapEditSessionRepository;
 use ILIAS\MediaObjects\Usage\UsageDBRepository;
+use ILIAS\Exercise\IRSS\IRSSWrapper;
 
-/**
- * Repository internal repo service
- * @author Alexander Killing <killing@leifos.de>
- */
 class InternalRepoService
 {
-    protected InternalDataService $data;
-    protected \ilDBInterface $db;
+    protected static array $instance = [];
+    protected IRSSWrapper $irss_wrapper;
 
-    public function __construct(InternalDataService $data, \ilDBInterface $db)
-    {
-        $this->data = $data;
-        $this->db = $db;
+    public function __construct(
+        protected InternalDataService $data,
+        protected \ilDBInterface $db
+    ) {
+        $this->irss_wrapper = new IRSSWrapper(new \ILIAS\Exercise\InternalDataService());
     }
-
-    /*
-    public function ...() : ...\RepoService
-    {
-        return new ...\RepoService(
-            $this->data,
-            $this->db
-        );
-    }*/
 
     public function imageMap(): ImageMapEditSessionRepository
     {
@@ -54,6 +43,16 @@ class InternalRepoService
 
     public function usage(): UsageDBRepository
     {
-        return new UsageDBRepository($this->db);
+        return self::$instance["usage"] ??= new UsageDBRepository($this->db);
     }
+
+    public function mediaObject(): MediaObjectRepository
+    {
+        return self::$instance["media_object"] ??=
+            new MediaObjectRepository(
+                $this->db,
+                $this->irss_wrapper
+            );
+    }
+
 }

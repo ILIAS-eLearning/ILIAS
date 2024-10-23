@@ -704,42 +704,28 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $a_mob->createDirectory();
         $mob_dir = ilObjMediaObject::_getDirectory($a_mob->getId());
 
-        $media_item = new ilMediaItem();
-        $a_mob->addMediaItem($media_item);
-        $media_item->setPurpose("Standard");
 
         if ($form->getInput("standard_type") == "File") {
-            $file_name = ilObjMediaObject::fixFilename($_FILES['standard_file']['name']);
-            $file = $mob_dir . "/" . $file_name;
-            ilFileUtils::moveUploadedFile(
-                $_FILES['standard_file']['tmp_name'],
-                $file_name,
-                $file
-            );
-
-            // get mime type
-            $format = ilObjMediaObject::getMimeType($file);
-            $location = $file_name;
-
-            // resize standard images
-            if ($form->getInput("standard_size") != "original" &&
-                is_int(strpos($format, "image"))) {
+            $width = $height = 0;
+            $constr_prop = false;
+            if ($form->getInput("standard_size") != "original") {
                 $wh_input = $form->getInput("standard_width_height");
-
-                $location = ilObjMediaObject::_resizeImage(
-                    $file,
-                    (int) $wh_input["width"],
-                    (int) $wh_input["height"],
-                    (bool) ($wh_input["constr_prop"] ?? false)
-                );
+                $width = (int) $wh_input["width"];
+                $height = (int) $wh_input["height"];
+                $constr_prop = ($wh_input["constr_prop"] ?? false);
             }
-
-            // set real meta and object data
-            $media_item->setFormat($format);
-            $media_item->setLocation($location);
-            $media_item->setLocationType("LocalFile");
-            $a_mob->generatePreviewPic(320, 240);
+            $media_item = $a_mob->addMediaItemFromLegacyUpload(
+                "Standard",
+                "standard_file",
+                $width,
+                $height,
+                $constr_prop
+            );
         } else {	// standard type: reference
+            $media_item = new ilMediaItem();
+            $a_mob->addMediaItem($media_item);
+            $media_item->setPurpose("Standard");
+
             $format = ilObjMediaObject::getMimeType($form->getInput("standard_reference"), true);
             $media_item->setFormat($format);
             $media_item->setLocation(ilUtil::secureLink($form->getInput("standard_reference")));
@@ -754,7 +740,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         // determine width and height of known image types
         $wh_input = $form->getInput("standard_width_height");
         $wh = ilObjMediaObject::_determineWidthHeight(
-            $format,
+            $media_item->getFormat(),
             $form->getInput("standard_type"),
             $mob_dir . "/" . $location,
             $media_item->getLocation(),
