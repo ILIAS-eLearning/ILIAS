@@ -36,6 +36,7 @@ use ILIAS\Repository\Listing\ListingAdapterGUI;
 use ILIAS\Repository\HTTP\HTTPUtil;
 use ILIAS\Repository\Profile\ProfileGUI;
 use ILIAS\Repository\HTML\HTMLUtil;
+use ILIAS\UI\Implementation\Render\MathJaxConfig;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -113,6 +114,11 @@ trait GlobalDICGUIServices
     public function locator(): \ilLocatorGUI
     {
         return $this->DIC["ilLocator"];
+    }
+
+    public function mathjaxConfig(): MathjaxConfig
+    {
+        return $this->DIC["ui.mathjax_config"];
     }
 
     public function navigationHistory(): \ilNavigationHistory

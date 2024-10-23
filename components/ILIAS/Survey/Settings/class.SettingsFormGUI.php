@@ -314,6 +314,8 @@ class SettingsFormGUI
     ): \ilPropertyFormGUI {
         $survey = $this->survey;
         $lng = $this->ui_service->lng();
+        $lng->loadLanguageModule('ui');
+        $mathjax_config = $this->ui_service->mathjaxConfig();
 
         $section = new \ilFormSectionHeaderGUI();
         $section->setTitle($lng->txt('svy_settings_section_before_start'));
@@ -324,7 +326,11 @@ class SettingsFormGUI
         $intro->setValue($survey->prepareTextareaOutput($survey->getIntroduction()));
         $intro->setRows(10);
         $intro->setCols(80);
-        $intro->setInfo($lng->txt("survey_introduction_info"));
+        $info = $lng->txt("survey_introduction_info");
+        if ($mathjax_config->isMathJaxEnabled()) {
+            $info .= ' ' . $lng->txt("mathjax_edit_hint");
+        }
+        $intro->setInfo($info);
         if (\ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
             $intro->setUseRte(true);
             $intro->setRteTagSet("mini");
@@ -418,6 +424,7 @@ class SettingsFormGUI
     ): \ilPropertyFormGUI {
         $survey = $this->survey;
         $lng = $this->ui_service->lng();
+        $mathjax_config = $this->ui_service->mathjaxConfig();
         $feature_config = $this->feature_config;
         $ctrl = $this->ui_service->ctrl();
         $invitation_manager = $this->domain_service->participants()->invitations();
@@ -451,6 +458,9 @@ class SettingsFormGUI
         if (\ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
             $finalstatement->setUseRte(true);
             $finalstatement->setRteTagSet("mini");
+        }
+        if ($mathjax_config->isMathJaxEnabled()) {
+            $finalstatement->setInfo($lng->txt('mathjax_edit_hint'));
         }
         $form->addItem($finalstatement);
 
