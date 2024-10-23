@@ -69,11 +69,17 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
             'created_timestamp' => ['integer', $certificateTemplate->getCreatedTimestamp()],
             'currently_active' => ['integer', (int) $certificateTemplate->isCurrentlyActive()],
             'deleted' => ['integer', (int) $certificateTemplate->isDeleted()],
-            'background_image_path' => ['text', $certificateTemplate->getBackgroundImagePath()],
-            'thumbnail_image_path' => ['text', $certificateTemplate->getThumbnailImagePath()],
             'background_image_ident' => ['text', $certificateTemplate->getBackgroundImageIdentification()],
             'thumbnail_image_ident' => ['text', $certificateTemplate->getThumbnailImageIdentification()]
         ];
+
+        if (
+            $this->database->tableColumnExists('il_cert_user_cert', 'background_image_path') &&
+            $this->database->tableColumnExists('il_cert_user_cert', 'thumbnail_image_path')
+        ) {
+            $columns['background_image_path'] = ['text', $certificateTemplate->getBackgroundImagePath()];
+            $columns['thumbnail_image_path'] = ['text', $certificateTemplate->getThumbnailImagePath()];
+        }
 
         $this->database->insert(self::TABLE_NAME, $columns);
 

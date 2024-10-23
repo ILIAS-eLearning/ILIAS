@@ -97,12 +97,18 @@ class ilUserCertificateRepository
             'version' => ['integer', $version],
             'ilias_version' => ['text', $userCertificate->getIliasVersion()],
             'currently_active' => ['integer', (int) $userCertificate->isCurrentlyActive()],
-            'background_image_path' => ['text', $userCertificate->getBackgroundImagePath()],
-            'thumbnail_image_path' => ['text', $userCertificate->getThumbnailImagePath()],
             'background_image_ident' => ['text', $userCertificate->getBackgroundImageIdentification()],
             'thumbnail_image_ident' => ['text', $userCertificate->getThumbnailImageIdentification()],
             'certificate_id' => ['text', $userCertificate->getCertificateId()->asString()]
         ];
+
+        if (
+            $this->database->tableColumnExists('il_cert_u ser_cert', 'background_image_path') &&
+            $this->database->tableColumnExists('il_cert_user_cert', 'thumbnail_image_path')
+        ) {
+            $columns['background_image_path'] = ['text', $userCertificate->getBackgroundImagePath()];
+            $columns['thumbnail_image_path'] = ['text', $userCertificate->getThumbnailImagePath()];
+        }
 
         $this->logger->debug(
             sprintf(
