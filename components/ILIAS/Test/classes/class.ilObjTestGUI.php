@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\Results\Data\TestPassResultRepository;
+use ILIAS\Test\Results\Data\Repository as TestResultRepository;
 use ILIAS\Test\TestDIC;
 use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\ResponseHandler;
@@ -149,7 +149,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     protected ParticipantRepository $participant_repository;
     protected ResultsDataFactory $results_data_factory;
     protected ResultsPresentationFactory $results_presentation_factory;
-    protected TestPassResultRepository $test_pass_result_repository;
+    protected TestResultRepository $test_pass_result_repository;
     protected ?QuestionsTableQuery $table_query = null;
     protected ?QuestionsTableActions $table_actions = null;
     protected DataFactory $data_factory;
@@ -196,7 +196,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->results_presentation_factory = $local_dic['results.presentation.factory'];
         $this->export_factory = $local_dic['exportimport.factory'];
         $this->participant_access_filter_factory = $local_dic['participant.access_filter.factory'];
-        $this->test_pass_result_repository = $local_dic['results.data.test_pass_result_repository'];
+        $this->test_pass_result_repository = $local_dic['results.data.test_result_repository'];
 
         $ref_id = 0;
         if ($this->testrequest->hasRefId() && is_numeric($this->testrequest->getRefId())) {

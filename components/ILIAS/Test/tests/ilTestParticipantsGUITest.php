@@ -59,7 +59,8 @@ class ilTestParticipantsGUITest extends ilTestBaseTestCase
             $this->createMock(\ILIAS\Test\ResponseHandler::class),
             $this->createMock(\ILIAS\Test\Participants\ParticipantRepository::class),
             $this->createMock(ILIAS\Test\Results\Data\Factory::class),
-            $this->createMock(ILIAS\Test\Results\Presentation\Factory::class)
+            $this->createMock(ILIAS\Test\Results\Presentation\Factory::class),
+            $this->createMock(\ILIAS\Test\Results\Data\Repository::class)
         );
     }
 

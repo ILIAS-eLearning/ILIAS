@@ -36,7 +36,7 @@ use ILIAS\Test\Participants\ParticipantTableDeleteResultsAction;
 use ILIAS\Test\Participants\ParticipantTableShowResultsAction;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Test\Results\Data\TestPassResultRepository;
+use ILIAS\Test\Results\Data\Repository as TestResultRepository;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\URLBuilder;
@@ -85,7 +85,7 @@ class ilTestParticipantsGUI
         protected ParticipantRepository $participant_repository,
         protected readonly ResultsDataFactory $results_data_factory,
         protected readonly ResultsPresentationFactory $results_presentation_factory,
-        protected readonly TestPassResultRepository $test_pass_result_repository
+        protected readonly TestResultRepository $test_pass_result_repository
     ) {
         $this->participant_access_filter = new ilTestParticipantAccessFilterFactory($access);
     }

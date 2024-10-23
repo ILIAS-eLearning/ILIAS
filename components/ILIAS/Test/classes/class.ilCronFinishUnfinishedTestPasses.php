@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Cron\Schedule\CronJobScheduleType;
 use ILIAS\Test\Results\Data\StatusOfAttempt;
-use ILIAS\Test\Results\Data\TestPassResultRepository;
+use ILIAS\Test\Results\Data\Repository as TestResultRepository;
 use ILIAS\Test\TestDIC;
 use ILIAS\Test\Logging\TestLogger;
 
@@ -41,7 +41,7 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
     protected array $test_ids;
     protected array $test_ending_times;
     protected ilTestProcessLockerFactory $processLockerFactory;
-    protected TestPassResultRepository $test_pass_result_repository;
+    protected TestResultRepository $test_pass_result_repository;
 
     public function __construct()
     {
@@ -64,7 +64,7 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
             $this->db
         );
 
-        $this->test_pass_result_repository = TestDic::dic()['results.data.test_pass_result_repository'];
+        $this->test_pass_result_repository = TestDic::dic()['results.data.test_result_repository'];
     }
 
     public function getId(): string
