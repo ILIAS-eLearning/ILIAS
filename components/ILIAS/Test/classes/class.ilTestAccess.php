@@ -192,11 +192,14 @@ class ilTestAccess
 
         $ip = $_SERVER['REMOTE_ADDR'];
 
-        if ($this->isParticipantBlockedByIndividualIPRange($participant, $ip) === true) {
+        $allowed_individual = $this->isParticipantExplicitelyAllowedByIndividualIPRange($participant, $ip);
+        if ($allowed_individual === false) {
             return ParticipantAccess::INDIVIDUAL_CLIENT_IP_MISMATCH;
         }
 
-        if (!$access_settings->isIpRangeEnabled()) {
+
+        if ($allowed_individual === true
+            || !$access_settings->isIpRangeEnabled()) {
             return ParticipantAccess::ALLOWED;
         }
 
@@ -207,7 +210,7 @@ class ilTestAccess
         return ParticipantAccess::ALLOWED;
     }
 
-    private function isParticipantBlockedByIndividualIPRange(
+    private function isParticipantExplicitelyAllowedByIndividualIPRange(
         ?Participant $participant,
         string $ip
     ): ?bool {
@@ -215,18 +218,18 @@ class ilTestAccess
         $range_end = $participant?->getClientIpTo();
 
         if ($range_start === null && $range_end === null) {
-            return false;
+            return null;
         }
 
         if ($this->isIpTypeOf(FILTER_FLAG_IPV4, $ip, $range_start, $range_end)) {
-            return !$this->isIpv4Between($ip, $range_start, $range_end);
+            return $this->isIpv4Between($ip, $range_start, $range_end);
         }
 
         if ($this->isIpTypeOf(FILTER_FLAG_IPV6, $ip, $range_start, $range_end)) {
             return !$this->isIpv6Between($ip, $range_start, $range_end);
         }
 
-        return true;
+        return null;
     }
 
     private function isIpAllowedToAccessTest(
