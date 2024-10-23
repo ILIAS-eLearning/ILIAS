@@ -23,7 +23,6 @@ use ILIAS\TestQuestionPool\RequestDataCollector;
 use ILIAS\TestQuestionPool\Presentation\QuestionTable;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\Settings\GlobalSettings\GlobalTestSettings;
-
 use ILIAS\Taxonomy\Service;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use ILIAS\UI\Component\Input\Field\Select;
@@ -1571,10 +1570,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $force_active = true;
         }
         if (!$force_active) {
-            $force_active = ((strtolower($this->ctrl->getCmdClass()) == strtolower(get_class($this)) || strlen(
-                $this->ctrl->getCmdClass()
-            ) == 0) &&
-                $this->ctrl->getCmd() == '')
+            $force_active = strtolower($this->ctrl->getCmdClass()) === strtolower(self::class)
+                || $this->ctrl->getCmdClass() === '' && $this->ctrl->getCmd() === ''
                 ? true
                 : false;
         }
@@ -1777,10 +1774,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         if ($ilAccess->checkAccess('write', '', (int) $a_target)
             || $ilAccess->checkAccess('read', '', (int) $a_target)
         ) {
-            $target_class = ilObjQuestionPoolGUI::class;
-            $target_cmd = self::DEFAULT_CMD;
-            $ctrl->setParameterByClass($target_class, 'ref_id', $a_target);
-            $ctrl->redirectByClass([ilRepositoryGUI::class, $target_class], $target_cmd);
+            $ctrl->setParameterByClass(ilObjQuestionPoolGUI::class, 'ref_id', $a_target);
+            $ctrl->redirectByClass([ilRepositoryGUI::class, ilObjQuestionPoolGUI::class], self::DEFAULT_CMD);
             return;
         }
         if ($ilAccess->checkAccess('visible', '', $a_target)) {
