@@ -3,7 +3,8 @@
 @use "../../../070-components/legacy/component_alert" as alert;
 
 /* not yet refactored code from former ta.css */
-$il-test-dropzone-bg-color: lighten($il-main-color, 56%);
+$il-test-dropzone-bg-color: $il-main-dark-bg;
+$il-test-dropzone-bg-color-hover: $il-main-darker-bg;
 $il-test-dropzone-border-color: $il-main-border-color;
 
 .fullwidth_invisible {
@@ -607,7 +608,7 @@ div.ilc_Page.readonly textarea[disabled]
     border: 1px dashed $il-test-dropzone-border-color;
 
     &.c-test__dropzone--hover {
-        background: darken($il-test-dropzone-bg-color, 4%);
+        background: $il-test-dropzone-bg-color-hover;
     }
 
     &.c-test__dropzone--active {

@@ -13953,11 +13953,11 @@ div.ilc_Page.readonly textarea[disabled] {
   display: none;
   margin: 5px 10px 5px 0;
   padding: 0;
-  background: rgb(245.8114285714, 247.5257142857, 249.7885714286);
+  background: #f9f9f9;
   border: 1px dashed #dddddd;
 }
 .c-test__dropzone.c-test__dropzone--hover {
-  background: rgb(232.7942857143, 236.9371428571, 242.4057142857);
+  background: #f0f0f0;
 }
 .c-test__dropzone.c-test__dropzone--active {
   display: block;
