@@ -207,50 +207,64 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     protected function showLoginPageOrStartupPage(): void
     {
         /**
-         * @var ilAuthSession
+         * According to a (core) code base analysis (ILIAS 8.x until 10.x, 2024-08-16),
+         * there is curently no code that redirects to this command/action with "cmd=force_login" as query parameter
+         * where the user is still considered as "logged-in".
+         * To address https://mantis.ilias.de/view.php?id=29991 we assume that we can ignore such requests
+         * to prevent "Logout without CSRF / Denial of Service for Users" and redirect the user to the start page instead.
          */
-        $auth_session = $this->authSession;
-        $ilAppEventHandler = $this->eventHandler;
-
-        $force_login = false;
-        if (isset($_REQUEST['cmd']) &&
-            !is_array($_REQUEST['cmd']) &&
-            strcmp($_REQUEST['cmd'], 'force_login') === 0
-        ) {
-            $force_login = true;
+        if ($this->authSession->isValid() && $this->authSession->getUserId() > 0 && !$this->user->isAnonymous()) {
+            ilInitialisation::redirectToStartingPage();
         }
 
-        if ($force_login) {
+        $is_forced_login = $this->http->wrapper()->query()->retrieve(
+            'cmd',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->always(
+                    $this->http->wrapper()->post()->retrieve(
+                        'cmd',
+                        $this->refinery->byTrying([
+                            $this->refinery->kindlyTo()->string(),
+                            $this->refinery->always('')
+                        ])
+                    )
+                )
+            ])
+        ) === 'force_login';
+
+        if ($is_forced_login) {
+            // Only allow this for anonymous user, see: showLoginPageOrStartupPage
             $this->logger->debug('Force login');
-            if ($auth_session->isValid()) {
+            $messages = [];
+            if ($this->authSession->isValid()) {
                 $messages = $this->retrieveMessagesFromSession();
                 $this->logger->debug('Valid session -> logout current user');
                 ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
-                $auth_session->logout();
+                $this->authSession->logout();
 
-                $ilAppEventHandler->raise(
+                $this->eventHandler->raise(
                     'Services/Authentication',
                     'afterLogout',
-                    array(
+                    [
                         'username' => $this->user->getLogin()
-                    )
+                    ]
                 );
             }
             $this->logger->debug('Show login page');
-            if (isset($messages) && count($messages) > 0) {
-                foreach ($messages as $type => $content) {
-                    $this->mainTemplate->setOnScreenMessage($type, $content);
-                }
+            foreach ($messages as $type => $content) {
+                $this->mainTemplate->setOnScreenMessage($type, $content);
             }
             $this->showLoginPage();
             return;
         }
 
-        if ($auth_session->isValid()) {
+        if ($this->authSession->isValid()) {
             $this->logger->debug('Valid session -> redirect to starting page');
             ilInitialisation::redirectToStartingPage();
             return;
         }
+
         $this->logger->debug('No valid session -> show login');
         $this->showLoginPage();
     }
