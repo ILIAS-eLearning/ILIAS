@@ -359,6 +359,10 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $definitions->setHideImages(true);
         }
 
+        if ($this->mathjax_config->isMathJaxEnabled()) {
+            $definitions->setInfo($this->lng->txt('mathjax_edit_hint'));
+        }
+
         $stripHtmlEntitesFromValues = function (assAnswerMatchingTerm $value) {
             return $value->withText(html_entity_decode($value->getText()));
         };
@@ -380,6 +384,9 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $terms = new ilMatchingWizardInputGUI($this->lng->txt("terms"), "terms");
         if ($this->object->getSelfAssessmentEditingMode()) {
             $terms->setHideImages(true);
+        }
+        if ($this->mathjax_config->isMathJaxEnabled()) {
+            $terms->setInfo($this->lng->txt('mathjax_edit_hint'));
         }
         $terms->setRequired(true);
         $terms->setQuestionObject($this->object);
