@@ -24,7 +24,6 @@ declare(strict_types=1);
 class ilOpenIdConnectUserSync
 {
     public const AUTH_MODE = 'oidc';
-
     private readonly ilLogger $logger;
     private readonly ilXmlWriter $writer;
     private stdClass $user_info;
@@ -32,7 +31,6 @@ class ilOpenIdConnectUserSync
     private string $int_account = '';
     private int $usr_id = 0;
     private const UDF_STRING = 'udf_';
-
     private ilUserDefinedFields $udf;
 
     public function __construct(private readonly ilOpenIdConnectSettings $settings, stdClass $user_info)
@@ -326,7 +324,7 @@ class ilOpenIdConnectUserSync
                     $this->logger->debug('User account has no ' . $role_value);
                     continue;
                 }
-            } elseif (strcmp((string)$this->user_info->{$role_attribute}, $role_value) !== 0) {
+            } elseif (strcmp( (string) $this->user_info->{$role_attribute}, $role_value) !== 0) {
                 $this->logger->debug('User account has no ' . $role_value);
                 continue;
             }

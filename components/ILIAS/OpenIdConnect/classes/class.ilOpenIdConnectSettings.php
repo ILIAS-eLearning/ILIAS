@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,9 +16,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-/**
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- */
+declare(strict_types=1);
 
 use ILIAS\Filesystem\Filesystem;
 
@@ -445,6 +441,7 @@ class ilOpenIdConnectSettings
         $this->profile_map = [];
         $this->profile_update_map = [];
     }
+
     public function setProfileMappingFieldValue(string $field, string $value): void
     {
         $this->profile_map[$field] = $value;

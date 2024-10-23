@@ -443,14 +443,14 @@ class ilOpenIdConnectSettingsGUI
         $this->userMapping();
     }
 
-    protected function scopes(ilPropertyFormGUI $form = null): void
+    private function scopes(ilPropertyFormGUI $form = null): void
     {
         $this->checkAccess('read');
         $this->setSubTabs(self::STAB_SCOPES);
         $form = $this->initScopesForm();
         $this->tpl->setContent($this->renderer->render($form));
     }
-    protected function initScopesForm(ilPropertyFormGUI $form = null)
+    private function initScopesForm(ilPropertyFormGUI $form = null)
     {
         $this->checkAccess('read');
 
@@ -463,7 +463,7 @@ class ilOpenIdConnectSettingsGUI
         return $form;
     }
 
-    protected function buildScopeSelection(array $ui_container): array {
+    private function buildScopeSelection(array $ui_container): array {
         $disabled_input = $this->ui->input()->field()
                                    ->text($this->lng->txt('auth_oidc_settings_default_scopes'), '')
                                    ->withValue(ilOpenIdConnectSettings::DEFAULT_SCOPE)
@@ -537,7 +537,7 @@ class ilOpenIdConnectSettingsGUI
                     }
                 }
             }
-            if($url === null && $type === ilOpenIdConnectSettings::URL_VALIDATION_PROVIDER) {
+            if ($url === null && $type === ilOpenIdConnectSettings::URL_VALIDATION_PROVIDER) {
                 $url = $this->settings->getProvider();
             }
             $validation = $this->validateDiscoveryUrl($type, $url, $custom_scopes);
@@ -554,7 +554,7 @@ class ilOpenIdConnectSettingsGUI
             $this->ctrl->redirect($this, 'scopes');
         }
 
-        if(strlen($this->failed_validation_messages) > 0) {
+        if (strlen($this->failed_validation_messages) > 0) {
             $this->failed_validation_messages = $this->lng->txt('err_check_input') . '<br/>' . $this->failed_validation_messages;
         } else {
             $this->failed_validation_messages = $this->lng->txt('err_check_input');
