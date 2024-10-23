@@ -29,6 +29,7 @@ use ilDatabaseUpdatedObjective;
 use ILIAS\Filesystem\Filesystems;
 use ilResourceStorageMigrationHelper;
 use ILIAS\Certificate\File\ilCertificateTemplateStakeholder;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 class CertificateIRSSMigration implements Migration
 {
@@ -72,9 +73,6 @@ class CertificateIRSSMigration implements Migration
         $remaining_paths = $this->stepUserCertificates(self::NUMBER_OF_PATHS_PER_STEP);
         if ($remaining_paths > 0) {
             $remaining_paths = $this->stepTemplateCertificates($remaining_paths);
-        }
-        if ($remaining_paths === 0) {
-            $this->lastStep();
         }
     }
 
@@ -142,56 +140,58 @@ class CertificateIRSSMigration implements Migration
 
         if (!isset($rid) || $rid === null) {
             $rid = '-';
+        } elseif ($rid instanceof ResourceIdentification) {
+            $rid = $rid->serialize();
         }
 
         $query = "
                 UPDATE {$this->db->quoteIdentifier($table)}
-                SET background_image_ident = CASE
-                               WHEN background_image_path = %s THEN %s
-                               ELSE background_image_path
-                            END,
-                    thumbnail_image_ident = CASE
-                               WHEN thumbnail_image_path = %s THEN %s
-                               ELSE thumbnail_image_path
-                            END,
-                    background_image_path = CASE
-                               WHEN background_image_path = %s THEN NULL
-                               ELSE background_image_path
-                            END,
-                    thumbnail_image_path = CASE
-                               WHEN thumbnail_image_path = %s THEN NULL
-                               ELSE thumbnail_image_path
-                            END
-                WHERE background_image_path = %s OR thumbnail_image_path = %s
-                ";
+                SET background_image_ident = %s WHERE background_image_path = %s;";
         $this->db->manipulateF(
             $query,
-            ['text', 'text', 'text', 'text', 'text', 'text', 'text', 'text'],
-            [$filepath, $rid, $filepath, $rid, $filepath, $filepath, $filepath, $filepath]
+            ['text', 'text'],
+            [$rid, $filepath]
         );
+        $query = "
+                UPDATE {$this->db->quoteIdentifier($table)}
+                SET thumbnail_image_ident = %s WHERE thumbnail_image_path = %s;";
+        $this->db->manipulateF(
+            $query,
+            ['text', 'text'],
+            [$rid, $filepath]
+        );
+        if ($rid !== '-') {
+            $query = "
+                    UPDATE {$this->db->quoteIdentifier($table)}
+                    SET background_image_path = NULL WHERE background_image_path = %s;";
+            $this->db->manipulateF(
+                $query,
+                ['text'],
+                [$filepath]
+            );
+            $query = "
+                    UPDATE {$this->db->quoteIdentifier($table)}
+                    SET thumbnail_image_path = NULL WHERE thumbnail_image_path = %s;";
+            $this->db->manipulateF(
+                $query,
+                ['text'],
+                [$filepath]
+            );
+        }
     }
 
     public function getRemainingAmountOfSteps(): int
     {
-        $last_step = 1;
-        if (
-            !$this->db->tableColumnExists('il_cert_user_cert', 'background_image_path') ||
-            !$this->db->tableColumnExists('il_cert_user_cert', 'thumbnail_image_path') ||
-            !$this->db->tableColumnExists('il_cert_template', 'background_image_path') ||
-            !$this->db->tableColumnExists('il_cert_template', 'thumbnail_image_path')
-        ) {
-            $last_step = 0;
-            return 0;
-        }
-
         $result = $this->db->query(
             '
                     SELECT COUNT(*) AS count FROM (
                     SELECT path
                     FROM (
                         SELECT id, background_image_path AS path FROM il_cert_user_cert
+                                             WHERE background_image_ident IS NULL
                         UNION ALL
                         SELECT id, thumbnail_image_path AS path FROM il_cert_user_cert
+                                             WHERE thumbnail_image_ident IS NULL
                     ) AS t
                     GROUP BY path
                     HAVING path IS NOT NULL AND path != \'\') AS t;
@@ -207,8 +207,10 @@ class CertificateIRSSMigration implements Migration
                     SELECT path
                     FROM (
                         SELECT id, background_image_path AS path FROM il_cert_template
+                                             WHERE background_image_ident IS NULL
                         UNION ALL
                         SELECT id, thumbnail_image_path AS path FROM il_cert_template
+                                             WHERE thumbnail_image_ident IS NULL
                     ) AS t
                     GROUP BY path
                     HAVING path IS NOT NULL AND path != \'\') AS t;
@@ -218,24 +220,6 @@ class CertificateIRSSMigration implements Migration
 
         $paths += (int) $row['count'];
 
-        $paths += $last_step;
-
         return (int) ceil($paths / self::NUMBER_OF_STEPS);
-    }
-
-    public function lastStep(): void
-    {
-        if ($this->db->tableColumnExists('il_cert_user_cert', 'background_image_path')) {
-            $this->db->dropTableColumn('il_cert_user_cert', 'background_image_path');
-        }
-        if ($this->db->tableColumnExists('il_cert_user_cert', 'thumbnail_image_path')) {
-            $this->db->dropTableColumn('il_cert_user_cert', 'thumbnail_image_path');
-        }
-        if ($this->db->tableColumnExists('il_cert_template', 'background_image_path')) {
-            $this->db->dropTableColumn('il_cert_template', 'background_image_path');
-        }
-        if ($this->db->tableColumnExists('il_cert_template', 'thumbnail_image_path')) {
-            $this->db->dropTableColumn('il_cert_template', 'thumbnail_image_path');
-        }
     }
 }
