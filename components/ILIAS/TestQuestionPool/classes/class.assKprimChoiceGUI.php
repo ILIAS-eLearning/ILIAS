@@ -288,8 +288,12 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
      */
     public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form): ilPropertyFormGUI
     {
+        $info = $this->lng->txt('kprim_answers_info');
+        if ($this->mathjax_config->isMathJaxEnabled()) {
+            $info .= ' ' . $this->lng->txt('mathjax_edit_hint');
+        }
         $kprimAnswers = new ilKprimChoiceWizardInputGUI($this->lng->txt('answers'), 'kprimanswers');
-        $kprimAnswers->setInfo($this->lng->txt('kprim_answers_info'));
+        $kprimAnswers->setInfo($info);
         $kprimAnswers->setSize(64);
         $kprimAnswers->setMaxLength(1000);
         $kprimAnswers->setRequired(true);
@@ -905,8 +909,12 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         $form->addItem($scorePartialSolution);
 
         // answers
+        $info = $this->lng->txt('kprim_answers_info');
+        if ($this->mathjax_config->isMathJaxEnabled()) {
+            $info .= ' ' . $this->lng->txt('mathjax_edit_hint');
+        }
         $kprimAnswers = new ilKprimChoiceCorrectionsInputGUI($this->lng->txt('answers'), 'kprimanswers');
-        $kprimAnswers->setInfo($this->lng->txt('kprim_answers_info'));
+        $kprimAnswers->setInfo($info);
         $kprimAnswers->setSize(64);
         $kprimAnswers->setMaxLength(1000);
         $kprimAnswers->setRequired(true);
