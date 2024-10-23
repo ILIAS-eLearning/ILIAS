@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Tests\Refinery\To\Transformation;
 
-use ILIAS\Data\Result;
 use ILIAS\Data\Result\Ok;
 use ILIAS\Refinery\To\Transformation\InArrayTransformation;
 use PHPUnit\Framework\TestCase;

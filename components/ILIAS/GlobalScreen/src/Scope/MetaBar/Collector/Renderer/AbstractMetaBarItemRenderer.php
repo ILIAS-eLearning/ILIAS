@@ -22,13 +22,14 @@ namespace ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer;
 
 use ILIAS\Data\URI;
 use ILIAS\DI\UIServices;
-use ILIAS\GlobalScreen\Collector\Renderer\ComponentDecoratorApplierTrait;
+use ILIAS\GlobalScreen\Collector\Renderer\DecoratorApplierTrait;
 use ILIAS\GlobalScreen\Collector\Renderer\isSupportedTrait;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\isItem;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Symbol\Symbol;
+use ILIAS\UI\Component\HasHelpTopics;
 
 /**
  * Class AbstractMetaBarItemRenderer
@@ -36,7 +37,7 @@ use ILIAS\UI\Component\Symbol\Symbol;
  */
 abstract class AbstractMetaBarItemRenderer implements MetaBarItemRenderer
 {
-    use ComponentDecoratorApplierTrait;
+    use DecoratorApplierTrait;
     use isSupportedTrait;
 
     protected UIServices $ui;
@@ -56,30 +57,26 @@ abstract class AbstractMetaBarItemRenderer implements MetaBarItemRenderer
      */
     protected function getURI(string $uri_string): URI
     {
-        if (strpos($uri_string, 'http') === 0) {
+        if (str_starts_with($uri_string, 'http')) {
             return new URI($uri_string);
         }
 
         return new URI(rtrim(ILIAS_HTTP_PATH, "/") . "/" . ltrim($uri_string, "./"));
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getComponentForItem(isItem $item): Component
     {
         $component = $this->getSpecificComponentForItem($item);
-        $component = $this->applyDecorator($component, $item);
+        $component = $this->applyComponentDecorator($component, $item);
+        if ($component instanceof HasHelpTopics) {
+            return $component->withHelpTopics(...$item->getTopics());
+        }
 
         return $component;
     }
 
     abstract protected function getSpecificComponentForItem(isItem $item): Component;
 
-    /**
-     * @param isItem $item
-     * @return Symbol
-     */
     protected function buildIcon(isItem $item): Symbol
     {
         if ($item instanceof hasSymbol && $item->hasSymbol()) {

@@ -137,12 +137,14 @@ class CoursePlaceholderValues implements ilCertificatePlaceholderValues
             $completionDate = $this->lpStatusHelper->lookupStatusChanged($objId, $userId);
         }
 
+        /** @var ilObjUser $user */
+        $user = $this->objectHelper->getInstanceByObjId($userId);
         if ($this->hasCompletionDate($completionDate)) {
-            $placeholders['DATE_COMPLETED'] = $this->dateHelper->formatDate($completionDate);
-            $placeholders['DATETIME_COMPLETED'] = $this->dateHelper->formatDateTime($completionDate);
+            $placeholders['DATE_COMPLETED'] = $this->dateHelper->formatDate($completionDate, $user);
+            $placeholders['DATETIME_COMPLETED'] = $this->dateHelper->formatDateTime($completionDate, $user);
         }
 
-        $lng_code = ilObjUser::_lookupLanguage($userId);
+        $lng_code = $user->getLanguage();
         $course_translation = $courseObject->getObjectTranslation();
         $title = $courseObject->getTitle();
         if ($course_translation instanceof ilObjectTranslation) {

@@ -22,7 +22,6 @@ namespace ILIAS\Badge\GlobalScreen;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
-use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
 use ILIAS\Notifications\ilNotificationOSDHandler;
 use ILIAS\Notifications\Repository\ilNotificationOSDRepository;
 

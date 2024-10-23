@@ -95,7 +95,7 @@ when no template can be determined.
 Per Skin, one HTML template can be defined and has to be
 stored in the following location:
 
-    ./Customizing/global/skin/<SKIN-NAME>/<STYLE-NAME>/Services/Mail/tpl.html_mail_template.html.
+    ./Customizing/global/skin/<SKIN-NAME>/<STYLE-NAME>/components/ILIAS/Mail/tpl.html_mail_template.html.
 
 The HTML frame template concept consists of the HTML
 markup file itself and some optional attachments.
@@ -115,7 +115,7 @@ This feature does not apply for ILIAS-internal messages at all.
 
 ## ilMail
 
-`\ilMail` is the central class of *Services/Mail* and acts as
+`\ilMail` is the central class of *ILIAS/Mail* and acts as
 some kind of reduced and **medium level** notification system
 dealing only with internal and external emails.
 It does neither care about low-level transport of messages
@@ -598,7 +598,7 @@ of the previous explained `\ilMailNotification`.
 
 This class is used to create an email sent by the ILIAS
 system with a more or less given structure and text layout.
-The implementation is used by several modules/services
+The implementation is used by several components
 to create their own emails.
 
 ```php
@@ -690,7 +690,7 @@ Internally `\ilAccountMail` makes use of `\ilMimeMail`.
 ## Manual Mail Templates
 
 The concept of ['Manual Mail Templates'](https://www.ilias.de/docu/goto_docu_wiki_wpage_2703_1357.html) is best described
-as a feature which enables services/modules to
+as a feature which enables components to
 provide text templates for a 'User-to-User Email' in a
 specific context.
 

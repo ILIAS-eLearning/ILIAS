@@ -18,7 +18,12 @@ With the exception of "Survey" and "Test" objects, no personal data is stored au
 
 - All accounts with permission "Edit Settings" for a specific object can read and write all metadata.
 - All accounts with copy permission are allowed to access all metadata in the copy. 
-  
+- If configured accordingly, a subset of the metadata of objects can be queried
+  externally via a OAI-PMH interface. The exposed information may include
+  download links to 'Public Access' export files of the objects. For more details
+  on the OAI-PMH interface see the [corresponding documentation](docs/oaipmh.md).
+  Please consult the privacy information of the corresponding objects for details
+  about what the exposed export files might contain.
   
 ## Data being deleted
 

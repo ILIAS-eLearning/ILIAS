@@ -38,6 +38,7 @@ class RequestProcessor implements RequestProcessorInterface
     protected TokenHandlerInterface $token_handler;
 
     protected readonly string $valid_md_prefix;
+    protected readonly string $default_set;
     protected readonly int $max_list_size;
 
     public function __construct(
@@ -52,6 +53,7 @@ class RequestProcessor implements RequestProcessorInterface
         $this->token_handler = $token_handler;
 
         $this->valid_md_prefix = 'oai_dc';
+        $this->default_set = 'default';
         $this->max_list_size = 100;
     }
 
@@ -202,14 +204,20 @@ class RequestProcessor implements RequestProcessorInterface
                 ...$request->argumentKeys()
             );
         }
-        $errors[] = $this->writer->writeError(
-            Error::NO_SET_HIERARCHY,
-            'This repository does not support sets.'
-        );
 
-        return $this->writer->writeErrorResponse(
+        if ($request->hasArgument(Argument::RESUMPTION_TOKEN)) {
+            $errors[] = $this->writer->writeError(
+                Error::BAD_RESUMTPION_TOKEN,
+                'ListSets does not issue resumption tokens.'
+            );
+        }
+
+        if (!empty($errors)) {
+            return $this->writer->writeErrorResponse($request, ...$errors);
+        }
+        return $this->writer->writeResponse(
             $request,
-            ...$errors
+            $this->writer->writeSet($this->default_set, $this->default_set)
         );
     }
 
@@ -228,10 +236,13 @@ class RequestProcessor implements RequestProcessorInterface
             );
         }
 
-        if ($request->hasArgument(Argument::SET)) {
+        if (
+            $request->hasArgument(Argument::SET) &&
+            $request->argumentValue(Argument::SET) !== $this->default_set
+        ) {
             $errors[] = $this->writer->writeError(
-                Error::NO_SET_HIERARCHY,
-                'This repository does not support sets.'
+                Error::NO_RECORDS_MATCH,
+                "This repository only supports a trivial set named 'default'."
             );
         }
 

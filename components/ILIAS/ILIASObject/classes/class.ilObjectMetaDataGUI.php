@@ -294,6 +294,7 @@ class ilObjectMetaDataGUI
         return (
             ($this->obj_id || !$this->obj_type) &&
             in_array($type, [
+                'blog',
                 "crs",
                 'grp',
                 "file",
@@ -303,6 +304,7 @@ class ilObjectMetaDataGUI
                 "tst",
                 "qpl",
                 ":mob",
+                'mcst',
                 "webr",
                 "htlm",
                 "lm",
@@ -316,6 +318,7 @@ class ilObjectMetaDataGUI
                 'exc',
                 'lti',
                 'cmix',
+                'mep',
                 'mep:mpg'
             ])
         );

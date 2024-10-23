@@ -585,13 +585,6 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
         $this->renderObject();
     }
 
-    protected function initCreationForms(string $new_type): array
-    {
-        $forms = parent::initCreationForms($new_type);
-        //unset($forms[self::CFORM_IMPORT]);
-        return $forms;
-    }
-
     protected function afterSave(ilObject $new_object): void
     {
         $tree = $this->tree;
@@ -736,7 +729,7 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
     {
         $this->tabs_gui->addSubTab(
             "settings_misc",
-            $this->lng->txt("settings"),
+            $this->lng->txt("general"),
             $this->ctrl->getLinkTarget($this, "edit")
         );
 

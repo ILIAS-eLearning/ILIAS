@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -19,7 +35,7 @@ class ilCalendarExporter extends ilXmlExporter
     public function init(): void
     {
         $this->ds = new ilCalendarDataSet();
-        $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+        $this->ds->initByExporter($this);
         $this->ds->setDSPrefix("ds");
     }
 
@@ -28,7 +44,7 @@ class ilCalendarExporter extends ilXmlExporter
      */
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
-        $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+        $this->ds->initByExporter($this);
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 

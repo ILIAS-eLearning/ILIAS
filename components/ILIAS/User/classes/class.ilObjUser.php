@@ -16,6 +16,7 @@
  *
  *********************************************************************/
 
+use ILIAS\Language\Language;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\UI\Component\Symbol\Avatar\Avatar;
@@ -3026,7 +3027,7 @@ class ilObjUser extends ilObject
      * Get formatted mail body text of user profile data.
      * @throws ilDateTimeException
      */
-    public function getProfileAsString(ilLanguage $language): string
+    public function getProfileAsString(Language $language): string
     {
         global $DIC;
 
@@ -3082,10 +3083,11 @@ class ilObjUser extends ilObject
         if (strlen($this->getFax())) {
             $body .= ($language->txt('fax') . ': ' . $this->getFax() . "\n");
         }
-        if (strlen($this->getEmail())) {
+        if ($this->getEmail() !== '') {
             $body .= ($language->txt('email') . ': ' . $this->getEmail() . "\n");
         }
-        if (strlen($this->getSecondEmail())) {
+        if ($this->getSecondEmail() !== null
+            && $this->getSecondEmail() !== '') {
             $body .= ($language->txt('second_email') . ': ' . $this->getSecondEmail() . "\n");
         }
         if (strlen($this->getHobby())) {

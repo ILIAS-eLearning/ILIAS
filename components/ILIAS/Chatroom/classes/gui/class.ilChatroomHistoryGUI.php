@@ -108,7 +108,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
             $durationForm->setValuesByPost();
         }
 
-        $this->showMessages($messages, $durationForm, $export, $from, $to);
+        $this->showMessages($messages, $durationForm, $export, $from, $to, $room);
     }
 
     private function showMessages(
@@ -116,13 +116,14 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
         ilPropertyFormGUI $durationForm,
         bool $export = false,
         ?ilDateTime $from = null,
-        ?ilDateTime $to = null
+        ?ilDateTime $to = null,
+        $room = null
     ): void {
         $this->redirectIfNoPermission('read');
 
         $this->gui->switchToVisibleMode();
 
-        $this->mainTpl->addCss('components/ILIAS/Chatroom/templates/default/style.css');
+        $this->mainTpl->addCss('assets/css/chatroom.css');
 
         // should be able to grep templates
         if ($export) {
@@ -140,33 +141,35 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
         $num_messages_shown = 0;
         $prev_date_time_presentation = null;
         $prev_date_time = null;
-        foreach ($messages as $message) {
-            switch ($message['message']->type) {
-                case 'message':
-                    $message_date = new ilDate($message['timestamp'], IL_CAL_UNIX);
-                    $message_date_time = new ilDateTime($message['timestamp'], IL_CAL_UNIX);
-                    $message_date_time_presentation = ilDatePresentation::formatDate($message_date_time);
+        if ($export) {
+            foreach ($messages as $message) {
+                switch ($message['message']->type) {
+                    case 'message':
+                        $message_date = new ilDate($message['timestamp'], IL_CAL_UNIX);
+                        $message_date_time = new ilDateTime($message['timestamp'], IL_CAL_UNIX);
+                        $message_date_time_presentation = ilDatePresentation::formatDate($message_date_time);
 
-                    $this->renderDateTimeInformation(
-                        $roomTpl,
-                        $prev_date_time,
-                        $message_date_time,
-                        $message_date,
-                        $prev_date_time_presentation,
-                        $message_date_time_presentation,
-                        $time_format
-                    );
+                        $this->renderDateTimeInformation(
+                            $roomTpl,
+                            $prev_date_time,
+                            $message_date_time,
+                            $message_date,
+                            $prev_date_time_presentation,
+                            $message_date_time_presentation,
+                            $time_format
+                        );
 
-                    $roomTpl->setCurrentBlock('message_line');
-                    $roomTpl->setVariable('MESSAGECONTENT', $message['message']->content); // oops... it is a message? ^^
-                    $roomTpl->setVariable('MESSAGESENDER', $message['message']->from->username);
-                    $roomTpl->parseCurrentBlock();
+                        $roomTpl->setCurrentBlock('message_line');
+                        $roomTpl->setVariable('MESSAGECONTENT', htmlspecialchars($message['message']->content, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8')); // oops... it is a message? ^^
+                        $roomTpl->setVariable('MESSAGESENDER', htmlspecialchars($message['message']->from->username, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8'));
+                        $roomTpl->parseCurrentBlock();
 
-                    $roomTpl->setCurrentBlock('row');
-                    $roomTpl->parseCurrentBlock();
+                        $roomTpl->setCurrentBlock('row');
+                        $roomTpl->parseCurrentBlock();
 
-                    ++$num_messages_shown;
-                    break;
+                        ++$num_messages_shown;
+                        break;
+                }
             }
         }
 
@@ -209,6 +212,13 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 
         $roomTpl->setVariable('PERIOD_FORM', $durationForm->getHTML());
 
+        if ($room && $messages !== []) {
+            $this->mainTpl->addJavaScript('assets/js/socket.io.js');
+            $this->mainTpl->addJavaScript('assets/js/Chatroom.min.js');
+            $roomTpl->setVariable('CHAT', (new ilChatroomViewGUI($this->gui))->readOnlyChatWindow($room, array_column($messages, 'message'))->get());
+        } else {
+            $roomTpl->setVariable('CHAT', '');
+        }
         $this->mainTpl->setVariable('ADM_CONTENT', $roomTpl->get());
     }
 

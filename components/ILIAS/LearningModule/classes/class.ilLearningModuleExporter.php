@@ -32,7 +32,7 @@ class ilLearningModuleExporter extends ilXmlExporter
         global $DIC;
 
         $this->ds = new ilLearningModuleDataSet();
-        $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+        $this->ds->initByExporter($this);
         $this->ds->setDSPrefix("ds");
         $this->config = $this->getExport()->getConfig("components/ILIAS/LearningModule");
         if ($this->config->getMasterLanguageOnly()) {
@@ -122,14 +122,12 @@ class ilLearningModuleExporter extends ilXmlExporter
 
             // style
             foreach ($a_ids as $id) {
-                $style_id = $this->content_style_domain->styleForObjId($id)->getStyleId();
-                if ($style_id > 0) {
-                    $deps[] = array(
-                        "component" => "components/ILIAS/Style",
-                        "entity" => "sty",
-                        "ids" => $style_id
-                    );
-                }
+                $style_id = $this->content_style_domain->styleForObjId($id)->getExportStyleId();
+                $deps[] = array(
+                    "component" => "components/ILIAS/Style",
+                    "entity" => "sty",
+                    "ids" => $style_id
+                );
             }
         }
 

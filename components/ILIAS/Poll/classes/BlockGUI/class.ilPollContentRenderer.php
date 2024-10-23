@@ -19,9 +19,11 @@
 
 declare(strict_types=1);
 
+use ILIAS\Data\ObjectId;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Poll\Image\I\FactoryInterface as ilPollImageFactoryInterface;
 
 class ilPollContentRenderer
 {
@@ -35,6 +37,7 @@ class ilPollContentRenderer
     protected UIFactory $ui_factory;
     protected UIRenderer $ui_renderer;
     protected Refinery $refinery;
+    protected ilPollImageFactoryInterface $poll_image_factory;
 
     public function __construct(
         ilLanguage $lng,
@@ -46,7 +49,8 @@ class ilPollContentRenderer
         ilPollAnswersHandler $answers,
         ilPollAnswersRenderer $answers_renderer,
         ilPollResultsHandler $results,
-        ilPollResultsRenderer $results_renderer
+        ilPollResultsRenderer $results_renderer,
+        ilPollImageFactoryInterface $poll_image_factory
     ) {
         $this->lng = $lng;
         $this->ui_factory = $ui_factory;
@@ -58,6 +62,7 @@ class ilPollContentRenderer
         $this->answers_renderer = $answers_renderer;
         $this->results = $results;
         $this->results_renderer = $results_renderer;
+        $this->poll_image_factory = $poll_image_factory;
     }
 
     public function render(
@@ -83,7 +88,7 @@ class ilPollContentRenderer
             $this->renderQuestion(
                 $tpl,
                 $poll->getQuestion(),
-                $poll->getImageFullPath()
+                $this->poll_image_factory->handler()->getProcessedImageURL(new ObjectId($poll->getId()))
             );
             if (!$admin_view) {
                 $this->renderAnswersAndResults($tpl, $poll, $user_id);
@@ -230,7 +235,7 @@ class ilPollContentRenderer
         if ($img_path) {
             $tpl->setVariable(
                 "URL_IMAGE",
-                ilWACSignedPath::signFile($img_path)
+                $img_path
             );
         }
     }

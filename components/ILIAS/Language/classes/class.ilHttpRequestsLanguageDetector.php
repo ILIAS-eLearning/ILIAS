@@ -22,7 +22,7 @@ declare(strict_types=1);
 /**
  * Class ilHttpRequestsLanguageDetector
  * @author Michael Jansen <mjansen@databay.de>
- * @ingroup components/ILIAS/Language_
+ * @ingroup components/ILIAS/Language
  */
 class ilHttpRequestsLanguageDetector implements ilLanguageDetector
 {

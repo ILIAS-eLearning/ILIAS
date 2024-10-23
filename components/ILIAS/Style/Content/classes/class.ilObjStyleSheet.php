@@ -1346,6 +1346,17 @@ class ilObjStyleSheet extends ilObject
         string $a_target_file = "",
         string $a_image_dir = ""
     ): void {
+
+        if (true) {
+            $style_manager = $this->domain->style($this->getId());
+            $style_manager->writeCss();
+
+            $this->setUpToDate();
+            $this->_writeUpToDate($this->getId(), true);
+
+            return;
+        }
+
         $style = $this->getStyle();
 
         if (!is_dir(ilFileUtils::getWebspaceDir() . "/css")) {
@@ -1390,7 +1401,7 @@ class ilObjStyleSheet extends ilObject
                     fwrite($css_file, ",html.il-no-tiny-bg body#tinymce.ilc_text_block_" . $tag[0]["class"] . "\n");
                 }
                 if ($tag[0]["type"] == "section") {	// sections can use a tags, if links are used
-                    fwrite($css_file, ",a.ilc_" . $tag[0]["type"] . "_" . $tag[0]["class"] . "\n");
+                    fwrite($css_file, ",div a.ilc_" . $tag[0]["type"] . "_" . $tag[0]["class"] . "\n");
                 }
                 if ($tag[0]["type"] == "strong") {
                     fwrite($css_file, ",span.ilc_text_inline_" . $tag[0]["class"] . "\n");
@@ -1606,14 +1617,8 @@ class ilObjStyleSheet extends ilObject
                 $style->writeCSSFile();
             }
 
-            $path = ilFileUtils::getWebspaceDir("output") . "/css/style_" . $a_style_id . ".css";
-            if ($add_random) {
-                $path .= "?dummy=$rand";
-            }
-            if ($add_token) {
-                $path = ilWACSignedPath::signFile($path);
-            }
-
+            $style_manager = $DIC->contentStyle()->internal()->domain()->style($a_style_id);
+            $path = $style_manager->getPath();
             return $path;
         } else {		// todo: work this out
             return "./components/ILIAS/COPage/css/content.css";

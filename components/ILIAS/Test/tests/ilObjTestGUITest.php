@@ -19,7 +19,6 @@
 declare(strict_types=1);
 
 use ILIAS\Test\Questions\QuestionsTableQuery;
-
 use ILIAS\DI\Container;
 
 class QuestionsTableQueryMock extends QuestionsTableQuery
@@ -129,8 +128,8 @@ class ilObjTestGUITest extends ilTestBaseTestCase
         $testObj = $this->getNewTestGUI();
         $ctrl_mock
             ->expects($this->once())
-            ->method('redirect')
-            ->with($testObj, 'infoScreen');
+            ->method('redirectByClass')
+            ->with([ilRepositoryGUI::class, ilObjTestGUI::class, ilInfoScreenGUI::class]);
 
         $testObj->runObject();
     }

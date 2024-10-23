@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,11 +16,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Wiki;
 
 use ILIAS\Wiki\Page\Page;
 use ILIAS\Wiki\Page\PageInfo;
 use ILIAS\Wiki\Navigation\ImportantPage;
+use ILIAS\Wiki\Settings\Settings;
 
 /**
  * Wiki internal data service
@@ -88,4 +89,37 @@ class InternalDataService
             $indent
         );
     }
+
+    public function settings(
+        int $id,
+        string $startpage,
+        string $short_title,
+        bool $rating_overall,
+        bool $rating,
+        bool $rating_as_block,
+        bool $rating_for_new_pages,
+        bool $rating_categories,
+        bool $public_notes,
+        string $introduction,
+        bool $page_toc,
+        bool $link_metadata_values,
+        bool $empty_page_template
+    ): Settings {
+        return new Settings(
+            $id,
+            $startpage,
+            $short_title,
+            $rating_overall,
+            $rating,
+            $rating_as_block,
+            $rating_for_new_pages,
+            $rating_categories,
+            $public_notes,
+            $introduction,
+            $page_toc,
+            $link_metadata_values,
+            $empty_page_template
+        );
+    }
+
 }

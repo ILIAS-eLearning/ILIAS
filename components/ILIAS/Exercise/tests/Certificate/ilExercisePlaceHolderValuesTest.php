@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Exercise\Certificate;
 
 use ilObject;
+use ilObjUser;
 use ilLanguage;
 use ilCertificateDateHelper;
 use ilCertificateUtilHelper;
@@ -59,10 +60,20 @@ class ilExercisePlaceholderValuesTest extends TestCase
         $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->getMock();
 
-        $objectHelper->expects($this->once())
+        $user_object = $this->getMockBuilder(ilObjUser::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
+            ->getMock();
+        $objectHelper->expects($this->exactly(2))
             ->method('getInstanceByObjId')
-            ->with(200)
-            ->willReturn($objectMock);
+            ->willReturnMap(
+                [
+                    [200, $objectMock],
+                    [10, $user_object]
+                ]
+            );
 
         $lpMarksHelper = $this->getMockBuilder(ilCertificateLPMarksHelper::class)
             ->getMock();

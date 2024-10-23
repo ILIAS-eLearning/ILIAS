@@ -29,10 +29,10 @@ use ILIAS\MetaData\Repository\Dictionary\DictionaryInterface as DatabaseDictiona
 use ILIAS\MetaData\Elements\ElementInterface;
 use ILIAS\MetaData\Editor\Full\Services\DataFinder;
 use ILIAS\MetaData\Paths\FactoryInterface as PathFactory;
-use ILIAS\MetaData\Vocabularies\VocabulariesInterface;
 use ILIAS\MetaData\Paths\Navigator\NavigatorFactoryInterface;
 use ILIAS\MetaData\Editor\Full\Services\Inputs\Conditions\FactoryWithConditionTypesService;
 use ILIAS\MetaData\Elements\Data\Type;
+use ILIAS\MetaData\Vocabularies\ElementHelper\ElementHelperInterface;
 
 class InputFactory
 {
@@ -41,8 +41,8 @@ class InputFactory
     protected PresenterInterface $presenter;
     protected PathFactory $path_factory;
     protected NavigatorFactoryInterface $navigator_factory;
+    protected ElementHelperInterface $element_vocab_helper;
     protected DataFinder $data_finder;
-    protected VocabulariesInterface $vocabularies;
     protected FactoryWithConditionTypesService $types;
 
     /**
@@ -59,21 +59,19 @@ class InputFactory
         Refinery $refinery,
         PresenterInterface $presenter,
         PathFactory $path_factory,
-        NavigatorFactoryInterface $navigator_factory,
         DataFinder $data_finder,
-        VocabulariesInterface $vocabularies,
         DatabaseDictionary $db_dictionary,
-        FactoryWithConditionTypesService $types
+        FactoryWithConditionTypesService $types,
+        ElementHelperInterface $element_vocab_helper
     ) {
         $this->ui_factory = $ui_factory;
         $this->refinery = $refinery;
         $this->presenter = $presenter;
         $this->path_factory = $path_factory;
-        $this->navigator_factory = $navigator_factory;
         $this->data_finder = $data_finder;
-        $this->vocabularies = $vocabularies;
         $this->db_dictionary = $db_dictionary;
         $this->types = $types;
+        $this->element_vocab_helper = $element_vocab_helper;
     }
 
     public function getInputFields(
@@ -81,26 +79,31 @@ class InputFactory
         ElementInterface $context_element,
         bool $with_title
     ): Section|Group {
+        /**
+         * Vocab Sources don't have their own inputs, but are set implicitely with
+         * the corresponding Vocab Values (see VocabValueFactory).
+         */
+        $data_carriers = iterator_to_array($this->data_finder->getDataCarryingElements($element, true));
         $conditional_elements = [];
         $input_elements = [];
-        foreach ($this->data_finder->getDataCarryingElements($element) as $data_carrier) {
+        foreach ($data_carriers as $data_carrier) {
             $conditional_element = null;
-            /**
-             * Currently, hidden inputs don't play nice with switchable group inputs,
-             * so for the time being they get pulled out here.
-             */
-            if (
-                $data_carrier->getDefinition()->dataType() !== Type::VOCAB_SOURCE &&
-                $el = $this->getConditionElement($data_carrier)
-            ) {
-                $conditional_element = $data_carrier;
-                $data_carrier = $el;
+            foreach ($this->element_vocab_helper->slotsForElementWithoutCondition($data_carrier) as $slot) {
+                /**
+                 * The conditions of multiple slots for the same element should point at the
+                 * same element (or at least not more than one per context element).
+                 */
+                if ($el = $this->element_vocab_helper->findElementOfCondition($slot, $data_carrier, ...$data_carriers)) {
+                    $conditional_element = $data_carrier;
+                    $data_carrier = $el;
+                    break;
+                }
             }
             $path_string = $this->path_factory->toElement($data_carrier, true)
                                               ->toString();
             $input_elements[$path_string] = $data_carrier;
             if (isset($conditional_element)) {
-                $conditional_elements[$path_string][] = $conditional_element;
+                $conditional_elements[$path_string] = $conditional_element;
             }
         }
 
@@ -112,7 +115,7 @@ class InputFactory
                 $input = $this->types->conditionFactory($data_type)->getConditionInput(
                     $input_element,
                     $context_element,
-                    ...$conditional_elements[$path_string]
+                    $conditional_elements[$path_string]
                 );
             } else {
                 $input = $this->types->factory($data_type)->getInput(
@@ -140,23 +143,12 @@ class InputFactory
             $fields = $this->ui_factory->group($inputs);
         }
 
+        // needs flattening twice because of vocab sources in conditional inputs
         return $this->addNotEmptyConstraintIfNeeded(
             $context_element,
-            $this->flattenOutput($fields),
+            $this->flattenOutput($this->flattenOutput($fields)),
             ...$exclude_required
         );
-    }
-
-    protected function getConditionElement(
-        ElementInterface $element
-    ): ?ElementInterface {
-        foreach ($this->vocabularies->vocabulariesForElement($element) as $vocab) {
-            if ($path = $vocab->condition()?->path()) {
-                return $this->navigator_factory->navigator($path, $element)
-                                               ->lastElementAtFinalStep();
-            }
-        }
-        return null;
     }
 
     protected function flattenOutput(
@@ -165,11 +157,12 @@ class InputFactory
         return $fields->withAdditionalTransformation(
             $this->refinery->custom()->transformation(function ($vs) {
                 foreach ($vs as $key => $value) {
-                    if (is_array($value)) {
-                        $vs[$key] = $value[0];
-                        foreach ($value[1] as $k => $v) {
-                            $vs[$k] = $v[0];
-                        }
+                    if (!is_array($value)) {
+                        continue;
+                    }
+                    $vs[$key] = $value[0];
+                    foreach ($value[1] as $k => $v) {
+                        $vs[$k] = $v;
                     }
                 }
                 return $vs;

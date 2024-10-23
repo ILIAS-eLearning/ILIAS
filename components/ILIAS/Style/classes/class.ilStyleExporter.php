@@ -28,26 +28,32 @@ class ilStyleExporter extends ilXmlExporter
     public function init(): void
     {
         $this->ds = new ilStyleDataSet();
-        $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+        $this->ds->initByExporter($this);
         $this->ds->setDSPrefix("ds");
     }
 
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         ilFileUtils::makeDirParents($this->getAbsoluteExportDirectory());
-        $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+        $this->ds->initByExporter($this);
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 
     public function getValidSchemaVersions(string $a_entity): array
     {
         return array(
+            "10.0" => array(
+                "namespace" => "http://www.ilias.de/Services/Style/10_0",
+                "xsd_file" => "ilias_style_10.xsd",
+                "uses_dataset" => true,
+                "min" => "10.0",
+                "max" => ""),
             "5.1.0" => array(
                 "namespace" => "http://www.ilias.de/Services/Style/5_1",
                 "xsd_file" => "ilias_style_5_1.xsd",
                 "uses_dataset" => true,
                 "min" => "5.1.0",
-                "max" => "")
+                "max" => "9.99")
         );
     }
 }

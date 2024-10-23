@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,19 +16,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-/**
- * Login page object
- *
- * @author Alex Killing <alex.killing@gmx.de>
- */
+declare(strict_types=1);
+
 class ilLoginPage extends ilPageObject
 {
-    /**
-     * Get parent type
-     * @return string parent type
-     */
+    final public const PAGE_TYPE = 'auth';
+
     public function getParentType(): string
     {
-        return "auth";
+        return self::PAGE_TYPE;
     }
 }

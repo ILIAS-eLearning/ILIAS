@@ -18,12 +18,16 @@
 
 declare(strict_types=1);
 
+use ILIAS\Style\Content\GUIService;
+use ILIAS\components\Authentication\Pages\AuthPageEditorContext;
+
 /**
  * @author Sascha Hofmann <saschahofmann@gmx.de>
  *
  * @ilCtrl_Calls ilObjAuthSettingsGUI: ilPermissionGUI, ilRegistrationSettingsGUI, ilLDAPSettingsGUI
  * @ilCtrl_Calls ilObjAuthSettingsGUI: ilAuthShibbolethSettingsGUI, ilCASSettingsGUI
  * @ilCtrl_Calls ilObjAuthSettingsGUI: ilSamlSettingsGUI, ilOpenIdConnectSettingsGUI
+ * @ilCtrl_Calls ilObjAuthSettingsGUI: ilObjectContentStyleSettingsGUI
  */
 class ilObjAuthSettingsGUI extends ilObjectGUI
 {
@@ -33,6 +37,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
     private ILIAS\Http\Services $http;
 
     private ?ilPropertyFormGUI $form;
+    private GUIService $content_style_gui;
 
     public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
     {
@@ -48,6 +53,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
         $this->lng->loadLanguageModule('registration');
         $this->lng->loadLanguageModule('auth');
+        $this->lng->loadLanguageModule('content');
+        $this->content_style_gui = $DIC->contentStyle()->gui();
     }
 
     public function viewObject(): void
@@ -56,8 +63,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
     }
 
     /**
-    * display settings menu
-    */
+     * display settings menu
+     */
     public function authSettingsObject(): void
     {
         if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
@@ -348,41 +355,41 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         }
 
         $active = $this->ui->input()->field()
-                                    ->checkbox($this->lng->txt("active"))
-                                    ->withValue((bool) $this->settings->get("soap_auth_active", ""));
+                           ->checkbox($this->lng->txt("active"))
+                           ->withValue((bool) $this->settings->get("soap_auth_active", ""));
 
         $server = $this->ui->input()->field()->text(
             $this->lng->txt("server"),
             $this->lng->txt("auth_soap_server_desc")
         )->withRequired(true)
-         ->withMaxLength(256)
-         ->withValue($this->settings->get("soap_auth_server", ""));
+                           ->withMaxLength(256)
+                           ->withValue($this->settings->get("soap_auth_server", ""));
 
         $port = $this->ui->input()->field()->numeric(
             $this->lng->txt("port"),
             $this->lng->txt("auth_soap_port_desc")
         )->withAdditionalTransformation($this->refinery->int()->isGreaterThan(0))
-        ->withAdditionalTransformation(
-            $this->refinery->int()->isLessThan(65536)
-        )->withValue((int) $this->settings->get("soap_auth_port", "0"));
+                         ->withAdditionalTransformation(
+                             $this->refinery->int()->isLessThan(65536)
+                         )->withValue((int) $this->settings->get("soap_auth_port", "0"));
 
         $use_https = $this->ui->input()->field()->checkbox($this->lng->txt("auth_soap_use_https"))
-        ->withValue((bool) $this->settings->get("soap_auth_use_https", ""));
+                              ->withValue((bool) $this->settings->get("soap_auth_use_https", ""));
 
         $uri = $this->ui->input()->field()->text(
             $this->lng->txt("uri"),
             $this->lng->txt("auth_soap_uri_desc")
         )->withMaxLength(256)
-        ->withValue($this->settings->get("soap_auth_uri", ""));
+                        ->withValue($this->settings->get("soap_auth_uri", ""));
 
         $namespace = $this->ui->input()->field()->text(
             $this->lng->txt("auth_soap_namespace"),
             $this->lng->txt("auth_soap_namespace_desc")
         )->withMaxLength(256)
-        ->withValue($this->settings->get("soap_auth_namespace", ""));
+                              ->withValue($this->settings->get("soap_auth_namespace", ""));
 
         $dotnet = $this->ui->input()->field()->checkbox($this->lng->txt("auth_soap_use_dotnet"))
-        ->withValue((bool) $this->settings->get("soap_auth_use_dotnet", ""));
+                           ->withValue((bool) $this->settings->get("soap_auth_use_dotnet", ""));
 
         $createuser = $this->ui->input()->field()->checkbox(
             $this->lng->txt("auth_create_users"),
@@ -399,7 +406,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             $roles,
             $this->lng->txt("auth_soap_user_default_role_desc")
         )->withValue($this->settings->get("soap_auth_user_default_role", "4"))
-        ->withAdditionalTransformation($this->refinery->int()->isGreaterThan(0));
+                                ->withAdditionalTransformation($this->refinery->int()->isGreaterThan(0));
 
         $allowlocal = $this->ui->input()->field()->checkbox(
             $this->lng->txt("auth_allow_local"),
@@ -434,7 +441,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             "soap_pw"
         );
         $new_user = $this->ui->input()->field()
-                           ->checkbox("new_user");
+                             ->checkbox("new_user");
         $form = $this->ui->input()->container()->form()->standard(
             $submit_action,
             [ "ext_uid" => $ext_uid,
@@ -447,8 +454,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
 
     /**
-    * Configure soap settings
-    */
+     * Configure soap settings
+     */
     public function editSOAPObject(): void
     {
         if (!$this->rbac_system->checkAccess("read", $this->object->getRefId())) {
@@ -488,8 +495,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
     }
 
     /**
-    * validates all input data, save them to database if correct and active chosen auth mode
-    */
+     * validates all input data, save them to database if correct and active chosen auth mode
+     */
     public function saveSOAPObject(): void
     {
         if (!$this->rbac_system->checkAccess("write", $this->object->getRefId())) {
@@ -526,8 +533,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
     }
 
     /**
-    * Configure Custom settings
-    */
+     * Configure Custom settings
+     */
     public function editScriptObject(): void
     {
         if (!$this->rbac_system->checkAccess("write", $this->object->getRefId())) {
@@ -565,8 +572,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
     }
 
     /**
-    * validates all input data, save them to database if correct and active chosen auth mode
-    */
+     * validates all input data, save them to database if correct and active chosen auth mode
+     */
     public function saveScriptObject(): void
     {
         // validate required data
@@ -593,10 +600,10 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
 
     /**
-    * get the title of auth mode
-    *
-    * @return string language dependent title of auth mode
-    */
+     * get the title of auth mode
+     *
+     * @return string language dependent title of auth mode
+     */
     public function getAuthModeTitle(): string
     {
         switch ($this->ilias->getSetting("auth_mode")) {
@@ -776,8 +783,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
      */
     public function executeCommand(): void
     {
-        $next_class = $this->ctrl->getNextClass($this);
-        $cmd = $this->ctrl->getCmd();
+        $next_class = $this->ctrl->getNextClass($this) ?? '';
+        $cmd = $this->ctrl->getCmd() ?? '';
         $this->prepareOutput();
 
         if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
@@ -840,24 +847,37 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($cas_settings);
                 break;
 
-            case 'ilauthloginpageeditorgui':
+            case strtolower(ilAuthPageEditorGUI::class):
 
                 $this->setSubTabs('authSettings');
                 $this->tabs_gui->setTabActive('authentication_settings');
                 $this->tabs_gui->setSubTabActive('auth_login_editor');
 
-                $lpe = new ilAuthLoginPageEditorGUI($this->object->getRefId());
+                $lpe = new ilAuthPageEditorGUI($this->object->getRefId());
                 $this->ctrl->forwardCommand($lpe);
                 break;
 
-            case 'ilauthlogoutpageeditorgui':
+            case strtolower(ilObjectContentStyleSettingsGUI::class):
+                $this->checkPermission('write');
+                $this->setTitleAndDescription();
+                $this->setSubTabs('authSettings');
+                $this->tabs_gui->activateTab('authentication_settings');
+                $this->tabs_gui->activateSubTab('style');
+                $settings_gui = $this->content_style_gui
+                    ->objectSettingsGUIForRefId(
+                        null,
+                        $this->object->getRefId()
+                    );
+                $this->ctrl->forwardCommand($settings_gui);
+                break;
 
+            case strtolower(ilAuthLogoutBehaviourGUI::class):
                 $this->setSubTabs('authSettings');
                 $this->tabs_gui->setTabActive('authentication_settings');
-                $this->tabs_gui->setSubTabActive('logout_editor');
+                $this->tabs_gui->setSubTabActive('logout_behaviour');
 
-                $lpe = new ilAuthLogoutPageEditorGUI($this->object->getRefId());
-                $this->ctrl->forwardCommand($lpe);
+                $gui = new ilAuthLogoutBehaviourGUI();
+                $this->ctrl->forwardCommand($gui);
                 break;
 
             default:
@@ -877,8 +897,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
     }
 
     /**
-    * get tabs
-    */
+     * get tabs
+     */
     protected function getTabs(): void
     {
         $this->ctrl->setParameter($this, "ref_id", $this->object->getRefId());
@@ -957,35 +977,48 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         }
     }
 
-    /**
-    * set sub tabs
-    */
     public function setSubTabs(string $a_tab): void
     {
         $this->lng->loadLanguageModule('auth');
 
-        if ($a_tab === 'authSettings') {
-            if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
-                $this->tabs_gui->addSubTabTarget(
-                    "auth_settings",
-                    $this->ctrl->getLinkTarget($this, 'authSettings'),
-                    ""
+        if ($a_tab === 'authSettings' && $this->access->checkAccess('write', '', $this->object->getRefId())) {
+            $this->tabs_gui->addSubTabTarget(
+                'auth_settings',
+                $this->ctrl->getLinkTarget($this, 'authSettings'),
+                ''
+            );
+
+            foreach (AuthPageEditorContext::cases() as $auth_ipe_context) {
+                $this->ctrl->setParameterByClass(
+                    ilAuthPageEditorGUI::class,
+                    ilAuthPageEditorGUI::CONTEXT_HTTP_PARAM,
+                    $auth_ipe_context->value
                 );
-            }
-            if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
                 $this->tabs_gui->addSubTabTarget(
-                    'auth_login_editor',
-                    $this->ctrl->getLinkTargetByClass('ilauthloginpageeditorgui', ''),
-                    ''
+                    $auth_ipe_context->tabIdentifier(),
+                    $this->ctrl->getLinkTargetByClass(
+                        ilAuthPageEditorGUI::class,
+                        ilAuthPageEditorGUI::DEFAULT_COMMAND
+                    )
+                );
+                $this->ctrl->setParameterByClass(
+                    ilAuthPageEditorGUI::class,
+                    ilAuthPageEditorGUI::CONTEXT_HTTP_PARAM,
+                    null
                 );
             }
 
-            if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
-                $this->tabs_gui->addSubTabTarget(
-                    'logout_editor',
-                    $this->ctrl->getLinkTargetByClass(ilAuthLogoutPageEditorGUI::class)
-                );
-            }
+            $this->tabs_gui->addSubTabTarget(
+                'logout_behaviour',
+                $this->ctrl->getLinkTargetByClass(ilAuthLogoutBehaviourGUI::class, ''),
+                ''
+            );
+
+            $this->tabs_gui->addSubTab(
+                'style',
+                $this->lng->txt('cont_style'),
+                $this->ctrl->getLinkTargetByClass(ilObjectContentStyleSettingsGUI::class)
+            );
         }
     }
 

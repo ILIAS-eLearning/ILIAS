@@ -28,7 +28,6 @@ use ILIAS\LegalDocuments\PageFragment\PageContent;
 use ILIAS\Data\Result\Ok;
 use ilLegacyFormElementsUtil;
 use ilSystemSupportContacts;
-use Psr\Http\Message\RequestInterface;
 use ILIAS\LegalDocuments\ConsumerToolbox\User;
 use ILIAS\LegalDocuments\ConsumerToolbox\Routing;
 use ILIAS\LegalDocuments\ConsumerToolbox\UI;

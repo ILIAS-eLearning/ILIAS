@@ -16,11 +16,11 @@ Now change the file and provide a valid client ID, account ID, and username.
 >*Please activate the [developer mode](https://docu.ilias.de/goto_docu_pg_1082_42.html) in your `client.ini.php` when running PHPUnit tests.*
 
 ## Test Cases
-Test classes should be located in a subdirectory test of your module or service directory.
+Test classes should be located in a subdirectory test of your components directory.
 
-`[Services/Modules]/[ComponentName]/test`
+`[components/ILIAS]/[ComponentName]/test`
 
-E.g. the test classes for the Administration service are located at `Services/Administration/test`. The names for test class files should usually be derived from the application class they are written for.
+E.g. the test classes for the Administration service are located at `ILIAS/Administration/test`. The names for test class files should usually be derived from the application class they are written for.
 
 `[ApplicationClassName]Test.php`
 
@@ -71,7 +71,7 @@ class ilSettingTest extends PHPUnit_Framework_TestCase
 
 To run your test class you simply call phpunit in your ILIAS root directory with the local path of your test class (omit the .php suffix):
 
-`> phpunit Services/Administration/test/ilSettingTest`
+`> phpunit components/ILIAS/Administration/test/ilSettingTest`
 
 
 >1. *Please write your test cases in a way that the* ***requirements to run them are minimal***. *The test cases should run on a usual system. They should not require that certain conditions are given on the test system, e.g. an empty repository.*
@@ -79,10 +79,10 @@ To run your test class you simply call phpunit in your ILIAS root directory with
 
 ## Test Suites
 Test suites allow to perform aggregated tests. They should be provided on the component level, one test suite for each service and module. The file name must follow the format:
-`il[Services/Modules][ComponentName]Suite.php`
+`il[components/ILIAS][ComponentName]Suite.php`
 
 E.g. the test suite class for the Administration service is located at:
-`Services/Administration/test/ilServicesAdministrationSuite.php`
+`ILIAS/Administration/test/ilServicesAdministrationSuite.php`
 
 The class is named:
 `ilServicesAdministrationSuite`
@@ -105,7 +105,7 @@ class ilServicesAdministrationSuite extends PHPUnit_Framework_TestSuite
         $suite = new ilServicesAdministrationSuite();
  
         // add each test class of the component     
-        include_once("./Services/Administration/test/ilSettingTest.php");
+        include_once("./components/ILIAS/Administration/test/ilSettingTest.php");
         $suite->addTestSuite("ilSettingTest");
         [...]
  
@@ -116,7 +116,7 @@ class ilServicesAdministrationSuite extends PHPUnit_Framework_TestSuite
 ```
 
 The example outlines the basic structure of a test suite class. To run the test suite, simply pass the class name to phpunit in the ILIAS main directory:
-`> phpunit Services/Administration/test/ilServicesAdministrationSuite`
+`> phpunit components/ILIAS/Administration/test/ilServicesAdministrationSuite`
 
 ## The Global Test Suite
 The global test suite scans all Services and Modules directory automatically for component level test suites and aggregates them to one big test suite. The suite is located in the PHPUnit Service. You can run the suite by typing:

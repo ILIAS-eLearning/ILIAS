@@ -4,16 +4,16 @@ If code identifies any problems that prevent the normal processing from being ex
 
 ## Defining new Exceptions
 
-- New exceptions should be implemented as classes derived from `ilException` (found in component Services/Exceptions).
-- These class file should be put into a subdirectory `exceptions` within the component directory, e.g. `Services/AdvancedEditing/exceptions`.
-- If a component uses exceptions a top exception named after the component should be used. Other exceptions classes should be derived from this class, e.g. `Services/AdvancedEditing/exceptions/class.ilAdvancedEditingException.php`.
+- New exceptions should be implemented as classes derived from `ilException` (found in component ILIAS/Exceptions).
+- These class file should be put into a subdirectory `exceptions` within the component directory, e.g. `components/ILIAS/AdvancedEditing/exceptions`.
+- If a component uses exceptions a top exception named after the component should be used. Other exceptions classes should be derived from this class, e.g. `ILIAS/AdvancedEditing/exceptions/class.ilAdvancedEditingException.php`.
 
 
 ```php
 <?php
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
  
-require_once 'Services/Exceptions/classes/class.ilException.php'; 
+require_once 'components/ILIAS/Exceptions/classes/class.ilException.php'; 
  
 /** 
  * Class for advanced editing exception handling in ILIAS. 

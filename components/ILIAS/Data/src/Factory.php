@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Data;
 
@@ -192,11 +192,12 @@ class Factory
     }
 
     /**
-     * @param array<string, Dimension\Dimension> $dimensions Dimensions with their names as keys
+     * @param array<string, Dimension\Dimension>      $dimensions Dimensions with their names as keys
+     * @param array<string, Dimension\DimensionGroup> $dimension_groups
      */
-    public function dataset(array $dimensions): Chart\Dataset
+    public function dataset(array $dimensions, array $dimension_groups = []): Chart\Dataset
     {
-        return new Chart\Dataset($dimensions);
+        return new Chart\Dataset($dimensions, $dimension_groups);
     }
 
     public function htmlMetadata(): Meta\Html\Factory

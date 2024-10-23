@@ -16019,7 +16019,6 @@ survey#:#cancel_survey#:#Suspend the Survey###25 02 2007 new variable
 survey#:#cannot_read_survey#:#Bạn không đủ quyền hạn để đọc thông tin khảo sát!
 survey#:#cannot_switch_to_online_no_questions#:#Trạng thái không thể thay đổi thành &quot;online&quot; vì không có câu hỏi nào trong bài kiểm tra!
 survey#:#cant_send_email_smtp_disabled#:#Sending external mails is not available. This option is deactivated globally.###07 02 2017 new variable
-survey#:#categories#:#Trả lời
 survey#:#category#:#Mục
 survey#:#category_nr_selected#:#Số người sử dụng đã lựa chọn mục này
 survey#:#chart#:#Biểu đồ
@@ -16475,6 +16474,7 @@ survey#:#svy_answer_too_long#:#Your current answer is too long (%s characters). 
 survey#:#svy_app_see_rater_info#:#Appraisees can access rater information in the results screens, including names and e-mail addresses, if entered before when adding raters.###29 07 2022 new variable
 survey#:#svy_appraisses_cannot_be_raters#:#User cannot be added as rater. Use self evaluation option in the survey settings instead.###07 02 2020 new variable
 survey#:#svy_back#:#Back###24 10 2013 new variable
+survey#:#svy_categories#:#Trả lời
 survey#:#svy_check_evaluation_access_introduction#:#Chỉ những người tham gia khảo sát mới có thể đánh giá khảo sát, bạn cần nhập mã truy cập khảo sát để mở đánh giá.
 survey#:#svy_check_evaluation_authentication_needed#:#Cần xác thực
 survey#:#svy_check_evaluation_wrong_key#:#Bạn đã nhập sai mã truy cập khảo sát hoặc bạn chưa bao giờ tham gia khảo sát này. Truy cập của bạn vào đánh giá khảo sát bị từ chối.

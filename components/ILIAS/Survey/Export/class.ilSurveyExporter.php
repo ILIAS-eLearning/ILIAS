@@ -34,7 +34,7 @@ class ilSurveyExporter extends ilXmlExporter
 
         $this->domain = $DIC->survey()->internal()->domain();
         $this->ds = new ilSurveyDataSet();
-        $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+        $this->ds->initByExporter($this);
         $this->ds->setDSPrefix("ds");
     }
 
@@ -75,20 +75,36 @@ class ilSurveyExporter extends ilXmlExporter
         array $a_ids
     ): array {
         if ($a_entity === "svy") {
-            return array(
-                    array(
-                            "component" => "components/ILIAS/Survey",
-                            "entity" => "svy_quest_skill",
-                            "ids" => $a_ids),
-                    array(
-                            "component" => "components/ILIAS/Survey",
-                            "entity" => "svy_skill_threshold",
-                            "ids" => $a_ids),
-                    array(
-                            "component" => "components/ILIAS/Object",
-                            "entity" => "common",
-                            "ids" => $a_ids)
-            );
+            $dependencies = [
+                [
+                    "component" => "components/ILIAS/Survey",
+                    "entity" => "svy_quest_skill",
+                    "ids" => $a_ids
+                ],
+                [
+                    "component" => "components/ILIAS/Survey",
+                    "entity" => "svy_skill_threshold",
+                    "ids" => $a_ids
+                ],
+                [
+                    "component" => "components/ILIAS/Object",
+                    "entity" => "common",
+                    "ids" => $a_ids
+                ]
+            ];
+
+            $md_ids = [];
+            foreach ($a_ids as $id) {
+                $md_ids[] = $id . ":0:svy";
+            }
+            if ($md_ids !== []) {
+                $dependencies[] = [
+                    "component" => "components/ILIAS/MetaData",
+                    "entity" => "md",
+                    "ids" => $md_ids
+                ];
+            }
+            return $dependencies;
         }
         return array();
     }

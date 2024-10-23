@@ -55,6 +55,11 @@ interface WriterInterface
         \DOMDocument $metadata
     ): \DOMDocument;
 
+    public function writeSet(
+        string $spec,
+        string $name
+    ): \DOMDocument;
+
     public function writeResumptionToken(
         string $token,
         int $complete_list_size,

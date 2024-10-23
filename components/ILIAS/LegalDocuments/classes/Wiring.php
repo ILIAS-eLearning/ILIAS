@@ -34,11 +34,7 @@ use ILIAS\LegalDocuments\ConsumerSlots\PublicApi;
 use ILIAS\LegalDocuments\Provide\Document;
 use ILIAS\LegalDocuments\Provide\History;
 use ILIAS\LegalDocuments\Value\Target;
-use ILIAS\LegalDocuments\Repository\DatabaseDocumentRepository as DocumentRepository;
-use ILIAS\LegalDocuments\Repository\DatabaseHistoryRepository as HistoryRepository;
 use ILIAS\Refinery\Constraint;
-use ILIAS\UI\Component\MainControls\Footer;
-use ilSession;
 use ilDashboardGUI;
 use ilPersonalProfileGUI;
 use ilLegalDocumentsWithdrawalGUI;
@@ -69,7 +65,6 @@ class Wiring implements UseSlot
         $withdraw = $this->protect($withdraw_process->showWithdraw(...), $withdraw_process->isOnGoing(...));
 
         return $this->addTo('withdraw', $this->slot->id(), $withdraw)
-                    ->addTo('logout', $this->slot->id(), $withdraw_process->withdrawalRequested(...))
                     ->addTo('intercept', new ConditionalIntercept($withdraw_process->isOnGoing(...), $this->slot->id(), new Target($this->path(ilLegalDocumentsWithdrawalGUI::class))))
                     ->addTo('logout-text', $this->slot->id(), $withdraw_process->showValidatePasswordMessage(...))
                     ->addTo('show-on-login-page', $this->slot->withdrawalFinished($withdraw_process->withdrawalFinished(...)));

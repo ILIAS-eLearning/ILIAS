@@ -402,7 +402,7 @@ class ilSurveyRaterGUI
         }
 
         $form->setValuesByPost();
-//        $this->mailRatersObject($form);
+        //        $this->mailRatersObject($form);
     }
 
     public function addExternalRater(ilPropertyFormGUI $form): void

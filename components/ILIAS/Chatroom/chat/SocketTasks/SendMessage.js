@@ -2,7 +2,6 @@ var Container = require('../AppContainer');
 var TextMessage = require('../Model/Messages/TextMessage');
 var TargetMessage = require('../Model/Messages/TargetMessage');
 var AccessHandler = require('../Handler/AccessHandler');
-var HTMLEscape = require('../Helper/HTMLEscape');
 
 module.exports = function (data, roomId) {
 	var serverRoomId = Container.createServerRoomId(roomId);
@@ -20,10 +19,7 @@ module.exports = function (data, roomId) {
 		return;
 	}
 
-	var subscriber = {id: this.subscriber.getId(), username: this.subscriber.getName()};
-
-	data.content = HTMLEscape.escape(data.content);
-
+        var subscriber = {id: this.subscriber.getId(), username: this.subscriber.getName(), profile_picture_visible: this.subscriber.isProfilePictureVisible()};
 	var message = {};
 
 	if (data.target !== undefined) {

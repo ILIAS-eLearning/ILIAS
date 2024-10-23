@@ -18,7 +18,10 @@
 
 declare(strict_types=1);
 
-use ILIAS\User\ProfileGUIRequest;
+use ILIAS\User\Profile\GUIRequest;
+use ILIAS\User\Profile\VCard;
+
+use ILIAS\Language\Language;
 
 /**
  * GUI class for public user profile presentation.
@@ -29,7 +32,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
 {
     private bool $offline = false;
     private ilUserDefinedFields $user_defined_fields;
-    private ProfileGUIRequest $profile_request;
+    private GUIRequest $profile_request;
     private int $userid = 0;
     private string $backurl = '';
     private array $additional = []; // Missing array type.
@@ -41,7 +44,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
     private ilTabsGUI $tabs;
     private ilGlobalTemplateInterface $tpl;
     private ilRbacSystem $rbac_system;
-    private ilLanguage $lng;
+    private Language $lng;
 
     public function __construct(int $a_user_id = 0)
     {
@@ -57,7 +60,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
         $this->rbac_system = $DIC['rbacsystem'];
         $this->lng = $DIC['lng'];
 
-        $this->profile_request = new ProfileGUIRequest(
+        $this->profile_request = new GUIRequest(
             $DIC->http(),
             $DIC->refinery()
         );
@@ -630,7 +633,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
         }
         $user = new ilObjUser($this->getUserId());
 
-        $vcard = new ilvCard();
+        $vcard = new VCard();
 
         // ilsharedresourceGUI: embedded in shared portfolio
         if ($user->getPref('public_profile') != 'y' &&
@@ -684,16 +687,16 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
                         $adr[6] = $user->$key();
                         break;
                     case 'phone_office':
-                        $vcard->setPhone($user->$key(), TEL_TYPE_WORK);
+                        $vcard->setPhone($user->$key(), VCard::TEL_TYPE_WORK);
                         break;
                     case 'phone_home':
-                        $vcard->setPhone($user->$key(), TEL_TYPE_HOME);
+                        $vcard->setPhone($user->$key(), VCard::TEL_TYPE_HOME);
                         break;
                     case 'phone_mobile':
-                        $vcard->setPhone($user->$key(), TEL_TYPE_CELL);
+                        $vcard->setPhone($user->$key(), VCard::TEL_TYPE_CELL);
                         break;
                     case 'fax':
-                        $vcard->setPhone($user->$key(), TEL_TYPE_FAX);
+                        $vcard->setPhone($user->$key(), VCard::TEL_TYPE_FAX);
                         break;
                     case 'email':
                         $vcard->setEmail($user->$key());

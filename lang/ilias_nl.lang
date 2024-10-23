@@ -16017,7 +16017,6 @@ survey#:#cancel_survey#:#Opschorten van enquête
 survey#:#cannot_read_survey#:#U bent niet in het bezit van voldoende toestemmingen om de vragenlijsts gegevens te lezen!
 survey#:#cannot_switch_to_online_no_questions#:#U bent niet in het bezit van voldoende rechten om de zinnen te beheren!
 survey#:#cant_send_email_smtp_disabled#:#Sending external mails is not available. This option is deactivated globally.###07 02 2017 new variable
-survey#:#categories#:#Antwoorden
 survey#:#category#:#Antwoord
 survey#:#category_nr_selected#:#Aantal gebruikers dat dit antwoord selecteerden
 survey#:#chart#:#Grafiek
@@ -16473,6 +16472,7 @@ survey#:#svy_answer_too_long#:#Your current answer is too long (%s characters). 
 survey#:#svy_app_see_rater_info#:#Appraisees can access rater information in the results screens, including names and e-mail addresses, if entered before when adding raters.###29 07 2022 new variable
 survey#:#svy_appraisses_cannot_be_raters#:#User cannot be added as rater. Use self evaluation option in the survey settings instead.###07 02 2020 new variable
 survey#:#svy_back#:#Terug
+survey#:#svy_categories#:#Antwoorden
 survey#:#svy_check_evaluation_access_introduction#:#De vragenlijst evaluatie is enkel toegankelijk voor vragenlijstdeelnemers, je moet een toegangscode ingeven om de evaluatie te bekijken
 survey#:#svy_check_evaluation_authentication_needed#:#Authenticatie nodig
 survey#:#svy_check_evaluation_wrong_key#:#Je hebt een verkeerd toegangscode ingegeven voor vragenlijstevaluatie of je hebt niet deelgenomen aan de vragenlijst. Je toegang tot de onderzoeksevaluatie wordt geweigerd.

@@ -341,11 +341,7 @@ JS;
         }
 
         if (!$checkonly) {
-            $modal = ilModalGUI::getInstance();
-            $modal->setHeading($this->lng->txt(''));
-            $modal->setId('ilGapModal');
-            $modal->setBody('');
-            $this->renderEditForm($form, $modal->getHTML());
+            $this->renderEditForm($form);
         }
         return $errors;
     }
@@ -378,9 +374,6 @@ JS;
             if ($this->object->getAdditionalContentEditingMode() !== assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_IPE) {
                 $cloze_text->setUseRte(true);
                 $cloze_text->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
-                $cloze_text->addPlugin("latex");
-                $cloze_text->addButton("latex");
-                $cloze_text->addButton("pastelatex");
             }
         } else {
             $cloze_text->setRteTags(ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
@@ -1347,7 +1340,7 @@ JS;
      */
     private function populateSolutiontextToGapTpl($gaptemplate, $gap, $solutiontext): void
     {
-        if ($this->renderPurposeSupportsFormHtml() || $this->isRenderPurposePrintPdf()) {
+        if ($this->isRenderPurposePrintPdf()) {
             $gaptemplate->setCurrentBlock('gap_span');
             $gaptemplate->setVariable('SPAN_SOLUTION', $solutiontext);
         } elseif ($gap->getType() == assClozeGap::TYPE_SELECT) {

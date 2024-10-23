@@ -18,8 +18,12 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\UI\Factory;
-use ILIAS\UI\Renderer;
+use ILIAS\Data\ObjectId;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\Poll\Image\I\FactoryInterface as PollImageFactoryInterface;
+use ILIAS\Poll\Image\Factory as PollImageFactory;
+use ILIAS\Data\Factory as DataFactory;
 
 /**
  * Class ilObjPollGUI
@@ -34,8 +38,10 @@ class ilObjPollGUI extends ilObject2GUI
     protected ilHelpGUI $help;
     protected ilTabsGUI $tabs;
     protected ilNavigationHistory $nav_history;
-    protected Factory $ui_factory;
-    protected Renderer $ui_renderer;
+    protected UIFactory $ui_factory;
+    protected UIRenderer $ui_renderer;
+    protected DataFactory $data_factory;
+    protected PollImageFactoryInterface $poll_image_factory;
 
     public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
@@ -53,6 +59,8 @@ class ilObjPollGUI extends ilObject2GUI
         $this->locator = $DIC["ilLocator"];
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
+        $this->poll_image_factory = new PollImageFactory();
+        $this->data_factory = new DataFactory();
 
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
@@ -131,8 +139,8 @@ class ilObjPollGUI extends ilObject2GUI
         );
         $show_result_as->addOption($result_bar);
         $show_result_as->addOption(new ilRadioOption(
-            $this->lng->txt("poll_piechart"),
-            (string) ilObjPoll::SHOW_RESULTS_AS_PIECHART
+            $this->lng->txt("poll_stacked_chart"),
+            (string) ilObjPoll::SHOW_RESULTS_AS_STACKED_CHART
         ));
         $a_form->addItem($show_result_as);
 
@@ -293,7 +301,6 @@ class ilObjPollGUI extends ilObject2GUI
                 $this->prepareOutput();
                 $this->tabs->activateTab("export");
                 $exp_gui = new ilExportGUI($this);
-                $exp_gui->addFormat("xml");
                 $this->ctrl->forwardCommand($exp_gui);
                 break;
 
@@ -353,9 +360,9 @@ class ilObjPollGUI extends ilObject2GUI
         $form->addItem($img);
 
         // show existing file
-        $file = $this->object->getImageFullPath(true);
-        if ($file) {
-            $img->setImage(ilWACSignedPath::signFile($file));
+        $url = $this->poll_image_factory->handler()->getThumbnailImageURL($this->data_factory->objId($this->object_id));
+        if (!is_null($url)) {
+            $img->setImage($url);
         }
 
         $anonymous = new ilRadioGroupInputGUI($this->lng->txt("poll_mode"), "mode");
@@ -444,9 +451,15 @@ class ilObjPollGUI extends ilObject2GUI
             $image = $form->getItemByPostVar("image");
             $res = $form->getFileUpload("image");
             if (!empty($res)) {
-                $this->object->uploadImage($res);
+                $this->object->uploadImage(
+                    (string) ($res['tmp_name'] ?? ""),
+                    (string) ($res['name'] ?? "")
+                );
             } elseif ($image->getDeletionFlag()) {
-                $this->object->deleteImage();
+                $this->poll_image_factory->handler()->deleteImage(
+                    $this->data_factory->objId($this->object->getId()),
+                    $this->user->getId()
+                );
             }
 
             if ($this->object->update()) {

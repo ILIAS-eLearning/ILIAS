@@ -32,6 +32,7 @@ Since the component itself does not store any data, all data being presented is 
 - Notes and comments, see [Notes Service](../../ILIAS/Notes/PRIVACY.md)
 - (Personal) learning progress status
 - Metadata, incl. author and contributor information
+- If available, a public access export file of the object. See the privacy information of the individual objects for what the export files contain.
 - Object creation date and owner (this presentation requires "edit settings" (write) permission)
 - Personal Tags, see [Tagging Service](../../ILIAS/Tagging/PRIVACY.md)
 - Locking user (if WebDav is activated)

@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments\ConsumerSlots;
 
-use ILIAS\UI\Component\Component;
 use ILIAS\LegalDocuments\PageFragment;
 
 interface Agreement

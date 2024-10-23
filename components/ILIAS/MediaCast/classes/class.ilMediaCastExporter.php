@@ -28,7 +28,7 @@ class ilMediaCastExporter extends ilXmlExporter
     public function init(): void
     {
         $this->ds = new ilMediaCastDataSet();
-        $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+        $this->ds->initByExporter($this);
         $this->ds->setDSPrefix("ds");
     }
 
@@ -59,6 +59,18 @@ class ilMediaCastExporter extends ilXmlExporter
             "component" => "components/ILIAS/Object",
             "entity" => "common",
             "ids" => $a_ids);
+
+        $md_ids = [];
+        foreach ($a_ids as $id) {
+            $md_ids[] = $id . ':0:mcst';
+        }
+        if (!empty($md_ids)) {
+            $deps[] = [
+                'component' => 'components/ILIAS/MetaData',
+                'entity' => 'md',
+                'ids' => $md_ids,
+            ];
+        }
 
         return $deps;
     }

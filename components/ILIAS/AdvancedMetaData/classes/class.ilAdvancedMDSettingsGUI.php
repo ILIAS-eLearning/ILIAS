@@ -2035,7 +2035,7 @@ class ilAdvancedMDSettingsGUI
         }
 
         $scopes = $form->getInput('scope');
-        $scopes_selection = $form->getInput('scope_containers_sel');
+        $scopes_selection = $form->getInput('scope_containers');
         if ($scopes && is_array($scopes_selection)) {
             $this->record->enableScope(true);
             $this->record->setScopes(

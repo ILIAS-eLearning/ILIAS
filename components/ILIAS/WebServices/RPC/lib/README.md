@@ -45,7 +45,7 @@ Dependencies and the build process is managed via maven
 <a name="build-java-server"></a>
 ## Build the Java RPC Server
 ```shell
-> cd Services/WebServervices/RPC/lib
+> cd components/ILIAS/WebServices/RPC/lib
 > mvn clean install
 ```
 To build/compile the jar file for older LTS release than v17, start the maven build process with the following parameters:

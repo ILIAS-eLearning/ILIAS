@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Glossary\Settings\SettingsGUI;
+
 /**
  * GUI class for ilGlossary
  * @author Alexander Killing <killing@leifos.de>
@@ -24,6 +26,7 @@
  * @ilCtrl_Calls ilObjGlossaryGUI: ilTaxonomySettingsGUI, ilExportGUI, ilObjectCopyGUI
  * @ilCtrl_Calls ilObjGlossaryGUI: ilObjectMetaDataGUI, ilGlossaryForeignTermCollectorGUI
  * @ilCtrl_Calls ilObjGlossaryGUI: ilTermDefinitionBulkCreationGUI
+ * @ilCtrl_Calls ilObjGlossaryGUI: ILIAS\Glossary\Settings\SettingsGUI
  */
 class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\ModifierGUIInterface
 {
@@ -188,6 +191,7 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
             case "ilinfoscreengui":
                 $this->addHeaderAction();
                 $this->showInfoScreen();
+                $this->tabs->activateTab("info_short");
                 break;
 
             case "ilobjectcontentstylesettingsgui":
@@ -248,19 +252,6 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
                 $this->tabs->activateTab("export");
                 $this->setLocator();
                 $exp_gui = new ilExportGUI($this);
-                //$exp_gui->addFormat("xml", "", $this, "export");
-                $exp_gui->addFormat("xml");
-                $exp_gui->addFormat("html", "", $this, "exportHTML");
-                $exp_gui->addCustomColumn(
-                    $this->lng->txt("cont_public_access"),
-                    $this,
-                    "getPublicAccessColValue"
-                );
-                $exp_gui->addCustomMultiCommand(
-                    $this->lng->txt("cont_public_access"),
-                    $this,
-                    "publishExportFile"
-                );
                 $ret = $this->ctrl->forwardCommand($exp_gui);
                 break;
 
@@ -284,6 +275,20 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
             case "iltermdefinitionbulkcreationgui":
                 $this->ctrl->setReturn($this, "listTerms");
                 $this->ctrl->forwardCommand($this->term_def_bulk_gui);
+                break;
+
+            case strtolower(SettingsGUI::class):
+                $this->getTemplate();
+                $this->setTabs();
+                $this->tabs->activateTab("settings");
+                $this->setLocator();
+                $this->setSettingsSubTabs("general_settings");
+                $this->checkPermission("write");
+                $gui = $this->gui->settings()->settingsGUI(
+                    $this->object->getId(),
+                    $this->requested_ref_id
+                );
+                $this->ctrl->forwardCommand($gui);
                 break;
 
             default:
@@ -489,17 +494,7 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
 
     public function properties(): void
     {
-        $this->checkPermission("write");
-
-        $this->setSettingsSubTabs("general_settings");
-
-        $this->initSettingsForm();
-
-        // Edit ecs export settings
-        $ecs = new ilECSGlossarySettings($this->object);
-        $ecs->addSettingsToForm($this->form, 'glo');
-
-        $this->tpl->setContent($this->form->getHTML());
+        $this->ctrl->redirectByClass(SettingsGUI::class);
     }
 
     public function initSettingsForm(
@@ -763,6 +758,8 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
 
     public function listTerms(): void
     {
+        $this->tabs->activateTab("content");
+
         $this->showTaxonomy();
 
         $panel_html = "";
@@ -1085,76 +1082,51 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
         // list terms
         $cmd = $this->ctrl->getCmd();
         $force_active = ($cmd == "" || $cmd == "listTerms");
-        $this->tabs_gui->addTarget(
+        $this->tabs_gui->addTab(
             "content",
-            $this->ctrl->getLinkTarget($this, "listTerms"),
-            array("listTerms", ""),
-            get_class($this),
-            "",
-            $force_active
+            $this->lng->txt("content"),
+            $this->ctrl->getLinkTarget($this, "listTerms")
         );
 
-        $force_active = false;
-        if ($this->ctrl->getCmd() == "showSummary" ||
-            strtolower($this->ctrl->getNextClass()) == "ilinfoscreengui") {
-            $force_active = true;
-        }
-        $this->tabs_gui->addTarget(
+        $this->tabs_gui->addTab(
             "info_short",
-            $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"),
-            "",
-            "ilInfoScreenGUI",
-            "",
-            $force_active
+            $this->lng->txt("info_short"),
+            $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary")
         );
 
         // properties
         if ($this->rbacsystem->checkAccess('write', $this->object->getRefId())) {
-            $this->tabs_gui->addTarget(
+            $this->tabs_gui->addTab(
                 "settings",
-                $this->ctrl->getLinkTarget($this, "properties"),
-                "properties",
-                get_class($this)
+                $this->lng->txt("settings") . " new",
+                $this->ctrl->getLinkTargetByClass(SettingsGUI::class)
             );
 
             // meta data
             $mdgui = new ilObjectMetaDataGUI($this->object, "term");
             $mdtab = $mdgui->getTab();
             if ($mdtab) {
-                $this->tabs_gui->addTarget(
+                $this->tabs_gui->addTab(
                     "meta_data",
-                    $mdtab,
-                    "",
-                    "ilobjectmetadatagui"
+                    $this->lng->txt("meta_data"),
+                    $mdtab
                 );
             }
 
             // export
-            /*$tabs_gui->addTarget("export",
-                 $this->ctrl->getLinkTarget($this, "exportList"),
-                 array("exportList", "viewExportLog"), get_class($this));*/
-
-            // export
-            $this->tabs_gui->addTarget(
+            $this->tabs_gui->addTab(
                 "export",
-                $this->ctrl->getLinkTargetByClass("ilexportgui", ""),
-                "",
-                "ilexportgui"
+                $this->lng->txt("export"),
+                $this->ctrl->getLinkTargetByClass("ilexportgui", "")
             );
         }
 
         // permissions
         if ($this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
-            /*$tabs_gui->addTarget("permission_settings",
-                $this->ctrl->getLinkTarget($this, "perm"),
-                array("perm", "info"),
-                get_class($this));
-                */
-            $this->tabs_gui->addTarget(
+            $this->tabs_gui->addTab(
                 "perm_settings",
-                $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"),
-                array("perm","info","owner"),
-                'ilpermissiongui'
+                $this->lng->txt("perm_settings"),
+                $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm")
             );
         }
 

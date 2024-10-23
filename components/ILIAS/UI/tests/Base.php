@@ -331,16 +331,6 @@ abstract class ILIAS_UI_TestBase extends TestCase
 
 trait BaseUITestTrait
 {
-    public function setUp(): void
-    {
-        assert_options(ASSERT_WARNING, 0);
-    }
-
-    public function tearDown(): void
-    {
-        assert_options(ASSERT_WARNING, 1);
-    }
-
     public function getUIFactory(): NoUIFactory
     {
         return new NoUIFactory();
@@ -432,16 +422,6 @@ trait BaseUITestTrait
                         $this->getUploadLimitResolver()
                     ),
                     new GlyphRendererFactory(
-                        $ui_factory,
-                        $tpl_factory,
-                        $lng,
-                        $js_binding,
-                        $image_path_resolver,
-                        $data_factory,
-                        $help_text_retriever,
-                        $this->getUploadLimitResolver()
-                    ),
-                    new IconRendererFactory(
                         $ui_factory,
                         $tpl_factory,
                         $lng,

@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
-
 use ILIAS\Filesystem\Stream\Streams;
 
 /**
@@ -658,7 +657,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             }
         }
 
-        if($cmd == '') {
+        if ($cmd == '') {
             $cmd = $this->testrequest->raw("export_type");
         }
         switch ($cmd) {
@@ -994,7 +993,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $content = [];
         $anchors = [];
 
-        foreach($show_user_results as $selected_user) {
+        foreach ($show_user_results as $selected_user) {
             $active_id = (int) $selected_user;
             $pass = ilObjTest::_getResultPass($active_id);
 
@@ -1131,7 +1130,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $test_session = $this->testSessionFactory->getSession();
 
         if (!$this->object->getShowPassDetails()) {
-            $this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+            $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
         }
 
         $active_id = $test_session->getActiveId();
@@ -1259,7 +1258,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $uname = $this->object->userLookupFullName($user_id, true);
 
         if (!$this->object->canShowTestResults($test_session)) {
-            $this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+            $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
         }
 
         $templatehead = new ilTemplate("tpl.il_as_tst_results_participants.html", true, true, "components/ILIAS/Test");
@@ -1347,7 +1346,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
     {
         if (!$this->object->getShowSolutionPrintview()) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_permission"), true);
-            $this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+            $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
         }
 
         $template = new ilTemplate("tpl.il_as_tst_info_list_of_answers.html", true, true, "components/ILIAS/Test");
@@ -1549,8 +1548,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
                 // no break
             case ilTestPassDeletionConfirmationGUI::CONTEXT_INFO_SCREEN:
-
-                $this->ctrl->redirectByClass('ilObjTestGUI', 'infoScreen');
+                $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
         }
     }
 

@@ -19,14 +19,18 @@ declare(strict_types=1);
  *********************************************************************/
 
 use ILIAS\Style\Content\StandardGUIRequest;
+use ILIAS\Style\Content\InternalGUIService;
+use ILIAS\Repository\Form\FormAdapterGUI;
 
 /**
  * Settings UI class for system styles
- * @author Alexander Killing <killing@leifos.de>
+ * @author       Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilContentStyleSettingsGUI: ilObjStyleSheetGUI
+ * @ilCtrl_Calls ilContentStyleSettingsGUI: ilRepoStandardUploadHandlerGUI
  */
 class ilContentStyleSettingsGUI
 {
+    protected InternalGUIService $gui;
     protected ilContentStyleSettings $cs_settings;
     protected ilObjStyleSettingsGUI $parent_gui;
     protected int $obj_id;
@@ -55,15 +59,15 @@ class ilContentStyleSettingsGUI
         $this->lng = $DIC->language();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->request = $DIC->contentStyle()
-            ->internal()
-            ->gui()
-            ->standardRequest();
-
+                             ->internal()
+                             ->gui()
+                             ->standardRequest();
 
         $this->ref_id = $this->request->getRefId();
-        $this->obj_id = $this->request->getObjId();		// note that reference ID is the id of the style settings node and object ID may be a style sheet object ID
+        $this->obj_id = $this->request->getObjId();        // note that reference ID is the id of the style settings node and object ID may be a style sheet object ID
 
         $this->cs_settings = new ilContentStyleSettings();
+        $this->gui = $DIC->contentStyle()->internal()->gui();
     }
 
     public function executeCommand(): void
@@ -78,10 +82,30 @@ class ilContentStyleSettingsGUI
                 $this->ctrl->forwardCommand($style_gui);
                 break;
 
+            case strtolower(ilRepoStandardUploadHandlerGUI::class):
+                $form = $this->getImportForm();
+                $gui = $form->getRepoStandardUploadHandlerGUI("import_file");
+                $this->ctrl->forwardCommand($gui);
+                break;
+
+
             default:
                 $this->parent_gui->prepareOutput();
-                if (in_array($cmd, array("edit", "delete", "toggleGlobalDefault", "toggleGlobalFixed", "setScope", "saveScope", "saveActiveStyles",
-                    "createStyle", "moveLMStyles", "moveIndividualStyles", "deleteStyle", "cancelDelete", "confirmedDelete"))) {
+                if (in_array($cmd, array("edit",
+                                         "delete",
+                                         "toggleGlobalDefault",
+                                         "toggleGlobalFixed",
+                                         "setScope",
+                                         "saveScope",
+                                         "saveActiveStyles",
+                                         "createStyle",
+                                         "moveLMStyles",
+                                         "moveIndividualStyles",
+                                         "deleteStyle",
+                                         "cancelDelete",
+                                         "confirmedDelete",
+                                         "import"
+                ))) {
                     $this->$cmd();
                 } else {
                     die("Unknown command " . $cmd);
@@ -143,7 +167,9 @@ class ilContentStyleSettingsGUI
         if ($fixed_style <= 0) {
             $data[-1] =
                 array("title" => $this->lng->txt("sty_individual_styles"),
-                    "id" => 0, "lm_nr" => ilObjContentObject::_getNrLMsIndividualStyles());
+                      "id" => 0,
+                      "lm_nr" => ilObjContentObject::_getNrLMsIndividualStyles()
+                );
             $from_styles[-1] = $this->lng->txt("sty_individual_styles");
         }
 
@@ -151,20 +177,33 @@ class ilContentStyleSettingsGUI
         if ($default_style <= 0 && $fixed_style <= 0) {
             $data[0] =
                 array("title" => $this->lng->txt("sty_default_style"),
-                    "id" => 0, "lm_nr" => ilObjContentObject::_getNrLMsNoStyle());
+                      "id" => 0,
+                      "lm_nr" => ilObjContentObject::_getNrLMsNoStyle()
+                );
             $from_styles[0] = $this->lng->txt("sty_default_style");
             $to_styles[0] = $this->lng->txt("sty_default_style");
         }
 
+        $rendered_modal = "";
         if ($this->checkPermission("sty_write_content", false)) {
             $this->toolbar->addButton(
                 $this->lng->txt("sty_add_content_style"),
                 $this->ctrl->getLinkTarget($this, "createStyle")
             );
+
+            $modal = $this->gui->modal($this->lng->txt("import"))
+                      ->form($this->getImportForm());
+            $modal_c = $modal->getTriggerButtonComponents($this->lng->txt("import"), false);
+            $this->toolbar->addComponent($modal_c["button"]);
+            $rendered_modal = $this->gui->ui()->renderer()->render($modal_c["modal"]);
+
             $this->toolbar->addSeparator();
 
             // from styles selector
-            $si = new ilSelectInputGUI($this->lng->txt("sty_move_lm_styles") . ": " . $this->lng->txt("sty_from"), "from_style");
+            $si = new ilSelectInputGUI(
+                $this->lng->txt("sty_move_lm_styles") . ": " . $this->lng->txt("sty_from"),
+                "from_style"
+            );
             $si->setOptions($from_styles);
             $this->toolbar->addInputItem($si, true);
 
@@ -178,8 +217,42 @@ class ilContentStyleSettingsGUI
         }
 
         $table = new ilContentStylesTableGUI($this, "edit", $data);
-        $this->tpl->setContent($table->getHTML());
+        $this->tpl->setContent($table->getHTML() . $rendered_modal);
     }
+
+    protected function getImportForm(): FormAdapterGUI
+    {
+        $gui = new ilObjStyleSheetGUI("", 0, false);
+        return $this->gui->form([self::class], "import")
+                         ->file(
+                             "import_file",
+                             $this->lng->txt("import"),
+                             $gui->handleImport(...),  // Placeholder for upload handler
+                             "obj_id",
+                             "",
+                             1,
+                             ["application/zip"]
+                         );
+    }
+
+    public function import(): void
+    {
+        $form = $this->getImportForm();
+        if ($form->isValid()) {
+            if ($this->request->getRefId() > 0) {
+                $fold = ilObjectFactory::getInstanceByRefId($this->request->getRefId());
+                if ($fold->getType() == "stys") {
+                    $obj_id = (int) $form->getData("import_file");
+                    $cont_style_settings = new ilContentStyleSettings();
+                    $cont_style_settings->addStyle($obj_id);
+                    $cont_style_settings->update();
+                    ilObjStyleSheet::_writeStandard($obj_id, true);
+                    $this->ctrl->redirectByClass(self::class, "");
+                }
+            }
+        }
+    }
+
 
     /**
      * move learning modules from one style to another
@@ -200,7 +273,6 @@ class ilContentStyleSettingsGUI
         $this->ctrl->redirect($this, "edit");
     }
 
-
     /**
      * move all learning modules with individual styles to new style
      */
@@ -215,7 +287,6 @@ class ilContentStyleSettingsGUI
     public function confirmDeleteIndividualStyles(): void
     {
         $this->checkPermission("sty_write_content");
-
 
         $this->ctrl->setParameter($this, "to_style", $this->request->getToStyleId());
 
@@ -260,7 +331,6 @@ class ilContentStyleSettingsGUI
         $this->tpl->setContent($cgui->getHTML());
     }
 
-
     /**
      * delete selected style objects
      */
@@ -280,7 +350,6 @@ class ilContentStyleSettingsGUI
 
         $this->ctrl->redirect($this, "edit");
     }
-
 
     /**
      * Toggle global default style

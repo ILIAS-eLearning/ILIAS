@@ -45,7 +45,7 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
     public const F_TYPE = 'type';
     public const F_MODIFICATION_DATE = 'create_date';
     public const FIELD_TITLE = 'title';
-    const HOME = 'HOME';
+    public const HOME = 'HOME';
     private \ILIAS\Data\Factory $data_factory;
     private \ILIAS\ResourceStorage\Services $irss;
     private \ILIAS\UI\Renderer $ui_renderer;
@@ -127,9 +127,9 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
 
             foreach ($directories as $i => $directory) {
                 $path_inside_zip = rtrim(
-                        implode('/', array_slice($directories, 0, $i + 1)),
-                        '/'
-                    ) . '/';
+                    implode('/', array_slice($directories, 0, $i + 1)),
+                    '/'
+                ) . '/';
                 $links[] = $this->ui_factory->link()->standard(
                     $directory,
                     $get_action($path_inside_zip)
@@ -184,8 +184,8 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
             $this->http->request()
         )->withActions(
             $this->action_builder->getActions()
-        )->withNumberOfRows(
-            $this->request->getItemsPerPage()
+        )->withRange(
+            new Range(0, $this->request->getItemsPerPage())
         );
     }
 

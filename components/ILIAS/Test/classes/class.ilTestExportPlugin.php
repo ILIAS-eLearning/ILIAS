@@ -36,21 +36,12 @@ abstract class ilTestExportPlugin extends ilPlugin
         'xml',
         'csv'
     ];
-    private \ilGlobalTemplateInterface $main_tpl;
-    private \ilLanguage $lng;
-    private \ilCtrlInterface $ctrl;
 
     public function __construct(
         \ilDBInterface $db,
         \ilComponentRepositoryWrite $component_repository,
         string $id
     ) {
-        /** @var ILIAS\DI\Container $DIC */
-        global $DIC;
-        $this->main_tpl = $DIC['tpl'];
-        $this->lng = $DIC['lng'];
-        $this->ctrl = $DIC['ilCtrl'];
-
         parent::__construct($db, $component_repository, $id);
     }
 
@@ -105,6 +96,12 @@ abstract class ilTestExportPlugin extends ilPlugin
      */
     final public function export(): void
     {
+        /** @var ILIAS\DI\Container $DIC */
+        global $DIC;
+        $main_tpl = $DIC['tpl'];
+        $lng = $DIC['lng'];
+        $ctrl = $DIC['ilCtrl'];
+
         if (!$this->getTest() instanceof ilObjTest) {
             throw new ilException('Incomplete object configuration. Please pass an instance of ilObjTest before calling the export!');
         }
@@ -113,15 +110,15 @@ abstract class ilTestExportPlugin extends ilPlugin
             $this->buildExportFile(new ilTestExportFilename($this->getTest()));
         } catch (ilException $e) {
             if ($this->txt($e->getMessage()) == '-' . $e->getMessage() . '-') {
-                $this->main_tpl->setOnScreenMessage('failure', $e->getMessage(), true);
+                $main_tpl->setOnScreenMessage('failure', $e->getMessage(), true);
             } else {
-                $this->main_tpl->setOnScreenMessage('failure', $this->txt($e->getMessage()), true);
+                $main_tpl->setOnScreenMessage('failure', $this->txt($e->getMessage()), true);
             }
-            $this->ctrl->redirectByClass('iltestexportgui');
+            $ctrl->redirectByClass('iltestexportgui');
         }
 
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('exp_file_created'), true);
-        $this->ctrl->redirectByClass('iltestexportgui');
+        $main_tpl->setOnScreenMessage('success', $lng->txt('exp_file_created'), true);
+        $ctrl->redirectByClass('iltestexportgui');
     }
 
     /**

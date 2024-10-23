@@ -16002,7 +16002,6 @@ survey#:#cancel_survey#:#Suspendre le sondage
 survey#:#cannot_read_survey#:#Vous n'avez pas les permissions nécessaires pour lire les données de l'enquête !
 survey#:#cannot_switch_to_online_no_questions#:#Le statut ne peut pas être changé en &quot;en-ligne&quot; car il n'y a pas encore de question !
 survey#:#cant_send_email_smtp_disabled#:#Il n’est pas possible d’envoyer des mails externes. Cette option est désactivée globalement.
-survey#:#categories#:#Catégories
 survey#:#category#:#Catégorie
 survey#:#category_nr_selected#:#Nombre d'utilisateurs qui ont sélectionné cette réponse
 survey#:#chart#:#Graphique
@@ -16458,6 +16457,7 @@ survey#:#svy_answer_too_long#:#Your current answer is too long (%s characters). 
 survey#:#svy_app_see_rater_info#:#Appraisees can access rater information in the results screens, including names and e-mail addresses, if entered before when adding raters.###31 10 2023 new variable
 survey#:#svy_appraisses_cannot_be_raters#:#User cannot be added as rater. Use self evaluation option in the survey settings instead.
 survey#:#svy_back#:#Retour
+survey#:#svy_categories#:#Catégories
 survey#:#svy_check_evaluation_access_introduction#:#Vous devez saisir votre code d'accès pour ouvrir le questionnaire.
 survey#:#svy_check_evaluation_authentication_needed#:#Authentification requise
 survey#:#svy_check_evaluation_wrong_key#:#Vous avez saisi un code d'accès erroné ou bien n'avez pas participé à l'enquête. L'accès vous est donc refusé.

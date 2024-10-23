@@ -16,7 +16,7 @@ to the webserver. These files are located here:
 | presetting                      | ""                                 |             |
 | timezone                        | "Europe/Berlin"                    |             |
 | **[clients]**                   |                                    |             |
-| path                            | "public/data"                         |             |
+| path                            | "public/data"                      |             |
 | inifile                         | "client.ini.php"                   |             |
 | datadir                         | "/var/iliasdata"                   |             |
 | default                         | "trunk"                            |             |
@@ -86,7 +86,7 @@ to the webserver. These files are located here:
 | pass                             | ""                                                                   | Database-Password                                                                                                                                                                                      |
 | name                             | "trunk"                                                              | Database-Name                                                                                                                                                                                          |
 | port                             | ""                                                                   | Specific DB-Port, "" uses standardport                                                                                                                                                                 |
-| structure_reload                 | "0"                                                                  | usually 0, when switching to 1, a Controle-Structure-Reload will be performed. Only switch to 1 if you kwnoe what you are doing                                                                        |
+| structure_reload                 | "0"                                                                  | usually 0, when switching to 1, a Controle-Structure-Reload will be performed. Only switch to 1 if you know what you are doing                                                                        |
 | **[auth]**                       |                                                                      |                                                                                                                                                                                                        |
 | table                            | "usr_data"                                                           | Table-name of the used table for user data                                                                                                                                                             |
 | usercol                          | "login"                                                              | column with the username-values                                                                                                                                                                        |

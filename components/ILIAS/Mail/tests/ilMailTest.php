@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 use ILIAS\Refinery\Factory;
 use PHPUnit\Framework\MockObject\MockObject;
-use ILIAS\Mail\Autoresponder\AutoresponderServiceImpl;
 use ILIAS\Mail\Autoresponder\AutoresponderService;
 use ILIAS\LegalDocuments\Conductor;
 use ILIAS\Refinery\Transformation;

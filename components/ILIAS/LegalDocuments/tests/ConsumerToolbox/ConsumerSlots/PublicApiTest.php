@@ -71,8 +71,8 @@ class PublicApiTest extends TestCase
     public function testNeedsToAgree(): void
     {
         $this->assertSameValues('needsToAgree', [
-            [true,  ['cannotAgree' => true, 'needsToAcceptNewDocument' => true]],
-            [false, ['cannotAgree' => false, 'needsToAcceptNewDocument' => true]],
+            [false,  ['cannotAgree' => true, 'needsToAcceptNewDocument' => true]],
+            [true, ['cannotAgree' => false, 'needsToAcceptNewDocument' => true]],
             [false, ['cannotAgree' => true, 'needsToAcceptNewDocument' => false]],
             [false, ['cannotAgree' => false, 'needsToAcceptNewDocument' => false]],
         ]);

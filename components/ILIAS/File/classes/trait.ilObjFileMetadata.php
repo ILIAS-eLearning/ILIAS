@@ -98,7 +98,7 @@ trait ilObjFileMetadata
         // add file size and format to LOM
         $DIC->learningObjectMetadata()->manipulate($this->getId(), 0, $this->getType())
                                       ->prepareCreateOrUpdate($this->getPathToSize(), (string) $this->getFileSize())
-                                      ->prepareCreateOrUpdate($this->getPathToFirstFormat(), $this->getFileType())
+//                                      ->prepareCreateOrUpdate($this->getPathToFirstFormat(), $this->getFileType()) // TIDI thwors exception
                                       ->prepareCreateOrUpdate($this->getPathToVersion(), (string) $this->getVersion())
                                       ->execute();
     }

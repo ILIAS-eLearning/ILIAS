@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Xml Exporter class
  * @author  Alex Killing <alex.killing@gmx.de>
@@ -26,8 +26,6 @@ declare(strict_types=1);
  */
 abstract class ilXmlExporter
 {
-    protected string $dir_relative = "";
-    protected string $dir_absolute = "";
     protected ilExport $exp;
 
     public function __construct()
@@ -70,18 +68,17 @@ abstract class ilXmlExporter
 
     public function setExportDirectories(string $a_dir_relative, string $a_dir_absolute): void
     {
-        $this->dir_relative = $a_dir_relative;
-        $this->dir_absolute = $a_dir_absolute;
+        $this->exp->setExportDirectories($a_dir_relative, $a_dir_absolute);
     }
 
     public function getRelativeExportDirectory(): string
     {
-        return $this->dir_relative;
+        return $this->exp->getRelativeExportDirectory();
     }
 
     public function getAbsoluteExportDirectory(): string
     {
-        return $this->dir_absolute;
+        return $this->exp->getAbsoluteExportDirectory();
     }
 
     /**

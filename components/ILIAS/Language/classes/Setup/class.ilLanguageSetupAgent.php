@@ -60,7 +60,7 @@ class ilLanguageSetupAgent implements Setup\Agent
     public function getInstallObjective(Setup\Config $config = null): Setup\Objective
     {
         return new Setup\ObjectiveCollection(
-            "Complete objectives from components/ILIAS/Language_",
+            "Complete objectives from components/ILIAS/Language",
             false,
             new ilLanguagesInstalledAndUpdatedObjective($this->il_setup_language),
             new ilDefaultLanguageSetObjective()
@@ -73,7 +73,7 @@ class ilLanguageSetupAgent implements Setup\Agent
     public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
         return new Setup\ObjectiveCollection(
-            "Complete objectives from components/ILIAS/Language_",
+            "Complete objectives from components/ILIAS/Language",
             false,
             new ilLanguagesInstalledAndUpdatedObjective($this->il_setup_language),
         );

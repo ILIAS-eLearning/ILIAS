@@ -21,6 +21,9 @@ const ilNotes = {
   update_code: '',
   panel: false,
   ajax_url: '',
+  modalTemplate: '',
+  showSignal: '',
+  hideSignal: '',
   old: false,
 
   listNotes(e, hash, update_code) {
@@ -49,10 +52,6 @@ const ilNotes = {
 
     const queryUrl = tr.dataset.noteQueryUrl;
     const { noteKey } = tr.dataset;
-    console.log('_--');
-    console.log(e.target);
-    console.log(queryUrl);
-    console.log(noteKey);
     e.preventDefault();
     e.stopPropagation(); // #11546 - list properties not working
     this.update_code = '';
@@ -68,7 +67,7 @@ const ilNotes = {
     e.stopPropagation(); // #11546 - list properties not working
 
     // hide overlays
-    il.Overlay.hideAllOverlays(e, true);
+    // il.Overlay.hideAllOverlays(e, true);
 
     this.hash = hash;
     this.update_code = update_code;
@@ -94,12 +93,24 @@ const ilNotes = {
       head_str = il.Language.txt('notes_public_comments');
     }
 
-    il.Modal.dialogue({
-      id: 'il_notes_modal',
-      show: true,
-      header: head_str,
-      buttons: {},
+    $('#il_notes_modal').remove();
+    let modal_template = this.getModalTemplate();
+    modal_template = modal_template.replace('#notes_title#', head_str);
+
+    $('body').append(`<div id='il_notes_modal'>${modal_template}</div>`);
+    document.querySelectorAll('#il_notes_modal .modal-footer').forEach((el) => {
+      el.remove();
     });
+
+    $(document).trigger(
+      this.getShowSignal(),
+      {
+        id: this.getShowSignal(),
+        triggerer: $(this),
+        options: JSON.parse('[]'),
+      },
+    );
+
     const modalBody = document.querySelector('#il_notes_modal .modal-body');
     const modal = document.getElementById('il_notes_modal');
     modalBody.innerHTML = '';
@@ -137,6 +148,30 @@ const ilNotes = {
 
   getAjaxUrl() {
     return this.ajax_url;
+  },
+
+  setModalTemplate(t) {
+    this.modalTemplate = t;
+  },
+
+  getModalTemplate() {
+    return JSON.parse(this.modalTemplate);
+  },
+
+  setShowSignal(t) {
+    this.showSignal = t;
+  },
+
+  getShowSignal() {
+    return this.showSignal;
+  },
+
+  setHideSignal(t) {
+    this.hideSignal = t;
+  },
+
+  getHideSignal() {
+    return this.hideSignal;
   },
 
   sendAjaxGetRequest(par, args) {
@@ -197,6 +232,7 @@ const ilNotes = {
         const modalBody = document.querySelector('#il_notes_modal .modal-body');
         modal.dataset.status = '';
         il.repository.core.setInnerHTML(modalBody, o.responseText);
+
         ilNotes.init(document.getElementById('il_notes_modal'));
       } else {
         const embedOuter = document.getElementById('notes_embedded_outer');
@@ -253,8 +289,12 @@ const ilNotes = {
     node.querySelectorAll("[data-note-el='edit-form-area']").forEach((area) => {
       const b = area.querySelector('button');
       const f = area.querySelector("[data-note-el='edit-form'] form");
-      const submitButton = area.querySelector("[data-note-el='edit-form'] form .il-standard-form-footer button");
+      const submitButton = area.querySelector("[data-note-el='edit-form'] form .c-form__footer button");
       const fArea = area.querySelector("[data-note-el='edit-form']");
+
+      document.querySelectorAll('#il_notes_modal .c-form__header .c-form__actions').forEach((el) => {
+        el.remove();
+      });
 
       // clone cancel from submit button
       let cancelButton = submitButton.cloneNode(true);

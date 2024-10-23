@@ -21,7 +21,11 @@ ilTagging =
 	update_code: '',
 	panel: false,
 	ajax_url: '',
-	
+	modalTemplate: '',
+	showSignal: '',
+	hideSignal: '',
+
+
 	listTags: function (e, hash, update_code)
 	{
 		// prevent the default action
@@ -47,13 +51,24 @@ ilTagging =
 	// init the notes editing panel
 	initPanel: function(e)
 	{
-		il.Modal.dialogue({
-			id:       "il_tags_modal",
-			show: true,
-			header: il.Language.txt('tagging_tags'),
-			buttons:  {
-			}
+		$('#il_tags_modal').remove();
+		let modal_template = this.getModalTemplate();
+		modal_template = modal_template.replace('#tag_title#', il.Language.txt('tagging_tags'));
+
+		$('body').append(`<div id='il_tags_modal'>${modal_template}</div>`);
+		document.querySelectorAll('#il_tags_modal .modal-footer').forEach((el) => {
+			el.remove();
 		});
+
+		$(document).trigger(
+			this.getShowSignal(),
+			{
+				id: this.getShowSignal(),
+				triggerer: $(this),
+				options: JSON.parse('[]'),
+			},
+		);
+
 		this.sendAjaxGetRequest({cmd: "getHTML", cadh: this.hash}, {mode: 'list_tags'});
 	},
 
@@ -95,7 +110,31 @@ ilTagging =
 	{
 		return this.ajax_url;
 	},
-	
+
+	setModalTemplate(t) {
+		this.modalTemplate = t;
+	},
+
+	getModalTemplate() {
+		return JSON.parse(this.modalTemplate);
+	},
+
+	setShowSignal(t) {
+		this.showSignal = t;
+	},
+
+	getShowSignal() {
+		return this.showSignal;
+	},
+
+	setHideSignal(t) {
+		this.hideSignal = t;
+	},
+
+	getHideSignal() {
+		return this.hideSignal;
+	},
+
 	sendAjaxGetRequest: function(par, args)
 	{
 		var url = this.getAjaxUrl();

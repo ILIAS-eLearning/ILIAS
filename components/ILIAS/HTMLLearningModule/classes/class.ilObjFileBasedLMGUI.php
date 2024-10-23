@@ -171,8 +171,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
             case "ilexportgui":
                 $this->tabs->activateTab("export");
                 $exp_gui = new ilExportGUI($this);
-                $exp_gui->addFormat("xml");
-                $exp_gui->addFormat("html", "", $this, "exportHTML");
                 $ret = $this->ctrl->forwardCommand($exp_gui);
                 break;
 
@@ -194,14 +192,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         }
 
         $this->addHeaderAction();
-    }
-
-    protected function initCreationForms(string $new_type): array
-    {
-        return [
-            self::CFORM_NEW => $this->initCreateForm($new_type),
-            self::CFORM_IMPORT => $this->initImportForm($new_type)
-        ];
     }
 
     final public function cancelCreationObject(): void

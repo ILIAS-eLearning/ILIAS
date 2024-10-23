@@ -38,4 +38,16 @@ class ilWebResourceDBUpdateSteps implements ilDatabaseUpdateSteps
             $this->db->addIndex('webr_items', ['webr_id'], 'i3');
         }
     }
+
+    /**
+     * Increases the maximum length of object import-ids from 50 to 255 characters.
+     */
+    public function step_2(): void
+    {
+        $this->db->modifyTableColumn("object_data", "import_id", [
+            "type" => \ilDBConstants::T_TEXT,
+            "length" => 255,
+            "notnull" => false
+        ]);
+    }
 }

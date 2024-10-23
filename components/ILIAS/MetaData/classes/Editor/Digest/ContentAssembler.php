@@ -246,19 +246,30 @@ class ContentAssembler
         if (!$this->copyright_handler->isCPSelectionActive()) {
             return;
         }
-        $modal = $this->getChangeCopyrightModal();
+        $modal = $this->getChangeCopyrightModal(false);
+        $modal_with_oer_warning = $this->getChangeCopyrightModal(true);
         $signal = $modal->getShowSignal();
+        $signal_with_oer_warning = $modal_with_oer_warning->getShowSignal();
 
         yield ContentType::MODAL => $modal;
+        yield ContentType::MODAL => $modal_with_oer_warning;
         yield ContentType::JS_SOURCE => 'assets/js/ilMetaCopyrightListener.js';
-        yield ContentType::FORM => $this->getCopyrightSection($set, $signal);
+        yield ContentType::FORM => $this->getCopyrightSection(
+            $set,
+            $signal,
+            $signal_with_oer_warning
+        );
     }
 
-    protected function getChangeCopyrightModal(): InterruptiveModal
+    protected function getChangeCopyrightModal(bool $with_oer_warning): InterruptiveModal
     {
+        $message = $this->presenter->utilities()->txt("meta_copyright_change_info");
+        if ($with_oer_warning) {
+            $message .= "<br/><br/>" . $this->presenter->utilities()->txt("meta_copyright_change_oer_info");
+        }
         $modal = $this->ui_factory->modal()->interruptive(
             $this->presenter->utilities()->txt("meta_copyright_change_warning_title"),
-            $this->presenter->utilities()->txt("meta_copyright_change_info"),
+            $message,
             (string) $this->link_factory->custom(Command::UPDATE_DIGEST)->get()
         );
 
@@ -267,7 +278,8 @@ class ContentAssembler
 
     protected function getCopyrightSection(
         SetInterface $set,
-        Signal $signal
+        Signal $signal,
+        Signal $signal_with_oer_warning
     ): Section {
         $ff = $this->ui_factory->input()->field();
 
@@ -281,6 +293,7 @@ class ContentAssembler
         $default_id = 0;
         $options = [];
         $outdated = [];
+        $potential_oer_values = [];
         $current_id_exists = false;
         $is_custom = !is_null($cp_description) && !$current_id;
 
@@ -291,6 +304,8 @@ class ContentAssembler
             if ($current_id === $entry->id()) {
                 $current_id_exists = true;
             }
+
+            $identifier = $this->copyright_handler->createIdentifierForID($entry->id());
 
             //give the option to block harvesting
             $sub_inputs = [];
@@ -306,10 +321,10 @@ class ContentAssembler
                     ->withValue(
                         $this->copyright_handler->isOerHarvesterBlocked($set->getRessourceID()->objID())
                     );
+                $potential_oer_values[] = $identifier;
             }
 
             $option = $ff->group($sub_inputs, $entry->title());
-            $identifier = $this->copyright_handler->createIdentifierForID($entry->id());
 
             // outdated entries throw an error when selected
             if ($entry->isOutdated()) {
@@ -345,9 +360,12 @@ class ContentAssembler
             )
             ->withValue($value)
             ->withAdditionalOnLoadCode(
-                function ($id) use ($signal) {
-                    return 'il.MetaDataCopyrightListener.init("' .
-                        $signal . '","' . $id . '");';
+                function ($id) use ($signal, $signal_with_oer_warning, $potential_oer_values) {
+                    return 'il.MetaDataCopyrightListener.init(\'' .
+                        $signal . '\',\'' .
+                        $signal_with_oer_warning . '\',\'' .
+                        json_encode($potential_oer_values) . '\',\'' .
+                        $id . '\');';
                 }
             )->withAdditionalTransformation(
                 $this->refinery->custom()->constraint(

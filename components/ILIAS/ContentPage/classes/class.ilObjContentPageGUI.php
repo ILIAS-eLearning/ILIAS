@@ -454,7 +454,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         if ($this->checkPermissionBool('write')) {
             $this->tabs_gui->addSubTab(
                 self::UI_TAB_ID_SETTINGS,
-                $this->lng->txt('settings'),
+                $this->lng->txt('general'),
                 $this->ctrl->getLinkTarget($this, self::UI_CMD_EDIT)
             );
 

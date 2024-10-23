@@ -1065,11 +1065,6 @@ class ilPageObjectGUI
 
         $main_tpl->addJavaScript("components/ILIAS/COPage/js/ilCOPagePres.js");
 
-        // needed for overlays in iim
-        ilOverlayGUI::initJavascript();
-
-        //ilPlayerUtil::initMediaElementJs($main_tpl);
-
         // init template
         if ($this->getOutputMode() == "edit") {
             $this->initEditing();
@@ -2061,11 +2056,6 @@ class ilPageObjectGUI
 
         $btpl->setVariable("TXT_SAVING", $lng->txt("cont_saving"));
         $btpl->setVariable("SRC_LOADER", \ilUtil::getImagePath("media/loader.svg"));
-        ilTooltipGUI::addTooltip(
-            "ilAdvSelListAnchorElement_char_style_selection",
-            $lng->txt("cont_more_character_styles"),
-            "iltinymenu_bd"
-        );
 
         return $btpl->get();
     }
@@ -2429,7 +2419,7 @@ class ilPageObjectGUI
         // @todo: solve this in a smarter way
         $this->tpl->addJavaScript("assets/js/AdvancedSelectionList.js");
         \ilCalendarUtil::initDateTimePicker();
-        ilModalGUI::initJS();
+        // ilModalGUI::initJS();        // due to permission repo picker in sections, waits for new tree/repo picker
     }
 
     protected function showEditLockInfo(): void

@@ -21,7 +21,7 @@ declare(strict_types=1);
 
 class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 {
-    private ilLanguage$lng;
+    private ilLanguage $lng;
     private ilLocatorGUI $locator;
     private ilTabsGUI $tabs;
     private ilToolbarGUI $toolbar;

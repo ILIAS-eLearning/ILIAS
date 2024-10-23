@@ -31,18 +31,18 @@ use ILIAS\MetaData\Repository\Utilities\Queries\Paths\DatabasePathsParserInterfa
 use ILIAS\MetaData\Elements\RessourceID\NullRessourceID;
 use ILIAS\MetaData\Repository\Utilities\Queries\Paths\NullDatabasePathsParser;
 use ILIAS\MetaData\Paths\PathInterface;
-use ILIAS\MetaData\Repository\Search\Clauses\ClauseInterface;
-use ILIAS\MetaData\Repository\Search\Clauses\NullClause;
-use ILIAS\MetaData\Repository\Search\Clauses\Properties\BasicPropertiesInterface;
-use ILIAS\MetaData\Repository\Search\Clauses\Properties\JoinPropertiesInterface;
-use ILIAS\MetaData\Repository\Search\Clauses\Properties\NullBasicProperties;
-use ILIAS\MetaData\Repository\Search\Clauses\Mode;
+use ILIAS\MetaData\Search\Clauses\ClauseInterface;
+use ILIAS\MetaData\Search\Clauses\NullClause;
+use ILIAS\MetaData\Search\Clauses\Properties\BasicPropertiesInterface;
+use ILIAS\MetaData\Search\Clauses\Properties\JoinPropertiesInterface;
+use ILIAS\MetaData\Search\Clauses\Properties\NullBasicProperties;
+use ILIAS\MetaData\Search\Clauses\Mode;
 use ILIAS\MetaData\Paths\NullPath;
-use ILIAS\MetaData\Repository\Search\Clauses\Operator;
-use ILIAS\MetaData\Repository\Search\Clauses\Properties\NullJoinProperties;
-use ILIAS\MetaData\Repository\Search\Filters\FilterInterface;
-use ILIAS\MetaData\Repository\Search\Filters\NullFilter;
-use ILIAS\MetaData\Repository\Search\Filters\Placeholder;
+use ILIAS\MetaData\Search\Clauses\Operator;
+use ILIAS\MetaData\Search\Clauses\Properties\NullJoinProperties;
+use ILIAS\MetaData\Search\Filters\FilterInterface;
+use ILIAS\MetaData\Search\Filters\NullFilter;
+use ILIAS\MetaData\Search\Filters\Placeholder;
 
 class DatabaseSearcherTest extends TestCase
 {

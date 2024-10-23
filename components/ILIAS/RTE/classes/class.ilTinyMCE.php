@@ -64,10 +64,9 @@ class ilTinyMCE extends ilRTE
             'code',
             'charmap'
         ];
-        $this->contextMenuItems = ['cut', 'copy', 'paste', 'link', 'unlink', 'ilimgupload', 'imagetools', 'table'];
+        $this->contextMenuItems = ['cut', 'copy', 'paste', 'link', 'unlink', 'imagetools', 'table'];
 
         $this->setStyleSelect(false);
-        $this->addInternalTinyMCEImageManager();
     }
 
 
@@ -79,93 +78,13 @@ class ilTinyMCE extends ilRTE
         return $this->plugins;
     }
 
-    protected function addInternalTinyMCEImageManager(): void
-    {
-        if (!$this->client_init->readVariable('tinymce', 'use_advanced_img_mng')) {
-            parent::addPlugin('ilimgupload');
-            $this->addButton('ilimgupload');
-            parent::removePlugin('ibrowser');
-            parent::removePlugin('image');
-
-            $this->disableButtons([
-                'ibrowser',
-                'image'
-            ]);
-
-            $this->setRemoveImgContextMenuItem(true);
-        } else {
-            parent::addPlugin('ibrowser');
-            parent::removePlugin('ilimgupload');
-            $this->disableButtons('ilimgupload');
-
-            $this->setRemoveImgContextMenuItem(false);
-        }
-    }
-
-    /**
-     * @param string[] $tags
-     */
-    protected function handleImagePluginsBeforeRendering(array $tags): void
-    {
-        if (!in_array('img', $tags)) {
-            $this->setRemoveImgContextMenuItem(true);
-            parent::removePlugin('ilimgupload');
-            parent::removePlugin('ibrowser');
-            parent::removePlugin('image');
-            $this->disableButtons([
-                'ibrowser',
-                'image',
-                'ilimgupload'
-            ]);
-        }
-    }
-
-    protected function handleIliasImageManagerAdded(): void
-    {
-        $this->addInternalTinyMCEImageManager();
-    }
-
-    protected function handleIliasImageManagerRemoved(): void
-    {
-        if (!$this->client_init->readVariable('tinymce', 'use_advanced_img_mng')) {
-            parent::removePlugin('ilimgupload');
-            $this->disableButtons('ilimgupload');
-        } else {
-            parent::removePlugin('ibrowser');
-            $this->disableButtons('ibrowser');
-        }
-    }
-
-    public function addPlugin(string $a_plugin_name): void
-    {
-        if (self::ILIAS_IMG_MANAGER_PLUGIN === $a_plugin_name) {
-            $this->handleIliasImageManagerAdded();
-        } else {
-            parent::addPlugin($a_plugin_name);
-        }
-    }
-
-    public function removePlugin(string $a_plugin_name): void
-    {
-        if (self::ILIAS_IMG_MANAGER_PLUGIN === $a_plugin_name) {
-            $this->handleIliasImageManagerRemoved();
-        } else {
-            parent::removePlugin($a_plugin_name);
-        }
-    }
-
     public function addRTESupport(
         int $obj_id,
         string $obj_type,
         string $a_module = '',
         bool $allowFormElements = false,
-        ?string $cfg_template = null,
-        bool $hide_switch = false
+        ?string $cfg_template = null
     ): void {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-
         if ($this->browser->isMobile()) {
             ilObjAdvancedEditing::_setRichTextEditorUserState(0);
         } else {
@@ -182,9 +101,8 @@ class ilTinyMCE extends ilRTE
                 true,
                 "components/ILIAS/RTE"
             );
-            $this->handleImgContextMenuItem($tpl);
+
             $tags = ilObjAdvancedEditing::_getUsedHTMLTags($a_module);
-            $this->handleImagePluginsBeforeRendering($tags);
             if ($allowFormElements) {
                 $tpl->touchBlock("formelements");
             }
@@ -202,15 +120,6 @@ class ilTinyMCE extends ilRTE
             $tpl->setVariable('BLOCKFORMATS', $this->_buildAdvancedBlockformatsFromHTMLTags($tags));
             $tpl->setVariable('VALID_ELEMENTS', $this->_getValidElementsFromHTMLTags($tags));
             $tpl->setVariable('TXT_MAX_SIZE', ilFileUtils::getFileSizeInfo());
-            // allowed extentions for uploaded image files
-            $tinyMCE_valid_imgs = ['gif', 'jpg', 'jpeg', 'png'];
-            $tpl->setVariable(
-                'TXT_ALLOWED_FILE_EXTENSIONS',
-                $lng->txt('file_allowed_suffixes') . ' ' .
-                implode(', ', array_map(static function (string $value): string {
-                    return '.' . $value;
-                }, $tinyMCE_valid_imgs))
-            );
 
             $buttons_1 = $this->_buildAdvancedButtonsFromHTMLTags(1, $tags);
             $buttons_2 = $this->_buildAdvancedButtonsFromHTMLTags(2, $tags)
@@ -238,21 +147,12 @@ class ilTinyMCE extends ilRTE
             $tpl->parseCurrentBlock();
 
             if (!self::$renderedToGlobalTemplate) {
-                $this->tpl->addJavaScript('node_modules/tinymce/tinymce.js');
+                $this->tpl->addJavaScript('node_modules/tinymce/tinymce.min.js');
                 $this->tpl->addOnLoadCode($tpl->get());
                 self::$renderedToGlobalTemplate = true;
             }
         }
     }
-
-    protected function handleImgContextMenuItem(ilTemplate $tpl): void
-    {
-        if ($this->getRemoveImgContextMenuItem() && $tpl->blockExists('remove_img_context_menu_item')) {
-            $tpl->touchBlock('remove_img_context_menu_item');
-        }
-    }
-
-    //https://github.com/ILIAS-eLearning/ILIAS/pull/3088#issuecomment-805830050
 
     public function addContextmenuItem(string $item = ''): void
     {
@@ -268,10 +168,7 @@ class ilTinyMCE extends ilRTE
 
     public function addCustomRTESupport(int $obj_id, string $obj_type, array $tags): void
     {
-        $this->handleImagePluginsBeforeRendering($tags);
-
         $tpl = new ilTemplate('tpl.tinymce.js', true, true, 'components/ILIAS/RTE');
-        $this->handleImgContextMenuItem($tpl);
         $tpl->setCurrentBlock('tinymce');
 
         $tpl->setVariable('OBJ_ID', $obj_id);
@@ -306,7 +203,7 @@ class ilTinyMCE extends ilRTE
         $tpl->parseCurrentBlock();
 
         if (!self::$renderedToGlobalTemplate) {
-            $this->tpl->addJavaScript('node_modules/tinymce/tinymce.js');
+            $this->tpl->addJavaScript('node_modules/tinymce/tinymce.min.js');
             $this->tpl->addOnLoadCode($tpl->get());
             self::$renderedToGlobalTemplate = true;
         }
@@ -318,7 +215,6 @@ class ilTinyMCE extends ilRTE
         $buttontags = ['strong', 'em'];
 
         $template = new ilTemplate('tpl.usereditor.js', true, true, 'components/ILIAS/RTE');
-        $this->handleImgContextMenuItem($template);
         $template->setCurrentBlock('tinymce');
 
         $template->setVariable('SELECTOR', $editor_selector);
@@ -336,7 +232,7 @@ class ilTinyMCE extends ilRTE
         $template->setVariable('LANG', $this->_getEditorLanguage());
         $template->parseCurrentBlock();
 
-        $this->tpl->addJavaScript('components/tinymce/tinymce.js');
+        $this->tpl->addJavaScript('node_modules/tinymce/tinymce.min.js');
         $this->tpl->addOnLoadCode($template->get());
     }
 
@@ -1169,26 +1065,7 @@ class ilTinyMCE extends ilRTE
         if ($a_string !== '' && $a_string[strlen($a_string) - 1] === ',') {
             $a_string = substr($a_string, 0, -1);
         }
-        //image uploader button keeps appearing twice: remove the duplicates
-        if ($a_string !== '' && substr_count($a_string, 'ilimgupload') > 1) {
-            $arr = explode('ilimgupload', $a_string, 2);
-            $a_string = $arr[0];
-            if (count($arr) > 1) {
-                $a_string .= ' ilimgupload ' . str_replace('ilimgupload', '', $arr[1]);
-            }
-        }
-
 
         return $a_string;
-    }
-
-    public function setRemoveImgContextMenuItem(bool $remove_img_context_menu_item): void
-    {
-        $this->remove_img_context_menu_item = $remove_img_context_menu_item;
-    }
-
-    public function getRemoveImgContextMenuItem(): bool
-    {
-        return $this->remove_img_context_menu_item;
     }
 }

@@ -26,6 +26,8 @@ use ILIAS\MetaData\DataHelper\DataHelperInterface;
 use ILIAS\UI\Component\Input\Field\Factory as UIFactory;
 use ILIAS\MetaData\Editor\Presenter\PresenterInterface;
 use ILIAS\MetaData\Repository\Validation\Dictionary\DictionaryInterface as ConstraintDictionary;
+use ILIAS\MetaData\Vocabularies\Slots\Identifier as SlotIdentifier;
+use ILIAS\MetaData\Elements\Data\Type;
 
 class LangFactory extends BaseFactory
 {
@@ -44,12 +46,36 @@ class LangFactory extends BaseFactory
     protected function rawInput(
         ElementInterface $element,
         ElementInterface $context_element,
-        string $condition_value = ''
+        SlotIdentifier $conditional_slot = SlotIdentifier::NULL
     ): FormInput {
         $langs = [];
         foreach ($this->data_helper->getAllLanguages() as $key) {
             $langs[$key] = $this->presenter->data()->language($key);
         }
-        return $this->ui_factory->select('placeholder', $langs);
+        $input = $this->ui_factory->select(
+            $this->getInputLabelFromElement($this->presenter, $element, $context_element),
+            $langs
+        );
+
+        return $this->addConstraintsFromElement(
+            $this->constraint_dictionary,
+            $element,
+            $this->addValueFromElement($element, $input)
+        );
+    }
+
+    public function getInput(
+        ElementInterface $element,
+        ElementInterface $context_element
+    ): FormInput {
+        return $this->rawInput($element, $context_element);
+    }
+
+    public function getInputInCondition(
+        ElementInterface $element,
+        ElementInterface $context_element,
+        SlotIdentifier $conditional_slot
+    ): FormInput {
+        return $this->rawInput($element, $context_element);
     }
 }

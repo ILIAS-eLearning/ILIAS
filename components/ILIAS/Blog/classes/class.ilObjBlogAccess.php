@@ -24,6 +24,7 @@ declare(strict_types=1);
  */
 class ilObjBlogAccess extends ilObjectAccess
 {
+    protected ilLanguage $lng;
     protected ilObjUser $user;
     protected ilAccessHandler $access;
 
@@ -33,6 +34,7 @@ class ilObjBlogAccess extends ilObjectAccess
 
         $this->user = $DIC->user();
         $this->access = $DIC->access();
+        $this->lng = $DIC->language();
     }
 
     public static function _getCommands(): array
@@ -88,12 +90,18 @@ class ilObjBlogAccess extends ilObjectAccess
                 if ($access_handler->checkAccessOfUser($tree, $ilUser->getId(), "read", "view", $node_id, "blog")) {
                     return true;
                 }
-            }
-            // repository (RBAC)
+            } // repository (RBAC)
             else {
                 $ref_ids = ilObject::_getAllReferences((int) $obj_id);
                 foreach ($ref_ids as $ref_id) {
-                    if ($ilAccess->checkAccessOfUser($ilUser->getId(), "read", "view", $ref_id, "blog", (int) $obj_id)) {
+                    if ($ilAccess->checkAccessOfUser(
+                        $ilUser->getId(),
+                        "read",
+                        "view",
+                        $ref_id,
+                        "blog",
+                        (int) $obj_id
+                    )) {
                         return true;
                     }
                 }
@@ -121,4 +129,19 @@ class ilObjBlogAccess extends ilObjectAccess
         }
         return true;
     }
+
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
+    {
+        switch ($permission) {
+            case "visible":
+            case "read":
+                if (self::_isOffline($obj_id) && !$this->access->checkAccessOfUser($user_id, "write", "", $ref_id)) {
+                    $this->access->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $this->lng->txt("offline"));
+                    return false;
+                }
+                break;
+        }
+        return true;
+    }
+
 }

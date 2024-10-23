@@ -26,6 +26,7 @@ use ILIAS\Wiki\Content;
 use ILIAS\Wiki\Page;
 use ILIAS\Wiki\Wiki;
 use ILIAS\Wiki\Links\LinkManager;
+use ILIAS\Wiki\Settings\SettingsManager;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -33,17 +34,13 @@ use ILIAS\Wiki\Links\LinkManager;
 class InternalDomainService
 {
     use GlobalDICDomainServices;
-
-    protected InternalRepoService $repo_service;
-    protected InternalDataService $data_service;
+    protected static array $instance = [];
 
     public function __construct(
         Container $DIC,
-        InternalRepoService $repo_service,
-        InternalDataService $data_service
+        protected InternalRepoService $repo_service,
+        protected InternalDataService $data_service
     ) {
-        $this->repo_service = $repo_service;
-        $this->data_service = $data_service;
         $this->initDomainServices($DIC);
     }
 
@@ -63,7 +60,7 @@ class InternalDomainService
 
     public function wiki(): Wiki\DomainService
     {
-        return new Wiki\DomainService(
+        return self::$instance["wiki"] ??= new Wiki\DomainService(
             $this->data_service,
             $this->repo_service,
             $this
@@ -72,7 +69,7 @@ class InternalDomainService
 
     public function page(): Page\DomainService
     {
-        return new Page\DomainService(
+        return self::$instance["page"] ??= new Page\DomainService(
             $this->data_service,
             $this->repo_service,
             $this
@@ -81,7 +78,7 @@ class InternalDomainService
 
     public function importantPage(int $ref_id): Navigation\ImportantPageManager
     {
-        return new Navigation\ImportantPageManager(
+        return self::$instance["imp_page"][$ref_id] ??= new Navigation\ImportantPageManager(
             $this->data_service,
             $this->repo_service->importantPage(),
             $this->wiki(),
@@ -91,11 +88,20 @@ class InternalDomainService
 
     public function links(int $ref_id): LinkManager
     {
-        return new LinkManager(
+        return self::$instance["links"][$ref_id] ??= new LinkManager(
             $this->data_service,
             $this->repo_service->missingPage(),
             $this,
             $ref_id
+        );
+    }
+
+    public function wikiSettings(): SettingsManager
+    {
+        return self::$instance["settings"] ??= new SettingsManager(
+            $this->data_service,
+            $this->repo_service,
+            $this
         );
     }
 

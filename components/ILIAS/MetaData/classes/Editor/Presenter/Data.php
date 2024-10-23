@@ -22,19 +22,26 @@ namespace ILIAS\MetaData\Editor\Presenter;
 
 use ILIAS\MetaData\Elements\Data\DataInterface as ElementsDataInterface;
 use ILIAS\MetaData\Elements\Data\Type;
+use ILIAS\MetaData\Presentation\UtilitiesInterface as BaseUtilities;
 use ILIAS\MetaData\Presentation\DataInterface as DataPresentation;
+use ILIAS\MetaData\Vocabularies\Slots\Identifier as SlotIdentifier;
+use ILIAS\MetaData\Vocabularies\Dispatch\Presentation\PresentationInterface as VocabulariesPresentation;
+use ILIAS\MetaData\Vocabularies\Dispatch\Presentation\LabelledValueInterface;
 
 class Data implements DataInterface
 {
-    protected UtilitiesInterface $utilities;
+    protected BaseUtilities $utilities;
     protected DataPresentation $data_presentation;
+    protected VocabulariesPresentation $vocabularies_presentation;
 
     public function __construct(
-        UtilitiesInterface $utilities,
-        DataPresentation $data_presentation
+        BaseUtilities $utilities,
+        DataPresentation $data_presentation,
+        VocabulariesPresentation $vocabularies_presentation
     ) {
         $this->utilities = $utilities;
         $this->data_presentation = $data_presentation;
+        $this->vocabularies_presentation = $vocabularies_presentation;
     }
 
     public function dataValue(ElementsDataInterface $data): string
@@ -42,9 +49,17 @@ class Data implements DataInterface
         return $this->data_presentation->dataValue($data);
     }
 
-    public function vocabularyValue(string $value): string
+    /**
+     * @return string[] with values as keys
+     */
+    public function vocabularyValues(SlotIdentifier $slot, string ...$values): \Generator
     {
-        return $this->data_presentation->vocabularyValue($value);
+        yield from $this->vocabularies_presentation->presentableLabels(
+            $this->utilities,
+            $slot,
+            true,
+            ...$values
+        );
     }
 
     public function language(string $language): string

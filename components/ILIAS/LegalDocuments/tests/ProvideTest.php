@@ -25,7 +25,6 @@ use ILIAS\LegalDocuments\Provide\ProvideHistory;
 use ILIAS\LegalDocuments\Provide\ProvidePublicPage;
 use ILIAS\LegalDocuments\Provide\ProvideDocument;
 use ILIAS\LegalDocuments\Provide\ProvideWithdrawal;
-use ILIAS\LegalDocuments\test\ContainerMock;
 use ILIAS\DI\Container;
 use ILIAS\LegalDocuments\Internal;
 use PHPUnit\Framework\TestCase;

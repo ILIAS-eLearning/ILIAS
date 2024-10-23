@@ -50,7 +50,7 @@ The following will describe each slot individually:
 
 This is a simple hook.
 
-The slot expects a callback which will be called after login. Internally this uses the Services/Authentication afterLogin event.
+The slot expects a callback which will be called after login. Internally this uses the ILIAS/Authentication afterLogin event.
 
 ### UseSlot::showInFooter
 

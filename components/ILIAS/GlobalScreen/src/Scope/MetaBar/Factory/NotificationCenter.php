@@ -26,12 +26,10 @@ use ILIAS\GlobalScreen\Scope\Notification\Factory\isItem as isNotificationItem;
 use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
- * Class NotificationCenter
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
 class NotificationCenter extends AbstractBaseItem implements hasSymbol
 {
-    use \ILIAS\GlobalScreen\Scope\SymbolDecoratorTrait;
     /**
      * Amount of notifications already consulted by the user (will spawn
      * status counters)
@@ -108,7 +106,7 @@ class NotificationCenter extends AbstractBaseItem implements hasSymbol
         $old = $this->getAmountOfOldNotifications() - $new;
         $glyph = $f->symbol()->glyph()->notification()->withCounter($f->counter()->novelty($new));
         if ($old > 0) {
-            $glyph = $glyph->withCounter($f->counter()->status($old));
+            return $glyph->withCounter($f->counter()->status($old));
         }
         return $glyph;
     }

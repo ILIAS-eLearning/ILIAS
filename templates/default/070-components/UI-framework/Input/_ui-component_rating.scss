@@ -1,4 +1,5 @@
 @use "../../../010-settings/" as *;
+@use "../../../010-settings/legacy-settings/legacy-settings_form" as lgcy_forms;
 
 .il-input-rating {
   .il-input-rating__text {
@@ -9,12 +10,17 @@
   }
   .il-input-rating__options {
     float: left;
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
   }
   input.il-input-rating-scaleoption {
-    float: right;
+    overflow: hidden;
     padding: 0;
-    margin: 0 0 0 -20px;
+    margin: 0;
     opacity: 0;
+    width: 0;
+    height: 0;
   }
   .glyphicon-star:before {
     content: "\2605";
@@ -23,7 +29,6 @@
     content: "\2606";
   }
   .il-input-rating-star {
-    float: right;
     position: relative;
     display: block;
     margin-top: -3px;
@@ -61,6 +66,7 @@
     .il-input-rating-scaleoption:checked ~ .il-input-rating-star,
     .il-input-rating-star:hover ~ .il-input-rating-star,
     .il-input-rating-star:hover {
+      cursor: lgcy_forms.$cursor-disabled;
       color: $il-neutral-light-color;
     }
 
@@ -71,6 +77,7 @@
 
   .il-input-rating__average {
     height: 1px;
+    width: 100%;
     background-color: $il-highlight-bg;
   }
   .il-input-rating__average_value {

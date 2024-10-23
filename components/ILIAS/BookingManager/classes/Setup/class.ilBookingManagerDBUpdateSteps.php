@@ -53,7 +53,7 @@ class ilBookingManagerDBUpdateSteps implements \ilDatabaseUpdateSteps
         }
     }
 
-    public function step_4() : void
+    public function step_4(): void
     {
         $db = $this->db;
         if (!$db->tableExists("book_sel_object")) {
@@ -76,7 +76,7 @@ class ilBookingManagerDBUpdateSteps implements \ilDatabaseUpdateSteps
         }
     }
 
-    public function step_5() : void
+    public function step_5(): void
     {
         $db = $this->db;
         if (!$db->tableColumnExists("book_sel_object", "pool_id")) {
@@ -89,7 +89,7 @@ class ilBookingManagerDBUpdateSteps implements \ilDatabaseUpdateSteps
         }
     }
 
-    public function step_6() : void
+    public function step_6(): void
     {
         $db = $this->db;
         if (!$db->tableColumnExists("booking_settings", "messages")) {
@@ -102,7 +102,7 @@ class ilBookingManagerDBUpdateSteps implements \ilDatabaseUpdateSteps
         }
     }
 
-    public function step_7() : void
+    public function step_7(): void
     {
         $db = $this->db;
         if (!$db->tableColumnExists("booking_reservation", "message")) {

@@ -18,8 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\Certificate\ValueObject\CertificateId;
-use ILIAS\Data\UUID\Factory;
 use ILIAS\DI\Container;
 use ILIAS\Cron\Schedule\CronJobScheduleType;
 

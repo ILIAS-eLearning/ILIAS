@@ -23,34 +23,46 @@ namespace ILIAS\MediaCast;
 use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\MediaCast\LearningProgress\LearningProgressManager;
+use ILIAS\MediaCast\Settings\SettingsManager;
 
-/**
- * @author Alexander Killing <killing@leifos.de>
- */
 class InternalDomainService
 {
     use GlobalDICDomainServices;
 
-    protected InternalRepoService $repo_service;
-    protected InternalDataService $data_service;
+    protected static array $instance = [];
+    protected Container $dic;
 
     public function __construct(
         Container $DIC,
-        InternalRepoService $repo_service,
-        InternalDataService $data_service
+        protected InternalRepoService $repo_service,
+        protected InternalDataService $data_service
     ) {
-        $this->repo_service = $repo_service;
-        $this->data_service = $data_service;
+        $this->dic = $DIC;
         $this->initDomainServices($DIC);
+    }
+
+    public function notes(): \ILIAS\Notes\DomainService
+    {
+        return $this->dic->notes()->domain();
     }
 
     public function mediaCast(\ilObjMediaCast $media_cast): MediaCastManager
     {
-        return new MediaCastManager($media_cast);
+        return self::$instance["lp"][$media_cast->getId()] ??= new MediaCastManager($media_cast);
     }
 
     public function learningProgress(\ilObjMediaCast $cast): LearningProgressManager
     {
-        return new LearningProgressManager($cast);
+        return self::$instance["lp"][$cast->getId()] ??= new LearningProgressManager($cast);
     }
+
+    public function mediacastSettings(): SettingsManager
+    {
+        return self::$instance["settings"] ??= new SettingsManager(
+            $this->data_service,
+            $this->repo_service,
+            $this
+        );
+    }
+
 }

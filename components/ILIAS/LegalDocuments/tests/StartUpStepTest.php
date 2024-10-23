@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\LegalDocuments\test;
 
 use ILIAS\LegalDocuments\Intercept;
-use ILIAS\LegalDocuments\test\ContainerMock;
 use ilCtrl;
 use ILIAS\LegalDocuments\Conductor;
 use PHPUnit\Framework\TestCase;

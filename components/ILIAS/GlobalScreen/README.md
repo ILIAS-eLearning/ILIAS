@@ -122,3 +122,50 @@ Providers yield Items for a certain Scope. Those Items carry all information nec
 On the other hand, alternative options for the UI Component are feasible if they manifest similar principles and can be derived from the same information. An example for this is the construction of a DrilldonwMenu based on ListItems, which will work fine for one level of items, but will not suffice for deeper structures as ListItems cannot provide those.
 
 In summary, you are generally warned about changing UI-Components for Items on GS-Provider level. Furthermore, your are encouraged to discuss your plans with people at the JourFixe _before_ embarking on a project. Finally, you MUST get the JourFix's approval for changing UI-Components for specific GS Items; this also holds true for changing appearance or behavior of the currently used Component. Probably it is best to actually create a new Item.
+
+# Decorating Items with (UI-)Topics
+
+The components in ILIAS often communicate with the GlobalScreen service to add elements to the global screen. The GlobalScreen service then converts this information from the component into UI components before rendering the page. To enable such UI components to be provided with topics, the items from the scopes Mainmenu and MetaBar (as of ILIAS 10) allow topics to be taken along, which are then passed to the corresponding UI components during renderi
+
+```php
+class SomeMainBarProvider extends AbstractStaticMainMenuProvider
+{
+    ...
+
+    public function getStaticSubItems(): array
+    {
+        return [
+            $this->mainmenu->link($this->if->identifier('...'))
+                // add one or more topics to the item
+                ->withTopics($this->dic->ui()->factory()->helpTopics('Some Help Topic for this entry'))
+    ...
+```
+
+If, in a rare case, all available items in a scope have to be provided with a topic (as is the case with online help, for example), this can be done as follows. However, this method should only be used in exceptional cases.
+
+```php
+class ilHelpViewLayoutProvider extends AbstractModificationProvider
+{
+    ... 
+    public function getMainBarModification(
+        CalledContexts $screen_context_stack
+    ): ?MainBarModification {
+        global $DIC;
+
+        ...
+
+        $this->globalScreen()->collector()->mainmenu()->collectOnce();
+        foreach ($this->globalScreen()->collector()->mainmenu()->getRawItems() as $item) {
+            if ($item instanceof isDecorateable) {
+                $p = $item->getProviderIdentification();
+                $item->withTopics($DIC->ui()->factory()->helpTopics($p->getInternalIdentifier()));
+            }
+        }
+
+        ...
+
+        return null;
+    }
+}
+
+```

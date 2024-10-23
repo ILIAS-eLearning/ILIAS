@@ -21,9 +21,16 @@ function base()
     $glyph = $f->symbol()->glyph()->briefcase();
     $button2 = $f->button()->bulky($glyph, 'Glyph', '#');
 
+    $button3 = $f->button()->bulky($glyph, '', '#');
+    $button4 = $f->button()->bulky($ico, '', '#');
+
     return $renderer->render([
         $button,
         $f->divider()->horizontal(),
-        $button2
+        $button2,
+        $f->divider()->horizontal(),
+        $button3,
+        $f->divider()->horizontal(),
+        $button4
     ]);
 }

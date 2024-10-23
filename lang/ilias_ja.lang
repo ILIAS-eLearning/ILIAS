@@ -16017,7 +16017,6 @@ survey#:#cancel_survey#:#サーベイを中断
 survey#:#cannot_read_survey#:#サーベイデータを読み込むための十分な権利を所持していません!
 survey#:#cannot_switch_to_online_no_questions#:#ステータスを &quot;online&quotに変更する事ができません; サーベイの中に質問がないためです!
 survey#:#cant_send_email_smtp_disabled#:#外部メール送信はできません。このオプションはブローバル的に無効です。
-survey#:#categories#:#回答
 survey#:#category#:#回答
 survey#:#category_nr_selected#:#この質問を選択したユーザ数
 survey#:#chart#:#チャート
@@ -16473,6 +16472,7 @@ survey#:#svy_answer_too_long#:#現在の回答は長すぎます (%s 文字). �
 survey#:#svy_app_see_rater_info#:#Appraisees can access rater information in the results screens, including names and e-mail addresses, if entered before when adding raters.###19 08 2022 new variable
 survey#:#svy_appraisses_cannot_be_raters#:#ユーザは後で追加することはできません。代わりにサーベイ設定の自己評価オプションを使用します。
 survey#:#svy_back#:#戻る
+survey#:#svy_categories#:#回答
 survey#:#svy_check_evaluation_access_introduction#:#このサーベイ評価はサーベイ参加者によるアクセスのみなので、評価を開くためのサーベイアクセスコードを入力する必要があります。
 survey#:#svy_check_evaluation_authentication_needed#:#認証が必要
 survey#:#svy_check_evaluation_wrong_key#:#サーベイアクセスコードを間違えて入力したかサーベイに参加していません。サーベイ評価へのアクセスは拒否されます。
@@ -17528,7 +17528,6 @@ wsp#:#wsp_type_blog#:#ブログ
 wsp#:#wsp_type_cmxv#:#証明書: xAPI/cmi5
 wsp#:#wsp_type_crsv#:#証明書: コース
 wsp#:#wsp_type_excv#:#ファイル
-wsp#:#wsp_type_excv#:#証明書: 演習問題
 wsp#:#wsp_type_file#:#File###19 08 2022 new variable
 wsp#:#wsp_type_ltiv#:#証明書: LTI Consumer
 wsp#:#wsp_type_scov#:#証明書: SCORM

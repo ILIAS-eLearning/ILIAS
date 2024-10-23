@@ -29,7 +29,6 @@ use ILIAS\HTTP\Wrapper\RequestWrapper;
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilColumnGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeSettingsGUI
- * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeTreeGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeMembersGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeAutoMembershipsGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjectCopyGUI
@@ -43,11 +42,12 @@ use ILIAS\HTTP\Wrapper\RequestWrapper;
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilPRGPageObjectGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilPRGMembersExportGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilPropertyFormGUI
+ * @ilCtrl_isCalledBy ilObjStudyProgrammeGUI: ilRepositoryGUI
  */
 class ilObjStudyProgrammeGUI extends ilContainerGUI
 {
     private const TAB_VIEW_CONTENT = "view_content";
-    private const SUBTAB_VIEW_TREE = "view_tree";
+    private const SUBTAB_VIEW_MANAGE = "manage";
     private const TAB_INFO = "info_short";
     private const TAB_SETTINGS = "settings";
     private const TAB_MEMBERS = "members";
@@ -60,7 +60,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     protected ilObjStudyProgrammeSettingsGUI $settings_gui;
     protected ilObjStudyProgrammeMembersGUI $members_gui;
     protected ilObjStudyProgrammeAutoMembershipsGUI $memberships_gui;
-    protected ilObjStudyProgrammeTreeGUI $tree_gui;
     protected ilStudyProgrammeTypeGUI $type_gui;
     protected ilStudyProgrammeTypeRepository $type_repository;
     protected ilObjStudyProgrammeAutoCategoriesGUI $autocategories_gui;
@@ -94,7 +93,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
         $this->request_wrapper = $DIC->http()->wrapper()->query();
 
         $ref_id = $this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int());
-        parent::__construct(array(), $ref_id, true, false);
+        parent::__construct([], $ref_id, true, false);
 
         $lng = $DIC['lng'];
         $lng->loadLanguageModule("prg");
@@ -103,7 +102,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
         $this->settings_gui = $dic['ilObjStudyProgrammeSettingsGUI'];
         $this->members_gui = $dic['ilObjStudyProgrammeMembersGUI'];
         $this->memberships_gui = $dic['ilObjStudyProgrammeAutoMembershipsGUI'];
-        $this->tree_gui = $dic['ilObjStudyProgrammeTreeGUI'];
         $this->type_gui = $dic['ilStudyProgrammeTypeGUI'];
         $this->autocategories_gui = $dic['ilObjStudyProgrammeAutoCategoriesGUI'];
         $this->type_repository = $dic['model.Type.ilStudyProgrammeTypeRepository'];
@@ -115,12 +113,9 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
 
     public function executeCommand(): void
     {
-        $cmd = $this->ctrl->getCmd();
+        $cmd = $this->ctrl->getCmd(self::SUBTAB_VIEW_MANAGE);
         $next_class = $this->ctrl->getNextClass($this);
 
-        if ($cmd == "" || $cmd === null) {
-            $cmd = "view";
-        }
         $this->addToNavigationHistory();
 
         parent::prepareOutput();
@@ -203,7 +198,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 );
                 $this->ctrl->forwardCommand($export_gui);
                 break;
-
             case "ilobjstudyprogrammeautomembershipsgui":
                 $this->denyAccessIfNot(ilOrgUnitOperation::OP_MANAGE_MEMBERS);
                 $this->getSubTabs('members');
@@ -212,15 +206,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 $this->memberships_gui->setParentGUI($this);
                 $this->memberships_gui->setRefId($this->ref_id);
                 $this->ctrl->forwardCommand($this->memberships_gui);
-                break;
-            case "ilobjstudyprogrammetreegui":
-                $this->denyAccessIfNot(ilPRGPermissionsHelper::ROLEPERM_WRITE);
-                $this->getSubTabs($cmd);
-                $this->setContentSubTabs();
-                $this->tabs_gui->activateTab(self::TAB_VIEW_CONTENT);
-                $this->tabs_gui->activateSubTab(self::SUBTAB_VIEW_TREE);
-                $this->tree_gui->setRefId($this->id);
-                $this->ctrl->forwardCommand($this->tree_gui);
                 break;
             case 'ilstudyprogrammetypegui':
                 $this->tabs_gui->activateTab('subtypes');
@@ -263,7 +248,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                         )
                 );
                 $this->content_style_gui->addCss($this->tpl, $this->object->getRefId());
-                $this->ctrl->setCmd($cmd);
                 $out = $this->ctrl->forwardCommand($gui);
                 if (!is_null($out)) {
                     $this->tpl->setContent($out);
@@ -300,14 +284,21 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 $this->getSubTabs($cmd);
                 switch ($cmd) {
                     case "cancelDelete":
+                    case "cancel":
                         $cmd = "view";
                         // no break
                     case "create":
                     case "save":
-                    case "view":
-                    case "cancel":
                     case "edit":
                         $this->$cmd();
+                        break;
+                    case "view":
+                        $this->getModeManager()->setContentMode();
+                        $this->view();
+                        break;
+                    case self::SUBTAB_VIEW_MANAGE: //manage
+                        $this->getModeManager()->setAdminMode();
+                        $this->view();
                         break;
                     case "delete":
                         $this->tabs_gui->clearTargets();
@@ -329,12 +320,17 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                         $this->ctrl->redirectByClass("ilInfoScreenGUI", "showSummary");
                         break;
                     case 'editPageFrame':
-                        $this->editPageFrameObject();
+                        $this->ctrl->redirectToURL($this->getLinkTarget('edit_page'));
                         break;
                     case 'editStyleProperties':
                         $this->editStylePropertiesObject();
                         break;
 
+                    case 'render':
+                    case 'disableAdministrationPanel':
+                    case 'enableAdministrationPanel':
+                    case 'saveSorting':
+                    case 'editOrder':
                     case 'trash':
                     case 'undelete':
                     case 'confirmRemoveFromSystem':
@@ -342,17 +338,32 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                     case 'deliverCertificate':
                     case 'addToDesk':
                     case 'removeFromDesk':
-                    case 'cut':
                     case 'paste':
                     case 'clear':
-                    case 'render':
                     case 'performPasteIntoMultipleObjects':
                     case 'cancelMoveLink':
                     case 'keepObjectsInClipboard':
-
+                    case 'link':
+                    case 'copy':
+                        $this->getSubTabs(self::TAB_VIEW_CONTENT);
                         $cmd .= "Object";
                         $this->$cmd();
                         break;
+
+                    case 'editAvailabilityPeriod':
+                    case 'saveAvailabilityPeriod':
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('prg_availability_action_not_allowed'));
+                        $this->view();
+                        break;
+                    case 'cut':
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('prg_cut_action_not_allowed'));
+                        $this->view();
+                        break;
+                    case 'routeImportCmd':
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('prg_import_action_not_allowed'));
+                        $this->view();
+                        break;
+
                     default:
                         throw new ilException("ilObjStudyProgrammeGUI: Command not supported: $cmd");
                 }
@@ -370,26 +381,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     protected function save(): void
     {
         parent::saveObject();
-
-        if ($this->ctrl->isAsynch()) {
-            $form = $this->getAsyncCreationForm();
-            $form->setValuesByPost();
-            echo ilAsyncOutputHandler::encodeAsyncResponse([
-                "cmd" => $this->ctrl->getCmd(),
-                "success" => false,
-                "errors" => $form->getErrors()
-            ]);
-            exit();
-        }
-    }
-
-    protected function cancel(): void
-    {
-        $async_response = ilAsyncOutputHandler::encodeAsyncResponse(array("cmd" => "cancel", "success" => false));
-
-        ilAsyncOutputHandler::handleAsyncOutput("", $async_response, false);
-
-        parent::cancelCreation();
     }
 
     /**
@@ -404,14 +395,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
         $settings->setSortNewItemsOrder(ilContainer::SORT_NEW_ITEMS_ORDER_CREATION);
         $settings->setSortNewItemsPosition(ilContainer::SORT_NEW_ITEMS_POSITION_BOTTOM);
         $settings->save();
-
-        $async_response = ilAsyncOutputHandler::encodeAsyncResponse([
-            "cmd" => "cancel",
-            "success" => true,
-            "message" => $this->lng->txt("object_added")
-        ]);
-
-        ilAsyncOutputHandler::handleAsyncOutput("", $async_response, false);
 
         $this->tpl->setOnScreenMessage("success", $this->lng->txt("object_added"), true);
 
@@ -438,20 +421,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     {
         $this->denyAccessIfNot(ilPRGPermissionsHelper::ROLEPERM_READ);
         $this->tabs_gui->activateTab(self::TAB_VIEW_CONTENT);
-
-        $this->toolbar->addComponent(
-            $this->ui_factory->link()->standard(
-                $this->lng->txt('cntr_text_media_editor'),
-                $this->getLinkTarget("edit_page")
-            )
-        );
-
         parent::renderObject();
-    }
-
-    public function isActiveAdministrationPanel(): bool
-    {
-        return false;
     }
 
     protected function initAdvancedSettingsForm(): ilPropertyFormGUI
@@ -511,14 +481,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     }
 
     /**
-     * Overwritten from ilObjectGUI since copy and import are not implemented.
-     */
-    protected function initCreationForms($new_type): array
-    {
-        return array(self::CFORM_NEW => $this->initCreateForm($new_type));
-    }
-
-    /**
      * Method for implementing async windows-output
      * Should be moved into core to enable async requests on creation-form
      */
@@ -526,8 +488,9 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     {
         $asyncForm = new ilAsyncPropertyFormGUI($this->request_wrapper);
 
-        $tmp_forms = $this->initCreationForms('prg');
-        $asyncForm->cloneForm($tmp_forms[self::CFORM_NEW]);
+        $asyncForm->cloneForm(
+            $this->initCreateForm('prg')
+        );
         $asyncForm->setAsync(true);
 
         return $asyncForm;
@@ -611,8 +574,12 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     {
         switch ($parent_tab) {
             case self::TAB_VIEW_CONTENT:
-            case self::SUBTAB_VIEW_TREE:
+            case self::SUBTAB_VIEW_MANAGE:
             case 'view':
+                $this->addStandardContainerSubTabs(true);
+                ;
+                break;
+            case false:
                 if ($this->checkAccess(ilPRGPermissionsHelper::ROLEPERM_READ)) {
                     $this->tabs_gui->addSubTab(
                         self::TAB_VIEW_CONTENT,
@@ -623,16 +590,16 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
 
                 if ($this->checkAccess(ilPRGPermissionsHelper::ROLEPERM_WRITE)) {
                     $this->tabs_gui->addSubTab(
-                        self::SUBTAB_VIEW_TREE,
+                        self::SUBTAB_VIEW_MANAGE,
                         $this->lng->txt("cntr_manage"),
-                        $this->getLinkTarget(self::SUBTAB_VIEW_TREE)
+                        $this->getLinkTarget(self::SUBTAB_VIEW_MANAGE)
                     );
                 }
                 break;
             case 'settings':
                 $this->tabs_gui->addSubTab(
                     'settings',
-                    $this->lng->txt('settings'),
+                    $this->lng->txt('general'),
                     $this->getLinkTarget('settings')
                 );
 
@@ -717,9 +684,10 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
         if ($cmd === "auto_content") {
             return $this->ctrl->getLinkTargetByClass("ilObjStudyProgrammeAutoCategoriesGUI", "view");
         }
-        if ($cmd === self::SUBTAB_VIEW_TREE) {
-            return $this->ctrl->getLinkTargetByClass("ilobjstudyprogrammetreegui", "view");
+        if ($cmd === self::SUBTAB_VIEW_MANAGE) {
+            return $this->ctrl->getLinkTarget($this, self::SUBTAB_VIEW_MANAGE);
         }
+
         if ($cmd === "members") {
             return $this->ctrl->getLinkTargetByClass("ilobjstudyprogrammemembersgui", "view");
         }
@@ -851,6 +819,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
 
     protected function supportsPageEditor(): bool
     {
-        return false;
+        return true;
     }
 }

@@ -18,7 +18,12 @@
 
 declare(strict_types=1);
 
+use ILIAS\Data\ObjectId;
 use ILIAS\Filesystem\Util\Convert\ImageOutputOptions;
+use ILIAS\Poll\Image\I\FactoryInterface as PollImageFactoryInterface;
+use ILIAS\Poll\Image\Factory as PollImageFactory;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Notes\Service as NotesService;
 
 /**
 * Class ilObjPoll
@@ -27,7 +32,9 @@ use ILIAS\Filesystem\Util\Convert\ImageOutputOptions;
 */
 class ilObjPoll extends ilObject2
 {
-    protected \ILIAS\Notes\Service $notes;
+    protected PollImageFactory $poll_image_factory;
+    protected NotesService $notes;
+    protected DataFactory $data_factory;
     protected int $access_type = 0;
     protected int $access_begin = 0;
     protected int $access_end = 0;
@@ -51,21 +58,20 @@ class ilObjPoll extends ilObject2
     public const VIEW_RESULTS_AFTER_PERIOD = 4;
 
     public const SHOW_RESULTS_AS_BARCHART = 1;
-    public const SHOW_RESULTS_AS_PIECHART = 2;
-    private \ILIAS\Filesystem\Util\Convert\LegacyImages $image_converter;
+    public const SHOW_RESULTS_AS_STACKED_CHART = 2;
 
     public function __construct(int $a_id = 0, bool $a_reference = true)
     {
         global $DIC;
 
         $this->db = $DIC->database();
-        $this->image_converter = $DIC->fileConverters()->legacyImages();
         // default
         $this->setViewResults(self::VIEW_RESULTS_AFTER_VOTE);
         $this->setAccessType(ilObjectActivation::TIMINGS_DEACTIVATED);
         $this->setVotingPeriod(false);
         $this->notes = $DIC->notes();
-
+        $this->poll_image_factory = new PollImageFactory();
+        $this->data_factory = new DataFactory();
         parent::__construct($a_id, $a_reference);
     }
 
@@ -122,16 +128,6 @@ class ilObjPoll extends ilObject2
     public function getQuestion(): string
     {
         return $this->question;
-    }
-
-    public function setImage(string $a_value): void
-    {
-        $this->image = $a_value;
-    }
-
-    public function getImage(): string
-    {
-        return $this->image;
     }
 
     public function setViewResults(int $a_value): void
@@ -232,7 +228,6 @@ class ilObjPoll extends ilObject2
                 " WHERE id = " . $ilDB->quote($this->getId(), "integer"));
         $row = $ilDB->fetchAssoc($set);
         $this->setQuestion((string) ($row["question"] ?? ''));
-        $this->setImage((string) ($row["image"] ?? ''));
         $this->setViewResults((int) ($row["view_results"] ?? self::VIEW_RESULTS_AFTER_VOTE));
         $this->setVotingPeriod((bool) ($row["period"] ?? 0));
         $this->setVotingPeriodBegin((int) ($row["period_begin"] ?? 0));
@@ -261,7 +256,6 @@ class ilObjPoll extends ilObject2
     {
         return array(
             "question" => array("text", $this->getQuestion()),
-            "image" => array("text", $this->getImage()),
             "view_results" => array("integer", $this->getViewResults()),
             "period" => array("integer", $this->getVotingPeriod()),
             "period_begin" => array("integer", $this->getVotingPeriodBegin()),
@@ -280,6 +274,7 @@ class ilObjPoll extends ilObject2
         if ($this->getId()) {
             $fields = $this->propertiesToDB();
             $fields["id"] = array("integer", $this->getId());
+            $fields["migrated"] = array("integer", "1");
 
             $ilDB->insert("il_poll", $fields);
 
@@ -328,7 +323,10 @@ class ilObjPoll extends ilObject2
         $ilDB = $this->db;
 
         if ($this->getId()) {
-            $this->deleteImage();
+            $this->poll_image_factory->handler()->deleteImage(
+                $this->data_factory->objId($this->getId()),
+                $this->user->getId()
+            );
             $this->deleteAllAnswers();
 
             if ($this->ref_id) {
@@ -346,12 +344,12 @@ class ilObjPoll extends ilObject2
 
         // question/image
         $new_obj->setQuestion($this->getQuestion());
-        $image = $this->getImageFullPath();
-        if ($image) {
-            $image = array("tmp_name" => $image,
-                "name" => $this->getImage());
-            $new_obj->uploadImage($image, true);
-        }
+
+        $this->poll_image_factory->handler()->cloneImage(
+            $this->data_factory->objId($this->id),
+            $this->data_factory->objId($new_obj->getId()),
+            $this->user->getId()
+        );
 
         //copy online status if object is not the root copy object
         $cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
@@ -383,104 +381,17 @@ class ilObjPoll extends ilObject2
         }
     }
 
-
-    //
-    // image
-    //
-
-    public function getImageFullPath(bool $a_as_thumb = false): ?string
+    public function uploadImage(string $file_path, string $file_name): void
     {
-        $img = $this->getImage();
-        if ($img) {
-            $path = self::initStorage($this->id);
-            if (!$a_as_thumb) {
-                return $path . $img;
-            } else {
-                return $path . "thb_" . $img;
-            }
+        if (!$this->getId() or $file_path === "") {
+            return;
         }
-
-        return null;
-    }
-
-    public function deleteImage(): void
-    {
-        if ($this->id) {
-            $storage = new ilFSStoragePoll($this->id);
-            $storage->delete();
-
-            $this->setImage("");
-        }
-    }
-
-    public static function initStorage(int $a_id, ?string $a_subdir = null): string
-    {
-        $storage = new ilFSStoragePoll($a_id);
-        $storage->create();
-
-        $path = $storage->getAbsolutePath() . "/";
-
-        if ($a_subdir) {
-            $path .= $a_subdir . "/";
-
-            if (!is_dir($path)) {
-                mkdir($path);
-            }
-        }
-
-        return $path;
-    }
-
-    public function uploadImage(array $a_upload, bool $a_clone = false): bool
-    {
-        if (!$this->id) {
-            return false;
-        }
-
-        $this->deleteImage();
-
-        // #10074
-        $name = (string) ($a_upload['name'] ?? '');
-        $tmp_name = (string) ($a_upload['tmp_name'] ?? '');
-        $clean_name = preg_replace("/[^a-zA-Z0-9\_\.\-]/", "", $name);
-
-        $path = self::initStorage($this->id);
-        $original = "org_" . $this->id . "_" . $clean_name;
-        $thumb = "thb_" . $this->id . "_" . $clean_name;
-        $processed = $this->id . "_" . $clean_name;
-
-        $success = false;
-        if (!$a_clone) {
-            $success = ilFileUtils::moveUploadedFile($tmp_name, $original, $path . $original);
-        } else {
-            $success = copy($tmp_name, $path . $original);
-        }
-        if ($success) {
-            chmod($path . $original, 0770);
-
-            // take quality 100 to avoid jpeg artefacts when uploading jpeg files
-            $original_file = $path . $original;
-            $thumb_file = $path . $thumb;
-            $processed_file = $path . $processed;
-
-            $this->image_converter->croppedSquare(
-                $original_file,
-                $thumb_file,
-                100,
-                ImageOutputOptions::FORMAT_PNG
-            );
-
-            $this->image_converter->croppedSquare(
-                $original_file,
-                $processed_file,
-                300,
-                ImageOutputOptions::FORMAT_PNG
-            );
-
-            $this->setImage($processed);
-            return true;
-        }
-        return false;
+        $this->poll_image_factory->handler()->uploadImage(
+            $this->data_factory->objId($this->getId()),
+            $file_path,
+            $file_name,
+            $this->user->getId()
+        );
     }
 
     public static function getImageSize(): string

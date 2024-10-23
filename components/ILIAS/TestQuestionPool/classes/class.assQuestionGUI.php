@@ -24,7 +24,6 @@ use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolution;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionsDatabaseRepository;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Notes\GUIService;
 
@@ -609,11 +608,11 @@ abstract class assQuestionGUI
         }
     }
 
-    protected function renderEditForm(ilPropertyFormGUI $form, string $additional_content = ''): void
+    protected function renderEditForm(ilPropertyFormGUI $form): void
     {
         $this->addSaveOnEnterOnLoadCode();
         $this->getQuestionTemplate();
-        $this->tpl->setVariable('QUESTION_DATA', $form->getHTML() . $additional_content . $this->question_sync_modal);
+        $this->tpl->setVariable('QUESTION_DATA', $form->getHTML() . $this->question_sync_modal);
     }
 
     /**
@@ -852,6 +851,7 @@ abstract class assQuestionGUI
             // author
             $author = new ilTextInputGUI($this->lng->txt("author"), "author");
             $author->setValue($this->object->getAuthor());
+            $author->setMaxLength(512);
             $author->setRequired(true);
             $form->addItem($author);
 
@@ -888,9 +888,6 @@ abstract class assQuestionGUI
             if ($this->object->getAdditionalContentEditingMode() !== assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_IPE) {
                 $question->setUseRte(true);
                 $question->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
-                $question->addPlugin("latex");
-                $question->addButton("latex");
-                $question->addButton("pastelatex");
                 $question->setRTESupport($this->object->getId(), "qpl", "assessment");
             }
         } else {
@@ -960,9 +957,6 @@ abstract class assQuestionGUI
     protected function populateTaxonomyFormSection(ilPropertyFormGUI $form): void
     {
         if ($this->getTaxonomyIds() !== []) {
-            // this is needed by ilTaxSelectInputGUI in some cases
-            ilOverlayGUI::initJavaScript();
-
             $sectHeader = new ilFormSectionHeaderGUI();
             $sectHeader->setTitle($this->lng->txt('qpl_qst_edit_form_taxonomy_section'));
             $form->addItem($sectHeader);

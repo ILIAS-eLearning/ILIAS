@@ -292,7 +292,8 @@ class ilChatroom
 
         $userdata = [
             'login' => $user->getUsername(),
-            'id' => $user->getUserId()
+            'id' => $user->getUserId(),
+            'profile_picture_visible' => $user->isProfilePictureVisible(),
         ];
 
         $query = 'SELECT user_id FROM ' . self::$userTable . ' WHERE room_id = %s AND user_id = %s';
@@ -331,7 +332,7 @@ class ilChatroom
         $users = [];
 
         while ($row = $DIC->database()->fetchAssoc($rset)) {
-            $users[] = $only_data ? json_decode($row['userdata'], false, 512, JSON_THROW_ON_ERROR) : $row;
+            $users[] = $only_data ? json_decode($row['userdata'], true, 512, JSON_THROW_ON_ERROR) : $row;
         }
 
         return $users;
@@ -757,16 +758,18 @@ class ilChatroom
         // by sql. So we fetch twice as much as we need and hope that there
         // are not more than $number private messages.
         $DIC->database()->setLimit($number);
-        $rset = $DIC->database()->query(
+        $rset = $DIC->database()->queryF(
             'SELECT *
 			FROM ' . self::$historyTable . '
-			WHERE room_id = ' . $DIC->database()->quote($this->roomId, ilDBConstants::T_INTEGER) . '
+			WHERE room_id = %s
 			AND (
-				(' . $DIC->database()->like('message', ilDBConstants::T_TEXT, '%"type":"message"%') . ' AND NOT ' . $DIC->database()->like('message', ilDBConstants::T_TEXT, '%"public":0%') . ')
-		  		OR ' . $DIC->database()->like('message', ilDBConstants::T_TEXT, '%"target":{%"id":"' . $chatuser->getUserId() . '"%') . '
-				OR ' . $DIC->database()->like('message', ilDBConstants::T_TEXT, '%"from":{"id":' . $chatuser->getUserId() . '%') . '
+                (JSON_VALUE(message, "$.type") = "message" AND (NOT JSON_CONTAINS_PATH(message, "one", "$.target.public") OR JSON_VALUE(message, "$.target.public") <> 0))
+		  		OR JSON_VALUE(message, "$.target.id") = %s
+				OR JSON_VALUE(message, "$.from.id") = %s
 			)
-			ORDER BY timestamp DESC'
+			ORDER BY timestamp DESC',
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
+            [$this->roomId, $chatuser->getUserId(), $chatuser->getUserId()]
         );
 
         $result_count = 0;
@@ -789,7 +792,7 @@ class ilChatroom
                 'SELECT *
                  FROM ' . self::$historyTable . '
                  WHERE room_id = %s
-                 AND ' . $DIC->database()->like('message', ilDBConstants::T_TEXT, '%%"type":"notice"%%') . '
+                 AND JSON_VALUE(message, "$.type") = "notice"
                  AND timestamp <= %s AND timestamp >= %s
                  ORDER BY timestamp DESC',
                 [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],

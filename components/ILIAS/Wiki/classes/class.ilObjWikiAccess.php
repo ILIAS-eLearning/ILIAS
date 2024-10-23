@@ -81,7 +81,7 @@ class ilObjWikiAccess extends ilObjectAccess
         switch ($permission) {
             case "read":
             case "visible":
-                if (!self::_lookupOnline($obj_id) &&
+                if (self::_isOffline($obj_id) &&
                     (!$rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id))) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                     return false;
@@ -133,16 +133,7 @@ class ilObjWikiAccess extends ilObjectAccess
 
     public static function _lookupOnline(int $a_id): bool
     {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
-        $q = "SELECT * FROM il_wiki_data WHERE id = " .
-            $ilDB->quote($a_id, "integer");
-        $wk_set = $ilDB->query($q);
-        $wk_rec = $ilDB->fetchAssoc($wk_set);
-
-        return (bool) $wk_rec["is_online"];
+        return !self::_isOffline($a_id);
     }
 
     /**
@@ -151,16 +142,9 @@ class ilObjWikiAccess extends ilObjectAccess
      */
     public static function _lookupOnlineStatus(array $a_ids): array
     {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
-        $q = "SELECT id, is_online FROM il_wiki_data WHERE " .
-            $ilDB->in("id", $a_ids, false, "integer");
-        $lm_set = $ilDB->query($q);
         $status = [];
-        while ($r = $ilDB->fetchAssoc($lm_set)) {
-            $status[$r["id"]] = (bool) $r["is_online"];
+        foreach ($a_ids as $id) {
+            $status[$id] = !self::_isOffline($id);
         }
         return $status;
     }

@@ -552,6 +552,9 @@ assessment#:#backtocallingpage#:#Back to the question page
 assessment#:#backtocallingpool#:#Back to the question pool
 assessment#:#backtocallingtest#:#Back to the test
 assessment#:#baseunit#:#Base Unit
+assessment#:#bulkedit_author#:#Set Author
+assessment#:#bulkedit_lifecycle#:#Set Lifecycle
+assessment#:#bulkedit_taxonomies#:#Set Taxonomies
 assessment#:#button_request_next_question_hint#:#Request Next Hint
 assessment#:#button_request_question_hint#:#Request Hint
 assessment#:#cancel_test#:#Suspend the Test
@@ -1005,6 +1008,9 @@ assessment#:#previous_question_rows#:#<< Questions %d - %d of %d
 assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment of questions available for the selected question. The question has not yet been used in a test.
 assessment#:#qpl_assessment_total_of_answers#:#Total of Answers
 assessment#:#qpl_assessment_total_of_right_answers#:#Total Percentage of Correct Answers (percentage of maximum points)
+assessment#:#qpl_bulk_save_add#:#Add
+assessment#:#qpl_bulk_save_overwrite#:#Overwrite
+assessment#:#qpl_bulkedit_success#:#Modifications saved.
 assessment#:#qpl_cancel_skill_assigns_update#:#Cancel
 assessment#:#qpl_confirm_delete_questions#:#Are you sure you want to remove the following questions?
 assessment#:#qpl_copy_insert_clipboard#:#The selected question(s) are copied to the clipboard
@@ -2135,12 +2141,26 @@ auth#:#auth_saml_username_claim_info#:#Define the attribute ILIAS uses to genera
 auth#:#auth_sync#:#User Synchronisation
 auth#:#auth_sync_cas#:#Automatic generation of user accounts
 auth#:#auth_sync_cas_info#:#Automatically create ILIAS user accounts for users who have successfully authenticated themselves using CAS, but do not yet have an ILIAS account.
+auth#:#destination_after_logout#:#Destination After Logout
+auth#:#destination_external_ressource#:#Show External Ressource
+auth#:#destination_external_ressource_url#:#External URL
+auth#:#destination_internal_ressource#:#Show Internal Ressource
+auth#:#destination_internal_ressource_ref_id#:#Internal Reference Id
+auth#:#destination_login_screen#:#Show Login Screen
+auth#:#destination_login_screen_info#:#Make sure that, for example, an SSO is not addressed that leads to immediate login.
+auth#:#destination_logout_screen#:#Show Logout Screen
 auth#:#err_auth_ldap_failed#:#Authentication failed. Please contact your ILIAS administrator.
 auth#:#err_auth_saml_failed#:#Authentication failed. Please contact your system administrator.
 auth#:#err_auth_saml_no_ilias_user#:#Authentication failed. Please contact your system administrator.
 auth#:#language_does_not_exist#:#The selected language does not exist.
 auth#:#login_page#:#Language of Login-Page
 auth#:#login_pages#:#Login-Pages
+auth#:#logout_behaviour#:#Logout Behaviour
+auth#:#logout_behaviour_invalid_ref_id#:#Please make sure the internal resource id exists and is not in trash
+auth#:#logout_behaviour_invalid_url#:#The external ressource given is not a valid URL.
+auth#:#logout_behaviour_ref_id_no_access#:#Please make sure the "Anonymous" user has access to the defined ressource.
+auth#:#logout_behaviour_ref_id_valid_status_changed#:#The configured internal resource is no longer valid. If the resource has been deleted or access for the "Anonymous" user has been restricted, please configure a new valid internal resource. Without a valid configuration, the user will be redirected to the logout screen by default.
+auth#:#logout_behaviour_settings#:#Logout Behaviour Settings
 auth#:#logout_editor#:#Design Logout-Page
 auth#:#logout_page#:#Language of Logout-Page
 auth#:#logout_pages#:#Logout-Pages
@@ -2485,6 +2505,7 @@ blog#:#blog_settings#:#Blog Administration
 blog#:#blog_settings_navigation#:#Navigation Sidebar
 blog#:#blog_show_latest#:#Show Latest Posts/Drafts
 blog#:#blog_show_print_view#:#Show Print View
+blog#:#blog_side_blocks#:#Side Blocks
 blog#:#blog_starting_page#:#Starting Page
 blog#:#blog_task_publishing_draft_title#:#Publish Draft Blog Post "%s"
 blog#:#blog_toggle_draft#:#Withdraw Publication
@@ -2862,7 +2883,7 @@ chatroom#:#autogen_usernames#:#Auto Generated User Names
 chatroom#:#autogen_usernames_info#:#Pattern for auto generated user names that is assigned to anonymous user accounts. ‘#’ will be automatically replaced by a number.
 chatroom#:#ban_question#:#Do you really want to ban the user from chat?
 chatroom#:#ban_table_title#:#Banned Users
-chatroom#:#banned#:#You have been banned from this chat room
+chatroom#:#banned#:#You have been banned from this chat room.
 chatroom#:#bans#:#Bans
 chatroom#:#chat_address#:#Address
 chatroom#:#chat_anonymous_not_allowed#:#Please login to use the chat.
@@ -2870,8 +2891,8 @@ chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for
 chatroom#:#chat_ban#:#Ban
 chatroom#:#chat_broadcast_typing#:#Broadcast Typing
 chatroom#:#chat_broadcast_typing_info#:#If enabled, your typing will be broadcasted to other participants of a conversation or chat room.
-chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> left the chat room ---
-chatroom#:#chat_connection_established#:#+++ <b>#username#</b> has entered chat room +++
+chatroom#:#chat_connection_disconnected#:##username# left the chat room.
+chatroom#:#chat_connection_established#:##username# has entered chat room.
 chatroom#:#chat_deletion_disabled#:#Disabled
 chatroom#:#chat_deletion_interval#:#Interval
 chatroom#:#chat_deletion_interval_info#:#If chosen, messages in the repository chat and On-Screen-Chat conversations will be deleted after the defined threshold.
@@ -2903,7 +2924,6 @@ chatroom#:#chat_mainroom#:#Main Room
 chatroom#:#chat_message#:#Message
 chatroom#:#chat_message_display#:#Options
 chatroom#:#chat_message_options#:#Display
-chatroom#:#chat_message_to_all#:#To All
 chatroom#:#chat_no_use_typing_broadcast#:#Typing will not be broadcasted
 chatroom#:#chat_not_use_osc#:#Not Using On-Screen-Chat
 chatroom#:#chat_osc_accept_msg#:#Allow On-Screen Chat Conversations
@@ -2993,11 +3013,11 @@ chatroom#:#invite_to_private_room#:#Invite to Chat Room
 chatroom#:#invite_username#:#Username
 chatroom#:#key#:#Key
 chatroom#:#kick_question#:#Do you really want to kick the user from chat?
-chatroom#:#kicked#:#You have been kicked from this chat room
+chatroom#:#kicked#:#You have been kicked from this chat room.
 chatroom#:#lost_connection#:#The connection to the chat server was interrupted.
 chatroom#:#main#:#Main Room
 chatroom#:#messages#:#Messages
-chatroom#:#no_further_users#:#No other users present
+chatroom#:#no_further_users#:#No other users present.
 chatroom#:#no_messages#:#There are no saved messages for the given period.
 chatroom#:#no_username_given#:#Please choose a username
 chatroom#:#osc_browser_noti_no_permission_error#:#Please remove this domain from the list of blocked domains in the notification settings of your browser or operating system. Otherwise you will not be able to receive browser notifications.
@@ -3016,17 +3036,17 @@ chatroom#:#server_further_information#:#You can find further information about t
 chatroom#:#session#:#Session
 chatroom#:#settings_general#:#General
 chatroom#:#settings_title#:#Settings
-chatroom#:#speak_to#:#Speak to <b>#user#</b>
+chatroom#:#start_private_chat#:#Start Private Chat
 chatroom#:#unable_to_connect#:#The connection to the chat server could not be established.
 chatroom#:#unban#:#Unban
+chatroom#:#user_banned#:#The user #user# has been banned.
 chatroom#:#user_in_ilias#:#Search and invite user from ILIAS
 chatroom#:#user_in_room#:#Invite user from current chat room
 chatroom#:#user_invited#:#The user has been invited.
-chatroom#:#user_invited_self#:#<b>#user#</b> invited you to the chat room <b>#room#</b>.
-chatroom#:#user_kicked#:#The user <b>#user#</b> has been kicked.
+chatroom#:#user_invited_self#:##user# invited you to the chat room #room#.
+chatroom#:#user_kicked#:#The user #user# has been kicked.
 chatroom#:#users#:#Users
-chatroom#:#welcome_to_chat#:#Welcome to the chat room
-chatroom#:#whisper_to#:#Whisper to <b>#user#</b>
+chatroom#:#welcome_to_chat#:#Welcome to the chat room.
 chatroom#:#write_message#:#New Message
 chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS cannot build a socket connection to the chat server.
 chatroom_adm#:#chat_enabled#:#Enable Chat
@@ -3057,13 +3077,13 @@ cmix#:#activity_id_info#:#This ID is primarily used for the display of data from
 cmix#:#answered_info#:#Indicates the actor replied to a question, where the object is generally an activity representing the question. The text of the answer will often be included in the response inside result.
 cmix#:#answered_label#:#Statements with the verb 'answered'
 cmix#:#btn_change_registration#:#Submit
-cmix#:#btn_create_lrs_type#:#Add LRS-Type
+cmix#:#btn_create_lrs_type#:#Add LRS Type
 cmix#:#btn_create_registration#:#Submit
 cmix#:#change_registration#:#E-Mail address for Registration
 cmix#:#cmix_add#:#Add xAPI/cmi5 Object
 cmix#:#cmix_add_cmi5_lm#:#cmi5 Learning Module
 cmix#:#cmix_add_cmi5_lm_info#:#This option should be used when the content is a cmi5 compliant learning module. Related features like suitable reportings are available without further configurations.
-cmix#:#cmix_add_lrs_type#:#LRS-Type
+cmix#:#cmix_add_lrs_type#:#LRS Type
 cmix#:#cmix_add_source#:#Source
 cmix#:#cmix_add_source_external_app#:#Resource not launched by ILIAS
 cmix#:#cmix_add_source_external_app_info#:#Use this option for separately launched resources as e.g. apps or simulations. Users must agree to the fetching of data.
@@ -3115,14 +3135,24 @@ cmix#:#completed_info#:#Indicates the actor finished or concluded the activity n
 cmix#:#completed_label#:#Statements with the verb 'completed'
 cmix#:#conf_availability#:#Availability
 cmix#:#conf_availability_0#:#Not available
+cmix#:#conf_availability_0_info#:#Existing xAPI/cmi5 objects that use this LRS type can no longer be used.
 cmix#:#conf_availability_1#:#Existing ones allowed
+cmix#:#conf_availability_1_info#:#This LRS type is not offered when creating new xAPI/cmi5 objects. Existing xAPI/cmi5 objects that use this type can continue to write or read data. Use this option to be able to delete data in the connected LRS at a later time.
 cmix#:#conf_availability_2#:#New producible
+cmix#:#conf_availability_2_info#:#This LRS type can be selected when creating xAPI/cmi5 objects.
 cmix#:#conf_bypass_proxy#:#Detection of Learning Progress
 cmix#:#conf_bypass_proxy_disabled#:#xAPI-Proxy to get immediately data
 cmix#:#conf_bypass_proxy_enabled#:#CronJob to check Learning Record Store
 cmix#:#conf_bypass_proxy_info#:#In most cases it is recommended to use the xAPI-Proxy. Use the CronJob in case of Limitations regarding Resource or Server.
 cmix#:#conf_cronjob_neccessary#:#CronJob necessary for Learning Progress
-cmix#:#conf_cronjob_neccessary_info#:#By activating this option, xAPI-Objects using this LRS-Type could not use the xAPI-Proxy to get immediately data for Detection of Learning Progress. Use only the CronJob in case of limitations regarding resources or server.
+cmix#:#conf_cronjob_neccessary_info#:#By activating this option, xAPI-Objects using this LRS type could not use the xAPI-Proxy to get immediately data for Detection of Learning Progress. Use only the CronJob in case of limitations regarding resources or server.
+cmix#:#conf_delete_data#:#Delete Data in LRS
+cmix#:#conf_delete_data_info#:#Deletion is currently only possible with the Learning Record Store (LRS) LearningLocker. Only use the options for deleting the user identification if the data has been pseudonymized in the LRS.
+cmix#:#conf_delete_data_opt0#:#Never
+cmix#:#conf_delete_data_opt1#:#Never - but if users are deleted and if xAPI/cmi objects are moved to the trash or deleted, data will no longer be assignable for ILIAS by deleting the - user identification
+cmix#:#conf_delete_data_opt11#:#When users are deleted and when xAPI/cmi objects are moved to the trash or deleted
+cmix#:#conf_delete_data_opt12#:#Additionally when users are removed from courses or groups
+cmix#:#conf_delete_data_opt2#:#Never - but additionally when users are removed from courses or groups, data will no longer be assignable for ILIAS by deleting the user identification
 cmix#:#conf_description#:#Description
 cmix#:#conf_external_lrs#:#External LRS
 cmix#:#conf_keep_lp#:#Keep Learning Progress
@@ -3141,16 +3171,18 @@ cmix#:#conf_new_window#:#New Window
 cmix#:#conf_new_window_info#:#The content is opened in a new window. When leaving the content this window gets closed.
 cmix#:#conf_own_window#:#Own Window
 cmix#:#conf_own_window_info#:#The content is opened in the same window and replaces the ILIAS Screen. When leaving the content the user returns to ILIAS.
-cmix#:#conf_privacy_comment_default#:#Indication to user
-cmix#:#conf_privacy_ident#:#User identification
-cmix#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address
-cmix#:#conf_privacy_ident_il_uuid_SHA256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.
+cmix#:#conf_privacy_comment_default#:#Indication to User
+cmix#:#conf_privacy_ident#:#User Identification
 cmix#:#conf_privacy_ident_il_uuid_ext_account#:#External User ID combined with a unique ILIAS platform id formatted as an E-Mail address
 cmix#:#conf_privacy_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.
 cmix#:#conf_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail address
 cmix#:#conf_privacy_ident_il_uuid_login_info#:#Sends the login name. This is identical to each call, but may allow a direct conclusion about the ILIAS user.
 cmix#:#conf_privacy_ident_il_uuid_random#:#Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address
 cmix#:#conf_privacy_ident_il_uuid_random_info#:#For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects.
+cmix#:#conf_privacy_ident_il_uuid_sha256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address
+cmix#:#conf_privacy_ident_il_uuid_sha256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.
+cmix#:#conf_privacy_ident_il_uuid_sha256url#:#Hash combined with the ILIAS Domain formatted as an E-Mail address
+cmix#:#conf_privacy_ident_il_uuid_sha256url_info#:#This is identical to each call, with with a maximum of 80 characters significantly shorter than the variant with the ILIAS platform ID and allows only very limited conclusions about the ILIAS user.
 cmix#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formatted as an E-Mail address
 cmix#:#conf_privacy_ident_il_uuid_user_id_info#:#Sends the internal numeric user id. This is identical to each call, but may allow conclusions about the ILIAS user.
 cmix#:#conf_privacy_ident_info#:#Standard is frequently the E-Mail address. The unique ILIAS platform id is:
@@ -3172,6 +3204,10 @@ cmix#:#conf_privacy_setting_force#:#Settings are not changeable for Objects
 cmix#:#conf_privacy_setting_info#:#Configuration Options for Privacy Settings
 cmix#:#conf_remarks#:#Internal comments
 cmix#:#conf_title#:#Title
+cmix#:#conf_use_proxy#:#xAPI-Proxy
+cmix#:#conf_use_proxy_info#:#The xAPI proxy provides real-time data to determine learning progress in ILIAS. The proxy reduces personal data in accordance with the selected data protection options. If the xAPI proxy is deactivated, the learning content writes the learning progress directly to the LRS. This data must then also be retrieved directly from the LRS. The cron job "xAPI/cmi5 get results" is required to determine the learning progress. The xAPI proxy is mandatory for cmi5 objects and is activated automatically.
+cmix#:#conf_use_proxy_info_cmi5#:#The xAPI proxy provides real-time data to determine learning progress in ILIAS. The proxy reduces personal data in accordance with the selected data protection options. The xAPI proxy is mandatory for cmi5 objects.
+cmix#:#conf_use_proxy_info_xapi#:#The xAPI proxy provides real-time data to determine learning progress in ILIAS. The proxy reduces personal data in accordance with the selected data protection options. If the xAPI proxy is deactivated, the learning content writes the learning progress directly to the LRS. This data must then also be retrieved directly from the LRS. The cron job "xAPI/cmi5 get results" is required to determine the learning progress.
 cmix#:#conf_user_ident#:#User identification
 cmix#:#conf_user_ident_il_uuid_ext_account#:#External User ID combined with a unique ILIAS platform id formatted as an E-Mail adress
 cmix#:#conf_user_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.
@@ -3184,20 +3220,20 @@ cmix#:#conf_user_ident_il_uuid_user_id_info#:#This is identical to each call, bu
 cmix#:#conf_user_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:
 cmix#:#conf_user_ident_real_email#:#E-Mail Address
 cmix#:#conf_user_ident_real_email_info#:#Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)
-cmix#:#conf_user_name#:#User name
-cmix#:#conf_user_name_firstname#:#First name
+cmix#:#conf_user_name#:#User Name
+cmix#:#conf_user_name_firstname#:#First Name
 cmix#:#conf_user_name_firstname_info#:#Sends the first name of the user name from ILIAS
-cmix#:#conf_user_name_fullname#:#Entire name
+cmix#:#conf_user_name_fullname#:#Entire Name
 cmix#:#conf_user_name_fullname_info#:#Sends title, first name and last name
 cmix#:#conf_user_name_info#:#Sending an user name is usually not required.
-cmix#:#conf_user_name_lastname#:#Title and last name
+cmix#:#conf_user_name_lastname#:#Title and Last Name
 cmix#:#conf_user_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name
 cmix#:#conf_user_name_none#:#No one
 cmix#:#conf_user_name_none_info#:#Sends '-' instead of a name
 cmix#:#conf_user_registered_mail#:#Registered E-Mail-Address
 cmix#:#content_privacy_ident#:#User identification for resource
 cmix#:#content_privacy_name#:#User name for resource
-cmix#:#create_lrs_type_form#:#New LRS-Type
+cmix#:#create_lrs_type_form#:#New LRS Type
 cmix#:#create_registration#:#Register your E-Mail address
 cmix#:#cron_xapi_results_evaluation#:#Fetch xAPI/cmi5 Results
 cmix#:#cron_xapi_results_evaluation_desc#:#Requests all xAPI results from learning record stores for objects not supporting the ILIAS xAPI proxy.
@@ -3205,7 +3241,7 @@ cmix#:#description_info#:#The description will be shown below the title.
 cmix#:#download_certificate#:#Download Certificate
 cmix#:#duration_info#:#The duration can be entered e.g. for answering a task. The duration is set to the default value 0 seconds (PT00.000S) by this option.
 cmix#:#duration_label#:#Duration
-cmix#:#edit_lrs_type_form#:#LRS-Type
+cmix#:#edit_lrs_type_form#:#LRS Type
 cmix#:#failed_info#:#Indicates the actor did not successfully pass an activity to a level of predetermined satisfaction.
 cmix#:#failed_label#:#Statements with the verb 'failed'
 cmix#:#fetch_xapi_statements#:#Fetch results from Learning Record Store
@@ -3235,14 +3271,14 @@ cmix#:#highscore_top_table#:#Top Ranking
 cmix#:#highscore_top_table_description#:#Participants are presented with a table containing the top rankings.
 cmix#:#highscore_wtime#:#Duration
 cmix#:#highscore_wtime_description#:#A column containing the duration will be included in the ranking.
-cmix#:#info_availability#:#Hereby you can operate the availability of the LRS-type within the magazine. All types can set on "allow existing ones" instead of being deleted.
+cmix#:#info_availability#:#Hereby you can operate the availability of the LRS type within the magazine. All types can set on "allow existing ones" instead of being deleted.
 cmix#:#info_description#:#This description will be shown when choosing the type for new objects.
 cmix#:#info_external_lrs#:#A hint will be shown to users when dealing with an external LRS. An external LRS is characterized by insufficient influence on the LRS the by the operator of the ILIAS-installation. This is the case when there are no rights to delete.
 cmix#:#info_lrs_endpoint#:#URL of the endpoint without '/' at the end
 cmix#:#info_lrs_key#:#Key or login for access, i.e. 12345
 cmix#:#info_lrs_secret#:#Shared secret / Password, i.e. secret
 cmix#:#info_privacy_comment_default#:#Please insert, if required, an additional indication on data security when using this LRS.
-cmix#:#info_remarks#:#Place to write down your comments on this LRS-type here.
+cmix#:#info_remarks#:#Place to write down your comments on this LRS type here.
 cmix#:#info_title#:#This title will be shown when choosing the type for new objects.
 cmix#:#initialized_info#:#Indicates the activity provider has determined that the actor successfully started an activity.
 cmix#:#initialized_label#:#Statements with the verb 'initialized'
@@ -3269,7 +3305,7 @@ cmix#:#show_debug#:#Display Learning Experiences
 cmix#:#show_debug_info#:#Shows tab ‘Learning Experiences’ with information about own interaction with cmi5 module. Data of other users is displayed if permission ‘View learning experiences of other users’ is given.
 cmix#:#tab_export#:#Export
 cmix#:#tab_info#:#Info
-cmix#:#tab_lrs_types#:#LRS-Types
+cmix#:#tab_lrs_types#:#LRS Types
 cmix#:#tab_scoring#:#Ranking
 cmix#:#tab_settings#:#Settings
 cmix#:#tab_statements#:#Learning Experiences
@@ -3277,7 +3313,7 @@ cmix#:#tbl_action_raw_data#:#View Raw Data
 cmix#:#tbl_lrs_type_availability#:#Availability
 cmix#:#tbl_lrs_type_title#:#Title
 cmix#:#tbl_lrs_type_usages#:#Usages Count
-cmix#:#tbl_lrs_types_header#:#LRS-Types
+cmix#:#tbl_lrs_types_header#:#LRS Types
 cmix#:#tbl_statements_actor#:#User
 cmix#:#tbl_statements_date#:#Date
 cmix#:#tbl_statements_object#:#Object
@@ -3772,7 +3808,6 @@ common#:#create_stylesheet#:#Create Style
 common#:#created#:#Creation Date
 common#:#cron_forum_notification#:#Send Forum Notifications via Cron Job
 common#:#cron_forum_notification_crob_desc#:#If enabled, all users who have enabled notifications for certain forums or forum threads will daily receive a notification mail about all new  or changed posts but no immediate notification for each submitted post.
-common#:#cron_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum threads, will get notifications by mail.
 common#:#cron_forum_notification_disabled#:#Can't be disabled when the Cron Job is active.
 common#:#cron_jobs#:#Cron Jobs
 common#:#cron_lucene_index#:#Update Lucene search index
@@ -3897,7 +3932,7 @@ common#:#dislike#:#Dislike
 common#:#domain#:#Domain
 common#:#down#:#Down
 common#:#download#:#Download
-common#:#download_all_returned_files#:#Download all Submissions
+common#:#download_all_returned_files#:#Download All Submissions
 common#:#download_link#:#Download Link
 common#:#download_multiple_objects#:#Download Multiple Objects
 common#:#download_selected_items#:#Download
@@ -5139,6 +5174,7 @@ common#:#objs_rglo#:#ECS Glossaries
 common#:#objs_rgrp#:#ECS Groups
 common#:#objs_rlm#:#ECS Learning Modules
 common#:#objs_role#:#Roles
+common#:#objs_rolf#:#Role Folders
 common#:#objs_rtst#:#ECS Tests
 common#:#objs_rwik#:#ECS Wikis
 common#:#objs_sahs#:#SCORM Learning Modules
@@ -5462,6 +5498,7 @@ common#:#save_settings#:#Save Settings
 common#:#save_user_related_data#:#Save user related access data
 common#:#saved_successfully#:#Saved Successfully
 common#:#saving#:#Saving...
+common#:#scope#:#Scope
 common#:#scorm_create_export_file_html#:#Create Export File (HTML)
 common#:#scorm_create_export_file_pdf#:#Create Export File (PDF)
 common#:#scorm_create_export_file_scrom12#:#Create Export File (SCORM 1.2)
@@ -9051,6 +9088,7 @@ ecs#:#ecs_protocol#:#Protocol
 ecs#:#ecs_publish_as#:#Publish as:
 ecs#:#ecs_publish_for#:#Release for:
 ecs#:#ecs_published_for#:#Published for:
+ecs#:#ecs_rcat_created_body_a#:#A new ECS Category has been created:
 ecs#:#ecs_rcrs_created_body_a#:#A new ECS Course has been created:
 ecs#:#ecs_read_remote_links#:#Update ECS Courses
 ecs#:#ecs_refresh_participants#:#Refresh ECS-Participants
@@ -9316,8 +9354,8 @@ exc#:#exc_msg_participants_removed#:#The participants have been removed from the
 exc#:#exc_msg_public_submission#:#All submissions will be published after the deadline.
 exc#:#exc_msg_saved_grades#:#Grades and comments have been saved.
 exc#:#exc_msg_sure_to_deassign_participant#:#Are you sure that you want to remove the participants from all assignments of the exercise? This will also delete all their handed in resources!
-exc#:#exc_multi_feedb_info#:#On this screen you can upload multiple feedbacks in one file. First click on ‘Download ZIP Structure’, save the ZIP file and extract it on your local computer. Put the feedback files into the corresponding user directories. Now compress the whole directory as one ZIP file again. Browse your local filesystem for the file and select it as the ‘Multi-Feedback File’ in the form below. After that click ‘Upload’. A confirmation screen will list the files. Please avoid using any special characters in your file names.
-exc#:#exc_multi_feedback#:#Evaluation for many Participants
+exc#:#exc_multi_feedb_info#:#On this screen you can upload feedback for multiple participants in one file. First click on ‘Download ZIP Structure’, save the ZIP file and extract it on your local computer. Then put the feedback files into the corresponding user directories. Now compress the whole directory as one ZIP file again. Browse your local filesystem for the file and select it as the ‘Multi-Feedback File’ in the form below. After that click ‘Upload’. A confirmation screen will list the files. Please avoid using any special characters in your file names.
+exc#:#exc_multi_feedback#:#Evaluate Multiple Participants
 exc#:#exc_multi_feedback_file#:#Multi-Feedback File
 exc#:#exc_multi_feedback_files#:#Multi-Feedback Files
 exc#:#exc_needs_deadline#:#This feature does only work with an assignment deadline.
@@ -9644,6 +9682,7 @@ exp#:#exp_error_disabled#:#The export feature is disabled for containers. You ma
 exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allowerd objects (%1). Please select a lower number of objects.
 exp#:#exp_export_files#:#Export Files
 exp#:#exp_file_created#:#The export file has been created.
+exp#:#exp_html#:#HTML
 exp#:#exp_import_validation_err_no_matching_xsd#:#No valid schema file for version %s exists.
 exp#:#exp_print_pdf#:#Print/PDF
 exp#:#exp_print_pdf_info#:#To create a PDF please use the "Print to PDF" target as soon as the print view is presented.
@@ -9652,10 +9691,21 @@ exp#:#exp_show_print_view#:#Show Print View
 exp#:#exp_xml#:#XML
 exp#:#export_created#:#A new export file has been created.
 exp#:#export_files_deleted#:#The selected export files have been deleted.
+exp#:#export_options#:#Export Options
+exp#:#export_type#:#Export Type
+export#:#exp_export_dropdown#:#Export
+export#:#exp_file#:#File Name
+export#:#exp_public_access#:#Public Access
+export#:#exp_size#:#File Size (MB)
+export#:#exp_timestamp#:#Creation Date
+export#:#exp_toggle_public_access#:#Toggle Public Access
+export#:#exp_type#:#Type
 export#:#export_create#:#Create
 export#:#export_create_new_file#:#Create New Export File
 export#:#export_existing#:#Reuse
 export#:#export_export_date#:#Export Date
+export#:#export_info_public_access#:#Public Access Export
+export#:#export_info_public_access_download#:#Download
 export#:#export_last_export#:#Last Export
 export#:#export_last_export_file#:#Use Last Export File
 export#:#export_last_file#:#Last File
@@ -9888,6 +9938,8 @@ forum#:#forums_download_attachment#:#Download file
 forum#:#forums_edit_draft#:#Edit Draft
 forum#:#forums_edit_post#:#Edit Post
 forum#:#forums_enable_notification#:#Enable Notification for this Thread
+forum#:#forums_forum_notification#:#Send Forum Notifications
+forum#:#forums_forum_notification_desc#:#If enabled, all users, who want to be informed about new posts in specified forum threads, will get notifications by mail.
 forum#:#forums_forum_notification_disabled#:#You will no longer be notified about new posts in this forum.
 forum#:#forums_info_censor2_post#:#Revoke Censorship?
 forum#:#forums_info_censor_post#:#Please provide a reason for hiding this post.
@@ -11494,7 +11546,7 @@ mail#:#nc_mail_unread_messages_number_s#:#1 unread mail
 mail#:#only_inbox_trash#:#Limit to Inbox / Trash
 mail#:#only_inbox_trash_info#:#Only delete e-mails that are located in the Inbox or Trash folders of users. Otherwise, all messages are deleted regardless of the folder they are in.
 mail#:#orphaned_mail_body#:#Your mailbox contains the following old or orphaned mails. Please note that these mails will soon be automatically deleted.
-mail#:#orphaned_mail_subject#:#Notification of orphaned mails
+mail#:#orphaned_mail_subject#:#Notification of old mails
 mail#:#placeholders_advise#:#Personal placeholders are only replaced with user-specific information for recipients listed in the ‘To’ field.%s Personal placeholders for recipients listed in the CC and BCC fields are NOT replaced with user-specific information and instead show up as placeholders.
 mail#:#search_content#:#Search Result
 mail#:#search_recipients#:#Look up Users
@@ -11803,7 +11855,13 @@ meta#:#md_days#:#Days:
 meta#:#md_delete_cp_sure#:#Are you sure you want to delete the following entries?
 meta#:#md_delimiter#:#Delimiter
 meta#:#md_delimiter_info#:#The delimiter is used in the quick editing screen to separate multiple keywords and/or authors. Default is ‘,’.
+meta#:#md_editor_custom_input#:#Custom
+meta#:#md_editor_from_vocab_input#:#From Vocabulary
+meta#:#md_editor_value#:#Value
 meta#:#md_fields#:#Fields
+meta#:#md_import_file_vocab#:#Import File
+meta#:#md_import_vocab#:#Import
+meta#:#md_import_vocab_modal#:#Import From File
 meta#:#md_months#:#Months:
 meta#:#md_oai_contact_mail#:#Contact E-Mail
 meta#:#md_oai_identifier_prefix#:#OAI Prefix
@@ -11817,7 +11875,35 @@ meta#:#md_record_export_table#:#Export Files
 meta#:#md_record_list_table#:#Custom Metadata Sets
 meta#:#md_separated_by#:#Separated by %s
 meta#:#md_time#:#Time:
+meta#:#md_unknown_vocabulary_flag#:#(unknown vocabulary)
 meta#:#md_used#:#Current Number of Usages
+meta#:#md_vocab_activate_action#:#Activate
+meta#:#md_vocab_active_column#:#Active
+meta#:#md_vocab_all_values_title#:#Values for %s (%s)
+meta#:#md_vocab_allow_custom_input_action#:#Allow Custom Input
+meta#:#md_vocab_custom_input_column#:#Custom Input Allowed
+meta#:#md_vocab_deactivate_action#:#Deactivate
+meta#:#md_vocab_delete_action#:#Delete
+meta#:#md_vocab_delete_confirmation_text#:#Are you sure you want to delete the vocabulary for %s (%s) with the following values?
+meta#:#md_vocab_delete_confirmation_title#:#Delete Vocabulary
+meta#:#md_vocab_deletion_successful#:#Vocabulary successfully deleted.
+meta#:#md_vocab_disallow_custom_input_action#:#Disallow Custom Input
+meta#:#md_vocab_element_column#:#Element
+meta#:#md_vocab_element_with_condition#:#%s where %s is %s
+meta#:#md_vocab_import_invalid#:#The import file is invalid:<br/>%s
+meta#:#md_vocab_import_successful#:#Vocabulary successfully imported.
+meta#:#md_vocab_import_upload_failed#:#Upload of the import file failed.
+meta#:#md_vocab_preview_column#:#Preview
+meta#:#md_vocab_show_all_action#:#Show All Values
+meta#:#md_vocab_source_column#:#Source
+meta#:#md_vocab_table_title#:#Vocabularies
+meta#:#md_vocab_type_column#:#Type
+meta#:#md_vocab_type_controlled_string#:#Controlled Text
+meta#:#md_vocab_type_controlled_vocab_value#:#Controlled Selection
+meta#:#md_vocab_type_copyright#:#Copyright
+meta#:#md_vocab_type_standard#:#Standard
+meta#:#md_vocab_update_successful#:#Vocabulary successfully updated.
+meta#:#md_vocabularies_config#:#LOM Vocabularies
 meta#:#meta_1#:#1
 meta#:#meta_2#:#2
 meta#:#meta_3#:#3
@@ -12106,6 +12192,7 @@ meta#:#meta_contribute_plural#:#Contribute
 meta#:#meta_copyright#:#Copyright
 meta#:#meta_copyright_and_other_restrictions#:#Copyright and Other Restrictions
 meta#:#meta_copyright_change_info#:#You are about to change the copyright licence assigned to this content. This should only be done with the permission of the copyright holder. Please continue only if the new licence is not more restrictive than the one used before.
+meta#:#meta_copyright_change_oer_info#:#The copyright licence you have selected makes this object eligible to be harvested as an Open Educational Resource. If you continue, it might be listed as such along with an export file, and it might get published beyond this platform.
 meta#:#meta_copyright_change_warning_title#:#Changing a Copyright
 meta#:#meta_copyright_in_use#:#In use
 meta#:#meta_copyright_outdated#:#Outdated / No longer in use
@@ -12174,6 +12261,7 @@ meta#:#meta_idea#:#Idea
 meta#:#meta_identifier#:#Identifier
 meta#:#meta_identifier_plural#:#Identifiers
 meta#:#meta_index#:#Index
+meta#:#meta_info_licence_section#:#Licence and Use
 meta#:#meta_info_only_repository_objects#:#Only repository objects are listed below (but not media objects or learning module pages).
 meta#:#meta_initiator#:#Initiator
 meta#:#meta_installation_remarks#:#Installation Notes
@@ -12375,7 +12463,8 @@ meta#:#meta_oer_copyright_selection#:#Copyright Selection
 meta#:#meta_oer_copyright_selection_info#:#Only objects that have been published with one of the selected copyrights will be linked to the OER Category.
 meta#:#meta_oer_exposed_source#:#Category for Published OER Content
 meta#:#meta_oer_harvester#:#OER Harvester
-meta#:#meta_oer_harvester_desc#:#Scans all File objects in the repository for their license. The OER Harvester adds all resources under selected CC licenses to the category defined in the cronjob settings. To get results from this cronjob it is necessary to activate and configurate the copyright selection in the administration of 'Metadata'.
+meta#:#meta_oer_harvester_desc#:#The OER Harvester collects all resources under selected CC licenses, adds them to a category defined in the cronjob settings, and if necessary generates export files for them. For harvested resource marked for publishing, records are compiled that can then (if enabled) be queried via an OAI-PMH interface. To get results from this cronjob it is necessary to activate and configure the copyright selection in the administration of 'Metadata'. The object types eligible to be harvested are Files, Glossaries, Content Pages, Learning Modules (ILIAS, SCORM, and HTML), Question Pools (both Survey and Test), and Mediapools.
+meta#:#meta_oer_object_type_selection#:#Harvested Object Types
 meta#:#meta_oer_target#:#Category for Harvested OER Content
 meta#:#meta_opera#:#Opera
 meta#:#meta_operating_system#:#Operating System
@@ -12767,7 +12856,7 @@ notifications_adm#:#osd_delay_desc#:#Delay of the visible presentation in millis
 notifications_adm#:#osd_error_presentation_time_too_small#:#The Presentation Time has to be at least than 1000 miliseconds.
 notifications_adm#:#osd_error_refresh_interval_smaller_than_delay_and_vanish_combined#:#The Refresh Interval has to be greater than the Presentation Time and the Presentation Delay combined.
 notifications_adm#:#osd_error_refresh_interval_too_small#:#The Refresh Interval has to be at least than 3000 miliseconds.
-notifications_adm#:#osd_interval#:#Refreshinterval
+notifications_adm#:#osd_interval#:#Refresh interval
 notifications_adm#:#osd_interval_desc#:#Polling interval for checking of new notifications in miliseconds. A lower number will notify the user more quickly but increases the number of requests the web server must handle.
 notifications_adm#:#osd_play_sound#:#Play a Sound
 notifications_adm#:#osd_play_sound_desc#:#Play a sound when receiving a new notficiation.
@@ -13029,6 +13118,7 @@ poll#:#poll_block_message_already_voted#:#You already voted in this poll.
 poll#:#poll_block_message_no_answers#:#This poll is incomplete.
 poll#:#poll_block_results_available_on#:#The results will be available %s.
 poll#:#poll_cannot_set_online_no_answers#:#The status cannot be changed to &quot;online&quot; because this poll has no question!
+poll#:#poll_chart_votes#:#Votes
 poll#:#poll_comments#:#Comments
 poll#:#poll_copy#:#Copy Poll
 poll#:#poll_delete_votes#:#Delete Votes of All Users
@@ -13053,7 +13143,6 @@ poll#:#poll_notification_deactivated#:#Notification Deactivated
 poll#:#poll_notification_subscribe#:#Activate Notification
 poll#:#poll_notification_unsubscribe#:#Deactivate Notification
 poll#:#poll_percentage#:#Current Percentage
-poll#:#poll_piechart#:#Pie Chart
 poll#:#poll_population#:#%s Participants
 poll#:#poll_population_singular#:#1 Participant
 poll#:#poll_question#:#Question
@@ -13065,6 +13154,7 @@ poll#:#poll_result_sorting_votes#:#By number of votes (descending)
 poll#:#poll_result_users#:#Participants
 poll#:#poll_show_results_as#:#Show Results as
 poll#:#poll_sortorder#:#Order
+poll#:#poll_stacked_chart#:#Stacked Chart
 poll#:#poll_view_results#:#Display Results
 poll#:#poll_view_results_after_period#:#After Voting Period
 poll#:#poll_view_results_after_period_impossible#:#The voting period is not limited.
@@ -13196,6 +13286,7 @@ prg#:#prg_auto_member_select_crs#:#Courses
 prg#:#prg_auto_member_select_grp#:#Groups
 prg#:#prg_auto_member_select_role#:#Roles
 prg#:#prg_autoassignment#:#(auto)
+prg#:#prg_availability_action_not_allowed#:#Cannot set Availability Period on Study Programmes.
 prg#:#prg_belongs_to#:#Belongs to
 prg#:#prg_can_not_manage_in_repo#:#You're not allowed to manage this Study Programme, because of user assignments.
 prg#:#prg_cancel#:#Cancel
@@ -13212,6 +13303,7 @@ prg#:#prg_create_new_leaf#:#Create new leaf
 prg#:#prg_create_new_node#:#Create new node
 prg#:#prg_cron_job_configuration#:#Configuration automatic Mails
 prg#:#prg_custom_plan#:#Custom Plan
+prg#:#prg_cut_action_not_allowed#:#Cannot move Study Programmes
 prg#:#prg_dash_label_finish_until#:#Finish until
 prg#:#prg_dash_label_gain#:#Current Completion
 prg#:#prg_dash_label_minimum#:#Minimum Completion
@@ -13238,6 +13330,7 @@ prg#:#prg_description#:#Description
 prg#:#prg_edit#:#Edit Study Programme
 prg#:#prg_expiry_date#:#Expiry date
 prg#:#prg_formatted_period#:#%d days
+prg#:#prg_import_action_not_allowed#:#Cannot import into Study Programmes.
 prg#:#prg_invalidate_expired_progresses_desc#:#Marks expired progresses at Studyprogrammes as 'not passed'
 prg#:#prg_invalidate_expired_progresses_title#:#Limited validity of Studyprogramme progress
 prg#:#prg_link#:#Link
@@ -13758,6 +13851,8 @@ rbac#:#blog_write#:#User can edit blog settings
 rbac#:#book_copy#:#User can copy booking pool
 rbac#:#book_delete#:#User can move or delete booking pool
 rbac#:#book_edit_permission#:#User can change permission settings for booking pool
+rbac#:#book_manage_all_reservations#:#User can manage all reservations
+rbac#:#book_manage_own_reservations#:#User can manage own reservations
 rbac#:#book_read#:#User can book resources / objects in booking pool
 rbac#:#book_visible#:#Booking pool is visible
 rbac#:#book_write#:#User can edit settings and content of booking pool
@@ -13826,6 +13921,7 @@ rbac#:#coms_visible#:#Administration of Comments is visible.
 rbac#:#coms_write#:#User can edit settings of administration of Comments.
 rbac#:#condition_failed#:#Failed
 rbac#:#condition_learning_progress#:#Learning Progress Status: Completed
+rbac#:#condition_result_range_percentage#:#Result Range
 rbac#:#contribute#:#Contribute
 rbac#:#copa_copy#:#Copy Content Page
 rbac#:#copa_delete#:#User can move or delete Content Page
@@ -14094,9 +14190,11 @@ rbac#:#mail_smtp_mail#:#User can send e-mails per SMTP to external addresses
 rbac#:#mail_to_global_roles#:#Global Mails
 rbac#:#mail_visible#:#Mail administration is visible
 rbac#:#mail_write#:#User can edit settings in Mail administration
+rbac#:#manage_all_reservations#:#Manage All Reservations
 rbac#:#manage_comp#:#Edit Competences
 rbac#:#manage_comp_temp#:#Edit Competence Templates
 rbac#:#manage_materials#:#Manage Materials
+rbac#:#manage_own_reservations#:#Manage Own Reservations
 rbac#:#manage_profiles#:#Edit Competence Profiles
 rbac#:#mcst_copy#:#User can copy mediacast
 rbac#:#mcst_delete#:#User can move or delete mediacast
@@ -14190,6 +14288,9 @@ rbac#:#precondition_obligatory#:#Compulsory
 rbac#:#precondition_obligatory_alt#:#Precondition must be fulfilled
 rbac#:#precondition_obligatory_info#:#Compulsory preconditions must be fulfilled, for having access.
 rbac#:#precondition_obligatory_settings#:#Precondition Settings
+rbac#:#precondition_operator_range_err_min_max#:#The minimum value must be less than the maximum value. 
+rbac#:#precondition_operator_range_max#:#Maximum Percentage
+rbac#:#precondition_operator_range_min#:#Minimum Percentage
 rbac#:#prfa_edit_permission#:#User can change permission settings of Portfolio administration
 rbac#:#prfa_read#:#User has read access to Portfolio administration
 rbac#:#prfa_visible#:#Portfolio administration is visible
@@ -14630,7 +14731,7 @@ registration#:#reg_direct_info#:#New user registration requests are automaticall
 registration#:#reg_disabled#:#No Registration Possible
 registration#:#reg_domain#:#Domain
 registration#:#reg_domain_already_assigned_p#:#The domains '%s' were already entered for another role.
-registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role. 
+registration#:#reg_domain_already_assigned_s#:#The domain '%s' was already entered for another role.
 registration#:#reg_email#:#Automatic Role Assignment
 registration#:#reg_email_domains#:#The following e-mail address domains are valid: %s
 registration#:#reg_email_domains_code#:#With a registration code any E-Mail-Address is valid.
@@ -15137,7 +15238,6 @@ search#:#lucene_port#:#Port
 search#:#lucene_prefix_wildcard#:#Prefix Wildcard Queries
 search#:#lucene_prefix_wildcard_info#:#Supports prefix wildcard queries: ‘*LIAS’ finds ‘ILIAS’
 search#:#lucene_relevance#:#Relevance of Search Results
-search#:#lucene_relevance_short#:#Relevance
 search#:#lucene_settings_tab#:#Lucene
 search#:#lucene_settings_title#:#Lucene Settings
 search#:#lucene_show_relevance#:#Show Relevance
@@ -15146,8 +15246,8 @@ search#:#lucene_show_sub_relevance#:#Show Sub-Item Relevance
 search#:#lucene_size_frag_info#:#Please choose the maximum size of highlighted text fragments. To do this, enter the number of characters including spaces.
 search#:#lucene_size_fragments#:#Size of Text Fragments
 search#:#lucene_tbl_create_ini#:#Create Java-Server Ini-File
-search#:#search_add_members_from_container_crs#:#Add Users of Current Course
-search#:#search_add_members_from_container_grp#:#Add Users of Current Group
+search#:#search_add_members_from_container_crs#:#Add Users From Current Course
+search#:#search_add_members_from_container_grp#:#Add Users From Current Group
 search#:#search_adv_md#:#Custom Metadata
 search#:#search_advanced#:#Advanced Search
 search#:#search_all_words#:#All words <small>(<i>AND</i>)</small>
@@ -15209,6 +15309,14 @@ search#:#search_show_inactive_user#:#Show Inactive Users
 search#:#search_show_inactive_user_info#:#If enabled, the user search will show inactive users, too.
 search#:#search_show_limited_user#:#Show Users with Limited Access
 search#:#search_show_limited_user_info#:#If enabled, the user search will also show users with limited access outside their allowed time period.
+search#:#search_sort_by#:#Sortation: %s
+search#:#search_sort_creation_date_asc#:#Oldest
+search#:#search_sort_creation_date_desc#:#Latest
+search#:#search_sort_generic_asc#:#%s, asc.
+search#:#search_sort_generic_desc#:#%s, desc.
+search#:#search_sort_relevance#:#By Relevance
+search#:#search_sort_title_asc#:#Alphabetically: A-Z
+search#:#search_sort_title_desc#:#Alphabetically: Z-A
 search#:#search_term_combination#:#Combination
 search#:#search_title_description#:#Title / Description
 search#:#search_tst_svy#:#Tests/Surveys
@@ -16011,7 +16119,7 @@ survey#:#SurveyTextQuestion#:#Essay
 survey#:#add_heading#:#Add Heading
 survey#:#already_completed_survey#:#You have already finished the survey! You are not able to enter the survey again.
 survey#:#anonymization#:#Anonymization
-survey#:#anonymize_anonymous_introduction#:#To grant you access to the survey, you must use a 5-character survey code which you can receive from the creator/maintainer of this survey.<br />Please enter it in the text field above.
+survey#:#anonymize_anonymous_introduction#:#To grant you access to the survey, you must use a 5-character survey code which you can receive from the creator/maintainer of this survey.
 survey#:#answer#:#Answer
 survey#:#arithmetic_mean#:#Arithmetic Mean
 survey#:#browse_for_questions#:#Add from Pool
@@ -16019,7 +16127,6 @@ survey#:#cancel_survey#:#Suspend the Survey
 survey#:#cannot_read_survey#:#You do not possess sufficient permissions to read the survey data!
 survey#:#cannot_switch_to_online_no_questions#:#The status cannot be changed to &quot;online&quot; because there are no questions in the survey!
 survey#:#cant_send_email_smtp_disabled#:#Sending external mails is not available. This option is deactivated globally.
-survey#:#categories#:#Answers###LangRefactoring: needs new Language_ID
 survey#:#category#:#Answer
 survey#:#category_nr_selected#:#Number of selections
 survey#:#chart#:#Chart
@@ -16300,8 +16407,8 @@ survey#:#survey_360_add_external_rater#:#Add External Rater
 survey#:#survey_360_add_self_appraisee#:#Add yourself as appraisee to this survey
 survey#:#survey_360_appraisee#:#Appraisee
 survey#:#survey_360_appraisee_close_action#:#Close Survey For Raters
-survey#:#survey_360_appraisee_close_action_info#:#This will give access to your statistics.
-survey#:#survey_360_appraisee_close_action_info_skill#:#This will give access to your statistics and update your competence levels.
+survey#:#survey_360_appraisee_close_action_info#:#Closing the survey for raters will finalise the survey results and give you access to the results.
+survey#:#survey_360_appraisee_close_action_info_skill#:#Closing the survey for raters will finalise the survey results, give you access to the results and update your competence levels.
 survey#:#survey_360_appraisee_close_action_status#:#Survey was closed on %s.
 survey#:#survey_360_appraisee_close_action_success#:#You have closed your 360° survey for your raters.
 survey#:#survey_360_appraisee_close_action_success_admin#:#The 360° surveys of the appraisees were closed for the raters.
@@ -16314,7 +16421,8 @@ survey#:#survey_360_mode#:#360° Feedback
 survey#:#survey_360_mode_info#:#Use for peer-reviewing of persons
 survey#:#survey_360_no_appraisees#:#There are currently no appraisees for you to rate.
 survey#:#survey_360_no_closed_appraisees#:#No appraisee has closed his survey yet.
-survey#:#survey_360_rate_other_appraisees#:#Rate appraisees
+survey#:#survey_360_rate_other_appraisee#:#Rate Appraisee
+survey#:#survey_360_rate_other_appraisees#:#Rate Appraisees
 survey#:#survey_360_rater_finished#:#Survey Finished
 survey#:#survey_360_rater_mail_sent#:#Mail sent
 survey#:#survey_360_rater_message_content_anonymous#:#Message Content (Anonymous)
@@ -16475,6 +16583,7 @@ survey#:#svy_answer_too_long#:#Your current answer is too long (%s characters). 
 survey#:#svy_app_see_rater_info#:#Appraisees can access rater information in the results screens, including names and e-mail addresses, if entered before when adding raters.
 survey#:#svy_appraisses_cannot_be_raters#:#User cannot be added as rater. Use self evaluation option in the survey settings instead.
 survey#:#svy_back#:#Back
+survey#:#svy_categories#:#Answers
 survey#:#svy_check_evaluation_access_introduction#:#Since this survey evaluation is only accessible by survey participants you need to enter your survey access code to open the evaluation.
 survey#:#svy_check_evaluation_authentication_needed#:#Authentication needed
 survey#:#svy_check_evaluation_wrong_key#:#You entered a wrong survey access code or you have not participated the survey. Your access to the survey evaluation is denied.
@@ -16603,12 +16712,16 @@ survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#workingtime#:#Working time
 svy#:#survey_360_appraisees_remind_info#:#If self evaluation is activated, appraisees that have not yet finished the survey will be reminded.
 svy#:#survey_360_raters_remind_info#:#Raters that have not yet finished the survey will be reminded.
+svy#:#svy_0_open_appraisees#:#You cannot perform the survey for any appraisee anymore.
 svy#:#svy_all_pages#:#All Pages
 svy#:#svy_all_participants#:#All Participants
 svy#:#svy_all_questions#:#All Questions
+svy#:#svy_code#:#Access Code
 svy#:#svy_codes#:#Access Codes
 svy#:#svy_current_page#:#Current Page
 svy#:#svy_finish_survey#:#Finish survey '%1'
+svy#:#svy_finished_x_appraisees#:#You have finished the survey for %s appraisee(s).
+svy#:#svy_information#:#Information
 svy#:#svy_invite_participants#:#Invite Participants
 svy#:#svy_link_to_svy#:#Link to Survey
 svy#:#svy_part_overview#:#Overview
@@ -16631,6 +16744,11 @@ svy#:#svy_user_added_rater_mail#:#You have been added as a rater to the survey.
 svy#:#svy_user_added_rater_reminder_mail#:#Please finish to rate the following appraisees:
 svy#:#svy_user_not_found#:#User not found.
 svy#:#svy_users_invited#:#Users have been invited.
+svy#:#svy_x_appraisees_closed_for_raters#:#%s appraisee(s) has/have closed the survey for raters.
+svy#:#svy_x_open_appraisees#:#%s appraisee(s) are open for you to rate.
+svy#:#svy_your_appraisees#:#Your Appraisees
+svy#:#svy_your_raters#:#Your Raters
+svy#:#svy_your_raters_finished#:#%s of your raters have finished the survey.
 sysc#:#sysc_action_list_tree#:#Create Repository Tree Dump
 sysc#:#sysc_action_repair#:#Repair
 sysc#:#sysc_action_show_tree#:#Show Repository Tree Dump
@@ -16692,6 +16810,7 @@ tagging#:#tagging_enable_all_users_info#:#Adds a section ‘All Users’ to the 
 tagging#:#tagging_enable_tagging#:#Enable Tagging
 tagging#:#tagging_forbidden_tags#:#Forbidden Tags
 tagging#:#tagging_no_obj_for_tag#:#No Resources tagged with %s.
+tagging#:#tagging_no_perm_write#:#You have no permission to change this data.
 tagging#:#tagging_other_users#:#Tags of Other Users
 tagging#:#tagging_resources_for_tag#:#Resources tagged with %s
 tagging#:#tagging_search_users#:#Search Users
@@ -17053,6 +17172,7 @@ ui#:#table_posinput_col_title#:#Position
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Characters remaining:
+ui#:#ui_error#:#Error
 ui#:#ui_error_in_group#:#There is some error in this part.
 ui#:#ui_error_switchable_group_required#:#Please select an option.
 ui#:#ui_file_input_general_error#:#An error occurred! You can check the JavaScript console of your browser for more information and/or contact your ILIAS system administration about this incident.
@@ -17071,6 +17191,12 @@ ui#:#ui_table_no_records#:#No records
 ui#:#ui_transcription#:#Transcript
 user#:#all_roles_has_starting_point#:#All the roles have starting points
 user#:#back_to_starting_points_list#:#Back to Starting Points
+user#:#change_email_email_confirmation_body#:#The email address for the account %s was changed. To confirm this change, please click on this link %s. The link is valid for %s minutes.
+user#:#change_email_email_confirmation_subject#:#Confirm Email Address
+user#:#change_email_email_information_body#:#The process to change the email address for the account %s to %s was started. An email with a link to confirm the change was sent to the new address. The link is valid for %s minutes.
+user#:#change_email_email_information_subject#:#Information about Change of Email Address
+user#:#change_email_email_sent#:#An email with a link to confirm your change has been sent. Please check your inbox and make sure to also look in the spam-folder if the email doesn't arrive within the next minutes.
+user#:#change_email_info_message#:#There is a pending request to change the email address for this account.
 user#:#clipboard_add_btn#:#Add to Clipboard
 user#:#clipboard_add_from_btn#:#Add from Clipboard
 user#:#clipboard_empty_btn#:#Empty Clipboard
@@ -17079,6 +17205,7 @@ user#:#clipboard_table_title#:#Clipboard (User Accounts)
 user#:#clipboard_user_added#:#Added selected users to clipboard.
 user#:#confirm_delete_starting_point#:#Are you sure you want to delete this rule?
 user#:#confirm_logout_for_email_change#:#You changed your email. To finalize this change, you will need to provide your password. The system is thus going to log you out and you will have 5 minutes to log in again. All other changes will be saved before logging you out.
+user#:#confirm_logout_for_email_change_with_confirmation#:#Additionally, a confirmation that you control the new email address will be required. After you have logged in again, an email will be sent to you. Please click on the link in the email to confirm that you contoll the address. The change of the email address will only take effect once this second step is also finalized.
 user#:#create_starting_point#:#Create Rule
 user#:#criteria#:#Criteria
 user#:#del_mail_body#:#Hello %1$s, %2$s You have not logged in to %3$s for a long time. Therefore, your ILIAS account is expected to be deleted on %4$s. In order to keep your ILIAS account, you must log in again before the aforementioned date.
@@ -17180,7 +17307,8 @@ user#:#user_profile_info_text_info#:#This text is presented on top of the form f
 user#:#user_profile_portfolio#:#If you would like to use a portfolio as your profile, go to the portfolio section and select ‘Set As My Profile’ from the drop-down menu to the right of the portfolio you wish to use.
 user#:#user_profile_portfolio_selected#:#You are currently using a portfolio as your profile. Activation can be set there using the ‘Share’ tab.
 user#:#user_profile_preview#:#Preview of Profile
-user#:#user_profile_prompt_text_info#:#This text will replace the default info text, if a user has been prompted to the profile.
+user#:#user_profile_prompt_text#:#Prompt Text
+user#:#user_profile_prompt_text_info#:#This texts replace the default info text shown when a user is prompted to complete the profile.
 user#:#user_prompt_incomplete#:#Only if profile is incomplete
 user#:#user_prompt_incomplete_info#:#If the user has to enter required fields, the profile will be shown after login.
 user#:#user_prompt_once_after_login#:#Once, a specific number of days after first login

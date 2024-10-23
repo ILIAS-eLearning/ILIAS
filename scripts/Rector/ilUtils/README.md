@@ -1,6 +1,6 @@
-# Rector for Services/Utilities
+# Rector for ILIAS/Utilities
 
-The Services/Utilities component is an accumulation of many methods and
+The ILIAS/Utilities component is an accumulation of many methods and
 classes that have accumulated over the years and unfortunately are often
 widely used across the entire code base. As part of the PHP8 project
 2021/22, large parts of it have been moved to other components as they
@@ -22,8 +22,8 @@ Thereby - if not existing - the class is supplemented with an `ilGlobalTemplateI
 
 Make sure you have a updated composer classmap before running rector!
 
-How to run for a component such as Modules/File:
+How to run for a component such as ILIAS/File:
 
 ```bash
-./vendor/composer/vendor/bin/rector process --clear-cache --no-diffs --config ./scripts/Rector/ilUtils/ilutil_rector.php Modules/File
+./vendor/composer/vendor/bin/rector process --clear-cache --no-diffs --config ./scripts/Rector/ilUtils/ilutil_rector.php components/ILIAS/File
 ```

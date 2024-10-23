@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Blog\StandardGUIRequest;
 use ILIAS\Repository\Profile\ProfileGUI;
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 
 /**
  * Class ilBlogPosting GUI class
@@ -29,13 +30,15 @@ use ILIAS\Repository\Profile\ProfileGUI;
  */
 class ilBlogPostingGUI extends ilPageObjectGUI
 {
+    protected \ILIAS\Blog\InternalGUIService $blog_gui;
     protected ProfileGUI $profile_gui;
     protected \ILIAS\Notes\Service $notes;
     protected \ILIAS\Blog\ReadingTime\ReadingTimeManager $reading_time_manager;
     protected StandardGUIRequest $blog_request;
-    protected ilTabsGUI$tabs;
+    protected ilTabsGUI $tabs;
     protected ilLocatorGUI $locator;
     protected ilSetting $settings;
+    protected LOMServices $lom_services;
     protected int $node_id;
     protected ?object $access_handler = null;
     protected bool $enable_public_notes = false;
@@ -66,6 +69,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
             ->internal()
             ->gui()
             ->standardRequest();
+        $this->lom_services = $DIC->learningObjectMetadata();
 
         $lng->loadLanguageModule("blog");
 
@@ -110,6 +114,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         $this->reading_time_manager = new \ILIAS\Blog\ReadingTime\ReadingTimeManager();
         $this->notes = $DIC->notes();
         $this->profile_gui = $DIC->blog()->internal()->gui()->profile();
+        $this->blog_gui = $DIC->blog()->internal()->gui();
     }
 
     public function executeCommand(): string
@@ -216,13 +221,13 @@ class ilBlogPostingGUI extends ilPageObjectGUI
             ));
         }
         // permanent link
-        $append = ($this->blpg > 0)
-            ? "_" . $this->blpg
-            : "";
-        if ($this->isInWorkspace()) {
-            $append .= "_wsp";
-        }
-        $tpl->setPermanentLink("blog", $this->node_id, $append);
+        $ref_id = $this->isInWorkspace()
+            ? 0
+            : $this->node_id;
+        $wsp_id = $this->isInWorkspace()
+            ? $this->node_id
+            : 0;
+        $this->blog_gui->permanentLink($ref_id, $wsp_id)->setPermanentLink($this->blpg);
 
         $wtpl->setVariable("PAGE", parent::preview());
 
@@ -413,11 +418,11 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 
         if ($this->checkAccess("write") || $this->checkAccess("contribute")) {
             // delete all md keywords
-            $md_section = $this->getBlogPosting()->getMDSection();
-            foreach ($md_section->getKeywordIds() as $id) {
-                $md_key = $md_section->getKeyword($id);
-                $md_key->delete();
-            }
+            $this->lom_services->deleteAll(
+                $this->getBlogPosting()->getBlogId(),
+                $this->getBlogPosting()->getId(),
+                "blp"
+            );
 
             $this->getBlogPosting()->delete();
             $this->tpl->setOnScreenMessage('success', $lng->txt("blog_posting_deleted"), true);
@@ -652,15 +657,10 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 
         $ui_factory = $DIC->ui()->factory();
 
-        $md_section = $this->getBlogPosting()->getMDSection();
-
-        $keywords = array();
-        foreach ($ids = $md_section->getKeywordIds() as $id) {
-            $md_key = $md_section->getKeyword($id);
-            if (trim($md_key->getKeyword()) !== "") {
-                $keywords[] = $md_key->getKeyword();
-            }
-        }
+        $keywords = ilBlogPosting::getKeywords(
+            $this->getBlogPosting()->getBlogId(),
+            $this->getBlogPosting()->getId()
+        );
 
         // other keywords in blog
         $other = array();

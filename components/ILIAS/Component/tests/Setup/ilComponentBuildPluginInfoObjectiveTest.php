@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -34,7 +35,7 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
         $this->files = [];
         $this->added = [];
         $this->builder = new class ($this) extends ilComponentBuildPluginInfoObjective {
-            protected const BASE_PATH = "";
+            protected const BASE_PATH = "plugins/";
             protected ilComponentBuildPluginInfoObjectiveTest $test;
             public function __construct($test)
             {
@@ -61,22 +62,22 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
             {
                 return parent::isDotFile($file);
             }
-            protected function buildPluginPath(string $type, string $component, string $slot, string $plugin): string
+            protected function buildPluginPath(string $component, string $slot, string $plugin): string
             {
-                return $this->test->files[parent::buildPluginPath($type, $component, $slot, $plugin)];
+                return $this->test->files[parent::buildPluginPath($component, $slot, $plugin)];
             }
 
-            public function _buildPluginPath(string $type, string $component, string $slot, string $plugin): string
+            public function _buildPluginPath(string $component, string $slot, string $plugin): string
             {
-                return parent::buildPluginPath($type, $component, $slot, $plugin);
+                return parent::buildPluginPath($component, $slot, $plugin);
             }
-            protected function addPlugin(array &$data, string $type, string $component, string $slot, string $plugin): void
+            protected function addPlugin(array &$data, string $component, string $slot, string $plugin): void
             {
-                $this->test->added[] = "$type/$component/$slot/$plugin";
+                $this->test->added[] = "$component/$slot/$plugin";
             }
-            public function _addPlugin(array &$data, string $type, string $component, string $slot, string $plugin): void
+            public function _addPlugin(array &$data, string $component, string $slot, string $plugin): void
             {
-                parent::addPlugin($data, $type, $component, $slot, $plugin);
+                parent::addPlugin($data, $component, $slot, $plugin);
             }
         };
     }
@@ -85,7 +86,7 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
     {
         $this->builder->build();
 
-        $expected = ["components/ILIAS"];
+        $expected = ["plugins/"];
         sort($expected);
         sort($this->scanned);
         $this->assertEquals($expected, $this->scanned);
@@ -94,15 +95,15 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
     public function testScanningComplete(): void
     {
         $this->dirs = [
-            "components/ILIAS" => ["Module1", "Module2"],
-            "components/ILIAS/Module1" => ["Slot1", "Slot2"],
-            "components/ILIAS/Module2" => []
+            "plugins/" => ["Module1", "Module2"],
+            "plugins/Module1" => ["Slot1", "Slot2"],
+            "plugins/Module2" => []
         ];
 
         $this->builder->build();
 
-        $expected = ["components/ILIAS", "components/ILIAS/Module1", "components/ILIAS/Module2",
-            "components/ILIAS/Module1/Slot1", "components/ILIAS/Module1/Slot2"];
+        $expected = ["plugins/", "plugins/Module1", "plugins/Module2",
+            "plugins/Module1/Slot1", "plugins/Module1/Slot2"];
         sort($expected);
         sort($this->scanned);
         $this->assertEquals($expected, $this->scanned);
@@ -111,16 +112,16 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
     public function testPluginsAdded(): void
     {
         $this->dirs = [
-            "components/ILIAS" => ["Module1"],
-            "components/ILIAS/Module1" => ["Slot1"],
-            "components/ILIAS/Module1/Slot1" => ["Plugin1", "Plugin2"]
+            "plugins/" => ["Module1"],
+            "plugins/Module1" => ["Slot1"],
+            "plugins/Module1/Slot1" => ["Plugin1", "Plugin2"]
         ];
 
         $this->builder->build();
 
         $expected = [
-            "components/ILIAS/Module1/Slot1/Plugin1",
-            "components/ILIAS/Module1/Slot1/Plugin2"
+            "Module1/Slot1/Plugin1",
+            "Module1/Slot1/Plugin2"
         ];
         sort($expected);
         sort($this->added);
@@ -158,8 +159,8 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
     public function testAddPlugins(): void
     {
         $data = [];
-        $this->files["components/ILIAS/Module1/Slot1/Plugin1/"] = __DIR__ . "/";
-        $this->builder->_addPlugin($data, "components/ILIAS", "Module1", "Slot1", "Plugin1");
+        $this->files["plugins/Module1/Slot1/Plugin1/"] = __DIR__ . "/";
+        $this->builder->_addPlugin($data, "Module1", "Slot1", "Plugin1");
 
         $expected = [
             "tstplg" => [
@@ -182,6 +183,6 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
 
     public function testBuildPluginPath(): void
     {
-        $this->assertEquals("TYPE/COMPONENT/SLOT/PLUGIN/", $this->builder->_buildPluginPath("TYPE", "COMPONENT", "SLOT", "PLUGIN"));
+        $this->assertEquals("plugins/COMPONENT/SLOT/PLUGIN/", $this->builder->_buildPluginPath("COMPONENT", "SLOT", "PLUGIN"));
     }
 }

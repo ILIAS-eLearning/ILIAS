@@ -552,6 +552,9 @@ assessment#:#backtocallingpage#:#Zurück zur Fragenseite
 assessment#:#backtocallingpool#:#Zurück zum Fragenpool
 assessment#:#backtocallingtest#:#Zurück zum Test
 assessment#:#baseunit#:#Basiseinheit
+assessment#:#bulkedit_author#:#Autor ändern
+assessment#:#bulkedit_lifecycle#:#Lebenszyklus ändern
+assessment#:#bulkedit_taxonomies#:#Taxonomien ändern
 assessment#:#button_request_next_question_hint#:#Fordere nächsten Lösungshinweis an
 assessment#:#button_request_question_hint#:#Lösungshinweis anfordern
 assessment#:#cancel_test#:#Test unterbrechen
@@ -1005,6 +1008,9 @@ assessment#:#previous_question_rows#:#← Fragen %d - %d von %d
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Für die ausgewählte Frage ist keine statistische Auswertung vorhanden. Die Frage wurde bislang nie in einem Test verwendet.
 assessment#:#qpl_assessment_total_of_answers#:#Gesamtzahl der Antworten
 assessment#:#qpl_assessment_total_of_right_answers#:#Gesamtprozentsatz der richtigen Antworten
+assessment#:#qpl_bulk_save_add#:#Hinzufügen
+assessment#:#qpl_bulk_save_overwrite#:#Überschreiben
+assessment#:#qpl_bulkedit_success#:#Änderungen gespeichert.
 assessment#:#qpl_cancel_skill_assigns_update#:#Abbrechen
 assessment#:#qpl_confirm_delete_questions#:#Sind Sie sicher, dass Sie die folgenden Fragen entfernen wollen?
 assessment#:#qpl_copy_insert_clipboard#:#Die ausgewählten Fragen wurden in die Zwischenablage kopiert
@@ -2135,12 +2141,26 @@ auth#:#auth_saml_username_claim_info#:#Definieren Sie hier das Attribut, anhand 
 auth#:#auth_sync#:#Benutzer-Synchronisierung
 auth#:#auth_sync_cas#:#Automatische Generierung von ILIAS-Anmeldekonten
 auth#:#auth_sync_cas_info#:#Benutzer, die sich erfolgreich gegen CAS authentifiziert haben, jedoch über kein ILIAS-Konto verfügen, werden automatisch angelegt.
+auth#:#destination_after_logout#:#Weiterleitung nach Abmeldung
+auth#:#destination_external_ressource#:#Zeige Externe Resource
+auth#:#destination_external_ressource_url#:#Externe URL
+auth#:#destination_internal_ressource#:#Zeige Interne Resource
+auth#:#destination_internal_ressource_ref_id#:#Interne Referenz-ID
+auth#:#destination_login_screen#:#Zeige Anmeldebildschirm
+auth#:#destination_login_screen_info#:#Stellen Sie sicher, dass z.B. kein SSO angesprochen wird, das zu einer sofortigen Anmeldung führt.
+auth#:#destination_logout_screen#:#Zeige Abmeldebildschirm
 auth#:#err_auth_ldap_failed#:#Die Anmeldung ist fehlgeschlagen. Bitte kontaktieren Sie Ihre technische Betreuung.
 auth#:#err_auth_saml_failed#:#Die Anmeldung ist fehlgeschlagen. Bitte kontaktieren Sie Ihre technische Betreuung.
 auth#:#err_auth_saml_no_ilias_user#:#Die Anmeldung ist fehlgeschlagen. Bitte kontaktieren Sie Ihre technische Betreuung.
 auth#:#language_does_not_exist#:#Die gewählte Sprache existiert leider nicht.
 auth#:#login_page#:#Sprache der Login-Seite
 auth#:#login_pages#:#Login-Seiten
+auth#:#logout_behaviour#:#Logout-Verhalten
+auth#:#logout_behaviour_invalid_ref_id#:#Stellen sie sicher, dass die angegebene interne Resource existiert und sich nicht im Papierkorb befindet.
+auth#:#logout_behaviour_invalid_url#:#Die angegebene externe Resource ist keine gültige URL.
+auth#:#logout_behaviour_ref_id_no_access#:#Stellen sie sicher, dass die angegebene interne Resource für den "Anonymous"-Nutzer zugänglich ist.
+auth#:#logout_behaviour_ref_id_valid_status_changed#:#Die konfigurierte interne Ressource ist nicht mehr gültig. Falls die Ressource gelöscht wurde oder der Zugriff für den "Anonymous"-Nutzer eingeschränkt wurde, konfigurieren Sie bitte eine neue gültige interne Ressource. Ohne gültige Konfiguration wird der Benutzer standardmäßig auf den Abmeldebildschirm weitergeleitet.
+auth#:#logout_behaviour_settings#:#Einstellungen für das Logout-Verhalten
 auth#:#logout_editor#:#Logout-Seite gestalten
 auth#:#logout_page#:#Sprache der Logout-Seite
 auth#:#logout_pages#:#Logout-Seiten
@@ -2179,10 +2199,10 @@ background_tasks#:#completed#:#Abgeschlossen
 background_tasks#:#proceed_job#:#Weiter
 background_tasks#:#scheduled#:#Geplant
 background_tasks#:#task_might_be_failed#:#Diese Aufgabe hat seit einiger Zeit nicht geantwortet, Sie können sie beenden, falls nötig.
-background_tasks#:#ui_msg_files_violate_maxsize#:#Die Gesamtdownloadgrösse überschreitet das globale Limit. Der Download wird abgebrochen.
+background_tasks#:#ui_msg_files_violate_maxsize#:#Die Gesamtdownloadgröße überschreitet das globale Limit. Der Download wird abgebrochen.
 background_tasks#:#ui_msg_no_files_found#:#Es wurden keine Dateien gefunden. Der Download wird abgebrochen.
 background_tasks#:#ui_msg_num_files#:#%s Datei(-en) wurden gefunden, möchten Sie fortfahren?
-background_tasks#:#ui_msg_sum_file_sizes#:#Die Gesamtdownloadgrösse vor Erstellung des Zip-Ordners beträgt %s. Möchten Sie fortfahren?
+background_tasks#:#ui_msg_sum_file_sizes#:#Die Gesamtdownloadgröße vor Erstellung des Zip-Ordners beträgt %s. Möchten Sie fortfahren?
 background_tasks#:#waiting#:#Warten
 badge#:#awarded_by#:#Vergeben durch
 badge#:#badge_activity_badges#:#Automatisch vergebenes Badge
@@ -2282,8 +2302,8 @@ bgtask#:#bgtask_setting_limit#:#Größenlimit Download-Paket
 bgtask#:#bgtask_setting_limit_info#:#Der Download eines Ordners oder mehrerer Objekte ist nur möglich, wenn die Dateigrößen in Summe den eingegebenen Wert nicht überschreiten.
 bgtask#:#bgtask_setting_threshold_count#:#Minimale Anzahl
 bgtask#:#bgtask_setting_threshold_count_info#:#Ab diesem Wert erfolgt der Download asynchron.
-bgtask#:#bgtask_setting_threshold_size#:#Minimale Grösse
-bgtask#:#bgtask_setting_threshold_size_info#:#Ab dieser Grösse erfolgt der Download asynchron.
+bgtask#:#bgtask_setting_threshold_size#:#Minimale Größe
+bgtask#:#bgtask_setting_threshold_size_info#:#Ab dieser Größe erfolgt der Download asynchron.
 bibl#:#Type#:#Typ
 bibl#:#add_filter#:#Felder hinzufügen
 bibl#:#bib_default_abstract#:#Abstract
@@ -2479,7 +2499,7 @@ blog#:#blog_presentation_overview#:#Präsentation der Beiträge
 blog#:#blog_preview#:#Vorschau
 blog#:#blog_preview_banner#:#Personalisiertes Banner
 blog#:#blog_preview_banner_height#:#Höhe des Banners
-blog#:#blog_preview_banner_info#:#Standardgrösse ist 1370x100 Pixel.
+blog#:#blog_preview_banner_info#:#Standardgröße ist 1370x100 Pixel.
 blog#:#blog_preview_banner_width#:#Breite des Banners
 blog#:#blog_profile_picture#:#Profil-Bild anzeigen
 blog#:#blog_profile_picture_repository_info#:#Profilbilder werden nur für einzelne Beiträge angezeigt, nicht auf Übersichtsseiten.###Modified as part of gender mainstreaming activities for ILIAS 8
@@ -2490,6 +2510,7 @@ blog#:#blog_settings#:#Blog-Administration
 blog#:#blog_settings_navigation#:#Navigation
 blog#:#blog_show_latest#:#Neueste Beiträge/Entwürfe anzeigen
 blog#:#blog_show_print_view#:#Druckansicht
+blog#:#blog_side_blocks#:#Seitenblöcke
 blog#:#blog_starting_page#:#Startseite
 blog#:#blog_task_publishing_draft_title#:#Veröffentlichen des Entwurfs „%s“
 blog#:#blog_toggle_draft#:#Veröffentlichung zurücknehmen
@@ -2875,8 +2896,8 @@ chatroom#:#chat_auth_token_info#:#Bitte definieren Sie hier zwei eindeutige Zeic
 chatroom#:#chat_ban#:#Sperren
 chatroom#:#chat_broadcast_typing#:#Tippen im Chat anzeigen
 chatroom#:#chat_broadcast_typing_info#:#Anderen Anwesenden in einem Chat bzw. Chatraum wird angezeigt, wenn Sie beginnen, eine Nachricht zu tippen.
-chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> hat den Chatraum verlassen ---
-chatroom#:#chat_connection_established#:#+++ <b>#username#</b> hat den Chatraum betreten +++
+chatroom#:#chat_connection_disconnected#:##username# hat den Chatraum verlassen.
+chatroom#:#chat_connection_established#:##username# hat den Chatraum betreten.
 chatroom#:#chat_deletion_disabled#:#Deaktiviert
 chatroom#:#chat_deletion_interval#:#Intervall
 chatroom#:#chat_deletion_interval_info#:#Falls gewählt, werden Nachrichten im Magazin-Chat und im On-Screen-Chat gelöscht, sofern sie älter als der hier definierte Schwellenwert sind.
@@ -2908,7 +2929,6 @@ chatroom#:#chat_mainroom#:#Hauptraum
 chatroom#:#chat_message#:#Nachricht
 chatroom#:#chat_message_display#:#Anzeigen
 chatroom#:#chat_message_options#:#Optionen
-chatroom#:#chat_message_to_all#:#An alle
 chatroom#:#chat_no_use_typing_broadcast#:#Tippen wird anderen im Chat nicht angezeigt
 chatroom#:#chat_not_use_osc#:#Nutzt On-Screen-Chat nicht
 chatroom#:#chat_osc_accept_msg#:#Anchatten erlauben
@@ -3002,7 +3022,7 @@ chatroom#:#kicked#:#Die Moderation hat Sie aus dem Chat entfernt.###Modified as 
 chatroom#:#lost_connection#:#Die Verbindung zum Chat-Server wurde unterbrochen.
 chatroom#:#main#:#Hauptraum
 chatroom#:#messages#:#Nachrichten
-chatroom#:#no_further_users#:#Keine weiteren Benutzer anwesend
+chatroom#:#no_further_users#:#Keine weiteren Benutzer anwesend.
 chatroom#:#no_messages#:#Es sind keine Nachrichten für den ausgewählten Zeitraum verfügbar.
 chatroom#:#no_username_given#:#Bitte wählen Sie einen Anmeldenamen!
 chatroom#:#osc_browser_noti_no_permission_error#:#Bitte entfernen Sie die ILIAS-Domain von der Liste der blockierten Websites in den Benachrichtigungs-Einstellungen Ihres Browsers oder Betriebssystems. Andernfalls kann ILIAS keine Browser-Benachrichtigungen zustellen.
@@ -3021,17 +3041,17 @@ chatroom#:#server_further_information#:#Weitere Informationen zur Konfiguration 
 chatroom#:#session#:#Sitzung
 chatroom#:#settings_general#:#Allgemein
 chatroom#:#settings_title#:#Einstellungen des Chats
-chatroom#:#speak_to#:#<b>#user#</b> ansprechen
+chatroom#:#start_private_chat#:#Privaten Chat starten
 chatroom#:#unable_to_connect#:#Die Verbindung zum Chat-Server konnte nicht hergestellt werden.
 chatroom#:#unban#:#Entsperren
+chatroom#:#user_banned#:#Der Benutzer #user# wurde aus dem Chatraum gebannt.
 chatroom#:#user_in_ilias#:#Benutzer in ILIAS suchen und einladen
 chatroom#:#user_in_room#:#Benutzer im aktuellen Chatraum einladen
 chatroom#:#user_invited#:#Der Benutzer wurde eingeladen.
-chatroom#:#user_invited_self#:#Sie wurden von <b>#user#</b> in den Chatraum <b>#room#</b> eingeladen.
-chatroom#:#user_kicked#:#Der Benutzer <b>#user#</b> wurde aus dem Chatraum geworfen.
+chatroom#:#user_invited_self#:#Sie wurden von #user# in den Chatraum #room# eingeladen.
+chatroom#:#user_kicked#:#Der Benutzer #user# wurde aus dem Chatraum geworfen.
 chatroom#:#users#:#Benutzer
-chatroom#:#welcome_to_chat#:#Willkommen im Chatraum
-chatroom#:#whisper_to#:#<b>#user#</b> anflüstern
+chatroom#:#welcome_to_chat#:#Willkommen im Chatraum.
 chatroom#:#write_message#:#Neue Nachricht
 chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS kann keine Socket-Verbindung zum Chat-Server aufbauen.
 chatroom_adm#:#chat_enabled#:#Chat aktivieren
@@ -3128,6 +3148,13 @@ cmix#:#conf_bypass_proxy_enabled#:#CronJob zur Abfrage des Learning Record Store
 cmix#:#conf_bypass_proxy_info#:#In den meisten Fällen wird empfohlen, den xAPI-Proxy zu verwenden. Verwenden Sie den CronJob bei Einschränkungen hinsichtlich Ressourcen oder Server.
 cmix#:#conf_cronjob_neccessary#:#CronJob notwendig für den Lernfortschritt
 cmix#:#conf_cronjob_neccessary_info#:#Durch Aktivieren dieser Option können die diesen LRS-Typ nutzenden xAPI-Objekte den xAPI-Proxy nicht nutzen, der zeitlich unmittelbar Daten zur Erkennung des Lernfortschritts liefert. Verwenden Sie nur den CronJob bei Einschränkungen hinsichtlich Ressourcen oder Server.
+cmix#:#conf_delete_data#:#Daten im LRS löschen
+cmix#:#conf_delete_data_info#:#Löschen ist aktuell nur mit dem Learning Record Store (LRS) LearningLocker möglich. Nutzen Sie die Optionen zum Löschen der Benutzeridentifikation nur dann, wenn die Daten im LRS pseudonymisiert wurden.
+cmix#:#conf_delete_data_opt0#:#nie
+cmix#:#conf_delete_data_opt1#:#nie - doch wenn Benutzer gelöscht und wenn xAPI/cmi-Objekte in den Papierkorb verschoben oder gelöscht werden, werden Daten durch Löschen der - Benutzeridentifikation für ILIAS nicht mehr zuordnenbar sein
+cmix#:#conf_delete_data_opt11#:#wenn Benutzer gelöscht und wenn xAPI/cmi-Objekte in den Papierkorb verschoben oder gelöscht werden
+cmix#:#conf_delete_data_opt12#:#zusätzlich wenn Benutzer aus Kursen oder Gruppen entfernt werden
+cmix#:#conf_delete_data_opt2#:#nie - doch zusätzlich wenn Benutzer aus Kursen oder Gruppen entfernt werden, werden Daten durch Löschen der Benutzeridentifikation für ILIAS nicht mehr zuordnenbar sein
 cmix#:#conf_description#:#Beschreibung
 cmix#:#conf_external_lrs#:#Externer LRS
 cmix#:#conf_keep_lp#:#Verschlechterung des Lernfortschritts vermeiden
@@ -3147,48 +3174,54 @@ cmix#:#conf_new_window_info#:#Der Inhalt wird in einem neuen Fenster geöffnet. 
 cmix#:#conf_own_window#:#Gleiches Fenster
 cmix#:#conf_own_window_info#:#Der Inhalt wird im gleichen Fenster geöffnet und ersetzt den ILIAS-Bildschirm. Beim Verlassen des Inhalts kehrt der Benutzer zu ILIAS zurück.
 cmix#:#conf_privacy_comment_default#:#Anzeige an den Benutzer
-cmix#:#conf_privacy_ident#:#Identifikation der Person
-cmix#:#conf_privacy_ident_il_uuid_SHA256#:#Hash kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-cmix#:#conf_privacy_ident_il_uuid_SHA256_info#:#Die Identifikation ist identisch bei jedem Aufruf, aber lässt keine direkten Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
-cmix#:#conf_privacy_ident_il_uuid_ext_account#:#Die externe Konten-ID wird kombiniert mit einer eindeutigen ID der ILIAS-Plattform und als E-Mail-Adresse formatiert.
-cmix#:#conf_privacy_ident_il_uuid_ext_account_info#:#Die Identifikation ist identisch bei jedem Aufruf und lässt direkte Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
-cmix#:#conf_privacy_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-cmix#:#conf_privacy_ident_il_uuid_login_info#:#Sendet den Anmeldenamen. Diese Identifikation ist identisch bei jedem Aufruf und lässt direkte Rückschlüsse aufs ILIAS-Konto und die zugehörige Person zu.
-cmix#:#conf_privacy_ident_il_uuid_random#:#Zufalls-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-cmix#:#conf_privacy_ident_il_uuid_random_info#:#Pro ILIAS-Objekt und ILIAS-Konto wird eine Zufalls-ID erzeugt, die bei jedem Aufruf identisch bleibt. Rückschlüsse auf eine Person sind sehr eingeschränkt, da Objekt-übergreifende Profile praktisch nicht erstellt werden können.
-cmix#:#conf_privacy_ident_il_uuid_user_id#:#Die ID des ILIAS-Kontos wird kombiniert mit einer eindeutigen ID der ILIAS-Plattform und als E-Mail-Adresse formatiert.
-cmix#:#conf_privacy_ident_il_uuid_user_id_info#:#Die interne numerische ID ist bei jedem Aufruf identisch und ermöglicht Rückschlüsse auf das ILIAS-Konto.
+cmix#:#conf_privacy_ident#:#Schlüssel zur Identifikation einer Person
+cmix#:#conf_privacy_ident_il_uuid_ext_account#:#ID-externes-Konto@ILIAS-Plattform-ID.ilias
+cmix#:#conf_privacy_ident_il_uuid_ext_account_info#:#Die E-Mail-Adresse setzt sich zusammen aus der ID eines externen Kontos und einer eigens generierten Plattform-ID. Diese Option ermöglicht Rückschlüsse auf die Person.
+cmix#:#conf_privacy_ident_il_uuid_login#:#ILIAS-Anmeldename@ILIAS-Plattform-ID.ilias
+cmix#:#conf_privacy_ident_il_uuid_login_info#:#Die E-Mail-Adresse setzt sich zusammen aus dem Anmeldenamen und einer eigens generierten Plattform-ID. Diese Option ermöglicht Rückschlüsse auf das ILIAS-Konto.
+cmix#:#conf_privacy_ident_il_uuid_random#:#Zufalls-ID@ILIAS-Plattform-ID.ilias
+cmix#:#conf_privacy_ident_il_uuid_random_info#:#Pro ILIAS-Objekt und ILIAS-Konto wird eine Zufalls-ID erzeugt, die bei jedem Aufruf identisch bleibt. Die E-Mail-Adresse setzt sich zusammen aus der Zufalls-ID und einer eigens generierten Plattform-ID. Ohne Zugriff auf die ILIAS-Datenbank ermöglicht diese Option nur sehr eingeschränkte Rückschlüsse auf ein ILIAS-Konto, da auf Seiten des LRS oder der Ressource Objekt-übergreifende Nutzerprofile praktisch nicht erstellt werden können.
+cmix#:#conf_privacy_ident_il_uuid_sha256#:#Hash@ILIAS-Plattform-ID.ilias
+cmix#:#conf_privacy_ident_il_uuid_sha256_info#:#Die E-Mail-Adresse setzt sich zusammen aus einem Hash-Wert und einer eigens generierten Plattform-ID. Ohne Zugriff auf die ILIAS-Datenbank ermöglicht diese Option keine direkten Rückschlüsse auf ein ILIAS-Konto.
+cmix#:#conf_privacy_ident_il_uuid_sha256url#:#Hash@ILIAS-Domain
+cmix#:#conf_privacy_ident_il_uuid_sha256url_info#:#Die E-Mail-Adresse setzt sich zusammen aus einem Hash-Wert und einer ILIAS-Domain. Diese Option ist mit maximal 80 Zeichen deutlich kürzer als die mit ILIAS-Plattform-ID. Ohne Zugriff auf die ILIAS-Datenbank ermöglicht diese Option sind nur sehr eingeschränkte Rückschlüsse auf ein ILIAS-Konto.
+cmix#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS-Konto-ID@ILIAS-Plattform-ID.ilias
+cmix#:#conf_privacy_ident_il_uuid_user_id_info#:#Die E-Mail-Adresse setzt sich zusammen aus der numerischen ILIAS-Konto-ID und einer eigens generierten Plattform-ID. Diese Option ermöglicht Rückschlüsse auf das ILIAS-Konto.
 cmix#:#conf_privacy_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
-cmix#:#conf_privacy_ident_real_email#:#E-Mail-Adresse
-cmix#:#conf_privacy_ident_real_email_info#:#Sendet die E-Mail-Adresse des Profils als Identifikation. Achtung: Eine E-Mail-Adresse kann von mehreren Personen verwendet werden!
-cmix#:#conf_privacy_name#:#Anmeldename
+cmix#:#conf_privacy_ident_real_email#:#Hinterlegte E-Mail-Adresse
+cmix#:#conf_privacy_ident_real_email_info#:#Diese Option ermöglicht Rückschlüsse auf das ILIAS-Konto. Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!
+cmix#:#conf_privacy_name#:#Name
 cmix#:#conf_privacy_name_firstname#:#Vorname
-cmix#:#conf_privacy_name_firstname_info#:#Sendet den Vornamen
+cmix#:#conf_privacy_name_firstname_info#:#Sends the first name of the user name from ILIAS###18 06 2024 new variable
 cmix#:#conf_privacy_name_fullname#:#Vollständiger Name
-cmix#:#conf_privacy_name_fullname_info#:#Sendet Titel, Vorname und Nachname.
-cmix#:#conf_privacy_name_info#:#Das Senden eines Anmeldenamens ist in der Regel nicht erforderlich.
+cmix#:#conf_privacy_name_fullname_info#:#Sends title, first name and last name###18 06 2024 new variable
+cmix#:#conf_privacy_name_info#:#Der Name wird an LRS und Ressource gesendet, um die Identifikation einer Person zu vereinfachen. Das Senden eines Namens ist in der Regel nicht erforderlich.
 cmix#:#conf_privacy_name_lastname#:#Titel und Nachname
-cmix#:#conf_privacy_name_lastname_info#:#Sendet Herr oder Frau (sofern nicht anders angegeben) und den Nachnamen.
+cmix#:#conf_privacy_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name###18 06 2024 new variable
 cmix#:#conf_privacy_name_none#:#Keiner
-cmix#:#conf_privacy_name_none_info#:#Sendet '-' anstelle eines Namens
+cmix#:#conf_privacy_name_none_info#:#Sendet „-“ anstelle eines Namens.
 cmix#:#conf_privacy_setting_conf#:#Konfigurationsoptionen
 cmix#:#conf_privacy_setting_default#:#Standardeinstellungen, änderbar für Objekte
 cmix#:#conf_privacy_setting_force#:#Die Einstellungen sind für Objekte nicht änderbar.
 cmix#:#conf_privacy_setting_info#:#Konfigurationsoptionen für die Datenschutzeinstellungen
 cmix#:#conf_remarks#:#Interne Kommentare
 cmix#:#conf_title#:#Titel
-cmix#:#conf_user_ident#:#Identifikation der Person
-cmix#:#conf_user_ident_il_uuid_ext_account#:#Die externe Konten-ID wird kombiniert mit einer eindeutigen ID der ILIAS-Plattform und als E-Mail-Adresse formatiert.
-cmix#:#conf_user_ident_il_uuid_ext_account_info#:#Die Identifikation ist identisch bei jedem Aufruf und lässt direkte Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
-cmix#:#conf_user_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-cmix#:#conf_user_ident_il_uuid_login_info#:#Die Identifikation ist identisch bei jedem Aufruf und lässt direkte Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
-cmix#:#conf_user_ident_il_uuid_random#:#Zufalls-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-cmix#:#conf_user_ident_il_uuid_random_info#:#Pro ILIAS-Objekt und ILIAS-Konto wird eine Zufalls-ID erzeugt, die bei jedem Aufruf identisch bleibt. Rückschlüsse auf eine Person sind sehr eingeschränkt, da Objekt-übergreifende Profile praktisch nicht erstellt werden können.
-cmix#:#conf_user_ident_il_uuid_user_id#:#Die ID des ILIAS-Kontos wird kombiniert mit einer eindeutigen ID der ILIAS-Plattform und als E-Mail-Adresse formatiert.
-cmix#:#conf_user_ident_il_uuid_user_id_info#:#Die Identifikation ist identisch bei jedem Aufruf, erlaubt aber keine direkten Rückschlüsse auf das ILIAS-Konto und die zugehörige Person.
+cmix#:#conf_use_proxy#:#xAPI-Proxy
+cmix#:#conf_use_proxy_info#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cronjob „xAPI/cmi5 Ergebnisse holen“. Für cmi5-Objekte ist der xAPI-Proxy zwingend erforderlich und wird automatisch aktiviert.
+cmix#:#conf_use_proxy_info_cmi5#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Für cmi5-Objekte ist der xAPI-Proxy zwingend erforderlich.
+cmix#:#conf_use_proxy_info_xapi#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cronjob „xAPI/cmi5 Ergebnisse holen“.
+cmix#:#conf_user_ident#:#Schlüssel zur Identifikation einer Person
+cmix#:#conf_user_ident_il_uuid_ext_account#:#ID-externes-Konto@ILIAS-Plattform-ID.ilias
+cmix#:#conf_user_ident_il_uuid_ext_account_info#:#Die E-Mail-Adresse setzt sich zusammen aus der ID eines externen Kontos und einer eigens generierten Plattform-ID. Diese Option ermöglicht Rückschlüsse auf die Person.zulassen.
+cmix#:#conf_user_ident_il_uuid_login#:#ILIAS-Anmeldename@ILIAS-Plattform-ID.ilias
+cmix#:#conf_user_ident_il_uuid_login_info#:#Die E-Mail-Adresse setzt sich zusammen aus dem Anmeldenamen und einer eigens generierten Plattform-ID. Diese Option ermöglicht Rückschlüsse auf das ILIAS-Konto.
+cmix#:#conf_user_ident_il_uuid_random#:#Zufalls-ID@ILIAS-Plattform-ID.ilias
+cmix#:#conf_user_ident_il_uuid_random_info#:#Pro ILIAS-Objekt und ILIAS-Konto wird eine Zufalls-ID erzeugt, die bei jedem Aufruf identisch bleibt. Die E-Mail-Adresse setzt sich zusammen aus der Zufalls-ID und einer eigens generierten Plattform-ID. Ohne Zugriff auf die ILIAS-Datenbank ermöglicht diese Option nur sehr eingeschränkte Rückschlüsse auf ein ILIAS-Konto, da auf Seiten des LRS oder der Ressource Objekt-übergreifende Nutzerprofile praktisch nicht erstellt werden können.
+cmix#:#conf_user_ident_il_uuid_user_id#:#ILIAS-Konto-ID@ILIAS-Plattform-ID.ilias
+cmix#:#conf_user_ident_il_uuid_user_id_info#:#Die E-Mail-Adresse setzt sich zusammen aus der ID eines externen Kontos und einer eigens generierten Plattform-ID. Diese Option ermöglicht Rückschlüsse auf die Person.
 cmix#:#conf_user_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
-cmix#:#conf_user_ident_real_email#:#E-Mail-Adresse
-cmix#:#conf_user_ident_real_email_info#:#Sendet die E-Mail-Adresse des Profils als Identifikation. Achtung: Eine E-Mail-Adresse kann von mehreren Personen verwendet werden!
+cmix#:#conf_user_ident_real_email#:#Hinterlegte E-Mail-Adresse
+cmix#:#conf_user_ident_real_email_info#:#Diese Option ermöglicht Rückschlüsse auf das ILIAS-Konto. Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!
 cmix#:#conf_user_name#:#Anmeldename
 cmix#:#conf_user_name_firstname#:#Vorname
 cmix#:#conf_user_name_firstname_info#:#Sendet den Vornamen
@@ -3244,7 +3277,7 @@ cmix#:#info_availability#:#Hereby you can operate the availability of the LRS-ty
 cmix#:#info_description#:#Diese Beschreibung wird bei der Auswahl des LRS-Typs für neue Objekte angezeigt.
 cmix#:#info_external_lrs#:#Bei einem externen Learning Record Store (LRS) wird dem Anwender ein Hinweis angezeigt. Ein externer LRS ist gekennzeichnet durch einen unzureichenden Einfluss auf den LRS und durch den Betreiber von ILIAS. Dies ist der Fall, wenn es keine Rechte zum Löschen gibt.
 cmix#:#info_lrs_endpoint#:#URL des Endpoints ohne „/“ am Ende
-cmix#:#info_lrs_key#:#Key oder Login für den Zugriff von ILIAS auf den LRS
+cmix#:#info_lrs_key#:#Key oder Anmeldename für den Zugriff von ILIAS auf den LRS
 cmix#:#info_lrs_secret#:#Gemeinsames Secret / Passwort
 cmix#:#info_privacy_comment_default#:#Bitte geben Sie bei Verwendung dieses LRS bei Bedarf einen zusätzlichen Hinweis auf die Datensicherheit an.
 cmix#:#info_remarks#:#Hier können Sie Ihre Kommentare zu diesem LRS-Typ festhalten.
@@ -3777,7 +3810,6 @@ common#:#create_stylesheet#:#Style erstellen
 common#:#created#:#Erstellt am
 common#:#cron_forum_notification#:#Foren-Benachrichtigungen via Cron-Job versenden
 common#:#cron_forum_notification_crob_desc#:#Wenn aktiviert, sendet ILIAS täglich Benachrichtigungen an die Benutzer, die bei ausgewählten Foren oder Foren-Themen über neue und geänderte Beiträge benachrichtigt werden wollen. Bitte beachten Sie: Wenn Sie diese Form der Foren-Benachrichtigungen aktivieren, werden keine direkten Benachrichtungen mehr verschickt (Administration / Foren / Foren-Benachrichtigungen versenden).
-common#:#cron_forum_notification_desc#:#Wenn aktiviert, sendet ILIAS Mails an die Benutzer, die bei ausgewählten Foren-Themen über neue Beiträge benachrichtigt werden wollen.
 common#:#cron_forum_notification_disabled#:#Kann nicht deaktiviert werden wenn der Cron Job aktiv ist.
 common#:#cron_jobs#:#Cron-Jobs
 common#:#cron_lucene_index#:#Lucene-Suchindex aktualisieren
@@ -4508,10 +4540,10 @@ common#:#logic_or#:#oder
 common#:#login#:#Anmeldename
 common#:#login_as#:#Angemeldet als
 common#:#login_data#:#Anmeldedaten
-common#:#login_exists#:#Dieser Anmeldename ist bereits vergeben. Bitte wählen Sie einen anderen Anmeldenamen.
-common#:#login_information#:#Login-Informationen
-common#:#login_information_desc#:#Geben Sie hier für die jeweilige Sprache eine Login-Information ein.
-common#:#login_information_settings_saved#:#Die Login-Informationen wurden erfolgreich gespeichert
+common#:#login_exists#:#Dieser Anmeldename ist bereits vergeben. Bitte wählen Sie einen anderen.
+common#:#login_information#:#Informationen zur Anmeldung
+common#:#login_information_desc#:#Geben Sie hier für die jeweilige Sprache einen entsprechenden Informationstext ein.
+common#:#login_information_settings_saved#:#Die Informationen wurden erfolgreich gespeichert.
 common#:#login_invalid#:#Ihr Anmeldename muss mindestens drei Zeichen lang sein und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_to_ilias#:#Bei ILIAS anmelden
 common#:#login_to_ilias_via_cas#:#Bei ILIAS über zentrales Authentifizierungssystem anmelden
@@ -5146,6 +5178,7 @@ common#:#objs_rglo#:#ECS-Glossare
 common#:#objs_rgrp#:#ECS-Gruppen
 common#:#objs_rlm#:#ECS-Lernmodule
 common#:#objs_role#:#Rollen
+common#:#objs_rolf#:#Rollenordner
 common#:#objs_rtst#:#ECS-Tests
 common#:#objs_rwik#:#ECS-Wikis
 common#:#objs_sahs#:#SCORM-Lernmodule
@@ -5469,6 +5502,7 @@ common#:#save_settings#:#Einstellungen speichern
 common#:#save_user_related_data#:#Benutzerspezifische Zugriffsdaten speichern
 common#:#saved_successfully#:#Ihre Änderungen wurden gespeichert
 common#:#saving#:#Sichert...
+common#:#scope#:#Gültigkeitsbereich
 common#:#scorm_create_export_file_html#:#HTML-Exportdatei erzeugen
 common#:#scorm_create_export_file_pdf#:#PDF-Exportdatei erzeugen
 common#:#scorm_create_export_file_scrom12#:#SCORM 1.2-Exportdatei erzeugen
@@ -6071,7 +6105,7 @@ cont#:#cont_tile_size_3#:#sehr groß (bis zu zwei Kacheln in einer Zeile)
 cont#:#cont_tile_size_4#:#volle Breite (eine Kachel in einer Zeile)
 cont#:#cont_tile_view#:#Kacheln
 cont#:#cont_tile_view_info#:#Untergeordnete Objekte als Kacheln anzeigen. Bilder für diese Kacheln können in den Einstellungen jedes einzelnen Objekts hochgeladen werden.
-cont#:#cont_trash_general_usage#:#Um größere Mengen alter, gelöschter Objekte aus dem System zu entfernen, ist es empfehlenswert zunächst die Nicht-Container (etwa Dateien, Glossare, Tests, ..) und so alle Objekte aus den Container-Objekten (Kategorien, Kurse, Gruppen, Lernsequenzen,..) zu entfernen. Die Filter "Typ" und "Gelöscht am" unterstützen den Vorgang. Abschließend löschen Sie dann die Container. 
+cont#:#cont_trash_general_usage#:#Um größere Mengen alter, gelöschter Objekte aus dem System zu entfernen, ist es empfehlenswert zunächst die Nicht-Container (etwa Dateien, Glossare, Tests, ..) und so alle Objekte aus den Container-Objekten (Kategorien, Kurse, Gruppen, Lernsequenzen,..) zu entfernen. Die Filter "Typ" und "Gelöscht am" unterstützen den Vorgang. Abschließend löschen Sie dann die Container.
 contact#:#contact_awrn_ap_contacts#:#Bestätigte Kontakte
 contact#:#contact_awrn_ap_contacts_info#:#Alle bestätigten Kontakte eines Benutzers werden aufgelistet.
 contact#:#contact_awrn_req_contacts#:#Kontaktanfragen
@@ -8486,16 +8520,16 @@ dcl#:#dcl_activate_view#:#Vorlage für Einzelansicht aktivieren
 dcl#:#dcl_add#:#Datensammlung anlegen
 dcl#:#dcl_add_new_field#:#Feld hinzufügen
 dcl#:#dcl_add_new_record#:#Eintrag hinzufügen
-dcl#:#dcl_add_new_table#:#Neue Tabelle hinzufügen
+dcl#:#dcl_add_new_table#:#Tabelle hinzufügen
 dcl#:#dcl_add_new_view#:#Neue Ansicht hinzufügen
 dcl#:#dcl_add_perm#:#Neuen Eintrag hinzufügen
-dcl#:#dcl_add_perm_desc#:#Benutzer können Einträge in dieser Tabelle erstellen.
-dcl#:#dcl_additional_info_desc#:#Der Text wird direkt oberhalb der Tabelle angezeigt.
+dcl#:#dcl_add_perm_desc#:#Es können Einträge in dieser Tabelle erstellt werden. Wenn Daten in diese Tabelle importiert werden dürfen, steht auch ein Excel-Import zur Verfügung.
+dcl#:#dcl_additional_info_desc#:#Der Inhalt wird oberhalb der Tabelle angezeigt.
 dcl#:#dcl_all_entries#:#Alle Einträge
 dcl#:#dcl_any#:#Alle
-dcl#:#dcl_asc#:#Aufsteigende Reihenfolge (ASC)
+dcl#:#dcl_asc#:#Aufsteigend ↑  
 dcl#:#dcl_boolean#:#Checkbox
-dcl#:#dcl_boolean_desc#:#Auswahlfeld für "zutreffend"/"nicht zutreffend"
+dcl#:#dcl_boolean_desc#:#Kontrollkästchen, das abgehakt werden kann
 dcl#:#dcl_cant_delete_last_table#:#Die Tabelle selbst kann nicht gelöscht werden, da sie die einzige Tabelle dieser Datensammlung ist. Es wurden aber Inhalt und Struktur der Tabelle erfolgreich gelöscht.
 dcl#:#dcl_change_notification_dcl_delete_record#:#Der folgende Eintrag wurde gelöscht
 dcl#:#dcl_change_notification_dcl_new_record#:#Der folgende Eintrag wurde erzeugt
@@ -8523,11 +8557,11 @@ dcl#:#dcl_create_field#:#Feld hinzufügen
 dcl#:#dcl_create_fields#:#Klicken Sie in der Registerkarte „Tabellen“ auf eine Tabelle und erstellen Sie mithilfe des Button „Feld hinzufügen“ neue Felder.
 dcl#:#dcl_creation_date#:#Erstellungsdatum
 dcl#:#dcl_creation_date_description#:#Das Datum, an dem dieser Eintrag erstellt wurde.
-dcl#:#dcl_datatype#:#Datentyp
-dcl#:#dcl_date_selection#:#Auswahlmenü Datum
-dcl#:#dcl_date_selection_desc#:#Bereitstellen von Auswahloptionen (Datum)
-dcl#:#dcl_datetime#:#Datumseingabe
-dcl#:#dcl_datetime_desc#:#Datumseingabe per Auswahlmenü oder Kalender
+dcl#:#dcl_datatype#:#Typ
+dcl#:#dcl_date_selection#:#Datum per Auswahl
+dcl#:#dcl_date_selection_desc#:#Aus vorgegebenen Optionen kann ein Datum ausgewählt werden.
+dcl#:#dcl_datetime#:#Datum per Eingabe
+dcl#:#dcl_datetime_desc#:#Datum wird eingegeben oder im Kalender ausgewählt.
 dcl#:#dcl_deactivate_view#:#Vorlage für Einzelansicht deaktivieren
 dcl#:#dcl_default_sort_field#:#Sortierung
 dcl#:#dcl_default_sort_field_desc#:#Tabelle wird standardmässig nach dem ausgewählten Feld sortiert.
@@ -8541,28 +8575,28 @@ dcl#:#dcl_delete_tables_no_selection#:#Zum Löschen muss mindestens eine Tabelle
 dcl#:#dcl_delete_views#:#Ansichten löschen
 dcl#:#dcl_delete_views_no_selection#:#Zum Löschen muss mindestens eine Ansicht ausgewählt werden.
 dcl#:#dcl_deleted_records#:#Es wurden %s Datensätze gelöscht.
-dcl#:#dcl_desc#:#Absteigende Reihenfolge (DESC)
+dcl#:#dcl_desc#:#Absteigend ↓
 dcl#:#dcl_description#:#Beschreibung
 dcl#:#dcl_detailed_view#:#Einzelansicht
 dcl#:#dcl_display_action_menu#:#Kopieren
 dcl#:#dcl_display_record_alt#:#Diesen Eintrag anzeigen
 dcl#:#dcl_duplicate_non_unique_entries_exist#:#Es kann sich auch um bereits vorhandene Einträge handeln.###23 02 2024 new variable
-dcl#:#dcl_edit#:#Datensammlung bearbeiten
+dcl#:#dcl_edit#:#Einstellungen der Datensammlung
 dcl#:#dcl_edit_entry_rules#:#Eintragsbearbeitung
 dcl#:#dcl_edit_field#:#Feld bearbeiten
 dcl#:#dcl_edit_perm#:#Einträge bearbeiten
 dcl#:#dcl_edit_record#:#Eintrag bearbeiten
-dcl#:#dcl_edit_table#:#Tabelleneinstellungen
+dcl#:#dcl_edit_table#:#Einstellungen der Tabelle
 dcl#:#dcl_editable_in_table_gui#:#Ein Eintrag kann nur über die Tabellenansicht bewertet werden.
 dcl#:#dcl_empty_detailed_view#:#Vorlage für Einzelansicht löschen
 dcl#:#dcl_empty_detailed_view_success#:#Die Vorlage wurde erfolgreich gelöscht.
 dcl#:#dcl_err_formula_field_not_found#:#Feld mit dem Titel „%s“ existiert nicht.
 dcl#:#dcl_error_parsing_expression#:#Fehler beim Evaluieren des Ausdrucks
 dcl#:#dcl_export_enabled#:#Tabelle exportieren
-dcl#:#dcl_export_enabled_desc#:#Alle Benutzer können die Daten der Tabelle selbst exportieren. Dazu müssen in der Übersicht „Felder der ausgewählten Tabelle“ die Felder einzeln als exportierbar ausgewählt werden.
+dcl#:#dcl_export_enabled_desc#:#Die Daten dieser Tabelle können exportiert werden. Achtung: In dem Export tauchen nur Felder auf, für die im Reiter "Felder" dieser Tabelle die Checkbox "Exportierbar" aktiviert wurde.
 dcl#:#dcl_export_finished#:#Export abgeschlossen
 dcl#:#dcl_export_started#:#Asynchroner Export gestartet
-dcl#:#dcl_field_datatype#:#Feld Datentyp
+dcl#:#dcl_field_datatype#:#Feldtyp
 dcl#:#dcl_field_description#:#Beschreibung
 dcl#:#dcl_field_required#:#Verpflichtend
 dcl#:#dcl_field_title_change_warning#:#Sie haben den Titel des Feldes geändert. Dadurch funktioniert der entsprechende Platzhalter in der Vorlage zur Einzelansicht nicht mehr. Sie müssen diesen noch manuell angepassen.
@@ -8570,24 +8604,24 @@ dcl#:#dcl_field_title_unique#:#Es existiert bereits ein Feld mit diesem Titel. T
 dcl#:#dcl_field_visible#:#Sichtbar
 dcl#:#dcl_fieldtitle#:#Feldtitel
 dcl#:#dcl_file#:#Datei-Upload
-dcl#:#dcl_file_desc#:#Möglichkeit zum Hochladen beliebiger Dateien, die per Link heruntergeladen werden können
-dcl#:#dcl_file_format_description#:#Die Import-Datei muss im Excel-Format .xlsx vorliegen, mit den zu importierenden Daten auf der ersten Seite. In der ersten Zeile müssen die exakten Namen der Felder stehen (inklusive Grossschreibung) und in den folgenden Zeilen die Werte der zu importierenden Datensatzeinträge. Es wird empfohlen, jeden Import zuerst zu simulieren. Für den Import von mehrfachen Einträgen bei Auswahlmenü-Feldern und Referenzfeldern werden Semikolon und/oder Komma als Trenner akzeptiert.
+dcl#:#dcl_file_desc#:#Möglichkeit zum Hochladen einer Datei. Die hochgeladene Datei kann direkt aus der Datensammlung heruntergeladen werden.
+dcl#:#dcl_file_format_description#:#Die Import-Datei muss im Excel-Format .xlsx vorliegen, mit den zu importierenden Daten im ersten Tabellenblatt. In der ersten Zeile müssen die exakten Titel der Felder stehen, in den folgenden Zeilen die Werte der zu importierenden Einträge. Es wird empfohlen, jeden Import zuerst zu simulieren. Für den Import von mehrfachen Einträgen bei Auswahl- und Referenzfeldern werden Semikolon und/oder Komma als Trenner akzeptiert.
 dcl#:#dcl_file_not_readable#:#Die Datei konnte nicht gelesen werden. Bitte verwenden Sie das .xlsx-Dateiformat.
 dcl#:#dcl_filter#:#Im Filter verfügbar
 dcl#:#dcl_filter_changeable#:#Filter änderbar
 dcl#:#dcl_formula#:#Formel
 dcl#:#dcl_formula_desc#:#Ähnlich wie bei der Tabellenkalkulation können per Formel Einträge verbunden oder berechnet werden.
 dcl#:#dcl_formula_detail_desc#:#Einträge in diesem Feld generieren sich automatisch. Sie können hier keinen Eintrag vornehmen.
-dcl#:#dcl_height#:#Höhe
+dcl#:#dcl_height#:#Höhe in Pixel
 dcl#:#dcl_hello#:#Hallo
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#Die interne ID.
 dcl#:#dcl_ilias_reference#:#Objekt im Magazin
-dcl#:#dcl_ilias_reference_desc#:#Suchfeld, um ein Objekt in ILIAS auszuwählen und zu verlinken
-dcl#:#dcl_ilias_reference_link#:#Als Link in der Tabellenansicht anzeigen
+dcl#:#dcl_ilias_reference_desc#:#Auswahl eines Obiektes im Magazin
+dcl#:#dcl_ilias_reference_link#:#Ausgewähltes Objekt verlinken
 dcl#:#dcl_import#:#Datensammlung importieren
-dcl#:#dcl_import_enabled#:#Tabelle importieren
-dcl#:#dcl_import_enabled_desc#:#Alle Benutzer können selbst Daten in die Tabellen importieren, solange sie entsprechende Schreibrechte besitzen.
+dcl#:#dcl_import_enabled#:#Daten in Tabelle importieren
+dcl#:#dcl_import_enabled_desc#:#Es können per Excel Daten in die Tabelle importiert werden.
 dcl#:#dcl_import_records .xls#:#Excel-Import
 dcl#:#dcl_import_terminated#:#Der Import ist abgeschlossen. Anzahl importierter Datensätze
 dcl#:#dcl_in_export#:#Exportierbar
@@ -8597,14 +8631,14 @@ dcl#:#dcl_last_edited_by#:#Zuletzt geändert von
 dcl#:#dcl_last_edited_by_description#:#Der Benutzer, der diesen Eintrag zuletzt geändert hat.
 dcl#:#dcl_last_update#:#Letzte Änderung
 dcl#:#dcl_last_update_description#:#Das Datum, an dem dieser Eintrag zuletzt geändert wurde.
-dcl#:#dcl_learning_progress#:#Lernfortschritt anzeigen
+dcl#:#dcl_learning_progress#:#Lernfortschritt
 dcl#:#dcl_legend_placeholders#:#Platzhalter
-dcl#:#dcl_length#:#Länge
+dcl#:#dcl_length#:#Maximale Zeichenanzahl
 dcl#:#dcl_length_info#:#Anzahl von Zeichen, die ein Benutzer eingeben kann (Maximal 4000). Bei mehr als 200 Zeichen aktivieren Sie zusätzlich die Option „Mehrzeiliges Texteingabefeld“.
 dcl#:#dcl_limit_end#:#Ende
 dcl#:#dcl_limit_start#:#Start
 dcl#:#dcl_limited#:#Zeitlich begrenzte Bearbeitung
-dcl#:#dcl_limited_desc#:#Benutzer können Einträge nur bis zum gewählten Datum hinzufügen, bearbeiten und löschen.
+dcl#:#dcl_limited_desc#:#Einträge können nur im Zeitraum zwischen Start und Ende hinzugefügt, bearbeitet und gelöscht werden.
 dcl#:#dcl_link_detail_page#:#Link zur Einzelansicht
 dcl#:#dcl_list_fields#:#Felder
 dcl#:#dcl_list_visibility_and_filter#:#Übersicht
@@ -8614,8 +8648,8 @@ dcl#:#dcl_manage#:#Verwalten
 dcl#:#dcl_max_digits#:#Maximale Anzahl Ziffern
 dcl#:#dcl_max_import#:#Die maximal erlaubte Anzahl an importierten Datensätze wurde überschritten.
 dcl#:#dcl_max_text_length#:#Maximale Länge
-dcl#:#dcl_mob#:#Medienobjekt
-dcl#:#dcl_mob_desc#:#Möglichkeit zum Hochladen von Bild-, Audio- oder Video-Dateien, die direkt in der Datensammlung präsentiert werden. Erlaubte Dateitypen: %s
+dcl#:#dcl_mob#:#Bild, Audio, Video
+dcl#:#dcl_mob_desc#:#Hochgeladene Datei wird direkt in der Datensammlung präsentiert. Erlaubte Dateitypen: %s
 dcl#:#dcl_msg_field_modified#:#Feld wurde aktualisiert.
 dcl#:#dcl_msg_fields_deleted#:#Gelöschte Felder
 dcl#:#dcl_msg_info_alternatives#:#Die gewünschte Einzelansicht konnte nicht angezeigt werden. Entweder existiert keine Einzelansicht für diese Tabellenansicht oder Sie besitzen nicht die notwendigen Zugriffsrechte. Wählen Sie aus der Liste eine für Sie verfügbare Einzelansicht, um den Datensatz dennoch anzuzeigen.
@@ -8637,12 +8671,12 @@ dcl#:#dcl_new#:#Neue Datensammlung anlegen
 dcl#:#dcl_new_field#:#Neues Feld
 dcl#:#dcl_new_table#:#Neue Tabelle
 dcl#:#dcl_next_record#:#Nächster Eintrag
-dcl#:#dcl_no_content_warning#:#Achtung: die Datensammlung ist bereits online, hat aber noch keinen Inhalt!
+dcl#:#dcl_no_content_warning#:#Achtung: die Datensammlung ist bereits online, hat aber noch keinen Felder
 dcl#:#dcl_no_entry#:#Kein Eintrag
 dcl#:#dcl_no_export_content_available#:#Keine Daten für den Export verfügbar.
 dcl#:#dcl_no_export_data_available#:#Keine Daten oder Felder für den Export verfügbar.
 dcl#:#dcl_no_export_fields_available#:#Keine Felder für den Export aktiviert. Markieren Sie mindestens ein Feld als „Exportierbar“ in den <a href=„%s“>Tabelleneinstellungen</a>.
-dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstellt. Daher können noch keine Einträge eingefügt werden.
+dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstellt. Daher können noch keine Einträge eingefügt werden. Klicken Sie im Reiter "Tabellen" auf eine Tabelle und erstellen Sie mithilfe des Buttons "Feld hinzufügen" neue Felder.
 dcl#:#dcl_no_read_access_on_any_standard_view#:#Sie haben auf keine Standard-Tabellenansicht Lesezugriff.
 dcl#:#dcl_no_search_results_found_for#:#Es wurden keine Module gefunden mit:
 dcl#:#dcl_no_such_reference#:#Der folgende Wert ist in der Referenztabelle nicht vorhanden:
@@ -8653,19 +8687,19 @@ dcl#:#dcl_notification_activate_dcl#:#Benachrichtigung aktivieren
 dcl#:#dcl_notification_activated#:#Benachrichtigung aktiv
 dcl#:#dcl_notification_deactivate_dcl#:#Benachrichtigung deaktivieren
 dcl#:#dcl_notification_deactivated#:#Benachrichtigung inaktiv
-dcl#:#dcl_notification_info#:#Aktiviert die individuelle Benachrichtigungsfunktion für Benutzer.
+dcl#:#dcl_notification_info#:#Jede Person kann Benachrichtigungen für sich aktivieren.
 dcl#:#dcl_notimage_exception#:#Die Datei muss ein Bild sein.
 dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link (beginnend mit http:// oder www.) oder eine E-Mail-Adresse ein.
 dcl#:#dcl_number#:#Ganze Zahlen
-dcl#:#dcl_number_desc#:#Eingabefeld für ganze Zahlen (maximal 9 Ziffern). Nicht erlaubt sind Brüche und Dezimalzahlen.
-dcl#:#dcl_online_info#:#Nur wenn die Datensammlung online geschaltet ist, können Benutzer die Datensammlung sehen und benutzen.
+dcl#:#dcl_number_desc#:#Eingabe ganzer Zahlen mit bis zu 9 Ziffern. Nicht erlaubt sind Brüche und Dezimalzahlen.
+dcl#:#dcl_online_info#:#Datensammlung ist veröffentlicht und kann von allen Personen mit dem Recht „Lesezugriff" und „Eintragen" genutzt werden. Andernfalls ist das Objekt nur für Personen mit dem Recht „Einstellungen bearbeiten" verfügbar.
 dcl#:#dcl_order#:#Sortierung
 dcl#:#dcl_own_entries#:#Nur eigene Einträge
 dcl#:#dcl_owner#:#Eigener Eintrag von
 dcl#:#dcl_owner_description#:#Eigene Einträge bleiben stets sichtbar.
 dcl#:#dcl_owner_name#:#Im Besitz von (Name)
 dcl#:#dcl_page_type_dclf#:#Detailansicht
-dcl#:#dcl_permissions_form#:#Berechtigungen für diese Tabelle
+dcl#:#dcl_permissions_form#:#Erlaubte Aktionen für diese Tabelle
 dcl#:#dcl_please_select#:#--- Bitte wählen ---
 dcl#:#dcl_plugin#:#Plugin
 dcl#:#dcl_plugin_desc#:#DataCollection-Feld Erweiterungen
@@ -8673,35 +8707,35 @@ dcl#:#dcl_plugin_hooks#:#Verfügbare Erweiterungen
 dcl#:#dcl_plugin_no_hooks_available#:#Keine aktiven Field-Type Plugins gefunden.
 dcl#:#dcl_prev_record#:#Vorheriger Eintrag
 dcl#:#dcl_prop_expression#:#Ausdruck
-dcl#:#dcl_prop_expression_info#:#Gültige Operatoren: <b>%s</b><br>Unterstützte Funktionen: <b>%s</b><br>Verwenden Sie Klammern <b>"(", ")"</b> zum Gruppieren von Ausdrücken.<br>Zeichenketten und Platzhalter verbinden mit &: <b>"Das Resultat ist " & [[Int 1]] * [[Int 2]]</b><br>Verwenden der Funktionen: <b>SUM([[Int 1]];[[Int 2]])</b><br>Beim verwenden von Datums-Feldern und Zahlen-Feldern in einer Formel, weden die Zahlen-Feldern als Sekunden betrachtet und müssen bspw. mit 86400 multipliziert werden.<br><br>Gültige Felder (auf den Titel klicken um als Platzhalter in Ausdruck einzufügen):<br>%s
+dcl#:#dcl_prop_expression_info#:#Gültige Operatoren: <b>%s</b><br>Unterstützte Funktionen: <b>%s</b><br>Ausdrücke gruppieren mit Klammern: ( )<br>Zeichenketten und Platzhalter verbinden mit &: <b>"Das Resultat ist " & [[Int 1]] * [[Int 2]]</b><br>Verwenden der Funktionen: <b>SUM([[Int 1]];[[Int 2]])</b><br>Achtung: Einträge in Datums- und Zahlenfeldern in einer Formel sind als Sekunden dimensioniert und müssen beispielsweise mit 86.400 multipliziert werden.<br><br>Folgende Platzhalter können im Ausdruck eingefügt werden:<br>%s
 dcl#:#dcl_public_comments#:#Kommentare
 dcl#:#dcl_public_comments_desc#:#Benutzer können Datensätze dieser Tabelle kommentieren.
 dcl#:#dcl_rating#:#Bewertung
-dcl#:#dcl_rating_desc#:#Benutzer können Einträge mit ein bis fünf Sternen bewerten.
+dcl#:#dcl_rating_desc#:#Bestehende Einträge mit ein bis fünf Sternen bewerten.
 dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#Die folgenden Rollen haben Lesezugriff auf die Datensammlung, jedoch auf keine Standard-Ansicht der Tabellen:
 dcl#:#dcl_record#:#Eintrag
 dcl#:#dcl_record_deleted#:#Eintrag gelöscht.
 dcl#:#dcl_record_from_total#:#%d von %d
 dcl#:#dcl_reference#:#Referenz
 dcl#:#dcl_reference_desc#:#Bereitstellen von Auswahloptionen, die in einem anderen Feld einer Tabelle gepflegt werden.
-dcl#:#dcl_reference_link#:#Als Link zum referenzierten Eintrag darstellen.
-dcl#:#dcl_reference_link_info#:#Die Vorlage für Einzelansicht muss in der referenzierten Tabelle aktiv sein.
-dcl#:#dcl_reference_title#:#Referenz zu Tabelle und Feld
-dcl#:#dcl_regex#:#Regulärer Ausdruck
-dcl#:#dcl_regex_info#:#Eingabe ohne Trennsymbol/Delimiter
+dcl#:#dcl_reference_link#:#Referenzierten Eintrag verlinken
+dcl#:#dcl_reference_link_info#:#Achtung: Aktivieren Sie die Vorlage der Einzelansicht in der referenzierten Tabelle.
+dcl#:#dcl_reference_title#:#Feld auswahLen
+dcl#:#dcl_regex#:#Texteingabe einschranken
+dcl#:#dcl_regex_info#:#Es kann ein regulärer Ausdruck ohne Delimiter eingegeben werden. Automatisch werden dann bestimmte Einträge zurückgewiesen.
 dcl#:#dcl_required#:#Verpflichtend
 dcl#:#dcl_row_not_found#:# - Dieses Feld wurde in der Tabelle nicht gefunden.
 dcl#:#dcl_save#:#Speichern
-dcl#:#dcl_save_confirmation#:#Speicherbestätigung
+dcl#:#dcl_save_confirmation#:#Eingabe zusätzlich bestätigen
 dcl#:#dcl_save_confirmation_desc#:#Benutzer muss das Eintragen von neuen Datensätzen bestätigen.
 dcl#:#dcl_save_order#:#Sortierung speichern
 dcl#:#dcl_save_record#:#Eintrag speichern
 dcl#:#dcl_select#:#Auswahl der Tabelle
 dcl#:#dcl_selection_options#:#Optionen
-dcl#:#dcl_selection_type#:#Typ
-dcl#:#dcl_selection_type_combobox#:#Einfachauswahl (Dropdown)
-dcl#:#dcl_selection_type_multi#:#Mehrfachauswahl
-dcl#:#dcl_selection_type_single#:#Einfachauswahl (Liste)
+dcl#:#dcl_selection_type#:#Format
+dcl#:#dcl_selection_type_combobox#:#aus Auswahlmenü
+dcl#:#dcl_selection_type_multi#:#Mehrfachauswahl aus Liste
+dcl#:#dcl_selection_type_single#:#Einfachauswahl aus Liste
 dcl#:#dcl_simulate_import#:#Import simulieren
 dcl#:#dcl_simulate_info#:#Hierbei werden keine Datensätze angelegt, sondern nur Feedback zu Fehlern in der Import-Datei gegeben. Dadurch können Sie fehlerhafte Imports vermeiden.
 dcl#:#dcl_skipped_delete_records#:#%s Datensätze wurden aufgrund der Rechteeinstellungen nicht gelöscht
@@ -8716,7 +8750,7 @@ dcl#:#dcl_table#:#Tabelle
 dcl#:#dcl_table_create#:#Erstelle Tabelle
 dcl#:#dcl_table_edit#:#Speichern
 dcl#:#dcl_table_id#:#Tabellen ID
-dcl#:#dcl_table_info#:#Nachfolgend legen Sie fest, was Benutzer in dieser Tabelle tun dürfen, die für die Datensammlung das Recht „Eintragen“ besitzen.
+dcl#:#dcl_table_info#:#Nachfolgend legen Sie fest, was Personen in dieser Tabelle tun dürfen, die für die Datensammlung das Recht „Eintragen“ besitzen.
 dcl#:#dcl_table_info_title#:#Info
 dcl#:#dcl_table_list_fields#:#Felder der ausgewählten Tabelle
 dcl#:#dcl_table_list_tables#:#Verfügbare Tabellen
@@ -8750,11 +8784,11 @@ dcl#:#dcl_text_desc#:#Eingabefeld für Text, Links oder E-Mail-Adressen
 dcl#:#dcl_text_email_detail_desc#:#Bitte geben Sie eine gültige E-Mail-Adresse oder eine URL ein.
 dcl#:#dcl_text_email_title#:#Titel
 dcl#:#dcl_text_email_title_info#:#Titel für die URL oder E-Mail-Adresse (optional).
-dcl#:#dcl_text_selection#:#Auswahlmenü Text
-dcl#:#dcl_text_selection_desc#:#Bereitstellen von Auswahloptionen (Text)
+dcl#:#dcl_text_selection#:#Text per Auswahl
+dcl#:#dcl_text_selection_desc#:#Ausvorgegebenen Optionen kann eine Auswahl getroffen werden,
 dcl#:#dcl_title_standardview#:#Standard-Ansicht
 dcl#:#dcl_unique#:#Gleiche Einträge verhindern
-dcl#:#dcl_unique_desc#:#In dieses Feld kann ein gleichlautender Eintrag nur einmal vorgenommen werden.
+dcl#:#dcl_unique_desc#:#Identische Einträge sind in diesem Feld nicht erlaubt.
 dcl#:#dcl_unique_exception#:#Der eingegebene Wert wird schon von einem anderen Eintrag verwendet.
 dcl#:#dcl_unknown_exception#:#Der eingegebene Wert ist nicht gültig.
 dcl#:#dcl_update_field#:#Feld aktualisieren
@@ -8766,7 +8800,7 @@ dcl#:#dcl_view_settings#:#Ansichtseinstellungen
 dcl#:#dcl_view_viewdefinition#:#Vorlage für Einzelansicht
 dcl#:#dcl_visible#:#Für alle Benutzer sichtbar
 dcl#:#dcl_visible_desc#:#Benutzer haben Zugriff auf diese Tabelle.
-dcl#:#dcl_width#:#Breite
+dcl#:#dcl_width#:#Breite in Pixel
 dcl#:#dcl_wrong_input_type#:#Der eingegebene Text passt nicht zum Typ dieses Feldes (falscher Typ).
 dcl#:#dcl_wrong_length#:#Der eingegebene Text ist zu lang.
 dcl#:#dcl_wrong_regex#:#Der eingegebene Text passt nicht zur Spezifikation dieses Feldes (regulärer Ausdruck).
@@ -8776,7 +8810,7 @@ dcl#:#disable_visible#:#Sichtbarkeit deaktivieren
 dcl#:#enable_comments#:#Kommentare aktivieren
 dcl#:#enable_visible#:#Sichtbarkeit aktivieren
 dcl#:#entry_of#:#Eintrag %1$d von %2$d
-dcl#:#fieldtitle_allow_chars#:#Nicht Erlaubte Zeichen: %s
+dcl#:#fieldtitle_allow_chars#:#Nicht erlaubte Zeichen: %s
 dcl#:#fileupload_not_migrated#:#Die Datei wurde noch nicht migriert und kann deshalb nicht angezeigt werden. Bitte wenden Sie sich an Ihre Systemadministration.
 dcl#:#set_as_default#:#Als Standard setzen
 didactic#:#activate_exclusive_template#:#Standard ausgrauen
@@ -9061,6 +9095,7 @@ ecs#:#ecs_protocol#:#Protokoll
 ecs#:#ecs_publish_as#:#Veröffentlichen unter:
 ecs#:#ecs_publish_for#:#Freigabe für:
 ecs#:#ecs_published_for#:#Freigegeben für:
+ecs#:#ecs_rcat_created_body_a#:#Eine neue ECS-Kategorie wurde angelegt:
 ecs#:#ecs_rcrs_created_body_a#:#Ein neuer ECS-Kurs wurde angelegt:
 ecs#:#ecs_read_remote_links#:#Kursinformationen aktualisieren
 ecs#:#ecs_refresh_participants#:#ECS-Teilnehmer aktualisieren
@@ -9654,6 +9689,7 @@ exp#:#exp_error_disabled#:#Der Export von Container-Objekten ist deaktiviert. Be
 exp#:#exp_error_too_many_objects#:#Der Export überschreitet die maximal erlaubte Zahl an Objekten (%1). Bitte wählen Sie eine kleinere Anzahl an Objekten.
 exp#:#exp_export_files#:#Exportdateien
 exp#:#exp_file_created#:#Eine Exportdatei wurde erstellt.
+exp#:#exp_html#:#HTML
 exp#:#exp_import_validation_err_no_matching_xsd#:#Eine Schema Datei für Version %s existiert nicht.
 exp#:#exp_print_pdf#:#Drucken/PDF
 exp#:#exp_print_pdf_info#:#Um ein PDF zu erstellen, wählen Sie bitte anschließend in der Druckansicht "Als PDF speichern" als Ziel.
@@ -9662,10 +9698,21 @@ exp#:#exp_show_print_view#:#Druckansicht anzeigen
 exp#:#exp_xml#:#XML
 exp#:#export_created#:#Eine neue Exportdatei wurde erstellt.
 exp#:#export_files_deleted#:#Die ausgewählten Exportdateien wurden gelöscht.
+exp#:#export_options#:#Export Optionen
+exp#:#export_type#:#Export Typ
+export#:#exp_export_dropdown#:#Export
+export#:#exp_file#:#Dateiname
+export#:#exp_public_access#:#Öffentlicher Zugriff aktiv
+export#:#exp_size#:#Dateigröße (MB)
+export#:#exp_timestamp#:#Erstellungsdatum
+export#:#exp_toggle_public_access#:#Öffentlichen Zugriff (de-)aktivieren
+export#:#exp_type#:#Type
 export#:#export_create#:#Neu erstellen
 export#:#export_create_new_file#:#Neue Exportdatei erstellen
 export#:#export_existing#:#Wiederverwenden
 export#:#export_export_date#:#Exportdatum
+export#:#export_info_public_access#:#Öffentlich zugängliche Exportdatei
+export#:#export_info_public_access_download#:#Download
 export#:#export_last_export#:#Letzter Export
 export#:#export_last_export_file#:#Letzte Exportdatei benutzen
 export#:#export_last_file#:#Letzte Datei
@@ -9749,7 +9796,7 @@ file#:#storage_id#:#Storage ID
 file#:#suffix_specific_icons#:#Suffix-spezifische Icons
 file#:#suffixes#:#Suffixe
 file#:#upload_files#:#Dateien hochladen
-file#:#upload_files_limit#:#Die maximale Grösse einer Datei beträgt %s.
+file#:#upload_files_limit#:#Die maximale Größe einer Datei beträgt %s.
 file#:#upload_files_title#:#Dateien hochladen
 file#:#upload_info#:#Datei
 file#:#upload_info_desc#:#Sie können die Dateien und die Dateiversionen im Tab "Versionen" verwalten.
@@ -9898,6 +9945,8 @@ forum#:#forums_download_attachment#:#Datei herunterladen
 forum#:#forums_edit_draft#:#Entwurf bearbeiten
 forum#:#forums_edit_post#:#Beitrag bearbeiten
 forum#:#forums_enable_notification#:#Benachrichtigung für dieses Thema starten
+forum#:#forums_forum_notification#:#Foren-Benachrichtigungen versenden
+forum#:#forums_forum_notification_desc#:#Wenn aktiviert, sendet ILIAS Mails an die Benutzer, die bei ausgewählten Foren-Themen über neue Beiträge benachrichtigt werden wollen.
 forum#:#forums_forum_notification_disabled#:#Sie werden nicht mehr über neue Beiträge in diesem Forum benachrichtigt.
 forum#:#forums_info_censor2_post#:#Sind Sie sicher, dass die Zensur für diesen Beitrag aufgehoben werden soll?
 forum#:#forums_info_censor_post#:#Geben Sie eine Begründung für die Zensur an.
@@ -10442,8 +10491,8 @@ irss#:#action_remove_zip_path_msg#:#Möchten sie die folgenden Pfade löschen?
 irss#:#action_show_revisions#:#Revisionen anzeigen
 irss#:#by_creation_date_asc#:#Erstellungsdatum (aufsteigend)
 irss#:#by_creation_date_desc#:#Erstellungsdatum (absteigend)
-irss#:#by_size_asc#:#Dateigrösse (aufsteigend)
-irss#:#by_size_desc#:#Dateigrösse (absteigend)
+irss#:#by_size_asc#:#Dateigröße (aufsteigend)
+irss#:#by_size_desc#:#Dateigröße (absteigend)
 irss#:#by_title_asc#:#Titel (aufsteigend)
 irss#:#by_title_desc#:#Titel (absteigend)
 irss#:#create_directory#:#Verzeichnis erstellen
@@ -10451,9 +10500,9 @@ irss#:#creation_date#:#Erstellungsdatum (Diese Revision)
 irss#:#directory_name#:#Verzeichnisname
 irss#:#directory_name_info#:#Name des Verzeichnisses, welches an der aktuellen Stelle eingefügt werden soll.
 irss#:#download_zip#:#Alle Dateien als ZIP herunterladen
-irss#:#file_size#:#Dateigrösse (Diese Revision)
-irss#:#file_size_bigger_than#:#Dateigrösse > MB
-irss#:#full_size#:#Ressourcengrössse (Alle Revisionen)
+irss#:#file_size#:#Dateigröße (Diese Revision)
+irss#:#file_size_bigger_than#:#Dateigröße > MB
+irss#:#full_size#:#Ressourcengröße (Alle Revisionen)
 irss#:#home_directory#:#Stammverzeichnis
 irss#:#max_revision#:#Maximale Revision
 irss#:#msg_error_adding_directory#:#Das Verzeichnis konnte nicht angelegt werden.
@@ -10474,8 +10523,8 @@ irss#:#rids_updated#:#Ressource(n) aktualisiert
 irss#:#sorting#:#Sortierung
 irss#:#sorting_1#:#Titel (aufsteigend)
 irss#:#sorting_2#:#Titel (absteigend)
-irss#:#sorting_3#:#Dateigrösse (aufsteigend)
-irss#:#sorting_4#:#Dateigrösse (absteigend)
+irss#:#sorting_3#:#Dateigröße (aufsteigend)
+irss#:#sorting_4#:#Dateigröße (absteigend)
 irss#:#sorting_5#:#Erstellungsdatum (aufsteigend)
 irss#:#sorting_6#:#Erstellungsdatum (absteigend)
 irss#:#stakeholders#:#Ursprung
@@ -10961,7 +11010,7 @@ lti#:#conf_user_ident#:#Identifikation der Person
 lti#:#conf_user_ident_il_uuid_ext_account#:#Die externe Konten-ID wird kombiniert mit einer eindeutigen ID der ILIAS-Plattform und als E-Mail-Adresse formatiert.
 lti#:#conf_user_ident_il_uuid_ext_account_info#:#Die Identifikation ist identisch bei jedem Aufruf und lässt direkte Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
 lti#:#conf_user_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
-lti#:#conf_user_ident_il_uuid_login_info#:#Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
+lti#:#conf_user_ident_il_uuid_login_info#:#Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf die zugehörige Person zulassen.
 lti#:#conf_user_ident_il_uuid_user_id#:#Die ID des ILIAS-Kontos wird kombiniert mit einer eindeutigen ID der ILIAS-Plattform und als E-Mail-Adresse formatiert..
 lti#:#conf_user_ident_il_uuid_user_id_info#:#Dies ist identisch mit jedem Aufruf, erlaubt aber keine direkte Rückschlüsse auf den ILIAS-Benutzer.
 lti#:#conf_user_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
@@ -11503,8 +11552,8 @@ mail#:#nc_mail_unread_messages_number_p#:#%s ungelesene Mails
 mail#:#nc_mail_unread_messages_number_s#:#eine ungelesene Mail
 mail#:#only_inbox_trash#:#Nur Posteingang/Papierkorb berücksichtigen
 mail#:#only_inbox_trash_info#:#Falls aktiviert, werden ausschließlich Mails gelöscht, die sich zum Zeitpunkt der Cron-Job-Ausführung im Posteingang und Papierkorb der jeweiligen Person befinden. Ansonsten werden alle Mails unabhängig vom Ordner gelöscht.
-mail#:#orphaned_mail_body#:#Es existieren veraltete oder verwaiste Mails in den folgenden Ordnern. Beachten Sie, dass diese Mails in kürze automatisch gelöscht werden.
-mail#:#orphaned_mail_subject#:#Benachrichtigung über verwaiste Mails
+mail#:#orphaned_mail_body#:#Es existieren alte oder verwaiste Mails in den folgenden Ordnern. Beachten Sie, dass diese Mails in kürze automatisch gelöscht werden.
+mail#:#orphaned_mail_subject#:#Benachrichtigung über alte Mails
 mail#:#placeholders_advise#:#Persönliche Platzhalter werden nur für Personen im „An”-Feld ersetzt. Personen im „CC”-Feld und „BCC”-Feld erhalten die Mail mit nicht-ersetzten Platzhaltern.###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#search_content#:#Suchergebnis
 mail#:#search_recipients#:#Personen suchen###Modified as part of gender mainstreaming activities for ILIAS 8
@@ -11815,7 +11864,13 @@ meta#:#md_days#:#Tage:
 meta#:#md_delete_cp_sure#:#Möchten Sie wirklich die ausgewählten Vorgaben entfernen?
 meta#:#md_delimiter#:#Trennzeichen
 meta#:#md_delimiter_info#:#Das Trennzeichen wird in der Schnellbearbeitung der Metadaten verwendet, um mehrere Angaben zu trennen. Standardzeichen ist ','.###Modified as part of gender mainstreaming activities for ILIAS 8
+meta#:#md_editor_custom_input#:#Eigene Angabe
+meta#:#md_editor_from_vocab_input#:#Aus Vokabular
+meta#:#md_editor_value#:#Begriff
 meta#:#md_fields#:#Felder
+meta#:#md_import_file_vocab#:#Importdatei
+meta#:#md_import_vocab#:#Import
+meta#:#md_import_vocab_modal#:#Aus Datei importieren
 meta#:#md_months#:#Monate:
 meta#:#md_oai_contact_mail#:#E-Mail-Kontaktadresse
 meta#:#md_oai_identifier_prefix#:#OAI Präfix
@@ -11829,7 +11884,35 @@ meta#:#md_record_export_table#:#Exportdateien
 meta#:#md_record_list_table#:#Benutzerdefinierte Metadatensätze
 meta#:#md_separated_by#:#Getrennt mit %s
 meta#:#md_time#:#Zeit:
+meta#:#md_unknown_vocabulary_flag#:#(unbekanntes Vokabular)
 meta#:#md_used#:#Verwendung (Anzahl)
+meta#:#md_vocab_activate_action#:#Aktivieren
+meta#:#md_vocab_active_column#:#Aktiv
+meta#:#md_vocab_all_values_title#:#Begriffe für %s (%s)
+meta#:#md_vocab_allow_custom_input_action#:#Eigene Angaben erlauben
+meta#:#md_vocab_custom_input_column#:#Erlaubt eigene Angaben
+meta#:#md_vocab_deactivate_action#:#Deaktivieren
+meta#:#md_vocab_delete_action#:#Löschen
+meta#:#md_vocab_delete_confirmation_text#:#Sind Sie sicher, dass sie dass Vokabular %s (%s) mit den folgenden Begriffen löschen wollen?
+meta#:#md_vocab_delete_confirmation_title#:#Vokabular löschen
+meta#:#md_vocab_deletion_successful#:#Vokabular erfolgreich gelöscht.
+meta#:#md_vocab_disallow_custom_input_action#:#Keine eigenen Angaben erlauben
+meta#:#md_vocab_element_column#:#Element
+meta#:#md_vocab_element_with_condition#:#%s mit %s %s
+meta#:#md_vocab_import_invalid#:#Die Importdatei ist ungültig:<br/>%s
+meta#:#md_vocab_import_successful#:#Vokabular erfolgreich imported.
+meta#:#md_vocab_import_upload_failed#:#Das Hochladen der Importdatei ist fehlgeschlagen.
+meta#:#md_vocab_preview_column#:#Vorschau
+meta#:#md_vocab_show_all_action#:#Alle Begriffe anzeigen
+meta#:#md_vocab_source_column#:#Quelle
+meta#:#md_vocab_table_title#:#Vokabulare
+meta#:#md_vocab_type_column#:#Typ
+meta#:#md_vocab_type_controlled_string#:#Kontrollierter Text
+meta#:#md_vocab_type_controlled_vocab_value#:#Kontrollierte Auswahl
+meta#:#md_vocab_type_copyright#:#Copyright
+meta#:#md_vocab_type_standard#:#Standard
+meta#:#md_vocab_update_successful#:#Vokabular erfolgreich aktualisiert.
+meta#:#md_vocabularies_config#:#LOM Vokabulare
 meta#:#meta_1#:#1
 meta#:#meta_2#:#2
 meta#:#meta_3#:#3
@@ -12118,6 +12201,7 @@ meta#:#meta_contribute_plural#:#Beiträge
 meta#:#meta_copyright#:#Copyright
 meta#:#meta_copyright_and_other_restrictions#:#Copyright und andere Einschränkungen
 meta#:#meta_copyright_change_info#:#Beachten Sie unbedingt das Urheberrecht, wenn Sie die Lizenz für dieses Objekt ändern. Bitte fahren Sie nur fort, wenn Sie befugt sind, über die Nutzungsrechte an dem Objekt zu entscheiden.###Modified as part of gender mainstreaming activities for ILIAS 8
+meta#:#meta_copyright_change_oer_info#:#Die Lizenz, die Sie ausgewählt haben, zeichnet das Object als Open Educational Resource aus. Wenn Sie fortfahren, wird es eventuell als solches mit einer Exportdatei gelistet, und über diese Plattform hinaus veröffentlicht.
 meta#:#meta_copyright_change_warning_title#:#Lizenz ändern###Modified as part of gender mainstreaming activities for ILIAS 8
 meta#:#meta_copyright_in_use#:#Aktuell
 meta#:#meta_copyright_outdated#:#Veraltet
@@ -12186,6 +12270,7 @@ meta#:#meta_idea#:#Idee
 meta#:#meta_identifier#:#Kennung
 meta#:#meta_identifier_plural#:#Kennungen
 meta#:#meta_index#:#Index
+meta#:#meta_info_licence_section#:#Lizenz und Nachbenutzung
 meta#:#meta_info_only_repository_objects#:#Nachfolgend werden nur Magazinobjekte angezeigt, nicht aber Medienobjekte oder Lernmodulseiten.
 meta#:#meta_initiator#:#Initiator
 meta#:#meta_installation_remarks#:#Installationsanmerkungen
@@ -12387,7 +12472,8 @@ meta#:#meta_oer_copyright_selection#:#Lizenzauswahl
 meta#:#meta_oer_copyright_selection_info#:#Nur Objekte, die unter einer der ausgewählten Lizenzen veröffentlicht wurden, werden in die OER-Kategorie verknüpft.
 meta#:#meta_oer_exposed_source#:#Kategorie für veröffentlichte OER
 meta#:#meta_oer_harvester#:#OER Harvester
-meta#:#meta_oer_harvester_desc#:#Scannt alle Dateiobjekte im Magazin auf ihre Lizenz. Der OER-Harvester fügt alle Ressourcen unter ausgewählten CC-Lizenzen der in den Cron-Job-Einstellungen definierten Kategorie hinzu. Damit dieser Cronjob Ergebnisse liefern kann, muss die Copyright-Auswahl in der Metadaten-Administration aktiviert und konfiguriert sein.
+meta#:#meta_oer_harvester_desc#:#Der OER-Harvester sammelt alle Ressourcen unter ausgewählten CC-Lizenzen, fügt sie einer in den Cron-Job-Einstellungen definierten Kategorie hinzu, und generiert wenn nötig Exportdateien für sie. Für die für Veröffentlichung bereite Ressourcen werden Einträge angelegt, die (wenn aktiviert) über eine OAI-PMH Schnittstelle ausgelesen werden können. Damit dieser Cronjob Ergebnisse liefern kann, muss die Copyright-Auswahl in der Metadaten-Administration aktiviert und konfiguriert sein. Nur Dateiobjekte, Glossare, Inhaltsseiten, Lernmodule (ILIAS, SCORM, und HTML), Fragenpools (für Umfragen und Tests), und Medienpools werden unterstützt.
+meta#:#meta_oer_object_type_selection#:#Zulässige Objekttypen
 meta#:#meta_oer_target#:#Kategorie für freigegebene OER
 meta#:#meta_opera#:#Opera
 meta#:#meta_operating_system#:#Betriebssystem
@@ -13041,6 +13127,7 @@ poll#:#poll_block_message_already_voted#:#Sie haben bereits abgestimmt.
 poll#:#poll_block_message_no_answers#:#Diese Abstimmung ist nicht komplett.
 poll#:#poll_block_results_available_on#:#Die Ergebnisse werden %s veröffentlicht.
 poll#:#poll_cannot_set_online_no_answers#:#Der Status kann nicht auf &quot;online (aktiviert)&quot; geändert werden, da der Abstimmung noch keine Frage hinzugefügt wurde!
+poll#:#poll_chart_votes#:#Stimmen
 poll#:#poll_comments#:#Kommentare
 poll#:#poll_copy#:#Abstimmung kopieren
 poll#:#poll_delete_votes#:#Stimmen aller Teilnehmenden löschen
@@ -13065,7 +13152,6 @@ poll#:#poll_notification_deactivated#:#Änderungs-Benachrichtigung deaktiviert
 poll#:#poll_notification_subscribe#:#Benachrichtigung aktivieren
 poll#:#poll_notification_unsubscribe#:#Benachrichtigung deaktivieren
 poll#:#poll_percentage#:#Aktueller Anteil
-poll#:#poll_piechart#:#Kuchendiagramm
 poll#:#poll_population#:#%s Teilnehmende
 poll#:#poll_population_singular#:#1 Teilnehmer
 poll#:#poll_question#:#Frage
@@ -13077,6 +13163,7 @@ poll#:#poll_result_sorting_votes#:#Nach Anzahl der Stimmen (absteigend)
 poll#:#poll_result_users#:#Teilnehmer
 poll#:#poll_show_results_as#:#Ergebnisse anzeigen als
 poll#:#poll_sortorder#:#Sortierung
+poll#:#poll_stacked_chart#:#Stapeldiagramm
 poll#:#poll_view_results#:#Ergebnisse anzeigen
 poll#:#poll_view_results_after_period#:#Nach Stimmperiode
 poll#:#poll_view_results_after_period_impossible#:#Die Stimmperiode ist nicht zeitlich begrenzt.
@@ -13208,6 +13295,7 @@ prg#:#prg_auto_member_select_crs#:#Kurse
 prg#:#prg_auto_member_select_grp#:#Gruppen
 prg#:#prg_auto_member_select_role#:#Rollen
 prg#:#prg_autoassignment#:#(automatisch)
+prg#:#prg_availability_action_not_allowed#:#Studienprogramme haben keine zeitliche Verfügbarkeit.
 prg#:#prg_belongs_to#:#Gehört Zu
 prg#:#prg_can_not_manage_in_repo#:#Sie dürfen dieses Studienprogramm nicht verwalten, da Ihm bereits Mitglieder zugeordnet sind.
 prg#:#prg_cancel#:#Abbrechen
@@ -13224,6 +13312,7 @@ prg#:#prg_create_new_leaf#:#Neuen Kurslink hinzufügen.
 prg#:#prg_create_new_node#:#Neues Studienprogramm hinzufügen
 prg#:#prg_cron_job_configuration#:#Automatische Mails
 prg#:#prg_custom_plan#:#Individueller Plan
+prg#:#prg_cut_action_not_allowed#:#Studienprogramme können nicht verschoben werden.
 prg#:#prg_dash_label_finish_until#:#Zu erledigen bis
 prg#:#prg_dash_label_gain#:#Aktueller Stand
 prg#:#prg_dash_label_minimum#:#Minimales Ziel
@@ -13250,6 +13339,7 @@ prg#:#prg_description#:#Beschreibung
 prg#:#prg_edit#:#Studienprogramm bearbeiten
 prg#:#prg_expiry_date#:#Ablauf Qualifikation
 prg#:#prg_formatted_period#:#%d Tage
+prg#:#prg_import_action_not_allowed#:#Studienprogramme unterstützen keinen Import.
 prg#:#prg_invalidate_expired_progresses_desc#:#Setzt 'Gültigkeit' auf 'ungültig' wenn Ablaufdatum erreicht.
 prg#:#prg_invalidate_expired_progresses_title#:#Zeitlich begrenzte Gültigkeit von Studienprogrammen
 prg#:#prg_link#:#Link
@@ -13510,7 +13600,7 @@ prtf#:#prtf_portfolio_page_deleted#:#Portfolio- bzw. Blog-Seite wurde gelöscht.
 prtf#:#prtf_portfolios#:#Portfolios
 prtf#:#prtf_preview_banner#:#Personalisiertes Banner
 prtf#:#prtf_preview_banner_height#:#Banner Höhe
-prtf#:#prtf_preview_banner_info#:#Standardgrösse ist 1370x100 Pixel.
+prtf#:#prtf_preview_banner_info#:#Standardgröße ist 1370x100 Pixel.
 prtf#:#prtf_preview_banner_width#:#Banner Breite
 prtf#:#prtf_print_options#:#Auswahl zum PDF
 prtf#:#prtf_print_selection#:#Auswahl
@@ -13781,6 +13871,8 @@ rbac#:#blog_write#:#Blog bearbeiten
 rbac#:#book_copy#:#Buchungspool kopieren
 rbac#:#book_delete#:#Buchungspool löschen oder verschieben
 rbac#:#book_edit_permission#:#Rechteeinstellungen für Buchungspool ändern
+rbac#:#book_manage_all_reservations#:#Benutzer kann alle Reservierungen verwalten
+rbac#:#book_manage_own_reservations#:#Benutzer kann die eigenen Reservierungen verwalten
 rbac#:#book_read#:#Buchungen in Buchungspool durchführen
 rbac#:#book_visible#:#Buchungspool ist sichtbar
 rbac#:#book_write#:#Buchungsobjekte anlegen und Einstellungen des Buchungspools bearbeiten
@@ -13849,6 +13941,7 @@ rbac#:#coms_visible#:#Administration für Kommentare ist sichtbar.
 rbac#:#coms_write#:#Einstellungen in Administration für Kommentare ändern
 rbac#:#condition_failed#:#Nicht bestanden
 rbac#:#condition_learning_progress#:#Lernfortschritt-Status: Bearbeitet
+rbac#:#condition_result_range_percentage#:#Ergebnisbereich
 rbac#:#contribute#:#Beiträge erstellen
 rbac#:#copa_copy#:#Inhaltsseite kopieren
 rbac#:#copa_delete#:#Inhaltsseite löschen
@@ -14117,9 +14210,11 @@ rbac#:#mail_smtp_mail#:#Benutzer darf E-Mails per SMTP an externe Adressen sende
 rbac#:#mail_to_global_roles#:#Globale Mails
 rbac#:#mail_visible#:#Mail-Administration ist sichtbar
 rbac#:#mail_write#:#Einstellungen im Mail-Administration bearbeiten
+rbac#:#manage_all_reservations#:#Alle Reservierungen verwalten
 rbac#:#manage_comp#:#Kompetenzen bearbeiten
 rbac#:#manage_comp_temp#:#Kompetenzvorlagen bearbeiten
 rbac#:#manage_materials#:#Materialien verwalten
+rbac#:#manage_own_reservations#:#Eigene Reservierungen verwalten
 rbac#:#manage_profiles#:#Kompetenzprofile bearbeiten
 rbac#:#mcst_copy#:#Mediacast kopieren
 rbac#:#mcst_delete#:#Mediacast löschen oder verschieben
@@ -14213,6 +14308,9 @@ rbac#:#precondition_obligatory#:#Verpflichtend
 rbac#:#precondition_obligatory_alt#:#Die Vorbedingung muss erfüllt werden
 rbac#:#precondition_obligatory_info#:#Verpflichtende Vorbedingungen müssen erfüllt werden, um Zugriff zu erhalten.
 rbac#:#precondition_obligatory_settings#:#Einstellungen für Vorbedingungen
+rbac#:#precondition_operator_range_err_min_max#:#Der Minimalwert muss kleiner als der Maximalwert sein.
+rbac#:#precondition_operator_range_max#:#Maximale Prozentzahl
+rbac#:#precondition_operator_range_min#:#Minimale Prozentzahl
 rbac#:#prfa_edit_permission#:#Rechteeinstellungen in Portfolio-Administration ändern
 rbac#:#prfa_read#:#Lesezugriff auf Portfolio-Administration
 rbac#:#prfa_visible#:#Portfolio-Administration ist sichtbar
@@ -15160,7 +15258,6 @@ search#:#lucene_port#:#Port
 search#:#lucene_prefix_wildcard#:#Platzhalter am Wortbeginn
 search#:#lucene_prefix_wildcard_info#:#Erlaubt die Nutzung von Platzhaltern auch am Beginn eines Suchbegriffes: "*LIAS" findet "ILIAS"
 search#:#lucene_relevance#:#Relevanz der Suchergebnisse
-search#:#lucene_relevance_short#:#Relevanz
 search#:#lucene_settings_tab#:#Lucene
 search#:#lucene_settings_title#:#Einstellungen zur Lucene-Suche
 search#:#lucene_show_relevance#:#Relevanz anzeigen
@@ -15232,6 +15329,14 @@ search#:#search_show_inactive_user#:#Inaktive Benutzer anzeigen
 search#:#search_show_inactive_user_info#:#In der Benutzersuche werden auch Benutzer angezeigt, deren Konto nicht aktiv ist.
 search#:#search_show_limited_user#:#Zeitlich begrenzte Benutzer anzeigen
 search#:#search_show_limited_user_info#:#In der Benutzersuche werden auch Benutzer mit zeitlichem begrenztem Zugang angezeigt, die entweder noch nicht oder nicht mehr auf ILIAS zugreifen können.
+search#:#search_sort_by#:#Sortierung: %s
+search#:#search_sort_creation_date_asc#:#Ältestes
+search#:#search_sort_creation_date_desc#:#Neuestes
+search#:#search_sort_generic_asc#:#%s, aufst.
+search#:#search_sort_generic_desc#:#%s, abst.
+search#:#search_sort_relevance#:#Nach Relevanz
+search#:#search_sort_title_asc#:#Alphabetisch: A-Z
+search#:#search_sort_title_desc#:#Alphabetisch: Z-A
 search#:#search_term_combination#:#Kombination
 search#:#search_title_description#:#Titel / Beschreibung
 search#:#search_tst_svy#:#Tests/Umfragen
@@ -16034,7 +16139,7 @@ survey#:#SurveyTextQuestion#:#Freitext eingeben
 survey#:#add_heading#:#Überschrift hinzufügen
 survey#:#already_completed_survey#:#Sie haben die Umfrage bereits durchgeführt! Eine Umfrage kann kein zweites Mal durchgeführt werden.
 survey#:#anonymization#:#Anonymisierung
-survey#:#anonymize_anonymous_introduction#:#Um Ihnen Zugang zu dieser Umfrage gewähren zu können, müssen Sie einen fünfstelligen Zugangsschlüssel verwenden, den Sie von der verantwortlichen Person für diese Umfrage erhalten.<br />Bitte geben Sie diesen Zugangsschlüssel in das obige Textfeld ein.
+survey#:#anonymize_anonymous_introduction#:#Um Ihnen Zugang zu dieser Umfrage gewähren zu können, müssen Sie einen fünfstelligen Zugangsschlüssel verwenden, den Sie von der verantwortlichen Person für diese Umfrage erhalten.
 survey#:#answer#:#Antwort
 survey#:#arithmetic_mean#:#Arithmetisches Mittel
 survey#:#browse_for_questions#:#Aus Pool hinzufügen
@@ -16042,7 +16147,6 @@ survey#:#cancel_survey#:#Umfrage unterbrechen
 survey#:#cannot_read_survey#:#Sie haben keine ausreichende Berechtigung, um auf die Umfragedaten zugreifen zu können!
 survey#:#cannot_switch_to_online_no_questions#:#Der Status kann nicht auf &quot;online (aktiviert)&quot; geändert werden, da der Umfrage noch keine Fragen hinzugefügt wurden!
 survey#:#cant_send_email_smtp_disabled#:#Das Versenden von externen E-Mails ist zurzeit global deaktiviert.
-survey#:#categories#:#Antworten
 survey#:#category#:#Antwort
 survey#:#category_nr_selected#:#Anzahl der Auswahlen
 survey#:#chart#:#Diagramm
@@ -16323,8 +16427,8 @@ survey#:#survey_360_add_external_rater#:#Externen Feedback-Geber hinzufügen
 survey#:#survey_360_add_self_appraisee#:#Fügen Sie sich selbst als Feedback-Nehmer hinzu.
 survey#:#survey_360_appraisee#:#Feedback-Nehmer
 survey#:#survey_360_appraisee_close_action#:#Umfrage für Feedback-Geber schließen
-survey#:#survey_360_appraisee_close_action_info#:#Damit erhalten Sie Zugriff zu den Statistiken.
-survey#:#survey_360_appraisee_close_action_info_skill#:#Damit erhalten Sie Zugriff zu den Statistiken und Ihre Kompetenzstufen werden aktualisiert.
+survey#:#survey_360_appraisee_close_action_info#:#Wenn die Umfrage für die Feedback-Geber geschlossen werden, werden die Resultate finalisiert und der Zugriff auf diese für Sie freigegeben.
+survey#:#survey_360_appraisee_close_action_info_skill#:#Wenn die Umfrage für die Feedback-Geber geschlossen werden, werden die Resultate finalisiert und der Zugriff auf diese für Sie freigegeben. Zusätzlich wird Ihre Kompetenzeinschätzung ermittelt.
 survey#:#survey_360_appraisee_close_action_status#:#Umfrage wurde am %s geschlossen.
 survey#:#survey_360_appraisee_close_action_success#:#Sie haben Ihre 360°-Umfrage für die Feedback-Geber geschlossen.
 survey#:#survey_360_appraisee_close_action_success_admin#:#Die 360°-Umfragen der Feedback-Nehmer wurden geschlossen.
@@ -16337,6 +16441,7 @@ survey#:#survey_360_mode#:#360°-Feedback
 survey#:#survey_360_mode_info#:#Mehrere Personen evaluieren sich gegenseitig, Rückmeldungen zu einem Feedback-Nehmer werden zu einem Zeitpunkt aggregiert ausgewertet.
 survey#:#survey_360_no_appraisees#:#Sie können momentan kein Feedback geben.
 survey#:#survey_360_no_closed_appraisees#:#Es sind noch keine Umfragen geschlossen worden.
+survey#:#survey_360_rate_other_appraisee#:#Feedback geben
 survey#:#survey_360_rate_other_appraisees#:#Feedback geben
 survey#:#survey_360_rater_finished#:#Umfrage abgeschlossen
 survey#:#survey_360_rater_mail_sent#:#Mail versendet
@@ -16498,6 +16603,7 @@ survey#:#svy_answer_too_long#:#Ihre Antwort ist zu lang (%s Zeichen). Bitte kür
 survey#:#svy_app_see_rater_info#:#Feedbacknehmende können auf den Ergebnisseiten einsehen, welche Feedbackgebenden die Antworten gegeben haben, inkl. Namen und E-Mail, sofern diese beim Anlegen der Feedbackgebenden angegeben wurden.
 survey#:#svy_appraisses_cannot_be_raters#:#Benutzer können sich nicht selbst als Feedback-Geber zuordnen. Nutzen Sie stattdessen die Option "Selbsteinschätzung" in den Einstellungen der Umfrage.
 survey#:#svy_back#:#Zurück
+survey#:#svy_categories#:#Antworten
 survey#:#svy_check_evaluation_access_introduction#:#Da diese Auswertung nur für befragte Personen verfügbar ist, müssen Sie Ihren Zugangsschlüssel für die Umfrage angeben, um die Auswertung zu öffnen.
 survey#:#svy_check_evaluation_authentication_needed#:#Authentifizierung erforderlich
 survey#:#svy_check_evaluation_wrong_key#:#Sie haben einen falschen Zugangsschlüssel für die Umfrage angegeben oder nicht an der Umfrage teilgenommen. Der Zugang zur Auswertung wurde Ihnen deshalb verwehrt.
@@ -16564,7 +16670,7 @@ survey#:#svy_only_max_one_external_rater#:#Bitte wählen Sie nur einen externen 
 survey#:#svy_page_add_question#:#Neue %s hinzufügen
 survey#:#svy_page_error#:#Beim Beantworten einer Frage ist ein Fehler aufgetreten. Die Fehlermeldung finden Sie bei der betroffenen Frage!
 survey#:#svy_page_errors#:#Beim Beantworten mehrerer Fragen sind Fehler aufgetreten. Die Fehlermeldungen finden Sie bei den betroffenen Fragen!
-survey#:#svy_participant#:#Participant###26 08 2024 new variable
+survey#:#svy_participant#:#Befragte
 survey#:#svy_participants#:#Befragte
 survey#:#svy_participation#:#Teilnahme
 survey#:#svy_please_select_unused_codes#:#Bitte wählen Sie zumindest einen ungenutzten Zugangsschlüssel aus.
@@ -16626,12 +16732,16 @@ survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#workingtime#:#Bearbeitungsdauer
 svy#:#survey_360_appraisees_remind_info#:#Falls die Selbsteinschätzung aktiviert ist, erhalten Feedback-Nehmer, die die Umfrage noch nicht abgeschlossen haben, eine Erinnerungsnachricht.
 svy#:#survey_360_raters_remind_info#:#Feedback-Geber, die die Umfrage noch nicht abgeschlossen haben, erhalten eine Erinnerungsnachricht.
+svy#:#svy_0_open_appraisees#:#Sie können die Umfrage für keinen Feedback-Nehmer mehr durchführen.
 svy#:#svy_all_pages#:#Alle Seiten
 svy#:#svy_all_participants#:#Alle Befragte
 svy#:#svy_all_questions#:#Alle Fragen
+svy#:#svy_code#:#Zugangsschlüssel
 svy#:#svy_codes#:#Zugangsschlüssel
 svy#:#svy_current_page#:#Aktuelle Seite
 svy#:#svy_finish_survey#:#Umfrage "%1" bearbeiten
+svy#:#svy_finished_x_appraisees#:#Sie haben die Umfrage bereits für %s Feedback-Nehmer beendet.
+svy#:#svy_information#:#Information
 svy#:#svy_invite_participants#:#Als To-Do eintragen für
 svy#:#svy_link_to_svy#:#Link zur Umfrage
 svy#:#svy_part_overview#:#Übersicht
@@ -16654,6 +16764,11 @@ svy#:#svy_user_added_rater_mail#:#Sie wurden als Feedback-Geber hinzugefügt.
 svy#:#svy_user_added_rater_reminder_mail#:#Bitte bewerten Sie noch die folgenden Feedback-Nehmer:
 svy#:#svy_user_not_found#:#Es wurde kein entsprechender Benutzer gefunden.
 svy#:#svy_users_invited#:#Das To-Do wurde eingetragen.
+svy#:#svy_x_appraisees_closed_for_raters#:#%s Ihrer Feedback-Nehmer hat/haben die Umfrage für Feedback-Geber geschlossen.
+svy#:#svy_x_open_appraisees#:#Sie können die Umfrage noch für %s Feedback-Nehmer durchführen.
+svy#:#svy_your_appraisees#:#Ihre Feedback-Nehmer
+svy#:#svy_your_raters#:#Ihre Feedback-Geber
+svy#:#svy_your_raters_finished#:#%s Ihrer Feedback-Geber haben die Umfrage beendet.
 sysc#:#sysc_action_list_tree#:#Dump der Baumstruktur erzeugen
 sysc#:#sysc_action_repair#:#Reparieren
 sysc#:#sysc_action_show_tree#:#Baumstruktur anzeigen
@@ -16715,6 +16830,7 @@ tagging#:#tagging_enable_all_users_info#:#Fügt auf dem Reiter „Info“ einen 
 tagging#:#tagging_enable_tagging#:#Tagging aktivieren
 tagging#:#tagging_forbidden_tags#:#Verbotene Tags
 tagging#:#tagging_no_obj_for_tag#:#Es sind keine Inhalte mit „%s“ verschlagwortet.
+tagging#:#tagging_no_perm_write#:#Sie haben keine Berechtigung diese Daten zu ändern.
 tagging#:#tagging_other_users#:#Tags anderer Benutzer
 tagging#:#tagging_resources_for_tag#:#Inhalte verschlagwortet mit %s
 tagging#:#tagging_search_users#:#Benutzer suchen
@@ -16883,26 +16999,26 @@ trac#:#trac_measure#:#Kennzahl
 trac#:#trac_members_short#:#Teil.
 trac#:#trac_min_passed#:#Minimalanzahl zu bestehender Materialien:
 trac#:#trac_mode#:#Lernfortschrittsmodus
-trac#:#trac_mode_cmix_compl_or_passed_with_failed#:#'Bearbeitet', wenn 'completed' oder 'passed' oder 'satisfied' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'nicht bestanden'.
+trac#:#trac_mode_cmix_compl_or_passed_with_failed#:#Status „Bearbeitet“, wenn von CMI5-Modul „completed“, „passed“ oder „satisfied“ gesendet wurde. Wird „failed“ gesendet, setzt ILIAS den Status des Lernfortschritts auf „Nicht bestanden“.
 trac#:#trac_mode_cmix_compl_or_passed_with_failed_info#:#&nbsp;
-trac#:#trac_mode_cmix_compl_with_failed#:#'Bearbeitet', wenn 'completed' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'nicht bestanden'.
+trac#:#trac_mode_cmix_compl_with_failed#:#Status „Bearbeitet“, wenn „completed“ gesendet wurde. Wird „failed“ gesendet, setzt ILIAS den Status des Lernfortschritts auf „Nicht bestanden“.
 trac#:#trac_mode_cmix_compl_with_failed_info#:#&nbsp;
-trac#:#trac_mode_cmix_completed#:#'Bearbeitet', wenn 'completed' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'in Bearbeitung'.
+trac#:#trac_mode_cmix_completed#:#Status „Bearbeitet“, wenn „completed“ gesendet wurde. Wird „failed“ gesendet, setzt ILIAS den Status des Lernfortschritts auf „in Bearbeitung“.
 trac#:#trac_mode_cmix_completed_info#:#&nbsp;
-trac#:#trac_mode_cmix_completed_or_passed#:#'Bearbeitet', wenn 'completed' oder 'passed' oder 'satisfied' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'in Bearbeitung'.
+trac#:#trac_mode_cmix_completed_or_passed#:#Status „Bearbeitet“, wenn von CMI5-Modul „completed“, „passed“ oder „satisfied“ gesendet wurde. Wird „failed“ gesendet, setzt ILIAS den Status des Lernfortschritts auf „in Bearbeitung“.
 trac#:#trac_mode_cmix_completed_or_passed_info#:#&nbsp;
-trac#:#trac_mode_cmix_passed#:#'Bearbeitet', wenn 'passed' oder 'satisfied' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'in Bearbeitung'.
+trac#:#trac_mode_cmix_passed#:#Status „Bearbeitet“, wenn von CMI5-Modul „passed“ oder „satisfied“ gesendet wurde. Wird „failed“ gesendet, setzt ILIAS den Status des Lernfortschritts auf „in Bearbeitung“.
 trac#:#trac_mode_cmix_passed_info#:#&nbsp;
-trac#:#trac_mode_cmix_passed_with_failed#:#'Bearbeitet', wenn 'passed' oder 'satisfied' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'nicht bestanden'.
+trac#:#trac_mode_cmix_passed_with_failed#:#Status „Bearbeitet“, wenn von CMI5-Modul „passed“ oder „satisfied“ gesendet wurde. Wird „failed“ gesendet, setzt ILIAS den Status des Lernfortschritts auf „Nicht bestanden“.
 trac#:#trac_mode_cmix_passed_with_failed_info#:#&nbsp;
-trac#:#trac_mode_collection#:#Status wird anhand einer Auswahl von Objekten bestimmt
-trac#:#trac_mode_collection_info#:#Der Status des Lernfortschritts des Objekts wird automatisch durch den Status der ausgewählten Objekten bestimmt. <br />Nach dem Speichern dieser Einstellung können auf dieser Seite die gewünschten Objekte ausgewählt werden.
-trac#:#trac_mode_collection_manual#:#Benutzer entscheidet selbst über den Status des Lernfortschritts im jeweiligen Kapitel.
-trac#:#trac_mode_collection_manual_info#:#Benutzer entscheiden selbst, wann sie ein Kapitel des Lernmoduls erfolgreich durchgearbeitet haben. Sowie die Bearbeitung eines Kapitels abgeschlossen ist, setzen sie auf dem Reiter 'Info' den Status dieses Kapitels auf 'Bearbeitet'.<br />Nach dem Speichern dieser Einstellungen, können auf dieser Seite Kapitel für den Lernfortschritt ausgewählt werden.
+trac#:#trac_mode_collection#:#Automatische Bewertung auf Basis ausgewählter Objekte
+trac#:#trac_mode_collection_info#:#Der Status des Lernfortschritts wird automatisch durch den Status der ausgewählten Unterobjekte bestimmt. <br />Nach dem Speichern dieser Einstellung können auf dieser Seite die dafür gewünschten Objekte ausgewählt werden.
+trac#:#trac_mode_collection_manual#:#Selbsteinschätzung pro Kapitel
+trac#:#trac_mode_collection_manual_info#:#Eine Person entscheidet selbst, wann sie ein Kapitel des Lernmoduls erfolgreich durchgearbeitet haben. Sobald die Bearbeitung eines Kapitels abgeschlossen ist, wird dazu der Status des Kapitels auf „Bearbeitet“ gesetzt.<br />Nach dem Speichern der Einstellung können auf dieser Seite Kapitel für die Selbsteinschätzung ausgewählt werden.
 trac#:#trac_mode_collection_mobs#:#Auswahl an Medien-Objekten
 trac#:#trac_mode_collection_mobs_info#:#Der Lernfortschritt wird automatisch aus der Anzahl der betrachteten Medienobjekte ermittelt.
 trac#:#trac_mode_collection_tlt#:#Mindestlerndauer je Kapitel
-trac#:#trac_mode_collection_tlt_info#:#Der Status eines Benutzers wird entsprechend der Dauer, die dieser Benutzer mit der Bearbeitung eines Kapitels verbringt, automatisch gesetzt. Der Status eines Kapitels auf 'Bearbeitet' wird vergeben, wenn die 'Typische Lernzeit' aller lernfortschritts-relevanten Kapitel überschritten wird. <br />Nach dem Speichern dieser Einstellungen, können auf dieser Seite Kapitel ausgewählt und für diese die 'Typische Lernzeiten' festlegt werden.
+trac#:#trac_mode_collection_tlt_info#:#Der Status des Lernfortschritts wird automatisch entsprechend der Dauer gesetzt, die eine Person mit der Bearbeitung eines Kapitels verbringt. Ein Kapitel wird als „Bearbeitet“ gewertet, sobald die „Typische Lernzeit“ aller für den Lernfortschritt relevanten Kapitel überschritten ist. <br />Nach dem Speichern der Einstellung, können auf dieser Seite Kapitel ausgewählt und für diese jeweils die „Typische Lernzeit“ festgelegt werden.
 trac#:#trac_mode_content_visited#:#Besuch
 trac#:#trac_mode_content_visited_info#:#Der Lernstand wird über das Ausliefern des Inhalts bestimmt.
 trac#:#trac_mode_contribution_to_discussion#:#Beiträge zur Diskussion
@@ -16916,35 +17032,35 @@ trac#:#trac_mode_event_info#:#Personen mit dem Recht „Mitglieder verwalten“ 
 trac#:#trac_mode_exercise_returned#:#Manuelle Bewertung
 trac#:#trac_mode_exercise_returned_info#:#Personen mit dem Recht „Einstellungen bearbeiten“ entscheiden anhand der Einreichungen, ob die Übungseinheit gelöst wurde. Im Reiter „Abgaben und Noten“ setzen sie händisch den jeweiligen Status.
 trac#:#trac_mode_individual_assessment#:#Manuelle Bewertung
-trac#:#trac_mode_individual_assessment_info#:#Im Reiter „Teilnehmer“ können Personen mit dem Recht „Teilnehmer bearbeiten“ die Bewertung abschließen. Dadurch ändert sich der jeweilige Lernfortschrittsstatus.
+trac#:#trac_mode_individual_assessment_info#:#Ob eine Individuelle Bewertung bestanden wurde, entscheiden Personen mit dem Recht „Mitglieder verwalten“ im Reiter „Teilnehmer“. Abhängig von der Entscheidung ändert sich der Status des Lernfortschritts für die bewertete Person.
 trac#:#trac_mode_lti_outcome#:#Mastery Score muss erreicht werden
 trac#:#trac_mode_lti_outcome_info#:#Der Lernfortschritt gilt als abgeschlossen, wenn das Ergebnis des LTI-Outcome-Service mindestens so hoch wie der Mastery Score ist.
-trac#:#trac_mode_manual#:#Benutzer entscheidet selbst über den Status des Lernfortschritts für das gesamte Objekt.
-trac#:#trac_mode_manual_by_tutor#:#Die Kursadministration oder Kursbetreuung entscheidet über den Status des Lernfortschritts.
-trac#:#trac_mode_manual_by_tutor_info#:#Die Kursadministration oder Kursbetreuung entscheidet, ob Teilnehmer das Objekt erfolgreich bearbeitet haben. Dazu setzt sie händisch den Status auf „Bearbeitet“.
-trac#:#trac_mode_manual_info#:#Benutzer entscheiden selbst, wann sie das Objekt erfolgreich durchgearbeitet haben. Sowie die Bearbeitung abgeschlossen ist, setzen sie den Status im Reiter 'Info' auf 'Bearbeitet'.
+trac#:#trac_mode_manual#:#Selbsteinschätzung für gesamtes Objekt
+trac#:#trac_mode_manual_by_tutor#:#Manuelle Bewertung
+trac#:#trac_mode_manual_by_tutor_info#:#Ob eine Person das Objekt erfolgreich bearbeitet hat, entscheiden Personen mit dem Recht „Mitglieder verwalten“ (zum Beispiel die Kurs- oder Gruppenadministration). Dazu muss der Status händisch auf „Bearbeitet“ gesetzt werden.
+trac#:#trac_mode_manual_info#:#Eine Person entscheidet selbst, ob sie das Objekt erfolgreich durchgearbeitet hat. Dazu setzt sie im Reiter „Info“ den Status auf „Bearbeitet“.
 trac#:#trac_mode_objectives#:#Lernziele
 trac#:#trac_mode_objectives_info#:#Der Lernfortschritt wird automatisch aus der Anzahl der erfüllten Lernziele ermittelt.
 trac#:#trac_mode_plugin#:#Plugin
 trac#:#trac_mode_questions#:#Alle Fragen richtig beantwortet
-trac#:#trac_mode_questions_info#:#Benutzer, die alle Fragen richtig beantwortet haben, erhalten automatisch den Status 'Bearbeitet'. Bitte nutzen Sie diese Option nur, wenn auch tatsächlich Fragen im Lernmodul vorliegen.
-trac#:#trac_mode_scorm#:#Status wird anhand einer Auswahl von SCORM-Kapiteln bestimmt (je SCO)
-trac#:#trac_mode_scorm_info#:#Der Status des Lernfortschritts des gesamten Lernmoduls wird automatisch durch den Status der ausgewählten Kapitel (SCOs) bestimmt. <br />Nach dem Speichern dieser Einstellung können auf dieser Seite die gewünschten SCOs ausgewählt werden.
-trac#:#trac_mode_scorm_package#:#Status wird vom SCORM-Paket bestimmt (gesamtes Lernmodul)
-trac#:#trac_mode_scorm_package_info#:#Der Status eines Benutzers wird automatisch auf 'Bearbeitet' gesetzt, wenn das gesamte Lernmodul durchgearbeitet wurde. Alle im Paket enthaltenen SCOs werden im Lernfortschritt berücksichtigt.
+trac#:#trac_mode_questions_info#:#Ein Lernmodul gilt als „bearbeitet“, sobald alle Fragen richtig beantwortet wurden.<br />Nutzen Sie diese Option nur, wenn es Fragen im Lernmodul gibt.
+trac#:#trac_mode_scorm#:#Auswahl von SCORM-Kapiteln
+trac#:#trac_mode_scorm_info#:#Der Status des Lernfortschritts des gesamten Lernmoduls wird automatisch durch den Status der ausgewählten Kapitel (SCOs) bestimmt. <br />Nach dem Speichern der Einstellung können auf dieser Seite die gewünschten SCOs ausgewählt werden.
+trac#:#trac_mode_scorm_package#:#Durch SCORM-Paket (gesamtes Lernmodul)
+trac#:#trac_mode_scorm_package_info#:#Der Lernfortschritt wird automatisch auf „Bearbeitet“ gesetzt, wenn das gesamte Lernmodul durchgearbeitet wurde. Alle im Paket enthaltenen SCOs werden im Lernfortschritt berücksichtigt.
 trac#:#trac_mode_study_programme#:#Studienprogramm abgeschlossen
 trac#:#trac_mode_survey_finished#:#Umfrage beendet
 trac#:#trac_mode_survey_finished_info#:#Die Umfrage muss beendet werden.
-trac#:#trac_mode_test_finished#:#Benutzer müssen Test beenden
-trac#:#trac_mode_test_finished_info#:#Der Status eines Benutzers wird automatisch auf 'Bearbeitet' gesetzt, nachdem der Benutzer 'Test beenden' geklickt hat. Dabei ist es gleichgültig, ob der Benutzer den Test bestanden hat oder nicht.
-trac#:#trac_mode_test_passed#:#Benutzer müssen Test bestehen
-trac#:#trac_mode_test_passed_info#:#Der Status eines Benutzers wird automatisch auf 'Bearbeitet' gesetzt, nachdem der Benutzer den Test bestanden hat. Im Reiter 'Einstellungen' können im Abschnitt 'Notenschema' Schwellenwerte für das Bestehen des Tests festgelegt werden.
+trac#:#trac_mode_test_finished#:#Test beendet
+trac#:#trac_mode_test_finished_info#:#Der Lernfortschritt wird automatisch auf „Bearbeitet“ gesetzt, sobald im Testdurchlauf auf „Test beenden“ geklickt wurde. Dabei spielt keine Rolle, ob der Test bestanden wurde oder nicht.
+trac#:#trac_mode_test_passed#:#Test bestanden
+trac#:#trac_mode_test_passed_info#:#Der Lernfortschritt für den Test wird nur dann auf „Bearbeitet“ gesetzt, wenn der Test auch bestanden wurde. Wurde der Test nicht bestanden, setzt ILIAS automatisch den Status „Nicht bestanden“.<br />Die Schwellenwerte für das Bestehen eines Tests werden im Reiter „Einstellungen“, Unterreiter „Notenschema“' festgelegt.
 trac#:#trac_mode_tlt#:#Mindestlerndauer für gesamtes Lernmodul
-trac#:#trac_mode_tlt_info#:#Der Status eines Benutzers wird automatisch entsprechend der Dauer gesetzt, die dieser Benutzer mit der Bearbeitung des Lernmoduls verbringt. Der Status 'Bearbeitet' wird vergeben, soabld die 'Typische Lernzeit' überschritten ist. <br />Die 'Typische Lernzeit' des Lernmoduls wird im Reiter 'Metadaten' festgelegt.
+trac#:#trac_mode_tlt_info#:#Der Status des Lernfortschritts wird automatisch auf „Bearbeitet“ gesetzt, sobald die Bearbeitung des Lernmoduls länger dauert, als dies in der „Typischen Lernzeit“ definiert ist. <br />Die „Typische Lernzeit“ wird im Reiter „Metadaten“ festgelegt.
 trac#:#trac_mode_visited_pages#:#Besuchte Seiten
-trac#:#trac_mode_visited_pages_info#:#Benutzer, die alle Seiten des Lernmoduls besucht haben, erhalten automatisch den Status 'Bearbeitet'.
-trac#:#trac_mode_visits#:#Status wird anhand der Anzahl der Aufrufe bestimmt
-trac#:#trac_mode_visits_info#:#Der Status eines Benutzers wird automatisch auf 'Bearbeitet' gesetzt, wenn dieser Benutzer das Lernmodul häufiger aufgerufen hat als die Mindestanzahl der Aufrufe fordert. Benutzern wird die Anzahl ihrer Aufrufe angezeigt und zu welchem Prozentsatz sie die Mindestanforderungen erfüllen.
+trac#:#trac_mode_visited_pages_info#:#Hat eine Person alle Seiten des Lernmoduls besucht, wird der Status des Lernfortschritt automatisch auf „Bearbeitet“ gesetzt.
+trac#:#trac_mode_visits#:#Anzahl der Aufrufe
+trac#:#trac_mode_visits_info#:#Der Status des Lernfortschritts wird automatisch auf „Bearbeitet“ gesetzt, wenn eine Person das Lernmodul häufiger aufruft, als es die definierte Mindestanzahl verlangt.
 trac#:#trac_name_of_installation#:#Name der Installation
 trac#:#trac_no_attempted#:#Noch nicht bearbeitet
 trac#:#trac_not_accessed#:#Noch nicht zugegriffen
@@ -17047,7 +17163,7 @@ ui#:#datatable_multiaction_label#:#Sammelaktionen
 ui#:#datatable_multiactionmodal_actionlabel#:#Aktion für alle Einträge
 ui#:#datatable_multiactionmodal_apply#:#Ausführen
 ui#:#datatable_multiactionmodal_listentry#:#Aktionen für gesamte Tabelle
-ui#:#datatable_multiactionmodal_msg#:#Die ausgewählte Aktion wirkt sich auf alle Einträge in diser Tabelle aus.
+ui#:#datatable_multiactionmodal_msg#:#Die ausgewählte Aktion wirkt sich auf alle Einträge in dieser Tabelle aus.
 ui#:#datatable_multiactionmodal_title#:#Aktionen für gesamte Tabelle
 ui#:#drilldown_no_items#:#Keine passenden Elemente
 ui#:#duration_default_label_end#:#Ende
@@ -17076,12 +17192,13 @@ ui#:#table_posinput_col_title#:#Position
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Verbleibende Buchstaben
+ui#:#ui_error#:#Fehler
 ui#:#ui_error_in_group#:#Es gibt einen Fehler in diesem Bereich.
 ui#:#ui_error_switchable_group_required#:#Bitte treffen Sie eine Auswahl.
 ui#:#ui_file_input_general_error#:#Es ist ein Fehler aufgetreten. Sie können in der JavaSkript-Konsole Ihres Browser nachschauen, ob es weitere Informationen zu diesem Fehler gibt, und/oder die Administration Ihrer ILIAS-Installation über den Vorfall informieren.
 ui#:#ui_file_input_invalid_amount#:#Sie dürfen nicht so viele Dateien auf einmal hochladen! Entfernen Sie einige Dateien, um fortzufahren.
 ui#:#ui_file_input_invalid_mime#:#Dateien vom Typ „%s“ sind nicht erlaubt.
-ui#:#ui_file_input_invalid_size#:#Datei überschreitet die maximale Dateigrösse von %s.
+ui#:#ui_file_input_invalid_size#:#Datei überschreitet die maximale Dateigröße von %s.
 ui#:#ui_file_upload_max_nr#:#Maximale Dateianzahl:
 ui#:#ui_invalid_url#:#Das Format der URL ist nicht korrekt.
 ui#:#ui_link_label#:#Label
@@ -17094,6 +17211,12 @@ ui#:#ui_table_no_records#:#Keine Einträge
 ui#:#ui_transcription#:#Abschrift
 user#:#all_roles_has_starting_point#:#Alle Rollen mit definierter Startseite
 user#:#back_to_starting_points_list#:#Zurück zu Startseiten
+user#:#change_email_email_confirmation_body#:#Die E-Mail-Adresse des Kontos %s wurde geändert. Bitte klicken Sie auf diesen Link %s , um die Änderung zu bestätigen. Der Link ist für %s Minuten gültig.
+user#:#change_email_email_confirmation_subject#:#Bestätigung der Änderung der E-Mail-Adresse
+user#:#change_email_email_information_body#:#Es wurde eine Änderung der E-Mail-Adresse des Kontos %s auf %s angestossen. Eine E-Mail mit einem Link zur Bestätigung wurde an die neue Adresse geschickt. Der Link ist für %s Minuten gültig.
+user#:#change_email_email_information_subject#:#Information über Änderung der E-Mail-Adresse
+user#:#change_email_email_sent#:#Die E-Mail zum Bestätigen Ihrer E-Mail-Adresse wurde verschickt. Bitte schauen Sie in Ihre Inbox und überprüfen Sie Ihren Spam-Ordner, wenn Sie in den nächsten Minuten keine E-mail erhalten.
+user#:#change_email_info_message#:#Für dieses Konto gibt es einen hängigen Prozess zur Änderung der E-Mail-Adresse.
 user#:#clipboard_add_btn#:#Der Zwischenablage hinzufügen
 user#:#clipboard_add_from_btn#:#Aus der Zwischenablage hinzufügen
 user#:#clipboard_empty_btn#:#Zwischenablage leeren
@@ -17102,6 +17225,7 @@ user#:#clipboard_table_title#:#Zwischenablage (Anmeldekonten)
 user#:#clipboard_user_added#:#Die ausgewählten Benutzer wurden der Zwischenablage hinzugefügt.
 user#:#confirm_delete_starting_point#:#Sind Sie sich sicher, dass diese Regel gelöscht werden soll?
 user#:#confirm_logout_for_email_change#:#Sie haben Ihre E-Mail-Adresse geändert. Um diese Änderung abzuschliessen, ist die Eingabe Ihres Passworts notwendig. Sie werden daher abgemeldet und haben daraufhin 5 Minuten Zeit, sich wieder anzumelden, um die Änderungen abzuschliessen. Alle anderen Änderungen werden gespeichert, bevor Sie abgemeldet werden.
+user#:#confirm_logout_for_email_change_with_confirmation#:#Im Anschluss wird Ihnen eine E-Mail auf die neue E-Mail gesendet, um zu bestätigen, dass diese Adresse Ihnen gehört. Erst nachdem Sie den Link in der E-Mail angeklickt haben, wird die Adresse in Ihrem Profil geändert.
 user#:#create_starting_point#:#Regel erstellen
 user#:#criteria#:#Kriterium
 user#:#del_mail_body#:#Hallo %1$s, %2$s Sie haben sich seit längerer Zeit nicht mehr auf %3$s angemeldet. Daher wird ihr ILIAS-Konto voraussichtlich am %4$s gelöscht. Um Ihr ILIAS-Konto zu behalten, müssen Sie sich vor dem genannten Tag erneut einloggen.
@@ -17203,7 +17327,8 @@ user#:#user_profile_info_text_info#:#Dieser Text erscheint über dem Eingabeform
 user#:#user_profile_portfolio#:#Wenn Sie ein Portfolio als Ihr Profil nutzen möchten, setzen Sie im Portfolio-Bereich das Attribut "Mein Profil".
 user#:#user_profile_portfolio_selected#:#Sie benutzen momentan ein Portfolio als Ihr Profil. Die Aktivierung erfolgt dort über den Reiter "Freigabe".
 user#:#user_profile_preview#:#Vorschau des Profils
-user#:#user_profile_prompt_text_info#:#Dieser Text ersetzt den obigen Infotext, wenn Sie die Aufforderung zur Profilveröffentlichung nutzen.###Modified as part of gender mainstreaming activities for ILIAS 8
+user#:#user_profile_prompt_text#:#Text bei Aufforderung zur Profilveröffentlichung
+user#:#user_profile_prompt_text_info#:#Diese Texte ersetzen den obigen Infotext, wenn Sie die Aufforderung zur Profilveröffentlichung nutzen.###Modified as part of gender mainstreaming activities for ILIAS 8
 user#:#user_prompt_incomplete#:#Nie
 user#:#user_prompt_incomplete_info#:#Der Benutzer wird niemals zur Veröffentlichung seines Profils aufgefordert.
 user#:#user_prompt_once_after_login#:#Nach einer bestimmten Zeit nach dem ersten Login
@@ -17211,7 +17336,7 @@ user#:#user_prompt_once_after_login_info#:#Nach dieser Zeit wird der Benutzer au
 user#:#user_prompt_repeat#:#Wiederholt nach x Tagen
 user#:#user_prompt_repeat_info#:#Benutzer werden wiederholt aufgefordert ihr Profil zu veröffentlichen, falls es nicht bereits veröffentlicht ist.
 user#:#user_prompting_recurrence#:#Häufigkeit
-user#:#user_prompting_settings#:#Aufforderung Profilveröffentlichung
+user#:#user_prompting_settings#:#Aufforderung zur Profilveröffentlichung
 user#:#user_public_profile_info#:#Bitte wählen Sie aus, welche Daten in Ihrem Profil erscheinen sollen und welche Benutzer es betrachten können.
 user#:#user_publish_options#:#Profil veröffentlichen
 user#:#user_role_selection#:#Rollenauswahl

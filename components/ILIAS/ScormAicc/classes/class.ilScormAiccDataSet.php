@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 class ilScormAiccDataSet extends ilDataSet
 {
@@ -172,7 +172,6 @@ class ilScormAiccDataSet extends ilDataSet
 
         $this->_archive['files'] = [
             "properties" => "properties.xml",
-            "metadata" => "metadata.xml",
             "manifest" => 'manifest.xml',
             'scormFile' => "content.zip"
         ];
@@ -185,12 +184,6 @@ class ilScormAiccDataSet extends ilDataSet
         if (!file_exists($this->_archive['directories']['tempDir'])) {
             mkdir($this->_archive['directories']['tempDir'], 0755, true);
         }
-
-        // build metadata xml file
-        file_put_contents(
-            $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['metadata'],
-            $this->buildMetaData($id)
-        );
 
         // build manifest xml file
         file_put_contents(
@@ -224,10 +217,6 @@ class ilScormAiccDataSet extends ilDataSet
             $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['manifest'],
             $this->_archive['directories']['archiveDir'] . '/' . "manifest.xml"
         );
-        $zArchive->addFile(
-            $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['metadata'],
-            $this->_archive['directories']['archiveDir'] . '/' . "metadata.xml"
-        );
         if (isset($this->_archive['files']['scormFile'])) {
             $zArchive->addFile(
                 $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['scormFile'],
@@ -237,7 +226,6 @@ class ilScormAiccDataSet extends ilDataSet
         $zArchive->close();
 
         // unlink tempDir and its content
-        unlink($this->_archive['directories']['tempDir'] . "/metadata.xml");
         unlink($this->_archive['directories']['tempDir'] . "/manifest.xml");
         unlink($this->_archive['directories']['tempDir'] . "/properties.xml");
         if (isset($this->_archive['files']['scormFile']) && file_exists($this->_archive['directories']['tempDir'] . "/content.zip")) {
@@ -308,13 +296,6 @@ class ilScormAiccDataSet extends ilDataSet
             return "Description";
         }
         return $this->element_db_mapping[$db_col_name];
-    }
-
-    public function buildMetaData(int $id): string
-    {
-        $md2xml = new ilMD2XML($id, $id, "sahs");
-        $md2xml->startExport();
-        return $md2xml->getXML();
     }
 
     /**

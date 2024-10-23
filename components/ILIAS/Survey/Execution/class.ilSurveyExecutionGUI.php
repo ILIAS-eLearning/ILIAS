@@ -179,7 +179,7 @@ class ilSurveyExecutionGUI
             $anonymous_id = $this->object->getAnonymousIdByCode($anonymous_code);
             if (!$anonymous_id) {
                 $this->tpl->setOnScreenMessage('failure', sprintf($this->lng->txt("error_retrieving_anonymous_survey"), $anonymous_code, true));
-                $this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
+                $this->ctrl->redirectByClass("ilobjsurveygui", "run");
             }
         }
 
@@ -200,7 +200,7 @@ class ilSurveyExecutionGUI
             }
             if (!in_array($appr_id, $appraisees)) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt("survey_360_execution_invalid_appraisee"), true);
-                $this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
+                $this->ctrl->redirectByClass("ilobjsurveygui", "run");
             }
         }
         //Self evaluation mode
@@ -215,7 +215,7 @@ class ilSurveyExecutionGUI
             // completed
             if ($this->run_manager->hasFinished()) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt("already_completed_survey"), true);
-                $this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
+                $this->ctrl->redirectByClass("ilobjsurveygui", "run");
             }
             // starting
             elseif (!$this->run_manager->hasStarted()) {
@@ -225,7 +225,7 @@ class ilSurveyExecutionGUI
                     $this->run_manager->start($appr_id);
                 } else {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt("survey_use_start_button"), true);
-                    $this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
+                    $this->ctrl->redirectByClass("ilobjsurveygui", "run");
                 }
             }
             // resuming
@@ -398,7 +398,7 @@ class ilSurveyExecutionGUI
         }
         $first_question = -1;
         if (is_null($page) && $direction === -1) {
-            $this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
+            $this->ctrl->redirectByClass("ilobjsurveygui", "run");
         } elseif (is_null($page) && $direction === 1) {
             $state = $this->object->getUserSurveyExecutionStatus();
             if ($this->preview ||
@@ -436,7 +436,7 @@ class ilSurveyExecutionGUI
 
                 if (!$this->preview) {
                     $stpl->setVariable("TEXT_SUSPEND", $this->lng->txt("cancel_survey"));
-                    $stpl->setVariable("HREF_SUSPEND", $this->ctrl->getLinkTargetByClass("ilObjSurveyGUI", "infoScreen"));
+                    $stpl->setVariable("HREF_SUSPEND", $this->ctrl->getLinkTargetByClass("ilObjSurveyGUI", "run"));
                 } else {
                     $this->ctrl->setParameterByClass("ilObjSurveyGUI", "pgov", $this->request->getTargetPosition());
                     $stpl->setVariable("TEXT_SUSPEND", $this->lng->txt("survey_cancel_preview"));
@@ -571,7 +571,7 @@ class ilSurveyExecutionGUI
 
     public function cancel(): void
     {
-        $this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
+        $this->ctrl->redirectByClass("ilobjsurveygui", "run");
     }
 
     /**

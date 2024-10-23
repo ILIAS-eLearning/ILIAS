@@ -16017,7 +16017,6 @@ survey#:#cancel_survey#:#Přerušit anketu
 survey#:#cannot_read_survey#:#Nemáte odpovídající oprávnění číst data ankety!
 survey#:#cannot_switch_to_online_no_questions#:#Status nelze změnit na &quot;online&quot;, neboť v tomto testu nejsou žádné otázky!
 survey#:#cant_send_email_smtp_disabled#:#Sending external mails is not available. This option is deactivated globally.###07 02 2017 new variable
-survey#:#categories#:#Odpovědi
 survey#:#category#:#Odpověď
 survey#:#category_nr_selected#:#Počet uživatelů, kteří zvolili tuto odpověď
 survey#:#chart#:#Graf
@@ -16473,6 +16472,7 @@ survey#:#svy_answer_too_long#:#Your current answer is too long (%s characters). 
 survey#:#svy_app_see_rater_info#:#Appraisees can access rater information in the results screens, including names and e-mail addresses, if entered before when adding raters.###29 07 2022 new variable
 survey#:#svy_appraisses_cannot_be_raters#:#User cannot be added as rater. Use self evaluation option in the survey settings instead.###07 02 2020 new variable
 survey#:#svy_back#:#Back###24 10 2013 new variable
+survey#:#svy_categories#:#Odpovědi
 survey#:#svy_check_evaluation_access_introduction#:#Dokud toto hodnocení ankety je dostupné pouze účastníkům ankety musíte vložit svůj přístupový kód pro otevření evaluace.
 survey#:#svy_check_evaluation_authentication_needed#:#Požadována autentizace
 survey#:#svy_check_evaluation_wrong_key#:#Vložil(a) jste chybný přístupový kód ankety nebo se nemáte zúčastnit této ankety. Váš přístup k hodnocení ankety je zamítnut.

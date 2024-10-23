@@ -26,7 +26,6 @@ use ILIAS\Refinery\String\HasMinLength;
 use ILIAS\Refinery\String\HasMaxLength;
 use PHPUnit\Framework\TestCase;
 use ILIAS\Refinery\String\MakeClickable;
-use ILIAS\Language\Language;
 
 class GroupTest extends TestCase
 {

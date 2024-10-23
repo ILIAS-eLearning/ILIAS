@@ -24,7 +24,6 @@ declare(strict_types=1);
 class ilPdfGenerator
 {
     private readonly ilCertificateRpcClientFactoryHelper $rpcHelper;
-    private readonly ilCertificateMathJaxHelper $mathJaxHelper;
     private readonly ilCertificatePdfFileNameFactory $pdfFilenameFactory;
 
     public function __construct(
@@ -32,7 +31,6 @@ class ilPdfGenerator
         ?ilCertificateRpcClientFactoryHelper $rpcHelper = null,
         ?ilCertificatePdfFileNameFactory $pdfFileNameFactory = null,
         ?ilLanguage $lng = null,
-        ?ilCertificateMathJaxHelper $mathJaxHelper = null
     ) {
         global $DIC;
 
@@ -40,11 +38,6 @@ class ilPdfGenerator
             $rpcHelper = new ilCertificateRpcClientFactoryHelper();
         }
         $this->rpcHelper = $rpcHelper;
-
-        if (null === $mathJaxHelper) {
-            $mathJaxHelper = new ilCertificateMathJaxHelper();
-        }
-        $this->mathJaxHelper = $mathJaxHelper;
 
         if (null === $lng) {
             $lng = $DIC->language();
@@ -102,8 +95,6 @@ class ilPdfGenerator
             ['[CLIENT_WEB_DIR]' . $certificate->getBackgroundImagePath(), 'file://' . CLIENT_WEB_DIR],
             $certificateContent
         );
-
-        $certificateContent = $this->mathJaxHelper->fillXlsFoContent($certificateContent);
 
         $pdf_base64 = $this->rpcHelper->ilFO2PDF('RPCTransformationHandler', $certificateContent);
 

@@ -62,6 +62,43 @@ class RequestProcessorListRecordsTest extends RequestProcessorTestCase
         $this->assertXmlStringEqualsXmlString($expected_response, $response->saveXML());
     }
 
+    public function testGetResponseToRequestListRecordsWithDefaultSet(): void
+    {
+        $processor = new RequestProcessor(
+            $this->getWriter(),
+            $this->getSettings('prefix_'),
+            $repo = $this->getRepository(
+                null,
+                3,
+                'id1+2022-11-27',
+                'id2+2022-11-27',
+                'id3+2021-11-13'
+            ),
+            $this->getTokenHandler()
+        );
+
+        $expected_response = <<<XML
+            <response>
+              <response_info>base url:ListRecords:metadataPrefix=oai_dc,set=default</response_info>
+              <record><record_info>prefix_id1+2022-11-27:2022-11-27</record_info><md>md for id1+2022-11-27</md></record>
+              <record><record_info>prefix_id2+2022-11-27:2022-11-27</record_info><md>md for id2+2022-11-27</md></record>
+              <record><record_info>prefix_id3+2021-11-13:2021-11-13</record_info><md>md for id3+2021-11-13</md></record>
+            </response>
+            XML;
+
+        $response = $processor->getResponseToRequest($this->getRequest(
+            'base url',
+            Verb::LIST_RECORDS,
+            [Argument::MD_PREFIX->value => 'oai_dc', Argument::SET->value => 'default'],
+        ));
+
+        $this->assertEquals(
+            [['from' => null, 'until' => null, 'limit' => 100, 'offset' => 0]],
+            $repo->exposed_parameters
+        );
+        $this->assertXmlStringEqualsXmlString($expected_response, $response->saveXML());
+    }
+
     public function testGetResponseToRequestListRecordsWithFromDate(): void
     {
         $processor = new RequestProcessor(
@@ -591,7 +628,7 @@ class RequestProcessorListRecordsTest extends RequestProcessorTestCase
         $this->assertXmlStringEqualsXmlString($expected_response, $response->saveXML());
     }
 
-    public function testGetResponseToRequestListRecordsNoSetsError(): void
+    public function testGetResponseToRequestListRecordsNonDefaultSetError(): void
     {
         $processor = new RequestProcessor(
             $this->getWriter(),
@@ -609,7 +646,7 @@ class RequestProcessorListRecordsTest extends RequestProcessorTestCase
         $expected_response = <<<XML
             <error_response>
               <response_info>base url:ListRecords:metadataPrefix=oai_dc,set=set</response_info>
-              <error>noSetHierarchy</error>
+              <error>noRecordsMatch</error>
             </error_response>
             XML;
 
@@ -635,7 +672,7 @@ class RequestProcessorListRecordsTest extends RequestProcessorTestCase
             <error_response>
               <response_info>base url:ListRecords:metadataPrefix=invalid,until=also invalid,from=more invalid,set=set,identifier=id</response_info>
               <error>badArgument</error>
-              <error>noSetHierarchy</error>
+              <error>noRecordsMatch</error>
               <error>cannotDisseminateFormat</error>
               <error>badArgument</error>
               <error>badArgument</error>

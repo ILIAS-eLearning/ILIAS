@@ -23,8 +23,16 @@ namespace ILIAS\MetaData\OERHarvester\Settings;
 class Settings implements SettingsInterface
 {
     protected const STORAGE_IDENTIFIER = 'meta_oer';
-    protected const COLLECTED_TYPES = [
-        'file'
+    protected const ELIGIBLE_TYPES = [
+        'file',
+        'glo',
+        'copa',
+        'lm',
+        'htlm',
+        'sahs',
+        'qpl',
+        'spl',
+        'mep'
     ];
 
     protected \ilSetting $settings;
@@ -49,14 +57,42 @@ class Settings implements SettingsInterface
     /**
      * @return string[]
      */
+    public function getObjectTypesEligibleForHarvesting(): array
+    {
+        return self::ELIGIBLE_TYPES;
+    }
+
+    /**
+     * @return string[]
+     */
     public function getObjectTypesSelectedForHarvesting(): array
     {
-        return self::COLLECTED_TYPES;
+        if (isset($this->selected_obj_types)) {
+            return $this->selected_obj_types;
+        }
+        $types_from_storage = unserialize(
+            $this->settings->get(
+                'collected_types',
+                serialize($this->getObjectTypesEligibleForHarvesting()),
+            ),
+            ['allowed_classes' => false]
+        );
+        return $this->selected_obj_types = array_intersect(
+            $types_from_storage,
+            $this->getObjectTypesEligibleForHarvesting()
+        );
     }
 
     public function isObjectTypeSelectedForHarvesting(string $type): bool
     {
-        return in_array($type, self::COLLECTED_TYPES);
+        $types = $this->getObjectTypesSelectedForHarvesting();
+        return in_array($type, $types);
+    }
+
+    public function saveObjectTypesSelectedForHarvesting(string ...$types): void
+    {
+        $this->selected_obj_types = $types;
+        $this->settings->set('collected_types', serialize($types));
     }
 
     /**

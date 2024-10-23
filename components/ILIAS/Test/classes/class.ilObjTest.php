@@ -23,10 +23,8 @@ use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\TestManScoringDoneHelper;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestLogViewer;
-
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Logging\TestScoringInteractionTypes;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
@@ -44,7 +42,6 @@ use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsDatabaseRepository;
 use ILIAS\Test\Settings\ScoreReporting\SettingsResultSummary;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettings;
 use ILIAS\Test\Export\CSVExportTrait;
-
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Stream\Streams;
@@ -868,18 +865,6 @@ class ilObjTest extends ilObject
         $this->mark_schema = null;
     }
 
-    /**
-    * Gets the reporting date of the ilObjTest object
-    *
-    * @return string The reporting date of the test of an empty string (=FALSE) if no reporting date is set
-    * @access public
-    * @see $reporting_date
-    */
-    public function getReportingDate(): ?string
-    {
-        return $this->getScoreSettings()->getResultSummarySettings()->getReportingDate()?->format('YmdHis');
-    }
-
     public function getNrOfTries(): int
     {
         return $this->getMainSettings()->getTestBehaviourSettings()->getNumberOfTries();
@@ -1431,7 +1416,7 @@ class ilObjTest extends ilObject
      */
     public function getQuestionTitle($title, $nr = null, $points = null): string
     {
-        switch($this->getTitleOutput()) {
+        switch ($this->getTitleOutput()) {
             case '0':
             case '1':
                 return $title;
@@ -1448,7 +1433,7 @@ class ilObjTest extends ilObject
                 } else {
                     $txt = $this->lng->txt("ass_question");
                 }
-                if($points != '') {
+                if ($points != '') {
                     $lngv = $this->lng->txt('points');
                     if ($points == 1) {
                         $lngv = $this->lng->txt('point');
@@ -3751,7 +3736,7 @@ class ilObjTest extends ilObject
             $a_xml_writer->xmlStartTag("qtimetadatafield");
             $a_xml_writer->xmlElement("fieldlabel", null, "reporting_date");
             $reporting_date = $this->buildPeriodFromFormatedDateString(
-                $this->getScoreSettings()->getResultSummarySettings()->getReportingDate()->format('Y-m-d H:m:s')
+                $this->getScoreSettings()->getResultSummarySettings()->getReportingDate()->format('Y-m-d H:i:s')
             );
             $a_xml_writer->xmlElement("fieldentry", null, $reporting_date);
             $a_xml_writer->xmlEndTag("qtimetadatafield");
@@ -4115,7 +4100,8 @@ class ilObjTest extends ilObject
                     $matches[4],
                     $matches[5],
                     $matches[6]
-                )
+                ),
+                new \DateTimeZone('UTC')
             );
         }
         return null;
@@ -4307,21 +4293,9 @@ class ilObjTest extends ilObject
             return true;
         }
 
-        if ($this->getReportingDate() === null
-            || preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getReportingDate(), $matches) === false) {
-            return false;
-        }
-
-        $epoch_time = mktime(
-            (int) $matches[4],
-            (int) $matches[5],
-            (int) $matches[6],
-            (int) $matches[2],
-            (int) $matches[3],
-            (int) $matches[1]
-        );
-        if (time() < $epoch_time) {
-            return true;
+        $reporting_date = $this->getScoreSettings()->getResultSummarySettings()->getReportingDate();
+        if ($reporting_date !== null) {
+            return $reporting_date <= new DateTimeImmutable('now', new DateTimeZone('UTC'));
         }
         return false;
     }
@@ -6298,7 +6272,7 @@ class ilObjTest extends ilObject
 
         $reporting_date = $testsettings['ReportingDate'];
         if (is_string($reporting_date)) {
-            $reporting_date = new DateTimeImmutable($testsettings['ReportingDate']);
+            $reporting_date = new DateTimeImmutable($testsettings['ReportingDate'], new DateTimeZone('UTC'));
         }
 
         $score_settings = $this->getScoreSettings();

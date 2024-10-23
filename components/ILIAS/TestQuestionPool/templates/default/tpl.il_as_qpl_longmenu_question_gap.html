@@ -9,10 +9,6 @@
 		max-height: 80%;
 		margin: 0.5em 0;
 	}
-	.modal-submit
-	{
-		float:right;
-	}
 	.prototype_long_menu{
 		display:none;
 	}
@@ -66,10 +62,8 @@
 		<div class="help-block">{INFO_TEXT_UPLOAD}</div>
 	</div>
 	<div class="form-group row" id="layout_dummy_buttons">
-			<div class="modal-submit">
-				<input type="submit" class="btn btn-default save-modal" value="{SAVE}" />
-				<input type="submit" class="btn btn-default cancel-modal" value="{CANCEL}" />
-			</div>
+		<input type="submit" class="btn btn-default save-modal" value="{SAVE}" />
+		<button formmethod="dialog" class="btn btn-default cancel-modal" data-dismiss="modal">{CANCEL}</button>
 	</div>
 	<div class="layout_dummy_help-block">
 		<div class="help-block"></div>

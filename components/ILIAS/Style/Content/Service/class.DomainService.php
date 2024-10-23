@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Style\Content;
 
 use ILIAS\Style\Content\Object\ObjectFacade;
+use ILIAS\Style\Content\Style\StyleManager;
 
 /**
  * Facade for consumer domain interface

@@ -21,12 +21,14 @@ declare(strict_types=1);
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\Response\ResponseHeader;
 use ILIAS\UI\Component\Component;
+use ILIAS\Chatroom\BuildChat;
+use ILIAS\UI\Component\Button\Button;
 
 /**
  * Class ilChatroomViewGUI
  * @author  Jan Posselt <jposselt@databay.de>
  * @version $Id$
- * @ingroup components\ILIASChatroom
+ * @ingroup ModulesChatroom
  */
 class ilChatroomViewGUI extends ilChatroomGUIHandler
 {
@@ -40,12 +42,14 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $chat_user = new ilChatroomUser($this->ilUser, $room);
         $failure = true;
         $username = '';
+        $custom_username = false;
 
         if ($this->hasRequestValue('custom_username_radio')) {
             if (
                 $this->hasRequestValue('custom_username_text') &&
                 $this->getRequestValue('custom_username_radio', $this->refinery->kindlyTo()->string()) === 'custom_username'
             ) {
+                $custom_username = true;
                 $username = $this->getRequestValue('custom_username_text', $this->refinery->kindlyTo()->string());
                 $failure = false;
             } elseif (
@@ -64,6 +68,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         if (!$failure && trim($username) !== '') {
             if (!$room->isSubscribed($chat_user->getUserId())) {
                 $chat_user->setUsername($chat_user->buildUniqueUsername($username));
+                $chat_user->setProfilePictureVisible(!$custom_username);
             }
 
             $this->showRoom($room, $chat_user);
@@ -78,8 +83,8 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
      */
     private function setupTemplate(): void
     {
-        $this->mainTpl->addJavaScript('assets/js/chatroom.js');
-        $this->mainTpl->addJavaScript('assets/js/iliaschat.jquery.js');
+        $this->mainTpl->addJavaScript('assets/js/socket.io.min.js');
+        $this->mainTpl->addJavaScript('assets/js/Chatroom.min.js');
         $this->mainTpl->addJavaScript('assets/js/AdvancedSelectionList.js');
 
         $this->mainTpl->addCss('assets/css/chatroom.css');
@@ -127,60 +132,44 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
             $this->ilCtrl->redirectByClass(ilInfoScreenGUI::class, 'showSummary');
         }
 
-        $settings = $connector->getSettings();
+        $messages = $room->getSetting('display_past_msgs') ? array_reverse(array_filter(
+            $room->getLastMessages($room->getSetting('display_past_msgs'), $chat_user),
+            fn($entry) => $entry->type !== 'notice'
+        )) : [];
 
-        $initial = new stdClass();
-        $initial->users = $room->getConnectedUsers();
-        $initial->redirect_url = $this->ilCtrl->getLinkTarget($this->gui, 'view-lostConnection', '', false);
-        $initial->profile_image_url = $this->ilCtrl->getLinkTarget($this->gui, 'view-getUserProfileImages', '', true);
-        $initial->no_profile_image_url = ilUtil::getImagePath('placeholder/no_photo_xxsmall.jpg');
-        $initial->subdirectory = $settings->getSubDirectory();
+        $is_moderator = ilChatroom::checkUserPermissions('moderate', $ref_id, false);
+        $show_auto_messages = !$this->ilUser->getPref('chat_hide_automsg_' . $room->getRoomId());
 
-        $initial->userinfo = [
-            'moderator' => ilChatroom::checkUserPermissions('moderate', $ref_id, false),
-            'id' => $chat_user->getUserId(),
-            'login' => $chat_user->getUsername(),
-            'broadcast_typing' => $chat_user->enabledBroadcastTyping(),
-        ];
+        $build = $this->buildChat($room, $connector->getSettings());
 
-        $initial->messages = [];
+        $room_tpl = $build->template(false, $build->initialData(
+            $room->getConnectedUsers(),
+            $show_auto_messages,
+            $this->ilCtrl->getLinkTarget($this->gui, 'view-lostConnection', '', false),
+            [
+                'moderator' => $is_moderator,
+                'id' => $chat_user->getUserId(),
+                'login' => $chat_user->getUsername(),
+                'broadcast_typing' => $chat_user->enabledBroadcastTyping(),
+                'profile_picture_visible' => $chat_user->isProfilePictureVisible(),
+            ],
+            $messages
+        ), $this->panel($this->ilLng->txt('write_message'), $this->sendMessageForm()), $this->panel($this->ilLng->txt('messages'), $this->legacy('<div id="chat_messages"></div>')));
 
-        if ((int) $room->getSetting('display_past_msgs')) {
-            $initial->messages = array_merge(
-                $initial->messages,
-                array_reverse($room->getLastMessages($room->getSetting('display_past_msgs'), $chat_user))
-            );
-        }
+        $this->mainTpl->setContent($room_tpl->get());
+        $this->mainTpl->setRightContent($this->userList() . $this->chatFunctions($show_auto_messages, $is_moderator));
+    }
 
-        $roomTpl = new ilTemplate('tpl.chatroom.html', true, true, 'components/ILIAS/Chatroom');
-        $roomTpl->setVariable('BASEURL', $settings->generateClientUrl());
-        $roomTpl->setVariable('INSTANCE', $settings->getInstance());
-        $roomTpl->setVariable('SCOPE', $scope);
-        $roomTpl->setVariable('POSTURL', $this->ilCtrl->getLinkTarget($this->gui, 'postMessage', '', true));
+    public function readOnlyChatWindow(ilChatroom $room, array $messages): ilTemplate
+    {
+        $build = $this->buildChat($room, $this->gui->getConnector()->getSettings());
 
-        $roomTpl->setVariable('ACTIONS', $this->ilLng->txt('actions'));
-        $roomTpl->setVariable('LBL_USER', $this->ilLng->txt('user'));
-        $roomTpl->setVariable('LBL_USER_TEXT', $this->ilLng->txt('invite_username'));
-        $showAutoMessages = true;
-        if ($this->ilUser->getPref('chat_hide_automsg_' . $room->getRoomId())) {
-            $showAutoMessages = false;
-        }
-
-        $initial->state = new stdClass();
-        $initial->state->scrolling = true;
-        $initial->state->show_auto_msg = $showAutoMessages;
-
-        $roomTpl->setVariable('INITIAL_DATA', json_encode($initial, JSON_THROW_ON_ERROR));
-        $roomTpl->setVariable('INITIAL_USERS', json_encode($room->getConnectedUsers(), JSON_THROW_ON_ERROR));
-        $roomTpl->setVariable('CHAT_OUTPUT', $this->panel($this->ilLng->txt('messages'), $this->legacy('<div id="chat_messages"></div>')));
-        $roomTpl->setVariable('CHAT_INPUT', $this->panel($this->ilLng->txt('write_message'), $this->sendMessageForm()));
-
-        $this->renderLanguageVariables($roomTpl);
-
-        ilModalGUI::initJS();
-
-        $this->mainTpl->setContent($roomTpl->get());
-        $this->mainTpl->setRightContent($this->userList() . $this->chatFunctions($showAutoMessages));
+        return $build->template(true, $build->initialData([], true, null, [
+            'moderator' => false,
+            'id' => -1,
+            'login' => null,
+            'broadcast_typing' => false,
+        ], $messages), $this->panel($this->ilLng->txt('messages'), $this->legacy('<div id="chat_messages"></div>')), '');
     }
 
     private function sendMessageForm(): Component
@@ -199,53 +188,59 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         return $this->panel($this->ilLng->txt('users'), $this->legacy($roomRightTpl->get()));
     }
 
-    private function chatFunctions(bool $showAutoMessages): string
+    private function chatFunctions(bool $show_auto_messages, bool $is_moderator): string
     {
-        $auto_scroll = $this
-                     ->uiFactory
-                     ->button()
-                     ->toggle(
-                         $this->ilLng->txt('auto_scroll'),
-                         '#',
-                         '#',
-                         true
-                     )
-                     ->withAriaLabel($this->ilLng->txt('auto_scroll'))
-                     ->withOnLoadCode(static function (string $id): string {
-                         return '$("#' . $id . '").on("click", function(e) {
-                                     let t = $(this), msg = $("#chat_messages");
-                                     if (t.hasClass("on")) {
-                                         msg.trigger("msg-scrolling:toggle", [true]);
-                                     } else {
-                                         msg.trigger("msg-scrolling:toggle", [false]);
-                                     }
-                                 });';
-                     });
+        $txt = $this->ilLng->txt(...);
+        $js_escape = json_encode(...);
+        $format = fn($format, ...$args) => sprintf($format, ...array_map($js_escape, $args));
+        $register = fn($name, $c) => $c->withOnLoadCode(fn($id) => $format(
+            'il.Chatroom.bus.send(%s, document.getElementById(%s));',
+            $name,
+            $id
+        ));
 
-        $toggleUrl = $this->ilCtrl->getFormAction($this->gui, 'view-toggleAutoMessageDisplayState', '', true, false);
-        $messages = $this
-                  ->uiFactory
-                  ->button()
-                  ->toggle(
-                      $this->ilLng->txt('chat_show_auto_messages'),
-                      '#',
-                      '#',
-                      $showAutoMessages
-                  )
-                  ->withAriaLabel($this->ilLng->txt('chat_show_auto_messages'))
-                  ->withOnLoadCode(static function (string $id) use ($toggleUrl): string {
-                      return '$("#' . $id . '").on("click", function(e) {
-                                  let t = $(this), msg = $("#chat_messages");
-                                  if (t.hasClass("on")) {
-                                      msg.trigger("auto-message:toggle", [true, "' . $toggleUrl . '"]);
-                                  } else {
-                                      msg.trigger("auto-message:toggle", [false, "' . $toggleUrl . '"]);
-                                  }
-                              });';
-                  });
+        $b = $this->uiFactory->button();
+        $toggle = fn($label, $enabled) => $b->toggle($label, '#', '#', $enabled)->withAriaLabel($label);
 
-        return $this->panel($this->ilLng->txt('chat_functions'), [
-            $this->legacy('<div id="chat_function_list"></div>'),
+        $bind = fn($key, $m) => $m->withAdditionalOnLoadCode(fn(string $id) => $format(
+            '$(() => il.Chatroom.bus.send(%s, {
+                       node: document.getElementById(%s),
+                       showModal: () => $(document).trigger(%s, {}),
+                       closeModal: () => $(document).trigger(%s, {})
+                     }));',
+            $key,
+            $id,
+            $m->getShowSignal()->getId(),
+            $m->getCloseSignal()->getId()
+        ));
+
+        $interrupt = fn($key, $label, $text, $button = null) => $bind($key, $this->uiFactory->modal()->interruptive(
+            $label,
+            $text,
+            ''
+        ))->withActionButtonLabel($button ?? $label);
+
+        $auto_scroll = $register('auto-scroll-toggle', $toggle($txt('auto_scroll'), true));
+        $messages = $register('system-messages-toggle', $toggle($txt('chat_show_auto_messages'), $show_auto_messages));
+
+        $invite = $bind('invite-modal', $this->uiFactory->modal()->roundtrip($txt('chat_invite'), $this->legacy($txt('invite_to_private_room')), [
+            $this->uiFactory->input()->field()->text($txt('chat_invite')),
+        ])->withSubmitLabel($txt('chat_invite')));
+
+        $buttons = [];
+        $buttons[] = $register('invite-button', $b->shy($txt('invite_to_private_room'), ''));
+        if ($is_moderator) {
+            $buttons[] = $register('clear-history-button', $b->shy($txt('clear_room_history'), ''));
+        }
+
+        return $this->panel($txt('chat_functions'), [
+            $this->legacy('<div id="chat_function_list">'),
+            ...$buttons,
+            $invite,
+            $interrupt('kick-modal', $txt('chat_kick'), $txt('kick_question')),
+            $interrupt('ban-modal', $txt('chat_ban'), $txt('ban_question')),
+            $interrupt('clear-history-modal', $txt('clear_room_history'), $txt('clear_room_history_question')),
+            $this->legacy('</div>'),
             $this->legacy(sprintf('<div>%s%s</div>', $this->checkbox($auto_scroll), $this->checkbox($messages))),
         ]);
     }
@@ -260,9 +255,15 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         return $this->uiFactory->legacy($html);
     }
 
+    /**
+     * @param Component|array<Component> $body
+     */
     private function panel(string $title, $body): string
     {
-        $panel = $this->uiFactory->panel()->standard($title, $body);
+        if (is_array($body)) {
+            $body = $this->uiFactory->legacy(join('', array_map($this->uiRenderer->render(...), $body)));
+        }
+        $panel = $this->uiFactory->panel()->secondary()->legacy($title, $body);
 
         return $this->uiRenderer->render($panel);
     }
@@ -303,62 +304,8 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
     protected function renderSendMessageBox(ilTemplate $roomTpl): void
     {
-        $roomTpl->setVariable('LBL_TOALL', $this->ilLng->txt('chat_message_to_all'));
+        $roomTpl->setVariable('PLACEHOLDER', $this->ilLng->txt('chat_osc_write_a_msg'));
         $roomTpl->setVariable('LBL_SEND', $this->ilLng->txt('send'));
-    }
-
-    protected function renderLanguageVariables(ilTemplate $roomTpl): void
-    {
-        $js_translations = [
-            'LBL_MAINROOM' => 'chat_mainroom',
-            'LBL_LEFT_PRIVATE_ROOM' => 'left_private_room',
-            'LBL_JOIN' => 'chat_join',
-            'LBL_INVITE_TO_PRIVATE_ROOM' => 'invite_to_private_room',
-            'LBL_KICK' => 'chat_kick',
-            'LBL_BAN' => 'chat_ban',
-            'LBL_KICK_QUESTION' => 'kick_question',
-            'LBL_BAN_QUESTION' => 'ban_question',
-            'LBL_ADDRESS' => 'chat_address',
-            'LBL_WHISPER' => 'chat_whisper',
-            'LBL_CONNECT' => 'chat_connection_established',
-            'LBL_DISCONNECT' => 'chat_connection_disconnected',
-            'LBL_TO_MAINROOM' => 'chat_to_mainroom',
-            'LBL_WELCOME_TO_CHAT' => 'welcome_to_chat',
-            'LBL_USER_INVITED' => 'user_invited',
-            'LBL_USER_KICKED' => 'user_kicked',
-            'LBL_USER_INVITED_SELF' => 'user_invited_self',
-            'LBL_PRIVATE_ROOM_CLOSED' => 'private_room_closed',
-            'LBL_PRIVATE_ROOM_ENTERED' => 'private_room_entered',
-            'LBL_PRIVATE_ROOM_LEFT' => 'private_room_left',
-            'LBL_PRIVATE_ROOM_ENTERED_USER' => 'private_room_entered_user',
-            'LBL_KICKED_FROM_PRIVATE_ROOM' => 'kicked_from_private_room',
-            'LBL_OK' => 'ok',
-            'LBL_DELETE' => 'delete',
-            'LBL_INVITE' => 'chat_invite',
-            'LBL_CANCEL' => 'cancel',
-            'LBL_WHISPER_TO' => 'whisper_to',
-            'LBL_SPEAK_TO' => 'speak_to',
-            'LBL_HISTORY_CLEARED' => 'history_cleared',
-            'LBL_CLEAR_ROOM_HISTORY' => 'clear_room_history',
-            'LBL_CLEAR_ROOM_HISTORY_QUESTION' => 'clear_room_history_question',
-            'LBL_END_WHISPER' => 'end_whisper',
-            'LBL_TIMEFORMAT' => 'lang_timeformat_no_sec',
-            'LBL_DATEFORMAT' => 'lang_dateformat',
-        ];
-        foreach ($js_translations as $placeholder => $lng_variable) {
-            $roomTpl->setVariable($placeholder, json_encode($this->ilLng->txt($lng_variable), JSON_THROW_ON_ERROR));
-        }
-        $this->ilLng->toJSMap([
-            'chat_user_x_is_typing' => $this->ilLng->txt('chat_user_x_is_typing'),
-            'chat_users_are_typing' => $this->ilLng->txt('chat_users_are_typing'),
-        ]);
-
-        $roomTpl->setVariable('LBL_LAYOUT', $this->ilLng->txt('layout'));
-        $roomTpl->setVariable('LBL_SHOW_SETTINGS', $this->ilLng->txt('show_settings'));
-        $roomTpl->setVariable('LBL_USER_IN_ROOM', $this->ilLng->txt('user_in_room'));
-        $roomTpl->setVariable('LBL_USER_IN_ILIAS', $this->ilLng->txt('user_in_ilias'));
-        $roomTpl->setVariable('LBL_NO_USER', $this->ilLng->txt('msg_no_search_result'));
-        $roomTpl->setVariable('LOADING_IMAGE', ilUtil::getImagePath('media/loader.svg'));
     }
 
     protected function renderRightUsersBlock(ilTemplate $roomTpl): void
@@ -417,7 +364,8 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
                 $this->showNameSelection($chat_user);
             }
         } else {
-            $chat_user->setUsername($this->ilUser->getLogin());
+            $chat_user->setUsername($this->ilUser->getPublicName());
+            $chat_user->setProfilePictureVisible(true);
             $this->showRoom($room, $chat_user);
         }
     }
@@ -450,65 +398,113 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
         $response = [];
 
-        $usr_ids = null;
-        if ($this->hasRequestValue('usr_ids')) {
-            $usr_ids = $this->getRequestValue('usr_ids', $this->refinery->kindlyTo()->string());
-        }
-        if (null === $usr_ids || '' === $usr_ids) {
-            $this->sendResponse($response);
-        }
-
-        $this->ilLng->loadLanguageModule('user');
+        $request = json_decode($this->http->request()->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
 
         ilWACSignedPath::setTokenMaxLifetimeInSeconds(30);
 
-        $user_ids = array_filter(array_map('intval', array_map('trim', explode(',', (string) $usr_ids))));
+        $users = $this->refinery->kindlyTo()->listOf($this->refinery->byTrying([
+            $this->refinery->kindlyTo()->recordOf([
+                'id' => $this->refinery->kindlyTo()->int(),
+                'username' => $this->refinery->kindlyTo()->string(),
+                'profile_picture_visible' => $this->refinery->kindlyTo()->bool(),
+            ]),
+            $this->refinery->kindlyTo()->recordOf([
+                'id' => $this->refinery->kindlyTo()->int(),
+                'username' => $this->refinery->kindlyTo()->string(),
+            ]),
+        ]))->transform($request['profiles'] ?? []);
 
-        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
-        $chatRoomUserDetails = ilChatroomUser::getUserInformation($user_ids, $room->getRoomId());
-        $chatRoomUserDetailsByUsrId = array_combine(
-            array_map(
-                static function (stdClass $userData): int {
-                    return (int) $userData->id;
-                },
-                $chatRoomUserDetails
-            ),
-            $chatRoomUserDetails
-        );
+        $user_ids = array_column($users, 'id');
 
         $public_data = ilUserUtil::getNamePresentation($user_ids, true, false, '', false, true, false, true);
-        $public_names = ilUserUtil::getNamePresentation($user_ids, false, false, '', false, true, false, false);
 
-        foreach ($user_ids as $usr_id) {
-            if (!array_key_exists($usr_id, $chatRoomUserDetailsByUsrId)) {
-                continue;
-            }
-
-            if ($room->getSetting('allow_custom_usernames')) {
+        foreach ($users as $user) {
+            if ($user['profile_picture_visible'] ?? false) {
+                $public_image = $public_data[$user['id']]['img'] ?? '';
+            } else {
                 /** @var ilUserAvatar $avatar */
                 $avatar = $DIC["user.avatar.factory"]->avatar('xsmall');
                 $avatar->setUsrId(ANONYMOUS_USER_ID);
-                $avatar->setName(ilStr::subStr($chatRoomUserDetailsByUsrId[$usr_id]->login, 0, 2));
-
-                $public_name = $chatRoomUserDetailsByUsrId[$usr_id]->login;
+                $avatar->setName(ilStr::subStr($user['username'], 0, 2));
                 $public_image = $avatar->getUrl();
-            } else {
-                $public_image = $public_data[$usr_id]['img'] ?? '';
-                $public_name = '';
-                if (isset($public_names[$usr_id])) {
-                    $public_name = $public_names[$usr_id];
-                    if (isset($public_data[$usr_id]['login']) && 'unknown' === $public_name) {
-                        $public_name = $public_data[$usr_id]['login'];
-                    }
-                }
             }
 
-            $response[$usr_id] = [
-                'public_name' => $public_name,
-                'profile_image' => $public_image,
-            ];
+            $response[json_encode($user, JSON_THROW_ON_ERROR)] = $public_image;
         }
 
-        $this->sendResponse($response);
+        $this->sendJSONResponse($response);
+    }
+
+    public function userEntry(): void
+    {
+        global $DIC;
+
+        $kindly = $this->refinery->kindlyTo();
+        $s = $kindly->string();
+        $int = $kindly->int();
+        $get = $this->http->wrapper()->query()->retrieve(...);
+        $get_or = fn($k, $t, $d = null) => $get($k, $this->refinery->byTrying([$t, $this->refinery->always($d)]));
+
+        $ref_id = $get('ref_id', $int);
+        $user_id = $get('user_id', $int);
+        $username = $get('username', $s);
+        $actions = $get_or('actions', $kindly->dictOf($s), []);
+
+        $avatar = $DIC["user.avatar.factory"]->avatar('xsmall');
+        $avatar->setUsrId(ANONYMOUS_USER_ID);
+        $avatar->setName(ilStr::subStr($username, 0, 2));
+        $public_image = $avatar->getUrl();
+        $item = $this->uiFactory->item()->standard($username)->withLeadImage($this->uiFactory->image()->standard(
+            $public_image,
+            'Profile image of ' . $username
+        ));
+
+        if (ilChatroom::checkPermissionsOfUser($user_id, 'moderate', $ref_id)) {
+            $item = $item->withProperties([
+                $this->ilLng->txt('role') => $this->ilLng->txt('il_chat_moderator'),
+            ]);
+        }
+        $item = $item->withActions($this->uiFactory->dropdown()->standard($this->buildUserActions($user_id, $actions)));
+
+
+        $this->sendResponse($this->uiRenderer->renderAsync($item), 'text/html');
+    }
+
+    /**
+     * @param array<string|int, string> $actions
+     * @return array<Button>
+     */
+    private function buildUserActions(int $user_id, array $actions): array
+    {
+        $chat_settings = new ilSetting('chatroom');
+        $osc_enabled = $chat_settings->get('chat_enabled') && $chat_settings->get('enable_osc');
+        $translations = [
+            'kick' => $this->ilLng->txt('chat_kick'),
+            'ban' => $this->ilLng->txt('chat_ban'),
+        ];
+
+        if ($osc_enabled && ilObjUser::_lookupPref($user_id, 'chat_osc_accept_msg') === 'y') {
+            $translations['chat'] = $this->ilLng->txt('start_private_chat');
+        }
+
+        $buttons = [];
+        foreach ($actions as $key => $bus_id) {
+            $label = $translations[$key] ?? false;
+            if ($label) {
+                $buttons[] = $this->uiFactory->button()->shy($label, '')->withAdditionalOnLoadCode(fn(string $id): string => (
+                    'il.Chatroom.bus.send(' . json_encode(
+                        $bus_id,
+                        JSON_THROW_ON_ERROR
+                    ) . ', document.getElementById(' . json_encode($id, JSON_THROW_ON_ERROR) . '));'
+                ));
+            }
+        }
+
+        return $buttons;
+    }
+
+    private function buildChat(ilChatroom $room, ilChatroomServerSettings $settings): BuildChat
+    {
+        return new BuildChat($this->ilCtrl, $this->ilLng, $this->gui, $room, $settings, $this->ilUser, $this->uiFactory, $this->uiRenderer);
     }
 }

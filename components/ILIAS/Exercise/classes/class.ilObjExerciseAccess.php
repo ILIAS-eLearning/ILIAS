@@ -21,6 +21,21 @@
  */
 class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
 {
+    protected ilLanguage $lng;
+    protected ilAccessHandler $access;
+    protected ilRbacSystem $rbacsystem;
+    protected ilObjUser $user;
+
+    public function __construct()
+    {
+        global $DIC;
+        $this->user = $DIC->user();
+        $this->lng = $DIC->language();
+        $this->access = $DIC->access();
+        $this->rbacsystem = $DIC->rbac()->system();
+    }
+
+
     /**
      * Get possible conditions operators
      * @return string[]
@@ -148,4 +163,24 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
     {
         return true;
     }
+
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
+    {
+        $ilUser = $this->user;
+        $rbacsystem = $this->rbacsystem;
+
+        if ($user_id === null) {
+            $user_id = $ilUser->getId();
+        }
+
+        if (self::_isOffline($obj_id)) {
+            if (($permission === "visible" || $permission === "read") && !$rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id)) {
+                $this->access->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $this->lng->txt("offline"));
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 }

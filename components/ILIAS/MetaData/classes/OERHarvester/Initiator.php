@@ -23,9 +23,12 @@ namespace ILIAS\MetaData\OERHarvester;
 use ILIAS\DI\Container as GlobalContainer;
 use ILIAS\MetaData\Services\InternalServices;
 use ILIAS\MetaData\OERHarvester\RepositoryObjects\Handler as ObjectHandler;
+use ILIAS\MetaData\OERHarvester\Export\Handler as ExportHandler;
 use ILIAS\MetaData\OERHarvester\ExposedRecords\DatabaseRepository;
 use ILIAS\MetaData\OERHarvester\XML\Writer;
 use ILIAS\MetaData\OERHarvester\Settings\SettingsInterface;
+use ILIAS\Export\ExportHandler\Factory as ExportService;
+use ILIAS\Data\Factory as DataFactory;
 
 class Initiator
 {
@@ -39,12 +42,24 @@ class Initiator
 
     public function harvester(): Harvester
     {
+        /*
+         * This should be replaced by a proper export API
+         * when it is available.
+         */
+        $export_service = new ExportService();
+
         return new Harvester(
             $this->services->OERHarvester()->settings(),
             new ObjectHandler($this->services->dic()->repositoryTree()),
+            new ExportHandler(
+                $this->services->dic()->user(),
+                $export_service,
+                new DataFactory()
+            ),
             $this->services->OERHarvester()->statusRepository(),
             new DatabaseRepository($this->services->dic()->database()),
             $this->services->copyright()->searcherFactory(),
+            $this->services->repository()->repository(),
             new Writer(
                 $this->services->repository()->repository(),
                 $this->services->xml()->simpleDCWriter()

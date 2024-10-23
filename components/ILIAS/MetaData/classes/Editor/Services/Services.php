@@ -42,6 +42,7 @@ use ILIAS\MetaData\Editor\Observers\ObserverHandler;
 use ILIAS\MetaData\Editor\Observers\ObserverHandlerInterface;
 use ILIAS\MetaData\Manipulator\Services\Services as ManipulatorServices;
 use ILIAS\MetaData\Presentation\Services\Services as PresentationServices;
+use ILIAS\MetaData\Vocabularies\Services\Services as VocabulariesServices;
 
 class Services
 {
@@ -58,6 +59,7 @@ class Services
     protected RepositoryServices $repository_services;
     protected ManipulatorServices $manipulator_services;
     protected PresentationServices $presentation_services;
+    protected VocabulariesServices $vocabularies_services;
 
     public function __construct(
         GlobalContainer $dic,
@@ -65,7 +67,8 @@ class Services
         StructureServices $structure_services,
         RepositoryServices $repository_services,
         ManipulatorServices $manipulator_services,
-        PresentationServices $presentation_services
+        PresentationServices $presentation_services,
+        VocabulariesServices $vocabularies_services
     ) {
         $this->dic = $dic;
         $this->path_services = $path_services;
@@ -73,6 +76,7 @@ class Services
         $this->repository_services = $repository_services;
         $this->manipulator_services = $manipulator_services;
         $this->presentation_services = $presentation_services;
+        $this->vocabularies_services = $vocabularies_services;
     }
 
     public function presenter(): PresenterInterface
@@ -85,8 +89,9 @@ class Services
                 $this->presentation_services->utilities()
             ),
             $data = new Data(
-                $utilities,
-                $this->presentation_services->data()
+                $this->presentation_services->utilities(),
+                $this->presentation_services->data(),
+                $this->vocabularies_services->presentation()
             ),
             new Elements(
                 $data,

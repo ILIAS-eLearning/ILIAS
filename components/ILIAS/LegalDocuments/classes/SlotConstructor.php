@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\LegalDocuments;
 
 use ILIAS\LegalDocuments\Value\DocumentContent;
-use ILIAS\LegalDocuments\ConditionDefinition;
 use Closure;
 use ILIAS\DI\Container;
 use ILIAS\LegalDocuments\Provide\ProvideDocument;

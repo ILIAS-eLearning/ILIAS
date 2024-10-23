@@ -25,16 +25,19 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbolTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
-use ILIAS\GlobalScreen\Scope\SymbolDecoratorTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\supportsAsynchronousLoading;
+use ILIAS\GlobalScreen\Scope\isDecorateable;
+use ILIAS\GlobalScreen\Scope\TriggererDecoratorTrait;
 
 /**
- * Class TopParentItem
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
-class TopParentItem extends AbstractParentItem implements isTopItem, hasTitle, hasSymbol, supportsAsynchronousLoading
+class TopParentItem extends AbstractParentItem implements
+    isTopItem,
+    hasTitle,
+    hasSymbol,
+    supportsAsynchronousLoading
 {
-    use SymbolDecoratorTrait;
     use hasSymbolTrait;
 
     protected string $title = '';

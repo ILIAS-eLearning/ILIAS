@@ -24,8 +24,7 @@ use ILIAS\GlobalScreen\isGlobalScreenItem;
 use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\MetaBarItemRenderer;
 
 /**
- * Class isItem
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
 interface isItem extends isGlobalScreenItem
 {

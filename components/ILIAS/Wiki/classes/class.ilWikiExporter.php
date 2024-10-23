@@ -34,7 +34,7 @@ class ilWikiExporter extends ilXmlExporter
 
         $repo = $DIC->wiki()->internal()->repo();
         $this->ds = new ilWikiDataSet();
-        $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+        $this->ds->initByExporter($this);
         $this->ds->setDSPrefix("ds");
         $this->wiki_log = ilLoggerFactory::getLogger('wiki');
         $this->content_style_domain = $DIC->contentStyle()
@@ -102,7 +102,7 @@ class ilWikiExporter extends ilXmlExporter
 
         // style
         foreach ($a_ids as $id) {
-            $style_id = $this->content_style_domain->styleForObjId($id)->getStyleId();
+            $style_id = $this->content_style_domain->styleForObjId($id)->getExportStyleId();
             if ($style_id > 0) {
                 $deps[] = array(
                     "component" => "components/ILIAS/Style",

@@ -2320,7 +2320,7 @@ class ilObjectListGUI
             $main_tpl = $this->main_tpl;
         }
 
-        $htpl = new ilTemplate('tpl.header_action.html', true, true, 'components/ILIAS/Repository');
+        $htpl = new ilTemplate('tpl.header_action.html', true, true, 'components/ILIAS/ILIASObject');
 
         $redraw_js = 'il.Object.redrawActionHeader();';
 
@@ -2453,15 +2453,15 @@ class ilObjectListGUI
                             $htpl->setVariable('TAG', 'span');
                         }
                         $htpl->setVariable('PROP_ID', $id);
-                        $htpl->setVariable('IMG', ilUtil::img($attr['img'], $attr['tooltip']));
+                        $htpl->setVariable('IMG_SRC', $attr['img']);
                         if ($attr['href'] != '') {
                             $htpl->setVariable('PROP_HREF', ' href="' . $attr['href'] . '" ');
                         }
-                        $htpl->parseCurrentBlock();
 
                         if ($attr['tooltip']) {
-                            ilTooltipGUI::addTooltip($id, $attr['tooltip']);
+                            $htpl->setVariable('IMG_ADDITIONAL', "alt=\"{$attr['tooltip']}\" title=\"{$attr['tooltip']}\"");
                         }
+                        $htpl->parseCurrentBlock();
                     }
                 } else {
                     $chunks[] = $attr;

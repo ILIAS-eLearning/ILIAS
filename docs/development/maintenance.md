@@ -8,12 +8,12 @@ contributors.
 
 # Special Roles
 
-* **Product Management**: [Matthias Kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
-* **Technical Board**: [Michael Jansen](https://docu.ilias.de/goto_docu_usr_8784.html), [Stephan Kergomard](https://docu.ilias.de/goto_docu_usr_44474.html), [Richard Klees](https://docu.ilias.de/goto_docu_usr_34047.html), [Nico Roeser](https://docu.ilias.de/goto_docu_usr_72730.html), [Fabian Schmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-* **Testcase Management**: [Fabian Kruse](https://docu.ilias.de/goto_docu_usr_27631.html)
-* **Release Management**: [Fabian Wolf](https://docu.ilias.de/goto_docu_usr_29018.html)
-* **Technical Documentation**: [Ann-Christin Gruber](https://docu.ilias.de/goto_docu_usr_94205.html)
-* **Online Help**: [Alexandra Tödt](https://docu.ilias.de/goto_docu_usr_3139.html)
+* **Product Management**: [Matthias Kunkel](https://docu.ilias.de/go/usr/115)
+* **Technical Board**: [Michael Jansen](https://docu.ilias.de/go/usr/8784), [Stephan Kergomard](https://docu.ilias.de/go/usr/44474), [Richard Klees](https://docu.ilias.de/go/usr/34047), [Nico Roeser](https://docu.ilias.de/go/usr/72730), [Fabian Schmid](https://docu.ilias.de/go/usr/21087)
+* **Testcase Management**: [Fabian Kruse](https://docu.ilias.de/go/usr/27631)
+* **Release Management**: [Fabian Wolf](https://docu.ilias.de/go/usr/29018)
+* **Technical Documentation**: [Ann-Christin Gruber](https://docu.ilias.de/go/usr/94025)
+* **Online Help**: [Alexandra Tödt](https://docu.ilias.de/go/usr/3139)
 
 # Authorities
 The ILIAS community strives to create and maintain a secure, reliable, and
@@ -175,14 +175,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN ActiveRecord)
 
 * **ActiveRecord**
-	* Authority to Sign off on Conceptual Changes: [[fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to Curate Test Cases:[fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to (De-)Assign Authorities: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Assignee for Security Reports: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Assignee for Security Issues: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+	* Authority to Sign off on Conceptual Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to Curate Test Cases:[fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to (De-)Assign Authorities: [fschmid](https://docu.ilias.de/go/usr/21087)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Assignee for Security Issues: [fschmid](https://docu.ilias.de/go/usr/21087)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END ActiveRecord)
@@ -190,16 +189,16 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Administration)
 
 * **Administration**
-    * Authority to Sign off on Conceptual Changes: [fneumann](https://docu.ilias.de/goto_docu_usr_1560.html)
-	* Authority to Sign off on Code Changes: [fneumann](https://docu.ilias.de/goto_docu_usr_1560.html)
-        , [lscharmer](https://docu.ilias.de/goto_docu_usr_87863.html)
-    * Authority to Curate Test Cases: [fneumann](https://docu.ilias.de/goto_docu_usr_1560.html)
-        , [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
-    * Authority to (De-)Assign Authorities: [fneumann (Databay AG)](https://docu.ilias.de/goto_docu_usr_1560.html)
-        , [lscharmer (Databay AG)](https://docu.ilias.de/goto_docu_usr_87863.html)
-	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
-    * Assignee for Security Reports: [fneumann](https://docu.ilias.de/goto_docu_usr_1560.html)
-    * Assignee for Security Issues: [fneumann](https://docu.ilias.de/goto_docu_usr_1560.html)
+    * Authority to Sign off on Conceptual Changes: [fneumann](https://docu.ilias.de/go/usr/1560)
+	* Authority to Sign off on Code Changes: [fneumann](https://docu.ilias.de/go/usr/1560)
+        , [lscharmer](https://docu.ilias.de/go/usr/87863)
+    * Authority to Curate Test Cases: [fneumann](https://docu.ilias.de/go/usr/1560)
+        , [kunkel](https://docu.ilias.de/go/usr/115)
+    * Authority to (De-)Assign Authorities: [fneumann (Databay AG)](https://docu.ilias.de/go/usr/1560)
+        , [lscharmer (Databay AG)](https://docu.ilias.de/go/usr/87863)
+	* Tester: [kunkel](https://docu.ilias.de/go/usr/115)
+    * Assignee for Security Reports: [fneumann](https://docu.ilias.de/go/usr/1560)
+    * Assignee for Security Issues: [fneumann](https://docu.ilias.de/go/usr/1560)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Administration)
@@ -207,13 +206,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN AdministrativeNotifications)
 
 * **Administrative Notifications**
-    * Authority to Sign off on Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to Curate Test Cases: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to (De-)Assign Authorities: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Assignee for Security Reports: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Assignee for Security Issues: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off on Conceptual Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to Curate Test Cases: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to (De-)Assign Authorities: [fschmid](https://docu.ilias.de/go/usr/21087)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Assignee for Security Issues: [fschmid](https://docu.ilias.de/go/usr/21087)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END AdministrativeNotifications)
@@ -221,13 +220,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN BackgroundTasks)
 
 * **BackgroundTasks**
-    * Authority to Sign off on Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to Curate Test Cases: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to (De-)Assign Authorities: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Assignee for Security Reports: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Assignee for Security Issues: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off on Conceptual Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to Curate Test Cases: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to (De-)Assign Authorities: [fschmid](https://docu.ilias.de/go/usr/21087)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Assignee for Security Issues: [fschmid](https://docu.ilias.de/go/usr/21087)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END BackgroundTasks)
@@ -235,13 +234,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Badges)
 
 * **Badges**
-    * Authority to Sign off on Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Authority to Sign off on Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Authority to Curate Test Cases: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
-    * Authority to (De-)Assign Authorities: [mjansen (Databay AG)](https://docu.ilias.de/goto_docu_usr_8784.html)
-	* Tester: [Thomas.schroeder](https://docu.ilias.de/goto_docu_usr_38330.html)
-    * Assignee for Security Reports: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Assignee for Security Issues: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off on Conceptual Changes: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Authority to Sign off on Code Changes: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Authority to Curate Test Cases: [atoedt](https://docu.ilias.de/go/usr/3139)
+    * Authority to (De-)Assign Authorities: [mjansen (Databay AG)](https://docu.ilias.de/go/usr/8784)
+	* Tester: [Thomas.schroeder](https://docu.ilias.de/go/usr/38330)
+    * Assignee for Security Reports: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Assignee for Security Issues: [mjansen](https://docu.ilias.de/go/usr/8784)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Badges)
@@ -249,13 +248,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN BibliographicListItem)
 
 * **Bibliographic List Item**
-    * Authority to Sign off on Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to Curate Test Cases: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to (De-)Assign Authorities: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-	* Tester: [miriamhoelscher](https://docu.ilias.de/goto_docu_usr_25370.html)
-    * Assignee for Security Reports: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Assignee for Security Issues: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off on Conceptual Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to Curate Test Cases: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to (De-)Assign Authorities: [fschmid](https://docu.ilias.de/go/usr/21087)
+	* Tester: [miriamhoelscher](https://docu.ilias.de/go/usr/25370)
+    * Assignee for Security Reports: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Assignee for Security Issues: [fschmid](https://docu.ilias.de/go/usr/21087)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END BibliographicListItem)
@@ -263,13 +262,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Blog)
 
 * **Blog**
-    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Curate Test Cases: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* Tester: [PaBer](https://docu.ilias.de/goto_docu_usr_33766.html)
-    * Assignee for Security Reports: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Assignee for Security Issues: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Curate Test Cases: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/go/usr/149)
+	* Tester: [PaBer](https://docu.ilias.de/go/usr/33766)
+    * Assignee for Security Reports: [akill](https://docu.ilias.de/go/usr/149)
+    * Assignee for Security Issues: [akill](https://docu.ilias.de/go/usr/149)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Blog)
@@ -277,13 +276,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN BookingTool)
 
 * **Booking Tool**
-    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Curate Test Cases: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* Tester: [wolfganghuebsch](https://docu.ilias.de/goto_docu_usr_18455.html)
-    * Assignee for Security Reports: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Assignee for Security Issues: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Curate Test Cases: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/go/usr/149)
+	* Tester: [wolfganghuebsch](https://docu.ilias.de/go/usr/18455)
+    * Assignee for Security Reports: [akill](https://docu.ilias.de/go/usr/149)
+    * Assignee for Security Issues: [akill](https://docu.ilias.de/go/usr/149)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END BookingTool)
@@ -291,14 +290,14 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Calendar)
 
 * **Calendar**
-    * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-        , [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Curate Test Cases: [yseiler](https://docu.ilias.de/goto_docu_usr_17694.html)
-    * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* Tester: [yseiler](https://docu.ilias.de/goto_docu_usr_17694.html)
-    * Assignee for Security Reports: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Assignee for Security Issues: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/go/usr/191)
+        , [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Curate Test Cases: [yseiler](https://docu.ilias.de/go/usr/17694)
+    * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/go/usr/191)
+	* Tester: [yseiler](https://docu.ilias.de/go/usr/17694)
+    * Assignee for Security Reports: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Assignee for Security Issues: [smeyer](https://docu.ilias.de/go/usr/191)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Calendar)
@@ -306,14 +305,14 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN CategoryAndRepository)
 
 * **Category and Repository**
-    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-        ,  [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Curate Test Cases: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
-    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* Tester: [miriamhoelscher](https://docu.ilias.de/goto_docu_usr_25370.html)
-    * Assignee for Security Reports: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Assignee for Security Issues: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149)
+        ,  [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to Curate Test Cases: [atoedt](https://docu.ilias.de/go/usr/3139)
+    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/go/usr/149)
+	* Tester: [miriamhoelscher](https://docu.ilias.de/go/usr/25370)
+    * Assignee for Security Reports: [akill](https://docu.ilias.de/go/usr/149)
+    * Assignee for Security Issues: [akill](https://docu.ilias.de/go/usr/149)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END CategoryAndRepository)
@@ -321,13 +320,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Certificate)
 
 * **Certificate**
-    * Authority to Sign off on Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Authority to Sign off on Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Authority to Curate Test Cases: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Authority to (De-)Assign Authorities: [mjansen (Databay AG)](https://docu.ilias.de/goto_docu_usr_8784.html)
-	* Tester: [m-gregory-m](https://docu.ilias.de/goto_docu_usr_51332.html)
-    * Assignee for Security Reports: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Assignee for Security Issues: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off on Conceptual Changes: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Authority to Sign off on Code Changes: [mjansen](https://docu.ilias.de/go/usr/8784)
+  * Authority to Curate Test Cases: [mjansen](https://docu.ilias.de/go/usr/8784), [ChrisPotter](https://docu.ilias.de/go/usr/90855)
+    * Authority to (De-)Assign Authorities: [mjansen (Databay AG)](https://docu.ilias.de/go/usr/8784)
+	* Tester: [m-gregory-m](https://docu.ilias.de/go/usr/51332)
+    * Assignee for Security Reports: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Assignee for Security Issues: [mjansen](https://docu.ilias.de/go/usr/8784)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Certificate)
@@ -335,41 +334,28 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Chat)
 
 * **Chat**
-    * Authority to Sign off on Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Authority to Sign off on Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-        , [mbecker](https://docu.ilias.de/goto_docu_usr_27266.html)
-    * Authority to Curate Test Cases: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
-    * Authority to (De-)Assign Authorities: [mjansen (Databay AG)](https://docu.ilias.de/goto_docu_usr_8784.html)
-	* Tester: [elena](https://docu.ilias.de/goto_docu_usr_49160.html)
-    * Assignee for Security Reports: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Assignee for Security Issues: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off on Conceptual Changes: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Authority to Sign off on Code Changes: [mjansen](https://docu.ilias.de/go/usr/8784)
+        , [mbecker](https://docu.ilias.de/go/usr/27266)
+    * Authority to Curate Test Cases: [kunkel](https://docu.ilias.de/go/usr/115)
+    * Authority to (De-)Assign Authorities: [mjansen (Databay AG)](https://docu.ilias.de/go/usr/8784)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Assignee for Security Issues: [mjansen](https://docu.ilias.de/go/usr/8784)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Chat)
 
-[//]: # (BEGIN cmi5AndxAPIObject)
-
-* **cmi5/xAPI Object**
-    * Authority to Sign off on Conceptual Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-    * Authority to Sign off on Code Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-    * Authority to Curate Test Cases: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-    * Authority to (De-)Assign Authorities: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-	* Tester: [EMok](https://docu.ilias.de/goto_docu_usr_80682.html)
-    * Assignee for Security Reports: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-    * Assignee for Security Issues: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
-
-[//]: # (END cmi5AndxAPIObject)
 
 [//]: # (BEGIN Comments)
 * **Comments**
-    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Curate Test Cases: [skaiser](https://docu.ilias.de/goto_docu_usr_17260.html)
-    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* Tester: [skaiser](https://docu.ilias.de/goto_docu_usr_17260.html)
-    * Assignee for Security Reports: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Assignee for Security Issues: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Curate Test Cases: [skaiser](https://docu.ilias.de/go/usr/17260)
+    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/go/usr/149)
+	* Tester: [skaiser](https://docu.ilias.de/go/usr/17260)
+    * Assignee for Security Reports: [akill](https://docu.ilias.de/go/usr/149)
+    * Assignee for Security Issues: [akill](https://docu.ilias.de/go/usr/149)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Comments)
@@ -377,14 +363,14 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN CompetenceManagement)
 
 * **Competence Management**
-    * Authority to Sign off on Conceptual Changes: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
-    * Authority to Sign off on Code Changes: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
-        , [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Curate Test Cases: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
-    * Authority to (De-)Assign Authorities: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
-	* Tester: [ioanna.mitroulaki](https://docu.ilias.de/goto_docu_usr_72564.html)
-    * Assignee for Security Reports: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
-    * Assignee for Security Issues: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
+    * Authority to Sign off on Conceptual Changes: [tfamula](https://docu.ilias.de/go/usr/58959)
+    * Authority to Sign off on Code Changes: [tfamula](https://docu.ilias.de/go/usr/58959)
+        , [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Curate Test Cases: [atoedt](https://docu.ilias.de/go/usr/3139)
+    * Authority to (De-)Assign Authorities: [tfamula](https://docu.ilias.de/go/usr/58959)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [tfamula](https://docu.ilias.de/go/usr/58959)
+    * Assignee for Security Issues: [tfamula](https://docu.ilias.de/go/usr/58959)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END CompetenceManagement)
@@ -392,14 +378,14 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Component)
 
 * **Component**
-    * Authority to Sign off on Conceptual Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Authority to Sign off on Code Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-        ,  [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to Curate Test Cases: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Authority to (De-)Assign Authorities: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
-    * Assignee for Security Reports: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Assignee for Security Issues: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off on Conceptual Changes: [rklees](https://docu.ilias.de/go/usr/34047)
+    * Authority to Sign off on Code Changes: [rklees](https://docu.ilias.de/go/usr/34047)
+        ,  [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to Curate Test Cases: [rklees](https://docu.ilias.de/go/usr/34047)
+    * Authority to (De-)Assign Authorities: [rklees](https://docu.ilias.de/go/usr/34047)
+	* Tester: [kunkel](https://docu.ilias.de/go/usr/115)
+    * Assignee for Security Reports: [rklees](https://docu.ilias.de/go/usr/34047)
+    * Assignee for Security Issues: [rklees](https://docu.ilias.de/go/usr/34047)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Component)
@@ -407,13 +393,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Contacts)
 
 * **Contacts**
-    * Authority to Sign off on Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Authority to Sign off on Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Authority to Curate Test Cases: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Authority to (De-)Assign Authorities: [mjansen (Databay AG)](https://docu.ilias.de/goto_docu_usr_8784.html)
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Assignee for Security Reports: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Assignee for Security Issues: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off on Conceptual Changes: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Authority to Sign off on Code Changes: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Authority to Curate Test Cases: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Authority to (De-)Assign Authorities: [mjansen (Databay AG)](https://docu.ilias.de/go/usr/8784)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Assignee for Security Issues: [mjansen](https://docu.ilias.de/go/usr/8784)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Contacts)
@@ -421,13 +407,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN ContentPage)
 
 * **ContentPage**
-    * Authority to Sign off on Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Authority to Sign off on Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Authority to Curate Test Cases: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Authority to (De-)Assign Authorities: [mjansen (Databay AG)](https://docu.ilias.de/goto_docu_usr_8784.html)
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Assignee for Security Reports: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Assignee for Security Issues: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off on Conceptual Changes: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Authority to Sign off on Code Changes: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Authority to Curate Test Cases: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Authority to (De-)Assign Authorities: [mjansen (Databay AG)](https://docu.ilias.de/go/usr/8784)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Assignee for Security Issues: [mjansen](https://docu.ilias.de/go/usr/8784)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END ContentPage)
@@ -435,15 +421,15 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN CourseManagement)
 
 * **Course Management**
-    * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-        , [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Curate Test Cases: [lauener](https://docu.ilias.de/goto_docu_usr_8474.html)
-    * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* Tester: [lauener](https://docu.ilias.de/goto_docu_usr_8474.html)
-	  , [TESTER MISSING FOR LOC](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Assignee for Security Reports: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Assignee for Security Issues: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/go/usr/191)
+        , [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Curate Test Cases: [lauener](https://docu.ilias.de/go/usr/8474)
+    * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/go/usr/191)
+	* Tester: [lauener](https://docu.ilias.de/go/usr/8474)
+	  , [TESTER MISSING FOR LOC](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Assignee for Security Issues: [smeyer](https://docu.ilias.de/go/usr/191)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END CourseManagement)
@@ -451,13 +437,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN CronService)
 
 * **Cron Service**
-    * Authority to Sign off on Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Authority to Sign off on Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Authority to Curate Test Cases: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
-    * Authority to (De-)Assign Authorities: [mjansen (Databay AG)](https://docu.ilias.de/goto_docu_usr_8784.html)
-	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
-    * Assignee for Security Reports: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Assignee for Security Issues: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off on Conceptual Changes: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Authority to Sign off on Code Changes: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Authority to Curate Test Cases: [kunkel](https://docu.ilias.de/go/usr/115)
+    * Authority to (De-)Assign Authorities: [mjansen (Databay AG)](https://docu.ilias.de/go/usr/8784)
+	* Tester: [kunkel](https://docu.ilias.de/go/usr/115)
+    * Assignee for Security Reports: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Assignee for Security Issues: [mjansen](https://docu.ilias.de/go/usr/8784)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END CronService)
@@ -465,16 +451,16 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN CSSAndTemplates)
 
 * **CSS / Templates**
-    * Authority to Sign off on Conceptual Changes: [yvseiler](https://docu.ilias.de/goto_docu_usr_17694.html)
-      , [catenglaender](https://docu.ilias.de/goto_docu_usr_79291.html)
-    * Authority to Sign off on Code Changes: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
-      , [catenglaender](https://docu.ilias.de/goto_docu_usr_79291.html)
-    * Authority to Curate Test Cases: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
-      , [yvseiler](https://docu.ilias.de/goto_docu_usr_17694.html)
-    * Authority to (De-)Assign Authorities: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
-	* Tester: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Assignee for Security Reports: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
-    * Assignee for Security Issues: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
+    * Authority to Sign off on Conceptual Changes: [yvseiler](https://docu.ilias.de/go/usr/17694)
+      , [catenglaender](https://docu.ilias.de/go/usr/79291)
+    * Authority to Sign off on Code Changes: [amstutz](https://docu.ilias.de/go/usr/26468)
+      , [catenglaender](https://docu.ilias.de/go/usr/79291)
+    * Authority to Curate Test Cases: [amstutz](https://docu.ilias.de/go/usr/26468)
+      , [yvseiler](https://docu.ilias.de/go/usr/17694)
+    * Authority to (De-)Assign Authorities: [amstutz](https://docu.ilias.de/go/usr/26468)
+	* Tester: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Assignee for Security Reports: [amstutz](https://docu.ilias.de/go/usr/26468)
+    * Assignee for Security Issues: [amstutz](https://docu.ilias.de/go/usr/26468)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END CSSAndTemplates)
@@ -482,17 +468,17 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Dashboard)
 
 * **Dashboard**
-    * Authority to Sign off on Conceptual Changes: [iszmais](https://docu.ilias.de/goto_docu_usr_65630.html)
-        , [lscharmer](https://docu.ilias.de/goto_docu_usr_87863.html)
-    * Authority to Sign off on Code Changes: [iszmais](https://docu.ilias.de/goto_docu_usr_65630.html)
-        , [lscharmer](https://docu.ilias.de/goto_docu_usr_87863.html)
-        , [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to Curate Test Cases: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
-    * Authority to (De-)Assign Authorities: [iszmais (Databay AG)](https://docu.ilias.de/goto_docu_usr_65630.html)
-        , [lscharmer (Databay AG)](https://docu.ilias.de/goto_docu_usr_87863.html)
-	* Tester: [silvia.marine](https://docu.ilias.de/goto_docu_usr_71642.html)
-    * Assignee for Security Reports: [iszmais](https://docu.ilias.de/goto_docu_usr_65630.html)
-    * Assignee for Security Issues: [iszmais](https://docu.ilias.de/goto_docu_usr_65630.html)
+    * Authority to Sign off on Conceptual Changes: [iszmais](https://docu.ilias.de/go/usr/65630)
+        , [lscharmer](https://docu.ilias.de/go/usr/87863)
+    * Authority to Sign off on Code Changes: [iszmais](https://docu.ilias.de/go/usr/65630)
+        , [lscharmer](https://docu.ilias.de/go/usr/87863)
+        , [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to Curate Test Cases: [kunkel](https://docu.ilias.de/go/usr/115)
+    * Authority to (De-)Assign Authorities: [iszmais (Databay AG)](https://docu.ilias.de/go/usr/65630)
+        , [lscharmer (Databay AG)](https://docu.ilias.de/go/usr/87863)
+	* Tester: [silvia.marine](https://docu.ilias.de/go/usr/71642)
+    * Assignee for Security Reports: [iszmais](https://docu.ilias.de/go/usr/65630)
+    * Assignee for Security Issues: [iszmais](https://docu.ilias.de/go/usr/65630)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Dashboard)
@@ -500,13 +486,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Data)
 
 * **Data**
-    * Authority to Sign off on Conceptual Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Authority to Sign off on Code Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Authority to Curate Test Cases: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Authority to (De-)Assign Authorities: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Assignee for Security Reports: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Assignee for Security Issues: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off on Conceptual Changes: [rklees](https://docu.ilias.de/go/usr/34047)
+    * Authority to Sign off on Code Changes: [rklees](https://docu.ilias.de/go/usr/34047)
+    * Authority to Curate Test Cases: [rklees](https://docu.ilias.de/go/usr/34047)
+    * Authority to (De-)Assign Authorities: [rklees](https://docu.ilias.de/go/usr/34047)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [rklees](https://docu.ilias.de/go/usr/34047)
+    * Assignee for Security Issues: [rklees](https://docu.ilias.de/go/usr/34047)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Data)
@@ -514,14 +500,14 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN DataCollection)
 
 * **Data Collection**
-    * Authority to Sign off on Conceptual Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html), [oliver.samoila](https://docu.ilias.de/goto_docu_usr_26160.html)
-    * Authority to Sign off on Code Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
-        , [iszmais](https://docu.ilias.de/goto_docu_usr_65630.html)
-    * Authority to Curate Test Cases: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html), [oliver.samoila](https://docu.ilias.de/goto_docu_usr_26160.html)
-    * Authority to (De-)Assign Authorities: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html), [oliver.samoila (Databay AG)](https://docu.ilias.de/goto_docu_usr_26160.html)
-	* Tester: [mona.schliebs](https://docu.ilias.de/goto_docu_usr_60222.html)
-    * Assignee for Security Reports: [iszmais](https://docu.ilias.de/goto_docu_usr_65630.html)
-    * Assignee for Security Issues: [iszmais](https://docu.ilias.de/goto_docu_usr_65630.html)
+    * Authority to Sign off on Conceptual Changes: [PerPascalSeeland](https://docu.ilias.de/go/usr/31492), [oliver.samoila](https://docu.ilias.de/go/usr/26160)
+    * Authority to Sign off on Code Changes: [PerPascalSeeland](https://docu.ilias.de/go/usr/31492)
+        , [iszmais](https://docu.ilias.de/go/usr/65630)
+    * Authority to Curate Test Cases: [PerPascalSeeland](https://docu.ilias.de/go/usr/31492), [oliver.samoila](https://docu.ilias.de/go/usr/26160)
+    * Authority to (De-)Assign Authorities: [PerPascalSeeland](https://docu.ilias.de/go/usr/31492), [oliver.samoila (Databay AG)](https://docu.ilias.de/go/usr/26160)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [iszmais](https://docu.ilias.de/go/usr/65630)
+    * Assignee for Security Issues: [iszmais](https://docu.ilias.de/go/usr/65630)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END DataCollection)
@@ -529,14 +515,14 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN DataProtection)
 
 * **Data Protection**
-	* Authority to Sign off on Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Authority to Sign off on Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-        , [lscharmer](https://docu.ilias.de/goto_docu_usr_87863.html)
-    * Authority to Curate Test Cases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Authority to (De-)Assign Authorities: [mjansen (Databay AG)](https://docu.ilias.de/goto_docu_usr_8784.html)
-	* Tester: [[TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Assignee for Security Reports: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Assignee for Security Issues: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+	* Authority to Sign off on Conceptual Changes: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Authority to Sign off on Code Changes: [mjansen](https://docu.ilias.de/go/usr/8784)
+        , [lscharmer](https://docu.ilias.de/go/usr/87863)
+    * Authority to Curate Test Cases: [AUTHOR MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Authority to (De-)Assign Authorities: [mjansen (Databay AG)](https://docu.ilias.de/go/usr/8784)
+	* Tester: [oliver.samoila](https://docu.ilias.de/go/usr/26160)
+    * Assignee for Security Reports: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Assignee for Security Issues: [mjansen](https://docu.ilias.de/go/usr/8784)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END DataProtection)
@@ -544,14 +530,14 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Database)
 
 * **Database**
-    * Authority to Sign off on Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-        , [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Curate Test Cases: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to (De-)Assign Authorities: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Assignee for Security Reports: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Assignee for Security Issues: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off on Conceptual Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
+        , [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to Curate Test Cases: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to (De-)Assign Authorities: [fschmid](https://docu.ilias.de/go/usr/21087)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Assignee for Security Issues: [fschmid](https://docu.ilias.de/go/usr/21087)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Database)
@@ -559,13 +545,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN DidacticTemplates)
 
 * **Didactic Templates**
-    * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Curate Test Cases: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
-    * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
-    * Assignee for Security Reports: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Assignee for Security Issues: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to Curate Test Cases: [atoedt](https://docu.ilias.de/go/usr/3139)
+    * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/go/usr/191)
+	* Tester: [kunkel](https://docu.ilias.de/go/usr/115)
+    * Assignee for Security Reports: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Assignee for Security Issues: [smeyer](https://docu.ilias.de/go/usr/191)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END DidacticTemplates)
@@ -573,13 +559,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN ECSInterface)
 
 * **ECS Interface**
-    * Authority to Sign off on Conceptual Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
-    * Authority to Sign off on Code Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
-    * Authority to Curate Test Cases: [SIG CampusConnect und ECS(A)](https://docu.ilias.de/goto_docu_grp_7893.html)
-    * Authority to (De-)Assign Authorities: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
-	* Tester: [SIG CampusConnect und ECS(A)](https://docu.ilias.de/goto_docu_grp_7893.html)
-    * Assignee for Security Reports: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
-    * Assignee for Security Issues: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
+    * Authority to Sign off on Conceptual Changes: [PerPascalSeeland](https://docu.ilias.de/go/usr/31492)
+    * Authority to Sign off on Code Changes: [PerPascalSeeland](https://docu.ilias.de/go/usr/31492)
+    * Authority to Curate Test Cases: [SIG CampusConnect und ECS(A)](https://docu.ilias.de/go/grp/7893)
+    * Authority to (De-)Assign Authorities: [PerPascalSeeland](https://docu.ilias.de/go/usr/31492)
+	* Tester: [SIG CampusConnect und ECS(A)](https://docu.ilias.de/go/grp/7893)
+    * Assignee for Security Reports: [PerPascalSeeland](https://docu.ilias.de/go/usr/31492)
+    * Assignee for Security Issues: [PerPascalSeeland](https://docu.ilias.de/go/usr/31492)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END ECSInterface)
@@ -587,28 +573,42 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN EmployeeTalk)
 
 * **EmployeeTalk**
-    * Authority to Sign off on Conceptual Changes: [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
-    * Authority to Sign off on Code Changes: [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
-        , [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
-    * Authority to Curate Test Cases: [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
-    * Authority to (De-)Assign Authorities: [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
-	* Tester: [qualitus.morgunova](https://docu.ilias.de/goto_docu_usr_69410.html)
-    * Assignee for Security Reports: [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
-    * Assignee for Security Issues: [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
+    * Authority to Sign off on Conceptual Changes: [tschmitz](https://docu.ilias.de/go/usr/92591)
+    * Authority to Sign off on Code Changes: [tschmitz](https://docu.ilias.de/go/usr/92591)
+        , [tfamula](https://docu.ilias.de/go/usr/58959)
+    * Authority to Curate Test Cases: [tschmitz](https://docu.ilias.de/go/usr/92591)
+    * Authority to (De-)Assign Authorities: [tschmitz](https://docu.ilias.de/go/usr/92591)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [tschmitz](https://docu.ilias.de/go/usr/92591)
+    * Assignee for Security Issues: [tschmitz](https://docu.ilias.de/go/usr/92591)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END EmployeeTalk)
 
+[//]: # (BEGIN Excel)
+
+* **Excel**
+    * Authority to Sign off on Conceptual Changes: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
+    * Authority to Sign off on Code Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
+    * Authority to Curate Test Cases: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
+    * Authority to (De-)Assign Authorities: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
+    * Tester: Tested separately in each module that supports Excel.
+    * Assignee for Security Reports: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
+    * Assignee for Security Issues: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
+
+[//]: # (END Excel)
+
 [//]: # (BEGIN Exercise)
 
 * **Exercise**
-    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Curate Test Cases: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
-    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* Tester: [miriamwegener](https://docu.ilias.de/goto_docu_usr_23051.html)
-    * Assignee for Security Reports: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Assignee for Security Issues: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Curate Test Cases: [atoedt](https://docu.ilias.de/go/usr/3139)
+    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/go/usr/149)
+	* Tester: [miriamwegener](https://docu.ilias.de/go/usr/23051)
+    * Assignee for Security Reports: [akill](https://docu.ilias.de/go/usr/149)
+    * Assignee for Security Issues: [akill](https://docu.ilias.de/go/usr/149)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Exercise)
@@ -616,13 +616,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Export)
 
 * **Export**
-    * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Curate Test Cases: [Fabian](https://docu.ilias.de/goto_docu_usr_27631.html)
-    * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* Tester: [Fabian](https://docu.ilias.de/goto_docu_usr_27631.html)
-    * Assignee for Security Reports: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Assignee for Security Issues: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to Curate Test Cases: [Fabian](https://docu.ilias.de/go/usr/27631)
+    * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/go/usr/191)
+	* Tester: [Fabian](https://docu.ilias.de/go/usr/27631)
+    * Assignee for Security Reports: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Assignee for Security Issues: [smeyer](https://docu.ilias.de/go/usr/191)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Export)
@@ -630,13 +630,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Favourites)
 
 * **Favourites**
-    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Curate Test Cases: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Assignee for Security Reports: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Assignee for Security Issues: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off on Conceptual Changes: [iszmais](https://docu.ilias.de/go/usr/65630)
+    * Authority to Sign off on Code Changes: [iszmais](https://docu.ilias.de/go/usr/65630)
+    * Authority to Curate Test Cases: [iszmais](https://docu.ilias.de/go/usr/65630)
+    * Authority to (De-)Assign Authorities: [iszmais](https://docu.ilias.de/go/usr/65630)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [iszmais](https://docu.ilias.de/go/usr/65630)
+    * Assignee for Security Issues: [iszmais](https://docu.ilias.de/go/usr/65630)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Favourites)
@@ -644,13 +644,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN File)
 
 * **File**
-    * Authority to Sign off on Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to Curate Test Cases: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to (De-)Assign Authorities: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off on Conceptual Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to Curate Test Cases: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to (De-)Assign Authorities: [fschmid](https://docu.ilias.de/go/usr/21087)
 	* Tester: Heinz Winter, CaT
-    * Assignee for Security Reports: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Assignee for Security Issues: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Assignee for Security Reports: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Assignee for Security Issues: [fschmid](https://docu.ilias.de/go/usr/21087)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END File)
@@ -658,14 +658,14 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Forum)
 
 * **Forum**
-    * Authority to Sign off on Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Authority to Sign off on Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-        , [nadia](https://docu.ilias.de/goto_docu_usr_14206.html)
+    * Authority to Sign off on Conceptual Changes: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Authority to Sign off on Code Changes: [mjansen](https://docu.ilias.de/go/usr/8784)
+        , [nadia](https://docu.ilias.de/go/usr/14206)
     * Authority to Curate Test Cases: FH Aachen
-    * Authority to (De-)Assign Authorities: [mjansen (Databay AG)](https://docu.ilias.de/goto_docu_usr_8784.html)
-	* Tester:[anna.s.vogel](https://docu.ilias.de/goto_docu_usr_71954.html)
-    * Assignee for Security Reports: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Assignee for Security Issues: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to (De-)Assign Authorities: [mjansen (Databay AG)](https://docu.ilias.de/go/usr/8784)
+	* Tester:[anna.s.vogel](https://docu.ilias.de/go/usr/71954)
+    * Assignee for Security Reports: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Assignee for Security Issues: [mjansen](https://docu.ilias.de/go/usr/8784)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Forum)
@@ -673,13 +673,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN GeneralKiosk-Mode)
 
 * **General Kiosk-Mode**
-    * Authority to Sign off on Conceptual Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Authority to Sign off on Code Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Authority to Curate Test Cases: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Authority to (De-)Assign Authorities: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Assignee for Security Reports: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Assignee for Security Issues: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off on Conceptual Changes: [rklees](https://docu.ilias.de/go/usr/34047)
+    * Authority to Sign off on Code Changes: [rklees](https://docu.ilias.de/go/usr/34047)
+    * Authority to Curate Test Cases: [rklees](https://docu.ilias.de/go/usr/34047)
+    * Authority to (De-)Assign Authorities: [rklees](https://docu.ilias.de/go/usr/34047)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [rklees](https://docu.ilias.de/go/usr/34047)
+    * Assignee for Security Issues: [rklees](https://docu.ilias.de/go/usr/34047)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END GeneralKiosk-Mode)
@@ -687,13 +687,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN GlobalCache)
 
 * **GlobalCache**
-    * Authority to Sign off on Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to Curate Test Cases: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to (De-)Assign Authorities: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Assignee for Security Reports: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Assignee for Security Issues: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off on Conceptual Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to Curate Test Cases: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to (De-)Assign Authorities: [fschmid](https://docu.ilias.de/go/usr/21087)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Assignee for Security Issues: [fschmid](https://docu.ilias.de/go/usr/21087)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END GlobalCache)
@@ -701,13 +701,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN GlobalScreen)
 
 * **GlobalScreen**
-    * Authority to Sign off on Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to Curate Test Cases: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to (De-)Assign Authorities: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Assignee for Security Reports: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Assignee for Security Issues: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off on Conceptual Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to Curate Test Cases: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to (De-)Assign Authorities: [fschmid](https://docu.ilias.de/go/usr/21087)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Assignee for Security Issues: [fschmid](https://docu.ilias.de/go/usr/21087)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END GlobalScreen)
@@ -715,14 +715,14 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Glossary)
 
 * **Glossary**
-    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-        , [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
-    * Authority to Curate Test Cases: [ezenzen](https://docu.ilias.de/goto_docu_usr_42910.html)
-    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* Tester: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
-    * Assignee for Security Reports: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Assignee for Security Issues: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149)
+        , [tfamula](https://docu.ilias.de/go/usr/58959)
+    * Authority to Curate Test Cases: [ezenzen](https://docu.ilias.de/go/usr/42910)
+    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/go/usr/149)
+	* Tester: [atoedt](https://docu.ilias.de/go/usr/3139)
+    * Assignee for Security Reports: [akill](https://docu.ilias.de/go/usr/149)
+    * Assignee for Security Issues: [akill](https://docu.ilias.de/go/usr/149)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Glossary)
@@ -730,14 +730,14 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Group)
 
 * **Group**
-    * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-        , [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Curate Test Cases: [yseiler](https://docu.ilias.de/goto_docu_usr_17694.html)
-    * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* Tester: [yseiler](https://docu.ilias.de/goto_docu_usr_17694.html)
-    * Assignee for Security Reports: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Assignee for Security Issues: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/go/usr/191)
+        , [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Curate Test Cases: [yseiler](https://docu.ilias.de/go/usr/17694)
+    * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/go/usr/191)
+	* Tester: [yseiler](https://docu.ilias.de/go/usr/17694)
+    * Assignee for Security Reports: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Assignee for Security Issues: [smeyer](https://docu.ilias.de/go/usr/191)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Group)
@@ -745,13 +745,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN HTTP-Request)
 
 * **HTTP-Request**
-    * Authority to Sign off on Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to Curate Test Cases: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to (De-)Assign Authorities: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Assignee for Security Reports: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Assignee for Security Issues: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off on Conceptual Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to Curate Test Cases: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to (De-)Assign Authorities: [fschmid](https://docu.ilias.de/go/usr/21087)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Assignee for Security Issues: [fschmid](https://docu.ilias.de/go/usr/21087)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END HTTP-Request)
@@ -759,13 +759,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN ILIASPageEditor)
 
 * **ILIAS Page Editor**
-    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Curate Test Cases: [ezenzen](https://docu.ilias.de/goto_docu_usr_42910.html)
-    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Curate Test Cases: [ezenzen](https://docu.ilias.de/go/usr/42910)
+    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/go/usr/149)
 	* Tester: FH Aachen
-    * Assignee for Security Reports: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Assignee for Security Issues: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Assignee for Security Reports: [akill](https://docu.ilias.de/go/usr/149)
+    * Assignee for Security Issues: [akill](https://docu.ilias.de/go/usr/149)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END ILIASPageEditor)
@@ -773,13 +773,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN IndividualAssessment)
 
 * **IndividualAssessment**
-    * Authority to Sign off on Conceptual Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Authority to Sign off on Code Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Authority to Curate Test Cases: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Authority to (De-)Assign Authorities: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Assignee for Security Reports: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Assignee for Security Issues: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off on Conceptual Changes: [rklees](https://docu.ilias.de/go/usr/34047)
+    * Authority to Sign off on Code Changes: [rklees](https://docu.ilias.de/go/usr/34047)
+    * Authority to Curate Test Cases: [rklees](https://docu.ilias.de/go/usr/34047)
+    * Authority to (De-)Assign Authorities: [rklees](https://docu.ilias.de/go/usr/34047)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [rklees](https://docu.ilias.de/go/usr/34047)
+    * Assignee for Security Issues: [rklees](https://docu.ilias.de/go/usr/34047)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END IndividualAssessment)
@@ -787,14 +787,14 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN InfoPage)
 
 * **Info Page**
-    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-        , [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Curate Test Cases: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* Tester: [Fabian](https://docu.ilias.de/goto_docu_usr_27631.html)
-    * Assignee for Security Reports: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Assignee for Security Issues: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149)
+        , [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to Curate Test Cases: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/go/usr/149)
+	* Tester: [Fabian](https://docu.ilias.de/go/usr/27631)
+    * Assignee for Security Reports: [akill](https://docu.ilias.de/go/usr/149)
+    * Assignee for Security Issues: [akill](https://docu.ilias.de/go/usr/149)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END InfoPage)
@@ -802,14 +802,14 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN InitialisationService)
 
 * **Initialisation Service**
-    * Authority to Sign off on Conceptual Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
-    * Authority to Sign off on Code Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
-        , [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Authority to Curate Test Cases: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
-    * Authority to (De-)Assign Authorities: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Assignee for Security Reports: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
-    * Assignee for Security Issues: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
+    * Authority to Sign off on Conceptual Changes: [PerPascalSeeland](https://docu.ilias.de/go/usr/31492)
+    * Authority to Sign off on Code Changes: [PerPascalSeeland](https://docu.ilias.de/go/usr/31492)
+        , [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Authority to Curate Test Cases: [PerPascalSeeland](https://docu.ilias.de/go/usr/31492)
+    * Authority to (De-)Assign Authorities: [PerPascalSeeland](https://docu.ilias.de/go/usr/31492)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [PerPascalSeeland](https://docu.ilias.de/go/usr/31492)
+    * Assignee for Security Issues: [PerPascalSeeland](https://docu.ilias.de/go/usr/31492)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END InitialisationService)
@@ -817,13 +817,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN ItemGroup)
 
 * **ItemGroup**
-    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Curate Test Cases: [berggold](https://docu.ilias.de/goto_docu_usr_22199.html)
-    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* Tester: [berggold](https://docu.ilias.de/goto_docu_usr_22199.html)
-    * Assignee for Security Reports: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Assignee for Security Issues: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Curate Test Cases: [berggold](https://docu.ilias.de/go/usr/22199)
+    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/go/usr/149)
+	* Tester: [berggold](https://docu.ilias.de/go/usr/22199)
+    * Assignee for Security Reports: [akill](https://docu.ilias.de/go/usr/149)
+    * Assignee for Security Issues: [akill](https://docu.ilias.de/go/usr/149)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END ItemGroup)
@@ -831,14 +831,14 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN LanguageHandling)
 
 * **Language Handling**
-    * Authority to Sign off on Conceptual Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
-    * Authority to Sign off on Code Changes: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
-        , [katrin.grosskopf](https://docu.ilias.de/goto_docu_usr_68340.html)
+    * Authority to Sign off on Conceptual Changes: [kunkel](https://docu.ilias.de/go/usr/115)
+    * Authority to Sign off on Code Changes: [kunkel](https://docu.ilias.de/go/usr/115)
+        , [katrin.grosskopf](https://docu.ilias.de/go/usr/68340)
     * Authority to Curate Test Cases: [ChrisPotter](https://docu.ilias.de/go/usr/90855)
-    * Authority to (De-)Assign Authorities: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
-	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
-    * Assignee for Security Reports: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
-    * Assignee for Security Issues: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+    * Authority to (De-)Assign Authorities: [kunkel](https://docu.ilias.de/go/usr/115)
+	* Tester: [kunkel](https://docu.ilias.de/go/usr/115)
+    * Assignee for Security Reports: [kunkel](https://docu.ilias.de/go/usr/115)
+    * Assignee for Security Issues: [kunkel](https://docu.ilias.de/go/usr/115)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END LanguageHandling)
@@ -846,13 +846,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN LearningHistory)
 
 * **Learning History**
-    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Curate Test Cases: [ezenzen](https://docu.ilias.de/goto_docu_usr_42910.html)
-    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* Tester: [oliver.samoila](https://docu.ilias.de/goto_docu_usr_26160.html)
-    * Assignee for Security Reports: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Assignee for Security Issues: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Curate Test Cases: [ezenzen](https://docu.ilias.de/go/usr/42910)
+    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/go/usr/149)
+	* Tester: [oliver.samoila](https://docu.ilias.de/go/usr/26160)
+    * Assignee for Security Reports: [akill](https://docu.ilias.de/go/usr/149)
+    * Assignee for Security Issues: [akill](https://docu.ilias.de/go/usr/149)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END LearningHistory)
@@ -860,13 +860,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN LearningModuleHTML)
 
 * **Learning Module HTML**
-    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Curate Test Cases: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Assignee for Security Reports: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Assignee for Security Issues: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Curate Test Cases: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/go/usr/149)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [akill](https://docu.ilias.de/go/usr/149)
+    * Assignee for Security Issues: [akill](https://docu.ilias.de/go/usr/149)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END LearningModuleHTML)
@@ -874,27 +874,27 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN LearningModuleILIAS)
 
 * **Learning Module ILIAS**
-    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Curate Test Cases: [Balliel](https://docu.ilias.de/goto_docu_usr_18365.html)
-    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* Tester: [Balliel](https://docu.ilias.de/goto_docu_usr_18365.html)
-    * Assignee for Security Reports: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Assignee for Security Issues: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Curate Test Cases: [Balliel](https://docu.ilias.de/go/usr/18365)
+    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/go/usr/149)
+	* Tester: [Balliel](https://docu.ilias.de/go/usr/18365)
+    * Assignee for Security Reports: [akill](https://docu.ilias.de/go/usr/149)
+    * Assignee for Security Issues: [akill](https://docu.ilias.de/go/usr/149)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END LearningModuleILIAS)
 
 [//]: # (BEGIN LearningModuleSCORM)
 
-* **Learning Module SCORM**
-    * Authority to Sign off on Conceptual Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-    * Authority to Sign off on Code Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-    * Authority to Curate Test Cases: n.n., Qualitus
-    * Authority to (De-)Assign Authorities: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
+* **Learning Module SCORM (1.2 and 2004)**
+    * Authority to Sign off on Conceptual Changes: [wischniak](https://docu.ilias.de/go/usr/21896)
+    * Authority to Sign off on Code Changes: [qualitus.dahme](https://docu.ilias.de/go/usr/99160)
+    * Authority to Curate Test Cases: [tim.fehske](https://docu.ilias.de/go/usr/101255)
+    * Authority to (De-)Assign Authorities: [wischniak](https://docu.ilias.de/go/usr/21896)
 	* Tester: n.n., Qualitus
-    * Assignee for Security Reports: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-    * Assignee for Security Issues: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
+    * Assignee for Security Reports: [wischniak](https://docu.ilias.de/go/usr/21896)
+    * Assignee for Security Issues: [wischniak](https://docu.ilias.de/go/usr/21896)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END LearningModuleSCORM)
@@ -902,13 +902,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN LearningSequence)
 
 * **Learning Sequence**
-    * Authority to Sign off on Conceptual Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Authority to Sign off on Code Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Authority to Curate Test Cases: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Authority to (De-)Assign Authorities: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-	* Tester: [mglaubitz](https://docu.ilias.de/goto_docu_usr_28309.html)
-    * Assignee for Security Reports: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Assignee for Security Issues: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off on Conceptual Changes: [rklees](https://docu.ilias.de/go/usr/34047)
+    * Authority to Sign off on Code Changes: [rklees](https://docu.ilias.de/go/usr/34047)
+    * Authority to Curate Test Cases: [rklees](https://docu.ilias.de/go/usr/34047)
+    * Authority to (De-)Assign Authorities: [rklees](https://docu.ilias.de/go/usr/34047)
+	* Tester: [mglaubitz](https://docu.ilias.de/go/usr/28309)
+    * Assignee for Security Reports: [rklees](https://docu.ilias.de/go/usr/34047)
+    * Assignee for Security Issues: [rklees](https://docu.ilias.de/go/usr/34047)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END LearningSequence)
@@ -916,14 +916,14 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN LegalDocuments)
 
 * **Legal Documents**
-    * Authority to Sign off on Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Authority to Sign off on Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-        , [lscharmer](https://docu.ilias.de/goto_docu_usr_87863.html)
-    * Authority to Curate Test Cases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Authority to (De-)Assign Authorities: [mjansen (Databay AG)](https://docu.ilias.de/goto_docu_usr_34047.html)
-	* Tester: [[TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Assignee for Security Reports: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Assignee for Security Issues: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off on Conceptual Changes: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Authority to Sign off on Code Changes: [mjansen](https://docu.ilias.de/go/usr/8784)
+        , [lscharmer](https://docu.ilias.de/go/usr/87863)
+    * Authority to Curate Test Cases: [AUTHOR MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Authority to (De-)Assign Authorities: [mjansen (Databay AG)](https://docu.ilias.de/go/usr/34047)
+	* Tester: [oliver.samoila](https://docu.ilias.de/go/usr/26160)
+    * Assignee for Security Reports: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Assignee for Security Issues: [mjansen](https://docu.ilias.de/go/usr/8784)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END LegalDocuments)
@@ -931,14 +931,14 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Like)
 
 * **Like**
-    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-        , [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Curate Test Cases: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Assignee for Security Reports: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Assignee for Security Issues: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149)
+        , [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to Curate Test Cases: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/go/usr/149)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [akill](https://docu.ilias.de/go/usr/149)
+    * Assignee for Security Issues: [akill](https://docu.ilias.de/go/usr/149)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Like)
@@ -946,13 +946,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Logging)
 
 * **Logging**
-    * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Curate Test Cases: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Assignee for Security Reports: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Assignee for Security Issues: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to Curate Test Cases: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/go/usr/191)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Assignee for Security Issues: [smeyer](https://docu.ilias.de/go/usr/191)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Logging)
@@ -960,63 +960,62 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN LoginAuthAndRegistration)
 
 * **Login, Auth & Registration**
-    * Authority to Sign off on Conceptual Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
-        , [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Authority to Sign off on Code Changes: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
-        , [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Authority to Curate Test Cases: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
-        , [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Authority to (De-)Assign Authorities: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
-        , [mjansen (Databay AG)](https://docu.ilias.de/goto_docu_usr_8784.html)
-	* Tester: [vimotion](https://docu.ilias.de/goto_docu_usr_25105.html)
-	  , [ILIAS_LM](https://docu.ilias.de/goto_docu_usr_14109.html) (OpenID)
-	  , [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html) (Shibboleth), Alexander Grundkötter, Qualitus (SAML)
-    * Assignee for Security Reports: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
-    * Assignee for Security Issues: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
+    * Authority to Sign off on Conceptual Changes: [PerPascalSeeland](https://docu.ilias.de/go/usr/31492)
+        , [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Authority to Sign off on Code Changes: [PerPascalSeeland](https://docu.ilias.de/go/usr/31492)
+        , [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Authority to Curate Test Cases: [PerPascalSeeland](https://docu.ilias.de/go/usr/31492)
+        , [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Authority to (De-)Assign Authorities: [PerPascalSeeland](https://docu.ilias.de/go/usr/31492)
+        , [mjansen (Databay AG)](https://docu.ilias.de/go/usr/8784)
+	* Tester: vimotion
+	  , [ILIAS_LM](https://docu.ilias.de/go/usr/14109) (OpenID)
+	  , [fschmid](https://docu.ilias.de/go/usr/21087) (Shibboleth), Alexander Grundkötter, Qualitus (SAML)
+    * Assignee for Security Reports: [PerPascalSeeland](https://docu.ilias.de/go/usr/31492)
+    * Assignee for Security Issues: [PerPascalSeeland](https://docu.ilias.de/go/usr/31492)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END LoginAuthAndRegistration)
 
-[//]: # (BEGIN LTI)
-
-* **LTI**
-    * Authority to Sign off on Conceptual Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-    * Authority to Sign off on Code Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-        , [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Curate Test Cases: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-    * Authority to (De-)Assign Authorities: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-	* Tester: [stv](https://docu.ilias.de/goto_docu_usr_45359.html)
-    * Assignee for Security Reports: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-    * Assignee for Security Issues: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
-
-[//]: # (END LTI)
-
 [//]: # (BEGIN LTIConsumer)
 
 * **LTI Consumer**
-    * Authority to Sign off on Conceptual Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-    * Authority to Sign off on Code Changes: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-    * Authority to Curate Test Cases: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-    * Authority to (De-)Assign Authorities: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-	* Tester: [kiegel](https://docu.ilias.de/goto_docu_usr_20646.html)
-    * Assignee for Security Reports: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-    * Assignee for Security Issues: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
+    * Authority to Sign off on Conceptual Changes: [jcop](https://docu.ilias.de/go/usr/30511)
+    * Authority to Sign off on Code Changes: [Zallax](https://docu.ilias.de/go/usr/101102), [sdiaz](https://docu.ilias.de/go/usr/105654)
+    * Authority to Curate Test Cases: [jcop](https://docu.ilias.de/go/usr/30511)
+    * Authority to (De-)Assign Authorities: [jcop](https://docu.ilias.de/go/usr/30511)
+	* Tester: [Fabian Kruse](https://docu.ilias.de/goto_docu_usr_27631.html)
+    * Assignee for Security Reports: [jcop](https://docu.ilias.de/go/usr/30511)
+    * Assignee for Security Issues: [jcop](https://docu.ilias.de/go/usr/30511)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END LTIConsumer)
 
+[//]: # (BEGIN LTI)
+
+* **LTI Provider**
+    * Authority to Sign off on Conceptual Changes: [jcop](https://docu.ilias.de/go/usr/30511)
+    * Authority to Sign off on Code Changes: [Zallax](https://docu.ilias.de/go/usr/101102), [sdiaz](https://docu.ilias.de/go/usr/105654), [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Curate Test Cases: [jcop](https://docu.ilias.de/go/usr/30511)
+    * Authority to (De-)Assign Authorities: [jcop](https://docu.ilias.de/go/usr/30511)
+	* Tester: [Fabian Kruse](https://docu.ilias.de/goto_docu_usr_27631.html)
+    * Assignee for Security Reports: [jcop](https://docu.ilias.de/go/usr/30511)
+    * Assignee for Security Issues: [jcop](https://docu.ilias.de/go/usr/30511)
+    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
+
+[//]: # (END LTI)
+
 [//]: # (BEGIN Mail)
 
 * **Mail**
-    * Authority to Sign off on Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Authority to Sign off on Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-        , [nadia](https://docu.ilias.de/goto_docu_usr_14206.html)
-    * Authority to Curate Test Cases: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Authority to (De-)Assign Authorities: [mjansen (Databay AG)](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off on Conceptual Changes: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Authority to Sign off on Code Changes: [mjansen](https://docu.ilias.de/go/usr/8784)
+        , [nadia](https://docu.ilias.de/go/usr/14206)
+    * Authority to Curate Test Cases: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Authority to (De-)Assign Authorities: [mjansen (Databay AG)](https://docu.ilias.de/go/usr/8784)
 	* Tester: Till Lennart Vogt/Test-Team OWL
-    * Assignee for Security Reports: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Assignee for Security Issues: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Assignee for Security Reports: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Assignee for Security Issues: [mjansen](https://docu.ilias.de/go/usr/8784)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Mail)
@@ -1024,13 +1023,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN MainMenu)
 
 * **MainMenu**
-    * Authority to Sign off on Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to Curate Test Cases: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to (De-)Assign Authorities: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
-    * Assignee for Security Reports: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Assignee for Security Issues: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off on Conceptual Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to Curate Test Cases: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to (De-)Assign Authorities: [fschmid](https://docu.ilias.de/go/usr/21087)
+	* Tester: [kunkel](https://docu.ilias.de/go/usr/115)
+    * Assignee for Security Reports: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Assignee for Security Issues: [fschmid](https://docu.ilias.de/go/usr/21087)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END MainMenu)
@@ -1038,13 +1037,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Maps)
 
 * **Maps**
-    * Authority to Sign off on Conceptual Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Authority to Sign off on Code Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Authority to Curate Test Cases: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Authority to (De-)Assign Authorities: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-	* Tester: [miriamhoelscher](https://docu.ilias.de/goto_docu_usr_25370.html)
-    * Assignee for Security Reports: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Assignee for Security Issues: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off on Conceptual Changes: [rklees](https://docu.ilias.de/go/usr/34047)
+    * Authority to Sign off on Code Changes: [rklees](https://docu.ilias.de/go/usr/34047)
+    * Authority to Curate Test Cases: [rklees](https://docu.ilias.de/go/usr/34047)
+    * Authority to (De-)Assign Authorities: [rklees](https://docu.ilias.de/go/usr/34047)
+	* Tester: [miriamhoelscher](https://docu.ilias.de/go/usr/25370)
+    * Assignee for Security Reports: [rklees](https://docu.ilias.de/go/usr/34047)
+    * Assignee for Security Issues: [rklees](https://docu.ilias.de/go/usr/34047)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Maps)
@@ -1052,13 +1051,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN MathJax)
 
 * **MathJax**
-    * Authority to Sign off on Conceptual Changes: [fneumann](https://docu.ilias.de/goto_docu_usr_1560.html)
-    * Authority to Sign off on Code Changes: [fneumann](https://docu.ilias.de/goto_docu_usr_1560.html)
-    * Authority to Curate Test Cases: [fneumann](https://docu.ilias.de/goto_docu_usr_1560.html)
-    * Authority to (De-)Assign Authorities: [fneumann](https://docu.ilias.de/goto_docu_usr_1560.html)
-	* Tester: [resi](https://docu.ilias.de/goto_docu_usr_72790.html)
-    * Assignee for Security Reports: [fneumann](https://docu.ilias.de/goto_docu_usr_1560.html)
-    * Assignee for Security Issues: [fneumann](https://docu.ilias.de/goto_docu_usr_1560.html)
+    * Authority to Sign off on Conceptual Changes: [fneumann](https://docu.ilias.de/go/usr/1560)
+    * Authority to Sign off on Code Changes: [fneumann](https://docu.ilias.de/go/usr/1560)
+    * Authority to Curate Test Cases: [fneumann](https://docu.ilias.de/go/usr/1560)
+    * Authority to (De-)Assign Authorities: [fneumann](https://docu.ilias.de/go/usr/1560)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [fneumann](https://docu.ilias.de/go/usr/1560)
+    * Assignee for Security Issues: [fneumann](https://docu.ilias.de/go/usr/1560)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END MathJax)
@@ -1066,13 +1065,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN MediaObjects)
 
 * **Media Objects**
-    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Curate Test Cases: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
-    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* Tester: [kiegel](https://docu.ilias.de/goto_docu_usr_20646.html)
-    * Assignee for Security Reports: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Assignee for Security Issues: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Curate Test Cases: [kunkel](https://docu.ilias.de/go/usr/115)
+    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/go/usr/149)
+	* Tester: [kiegel](https://docu.ilias.de/go/usr/20646)
+    * Assignee for Security Reports: [akill](https://docu.ilias.de/go/usr/149)
+    * Assignee for Security Issues: [akill](https://docu.ilias.de/go/usr/149)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END MediaObjects)
@@ -1080,13 +1079,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN MediaPool)
 
 * **Media Pool**
-    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Curate Test Cases: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
-    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* Tester: [kiegel](https://docu.ilias.de/goto_docu_usr_20646.html)
-    * Assignee for Security Reports: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Assignee for Security Issues: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Curate Test Cases: [atoedt](https://docu.ilias.de/go/usr/3139)
+    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/go/usr/149)
+	* Tester: [kiegel](https://docu.ilias.de/go/usr/20646)
+    * Assignee for Security Reports: [akill](https://docu.ilias.de/go/usr/149)
+    * Assignee for Security Issues: [akill](https://docu.ilias.de/go/usr/149)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END MediaPool)
@@ -1094,13 +1093,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN MediaCast)
 
 * **MediaCast**
-    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Curate Test Cases: [berggold](https://docu.ilias.de/goto_docu_usr_22199.html)
-    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* Tester: [berggold](https://docu.ilias.de/goto_docu_usr_22199.html)
-    * Assignee for Security Reports: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Assignee for Security Issues: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Curate Test Cases: [berggold](https://docu.ilias.de/go/usr/22199)
+    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/go/usr/149)
+	* Tester: [berggold](https://docu.ilias.de/go/usr/22199)
+    * Assignee for Security Reports: [akill](https://docu.ilias.de/go/usr/149)
+    * Assignee for Security Issues: [akill](https://docu.ilias.de/go/usr/149)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END MediaCast)
@@ -1108,13 +1107,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Membership)
 
 * **Membership**
-    * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Curate Test Cases: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Assignee for Security Reports: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Assignee for Security Issues: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to Curate Test Cases: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/go/usr/191)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Assignee for Security Issues: [smeyer](https://docu.ilias.de/go/usr/191)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Membership)
@@ -1122,14 +1121,14 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Metadata)
 
 * **Metadata**
-    * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-        , [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
-    * Authority to Curate Test Cases: [daniela.weber](https://docu.ilias.de/goto_docu_usr_40672.html)
-    * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* Tester: [daniela.weber](https://docu.ilias.de/goto_docu_usr_40672.html)
-    * Assignee for Security Reports: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Assignee for Security Issues: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/go/usr/191)
+        , [tschmitz](https://docu.ilias.de/go/usr/92591)
+    * Authority to Curate Test Cases: [daniela.weber](https://docu.ilias.de/go/usr/40672)
+    * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/go/usr/191)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Assignee for Security Issues: [smeyer](https://docu.ilias.de/go/usr/191)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Metadata)
@@ -1137,13 +1136,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN News)
 
 * **News**
-    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Curate Test Cases: [Thomas.schroeder](https://docu.ilias.de/goto_docu_usr_38330.html)
-    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* Tester: [Thomas.schroeder](https://docu.ilias.de/goto_docu_usr_38330.html)
-    * Assignee for Security Reports: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Assignee for Security Issues: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Curate Test Cases: [Thomas.schroeder](https://docu.ilias.de/go/usr/38330)
+    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/go/usr/149)
+	* Tester: [Thomas.schroeder](https://docu.ilias.de/go/usr/38330)
+    * Assignee for Security Reports: [akill](https://docu.ilias.de/go/usr/149)
+    * Assignee for Security Issues: [akill](https://docu.ilias.de/go/usr/149)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END News)
@@ -1151,13 +1150,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN NotesAndComments)
 
 * **Notes and Comments**
-    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Curate Test Cases: [skaiser](https://docu.ilias.de/goto_docu_usr_17260.html)
-    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* Tester: [skaiser](https://docu.ilias.de/goto_docu_usr_17260.html)
-    * Assignee for Security Reports: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Assignee for Security Issues: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Curate Test Cases: [skaiser](https://docu.ilias.de/go/usr/17260)
+    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/go/usr/149)
+	* Tester: [skaiser](https://docu.ilias.de/go/usr/17260)
+    * Assignee for Security Reports: [akill](https://docu.ilias.de/go/usr/149)
+    * Assignee for Security Issues: [akill](https://docu.ilias.de/go/usr/149)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END NotesAndComments)
@@ -1165,16 +1164,16 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Notifications)
 
 * **Notifications**
-    * Authority to Sign off on Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-        , [iszmais](https://docu.ilias.de/goto_docu_usr_65630.html)
-    * Authority to Sign off on Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-        , [iszmais](https://docu.ilias.de/goto_docu_usr_65630.html)
-    * Authority to Curate Test Cases: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-        , [iszmais](https://docu.ilias.de/goto_docu_usr_65630.html)
-    * Authority to (De-)Assign Authorities: [mjansen (Databay AG)](https://docu.ilias.de/goto_docu_usr_8784.html)
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Assignee for Security Reports: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Assignee for Security Issues: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off on Conceptual Changes: [mjansen](https://docu.ilias.de/go/usr/8784)
+        , [iszmais](https://docu.ilias.de/go/usr/65630)
+    * Authority to Sign off on Code Changes: [mjansen](https://docu.ilias.de/go/usr/8784)
+        , [iszmais](https://docu.ilias.de/go/usr/65630)
+    * Authority to Curate Test Cases: [mjansen](https://docu.ilias.de/go/usr/8784)
+        , [iszmais](https://docu.ilias.de/go/usr/65630)
+    * Authority to (De-)Assign Authorities: [mjansen (Databay AG)](https://docu.ilias.de/go/usr/8784)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Assignee for Security Issues: [mjansen](https://docu.ilias.de/go/usr/8784)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Notifications)
@@ -1182,13 +1181,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN ObjectService)
 
 * **Object Service**
-    * Authority to Sign off on Conceptual Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
-    * Authority to Sign off on Code Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
-    * Authority to Curate Test Cases: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
-    * Authority to (De-)Assign Authorities: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Assignee for Security Reports: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
-    * Assignee for Security Issues: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
+    * Authority to Sign off on Conceptual Changes: [skergomard](https://docu.ilias.de/go/usr/44474)
+    * Authority to Sign off on Code Changes: [skergomard](https://docu.ilias.de/go/usr/44474)
+    * Authority to Curate Test Cases: [skergomard](https://docu.ilias.de/go/usr/44474)
+    * Authority to (De-)Assign Authorities: [skergomard](https://docu.ilias.de/go/usr/44474)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [skergomard](https://docu.ilias.de/go/usr/44474)
+    * Assignee for Security Issues: [skergomard](https://docu.ilias.de/go/usr/44474)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END ObjectService)
@@ -1196,14 +1195,14 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN OnlineHelp)
 
 * **Online Help**
-    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-        , [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Curate Test Cases: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
-    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* Tester: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
-    * Assignee for Security Reports: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Assignee for Security Issues: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149)
+        , [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to Curate Test Cases: [atoedt](https://docu.ilias.de/go/usr/3139)
+    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/go/usr/149)
+	* Tester: [atoedt](https://docu.ilias.de/go/usr/3139)
+    * Assignee for Security Reports: [akill](https://docu.ilias.de/go/usr/149)
+    * Assignee for Security Issues: [akill](https://docu.ilias.de/go/usr/149)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END OnlineHelp)
@@ -1211,13 +1210,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN OpenIdConect)
 
 * **Open ID Connect**
-    * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Curate Test Cases: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Assignee for Security Reports: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Assignee for Security Issues: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to Curate Test Cases: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/go/usr/191)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Assignee for Security Issues: [smeyer](https://docu.ilias.de/go/usr/191)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END OpenIdConect)
@@ -1225,14 +1224,14 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN OrganisationalUnits)
 
 * **Organisational Units**
-    * Authority to Sign off on Conceptual Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Authority to Sign off on Code Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-        , [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to Curate Test Cases: [wischniak](https://docu.ilias.de/goto_docu_usr_21896.html)
-    * Authority to (De-)Assign Authorities: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-	* Tester: [qualitus.morgunova](https://docu.ilias.de/goto_docu_usr_69410.html)
-    * Assignee for Security Reports: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Assignee for Security Issues: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off on Conceptual Changes: [rklees](https://docu.ilias.de/go/usr/34047)
+    * Authority to Sign off on Code Changes: [rklees](https://docu.ilias.de/go/usr/34047)
+        , [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to Curate Test Cases: [wischniak](https://docu.ilias.de/go/usr/21896)
+    * Authority to (De-)Assign Authorities: [rklees](https://docu.ilias.de/go/usr/34047)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [rklees](https://docu.ilias.de/go/usr/34047)
+    * Assignee for Security Issues: [rklees](https://docu.ilias.de/go/usr/34047)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END OrganisationalUnits)
@@ -1240,13 +1239,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN PersonalAndSharedResources)
 
 * **Personal and Shared Resources**
-    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Curate Test Cases: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* Tester: [scarlino](https://docu.ilias.de/goto_docu_usr_56074.html)
-    * Assignee for Security Reports: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Assignee for Security Issues: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Curate Test Cases: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/go/usr/149)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [akill](https://docu.ilias.de/go/usr/149)
+    * Assignee for Security Issues: [akill](https://docu.ilias.de/go/usr/149)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END PersonalAndSharedResources)
@@ -1254,14 +1253,14 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Poll)
 
 * **Poll**
-    * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-        , [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
-    * Authority to Curate Test Cases: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* Tester: [Qndrs](https://docu.ilias.de/goto_docu_usr_42611.html)
-    * Assignee for Security Reports: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Assignee for Security Issues: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/go/usr/191)
+        , [tschmitz](https://docu.ilias.de/go/usr/92591)
+    * Authority to Curate Test Cases: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/go/usr/191)
+	* Tester: [Qndrs](https://docu.ilias.de/go/usr/42611)
+    * Assignee for Security Reports: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Assignee for Security Issues: [smeyer](https://docu.ilias.de/go/usr/191)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Poll)
@@ -1269,13 +1268,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Portfolio)
 
 * **Portfolio**
-    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Curate Test Cases: [ezenzen](https://docu.ilias.de/goto_docu_usr_42910.html)
-    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* Tester: [KlausVorkauf](https://docu.ilias.de/goto_docu_usr_5890.html)
-    * Assignee for Security Reports: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Assignee for Security Issues: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Curate Test Cases: [ezenzen](https://docu.ilias.de/go/usr/42910)
+    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/go/usr/149)
+	* Tester: [KlausVorkauf](https://docu.ilias.de/go/usr/5890)
+    * Assignee for Security Reports: [akill](https://docu.ilias.de/go/usr/149)
+    * Assignee for Security Issues: [akill](https://docu.ilias.de/go/usr/149)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Portfolio)
@@ -1283,13 +1282,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN PreconditionHandling)
 
 * **Precondition Handling**
-    * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Curate Test Cases: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* Tester: [mkloes](https://docu.ilias.de/goto_docu_usr_22174.html)
-    * Assignee for Security Reports: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Assignee for Security Issues: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to Curate Test Cases: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/go/usr/191)
+	* Tester: [mkloes](https://docu.ilias.de/go/usr/22174)
+    * Assignee for Security Reports: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Assignee for Security Issues: [smeyer](https://docu.ilias.de/go/usr/191)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END PreconditionHandling)
@@ -1297,13 +1296,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Rating)
 
 * **Rating**
-    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Curate Test Cases: [Fabian](https://docu.ilias.de/goto_docu_usr_27631.html)
-    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* Tester: [Fabian](https://docu.ilias.de/goto_docu_usr_27631.html)
-    * Assignee for Security Reports: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Assignee for Security Issues: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Curate Test Cases: [Fabian](https://docu.ilias.de/go/usr/27631)
+    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/go/usr/149)
+	* Tester: [Fabian](https://docu.ilias.de/go/usr/27631)
+    * Assignee for Security Reports: [akill](https://docu.ilias.de/go/usr/149)
+    * Assignee for Security Issues: [akill](https://docu.ilias.de/go/usr/149)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Rating)
@@ -1311,13 +1310,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN RBAC)
 
 * **RBAC / Access Control**
-    * Authority to Sign off on Conceptual Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
-    * Authority to Sign off on Code Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
-    * Authority to Curate Test Cases: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
-    * Authority to (De-)Assign Authorities: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
-	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
-    * Assignee for Security Reports: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
-    * Assignee for Security Issues: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
+    * Authority to Sign off on Conceptual Changes: [skergomard](https://docu.ilias.de/go/usr/44474)
+    * Authority to Sign off on Code Changes: [skergomard](https://docu.ilias.de/go/usr/44474)
+    * Authority to Curate Test Cases: [kunkel](https://docu.ilias.de/go/usr/115)
+    * Authority to (De-)Assign Authorities: [skergomard](https://docu.ilias.de/go/usr/44474)
+	* Tester: [kunkel](https://docu.ilias.de/go/usr/115)
+    * Assignee for Security Reports: [skergomard](https://docu.ilias.de/go/usr/44474)
+    * Assignee for Security Issues: [skergomard](https://docu.ilias.de/go/usr/44474)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END RBAC)
@@ -1325,17 +1324,17 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Refinery)
 
 * **Refinery**
-    * Authority to Sign off on Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-	  , [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Authority to Sign off on Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-	  , [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Authority to Curate Test Cases: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-	  , [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Authority to (De-)Assign Authorities: [mjansen (Databay AG)](https://docu.ilias.de/goto_docu_usr_8784.html)
-	  , [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Assignee for Security Reports: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Assignee for Security Issues: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off on Conceptual Changes: [mjansen](https://docu.ilias.de/go/usr/8784)
+	  , [rklees](https://docu.ilias.de/go/usr/34047)
+    * Authority to Sign off on Code Changes: [mjansen](https://docu.ilias.de/go/usr/8784)
+	  , [rklees](https://docu.ilias.de/go/usr/34047)
+    * Authority to Curate Test Cases: [mjansen](https://docu.ilias.de/go/usr/8784)
+	  , [rklees](https://docu.ilias.de/go/usr/34047)
+    * Authority to (De-)Assign Authorities: [mjansen (Databay AG)](https://docu.ilias.de/go/usr/8784)
+	  , [rklees](https://docu.ilias.de/go/usr/34047)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Assignee for Security Issues: [mjansen](https://docu.ilias.de/go/usr/8784)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Refinery)
@@ -1343,13 +1342,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN SAML)
 
 * **SAML**
-    * Authority to Sign off on Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Authority to Sign off on Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Authority to Curate Test Cases: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Authority to (De-)Assign Authorities: [mjansen (Databay AG)](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off on Conceptual Changes: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Authority to Sign off on Code Changes: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Authority to Curate Test Cases: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Authority to (De-)Assign Authorities: [mjansen (Databay AG)](https://docu.ilias.de/go/usr/8784)
 	* Tester: Alexander Grundkötter, Qualitus
-    * Assignee for Security Reports: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Assignee for Security Issues: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Assignee for Security Reports: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Assignee for Security Issues: [mjansen](https://docu.ilias.de/go/usr/8784)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END SAML)
@@ -1357,13 +1356,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Search)
 
 * **Search**
-    * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Curate Test Cases: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* Tester: [Qndrs](https://docu.ilias.de/goto_docu_usr_42611.html)
-    * Assignee for Security Reports: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Assignee for Security Issues: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to Curate Test Cases: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/go/usr/191)
+	* Tester: [Qndrs](https://docu.ilias.de/go/usr/42611)
+    * Assignee for Security Reports: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Assignee for Security Issues: [smeyer](https://docu.ilias.de/go/usr/191)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Search)
@@ -1371,13 +1370,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Session)
 
 * **Session**
-    * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Curate Test Cases: [yseiler](https://docu.ilias.de/goto_docu_usr_17694.html)
-    * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* Tester: [yseiler](https://docu.ilias.de/goto_docu_usr_17694.html)
-    * Assignee for Security Reports: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Assignee for Security Issues: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to Curate Test Cases: [yseiler](https://docu.ilias.de/go/usr/17694)
+    * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/go/usr/191)
+	* Tester: [yseiler](https://docu.ilias.de/go/usr/17694)
+    * Assignee for Security Reports: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Assignee for Security Issues: [smeyer](https://docu.ilias.de/go/usr/191)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Session)
@@ -1385,13 +1384,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Setup)
 
 * **Setup**
-    * Authority to Sign off on Conceptual Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Authority to Sign off on Code Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Authority to Curate Test Cases: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
-    * Authority to (De-)Assign Authorities: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-	* Tester: [fwolf](https://docu.ilias.de/goto_docu_usr_29018.html)
-    * Assignee for Security Reports: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Assignee for Security Issues: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off on Conceptual Changes: [rklees](https://docu.ilias.de/go/usr/34047)
+    * Authority to Sign off on Code Changes: [rklees](https://docu.ilias.de/go/usr/34047)
+    * Authority to Curate Test Cases: [kunkel](https://docu.ilias.de/go/usr/115)
+    * Authority to (De-)Assign Authorities: [rklees](https://docu.ilias.de/go/usr/34047)
+	* Tester: [fwolf](https://docu.ilias.de/go/usr/29018)
+    * Assignee for Security Reports: [rklees](https://docu.ilias.de/go/usr/34047)
+    * Assignee for Security Issues: [rklees](https://docu.ilias.de/go/usr/34047)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Setup)
@@ -1399,13 +1398,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN ShibbolethAuthentication)
 
 * **Shibboleth Authentication**
-    * Authority to Sign off on Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to Curate Test Cases: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to (De-)Assign Authorities: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-	* Tester: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Assignee for Security Reports: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Assignee for Security Issues: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off on Conceptual Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to Curate Test Cases: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to (De-)Assign Authorities: [fschmid](https://docu.ilias.de/go/usr/21087)
+	* Tester: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Assignee for Security Reports: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Assignee for Security Issues: [fschmid](https://docu.ilias.de/go/usr/21087)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END ShibbolethAuthentication)
@@ -1413,14 +1412,14 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Staff)
 
 * **Staff**
-    * Authority to Sign off on Conceptual Changes: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
-    * Authority to Sign off on Code Changes: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
-        , [tschmitz](https://docu.ilias.de/goto_docu_usr_92591.html)
-    * Authority to Curate Test Cases: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
-    * Authority to (De-)Assign Authorities: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
-	* Tester: [qualitus.morgunova](https://docu.ilias.de/goto_docu_usr_69410.html)
-    * Assignee for Security Reports: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
-    * Assignee for Security Issues: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
+    * Authority to Sign off on Conceptual Changes: [tfamula](https://docu.ilias.de/go/usr/58959)
+    * Authority to Sign off on Code Changes: [tfamula](https://docu.ilias.de/go/usr/58959)
+        , [tschmitz](https://docu.ilias.de/go/usr/92591)
+    * Authority to Curate Test Cases: [tfamula](https://docu.ilias.de/go/usr/58959)
+    * Authority to (De-)Assign Authorities: [tfamula](https://docu.ilias.de/go/usr/58959)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [tfamula](https://docu.ilias.de/go/usr/58959)
+    * Assignee for Security Issues: [tfamula](https://docu.ilias.de/go/usr/58959)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Staff)
@@ -1428,13 +1427,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN StatisticsAndLearningProgress)
 
 * **Statistics and Learning Progress**
-    * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Curate Test Cases: [suittenpointner](https://docu.ilias.de/goto_docu_usr_3458.html)
-    * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* Tester: [suittenpointner](https://docu.ilias.de/goto_docu_usr_3458.html)
-    * Assignee for Security Reports: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Assignee for Security Issues: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to Curate Test Cases: [AUTHOR MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/go/usr/191)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Assignee for Security Issues: [smeyer](https://docu.ilias.de/go/usr/191)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END StatisticsAndLearningProgress)
@@ -1442,14 +1441,14 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN StudyProgramme)
 
 * **Study Programme**
-    * Authority to Sign off on Conceptual Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Authority to Sign off on Code Changes: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-        , [shecken](https://docu.ilias.de/goto_docu_usr_45419.html)
-    * Authority to Curate Test Cases: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Authority to (De-)Assign Authorities: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-	* Tester: Florence Seydoux, s+r
-    * Assignee for Security Reports: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-    * Assignee for Security Issues: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+    * Authority to Sign off on Conceptual Changes: [rklees](https://docu.ilias.de/go/usr/34047)
+    * Authority to Sign off on Code Changes: [rklees](https://docu.ilias.de/go/usr/34047)
+        , [shecken](https://docu.ilias.de/go/usr/45419)
+    * Authority to Curate Test Cases: [rklees](https://docu.ilias.de/go/usr/34047)
+    * Authority to (De-)Assign Authorities: [rklees](https://docu.ilias.de/go/usr/34047)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [rklees](https://docu.ilias.de/go/usr/34047)
+    * Assignee for Security Issues: [rklees](https://docu.ilias.de/go/usr/34047)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END StudyProgramme)
@@ -1457,13 +1456,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Survey)
 
 * **Survey**
-    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Curate Test Cases: [ezenzen](https://docu.ilias.de/goto_docu_usr_42910.html)
-    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* Tester: [elena](https://docu.ilias.de/goto_docu_usr_49160.html)
-    * Assignee for Security Reports: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Assignee for Security Issues: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Curate Test Cases: [ezenzen](https://docu.ilias.de/go/usr/42910)
+    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/go/usr/149)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [akill](https://docu.ilias.de/go/usr/149)
+    * Assignee for Security Issues: [akill](https://docu.ilias.de/go/usr/149)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Survey)
@@ -1471,13 +1470,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN SystemCheck)
 
 * **System Check**
-    * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Curate Test Cases: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Assignee for Security Reports: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Assignee for Security Issues: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to Curate Test Cases: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/go/usr/191)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Assignee for Security Issues: [smeyer](https://docu.ilias.de/go/usr/191)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END SystemCheck)
@@ -1485,13 +1484,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Tagging)
 
 * **Tagging**
-    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Curate Test Cases: [skaiser](https://docu.ilias.de/goto_docu_usr_17260.html)
-    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* Tester: [skaiser](https://docu.ilias.de/goto_docu_usr_17260.html)
-    * Assignee for Security Reports: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Assignee for Security Issues: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Curate Test Cases: [skaiser](https://docu.ilias.de/go/usr/17260)
+    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/go/usr/149)
+	* Tester: [skaiser](https://docu.ilias.de/go/usr/17260)
+    * Assignee for Security Reports: [akill](https://docu.ilias.de/go/usr/149)
+    * Assignee for Security Issues: [akill](https://docu.ilias.de/go/usr/149)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Tagging)
@@ -1499,13 +1498,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Tasks)
 
 * **Tasks**
-    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Curate Test Cases: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Assignee for Security Reports: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Assignee for Security Issues: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Curate Test Cases: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/go/usr/149)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [akill](https://docu.ilias.de/go/usr/149)
+    * Assignee for Security Issues: [akill](https://docu.ilias.de/go/usr/149)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Tasks)
@@ -1513,13 +1512,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Taxonomy)
 
 * **Taxonomy**
-    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149)
     * Authority to Curate Test Cases: Tested separately in each module that supports taxonomies
-    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/go/usr/149)
 	* Tester: Tested separately in each module that supports taxonomies
-    * Assignee for Security Reports: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Assignee for Security Issues: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Assignee for Security Reports: [akill](https://docu.ilias.de/go/usr/149)
+    * Assignee for Security Issues: [akill](https://docu.ilias.de/go/usr/149)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Taxonomy)
@@ -1527,14 +1526,14 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN TermsOfService)
 
 * **Terms of Services**
-    * Authority to Sign off on Conceptual Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Authority to Sign off on Code Changes: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html),
-        [lscharmer](https://docu.ilias.de/goto_docu_usr_87863.html)
-    * Authority to Curate Test Cases: Stefania Akgül (CaT)
-    * Authority to (De-)Assign Authorities: [mjansen (Databay AG)](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Authority to Sign off on Conceptual Changes: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Authority to Sign off on Code Changes: [mjansen](https://docu.ilias.de/go/usr/8784),
+        [lscharmer](https://docu.ilias.de/go/usr/87863)
+    * Authority to Curate Test Cases: [AUTHOR MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Authority to (De-)Assign Authorities: [mjansen (Databay AG)](https://docu.ilias.de/go/usr/8784)
 	* Tester: Heinz Winter (CaT)
-    * Assignee for Security Reports: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Assignee for Security Issues: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+    * Assignee for Security Reports: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Assignee for Security Issues: [mjansen](https://docu.ilias.de/go/usr/8784)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END TermsOfService)
@@ -1542,22 +1541,21 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN TestAndAssessment)
 
 * **Test & Assessment**
-	* Authority to Sign off on Conceptual Changes: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
-    * Authority to Sign off on Code Changes: [mbecker](https://docu.ilias.de/goto_docu_usr_27266.html)
-        , [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
-        , [tjoussen](https://docu.ilias.de/goto_docu_usr_103745.html)
-    * Authority to Curate Test Cases: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
-    * Authority to (De-)Assign Authorities: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
+	* Authority to Sign off on Conceptual Changes: [dstrassner](https://docu.ilias.de/go/usr/48931)
+    * Authority to Sign off on Code Changes: [mbecker](https://docu.ilias.de/go/usr/27266)
+        , [skergomard](https://docu.ilias.de/go/usr/44474)
+        , [tjoussen](https://docu.ilias.de/go/usr/103745)
+    * Authority to Curate Test Cases: [dstrassner](https://docu.ilias.de/go/usr/48931)
+    * Authority to (De-)Assign Authorities: [dstrassner](https://docu.ilias.de/go/usr/48931)
 	* Testcases: SIG E-Assessment
-	* Tester: [dehling](https://docu.ilias.de/goto_docu_usr_12725.html)
-        , [NDJ1508](https://docu.ilias.de/goto_docu_usr_93043.html)
-        , [ksgrie](https://docu.ilias.de/goto_docu_usr_95947.html)
-        , [simon.lowe](https://docu.ilias.de/goto_docu_usr_79091.html)
-        , [rabah](https://docu.ilias.de/goto_docu_usr_40218.html)
-        , Testteam Uni Hohenheim
+	* Tester: [dehling](https://docu.ilias.de/go/usr/12725)
+        , [NDJ1508](https://docu.ilias.de/go/usr/93043)
+        , [ksgrie](https://docu.ilias.de/go/usr/95947)
+        , [simon.lowe](https://docu.ilias.de/go/usr/79091)
+        , [rabah](https://docu.ilias.de/go/usr/40218)
         , Testteam Kröpelin
-    * Assignee for Security Reports: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
-    * Assignee for Security Issues: [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
+    * Assignee for Security Reports: [dstrassner](https://docu.ilias.de/go/usr/48931)
+    * Assignee for Security Issues: [dstrassner](https://docu.ilias.de/go/usr/48931)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END TestAndAssessment)
@@ -1565,13 +1563,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Tree)
 
 * **Tree**
-    * Authority to Sign off on Conceptual Changes: [Fabian Wolf](https://docu.ilias.de/goto_docu_usr_29018.html)
-    * Authority to Sign off on Code Changes: [Fabian Wolf](https://docu.ilias.de/goto_docu_usr_29018.html)
-    * Authority to Curate Test Cases: [Fabian Wolf](https://docu.ilias.de/goto_docu_usr_29018.html)
-    * Authority to (De-)Assign Authorities: [Fabian Wolf](https://docu.ilias.de/goto_docu_usr_29018.html)
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Assignee for Security Reports: [Fabian Wolf](https://docu.ilias.de/goto_docu_usr_29018.html)
-    * Assignee for Security Issues: [Fabian Wolf](https://docu.ilias.de/goto_docu_usr_29018.html)
+    * Authority to Sign off on Conceptual Changes: [Fabian Wolf](https://docu.ilias.de/go/usr/29018)
+    * Authority to Sign off on Code Changes: [Fabian Wolf](https://docu.ilias.de/go/usr/29018)
+    * Authority to Curate Test Cases: [Fabian Wolf](https://docu.ilias.de/go/usr/29018)
+    * Authority to (De-)Assign Authorities: [Fabian Wolf](https://docu.ilias.de/go/usr/29018)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [Fabian Wolf](https://docu.ilias.de/go/usr/29018)
+    * Assignee for Security Issues: [Fabian Wolf](https://docu.ilias.de/go/usr/29018)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Tree)
@@ -1579,13 +1577,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN UserService)
 
 * **User Service**
-    * Authority to Sign off on Conceptual Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
-    * Authority to Sign off on Code Changes: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
-    * Authority to Curate Test Cases: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
-    * Authority to (De-)Assign Authorities: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
-	* Tester: [elena](https://docu.ilias.de/goto_docu_usr_49160.html)
-    * Assignee for Security Reports: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
-    * Assignee for Security Issues: [skergomard](https://docu.ilias.de/goto_docu_usr_44474.html)
+    * Authority to Sign off on Conceptual Changes: [skergomard](https://docu.ilias.de/go/usr/44474)
+    * Authority to Sign off on Code Changes: [skergomard](https://docu.ilias.de/go/usr/44474)
+    * Authority to Curate Test Cases: [skergomard](https://docu.ilias.de/go/usr/44474)
+    * Authority to (De-)Assign Authorities: [skergomard](https://docu.ilias.de/go/usr/44474)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [skergomard](https://docu.ilias.de/go/usr/44474)
+    * Assignee for Security Issues: [skergomard](https://docu.ilias.de/go/usr/44474)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END UserService)
@@ -1593,14 +1591,14 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN UICore)
 
 * **UICore**
-    * Authority to Sign off on Conceptual Changes: [tfuhrer](https://docu.ilias.de/goto_docu_usr_81947.html)
-    * Authority to Sign off on Code Changes: [tfuhrer](https://docu.ilias.de/goto_docu_usr_81947.html)
-        , [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to Curate Test Cases: [tfuhrer](https://docu.ilias.de/goto_docu_usr_81947.html)
-    * Authority to (De-)Assign Authorities: [tfuhrer](https://docu.ilias.de/goto_docu_usr_81947.html)
-	* Tester: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Assignee for Security Reports: [tfuhrer](https://docu.ilias.de/goto_docu_usr_81947.html)
-    * Assignee for Security Issues: [tfuhrer](https://docu.ilias.de/goto_docu_usr_81947.html)
+    * Authority to Sign off on Conceptual Changes: [tfuhrer](https://docu.ilias.de/go/usr/81947)
+    * Authority to Sign off on Code Changes: [tfuhrer](https://docu.ilias.de/go/usr/81947)
+        , [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to Curate Test Cases: [tfuhrer](https://docu.ilias.de/go/usr/81947)
+    * Authority to (De-)Assign Authorities: [tfuhrer](https://docu.ilias.de/go/usr/81947)
+	* Tester: [AUTHOR MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [tfuhrer](https://docu.ilias.de/go/usr/81947)
+    * Assignee for Security Issues: [tfuhrer](https://docu.ilias.de/go/usr/81947)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END UICore)
@@ -1608,19 +1606,19 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN UI-Service)
 
 * **UI-Service**
-    * Authority to Sign off on Conceptual Changes: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
-	  , [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-      , [tfuhrer](https://docu.ilias.de/goto_docu_usr_81947.html)
-    * Authority to Sign off on Code Changes: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
-	  , [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-      , [tfuhrer](https://docu.ilias.de/goto_docu_usr_81947.html)
-    * Authority to Curate Test Cases: [Fabian](https://docu.ilias.de/goto_docu_usr_27631.html)
-    * Authority to (De-)Assign Authorities: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
-	  , [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-      , [tfuhrer](https://docu.ilias.de/goto_docu_usr_81947.html)
-	* Tester: [kauerswald](https://docu.ilias.de/goto_docu_usr_70029.html)
-    * Assignee for Security Reports: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
-    * Assignee for Security Issues: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
+    * Authority to Sign off on Conceptual Changes: [amstutz](https://docu.ilias.de/go/usr/26468)
+	  , [rklees](https://docu.ilias.de/go/usr/34047)
+      , [tfuhrer](https://docu.ilias.de/go/usr/81947)
+    * Authority to Sign off on Code Changes: [amstutz](https://docu.ilias.de/go/usr/26468)
+	  , [rklees](https://docu.ilias.de/go/usr/34047)
+      , [tfuhrer](https://docu.ilias.de/go/usr/81947)
+    * Authority to Curate Test Cases: [Fabian](https://docu.ilias.de/go/usr/27631)
+    * Authority to (De-)Assign Authorities: [amstutz](https://docu.ilias.de/go/usr/26468)
+	  , [rklees](https://docu.ilias.de/go/usr/34047)
+      , [tfuhrer](https://docu.ilias.de/go/usr/81947)
+	* Tester: [kauerswald](https://docu.ilias.de/go/usr/70029)
+    * Assignee for Security Reports: [amstutz](https://docu.ilias.de/go/usr/26468)
+    * Assignee for Security Issues: [amstutz](https://docu.ilias.de/go/usr/26468)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END UI-Service)
@@ -1628,13 +1626,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN VirusScanner)
 
 * **Virus Scanner**
-    * Authority to Sign off on Conceptual Changes: [rschenk](https://docu.ilias.de/goto_docu_usr_18065.html)
-    * Authority to Sign off on Code Changes: [rschenk](https://docu.ilias.de/goto_docu_usr_18065.html)
-    * Authority to Curate Test Cases: [rschenk](https://docu.ilias.de/goto_docu_usr_18065.html)
-    * Authority to (De-)Assign Authorities: [rschenk (Databay AG)](https://docu.ilias.de/goto_docu_usr_18065.html)
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Assignee for Security Reports: [rschenk](https://docu.ilias.de/goto_docu_usr_18065.html)
-    * Assignee for Security Issues: [rschenk](https://docu.ilias.de/goto_docu_usr_18065.html)
+    * Authority to Sign off on Conceptual Changes: [rschenk](https://docu.ilias.de/go/usr/18065)
+    * Authority to Sign off on Code Changes: [rschenk](https://docu.ilias.de/go/usr/18065)
+    * Authority to Curate Test Cases: [rschenk](https://docu.ilias.de/go/usr/18065)
+    * Authority to (De-)Assign Authorities: [rschenk (Databay AG)](https://docu.ilias.de/go/usr/18065)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [rschenk](https://docu.ilias.de/go/usr/18065)
+    * Assignee for Security Issues: [rschenk](https://docu.ilias.de/go/usr/18065)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END VirusScanner)
@@ -1642,14 +1640,14 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN WebAccessChecker)
 
 * **Web Access Checker**
-    * Authority to Sign off on Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-        , [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-    * Authority to Curate Test Cases: [berggold](https://docu.ilias.de/goto_docu_usr_22199.html)
-    * Authority to (De-)Assign Authorities: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-	* Tester: [berggold](https://docu.ilias.de/goto_docu_usr_22199.html)
-    * Assignee for Security Reports: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Assignee for Security Issues: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+    * Authority to Sign off on Conceptual Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
+        , [ukohnle](https://docu.ilias.de/go/usr/21855)
+    * Authority to Curate Test Cases: [AUTHOR MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Authority to (De-)Assign Authorities: [fschmid](https://docu.ilias.de/go/usr/21087)
+	* Tester: [berggold](https://docu.ilias.de/go/usr/22199)
+    * Assignee for Security Reports: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Assignee for Security Issues: [fschmid](https://docu.ilias.de/go/usr/21087)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END WebAccessChecker)
@@ -1657,13 +1655,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN WebFeed)
 
 * **Web Feed**
-    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Curate Test Cases: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
-    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
-    * Assignee for Security Reports: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Assignee for Security Issues: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Curate Test Cases: [kunkel](https://docu.ilias.de/go/usr/115)
+    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/go/usr/149)
+	* Tester: [kunkel](https://docu.ilias.de/go/usr/115)
+    * Assignee for Security Reports: [akill](https://docu.ilias.de/go/usr/149)
+    * Assignee for Security Issues: [akill](https://docu.ilias.de/go/usr/149)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END WebFeed)
@@ -1671,14 +1669,14 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN WebDAV)
 
 * **WebDAV**
-	* Authority to Sign off on Conceptual Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to Sign off Testcase Changes: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Authority to (De-)Assign Authorities: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-	* Testcases: [fschmid](https://docu.ilias.de/goto_docu_usr_70029.html)
-	* Tester: [kauerswald](https://docu.ilias.de/goto_docu_usr_70029.html)
-    * Assignee for Security Reports: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-    * Assignee for Security Issues: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+	* Authority to Sign off on Conceptual Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to Sign off Testcase Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to (De-)Assign Authorities: [fschmid](https://docu.ilias.de/go/usr/21087)
+	* Testcases: [fschmid](https://docu.ilias.de/go/usr/70029)
+	* Tester: [kauerswald](https://docu.ilias.de/go/usr/70029)
+    * Assignee for Security Reports: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Assignee for Security Issues: [fschmid](https://docu.ilias.de/go/usr/21087)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END WebDAV)
@@ -1686,13 +1684,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Weblink)
 
 * **Weblink**
-    * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Curate Test Cases: [nadine.bauser](https://docu.ilias.de/goto_docu_usr_34662.html)
-    * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* Tester: [nadine.bauser](https://docu.ilias.de/goto_docu_usr_34662.html)
-    * Assignee for Security Reports: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Assignee for Security Issues: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Authority to Curate Test Cases: [nadine.bauser](https://docu.ilias.de/go/usr/34662)
+    * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/go/usr/191)
+	* Tester: [nadine.bauser](https://docu.ilias.de/go/usr/34662)
+    * Assignee for Security Reports: [smeyer](https://docu.ilias.de/go/usr/191)
+    * Assignee for Security Issues: [smeyer](https://docu.ilias.de/go/usr/191)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Weblink)
@@ -1700,13 +1698,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Webservices)
 
 * **Webservices**
-    * Authority to Sign off on Conceptual Changes: [Jephte](https://docu.ilias.de/goto_docu_usr_70542.html)
-    * Authority to Sign off on Code Changes: [Jephte](https://docu.ilias.de/goto_docu_usr_70542.html)
-    * Authority to Curate Test Cases: [Jephte](https://docu.ilias.de/goto_docu_usr_70542.html)
-    * Authority to (De-)Assign Authorities: [Jephte](https://docu.ilias.de/goto_docu_usr_70542.html)
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Assignee for Security Reports: [Jephte](https://docu.ilias.de/goto_docu_usr_70542.html)
-    * Assignee for Security Issues: [Jephte](https://docu.ilias.de/goto_docu_usr_70542.html)
+    * Authority to Sign off on Conceptual Changes: [Jephte](https://docu.ilias.de/go/usr/70542)
+    * Authority to Sign off on Code Changes: [Jephte](https://docu.ilias.de/go/usr/70542)
+    * Authority to Curate Test Cases: [Jephte](https://docu.ilias.de/go/usr/70542)
+    * Authority to (De-)Assign Authorities: [Jephte](https://docu.ilias.de/go/usr/70542)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [Jephte](https://docu.ilias.de/go/usr/70542)
+    * Assignee for Security Issues: [Jephte](https://docu.ilias.de/go/usr/70542)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Webservices)
@@ -1714,13 +1712,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN WhoIsOnline)
 
 * **Who is online?**
-    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Curate Test Cases: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
-    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* Tester: [oliver.samoila](https://docu.ilias.de/goto_docu_usr_26160.html)
-    * Assignee for Security Reports: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Assignee for Security Issues: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Curate Test Cases: [atoedt](https://docu.ilias.de/go/usr/3139)
+    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/go/usr/149)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [akill](https://docu.ilias.de/go/usr/149)
+    * Assignee for Security Issues: [akill](https://docu.ilias.de/go/usr/149)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END WhoIsOnline)
@@ -1728,13 +1726,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Wiki)
 
 * **Wiki**
-    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149)
     * Authority to Curate Test Cases: n.n., Uni Köln
-    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/go/usr/149)
 	* Tester: n.n., Uni Köln
-    * Assignee for Security Reports: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-    * Assignee for Security Issues: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+    * Assignee for Security Reports: [akill](https://docu.ilias.de/go/usr/149)
+    * Assignee for Security Issues: [akill](https://docu.ilias.de/go/usr/149)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Wiki)
@@ -1742,13 +1740,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN xAPIAndcmi5)
 
 * **xAPI/cmi5**
-    * Authority to Sign off on Conceptual Changes: [[ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)]
-    * Authority to Sign off on Code Changes: [[ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)]
-    * Authority to Curate Test Cases: [[ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)]
-    * Authority to (De-)Assign Authorities: [[ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)]
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Assignee for Security Reports: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-    * Assignee for Security Issues: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
+    * Authority to Sign off on Conceptual Changes: [[ukohnle](https://docu.ilias.de/go/usr/21855)]
+    * Authority to Sign off on Code Changes: [[ukohnle](https://docu.ilias.de/go/usr/21855)]
+    * Authority to Curate Test Cases: [[ukohnle](https://docu.ilias.de/go/usr/21855)]
+    * Authority to (De-)Assign Authorities: [[ukohnle](https://docu.ilias.de/go/usr/21855)]
+	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+    * Assignee for Security Reports: [ukohnle](https://docu.ilias.de/go/usr/21855)
+    * Assignee for Security Issues: [ukohnle](https://docu.ilias.de/go/usr/21855)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END xAPIAndcmi5)
@@ -1757,9 +1755,8 @@ of ILIAS. The file contains the following fields:
 
 The following directories are currently unmaintained:
 
-* Services/Context
-* Services/CSV
-* Services/EventHandling
-* Services/Excel
-* Services/QTI
-* Services/Randomization
+* ILIAS/Context
+* ILIAS/CSV
+* ILIAS/EventHandling
+* ILIAS/QTI
+* ILIAS/Randomization

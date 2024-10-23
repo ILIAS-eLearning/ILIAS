@@ -67,6 +67,14 @@ class NullWriter implements WriterInterface
         return new \DOMDocument();
     }
 
+    public function writeSet(
+        string $spec,
+        string $name
+    ): \DOMDocument {
+        return new \DOMDocument();
+    }
+
+
     public function writeResumptionToken(
         string $token,
         int $complete_list_size,

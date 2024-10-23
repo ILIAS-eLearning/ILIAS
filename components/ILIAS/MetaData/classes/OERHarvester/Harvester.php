@@ -26,33 +26,41 @@ use ILIAS\MetaData\OERHarvester\RepositoryObjects\HandlerInterface as ObjectHand
 use ILIAS\MetaData\OERHarvester\ResourceStatus\RepositoryInterface as StatusRepository;
 use ILIAS\MetaData\OERHarvester\ExposedRecords\RepositoryInterface as ExposedRecordRepository;
 use ILIAS\MetaData\Copyright\Search\FactoryInterface as CopyrightSearchFactory;
+use ILIAS\MetaData\Repository\RepositoryInterface as LOMRepository;
 use ILIAS\MetaData\OERHarvester\XML\WriterInterface as SimpleDCXMLWriter;
 use ILIAS\MetaData\OERHarvester\ExposedRecords\RecordInterface;
+use ILIAS\MetaData\OERHarvester\Export\HandlerInterface as ExportHandler;
 
 class Harvester
 {
     protected SettingsInterface $settings;
     protected ObjectHandler $object_handler;
+    protected ExportHandler $export_handler;
     protected StatusRepository $status_repository;
     protected ExposedRecordRepository $exposed_record_repository;
     protected CopyrightSearchFactory $copyright_search_factory;
+    protected LOMRepository $lom_repository;
     protected SimpleDCXMLWriter $xml_writer;
     protected \ilLogger $logger;
 
     public function __construct(
         SettingsInterface $settings,
         ObjectHandler $object_handler,
+        ExportHandler $export_handler,
         StatusRepository $status_repository,
         ExposedRecordRepository $exposed_record_repository,
         CopyrightSearchFactory $copyright_search_factory,
+        LOMRepository $lom_repository,
         SimpleDCXMLWriter $xml_writer,
         \ilLogger $logger
     ) {
         $this->settings = $settings;
         $this->object_handler = $object_handler;
+        $this->export_handler = $export_handler;
         $this->status_repository = $status_repository;
         $this->exposed_record_repository = $exposed_record_repository;
         $this->copyright_search_factory = $copyright_search_factory;
+        $this->lom_repository = $lom_repository;
         $this->xml_writer = $xml_writer;
         $this->logger = $logger;
     }
@@ -101,6 +109,7 @@ class Harvester
         }
         $search_results = [];
         foreach ($searcher->search(
+            $this->lom_repository,
             ...$this->settings->getCopyrightEntryIDsSelectedForHarvesting()
         ) as $ressource_id) {
             $search_results[] = $ressource_id->objID();
@@ -184,6 +193,18 @@ class Harvester
                 continue;
             }
             $this->status_repository->setHarvestRefID($obj_id, $new_ref_id);
+
+            try {
+                if (!$this->export_handler->hasPublicAccessExport($obj_id)) {
+                    $this->export_handler->createPublicAccessExport($obj_id);
+                }
+            } catch (\Exception $e) {
+                $this->logError(
+                    'Error when creating export for object with obj_id ' .
+                    $obj_id . ': ' . $e->getMessage()
+                );
+            }
+
             $count++;
         }
         return $count;

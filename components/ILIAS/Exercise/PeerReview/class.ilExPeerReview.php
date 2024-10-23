@@ -30,7 +30,7 @@ class ilExPeerReview
     protected InternalDomainService $domain;
     protected ilDBInterface $db;
     protected ilObjUser $user;
-    protected ilExAssignment$assignment;
+    protected ilExAssignment $assignment;
     protected int $assignment_id;
     protected ilLogger $log;
 

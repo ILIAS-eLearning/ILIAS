@@ -12,7 +12,7 @@ on:
         type: choice
         options:
           - trunk
-          - release_8
+          - release_9
 permissions:
   contents: read
   pull-requests: read
@@ -34,7 +34,7 @@ jobs:
         uses: php-actions/composer@v6
         with:
           php_version: 8.1
-          args: --no-interaction --no-progress --ignore-platform-reqs --no-scripts
+          args: --no-interaction --no-progress --ignore-platform-reqs
 
       - name: 'PHStan Custom Rules'
         run: scripts/PHPStan/run_legacy_ui_report.sh

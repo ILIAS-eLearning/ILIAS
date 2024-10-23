@@ -107,6 +107,7 @@ export default class TableUI {
     this.autoSave = paragraphUI.autoSave;
     this.tableModel = tableModel;
     this.in_data_table = false;
+    this.in_table = false;
     this.head_selection_initialised = false;
   }
 
@@ -140,7 +141,12 @@ export default class TableUI {
       pageModel.setCurrentPageComponent('DataTable', uiModel.initialPCId, '');
     }
 
-    if (!this.in_data_table) {
+    if (uiModel.initialComponent === 'Table') {
+      this.in_table = true;
+      pageModel.setCurrentPageComponent('Table', uiModel.initialPCId, '');
+    }
+
+    if (!this.in_data_table && !this.in_table) {
       return;
     }
 
@@ -402,12 +408,14 @@ export default class TableUI {
       el.addEventListener('click', (event) => {
         if (tableModel.getState() !== tableModel.STATE_CELLS
           && tableModel.getState() !== tableModel.STATE_MERGE) {
-          dispatch.dispatch(action.table().editor().editCell(
-            table_pcid,
-            table_hierid,
-            row,
-            column,
-          ));
+          if (this.in_data_table) {
+            dispatch.dispatch(action.table().editor().editCell(
+              table_pcid,
+              table_hierid,
+              row,
+              column,
+            ));
+          }
         } else {
           event.stopPropagation();
           event.preventDefault();

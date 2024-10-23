@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -60,7 +61,7 @@ class ilBibliographicExporter extends ilXmlExporter
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         ilFileUtils::makeDirParents($this->getAbsoluteExportDirectory());
-        $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+        $this->ds->initByExporter($this);
         $this->ds->exportLibraryFile($a_id);
 
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], '', true, true);

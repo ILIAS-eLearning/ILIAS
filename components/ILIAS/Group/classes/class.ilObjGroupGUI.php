@@ -540,7 +540,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
         $this->setSubTabs('settings');
         $this->tabs_gui->setTabActive('settings');
-        $this->tabs_gui->setSubTabActive('grp_settings');
+        $this->tabs_gui->setSubTabActive('general');
 
         if (!$a_form) {
             $a_form = $this->initForm('edit');

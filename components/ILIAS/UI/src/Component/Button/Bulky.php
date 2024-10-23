@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Component\Button;
 
 use ILIAS\UI\Component\Symbol\Symbol;
@@ -27,8 +27,4 @@ use ILIAS\UI\Component\Symbol\Symbol;
  */
 interface Bulky extends Button
 {
-    /**
-     * Get the icon or glyph the button was created with.
-     */
-    public function getIconOrGlyph(): Symbol;
 }

@@ -28,7 +28,7 @@ class ilItemGroupExporter extends ilXmlExporter
     public function init(): void
     {
         $this->ds = new ilItemGroupDataSet();
-        $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+        $this->ds->initByExporter($this);
         $this->ds->setDSPrefix("ds");
     }
 

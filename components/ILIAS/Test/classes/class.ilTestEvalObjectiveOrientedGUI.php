@@ -76,7 +76,7 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
             $executable = $this->object->isExecutable($test_session, $test_session->getUserId());
 
             if ($executable["executable"]) {
-                $this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+                $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
             }
         }
 

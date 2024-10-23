@@ -1,7 +1,6 @@
 @use "../../../010-settings/" as *;
 @use "../../../030-tools/_tool_browser-prefixes" as *;
 
-
 /* Modules/Chatroom */
 
 .ilValignBottom {
@@ -32,7 +31,7 @@
 
 	.messageContainer {
 		min-height: 250px;
-	} 
+	}
 
 	.fader {
 		position: -webkit-sticky;
@@ -71,9 +70,9 @@
 }
 
 #chat_users {
-	overflow: auto;
+	overflow: visible;
 	height: 100%;
-	min-height: 300px;
+        background-color: white;
 }
 
 #private_rooms {
@@ -86,6 +85,62 @@ td.chatroom {
 	height: auto;
 }
 
+.chat-autocomplete-container {
+    position: relative;
+}
+
+.chat-autocomplete-container .alert {
+    margin-top: 5px;
+}
+
+.chat-autocomplete {
+    position: absolute;
+    width: 100%;
+    max-height: 200px;
+    overflow: hidden auto;
+    padding: 0;
+    margin: 0;
+    border: 1px solid gray;
+}
+
+.chat-autocomplete li {
+    list-style: none;
+}
+
+.chat-autocomplete button {
+    background-color: white;
+    text-align: left;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
+.chat-autocomplete button.load-more {
+    font-weight: bold;
+}
+
+.chat-autocomplete button:hover,
+.chat-autocomplete button:focus {
+    background-color: #e2e8ef;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    border: none;
+    box-shadow: none;
+
+}
+
+#chat_users .dropdown ul.dropdown-menu {
+    position: absolute;
+    left: unset;
+    right: 0;
+}
+
+.ilChatroomUser img {
+    border-radius: 50%;
+}
+
 .ilChatroomUser {
 	border-bottom: 1px solid #e9e9e9;
 
@@ -96,6 +151,10 @@ td.chatroom {
 	.media-body {
 		padding-top: 8px;
 	}
+
+        .media-object {
+            border-radius: 50%;
+        }
 
 	.media-body h4, .media-body p {
 		color: $il-text-light-color;
@@ -118,6 +177,14 @@ td.chatroom {
 		padding: 10px 0;
 		font-size: $il-font-size-small;
 	}
+
+        .ilChatroomDropdown {
+            position: relative;
+
+            .dropdown-menu {
+                position: absolute;
+            }
+        }
 
 	.dropdown-menu a {
 		color: $il-text-color;
@@ -152,6 +219,7 @@ td.chatroom {
 	}
 
 	.media {
+		overflow: visible;
 		padding: 0;
 	}
 
@@ -173,3 +241,107 @@ td.chatroom {
 		padding: 10px;
 	}
 }
+
+.messageContainer .separator {
+    text-align: center;
+    background-color: #f9f9f9;
+}
+
+.hide-system-messages .messageContainer .separator.system-message {
+    display: none;
+}
+
+.messageContainer .separator p {
+    font-size: 0.75rem;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.messageContainer img {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+}
+
+.messageContainer .message-body {
+    display: flex;
+    align-items: center;
+}
+
+.messageContainer .message-body > p {
+    margin: 0 5px;
+}
+
+.messageContainer .message-body > .time-info {
+    color: white;
+    transition: color 0.5s;
+    font-size: smaller;
+}
+
+.messageContainer .message-body > .time-info:hover {
+    color: black;
+}
+
+.messageContainer .message-body > p {
+    white-space: preserve;
+}
+
+.messageContainer .messageLine,
+.messageContainer .messageLine .message-header {
+    display: flex;
+    margin-bottom: 5px;
+}
+
+.messageContainer .messageLine {
+    flex-direction: column;
+}
+
+.messageContainer .messageLine.myself .message-header,
+.messageContainer .messageLine.myself .message-body {
+    flex-direction: row-reverse;
+    text-align: right;
+}
+
+.messageContainer .messageLine .user {
+    margin: 0 5px;
+    font-size: 0.625rem;
+    font-weight: 600;
+}
+
+.messageContainer .separator:not(:first-child) {
+    margin-top: 10px;
+}
+
+#send-message-group .send-message-form {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+}
+
+#send-message-group .send-message-form textarea {
+    resize: none;
+    border: 1px solid;
+    background: white;
+    height: 25px;
+    margin-right: 10px;
+    flex-grow: 1;
+}
+
+#chat-shadow {
+    height: 0;
+    width: 0;
+}
+
+.chat.messageseparator {
+	padding: 0;
+	padding-right: 3px;
+}
+
+#submit_message_text {
+	width: 80%;
+	display: inline;
+}
+
+// #chat_users .il-item-title {
+// 	display: inline-block;
+// }

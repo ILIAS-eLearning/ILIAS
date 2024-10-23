@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 use ILIAS\Notes\Service;
 use ILIAS\Blog\ReadingTime\ReadingTimeManager;
+use ILIAS\Blog\Settings\SettingsManager;
+use ILIAS\Blog\InternalService;
 
 /**
  * Blog Data set class
@@ -30,6 +32,8 @@ use ILIAS\Blog\ReadingTime\ReadingTimeManager;
  */
 class ilBlogDataSet extends ilDataSet
 {
+    protected InternalService $service;
+    protected SettingsManager $blog_settings;
     protected ReadingTimeManager $reading_time;
     protected Service $notes;
     protected ilObjBlog $current_blog;
@@ -45,6 +49,8 @@ class ilBlogDataSet extends ilDataSet
             ->domain();
         $this->notes = $DIC->notes();
         $this->reading_time = $DIC->blog()->internal()->domain()->readingTime();
+        $this->blog_settings = $DIC->blog()->internal()->domain()->blogSettings();
+        $this->service = $DIC->blog()->internal();
     }
 
     public function getSupportedVersions(): array
@@ -328,6 +334,7 @@ class ilBlogDataSet extends ilDataSet
         ilImportMapping $a_mapping,
         string $a_schema_version
     ): void {
+        $data = $this->service->data();
         $a_rec = $this->stripTags($a_rec);
         switch ($a_entity) {
             case "blog":
@@ -343,41 +350,33 @@ class ilBlogDataSet extends ilDataSet
                 $newObj->setTitle($a_rec["Title"] ?? "");
                 $newObj->setDescription($a_rec["Description"] ?? "");
                 $newObj->setNotesStatus((bool) ($a_rec["Notes"] ?? false));
-                $newObj->setBackgroundColor($a_rec["BgColor"] ?? "");
-                $newObj->setFontColor($a_rec["FontColor"] ?? "");
-                $newObj->setProfilePicture((bool) ($a_rec["Ppic"] ?? false));
-                $newObj->setRSS((bool) ($a_rec["RssActive"] ?? false));
-                $newObj->setApproval((bool) ($a_rec["Approval"] ?? false));
+                $newObj->update();
 
-                $newObj->setAbstractShorten((bool) ($a_rec["AbsShorten"] ?? false));
-                $newObj->setAbstractShortenLength((int) ($a_rec["AbsShortenLen"] ?? 0));
-                $newObj->setAbstractImage((bool) ($a_rec["AbsImage"] ?? 0));
-                $newObj->setAbstractImageWidth((int) ($a_rec["AbsImgWidth"] ?? 0));
-                $newObj->setAbstractImageHeight((int) ($a_rec["AbsImgHeight"] ?? 0));
-                $newObj->setNavMode((int) ($a_rec["NavMode"] ?? 0));
-                if (($a_rec["NavListMonWithPost"] ?? 0) == 0) {
-                    $newObj->setNavModeListMonthsWithPostings(3);
-                } else {
-                    $newObj->setNavModeListMonthsWithPostings((int) $a_rec["NavListMonWithPost"]);
-                }
-                //$newObj->setNavModeListPostings($a_rec["NavListPost"]);
-                if (($nav_list_months = $a_rec["NavListMon"] ?? null) !== null) {
-                    $nav_list_months = (int) $nav_list_months;
-                }
-                $newObj->setNavModeListMonths($nav_list_months);
-                $newObj->setKeywords((bool) ($a_rec["Keywords"] ?? false));
-                $newObj->setAuthors((bool) ($a_rec["Authors"] ?? false));
-                $newObj->setOrder(
+                $blog_settings = $data->settings(
+                    $newObj->getId(),
+                    (bool) ($a_rec["Ppic"] ?? false),
+                    $a_rec["BgColor"] ?? "",
+                    $a_rec["FontColor"] ?? "",
+                    (bool) ($a_rec["RssActive"] ?? false),
+                    (bool) ($a_rec["Approval"] ?? false),
+                    (bool) ($a_rec["AbsShorten"] ?? false),
+                    (int) ($a_rec["AbsShortenLen"] ?? 0),
+                    (bool) ($a_rec["AbsImage"] ?? 0),
+                    (int) ($a_rec["AbsImgWidth"] ?? 0),
+                    (int) ($a_rec["AbsImgHeight"] ?? 0),
+                    (bool) ($a_rec["Keywords"] ?? false),
+                    (bool) ($a_rec["Authors"] ?? false),
+                    (int) ($a_rec["NavMode"] ?? 0),
+                    (($a_rec["NavListMonWithPost"] ?? 0) == 0)
+                        ? 3
+                        : (int) $a_rec["NavListMonWithPost"],
+                    (int) ($a_rec["NavListMon"] ?? 3),
+                    (int) ($a_rec["OvPost"] ?? null),
                     trim($a_rec["NavOrder"])
                         ? explode(";", $a_rec["NavOrder"])
                         : []
                 );
-                if (($ov_post = $a_rec["OvPost"] ?? null) !== null) {
-                    $ov_post = (int) $ov_post;
-                }
-                $newObj->setOverviewPostings($ov_post);
-
-                $newObj->update();
+                $this->blog_settings->update($blog_settings);
 
                 if ($a_rec["Style"] ?? false) {
                     self::$style_map[$a_rec["Style"]][] = $newObj->getId();
@@ -387,6 +386,12 @@ class ilBlogDataSet extends ilDataSet
                 $this->reading_time->activate($newObj->getId(), (bool) ($a_rec["ReadingTime"] ?? false));
 
                 $a_mapping->addMapping("components/ILIAS/Blog", "blog", $a_rec["Id"], (string) $newObj->getId());
+                $a_mapping->addMapping(
+                    'components/ILIAS/MetaData',
+                    'md',
+                    $a_rec["Id"] . ':0:blog',
+                    $newObj->getId() . ':0:blog'
+                );
                 break;
 
             case "blog_posting":
@@ -420,7 +425,12 @@ class ilBlogDataSet extends ilDataSet
                         $newObj->updateKeywords($keywords);
                     }
 
-                    $a_mapping->addMapping("components/ILIAS/COPage", "pg", "blp:" . $a_rec["Id"], "blp:" . $newObj->getId());
+                    $a_mapping->addMapping(
+                        "components/ILIAS/COPage",
+                        "pg",
+                        "blp:" . $a_rec["Id"],
+                        "blp:" . $newObj->getId()
+                    );
                 }
                 break;
         }

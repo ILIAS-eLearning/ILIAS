@@ -29,7 +29,7 @@ class ilObjFileProcessor extends ilObjFileAbstractProcessor
         ResourceIdentification $rid,
         string $title = null,
         string $description = null,
-        int $copyright_id = null
+        string $copyright_id = null
     ): void {
         $file_obj = $this->createFileObj($rid, $this->gui_object->getParentId(), $title, $description, $copyright_id);
     }

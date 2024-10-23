@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Tests\Setup\CLI;
 
@@ -80,8 +80,8 @@ class HasAgentTest extends TestCase
         $ii
             ->method("getOption")
             ->will($this->returnValueMap([
-                ["no-plugins", true],
-                ["skip", null]
+                ["no-legacy-plugins", true],
+                ["skip-legacy-plugin", null]
             ]));
 
         $this->agent_finder
@@ -108,9 +108,9 @@ class HasAgentTest extends TestCase
         $ii
             ->method("getOption")
             ->will($this->returnValueMap([
-                ["no-plugins", null],
-                ["plugin", "foobar"],
-                ["skip", null]
+                ["no-legacy-plugins", null],
+                ["legacy-plugin", "foobar"],
+                ["skip-legacy-plugin", null]
             ]));
 
         $this->agent_finder

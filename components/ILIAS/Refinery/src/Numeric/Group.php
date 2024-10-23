@@ -22,7 +22,6 @@ namespace ILIAS\Refinery\Numeric;
 
 use ILIAS\Data\Factory;
 use ILIAS\Refinery\Constraint;
-use ILIAS\Language\Language;
 
 class Group
 {

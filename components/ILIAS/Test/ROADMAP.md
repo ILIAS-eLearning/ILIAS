@@ -114,9 +114,9 @@ Doing so
 A "question" will thus be a collection of otherwise isolated things, while those things should still be treated in a
 tendentiously isolated way.
 
-Here is an example for a [repo on options of OrderingQuestions](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/Modules/TestQuestionPool/classes/questions/OrderingQuestion/assOrderingQuestionDatabaseRepository.php),
-[used in the question class](https://github.com/ILIAS-eLearning/ILIAS/blob/1d2cf022cb62ec55069ffbe9afcc14736116f26b/Modules/TestQuestionPool/classes/class.assOrderingQuestion.php#L124-L132)
-[to read and store Elements](https://github.com/ILIAS-eLearning/ILIAS/blob/1d2cf022cb62ec55069ffbe9afcc14736116f26b/Modules/TestQuestionPool/classes/class.assOrderingQuestion.php#L612-L630)
+Here is an example for a [repo on options of OrderingQuestions](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/TestQuestionPool/src/Questions/Ordering/OrderingQuestionDatabaseRepository.php),
+[used in the question class](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/TestQuestionPool/classes/class.assOrderingQuestion.php#L119-L157)
+[to read and store Elements](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/components/ILIAS/TestQuestionPool/classes/class.assOrderingQuestion.php#L1027-L1056)
 
 
 #### separation and clustering properties

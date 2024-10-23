@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -772,7 +772,7 @@ class ilSessionStatisticsGUI
                     break;
             }
         }
-        foreach ($meta as  $caption => $value) {
+        foreach ($meta as $caption => $value) {
             $csv->addColumn(strip_tags((string) $caption));
             $csv->addColumn(strip_tags((string) $value));
             $csv->addRow();

@@ -29,7 +29,7 @@ class ilMediaPoolExporter extends ilXmlExporter
     public function init(): void
     {
         $this->ds = new ilMediaPoolDataSet();
-        $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+        $this->ds->initByExporter($this);
         $this->ds->setDSPrefix("ds");
         $this->config = $this->getExport()->getConfig("components/ILIAS/MediaPool");
         if ($this->config->getMasterLanguageOnly()) {
@@ -101,6 +101,18 @@ class ilMediaPoolExporter extends ilXmlExporter
             "component" => "components/ILIAS/Object",
             "entity" => "tile",
             "ids" => $a_ids);
+
+        $md_ids = [];
+        foreach ($a_ids as $id) {
+            $md_ids[] = $id . ':0:mep';
+        }
+        if (!empty($md_ids)) {
+            $deps[] = [
+                'component' => 'components/ILIAS/MetaData',
+                'entity' => 'md',
+                'ids' => $md_ids,
+            ];
+        }
 
         return $deps;
     }

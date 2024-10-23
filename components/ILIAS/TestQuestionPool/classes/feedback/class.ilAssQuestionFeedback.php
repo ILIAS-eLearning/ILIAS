@@ -88,19 +88,17 @@ abstract class ilAssQuestionFeedback
     public function getGenericFeedbackTestPresentation(int $question_id, bool $solution_completed): string
     {
         if ($this->page_obj_output_mode == "edit") {
-            return "";
+            return '';
         }
         if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
-            $generic_feedback = $this->getPageObjectContent(
-                $this->getGenericFeedbackPageObjectType(),
-                $this->getGenericFeedbackPageObjectId($question_id, $solution_completed)
+            return $this->cleanupPageContent(
+                $this->getPageObjectContent(
+                    $this->getGenericFeedbackPageObjectType(),
+                    $this->getGenericFeedbackPageObjectId($question_id, $solution_completed)
+                )
             );
-
-            $generic_feedback_test_presentation_html = $this->cleanupPageContent($generic_feedback);
-        } else {
-            $generic_feedback_test_presentation_html = $this->getGenericFeedbackContent($question_id, $solution_completed);
         }
-        return $generic_feedback_test_presentation_html;
+        return $this->getGenericFeedbackContent($question_id, $solution_completed);
     }
 
     /**
@@ -156,7 +154,7 @@ abstract class ilAssQuestionFeedback
 
             $page_object_id = $this->getGenericFeedbackId($this->questionOBJ->getId(), true);
 
-            if($page_object_id === -1) {
+            if ($page_object_id === -1) {
                 $this->ctrl->setParameterByClass(ilAssQuestionFeedbackEditingGUI::class, 'feedback_type', $page_object_type);
                 $this->ctrl->setParameterByClass(ilAssQuestionFeedbackEditingGUI::class, 'fb_mode', 'complete');
                 $link = $this->ctrl->getLinkTargetByClass(ilAssQuestionFeedbackEditingGUI::class, 'createFeedbackPage');
@@ -255,10 +253,6 @@ abstract class ilAssQuestionFeedback
 
             if (!$this->questionOBJ->getPreventRteUsage()) {
                 $property->setUseRte(true);
-                $property->addPlugin("latex");
-                $property->addButton("latex");
-                $property->addButton("pastelatex");
-
                 $property->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
                 $property->setRTESupport($this->questionOBJ->getId(), "qpl", "assessment");
             } else {
@@ -760,7 +754,8 @@ abstract class ilAssQuestionFeedback
             $xpath = new DOMXPath($doc);
             $nodes_after_comments = $xpath->query('//comment()/following-sibling::*[1]');
             foreach ($nodes_after_comments as $node_after_comments) {
-                if (trim($node_after_comments->nodeValue) === '') {
+                if (trim($node_after_comments->nodeValue) === ''
+                    && $node_after_comments->childElementCount === 0) {
                     return '';
                 }
             }

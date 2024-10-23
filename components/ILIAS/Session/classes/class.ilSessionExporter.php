@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -19,6 +17,8 @@ declare(strict_types=1);
  ********************************************************************
  */
 
+declare(strict_types=1);
+
 /**
  * Exporter class for sessions
  *
@@ -33,7 +33,7 @@ class ilSessionExporter extends ilXmlExporter
     public function init(): void
     {
         $this->ds = new ilSessionDataSet();
-        $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+        $this->ds->initByExporter($this);
         $this->ds->setDSPrefix("ds");
     }
 

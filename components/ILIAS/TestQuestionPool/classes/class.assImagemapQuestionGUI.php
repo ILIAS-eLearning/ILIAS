@@ -52,19 +52,6 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->linecolor = '#' . (new ilSetting('assessment'))->get('imap_line_color') ?? 'FF0000';
     }
 
-    public function getCommand($cmd)
-    {
-        if (isset($_POST["imagemap"]) ||
-        isset($_POST["imagemap_x"]) ||
-        isset($_POST["imagemap_y"])) {
-            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-            // $this->ctrl->setCmd("getCoords");
-            $cmd = "getCoords";
-        }
-
-        return $cmd;
-    }
-
     protected function deleteImage(): void
     {
         $this->object->deleteImage();

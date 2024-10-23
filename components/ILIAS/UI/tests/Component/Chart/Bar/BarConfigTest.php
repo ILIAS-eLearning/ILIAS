@@ -47,8 +47,6 @@ class BarConfigTest extends ILIAS_UI_TestBase
 
     public function testWithWidth(): void
     {
-        $df = $this->getDataFactory();
-
         $bc = new BarConfig();
         $width = 0.5;
         $bc1 = $bc->withRelativeWidth($width);

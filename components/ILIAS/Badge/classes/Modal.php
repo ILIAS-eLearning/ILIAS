@@ -21,12 +21,8 @@ declare(strict_types=1);
 namespace ILIAS\Badge;
 
 use ILIAS\DI\Container;
-use ilBadge;
-use ilObject;
-use ilUtil;
 use Closure;
 use ILIAS\UI\Component\Component;
-use ilBadgeAssignment;
 use ilWACSignedPath;
 
 class Modal

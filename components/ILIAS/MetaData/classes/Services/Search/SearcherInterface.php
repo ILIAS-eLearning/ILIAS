@@ -21,10 +21,10 @@ declare(strict_types=1);
 namespace ILIAS\MetaData\Services\Search;
 
 use ILIAS\MetaData\Elements\RessourceID\RessourceIDInterface;
-use ILIAS\Metadata\Repository\Search\Clauses\FactoryInterface;
-use ILIAS\Metadata\Repository\Search\Clauses\ClauseInterface;
-use ILIAS\MetaData\Repository\Search\Filters\FilterInterface;
-use ILIAS\MetaData\Repository\Search\Filters\Placeholder;
+use ILIAS\MetaData\Search\Clauses\FactoryInterface;
+use ILIAS\MetaData\Search\Clauses\ClauseInterface;
+use ILIAS\MetaData\Search\Filters\FilterInterface;
+use ILIAS\MetaData\Search\Filters\Placeholder;
 
 interface SearcherInterface
 {

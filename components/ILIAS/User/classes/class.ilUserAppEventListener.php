@@ -35,7 +35,6 @@ class ilUserAppEventListener implements ilAppEventListener
         $user_starting_point_repository = new ilUserStartingPointRepository(
             $DIC['ilUser'],
             $DIC['ilDB'],
-            $DIC['tpl'],
             $DIC->logger(),
             $DIC['tree'],
             $DIC['rbacreview'],

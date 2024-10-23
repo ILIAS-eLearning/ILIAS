@@ -100,7 +100,6 @@ class ilCronOerHarvester extends ilCronJob
         );
 
         $explorer = $target->getExplorerGUI();
-        $explorer->setSelectMode('target', false);
         $explorer->setRootId(ROOT_FOLDER_ID);
         $explorer->setTypeWhiteList(['cat']);
 
@@ -122,7 +121,6 @@ class ilCronOerHarvester extends ilCronJob
         );
 
         $ex_explorer = $ex_target->getExplorerGUI();
-        $ex_explorer->setSelectMode('exposed_source', false);
         $ex_explorer->setRootId(ROOT_FOLDER_ID);
         $ex_explorer->setTypeWhiteList(['cat']);
 
@@ -155,6 +153,23 @@ class ilCronOerHarvester extends ilCronJob
             $checkbox_group->addOption($copyright_checkox);
         }
         $a_form->addItem($checkbox_group);
+
+        // object type selection
+        $checkbox_group = new ilCheckboxGroupInputGUI(
+            $this->lng->txt('meta_oer_object_type_selection'),
+            'object_type'
+        );
+        $checkbox_group->setRequired(true);
+        $checkbox_group->setValue($this->settings->getObjectTypesSelectedForHarvesting());
+
+        foreach ($this->settings->getObjectTypesEligibleForHarvesting() as $type) {
+            $copyright_checkox = new ilCheckboxOption(
+                $this->lng->txt('objs_' . $type),
+                $type
+            );
+            $checkbox_group->addOption($copyright_checkox);
+        }
+        $a_form->addItem($checkbox_group);
     }
 
     public function saveCustomSettings(ilPropertyFormGUI $a_form): bool
@@ -167,6 +182,7 @@ class ilCronOerHarvester extends ilCronJob
         $this->settings->saveContainerRefIDForHarvesting((int) $a_form->getInput('target'));
         $this->settings->saveContainerRefIDForExposing((int) $a_form->getInput('exposed_source'));
         $this->settings->saveCopyrightEntryIDsSelectedForHarvesting(...$copyrights);
+        $this->settings->saveObjectTypesSelectedForHarvesting(...$a_form->getInput('object_type'));
         return true;
     }
 

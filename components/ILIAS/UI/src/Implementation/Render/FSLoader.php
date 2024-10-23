@@ -70,9 +70,6 @@ class FSLoader implements Loader
         if ($component instanceof Glyph) {
             return $this->glyph_renderer_factory;
         }
-        if ($component instanceof Icon) {
-            return $this->icon_renderer_factory;
-        }
         if ($component instanceof FormInput) {
             return $this->field_renderer_factory;
         }

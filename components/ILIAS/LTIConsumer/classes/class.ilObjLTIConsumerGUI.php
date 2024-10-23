@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,11 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
+
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 
 /**
  * Class ilObjLTIConsumerGUI
@@ -54,6 +57,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
     public ?ilObject $object = null;
     protected ilLTIConsumerAccess $ltiAccess;
+    protected LOMServices $lom_services;
 
     public int $parent_node_id = 0; //check
 
@@ -67,6 +71,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         if ($this->object instanceof ilObjLTIConsumer) {
             $this->ltiAccess = new ilLTIConsumerAccess($this->object);
         }
+        $this->lom_services = $DIC->learningObjectMetadata();
 
         $DIC->language()->loadLanguageModule("lti");
         $DIC->language()->loadLanguageModule("rep");
@@ -78,12 +83,12 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     }
 
     /**
-     * @return \ilPropertyFormGUI[]|null[]
+     * @return array<ilPropertyFormGUI>
      */
-    protected function initCreationForms(string $a_new_type): array
+    protected function initCreateForm(string $a_new_type): array
     {
         $forms = array(
-            self::CFORM_NEW => $this->initCreateForm($a_new_type)
+            self::CFORM_NEW => $this->initNewForm($a_new_type)
         );
 
         if (ilLTIConsumerAccess::hasCustomProviderCreationAccess()) {
@@ -94,7 +99,28 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         return $forms;
     }
 
-    protected function initCreateForm(string $a_new_type): \ilLTIConsumerProviderSelectionFormTableGUI
+    protected function getCreationFormsHTML(StandardForm|ilPropertyFormGUI|array $forms): string
+    {
+        if (!is_array($forms)) {
+            throw new Exception('We only deal with arrays here.');
+        }
+
+        $acc = new ilAccordionGUI();
+        $acc->setBehaviour(ilAccordionGUI::FIRST_OPEN);
+        array_walk(
+            $forms,
+            function (ilPropertyFormGUI $v, string $k) use ($acc): void {
+                $acc->addItem(
+                    $v->getTitle(),
+                    $v->getHTML()
+                );
+            }
+        );
+
+        return $acc->getHTML();
+    }
+
+    protected function initNewForm(string $a_new_type): \ilLTIConsumerProviderSelectionFormTableGUI
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -343,7 +369,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         $provider_id = $this->getRequestValue("provider_id");
         $DIC->ctrl()->setParameter($this, "provider_id", $provider_id);
         $DIC->language()->loadLanguageModule($new_type);
-        $form = $this->initShowToolConfig($new_type, (int)$provider_id);
+        $form = $this->initShowToolConfig($new_type, (int) $provider_id);
         $DIC->ui()->mainTemplate()->setContent($form->getHTML());
     }
 
@@ -360,7 +386,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         $DIC->language()->loadLanguageModule($new_type);
         ilSession::clear('lti_dynamic_registration_client_id');
         ilSession::clear('lti_dynamic_registration_custom_params');
-        $form = $this->initShowToolConfig($new_type, (int)$provider_id);
+        $form = $this->initShowToolConfig($new_type, (int) $provider_id);
         $form->setValuesByPost();
         if ($form->checkInput()) { // update only overridable fields
             $provider = $form->getProvider();
@@ -571,29 +597,23 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
     public function initMetadata(\ilObject $object): void
     {
-        $metadata = new ilMD($object->getId(), $object->getId(), $object->getType());
+        // create LOM set from scratch
+        $this->lom_services->derive()
+                           ->fromBasicProperties($object->getTitle())
+                           ->forObject($object->getId(), $object->getId(), $object->getType());
 
-        $generalMetadata = $metadata->getGeneral();
-
-        if (!$generalMetadata) {
-            $generalMetadata = $metadata->addGeneral();
+        // in a second step, set the keywords
+        $keywords = [];
+        foreach ($object->getProvider()->getKeywordsArray() as $keyword) {
+            if ($keyword !== '') {
+                $keywords[] = $keyword;
+            }
         }
-
-        $generalMetadata->setTitle($object->getTitle());
-        $generalMetadata->save();
-
-        $id = $generalMetadata->addIdentifier();
-        $id->setCatalog('ILIAS');
-        $id->setEntry('il__' . $object->getType() . '_' . $object->getId());
-        $id->save();
-
-        $keywords = $object->getProvider()->getKeywordsArray();
-
-        // language needed now
-        $ulang = $this->user->getLanguage();
-        $keywords = array($ulang => $keywords);
-
-        ilMDKeyword::updateKeywords($generalMetadata, $keywords);
+        $this->lom_services->manipulate($object->getId(), $object->getId(), $object->getType())
+                           ->prepareCreateOrUpdate(
+                               $this->lom_services->paths()->keywords(),
+                               ...$keywords
+                           )->execute();
     }
 
     /**
@@ -821,7 +841,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         $newType = $this->getRequestValue('new_type');
         $refId = $this->getRequestValue('ref_id');
         if ($providerId !== null && $newType == 'lti' && $refId != null) {
-            $provider = new ilLTIConsumeProvider((int)$providerId);
+            $provider = new ilLTIConsumeProvider((int) $providerId);
             // check if post variables from contentSelectionResponse
             if ($DIC->http()->wrapper()->post()->has('JWT')) {
                 // ToDo:

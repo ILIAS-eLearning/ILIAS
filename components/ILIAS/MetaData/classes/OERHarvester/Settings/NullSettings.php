@@ -69,4 +69,16 @@ class NullSettings implements SettingsInterface
     public function saveContainerRefIDForExposing(int $ref_id): void
     {
     }
+
+    /**
+     * @return string[]
+     */
+    public function getObjectTypesEligibleForHarvesting(): array
+    {
+        return [];
+    }
+
+    public function saveObjectTypesSelectedForHarvesting(string ...$types): void
+    {
+    }
 }

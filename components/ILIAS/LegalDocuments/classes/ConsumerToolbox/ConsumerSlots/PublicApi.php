@@ -70,7 +70,7 @@ class PublicApi implements PublicApiInterface
 
     public function needsToAgree(ilObjUser $user): bool
     {
-        return !$this->canAgree($user)
+        return $this->canAgree($user)
             && $this->user($user)->needsToAcceptNewDocument();
     }
 

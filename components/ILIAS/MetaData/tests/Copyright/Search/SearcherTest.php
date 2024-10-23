@@ -22,8 +22,8 @@ namespace ILIAS\MetaData\Copyright\Search;
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\MetaData\Repository\RepositoryInterface;
-use ILIAS\MetaData\Repository\Search\Filters\FactoryInterface as FilterFactory;
-use ILIAS\MetaData\Repository\Search\Clauses\FactoryInterface as ClauseFactory;
+use ILIAS\MetaData\Search\Filters\FactoryInterface as FilterFactory;
+use ILIAS\MetaData\Search\Clauses\FactoryInterface as ClauseFactory;
 use ILIAS\MetaData\Paths\FactoryInterface as PathFactory;
 use ILIAS\MetaData\Copyright\Identifiers\HandlerInterface as IdentifierHandler;
 use ILIAS\MetaData\Copyright\Identifiers\NullHandler;
@@ -32,15 +32,15 @@ use ILIAS\MetaData\Paths\BuilderInterface;
 use ILIAS\MetaData\Paths\NullBuilder;
 use ILIAS\MetaData\Paths\PathInterface;
 use ILIAS\MetaData\Paths\NullPath;
-use ILIAS\MetaData\Repository\Search\Clauses\NullFactory as NullClauseFactory;
-use ILIAS\MetaData\Repository\Search\Filters\NullFactory as NullFilterFactory;
-use ILIAS\MetaData\Repository\Search\Clauses\Mode;
-use ILIAS\MetaData\Repository\Search\Clauses\ClauseInterface;
-use ILIAS\MetaData\Repository\Search\Clauses\Operator;
-use ILIAS\MetaData\Repository\Search\Clauses\NullClause;
-use ILIAS\MetaData\Repository\Search\Filters\Placeholder;
-use ILIAS\MetaData\Repository\Search\Filters\FilterInterface;
-use ILIAS\MetaData\Repository\Search\Filters\NullFilter;
+use ILIAS\MetaData\Search\Clauses\NullFactory as NullClauseFactory;
+use ILIAS\MetaData\Search\Filters\NullFactory as NullFilterFactory;
+use ILIAS\MetaData\Search\Clauses\Mode;
+use ILIAS\MetaData\Search\Clauses\ClauseInterface;
+use ILIAS\MetaData\Search\Clauses\Operator;
+use ILIAS\MetaData\Search\Clauses\NullClause;
+use ILIAS\MetaData\Search\Filters\Placeholder;
+use ILIAS\MetaData\Search\Filters\FilterInterface;
+use ILIAS\MetaData\Search\Filters\NullFilter;
 use ILIAS\MetaData\Repository\NullRepository;
 use ILIAS\MetaData\Elements\RessourceID\NullRessourceID;
 use ILIAS\MetaData\Elements\RessourceID\RessourceIDInterface;
@@ -210,14 +210,13 @@ class SearcherTest extends TestCase
     public function testSearch(): void
     {
         $searcher = new Searcher(
-            $repo = $this->getLOMRepository(),
             $this->getSearchFilterFactory(),
             $this->getSearchClauseFactory(),
             $this->getPathFactory(),
             $this->getIdentifierHandler()
         );
 
-        $results = $searcher->search(32);
+        $results = $searcher->search($repo = $this->getLOMRepository(), 32);
 
         $this->assertCorrectSearchResults(...$results);
         $this->assertEquals(
@@ -242,14 +241,13 @@ class SearcherTest extends TestCase
     public function testSearchWithMultipleEntries(): void
     {
         $searcher = new Searcher(
-            $repo = $this->getLOMRepository(),
             $this->getSearchFilterFactory(),
             $this->getSearchClauseFactory(),
             $this->getPathFactory(),
             $this->getIdentifierHandler()
         );
 
-        $results = $searcher->search(32, 9, 1234);
+        $results = $searcher->search($repo = $this->getLOMRepository(), 32, 9, 1234);
 
         $this->assertCorrectSearchResults(...$results);
         $this->assertEquals(
@@ -288,7 +286,6 @@ class SearcherTest extends TestCase
     public function testSearchRestrictedToRepositoryObjects(): void
     {
         $searcher = new Searcher(
-            $repo = $this->getLOMRepository(),
             $this->getSearchFilterFactory(),
             $this->getSearchClauseFactory(),
             $this->getPathFactory(),
@@ -296,7 +293,7 @@ class SearcherTest extends TestCase
         );
 
         $results = $searcher->withRestrictionToRepositoryObjects(true)
-                            ->search(32);
+                            ->search($repo = $this->getLOMRepository(), 32);
 
         $this->assertCorrectSearchResults(...$results);
         $this->assertEquals(
@@ -327,7 +324,6 @@ class SearcherTest extends TestCase
     public function testSearchRestrictedToObjectType(): void
     {
         $searcher = new Searcher(
-            $repo = $this->getLOMRepository(),
             $this->getSearchFilterFactory(),
             $this->getSearchClauseFactory(),
             $this->getPathFactory(),
@@ -335,7 +331,7 @@ class SearcherTest extends TestCase
         );
 
         $results = $searcher->withAdditionalTypeFilter('some type')
-                            ->search(32);
+                            ->search($repo = $this->getLOMRepository(), 32);
 
         $this->assertCorrectSearchResults(...$results);
         $this->assertEquals(
@@ -366,7 +362,6 @@ class SearcherTest extends TestCase
     public function testSearchRestrictedToMultipleObjectTypes(): void
     {
         $searcher = new Searcher(
-            $repo = $this->getLOMRepository(),
             $this->getSearchFilterFactory(),
             $this->getSearchClauseFactory(),
             $this->getPathFactory(),
@@ -376,7 +371,7 @@ class SearcherTest extends TestCase
         $results = $searcher->withAdditionalTypeFilter('some type')
                             ->withAdditionalTypeFilter('some other type')
                             ->withAdditionalTypeFilter('a third type')
-                            ->search(32);
+                            ->search($repo = $this->getLOMRepository(), 32);
 
         $this->assertCorrectSearchResults(...$results);
         $this->assertEquals(
@@ -417,7 +412,6 @@ class SearcherTest extends TestCase
     public function testSearchRestrictedToMultipleObjectTypesAndRepositoryObjects(): void
     {
         $searcher = new Searcher(
-            $repo = $this->getLOMRepository(),
             $this->getSearchFilterFactory(),
             $this->getSearchClauseFactory(),
             $this->getPathFactory(),
@@ -428,7 +422,7 @@ class SearcherTest extends TestCase
                             ->withAdditionalTypeFilter('some other type')
                             ->withAdditionalTypeFilter('a third type')
                             ->withRestrictionToRepositoryObjects(true)
-                            ->search(32);
+                            ->search($repo = $this->getLOMRepository(), 32);
 
         $this->assertCorrectSearchResults(...$results);
         $this->assertEquals(

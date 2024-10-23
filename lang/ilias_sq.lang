@@ -16017,7 +16017,6 @@ survey#:#cancel_survey#:#Suspend the survey###21 Jul 2006 new variable
 survey#:#cannot_read_survey#:#Nuk keni të drejta të mjaftueshme për të lexuar të dhënat e kuestionerit!
 survey#:#cannot_switch_to_online_no_questions#:#Statusi nuk mund të ndërrohet në &quot;online&quot; sepse nuk ka asnjë pyetje në test!###04 Nov 2005 content changed
 survey#:#cant_send_email_smtp_disabled#:#Sending external mails is not available. This option is deactivated globally.###07 02 2017 new variable
-survey#:#categories#:#Answers###03 Nov 2005 new variable
 survey#:#category#:#Kategori###03 Nov 2005 content changed
 survey#:#category_nr_selected#:#Numri i shfrytëzuesve që kanë zgjedhur këtë kategori###03 Nov 2005 content changed
 survey#:#chart#:#Diagram
@@ -16473,6 +16472,7 @@ survey#:#svy_answer_too_long#:#Your current answer is too long (%s characters). 
 survey#:#svy_app_see_rater_info#:#Appraisees can access rater information in the results screens, including names and e-mail addresses, if entered before when adding raters.###29 07 2022 new variable
 survey#:#svy_appraisses_cannot_be_raters#:#User cannot be added as rater. Use self evaluation option in the survey settings instead.###07 02 2020 new variable
 survey#:#svy_back#:#Back###24 10 2013 new variable
+survey#:#svy_categories#:#Answers###03 Nov 2005 new variable
 survey#:#svy_check_evaluation_access_introduction#:#Since this survey evaluation is only accessable by survey participants you need to enter your survey access code to open the evaluation.###23 Dec 2005 new variable
 survey#:#svy_check_evaluation_authentication_needed#:#Authentication needed###23 Dec 2005 new variable
 survey#:#svy_check_evaluation_wrong_key#:#You entered a wrong survey access code or you have not participated the survey. Your access to the survey evaluation is denied.###23 Dec 2005 new variable

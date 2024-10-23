@@ -3,8 +3,9 @@
 ## Business Rules
 
 * [Copyright Administration](docs/copyrights.md)
-* [Important Changes](docs/update_infos.md)
+* [Vocabularies](docs/vocabularies.md)
 * [OER Harvester and OAI-PMH Interface](docs/oaipmh.md)
+* [Important Changes](docs/update_infos.md)
 
 ## Technical Documentation
 

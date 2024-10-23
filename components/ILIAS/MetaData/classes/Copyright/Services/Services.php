@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\MetaData\Copyright\Services;
 
 use ILIAS\DI\Container as GlobalContainer;
-use ILIAS\MetaData\Repository\Services\Services as RepositoryServices;
+use ILIAS\MetaData\Search\Services\Services as SearchServices;
 use ILIAS\MetaData\Paths\Services\Services as PathsServices;
 use ILIAS\MetaData\Copyright\RepositoryInterface;
 use ILIAS\MetaData\Copyright\DatabaseRepository;
@@ -41,16 +41,16 @@ class Services
     protected FactoryInterface $searcher_factory;
 
     protected GlobalContainer $dic;
-    protected RepositoryServices $repository_services;
+    protected SearchServices $search_services;
     protected PathsServices $paths_services;
 
     public function __construct(
         GlobalContainer $dic,
-        RepositoryServices $repository_services,
+        SearchServices $repository_services,
         PathsServices $paths_services,
     ) {
         $this->dic = $dic;
-        $this->repository_services = $repository_services;
+        $this->search_services = $repository_services;
         $this->paths_services = $paths_services;
     }
 
@@ -89,9 +89,8 @@ class Services
             return $this->searcher_factory;
         }
         return $this->searcher_factory = new Factory(
-            $this->repository_services->repository(),
-            $this->repository_services->SearchFilterFactory(),
-            $this->repository_services->SearchClauseFactory(),
+            $this->search_services->searchFilterFactory(),
+            $this->search_services->searchClauseFactory(),
             $this->paths_services->pathFactory(),
             $this->identifiersHandler()
         );

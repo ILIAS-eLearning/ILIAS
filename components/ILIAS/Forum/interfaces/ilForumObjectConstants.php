@@ -29,7 +29,7 @@ interface ilForumObjectConstants
     public const UI_TAB_ID_STATS = 'frm_statistics';
     public const UI_TAB_ID_EXPORT = 'export';
     public const UI_TAB_ID_PERMISSIONS = 'perm_settings';
-    public const UI_SUB_TAB_ID_BASIC_SETTINGS = 'basic_settings';
+    public const UI_SUB_TAB_ID_BASIC_SETTINGS = 'general';
     public const UI_SUB_TAB_ID_NOTIFICATIONS = 'notifications';
     public const UI_SUB_TAB_ID_NEWS = 'cont_news_settings';
     public const UI_SUB_TAB_ID_STYLE = 'cont_style';

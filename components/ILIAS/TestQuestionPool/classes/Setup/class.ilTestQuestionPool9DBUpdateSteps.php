@@ -67,4 +67,22 @@ class ilTestQuestionPool9DBUpdateSteps implements ilDatabaseUpdateSteps
             $this->db->dropTableColumn('qpl_questionpool', 'isonline');
         }
     }
+
+    public function step_5(): void
+    {
+        $this->db->modifyTableColumn(
+            'qpl_questions',
+            'author',
+            ['type' => 'text', 'length' => 512]
+        );
+    }
+
+    public function step_6(): void
+    {
+        $this->db->modifyTableColumn(
+            'qpl_questions',
+            'title',
+            ['type' => 'text', 'length' => 124]
+        );
+    }
 }

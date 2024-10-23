@@ -101,7 +101,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         $DIC->language()->loadLanguageModule('obj');
         $DIC->language()->loadLanguageModule('cntr');
 
-        if (is_object($this->object)) {
+        if ($this->object instanceof ilObjBibliographic) {
             /** @var ilObjBibliographic $obj */
             $obj = $this->object;
             $this->facade = new ilBiblFactoryFacade($obj);
@@ -301,30 +301,81 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
     /**
      * @return mixed[]
      */
-    protected function initCreationForms(string $a_new_type): array
+    protected function initCreateForm(string $new_type): ilPropertyFormGUI
     {
-        global $DIC;
+        $form = new ilPropertyFormGUI();
+        $form->setTarget('_top');
+        $form->setFormAction($this->ctrl->getFormAction($this, 'save'));
+        $form->setTitle($this->lng->txt($new_type . '_new'));
 
-        $forms = parent::initCreationForms($a_new_type);
-        // Add File-Upload
-        $in_file = new ilFileInputGUI($DIC->language()->txt("bibliography_file"), "bibliographic_file");
-        $in_file->setSuffixes(array("ris", "bib", "bibtex"));
+        $ti = new ilTextInputGUI($this->lng->txt('title'), 'title');
+        $ti->setSize(min(40, ilObject::TITLE_LENGTH));
+        $ti->setMaxLength(ilObject::TITLE_LENGTH);
+        $ti->setRequired(true);
+        $form->addItem($ti);
+
+        $ta = new ilTextAreaInputGUI($this->lng->txt('description'), 'desc');
+        $ta->setCols(40);
+        $ta->setRows(2);
+        $ta->setMaxNumOfChars(ilObject::LONG_DESC_LENGTH);
+        $form->addItem($ta);
+
+        $in_file = new ilFileInputGUI($this->lng->txt('bibliography_file'), 'bibliographic_file');
+        $in_file->setSuffixes(['ris', 'bib', 'bibtex']);
         $in_file->setRequired(true);
-        $forms[self::CFORM_NEW]->addItem($in_file);
+        $form->addItem($in_file);
 
-        return $forms;
+        $form = $this->initDidacticTemplate($form);
+
+        $form->addCommandButton('save', $this->lng->txt($new_type . '_add'));
+        $form->addCommandButton('cancel', $this->lng->txt('cancel'));
+
+        return $form;
     }
 
     public function save(): void
     {
-        $form = $this->initCreationForms($this->getType());
-        if ($form[self::CFORM_NEW]->checkInput()) {
-            parent::save();
+        $form = $this->initCreateForm($this->getType());
+        if ($form->checkInput()) {
+            $this->saveObject();
         } else {
-            $form = $form[self::CFORM_NEW];
             $form->setValuesByPost();
             $this->ui()->mainTemplate()->setContent($form->getHtml());
         }
+    }
+
+    public function saveObject(): void
+    {
+        // create permission is already checked in createObject. This check here is done to prevent hacking attempts
+        if (!$this->checkPermissionBool('create', '', $this->requested_new_type)) {
+            $this->error->raiseError($this->lng->txt('no_create_permission'), $this->error->MESSAGE);
+        }
+
+        $this->lng->loadLanguageModule($this->requested_new_type);
+        $this->ctrl->setParameter($this, 'new_type', $this->requested_new_type);
+
+        $form = $this->initCreateForm($this->requested_new_type);
+        if ($form->checkInput()) {
+            $this->ctrl->setParameter($this, 'new_type', '');
+
+            $newObj = new ilObjBibliographic();
+            $newObj->setTitle($form->getInput('title'));
+            $newObj->setDescription($form->getInput('desc'));
+            $newObj->processAutoRating();
+            $newObj->create();
+
+            $this->putObjectInTree($newObj);
+
+            $dtpl = $this->getDidacticTemplateVar('dtpl');
+            if ($dtpl) {
+                $newObj->applyDidacticTemplate($dtpl);
+            }
+
+            $this->afterSave($newObj);
+        }
+
+        $form->setValuesByPost();
+        $this->tpl->setContent($form->getHTML());
     }
 
     public function updateObject(): void

@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Language\Language;
 use ILIAS\UI\Component\Symbol\Avatar\Avatar;
 use ILIAS\UI\Factory;
 
@@ -30,7 +31,7 @@ class ilUserAvatarResolver
     private ilDBInterface $db;
     private \ILIAS\ResourceStorage\Services $irss;
     private Factory $ui;
-    private ilLanguage $lng;
+    private Language $lng;
     private bool $letter_avatars_activated;
     private ilUserProfilePictureDefinition $flavour_definition;
     private string $size;

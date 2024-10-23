@@ -24,12 +24,13 @@ use ILIAS\Test\Settings\TestSettingsGUI;
 use ILIAS\Test\Scoring\Settings\Settings as SettingsScoring;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
-
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Component\Input\Container\Form\Form;
+use ilInfoScreenGUI;
+use ilObjTestGUI;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
@@ -92,7 +93,7 @@ class SettingsScoringGUI extends TestSettingsGUI
     {
         if (!$this->access->checkAccess('write', '', $this->test_gui->getRefId())) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_test'), true);
-            $this->ctrl->redirect($this->test_gui, 'infoScreen');
+            $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
         }
 
         $this->tabs->activateSubTab(\ilTestTabsManager::SETTINGS_SUBTAB_ID_SCORING);
@@ -243,13 +244,9 @@ class SettingsScoringGUI extends TestSettingsGUI
             return false;
         }
 
-        $now = (new \DateTimeImmutable('NOW'))->format('YmdHis');
-
-        if (
-            $this->test_object->getScoreReporting() == SettingsResultSummary::SCORE_REPORTING_DATE
-            && $this->test_object->getReportingDate() > $now
-        ) {
-            return false;
+        if ($this->testOBJ->getScoreReporting() === ilObjTest::SCORE_REPORTING_DATE) {
+            $reporting_date = $this->testOBJ->getScoreSettings()->getResultSummarySettings()->getReportingDate();
+            return $reporting_date <= new DateTimeImmutable('now', new DateTimeZone('UTC'));
         }
 
         return true;

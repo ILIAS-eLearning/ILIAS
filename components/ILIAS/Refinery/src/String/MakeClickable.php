@@ -24,7 +24,6 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Refinery\ConstraintViolationException;
-use Closure;
 
 class MakeClickable implements Transformation
 {

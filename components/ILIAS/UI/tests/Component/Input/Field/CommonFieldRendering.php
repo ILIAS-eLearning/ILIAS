@@ -24,6 +24,7 @@ use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
+use ILIAS\UI\Implementation\Render\JavaScriptBinding;
 
 trait CommonFieldRendering
 {
@@ -51,7 +52,7 @@ trait CommonFieldRendering
     {
         $error = "an_error";
         $expected = '<div class="c-input__error-msg alert alert-danger"';
-        $expected2 = '" role="alert">' . $error . '</div>';
+        $expected2 = 'ui_error:</span>' . $error . '</div>';
         $html = $this->render($component->withError($error));
         $this->assertStringContainsString($expected, $html);
         $this->assertStringContainsString($expected2, $html);
@@ -59,7 +60,7 @@ trait CommonFieldRendering
 
     protected function testWithRequired(FormInput $component): void
     {
-        $expected = '<span class="asterisk">*</span></label>';
+        $expected = '<span class="asterisk" aria-label="required_field">*</span></label>';
         $this->assertStringContainsString($expected, $this->render($component->withRequired(true)));
     }
 
@@ -72,8 +73,44 @@ trait CommonFieldRendering
     protected function testWithDisabled(FormInput $component): void
     {
         $type = $this->getDefaultRenderer()->getComponentCanonicalNameAttribute($component);
-        $expected = '<fieldset class="c-input" data-il-ui-component="' . $type . '" data-il-ui-input-name="name_0" disabled="disabled">';
+        $expected = '<fieldset class="c-input" data-il-ui-component="' . $type . '" data-il-ui-input-name="name_0" disabled="disabled"';
         $this->assertStringContainsString($expected, $this->render($component->withDisabled(true)));
+    }
+
+    protected function testWithAdditionalOnloadCodeRendersId(FormInput $component): void
+    {
+        $component = $component->withAdditionalOnLoadCode(
+            function (string $id): string {
+                return '';
+            }
+        );
+
+        $js_binding = new class () implements JavaScriptBinding {
+            public function createId(): string
+            {
+                return 'THE COMPONENT ID';
+            }
+            public function addOnLoadCode(string $code): void
+            {
+            }
+            public function getOnLoadCodeAsync(): string
+            {
+                return '';
+            }
+        };
+
+
+        $renderer = $this->getDefaultRenderer($js_binding);
+        $outerhtml = $this->brutallyTrimHTML($renderer->render($component));
+        if (method_exists($component, 'getInputs')) {
+            $innerhtml = $this->brutallyTrimHTML($renderer->render($component->getInputs()));
+            $outerhtml = str_replace($innerhtml, '', $outerhtml);
+        }
+
+        $this->assertStringContainsString(
+            'id="THE COMPONENT ID"',
+            $outerhtml
+        );
     }
 
     protected function getFormWrappedHtml(
@@ -81,18 +118,22 @@ trait CommonFieldRendering
         string $label,
         string $payload_field,
         ?string $byline = null,
-        ?string $id = 'id_1',
-        ?string $name = 'name_0'
+        ?string $label_id = null,
+        ?string $js_id = null,
+        ?string $name = 'name_0',
     ): string {
-        $id = $id ? " for=\"$id\"" : '';
+        $label_id = $label_id ? " for=\"$label_id\"" : '';
+        $tab = $label_id ? '' : ' tabindex="0"';
+        $js_id = $js_id ? " id=\"$js_id\"" : '';
+
         $html = '
-        <fieldset class="c-input" data-il-ui-component="' . $type . '" data-il-ui-input-name="' . $name . '">
-            <label' . $id . '>' . $label . '</label>
+        <fieldset class="c-input" data-il-ui-component="' . $type . '" data-il-ui-input-name="' . $name . '"' . $js_id . $tab . '>
+            <label' . $label_id . '>' . $label . '</label>
             <div class="c-input__field">';
         $html .= $payload_field;
         $html .= '
             </div>';
-        if($byline) {
+        if ($byline) {
             $html .= '
             <div class="c-input__help-byline">' . $byline . '</div>';
         }

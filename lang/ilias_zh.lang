@@ -16016,7 +16016,6 @@ survey#:#cancel_survey#:#暂停调查
 survey#:#cannot_read_survey#:#您不具备足够的权限去读取这个调查数据！
 survey#:#cannot_switch_to_online_no_questions#:#状态不能更改为&quot;在线&quot;，因为在这个测试中没有题目！
 survey#:#cant_send_email_smtp_disabled#:#Sending external mails is not available. This option is deactivated globally.###07 02 2017 new variable
-survey#:#categories#:#回答
 survey#:#category#:#类目
 survey#:#category_nr_selected#:#已经选择这个类目的用户数
 survey#:#chart#:#图表
@@ -16472,6 +16471,7 @@ survey#:#svy_answer_too_long#:#Your current answer is too long (%s characters). 
 survey#:#svy_app_see_rater_info#:#Appraisees can access rater information in the results screens, including names and e-mail addresses, if entered before when adding raters.###29 07 2022 new variable
 survey#:#svy_appraisses_cannot_be_raters#:#User cannot be added as rater. Use self evaluation option in the survey settings instead.###07 02 2020 new variable
 survey#:#svy_back#:#Back###24 10 2013 new variable
+survey#:#svy_categories#:#回答
 survey#:#svy_check_evaluation_access_introduction#:#自从这个调查评估仅能由调查参与者访问以来，您打开这个评估需要输入您的调查访问代码。
 survey#:#svy_check_evaluation_authentication_needed#:#需要身份验证
 survey#:#svy_check_evaluation_wrong_key#:#您输入了一个错误的调查访问代码，或您没有参与这个调查。您访问这个调查评估已被拒绝。

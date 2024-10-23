@@ -207,7 +207,7 @@ class ilLanguageFile
             $this->params["created_by"] = $ilUser->getFullname() . " <" . $ilUser->getEmail() . ">";
 
             // build the header
-            $tpl = new ilTemplate("tpl.lang_file_header.html", true, true, "components/ILIAS/Language_");
+            $tpl = new ilTemplate("tpl.lang_file_header.html", true, true, "components/ILIAS/Language");
             foreach ($this->getAllParams() as $name => $value) {
                 $tabs = intval(ceil((20 - 3 - strlen($name)) / 4));
                 $tabs = $tabs > 0 ? $tabs : 1;

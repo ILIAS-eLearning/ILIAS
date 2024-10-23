@@ -28,15 +28,19 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItemTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
-use ILIAS\GlobalScreen\Scope\SymbolDecoratorTrait;
+use ILIAS\GlobalScreen\Scope\isDecorateable;
+use ILIAS\GlobalScreen\Scope\TriggererDecoratorTrait;
 
 /**
- * Class TopLinkItem
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
-class TopLinkItem extends AbstractChildItem implements hasTitle, hasAction, isTopItem, hasSymbol, isInterchangeableItem
+class TopLinkItem extends AbstractChildItem implements
+    hasTitle,
+    hasAction,
+    isTopItem,
+    hasSymbol,
+    isInterchangeableItem
 {
-    use SymbolDecoratorTrait;
     use hasSymbolTrait;
     use isInterchangeableItemTrait;
 

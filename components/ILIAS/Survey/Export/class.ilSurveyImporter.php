@@ -164,6 +164,12 @@ class ilSurveyImporter extends ilXmlImporter
                 $newObj->saveToDb();
             }
             $a_mapping->addMapping("components/ILIAS/Survey", "svy", (int) $a_id, $newObj->getId());
+            $a_mapping->addMapping(
+                "components/ILIAS/MetaData",
+                "md",
+                $a_id . ":0:svy",
+                $newObj->getId() . ":0:svy"
+            );
         } else {
             $parser = new ilDataSetImportParser(
                 $a_entity,

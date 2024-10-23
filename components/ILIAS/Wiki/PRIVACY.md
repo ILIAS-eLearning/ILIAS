@@ -10,12 +10,12 @@ or contribute a fix via [Pull Request](../../docs/development/contributing.md#pu
     - The **Object** service stores the account which created the
       object as it's owner and creation and update timestamps for the
       object.
-    - [AccessControl](../../Services/AccessControl/PRIVACY.md)
-    - [Info Screen Service](../../Services/InfoScreen/PRIVACY.md)
-    - [News Service](../../Services/News/Privacy.md)
-    - [Page Editor Service](../../Services/COPage/Privacy.md)
-    - [Notes/Comments Service](../../Services/Notes/Privacy.md)
-    - [Rating Service](../../Services/Rating/Privacy.md)
+    - [AccessControl](../../components/ILIAS/AccessControl/PRIVACY.md)
+    - [Info Screen Service](../../components/ILIAS/InfoScreen/PRIVACY.md)
+    - [News Service](../../components/ILIAS/News/Privacy.md)
+    - [Page Editor Service](../../components/ILIAS/COPage/Privacy.md)
+    - [Notes/Comments Service](../../components/ILIAS/Notes/Privacy.md)
+    - [Rating Service](../../components/ILIAS/Rating/Privacy.md)
 
 
 ## Configuration

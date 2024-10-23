@@ -21,10 +21,8 @@ declare(strict_types=1);
 use ILIAS\Test\Access\ParticipantAccess;
 use ILIAS\Test\Logging\TestParticipantInteractionTypes;
 use ILIAS\Test\Presentation\TestScreenGUI;
-
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\TestQuestionPool\Questions\QuestionPartiallySaveable;
-
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 
 /**
@@ -204,7 +202,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
                     if (!$testPassesSelector->openPassExists()) {
                         $this->tpl->setOnScreenMessage('info', $this->lng->txt('tst_pass_finished'), true);
-                        $this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+                        $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
                     }
                 }
 
@@ -239,7 +237,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         if (!$executable['executable']) {
             $this->tpl->setOnScreenMessage('info', $executable['errormessage'], true);
-            $this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+            $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
         }
     }
 
@@ -287,7 +285,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $tagging_gui = new ilTaggingGUI();
         $tagging_gui->setObject($this->object->getId(), $this->object->getType());
         $tagging_gui->saveInput();
-        $this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+        $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
     }
 
     /**
@@ -669,7 +667,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $this->test_session->setAccessCodeToSession($_POST['anonymous_id']);
         }
 
-        $this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+        $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
     }
 
     /**
@@ -696,7 +694,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         }
 
         $this->ctrl->setParameterByClass('ilObjTestGUI', 'lock', $testStartLock);
-        $this->ctrl->redirectByClass("ilobjtestgui", "redirectToInfoScreen");
+        $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
     }
 
     public function getLockParameter()
@@ -3105,6 +3103,7 @@ JS;
         $config['forcedInstantFeedback'] = $this->object->isForceInstantFeedbackEnabled();
         $config['questionLocked'] = $this->isParticipantsAnswerFixed($question_gui->getObject()->getId());
         $config['nextQuestionLocks'] = $this->object->isFollowupQuestionAnswerFixationEnabled();
+        $config['autosaveFailureMessage'] = $this->lng->txt('autosave_failed');
 
         $this->tpl->addJavascript('assets/js/ilTestPlayerQuestionEditControl.js');
         $this->tpl->addOnLoadCode('il.TestPlayerQuestionEditControl.init(' . json_encode($config) . ')');

@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\Language\Language;
 use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
@@ -39,7 +42,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
     private array $include_roles;
     private ilCronDeleteInactiveUserReminderMail $cron_delete_reminder_mail;
     private ilSetting $settings;
-    private ilLanguage $lng;
+    private Language $lng;
     private ilComponentLogger $log;
     private ilRbacReview $rbac_review;
     private ilObjectDataCache $objectDataCache;

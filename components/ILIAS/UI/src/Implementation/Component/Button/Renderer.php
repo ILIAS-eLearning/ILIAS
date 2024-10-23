@@ -26,6 +26,9 @@ use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Implementation\Render\Template;
+use ILIAS\UI\Component\Symbol\Symbol;
+use ILIAS\UI\Component\Symbol\Glyph\Glyph;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -78,10 +81,15 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        $label = $component->getLabel();
-        if ($label !== null) {
-            $tpl->setVariable("LABEL", $component->getLabel());
+        $tpl->setVariable("LABEL", $component->getLabel());
+        $symbol = $component->getSymbol();
+        if($symbol !== null) {
+            if ($component->getLabel() !== '') {
+                $symbol = $symbol->withLabel('');
+            }
+            $tpl->setVariable("SYMBOL", $default_renderer->render($symbol));
         }
+
         if ($component->isActive()) {
             // The actions might also be a list of signals, these will be appended by
             // bindJavascript in maybeRenderId.
@@ -90,9 +98,9 @@ class Renderer extends AbstractComponentRenderer
                     $action = str_replace("&amp;", "&", $action);
 
                     return "$('#$id').on('click', function(event) {
-							window.location = '$action';
-							return false;
-					});";
+                            window.location = '$action';
+                            return false;
+                    });";
                 });
             }
 
@@ -217,10 +225,13 @@ class Renderer extends AbstractComponentRenderer
         }
 
         if ($component->isActive()) {
-            $component = $component->withAdditionalOnLoadCode(fn($id) => "$('#$id').on('click', function(event) {
-						il.UI.button.handleToggleClick(event, '$id', '$on_url', '$off_url', $signals);
-						return false; // stop event propagation
-				});");
+            $component = $component->withAdditionalOnLoadCode(
+                fn($id) =>
+                "$('#$id').on('click', function(event) {
+                    il.UI.button.handleToggleClick(event, '$id', '$on_url', '$off_url', $signals);
+                    return false; // stop event propagation
+                });"
+            );
             $tpl->setCurrentBlock("with_on_off_label");
             $tpl->setVariable("ON_LABEL", $this->txt("toggle_on"));
             $tpl->setVariable("OFF_LABEL", $this->txt("toggle_off"));
@@ -326,12 +337,6 @@ class Renderer extends AbstractComponentRenderer
         RendererInterface $default_renderer,
         Template $tpl
     ): void {
-        $tpl->setVariable("ICON_OR_GLYPH", $default_renderer->render($component->getIconOrGlyph()));
-        $label = $component->getLabel();
-        if ($label !== null) {
-            $tpl->setVariable("LABEL", $label);
-        }
-
         $aria_role = $component->getAriaRole();
         if ($aria_role != null) {
             $tpl->setCurrentBlock("with_aria_role");

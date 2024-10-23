@@ -269,7 +269,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
             ->file(
                 "deliver",
                 $this->lng->txt("files"),
-                \Closure::fromCallable([$this, 'handleUploadResult']),
+                $this->handleUploadResult(...),
                 "mep_id",
                 "",
                 $max_file

@@ -22,7 +22,7 @@ Sass extends the CSS language, adding features that allow advanced variables, mi
 
 The Sass pre-processor compiles the entry point delos.scss and all connected files to the one delos.css file which can then be rendered by the browser.
 
-Please use the most recent **Dart Sass** version (**not** Ruby Sass) that can be downloaded from [the official GitHub repository](https://github.com/sass/dart-sass/releases).
+Please use the most recent **Dart Sass** version (**not** Ruby Sass) that is included as NPM package in the package.json (see: devDependencies).
 
 You should consult the [official Sass Documentation](https://sass-lang.com/documentation/) to make use of the advantages of Sass.
 
@@ -41,7 +41,7 @@ If you are interested, you can read more about why we switched preprocessors fro
 
 HTML templates are only responsible for a well structured HTML document, which displays the bare content of the website and nothing else.
 
-They can be found in `src/UI/templates/default` for modern UI components or in `Modules/` and `Services/` for legacy components.
+They can be found in `ILIAS/UI/templates/default` for modern UI components or in other components in `components/ILIAS/` for legacy components.
 
 ### Guidelines
 * New class names MUST follow the naming convention outlined in this document.

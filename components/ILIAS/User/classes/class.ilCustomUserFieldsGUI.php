@@ -19,6 +19,8 @@
 declare(strict_types=1);
 
 use ILIAS\User\UserGUIRequest;
+
+use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;
 
 /**
@@ -30,7 +32,7 @@ class ilCustomUserFieldsGUI
 {
     private UserGUIRequest $request;
     private ilCtrlInterface $ctrl;
-    private ilLanguage $lng;
+    private Language $lng;
     private UIFactory $ui_factory;
     private ilGlobalTemplateInterface $main_tpl;
     private ilToolbarGUI $toolbar;

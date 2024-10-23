@@ -63,9 +63,9 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 
         // Bugfix: #0019539
         if ($confirmdelete) {
-            $this->setId("qpl_confirm_del_" . $a_parent_obj->object->getRefId());
+            $this->setId("qpl_confirm_del_" . $a_parent_obj->getObject()->getRefId());
         } else {
-            $this->setId("qpl_qst_brows_" . $a_parent_obj->object->getRefId());
+            $this->setId("qpl_qst_brows_" . $a_parent_obj->getObject()->getRefId());
         }
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -200,7 +200,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
                 $notes_context = $this->notes
                     ->data()
                     ->context(
-                        $this->parent_obj->object->getId(),
+                        $this->parent_obj->getObject()->getId(),
                         $data['question_id'],
                         'quest'
                     );
@@ -327,7 +327,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         $si->readFromSession();
         $this->filter["type"] = $si->getValue();
 
-        if ($this->parent_obj->object->getShowTaxonomies()) {
+        if ($this->parent_obj->getObject()->getShowTaxonomies()) {
             foreach ($this->taxIds as $taxId) {
                 $postvar = "tax_$taxId";
 
@@ -565,7 +565,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 
     protected function getCommentsAjaxLink($questionId): string
     {
-        $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(1, $this->request->getRefId(), 'quest', $this->parent_obj->object->getId(), 'quest', $questionId);
+        $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(1, $this->request->getRefId(), 'quest', $this->parent_obj->getObject()->getId(), 'quest', $questionId);
         $update_code = "il.UI.counter.getCounterObject($(\".ilTableOuter\")).incrementStatusCount(1);";
         return ilCommentGUI::getListCommentsJSCall($ajax_hash, $update_code);
     }

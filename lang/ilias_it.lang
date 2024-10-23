@@ -16017,7 +16017,6 @@ survey#:#cancel_survey#:#Sospendere il sondaggio
 survey#:#cannot_read_survey#:#Non hai i diritti per vedere i dati del sondaggio!
 survey#:#cannot_switch_to_online_no_questions#:#Lo stato del sondaggio non può essere messo online perché non contiene domande!
 survey#:#cant_send_email_smtp_disabled#:#L'invio di mail esterne non è disponibile. Questa opzione è completamente disattivata.
-survey#:#categories#:#Risposte
 survey#:#category#:#Categoria
 survey#:#category_nr_selected#:#Numero di utenti che hanno scelto questa categoria
 survey#:#chart#:#Grafico
@@ -16473,6 +16472,7 @@ survey#:#svy_answer_too_long#:#Your current answer is too long (%s characters). 
 survey#:#svy_app_see_rater_info#:#Appraisees can access rater information in the results screens, including names and e-mail addresses, if entered before when adding raters.###29 07 2022 new variable
 survey#:#svy_appraisses_cannot_be_raters#:#User cannot be added as rater. Use self evaluation option in the survey settings instead.###07 02 2020 new variable
 survey#:#svy_back#:#Indietro
+survey#:#svy_categories#:#Risposte
 survey#:#svy_check_evaluation_access_introduction#:#Il sondaggio di prova &
 survey#:#svy_check_evaluation_authentication_needed#:#Autenticazione necessaria
 survey#:#svy_check_evaluation_wrong_key#:#Hai inserito un codice di accesso non riconosciuto o non puoi partecipare al sondaggio. Accesso negato.

@@ -204,15 +204,11 @@ interface Factory
      *      a complete replacement of the overall screen (e.g. modals).
      *   composition: >
      *      Button is a clickable, graphically obtrusive control element. It can
-     *      bear text.
+     *      bear text and/or a Glyph.
      *   effect: >
      *      On-click, the action indicated by the button is carried out.
      *      A stateful button will indicate its state with the engaged state.
      *   rivals:
-     *      glyph: >
-     *          Glyphs are used if the enclosing Container Collection can not provide
-     *          enough space for textual information or if such an information would
-     *          clutter the screen.
      *      links: >
      *          Links are used to trigger Interactions that do not change the systems
      *          status. They are usually contained inside a Navigational Collection.

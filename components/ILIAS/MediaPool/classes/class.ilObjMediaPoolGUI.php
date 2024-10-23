@@ -24,6 +24,7 @@ use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\Repository\Form\FormAdapterGUI;
 use ILIAS\MediaPool\InternalGUIService;
 use ILIAS\FileUpload\Handler\HandlerResult;
+use ILIAS\MediaPool\Settings\SettingsGUI;
 
 /**
  * User Interface class for media pool objects
@@ -33,7 +34,9 @@ use ILIAS\FileUpload\Handler\HandlerResult;
  * @ilCtrl_Calls ilObjMediaPoolGUI: ilObjMediaObjectGUI, ilObjFolderGUI, ilEditClipboardGUI, ilPermissionGUI
  * @ilCtrl_Calls ilObjMediaPoolGUI: ilInfoScreenGUI, ilMediaPoolPageGUI, ilExportGUI
  * @ilCtrl_Calls ilObjMediaPoolGUI: ilCommonActionDispatcherGUI, ilObjectCopyGUI, ilObjectTranslationGUI, ilMediaPoolImportGUI
+ * @ilCtrl_Calls ilObjMediaPoolGUI: ilObjectMetaDataGUI
  * @ilCtrl_Calls ilObjMediaPoolGUI: ilMobMultiSrtUploadGUI, ilObjectMetaDataGUI, ilRepoStandardUploadHandlerGUI, ilMediaCreationGUI
+ * @ilCtrl_Calls ilObjMediaPoolGUI: ILIAS\MediaPool\Settings\SettingsGUI
  */
 class ilObjMediaPoolGUI extends ilObject2GUI
 {
@@ -380,12 +383,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 $this->addHeaderAction();
                 $ilTabs->activateTab("export");
                 $exp_gui = new ilExportGUI($this);
-                $exp_gui->addFormat("xml");
-                $ot = ilObjectTranslation::getInstance($this->object->getId());
-                if ($ot->getContentActivated()) {
-                    $exp_gui->addFormat("xml_master", "XML (" . $lng->txt("mep_master_language_only") . ")", $this, "export");
-                    $exp_gui->addFormat("xml_masternomedia", "XML (" . $lng->txt("mep_master_language_only_no_media") . ")", $this, "export");
-                }
                 $this->ctrl->forwardCommand($exp_gui);
                 $this->tpl->printToStdout();
                 break;
@@ -427,6 +424,26 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 $this->tpl->printToStdout();
                 break;
 
+            case strtolower(ilObjectMetaDataGUI::class):
+                $this->checkPermission("write");
+                $this->prepareOutput();
+                $this->addHeaderAction();
+                $ilTabs->activateTab("meta_data");
+                $gui = new ilObjectMetaDataGUI($this->object);
+                $this->ctrl->forwardCommand($gui);
+                break;
+
+            case strtolower(SettingsGUI::class):
+                $this->checkPermission("write");
+                $this->prepareOutput();
+                $this->addHeaderAction();
+                $ilTabs->activateTab("settings");
+                $gui = $this->gui->settings()->settingsGUI(
+                    $this->object->getId()
+                );
+                $this->ctrl->forwardCommand($gui);
+                $this->tpl->printToStdout();
+                break;
 
             default:
                 $this->prepareOutput();
@@ -464,14 +481,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $this->ctrl->redirectByClass("ilobjmediaobjectgui", "create");
     }
 
-    protected function initCreationForms(string $new_type): array
-    {
-        $forms = array(self::CFORM_NEW => $this->initCreateForm($new_type),
-            self::CFORM_IMPORT => $this->initImportForm($new_type));
-
-        return $forms;
-    }
-
     protected function afterSave(ilObject $new_object): void
     {
         // always send a message
@@ -481,118 +490,11 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         ilUtil::redirect("ilias.php?baseClass=ilMediaPoolPresentationGUI&ref_id=" . $new_object->getRefId() . "&cmd=listMedia");
     }
 
-    protected function initEditCustomForm(ilPropertyFormGUI $a_form): void
-    {
-        $obj_service = $this->object_service;
-
-        // default width
-        $ni = new ilNumberInputGUI($this->lng->txt("mep_default_width"), "default_width");
-        $ni->setMinValue(0);
-        $ni->setSuffix("px");
-        $ni->setMaxLength(5);
-        $ni->setSize(5);
-        $a_form->addItem($ni);
-
-        // default height
-        $ni = new ilNumberInputGUI($this->lng->txt("mep_default_height"), "default_height");
-        $ni->setSuffix("px");
-        $ni->setMinValue(0);
-        $ni->setMaxLength(5);
-        $ni->setSize(5);
-        $ni->setInfo($this->lng->txt("mep_default_width_height_info"));
-        $a_form->addItem($ni);
-
-        // presentation
-        $pres = new ilFormSectionHeaderGUI();
-        $pres->setTitle($this->lng->txt('obj_presentation'));
-        $a_form->addItem($pres);
-
-        // tile image
-        $obj_service->commonSettings()->legacyForm($a_form, $this->object)->addTileImage();
-
-        // additional features
-        $feat = new ilFormSectionHeaderGUI();
-        $feat->setTitle($this->lng->txt('obj_features'));
-        $a_form->addItem($feat);
-
-        ilObjectServiceSettingsGUI::initServiceSettingsForm(
-            $this->object->getId(),
-            $a_form,
-            array(
-                ilObjectServiceSettingsGUI::CUSTOM_METADATA
-            )
-        );
-    }
-
-    /**
-     * @throws ilPermissionException
-     */
     public function edit(): void
     {
-        $tpl = $this->tpl;
-        $ilTabs = $this->tabs_gui;
-
-        $this->setSettingsSubTabs("settings");
-
-        if (!$this->checkPermissionBool("write")) {
-            throw new ilPermissionException($this->lng->txt("msg_no_perm_write"));
-        }
-
-        $ilTabs->activateTab("settings");
-
-        $form = $this->initEditForm();
-        $values = $this->getEditFormValues();
-        if ($values) {
-            $form->setValuesByArray($values, true);
-        }
-
-        $this->addExternalEditFormCustom($form);
-
-        $tpl->setContent($form->getHTML());
+        $this->ctrl->redirectByClass(SettingsGUI::class);
     }
 
-
-    protected function getEditFormCustomValues(array &$a_values): void
-    {
-        $ot = ilObjectTranslation::getInstance($this->getMediaPool()->getId());
-        if ($ot->getContentActivated()) {
-            $a_values["title"] = $ot->getDefaultTitle();
-            $a_values["desc"] = $ot->getDefaultDescription();
-        }
-        if ($this->getMediaPool()->getDefaultWidth() > 0) {
-            $a_values["default_width"] = $this->object->getDefaultWidth();
-        }
-        if ($this->getMediaPool()->getDefaultHeight() > 0) {
-            $a_values["default_height"] = $this->object->getDefaultHeight();
-        }
-    }
-
-    protected function updateCustom(ilPropertyFormGUI $form): void
-    {
-        $obj_service = $this->object_service;
-
-        $ot = ilObjectTranslation::getInstance($this->getMediaPool()->getId());
-        if ($ot->getContentActivated()) {
-            $ot->setDefaultTitle($form->getInput('title'));
-            $ot->setDefaultDescription($form->getInput('desc'));
-            $ot->save();
-        }
-
-        $this->getMediaPool()->setDefaultWidth($form->getInput("default_width"));
-        $this->object->setDefaultHeight($form->getInput("default_height"));
-
-        // additional features
-        ilObjectServiceSettingsGUI::updateServiceSettingsForm(
-            $this->object->getId(),
-            $form,
-            array(
-                ilObjectServiceSettingsGUI::CUSTOM_METADATA
-            )
-        );
-
-        // tile image
-        $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
-    }
 
     /**
      * list media objects
@@ -1248,35 +1150,28 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         if ($ilAccess->checkAccess('visible', '', $this->ref_id) ||
             $ilAccess->checkAccess('read', '', $this->ref_id) ||
             $ilAccess->checkAccess('write', '', $this->ref_id)) {
-            $force_active = $this->ctrl->getNextClass() === "ilinfoscreengui"
-                || strtolower($this->ctrl->getCmdClass()) === "ilnotegui";
-            $ilTabs->addTarget(
+            $ilTabs->addTab(
                 "info_short",
+                $this->lng->txt("info_short"),
                 $this->ctrl->getLinkTargetByClass(
                     array("ilobjmediapoolgui", "ilinfoscreengui"),
                     "showSummary"
-                ),
-                array("showSummary", "infoScreen"),
-                "",
-                "",
-                $force_active
+                )
             );
         }
 
         if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
-            $ilTabs->addTarget(
+            $ilTabs->addTab(
                 "settings",
-                $this->ctrl->getLinkTarget($this, "edit"),
-                "edit",
-                array("", "ilobjmediapoolgui")
+                $this->lng->txt("settings"),
+                $this->ctrl->getLinkTargetByClass(SettingsGUI::class)
             );
         }
         if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
-            $ilTabs->addTarget(
+            $ilTabs->addTab(
                 "clipboard",
-                $this->ctrl->getLinkTarget($this, "openClipboard"),
-                "view",
-                "ileditclipboardgui"
+                $this->lng->txt("clipboard"),
+                $this->ctrl->getLinkTarget($this, "openClipboard")
             );
         }
 
@@ -1286,37 +1181,33 @@ class ilObjMediaPoolGUI extends ilObject2GUI
             $mdgui = new ilObjectMetaDataGUI($this->object, ['mob', "mpg"]);
             $mdtab = $mdgui->getTab();
             if ($mdtab) {
-                $ilTabs->addTarget(
+                $ilTabs->addTab(
                     "meta_data",
-                    $mdtab,
-                    "",
-                    "ilobjectmetadatagui"
+                    $this->lng->txt("meta_data"),
+                    $mdtab
                 );
             }
         }
 
         if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
-            $ilTabs->addTarget(
+            $ilTabs->addTab(
                 "export",
-                $this->ctrl->getLinkTargetByClass("ilexportgui", ""),
-                "",
-                "ilexportgui"
+                $this->lng->txt("export"),
+                $this->ctrl->getLinkTargetByClass("ilexportgui", "")
             );
 
-            $ilTabs->addTarget(
+            $ilTabs->addTab(
                 "import",
-                $this->ctrl->getLinkTargetByClass("ilmediapoolimportgui", ""),
-                "",
-                "ilmediapoolimportgui"
+                $this->lng->txt("import"),
+                $this->ctrl->getLinkTargetByClass("ilmediapoolimportgui", "")
             );
         }
 
         if ($ilAccess->checkAccess("edit_permission", "", $this->object->getRefId())) {
-            $ilTabs->addTarget(
+            $ilTabs->addTab(
                 "perm_settings",
-                $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"),
-                array("perm","info","owner"),
-                'ilpermissiongui'
+                $this->lng->txt("perm_settings"),
+                $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm")
             );
         }
     }

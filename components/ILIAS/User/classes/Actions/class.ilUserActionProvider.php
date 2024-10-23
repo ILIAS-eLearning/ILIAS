@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\Language\Language;
+
 /**
  * A class that provides a collection of actions on users
  * @author Alexander Killing <killing@leifos.de>
@@ -23,7 +27,7 @@
 abstract class ilUserActionProvider
 {
     protected int $user_id;
-    protected ilLanguage $lng;
+    protected Language $lng;
     protected ilDBInterface $db;
 
     public function __construct()

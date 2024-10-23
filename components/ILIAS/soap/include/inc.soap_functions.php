@@ -27,15 +27,6 @@ use ILIAS\OrgUnit\Webservices\SOAP\SuperiorPositionId;
 use ILIAS\OrgUnit\Webservices\SOAP\UserIdsOfPosition;
 use ILIAS\OrgUnit\Webservices\SOAP\UserIdsOfPositionAndOrgUnit;
 
-/**
- * soap server
- *
- * @author Stefan Meyer <meyer@leifos.com>
- * @version $Id$
- *
- * @package ilias
- */
-
 class ilSoapFunctions
 {
     // These functions are wrappers for soap, since it cannot register methods inside classes
@@ -760,29 +751,27 @@ class ilSoapFunctions
         return $roa->getClientInfoXML($clientid);
     }
 
-    /**
-     * @return string
-     */
-    public static function buildHTTPPath(): string
+    public static function buildHTTPPath(bool $use_module_depending_path = true): string
     {
-        if (($_SERVER["HTTPS"] ?? '') === "on") {
+        if (($_SERVER['HTTPS'] ?? '') === 'on') {
             $protocol = 'https://';
         } else {
             $protocol = 'http://';
         }
-        $host = $_SERVER['HTTP_HOST'] ?? '';
 
+        $host = $_SERVER['HTTP_HOST'] ?? '';
         $path = dirname($_SERVER['REQUEST_URI'] ?? '');
 
-        //dirname cuts the last directory from a directory path e.g content/classes return content
-        $module = ilFileUtils::removeTrailingPathSeparators(ILIAS_MODULE);
-
-        $dirs = explode('/', $module);
-        $uri = $path;
-        foreach ($dirs as $dir) {
-            $uri = dirname($uri);
+        // dirname cuts the last directory from a directory path e.g content/classes return content
+        if ($use_module_depending_path && defined('ILIAS_MODULE')) {
+            $module = ilFileUtils::removeTrailingPathSeparators(ILIAS_MODULE);
+            $dirs = array_filter(explode('/', $module));
+            foreach ($dirs as $dir) {
+                $path = dirname($path);
+            }
         }
-        return ilFileUtils::removeTrailingPathSeparators($protocol . $host . $uri);
+
+        return ilFileUtils::removeTrailingPathSeparators($protocol . $host . $path);
     }
 
     /**

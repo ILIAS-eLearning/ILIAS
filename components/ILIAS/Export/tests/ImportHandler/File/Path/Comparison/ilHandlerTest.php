@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace Test\ImportHandler\File\Path\Comparison;
 
 use ILIAS\Export\ImportHandler\File\Path\Comparison\ilHandler as ilFilePathComparison;
-use ILIAS\Export\ImportHandler\File\Path\Comparison\Operator;
 use ILIAS\Export\ImportHandler\File\Path\Comparison\Operator as ilFilePathComparisonOperator;
 use PHPUnit\Framework\TestCase;
 

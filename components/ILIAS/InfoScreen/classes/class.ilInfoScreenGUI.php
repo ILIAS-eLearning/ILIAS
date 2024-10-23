@@ -19,7 +19,9 @@ declare(strict_types=1);
  *********************************************************************/
 
 use ILIAS\InfoScreen\StandardGUIRequest;
-use ILIAS\MetaData\Services\Services as Metadata;
+use ILIAS\MetaData\Services\ServicesInterface as Metadata;
+use ILIAS\Export\ExportHandler\Factory as ExportServices;
+use ILIAS\Data\Factory as DataFactory;
 
 /**
  * Class ilInfoScreenGUI
@@ -41,6 +43,7 @@ class ilInfoScreenGUI
     protected ilTree $tree;
     protected ilSetting $settings;
     protected Metadata $metadata;
+    protected DataFactory $data_factory;
     public ilLanguage $lng;
     public ilCtrl $ctrl;
     public ?object $gui_object;
@@ -94,6 +97,7 @@ class ilInfoScreenGUI
         $this->ui = $DIC->ui();
         $this->request = $DIC->infoScreen()->internal()->gui()->standardRequest();
         $this->html = $DIC->infoScreen()->internal()->gui()->html();
+        $this->data_factory = new DataFactory();
     }
 
     /**
@@ -322,6 +326,7 @@ class ilInfoScreenGUI
         $lng = $this->lng;
 
         $lng->loadLanguageModule("meta");
+        $lng->loadLanguageModule('export');
 
         $md_reader = $this->metadata->read($a_rep_obj_id, $a_obj_id, $a_type);
         $md_paths = $this->metadata->paths();
@@ -340,6 +345,10 @@ class ilInfoScreenGUI
         $author_data = $md_reader->allData($md_paths->authors());
         $author = $md_data_helper->makePresentableAsList(', ', ...$author_data);
 
+        // learning time
+        $learning_time_data = $md_reader->firstData($md_paths->firstTypicalLearningTime());
+        $learning_time = $md_data_helper->makePresentable($learning_time_data);
+
         // copyright
         $copyright_description = $md_reader->firstData($md_paths->copyright())->value();
         if ($copyright_description) {
@@ -348,9 +357,8 @@ class ilInfoScreenGUI
             $copyright = ilMDUtils::_getDefaultCopyright();
         }
 
-        // learning time
-        $learning_time_data = $md_reader->firstData($md_paths->firstTypicalLearningTime());
-        $learning_time = $md_data_helper->makePresentable($learning_time_data);
+        // public access export
+        $public_access_export = $this->buildPublicAccessExportLink($a_rep_obj_id, $a_obj_id);
 
         // output
 
@@ -381,18 +389,66 @@ class ilInfoScreenGUI
                 $author
             );
         }
-        if ($copyright != "") {		// copyright
-            $this->addProperty(
-                $lng->txt("meta_copyright"),
-                $copyright
-            );
-        }
         if ($learning_time != "") {		// typical learning time
             $this->addProperty(
                 $lng->txt("meta_typical_learning_time"),
                 $learning_time
             );
         }
+
+        // licence and use section
+        if ($copyright === '' && $public_access_export === '') {
+            return;
+        }
+        $this->addSection($lng->txt('meta_info_licence_section'));
+
+        if ($copyright !== '') {		// copyright
+            $this->addProperty(
+                $lng->txt("meta_copyright"),
+                $copyright
+            );
+        }
+
+        if ($public_access_export !== '') {		// public access export
+            $this->addProperty(
+                $lng->txt('export_info_public_access'),
+                $public_access_export
+            );
+        }
+    }
+
+    protected function buildPublicAccessExportLink(int $rep_obj_id, int $obj_id): string
+    {
+        /*
+         * This should be replaced by a proper export API
+         * when it is available.
+         */
+        $export_services = new ExportServices();
+        $public_access = $export_services->publicAccess()->handler();
+
+        /*
+         * Make sure we are not in a subobject, and that we will get
+         * the ref_id via the GUI from the correct object.
+         */
+        if (
+            $rep_obj_id !== $this->gui_object->getObject()->getId() ||
+            ($obj_id !== 0 && $obj_id !== $rep_obj_id)
+        ) {
+            return '';
+        }
+
+        if (!$public_access->hasPublicAccessFile($this->data_factory->objId($rep_obj_id))) {
+            return '';
+        }
+
+        $ref_id = $this->gui_object->getObject()->getRefId();
+
+        return $this->ui->renderer()->render(
+            $this->ui->factory()->link()->standard(
+                $this->lng->txt('export_info_public_access_download'),
+                $public_access->downloadLinkOfPublicAccessFile($this->data_factory->refId($ref_id))
+            )
+        );
     }
 
     /**

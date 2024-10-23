@@ -80,6 +80,14 @@ class ObjectFacade
     }
 
     /**
+     * This is the ID of the style that will be exported with the content object
+     */
+    public function getExportStyleId(): int
+    {
+        return $this->object_manager->getEffectiveStyleId();
+    }
+
+    /**
      * Calling this should usually be avoided, currently this is
      * necessary on import routines, but otherwise updates should be
      * called internally automatically.

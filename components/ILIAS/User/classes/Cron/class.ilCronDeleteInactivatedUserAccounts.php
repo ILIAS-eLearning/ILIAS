@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Language\Language;
 use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
@@ -32,7 +33,7 @@ class ilCronDeleteInactivatedUserAccounts extends ilCronJob
     /** @var int[] */
     private array $include_roles;
     private ilSetting $settings;
-    private ilLanguage $lng;
+    private Language $lng;
     private ilRbacReview $rbac_review;
     private ilObjectDataCache $objectDataCache;
     private \ILIAS\HTTP\GlobalHttpState $http;

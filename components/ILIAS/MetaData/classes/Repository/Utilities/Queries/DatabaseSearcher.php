@@ -20,16 +20,16 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\Repository\Utilities\Queries;
 
-use ILIAS\MetaData\Repository\Search\Filters\FilterInterface;
+use ILIAS\MetaData\Search\Filters\FilterInterface;
 use ILIAS\MetaData\Elements\RessourceID\RessourceIDFactoryInterface;
-use ILIAS\MetaData\Repository\Search\Clauses\ClauseInterface;
-use ILIAS\MetaData\Repository\Search\Clauses\Operator;
-use ILIAS\MetaData\Repository\Search\Clauses\Mode;
+use ILIAS\MetaData\Search\Clauses\ClauseInterface;
+use ILIAS\MetaData\Search\Clauses\Operator;
+use ILIAS\MetaData\Search\Clauses\Mode;
 use ILIAS\MetaData\Paths\PathInterface;
 use ILIAS\MetaData\Repository\Utilities\Queries\Paths\DatabasePathsParserFactoryInterface;
 use ILIAS\MetaData\Repository\Utilities\Queries\Paths\DatabasePathsParserInterface;
-use ILIAS\MetaData\Repository\Search\Filters\Placeholder;
-use ILIAS\MetaData\Repository\Search\Clauses\Properties\BasicPropertiesInterface;
+use ILIAS\MetaData\Search\Filters\Placeholder;
+use ILIAS\MetaData\Search\Clauses\Properties\BasicPropertiesInterface;
 
 class DatabaseSearcher implements DatabaseSearcherInterface
 {
