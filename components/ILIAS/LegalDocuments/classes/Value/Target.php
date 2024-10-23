@@ -24,8 +24,9 @@ class Target
 {
     /**
      * @param string|list<string> $path
+     * @param array<string, string> $query_params
      */
-    public function __construct(private $path, private readonly string $command = '')
+    public function __construct(private $path, private readonly string $command = '', private readonly array $query_params = [])
     {
     }
 
@@ -46,5 +47,13 @@ class Target
     {
         $path = $this->guiPath();
         return is_array($path) ? $path[count($path) - 1] : $path;
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function queryParams(): array
+    {
+        return $this->query_params;
     }
 }

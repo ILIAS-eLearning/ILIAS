@@ -82,8 +82,17 @@ class CertificateIdMigration implements Migration
             'SELECT id, template_values FROM il_cert_user_cert WHERE certificate_id IS NULL'
         );
 
-        while($row = $this->db->fetchAssoc($result)) {
-            $template_values = json_decode($row['template_values'], true, 512, JSON_THROW_ON_ERROR);
+        while ($row = $this->db->fetchAssoc($result)) {
+            try {
+                $template_values = json_decode(
+                    $row['template_values'] ?? json_encode([], JSON_THROW_ON_ERROR),
+                    true,
+                    512,
+                    JSON_THROW_ON_ERROR
+                );
+            } catch (JsonException) {
+                $template_values = [];
+            }
             $certificate_id = $this->uuid_factory->uuid4AsString();
 
             $template_values['CERTIFICATE_ID'] = $certificate_id;
