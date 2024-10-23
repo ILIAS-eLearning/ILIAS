@@ -29,6 +29,10 @@ use ILIAS\UI\URLBuilderToken;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Refinery\Factory as Refinery;
 
+use function array_map;
+use function array_unique;
+use function count;
+
 class ParticipantTableIpRangeAction implements TableAction
 {
     public const ACTION_ID = 'client_ip_range';
@@ -105,11 +109,21 @@ class ParticipantTableIpRangeAction implements TableAction
                 'ip_range' => $this->ui_factory->input()->field()->group([
                     'from' => $this->ui_factory->input()->field()->text(
                         $this->lng->txt('min_ip_label')
-                    )->withAdditionalTransformation($valid_ip_constraint),
+                    )->withAdditionalTransformation($valid_ip_constraint)
+                        ->withValue(
+                            $this->isUniqueClientIp($selected_participants) ?
+                            $selected_participants[0]->getClientIpFrom() :
+                            ''
+                        ),
                     'to' => $this->ui_factory->input()->field()->text(
                         $this->lng->txt('max_ip_label'),
                         $this->lng->txt('ip_range_byline')
                     )->withAdditionalTransformation($valid_ip_constraint)
+                        ->withValue(
+                            $this->isUniqueClientIp($selected_participants) ?
+                            $selected_participants[0]->getClientIpFrom() :
+                            ''
+                        ),
                 ])
             ],
             $url_builder->buildURI()->__toString()
@@ -170,5 +184,14 @@ class ParticipantTableIpRangeAction implements TableAction
         }
 
         return 'ip_range_for_selected_participants';
+    }
+
+    private function isUniqueClientIp(array $selected_participants): bool
+    {
+        return count($selected_participants) === 1
+            || count(array_unique(array_map(
+                fn(Participant $participant) => $participant->getClientIpFrom() . '-' . $participant->getClientIpTo(),
+                $selected_participants
+            ))) === 1;
     }
 }
