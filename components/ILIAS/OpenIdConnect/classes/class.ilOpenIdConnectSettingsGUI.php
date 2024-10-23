@@ -42,6 +42,7 @@ class ilOpenIdConnectSettingsGUI
     private const DEFAULT_VALUES = 1;
     private const SAVED_VALUES = 2;
     private const POST_VALUE = 'Mode';
+    private const URL_VALIDATION_PROVIDER_STRING = '/.well-known/openid-configuration';
 
     private int $ref_id;
     /** @var array $body */
@@ -447,6 +448,12 @@ class ilOpenIdConnectSettingsGUI
     {
         $this->checkAccess('read');
         $this->setSubTabs(self::STAB_SCOPES);
+        $url = $this->settings->getProvider();
+        if ($url !== '') {
+            $this->toolbar->setFormAction($this->ctrl->getFormAction($this));
+            $this->toolbar->addFormButton($this->lng->txt('auth_oidc_configured_scopes'), "discoverScopesFromServer");
+        }
+
         $form = $this->initScopesForm();
         $this->tpl->setContent($this->renderer->render($form));
     }
@@ -463,6 +470,28 @@ class ilOpenIdConnectSettingsGUI
         return $form;
     }
 
+    /**
+     * @throws JsonException
+     */
+    private function discoverScopesFromServer() : void
+    {
+        $url = '';
+        $type = $this->settings->getValidateScopes();
+        if($type === ilOpenIdConnectSettings::URL_VALIDATION_PROVIDER) {
+            $url = $this->settings->getProvider()  . self::URL_VALIDATION_PROVIDER_STRING;
+        } else if ($type === ilOpenIdConnectSettings::URL_VALIDATION_CUSTOM) {
+            $url = $this->settings->getCustomDiscoveryUrl();
+        }
+
+        if(strlen($url) > 0) {
+            $found_scopes = $this->settings->getSupportedScopesFromUrl($url);
+            if($found_scopes === true) {
+                $this->mainTemplate->setOnScreenMessage('success', $this->lng->txt('auth_oidc_discover_scopes_info'));
+            }
+        }
+        $this->scopes();
+    }
+
     private function buildScopeSelection(array $ui_container): array {
         $disabled_input = $this->ui->input()->field()
                                    ->text($this->lng->txt('auth_oidc_settings_default_scopes'), '')
@@ -471,6 +500,7 @@ class ilOpenIdConnectSettingsGUI
                                    ->withDisabled(true);
 
         $scopeValues = $this->settings->getAdditionalScopes();
+
         $tag_input = $this->ui->input()->field()->tag(
             $this->lng->txt('auth_oidc_settings_additional_scopes'),
             $scopeValues
@@ -567,7 +597,7 @@ class ilOpenIdConnectSettingsGUI
         try {
             switch ($type) {
                 case ilOpenIdConnectSettings::URL_VALIDATION_PROVIDER:
-                    $discoveryURL = $url . '/.well-known/openid-configuration';
+                    $discoveryURL = $url . self::URL_VALIDATION_PROVIDER_STRING;
                     break;
                 case ilOpenIdConnectSettings::URL_VALIDATION_CUSTOM:
                     $discoveryURL = $url;
