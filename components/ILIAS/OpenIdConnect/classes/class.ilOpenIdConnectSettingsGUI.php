@@ -593,6 +593,13 @@ class ilOpenIdConnectSettingsGUI
         $this->ctrl->redirect($this, 'scopes');
     }
 
+    /**
+     * @param int         $type
+     * @param string|null $url
+     * @param array<string, string> $scopes
+     * @return bool
+     * @throws JsonException
+     */
     protected function validateDiscoveryUrl(int $type, ?string $url, array $scopes) : bool {
         try {
             switch ($type) {
@@ -606,6 +613,7 @@ class ilOpenIdConnectSettingsGUI
                     $discoveryURL = null;
                     break;
             }
+
             $validation_result = !is_null($discoveryURL) ? $this->settings->validateScopes($discoveryURL, (array) $scopes) : [];
             if (!empty($validation_result)) {
                 if (ilOpenIdConnectSettings::VALIDATION_ISSUE_INVALID_SCOPE === $validation_result[0]) {
@@ -632,13 +640,14 @@ class ilOpenIdConnectSettingsGUI
             $this->scopes();
             return false;
         }
+
         return true;
     }
 
     /**
      * @throws ilCtrlException
      */
-    protected function saveProfile(): void
+    private function saveProfile(): void
     {
         $this->checkAccessBool('write');
 
@@ -848,9 +857,6 @@ class ilOpenIdConnectSettingsGUI
         $this->mainTemplate->setOnScreenMessage('info', $message);
     }
 
-    /**
-     * @throws ilCtrlException
-     */
     private function initAttributeMapping() : void
     {
         $mapping = $this->attribute_mapping_template->getMappingRulesByAdditionalScopes($this->settings->getAdditionalScopes());
@@ -894,12 +900,7 @@ class ilOpenIdConnectSettingsGUI
                         );
     }
 
-    /**
-     * @param mixed $definition
-     * @param array $ui_container
-     * @return array
-     */
-    protected function buildUserMappingInputFormUDF(mixed $definition, array $ui_container) : array
+    protected function buildUserMappingInputFormUDF($definition, array $ui_container) : array
     {
         $value = $this->settings->getProfileMappingFieldValue(self::UDF_STRING . $definition['field_id']);
         $update = $this->settings->getProfileMappingFieldUpdate(self::UDF_STRING . $definition['field_id']);
@@ -915,16 +916,11 @@ class ilOpenIdConnectSettingsGUI
             [$text_input, $checkbox_input]
         );
         $ui_container[] = $group;
+
         return $ui_container;
     }
 
-    /**
-     * @param string     $lang
-     * @param int|string $mapping
-     * @param array      $ui_container
-     * @return array
-     */
-    protected function buildUserMappingInputForUserData(string $lang, int|string $mapping, array $ui_container) : array
+    protected function buildUserMappingInputForUserData(string $lang, string $mapping, array $ui_container) : array
     {
         $value = $this->settings->getProfileMappingFieldValue($mapping);
         $update = $this->settings->getProfileMappingFieldUpdate($mapping);
@@ -940,12 +936,13 @@ class ilOpenIdConnectSettingsGUI
             [$text_input, $checkbox_input]
         );
         $ui_container[] = $group;
+
         return $ui_container;
     }
 
     private function initUserDefinedFields(): void
     {
-        if($this->udf === null) {
+        if ($this->udf === null) {
             $this->udf = ilUserDefinedFields::_getInstance();
         }
     }
@@ -955,7 +952,7 @@ class ilOpenIdConnectSettingsGUI
      */
     public function userMapping($form = null): void
     {
-        if($form === null) {
+        if ($form === null) {
             $form = $this->initUserMappingForm();
         }
 
@@ -974,7 +971,7 @@ class ilOpenIdConnectSettingsGUI
 
         $aria_label = "change_the_currently_displayed_mode";
         $active_label =  $this->lng->txt("auth_oidc_saved_values");
-        if($active !== 2) {
+        if ($active !== 2) {
             $active_label = $this->lng->txt(ilOpenIdAttributeMappingTemplate::OPEN_ID_CONFIGURED_SCOPES);
         }
         $view_control = $this->factory->viewControl()->mode($actions, $aria_label)->withActive($active_label);

@@ -40,6 +40,28 @@ class ilOpenIdConnectSettings
     public const VALIDATION_ISSUE_INVALID_SCOPE = 0;
     public const VALIDATION_ISSUE_DISCOVERY_ERROR = 1;
 
+    /**
+     * @var string[]
+     */
+    private const IGNORED_USER_FIELDS = [
+        'mail_incoming_mail',
+        'preferences',
+        'hide_own_online_status',
+        'show_users_online',
+        'roles',
+        'upload',
+        'password',
+        'username',
+        'language',
+        'skin_style',
+        'interests_general',
+        'interests_help_offered',
+        'interests_help_looking',
+        'bs_allow_to_contact_me',
+        'chat_osc_accept_msg',
+        'chat_broadcast_typing',
+    ];
+
     private static ?self $instance = null;
 
     private readonly ilSetting $storage;
@@ -507,30 +529,21 @@ class ilOpenIdConnectSettings
     {
         return $this->custom_discovery_url;
     }
+    
     /**
      * @return array<string, string>
      */
     public function getProfileMappingFields(): array
     {
-        return [
-            'gender'        => $this->lng->txt('gender'),
-            'firstname'     => $this->lng->txt('firstname'),
-            'lastname'      => $this->lng->txt('lastname'),
-            'title'         => $this->lng->txt('person_title'),
-            'institution'   => $this->lng->txt('institution'),
-            'department'    => $this->lng->txt('department'),
-            'street'        => $this->lng->txt('street'),
-            'city'          => $this->lng->txt('city'),
-            'zipcode'       => $this->lng->txt('zipcode'),
-            'country'       => $this->lng->txt('country'),
-            'phone_office'  => $this->lng->txt('phone_office'),
-            'phone_home'    => $this->lng->txt('phone_home'),
-            'phone_mobile'  => $this->lng->txt('phone_mobile'),
-            'fax'           => $this->lng->txt('fax'),
-            'email'         => $this->lng->txt('email'),
-            'second_email'  => $this->lng->txt('second_email'),
-            'hobby'         => $this->lng->txt('hobby'),
-            'matriculation' => $this->lng->txt('matriculation')
-        ];
+        $mapping_fields = [];
+        $usr_profile = new ilUserProfile();
+
+        foreach ($usr_profile->getStandardFields() as $id => $definition) {
+            if (in_array($id, self::IGNORED_USER_FIELDS, true)) {
+                continue;
+            }
+            $mapping_fields[$id] = $this->lng->txt($id);
+        }
+        return $mapping_fields;
     }
 }
