@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Implementation\Render\MathJaxConfig;
+
 /**
 * Unit tests
 *
@@ -45,6 +47,7 @@ class ilAssQuestionFeedbackEditingGUITest extends assBaseTestCase
         $tabs = $this->createMock(ilTabsGUI::class);
         $lng = $this->createMock(ilLanguage::class);
         $help = $this->createMock(ilHelpGUI::class);
+        $mathjax_config = $this->createMock(MathJaxConfig::class);
         $questionrepository = $this->createMock(ILIAS\TestQuestionPool\RequestDataCollector::class);
 
 
@@ -56,6 +59,7 @@ class ilAssQuestionFeedbackEditingGUITest extends assBaseTestCase
             $tabs,
             $lng,
             $help,
+            $mathjax_config,
             $questionrepository
         );
     }

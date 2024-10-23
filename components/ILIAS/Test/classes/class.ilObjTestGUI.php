@@ -52,6 +52,7 @@ use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Filesystem\Util\Archive\Archives;
 use ILIAS\Skill\Service\SkillService;
 use ILIAS\ResourceStorage\Services as IRSS;
+use ILIAS\UI\Implementation\Render\MathJaxConfig;
 
 /**
  * Class ilObjTestGUI
@@ -134,6 +135,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     protected RequestDataCollector $testrequest;
     protected ?QuestionsTableQuery $table_query = null;
     protected DataFactory $data_factory;
+    private MathJaxConfig $mathjax_config;
 
     protected bool $create_question_mode;
 
@@ -162,6 +164,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->archives = $DIC->archives();
         $this->type = 'tst';
         $this->data_factory = new DataFactory();
+        $this->mathjax_config = $DIC['ui.mathjax_config'];
 
         $local_dic = TestDIC::dic();
         $this->questionrepository = $local_dic['question.general_properties.repository'];
@@ -836,6 +839,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->tabs_gui,
                     $this->lng,
                     $this->help,
+                    $this->mathjax_config,
                     $this->qplrequest
                 );
                 $this->ctrl->forwardCommand($gui);

@@ -36,6 +36,7 @@ use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 use ILIAS\FileUpload\MimeType;
 use ILIAS\UI\Component\Modal\RoundTrip as RoundTripModal;
 use ILIAS\HTTP\Services as HTTPServices;
+use ILIAS\UI\Implementation\Render\MathJaxConfig;
 
 /**
  * Class ilObjQuestionPoolGUI
@@ -83,6 +84,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     protected URLBuilderToken $action_parameter_token;
     protected URLBuilderToken $row_id_token;
     private Archives $archives;
+    private MathJaxConfig $mathjax_config;
 
     protected RequestDataCollector $qplrequest;
     protected GeneralQuestionPropertiesRepository $questionrepository;
@@ -100,6 +102,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->component_factory = $DIC['component.factory'];
         $this->component_repository = $DIC['component.repository'];
         $this->navigation_history = $DIC['ilNavigationHistory'];
+        $this->mathjax_config = $DIC['ui.mathjax_config'];
         $this->ui_service = $DIC->uiService();
         $this->taxonomy = $DIC->taxonomy();
         $this->http = $DIC->http();
@@ -437,6 +440,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                     $ilTabs,
                     $lng,
                     $this->help,
+                    $this->mathjax_config,
                     $this->qplrequest,
                     true
                 );

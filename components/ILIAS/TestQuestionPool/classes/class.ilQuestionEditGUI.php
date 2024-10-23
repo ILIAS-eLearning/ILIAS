@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\RequestDataCollector;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\UI\Implementation\Render\MathJaxConfig;
 
 /**
  * Class ilQuestionEditGUI
@@ -56,6 +57,7 @@ class ilQuestionEditGUI
     private bool $selfassessmenteditingmode = false;
     private ?int $defaultnroftries = null;
     private ?ilPageConfig $page_config = null;
+    private MathJaxConfig $mathjax_config;
 
     public function __construct()
     {
@@ -69,6 +71,7 @@ class ilQuestionEditGUI
         $this->access = $DIC['ilAccess'];
         $this->lng = $DIC['lng'];
         $this->rbac_system = $DIC['rbacsystem'];
+        $this->mathjax_config = $DIC['ui.mathjax_config'];
 
         $local_dic = QuestionPoolDIC::dic();
         $this->request = $local_dic['request_data_collector'];
@@ -178,6 +181,7 @@ class ilQuestionEditGUI
                 $this->tabs,
                 $this->lng,
                 $this->help,
+                $this->mathjax_config,
                 $this->request
             )
         );
