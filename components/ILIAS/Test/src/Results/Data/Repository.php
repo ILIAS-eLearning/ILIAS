@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Results\Data;
 
-class TestPassResultRepository
+class Repository
 {
     public function __construct(
         private readonly \ilDBInterface $db

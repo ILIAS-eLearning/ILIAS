@@ -24,7 +24,7 @@ use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Language\Language;
 use ILIAS\Test\Results\Data\StatusOfAttempt;
-use ILIAS\Test\Results\Data\TestPassResultRepository;
+use ILIAS\Test\Results\Data\Repository as TestResultRepository;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\UI\Component\Table\Action\Action;
@@ -44,7 +44,7 @@ class ParticipantTableFinishTestAction implements TableAction
         private readonly \ilTestProcessLockerFactory $process_locker_factory,
         private readonly \ilObjUser $user,
         private readonly \ilObjTest $test_obj,
-        private readonly TestPassResultRepository $test_pass_result_repository
+        private readonly TestResultRepository $test_pass_result_repository
     ) {
     }
 

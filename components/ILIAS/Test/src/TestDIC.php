@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test;
 
 use ILIAS\Test\Participants\ParticipantRepository;
-use ILIAS\Test\Results\Data\TestPassResultRepository;
+use ILIAS\Test\Results\Data\Repository as TestResultRepository;
 use ILIAS\Test\Utilities\TitleColumnsBuilder;
 use ILIAS\Test\TestManScoringDoneHelper;
 use ILIAS\Test\Scoring\Marks\MarksRepository;
@@ -92,8 +92,8 @@ class TestDIC extends PimpleContainer
                $DIC['lng']
            );
 
-        $dic['results.data.test_pass_result_repository'] = static fn($c): TestPassResultRepository =>
-            new TestPassResultRepository($DIC['ilDB']);
+        $dic['results.data.test_result_repository'] = static fn($c): TestResultRepository =>
+            new TestResultRepository($DIC['ilDB']);
 
         $dic['settings.main.repository'] = static fn($c): MainSettingsRepository =>
             new MainSettingsDatabaseRepository($DIC['ilDB']);

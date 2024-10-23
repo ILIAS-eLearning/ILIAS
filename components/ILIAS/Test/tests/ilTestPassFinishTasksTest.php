@@ -30,7 +30,11 @@ class ilTestPassFinishTasksTest extends ilTestBaseTestCase
     {
         parent::setUp();
 
-        $this->testObj = new ilTestPassFinishTasks($this->createMock(ilTestSession::class), 0, 0);
+        $this->testObj = new ilTestPassFinishTasks(
+            $this->createMock(ilTestSession::class),
+            0,
+            $this->createMock(ILIAS\Test\Results\Data\Repository::class)
+        );
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

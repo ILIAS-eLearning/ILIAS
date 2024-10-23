@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Test\Results\Data\StatusOfAttempt;
-use ILIAS\Test\Results\Data\TestPassResultRepository;
+use ILIAS\Test\Results\Data\Repository as TestResultRepository;
 
 /**
  * Class ilTestPassFinishTasks
@@ -30,7 +30,7 @@ class ilTestPassFinishTasks
     public function __construct(
         private ilTestSession $test_session,
         private int $obj_id,
-        private TestPassResultRepository $test_pass_result_repository
+        private TestResultRepository $test_pass_result_repository
     ) {
     }
 
