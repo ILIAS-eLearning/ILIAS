@@ -110,7 +110,7 @@ class QuestionsTableActions
                 ...$this->table_query->getRowBoundURLBuilder($action)
             );
 
-        return [
+        $actions = [
             self::ACTION_PREVIEW => $ag('single', 'preview', self::ACTION_PREVIEW),
             self::ACTION_ADJUST => $ag('single', 'tst_corrections_qst_form', self::ACTION_ADJUST),
             self::ACTION_STATISTICS => $ag('single', 'statistics', self::ACTION_STATISTICS),
@@ -120,8 +120,14 @@ class QuestionsTableActions
             self::ACTION_HINTS => $ag('single', 'tst_question_hints_tab', self::ACTION_HINTS),
             self::ACTION_PRINT_ANSWERS => $ag('single', 'print_answers', self::ACTION_PRINT_ANSWERS),
             self::ACTION_DOWNLOAD_FILE_QUESTION_ANSWERS => $ag('single', 'download_all_files', self::ACTION_DOWNLOAD_FILE_QUESTION_ANSWERS),
-            self::ACTION_DELETE => $ag('standard', 'delete', self::ACTION_DELETE)
-                ->withAsync(),
+        ];
+
+        if (!$this->test_obj->isRandomTest()) {
+            $actions[self::ACTION_DELETE] = $ag('standard', 'delete', self::ACTION_DELETE)
+                ->withAsync();
+        }
+
+        return $actions + [
             self::ACTION_COPY => $ag('standard', 'copy', self::ACTION_COPY),
             self::ACTION_ADD_TO_POOL => $ag('standard', 'copy_and_link_to_questionpool', self::ACTION_ADD_TO_POOL),
             self::ACTION_PRINT_QUESTIONS => $ag('multi', 'print', self::ACTION_PRINT_QUESTIONS)
