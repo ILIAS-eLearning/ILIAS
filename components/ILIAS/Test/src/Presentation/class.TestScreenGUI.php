@@ -141,7 +141,10 @@ class TestScreenGUI
         }
 
         if ($test_behaviour_settings->getProcessingTimeEnabled()) {
-            $message_box_message_elements[] = sprintf($this->lng->txt('tst_time_limit_message'), $test_behaviour_settings->getProcessingTimeAsMinutes());
+            $message_box_message_elements[] = sprintf(
+                $this->lng->txt('tst_time_limit_message'),
+                $this->object->getProcessingTimeInSeconds($this->test_session->getActiveId()) / 60
+            );
         }
 
         $nr_of_tries = $this->object->getNrOfTries();
