@@ -93,31 +93,9 @@ class ilTestImporter extends ilXmlImporter
         $questionPageParser->setQuestionMapping($qtiParser->getImportMapping());
         $questionPageParser->startParsing();
 
-        foreach ($qtiParser->getQuestionIdMapping() as $oldQuestionId => $newQuestionId) {
-            $a_mapping->addMapping(
-                "Services/Taxonomy",
-                "tax_item",
-                "tst:quest:$oldQuestionId",
-                $newQuestionId
-            );
-
-            $a_mapping->addMapping(
-                "Services/Taxonomy",
-                "tax_item_obj_id",
-                "tst:quest:$oldQuestionId",
-                $newObj->getId()
-            );
-
-            $a_mapping->addMapping(
-                "Modules/Test",
-                "quest",
-                $oldQuestionId,
-                $newQuestionId
-            );
-        }
+        $a_mapping = $this->addTexonomyAndQuestionsMapping($qtiParser->getQuestionIdMapping(), $newObj->getId(), $a_mapping);
 
         if ($newObj->isRandomTest()) {
-            $newObj->questions = array();
             $this->importRandomQuestionSetConfig($newObj, $xml_file, $a_mapping);
         }
 
@@ -137,6 +115,34 @@ class ilTestImporter extends ilXmlImporter
         $this->importSkillLevelThresholds($a_mapping, $importedAssignmentList, $newObj, $xml_file);
 
         $a_mapping->addMapping("Modules/Test", "tst", $a_id, $newObj->getId());
+    }
+
+    public function addTexonomyAndQuestionsMapping(array $question_id_mapping, int $new_obj_id, ilImportMapping $mapping): ilImportMapping
+    {
+        foreach ($question_id_mapping as $oldQuestionId => $newQuestionId) {
+            $mapping->addMapping(
+                "Services/Taxonomy",
+                "tax_item",
+                "tst:quest:$oldQuestionId",
+                $newQuestionId
+            );
+
+            $mapping->addMapping(
+                "Services/Taxonomy",
+                "tax_item_obj_id",
+                "tst:quest:$oldQuestionId",
+                $new_obj_id
+            );
+
+            $mapping->addMapping(
+                "Modules/Test",
+                "quest",
+                $oldQuestionId,
+                $newQuestionId
+            );
+        }
+
+        return $mapping;
     }
 
     /**
@@ -287,8 +293,9 @@ class ilTestImporter extends ilXmlImporter
         return $name;
     }
 
-    protected function importRandomQuestionSetConfig(ilObjTest $testOBJ, $xmlFile, $a_mapping)
+    public function importRandomQuestionSetConfig(ilObjTest $testOBJ, $xmlFile, $a_mapping)
     {
+        $testOBJ->questions = [];
         $parser = new ilObjTestXMLParser($xmlFile);
         $parser->setTestOBJ($testOBJ);
         $parser->setImportMapping($a_mapping);

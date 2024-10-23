@@ -1336,37 +1336,33 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $questionParentObjId = $_POST["qpl"];
         }
 
+        $imp = new ilImport($this->testrequest->getRefId());
+        $map = $imp->getMapping();
+        $map->addMapping('Modules/Test', 'tst', 'new_id', $newObj->getId());
+
+        $fileName = ilSession::get('tst_import_subdir') . '.zip';
+        $fullPath = ilSession::get('tst_import_dir') . '/' . $fileName;
+
         if (is_file(ilSession::get("tst_import_dir") . '/' . ilSession::get("tst_import_subdir") . "/manifest.xml")) {
             $newObj->saveToDb();
 
             ilSession::set('tst_import_idents', $_POST['ident'] ?? '');
             ilSession::set('tst_import_qst_parent', $questionParentObjId);
 
-            $fileName = ilSession::get('tst_import_subdir') . '.zip';
-            $fullPath = ilSession::get('tst_import_dir') . '/' . $fileName;
-            $imp = new ilImport($this->testrequest->getRefId());
-            $map = $imp->getMapping();
-            $map->addMapping('Modules/Test', 'tst', 'new_id', $newObj->getId());
             $imp->importObject($newObj, $fullPath, $fileName, 'tst', 'Modules/Test', true);
         } else {
-            $qtiParser = new ilQTIParser(ilSession::get("tst_import_qti_file"), ilQTIParser::IL_MO_PARSE_QTI, $questionParentObjId, $_POST["ident"] ?? '');
-            if (!file_exists(ilSession::get("tst_import_results_file"))
-                && (!isset($_POST["ident"]) || !is_array($_POST["ident"]) || !count($_POST["ident"]))) {
-                $qtiParser->setIgnoreItemsEnabled(true);
-            }
-            $qtiParser->setTestObject($newObj);
-            $qtiParser->startParsing();
-            $newObj->saveToDb();
-            $questionPageParser = new ilQuestionPageParser($newObj, ilSession::get("tst_import_xml_file"), ilSession::get("tst_import_subdir"));
-            $questionPageParser->setQuestionMapping($qtiParser->getImportMapping());
-            $questionPageParser->startParsing();
+            $test_importer = new ilTestImporter();
+            $test_importer->setImport($imp);
+            $test_importer->setInstallId(IL_INST_ID);
+            $test_importer->setImportDirectory(ilSession::get("tst_import_dir") . '/' . ilSession::get("tst_import_subdir"));
+            $test_importer->init();
 
-            if (file_exists(ilSession::get("tst_import_results_file"))) {
-                $results = new ilTestResultsImportParser(ilSession::get("tst_import_results_file"), $newObj);
-                $results->setQuestionIdMapping($qtiParser->getQuestionIdMapping());
-                $results->startParsing();
-            }
-            $newObj->update();
+            $test_importer->importXmlRepresentation(
+                '',
+                0,
+                '',
+                $map,
+            );
         }
 
 
