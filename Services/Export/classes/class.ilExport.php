@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,9 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
+
 /**
  * Export
  * @author    Alex Killing <alex.killing@gmx.de>
@@ -602,6 +603,10 @@ class ilExport
         $this->log->debug("process tail dependencies of " . $a_entity);
         $sequence = $exp->getXmlExportTailDependencies($a_entity, $a_target_release, $a_id);
         foreach ($sequence as $s) {
+            if (empty((array) ($s["ids"] ?? []))) {
+                continue;
+            }
+
             $comp = explode("/", $s["component"]);
             $exp_class = "il" . $comp[1] . "Exporter";
             $s = $this->processExporter(
