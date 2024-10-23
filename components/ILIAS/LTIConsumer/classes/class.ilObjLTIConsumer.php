@@ -18,6 +18,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ceLTIc\LTI\Util;
 use ILIAS\Filesystem\Stream\Streams;
 use Firebase\JWT\JWK;
 use Firebase\JWT\JWT;
@@ -1000,7 +1001,7 @@ class ilObjLTIConsumer extends ilObject2
         if (empty($typeId)) {
             $typeId = 0;
         }
-        $messageTypeMapping = ILIAS\LTI\ToolProvider\Util::MESSAGE_TYPE_MAPPING;
+        $messageTypeMapping = Util::MESSAGE_TYPE_MAPPING;
         if (isset($parms['lti_message_type']) && array_key_exists($parms['lti_message_type'], $messageTypeMapping)) {
             $parms['lti_message_type'] = $messageTypeMapping[$parms['lti_message_type']];
         }
@@ -1025,7 +1026,7 @@ class ilObjLTIConsumer extends ilObject2
         if (empty($nonce)) {
             $nonce = bin2hex(openssl_random_pseudo_bytes(10));
         }
-        $claimMapping = ILIAS\LTI\ToolProvider\Util::JWT_CLAIM_MAPPING;
+        $claimMapping = Util::JWT_CLAIM_MAPPING;
         $payLoad = array(
             'nonce' => $nonce,
             'iat' => $now,
@@ -1297,7 +1298,7 @@ class ilObjLTIConsumer extends ilObject2
 
     public static function getNewClientId(): string
     {
-        return ILIAS\LTI\ToolProvider\Util::getRandomString(15);
+        return Util::getRandomString(15);
     }
 
     public static function sendResponseError(int $code, string $message, $log = true): void

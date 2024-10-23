@@ -18,13 +18,10 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-use ILIAS\LTI\ToolProvider;
-//use ILIAS\LTI\ToolProvider\Platform;
-//use ILIAS\LTI\ToolProvider\DataConnector\DataConnector;
-use ILIAS\LTI\ToolProvider\Service;
-use ILIAS\LTI\ToolProvider\Http\HTTPMessage;
-//use ILIAS\LTIOAuth;
-use ILIAS\LTI\ToolProvider\ApiHook\ApiHook;
+use ceLTIc\LTI\DataConnector\DataConnector;
+use ceLTIc\LTI\Enum\IdScope;
+use ceLTIc\LTI\Platform;
+use ceLTIc\LTI\Util;
 
 /**
  * LTI provider for LTI launch
@@ -32,7 +29,7 @@ use ILIAS\LTI\ToolProvider\ApiHook\ApiHook;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
  */
-class ilLTIPlatform extends ToolProvider\Platform
+class ilLTIPlatform extends Platform
 {
     /**
      * @var int ref_id
@@ -137,7 +134,7 @@ class ilLTIPlatform extends ToolProvider\Platform
         $this->enableFrom = null;
         $this->enableUntil = null;
         $this->lastAccess = null;
-        $this->idScope = ILIAS\LTI\ToolProvider\Tool::ID_SCOPE_ID_ONLY;
+        $this->idScope = IdScope::IdOnly;
         $this->defaultEmail = '';
         $this->created = null;
         $this->updated = null;
@@ -220,7 +217,7 @@ class ilLTIPlatform extends ToolProvider\Platform
      */
     public function createSecret(): void
     {
-        $this->setSecret(\ILIAS\LTI\ToolProvider\Util::getRandomString(12));
+        $this->setSecret(Util::getRandomString(12));
     }
 
     /**
@@ -271,14 +268,14 @@ class ilLTIPlatform extends ToolProvider\Platform
 
     /**
      * Load the platform from the database by its platform, client and deployment IDs.
-     * @param string             $platformId    The platform ID
-     * @param string             $clientId      The client ID
-     * @param string             $deploymentId  The deployment ID
-     * @param ilLTIDataConnector $dataConnector A data connector object
-     * @param bool               $autoEnable    True if the platform is to be enabled automatically (optional, default is false)
+     * @param string                    $platformId    The platform ID
+     * @param string|null               $clientId      The client ID
+     * @param string|null               $deploymentId  The deployment ID
+     * @param ilLTIDataConnector|null   $dataConnector A data connector object
+     * @param bool                      $autoEnable    True if the platform is to be enabled automatically (optional, default is false)
      * @return ilLTIPlatform                         The platform object
      */
-    public static function fromPlatformId(string $platformId, string $clientId, string $deploymentId, ilLTIDataConnector $dataConnector = null, bool $autoEnable = false): ilLTIPlatform
+    public static function fromPlatformId(string $platformId, ?string $clientId, ?string $deploymentId, DataConnector $dataConnector = null, bool $autoEnable = false): ilLTIPlatform
     {
         $platform = new ilLTIPlatform($dataConnector);
         $platform->initialize();
@@ -292,12 +289,12 @@ class ilLTIPlatform extends ToolProvider\Platform
 
     /**
      * Load the platform from the database by its consumer key.
-     * @param string             $key           Consumer key
-     * @param ilLTIDataConnector $dataConnector A data connector object
-     * @param bool               $autoEnable    true if the platform is to be enabled automatically (optional, default is false)
-     * @return \ilLTIPlatform Platform       The platform object
+     * @param string|null $key Consumer key
+     * @param null $dataConnector A data connector object
+     * @param bool $autoEnable true if the platform is to be enabled automatically (optional, default is false)
+     * @return ilLTIPlatform Platform       The platform object
      */
-    public static function fromConsumerKey(?string $key = null, $dataConnector = null, bool $autoEnable = false): \ilLTIPlatform
+    public static function fromConsumerKey(?string $key = null, $dataConnector = null, bool $autoEnable = false): ilLTIPlatform
     {
         $platform = new ilLTIPlatform($dataConnector);
         $platform->initialize();
@@ -310,11 +307,11 @@ class ilLTIPlatform extends ToolProvider\Platform
 
     /**
      * Load the platform from the database by its record ID.
-     * @param int        $id            The platform record ID
+     * @param int|string $id The platform record ID
      * @param ilLTIDataConnector $dataConnector Database connection object
-     * @return \ilLTIPlatform Platform       The platform object
+     * @return ilLTIPlatform Platform       The platform object
      */
-    public static function fromRecordId(int $id, ilLTIDataConnector $dataConnector): \ilLTIPlatform
+    public static function fromRecordId(int|string $id, DataConnector $dataConnector): ilLTIPlatform
     {
         //        $platform = new static($dataConnector);
         $platform = new ilLTIPlatform($dataConnector);
@@ -331,7 +328,7 @@ class ilLTIPlatform extends ToolProvider\Platform
      * @param ilLTIDataConnector $dataConnector
      * @return ilLTIPlatform
      */
-    public static function fromExternalConsumerId(int $id, ilLTIDataConnector $dataConnector): \ilLTIPlatform
+    public static function fromExternalConsumerId(int $id, ilLTIDataConnector $dataConnector): ilLTIPlatform
     {
         $platform = new ilLTIPlatform($dataConnector);
         //$platform->setRecordId((int) $id);

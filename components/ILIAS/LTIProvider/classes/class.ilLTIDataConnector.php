@@ -18,22 +18,16 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-// namespace ILIAS\LTI\Tool\DataConnector;
-use ILIAS\LTI\ToolProvider;
-use ILIAS\LTI\ToolProvider\PlatformNonce;
-use ILIAS\LTI\ToolProvider\Context;
-use ILIAS\LTI\ToolProvider\ResourceLink;
-use ILIAS\LTI\ToolProvider\ResourceLinkShare;
-use ILIAS\LTI\ToolProvider\ResourceLinkShareKey;
-use ILIAS\LTI\ToolProvider\Platform;
-//use ILIAS\LTI\ToolProvider\User;
-use ILIAS\LTI\ToolProvider\UserResult;
-use ILIAS\LTI\ToolProvider\Tool;
-use ILIAS\LTI\ToolProvider\Util;
-//UK: added
-use ILIAS\LTI\ToolProvider\AccessToken;
+use ceLTIc\LTI\Context;
+use ceLTIc\LTI\DataConnector\DataConnector;
+use ceLTIc\LTI\Enum\IdScope;
+use ceLTIc\LTI\Platform;
+use ceLTIc\LTI\PlatformNonce;
+use ceLTIc\LTI\ResourceLink;
+use ceLTIc\LTI\ResourceLinkShareKey;
+use ceLTIc\LTI\User;
 
-class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
+class ilLTIDataConnector extends DataConnector
 {
     private ?\ilLogger $logger = null;
 
@@ -60,7 +54,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
      * @param Platform $platform Platform object
      * @return boolean True if the tool consumer object was successfully loaded
      */
-    public function loadPlatform(\ILIAS\LTI\ToolProvider\Platform $platform): bool
+    public function loadPlatform(Platform $platform): bool
     {
         $ok = false;
         $allowMultiple = false;
@@ -329,14 +323,14 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     //     * @param Platform $platform Consumer object
     //     * @return bool True if the tool consumer object was successfully saved
     //     */
-    //    public function saveToolConsumer(\ILIAS\LTI\ToolProvider\Platform $platform) : bool
+    //    public function saveToolConsumer(DataConnectorPlatform $platform) : bool
     //    {
     //        global $DIC;
     //        $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
     //
     //        $id = $platform->getRecordId();
     //        $key = $platform->getKey();
-    //        $key256 = ToolProvider\DataConnector\DataConnector::getConsumerKey($key);
+    //        $key256 = DataConnector::getConsumerKey($key);
     //        // $key256 = $this->getConsumerKey($key);
     //        if ($key === $key256) {
     //            $key = null;
@@ -366,7 +360,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     //            $platform->created = $time;
     //            $platform->updated = $time;
     //            if ($key256 == null) {
-    //                $key256 = $id . ToolProvider\DataConnector\DataConnector::getRandomString(10);
+    //                $key256 = $id . DataConnector::getRandomString(10);
     //            }
     //
     //            // $query = "INSERT INTO {$this->dbTableNamePrefix}" . $this->CONSUMER_TABLE_NAME . ' (consumer_key256, consumer_key, name, ' .
@@ -695,20 +689,20 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
      * @param Platform $platform Consumer object
      * @return boolean True if the tool consumer object was successfully deleted
      */
-    public function deleteToolConsumer(\ILIAS\LTI\ToolProvider\Platform $platform): bool
+    public function deleteToolConsumer(DataConnectorPlatform $platform): bool
     {
         $ilDB = $this->database;
 
         // Delete any nonce values for this consumer
-        $query = "DELETE FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::NONCE_TABLE_NAME . ' WHERE consumer_pk = %s';
+        $query = "DELETE FROM {$this->dbTableNamePrefix}" . DataConnector::NONCE_TABLE_NAME . ' WHERE consumer_pk = %s';
         $types = array("integer");
         $values = array($platform->getRecordId());
         $ilDB->manipulateF($query, $types, $values);
 
         // Delete any outstanding share keys for resource links for this consumer
         $query = 'DELETE sk ' .
-            "FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_SHARE_KEY_TABLE_NAME . ' sk ' .
-            "INNER JOIN {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' rl ON sk.resource_link_pk = rl.resource_link_pk ' .
+            "FROM {$this->dbTableNamePrefix}" . DataConnector::RESOURCE_LINK_SHARE_KEY_TABLE_NAME . ' sk ' .
+            "INNER JOIN {$this->dbTableNamePrefix}" . DataConnector::RESOURCE_LINK_TABLE_NAME . ' rl ON sk.resource_link_pk = rl.resource_link_pk ' .
             'WHERE rl.consumer_pk = %s';
         $types = array("integer");
         $values = array($platform->getRecordId());
@@ -716,9 +710,9 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
         // Delete any outstanding share keys for resource links for contexts in this consumer
         $query = 'DELETE sk ' .
-            "FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_SHARE_KEY_TABLE_NAME . ' sk ' .
-            "INNER JOIN {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' rl ON sk.resource_link_pk = rl.resource_link_pk ' .
-            "INNER JOIN {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::CONTEXT_TABLE_NAME . ' c ON rl.context_pk = c.context_pk ' .
+            "FROM {$this->dbTableNamePrefix}" . DataConnector::RESOURCE_LINK_SHARE_KEY_TABLE_NAME . ' sk ' .
+            "INNER JOIN {$this->dbTableNamePrefix}" . DataConnector::RESOURCE_LINK_TABLE_NAME . ' rl ON sk.resource_link_pk = rl.resource_link_pk ' .
+            "INNER JOIN {$this->dbTableNamePrefix}" . DataConnector::CONTEXT_TABLE_NAME . ' c ON rl.context_pk = c.context_pk ' .
             'WHERE c.consumer_pk = %s';
         $types = array("integer");
         $values = array($platform->getRecordId());
@@ -726,8 +720,8 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
         // Delete any users in resource links for this consumer
         $query = 'DELETE u ' .
-            "FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' u ' .
-            "INNER JOIN {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' rl ON u.resource_link_pk = rl.resource_link_pk ' .
+            "FROM {$this->dbTableNamePrefix}" . DataConnector::USER_RESULT_TABLE_NAME . ' u ' .
+            "INNER JOIN {$this->dbTableNamePrefix}" . DataConnector::RESOURCE_LINK_TABLE_NAME . ' rl ON u.resource_link_pk = rl.resource_link_pk ' .
             'WHERE rl.consumer_pk = %s';
         $types = array("integer");
         $values = array($platform->getRecordId());
@@ -735,17 +729,17 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
         // Delete any users in resource links for contexts in this consumer
         $query = 'DELETE u ' .
-            "FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' u ' .
-            "INNER JOIN {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' rl ON u.resource_link_pk = rl.resource_link_pk ' .
-            "INNER JOIN {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::CONTEXT_TABLE_NAME . ' c ON rl.context_pk = c.context_pk ' .
+            "FROM {$this->dbTableNamePrefix}" . DataConnector::USER_RESULT_TABLE_NAME . ' u ' .
+            "INNER JOIN {$this->dbTableNamePrefix}" . DataConnector::RESOURCE_LINK_TABLE_NAME . ' rl ON u.resource_link_pk = rl.resource_link_pk ' .
+            "INNER JOIN {$this->dbTableNamePrefix}" . DataConnector::CONTEXT_TABLE_NAME . ' c ON rl.context_pk = c.context_pk ' .
             'WHERE c.consumer_pk = %s';
         $types = array("integer");
         $values = array($platform->getRecordId());
         $ilDB->manipulateF($query, $types, $values);
 
         // Update any resource links for which this consumer is acting as a primary resource link
-        $query = "UPDATE {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' prl ' .
-            "INNER JOIN {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' rl ON prl.primary_resource_link_pk = rl.resource_link_pk ' .
+        $query = "UPDATE {$this->dbTableNamePrefix}" . DataConnector::RESOURCE_LINK_TABLE_NAME . ' prl ' .
+            "INNER JOIN {$this->dbTableNamePrefix}" . DataConnector::RESOURCE_LINK_TABLE_NAME . ' rl ON prl.primary_resource_link_pk = rl.resource_link_pk ' .
             'SET prl.primary_resource_link_pk = NULL, prl.share_approved = NULL ' .
             'WHERE rl.consumer_pk = %s';
         $types = array("integer");
@@ -753,9 +747,9 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         $ilDB->manipulateF($query, $types, $values);
 
         // Update any resource links for contexts in which this consumer is acting as a primary resource link
-        $query = "UPDATE {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' prl ' .
-            "INNER JOIN {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' rl ON prl.primary_resource_link_pk = rl.resource_link_pk ' .
-            "INNER JOIN {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::CONTEXT_TABLE_NAME . ' c ON rl.context_pk = c.context_pk ' .
+        $query = "UPDATE {$this->dbTableNamePrefix}" . DataConnector::RESOURCE_LINK_TABLE_NAME . ' prl ' .
+            "INNER JOIN {$this->dbTableNamePrefix}" . DataConnector::RESOURCE_LINK_TABLE_NAME . ' rl ON prl.primary_resource_link_pk = rl.resource_link_pk ' .
+            "INNER JOIN {$this->dbTableNamePrefix}" . DataConnector::CONTEXT_TABLE_NAME . ' c ON rl.context_pk = c.context_pk ' .
             'SET prl.primary_resource_link_pk = NULL, prl.share_approved = NULL ' .
             'WHERE c.consumer_pk = %s';
         $types = array("integer");
@@ -764,7 +758,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
         // Delete any resource links for this consumer
         $query = 'DELETE rl ' .
-            "FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' rl ' .
+            "FROM {$this->dbTableNamePrefix}" . DataConnector::RESOURCE_LINK_TABLE_NAME . ' rl ' .
             'WHERE rl.consumer_pk = %s';
         $types = array("integer");
         $values = array($platform->getRecordId());
@@ -772,8 +766,8 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
         // Delete any resource links for contexts in this consumer
         $query = 'DELETE rl ' .
-            "FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' rl ' .
-            "INNER JOIN {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::CONTEXT_TABLE_NAME . ' c ON rl.context_pk = c.context_pk ' .
+            "FROM {$this->dbTableNamePrefix}" . DataConnector::RESOURCE_LINK_TABLE_NAME . ' rl ' .
+            "INNER JOIN {$this->dbTableNamePrefix}" . DataConnector::CONTEXT_TABLE_NAME . ' c ON rl.context_pk = c.context_pk ' .
             'WHERE c.consumer_pk = %s';
         $types = array("integer");
         $values = array($platform->getRecordId());
@@ -781,7 +775,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
         // Delete any contexts for this consumer
         $query = 'DELETE c ' .
-            "FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::CONTEXT_TABLE_NAME . ' c ' .
+            "FROM {$this->dbTableNamePrefix}" . DataConnector::CONTEXT_TABLE_NAME . ' c ' .
             'WHERE c.consumer_pk = %s';
         $types = array("integer");
         $values = array($platform->getRecordId());
@@ -789,7 +783,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
         // Delete consumer
         $query = 'DELETE c ' .
-            "FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::CONSUMER_TABLE_NAME . ' c ' .
+            "FROM {$this->dbTableNamePrefix}" . DataConnector::PLATFORM_TABLE_NAME . ' c ' .
             'WHERE c.consumer_pk = %s';
         $types = array("integer");
         $values = array($platform->getRecordId());
@@ -949,13 +943,13 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         $ok = false;
         if (!empty($context->getRecordId())) {
             $query = 'SELECT context_pk, consumer_pk, lti_context_id, settings, created, updated ' .
-                "FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::CONTEXT_TABLE_NAME . ' ' .
+                "FROM {$this->dbTableNamePrefix}" . DataConnector::CONTEXT_TABLE_NAME . ' ' .
                 'WHERE (context_pk = %s)';
             $types = array("integer");
             $values = array($context->getRecordId());
         } else {
             $query = 'SELECT context_pk, consumer_pk, lti_context_id, settings, created, updated ' .
-                "FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::CONTEXT_TABLE_NAME . ' ' .
+                "FROM {$this->dbTableNamePrefix}" . DataConnector::CONTEXT_TABLE_NAME . ' ' .
                 'WHERE (consumer_pk = %s) AND (lti_context_id = %s)';
             $types = array("integer", "text");
             $values = array($context->getPlatform()->getRecordId(), $context->ltiContextId);
@@ -997,17 +991,17 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         $id = $context->getRecordId();
         $platform_pk = $context->getPlatform()->getRecordId();
         if (empty($id)) {
-            $context->setRecordId($ilDB->nextId(ToolProvider\DataConnector\DataConnector::CONTEXT_TABLE_NAME));
+            $context->setRecordId($ilDB->nextId(DataConnector::CONTEXT_TABLE_NAME));
             $id = $context->getRecordId();
             $context->created = $time;
             //Check remove context_pk, add type
-            $query = "INSERT INTO {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::CONTEXT_TABLE_NAME .
+            $query = "INSERT INTO {$this->dbTableNamePrefix}" . DataConnector::CONTEXT_TABLE_NAME .
                 ' (context_pk, consumer_pk, lti_context_id, settings, created, updated) ' .
                 'VALUES (%s, %s, %s, %s, %s, %s)';
             $types = array("integer", "integer", "text", "text", "timestamp", "timestamp");
             $values = array($id, $platform_pk, $context->ltiContextId, $settingsValue, $now, $now);
         } else {
-            $query = "UPDATE {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::CONTEXT_TABLE_NAME . ' SET ' .
+            $query = "UPDATE {$this->dbTableNamePrefix}" . DataConnector::CONTEXT_TABLE_NAME . ' SET ' .
                 'lti_context_id = %s, settings = %s, ' .
                 'updated = %s' .
                 'WHERE (consumer_pk = %s) AND (context_pk = %s)';
@@ -1033,8 +1027,8 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
         // Delete any outstanding share keys for resource links for this context
         $query = 'DELETE sk ' .
-            "FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_SHARE_KEY_TABLE_NAME . ' sk ' .
-            "INNER JOIN {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' rl ON sk.resource_link_pk = rl.resource_link_pk ' .
+            "FROM {$this->dbTableNamePrefix}" . DataConnector::RESOURCE_LINK_SHARE_KEY_TABLE_NAME . ' sk ' .
+            "INNER JOIN {$this->dbTableNamePrefix}" . DataConnector::RESOURCE_LINK_TABLE_NAME . ' rl ON sk.resource_link_pk = rl.resource_link_pk ' .
             'WHERE rl.context_pk = %s';
         $types = array("integer");
         $values = array($context->getRecordId());
@@ -1042,16 +1036,16 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
         // Delete any users in resource links for this context
         $query = 'DELETE u ' .
-            "FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' u ' .
-            "INNER JOIN {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' rl ON u.resource_link_pk = rl.resource_link_pk ' .
+            "FROM {$this->dbTableNamePrefix}" . DataConnector::USER_RESULT_TABLE_NAME . ' u ' .
+            "INNER JOIN {$this->dbTableNamePrefix}" . DataConnector::RESOURCE_LINK_TABLE_NAME . ' rl ON u.resource_link_pk = rl.resource_link_pk ' .
             'WHERE rl.context_pk = %s';
         $types = array("integer");
         $values = array($context->getRecordId());
         $ilDB->manipulateF($query, $types, $values);
 
         // Update any resource links for which this consumer is acting as a primary resource link
-        $query = "UPDATE {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' prl ' .
-            "INNER JOIN {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' rl ON prl.primary_resource_link_pk = rl.resource_link_pk ' .
+        $query = "UPDATE {$this->dbTableNamePrefix}" . DataConnector::RESOURCE_LINK_TABLE_NAME . ' prl ' .
+            "INNER JOIN {$this->dbTableNamePrefix}" . DataConnector::RESOURCE_LINK_TABLE_NAME . ' rl ON prl.primary_resource_link_pk = rl.resource_link_pk ' .
             'SET prl.primary_resource_link_pk = null, prl.share_approved = null ' .
             'WHERE rl.context_pk = %s';
         $types = array("integer");
@@ -1060,7 +1054,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
         // Delete any resource links for this consumer
         $query = 'DELETE rl ' .
-            "FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' rl ' .
+            "FROM {$this->dbTableNamePrefix}" . DataConnector::RESOURCE_LINK_TABLE_NAME . ' rl ' .
             'WHERE rl.context_pk = %s';
         $types = array("integer");
         $values = array($context->getRecordId());
@@ -1068,7 +1062,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
         // Delete context
         $query = 'DELETE c ' .
-            "FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::CONTEXT_TABLE_NAME . ' c ' .
+            "FROM {$this->dbTableNamePrefix}" . DataConnector::CONTEXT_TABLE_NAME . ' c ' .
             'WHERE c.context_pk = %s';
         $types = array("integer");
         $values = array($context->getRecordId());
@@ -1099,7 +1093,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         $cid = 0;
         if (!is_null($id)) {
             $query = 'SELECT resource_link_pk, context_pk, consumer_pk, lti_resource_link_id, settings, primary_resource_link_pk, share_approved, created, updated ' .
-                "FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' ' .
+                "FROM {$this->dbTableNamePrefix}" . DataConnector::RESOURCE_LINK_TABLE_NAME . ' ' .
                 'WHERE (resource_link_pk = %s)';
             $types = array("integer");
             $values = array($id);
@@ -1107,10 +1101,10 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
             $rid = $resourceLink->getId();
             $cid = $resourceLink->getContext()->getRecordId();
             $query = 'SELECT resource_link_pk, context_pk, consumer_pk, lti_resource_link_id, settings, primary_resource_link_pk, share_approved, created, updated ' .
-                "FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' r ' .
+                "FROM {$this->dbTableNamePrefix}" . DataConnector::RESOURCE_LINK_TABLE_NAME . ' r ' .
                 'WHERE (r.lti_resource_link_id = %s) AND ((r.context_pk = %s) OR (r.consumer_pk IN (' .
                 'SELECT c.consumer_pk ' .
-                "FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::CONTEXT_TABLE_NAME . ' c ' .
+                "FROM {$this->dbTableNamePrefix}" . DataConnector::CONTEXT_TABLE_NAME . ' c ' .
                 'WHERE (c.context_pk = %s))))';
             $types = array("text", "integer", "integer");
             $values = array($rid, $cid, $cid);
@@ -1118,8 +1112,8 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
             $id = $resourceLink->getPlatform()->getRecordId();
             $rid = $resourceLink->getId();
             $query = 'SELECT r.resource_link_pk, r.context_pk, r.consumer_pk, r.lti_resource_link_id, r.settings, r.primary_resource_link_pk, r.share_approved, r.created, r.updated ' .
-                "FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' r LEFT OUTER JOIN ' .
-                $this->dbTableNamePrefix . ToolProvider\DataConnector\DataConnector::CONTEXT_TABLE_NAME . ' c ON r.context_pk = c.context_pk ' .
+                "FROM {$this->dbTableNamePrefix}" . DataConnector::RESOURCE_LINK_TABLE_NAME . ' r LEFT OUTER JOIN ' .
+                $this->dbTableNamePrefix . DataConnector::CONTEXT_TABLE_NAME . ' c ON r.context_pk = c.context_pk ' .
                 ' WHERE ((r.consumer_pk = %s) OR (c.consumer_pk = %s)) AND (lti_resource_link_id = %s)';
             $types = array("integer", "integer", "text");
             $values = array($id, $id, $rid);
@@ -1151,8 +1145,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                 }
                 $resourceLink->setSettings($settings);
                 if (!is_null($row->primary_resource_link_pk)) {
-                    //                    $resourceLink->primaryResourceLinkId = intval($row->primary_resource_link_pk); //UK Check
-                    $resourceLink->primaryResourceLinkId = (string) ($row->primary_resource_link_pk);
+                    $resourceLink->primaryResourceLinkId = intval($row->primary_resource_link_pk);
                 } else {
                     $resourceLink->primaryResourceLinkId = null;
                 }
@@ -1207,10 +1200,10 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         }
         $id = $resourceLink->getRecordId();
         if (empty($id)) {
-            $resourceLink->setRecordId($ilDB->nextId(ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME));
+            $resourceLink->setRecordId($ilDB->nextId(DataConnector::RESOURCE_LINK_TABLE_NAME));
             $id = $resourceLink->getRecordId();
             $resourceLink->created = $time;
-            $query = "INSERT INTO {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' (resource_link_pk, consumer_pk, context_pk, ' .
+            $query = "INSERT INTO {$this->dbTableNamePrefix}" . DataConnector::RESOURCE_LINK_TABLE_NAME . ' (resource_link_pk, consumer_pk, context_pk, ' .
                 'lti_resource_link_id, settings, primary_resource_link_pk, share_approved, created, updated) ' .
                 'VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)';
             $types = array("integer",
@@ -1234,7 +1227,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                             $now
             );
         } elseif (!is_null($contextId)) {
-            $query = "UPDATE {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' SET ' .
+            $query = "UPDATE {$this->dbTableNamePrefix}" . DataConnector::RESOURCE_LINK_TABLE_NAME . ' SET ' .
                 'consumer_pk = %s, lti_resource_link_id = %s, settings = %s, ' .
                 'primary_resource_link_pk = %s, share_approved = %s, updated = %s ' .
                 'WHERE (context_pk = %s) AND (resource_link_pk = %s)';
@@ -1249,7 +1242,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                             $id
             );
         } else {
-            $query = "UPDATE {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' SET ' .
+            $query = "UPDATE {$this->dbTableNamePrefix}" . DataConnector::RESOURCE_LINK_TABLE_NAME . ' SET ' .
                 'context_pk = %s, lti_resource_link_id = %s, settings = %s, ' .
                 'primary_resource_link_pk = %s, share_approved = %s, updated = %s ' .
                 'WHERE (consumer_pk = %s) AND (resource_link_pk = %s)';
@@ -1287,7 +1280,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         $ilDB = $this->database;
 
         // Delete any outstanding share keys for resource links for this consumer
-        $query = "DELETE FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_SHARE_KEY_TABLE_NAME . ' ' .
+        $query = "DELETE FROM {$this->dbTableNamePrefix}" . DataConnector::RESOURCE_LINK_SHARE_KEY_TABLE_NAME . ' ' .
             'WHERE (resource_link_pk = %s)';
         $types = array("integer");
         $values = array($resourceLink->getRecordId());
@@ -1295,7 +1288,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
         // Delete users
         if ($ok) {
-            $query = "DELETE FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' ' .
+            $query = "DELETE FROM {$this->dbTableNamePrefix}" . DataConnector::USER_RESULT_TABLE_NAME . ' ' .
                 'WHERE (resource_link_pk = %s)';
             $types = array("integer");
             $values = array($resourceLink->getRecordId());
@@ -1304,7 +1297,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
         // Update any resource links for which this is the primary resource link
         if ($ok) {
-            $query = "UPDATE {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' ' .
+            $query = "UPDATE {$this->dbTableNamePrefix}" . DataConnector::RESOURCE_LINK_TABLE_NAME . ' ' .
                 'SET primary_resource_link_pk = NULL ' .
                 'WHERE (primary_resource_link_pk = %s)';
             $types = array("integer");
@@ -1314,7 +1307,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
         // Delete resource link
         if ($ok) {
-            $query = "DELETE FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' ' .
+            $query = "DELETE FROM {$this->dbTableNamePrefix}" . DataConnector::RESOURCE_LINK_TABLE_NAME . ' ' .
                 'WHERE (resource_link_pk = %s)';
             $types = array("integer");
             $values = array($resourceLink->getRecordId());
@@ -1334,13 +1327,13 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
      * resource links which are sharing this resource link.  It may also be optionally indexed by the user ID of a specified scope.
      * @param ResourceLink $resourceLink Resource link object
      * @param boolean      $localOnly    True if only users within the resource link are to be returned (excluding users sharing this resource link)
-     * @param int          $idScope      Scope value to use for user IDs
+     * @param IdScope          $idScope      Scope value to use for user IDs
      * @return array Array of User objects
      */
     public function getUserResultSourcedIDsResourceLink(
         ResourceLink $resourceLink,
         bool $localOnly,
-        int $idScope
+        ?IdScope $idScope
     ): array {
         $ilDB = $this->database;
 
@@ -1422,7 +1415,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
      * @param PlatformNonce $nonce Nonce object
      * @return boolean True if the nonce object was successfully loaded
      */
-    public function loadPlatformNonce(\ILIAS\LTI\ToolProvider\PlatformNonce $nonce): bool
+    public function loadPlatformNonce(PlatformNonce $nonce): bool
     {
         $ilDB = $this->database;
 
@@ -1430,12 +1423,12 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
         // Delete any expired nonce values
         $now = date("{$this->dateFormat} {$this->timeFormat}", time());//PRÜFEN UK
-        $query = "DELETE FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::NONCE_TABLE_NAME . " WHERE expires <= %s";
+        $query = "DELETE FROM {$this->dbTableNamePrefix}" . DataConnector::NONCE_TABLE_NAME . " WHERE expires <= %s";
         $types = array("timestamp");
         $values = array($now);
         $ilDB->manipulateF($query, $types, $values);
         // Load the nonce
-        $query = "SELECT value AS T FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::NONCE_TABLE_NAME . ' WHERE (consumer_pk = %s) AND (value = %s)';
+        $query = "SELECT value AS T FROM {$this->dbTableNamePrefix}" . DataConnector::NONCE_TABLE_NAME . ' WHERE (consumer_pk = %s) AND (value = %s)';
         $types = array("integer", "text");
         $values = array($nonce->getPlatform()->getRecordId(), $nonce->getValue());
         $rs_nonce = $ilDB->queryF($query, $types, $values);
@@ -1454,12 +1447,12 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
      * @param PlatformNonce $nonce Nonce object
      * @return boolean True if the nonce object was successfully saved
      */
-    public function savePlatformNonce(\ILIAS\LTI\ToolProvider\PlatformNonce $nonce): bool
+    public function savePlatformNonce(PlatformNonce $nonce): bool
     {
         $ilDB = $this->database;
 
         $expires = date("{$this->dateFormat} {$this->timeFormat}", $nonce->expires);
-        $query = "INSERT INTO {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::NONCE_TABLE_NAME . " (consumer_pk, value, expires) VALUES (%s, %s, %s)";
+        $query = "INSERT INTO {$this->dbTableNamePrefix}" . DataConnector::NONCE_TABLE_NAME . " (consumer_pk, value, expires) VALUES (%s, %s, %s)";
         $types = array("integer", "text", "timestamp");
         $values = array($nonce->getPlatform()->getRecordId(), $nonce->getValue(), $expires);
         $ok = (bool) $ilDB->manipulateF($query, $types, $values);
@@ -1486,7 +1479,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
         // Clear expired share keys
         $now = date("{$this->dateFormat} {$this->timeFormat}", time());
-        $query = "DELETE FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_SHARE_KEY_TABLE_NAME . " WHERE expires <= '%s'";
+        $query = "DELETE FROM {$this->dbTableNamePrefix}" . DataConnector::RESOURCE_LINK_SHARE_KEY_TABLE_NAME . " WHERE expires <= '%s'";
         $types = array("timestamp");
         $values = array($now);
         $ilDB->manipulateF($query, $types, $values);
@@ -1495,7 +1488,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         // $id = mysql_real_escape_string($shareKey->getId());//ACHTUNG UK utf8
         $id = $shareKey->getId();
         $query = 'SELECT resource_link_pk, auto_approve, expires ' .
-            "FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_SHARE_KEY_TABLE_NAME . ' ' .
+            "FROM {$this->dbTableNamePrefix}" . DataConnector::RESOURCE_LINK_SHARE_KEY_TABLE_NAME . ' ' .
             "WHERE share_key_id = %s";
         $types = array("text");
         $values = array($id);
@@ -1528,7 +1521,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
             $approve = 0;
         }
         $expires = date("{$this->dateFormat} {$this->timeFormat}", $shareKey->expires);
-        $query = "INSERT INTO {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_SHARE_KEY_TABLE_NAME . ' ' .
+        $query = "INSERT INTO {$this->dbTableNamePrefix}" . DataConnector::RESOURCE_LINK_SHARE_KEY_TABLE_NAME . ' ' .
             '(share_key_id, resource_link_pk, auto_approve, expires) ' .
             "VALUES (%s, %s, %s, %s)";
         $types = array("text", "integer", "integer", "timestamp");
@@ -1547,7 +1540,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     {
         $ilDB = $this->database;
 
-        $query = "DELETE FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_SHARE_KEY_TABLE_NAME . " WHERE share_key_id = %s";
+        $query = "DELETE FROM {$this->dbTableNamePrefix}" . DataConnector::RESOURCE_LINK_SHARE_KEY_TABLE_NAME . " WHERE share_key_id = %s";
         $types = array("text");
         $values = array($shareKey->getId());
         $ok = (bool) $ilDB->manipulateF($query, $types, $values);
@@ -1566,23 +1559,23 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
     /**
      * Load user object.
-     * @param User $user User object
+     * @param User $userresult User object
      * @return boolean True if the user object was successfully loaded
      */
-    public function loadUserResult(\ILIAS\LTI\ToolProvider\User $userresult): bool
+    public function loadUserResult(User $userresult): bool
     {
         $ilDB = $this->database;
         $id = $userresult->getRecordId();
         if (!is_null($id)) {
             $query = 'SELECT user_pk, resource_link_pk, lti_user_id, lti_result_sourcedid, created, updated ' .
-                'FROM ' . $this->dbTableNamePrefix . ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' ' .
+                'FROM ' . $this->dbTableNamePrefix . DataConnector::USER_RESULT_TABLE_NAME . ' ' .
                 'WHERE user_pk = ' . $ilDB->quote($id, 'integer');
         } else {
             $rid = $userresult->getResourceLink()->getRecordId();
             $uid = $userresult->getId(ToolProvider\Tool::ID_SCOPE_ID_ONLY);
 
             $query = 'SELECT user_pk, resource_link_pk, lti_user_id, lti_result_sourcedid, created, updated ' .
-                'FROM ' . $this->dbTableNamePrefix . ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' ' .
+                'FROM ' . $this->dbTableNamePrefix . DataConnector::USER_RESULT_TABLE_NAME . ' ' .
                 'WHERE resource_link_pk = ' . $ilDB->quote($rid, 'integer') . ' ' .
                 'AND lti_user_id = ' . $ilDB->quote($uid, 'text');
         }
@@ -1612,7 +1605,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
      * @param User $user User object
      * @return boolean True if the user object was successfully saved
      */
-    public function saveUserResult(\ILIAS\LTI\ToolProvider\User $userresult): bool
+    public function saveUserResult(User $userresult): bool
     {
         $ilDB = $this->database;
 
@@ -1622,11 +1615,11 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         $now = date($this->dateFormat . ' ' . $this->timeFormat, $time);
         if (is_null($userresult->created)) {
             //        if (is_null($user->getRecordId())) {
-            $userresult->setRecordId($ilDB->nextId($this->dbTableNamePrefix . ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME));
+            $userresult->setRecordId($ilDB->nextId($this->dbTableNamePrefix . DataConnector::USER_RESULT_TABLE_NAME));
             $userresult->created = $time;
             $rid = $userresult->getResourceLink()->getRecordId();
             $uid = $userresult->getId(ToolProvider\Tool::ID_SCOPE_ID_ONLY);
-            $query = 'INSERT INTO ' . $this->dbTableNamePrefix . ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' ' .
+            $query = 'INSERT INTO ' . $this->dbTableNamePrefix . DataConnector::USER_RESULT_TABLE_NAME . ' ' .
                 '(user_pk,resource_link_pk,lti_user_id, lti_result_sourcedid, created, updated) ' .
                 'VALUES( ' .
                 $ilDB->quote($userresult->getRecordId(), 'integer') . ', ' .
@@ -1637,7 +1630,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                 $ilDB->quote($now, 'text') .
                 ')';
         } else {
-            $query = 'UPDATE ' . $this->dbTableNamePrefix . ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' ' .
+            $query = 'UPDATE ' . $this->dbTableNamePrefix . DataConnector::USER_RESULT_TABLE_NAME . ' ' .
                 'SET lti_result_sourcedid = ' . $ilDB->quote($userresult->ltiResultSourcedId, 'text') . ', ' .
                 'updated = ' . $ilDB->quote($now, 'text') . ' ' .
                 'WHERE user_pk = ' . $ilDB->quote($userresult->getRecordId(), 'integer');
@@ -1662,11 +1655,11 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
      * @param User $user User object
      * @return boolean True if the user object was successfully deleted
      */
-    public function deleteUser(\ILIAS\LTI\ToolProvider\User $user): bool
+    public function deleteUser(DataConnectorUser $user): bool
     {
         $ilDB = $this->database;
 
-        $query = 'DELETE from ' . $this->dbTableNamePrefix . ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' ' .
+        $query = 'DELETE from ' . $this->dbTableNamePrefix . DataConnector::USER_RESULT_TABLE_NAME . ' ' .
             'WHERE user_pk = ' . $ilDB->quote($user->getRecordId(), 'integer');
 
         $ok = false;
@@ -1743,7 +1736,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         return $results;
     }
 
-    public static function getDataConnector(object $db = null, string $dbTableNamePrefix = '', string $type = ''): ilLTIDataConnector
+    public static function getDataConnector(mixed $db = null, string $dbTableNamePrefix = '', string $type = ''): ilLTIDataConnector
     {
         $dataConnector = new ilLTIDataConnector();
         return $dataConnector;

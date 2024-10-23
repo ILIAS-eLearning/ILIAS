@@ -18,38 +18,17 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-//use ILIAS\LTI\ToolProvider;
-#use ILIAS\LTI\ToolProvider\DataConnector\DataConnector;
-#use ilLTIDataConnector;
-use ILIAS\LTI\ToolProvider\MediaType;
-use ILIAS\LTI\ToolProvider\Profile;
-use ILIAS\LTI\ToolProvider\Content\Item;
-use ILIAS\LTI\ToolProvider\Jwt\Jwt;
-use ILIAS\LTI\ToolProvider\Http\HTTPMessage;
-use ILIAS\LTIOAuth;
-use ILIAS\LTI\ToolProvider\ApiHook\ApiHook;
-use ILIAS\LTI\ToolProvider\Util;
-#use ILIAS\LTI\ToolProvider\OAuthDataStore;
-//added
-use ILIAS\LTI\ToolProvider\Context;
-use ILIAS\LTI\ToolProvider\ResourceLink;
-#use ILIAS\LTI\ToolProvider\User;
-use ILIAS\LTI\ToolProvider\ResourceLinkShareKey;
-
-#use ILIAS\LTI\Profile\Item;
-
-#use ILIAS\LTI\Tool\MediaType;
-#use ILIAS\LTI\Profile;
-
-#use ILIAS\LTI\OAuth;
-
+use ceLTIc\LTI\Context;
+use ceLTIc\LTI\ResourceLink;
+use ceLTIc\LTI\Tool;
+use ceLTIc\LTI\User;
 
 /**
  * LTI provider for LTI launch
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @author Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
  */
-class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
+class ilLTITool extends Tool
 {
     /**
      * @var \ilLogger
@@ -82,17 +61,17 @@ class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
     protected function onLaunch(): void
     {
         // save/update current user
-        if ($this->userResult instanceof \ILIAS\LTI\ToolProvider\User) {
+        if ($this->userResult instanceof User) {
             $this->logger->debug("onLaunch - user");
             $this->userResult->save();
         }
 
-        if ($this->context instanceof \ILIAS\LTI\ToolProvider\Context) {
+        if ($this->context instanceof Context) {
             $this->logger->debug("onLaunch - context");
             $this->context->save();
         }
 
-        if ($this->resourceLink instanceof \ILIAS\LTI\ToolProvider\ResourceLink) {
+        if ($this->resourceLink instanceof ResourceLink) {
             $this->logger->debug("onLaunch - resource");
             $this->resourceLink->save();
         }

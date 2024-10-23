@@ -18,6 +18,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ceLTIc\LTI\Enum\LtiVersion;
+use ceLTIc\LTI\Util;
+
 /**
  * GUI class for LTI provider object settings.
  *
@@ -215,10 +218,10 @@ class ilLTIProviderObjectSettingGUI
             $version = new ilRadioGroupInputGUI($this->lng->txt('lti_obj_version'), 'version_' . $global_consumer->getExtConsumerId());
             $version->setRequired(true);
             if (!is_null($active_consumer->ltiVersion)) {
-                $version->setValue($active_consumer->ltiVersion);
+                $version->setValue($active_consumer->ltiVersion->value);
             }
             //            $version->setInfo($this->lng->txt('lti_obj_version_info'));
-            $op1 = new ilRadioOption($this->lng->txt("lti_obj_version_13"), ILIAS\LTI\ToolProvider\Util::LTI_VERSION1P3);
+            $op1 = new ilRadioOption($this->lng->txt("lti_obj_version_13"), LtiVersion::V1P3->value);
             $sh = new ilNonEditableValueGUI($this->lng->txt('lti_13_step1'), '');
             $sh->setValue($this->lng->txt("lti_13_step1_info"));
             $op1->addSubItem($sh);
@@ -254,13 +257,13 @@ class ilLTIProviderObjectSettingGUI
             $op1->addSubItem($tf);
             $version->addOption($op1);
 
-            $op0 = new ilRadioOption($this->lng->txt("lti_obj_version_11"), ILIAS\LTI\ToolProvider\Util::LTI_VERSION1);
+            $op0 = new ilRadioOption($this->lng->txt("lti_obj_version_11"), LtiVersion::V1->value);
             $url = new ilNonEditableValueGUI($this->lng->txt('lti_launch_url'), 'url');
             $url->setValue(ILIAS_HTTP_PATH . '/lti.php?client_id=' . CLIENT_ID);
             $op0->addSubItem($url);
             $key = new ilNonEditableValueGUI($this->lng->txt('lti_consumer_key'), 'key_' . $global_consumer->getExtConsumerId());
             if (is_null($active_consumer->getKey())) {
-                $active_consumer->setKey(\ILIAS\LTI\ToolProvider\Util::getRandomString(10));//create $id .
+                $active_consumer->setKey(Util::getRandomString(10));//create $id .
             }
             $key->setValue($active_consumer->getKey());
             $op0->addSubItem($key);
