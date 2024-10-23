@@ -97,7 +97,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->ilObjDataCache = $DIC['ilObjDataCache'];
         $this->ilNavigationHistory = $DIC['ilNavigationHistory'];
         $this->ilHelp = $DIC['ilHelp'];
-        $this->mathjax_config = $DIC['ui.mathjax_config'];
+        $this->mathjax_config = $DIC[MathjaxConfig::class];
         $this->rbac = $DIC->rbac();
         $this->factory = $DIC->ui()->factory();
         $this->renderer = $DIC->ui()->renderer();

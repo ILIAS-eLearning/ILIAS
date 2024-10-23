@@ -102,7 +102,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->component_factory = $DIC['component.factory'];
         $this->component_repository = $DIC['component.repository'];
         $this->navigation_history = $DIC['ilNavigationHistory'];
-        $this->mathjax_config = $DIC['ui.mathjax_config'];
+        $this->mathjax_config = $DIC[MathjaxConfig::class];
         $this->ui_service = $DIC->uiService();
         $this->taxonomy = $DIC->taxonomy();
         $this->http = $DIC->http();

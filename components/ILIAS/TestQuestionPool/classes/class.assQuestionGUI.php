@@ -179,7 +179,7 @@ abstract class assQuestionGUI
         $this->logger = $DIC['ilLog'];
         $this->component_repository = $DIC['component.repository'];
         $this->refinery = $DIC['refinery'];
-        $this->mathjax_config = $DIC['ui.mathjax_config'];
+        $this->mathjax_config = $DIC[MathjaxConfig::class];
 
         $local_dic = QuestionPoolDIC::dic();
         $this->request = $local_dic['request_data_collector'];

@@ -118,7 +118,7 @@ trait GlobalDICGUIServices
 
     public function mathjaxConfig(): MathjaxConfig
     {
-        return $this->DIC["ui.mathjax_config"];
+        return $this->DIC[MathJaxConfig::class];
     }
 
     public function navigationHistory(): \ilNavigationHistory

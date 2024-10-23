@@ -71,7 +71,7 @@ class ilQuestionEditGUI
         $this->access = $DIC['ilAccess'];
         $this->lng = $DIC['lng'];
         $this->rbac_system = $DIC['rbacsystem'];
-        $this->mathjax_config = $DIC['ui.mathjax_config'];
+        $this->mathjax_config = $DIC[MathjaxConfig::class];
 
         $local_dic = QuestionPoolDIC::dic();
         $this->request = $local_dic['request_data_collector'];

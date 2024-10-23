@@ -33,6 +33,7 @@ use ILIAS\Data\Result\Error;
 use ILIAS\Refinery\Transformation;
 use ILIAS\FileDelivery\Init;
 use ILIAS\LegalDocuments\Conductor;
+use ILIAS\UI\Implementation\Render\MathJaxConfig;
 
 // needed for slow queries, etc.
 if (!isset($GLOBALS['ilGlobalStartTime']) || !$GLOBALS['ilGlobalStartTime']) {
@@ -1551,7 +1552,7 @@ class ilInitialisation
     public static function initUIFramework(\ILIAS\DI\Container $c): void
     {
         // must be done here to avoid settings/db access in InitUIFramework
-        $c["ui.mathjax_config"] = function ($c) {
+        $c[MathjaxConfig::class] = function ($c) {
             // this reads the enabling/disabling setting for MathJax rendering in the browser
             $setting = new ilSetting('UI');
             return new \ILIAS\UI\Implementation\Render\MathJaxDefaultConfig(

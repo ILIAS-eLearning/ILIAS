@@ -25,6 +25,7 @@ use ILIAS\UI\Implementation\Crawler as Crawler;
 use ILIAS\DI\Container;
 use ILIAS\UI\NotImplementedException;
 use ILIAS\FileUpload\FileUpload;
+use ILIAS\UI\Implementation\Render\MathJaxConfig;
 
 /**
  * Class ExamplesTest Checks if all examples are implemented and properly returning strings
@@ -65,8 +66,8 @@ class ExamplesTest extends ILIAS_UI_TestBase
         );
         (new InitUIFramework())->init($this->dic);
 
+        $this->dic[MathjaxConfig::class] = $this->getMathJaxConfig();
         $this->dic["ui.template_factory"] = $this->getTemplateFactory();
-        $this->dic["ui.mathjax_config"] = $this->getMathJaxConfig();
 
         $this->dic["ilCtrl"] = $this->getMockBuilder(\ilCtrl::class)->disableOriginalConstructor()->onlyMethods([
             "getFormActionByClass","setParameterByClass","saveParameterByClass","getLinkTargetByClass", "isAsynch"

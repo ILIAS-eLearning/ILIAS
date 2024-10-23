@@ -65,7 +65,7 @@ class ilCOPageHTMLExport
 
         $this->log = ilLoggerFactory::getLogger('copg');
         $this->user = $DIC->user();
-        $this->mathjax_config = $DIC['ui.mathjax_config'];
+        $this->mathjax_config = $DIC[MathjaxConfig::class];
         $this->global_screen = $DIC->globalScreen();
         $this->skill_tree_service = $DIC->skills()->tree();
         $this->skill_personal_service = $DIC->skills()->personal();

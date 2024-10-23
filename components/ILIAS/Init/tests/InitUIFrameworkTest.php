@@ -39,7 +39,7 @@ class InitUIFrameworkTest extends TestCase
         $this->dic["tpl"] = $this->createMock("\ilGlobalTemplateInterface");
         $this->dic["refinery"] = $this->createMock("\ILIAS\Refinery\Factory");
         $this->dic["help.text_retriever"] = $this->createMock("ILIAS\UI\Help\TextRetriever\Echoing");
-        $this->dic["ui.mathjax_config"] = $this->createMock(MathJaxConfig::class);
+        $this->dic[MathJaxConfig::class] = $this->createMock(MathJaxConfig::class);
     }
 
     public function testUIFrameworkInitialization(): void

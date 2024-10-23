@@ -59,7 +59,7 @@ class ilForumExportGUI
         $this->ilObjDataCache = $DIC['ilObjDataCache'];
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
-        $this->mathjax_config = $DIC['ui.mathjax_config'];
+        $this->mathjax_config = $DIC[MathjaxConfig::class];
 
         $this->ref_id = $this->retrieveRefId();
 

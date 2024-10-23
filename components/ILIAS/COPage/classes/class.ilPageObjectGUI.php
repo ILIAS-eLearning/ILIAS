@@ -1721,7 +1721,7 @@ class ilPageObjectGUI
         $lng->loadLanguageModule("copg");
         $ctrl = $DIC->ctrl();
         $ui = $DIC->ui();
-        $mathjax_config = $DIC["ui.mathjax_config"];
+        $mathjax_config = $DIC[MathjaxConfig::class];
 
         $style_service = $DIC->contentStyle()->internal();
         $style_access_manager = $style_service->domain()->access(

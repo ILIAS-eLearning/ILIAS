@@ -327,7 +327,7 @@ trait ilTestBaseTestCaseTrait
 
     protected function addGlobal_mathjaxConfig(): void
     {
-        $this->setGlobalVariable('ui.mathjax_config', $this->createMock(MathJaxConfig::class));
+        $this->setGlobalVariable(MathJaxConfig::class, $this->createMock(MathJaxConfig::class));
     }
 
     protected function getFileDelivery(): \ILIAS\FileDelivery\Services
