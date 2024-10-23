@@ -26,6 +26,7 @@ use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use ILIAS\Refinery\Factory as RefinaryFactory;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\UI\Implementation\Render\MathJaxDefaultConfig;
 
 /**
  * Class UITestHelper can be helpful for test cases outside the UI Components, to inject a working
@@ -51,6 +52,7 @@ class UITestHelper
         $this->dic["refinery"] = new RefinaryFactory($data_factory, $this->dic["lng"]);
         (new InitUIFramework())->init($this->dic);
         $this->dic["ui.template_factory"] = new ilIndependentTemplateFactory();
+        $this->dic["ui.mathjax_config"] = new MathJaxDefaultConfig(false);
         $this->dic["help.text_retriever"] = new ILIAS\UI\Help\TextRetriever\Echoing();
 
         return $this->dic;

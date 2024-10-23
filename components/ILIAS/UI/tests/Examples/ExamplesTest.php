@@ -66,6 +66,7 @@ class ExamplesTest extends ILIAS_UI_TestBase
         (new InitUIFramework())->init($this->dic);
 
         $this->dic["ui.template_factory"] = $this->getTemplateFactory();
+        $this->dic["ui.mathjax_config"] = $this->getMathJaxConfig();
 
         $this->dic["ilCtrl"] = $this->getMockBuilder(\ilCtrl::class)->disableOriginalConstructor()->onlyMethods([
             "getFormActionByClass","setParameterByClass","saveParameterByClass","getLinkTargetByClass", "isAsynch"

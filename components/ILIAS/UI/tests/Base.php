@@ -44,6 +44,8 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\HelpTextRetriever;
 use ILIAS\UI\Help;
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
+use ILIAS\UI\Implementation\Render\MathJaxConfig;
+use ILIAS\UI\Implementation\Render\MathJaxDefaultConfig;
 
 class ilIndependentTemplateFactory implements TemplateFactory
 {
@@ -381,6 +383,11 @@ trait BaseUITestTrait
         return $this->createMock(UploadLimitResolver::class);
     }
 
+    public function getMathJaxConfig(): MathJaxConfig
+    {
+        return new MathJaxDefaultConfig(false);
+    }
+
     /**
      * @param Component[] $with_stub_renderings
      * @param Component[] $with_additional_contexts
@@ -414,7 +421,8 @@ trait BaseUITestTrait
                         $image_path_resolver,
                         $data_factory,
                         $help_text_retriever,
-                        $this->getUploadLimitResolver()
+                        $this->getUploadLimitResolver(),
+                        $this->getMathJaxConfig()
                     ),
                     new GlyphRendererFactory(
                         $ui_factory,
@@ -424,7 +432,8 @@ trait BaseUITestTrait
                         $image_path_resolver,
                         $data_factory,
                         $help_text_retriever,
-                        $this->getUploadLimitResolver()
+                        $this->getUploadLimitResolver(),
+                        $this->getMathJaxConfig()
                     ),
                     new FieldRendererFactory(
                         $ui_factory,
@@ -434,7 +443,8 @@ trait BaseUITestTrait
                         $image_path_resolver,
                         $data_factory,
                         $help_text_retriever,
-                        $this->getUploadLimitResolver()
+                        $this->getUploadLimitResolver(),
+                        $this->getMathJaxConfig()
                     )
                 )
             )

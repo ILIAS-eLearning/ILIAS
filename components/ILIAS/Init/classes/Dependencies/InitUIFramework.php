@@ -339,14 +339,6 @@ class InitUIFramework
             return new ILIAS\UI\Implementation\Component\Entity\Factory();
         };
 
-        $c["ui.mathjax_config"] = function ($c) {
-            // this reads the enabling/disabling setting for MathJax rendering in the browser
-            $setting = new ilSetting('UI');
-            return new \ILIAS\UI\Implementation\Render\MathJaxDefaultConfig(
-                (bool) $setting->get('mathjax_enabled'),
-            );
-        };
-
         // currently this is will be a session storage because we cannot store
         // data on the client, see https://mantis.ilias.de/view.php?id=38503.
         $c["ui.storage"] = function ($c): ArrayAccess {
