@@ -62,6 +62,13 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
                 ]
             );
 
+        $database->method('tableColumnExists')->willReturnMap(
+            [
+                ['il_cert_user_cert', 'background_image_path', true],
+                ['il_cert_user_cert', 'thumbnail_image_path', true],
+            ]
+        );
+
         $logger->expects($this->atLeastOnce())
             ->method('debug');
 
