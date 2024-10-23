@@ -8,15 +8,11 @@
 
 #### Better UI for Select Options
 
-The current form for options of (multi-)select fields allows the user to
-make too many manipulations at once to be able to determine user intent
-reliably: simultaneous changes in positions, values, as well as adding and
-deleting options can't be mapped uniquely to how the existing options should
-be changed individually.
+The current form for options of (multi-)select fields was reworked using
+legacy inputs, see [PR 7108](https://github.com/ILIAS-eLearning/ILIAS/pull/7108).
 
-To really make use of the newly implemented IDs for options, the UI should
-be adapted accordingly, such that individual options can be identified
-during editing.
+The form, along with all other forms to create/edit fields, should be
+moved to KS, and streamlined.
 
 #### Repository for Records, Field Definitions, and Values
 
@@ -48,6 +44,9 @@ of the main entities, and should be treated as such.
 As the collective repository then requires a reasonable amount of internal
 infrastructure, it should delegate to smaller classes. Overall, an
 assembly-like structure seems sensible.
+
+The larger repository should build on what was started for 
+`FieldDefinitions` in `Repository\FieldDefinition`.
 
 #### Data Objects for Records, Field Definitions, and Values
 
