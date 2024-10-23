@@ -96,7 +96,7 @@ class ParticipantTableShowResultsAction implements TableAction
         }
         $this->ctrl->setParameterByClass(
             \ilTestEvaluationGUI::class,
-            'q_ids',
+            'active_ids',
             array_reduce(
                 $selected_participants,
                 static function (string $c, Participant $v): string {
