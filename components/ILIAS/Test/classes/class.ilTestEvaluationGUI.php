@@ -120,7 +120,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
     public function showResults()
     {
-        $selected_users = explode(',', $this->testrequest->strVal('q_ids'));
+        $selected_users = explode(',', $this->testrequest->strVal('active_ids'));
+        $this->ctrl->saveParameterByClass(self::class, 'active_ids');
 
         $this->addPrintButtonToToolbar();
         $this->addToggleBestSolutionButtonToToolbar();
