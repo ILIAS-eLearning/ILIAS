@@ -89,7 +89,7 @@ class ilPollResultsRenderer
         $tooltips = [];
         $color_index = 0;
         foreach ($results->getOrderedAnswerIds() as $id) {
-            $label = nl2br($results->getAnswerText($id));
+            $label = $this->htmlSpecialCharsAsEntities($results->getAnswerText($id));
             $total_votes = $results->getAnswerTotal($id);
             $tooltip = $total_votes . ' (' . round($results->getAnswerPercentage($id)) . '%)';
             $bar_config = new BarConfig();
@@ -135,15 +135,11 @@ class ilPollResultsRenderer
         $dataset = $this->data_factory->dataset([$votes_label => $c_dimension]);
 
         foreach ($results->getOrderedAnswerIds() as $id) {
+            $label = $this->htmlSpecialCharsAsEntities($results->getAnswerText($id));
             $total_votes = $results->getAnswerTotal($id);
             $tooltip = $total_votes . ' (' . round($results->getAnswerPercentage($id)) . '%)';
-            $dataset = $dataset->withPoint(
-                nl2br($results->getAnswerText($id)),
-                [$votes_label => $total_votes]
-            )->withAlternativeInformation(
-                nl2br($results->getAnswerText($id)),
-                [$votes_label => $tooltip]
-            );
+            $dataset = $dataset->withPoint($label, [$votes_label => $total_votes])
+                               ->withAlternativeInformation($label, [$votes_label => $tooltip]);
         }
 
         $bar_config = new BarConfig();
@@ -154,5 +150,10 @@ class ilPollResultsRenderer
                                                   ->withLegendVisible(false)
                                                   ->withBarConfigs([$votes_label => $bar_config]);
         $tpl->setVariable('CHART', $this->ui_renderer->render($chart));
+    }
+
+    protected function htmlSpecialCharsAsEntities(string $string): string
+    {
+        return $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(nl2br($string));
     }
 }
