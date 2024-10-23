@@ -21,7 +21,7 @@ declare(strict_types=1);
 
 class ilOpenIdAttributeMappingTemplate
 {
-    const OPEN_ID_CONFIGURED_SCOPES = 'auth_oidc_configured_scopes';
+    final const OPEN_ID_CONFIGURED_SCOPES = 'auth_oidc_configured_scopes';
 
     /**
      * @param array $additional_scopes

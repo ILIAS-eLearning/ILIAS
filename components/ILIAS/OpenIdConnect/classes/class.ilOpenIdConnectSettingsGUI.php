@@ -42,6 +42,7 @@ class ilOpenIdConnectSettingsGUI
     private const DEFAULT_VALUES = 1;
     private const SAVED_VALUES = 2;
     private const POST_VALUE = 'Mode';
+
     private int $ref_id;
     /** @var array $body */
     private $body;
@@ -515,7 +516,7 @@ class ilOpenIdConnectSettingsGUI
         $custom_scopes = [];
 
         $form = $this->initScopesForm();
-        if ($this->request->getMethod() == "POST") {
+        if ($this->request->getMethod() === 'POST') {
             $request_form = $form->withRequest($this->request);
             $result = $request_form->getData();
             if (is_null($result)) {
