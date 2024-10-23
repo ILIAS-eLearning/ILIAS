@@ -24,8 +24,7 @@ declare(strict_types=1);
 class ilOpenIdConnectUserSync
 {
     public const AUTH_MODE = 'oidc';
-
-    private ilOpenIdConnectSettings $settings;
+    
     private readonly ilLogger $logger;
     private readonly ilXmlWriter $writer;
     private stdClass $user_info;
@@ -36,11 +35,10 @@ class ilOpenIdConnectUserSync
 
     private ilUserDefinedFields $udf;
 
-    public function __construct(ilOpenIdConnectSettings $settings, stdClass $user_info)
+    public function __construct(private readonly ilOpenIdConnectSettings $settings, stdClass $user_info)
     {
         global $DIC;
 
-        $this->settings = $settings;
         $this->user_info = $user_info;
 
         $this->logger = $DIC->logger()->auth();
