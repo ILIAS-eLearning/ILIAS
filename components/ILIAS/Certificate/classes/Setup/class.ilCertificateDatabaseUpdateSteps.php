@@ -80,15 +80,50 @@ class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
 
     public function step_6(): void
     {
-        if (
-            $this->db->tableExists('il_cert_user_cert')
-            && !$this->db->tableColumnExists('il_cert_user_cert', 'certificate_id')
-        ) {
+        if ($this->db->tableExists('il_cert_user_cert') &&
+            !$this->db->tableColumnExists('il_cert_user_cert', 'certificate_id')) {
             $this->db->addTableColumn('il_cert_user_cert', 'certificate_id', [
-                'type' => 'text',
+                'type' => ilDBConstants::T_TEXT,
                 'length' => 64,
                 'notnull' => false,
             ]);
+        }
+    }
+
+    public function step_7(): void
+    {
+        if ($this->db->tableExists('il_cert_user_cert') &&
+            $this->db->tableColumnExists('il_cert_user_cert', 'certificate_id')) {
+
+            try {
+                $this->db->dropUniqueConstraint('il_cert_user_cert', 'c1');
+            } catch (ilDatabaseException|PDOException) {
+                // Nothing to do
+            }
+
+            $this->db->manipulateF(
+                'UPDATE il_cert_user_cert SET certificate_id = %s WHERE certificate_id IS NULL',
+                [ilDBConstants::T_TEXT],
+                ['-']
+            );
+
+            $this->db->modifyTableColumn('il_cert_user_cert', 'certificate_id', [
+                'type' => ilDBConstants::T_TEXT,
+                'length' => 64,
+                'notnull' => true,
+                'default' => '-'
+            ]);
+        }
+    }
+
+    public function step_8(): void
+    {
+        $query = 'SELECT COUNT(*) cnt FROM il_cert_user_cert WHERE certificate_id = ' .
+            $this->db->quote('-', ilDBConstants::T_TEXT);
+        $res = $this->db->query($query);
+        $num = (int) $this->db->fetchAssoc($res)['cnt'];
+        if ($num === 0) {
+            $this->db->addUniqueConstraint('il_cert_user_cert', ['certificate_id'], 'c1');
         }
     }
 }
