@@ -602,8 +602,8 @@ AND  usr_id = ' . $this->database->quote($userId, 'integer');
             $row['ilias_version'],
             (bool) $row['currently_active'],
             new CertificateId($row['certificate_id']),
-            (string) $row['background_image_path'],
-            (string) $row['thumbnail_image_path'],
+            (string) ($row['background_image_path'] ?? ''),
+            (string) ($row['thumbnail_image_path'] ?? ''),
             (string) $row['background_image_ident'],
             (string) $row['thumbnail_image_ident'],
             isset($row['id']) ? (int) $row['id'] : null

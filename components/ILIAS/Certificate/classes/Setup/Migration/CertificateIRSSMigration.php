@@ -73,7 +73,7 @@ class CertificateIRSSMigration implements Migration
         if ($remaining_paths > 0) {
             $remaining_paths = $this->stepTemplateCertificates($remaining_paths);
         }
-        if ($remaining_paths > 0) {
+        if ($remaining_paths === 0) {
             $this->lastStep();
         }
     }

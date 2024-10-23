@@ -137,7 +137,7 @@ class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
                 'background_image_ident',
                 [
                     'type' => 'text',
-                    'length' => 64,
+                    'length' => 255,
                     'notnull' => false,
                 ]
             );
@@ -147,7 +147,7 @@ class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
                 'thumbnail_image_ident',
                 [
                     'type' => 'text',
-                    'length' => 64,
+                    'length' => 255,
                     'notnull' => false,
                 ]
             );
@@ -161,7 +161,7 @@ class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
                 'background_image_ident',
                 [
                     'type' => 'text',
-                    'length' => 64,
+                    'length' => 255,
                     'notnull' => false,
                 ]
             );
@@ -171,7 +171,7 @@ class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
                 'thumbnail_image_ident',
                 [
                     'type' => 'text',
-                    'length' => 64,
+                    'length' => 255,
                     'notnull' => false,
                 ]
             );

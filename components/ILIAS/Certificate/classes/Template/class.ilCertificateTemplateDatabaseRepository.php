@@ -479,8 +479,8 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
             $row['ilias_version'],
             (int) $row['created_timestamp'],
             (bool) $row['currently_active'],
-            (string) $row['background_image_path'],
-            (string) $row['thumbnail_image_path'],
+            (string) ($row['background_image_path'] ?? ''),
+            (string) ($row['thumbnail_image_path'] ?? ''),
             (string) $row['background_image_ident'],
             (string) $row['thumbnail_image_ident'],
             isset($row['id']) ? (int) $row['id'] : null
