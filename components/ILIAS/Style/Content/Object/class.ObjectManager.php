@@ -214,6 +214,15 @@ class ObjectManager
         return "";
     }
 
+    public function getGlobalDefaultTitle(): string
+    {
+        $style_id = (int) $this->settings->get("default_content_style_id");
+        if ($style_id > 0) {
+            return ilObject::_lookupTitle($style_id);
+        }
+        return "";
+    }
+
     public function hasEffectiveIndividualStyle(int $current_style): bool
     {
         if ($this->globalFixed()) {

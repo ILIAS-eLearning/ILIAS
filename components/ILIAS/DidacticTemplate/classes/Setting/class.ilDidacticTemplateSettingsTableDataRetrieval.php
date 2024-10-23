@@ -25,6 +25,8 @@ use ILIAS\Data\Order;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
+use ILIAS\StaticURL\Services as StaticURLService;
+use ILIAS\Data\Factory as DataFactory;
 
 class ilDidacticTemplateSettingsTableDataRetrieval implements DataRetrieval
 {
@@ -32,17 +34,23 @@ class ilDidacticTemplateSettingsTableDataRetrieval implements DataRetrieval
     protected ilLanguage $lng;
     protected UIFactory $ui_factory;
     protected UIRenderer $ui_renderer;
+    protected StaticURLService $static_url;
+    protected DataFactory $data_factory;
 
     public function __construct(
         ilDidacticTemplateSettingsTableFilter $filter,
         ilLanguage $lng,
         UIFactory $ui_factory,
         UIRenderer $ui_renderer,
+        StaticURLService $static_url,
+        DataFactory $data_factory
     ) {
         $this->filter = $filter;
         $this->lng = $lng;
         $this->ui_factory = $ui_factory;
         $this->ui_renderer = $ui_renderer;
+        $this->static_url = $static_url;
+        $this->data_factory = $data_factory;
     }
 
     public function getRows(
@@ -101,7 +109,10 @@ class ilDidacticTemplateSettingsTableDataRetrieval implements DataRetrieval
                 foreach ($tpl->getEffectiveFrom() as $ref_id) {
                     $link = $this->ui_renderer->render($this->ui_factory->link()->standard(
                         ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id)),
-                        ilLink::_getLink($ref_id)
+                        (string) $this->static_url->builder()->build(
+                            ilObject::_lookupType($ref_id, true),
+                            $this->data_factory->refId($ref_id)
+                        )
                     ));
                     $scope_str .= "<br>";
                     $scope_str .= $link;

@@ -43,12 +43,19 @@ class ilPollExporter extends ilXmlExporter
     public function getValidSchemaVersions(string $a_entity): array
     {
         return [
+            "10.0" => [
+                "namespace" => "http://www.ilias.de/Services/Modules/Poll/10_0",
+                "xsd_file" => "ilias_poll_10_0.xsd",
+                "uses_dataset" => true,
+                "min" => "10.0",
+                "max" => ""
+            ],
             "5.0.0" => [
                 "namespace" => "http://www.ilias.de/Services/Modules/Poll/5_0",
                 "xsd_file" => "ilias_poll_5_0.xsd",
                 "uses_dataset" => true,
                 "min" => "5.0.0",
-                "max" => ""
+                "max" => "9.99"
             ],
             "4.3.0" => [
                 "namespace" => "http://www.ilias.de/Services/Modules/Poll/4_3",

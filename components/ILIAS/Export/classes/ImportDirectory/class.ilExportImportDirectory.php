@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +14,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Filesystem\Filesystem;
 
@@ -61,9 +60,7 @@ class ilExportImportDirectory extends ilImportDirectory
                                     ->sortByName();
             foreach ($finder as $file) {
                 $basename = basename($file->getPath());
-                if ($this->matchesType($type, $basename)) {
-                    $files[base64_encode($file->getPath())] = $basename;
-                }
+                $files[base64_encode($file->getPath())] = $basename;
             }
         }
         asort($files);

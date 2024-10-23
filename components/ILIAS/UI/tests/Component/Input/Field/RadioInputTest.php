@@ -80,7 +80,7 @@ class RadioInputTest extends ILIAS_UI_TestBase
         $expected = $this->getFormWrappedHtml(
             'radio-field-input',
             $label,
-            '<div id="id_1" class="c-field-radio">' . $expected_options . '</div>',
+            '<div class="c-field-radio">' . $expected_options . '</div>',
             $byline,
             null
         );
@@ -113,7 +113,7 @@ class RadioInputTest extends ILIAS_UI_TestBase
         $expected = $this->getFormWrappedHtml(
             'radio-field-input',
             $label,
-            '<div id="id_1" class="c-field-radio">' . $expected_options . '</div>',
+            '<div class="c-field-radio">' . $expected_options . '</div>',
             $byline,
             null
         );
@@ -129,6 +129,7 @@ class RadioInputTest extends ILIAS_UI_TestBase
         $this->testWithNoByline($radio);
         $this->testWithRequired($radio);
         $this->testWithDisabled($radio);
+        $this->testWithAdditionalOnloadCodeRendersId($radio);
     }
 
 }

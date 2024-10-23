@@ -45,7 +45,7 @@ class Handler implements ilExportHandlerConsumerExportWriterInterface
     }
 
     public function withObjectId(
-        objectId $objectId
+        ObjectId $objectId
     ): ilExportHandlerConsumerExportWriterInterface {
         $clone = clone $this;
         $clone->object_id = $objectId;

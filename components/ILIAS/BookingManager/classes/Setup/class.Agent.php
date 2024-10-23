@@ -29,6 +29,49 @@ class Agent extends Setup\Agent\NullAgent
 {
     public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
-        return new \ilDatabaseUpdateStepsExecutedObjective(new ilBookingManagerDBUpdateSteps());
+        return new Setup\ObjectiveCollection(
+            "Updates of Modules/BookingManager",
+            false,
+            ...$this->getObjectives()
+        );
     }
+
+    protected function getObjectives(): array
+    {
+        $objectives = [];
+
+        $objectives[] = new \ilAccessCustomRBACOperationAddedObjective(
+            "manage_own_reservations",
+            "Manage Own Reservations",
+            "object",
+            3110,
+            ["book"]
+        );
+
+        $objectives[] = new \ilAccessCustomRBACOperationAddedObjective(
+            "manage_all_reservations",
+            "Manage All Reservations",
+            "object",
+            3850,
+            ["book"]
+        );
+
+        $objectives[] = new AccessRBACOperationClonedObjective(
+            "book",
+            "read",
+            "manage_own_reservations"
+        );
+
+        $objectives[] = new AccessRBACOperationClonedObjective(
+            "book",
+            "write",
+            "manage_all_reservations"
+        );
+
+        // db update steps
+        $objectives[] = new \ilDatabaseUpdateStepsExecutedObjective(new ilBookingManagerDBUpdateSteps());
+
+        return $objectives;
+    }
+
 }

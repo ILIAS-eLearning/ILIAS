@@ -39,7 +39,7 @@ class ilQuestionBrowserTableGUITest extends assBaseTestCase
         $this->addGlobal_uiFactory();
 
         $object = new class () {
-            public object $object;
+            private object $object;
 
             public function __construct()
             {
@@ -54,6 +54,11 @@ class ilQuestionBrowserTableGUITest extends assBaseTestCase
                         return false;
                     }
                 };
+            }
+
+            public function getObject(): object
+            {
+                return $this->object;
             }
         };
 

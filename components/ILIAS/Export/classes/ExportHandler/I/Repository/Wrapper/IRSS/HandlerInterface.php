@@ -23,7 +23,6 @@ namespace ILIAS\Export\ExportHandler\I\Repository\Wrapper\IRSS;
 use DateTimeImmutable;
 use ILIAS\Export\ExportHandler\I\Info\Export\HandlerInterface as ilExportHandlerExportInfoInterface;
 use ILIAS\Export\ExportHandler\I\Repository\Stakeholder\HandlerInterface as ilExportHandlerRepositoryStakeholderInterface;
-use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 interface HandlerInterface
 {
@@ -33,9 +32,11 @@ interface HandlerInterface
     public function createEmptyContainer(
         ilExportHandlerExportInfoInterface $info,
         ilExportHandlerRepositoryStakeholderInterface $stakeholder
-    ): ResourceIdentification;
+    ): string;
 
-    public function getCreationDate(ResourceIdentification $resource_id): DateTimeImmutable;
+    public function getCreationDate(
+        string $resource_identification_serialized
+    ): DateTimeImmutable;
 
     public function removeContainer(
         string $resource_identification_serialized,

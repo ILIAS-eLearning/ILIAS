@@ -22,7 +22,6 @@ namespace ILIAS\Export\ExportHandler\PublicAccess\Repository\Wrapper\DB;
 
 use ilDBConstants;
 use ilDBInterface;
-use ILIAS\Data\ObjectId;
 use ILIAS\Export\ExportHandler\I\PublicAccess\Repository\Element\CollectionInterface as ilExportHandlerPublicAccessRepositoryElementCollectionInterface;
 use ILIAS\Export\ExportHandler\I\PublicAccess\Repository\Element\FactoryInterface as ilExportHandlerPublicAccessRepositoryElementFactroyInterface;
 use ILIAS\Export\ExportHandler\I\PublicAccess\Repository\Element\HandlerInterface as ilExportHandlerPublicAccessRepositoryElementInterface;
@@ -30,6 +29,7 @@ use ILIAS\Export\ExportHandler\I\PublicAccess\Repository\Key\CollectionInterface
 use ILIAS\Export\ExportHandler\I\PublicAccess\Repository\Key\FactoryInterface as ilExportHandlerPublicAccessRepositoryKeyFactoryInterface;
 use ILIAS\Export\ExportHandler\I\PublicAccess\Repository\Values\FactoryInterface as ilExportHandlerPublicAccessRepositoryValuesFactoryInterface;
 use ILIAS\Export\ExportHandler\I\PublicAccess\Repository\Wrapper\DB\HandlerInterface as ilExportHandlerPublicAccessRepositoryDBWrapperInterface;
+use ILIAS\Export\ExportHandler\I\Wrapper\DataFactory\HandlerInterface as ilExportHandlerDataFactoryWrapperInterface;
 
 class Handler implements ilExportHandlerPublicAccessRepositoryDBWrapperInterface
 {
@@ -37,17 +37,20 @@ class Handler implements ilExportHandlerPublicAccessRepositoryDBWrapperInterface
     protected ilExportHandlerPublicAccessRepositoryKeyFactoryInterface $key_factory;
     protected ilExportHandlerPublicAccessRepositoryValuesFactoryInterface $values_factory;
     protected ilDBInterface $db;
+    protected ilExportHandlerDataFactoryWrapperInterface $data_factory_wrapper;
 
     public function __construct(
         ilDBInterface $db,
         ilExportHandlerPublicAccessRepositoryElementFactroyInterface $element_factory,
         ilExportHandlerPublicAccessRepositoryKeyFactoryInterface $key_factory,
-        ilExportHandlerPublicAccessRepositoryValuesFactoryInterface $values_factory
+        ilExportHandlerPublicAccessRepositoryValuesFactoryInterface $values_factory,
+        ilExportHandlerDataFactoryWrapperInterface $data_factory_wrapper
     ) {
         $this->db = $db;
         $this->element_factory = $element_factory;
         $this->key_factory = $key_factory;
         $this->values_factory = $values_factory;
+        $this->data_factory_wrapper = $data_factory_wrapper;
     }
 
     public function storeElement(
@@ -65,7 +68,7 @@ class Handler implements ilExportHandlerPublicAccessRepositoryDBWrapperInterface
         }
         $res = $this->db->query($this->buildSelectQuery($keys));
         while ($row = $res->fetchAssoc()) {
-            $object_id = new ObjectId((int) $row['object_id']);
+            $object_id = $this->data_factory_wrapper->objId((int) $row['object_id']);
             $key = $this->key_factory->handler()
                 ->withObjectId($object_id);
             $values = $this->values_factory->handler()
@@ -85,7 +88,7 @@ class Handler implements ilExportHandlerPublicAccessRepositoryDBWrapperInterface
         $collection = $this->element_factory->collection();
         $res = $this->db->query($this->buildSelectAllQuery());
         while ($row = $res->fetchAssoc()) {
-            $object_id = new ObjectId((int) $row['object_id']);
+            $object_id = $this->data_factory_wrapper->objId((int) $row['object_id']);
             $key = $this->key_factory->handler()
                 ->withObjectId($object_id);
             $values = $this->values_factory->handler()

@@ -13118,6 +13118,7 @@ poll#:#poll_block_message_already_voted#:#You already voted in this poll.
 poll#:#poll_block_message_no_answers#:#This poll is incomplete.
 poll#:#poll_block_results_available_on#:#The results will be available %s.
 poll#:#poll_cannot_set_online_no_answers#:#The status cannot be changed to &quot;online&quot; because this poll has no question!
+poll#:#poll_chart_votes#:#Votes
 poll#:#poll_comments#:#Comments
 poll#:#poll_copy#:#Copy Poll
 poll#:#poll_delete_votes#:#Delete Votes of All Users
@@ -13142,7 +13143,6 @@ poll#:#poll_notification_deactivated#:#Notification Deactivated
 poll#:#poll_notification_subscribe#:#Activate Notification
 poll#:#poll_notification_unsubscribe#:#Deactivate Notification
 poll#:#poll_percentage#:#Current Percentage
-poll#:#poll_piechart#:#Pie Chart
 poll#:#poll_population#:#%s Participants
 poll#:#poll_population_singular#:#1 Participant
 poll#:#poll_question#:#Question
@@ -13154,6 +13154,7 @@ poll#:#poll_result_sorting_votes#:#By number of votes (descending)
 poll#:#poll_result_users#:#Participants
 poll#:#poll_show_results_as#:#Show Results as
 poll#:#poll_sortorder#:#Order
+poll#:#poll_stacked_chart#:#Stacked Chart
 poll#:#poll_view_results#:#Display Results
 poll#:#poll_view_results_after_period#:#After Voting Period
 poll#:#poll_view_results_after_period_impossible#:#The voting period is not limited.
@@ -13850,6 +13851,8 @@ rbac#:#blog_write#:#User can edit blog settings
 rbac#:#book_copy#:#User can copy booking pool
 rbac#:#book_delete#:#User can move or delete booking pool
 rbac#:#book_edit_permission#:#User can change permission settings for booking pool
+rbac#:#book_manage_all_reservations#:#User can manage all reservations
+rbac#:#book_manage_own_reservations#:#User can manage own reservations
 rbac#:#book_read#:#User can book resources / objects in booking pool
 rbac#:#book_visible#:#Booking pool is visible
 rbac#:#book_write#:#User can edit settings and content of booking pool
@@ -14187,9 +14190,11 @@ rbac#:#mail_smtp_mail#:#User can send e-mails per SMTP to external addresses
 rbac#:#mail_to_global_roles#:#Global Mails
 rbac#:#mail_visible#:#Mail administration is visible
 rbac#:#mail_write#:#User can edit settings in Mail administration
+rbac#:#manage_all_reservations#:#Manage All Reservations
 rbac#:#manage_comp#:#Edit Competences
 rbac#:#manage_comp_temp#:#Edit Competence Templates
 rbac#:#manage_materials#:#Manage Materials
+rbac#:#manage_own_reservations#:#Manage Own Reservations
 rbac#:#manage_profiles#:#Edit Competence Profiles
 rbac#:#mcst_copy#:#User can copy mediacast
 rbac#:#mcst_delete#:#User can move or delete mediacast

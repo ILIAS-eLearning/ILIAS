@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Data\ObjectId;
+use ILIAS\Data\Factory as ilDataFactory;
 use ILIAS\Data\ReferenceId;
 use ILIAS\DI\Container;
 use ILIAS\Export\ExportHandler\I\Table\RowId\HandlerInterface as ilExportHandlerTableRowIdInterface;
@@ -38,6 +39,7 @@ class ilExportExportOptionXML extends ilBasicExportOption
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
     protected ilObjUser $user;
+    protected ilDataFactory $data_factory;
 
     public function init(Container $DIC): void
     {
@@ -45,6 +47,7 @@ class ilExportExportOptionXML extends ilBasicExportOption
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $this->user = $DIC->user();
+        $this->data_factory = new ilDataFactory();
     }
 
     public function getExportType(): string
@@ -86,7 +89,7 @@ class ilExportExportOptionXML extends ilBasicExportOption
         ilExportHandlerConsumerContextInterface $context,
         ilExportHandlerConsumerFileIdentifierCollectionInterface $file_identifiers
     ): void {
-        $object_id = new ObjectId($context->exportObject()->getId());
+        $object_id = $this->data_factory->objId($context->exportObject()->getId());
         $keys = $this->export_handler->repository()->key()->collection();
         foreach ($file_identifiers as $file_identifier) {
             $keys = $keys->withElement($this->export_handler->repository()->key()->handler()
@@ -103,7 +106,7 @@ class ilExportExportOptionXML extends ilBasicExportOption
         ilExportHandlerConsumerContextInterface $context,
         ilExportHandlerConsumerFileIdentifierCollectionInterface $file_identifiers
     ): void {
-        $object_id = new ObjectId($context->exportObject()->getId());
+        $object_id = $this->data_factory->objId($context->exportObject()->getId());
         $keys = $this->export_handler->repository()->key()->collection();
         foreach ($file_identifiers as $file_identifier) {
             $keys = $keys->withElement($this->export_handler->repository()->key()->handler()
@@ -134,7 +137,7 @@ class ilExportExportOptionXML extends ilBasicExportOption
     public function getFiles(
         ilExportHandlerConsumerContextInterface $context
     ): ilExportHandlerFileInfoCollectionInterface {
-        $object_id = new ObjectId($context->exportObject()->getId());
+        $object_id = $this->data_factory->objId($context->exportObject()->getId());
         return $this->buildElements($context, $object_id, [], true);
     }
 
@@ -142,7 +145,7 @@ class ilExportExportOptionXML extends ilBasicExportOption
         ilExportHandlerConsumerContextInterface $context,
         ilExportHandlerConsumerFileIdentifierCollectionInterface $file_identifiers
     ): ilExportHandlerFileInfoCollectionInterface {
-        $object_id = new ObjectId($context->exportObject()->getId());
+        $object_id = $this->data_factory->objId($context->exportObject()->getId());
         return $this->buildElements($context, $object_id, $file_identifiers->toStringArray());
     }
 
@@ -164,7 +167,7 @@ class ilExportExportOptionXML extends ilBasicExportOption
             }
         }
         $elements = $this->export_handler->repository()->handler()->getElements($keys);
-        $object_id = new ObjectId($context->exportObject()->getId());
+        $object_id = $this->data_factory->objId($context->exportObject()->getId());
         $collection_builder = $context->fileCollectionBuilder();
         foreach ($elements as $element) {
             $collection_builder = $collection_builder->withResourceIdentifier(

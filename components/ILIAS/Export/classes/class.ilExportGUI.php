@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Data\ObjectId;
+use ILIAS\Data\Factory as ilDataFactory;
 use ILIAS\DI\UIServices as ilUIServices;
 use ILIAS\Export\ExportHandler\I\Consumer\Context\HandlerInterface as ilExportHandlerConsumerContextInterface;
 use ILIAS\Export\ExportHandler\I\Consumer\ExportOption\CollectionInterface as ilExportHandlerConsumerExportOptionCollectionInterface;
@@ -56,6 +57,7 @@ class ilExportGUI
     protected ilTree $tree;
     protected ilExportHandler $export_handler;
     protected ilExportHandlerConsumerContextInterface $context;
+    protected ilDataFactory $data_factory;
     protected object $parent_gui;
 
     public function __construct(object $a_parent_gui, ?ilObject $a_main_obj = null)
@@ -79,6 +81,7 @@ class ilExportGUI
         $this->export_handler = new ilExportHandler();
         $this->context = $this->export_handler->consumer()->context()->handler($this, $this->obj);
         $this->export_options = $this->export_handler->consumer()->exportOption()->collection();
+        $this->data_factory = new ilDataFactory();
         $this->initExportOptions();
         $this->enableStandardXMLExport();
     }
@@ -181,7 +184,7 @@ class ilExportGUI
 
     final protected function enableStandardXMLExport(): void
     {
-        # Exception for Test, TestQuestionPool, OrgUnit
+        # Exception for Test, TestQuestionPool
         if (in_array($this->obj->getType(), ["tst", "qpl"])) {
             return;
         }
@@ -194,7 +197,7 @@ class ilExportGUI
         foreach ($export_options as $export_option) {
             if (
                 in_array($this->obj->getType(), $export_option->getSupportedRepositoryObjectTypes()) and
-                $export_option->isObjectSupported(new ObjectId($this->obj->getId()))
+                $export_option->isObjectSupported($this->data_factory->objId($this->obj->getId()))
             ) {
                 $this->export_options = $this->export_options->withElement($export_option);
             }
@@ -323,7 +326,7 @@ class ilExportGUI
         $manager = $this->export_handler->manager()->handler();
         if (count($ref_ids_all) === 1) {
             $export_info = $manager->getExportInfo(
-                new ObjectId($this->obj->getId()),
+                $this->data_factory->objId($this->obj->getId()),
                 time()
             );
             $element = $manager->createExport(
@@ -338,12 +341,12 @@ class ilExportGUI
             $object_id_collection_builder = $manager->getObjectIdCollectioBuilder();
             foreach ($obj_ids_all as $obj_id) {
                 $object_id_collection_builder = $object_id_collection_builder->addObjectId(
-                    new ObjectId($obj_id),
+                    $this->data_factory->objId($obj_id),
                     in_array($obj_id, $obj_ids_export)
                 );
             }
             $container_export_info = $manager->getContainerExportInfo(
-                new ObjectId($obj_ids_all[0]),
+                $this->data_factory->objId($obj_ids_all[0]),
                 $object_id_collection_builder->getCollection()
             );
             $element = $manager->createContainerExport($this->il_user->getId(), $container_export_info);

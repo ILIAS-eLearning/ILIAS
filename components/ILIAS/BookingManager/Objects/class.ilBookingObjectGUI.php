@@ -27,11 +27,11 @@ class ilBookingObjectGUI
     protected ilBookBulkCreationGUI $bulk_creation_gui;
     protected ilObjBookingPool $pool;
     protected \ILIAS\BookingManager\InternalGUIService $gui;
+    protected \ILIAS\BookingManager\Access\AccessManager $access;
     protected \ILIAS\BookingManager\StandardGUIRequest $book_request;
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
-    protected ilAccessHandler $access;
     protected ilTabsGUI $tabs;
     protected ilBookingHelpAdapter $help;
     protected ilObjectDataCache $obj_data_cache;
@@ -63,7 +63,7 @@ class ilBookingObjectGUI
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC["tpl"];
         $this->lng = $DIC->language();
-        $this->access = $DIC->access();
+        $this->access = $DIC->bookingManager()->internal()->domain()->access();
         $this->tabs = $DIC->tabs();
         $this->help = $help;
         $this->obj_data_cache = $DIC["ilObjDataCache"];
@@ -232,11 +232,10 @@ class ilBookingObjectGUI
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        $ilAccess = $this->access;
 
         $bar = "";
 
-        if ($this->isManagementActivated() && $ilAccess->checkAccess('write', '', $this->getPoolRefId())) {
+        if ($this->isManagementActivated() && $this->access->canManageObjects($this->getPoolRefId())) {
             $bar = new ilToolbarGUI();
             $bar->addButton($lng->txt('book_add_object'), $ilCtrl->getLinkTarget($this, 'create'));
 
@@ -283,7 +282,7 @@ class ilBookingObjectGUI
      */
     public function create(ilPropertyFormGUI $a_form = null): void
     {
-        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
+        if (!$this->access->canManageObjects($this->ref_id)) {
             return;
         }
 
@@ -308,7 +307,7 @@ class ilBookingObjectGUI
      */
     public function edit(ilPropertyFormGUI $a_form = null): void
     {
-        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
+        if (!$this->access->canManageObjects($this->ref_id)) {
             return;
         }
 
@@ -437,7 +436,7 @@ class ilBookingObjectGUI
 
     public function save(): void
     {
-        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
+        if (!$this->access->canManageObjects($this->ref_id)) {
             return;
         }
 
@@ -496,7 +495,7 @@ class ilBookingObjectGUI
 
     public function update(): void
     {
-        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
+        if (!$this->access->canManageObjects($this->ref_id)) {
             return;
         }
 
@@ -553,7 +552,7 @@ class ilBookingObjectGUI
 
     public function confirmDelete(): void
     {
-        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
+        if (!$this->access->canManageObjects($this->ref_id)) {
             return;
         }
 
@@ -579,7 +578,7 @@ class ilBookingObjectGUI
 
     public function delete(): void
     {
-        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
+        if (!$this->access->canManageObjects($this->ref_id)) {
             return;
         }
 

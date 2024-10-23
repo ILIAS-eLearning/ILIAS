@@ -20,8 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\Test\ExportHandler\Table\RowId;
 
-use PHPUnit\Framework\TestCase;
+use Exception;
 use ILIAS\Export\ExportHandler\Table\RowId\Handler as ilExportHandlerTableRowId;
+use PHPUnit\Framework\TestCase;
 
 class HandlerTest extends TestCase
 {
@@ -30,16 +31,20 @@ class HandlerTest extends TestCase
         $file_identifier = "super_xml:something";
         $export_option_id = "super_export_option";
         $composit_id = $export_option_id . ':' . $file_identifier;
-        $table_row_id = new ilExportHandlerTableRowId();
-        $table_row_id_1 = $table_row_id
-            ->withFileIdentifier($file_identifier)
-            ->withExportOptionId($export_option_id);
-        $table_row_id_2 = $table_row_id->withCompositId($composit_id);
-        $this->assertEquals($file_identifier, $table_row_id_1->getFileIdentifier());
-        $this->assertEquals($export_option_id, $table_row_id_1->getExportOptionId());
-        $this->assertEquals($composit_id, $table_row_id_1->getCompositId());
-        $this->assertEquals($file_identifier, $table_row_id_2->getFileIdentifier());
-        $this->assertEquals($export_option_id, $table_row_id_2->getExportOptionId());
-        $this->assertEquals($composit_id, $table_row_id_2->getCompositId());
+        try {
+            $table_row_id = new ilExportHandlerTableRowId();
+            $table_row_id_1 = $table_row_id
+                ->withFileIdentifier($file_identifier)
+                ->withExportOptionId($export_option_id);
+            $table_row_id_2 = $table_row_id->withCompositId($composit_id);
+            self::assertEquals($file_identifier, $table_row_id_1->getFileIdentifier());
+            self::assertEquals($export_option_id, $table_row_id_1->getExportOptionId());
+            self::assertEquals($composit_id, $table_row_id_1->getCompositId());
+            self::assertEquals($file_identifier, $table_row_id_2->getFileIdentifier());
+            self::assertEquals($export_option_id, $table_row_id_2->getExportOptionId());
+            self::assertEquals($composit_id, $table_row_id_2->getCompositId());
+        } catch (Exception $exception) {
+            self::fail($exception->getMessage());
+        }
     }
 }

@@ -330,4 +330,17 @@ class ilStyleDBUpdateSteps implements \ilDatabaseUpdateSteps
         );
     }
 
+    public function step_21()
+    {
+        if (!$this->db->tableColumnExists('style_data', 'rid')) {
+            $this->db->addTableColumn('style_data', 'rid', [
+                'type' => 'text',
+                'notnull' => false,
+                'length' => 64,
+                'default' => ''
+            ]);
+        }
+    }
+
+
 }

@@ -16,14 +16,13 @@
  *
  *********************************************************************/
 
-use ILIAS\Filesystem\Stream\Streams;
-
 /**
  * Booking process ui class
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilBookingProcessWithoutScheduleGUI implements \ILIAS\BookingManager\BookingProcess\BookingProcessGUI
 {
+    protected \ILIAS\BookingManager\Access\AccessManager $access;
     protected \ILIAS\BookingManager\Reservations\ReservationManager $reservation;
     protected \ILIAS\BookingManager\BookingProcess\ProcessUtilGUI $util_gui;
     protected \ILIAS\BookingManager\InternalRepoService $repo;
@@ -41,7 +40,6 @@ class ilBookingProcessWithoutScheduleGUI implements \ILIAS\BookingManager\Bookin
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
-    protected ilAccessHandler $access;
     protected ilTabsGUI $tabs_gui;
     protected ilObjUser $user;
     protected int $book_obj_id;
@@ -57,7 +55,6 @@ class ilBookingProcessWithoutScheduleGUI implements \ILIAS\BookingManager\Bookin
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC["tpl"];
         $this->lng = $DIC->language();
-        $this->access = $DIC->access();
         $this->tabs_gui = $DIC->tabs();
         $this->user = $DIC->user();
         $this->help = $DIC->bookingManager()->internal()
@@ -101,6 +98,7 @@ class ilBookingProcessWithoutScheduleGUI implements \ILIAS\BookingManager\Bookin
             $this->pool,
             $this
         );
+        $this->access = $DIC->bookingManager()->internal()->domain()->access();
     }
 
     public function executeCommand(): void
@@ -126,6 +124,12 @@ class ilBookingProcessWithoutScheduleGUI implements \ILIAS\BookingManager\Bookin
                     $this->$cmd();
                 }
         }
+    }
+
+    protected function showNoPermission(): void
+    {
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_permission"), true);
+        $this->back();
     }
 
     //
@@ -154,6 +158,10 @@ class ilBookingProcessWithoutScheduleGUI implements \ILIAS\BookingManager\Bookin
 
         if ($this->user_id_to_book !== $this->user_id_assigner) {
             $this->ctrl->setParameter($this, 'bkusr', $this->user_id_to_book);
+        }
+
+        if (!$this->access->canManageReservationForUser($this->book_request->getRefId(), $this->user_id_to_book)) {
+            return;
         }
 
         if ($this->pool->usesMessages()) {
@@ -236,6 +244,10 @@ class ilBookingProcessWithoutScheduleGUI implements \ILIAS\BookingManager\Bookin
 
         //add user list as items.
         foreach ($participants as $id) {
+            if (!$this->access->canManageReservationForUser($this->pool->getRefId(), $id)) {
+                $this->showNoPermission();
+                return;
+            }
             $name = ilObjUser::_lookupFullname($id);
             $conf->addItem("participants[]", $id, $name);
         }
@@ -280,6 +292,10 @@ class ilBookingProcessWithoutScheduleGUI implements \ILIAS\BookingManager\Bookin
         }
         $rsv_ids = array();
         foreach ($participants as $id) {
+            if (!$this->access->canManageReservationForUser($this->pool->getRefId(), $id)) {
+                $this->showNoPermission();
+                return;
+            }
             $this->user_id_to_book = $id;
             $rsv_ids[] = $this->process->bookSingle(
                 $this->book_obj_id,

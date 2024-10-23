@@ -33,7 +33,7 @@ class Factory implements ilExportHandlerPublicAccessRepositoryDBWrapperFactoryIn
 
     public function __construct(
         ilExportHandlerFactoryInterface $export_handler,
-        ilDBInterface $db
+        ilDBInterface $db,
     ) {
         $this->export_handler = $export_handler;
         $this->db = $db;
@@ -46,6 +46,7 @@ class Factory implements ilExportHandlerPublicAccessRepositoryDBWrapperFactoryIn
             $this->export_handler->publicAccess()->repository()->element(),
             $this->export_handler->publicAccess()->repository()->key(),
             $this->export_handler->publicAccess()->repository()->values(),
+            $this->export_handler->wrapper()->dataFactory()->handler()
         );
     }
 }

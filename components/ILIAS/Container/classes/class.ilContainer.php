@@ -409,6 +409,8 @@ class ilContainer extends ilObject
         /** @var ilObjCourse $new_obj */
         $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
 
+        $log = ilLoggerFactory::getLogger("cont");
+
         // translations
         $ot = ilObjectTranslation::getInstance($this->getId());
         $ot->setDefaultTitle($new_obj->getTitle());     // get possible "- COPY" extension

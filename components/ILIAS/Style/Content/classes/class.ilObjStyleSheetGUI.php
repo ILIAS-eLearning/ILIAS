@@ -29,6 +29,7 @@ use ILIAS\Style\Content;
  */
 class ilObjStyleSheetGUI extends ilObjectGUI
 {
+    protected Content\InternalDomainService $domain;
     protected ilPropertyFormGUI $form_gui;
     protected ilPropertyFormGUI $form;
     protected Content\StandardGUIRequest $style_request;
@@ -98,6 +99,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
             $style_id,
             $this->access_manager
         );
+        $this->domain = $this->service->domain();
     }
 
     /**
@@ -190,7 +192,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $forms[] = $this->getImportForm();
         $forms[] = $this->getCloneForm();
 
-        $tpl->setContent($this->getCreationFormsHTML($forms));
+        $tpl->setContent($this->getCreationFormsHTML($this->getCreateForm()));
     }
 
     protected function getCreateForm(): ilPropertyFormGUI
@@ -541,6 +543,21 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         }
         $this->object = $newObj;
         return $newObj->getId();
+    }
+
+    public function handleImport(
+        \ILIAS\FileUpload\FileUpload $upload,
+        \ILIAS\FileUpload\DTO\UploadResult $result
+    ): \ILIAS\FileUpload\Handler\BasicHandlerResult {
+        $new_id = $this->domain->style(0)->importFromUploadResult(
+            $result
+        );
+        return new \ILIAS\FileUpload\Handler\BasicHandlerResult(
+            'obj_id',
+            \ILIAS\FileUpload\Handler\HandlerResult::STATUS_OK,
+            (string) $new_id,
+            ''
+        );
     }
 
 

@@ -23,7 +23,6 @@ use ILIAS\Test\Settings\ScoreReporting\SettingsScoringGUI;
 use ILIAS\Test\Scoring\Manual\TestScoringByQuestionGUI;
 use ILIAS\Test\Scoring\Marks\MarkSchemaGUI;
 use ILIAS\Test\Presentation\TestScreenGUI;
-
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\Refinery\Factory as Refinery;
 
@@ -503,9 +502,14 @@ class ilTestTabsManager
         if ($this->isReadAccessGranted() && !$this->getTestOBJ()->getMainSettings()->getAdditionalSettings()->getHideInfoTab()) {
             $this->tabs->addTarget(
                 'info_short',
-                $this->ctrl->getLinkTargetByClass('ilObjTestGUI', 'infoScreen'),
-                ['infoScreen', 'outIntroductionPage', 'showSummary',
-                    'setAnonymousId', 'redirectToInfoScreen']
+                $this->ctrl->getLinkTargetByClass(
+                    [
+                        ilRepositoryGUI::class,
+                        ilObjTestGUI::class,
+                        ilInfoScreenGUI::class
+                    ]
+                ),
+                ['', 'outIntroductionPage', 'setAnonymousId', 'redirectToInfoScreen']
             );
         }
 

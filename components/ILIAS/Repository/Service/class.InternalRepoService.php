@@ -41,6 +41,8 @@ class InternalRepoService
 
     public function tree(): TreeDBRepo
     {
-        return new TreeDBRepo();
+        return new TreeDBRepo(
+            $this->db
+        );
     }
 }

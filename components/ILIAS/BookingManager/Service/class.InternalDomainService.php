@@ -134,4 +134,13 @@ class InternalDomainService
             $this
         );
     }
+
+    public function access(): Access\AccessManager
+    {
+        return new Access\AccessManager(
+            $this,
+            $this->DIC->access()
+        );
+    }
+
 }

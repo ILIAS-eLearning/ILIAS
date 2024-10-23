@@ -26,7 +26,6 @@ class ilBookCronNotification extends ilCronJob
 {
     protected \ILIAS\BookingManager\InternalRepoService $repo;
     protected ilLanguage $lng;
-    protected ilAccessHandler $access;
     protected ilLogger $book_log;
 
     public function __construct()
@@ -34,9 +33,6 @@ class ilBookCronNotification extends ilCronJob
         global $DIC;
 
         $this->lng = $DIC->language();
-        if (isset($DIC["ilAccess"])) {
-            $this->access = $DIC->access();
-        }
 
         $this->book_log = ilLoggerFactory::getLogger("book");
         $this->repo = $DIC->bookingManager()
@@ -103,6 +99,10 @@ class ilBookCronNotification extends ilCronJob
 
     protected function sendNotifications(): int
     {
+        global $DIC;
+
+        $access = $DIC->bookingManager()->internal()->domain()->access();
+
         $log = $this->book_log;
 
         $log->debug("start");
@@ -162,7 +162,10 @@ class ilBookCronNotification extends ilCronJob
                 // users
                 $log->debug("check notification of user id: " . $r["user_id"]);
                 if (in_array($r["user_id"], $user_ids)) {
-                    if ($this->checkAccess("read", $r["user_id"], $p["booking_pool_id"])) {
+                    if ($access->canRetrieveNotificationsForOwnReservationsByObjId(
+                        (int) $p["booking_pool_id"],
+                        (int) $r["user_id"]
+                    )) {
                         $log->debug("got read");
                         $notifications[$r["user_id"]]["personal"][$r["pool_id"]][] = $r;
                     }
@@ -172,7 +175,10 @@ class ilBookCronNotification extends ilCronJob
                 foreach ($user_ids as $uid) {
                     $log->debug("check write for user id: " . $uid . ", pool: " . $p["booking_pool_id"]);
 
-                    if ($this->checkAccess("write", $uid, $p["booking_pool_id"])) {
+                    if ($access->canRetrieveNotificationsForAllReservationsByObjId(
+                        (int) $p["booking_pool_id"],
+                        (int) $r["user_id"]
+                    )) {
                         $log->debug("got write");
                         $notifications[$uid]["admin"][$r["pool_id"]][] = $r;
                     }
@@ -236,18 +242,4 @@ class ilBookCronNotification extends ilCronJob
     }
 
 
-    // check access on obj id
-    protected function checkAccess(
-        string $perm,
-        int $uid,
-        int $obj_id
-    ): bool {
-        $access = $this->access;
-        foreach (ilObject::_getAllReferences($obj_id) as $ref_id) {
-            if ($access->checkAccessOfUser($uid, $perm, "", $ref_id)) {
-                return true;
-            }
-        }
-        return false;
-    }
 }

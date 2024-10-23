@@ -17,6 +17,8 @@
  *********************************************************************/
 
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
+use ILIAS\ResourceStorage\Resource\StorableContainerResource;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
  * A dataset contains in data in a common structure that can be
@@ -306,8 +308,24 @@ abstract class ilDataSet
                             $path_in_container
                         );
                     }
+
                     $c = $path_in_container;
                     $this->dircnt++;
+
+                    if (($types[$f] ?? "") === "rscontainer") {
+                        /* todo
+                        $tdir = $this->absolute_export_dir . "/dsDir_" . $this->dircnt;
+                        ilFileUtils::makeDirParents($tdir);
+                        $tdir = realpath($tdir);
+                        if ($rid = $this->getContainerRid($rec, $a_entity, $a_schema_version, $f, $c)) {
+                            $stream = $this->irss->consume()->stream($rid);
+                            $name = $tdir . "/rscontainer.zip";
+                            file_put_contents($name, $stream->getStream()->getContents());
+                        }
+                        $c = $this->relative_export_dir . "/dsDir_" . $this->dircnt;
+                        $this->dircnt++;
+                        */
+                    }
                 }
                 // this changes schema/dtd
                 //$a_writer->xmlElement($a_prefixes[$a_entity].":".$f,
@@ -527,6 +545,16 @@ abstract class ilDataSet
         string $field,
         string $value
     ): ?ResourceCollection {
+        return null;
+    }
+
+    public function getContainerRid(
+        array $record,
+        string $entity,
+        string $schema_version,
+        string $field,
+        string $value
+    ): ?ResourceIdentification {
         return null;
     }
 

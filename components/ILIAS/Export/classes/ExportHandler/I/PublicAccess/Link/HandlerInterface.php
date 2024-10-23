@@ -22,12 +22,20 @@ namespace ILIAS\Export\ExportHandler\I\PublicAccess\Link;
 
 use ILIAS\Data\ReferenceId;
 use ILIAS\Data\URI;
+use ILIAS\Export\ExportHandler\I\PublicAccess\Link\HandlerInterface as ilExportHandlerPublicAccessLinkHandlerInterface;
+use ILIAS\Export\ExportHandler\I\PublicAccess\Link\Wrapper\StaticURL\HandlerInterface as ilExportHandlerPublicAccessLinkStaticURLWrapperInterface;
 
 interface HandlerInterface
 {
     public function withReferenceId(ReferenceId $referenceId): HandlerInterface;
 
+    public function withStaticURLWrapper(
+        ilExportHandlerPublicAccessLinkStaticURLWrapperInterface $static_url_wrapper
+    ): ilExportHandlerPublicAccessLinkHandlerInterface;
+
     public function getReferenceId(): ReferenceId;
+
+    public function getStaticURLWrapper(): ilExportHandlerPublicAccessLinkStaticURLWrapperInterface;
 
     public function getLink(): URI;
 }

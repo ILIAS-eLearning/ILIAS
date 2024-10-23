@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class ilExportOptionsTest

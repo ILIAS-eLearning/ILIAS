@@ -734,9 +734,9 @@ class ilObjSurveyQuestionPool extends ilObject
         $qpls = ilUtil::_getObjectsByOperations("spl", $permission, $ilUser->getId(), -1);
         $titles = ilObject::_prepareCloneSelection($qpls, "spl", $showPath);
         $allqpls = array();
-        $result = $ilDB->query("SELECT sq.obj_fi, od.online as isonline FROM svy_qpl sq JOIN object_data od ON ()");
+        $result = $ilDB->query("SELECT sq.obj_fi, od.offline as offline FROM svy_qpl sq JOIN object_data od ON (sq.obj_fi = od.obj_id) WHERE sq.obj_fi > 0 AND sq.tstamp > 0 AND NOT(od.offline = 1)");
         while ($row = $ilDB->fetchAssoc($result)) {
-            $allqpls[$row['obj_fi']] = $row['isonline'];
+            $allqpls[$row['obj_fi']] = !($row['offline']);
         }
         foreach ($qpls as $ref_id) {
             $obj_id = ilObject::_lookupObjectId($ref_id);

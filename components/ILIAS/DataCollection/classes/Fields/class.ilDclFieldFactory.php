@@ -199,6 +199,7 @@ class ilDclFieldFactory
         if ($instance == null) {
             throw new ilDclException("Could not create FieldModel of " . $class);
         }
+        $instance->setDatatypeId($field->getDatatypeId());
 
         if ($field->getId() != null) {
             self::$field_model_cache[$field->getId()] = $instance;

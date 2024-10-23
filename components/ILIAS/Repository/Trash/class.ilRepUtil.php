@@ -41,6 +41,7 @@ class ilRepUtil
      * @param int   $a_cur_ref_id
      * @param int[] $a_ids ref ids
      * @throws ilRepositoryException
+     * @deprecated will be removed with ilias 11
      */
     public static function deleteObjects(
         int $a_cur_ref_id,
@@ -48,123 +49,7 @@ class ilRepUtil
     ): void {
         global $DIC;
 
-        $ilAppEventHandler = $DIC["ilAppEventHandler"];
-        $rbacsystem = $DIC->rbac()->system();
-        $rbacadmin = $DIC->rbac()->admin();
-        $ilLog = $DIC["ilLog"];
-        $tree = $DIC->repositoryTree();
-        $lng = $DIC->language();
-        $ilSetting = $DIC->settings();
-        $user = $DIC->user();
-
-        // deactivating the cache to make functions like
-        // _hasUntrashedReference work properly (e.g. when event listener react)
-        $tree->useCache(false);
-
-        $log = $ilLog;
-
-        // Remove duplicate ids from array
-        $a_ids = array_unique($a_ids);
-
-        // FOR ALL SELECTED OBJECTS
-        $not_deletable = [];
-        $all_node_data = [];
-        foreach ($a_ids as $id) {
-            if ($tree->isDeleted($id)) {
-                $log->write(__METHOD__ . ': Object with ref_id: ' . $id . ' already deleted.');
-                throw new ilRepositoryException($lng->txt("msg_obj_already_deleted"));
-            }
-
-            // GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
-            $node_data = $tree->getNodeData($id);
-            $subtree_nodes = $tree->getSubTree($node_data);
-
-            $all_node_data[] = $node_data;
-            $all_subtree_nodes[] = $subtree_nodes;
-
-            // CHECK DELETE PERMISSION OF ALL OBJECTS
-            foreach ($subtree_nodes as $node) {
-                if ($node['type'] === 'rolf') {
-                    continue;
-                }
-                if (!$rbacsystem->checkAccess('delete', $node["child"])) {
-                    $not_deletable[] = $node["child"];
-                    $perform_delete = false;
-                }
-            }
-        }
-
-        // IF THERE IS ANY OBJECT WITH NO PERMISSION TO DELETE
-        if (is_array($not_deletable) && count($not_deletable) > 0) {
-            $not_deletable_titles = [];
-            foreach ($not_deletable as $key => $ref_id) {
-                $obj_id = ilObject::_lookupObjId($ref_id);
-                $not_deletable_titles[] = ilObject::_lookupTitle($obj_id);
-            }
-
-            ilSession::clear("saved_post");
-            throw new ilRepositoryException(
-                $lng->txt("msg_no_perm_delete") . " " . implode(', ', $not_deletable_titles) . "<br/>" . $lng->txt("msg_cancel")
-            );
-        }
-
-        // DELETE THEM
-        if (!$all_node_data[0]["type"]) {
-            // alex: this branch looks suspicious to me... I deactivate it for
-            // now. Objects that aren't in the tree should overwrite this method.
-            throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type information missing."));
-        }
-
-        // SAVE SUBTREE AND DELETE SUBTREE FROM TREE
-        $affected_ids = [];
-        $affected_parents = [];
-        foreach ($a_ids as $id) {
-            if ($tree->isDeleted($id)) {
-                $log->write(__METHOD__ . ': Object with ref_id: ' . $id . ' already deleted.');
-                throw new ilRepositoryException($lng->txt("msg_obj_already_deleted"));
-            }
-
-            // DELETE OLD PERMISSION ENTRIES
-            $subnodes = $tree->getSubtree($tree->getNodeData($id));
-
-            foreach ($subnodes as $subnode) {
-                $rbacadmin->revokePermission((int) $subnode["child"]);
-
-                $affected_ids[$subnode["child"]] = $subnode["child"];
-                $affected_parents[$subnode["child"]] = $subnode["parent"];
-            }
-
-            // TODO: needs other handling
-            // This class shouldn't have to know anything about ECS
-            ilECSObjectSettings::_handleDelete($subnodes);
-            if (!$tree->moveToTrash($id, true, $user->getId())) {
-                $log->write(__METHOD__ . ': Object with ref_id: ' . $id . ' already deleted.');
-                throw new ilRepositoryException($lng->txt("msg_obj_already_deleted"));
-            }
-
-            // write log entry
-            $log->write("ilObjectGUI::confirmedDeleteObject(), moved ref_id " . $id .
-                " to trash");
-
-            $affected_ids[$id] = $id;
-        }
-
-        // send global events
-        foreach ($affected_ids as $aid) {
-            $ilAppEventHandler->raise(
-                "components/ILIAS/Object",
-                "toTrash",
-                [
-                    "obj_id" => ilObject::_lookupObjId($aid),
-                    "ref_id" => $aid,
-                    "old_parent_ref_id" => $affected_parents[$aid]
-                ]
-            );
-        }
-
-        if (!$ilSetting->get('enable_trash')) {
-            self::removeObjectsFromSystem($a_ids);
-        }
+        $DIC->repository()->internal()->domain()->deletion()->deleteObjectsByRefIds($a_ids);
     }
 
     /**

@@ -20,11 +20,10 @@ declare(strict_types=1);
 
 use ILIAS\Style\Content;
 use ILIAS\Style\Content\Access;
+use ILIAS\Repository\Form\FormAdapterGUI;
 
 /**
- * Content style images UI
- *
- * @author Alexander Killing <killing@leifos.de>
+ * @ilCtrl_Calls ilContentStyleImageGUI: ilRepoStandardUploadHandlerGUI
  */
 class ilContentStyleImageGUI
 {
@@ -78,6 +77,13 @@ class ilContentStyleImageGUI
         $cmd = $ctrl->getCmd("listImages");
 
         switch ($next_class) {
+
+            case strtolower(ilRepoStandardUploadHandlerGUI::class):
+                $form = $this->getImageForm();
+                $gui = $form->getRepoStandardUploadHandlerGUI("image");
+                $ctrl->forwardCommand($gui);
+                break;
+
             default:
                 if (in_array($cmd, [
                     "listImages", "addImage", "cancelUpload", "uploadImage", "deleteImage",
@@ -116,7 +122,7 @@ class ilContentStyleImageGUI
         $tpl = $this->gui->mainTemplate();
 
         $form = $this->getImageForm();
-        $tpl->setContent($form->getHTML());
+        $tpl->setContent($form->render());
     }
 
     public function cancelUpload(): void
@@ -130,37 +136,38 @@ class ilContentStyleImageGUI
     {
         $tpl = $this->gui->mainTemplate();
         $ilCtrl = $this->gui->ctrl();
-
-        $form = $this->getImageForm();
-
-        if ($form->checkInput()) {
-            $this->manager->uploadImage();
-            $ilCtrl->redirect($this, "listImages");
-        } else {
-            //$this->form_gui->setImageFormValuesByPost();
-            $tpl->setContent($form->getHTML());
-        }
+        $ilCtrl->redirect($this, "listImages");
     }
 
-    protected function getImageForm(): ilPropertyFormGUI
+    protected function getImageForm(): FormAdapterGUI
     {
-        $lng = $this->lng;
-        $ilCtrl = $this->gui->ctrl();
+        $form = $this->gui->form(self::class, "uploadImage")
+                          ->section("image_section", $this->lng->txt("sty_add_image"))
+                          ->file(
+                              "image",
+                              $this->lng->txt("sty_image_file"),
+                              $this->handleImageUpload(...),  // Placeholder for upload handler
+                              "image_id",
+                              "",
+                              1,  // Limit to 1 file upload
+                              ["image/jpeg", "image/png", "image/gif", "image/svg+xml"]  // Accepted file types
+                          );
+        return $form;
+    }
 
-        $form_gui = new ilPropertyFormGUI();
-
-        $form_gui->setTitle($lng->txt("sty_add_image"));
-
-        $file_input = new ilImageFileInputGUI($lng->txt("sty_image_file"), "image_file");
-        $file_input->setSuffixes(["jpg","jpeg","png","gif","svg"]);
-        $file_input->setRequired(true);
-        $form_gui->addItem($file_input);
-
-        $form_gui->addCommandButton("uploadImage", $lng->txt("upload"));
-        $form_gui->addCommandButton("cancelUpload", $lng->txt("cancel"));
-        $form_gui->setFormAction($ilCtrl->getFormAction($this));
-
-        return $form_gui;
+    public function handleImageUpload(
+        \ILIAS\FileUpload\FileUpload $upload,
+        \ILIAS\FileUpload\DTO\UploadResult $result
+    ): \ILIAS\FileUpload\Handler\BasicHandlerResult {
+        $this->manager->importFromUploadResult(
+            $result
+        );
+        return new \ILIAS\FileUpload\Handler\BasicHandlerResult(
+            '',
+            \ILIAS\FileUpload\Handler\HandlerResult::STATUS_OK,
+            "dummy",
+            ''
+        );
     }
 
     public function deleteImage(): void

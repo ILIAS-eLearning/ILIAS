@@ -24,6 +24,7 @@ use ILIAS\UI\Component\Input\Container\Form;
  */
 class ilBookingPreferencesGUI
 {
+    protected \ILIAS\BookingManager\Access\AccessManager $access;
     protected \ILIAS\BookingManager\InternalService $service;
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $main_tpl;
@@ -33,7 +34,6 @@ class ilBookingPreferencesGUI
     protected \Psr\Http\Message\ServerRequestInterface $request;
     protected ilObjUser $user;
     protected ilBookingPreferencesDBRepository $repo;
-    protected ilAccessHandler $access;
 
     public function __construct(
         ilObjBookingPool $pool
@@ -49,7 +49,7 @@ class ilBookingPreferencesGUI
         $this->service = $DIC->bookingManager()->internal();
         $this->pool = $pool;
         $this->repo = $this->service->repo()->preferences();
-        $this->access = $DIC->access();
+        $this->access = $DIC->bookingManager()->internal()->domain()->access();
     }
 
     public function executeCommand(): void
@@ -246,7 +246,7 @@ class ilBookingPreferencesGUI
         }
 
         // all users
-        if ($this->access->checkAccess("write", "", $this->pool->getRefId())) {
+        if ($this->access->canManageAllReservations($this->pool->getRefId())) {
             $info_gui->addSection($lng->txt("book_all_users"));
             $preferences = $repo->getPreferences($this->pool->getId());
             $preferences = $preferences->getPreferences();
