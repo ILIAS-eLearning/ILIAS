@@ -89,7 +89,14 @@ class DBUpdateSteps10 implements \ilDatabaseUpdateSteps
             ['common', 'session_reminder_enabled']
         );
         $session_reminder = $result->numRows() ? (bool) $this->db->fetchAssoc($result)['value'] : false;
-        if ($session_reminder) {
+        $query = 'SELECT * FROM settings WHERE module = %s AND keyword = %s';
+        $result = $this->db->queryF(
+            $query,
+            [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT],
+            ['common', 'session_reminder_lead_time']
+        );
+        $session_reminder_lead_time = $result->numRows() ? (int) $this->db->fetchAssoc($result)['value'] : null;
+        if ($session_reminder && !isset($session_reminder_lead_time)) {
             $query = 'INSERT INTO settings (module, keyword, value) VALUES (%s, %s, %s)';
             $this->db->manipulateF(
                 $query,
@@ -103,11 +110,5 @@ class DBUpdateSteps10 implements \ilDatabaseUpdateSteps
                 ['common', 'session_reminder_enabled']
             );
         }
-        $query = 'INSERT INTO settings (module, keyword, value) VALUES (%s, %s, %s)';
-        $this->db->manipulateF(
-            $query,
-            [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_INTEGER],
-            ['common', 'session_reminder_lead_time', \ilSessionReminder::LEAD_TIME_DISABLED]
-        );
     }
 }

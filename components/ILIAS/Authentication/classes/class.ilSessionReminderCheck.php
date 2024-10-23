@@ -43,7 +43,6 @@ class ilSessionReminderCheck
         ilIniFile $clientIni,
         ilLogger $logger,
         ClockInterface $utcClock,
-        private ilSetting $settings
     ) {
         $this->http = $http;
         $this->refinery = $refinery;
