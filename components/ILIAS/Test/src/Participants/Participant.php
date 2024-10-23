@@ -112,8 +112,11 @@ class Participant
         return $this->client_ip_from;
     }
 
-    public function withClientIpFrom(string $ip): self
+    public function withClientIpFrom(?string $ip): self
     {
+        if ($ip === '') {
+            $ip = null;
+        }
         $clone = clone $this;
         $clone->client_ip_from = $ip;
         return $clone;
@@ -124,8 +127,11 @@ class Participant
         return $this->client_ip_to;
     }
 
-    public function withClientIpTo(string $ip): self
+    public function withClientIpTo(?string $ip): self
     {
+        if ($ip === '') {
+            $ip = null;
+        }
         $clone = clone $this;
         $clone->client_ip_to = $ip;
         return $clone;

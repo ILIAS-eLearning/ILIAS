@@ -73,7 +73,9 @@ class ParticipantTableIpRangeAction implements TableAction
         bool $all_participants_selected
     ): ?Modal {
         $valid_ip_constraint = $this->refinery->custom()->constraint(
-            fn(?string $ip): bool => $ip === null || filter_var($ip, FILTER_VALIDATE_IP) !== false,
+            fn(?string $ip): bool => $ip === null
+                || $ip === ''
+                || filter_var($ip, FILTER_VALIDATE_IP) !== false,
             $this->lng->txt('invalid_ip')
         );
 
@@ -161,9 +163,6 @@ class ParticipantTableIpRangeAction implements TableAction
     ): string {
         if ($all_participants_selected) {
             return 'ip_range_for_all_participants';
-        }
-        if (count($selected_participants) === 0) {
-            return $this->lng->txt('no_valid_participant_selection');
         }
 
         if (count($selected_participants) === 1) {
