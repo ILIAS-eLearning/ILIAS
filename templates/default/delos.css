@@ -7550,7 +7550,8 @@ div.alert ul > li:before {
   /* margin-left: -10px; */
 }
 
-.c-modal {
+.c-modal,
+.il-prompt dialog {
   border: none;
   background: none;
   -webkit-box-shadow: 20px 10px 30px rgba(0, 0, 0, 0.15);
@@ -7622,7 +7623,7 @@ div.alert ul > li:before {
   margin: 10px;
 }
 
-.modal-content {
+.modal-content, .il-prompt dialog {
   position: relative;
   background-color: #fff;
   background-clip: padding-box;
@@ -7630,6 +7631,10 @@ div.alert ul > li:before {
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 0px;
   outline: 0;
+}
+
+.il-prompt dialog hr {
+  margin: 0;
 }
 
 .modal-backdrop {
@@ -7650,14 +7655,27 @@ div.alert ul > li:before {
   opacity: 0.5;
 }
 
-.modal-header {
+.modal-header,
+.il-prompt__header,
+.modal-body,
+.il-prompt__contents,
+.modal-footer,
+.il-prompt__buttons {
   padding: 9px 15px;
-  border-bottom: 1px solid #e5e5e5;
 }
-.modal-header::after {
+.modal-header::after,
+.il-prompt__header::after,
+.modal-body::after,
+.il-prompt__contents::after,
+.modal-footer::after,
+.il-prompt__buttons::after {
   display: block;
   clear: both;
   content: "";
+}
+
+.modal-header {
+  border-bottom: 1px solid #e5e5e5;
 }
 
 .modal-header .close {
@@ -7672,14 +7690,12 @@ div.alert ul > li:before {
 
 .modal-body {
   position: relative;
-  padding: 9px 15px;
 }
 .modal-body .il-standard-form .il-standard-form-header + .il-section-input {
   margin-top: 0;
 }
 
 .modal-footer {
-  padding: 9px 15px;
   text-align: right;
   border-top: 1px solid #e5e5e5;
 }
@@ -7726,27 +7742,39 @@ div.alert ul > li:before {
   }
 }
 @media screen and (max-width: 768px) {
-  .c-modal {
+  .c-modal, .il-prompt {
     margin: 0;
     padding: 0;
     max-width: 100vw;
     max-width: 100svw;
   }
 }
-.c-modal .modal-dialog {
+.c-modal .modal-dialog,
+.c-modal dialog, .il-prompt .modal-dialog,
+.il-prompt dialog {
   width: 70vw;
   width: 70svw;
 }
-.c-modal .modal-dialog.modal-sm {
+.c-modal .modal-dialog.modal-sm,
+.c-modal dialog.modal-sm, .il-prompt .modal-dialog.modal-sm,
+.il-prompt dialog.modal-sm {
   width: 40vw;
   width: 40svw;
 }
-.c-modal .modal-dialog.modal-lg {
+.c-modal .modal-dialog.modal-lg,
+.c-modal dialog.modal-lg, .il-prompt .modal-dialog.modal-lg,
+.il-prompt dialog.modal-lg {
   width: 80vw;
   width: 80svw;
 }
 @media screen and (max-width: 768px) {
-  .c-modal .modal-dialog, .c-modal .modal-dialog.modal-sm, .c-modal .modal-dialog.modal-lg {
+  .c-modal .modal-dialog, .c-modal .modal-dialog.modal-sm, .c-modal .modal-dialog.modal-lg,
+  .c-modal dialog,
+  .c-modal dialog.modal-sm,
+  .c-modal dialog.modal-lg, .il-prompt .modal-dialog, .il-prompt .modal-dialog.modal-sm, .il-prompt .modal-dialog.modal-lg,
+  .il-prompt dialog,
+  .il-prompt dialog.modal-sm,
+  .il-prompt dialog.modal-lg {
     width: 100vw;
     width: 100svw;
     max-height: 100vh;
