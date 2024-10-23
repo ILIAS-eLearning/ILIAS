@@ -179,7 +179,7 @@ class ilTestAccess
 
         $ip = $_SERVER['REMOTE_ADDR'];
 
-        if ($this->isParticipantBlockedByIndividulalIPRange($user_id, $ip) === true) {
+        if ($this->isParticipantBlockedByIndividualIPRange($user_id, $ip) === true) {
             return ParticipantAccess::INDIVIDUAL_CLIENT_IP_MISMATCH;
         }
 
@@ -194,7 +194,7 @@ class ilTestAccess
         return ParticipantAccess::ALLOWED;
     }
 
-    private function isParticipantBlockedByIndividulalIPRange(
+    private function isParticipantBlockedByIndividualIPRange(
         int $user_id,
         string $ip
     ): ?bool {
