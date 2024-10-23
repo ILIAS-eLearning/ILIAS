@@ -344,7 +344,7 @@ class ParticipantRepository
 						tatime.additionaltime extra_time,
 			            tinvited.ip_range_from,
 			            tinvited.ip_range_to,
-                        tinvited.tstamp as invitation_date,
+                        tinvited.tstamp as invitation_date
 			FROM		tst_active ta
 			LEFT JOIN	usr_data ud
 			ON 			ud.usr_id = ta.user_fi
@@ -382,7 +382,7 @@ class ParticipantRepository
 						tatime.additionaltime extra_time,
 			            tinvited.ip_range_from,
 			            tinvited.ip_range_to,
-                        tinvited.tstamp as invitation_date,
+                        tinvited.tstamp as invitation_date
 			FROM		tst_invited_user tinvited
 			LEFT JOIN	usr_data ud
 			ON 			ud.usr_id = tinvited.user_fi
