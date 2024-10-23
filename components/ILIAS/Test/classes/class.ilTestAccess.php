@@ -177,24 +177,14 @@ class ilTestAccess
         $access_settings = $this->main_settings_repository->getForObjFi($obj_id)
             ->getAccessSettings();
 
-        if (!$access_settings->getFixedParticipants()
-            && !$access_settings->isIpRangeEnabled()) {
-            return ParticipantAccess::ALLOWED;
-        }
-
         $ip = $_SERVER['REMOTE_ADDR'];
-        $allowed_by_individual_ip = $this->isParticipantWithIpAllowedToAccessTest(
-            $user_id,
-            $ip,
-            $access_settings
-        );
 
-        if ($allowed_by_individual_ip === true) {
-            return ParticipantAccess::ALLOWED;
+        if ($this->isParticipantBlockedByIndividulalIPRange($user_id, $ip) === true) {
+            return ParticipantAccess::INDIVIDUAL_CLIENT_IP_MISMATCH;
         }
 
-        if ($allowed_by_individual_ip === false) {
-            return ParticipantAccess::INDIVIDUAL_CLIENT_IP_MISMATCH;
+        if (!$access_settings->isIpRangeEnabled()) {
+            return ParticipantAccess::ALLOWED;
         }
 
         if (!$this->isIpAllowedToAccessTest($ip, $access_settings)) {
@@ -204,10 +194,9 @@ class ilTestAccess
         return ParticipantAccess::ALLOWED;
     }
 
-    private function isParticipantWithIpAllowedToAccessTest(
+    private function isParticipantBlockedByIndividulalIPRange(
         int $user_id,
-        string $ip,
-        SettingsAccess $access_settings
+        string $ip
     ): ?bool {
         $participant = $this->participant_repository->getParticipantByUserId(
             ilObjTest::_getTestIDFromObjectID(
@@ -215,27 +204,22 @@ class ilTestAccess
             ),
             $user_id
         );
+        $range_start = $participant?->getClientIpFrom();
+        $range_end = $participant?->getClientIpTo();
 
-        if (!$participant) {
-            return false;
-        }
-
-        $range_start = $participant->getClientIpFrom();
-        $range_end = $participant->getClientIpTo();
-
-        if ($range_start === null || $range_end === null) {
+        if ($range_start === null && $range_end === null) {
             return false;
         }
 
         if ($this->isIpTypeOf(FILTER_FLAG_IPV4, $ip, $range_start, $range_end)) {
-            return $this->isIpv4Between($ip, $range_start, $range_end);
+            return !$this->isIpv4Between($ip, $range_start, $range_end);
         }
 
         if ($this->isIpTypeOf(FILTER_FLAG_IPV6, $ip, $range_start, $range_end)) {
-            return $this->isIpv6Between($ip, $range_start, $range_end);
+            return !$this->isIpv6Between($ip, $range_start, $range_end);
         }
 
-        return false;
+        return true;
     }
 
     private function isIpAllowedToAccessTest(
