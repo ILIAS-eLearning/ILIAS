@@ -112,17 +112,11 @@ class Glyph implements C\Symbol\Glyph\Glyph
         $this->highlighted = false;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getType(): string
     {
         return $this->type;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getLabel(): string
     {
         return $this->label;
@@ -136,7 +130,6 @@ class Glyph implements C\Symbol\Glyph\Glyph
     }
 
     /**
-     * @inheritdoc
      * @deprecated with 10; use a Button with a Glyph as label
      */
     public function getAction(): ?string
@@ -144,17 +137,11 @@ class Glyph implements C\Symbol\Glyph\Glyph
         return $this->action;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getCounters(): array
     {
         return array_values($this->counters);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function withCounter(Counter $counter): C\Symbol\Glyph\Glyph
     {
         $clone = clone $this;
@@ -162,17 +149,11 @@ class Glyph implements C\Symbol\Glyph\Glyph
         return $clone;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function isHighlighted(): bool
     {
         return $this->highlighted;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function withHighlight(): C\Symbol\Glyph\Glyph
     {
         $clone = clone $this;
@@ -181,7 +162,6 @@ class Glyph implements C\Symbol\Glyph\Glyph
     }
 
     /**
-     * @inheritdoc
      * @deprecated with 10; use a Button with a Glyph as label
      */
     public function isActive(): bool
@@ -190,7 +170,6 @@ class Glyph implements C\Symbol\Glyph\Glyph
     }
 
     /**
-     * @inheritdoc
      * @deprecated with 10; use a Button with a Glyph as label
      */
     public function withUnavailableAction(): C\Symbol\Glyph\Glyph
@@ -201,7 +180,6 @@ class Glyph implements C\Symbol\Glyph\Glyph
     }
 
     /**
-     * @inheritdoc
      * @deprecated with 10; use a Button with a Glyph as label
      */
     public function withOnClick(Signal $signal): C\Clickable
@@ -210,7 +188,6 @@ class Glyph implements C\Symbol\Glyph\Glyph
     }
 
     /**
-     * @inheritdoc
      * @deprecated with 10; use a Button with a Glyph as label
      */
     public function appendOnClick(Signal $signal): C\Clickable
@@ -219,7 +196,6 @@ class Glyph implements C\Symbol\Glyph\Glyph
     }
 
     /**
-    * @inheritdoc
     * @deprecated with 10; use a Button with a Glyph as label
     */
     public function withAction($action): C\Symbol\Glyph\Glyph
@@ -230,7 +206,6 @@ class Glyph implements C\Symbol\Glyph\Glyph
     }
 
     /**
-     * @inheritdoc
      * @deprecated with 10; use a Button with a Glyph as label
      */
     public function isTabbable(): bool
