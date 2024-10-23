@@ -76,32 +76,6 @@ class ilObjTestListGUI extends ilObjectListGUI
     }
 
     /**
-    * Get command target frame
-    *
-    * @param	string		$cmd			command
-    *
-    * @return	string		command target frame
-    */
-    public function getCommandFrame(string $cmd): string
-    {
-        $frame = '';
-        switch ($cmd) {
-            case "":
-            case "infoScreen":
-            case "eval_a":
-            case "eval_stat":
-                $frame = ilFrameTargetInfo::_getFrame("MainContent");
-                break;
-
-            default:
-        }
-
-        return $frame;
-    }
-
-
-
-    /**
     * Get item properties
     *
     * @return	array		array of property arrays:

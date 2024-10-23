@@ -42,7 +42,7 @@ class ilSessionReminderCheck
         ilDBInterface $db,
         ilIniFile $clientIni,
         ilLogger $logger,
-        ClockInterface $utcClock
+        ClockInterface $utcClock,
     ) {
         $this->http = $http;
         $this->refinery = $refinery;
@@ -93,13 +93,13 @@ class ilSessionReminderCheck
             return $this->toJsonResponse($response);
         }
 
-        $expirationTime = (int) $data['expires'];
-        if (null === $expirationTime) {
+        $expiration_time = (int) $data['expires'];
+        if (null === $expiration_time) {
             $response['message'] = 'ILIAS could not determine the expiration time from the session data.';
             return $this->toJsonResponse($response);
         }
 
-        if ($this->isSessionAlreadyExpired($expirationTime)) {
+        if ($this->isSessionAlreadyExpired($expiration_time)) {
             $response['message'] = 'The session is already expired. The client should have received a remind command before.';
             return $this->toJsonResponse($response);
         }
@@ -111,18 +111,16 @@ class ilSessionReminderCheck
             return $this->toJsonResponse($response);
         }
 
-        $reminderTime = $expirationTime - ((int) max(
-            ilSessionReminder::MIN_LEAD_TIME,
-            (float) $ilUser->getPref('session_reminder_lead_time')
-        )) * 60;
-        if ($reminderTime > $this->clock->now()->getTimestamp()) {
+        $session_reminder = ilSessionReminder::byLoggedInUser();
+        $reminder_time = $expiration_time - ($session_reminder->getEffectiveLeadTime() * 60);
+        if ($reminder_time > $this->clock->now()->getTimestamp()) {
             // session will expire in <lead_time> minutes
             $response['message'] = 'Lead time not reached, yet. Current time: ' .
-                date('Y-m-d H:i:s') . ', Reminder time: ' . date('Y-m-d H:i:s', $reminderTime);
+                date('Y-m-d H:i:s') . ', Reminder time: ' . date('Y-m-d H:i:s', $reminder_time);
             return $this->toJsonResponse($response);
         }
 
-        $dateTime = new ilDateTime($expirationTime, IL_CAL_UNIX);
+        $dateTime = new ilDateTime($expiration_time, IL_CAL_UNIX);
         switch ($ilUser->getTimeFormat()) {
             case ilCalendarSettings::TIME_FORMAT_12:
                 $formatted_expiration_time = $dateTime->get(IL_CAL_FKT_DATE, 'g:ia', $ilUser->getTimeZone());
@@ -141,7 +139,7 @@ class ilSessionReminderCheck
                 '%0A',
                 sprintf(
                     $this->lng->txt('session_reminder_alert'),
-                    ilDatePresentation::secondsToString($expirationTime - $this->clock->now()->getTimestamp()),
+                    ilDatePresentation::secondsToString($expiration_time - $this->clock->now()->getTimestamp()),
                     $formatted_expiration_time,
                     $this->clientIni->readVariable('client', 'name') . ' | ' . ilUtil::_getHttpPath()
                 )

@@ -95,7 +95,7 @@ class ilImportExportFactory
 
         $parts = explode('/', $a_component);
         $component_type = $parts[0];
-        $component = $parts[1];
+        $component = $parts[2] ?? $parts[1];
         $class = '';
         if ($component_type == self::PLUGINS_DIR &&
             $objDefinition->isPlugin($component)) {

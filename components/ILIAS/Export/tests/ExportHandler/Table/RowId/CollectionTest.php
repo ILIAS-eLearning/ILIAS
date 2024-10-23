@@ -20,42 +20,46 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\Test\ExportHandler\Table\RowId;
 
-use PHPUnit\Framework\TestCase;
+use Exception;
+use ILIAS\Export\ExportHandler\I\Table\RowId\HandlerInterface as ilExportHandlerTableRowIdInterface;
 use ILIAS\Export\ExportHandler\Table\RowId\Collection as ilExportHandlerTableRowIdCollection;
-use ILIAS\Export\ExportHandler\Table\RowId\Handler as ilExportHandlerTableRowId;
+use PHPUnit\Framework\TestCase;
 
 class CollectionTest extends TestCase
 {
     public function testExportHandlerTableRowIdCollection(): void
     {
-        $table_row_id_mock_1 = $this->createMock(ilExportHandlerTableRowId::class);
+        $table_row_id_mock_1 = $this->createMock(ilExportHandlerTableRowIdInterface::class);
         $table_row_id_mock_1->method('getFileIdentifier')->willReturn("1");
         $table_row_id_mock_1->method('getExportOptionId')->willReturn("e");
         $table_row_id_mock_1->method('getCompositId')->willReturn("e:1");
-        $table_row_id_mock_2 = $this->createMock(ilExportHandlerTableRowId::class);
+        $table_row_id_mock_2 = $this->createMock(ilExportHandlerTableRowIdInterface::class);
         $table_row_id_mock_2->method('getFileIdentifier')->willReturn("2");
         $table_row_id_mock_2->method('getExportOptionId')->willReturn("e");
         $table_row_id_mock_2->method('getCompositId')->willReturn("e:2");
-        ;
-        $table_row_id_mock_3 = $this->createMock(ilExportHandlerTableRowId::class);
+        $table_row_id_mock_3 = $this->createMock(ilExportHandlerTableRowIdInterface::class);
         $table_row_id_mock_3->method('getFileIdentifier')->willReturn("3");
         $table_row_id_mock_3->method('getExportOptionId')->willReturn("e");
         $table_row_id_mock_3->method('getCompositId')->willReturn("e:3");
-        $empty_collection = new ilExportHandlerTableRowIdCollection();
-        $collection_with_elements = $empty_collection
-            ->withElement($table_row_id_mock_1)
-            ->withElement($table_row_id_mock_2)
-            ->withElement($table_row_id_mock_3);
-        $this->assertEquals(0, $empty_collection->count());
-        $this->assertFalse($empty_collection->valid());
-        $this->assertEquals(3, $collection_with_elements->count());
-        $this->assertTrue($collection_with_elements->valid());
-        $index = 1;
-        foreach ($collection_with_elements as $element) {
-            $this->assertEquals("" . $index, $element->getFileIdentifier());
-            $this->assertEquals("e", $element->getExportOptionId());
-            $this->assertEquals("e:" . $index, $element->getCompositId());
-            $index++;
+        try {
+            $empty_collection = new ilExportHandlerTableRowIdCollection();
+            $collection_with_elements = $empty_collection
+                ->withElement($table_row_id_mock_1)
+                ->withElement($table_row_id_mock_2)
+                ->withElement($table_row_id_mock_3);
+            self::assertEquals(0, $empty_collection->count());
+            self::assertFalse($empty_collection->valid());
+            self::assertEquals(3, $collection_with_elements->count());
+            self::assertTrue($collection_with_elements->valid());
+            $index = 1;
+            foreach ($collection_with_elements as $element) {
+                self::assertEquals("" . $index, $element->getFileIdentifier());
+                self::assertEquals("e", $element->getExportOptionId());
+                self::assertEquals("e:" . $index, $element->getCompositId());
+                $index++;
+            }
+        } catch (Exception $exception) {
+            self::fail($exception->getMessage());
         }
     }
 }

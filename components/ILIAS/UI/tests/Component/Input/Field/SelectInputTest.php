@@ -131,7 +131,8 @@ class SelectInputTest extends ILIAS_UI_TestBase
                 <option value="three">Three</option>
             </select>
             ',
-            $byline
+            $byline,
+            'id_1'
         );
         $this->assertEquals($expected, $this->render($select));
     }
@@ -155,7 +156,8 @@ class SelectInputTest extends ILIAS_UI_TestBase
                 <option value="three">Three</option>
             </select>
             ',
-            $byline
+            $byline,
+            'id_1'
         );
         $this->assertEquals($expected, $this->render($select));
     }
@@ -170,6 +172,7 @@ class SelectInputTest extends ILIAS_UI_TestBase
         $this->testWithNoByline($select);
         $this->testWithRequired($select);
         $this->testWithDisabled($select);
+        $this->testWithAdditionalOnloadCodeRendersId($select);
     }
 
 

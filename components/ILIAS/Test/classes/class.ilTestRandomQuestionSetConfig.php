@@ -396,12 +396,7 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 
             case 'ilobjtestgui':
             case '':
-
-                $cmds = [
-                    'infoScreen', 'participants', 'npSetFilter', 'npResetFilter',
-                ];
-
-                if (in_array($cmd, $cmds)) {
+                if (in_array($cmd, ['infoScreen', 'participants', 'npSetFilter', 'npResetFilter'])) {
                     return true;
                 }
 

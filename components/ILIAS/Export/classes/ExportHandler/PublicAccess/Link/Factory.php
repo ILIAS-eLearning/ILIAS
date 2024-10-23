@@ -23,7 +23,9 @@ namespace ILIAS\Export\ExportHandler\PublicAccess\Link;
 use ILIAS\Export\ExportHandler\I\FactoryInterface as ilExportHandlerFactoryInterface;
 use ILIAS\Export\ExportHandler\I\PublicAccess\Link\FactoryInterface as ilExportHandlerPublicAccessLinkFactoryInterface;
 use ILIAS\Export\ExportHandler\I\PublicAccess\Link\HandlerInterface as ilExportHandlerPublicAccessLinkInterface;
+use ILIAS\Export\ExportHandler\I\PublicAccess\Link\Wrapper\FactoryInterface as ilExportHandlerPublicAccessLinkWrapperFactoryInterface;
 use ILIAS\Export\ExportHandler\PublicAccess\Link\Handler as ilExportHandlerPublicAccessLink;
+use ILIAS\Export\ExportHandler\PublicAccess\Link\Wrapper\Factory as ilExportHandlerPublicAccessLinkWrapperFactory;
 use ILIAS\StaticURL\Services as StaticUrl;
 
 class Factory implements ilExportHandlerPublicAccessLinkFactoryInterface
@@ -41,6 +43,15 @@ class Factory implements ilExportHandlerPublicAccessLinkFactoryInterface
 
     public function handler(): ilExportHandlerPublicAccessLinkInterface
     {
-        return (new ilExportHandlerPublicAccessLink())->withStaticUrl($this->static_url);
+        return (new ilExportHandlerPublicAccessLink())
+            ->withStaticURLWrapper($this->wrapper()->staticURL()->handler());
+    }
+
+    public function wrapper(): ilExportHandlerPublicAccessLinkWrapperFactoryInterface
+    {
+        return new ilExportHandlerPublicAccessLinkWrapperFactory(
+            $this->export_handler,
+            $this->static_url
+        );
     }
 }

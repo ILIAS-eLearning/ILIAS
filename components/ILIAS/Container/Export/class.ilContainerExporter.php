@@ -76,7 +76,7 @@ class ilContainerExporter extends ilXmlExporter
         foreach ($a_ids as $id) {
             // see #24888
             $style = $this->content_style_domain->styleForObjId((int) $id);
-            $style_id = $style->getEffectiveStyleId();
+            $style_id = $style->getExportStyleId();
             if ($style_id > 0) {
                 $style_ids[] = $style_id;
             }

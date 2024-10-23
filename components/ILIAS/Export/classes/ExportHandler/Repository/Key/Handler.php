@@ -22,15 +22,19 @@ namespace ILIAS\Export\ExportHandler\Repository\Key;
 
 use ILIAS\Data\ObjectId;
 use ILIAS\Export\ExportHandler\I\Repository\Key\HandlerInterface as ilExportHandlerRepositoryKeyInterface;
+use ILIAS\Export\ExportHandler\I\Wrapper\DataFactory\HandlerInterface as ilExportHandlerDataFactoryWrapperInterface;
 
 class Handler implements ilExportHandlerRepositoryKeyInterface
 {
+    protected ilExportHandlerDataFactoryWrapperInterface $data_factory_wrapper;
     protected ObjectId $object_id;
     protected string $resource_identification_serialized;
 
-    public function __construct()
-    {
-        $this->object_id = new ObjectId(self::EMPTY_OBJECT_ID);
+    public function __construct(
+        ilExportHandlerDataFactoryWrapperInterface $data_factory_wrapper
+    ) {
+        $this->data_factory_wrapper = $data_factory_wrapper;
+        $this->object_id = $this->data_factory_wrapper->objId(self::EMPTY_OBJECT_ID);
         $this->resource_identification_serialized = self::EMPTY_RESOURCE_IDENTIFICATION;
     }
 
@@ -84,5 +88,29 @@ class Handler implements ilExportHandlerRepositoryKeyInterface
             $this->object_id->toInt() === self::EMPTY_OBJECT_ID and
             $this->resource_identification_serialized !== self::EMPTY_RESOURCE_IDENTIFICATION
         );
+    }
+
+    public function equals(
+        ilExportHandlerRepositoryKeyInterface $other_repository_key
+    ): bool {
+        $object_id_equals =
+            (
+                isset($this->object_id) and
+                isset($other_repository_key->object_id) and
+                $this->object_id->toInt() === $other_repository_key->object_id->toInt()
+            ) || (
+                !isset($this->object_id) and
+                !isset($other_repository_key->object_id)
+            );
+        $resource_id_equals =
+            (
+                isset($this->resource_identification_serialized) and
+                isset($other_repository_key->resource_identification_serialized) and
+                $this->resource_identification_serialized === $other_repository_key->resource_identification_serialized
+            ) || (
+                !isset($this->resource_identification_serialized) and
+                !isset($other_repository_key->resource_identification_serialized)
+            );
+        return $resource_id_equals and $object_id_equals;
     }
 }

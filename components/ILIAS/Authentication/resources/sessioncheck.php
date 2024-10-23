@@ -40,7 +40,7 @@ $DIC->http()->saveResponse(
         $DIC->database(),
         $DIC['ilClientIniFile'],
         $DIC->logger()->auth(),
-        (new DataFactory())->clock()->utc()
+        (new DataFactory())->clock()->utc(),
     )
     )->handle()
 );

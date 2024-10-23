@@ -58,7 +58,7 @@ class ilObjPoll extends ilObject2
     public const VIEW_RESULTS_AFTER_PERIOD = 4;
 
     public const SHOW_RESULTS_AS_BARCHART = 1;
-    public const SHOW_RESULTS_AS_PIECHART = 2;
+    public const SHOW_RESULTS_AS_STACKED_CHART = 2;
 
     public function __construct(int $a_id = 0, bool $a_reference = true)
     {

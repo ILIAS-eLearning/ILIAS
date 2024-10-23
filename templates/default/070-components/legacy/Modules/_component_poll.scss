@@ -46,21 +46,4 @@ img.ilPollQuestionImage {
 
 .ilPollQuestionResults {
 	margin: 10px;
-	font-size: $il-font-size-small;
-}
-
-.ilPollQuestionResult {
-	margin-bottom: 5px;
-}
-
-.ilPollQuestionResult .progress .progress-bar {
-	background-color: $il-main-color;
-}
-
-.ilPollLegend {
-	margin-bottom: 5px;
-}
-
-.ilPollLegend td.legendLabel {
-	font-size: $il-font-size-large;
 }

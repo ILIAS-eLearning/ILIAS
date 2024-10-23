@@ -33,7 +33,8 @@ use ILIAS\Export\ExportHandler\I\Info\Export\HandlerInterface as ilExportHandler
 use ILIAS\Export\ExportHandler\I\Manager\HandlerInterface as ilExportHandlerManagerInterface;
 use ILIAS\Export\ExportHandler\I\Repository\Element\HandlerInterface as ilExportHandlerRepositoryElementInterface;
 use ILIAS\Export\ExportHandler\I\Target\HandlerInterface as ilExportHandlerTargetInterface;
-use ILIAS\Export\ExportHandler\Info\Export\handler as ilExportHandlerExportInfo;
+use ILIAS\Export\ExportHandler\I\Wrapper\DataFactory\HandlerInterface as ilExportHandlerDataFactoryWrapperInterface;
+use ILIAS\Export\ExportHandler\Info\Export\Handler as ilExportHandlerExportInfo;
 use ILIAS\Filesystem\Stream\Streams;
 use ilImportExportFactory;
 use ilObject;
@@ -47,17 +48,20 @@ class Handler implements ilExportHandlerManagerInterface
     protected ilTree $tree;
     protected ilObjectDefinition $obj_definition;
     protected ilAccessHandler $access;
+    protected ilExportHandlerDataFactoryWrapperInterface $data_factory_wrapper;
 
     public function __construct(
         ilExportHandlerFactoryInterface $export_handler,
         ilObjectDefinition $obj_definition,
         ilTree $tree,
-        ilAccessHandler $access
+        ilAccessHandler $access,
+        ilExportHandlerDataFactoryWrapperInterface $data_factory_wrapper
     ) {
         $this->export_handler = $export_handler;
         $this->obj_definition = $obj_definition;
         $this->tree = $tree;
         $this->access = $access;
+        $this->data_factory_wrapper = $data_factory_wrapper;
     }
 
     protected function getExportTarget(
@@ -86,7 +90,7 @@ class Handler implements ilExportHandlerManagerInterface
         $manifest = $this->export_handler->part()->manifest()->handler()
             ->withInfo($export_info);
         $element->getIRSS()->write(
-            Streams::ofString($manifest->getXML()),
+            Streams::ofString($manifest->getXML(false)),
             $path_in_container . DIRECTORY_SEPARATOR . $export_info->getExportFolderName() . DIRECTORY_SEPARATOR . "manifest.xml"
         );
         foreach ($export_info->getComponentInfos() as $component_info) {
@@ -94,7 +98,7 @@ class Handler implements ilExportHandlerManagerInterface
                 ->withExportInfo($export_info)
                 ->withComponentInfo($component_info);
             $element->getIRSS()->write(
-                Streams::ofString($component->getXML()),
+                Streams::ofString($component->getXML(false)),
                 $path_in_container . DIRECTORY_SEPARATOR . $component_info->getExportFilePathInContainer()
             );
         }
@@ -139,7 +143,7 @@ class Handler implements ilExportHandlerManagerInterface
         $container = $this->export_handler->part()->container()->handler()
             ->withExportInfos($container_export_info->getExportInfos()->withElementAtHead($main_export_info))
             ->withMainEntityExportInfo($main_export_info);
-        $main_element->getIRSS()->write(Streams::ofString($container->getXML()), "manifest.xml");
+        $main_element->getIRSS()->write(Streams::ofString($container->getXML(false)), "manifest.xml");
         return $main_element;
     }
 
@@ -153,7 +157,7 @@ class Handler implements ilExportHandlerManagerInterface
         ilFileUtils::makeDirParents($export_info->getLegacyExportRunDir());
 
         $stakeholder = $this->export_handler->repository()->stakeholder()->handler()->withOwnerId($user_id);
-        $object_id = new ObjectId($export_info->getTarget()->getObjectIds()[0]);
+        $object_id = $this->data_factory_wrapper->objId($export_info->getTarget()->getObjectIds()[0]);
         $element = $this->export_handler->repository()->handler()->createElement(
             $object_id,
             $export_info,

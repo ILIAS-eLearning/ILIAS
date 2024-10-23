@@ -33,4 +33,8 @@ interface HandlerInterface
     public function getObjectId(): ObjectId;
 
     public function isValid(): bool;
+
+    public function equals(
+        HandlerInterface $other
+    ): bool;
 }

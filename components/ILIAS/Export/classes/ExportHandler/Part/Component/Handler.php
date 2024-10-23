@@ -41,7 +41,7 @@ class Handler implements ilExportHandlerPartComponentInterface
     {
         $attribs = array("InstallationId" => $this->export_info->getInstallationId(),
             "InstallationUrl" => $this->export_info->getHTTPPath(),
-            "Entity" => $this->component_info->getTarget()->getComponent(),
+            "Entity" => $this->component_info->getTarget()->getType(),
             "SchemaVersion" => $this->component_info->getSchemaVersion(),
             /* "TargetRelease" => $a_target_release, */
             "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",

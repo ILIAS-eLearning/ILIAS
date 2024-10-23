@@ -30,6 +30,7 @@ use ILIAS\Setup\Migration;
 use JsonException;
 use ReflectionClass;
 use ILIAS\Data\UUID\Factory;
+use PDOException;
 
 class CertificateIdMigration implements Migration
 {
@@ -79,11 +80,21 @@ class CertificateIdMigration implements Migration
     {
         $this->db->setLimit(self::NUMBER_OF_CERTS_PER_STEP);
         $result = $this->db->query(
-            'SELECT id, template_values FROM il_cert_user_cert WHERE certificate_id IS NULL'
+            'SELECT id, template_values FROM il_cert_user_cert WHERE certificate_id = ' .
+                $this->db->quote('-', ilDBConstants::T_TEXT)
         );
 
-        while($row = $this->db->fetchAssoc($result)) {
-            $template_values = json_decode($row['template_values'], true, 512, JSON_THROW_ON_ERROR);
+        while ($row = $this->db->fetchAssoc($result)) {
+            try {
+                $template_values = json_decode(
+                    $row['template_values'] ?? json_encode([], JSON_THROW_ON_ERROR),
+                    true,
+                    512,
+                    JSON_THROW_ON_ERROR
+                );
+            } catch (JsonException) {
+                $template_values = [];
+            }
             $certificate_id = $this->uuid_factory->uuid4AsString();
 
             $template_values['CERTIFICATE_ID'] = $certificate_id;
@@ -95,28 +106,30 @@ class CertificateIdMigration implements Migration
             ]);
         }
 
-        if ($this->getRemainingAmountOfSteps() === 0) {
-            $this->db->modifyTableColumn(
-                'il_cert_user_cert',
-                'certificate_id',
-                [
-                    'type' => 'text',
-                    'length' => 64,
-                    'notnull' => true,
-                ]
-            );
-            $this->db->addUniqueConstraint('il_cert_user_cert', ['id', 'certificate_id'], 'c1');
+        $this->applyUniqueConstraint();
+    }
+
+    private function applyUniqueConstraint(): void
+    {
+        try {
+            $this->db->addUniqueConstraint('il_cert_user_cert', ['certificate_id'], 'c1');
+        } catch (ilDatabaseException|PDOException) {
+            // Nothing to do
         }
     }
 
     public function getRemainingAmountOfSteps(): int
     {
         $result = $this->db->query(
-            'SELECT COUNT(id) AS missing_cert_id FROM il_cert_user_cert WHERE certificate_id IS NULL'
+            'SELECT COUNT(id) AS missing_cert_id FROM il_cert_user_cert WHERE certificate_id = ' .
+                $this->db->quote('-', ilDBConstants::T_TEXT)
         );
         $row = $this->db->fetchAssoc($result);
 
         $remaining_certs = (int) $row['missing_cert_id'];
+        if ($remaining_certs === 0) {
+            $this->applyUniqueConstraint();
+        }
 
         return (int) ceil($remaining_certs / self::NUMBER_OF_CERTS_PER_STEP);
     }

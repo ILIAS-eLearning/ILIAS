@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace Test\ImportHandler\File\Validation\Set;
 
-use PHPUnit\Framework\TestCase;
 use ILIAS\Export\ImportHandler\File\Validation\Set\ilCollection as ilFileValidationSetCollection;
 use ILIAS\Export\ImportHandler\File\Validation\Set\ilHandler as ilFileValidationSetHandler;
+use PHPUnit\Framework\TestCase;
 
 class ilCollectionTest extends TestCase
 {
@@ -39,7 +39,7 @@ class ilCollectionTest extends TestCase
             ->withElement($set3);
 
         $this->assertCount(3, $collection);
-        for($i = 0; $i < 3; $i++) {
+        for ($i = 0; $i < 3; $i++) {
             $sets[$i] = $collection->toArray()[$i];
         }
     }

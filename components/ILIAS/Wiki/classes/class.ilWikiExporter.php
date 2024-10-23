@@ -102,7 +102,7 @@ class ilWikiExporter extends ilXmlExporter
 
         // style
         foreach ($a_ids as $id) {
-            $style_id = $this->content_style_domain->styleForObjId($id)->getStyleId();
+            $style_id = $this->content_style_domain->styleForObjId($id)->getExportStyleId();
             if ($style_id > 0) {
                 $deps[] = array(
                     "component" => "components/ILIAS/Style",

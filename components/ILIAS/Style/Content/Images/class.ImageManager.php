@@ -24,6 +24,9 @@ use ILIAS\Style\Content\Access;
 use ILIAS\Filesystem;
 use ilShellUtil;
 use Generator;
+use ILIAS\FileUpload\DTO\UploadResult;
+use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
+use ILIAS\Style\Content\Style\StyleRepo;
 
 /**
  * Main business logic for content style images
@@ -32,6 +35,7 @@ use Generator;
 class ImageManager
 {
     protected ImageFileRepo $repo;
+    protected StyleRepo $style_repo;
     protected Access\StyleAccessManager $access_manager;
     protected int $style_id;
     private Filesystem\Util\Convert\LegacyImages $image_conversion;
@@ -39,10 +43,12 @@ class ImageManager
     public function __construct(
         int $style_id,
         Access\StyleAccessManager $access_manager,
-        ImageFileRepo $repo
+        InternalRepoService $repo,
+        protected ResourceStakeholder $stakeholder
     ) {
         global $DIC;
-        $this->repo = $repo;
+        $this->repo = $repo->image();
+        $this->style_repo = $repo->style();
         $this->access_manager = $access_manager;
         $this->style_id = $style_id;
         $this->image_conversion = $DIC->fileConverters()->legacyImages();
@@ -55,7 +61,8 @@ class ImageManager
      */
     public function getImages(): Generator
     {
-        return $this->repo->getImages($this->style_id);
+        $rid = $this->style_repo->readRid($this->style_id);
+        return $this->repo->getImages($this->style_id, $rid);
     }
 
     public function filenameExists(string $filename): bool
@@ -126,4 +133,15 @@ class ImageManager
     {
         $this->repo->deleteImageByFilename($this->style_id, $filename);
     }
+
+    public function importFromUploadResult(
+        UploadResult $result
+    ): void {
+        $rid = $this->style_repo->getOrCreateRid($this->style_id, $this->stakeholder);
+        $this->repo->importFromUploadResult(
+            $rid,
+            $result
+        );
+    }
+
 }

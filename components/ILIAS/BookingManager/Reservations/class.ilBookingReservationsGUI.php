@@ -23,6 +23,7 @@
 class ilBookingReservationsGUI
 {
     protected \ILIAS\BookingManager\BookingProcess\ProcessUtilGUI $util_gui;
+    protected \ILIAS\BookingManager\Access\AccessManager $access;
     protected ilToolbarGUI $toolbar;
     protected \ILIAS\DI\UIServices $ui;
     protected \ILIAS\BookingManager\InternalService $service;
@@ -33,7 +34,6 @@ class ilBookingReservationsGUI
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
-    protected ilAccessHandler $access;
     protected ilTabsGUI $tabs_gui;
     protected ilObjUser $user;
     protected ilObjBookingPool $pool;
@@ -55,7 +55,7 @@ class ilBookingReservationsGUI
         $this->ctrl = $DIC->ctrl();
         $this->ref_id = $pool->getRefId();
         $this->lng = $DIC->language();
-        $this->access = $DIC->access();
+        $this->access = $DIC->bookingManager()->internal()->domain()->access();
         $this->tabs_gui = $DIC->tabs();
         $this->help = $help;
         $this->user = $DIC->user();
@@ -145,7 +145,7 @@ class ilBookingReservationsGUI
     protected function getReservationsTable(
         ?string $reservation_id = null
     ): ilBookingReservationsTableGUI {
-        $show_all = ($this->checkPermissionBool('write') || $this->pool->hasPublicLog());
+        $show_all = ($this->access->canManageAllReservations($this->ref_id) || $this->pool->hasPublicLog());
 
         $filter = null;
         if ($this->book_obj_id > 0) {
@@ -196,7 +196,7 @@ class ilBookingReservationsGUI
             $this->log();
         }
 
-        if ($this->checkPermissionBool('write')) {
+        if ($this->access->canManageAllReservations($this->ref_id)) {
             ilBookingReservation::changeStatus(
                 $rsv_ids,
                 $this->book_request->getStatus()
@@ -221,11 +221,6 @@ class ilBookingReservationsGUI
         $table->resetOffset();
         $table->resetFilter();
         $this->log();
-    }
-
-    protected function checkPermissionBool(string $a_perm): bool
-    {
-        return $this->access->checkAccess($a_perm, "", $this->ref_id);
     }
 
     //
@@ -325,7 +320,7 @@ class ilBookingReservationsGUI
                 foreach (ilBookingObject::getList($this->pool->getId()) as $item) {
                     $valid_ids[$item["booking_object_id"]] = $item["title"];
                 }
-                if (array_key_exists($obj_id, $valid_ids) && $from > time() && ($this->checkPermissionBool("write") || (int) $user_id === $ilUser->getId())) {
+                if (array_key_exists($obj_id, $valid_ids) && $from > time() && ($this->access->canManageAllReservations($this->ref_id) || (int) $user_id === $ilUser->getId())) {
                     $rsv_ids = ilBookingReservation::getCancelDetails($obj_id, $user_id, $from, $to);
                     if (!count($rsv_ids)) {
                         unset($ids[$idx]);
@@ -524,9 +519,7 @@ class ilBookingReservationsGUI
                 $res = new ilBookingReservation($id);
 
                 // either write permission or own booking
-                $cancel_allowed_per_read = ($this->checkPermissionBool("read") && ($res->getUserId() === $ilUser->getId()));
-                $cancel_allowed_per_write = ($this->checkPermissionBool("write"));
-                if (!$cancel_allowed_per_read && !$cancel_allowed_per_write) {
+                if (!$this->access->canManageReservationForUser($this->ref_id, $res->getUserId())) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
                     $this->ctrl->redirect($this, 'log');
                 }
@@ -552,7 +545,7 @@ class ilBookingReservationsGUI
     public function rsvConfirmDelete(): void
     {
         global $DIC;
-        if (!$this->checkPermissionBool("write")) {
+        if (!$this->access->canManageAllReservations($this->ref_id)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->redirect($this, 'log');
         }
@@ -617,7 +610,7 @@ class ilBookingReservationsGUI
                 foreach ($rsv_ids as $rsv_id) {
                     $res = new ilBookingReservation($rsv_id);
                     $obj = new ilBookingObject($res->getObjectId());
-                    if (!$this->checkPermissionBool("write") || $obj->getPoolId() !== $this->pool->getId()) {
+                    if (!$this->access->canManageAllReservations($this->ref_id) || $obj->getPoolId() !== $this->pool->getId()) {
                         $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
                         $this->ctrl->redirect($this, 'log');
                     }
@@ -638,7 +631,7 @@ class ilBookingReservationsGUI
 
     protected function showRerunPreferenceAssignment(): void
     {
-        if (!$this->checkPermissionBool('write')) {
+        if (!$this->access->canManageAllReservations($this->ref_id)) {
             return;
         }
         if ($this->pool->getScheduleType() === ilObjBookingPool::TYPE_NO_SCHEDULE_PREFERENCES) {
@@ -654,7 +647,7 @@ class ilBookingReservationsGUI
 
     protected function confirmResetRun()
     {
-        if (!$this->checkPermissionBool('write')) {
+        if (!$this->access->canManageAllReservations($this->ref_id)) {
             return;
         }
         $this->tabs_gui->activateTab("log");
@@ -677,11 +670,11 @@ class ilBookingReservationsGUI
 
     protected function resetRun()
     {
-        if (!$this->checkPermissionBool('write')) {
+        if (!$this->access->canManageAllReservations($this->ref_id)) {
             return;
         }
         if ($this->pool->getScheduleType() === ilObjBookingPool::TYPE_NO_SCHEDULE_PREFERENCES
-            && $this->access->checkAccess("write", "", $this->pool->getRefId())) {
+            && $this->access->canManageAllReservations($this->pool->getRefId())) {
             $pref_manager = $this->service->domain()->preferences($this->pool);
             $repo = $this->service->repo()->preferences();
             $pref_manager->resetRun();

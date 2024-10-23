@@ -20,10 +20,10 @@ declare(strict_types=1);
 
 namespace Test\ImportHandler\File;
 
-use PHPUnit\Framework\TestCase;
 use ILIAS\Export\ImportHandler\File\ilHandler as ilFileHandler;
-use ILIAS\Export\ImportHandler\File\Namespace\ilFactory as ilFileNamespaceFactory;
 use ILIAS\Export\ImportHandler\File\Namespace\ilCollection as ilFileNamespaceCollection;
+use ILIAS\Export\ImportHandler\File\Namespace\ilFactory as ilFileNamespaceFactory;
+use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 
 class ilHandlerTest extends TestCase

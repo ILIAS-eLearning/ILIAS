@@ -25,7 +25,6 @@ use ILIAS\GlobalScreen\Services as GlobalScreenServices;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\Skill\Service\SkillService;
-
 use ILIAS\Test\TestDIC;
 use ILIAS\Test\RequestDataCollector;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
@@ -1079,14 +1078,14 @@ class ilTestServiceGUI
     {
         if (!$this->object->getShowSolutionDetails()) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_permission"), true);
-            $this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+            $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
         }
 
         $testSession = $this->testSessionFactory->getSession();
         $active_id = $testSession->getActiveId();
 
         if (!($active_id > 0)) {
-            $this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+            $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
         }
 
         $this->ctrl->saveParameter($this, "pass");

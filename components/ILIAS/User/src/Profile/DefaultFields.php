@@ -390,6 +390,17 @@ class DefaultFields
             'prg_export_hide' => true,
             'search_hide' => true,
             'group' => 'settings'
+        ],
+        'session_reminder' => [
+            'input' => 'numeric',
+            'default' => 'y',
+            'required_hide' => true,
+            'visib_reg_hide' => true,
+            'course_export_hide' => true,
+            'group_export_hide' => true,
+            'prg_export_hide' => true,
+            'search_hide' => true,
+            'group' => 'settings'
         ]
     ];
 

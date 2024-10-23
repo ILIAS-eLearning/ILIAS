@@ -86,13 +86,13 @@ class ilUtil
 
         if ($use_custom_skin) {
             $filename =
-                "./Customizing/global/skin/"
+                "./Customizing/skin/"
                 . ilStyleDefinition::getCurrentSkin() . "/"
                 . ilStyleDefinition::getCurrentStyle() . "/"
                 . (!is_object($styleDefinition) ? "images" : $styleDefinition->getImageDirectory(ilStyleDefinition::getCurrentStyle())) . "/"
                 . $image_name;
 
-            if ($file_exists("./public/" . $filename)) {
+            if (file_exists($filename)) {
                 return $filename;
             }
         }
@@ -146,7 +146,7 @@ class ilUtil
 
         if ($use_custom_skin) {
             $filename =
-                "./Customizing/global/skin/"
+                "./Customizing/skin/"
                 . ilStyleDefinition::getCurrentSkin() . "/"
                 . ilStyleDefinition::getCurrentStyle() . "/"
                 . $stylesheet_name;

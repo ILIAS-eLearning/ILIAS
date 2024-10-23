@@ -73,4 +73,32 @@ class Handler implements ilExportHandlerPublicAccessRepositoryValuesInterface
             isset($this->last_modified)
         );
     }
+
+    public function equals(
+        ilExportHandlerPublicAccessRepositoryValuesInterface $other
+    ): bool {
+        $identification_equals =
+            (
+                (
+                    !isset($this->identification) and
+                    !isset($other->identification)
+                ) or (
+                    isset($this->identification) and
+                    isset($other->identification) and
+                    $this->identification === $other->identification
+                )
+            );
+        $export_option_id_equals =
+            (
+                (
+                    !isset($this->export_option_id) and
+                    !isset($other->export_option_id)
+                ) or (
+                    isset($this->export_option_id) and
+                    isset($other->export_option_id) and
+                    $this->export_option_id === $other->export_option_id
+                )
+            );
+        return $identification_equals and $export_option_id_equals;
+    }
 }

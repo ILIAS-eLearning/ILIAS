@@ -49,6 +49,7 @@ use ilGlobalTemplateInterface;
 use ilCtrl;
 use stdClass;
 use DateTimeImmutable;
+use ILIAS\LegalDocuments\PageFragment\PageContent;
 
 require_once __DIR__ . '/../ContainerMock.php';
 
@@ -211,5 +212,20 @@ class BlocksTest extends TestCase
         $instance = new Blocks('foo', $container, $this->mock(Provide::class));
         $result = $instance->withRequest($form, $this->fail(...));
         $this->assertSame($form, $result);
+    }
+
+    public function testNotAvailable(): void
+    {
+        $called = false;
+        $container = $this->mockTree(Container::class, []);
+
+        $instance = new Blocks('foo', $container, $this->mock(Provide::class), null, function () use (&$called): string {
+            $called = true;
+            return 'bar';
+        });
+
+        $result = $instance->notAvailable();
+        $this->assertInstanceOf(PageContent::class, $result);
+        $this->assertTrue($called);
     }
 }
