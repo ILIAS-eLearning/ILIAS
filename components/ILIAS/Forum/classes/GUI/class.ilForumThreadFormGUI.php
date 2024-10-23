@@ -39,7 +39,7 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
         private readonly bool $allowPseudonyms,
         private readonly bool $allowNotification,
         private readonly bool $isDraftContext,
-        private readonly int $draftId,
+        private readonly int $draftId
     ) {
         parent::__construct();
         $this->lng->loadLanguageModule('ui');

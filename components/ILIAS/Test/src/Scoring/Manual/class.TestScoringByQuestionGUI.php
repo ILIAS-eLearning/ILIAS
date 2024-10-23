@@ -65,8 +65,8 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
 
         $table = new TestScoringByQuestionTableGUI($this, $this->access);
 
-        $question_id = 16; //(int) $table->getFilterItemByPostVar('question')->getValue();
-        $pass_nr = 1; // $table->getFilterItemByPostVar('pass')->getValue();
+        $question_id = (int) $table->getFilterItemByPostVar('question')->getValue();
+        $pass_nr = $table->getFilterItemByPostVar('pass')->getValue();
         $finalized_filter = (int) $table->getFilterItemByPostVar('finalize_evaluation')->getValue();
         $answered_filter = $table->getFilterItemByPostVar('only_answered')->getChecked();
         $table_data = [];
