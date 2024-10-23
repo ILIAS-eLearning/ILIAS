@@ -58,12 +58,6 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
         \ilYuiUtil::initPanel();
         \ilYuiUtil::initOverlay();
 
-        $math_jax_setting = new \ilSetting('MathJax');
-
-        if ($math_jax_setting->get("enable")) {
-            $this->tpl->addJavaScript($math_jax_setting->get("path_to_mathjax"));
-        }
-
         $this->tpl->addJavaScript("assets/js/Basic.js");
         $this->tpl->addJavaScript("assets/js/Form.js");
         $this->tpl->addJavascript('assets/js/LegacyModal.js');
@@ -71,8 +65,8 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
 
         $table = new TestScoringByQuestionTableGUI($this, $this->access);
 
-        $question_id = (int) $table->getFilterItemByPostVar('question')->getValue();
-        $pass_nr = $table->getFilterItemByPostVar('pass')->getValue();
+        $question_id = 16; //(int) $table->getFilterItemByPostVar('question')->getValue();
+        $pass_nr = 1; // $table->getFilterItemByPostVar('pass')->getValue();
         $finalized_filter = (int) $table->getFilterItemByPostVar('finalize_evaluation')->getValue();
         $answered_filter = $table->getFilterItemByPostVar('only_answered')->getChecked();
         $table_data = [];

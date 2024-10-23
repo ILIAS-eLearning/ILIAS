@@ -18,6 +18,7 @@
 
 use ILIAS\COPage\Editor\EditSessionRepository;
 use ILIAS\COPage\Page\EditGUIRequest;
+use ILIAS\UI\Implementation\Render\MathJaxConfig;
 
 /**
  * Class ilPageObjectGUI
@@ -1720,6 +1721,7 @@ class ilPageObjectGUI
         $lng->loadLanguageModule("copg");
         $ctrl = $DIC->ctrl();
         $ui = $DIC->ui();
+        $mathjax_config = $DIC["ui.mathjax_config"];
 
         $style_service = $DIC->contentStyle()->internal();
         $style_access_manager = $style_service->domain()->access(
@@ -1962,15 +1964,12 @@ class ilPageObjectGUI
         if ($a_keywords) {
             $menu["cont_more_functions"][] = ["text" => $lng->txt("cont_keyword"), "action" => "selection.keyword", "data" => []];
         }
-        $mathJaxSetting = new ilSetting("MathJax");
-        if (ilPageEditorSettings::lookupSettingByParentType(
+        if ($mathjax_config->isMathJaxEnabled() && ilPageEditorSettings::lookupSettingByParentType(
             $a_par_type,
             "active_tex",
             true
         )) {
-            if ($mathJaxSetting->get("enable") || defined("URL_TO_LATEX")) {
-                $menu["cont_more_functions"][] = ["text" => 'Tex', "action" => "selection.tex", "data" => []];
-            }
+            $menu["cont_more_functions"][] = ["text" => 'Tex', "action" => "selection.tex", "data" => []];
         }
         if (ilPageEditorSettings::lookupSettingByParentType(
             $a_par_type,
