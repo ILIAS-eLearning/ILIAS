@@ -110,6 +110,12 @@ class ilPdfGenerator
         $background_src = '';
         if ($background_rid instanceof ResourceIdentification) {
             $background_src = $this->irss->consume()->src($background_rid)->getSrc();
+
+            $certificateContent = str_replace(
+                ['[BACKGROUND_IMAGE]'],
+                [$background_src],
+                $certificateContent
+            );
         } elseif ($this->filesystem->has($certificate->getCurrentBackgroundImageUsed())) {
             $certificateContent = str_replace(
                 ['[BACKGROUND_IMAGE]', '[CLIENT_WEB_DIR]'],
@@ -118,11 +124,7 @@ class ilPdfGenerator
             );
         }
 
-        $certificateContent = str_replace(
-            ['[BACKGROUND_IMAGE]'],
-            [$background_src],
-            $certificateContent
-        );
+
 
         $pdf_base64 = $this->rpcHelper->ilFO2PDF('RPCTransformationHandler', $certificateContent);
 
