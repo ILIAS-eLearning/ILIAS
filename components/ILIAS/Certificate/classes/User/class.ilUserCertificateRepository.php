@@ -103,7 +103,7 @@ class ilUserCertificateRepository
         ];
 
         if (
-            $this->database->tableColumnExists('il_cert_u ser_cert', 'background_image_path') &&
+            $this->database->tableColumnExists('il_cert_user_cert', 'background_image_path') &&
             $this->database->tableColumnExists('il_cert_user_cert', 'thumbnail_image_path')
         ) {
             $columns['background_image_path'] = ['text', $userCertificate->getBackgroundImagePath()];
