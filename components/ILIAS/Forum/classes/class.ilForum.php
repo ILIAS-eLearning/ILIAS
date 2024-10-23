@@ -1488,7 +1488,7 @@ class ilForum
 
         if ($type !== 'export') {
             if ($edit === 0) {
-                $text = ilRTE::_replaceLatexSpan($text);
+                $text = ilRTE::replaceLatexSpan($text);
                 $text = $this->ui_renderer->render($this->ui_factory->legacy($text)->withLatexEnabled());
             }
 

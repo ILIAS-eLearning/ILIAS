@@ -174,7 +174,7 @@ class ilRTE
      * You can only include text, not tags, as your math delimiters."
      * @see https://docs.mathjax.org/en/latest/options/input/tex.html#option-descriptions
      */
-    public static function _replaceLatexSpan(string $content): string
+    public static function replaceLatexSpan(string $content): string
     {
         $start = '<span class="latex">';
         $end = '</span>';

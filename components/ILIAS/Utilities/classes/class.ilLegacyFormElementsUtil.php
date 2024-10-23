@@ -138,7 +138,7 @@ class ilLegacyFormElementsUtil
         }
 
         if ($prepare_for_latex_output) {
-            $result = ilRTE::_replaceLatexSpan($result);
+            $result = ilRTE::replaceLatexSpan($result);
             $result = $DIC->ui()->renderer()->render($DIC->ui()->factory()->legacy($result)->withLatexEnabled());
 
             // replace special characters to prevent problems with the ILIAS template system
