@@ -139,16 +139,32 @@ class Factory
         array $participants
     ): array {
         return array_map(
-            fn(Participant $v): Participant => $v->getActiveId() === null
-                ? $v
-                : $v->withAttemptOverviewInformation(
+            function (Participant $v) use ($settings, $test_obj, $participants): Participant {
+                if ($v->getActiveId() === null) {
+                    return $v;
+                }
+
+                $last_attempt = $this->getAttemptOverviewFor(
+                    $settings,
+                    $test_obj,
+                    $v->getActiveId(),
+                    $v->getLastStartedAttempt()
+                );
+
+                if ($last_attempt !== null
+                    && $last_attempt->getStatusOfAttempt() === StatusOfAttempt::RUNNING) {
+                    $v = $v->withRunningAttemptStart($last_attempt->getStartedDate());
+                }
+
+                return $v->withAttemptOverviewInformation(
                     $this->getAttemptOverviewFor(
                         $settings,
                         $test_obj,
                         $v->getActiveId(),
                         null
                     )
-                ),
+                );
+            },
             $participants
         );
     }

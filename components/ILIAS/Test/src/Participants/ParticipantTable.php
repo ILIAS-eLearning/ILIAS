@@ -94,6 +94,7 @@ class ParticipantTable implements DataRetrieval
         ?array $additional_parameters
     ): \Generator {
         $processing_time = $this->test_object->getProcessingTimeInSeconds();
+        $reset_time_on_new_attempt = $this->test_object->getResetProcessingTime();
 
         foreach ($this->getViewControlledRecords($filter_data, $range, $order) as $record) {
             $date_format = $this->data_factory->dateFormat()->withTime24($this->data_factory->dateFormat()->germanShort());
@@ -117,7 +118,7 @@ class ParticipantTable implements DataRetrieval
                 'total_attempts' => $record->getAttempts(),
                 'extra_time' => $record->getExtraTime() > 0 ? sprintf('%d min', $record->getExtraTime()) : '',
                 'total_duration' => $total_duration > 0 ? sprintf('%d min', $total_duration / 60) : '',
-                'remaining_duration' => sprintf('%d min', $record->getRemainingDuration($processing_time) / 60),
+                'remaining_duration' => sprintf('%d min', $record->getRemainingDuration($processing_time, $reset_time_on_new_attempt) / 60),
             ];
 
             if ($record->getActiveId() !== null
@@ -180,6 +181,7 @@ class ParticipantTable implements DataRetrieval
     private function getPostLoadOrderFields(): array
     {
         $processing_time = $this->test_object->getProcessingTimeInSeconds();
+        $reset_time_on_new_attempt = $this->test_object->getResetProcessingTime();
 
         return [
             'attempt_started_at' => static fn(Participant $a, Participant $b) => $a->getFirstAccess() <=> $b->getFirstAccess(),
@@ -190,7 +192,8 @@ class ParticipantTable implements DataRetrieval
             'remaining_duration' => static fn(
                 Participant $a,
                 Participant $b
-            ) => $a->getRemainingDuration($processing_time) <=> $b->getRemainingDuration($processing_time),
+            ) => $a->getRemainingDuration($processing_time, $reset_time_on_new_attempt)
+                <=> $b->getRemainingDuration($processing_time, $reset_time_on_new_attempt),
             'last_access' => static fn(Participant $a, Participant $b) => $a->getTestEndDate() <=> $b->getTestEndDate(),
             'status_of_attempt' => static fn(
                 Participant $a,

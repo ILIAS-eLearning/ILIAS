@@ -21,11 +21,11 @@ declare(strict_types=1);
 namespace ILIAS\Test\Participants;
 
 use ILIAS\Test\Results\Data\AttemptOverview;
-use ILIAS\Test\Results\Data\StatusOfAttempt;
 
 class Participant
 {
     private ?AttemptOverview $attempt_overview = null;
+    private ?\DateTimeImmutable $running_attempt_start = null;
 
     public function __construct(
         private readonly int $user_id,
@@ -190,15 +190,22 @@ class Participant
         return $this->attempt_overview->hasAnsweredQuestions();
     }
 
-    public function getRemainingDuration(int $processing_time): int
-    {
+    public function getRemainingDuration(
+        int $processing_time,
+        bool $reset_time_on_new_attempt
+    ): int {
         $remaining = $this->getTotalDuration($processing_time);
 
-        if ($this->getFirstAccess()?->getTimestamp() === null) {
+        $start = $this->getFirstAccess()?->getTimestamp();
+        if ($reset_time_on_new_attempt) {
+            $start = $this->running_attempt_start?->getTimestamp();
+        }
+
+        if ($start === null) {
             return $remaining;
         }
 
-        $remaining += $this->getFirstAccess()->getTimestamp();
+        $remaining += $start;
         if ($this->submitted) {
             $remaining -= $this->getLastAccess()?->getTimestamp() ?? time();
         } else {
@@ -217,6 +224,13 @@ class Participant
     {
         $clone = clone $this;
         $clone->attempt_overview = $attempt_overview;
+        return $clone;
+    }
+
+    public function withRunningAttemptStart(\DateTimeImmutable $start_date): self
+    {
+        $clone = clone $this;
+        $clone->running_attempt_start = $start_date;
         return $clone;
     }
 }
