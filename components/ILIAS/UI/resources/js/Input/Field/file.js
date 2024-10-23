@@ -252,7 +252,7 @@ il.UI.Input = il.UI.Input || {};
 		 */
 		let removeFileManuallyHook = function (event) {
 			let removal_glyph = $(this);
-			let input_id = removal_glyph.closest(SELECTOR.file_input).attr('id');
+			let input_id = getFileInputID(removal_glyph.closest(SELECTOR.file_input));
 			let dropzone = dropzones[input_id];
 			current_form.errors = false;
 
@@ -414,7 +414,7 @@ il.UI.Input = il.UI.Input || {};
 			let response = Object.assign(JSON.parse(json_response));
 			let file_id_input = $(`#${file.input_id}`);
 			let file_preview = file_id_input.closest(SELECTOR.file_list_entry);
-			let dropzone = dropzones[file_id_input.closest(SELECTOR.file_input).attr('id')];
+			let dropzone = dropzones[getFileInputID(file_id_input.closest(SELECTOR.file_input))];
 
 			if (typeof response.status === 'undefined' || 1 !== response.status) {
 				current_form.errors = true;
@@ -613,7 +613,7 @@ il.UI.Input = il.UI.Input || {};
             if (typeof file_inputs[Symbol.iterator] === 'function') {
                 let to_process = 0;
                 for (let i = 0; i < file_inputs.length; i++) {
-                    let input_id = file_inputs[i].id;
+                    let input_id = getFileInputID($(file_inputs[i]));
                     let dropzone = dropzones[input_id];
                     processRemovals(input_id, event);
                     to_process += dropzone.files.length;
@@ -627,7 +627,7 @@ il.UI.Input = il.UI.Input || {};
                     current_form.submit();
                 }
             } else {
-                let input_id = file_inputs.attr('id');
+                let input_id = getFileInputID(file_inputs);
 				let dropzone = dropzones[input_id];
 				processRemovals(input_id, event);
 				if (0 !== dropzone.files.length) {
@@ -650,6 +650,14 @@ il.UI.Input = il.UI.Input || {};
 			return (1 < hidden_inputs.length) ?
 				$(hidden_inputs[hidden_inputs.length - 1]) :
 				hidden_inputs;
+		}
+
+		/**
+		 * @param {jQuery} file_input
+		 * @return string the corresponding file input id
+		 */
+		let getFileInputID = function(file_input) {
+			return file_input.closest('fieldset').attr('id');
 		}
 
 		/**
