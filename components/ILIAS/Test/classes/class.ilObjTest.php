@@ -938,13 +938,6 @@ class ilObjTest extends ilObject
         );
     }
 
-    /**
-    * Returns the processing time for the test in seconds
-    *
-    * @return integer The processing time for the test in seconds
-    * @access public
-    * @see $processing_time
-    */
     public function getProcessingTimeInSeconds(int $active_id = 0): int
     {
         $processing_time = $this->getMainSettings()->getTestBehaviourSettings()->getProcessingTime() ?? '';
@@ -7092,10 +7085,14 @@ class ilObjTest extends ilObject
         return $times;
     }
 
-    public function getExtraTime(int $active_id): int
+    private function getExtraTime(int $active_id): int
     {
-        $participant = $this->participant_repository->getParticipantByActiveId($this->getTestId(), (int) $active_id);
-        return $participant?->getExtraTime() ?? 0;
+        if ($active_id === 0) {
+            return 0;
+        }
+        return $this->participant_repository
+            ->getParticipantByActiveId($this->getTestId(), $active_id)
+            ?->getExtraTime() ?? 0;
     }
 
     public function getMaxPassOfTest(): int
