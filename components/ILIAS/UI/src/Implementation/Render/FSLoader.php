@@ -45,7 +45,6 @@ class FSLoader implements Loader
     public function __construct(
         private RendererFactory $default_renderer_factory,
         private RendererFactory $glyph_renderer_factory,
-        private RendererFactory $icon_renderer_factory,
         private RendererFactory $field_renderer_factory,
         private RendererFactory $message_box_renderer_factory,
         private RendererFactory $form_renderer_factory,
