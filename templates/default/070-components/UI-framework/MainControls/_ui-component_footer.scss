@@ -18,8 +18,8 @@ footer{
 	font-size: $il-font-size-small;
 	padding: $il-padding-small-vertical $il-padding-large-horizontal;
 
-	.il-footer-content div {
-		display: inline-block;
+	.il-footer-content div:not(.c-tooltip) {
+	    display: inline-block;
 	}
 
 	.il-footer-links {
