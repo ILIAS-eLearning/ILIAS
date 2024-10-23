@@ -174,7 +174,7 @@ class ilConditionHandlerGUI
         return 0;
     }
 
-    public static function translateOperator(int $a_obj_id, string $a_operator, string $value): string
+    public static function translateOperator(int $a_obj_id, string $a_operator, string $value = ''): string
     {
         global $DIC;
 
@@ -187,6 +187,7 @@ class ilConditionHandlerGUI
                 return ilLPObjSettings::_mode2Text($obj_settings->getMode());
 
             case ilConditionHandler::OPERATOR_RESULT_RANGE_PERCENTAGE:
+                $postfix = '';
                 $value_arr = unserialize($value);
                 if ($value_arr !== false) {
                     $postfix = ', ';
