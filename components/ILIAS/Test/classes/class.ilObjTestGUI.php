@@ -1773,8 +1773,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             return;
         }
 
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.il_as_tst_questions.html', 'components/ILIAS/Test');
-
         $table_query = $this->getQuestionsTableQuery();
         if (($table_cmd = $table_query->getTableAction()) !== null) {
             if (!$this->getQuestionsTableActions()->handleCommand(
@@ -1787,6 +1785,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 return;
             }
         }
+
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.il_as_tst_questions.html', 'components/ILIAS/Test');
 
         $this->setupToolBarAndMessage($this->getTestObject()->evalTotalPersons() !== 0);
 
@@ -2578,8 +2578,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         }
 
         $this->tpl->setContent($form->getHTML());
-        $this->tpl->printToStdout();
-        exit();
     }
 
     protected function getTargetQuestionpoolForm($questionpools, string $cmd): ilPropertyFormGUI
