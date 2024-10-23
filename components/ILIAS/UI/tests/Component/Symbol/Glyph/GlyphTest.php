@@ -95,7 +95,13 @@ class GlyphTest extends ILIAS_UI_TestBase
         G\Glyph::ITALIC => "glyphicon glyphicon-italic",
         G\Glyph::BOLD => "glyphicon glyphicon-bold",
         G\Glyph::LINK => "glyphicon glyphicon-link",
-        G\Glyph::LAUNCH => "glyphicon glyphicon-launch"
+        G\Glyph::LAUNCH => "glyphicon glyphicon-launch",
+        G\Glyph::ENLARGE => "glyphicon glyphicon-enlarge",
+        G\Glyph::LIST_VIEW => "glyphicon glyphicon-listView",
+        G\Glyph::PREVIEW => "glyphicon glyphicon-preview",
+        G\Glyph::SORT => "glyphicon glyphicon-sort",
+        G\Glyph::COLUMN_SELECTION => "glyphicon glyphicon-columnSelection",
+        G\Glyph::TILE_VIEW => "glyphicon glyphicon-tileView",
     );
 
     public static array $aria_labels = array(
@@ -149,7 +155,13 @@ class GlyphTest extends ILIAS_UI_TestBase
         G\Glyph::ITALIC => "italic_action",
         G\Glyph::BOLD => "bold_action",
         G\Glyph::LINK => "link_action",
-        G\Glyph::LAUNCH => "launch"
+        G\Glyph::LAUNCH => "launch",
+        G\Glyph::ENLARGE => "enlarge",
+        G\Glyph::LIST_VIEW => "list_view",
+        G\Glyph::PREVIEW => "preview",
+        G\Glyph::SORT => "sort",
+        G\Glyph::COLUMN_SELECTION => "column_selection",
+        G\Glyph::TILE_VIEW => "tile_view",
     );
 
     /**
