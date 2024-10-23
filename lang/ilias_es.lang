@@ -1995,7 +1995,6 @@ assessment#:#use_previous_solution_advice#:#La solución mostrada para la pregun
 assessment#:#user_has_finished_a_test#:#Un participante ha finalizado el test
 assessment#:#user_ip_outside_range#:#You are not allowed to access the test from this IP.###26 08 2024 new variable
 assessment#:#user_not_invited#:#Usted no debe hacer este examen
-assessment#:#user_wrong_clientip#:#No tiene una dirección IP correcta para usar este test
 assessment#:#value_between_x_and_y#:#El valor debería estar entre %s y %s
 assessment#:#values#:#Valores
 assessment#:#variable#:#Variable###26 08 2024 new variable

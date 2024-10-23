@@ -787,7 +787,7 @@ assessment#:#internal_links#:#Interne Verweise
 assessment#:#intprecision#:#Teilbar durch
 assessment#:#intprecision_info#:#"Teilbar durch" hat nur Auswirkungen auf die Variablenerzeugung, wenn der Wert für die Präzision 0 beträgt. In diesem Fall legt "Teilbar durch" fest, durch welche ganze Zahl die erzeugte Variable teilbar sein muss. Ein Wert von 10 erzeugt also nur ganze Zahlen, die durch 10 teilbar sind, ein Wert von 5 erzeugt ganze Zahlen, die durch 5 teilbar sind usw. Bei einer Präzision von 0 ist "Teilbar durch" ein Pflichtfeld und muss eine positive, ganze Zahl enthalten. Voreingestellt ist der Wert 1 für beliebige ganze Zahlen.
 assessment#:#invalid_ip#:#Ungültige IP
-assessment#:#ip_range_byline#:#Nrr IP Adressen die innerhalb der IP Range liegen, können den Test starten. Sie können entweder IPv4 ODER IPv6 verwenden.
+assessment#:#ip_range_byline#:#Nur IP Adressen die innerhalb der IP Range liegen, können den Test starten. Sie können entweder IPv4 ODER IPv6 verwenden.
 assessment#:#ip_range_for_all_participants#:#Sie bearbeiten die IP Range für alle Teilnehmer.
 assessment#:#ip_range_for_selected_participants#:#Sie bearbeiten die IP Range für die folgende Teilnehmer:
 assessment#:#ip_range_for_single_participant#:#Sie bearbeiten die IP Range für folgenden Teilnehmer:
@@ -2044,7 +2044,6 @@ assessment#:#use_previous_solution_advice#:#Die angezeigte Lösung wurde vormals
 assessment#:#user_has_finished_a_test#:#Ein Teilnehmer hat einen Test beendet.
 assessment#:#user_ip_outside_range#:#Sie dürfen von Ihrer IP aus, nicht auf den Test zugreifen.
 assessment#:#user_not_invited#:#Sie sind kein Teilnehmer der Prüfung.
-assessment#:#user_wrong_clientip#:#Falsche Client IP
 assessment#:#value_between_x_and_y#:#Der Wert muss zwischen %s und %s liegen
 assessment#:#values#:#Werte
 assessment#:#variable#:#Variable

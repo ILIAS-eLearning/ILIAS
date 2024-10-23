@@ -1993,7 +1993,6 @@ assessment#:#use_previous_solution_advice#:#The shown solution for the question 
 assessment#:#user_has_finished_a_test#:#A participant has finished a test.
 assessment#:#user_ip_outside_range#:#You are not allowed to access the test from this IP.###26 08 2024 new variable
 assessment#:#user_not_invited#:#sind ei ole sellele eksamile määratud.
-assessment#:#user_wrong_clientip#:#Puuduvad õigused selle testi kasutamiseks.
 assessment#:#value_between_x_and_y#:#Väärtus peaks olema %s ja  %s vahel.
 assessment#:#values#:#Vastused
 assessment#:#variable#:#Variable###26 08 2024 new variable

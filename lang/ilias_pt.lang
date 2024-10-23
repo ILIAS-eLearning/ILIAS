@@ -1993,7 +1993,6 @@ assessment#:#use_previous_solution_advice#:#A solução apresentada para a pergu
 assessment#:#user_has_finished_a_test#:#Um participante acabou um teste.
 assessment#:#user_ip_outside_range#:#You are not allowed to access the test from this IP.###26 08 2024 new variable
 assessment#:#user_not_invited#:#Copiar bibliografia
-assessment#:#user_wrong_clientip#:#Mostrar como link na lista
 assessment#:#value_between_x_and_y#:#O valor deve estar entre %s e %s
 assessment#:#values#:#Valores
 assessment#:#variable#:#Variable###26 08 2024 new variable

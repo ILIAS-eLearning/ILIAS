@@ -228,7 +228,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $this->user->getId()
         );
         if ($participant_access !== ParticipantAccess::ALLOWED) {
-            $this->ilias->raiseError($this->lng->txt('user_wrong_clientip'), $this->ilias->error_obj->MESSAGE);
+            $this->ilias->raiseError(
+                $participant_access->getAccessForbiddenMessage($this->lng),
+                $this->ilias->error_obj->MESSAGE
+            );
         }
     }
 

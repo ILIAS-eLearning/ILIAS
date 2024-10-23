@@ -20,10 +20,22 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Access;
 
+use ILIAS\Language\Language;
+
 enum ParticipantAccess: string
 {
     case ALLOWED = 'access_granted';
     case NOT_INVITED = 'tst_user_not_invited';
-    case INDIVIDUAL_CLIENT_IP_MISMATCH = 'user_wrong_clientip';
-    case TEST_LEVEL_CLIENT_IP_MISMATCH = 'user_ip_outside_range';
+    case INDIVIDUAL_CLIENT_IP_MISMATCH = 'individual_client_ip_mismatch';
+    case TEST_LEVEL_CLIENT_IP_MISMATCH = 'test_level_client_ip_mismatch';
+
+    public function getAccessForbiddenMessage(Language $lng): string
+    {
+        return match($this) {
+            self::NOT_INVITED => $lng->txt('tst_user_not_invited'),
+            self::INDIVIDUAL_CLIENT_IP_MISMATCH,
+            self::TEST_LEVEL_CLIENT_IP_MISMATCH => $lng->txt('user_ip_outside_range'),
+            default => ''
+        };
+    }
 }

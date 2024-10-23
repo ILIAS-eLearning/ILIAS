@@ -1993,7 +1993,6 @@ assessment#:#use_previous_solution_advice#:#The shown solution for the question 
 assessment#:#user_has_finished_a_test#:#A participant has finished a test.###27 01 2015 new variable
 assessment#:#user_ip_outside_range#:#You are not allowed to access the test from this IP.###26 08 2024 new variable
 assessment#:#user_not_invited#:#You are not supposed to take this exam.###17 Aug 2005 new variable
-assessment#:#user_wrong_clientip#:#You don't have the right ip using this test.###17 Aug 2005 new variable
 assessment#:#value_between_x_and_y#:#Værdien skal være mellem %s og %s
 assessment#:#values#:#Værdier
 assessment#:#variable#:#Variable###26 08 2024 new variable

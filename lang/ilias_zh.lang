@@ -1992,7 +1992,6 @@ assessment#:#use_previous_solution_advice#:#The shown solution for the question 
 assessment#:#user_has_finished_a_test#:#A participant has finished a test.###27 01 2015 new variable
 assessment#:#user_ip_outside_range#:#You are not allowed to access the test from this IP.###26 08 2024 new variable
 assessment#:#user_not_invited#:#您不应该参加这项考试
-assessment#:#user_wrong_clientip#:#您没有一个正确的IP来完成这次考试
 assessment#:#value_between_x_and_y#:#这个价值在 %s和 %s 之间
 assessment#:#values#:#Values
 assessment#:#variable#:#Variable###26 08 2024 new variable

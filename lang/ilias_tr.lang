@@ -1993,7 +1993,6 @@ assessment#:#use_previous_solution_advice#:#The shown solution for the question 
 assessment#:#user_has_finished_a_test#:#A participant has finished a test.###27 01 2015 new variable
 assessment#:#user_ip_outside_range#:#You are not allowed to access the test from this IP.###26 08 2024 new variable
 assessment#:#user_not_invited#:#bu teste girecek değildir.
-assessment#:#user_wrong_clientip#:#Bu testi kullanarak sağ ip yok.
 assessment#:#value_between_x_and_y#:#değeri% s ve% s arasında olmalıdır
 assessment#:#values#:#Değerleri
 assessment#:#variable#:#Variable###26 08 2024 new variable

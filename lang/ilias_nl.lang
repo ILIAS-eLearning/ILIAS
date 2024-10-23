@@ -1993,7 +1993,6 @@ assessment#:#use_previous_solution_advice#:#The shown solution for the question 
 assessment#:#user_has_finished_a_test#:#A participant has finished a test.###06 02 2015 new variable
 assessment#:#user_ip_outside_range#:#You are not allowed to access the test from this IP.###26 08 2024 new variable
 assessment#:#user_not_invited#:#Je wordt niet verondersteld dit examen af te leggen.
-assessment#:#user_wrong_clientip#:#Je hebt niet het juiste IP adres om deze toets af te leggen.
 assessment#:#value_between_x_and_y#:#De waarde moet tussen %s en %s liggen
 assessment#:#values#:#Values
 assessment#:#variable#:#Variable###26 08 2024 new variable
