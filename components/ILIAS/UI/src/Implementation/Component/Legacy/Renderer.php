@@ -36,7 +36,6 @@ class Renderer extends AbstractComponentRenderer implements LatexAwareRenderer
     use LatexAwareRendererTrait;
 
     /**
-     * @inheritdocs
      * @param Component\LatexAwareComponent $component
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
@@ -57,9 +56,6 @@ class Renderer extends AbstractComponentRenderer implements LatexAwareRenderer
         return $component->getContent();
     }
 
-    /**
-     * @inheritdocs
-     */
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
