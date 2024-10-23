@@ -52,21 +52,33 @@ il.TestPlayerQuestionEditControl = new function() {
     var START_TIMERS_DELAY = 100;
 
     /**
+     * @see \ilTestPlayerAbstractGUI
+     * @type {{DISCARD_MODAL: string, LOCKS_UNCHANGED_MODAL: string, LOCKS_CHANGED_MODAL: string}}
+     */
+    const MODAL_IDENTIFIER = {
+        DISCARD_MODAL: 'discard_modal',
+        LOCKS_CHANGED_MODAL: 'locks_changed_modal',
+        LOCKS_UNCHANGED_MODAL: 'locks_unchanged_modal',
+    };
+
+    /**
      * @var object config               initial configuration
      */
     var config = {
-        isAnswered: false,                      // question is already answered
-        isAnswerChanged: false,                 // question is already changed, e.g. after marking
-        saveOnTimeReachedUrl: '',               // url for save at nd of working time
-        autosaveUrl: '',                        // url for saving of intermediate solutions
-        autosaveInterval: 0,                    // interval for saving of intermediate solutions
-        withFormChangeDetection: true,          // form changes should be detected
-        withBackgroundChangeDetection: false,   // background changes should be polled from ILIAS
-        backgroundDetectorUrl: '',              // url called by the background detector
-        forcedInstantFeedback: false,            // forced feedback will change the submit command
+        isAnswered: false, // question is already answered
+        isAnswerChanged: false, // question is already changed, e.g. after marking
+        saveOnTimeReachedUrl: '', // url for save at nd of working time
+        autosaveUrl: '', // url for saving of intermediate solutions
+        autosaveInterval: 0, // interval for saving of intermediate solutions
+        withFormChangeDetection: true, // form changes should be detected
+        withBackgroundChangeDetection: false, // background changes should be polled from ILIAS
+        backgroundDetectorUrl: '', // url called by the background detector
+        forcedInstantFeedback: false, // forced feedback will change the submit command
         nextQuestionLocks: false,
         questionLocked: false,
-        autosaveFailureMessage: ''
+        autosaveFailureMessage: '',
+        modalSignals: [], // signals to open modals
+        preventConfirmationParam: '', // name of the input/parameter to prevent locking-confirmation
     };
 
     /**
@@ -161,33 +173,6 @@ il.TestPlayerQuestionEditControl = new function() {
         $('#tst_save_on_navigation_button').click(saveWithNavigation);
         $('#tst_cancel_on_navigation_button').click(hideNavigationModal);
 
-        // handle the actions for the discard solution modal
-        // the final action is done by a submit button in the modal
-        $('#tst_discard_solution_action').click(showDiscardSolutionModal);
-        $('#tst_cancel_discard_button').click(hideDiscardSolutionModal);
-
-        if (config.nextQuestionLocks) {
-          // handle the buttons in next locks current answer confirmation modal
-          let first_child_changed = document.querySelector('#tst_next_locks_changed_modal .tstModalConfirmationButtons :nth-child(1)');
-          if (first_child_changed !== null) {
-              first_child_changed.addEventListener('click', saveWithNavigation);
-          }
-          let second_child_changed = document.querySelector('#tst_next_locks_changed_modal .tstModalConfirmationButtons :nth-child(2)');
-          if (second_child_changed !== null) {
-            second_child_changed.addEventListener('click', hideFollowupQuestionLocksCurrentAnswerModal);
-          }
-
-          // handle the buttons in next locks empty answer confirmation modal
-          let first_child_unchanged = document.querySelector('#tst_next_locks_unchanged_modal .tstModalConfirmationButtons :nth-child(1)');
-          if (first_child_unchanged !== null) {
-            first_child_unchanged.addEventListener('click', saveWithNavigationEmptyAnswer);
-          }
-          let second_child_unchanged = document.querySelector('#tst_next_locks_unchanged_modal .tstModalConfirmationButtons :nth-child(2)');
-          if (second_child_unchanged !== null) {
-            second_child_unchanged.addEventListener('click', hideFollowupQuestionLocksEmptyAnswerModal);
-          }
-        }
-
         // the checkbox 'use unchanged answer' is only needed for initial empty answers
         // it exists for few question types only
         if (config.isAnswered || config.isAnswerChanged) {
@@ -232,6 +217,24 @@ il.TestPlayerQuestionEditControl = new function() {
 
         // change status will be added by handleFormSubmit()
         $(FORM_SELECTOR).attr('action', config.saveOnTimeReachedUrl).submit();
+    };
+
+    /**
+     * Triggered by the confirm button of the modal to confirm locking an unchanged answer
+     * @public
+     * @see \ilTestPlayerAbstractGUI::populateNextLocksUnchangedModal
+     */
+    this.confirmNextLocksUnchanged = function () {
+        saveWithNavigationEmptyAnswer();
+    };
+
+    /**
+     * Triggered by the confirm button of the modal to confirm locking a changed answer
+     * @public
+     * @see \ilTestPlayerAbstractGUI::populateNextLocksChangedModal
+     */
+    this.confirmNextLocksChanged = function () {
+        saveWithNavigation();
     };
 
     /**
@@ -450,9 +453,9 @@ il.TestPlayerQuestionEditControl = new function() {
             }
 
             if (!answerChanged && !answered) {
-                showFollowupQuestionLocksEmptyAnswerModal();
-            } else if( $('#tst_next_locks_changed_modal').length > 0 ) {
-                showFollowupQuestionLocksCurrentAnswerModal();
+                showModal(MODAL_IDENTIFIER.LOCKS_UNCHANGED_MODAL);
+            } else if (config.modalSignals[MODAL_IDENTIFIER.LOCKS_CHANGED_MODAL] !== '') {
+                showModal(MODAL_IDENTIFIER.LOCKS_CHANGED_MODAL);
             } else {
                 saveWithNavigation();
             }
@@ -460,12 +463,12 @@ il.TestPlayerQuestionEditControl = new function() {
             return false; // prevent the default event handler
         }
 
-        if (answerChanged                               // answer has been changed
-            && href                                     // link is not an anchor
-            && href.charAt(0) != '#'                    // link is not a fragment
-            && id != 'tst_discard_answer_action'        // link is not the 'discard answer' button
-            && id != 'tst_revert_changes_action'        // link is not the 'revert changes' action
-            && id != 'tst_discard_solution_action'      // link is not the 'discard solution' action
+        if (answerChanged // answer has been changed
+            && href // link is not an anchor
+            && href.charAt(0) != '#' // link is not a fragment
+            && id != 'tst_discard_answer_action' // link is not the 'discard answer' button
+            && id != 'tst_revert_changes_action' // link is not the 'revert changes' action
+            && id != 'tst_discard_solution_action' // link is not the 'discard solution' action
         ) {
             // remember the url for saveWithNavigation()
             navUrl = href;
@@ -502,40 +505,15 @@ il.TestPlayerQuestionEditControl = new function() {
     }
 
     /**
-     * Show the discard solution modal
+     * Shows the modal with the given name by using the corresponding signal from the config
+     * @param name the identifier of the modal
      */
-    function showDiscardSolutionModal() {
-        if (answered) {
-            $('#tst_discard_solution_modal').modal('show');
-        }
-    }
-
-    /**
-     * Hide the discard solution modal
-     */
-    function hideDiscardSolutionModal() {
-        $('#tst_discard_solution_modal').modal('hide');
-    }
-
-    function showFollowupQuestionLocksCurrentAnswerModal()
-    {
-        $('#tst_next_locks_changed_modal').modal('show');
-        $('#followup_qst_locks_prevent_confirmation').attr('checked',false);
-    }
-
-    function hideFollowupQuestionLocksCurrentAnswerModal()
-    {
-        $('#tst_next_locks_changed_modal').modal('hide');
-    }
-
-    function showFollowupQuestionLocksEmptyAnswerModal()
-    {
-        $('#tst_next_locks_unchanged_modal').modal('show');
-    }
-
-    function hideFollowupQuestionLocksEmptyAnswerModal()
-    {
-        $('#tst_next_locks_unchanged_modal').modal('hide');
+    function showModal(name) {
+        $(document).trigger(config.modalSignals[name], {
+            id: name,
+            triggerer: $(this),
+            options: [],
+        });
     }
 
     /**
@@ -585,6 +563,16 @@ il.TestPlayerQuestionEditControl = new function() {
             name: command,
             value: 'Save'
         }).appendTo(FORM_SELECTOR);
+
+        // add the input from modal to prevent confirmation
+        const preventConfirmationInput = $(`[name*=${config.preventConfirmationParam}]`);
+        if (preventConfirmationInput.length > 0 && preventConfirmationInput.is(':checked')) {
+            $('<input>').attr({
+                type: 'hidden',
+                name: config.preventConfirmationParam,
+                value: 1,
+            }).appendTo(FORM_SELECTOR);
+        }
 
         // submit the solution
         // the answering status will be appended by handleFormSubmit()
