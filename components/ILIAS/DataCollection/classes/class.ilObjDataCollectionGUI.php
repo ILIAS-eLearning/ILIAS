@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectPropertyTileImage;
+use ILIAS\UI\Component\Input\Container\Form\Form;
+
 /**
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilPermissionGUI, ilObjectCopyGUI, ilDclExportGUI
@@ -428,7 +431,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         // write permission
         if ($this->access->checkAccess('write', "", $ref_id) === true) {
             // settings
-            $this->addTab(self::TAB_EDIT_DCL, $this->ctrl->getLinkTarget($this, "editObject"));
+            $this->addTab(self::TAB_EDIT_DCL, $this->ctrl->getLinkTarget($this, 'edit'));
             // list tables
             $this->addTab(self::TAB_LIST_TABLES, $this->ctrl->getLinkTargetByClass(ilDclTableListGUI::class, "listTables"));
             // metadata
@@ -455,6 +458,83 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $this->tabs->addTab($langKey, $this->lng->txt($langKey), $link);
     }
 
+    protected function initForm(): Form
+    {
+        $inputs = [];
+
+        $edit = [];
+        $edit['title'] = $this->ui_factory->input()->field()->text($this->lng->txt('title'))->withRequired(true);
+        $edit['description'] = $this->ui_factory->input()->field()->textarea($this->lng->txt('description'));
+        $edit['notification'] = $this->ui_factory->input()->field()->checkbox(
+            $this->lng->txt('dcl_activate_notification'),
+            $this->lng->txt('dcl_notification_info')
+        );
+        $inputs['edit'] = $this->ui_factory->input()->field()->section($edit, $this->lng->txt($this->type . '_edit'))
+            ->withValue([
+                'title' => $this->object->getTitle(),
+                'description' => $this->object->getLongDescription(),
+                'notification' => $this->object->getNotification(),
+            ]);
+
+        $availability = [];
+        $availability['online'] = $this->ui_factory->input()->field()->checkbox(
+            $this->lng->txt('online'),
+            $this->lng->txt('dcl_online_info')
+        );
+        $inputs['availability'] = $this->ui_factory->input()->field()->section($availability, $this->lng->txt('obj_activation_list_gui'))
+            ->withValue(['online' => $this->object->getOnline(),]);
+
+        $presentation = [];
+        $presentation['tile_image'] = $this->object->getObjectProperties()->getPropertyTileImage()->toForm(
+            $this->lng,
+            $this->ui_factory->input()->field(),
+            $this->refinery
+        );
+        //This is currently broken in core
+        //$inputs['presentation'] = $this->ui_factory->input()->field()->section($presentation, $this->lng->txt('cont_presentation'))
+        //    ->withValue(['tile_image' => $this->object->getObjectProperties()->getPropertyTileImage()]);
+
+        return $this->ui_factory->input()->container()->form()->standard($this->ctrl->getFormAction($this, 'save'), $inputs);
+    }
+
+    public function edit(): void
+    {
+        if (!$this->checkPermissionBool('write')) {
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_FAILURE, $this->lng->txt('permission_denied'));
+        }
+
+        $this->setEditTabs();
+        $this->tabs->activateTab(self::TAB_EDIT_DCL);
+
+        $this->tpl->setContent($this->ui_renderer->render($this->initForm()));
+    }
+
+    public function save(): void
+    {
+        if (!$this->checkPermissionBool('write')) {
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+        }
+
+        $this->setEditTabs();
+        $this->tabs->activateTab(self::TAB_EDIT_DCL);
+
+        $form = $this->initForm()->withRequest($this->http->request());
+        $data = $form->getData();
+
+        if ($data !== null) {
+            $this->object->setTitle($data['edit']['title']);
+            $this->object->setDescription($data['edit']['description']);
+            $this->object->setNotification($data['edit']['notification']);
+            $this->object->setOnline($data['availability']['online']);
+            //This is currentyl broken in core
+            //$this->object->getObjectProperties()->storePropertyTileImage($data['presentation']['tile_image']);
+            $this->object->update();
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
+        }
+
+        $this->tpl->setContent($this->ui_renderer->render($form));
+    }
+
     protected function setEditTabs(): void
     {
         $this->tabs->addSubTab(
@@ -469,43 +549,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         );
 
         $this->tabs->activateSubTab('general');
-    }
-
-    protected function initEditForm(): ilPropertyFormGUI
-    {
-        $this->setEditTabs();
-        $this->tabs->activateSubTab('general');
-        $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this, "update"));
-        $form->setTitle($this->lng->txt($this->object->getType() . "_edit"));
-
-        $ti = new ilTextInputGUI($this->lng->txt("title"), "title");
-        $ti->setSize(min(40, ilObject::TITLE_LENGTH));
-        $ti->setMaxLength(ilObject::TITLE_LENGTH);
-        $ti->setRequired(true);
-        $form->addItem($ti);
-
-        $ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
-        $ta->setCols(40);
-        $ta->setRows(2);
-        $form->addItem($ta);
-
-        $cb = new ilCheckboxInputGUI($this->lng->txt("online"), "is_online");
-        $cb->setInfo($this->lng->txt("dcl_online_info"));
-        $form->addItem($cb);
-
-        $cb = new ilCheckboxInputGUI($this->lng->txt("dcl_activate_notification"), "notification");
-        $cb->setInfo($this->lng->txt("dcl_notification_info"));
-        $form->addItem($cb);
-
-        $section_appearance = new ilFormSectionHeaderGUI();
-        $section_appearance->setTitle($this->lng->txt('cont_presentation'));
-        $form->addItem($section_appearance);
-        $form = $this->object_service->commonSettings()->legacyForm($form, $this->object)->addTileImage();
-
-        $form->addCommandButton("update", $this->lng->txt("save"));
-
-        return $form;
     }
 
     final public function listRecords(): void
