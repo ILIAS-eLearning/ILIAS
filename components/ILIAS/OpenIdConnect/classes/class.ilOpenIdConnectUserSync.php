@@ -24,11 +24,14 @@ declare(strict_types=1);
 class ilOpenIdConnectUserSync
 {
     public const AUTH_MODE = 'oidc';
+    private const UDF_STRING = 'udf_';
+
     private readonly ilLogger $logger;
     private readonly ilXmlWriter $writer;
     private string $ext_account = '';
     private string $int_account = '';
     private int $usr_id = 0;
+    private ilUserDefinedFields $udf;
 
     public function __construct(private readonly ilOpenIdConnectSettings $settings, private readonly stdClass $user_info)
     {
@@ -122,7 +125,17 @@ class ilOpenIdConnectUserSync
             $this->writer->xmlElement('TimeLimitUntil', [], time());
         }
 
-        foreach ($this->settings->getProfileMappingFields() as $field => $lng_key) {
+        $profile_fields = $this->settings->getProfileMappingFields();
+        $this->initUserDefinedFields();
+
+        $udf_fields = [];
+        foreach ($this->udf->getDefinitions() as $definition) {
+            $field = self::UDF_STRING . $definition['field_id'];
+            $udf_fields[$field] = $field;
+        }
+
+        $profile_and_udf_fields = $profile_fields + $udf_fields;
+        foreach ($profile_and_udf_fields as $field => $lng_key) {
             $connect_name = $this->settings->getProfileMappingFieldValue($field);
             if (!$connect_name) {
                 $this->logger->debug('Ignoring unconfigured field: ' . $field);
@@ -140,6 +153,25 @@ class ilOpenIdConnectUserSync
             }
 
             switch ($field) {
+                case 'gender':
+                    switch (strtolower($value)) {
+                        case 'm':
+                        case 'male':
+                            $this->writer->xmlElement('Gender', [], 'm');
+                            break;
+
+                        case 'f':
+                        case 'female':
+                            $this->writer->xmlElement('Gender', [], 'f');
+                            break;
+
+                        default:
+                            // use the default for anything that is not clearly m or f
+                            $this->writer->xmlElement('Gender', [], 'n');
+                            break;
+                    }
+                    break;
+
                 case 'firstname':
                     $this->writer->xmlElement('Firstname', [], $value);
                     break;
@@ -148,12 +180,93 @@ class ilOpenIdConnectUserSync
                     $this->writer->xmlElement('Lastname', [], $value);
                     break;
 
+                case 'hobby':
+                    $this->writer->xmlElement('Hobby', [], $value);
+                    break;
+
+                case 'title':
+                    $this->writer->xmlElement('Title', [], $value);
+                    break;
+
+                case 'institution':
+                    $this->writer->xmlElement('Institution', [], $value);
+                    break;
+
+                case 'department':
+                    $this->writer->xmlElement('Department', [], $value);
+                    break;
+
+                case 'street':
+                    $this->writer->xmlElement('Street', [], $value);
+                    break;
+
+                case 'city':
+                    $this->writer->xmlElement('City', [], $value);
+                    break;
+
+                case 'zipcode':
+                    $this->writer->xmlElement('PostalCode', [], $value);
+                    break;
+
+                case 'country':
+                    $this->writer->xmlElement('Country', [], $value);
+                    break;
+
+                case 'phone_office':
+                    $this->writer->xmlElement('PhoneOffice', [], $value);
+                    break;
+
+                case 'phone_home':
+                    $this->writer->xmlElement('PhoneHome', [], $value);
+                    break;
+
+                case 'phone_mobile':
+                    $this->writer->xmlElement('PhoneMobile', [], $value);
+                    break;
+
+                case 'fax':
+                    $this->writer->xmlElement('Fax', [], $value);
+                    break;
+
                 case 'email':
                     $this->writer->xmlElement('Email', [], $value);
                     break;
 
-                case 'birthday':
-                    $this->writer->xmlElement('Birthday', [], $value);
+                case 'second_email':
+                    $this->writer->xmlElement('SecondEmail', [], $value);
+                    break;
+
+                case 'matriculation':
+                    $this->writer->xmlElement('Matriculation', [], $value);
+                    break;
+
+                default:
+                    if (strpos($field, 'udf_') !== 0) {
+                        continue 2;
+                    }
+
+                    $id_data = explode('_', $field);
+                    if (!isset($id_data[1])) {
+                        continue 2;
+                    }
+
+                    $definition = $this->udf->getDefinition((int) $id_data[1]);
+                    if (empty($definition)) {
+                        $this->logger->warning(sprintf(
+                            "Invalid/Orphaned UD field mapping detected: %s",
+                            $field
+                        ));
+                        break;
+                    }
+
+                    $this->writer->xmlElement(
+                        'UserDefinedField',
+                        [
+                            'Id' => $definition['il_id'],
+                            'Name' => $definition['field_name']
+                        ],
+                        $value
+                    );
                     break;
             }
         }
@@ -261,5 +374,10 @@ class ilOpenIdConnectUserSync
         }
 
         return (string) $this->user_info->{$connect_name};
+    }
+
+    private function initUserDefinedFields(): void
+    {
+        $this->udf = ilUserDefinedFields::_getInstance();
     }
 }

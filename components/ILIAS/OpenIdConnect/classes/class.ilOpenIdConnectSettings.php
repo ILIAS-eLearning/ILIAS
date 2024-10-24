@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- */
 use ILIAS\Filesystem\Filesystem;
 
 class ilOpenIdConnectSettings
@@ -42,6 +39,28 @@ class ilOpenIdConnectSettings
 
     public const VALIDATION_ISSUE_INVALID_SCOPE = 0;
     public const VALIDATION_ISSUE_DISCOVERY_ERROR = 1;
+
+    /**
+     * @var string[]
+     */
+    private const IGNORED_USER_FIELDS = [
+        'mail_incoming_mail',
+        'preferences',
+        'hide_own_online_status',
+        'show_users_online',
+        'roles',
+        'upload',
+        'password',
+        'username',
+        'language',
+        'skin_style',
+        'interests_general',
+        'interests_help_offered',
+        'interests_help_looking',
+        'bs_allow_to_contact_me',
+        'chat_osc_accept_msg',
+        'chat_broadcast_typing',
+    ];
 
     private static ?self $instance = null;
 
@@ -71,6 +90,8 @@ class ilOpenIdConnectSettings
     private array $additional_scopes = [];
     private int $validate_scopes = self::URL_VALIDATION_PROVIDER;
     private ?string $custom_discovery_url = null;
+    private ilLanguage $lng;
+    private ilUserDefinedFields $udf;
 
     private function __construct()
     {
@@ -78,6 +99,8 @@ class ilOpenIdConnectSettings
 
         $this->storage = new ilSetting(self::STORAGE_ID);
         $this->filesystem = $DIC->filesystem()->web();
+        $this->lng = $DIC->language();
+        $this->udf = ilUserDefinedFields::_getInstance();
         $this->load();
     }
 
@@ -353,6 +376,39 @@ class ilOpenIdConnectSettings
         return $result;
     }
 
+    public function getSupportedScopesFromUrl(string $discoveryURL): bool
+    {
+        try {
+            $curl = new ilCurlConnection($discoveryURL);
+            $curl->init();
+
+            $curl->setOpt(CURLOPT_HEADER, 0);
+            $curl->setOpt(CURLOPT_RETURNTRANSFER, true);
+            $curl->setOpt(CURLOPT_TIMEOUT, 4);
+
+            $response = $curl->exec();
+
+            if ($curl->getInfo(CURLINFO_RESPONSE_CODE) === 200) {
+                $decoded_response = json_decode($response, false, 512, JSON_THROW_ON_ERROR);
+
+                if (isset($decoded_response->scopes_supported) &&
+                    is_array($decoded_response->scopes_supported) &&
+                    $decoded_response->scopes_supported !== []) {
+                    $available_scopes = $decoded_response->scopes_supported;
+                    $this->setAdditionalScopes($available_scopes);
+
+                    return true;
+                }
+            }
+        } finally {
+            if (isset($curl)) {
+                $curl->close();
+            }
+        }
+
+        return false;
+    }
+
     public function save(): void
     {
         $this->storage->set('active', (string) ((int) $this->getActive()));
@@ -371,7 +427,13 @@ class ilOpenIdConnectSettings
         $this->storage->set('role', (string) $this->getRole());
         $this->storage->set('uid', $this->getUidField());
 
-        foreach ($this->getProfileMappingFields() as $field => $lang_key) {
+        foreach ($this->getProfileMappingFields() as $field => $lng_key) {
+            $this->storage->set('pmap_' . $field, $this->getProfileMappingFieldValue($field));
+            $this->storage->set('pumap_' . $field, (string) ((int) $this->getProfileMappingFieldUpdate($field)));
+        }
+
+        foreach ($this->udf->getDefinitions() as $definition) {
+            $field = 'udf_' . $definition['field_id'];
             $this->storage->set('pmap_' . $field, $this->getProfileMappingFieldValue($field));
             $this->storage->set('pumap_' . $field, (string) ((int) $this->getProfileMappingFieldUpdate($field)));
         }
@@ -387,6 +449,11 @@ class ilOpenIdConnectSettings
     protected function load(): void
     {
         foreach ($this->getProfileMappingFields() as $field => $lang_key) {
+            $this->profile_map[$field] = (string) $this->storage->get('pmap_' . $field, '');
+            $this->profile_update_map[$field] = (bool) $this->storage->get('pumap_' . $field, '0');
+        }
+        foreach ($this->udf->getDefinitions() as $definition) {
+            $field = 'udf_' . $definition['field_id'];
             $this->profile_map[$field] = (string) $this->storage->get('pmap_' . $field, '');
             $this->profile_update_map[$field] = (bool) $this->storage->get('pumap_' . $field, '0');
         }
@@ -424,6 +491,12 @@ class ilOpenIdConnectSettings
         return (string) ($this->profile_map[$field] ?? '');
     }
 
+    public function clearProfileMaps()
+    {
+        $this->profile_map = [];
+        $this->profile_update_map = [];
+    }
+
     public function setProfileMappingFieldValue(string $field, string $value): void
     {
         $this->profile_map[$field] = $value;
@@ -458,16 +531,22 @@ class ilOpenIdConnectSettings
     {
         return $this->custom_discovery_url;
     }
+
     /**
      * @return array<string, string>
      */
     public function getProfileMappingFields(): array
     {
-        return [
-            'firstname' => 'firstname',
-            'lastname' => 'lastname',
-            'email' => 'email',
-            'birthday' => 'birthday'
-        ];
+        $mapping_fields = [];
+        $usr_profile = new ilUserProfile();
+
+        foreach ($usr_profile->getStandardFields() as $id => $definition) {
+            if (in_array($id, self::IGNORED_USER_FIELDS, true)) {
+                continue;
+            }
+            $mapping_fields[$id] = $this->lng->txt($id);
+        }
+
+        return $mapping_fields;
     }
 }
