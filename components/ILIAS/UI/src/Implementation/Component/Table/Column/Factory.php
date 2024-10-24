@@ -28,7 +28,8 @@ use ILIAS\Language\Language;
 class Factory implements I\Factory
 {
     public function __construct(
-        protected Language $lng
+        protected Language $lng,
+        protected \ilObjUser $user
     ) {
     }
 
@@ -45,7 +46,7 @@ class Factory implements I\Factory
 
     public function date(string $title, \ILIAS\Data\DateFormat\DateFormat $format): I\Date
     {
-        return new Date($this->lng, $title, $format);
+        return new Date($this->lng, new \DateTimeZone($this->user->getTimeZone()), $title, $format);
     }
 
     public function status(string $title): I\Status

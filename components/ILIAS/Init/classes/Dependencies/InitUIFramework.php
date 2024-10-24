@@ -154,7 +154,8 @@ class InitUIFramework
         };
         $c["ui.factory.table.column"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Table\Column\Factory(
-                $c["lng"]
+                $c["lng"],
+                $c["ilUser"]
             );
         };
         $c["ui.factory.table.action"] = function ($c) {
