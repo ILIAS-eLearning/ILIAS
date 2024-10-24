@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace Test\ImportHandler\File;
+namespace ILIAS\Export\Test\ImportHandler\File;
 
 use ILIAS\Export\ImportHandler\File\Handler as ilFileHandler;
 use ILIAS\Export\ImportHandler\File\Namespace\Collection as ilFileNamespaceCollection;

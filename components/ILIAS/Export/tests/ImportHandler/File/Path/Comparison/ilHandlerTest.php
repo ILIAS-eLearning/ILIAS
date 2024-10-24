@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace Test\ImportHandler\File\Path\Comparison;
+namespace ILIAS\Export\Test\ImportHandler\File\Path\Comparison;
 
 use ILIAS\Export\ImportHandler\Path\Comparison\Handler as ilFilePathComparison;
 use ILIAS\Export\ImportHandler\Path\Comparison\Operator as ilFilePathComparisonOperator;

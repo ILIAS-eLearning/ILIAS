@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace Test\ImportHandler\File\Path;
+namespace ILIAS\Export\Test\ImportHandler\File\Path;
 
 use ILIAS\Export\ImportHandler\Path\Handler as ilFilePathHandler;
 use ILIAS\Export\ImportHandler\Path\Node\Simple as ilSimpleFilePathNode;

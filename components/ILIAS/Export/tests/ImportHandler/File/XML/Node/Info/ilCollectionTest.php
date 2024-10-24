@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace Test\ImportHandler\File\XML\Node\Info;
+namespace ILIAS\Export\Test\ImportHandler\File\XML\Node\Info;
 
 use ILIAS\Export\ImportHandler\Parser\NodeInfo\DOM\Handler;
 use ILIAS\Export\ImportHandler\Parser\NodeInfo\Collection;

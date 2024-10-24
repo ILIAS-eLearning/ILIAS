@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace Test\ImportHandler\File\XML\Node\Info;
+namespace ILIAS\Export\Test\ImportHandler\File\XML\Node\Info;
 
 use PHPUnit\Framework\TestCase;
 

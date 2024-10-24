@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace Test\ImportHandler\File\XML\Node\Info\Attribute;
+namespace ILIAS\Export\Test\ImportHandler\File\XML\Node\Info\Attribute;
 
 use ILIAS\Export\ImportHandler\Parser\NodeInfo\Attribute\Collection as ilXMLFileNodeInfoAttributeCollection;
 use ILIAS\Export\ImportHandler\Parser\NodeInfo\Attribute\Handler as ilXMLFileNodeInfoAttributePair;
