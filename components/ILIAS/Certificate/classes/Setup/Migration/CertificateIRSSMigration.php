@@ -187,10 +187,10 @@ class CertificateIRSSMigration implements Migration
                     SELECT path
                     FROM (
                         SELECT id, background_image_path AS path FROM il_cert_user_cert
-                                             WHERE background_image_ident IS NULL
+                                             WHERE background_image_ident IS NULL OR background_image_ident = \'\'
                         UNION ALL
                         SELECT id, thumbnail_image_path AS path FROM il_cert_user_cert
-                                             WHERE thumbnail_image_ident IS NULL
+                                             WHERE thumbnail_image_ident IS NULL OR thumbnail_image_ident = \'\'
                     ) AS t
                     GROUP BY path
                     HAVING path IS NOT NULL AND path != \'\') AS t;
@@ -206,10 +206,10 @@ class CertificateIRSSMigration implements Migration
                     SELECT path
                     FROM (
                         SELECT id, background_image_path AS path FROM il_cert_template
-                                             WHERE background_image_ident IS NULL
+                                             WHERE background_image_ident IS NULL OR background_image_ident = \'\'
                         UNION ALL
                         SELECT id, thumbnail_image_path AS path FROM il_cert_template
-                                             WHERE thumbnail_image_ident IS NULL
+                                             WHERE thumbnail_image_ident IS NULL OR thumbnail_image_ident = \'\'
                     ) AS t
                     GROUP BY path
                     HAVING path IS NOT NULL AND path != \'\') AS t;
