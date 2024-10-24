@@ -3,13 +3,15 @@
 @use "../../../070-components/legacy/component_alert" as alert;
 
 /* not yet refactored code from former ta.css */
+$il-test-dropzone-bg-color: $il-main-dark-bg;
+$il-test-dropzone-bg-color-hover: $il-main-darker-bg;
+$il-test-dropzone-border-color: $il-main-border-color;
 
 .fullwidth_invisible {
 	background-color: transparent !important;
 }
 
 .feedback {
-/*	border:  1px solid gray;*/
 	padding: 4px;
 	display: block;
 	background: #EEEEEE;
@@ -597,3 +599,27 @@ div.ilc_Page.readonly textarea[disabled]
 	top: 40px;
 }
 
+/* 2024-10-23 skergomard: We use fixed margins here because of interactions with content.css */
+.c-test__dropzone {
+    display: none;
+    margin: 5px 10px 5px 0;
+    padding: 0;
+    background: $il-test-dropzone-bg-color;
+    border: 1px dashed $il-test-dropzone-border-color;
+
+    &.c-test__dropzone--hover {
+        background: $il-test-dropzone-bg-color-hover;
+    }
+
+    &.c-test__dropzone--active {
+        display: block;
+    }
+}
+
+.ilc_qordul_OrderListHorizontal .c-test__dropzone {
+    float: left;
+}
+
+.ilc_qordul_OrderList .c-test__dropzone {
+    width: 100%;
+}

@@ -666,7 +666,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
         }
 
         if ($sum_only) {
-            $data = $test_obj->getAllTestResults($participants, false);
+            $data = $test_obj->getAllTestResults($participants);
 
             $xmlResultSet->addColumn("maximum_points");
             $xmlResultSet->addColumn("received_points");

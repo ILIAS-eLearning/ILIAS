@@ -112,7 +112,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         $this->saveQuestionDataToDb($original_id);
         $this->saveAdditionalQuestionDataToDb();
         $this->saveAnswerSpecificDataToDb();
-        $this->ensureNoInvalidObligation($this->getId());
         parent::saveToDb($original_id);
     }
 
@@ -665,36 +664,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function setExportDetailsXLSX(ilAssExcelFormatHelper $worksheet, int $startrow, int $col, int $active_id, int $pass): int
-    {
-        parent::setExportDetailsXLSX($worksheet, $startrow, $col, $active_id, $pass);
-
-        $solution = $this->getSolutionValues($active_id, $pass);
-
-        $i = 1;
-        foreach ($this->getAnswers() as $id => $answer) {
-            $worksheet->setCell($startrow + $i, $col, $answer->getAnswertext());
-            $worksheet->setBold($worksheet->getColumnCoord($col) . ($startrow + $i));
-            $checked = false;
-            foreach ($solution as $solutionvalue) {
-                if ($id == $solutionvalue["value1"]) {
-                    $checked = true;
-                }
-            }
-            if ($checked) {
-                $worksheet->setCell($startrow + $i, $col + 2, 1);
-            } else {
-                $worksheet->setCell($startrow + $i, $col + 2, 0);
-            }
-            $i++;
-        }
-
-        return $startrow + $i + 1;
-    }
-
-    /**
      * @param ilAssSelfAssessmentMigrator $migrator
      */
     protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator): void
@@ -807,87 +776,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     public function getSpecificFeedbackAllCorrectOptionLabel(): string
     {
         return 'feedback_correct_sc_mc';
-    }
-
-    /**
-     * returns boolean wether it is possible to set
-     * this question type as obligatory or not
-     * considering the current question configuration
-     *
-     * (overwrites method in class assQuestion)
-     *
-     * @param integer $questionId
-     *
-     * @return boolean $obligationPossible
-     */
-    public static function isObligationPossible(int $questionId): bool
-    {
-        /** @var $ilDB ilDBInterface */
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $query = "
-			SELECT SUM(points) points_for_checked_answers
-			FROM qpl_a_mc
-			WHERE question_fi = %s AND points > 0
-		";
-
-        $res = $ilDB->queryF($query, ['integer'], [$questionId]);
-
-        $row = $ilDB->fetchAssoc($res);
-
-        return $row['points_for_checked_answers'] > 0;
-    }
-
-    /**
-     * ensures that no invalid obligation is saved for the question used in test
-     *
-     * when points can be reached ONLY by NOT check any answer
-     * a possibly still configured obligation will be removed
-     */
-    public function ensureNoInvalidObligation(int $question_id): void
-    {
-        $query = "
-			SELECT		SUM(qpl_a_mc.points) points_for_checked_answers,
-						test_question_id
-
-			FROM		tst_test_question
-
-			INNER JOIN	qpl_a_mc
-			ON			qpl_a_mc.question_fi = tst_test_question.question_fi
-
-			WHERE		tst_test_question.question_fi = %s
-			AND			tst_test_question.obligatory = 1
-
-			GROUP BY	test_question_id
-		";
-
-        $res = $this->db->queryF($query, ['integer'], [$question_id]);
-
-        $updateTestQuestionIds = [];
-
-        while ($row = $this->db->fetchAssoc($res)) {
-            if ($row['points_for_checked_answers'] <= 0) {
-                $updateTestQuestionIds[] = $row['test_question_id'];
-            }
-        }
-
-        if (count($updateTestQuestionIds)) {
-            $test_question_id__IN__updateTestQuestionIds = $this->db->in(
-                'test_question_id',
-                $updateTestQuestionIds,
-                false,
-                'integer'
-            );
-
-            $query = "
-				UPDATE tst_test_question
-				SET obligatory = 0
-				WHERE $test_question_id__IN__updateTestQuestionIds
-			";
-
-            $this->db->manipulate($query);
-        }
     }
 
     protected function getSolutionSubmit(): array
@@ -1033,7 +921,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         return $result;
     }
 
-    public function solutionValuesToLog(
+    protected function solutionValuesToLog(
         AdditionalInformationGenerator $additional_info,
         array $solution_values
     ): array {
@@ -1051,5 +939,35 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
                 ->getCheckedUncheckedTagForBool($checked);
         }
         return $parsed_solutions;
+    }
+
+    public function solutionValuesToText(array $solution_values): array
+    {
+        $solution_ids = array_map(
+            static fn(array $v): string => $v['value1'],
+            $solution_values
+        );
+
+        return array_map(
+            function (ASS_AnswerMultipleResponseImage $v) use ($solution_ids): string {
+                $checked = 'unchecked';
+                if (in_array($v->getId(), $solution_ids)) {
+                    $checked = 'checked';
+                }
+                return "{$v->getAnswertext()} ({$this->lng->txt($checked)})";
+            },
+            $this->getAnswers()
+        );
+    }
+
+    public function getCorrectSolutionForTextOutput(int $active_id, int $pass): array
+    {
+        return array_map(
+            fn(ASS_AnswerMultipleResponseImage $v): string => $v->getAnswertext()
+                . "({$this->lng->txt('points')} "
+                . "{$this->lng->txt('checked')}: {$v->getPointsChecked()}, "
+                . "{$this->lng->txt('unchecked')}: {$v->getPointsUnchecked()})",
+            $this->getAnswers()
+        );
     }
 }

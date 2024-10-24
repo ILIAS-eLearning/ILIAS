@@ -112,7 +112,6 @@ class ilTestSkillEvaluationGUI
         $this->testPassesSelector->setActiveId($this->testSession->getActiveId());
         $this->testPassesSelector->setLastFinishedPass($this->testSession->getLastFinishedPass());
 
-        $assSettings = new ilSetting('assessment');
         $skillEvaluation = new ilTestSkillEvaluation(
             $this->db,
             $this->logger,
@@ -125,10 +124,9 @@ class ilTestSkillEvaluationGUI
         $skillEvaluation->setUserId($this->getTestSession()->getUserId());
         $skillEvaluation->setActiveId($this->getTestSession()->getActiveId());
 
-        $skillEvaluation->setNumRequiredBookingsForSkillTriggering((int) $assSettings->get(
-            'ass_skl_trig_num_answ_barrier',
-            ilObjTestFolder::DEFAULT_SKL_TRIG_NUM_ANSWERS_BARRIER
-        ));
+        $skillEvaluation->setNumRequiredBookingsForSkillTriggering(
+            $this->test_obj->getGlobalSettings()->getSkillTriggeringNumberOfAnswers()
+        );
 
         $skillEvaluation->init($this->getQuestionList());
 

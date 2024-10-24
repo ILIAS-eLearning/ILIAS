@@ -324,29 +324,6 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         return 'qpl_a_errortext';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setExportDetailsXLSX(ilAssExcelFormatHelper $worksheet, int $startrow, int $col, int $active_id, int $pass): int
-    {
-        parent::setExportDetailsXLSX($worksheet, $startrow, $col, $active_id, $pass);
-
-        $i = 0;
-        $selections = [];
-        $solutions = $this->getSolutionValues($active_id, $pass);
-        if (is_array($solutions)) {
-            foreach ($solutions as $solution) {
-                $selections[] = $solution['value1'];
-            }
-        }
-        $errortext = $this->createErrorTextExport($selections);
-        $i++;
-        $worksheet->setCell($startrow + $i, $col + 2, $errortext);
-        $i++;
-
-        return $startrow + $i + 1;
-    }
-
     public function setErrorsFromParsedErrorText(): void
     {
         $current_error_data = $this->getErrorData();
@@ -586,13 +563,13 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         return implode("\n", $output_array);
     }
 
-    public function getBestSelection($withPositivePointsOnly = true): array
+    public function getBestSelection(bool $with_positive_points_only = true): array
     {
         $positions_array = $this->generateArrayByPositionFromErrorData();
         $selections = [];
         foreach ($positions_array as $position => $position_data) {
             if ($position === ''
-                || $withPositivePointsOnly && $position_data['points'] < 1) {
+                || $with_positive_points_only && $position_data['points'] <= 0) {
                 continue;
             }
 
@@ -992,15 +969,30 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         return $result;
     }
 
-    public function solutionValuesToLog(
+    protected function solutionValuesToLog(
         AdditionalInformationGenerator $additional_info,
         array $solution_values
-    ): array {
+    ): string {
         return $this->createErrorTextExport(
             array_map(
                 static fn(string $v): string => $v['value1'],
                 $solution_values
             )
         );
+    }
+
+    public function solutionValuesToText(array $solution_values): string
+    {
+        return $this->createErrorTextExport(
+            array_map(
+                static fn(string $v): string => $v['value1'],
+                $solution_values
+            )
+        );
+    }
+
+    public function getCorrectSolutionForTextOutput(int $active_id, int $pass): string
+    {
+        return $this->createErrorTextExport($this->getBestSelection());
     }
 }

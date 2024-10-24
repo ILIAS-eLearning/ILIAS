@@ -427,7 +427,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         bool $show_question_text = true,
         bool $show_inline_feedback = true
     ): string {
-        $solutionOrderingList = $this->object->getOrderingElementListForSolutionOutput(
+        $solution_ordering_list = $this->object->getOrderingElementListForSolutionOutput(
             $show_correct_solution,
             $active_id,
             $pass
@@ -442,24 +442,24 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         }
 
         $answers_gui->setInteractionEnabled(false);
-        $answers_gui->setElementList($solutionOrderingList);
+        $answers_gui->setElementList($solution_ordering_list);
         if ($graphical_output) {
             $answers_gui->setShowCorrectnessIconsEnabled(true);
         }
         $answers_gui->setCorrectnessTrueElementList(
-            $solutionOrderingList->getParityTrueElementList($this->object->getOrderingElementList())
+            $solution_ordering_list->getParityTrueElementList($this->object->getOrderingElementList())
         );
         $solution_html = $answers_gui->getHTML();
 
-        $template = new ilTemplate("tpl.il_as_qpl_nested_ordering_output_solution.html", true, true, "components/ILIAS/TestQuestionPool");
+        $template = new ilTemplate('tpl.il_as_qpl_nested_ordering_output_solution.html', true, true, 'components/ILIAS/TestQuestionPool');
         $template->setVariable('SOLUTION_OUTPUT', $solution_html);
         if ($show_question_text == true) {
-            $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
+            $template->setVariable('QUESTIONTEXT', $this->object->getQuestionForHTMLOutput());
         }
         $questionoutput = $template->get();
 
-        $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "components/ILIAS/TestQuestionPool");
-        $solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
+        $solutiontemplate = new ilTemplate('tpl.il_as_tst_solution_output.html', true, true, 'components/ILIAS/TestQuestionPool');
+        $solutiontemplate->setVariable('SOLUTION_OUTPUT', $questionoutput);
 
         if ($show_feedback) {
             $feedback = '';
@@ -469,14 +469,14 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 $feedback .= strlen($fb) ? $fb : '';
             }
 
-            if (strlen($feedback)) {
+            if ($feedback !== '') {
                 $cssClass = (
                     $this->hasCorrectSolution($active_id, $pass) ?
                     ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_CORRECT : ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_WRONG
                 );
 
-                $solutiontemplate->setVariable("ILC_FB_CSS_CLASS", $cssClass);
-                $solutiontemplate->setVariable("FEEDBACK", ilLegacyFormElementsUtil::prepareTextareaOutput($feedback, true));
+                $solutiontemplate->setVariable('ILC_FB_CSS_CLASS', $cssClass);
+                $solutiontemplate->setVariable('FEEDBACK', ilLegacyFormElementsUtil::prepareTextareaOutput($feedback, true));
             }
         }
 
@@ -497,7 +497,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         if ($this->getPreviewSession() && $this->getPreviewSession()->hasParticipantSolution()) {
             $solutionOrderingElementList = unserialize(
                 $this->getPreviewSession()->getParticipantsSolution(),
-                ["allowed_classes" => true]
+                ['allowed_classes' => true]
             );
         } else {
             $solutionOrderingElementList = $this->object->getShuffledOrderingElementList();
@@ -509,31 +509,18 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $answers->setInteractionEnabled($this->isInteractivePresentation());
         $answers->setElementList($solutionOrderingElementList);
 
-        $template = new ilTemplate("tpl.il_as_qpl_ordering_output.html", true, true, "components/ILIAS/TestQuestionPool");
+        $template = new ilTemplate('tpl.il_as_qpl_ordering_output.html', true, true, 'components/ILIAS/TestQuestionPool');
 
         $template->setCurrentBlock('nested_ordering_output');
         $template->setVariable('NESTED_ORDERING', $answers->getHTML());
         $template->parseCurrentBlock();
-        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
+        $template->setVariable('QUESTIONTEXT', $this->object->getQuestionForHTMLOutput());
 
         if ($show_question_only) {
             return $template->get();
         }
 
         return $this->getILIASPage($template->get());
-    }
-
-    public function getPresentationJavascripts(): array
-    {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
-        $files = [];
-
-        if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
-            $files[] = './node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js';
-        }
-
-        return $files;
     }
 
     public function getTestOutput(
@@ -879,5 +866,12 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         }
 
         $this->object->setOrderingElementList($newElementList);
+    }
+
+    private function addInitializationJSToTemplate(): void
+    {
+        $this->tpl->addOnLoadCode(
+            "il.test.orderinghorizontal.init(document.querySelector('#horizontal_{$this->object->getId()}'));"
+        );
     }
 }

@@ -106,7 +106,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         }
 
         switch ($cmd) {
-            case "eval_a":
             case "eval_stat":
                 if (!ilObjTestAccess::_lookupCreationComplete($obj_id)) {
                     $this->access->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $this->lng->txt("tst_warning_test_not_complete"));
@@ -365,11 +364,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         $commands = [
             ["permission" => "write", "cmd" => "questionsTabGateway", "lang_var" => "tst_edit_questions"],
             ["permission" => "write", "cmd" => "ILIAS\Test\Settings\MainSettings\SettingsMainGUI::showForm", "lang_var" => "settings"],
-            ["permission" => "read", "cmd" => "testScreen", "lang_var" => "tst_run", "default" => true],
-            ["permission" => "tst_statistics", "cmd" => "outEvaluation", "lang_var" => "tst_statistical_evaluation"],
-            ["permission" => "read", "cmd" => "userResultsGateway", "lang_var" => "tst_user_results"],
-            ["permission" => "write", "cmd" => "testResultsGateway", "lang_var" => "results"],
-            ["permission" => "eval_a", "cmd" => "testResultsGateway", "lang_var" => "results"]
+            ["permission" => "read", "cmd" => "testScreen", "lang_var" => "tst_run", "default" => true]
         ];
 
         return $commands;
@@ -581,16 +576,15 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
     public static function _getParticipantId($active_id): int
     {
         global $DIC;
-        $lng = $DIC['lng'];
         $ilDB = $DIC['ilDB'];
 
         $result = $ilDB->queryF(
-            "SELECT user_fi FROM tst_active WHERE active_id = %s",
-            ["integer"],
+            'SELECT user_fi FROM tst_active WHERE active_id = %s',
+            ['integer'],
             [$active_id]
         );
         $row = $ilDB->fetchAssoc($result);
-        return $row["user_fi"];
+        return $row['user_fi'];
     }
 
 

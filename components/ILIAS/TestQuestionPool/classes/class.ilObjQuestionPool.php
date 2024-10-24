@@ -41,13 +41,7 @@ class ilObjQuestionPool extends ilObject
     private bool $skill_service_enabled;
     private GeneralQuestionPropertiesRepository $questionrepository;
 
-    /**
-     * Constructor
-     * @access    public
-     * @param integer    reference_id or object_id
-     * @param boolean    treat the id as reference_id (true) or object_id (false)
-     */
-    public function __construct($a_id = 0, $a_call_by_reference = true)
+    public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         global $DIC;
         $this->component_repository = $DIC['component.repository'];
@@ -1084,13 +1078,13 @@ class ilObjQuestionPool extends ilObject
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
         $component_factory = $DIC['component.factory'];
+        $disabled_question_types = QuestionPoolDIC::dic()['global_test_settings']->getDisabledQuestionTypes();
 
-        $forbidden_types = ilObjTestFolder::_getForbiddenQuestionTypes();
         $lng->loadLanguageModule('assessment');
         $result = $ilDB->query('SELECT * FROM qpl_qst_type');
         $types = [];
         while ($row = $ilDB->fetchAssoc($result)) {
-            if ($all_tags || (!in_array($row['question_type_id'], $forbidden_types))) {
+            if ($all_tags || (!in_array($row['question_type_id'], $disabled_question_types))) {
                 if ($row['plugin'] == 0) {
                     $types[$lng->txt($row['type_tag'])] = $row;
                 } else {

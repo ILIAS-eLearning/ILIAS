@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Scoring\Marks\Mark;
+
 /**
 * Class ilTestEvaluationUserData
 *
@@ -31,33 +33,21 @@ declare(strict_types=1);
 
 class ilTestEvaluationUserData
 {
-    private $questionTitles;
-    public string $name;
-    public string $login = '';
-    public ?int $user_id = null;
-    protected bool $submitted;
-    public float $reached;
-    public float $maxpoints;
-    public string $mark;
-    public string $mark_official;
-    public int $questionsWorkedThrough;
-    public int $numberOfQuestions;
-    public string $timeOfWork;
-    public int $firstVisit;
-    public int $lastVisit;
-    public bool $passed;
+    private array $question_titles;
+    private string $name;
+    private string $login = '';
+    private ?int $user_id = null;
+    private bool $submitted;
+    private Mark $mark;
+    private \DateTimeImmutable $first_visit;
+    private \DateTimeImmutable $last_visit;
 
     /**
     * @var array<int, ilTestEvaluationPassData>
     */
-    public array $passes;
-    public ?int $lastFinishedPass;
-    public array $questions;
-
-    /**
-    * Pass Scoring (Last pass = 0, Best pass = 1)
-    */
-    private int $passScoring;
+    private array $passes = [];
+    private ?int $last_finished_pass = null;
+    private array $questions = [];
 
     public function __sleep()
     {
@@ -66,32 +56,19 @@ class ilTestEvaluationUserData
         'name', 'passScoring'];
     }
 
-    public function __construct(int $passScoring)
-    {
-        $this->passes = [];
-        $this->questions = [];
-        $this->passed = false;
-        $this->passScoring = $passScoring;
+    public function __construct(
+        private int $pass_scoring
+    ) {
     }
 
     public function getPassScoring(): int
     {
-        return $this->passScoring;
+        return $this->pass_scoring;
     }
 
     public function setPassScoring(int $passScoring): void
     {
-        $this->passScoring = $passScoring;
-    }
-
-    public function getPassed(): bool
-    {
-        return $this->passed;
-    }
-
-    public function setPassed(bool $passed): void
-    {
-        $this->passed = $passed;
+        $this->pass_scoring = $passScoring;
     }
 
     public function getName(): string
@@ -129,34 +106,24 @@ class ilTestEvaluationUserData
         return $this->getReachedPoints($this->getScoredPass());
     }
 
-    public function setReached(float $reached): void
-    {
-        $this->reached = $reached;
-    }
-
     public function getMaxpoints(): float
     {
         return $this->getAvailablePoints($this->getScoredPass());
     }
 
-    public function setMaxpoints(float $max_points): void
-    {
-        $this->maxpoints = $max_points;
-    }
-
     public function getReachedPointsInPercent(): float
     {
-        return $this->getMaxPoints() ? $this->getReached() / $this->getMaxPoints() * 100.0 : 0;
+        return $this->getMaxPoints() ? $this->getReached() / $this->getMaxPoints() * 100.0 : 0.0;
     }
 
-    public function getMark(): string
+    public function getMark(): Mark
     {
         return $this->mark;
     }
 
-    public function setMark(string $a_mark): void
+    public function setMark(Mark $mark): void
     {
-        $this->mark = $a_mark;
+        $this->mark = $mark;
     }
 
     public function getQuestionsWorkedThrough(): int
@@ -171,11 +138,6 @@ class ilTestEvaluationUserData
         return 0;
     }
 
-    public function setQuestionsWorkedThrough(int $nr): void
-    {
-        $this->questionsWorkedThrough = $nr;
-    }
-
     public function getNumberOfQuestions(): int
     {
         $questionpass = $this->getScoredPass();
@@ -188,17 +150,12 @@ class ilTestEvaluationUserData
         return 0;
     }
 
-    public function setNumberOfQuestions(int $nr): void
-    {
-        $this->numberOfQuestions = $nr;
-    }
-
     public function getQuestionsWorkedThroughInPercent(): float
     {
         return $this->getNumberOfQuestions() ? $this->getQuestionsWorkedThrough() / $this->getNumberOfQuestions() * 100.0 : 0;
     }
 
-    public function getTimeOfWork(): int
+    public function getTimeOnTask(): int
     {
         $time = 0;
         foreach ($this->passes as $pass) {
@@ -207,29 +164,24 @@ class ilTestEvaluationUserData
         return $time;
     }
 
-    public function setTimeOfWork(string $time_of_work): void
+    public function getFirstVisit(): \DateTimeImmutable
     {
-        $this->timeOfWork = $time_of_work;
+        return $this->first_visit;
     }
 
-    public function getFirstVisit(): int
+    public function setFirstVisit(?\DateTimeImmutable $time): void
     {
-        return $this->firstVisit;
+        $this->first_visit = $time;
     }
 
-    public function setFirstVisit(int $time): void
+    public function getLastVisit(): \DateTimeImmutable
     {
-        $this->firstVisit = $time;
+        return $this->last_visit;
     }
 
-    public function getLastVisit(): int
+    public function setLastVisit(\DateTimeImmutable $time): void
     {
-        return $this->lastVisit;
-    }
-
-    public function setLastVisit(int $time): void
-    {
-        $this->lastVisit = $time;
+        $this->last_visit = $time;
     }
 
     public function getPasses(): array
@@ -273,14 +225,10 @@ class ilTestEvaluationUserData
         $bestpoints = 0;
         $bestpass = null;
 
-        $obligationsAnsweredPassExists = $this->doesObligationsAnsweredPassExist();
-
         foreach ($this->passes as $pass) {
             $reached = $this->getReachedPointsInPercentForPass($pass->getPass());
 
-            if (($reached > $bestpoints
-                && ($pass->areObligationsAnswered() || !$obligationsAnsweredPassExists))
-                || !isset($bestpass)) {
+            if ($reached > $bestpoints || !isset($bestpass)) {
                 $bestpoints = $reached;
                 $bestpass = $pass->getPass();
             }
@@ -307,16 +255,16 @@ class ilTestEvaluationUserData
 
     public function getLastFinishedPass(): ?int
     {
-        return $this->lastFinishedPass;
+        return $this->last_finished_pass;
     }
 
     public function setLastFinishedPass(?int $pass = null): void
     {
-        $this->lastFinishedPass = $pass;
+        $this->last_finished_pass = $pass;
     }
     public function addQuestionTitle(int $question_id, string $question_title): void
     {
-        $this->questionTitles[$question_id] = $question_title;
+        $this->question_titles[$question_id] = $question_title;
     }
 
     /**
@@ -325,7 +273,7 @@ class ilTestEvaluationUserData
      */
     public function getQuestionTitles(): array
     {
-        return $this->questionTitles;
+        return $this->question_titles;
     }
 
     public function getQuestions(int $pass = 0): ?array
@@ -344,10 +292,10 @@ class ilTestEvaluationUserData
         }
 
         $this->questions[$pass][] = [
-            "id" => $question_id, // the so called "aid" from any historical time
-            "o_id" => $original_id, // when the "aid" was valid this was the "id"
-            "points" => $max_points,
-            "sequence" => $sequence
+            'id' => $question_id,
+            'o_id' => $original_id,
+            'points' => $max_points,
+            'sequence' => $sequence
         ];
     }
 
@@ -358,6 +306,24 @@ class ilTestEvaluationUserData
         } else {
             return null;
         }
+    }
+
+    public function getQuestionByAttemptAndId(int $attempt, int $question_id): ?array
+    {
+        if (!isset($this->questions[$attempt])) {
+            return null;
+        }
+
+        $question = array_filter(
+            $this->questions[$attempt],
+            fn(array $v): bool => $v['id'] === $question_id
+        );
+
+        if ($question === []) {
+            return null;
+        }
+
+        return array_shift($question);
     }
 
     public function getQuestionCount(int $pass = 0): int
@@ -412,16 +378,6 @@ class ilTestEvaluationUserData
         return $this->user_id;
     }
 
-    public function setMarkOfficial(string $a_mark_official): void
-    {
-        $this->mark_official = $a_mark_official;
-    }
-
-    public function getMarkOfficial(): string
-    {
-        return $this->mark_official;
-    }
-
     /**
      * returns the object of class ilTestEvaluationPassData
      * that relates to the the scored test pass (best pass / last pass)
@@ -445,14 +401,14 @@ class ilTestEvaluationUserData
 
     public function getExamIdFromScoredPass(): string
     {
-        $examId = '';
-        $scoredPass = $this->getScoredPass();
+        $exam_id = '';
+        $scored_pass = $this->getScoredPass();
 
-        if (isset($this->passes[$scoredPass]) && $this->passes[$scoredPass] instanceof ilTestEvaluationPassData) {
-            $examId = $this->passes[$scoredPass]->getExamId();
+        if (isset($this->passes[$scored_pass]) && $this->passes[$scored_pass] instanceof ilTestEvaluationPassData) {
+            $exam_id = $this->passes[$scored_pass]->getExamId();
         }
 
-        return $examId;
+        return $exam_id;
     }
 
     /**
@@ -478,20 +434,18 @@ class ilTestEvaluationUserData
     public function getBestPassObject(): ilTestEvaluationPassData
     {
         $bestpoints = 0;
-        $bestpassObject = 0;
-
-        $obligationsAnsweredPassExists = $this->doesObligationsAnsweredPassExist();
+        $bestpass_bject = 0;
 
         foreach ($this->passes as $pass) {
             $reached = $this->getReachedPointsInPercentForPass($pass->getPass());
 
-            if ($reached >= $bestpoints && ($pass->areObligationsAnswered() || !$obligationsAnsweredPassExists)) {
+            if ($reached >= $bestpoints) {
                 $bestpoints = $reached;
-                $bestpassObject = $pass;
+                $bestpass_bject = $pass;
             }
         }
 
-        return $bestpassObject;
+        return $bestpass_bject;
     }
 
     /**
@@ -511,29 +465,5 @@ class ilTestEvaluationUserData
         $lastpassObject = $this->passes[$lastpassIndex];
 
         return $lastpassObject;
-    }
-
-    /**
-     * returns the fact wether a test pass
-     * with all obligations answered exists or not
-     */
-    public function doesObligationsAnsweredPassExist(): bool
-    {
-        foreach ($this->passes as $pass) {
-            if ($pass->areObligationsAnswered()) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * returns the fact wether all obligations
-     * in the scored test pass are answered or not
-     */
-    public function areObligationsAnswered(): bool
-    {
-        return $this->getScoredPassObject()->areObligationsAnswered();
     }
 }

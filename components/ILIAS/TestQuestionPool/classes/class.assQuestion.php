@@ -26,13 +26,11 @@ use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\Questions\Files\QuestionFiles;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\TestQuestionPool\RequestDataCollector;
-
 use ILIAS\Test\Logging\TestParticipantInteraction;
 use ILIAS\Test\Logging\TestQuestionAdministrationInteraction;
 use ILIAS\Test\Logging\TestParticipantInteractionTypes;
 use ILIAS\Test\Logging\TestQuestionAdministrationInteractionTypes;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
-
 use ILIAS\Refinery\Transformation;
 use ILIAS\DI\Container;
 use ILIAS\Skill\Service\SkillUsageService;
@@ -108,7 +106,6 @@ abstract class assQuestion implements Question
     public int $defaultnroftries = 0;
     public string $questionActionCmd = 'handleQuestionAction';
     protected ?int $step = null;
-    private bool $obligationsToBeConsidered = false;
 
     /**
      * @var array<ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolution>
@@ -180,10 +177,34 @@ abstract class assQuestion implements Question
     abstract public function getAdditionalTableName(): string;
     abstract public function getAnswerTableName(): string|array;
 
+    /**
+     * MUST return an array of the question settings that can
+     * be stored in the log. Language variables must be generated through the
+     * corresponding functions in the AdditionalInformationGenerator. If an array
+     * is returned it will be rendered into a line per array entry in the format
+     * "key: value". If the key exists as a language variable, it will be
+     * translated.
+     */
     abstract public function toLog(AdditionalInformationGenerator $additional_info): array;
 
-    abstract public function solutionValuesToLog(
+    /**
+     * MUST convert the given solution values into an array or a string that can
+     * be stored in the log. Language variables must be generated through the
+     * corresponding functions in the AdditionalInformationGenerator. If an array
+     * is returned it will be rendered into a line per array entry in the format
+     * "key: value". If the key exists as a language variable, it will be
+     * translated.
+     */
+    abstract protected function solutionValuesToLog(
         AdditionalInformationGenerator $additional_info,
+        array $solution_values
+    ): array|string;
+
+    /**
+     * MUST convert the given solution values into text. If the text has
+     * multiple lines each line MUST be placed as an entry in an array.
+     */
+    abstract protected function solutionValuesToText(
         array $solution_values
     ): array|string;
 
@@ -536,7 +557,7 @@ abstract class assQuestion implements Question
         $reached_points = $reached_points - $requests_statistic_data->getRequestsPoints();
 
         // adjust reached points regarding to tests scoring options
-        $reached_points = $this->adjustReachedPointsByScoringOptions($reached_points, $active_id, $pass);
+        $reached_points = $this->adjustReachedPointsByScoringOptions($reached_points, $active_id);
 
         return $reached_points;
     }
@@ -544,7 +565,7 @@ abstract class assQuestion implements Question
     /**
      * Calculates the question results from a previously saved question solution
      */
-    final public function calculateResultsFromSolution(int $active_id, int $pass, bool $obligations_enabled = false): void
+    final public function calculateResultsFromSolution(int $active_id, int $pass): void
     {
         // determine reached points for submitted solution
         $reached_points = $this->calculateReachedPoints($active_id, $pass);
@@ -553,13 +574,7 @@ abstract class assQuestion implements Question
         $reached_points = $reached_points - $requests_statistic_data->getRequestsPoints();
 
         // adjust reached points regarding to tests scoring options
-        $reached_points = $this->adjustReachedPointsByScoringOptions($reached_points, $active_id, $pass);
-
-        if ($obligations_enabled && ilObjTest::isQuestionObligatory($this->getId())) {
-            $isAnswered = $this->isAnswered($active_id, $pass);
-        } else {
-            $isAnswered = true;
-        }
+        $reached_points = $this->adjustReachedPointsByScoringOptions($reached_points, $active_id);
 
         if (is_null($reached_points)) {
             $reached_points = 0.0;
@@ -569,7 +584,7 @@ abstract class assQuestion implements Question
         $existing_solutions = $this->lookupForExistingSolutions($active_id, $pass);
 
         $this->getProcessLocker()->executeUserQuestionResultUpdateOperation(
-            function () use ($active_id, $pass, $reached_points, $requests_statistic_data, $isAnswered, $existing_solutions) {
+            function () use ($active_id, $pass, $reached_points, $requests_statistic_data, $existing_solutions) {
                 $query = "
                     DELETE FROM		tst_test_result
 
@@ -602,7 +617,7 @@ abstract class assQuestion implements Question
                         'tstamp' => ['integer', time()],
                         'hint_count' => ['integer', $requests_statistic_data->getRequestsCount()],
                         'hint_points' => ['float', $requests_statistic_data->getRequestsPoints()],
-                        'answered' => ['integer', $isAnswered]
+                        'answered' => ['integer', true]
                     ];
 
                     if ($this->getStep() !== null) {
@@ -619,7 +634,7 @@ abstract class assQuestion implements Question
             $this->getObjId(),
             false
         );
-        $test->updateTestPassResults($active_id, $pass, $obligations_enabled, $this->getProcessLocker());
+        $test->updateTestPassResults($active_id, $pass, $this->getProcessLocker());
         ilCourseObjectiveResult::_updateObjectiveResult($this->current_user->getId(), $active_id, $this->getId());
     }
 
@@ -627,7 +642,7 @@ abstract class assQuestion implements Question
      * persists the working state for current testactive and testpass
      * @return bool if saving happened
      */
-    final public function persistWorkingState(int $active_id, $pass, bool $obligationsEnabled = false, bool $authorized = true): bool
+    final public function persistWorkingState(int $active_id, $pass, bool $authorized = true): bool
     {
         if (!$this instanceof QuestionPartiallySaveable && !$this->validateSolutionSubmit()) {
             return false;
@@ -635,7 +650,7 @@ abstract class assQuestion implements Question
 
         $saveStatus = false;
 
-        $this->getProcessLocker()->executePersistWorkingStateLockOperation(function () use ($active_id, $pass, $authorized, $obligationsEnabled, &$saveStatus) {
+        $this->getProcessLocker()->executePersistWorkingStateLockOperation(function () use ($active_id, $pass, $authorized, &$saveStatus) {
             if ($pass === null) {
                 $pass = ilObjTest::_getPass($active_id);
             }
@@ -647,7 +662,7 @@ abstract class assQuestion implements Question
                 //		the intermediate solution would set the displayed question status as "editing ..."
                 $this->removeIntermediateSolution($active_id, $pass);
                 // fau.
-                $this->calculateResultsFromSolution($active_id, $pass, $obligationsEnabled);
+                $this->calculateResultsFromSolution($active_id, $pass);
             }
         });
 
@@ -1376,7 +1391,7 @@ abstract class assQuestion implements Question
     protected function removeAllImageFiles(string $image_target_path): void
     {
         $target = opendir($image_target_path);
-        while($target_file = readdir($target)) {
+        while ($target_file = readdir($target)) {
             if ($target_file === '.' || $target_file === '..') {
                 continue;
             }
@@ -1461,7 +1476,7 @@ abstract class assQuestion implements Question
             fn($n) => $n->getContext()->getSubObjId() === $source_id
         );
 
-        foreach($notes as $note) {
+        foreach ($notes as $note) {
             $new_context = $data_service->context(
                 $parent_target_id,
                 $target_id,
@@ -1491,7 +1506,7 @@ abstract class assQuestion implements Question
             $notes,
             fn($n) => $n->getContext()->getSubObjId() === $source_id
         );
-        foreach($notes as $note) {
+        foreach ($notes as $note) {
             $repo->deleteNote($note->getId());
         }
     }
@@ -1595,7 +1610,7 @@ abstract class assQuestion implements Question
     protected function copySuggestedSolutions(int $target_question_id): void
     {
         $update = [];
-        foreach($this->getSuggestedSolutions() as $index => $solution) {
+        foreach ($this->getSuggestedSolutions() as $index => $solution) {
             $solution = $solution->withQuestionId($target_question_id);
             $update[] = $solution;
         }
@@ -1625,7 +1640,7 @@ abstract class assQuestion implements Question
                 break;
         }
         if ($resolved_link !== null) {
-            return $resolved_link;
+            return (string) $resolved_link;
         }
         return $internal_link;
     }
@@ -1852,7 +1867,7 @@ abstract class assQuestion implements Question
      * @param integer $active_id
      * @param integer $pass
      */
-    final public function adjustReachedPointsByScoringOptions($points, $active_id, $pass = null): float
+    final public function adjustReachedPointsByScoringOptions(float $points, int $active_id): float
     {
         $count_system = ilObjTest::_getCountSystem($active_id);
         if ($count_system == 1) {
@@ -1899,70 +1914,60 @@ abstract class assQuestion implements Question
         float $points,
         float $maxpoints,
         int $pass,
-        bool $manualscoring,
-        bool $obligationsEnabled
-    ): bool {
+        bool $manualscoring
+    ): void {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        $refinery = $DIC['refinery'];
 
-        $float_trafo = $refinery->kindlyTo()->float();
-        try {
-            $points = $float_trafo->transform($points);
-        } catch (ILIAS\Refinery\ConstraintViolationException $e) {
-            return false;
+        if ($points > $maxpoints) {
+            return;
         }
 
-        if ($points <= $maxpoints) {
-            if ($pass === null) {
-                $pass = assQuestion::_getSolutionMaxPass($question_id, $active_id);
-            }
+        if ($pass === null) {
+            $pass = assQuestion::_getSolutionMaxPass($question_id, $active_id);
+        }
 
-            $rowsnum = 0;
-            $old_points = 0;
-            $result = $ilDB->queryF(
-                "SELECT points FROM tst_test_result WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-                ['integer','integer','integer'],
-                [$active_id, $question_id, $pass]
-            );
-            $manual = ($manualscoring) ? 1 : 0;
-            $rowsnum = $result->numRows();
-            if ($rowsnum > 0) {
-                $row = $ilDB->fetchAssoc($result);
-                $old_points = $row["points"];
-                if ($old_points !== $points) {
-                    $affectedRows = $ilDB->manipulateF(
-                        "UPDATE tst_test_result SET points = %s, manual = %s, tstamp = %s WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-                        ['float', 'integer', 'integer', 'integer', 'integer', 'integer'],
-                        [$points, $manual, time(), $active_id, $question_id, $pass]
-                    );
-                }
-            } else {
-                $next_id = $ilDB->nextId('tst_test_result');
+        $old_points = 0;
+        $result = $ilDB->queryF(
+            "SELECT points FROM tst_test_result WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+            ['integer','integer','integer'],
+            [$active_id, $question_id, $pass]
+        );
+        $manual = ($manualscoring) ? 1 : 0;
+        $rowsnum = $result->numRows();
+        if ($rowsnum > 0) {
+            $row = $ilDB->fetchAssoc($result);
+            $old_points = $row['points'];
+            if ($old_points !== $points) {
                 $affectedRows = $ilDB->manipulateF(
-                    "INSERT INTO tst_test_result (test_result_id, active_fi, question_fi, points, pass, manual, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-                    ['integer', 'integer','integer', 'float', 'integer', 'integer','integer'],
-                    [$next_id, $active_id, $question_id, $points, $pass, $manual, time()]
+                    "UPDATE tst_test_result SET points = %s, manual = %s, tstamp = %s WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+                    ['float', 'integer', 'integer', 'integer', 'integer', 'integer'],
+                    [$points, $manual, time(), $active_id, $question_id, $pass]
                 );
             }
-
-            if (self::isForcePassResultUpdateEnabled() || $old_points != $points || $rowsnum == 0) {
-                $test_id = ilObjTest::_lookupTestObjIdForQuestionId($question_id);
-                if ($test_id === null) {
-                    return false;
-                }
-                $test = new ilObjTest(
-                    $test_id,
-                    false
-                );
-                $test->updateTestPassResults($active_id, $pass, $obligationsEnabled);
-                ilCourseObjectiveResult::_updateObjectiveResult(ilObjTest::_getUserIdFromActiveId($active_id), $active_id, $question_id);
-            }
-
-            return true;
+        } else {
+            $next_id = $ilDB->nextId('tst_test_result');
+            $affectedRows = $ilDB->manipulateF(
+                "INSERT INTO tst_test_result (test_result_id, active_fi, question_fi, points, pass, manual, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                ['integer', 'integer','integer', 'float', 'integer', 'integer','integer'],
+                [$next_id, $active_id, $question_id, $points, $pass, $manual, time()]
+            );
         }
 
-        return false;
+        if (!self::isForcePassResultUpdateEnabled() && $old_points === $points && $rowsnum !== 0) {
+            return;
+        }
+
+        $test_id = ilObjTest::_lookupTestObjIdForQuestionId($question_id);
+        if ($test_id === null) {
+            return;
+        }
+        $test = new ilObjTest(
+            $test_id,
+            false
+        );
+        $test->updateTestPassResults($active_id, $pass);
+        ilCourseObjectiveResult::_updateObjectiveResult(ilObjTest::_getUserIdFromActiveId($active_id), $active_id, $question_id);
     }
 
     public function getQuestion(): string
@@ -2108,18 +2113,6 @@ abstract class assQuestion implements Question
         return $instances;
     }
 
-    public static function _needsManualScoring(int $question_id): bool
-    {
-        $questionrepository = QuestionPoolDIC::dic()['question.general_properties.repository'];
-        $questiontype = $questionrepository->getForQuestionId($question_id)->getClassName();
-        $scoring = ilObjTestFolder::_getManualScoringTypes();
-        if (in_array($questiontype, $scoring)) {
-            return true;
-        }
-
-        return false;
-    }
-
     /**
     * Returns the user id and the test id for a given active id
     *
@@ -2190,14 +2183,6 @@ abstract class assQuestion implements Question
         $question_gui->setObject($question);
 
         return $question_gui;
-    }
-
-    public function setExportDetailsXLSX(ilAssExcelFormatHelper $worksheet, int $startrow, int $col, int $active_id, int $pass): int
-    {
-        $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col) . $startrow, $this->lng->txt($this->getQuestionType()));
-        $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col + 1) . $startrow, $this->getTitle());
-
-        return $startrow;
     }
 
     public function getNrOfTries(): int
@@ -2385,11 +2370,6 @@ abstract class assQuestion implements Question
     {
         $numExistingSolutionRecords = assQuestion::getNumExistingSolutionRecords($active_id, $pass, $this->getId());
         return $numExistingSolutionRecords > 0;
-    }
-
-    public static function isObligationPossible(int $questionId): bool
-    {
-        return false;
     }
 
     protected static function getNumExistingSolutionRecords(int $activeId, int $pass, int $questionId): int
@@ -2917,7 +2897,6 @@ abstract class assQuestion implements Question
         $test->updateTestPassResults(
             $activeId,
             $pass,
-            $this->areObligationsToBeConsidered(),
             $this->getProcessLocker(),
             $this->getTestId()
         );
@@ -2954,25 +2933,15 @@ abstract class assQuestion implements Question
         return $valuePairs;
     }
 
-    public function fetchIndexedValuesFromValuePairs(array $valuePairs): array
+    public function fetchIndexedValuesFromValuePairs(array $value_pairs): array
     {
-        $indexedValues = [];
+        $indexed_values = [];
 
-        foreach ($valuePairs as $valuePair) {
-            $indexedValues[ $valuePair['value1'] ] = $valuePair['value2'];
+        foreach ($value_pairs as $valuePair) {
+            $indexed_values[$valuePair['value1']] = $valuePair['value2'];
         }
 
-        return $indexedValues;
-    }
-
-    public function areObligationsToBeConsidered(): bool
-    {
-        return $this->obligationsToBeConsidered;
-    }
-
-    public function setObligationsToBeConsidered(bool $obligationsToBeConsidered): void
-    {
-        $this->obligationsToBeConsidered = $obligationsToBeConsidered;
+        return $indexed_values;
     }
 
     public function updateTimestamp(): void
@@ -3079,8 +3048,33 @@ abstract class assQuestion implements Question
             AdditionalInformationGenerator::KEY_REACHED_POINTS => $this->getReachedPoints($active_id, $pass),
             AdditionalInformationGenerator::KEY_PAX_ANSWER => $this->solutionValuesToLog(
                 $additional_info,
-                $this->getSolutionValues($active_id)
+                $this->getSolutionValues($active_id, $pass)
             )
         ];
+    }
+
+    public function getSolutionForTextOutput(
+        int $active_id,
+        int $pass
+    ): array|string {
+        return $this->solutionValuesToText(
+            $this->getSolutionValues($active_id, $pass)
+        );
+    }
+
+    public function getCorrectSolutionForTextOutput(
+        int $active_id,
+        int $pass
+    ): array|string {
+        return $this->solutionValuesToText(
+            $this->getSolutionValues($active_id, $pass)
+        );
+    }
+
+    public function getVariablesAsTextArray(
+        int $active_id,
+        int $pass
+    ): array {
+        return [];
     }
 }

@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Results\Presentation\TitlesBuilder as ResultsTitlesBuilder;
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 
 /**
@@ -117,12 +118,12 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
 
     protected function buildUserReviewOutput(): string
     {
-        $testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $this->obj_cache);
+        $testResultHeaderLabelBuilder = new ResultsTitlesBuilder($this->lng, $this->obj_cache);
 
         $objectivesList = null;
 
         if ($this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
-            $testSequence = $this->testSequenceFactory->getSequenceByActiveIdAndPass($this->testSession->getActiveId(), $this->testSession->getPass());
+            $testSequence = $this->test_sequence_factory->getSequenceByActiveIdAndPass($this->testSession->getActiveId(), $this->testSession->getPass());
             $testSequence->loadFromDb();
             $testSequence->loadQuestions();
 

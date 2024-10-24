@@ -237,11 +237,6 @@ class ilTestParticipantData
         return $this->byUserId[$userId]['active_id'] ?? null;
     }
 
-    public function getConcatedFullnameByActiveId($activeId): string
-    {
-        return "{$this->byActiveId[$activeId]['firstname']} {$this->byActiveId[$activeId]['lastname']}";
-    }
-
     public function getFormatedFullnameByActiveId($activeId): string
     {
         return ilObjTestAccess::_getParticipantData($activeId);
@@ -282,10 +277,10 @@ class ilTestParticipantData
         return $anonymousActiveIds;
     }
 
-    public function getUserDataByActiveId($activeId)
+    public function getUserDataByActiveId(int $active_Id): array
     {
-        if (isset($this->byActiveId[$activeId])) {
-            return $this->byActiveId[$activeId];
+        if (isset($this->byActiveId[$active_Id])) {
+            return $this->byActiveId[$active_Id];
         }
 
         return null;

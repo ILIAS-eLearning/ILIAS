@@ -20,12 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Logging;
 
-use ILIAS\Test\Export\CSVExportTrait;
-
+use ILIAS\Test\Utilities\TitleColumnsBuilder;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-
 use ILIAS\UI\Factory as UIFactory;
-use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Listing\Descriptive as DescriptiveListing;
 use ILIAS\StaticURL\Services as StaticURLServices;
 use ILIAS\UI\Component\Table\DataRowBuilder;
@@ -33,9 +30,6 @@ use ILIAS\UI\Component\Table\DataRow;
 
 class TestQuestionAdministrationInteraction implements TestUserInteraction
 {
-    use ColumnsHelperFunctionsTrait;
-    use CSVExportTrait;
-
     public const IDENTIFIER = 'qai';
 
     private int $id;
@@ -68,19 +62,14 @@ class TestQuestionAdministrationInteraction implements TestUserInteraction
 
     public function getLogEntryAsDataTableRow(
         \ilLanguage $lng,
-        StaticURLServices $static_url,
-        GeneralQuestionPropertiesRepository $properties_repository,
-        UIFactory $ui_factory,
+        TitleColumnsBuilder $title_builder,
         DataRowBuilder $row_builder,
         array $environment
     ): DataRow {
         $values = [
             'date_and_time' => \DateTimeImmutable::createFromFormat('U', (string) $this->modification_timestamp)
                 ->setTimezone($environment['timezone']),
-            'corresponding_test' => $this->buildTestTitleColumnContent(
-                $lng,
-                $static_url,
-                $ui_factory->link(),
+            'corresponding_test' => $title_builder->buildTestTitleAsLink(
                 $this->test_ref_id
             ),
             'admin' => \ilUserUtil::getNamePresentation(
@@ -95,11 +84,7 @@ class TestQuestionAdministrationInteraction implements TestUserInteraction
         ];
 
         if ($this->question_id !== null) {
-            $values['question'] = $this->buildQuestionTitleColumnContent(
-                $properties_repository,
-                $lng,
-                $static_url,
-                $ui_factory->link(),
+            $values['question'] = $title_builder->buildQuestionTitleAsLink(
                 $this->question_id,
                 $this->test_ref_id
             );
@@ -113,48 +98,39 @@ class TestQuestionAdministrationInteraction implements TestUserInteraction
         );
     }
 
+    public function getLogEntryAsExportRow(
+        \ilLanguage $lng,
+        TitleColumnsBuilder $title_builder,
+        AdditionalInformationGenerator $additional_info,
+        array $environment
+    ): array {
+        return [
+            \DateTimeImmutable::createFromFormat('U', (string) $this->modification_timestamp)
+                ->setTimezone($environment['timezone'])
+                ->format($environment['date_format']),
+            $title_builder->buildTestTitleAsText($this->test_ref_id),
+            \ilUserUtil::getNamePresentation(
+                $this->admin_id,
+                false,
+                false,
+                '',
+                true
+            ),
+            '',
+            '',
+            $title_builder->buildQuestionTitleAsText($this->question_id),
+            $lng->txt(self::LANG_VAR_PREFIX . self::IDENTIFIER),
+            $lng->txt(self::LANG_VAR_PREFIX . $this->interaction_type->value),
+            $additional_info->parseForExport($this->additional_data, $environment)
+        ];
+    }
+
     public function getParsedAdditionalInformation(
         AdditionalInformationGenerator $additional_info,
         UIFactory $ui_factory,
         array $environment
     ): DescriptiveListing {
         return $additional_info->parseForTable($this->additional_data, $environment);
-    }
-
-    public function getLogEntryAsCsvRow(
-        \ilLanguage $lng,
-        GeneralQuestionPropertiesRepository $properties_repository,
-        AdditionalInformationGenerator $additional_info,
-        array $environment
-    ): string {
-        return implode(
-            ';',
-            $this->processCSVRow(
-                [
-                    \DateTimeImmutable::createFromFormat('U', (string) $this->modification_timestamp)
-                        ->setTimezone($environment['timezone'])
-                        ->format($environment['date_format']),
-                    $this->buildTestTitleCSVContent($lng, $this->test_ref_id),
-                    \ilUserUtil::getNamePresentation(
-                        $this->admin_id,
-                        false,
-                        false,
-                        '',
-                        true
-                    ),
-                    '',
-                    '',
-                    $this->buildQuestionTitleCSVContent(
-                        $properties_repository,
-                        $lng,
-                        $this->question_id
-                    ),
-                    $lng->txt(self::LANG_VAR_PREFIX . self::IDENTIFIER),
-                    $lng->txt(self::LANG_VAR_PREFIX . $this->interaction_type->value),
-                    $additional_info->parseForCSV($this->additional_data, $environment)
-                ]
-            )
-        ) . "\n";
     }
 
     public function toStorage(): array

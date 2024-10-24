@@ -1045,6 +1045,14 @@ class ilObjUser extends ilObject
         }
     }
 
+    public function getDateTimeFormat(): DateFormat
+    {
+        if ($this->getTimeFormat() == \ilCalendarSettings::TIME_FORMAT_24) {
+            return $this->date_format_factory->withTime24($this->getDateFormat());
+        }
+        return $this->date_format_factory->withTime12($this->getDateFormat());
+    }
+
     public function setPref(string $a_keyword, ?string $a_value): void
     {
         if ($a_keyword != '') {

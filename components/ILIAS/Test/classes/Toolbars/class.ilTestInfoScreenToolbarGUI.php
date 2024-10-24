@@ -229,7 +229,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
     {
         return sprintf(
             $this->lng->txt('tst_skill_triggerings_num_req_answers_not_reached_warn'),
-            ilObjTestFolder::getSkillTriggerAnswerNumberBarrier()
+            $this->getTestOBJ()->getGlobalSettings()->getSkillTriggeringNumberOfAnswers()
         );
     }
 
@@ -240,24 +240,10 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
         $this->setParameter($this->getTestPlayerGUI(), 'lock', $this->getSessionLockString());
         $this->setParameter($this->getTestPlayerGUI(), 'sequence', $this->getTestSession()->getLastSequence());
         $this->setParameter('ilObjTestGUI', 'ref_id', $this->getTestOBJ()->getRefId());
-
         $this->setFormAction($this->buildFormAction($this->getTestPlayerGUI()));
 
-        if (!$this->getTestOBJ()->getOfflineStatus() && $this->getTestOBJ()->isComplete($this->getTestQuestionSetConfig())) {
-            if ($this->access->checkAccess("read", "", $this->getTestOBJ()->getRefId())) {
-                $executable = $this->getTestOBJ()->isExecutable(
-                    $this->getTestSession(),
-                    $this->getTestSession()->getUserId(),
-                    true
-                );
-
-                if ($executable['executable'] && $this->getTestOBJ()->areObligationsEnabled() && $this->getTestOBJ()->hasObligations()) {
-                    $this->addInfoMessage($this->lng->txt('tst_test_contains_obligatory_questions'));
-                }
-            }
-        }
-        if ($this->getTestOBJ()->getOfflineStatus() && !$this->getTestQuestionSetConfig()->areDepenciesBroken()) {
-            $message = $this->lng->txt("test_is_offline");
+        if ($this->getTestOBJ()->getOfflineStatus()) {
+            $message = $this->lng->txt('test_is_offline');
 
             $links = [];
 
@@ -302,14 +288,6 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
                 if ($this->hasFixedQuestionSetSkillAssignsLowerThanBarrier()) {
                     $this->addInfoMessage($this->getSkillAssignBarrierInfo());
                 }
-            }
-
-            if ($this->getTestQuestionSetConfig()->areDepenciesBroken()) {
-                $this->addFailureMessage($this->getTestQuestionSetConfig()->getDepenciesBrokenMessage($this->lng));
-
-                $this->clearItems();
-            } elseif ($this->getTestQuestionSetConfig()->areDepenciesInVulnerableState()) {
-                $this->addInfoMessage($this->getTestQuestionSetConfig()->getDepenciesInVulnerableStateMessage($this->lng));
             }
         }
     }

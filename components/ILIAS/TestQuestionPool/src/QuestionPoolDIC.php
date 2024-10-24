@@ -22,12 +22,12 @@ namespace ILIAS\TestQuestionPool;
 
 use Pimple\Container as PimpleContainer;
 use ILIAS\DI\Container as ILIASContainer;
-
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionsDatabaseRepository;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\TestQuestionPool\Questions\Files\QuestionFiles;
-
 use ILIAS\Test\Participants\ParticipantRepository;
+use ILIAS\Test\Settings\GlobalSettings\Repository as GlobalTestSettingsRepository;
+use ILIAS\Test\Settings\GlobalSettings\GlobalTestSettings;
 
 class QuestionPoolDIC extends PimpleContainer
 {
@@ -57,13 +57,15 @@ class QuestionPoolDIC extends PimpleContainer
             new GeneralQuestionPropertiesRepository(
                 $DIC['ilDB'],
                 $DIC['component.factory'],
-                $DIC['lng']
+                $DIC['component.repository']
             );
         $dic['question_files'] = fn($c): QuestionFiles =>
             new QuestionFiles();
 
         $dic['participant_repository'] = static fn($c): ParticipantRepository =>
             new ParticipantRepository($DIC['ilDB']);
+        $dic['global_test_settings'] = static fn($c): GlobalTestSettings =>
+            (new GlobalTestSettingsRepository($DIC['ilSetting']))->getGlobalSettings();
 
         return $dic;
     }

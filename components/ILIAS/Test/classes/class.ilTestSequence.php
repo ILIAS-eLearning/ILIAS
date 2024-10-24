@@ -602,7 +602,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
         return null;
     }
 
-    public function getSequenceSummary(bool $obligationsFilterEnabled = false): array
+    public function getSequenceSummary(): array
     {
         $correctedsequence = $this->getCorrectedSequence();
         $result_array = [];
@@ -618,25 +618,20 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
                 }
                 $is_postponed = $this->isPostponedQuestion($question->getId());
 
-                $row = [
-                    "nr" => "$key",
-                    "title" => $question->getTitle(),
-                    "qid" => $question->getId(),
-                    "presented" => $this->isQuestionPresented($question->getId()),
-                    "visited" => $worked_through,
-                    "solved" => (($solved) ? "1" : "0"),
-                    "description" => $question->getComment(),
-                    "points" => $question->getMaximumPoints(),
-                    "worked_through" => $worked_through,
-                    "postponed" => $is_postponed,
-                    "sequence" => $sequence,
-                    "obligatory" => ilObjTest::isQuestionObligatory($question->getId()),
+                $result_array[] = [
+                    'nr' => $key,
+                    'title' => $question->getTitle(),
+                    'qid' => $question->getId(),
+                    'presented' => $this->isQuestionPresented($question->getId()),
+                    'visited' => $worked_through,
+                    'solved' => (($solved) ? "1" : "0"),
+                    'description' => $question->getComment(),
+                    'points' => $question->getMaximumPoints(),
+                    'worked_through' => $worked_through,
+                    'postponed' => $is_postponed,
+                    'sequence' => $sequence,
                     'isAnswered' => $question->isAnswered($this->active_id, $this->pass)
                 ];
-
-                if (!$obligationsFilterEnabled || $row['obligatory']) {
-                    $result_array[] = $row;
-                }
 
                 $key++;
             }

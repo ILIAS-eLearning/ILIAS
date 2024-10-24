@@ -1,5 +1,5 @@
 <!-- BEGIN item -->
-    <span id="{ITEM_ID}">
+    <span>
         <!-- BEGIN item_text -->
             {ITEM_CONTENT}
         <!-- END item_text -->
@@ -7,7 +7,9 @@
             <img class="ilc_qimg_QuestionImage" border="0" src="{ITEM_SOURCE}" alt="{ITEM_CONTENT}" title="{ITEM_CONTENT}" />
         <!-- END item_image -->
     </span>
-    <input type="hidden" name="{ITEM_POSTVAR}" value="{ITEM_CONTENT}" />
+    <input type="hidden" name="{ITEM_CONTENT_POSTVAR}" value="{ITEM_CONTENT}" />
+    <input type="hidden" name="{ITEM_POSITION_POSTVAR}" value="{ITEM_POSITION}" />
+    <input type="hidden" name="{ITEM_INDENTATION_POSTVAR}" value="{ITEM_INDENTATION}" />
     <!-- BEGIN correctness_icon -->
         {ICON_OK}
     <!-- END correctness_icon -->

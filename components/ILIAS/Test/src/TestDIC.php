@@ -20,25 +20,31 @@ declare(strict_types=1);
 
 namespace ILIAS\Test;
 
-use Pimple\Container as PimpleContainer;
-use ILIAS\DI\Container as ILIASContainer;
-
-use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Test\Participants\ParticipantRepository;
+use ILIAS\Test\Results\Data\Repository as TestResultRepository;
+use ILIAS\Test\Utilities\TitleColumnsBuilder;
 use ILIAS\Test\TestManScoringDoneHelper;
 use ILIAS\Test\Scoring\Marks\MarksRepository;
 use ILIAS\Test\Scoring\Marks\MarksDatabaseRepository;
 use ILIAS\Test\Settings\MainSettings\MainSettingsRepository;
 use ILIAS\Test\Settings\MainSettings\MainSettingsDatabaseRepository;
-use ILIAS\Test\Administration\TestGlobalSettingsRepository;
-use ILIAS\Test\Administration\TestLoggingSettings;
+use ILIAS\Test\Settings\GlobalSettings\Repository as GlobalSettingsRepository;
+use ILIAS\Test\Settings\GlobalSettings\TestLoggingSettings;
 use ILIAS\Test\Logging\TestLoggingRepository;
 use ILIAS\Test\Logging\TestLoggingDatabaseRepository;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestLogViewer;
 use ILIAS\Test\Logging\Factory as InteractionFactory;
-
+use ILIAS\Test\ExportImport\Factory as ExportImportFactory;
+use ILIAS\Test\Questions\Properties\Repository as TestQuestionsRepository;
+use ILIAS\Test\Questions\Properties\DatabaseRepository as TestQuestionsDatabaseRepository;
+use ILIAS\Test\Results\Data\Factory as ResultsDataFactory;
+use ILIAS\Test\Results\Presentation\Factory as ResultsPresentationFactory;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\TestQuestionPool\RequestDataCollector as QPLRequestDataCollector;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\DI\Container as ILIASContainer;
+use Pimple\Container as PimpleContainer;
 
 class TestDIC extends PimpleContainer
 {
@@ -59,15 +65,25 @@ class TestDIC extends PimpleContainer
         $dic['shuffler'] = static fn($c): \ilTestShuffler =>
             new \ilTestShuffler($DIC['refinery']);
 
-        $dic['results.factory'] = static fn($c): \ilTestResultsFactory =>
-            new \ilTestResultsFactory(
+        $dic['title_columns_builder'] = static fn($c): TitleColumnsBuilder =>
+            new TitleColumnsBuilder(
+                $c['question.general_properties.repository'],
+                $DIC['ilCtrl'],
+                $DIC['ilAccess'],
+                $DIC['lng'],
+                $DIC['static_url'],
+                $DIC['ui.factory']
+            );
+
+        $dic['results.data.factory'] = static fn($c): ResultsDataFactory =>
+            new ResultsDataFactory(
                 $c['shuffler'],
                 $DIC['ui.factory'],
                 $DIC['ui.renderer']
             );
 
-        $dic['results.presentation.factory'] = static fn($c): \ilTestResultsPresentationFactory =>
-           new \ilTestResultsPresentationFactory(
+        $dic['results.presentation.factory'] = static fn($c): ResultsPresentationFactory =>
+           new ResultsPresentationFactory(
                $DIC['ui.factory'],
                $DIC['ui.renderer'],
                $DIC['refinery'],
@@ -75,6 +91,9 @@ class TestDIC extends PimpleContainer
                $DIC['http'],
                $DIC['lng']
            );
+
+        $dic['results.data.test_result_repository'] = static fn($c): TestResultRepository =>
+            new TestResultRepository($DIC['ilDB']);
 
         $dic['settings.main.repository'] = static fn($c): MainSettingsRepository =>
             new MainSettingsDatabaseRepository($DIC['ilDB']);
@@ -94,8 +113,11 @@ class TestDIC extends PimpleContainer
                 $DIC['refinery']
             );
 
-        $dic['settings.global.repository'] = static fn($c): TestGlobalSettingsRepository =>
-                new TestGlobalSettingsRepository(new \ilSetting('assessment'));
+        $dic['response_handler'] = static fn($c): ResponseHandler =>
+            new ResponseHandler($DIC['http'], );
+
+        $dic['settings.global.repository'] = static fn($c): GlobalSettingsRepository =>
+                new GlobalSettingsRepository(new \ilSetting('assessment'));
 
         $dic['logging.settings'] = static fn($c): TestLoggingSettings =>
             $c['settings.global.repository']->getLoggingSettings();
@@ -128,10 +150,10 @@ class TestDIC extends PimpleContainer
             new TestLogViewer(
                 $c['logging.repository'],
                 $c['logging.logger'],
+                $c['title_columns_builder'],
                 $c['question.general_properties.repository'],
                 $DIC['http']->request(),
                 $DIC['http']->wrapper()->query(),
-                $DIC['static_url'],
                 $DIC->uiService(),
                 $DIC['ui.factory'],
                 $DIC['ui.renderer'],
@@ -142,18 +164,43 @@ class TestDIC extends PimpleContainer
                 $DIC['ilUser']
             );
 
+        $dic['exportimport.factory'] = static fn($c): ExportImportFactory =>
+            new ExportImportFactory(
+                $DIC['lng'],
+                $DIC['ilDB'],
+                $DIC['ilBench'],
+                $DIC['tpl'],
+                $c['logging.logger'],
+                $DIC['tree'],
+                $DIC['component.repository'],
+                $DIC['component.factory'],
+                $DIC['file_delivery'],
+                $DIC['ilUser'],
+                $c['question.general_properties.repository']
+            );
+
+        $dic['questions.properties.repository'] = static fn($c): TestQuestionsRepository =>
+            new TestQuestionsDatabaseRepository(
+                $DIC['ilDB'],
+                $c['question.general_properties.repository']
+            );
+
         $dic['question.general_properties.repository'] = static fn($c): GeneralQuestionPropertiesRepository =>
             new GeneralQuestionPropertiesRepository(
                 $DIC['ilDB'],
                 $DIC['component.factory'],
-                $DIC['lng']
+                $DIC['component.repository']
             );
+
         $dic['question.request_data_wrapper'] = static fn($c): QPLRequestDataCollector =>
             new QPLRequestDataCollector(
                 $DIC->http(),
                 $DIC['refinery'],
                 $DIC['upload']
             );
+
+        $dic['participant.repository'] = static fn($c): ParticipantRepository =>
+            new ParticipantRepository($DIC['ilDB']);
 
         return $dic;
     }

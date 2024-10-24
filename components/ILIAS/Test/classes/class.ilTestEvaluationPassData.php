@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Results\Data\StatusOfAttempt;
+use ILIAS\Test\Scoring\Marks\Mark;
+
 /**
 * Class ilTestEvaluationPassData
 *
@@ -37,16 +40,20 @@ class ilTestEvaluationPassData
     * @var array<int>
     */
     public array $answeredQuestions;
+    private ?\DateTimeImmutable $start_time = null;
+    private ?\DateTimeImmutable $last_access_time = null;
     private int $workingtime;
     private int $questioncount;
     private float $maxpoints;
     private float $reachedpoints;
+    private Mark $mark;
     private int $nrOfAnsweredQuestions;
     private int $pass;
     private ?int $requestedHintsCount = null;
     private ?float $deductedHintPoints = null;
-    private bool $obligationsAnswered = false;
     private string $exam_id = '';
+    private ?StatusOfAttempt $status_of_attempt = null;
+    private bool $unfinished_attempt = false;
 
     public function __sleep()
     {
@@ -94,6 +101,21 @@ class ilTestEvaluationPassData
         $this->maxpoints = $maxpoints;
     }
 
+    public function getReachedPointsInPercent(): float
+    {
+        return $this->getMaxPoints() ? $this->getReachedPoints() / $this->getMaxPoints() * 100.0 : 0.0;
+    }
+
+    public function getMark(): Mark
+    {
+        return $this->mark;
+    }
+
+    public function setMark(Mark $mark): void
+    {
+        $this->mark = $mark;
+    }
+
     public function getQuestionCount(): int
     {
         return $this->questioncount;
@@ -102,6 +124,30 @@ class ilTestEvaluationPassData
     public function setQuestionCount(int $questioncount): void
     {
         $this->questioncount = $questioncount;
+    }
+
+    public function getStartTime(): ?\DateTimeImmutable
+    {
+        return $this->start_time;
+    }
+
+    public function setStartTime(?string $start_time): void
+    {
+        if ($start_time !== null) {
+            $this->start_time = new \DateTimeImmutable($start_time);
+        }
+    }
+
+    public function getLastAccessTime(): ?\DateTimeImmutable
+    {
+        return $this->last_access_time;
+    }
+
+    public function setLastAccessTime(?string $last_access_time): void
+    {
+        if ($last_access_time !== null) {
+            $this->last_access_time = new \DateTimeImmutable($last_access_time);
+        }
     }
 
     public function getWorkingTime(): int
@@ -138,11 +184,11 @@ class ilTestEvaluationPassData
         int $manual = 0
     ): void {
         $this->answeredQuestions[] = [
-            "id" => $question_id,
-            "points" => round($max_points, 2),
-            "reached" => round($reached_points, 2),
+            'id' => $question_id,
+            'points' => round($max_points, 2),
+            'reached' => round($reached_points, 2),
             'isAnswered' => $is_answered,
-            "sequence" => $sequence,
+            'sequence' => $sequence,
             'manual' => $manual
         ];
     }
@@ -159,7 +205,7 @@ class ilTestEvaluationPassData
     public function getAnsweredQuestionByQuestionId(int $question_id): ?array
     {
         foreach ($this->answeredQuestions as $question) {
-            if ($question["id"] == $question_id) {
+            if ($question['id'] == $question_id) {
                 return $question;
             }
         }
@@ -191,11 +237,6 @@ class ilTestEvaluationPassData
         $this->deductedHintPoints = $deductedHintPoints;
     }
 
-    public function setObligationsAnswered(bool $obligationsAnswered): void
-    {
-        $this->obligationsAnswered = $obligationsAnswered;
-    }
-
     public function getExamId(): string
     {
         return $this->exam_id;
@@ -206,32 +247,31 @@ class ilTestEvaluationPassData
         $this->exam_id = $exam_id;
     }
 
-    /**
-     * getter for property obligationsAnswered.
-     * if property wasn't set yet the method is trying
-     * to determine this information by iterating
-     * over the added questions.
-     * if both wasn't possible the method throws an exception
-     */
-    public function areObligationsAnswered(): ?bool
+    public function getStatusOfAttempt(): StatusOfAttempt
     {
-        if (!is_null($this->obligationsAnswered)) {
-            return $this->obligationsAnswered;
+        if ($this->status_of_attempt) {
+            return $this->status_of_attempt;
         }
 
-        if (is_array($this->answeredQuestions) && $this->answeredQuestions !== []) {
-            foreach ($this->answeredQuestions as $question) {
-                if (!$question['isAnswered']) {
-                    return false;
-                }
-            }
-
-            return true;
+        if ($this->unfinished_attempt) {
+            return StatusOfAttempt::RUNNING;
         }
 
-        throw new ilTestEvaluationException(
-            'Neither the boolean property ilTestEvaluationPassData::obligationsAnswered was set, ' .
-            'nor the property array property ilTestEvaluationPassData::answeredQuestions contains elements!'
-        );
+        return StatusOfAttempt::FINISHED_BY_UNKNOWN;
+    }
+
+    public function setStatusOfAttempt(?StatusOfAttempt $status_of_attempt): void
+    {
+        $this->status_of_attempt = $status_of_attempt;
+    }
+
+    public function isUnfinishedAttempt(): bool
+    {
+        return $this->unfinished_attempt;
+    }
+
+    public function setUnfinishedAttempt(bool $unfinished_attempt): void
+    {
+        $this->unfinished_attempt = $unfinished_attempt;
     }
 }

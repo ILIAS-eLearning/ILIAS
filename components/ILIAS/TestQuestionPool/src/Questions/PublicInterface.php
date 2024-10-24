@@ -32,7 +32,7 @@ class PublicInterface
         $this->general_questions_repository = new GeneralQuestionPropertiesRepository(
             $dic['ilDB'],
             $dic['component.factory'],
-            $dic['lng']
+            $dic['component.repository']
         );
     }
     /**

@@ -1292,45 +1292,6 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function setExportDetailsXLSX(ilAssExcelFormatHelper $worksheet, int $startrow, int $col, int $active_id, int $pass): int
-    {
-        parent::setExportDetailsXLSX($worksheet, $startrow, $col, $active_id, $pass);
-
-        $solution = $this->getSolutionValues($active_id, $pass);
-        $i = 1;
-        foreach ($this->getGaps() as $gap_index => $gap) {
-            $worksheet->setCell($startrow + $i, $col, $this->lng->txt("gap") . " $i");
-            $worksheet->setBold($worksheet->getColumnCoord($col) . ($startrow + $i));
-            $checked = false;
-            foreach ($solution as $solutionvalue) {
-                if ($gap_index == $solutionvalue["value1"]) {
-                    $string_escaping_org_value = $worksheet->getStringEscaping();
-                    try {
-                        $worksheet->setStringEscaping(false);
-
-                        switch ($gap->getType()) {
-                            case assClozeGap::TYPE_SELECT:
-                                $worksheet->setCell($startrow + $i, $col + 2, $gap->getItem($solutionvalue["value2"])->getAnswertext());
-                                break;
-                            case assClozeGap::TYPE_NUMERIC:
-                            case assClozeGap::TYPE_TEXT:
-                                $worksheet->setCell($startrow + $i, $col + 2, $solutionvalue["value2"]);
-                                break;
-                        }
-                    } finally {
-                        $worksheet->setStringEscaping($string_escaping_org_value);
-                    }
-                }
-            }
-            $i++;
-        }
-
-        return $startrow + $i + 1;
-    }
-
-    /**
      * @param ilAssSelfAssessmentMigrator $migrator
      */
     protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator): void
@@ -1744,7 +1705,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         return $result;
     }
 
-    public function solutionValuesToLog(
+    protected function solutionValuesToLog(
         AdditionalInformationGenerator $additional_info,
         array $solution_values
     ): array {
@@ -1764,5 +1725,41 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
             }
         }
         return $parsed_solution;
+    }
+
+    public function solutionValuesToText(array $solution_values): array
+    {
+        $parsed_solution = [];
+        foreach ($this->getGaps() as $gap_index => $gap) {
+            foreach ($solution_values as $solutionvalue) {
+                if ($gap_index !== (int) $solutionvalue['value1']) {
+                    continue;
+                }
+
+                if ($gap->getType() === assClozeGap::TYPE_SELECT) {
+                    $parsed_solution[] = $this->lng->txt('gap') . ' ' . $gap_index + 1 . ': '
+                        . $gap->getItem($solutionvalue['value2'])->getAnswertext();
+                    continue;
+                }
+
+                $parsed_solution[] = $this->lng->txt('gap') . ' ' . $gap_index + 1 . ': '
+                    . $solutionvalue['value2'];
+            }
+        }
+        return $parsed_solution;
+    }
+
+    public function getCorrectSolutionForTextOutput(int $active_id, int $pass): array
+    {
+        $answers = [];
+        foreach ($this->getGaps() as $gap_index => $gap) {
+            $correct_answers = array_map(
+                fn(int $v): string => $gap->getItem($v)->getAnswertext(),
+                $gap->getBestSolutionIndexes()
+            );
+            $answers[] = $this->lng->txt('gap') . ' ' . $gap_index + 1 . ': '
+                . implode(',', $correct_answers);
+        }
+        return $answers;
     }
 }

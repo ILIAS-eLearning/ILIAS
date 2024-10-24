@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Presentation;
 
 use ILIAS\Test\Access\ParticipantAccess;
+use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\Test\Settings\MainSettings\MainSettings;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Link;
@@ -63,7 +64,7 @@ class TestScreenGUI
         private readonly \ilCtrlInterface $ctrl,
         private readonly \ilGlobalTemplateInterface $tpl,
         private readonly HTTPServices $http,
-        private readonly \ilTabsGUI $tabs,
+        private readonly TabsManager $tabs_manager,
         private readonly \ilAccessHandler $access,
         private readonly \ilTestAccess $test_access,
         private readonly \ilDBInterface $database,
@@ -88,8 +89,10 @@ class TestScreenGUI
             return;
         }
 
+        $this->tabs_manager->activateTab(TabsManager::TAB_ID_TEST);
+
         if (!$this->object->getMainSettings()->getAdditionalSettings()->getHideInfoTab()) {
-            $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
+            $this->ctrl->redirectByClass([\ilRepositoryGUI::class, \ilObjTestGUI::class, \ilInfoScreenGUI::class]);
         }
 
         $this->tpl->setOnScreenMessage('failure', sprintf(
@@ -102,7 +105,7 @@ class TestScreenGUI
 
     public function testScreen(): void
     {
-        $this->tabs->activateTab(\ilTestTabsManager::TAB_ID_TEST);
+        $this->tabs_manager->activateTab(TabsManager::TAB_ID_TEST);
         $this->tpl->setPermanentLink($this->object->getType(), $this->ref_id);
 
         $elements = [];
@@ -138,7 +141,10 @@ class TestScreenGUI
         }
 
         if ($test_behaviour_settings->getProcessingTimeEnabled()) {
-            $message_box_message_elements[] = sprintf($this->lng->txt('tst_time_limit_message'), $test_behaviour_settings->getProcessingTimeAsMinutes());
+            $message_box_message_elements[] = sprintf(
+                $this->lng->txt('tst_time_limit_message'),
+                $this->object->getProcessingTimeInSeconds($this->test_session->getActiveId()) / 60
+            );
         }
 
         $nr_of_tries = $this->object->getNrOfTries();
@@ -235,21 +241,22 @@ class TestScreenGUI
             ;
         }
 
-        if ($this->object->getFixedParticipants() && $this->object->getInvitedUsers($this->user->getId()) === []) {
+        $participant_access = $this->test_access->isParticipantAllowed(
+            $this->object->getId(),
+            $this->user->getId()
+        );
+
+        if ($participant_access === ParticipantAccess::NOT_INVITED) {
             return $launcher
                 ->inline($this->data_factory->link('', $this->data_factory->uri($this->http->request()->getUri()->__toString())))
                 ->withButtonLabel($this->lng->txt('tst_exam_not_assigned_participant_disclaimer'), false)
             ;
         }
 
-        $participant_access = $this->test_access->isParticipantAllowed(
-            $this->object->getId(),
-            $this->user->getId()
-        );
         if ($participant_access !== ParticipantAccess::ALLOWED) {
             return $launcher
                 ->inline($this->data_factory->link('', $this->data_factory->uri($this->http->request()->getUri()->__toString())))
-                ->withButtonLabel($this->lng->txt($participant_access->value), false)
+                ->withButtonLabel($participant_access->getAccessForbiddenMessage($this->lng), false)
             ;
         }
 

@@ -31,13 +31,9 @@ class ilObjTestTest extends ilTestBaseTestCase
     {
         parent::setUp();
 
-        $this->addGlobal_ilBench();
-        $this->addGlobal_ilUser();
-        $this->addGlobal_ilCtrl();
         $this->addGlobal_ilErr();
         $this->addGlobal_ilLog();
         $this->addGlobal_ilSetting();
-        $this->addGlobal_tree();
         $this->addGlobal_ilAppEventHandler();
         $this->addGlobal_filesystem();
         $this->addGlobal_ilComponentFactory();

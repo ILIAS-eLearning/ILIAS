@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Logging;
 
-use ILIAS\Test\Export\CSVExportTrait;
+use ILIAS\Test\Utilities\TitleColumnsBuilder;
 
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 
@@ -29,7 +29,6 @@ use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\StaticURL\Services as StaticURLServices;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 use ILIAS\FileDelivery\Delivery\StreamDelivery;
@@ -37,17 +36,15 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class TestLogViewer
 {
-    use CSVExportTrait;
-
     private DataFactory $data_factory;
 
     public function __construct(
         private readonly TestLoggingRepository $logging_repository,
         private readonly TestLogger $logger,
+        private readonly TitleColumnsBuilder $title_builder,
         private readonly GeneralQuestionPropertiesRepository $question_repository,
         private readonly ServerRequestInterface $request,
         private readonly RequestWrapper $request_wrapper,
-        private readonly StaticURLServices $static_url,
         private readonly \ilUIService $ui_service,
         private readonly UIFactory $ui_factory,
         private readonly UIRenderer $ui_renderer,
@@ -69,13 +66,13 @@ class TestLogViewer
         $log_table = new LogTable(
             $this->logging_repository,
             $this->logger,
+            $this->title_builder,
             $this->question_repository,
             $this->ui_factory,
             $this->ui_renderer,
             $this->data_factory,
             $this->lng,
             $this->tpl,
-            $this->static_url,
             $url_builder,
             $action_parameter_token,
             $row_id_token,
@@ -99,13 +96,13 @@ class TestLogViewer
         $log_table = new LogTable(
             $this->logging_repository,
             $this->logger,
+            $this->title_builder,
             $this->question_repository,
             $this->ui_factory,
             $this->ui_renderer,
             $this->data_factory,
             $this->lng,
             $this->tpl,
-            $this->static_url,
             $url_builder,
             $action_parameter_token,
             $row_id_token,
@@ -140,6 +137,8 @@ class TestLogViewer
 
         $log_table->executeAction($action, $affected_items);
     }
+
+    /* The following functions will be removed with ILIAS 11 */
 
     public function getLegacyLogExportForObjId(?int $obj_id = null): string
     {
@@ -185,5 +184,38 @@ class TestLogViewer
             $csvoutput .= implode($separator, $row) . "\n";
         }
         return $csvoutput;
+    }
+
+    private function processCSVRow(
+        mixed $row,
+        bool $quote_all = false,
+        string $separator = ";"
+    ): array {
+        $resultarray = [];
+        foreach ($row as $rowindex => $entry) {
+            $surround = false;
+            if ($quote_all) {
+                $surround = true;
+            }
+            if (is_string($entry) && strpos($entry, "\"") !== false) {
+                $entry = str_replace("\"", "\"\"", $entry);
+                $surround = true;
+            }
+            if (is_string($entry) && strpos($entry, $separator) !== false) {
+                $surround = true;
+            }
+
+            if (is_string($entry)) {
+                // replace all CR LF with LF (for Excel for Windows compatibility
+                $entry = str_replace(chr(13) . chr(10), chr(10), $entry);
+            }
+
+            if ($surround) {
+                $entry = "\"" . $entry . "\"";
+            }
+
+            $resultarray[$rowindex] = $entry;
+        }
+        return $resultarray;
     }
 }

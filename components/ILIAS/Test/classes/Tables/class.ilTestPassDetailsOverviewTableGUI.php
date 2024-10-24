@@ -51,7 +51,7 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
 
     public function __construct(
         ilCtrl $ctrl,
-        ilTestServiceGUI|ilParticipantsTestResultsGUI $parent,
+        ilTestServiceGUI $parent,
         string $cmd
     ) {
         $tableId = 0;

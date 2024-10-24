@@ -76,10 +76,6 @@ class ilTestPlayerConfirmationModalTest extends ilTestBaseTestCase
 
     public function testAddParameter(): void
     {
-        $this->addGlobal_ilCtrl();
-
-        $this->addGlobal_lng();
-
         foreach ([51, 291, 15, 681] as $id) {
             $hiddenInput = new ilHiddenInputGUI('postVar_' . $id);
             $expected[] = $hiddenInput;

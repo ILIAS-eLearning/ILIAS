@@ -17,6 +17,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Results\Data\StatusOfAttempt;
+use ILIAS\Test\Statistics\Statistics;
+
 /**
 * Class ilTestEvaluationData
 *
@@ -36,13 +39,13 @@ class ilTestEvaluationData
     public const FILTER_BY_COURSE = 'course';
     public const FILTER_BY_ACTIVE_ID = 'active_id';
 
-    public array $question_titles;
+    public array $question_titles = [];
 
     /**
     * @var array<ilTestEvaluationUserData>
     */
-    protected $participants;
-    protected $statistics;
+    protected array $participants = [];
+    protected ?Statistics $statistics = null;
     protected ?array $arr_filter = null;
     protected int $datasets;
     protected ?ilTestParticipantList $access_filtered_participant_list = null;
@@ -56,8 +59,6 @@ class ilTestEvaluationData
         protected ilDBInterface $db,
         protected ?ilObjTest $test = null
     ) {
-        $this->participants = [];
-        $this->question_titles = [];
         if ($test !== null) {
             if ($this->getTest()->getAccessFilteredParticipantList()) {
                 $this->setAccessFilteredParticipantList(
@@ -98,7 +99,18 @@ class ilTestEvaluationData
 							usr_data.login,
 							tst_pass_result.*,
 							tst_active.submitted,
-							tst_active.last_finished_pass
+							tst_active.last_finished_pass,
+                            (SELECT MIN(started) AS attempt_started
+                                FROM tst_times
+                                WHERE active_fi = tst_active.active_id
+                                    AND pass = tst_pass_result.pass
+                            ) as start_time,
+                            (SELECT MAX(finished) AS attempt_started
+                                FROM tst_times
+                                WHERE active_fi = tst_active.active_id
+                                    AND pass = tst_pass_result.pass
+                            ) as last_access_time,
+			                COALESCE(tst_active.last_started_pass, -1) <> COALESCE(tst_active.last_finished_pass, -1) unfinished_attempt
 			FROM			tst_pass_result, tst_active
 			LEFT JOIN		usr_data
 			ON				tst_active.user_fi = usr_data.usr_id
@@ -159,14 +171,13 @@ class ilTestEvaluationData
                 $this->getParticipant($row['active_fi'])->setLastFinishedPass($row['last_finished_pass']);
             }
 
-            if (!is_object($this->getParticipant($row['active_fi'])->getPass($row['pass']))) {
+            if ($this->getParticipant($row['active_fi'])->getPass($row['pass']) === null) {
                 $pass = new ilTestEvaluationPassData();
                 $pass->setPass($row['pass']);
                 $this->getParticipant($row['active_fi'])->addPass($row['pass'], $pass);
             }
 
             $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setReachedPoints($row['points']);
-            $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setObligationsAnswered((bool) $row['obligations_answered']);
 
             if ($row['questioncount'] == 0) {
                 $data = $this->test->getQuestionCountAndPointsForPassOfParticipant($row['active_fi'], $row['pass']);
@@ -177,9 +188,16 @@ class ilTestEvaluationData
                 $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setQuestionCount($row['questioncount']);
             }
 
+            $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setStartTime($row['start_time']);
+            $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setLastAccessTime($row['last_access_time']);
             $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setNrOfAnsweredQuestions($row['answeredquestions']);
             $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setWorkingTime($row['workingtime']);
             $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setExamId((string) $row['exam_id']);
+            $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setUnfinishedAttempt((bool) $row['unfinished_attempt']);
+            $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setStatusOfAttempt(
+                $row['finalized_by'] ? StatusOfAttempt::tryFrom($row['finalized_by']) : null
+            );
+
 
             $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setRequestedHintsCount($row['hint_count']);
             $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setDeductedHintPoints($row['hint_points']);
@@ -228,16 +246,11 @@ class ilTestEvaluationData
         return '';
     }
 
-    public function calculateStatistics(): void
-    {
-        $this->statistics = new ilTestStatistics($this);
-    }
-
     public function getTotalFinishedParticipants(): int
     {
         $finishedParticipants = 0;
 
-        foreach ($this->participants as $active_id => $participant) {
+        foreach ($this->participants as $participant) {
             if (!$participant->isSubmitted()) {
                 continue;
             }
@@ -340,9 +353,9 @@ class ilTestEvaluationData
         $this->participants[$active_id] = $participant;
     }
 
-    public function getParticipant(int $active_id): ilTestEvaluationUserData
+    public function getParticipant(int $active_id): ?ilTestEvaluationUserData
     {
-        return $this->participants[$active_id];
+        return $this->participants[$active_id] ?? null;
     }
 
     public function participantExists($active_id): bool
@@ -355,8 +368,11 @@ class ilTestEvaluationData
         unset($this->participants[$active_id]);
     }
 
-    public function getStatistics(): object
+    public function getStatistics(): Statistics
     {
+        if ($this->statistics === null) {
+            $this->statistics = new Statistics($this);
+        }
         return $this->statistics;
     }
 

@@ -18,14 +18,15 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Utilities\TitleColumnsBuilder;
+use ILIAS\Test\RequestDataCollector;
+use ILIAS\Test\Logging\TestLogger;
+use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\Test\RequestDataCollector;
-use ILIAS\Test\Questions\QuestionPoolLinkedTitleBuilder;
-use ILIAS\Test\Logging\TestLogger;
-use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\UI\Component\Link\Standard as StandardLink;
 
 /**
  * @author Helmut Schottmüller <ilias@aurealis.de>
@@ -33,7 +34,6 @@ use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
  */
 class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 {
-    use QuestionPoolLinkedTitleBuilder;
     private const REPOSITORY_ROOT_NODE_ID = 1;
 
     public const CONTEXT_PARAMETER = 'question_browse_context';
@@ -67,6 +67,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         private readonly UIFactory $ui_factory,
         private readonly UIRenderer $ui_renderer,
         private readonly RequestDataCollector $testrequest,
+        private readonly TitleColumnsBuilder $title_builder,
         private readonly GeneralQuestionPropertiesRepository $questionrepository
     ) {
         $this->setId('qpl_brows_tabl_' . $this->test_obj->getId());
@@ -173,24 +174,14 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         }
 
         $test_question_set_config = $this->buildTestQuestionSetConfig();
-
-        $manscoring = false;
-
-        foreach ($selected_array as $key => $value) {
-            $last_question_id = $this->test_obj->insertQuestion($value);
-
-            if (!$manscoring) {
-                $manscoring |= assQuestion::_needsManualScoring($value);
-            }
-        }
+        array_map(
+            fn(int $v): int => $this->test_obj->insertQuestion($v),
+            $selected_array
+        );
 
         $this->test_obj->saveCompleteStatus($test_question_set_config);
 
-        if ($manscoring) {
-            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("manscoring_hint"), true);
-        } else {
-            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("tst_questions_inserted"), true);
-        }
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('tst_questions_inserted'), true);
 
         $this->ctrl->redirectByClass($this->getBackTargetCmdClass(), $this->getBackTargetCommand());
     }
@@ -411,50 +402,42 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 
     public function fillRow(array $a_set): void
     {
-        $this->tpl->setVariable("QUESTION_ID", $a_set["question_id"]);
-        $this->tpl->setVariable("QUESTION_TITLE", $a_set["title"]);
-        $this->tpl->setVariable("QUESTION_COMMENT", $a_set["description"]);
-        $this->tpl->setVariable("QUESTION_TYPE", $this->questionrepository->getForQuestionId($a_set['question_id'])->getTypeName($this->lng));
-        $this->tpl->setVariable("QUESTION_AUTHOR", $a_set["author"]);
-        $this->tpl->setVariable("QUESTION_LIFECYCLE", $this->getTranslatedLifecycle($a_set['lifecycle']));
+        $this->tpl->setVariable('QUESTION_ID', $a_set['question_id']);
+        $this->tpl->setVariable('QUESTION_TITLE', $a_set['title']);
+        $this->tpl->setVariable('QUESTION_COMMENT', $a_set['description']);
+        $this->tpl->setVariable('QUESTION_TYPE', $this->questionrepository->getForQuestionId($a_set['question_id'])->getTypeName($this->lng));
+        $this->tpl->setVariable('QUESTION_AUTHOR', $a_set['author']);
+        $this->tpl->setVariable('QUESTION_LIFECYCLE', $this->getTranslatedLifecycle($a_set['lifecycle']));
         $this->tpl->setVariable(
-            "QUESTION_CREATED",
+            'QUESTION_CREATED',
             ilDatePresentation::formatDate(new ilDate($a_set['created'], IL_CAL_UNIX))
         );
         $this->tpl->setVariable(
-            "QUESTION_UPDATED",
-            ilDatePresentation::formatDate(new ilDate($a_set["tstamp"], IL_CAL_UNIX))
+            'QUESTION_UPDATED',
+            ilDatePresentation::formatDate(new ilDate($a_set['tstamp'], IL_CAL_UNIX))
         );
         $this->tpl->setVariable(
-            "QUESTION_POOL_OR_TEST_TITLE",
-            $this->buildPossiblyLinkedQuestonPoolOrTestTitle(
-                (int) $a_set["obj_fi"],
-                $a_set["parent_title"]
+            'QUESTION_POOL_OR_TEST_TITLE',
+            $this->ui_renderer->render(
+                $this->buildPossiblyLinkedQuestonPoolOrTestTitle(
+                    (int) $a_set['obj_fi'],
+                    $a_set['parent_title']
+                )
             )
         );
     }
 
-    private function buildPossiblyLinkedQuestonPoolOrTestTitle(int $obj_id, string $parent_title): string
+    private function buildPossiblyLinkedQuestonPoolOrTestTitle(int $obj_id, string $parent_title): StandardLink
     {
         switch ($this->fetchModeParameter()) {
             case self::MODE_BROWSE_POOLS:
-                return $this->buildPossiblyLinkedQuestonPoolTitle(
-                    $this->ctrl,
-                    $this->access,
-                    $this->lng,
-                    $this->ui_factory,
-                    $this->ui_renderer,
+                return $this->title_builder->buildAccessCheckedQuestionpoolTitleAsLink(
                     $obj_id,
                     $parent_title
                 );
 
             case self::MODE_BROWSE_TESTS:
-                return $this->buildPossiblyLinkedTestTitle(
-                    $this->ctrl,
-                    $this->access,
-                    $this->lng,
-                    $this->ui_factory,
-                    $this->ui_renderer,
+                return $this->title_builder->buildAccessCheckedTestTitleAsLinkForObjId(
                     $obj_id,
                     $parent_title
                 );

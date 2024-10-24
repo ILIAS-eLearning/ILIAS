@@ -426,8 +426,6 @@ adve#:#adve_use_physical#:#str/emp/impに代えてb/i/uを使用
 adve#:#adve_use_physical_info#:#この設定はセマンティックスタイルクラスボタンのストロング、強調、重要を、物理的な属性ボタンb(ボールド)、i(イタリック）、u(下線)で置き換えます。スタイルエディタが使用されていて他の物理的な属性がストロング/強調/重要スタイルクラスに割り当てられていると矛盾する結果となる事に注意願います。
 adve#:#adve_use_tiny_mce#:#WYSIWYG編集用にTinyMCEを有効にする
 assessment#:#activate_logging#:#テストとアセスメントログを使用可能にする
-assessment#:#activate_manual_scoring#:#手動採点を可能にする
-assessment#:#activate_manual_scoring_desc#:#手動採点が問題のタイプで使用可能になると、そのタイプの全ての問題はテスト作成者の手動採点になる可能性性があります。 自動採点の問題タイプを手動採点にする事により遅れが発生すると、判定問題になりかねないため設定には十分注意願います。
 assessment#:#addSuggestedSolution#:#要約用のコンテンツを追加
 assessment#:#add_answers#:#解答を追加
 assessment#:#add_circle#:#円形エリアを追加
@@ -531,8 +529,6 @@ assessment#:#ass_question#:#問題
 assessment#:#ass_size#:#サイズ
 assessment#:#ass_skl_import_fails_remove_btn#:#このヒントを削除
 assessment#:#assessment_existing_pool#:#既存の演習問題集を使用
-assessment#:#assessment_log_scoring_adjustment_activate#:#調整利用可能な問題タイプ
-assessment#:#assessment_log_scoring_adjustment_desc#:#チェックされた問題タイプは調整可能です。この設定は問題タイプの現在の能力に関係しません。例　調整をサポートしない問題はここへ表示されます。
 assessment#:#assessment_new_pool#:#新しい問題集を作成する
 assessment#:#assessment_no_pool#:#問題集を使用しない
 assessment#:#assessment_pool_selection#:#問題集選択
@@ -584,15 +580,13 @@ assessment#:#code#:#コード
 assessment#:#codebase#:#コードベース
 assessment#:#concatenation#:#結び付け
 assessment#:#conf_delete_pass#:#パスを本当に削除しますか?
-assessment#:#confirm_delete_all_user_data#:#本当に全ユーザのテストデータを削除しますか?
-assessment#:#confirm_delete_single_user_data#:#本当に選択したユーザのテストデータを削除しますか?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#変更した問題は実際のテストで使用するために作成したコピーです。オリジナルの問題も合わせて変更しますか?
 assessment#:#coordinates#:#座標
 assessment#:#copy_and_link_to_questionpool#:#問題集へ追加
 assessment#:#copy_no_questions_selected#:#コピーするには問題のどれかひとつを選択してください。
 assessment#:#copy_questions_success#:#問題がコピーされました。
-assessment#:#correct_answers#:#正解:
+assessment#:#correct_answers#:#正解
 assessment#:#counter#:#カウンター
 assessment#:#create_gaps#:#穴埋め作成
 assessment#:#create_new#:#新規作成
@@ -604,10 +598,10 @@ assessment#:#definition_image#:#定義イメージ
 assessment#:#definition_text#:#定義テキスト
 assessment#:#definitions#:#定義
 assessment#:#deleteSuggestedSolution#:#要約用のコンテンツを削除
-assessment#:#delete_all_user_data#:#全ユーザのテストデータを削除
 assessment#:#delete_all_user_data_confirmation#:#本当にこのテストの全ユーザのテストデータを削除しますか?
 assessment#:#delete_image_header#:#イメージを削除
 assessment#:#delete_image_question#:#本当にイメージを削除しますか?
+assessment#:#delete_selected_user_data_confirmation#:#本当に選択したユーザのテストデータを削除しますか?
 assessment#:#delete_user_data#:#選択したユーザのテストデータを削除
 assessment#:#description_maxchars#:#未入力の場合はこのテキスト解答に対する最大文字数の制限はありません。
 assessment#:#detail_ending_time_reached#:#テスト時間は終了しました。%sを過ぎた後のテスト続行はできません。
@@ -748,11 +742,6 @@ assessment#:#gap#:#穴埋め
 assessment#:#gap_combination#:#ギャップ連結
 assessment#:#glossary_term#:#索引
 assessment#:#grading_mark_msg#:#結果: &quot;[mark]&quot;
-assessment#:#grading_obligations_answered_listentry#:#回答数
-assessment#:#grading_obligations_answered_msg#:#全ての必須問題を解答しました。
-assessment#:#grading_obligations_listlabel#:#必須問題
-assessment#:#grading_obligations_missing_listentry#:#オープン
-assessment#:#grading_obligations_missing_msg#:#必須問題に全てに解答していません。
 assessment#:#grading_status_failed_msg#:#残念ながらテストに <b>不合格です。</b>
 assessment#:#grading_status_passed_msg#:#おめでとうございます。テスト <b>合格です。</b>
 assessment#:#hints#:#Hints###26 08 2024 new variable
@@ -928,14 +917,11 @@ assessment#:#no_selection#:#--- 未選択 ---
 assessment#:#no_selection_for_move#:#移動するための問題が選択されていません
 assessment#:#no_target_selected_for_move#:#目標位置の選択が必要です!
 assessment#:#no_user_or_group_selected#:#何(ユーザ、グループ、役割）を検索するかオプションをチェックしてください!
-assessment#:#not_all_obligations_answered#:#テストを終了するには全必須問題に解答する必要があります。
 assessment#:#not_evaluated_users#:#未採点ユーザ
 assessment#:#not_yet_accessed#:#未接続
 assessment#:#nr_of_correct_answers#:#要求する解答数
 assessment#:#number_of_answers#:#解答数
 assessment#:#numeric_gap#:#数値穴埋め
-assessment#:#obligations_summary#:#必須問題一覧
-assessment#:#obligatory#:#必須
 assessment#:#option_label#:#オプションラベル
 assessment#:#option_label_adequate#:#適切
 assessment#:#option_label_adequate_or_not#:#適切/不適切
@@ -1145,8 +1131,8 @@ assessment#:#redirect_always#:#常に決められたwebページへ
 assessment#:#redirect_in_kiosk_mode#:#試験ビューが有効の際にのみ
 assessment#:#redirection_url#:#webページのURL
 assessment#:#region#:#Region
-assessment#:#remove_as_participant#:#固定の受験者として削除
 assessment#:#remove_gap#:#ギャップを削除
+assessment#:#remove_participants#:#固定の受験者として削除
 assessment#:#remove_question#:#削除
 assessment#:#remove_solution#:#要約用のコンテンツを削除
 assessment#:#res_contains_undef_res#:#結果式に未定義結果が含まれます!
@@ -1325,6 +1311,7 @@ assessment#:#tst_answered_questions_test#:#このテストへの解答結果
 assessment#:#tst_attached_xls_file#:#添付のExcelファイルにこの受験者のテスト結果があります。
 assessment#:#tst_attempt#:#試み
 assessment#:#tst_attempt_limit_message#:#Your limit of test attempts is <b>%s</b>.###26 08 2024 new variable
+assessment#:#tst_attempt_started#:#テスト開始済み
 assessment#:#tst_back_to_pass_details#:#合格詳細へ戻る
 assessment#:#tst_back_to_question_list#:#問題リストへ戻る
 assessment#:#tst_back_to_top#:#トップへ戻る
@@ -1359,7 +1346,6 @@ assessment#:#tst_corrections_answers_tbl_subindex#:#%sの統計
 assessment#:#tst_corrections_incompatible_question_set_type#:#テストユーザが問題設定を固定している場合に限り修正可能です。
 assessment#:#tst_corrections_manscore_reset_warning#:#問題"%s (ID: %s)"用に処理された%sの手動採点があります。全ての手動採点は問題を保存する際にリセットされます。
 assessment#:#tst_corrections_qst_form#:#点数の修正
-assessment#:#tst_corrections_qst_remove_confirmation#:#テストから問題"%s (ID: %s)" を最終的に本当に削除しますか?
 assessment#:#tst_corrections_tab_question#:#問題
 assessment#:#tst_corrections_tab_solution#:#解答
 assessment#:#tst_corrections_tab_statistics#:#統計
@@ -1376,7 +1362,6 @@ assessment#:#tst_defaults_available#:#利用可能なテスト初期設定
 assessment#:#tst_defaults_defaults_of_test#:#このテストの設定名
 assessment#:#tst_defaults_enter_name#:#テスト初期設定の名前を入力してください!
 assessment#:#tst_defaults_not_defined#:#テスト初期設定が未定義です。
-assessment#:#tst_delete_dyn_test_results_btn#:#テスト結果の削除
 assessment#:#tst_delete_missing_mark#:#削除を進むには一つはマークを選択してください。
 assessment#:#tst_derive_new_pool#:#新規問題集を得る
 assessment#:#tst_derive_new_pools#:#新規問題集を得る
@@ -1509,7 +1494,6 @@ assessment#:#tst_input_dynamic_question_set_source_questionpool#:#問題集ソ�
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#分類基準フィルタを提供
 assessment#:#tst_insert_missing_question#:#テストに挿入する問題を最低一つ選択してください!
 assessment#:#tst_insert_questions#:#本当にテストへ次の問題を挿入しますか?
-assessment#:#tst_insert_questions_and_results#:#このテストはすでに %sのユーザにより実行されています。このテストへの問題挿入はユーザの全てのテスト結果を削除することになります。本当に次の問題をテストへ挿入しますか?
 assessment#:#tst_instant_feedback#:#即時フィードバック
 assessment#:#tst_instant_feedback_answer_generic#:#全正解のフィードバック
 assessment#:#tst_instant_feedback_answer_generic_desc#:#一般のフィードバックは設問構成に沿って単純"正解"または"誤り"フィードバックを印刷します。
@@ -1855,11 +1839,8 @@ assessment#:#tst_sequence_postpone#:#試験問題の解答を後回し可能
 assessment#:#tst_sequence_properties#:#テスト管理:受験者が利用可能な機能
 assessment#:#tst_session_settings#:#セッション設定
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#テストモード設定が変更されたためテストはオフラインになっています。テストを再度オンラインにする前に問題に関係する新規のテストモード構成を設定する必要があります。
-assessment#:#tst_setting_enable_obligations_info#:#必須問題全てに解答する場合のみテストを終了できます。必須問題は"リストビュー"内に定義できます。受験者はオプション"問題リストを表示"有効にする必要があります。
-assessment#:#tst_setting_enable_obligations_label#:#必須問題
 assessment#:#tst_setting_offer_hints_info#:#受験者は問題解答のヒントを要求します。表示される各ヒントは最高点が減るようになります。
 assessment#:#tst_setting_offer_hints_label#:#ヒント
-assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Compulsory Questions" cannot be used together with "Answer Lock".###26 08 2024 new variable
 assessment#:#tst_settings_conflict_postpone_and_lock#:#"Unanswered questions will be enqueued" cannot be used together with "Lock Answers After Moving to Next Question".###26 08 2024 new variable
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#"Shuffle Questions" cannot be used together with "Lock Answers After Moving to Next Question".###26 08 2024 new variable
 assessment#:#tst_settings_header_additional#:#Additional Features###26 08 2024 new variable
@@ -1897,7 +1878,6 @@ assessment#:#tst_shuffle_questions#:#問題をシャッフル
 assessment#:#tst_shuffle_questions_description#:#各受験者と実施済テストの問題シーケンスをシャッフル
 assessment#:#tst_signature#:#署名
 assessment#:#tst_single_answer_details#:#単一解答を表示
-assessment#:#tst_single_results#:#問題別の結果
 assessment#:#tst_skill_triggerings_num_req_answers#:#能力トリガー用の回答数が必須です。
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#この前に能力はトリガーされなく、問題回答数は能力レベルの計算へ寄与します。
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#これにより処理される能力の一つはこのテストは、必須問題最小数でトリガーされません。<br />必須問題数は: %sです。
@@ -1912,7 +1892,6 @@ assessment#:#tst_src_quest_pool_def_list_table#:#問題集ソースの定義
 assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#現在の問題選択でテストを開始
 assessment#:#tst_start_new_test_pass#:#新しい試験を開始
 assessment#:#tst_start_test#:#テストを開始
-assessment#:#tst_started#:#テスト開始済み
 assessment#:#tst_starting_time#:#開始時間
 assessment#:#tst_starting_time_desc#:#開始ボタンのクリックでテストを開始した時点以降受験者は問題へ解答することができます。
 assessment#:#tst_stat_result_atimeofwork#:#平均解答時間
@@ -1927,7 +1906,7 @@ assessment#:#tst_stat_result_rank_median#:#Medianランク
 assessment#:#tst_stat_result_rank_participant#:#受験者順位
 assessment#:#tst_stat_result_resultsmarks#:#テスト結果マーク
 assessment#:#tst_stat_result_resultspoints#:#テスト点数結果
-assessment#:#tst_stat_result_timeofwork#:#解答時間
+assessment#:#tst_stat_result_timeontask#:#解答時間
 assessment#:#tst_stat_result_total_participants#:#受験者総数
 assessment#:#tst_submit_results#:#はい、提出を確認します。
 assessment#:#tst_tab_competences#:#能力
@@ -1947,7 +1926,6 @@ assessment#:#tst_tbl_col_started_passes#:#Started Passes###19 08 2022 new variab
 assessment#:#tst_tbl_invited_users#:#手動で選択の受験者
 assessment#:#tst_tbl_participants#:#受験者
 assessment#:#tst_tbl_results_grades#:#結果と評価
-assessment#:#tst_test_contains_obligatory_questions#:#このテストを終了するには全必須問題(*)に解答する必要があります。
 assessment#:#tst_test_result#:#テスト結果
 assessment#:#tst_text_count_system#:#採点システム
 assessment#:#tst_threshold#:#しきい値
@@ -1973,7 +1951,6 @@ assessment#:#tst_virtual_pass_header_lo_qualifying#:#学習目標に対する資
 assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#前に試みた回答が適合されました。
 assessment#:#tst_wf_info_answer_not_adopted#:#以前適合を試みた回答がありませんので学習目標を下方修正するにはこの問題を完了する必要があります。
 assessment#:#tst_wf_info_optional_question#:#この問題はすでにパスした学習目標に関係します。
-assessment#:#tst_you_have_to_answer_this_question#:#この問題はすでにパスした学習目標に関係します。
 assessment#:#tst_your_answer_was#:#解答
 assessment#:#tst_your_answers#:#次の問題に対する答案があります。
 assessment#:#un_add_category#:#カテゴリを追加
@@ -2014,7 +1991,6 @@ assessment#:#use_previous_solution_advice#:#表示されている回答は前回
 assessment#:#user_has_finished_a_test#:#受験者はテストを終了しました。
 assessment#:#user_ip_outside_range#:#You are not allowed to access the test from this IP.###26 08 2024 new variable
 assessment#:#user_not_invited#:#あなたはこのテストの受験対象者ではありません。
-assessment#:#user_wrong_clientip#:#テストに使用する正しいIPがありません。
 assessment#:#value_between_x_and_y#:#値は %s と %s の間になります
 assessment#:#values#:#値
 assessment#:#variable#:#Variable###26 08 2024 new variable

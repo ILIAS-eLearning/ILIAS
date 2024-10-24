@@ -185,13 +185,6 @@ class ilTestEvaluationPassDataTest extends ilTestBaseTestCase
         $this->assertEquals($deductedHintPoints, $this->testObj->getDeductedHintPoints());
     }
 
-    public function testObligationsAnswered(): void
-    {
-        $this->testObj->setObligationsAnswered(true);
-
-        $this->assertTrue($this->testObj->areObligationsAnswered());
-    }
-
     public function testExamId(): void
     {
         $exam_id = '5';

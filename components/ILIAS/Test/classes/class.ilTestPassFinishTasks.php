@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Results\Data\StatusOfAttempt;
+use ILIAS\Test\Results\Data\Repository as TestResultRepository;
+
 /**
  * Class ilTestPassFinishTasks
  * @author Guido Vollbach <gvollbach@databay.de>
@@ -26,13 +29,16 @@ class ilTestPassFinishTasks
 {
     public function __construct(
         private ilTestSession $test_session,
-        private int $obj_id
+        private int $obj_id,
+        private TestResultRepository $test_pass_result_repository
     ) {
     }
 
-    public function performFinishTasks(ilTestProcessLocker $process_locker)
+    public function performFinishTasks(ilTestProcessLocker $process_locker, StatusOfAttempt $status_of_attempt)
     {
-        $process_locker->executeTestFinishOperation(function () {
+        $process_locker->executeTestFinishOperation(function () use ($status_of_attempt) {
+            $pass = $this->test_session->getPass();
+
             if (!$this->test_session->isSubmitted()) {
                 $this->test_session->setSubmitted();
                 $this->test_session->setSubmittedTimestamp();
@@ -51,6 +57,12 @@ class ilTestPassFinishTasks
                 $this->test_session->setLastFinishedPass($this->test_session->getPass());
                 $this->test_session->increaseTestPass(); // saves to db
             }
+
+            $this->test_pass_result_repository->finalizeTestPassResult(
+                $this->test_session->getActiveId(),
+                $pass,
+                $status_of_attempt
+            );
         });
 
         $this->updateLearningProgressAfterPassFinishedIsWritten();

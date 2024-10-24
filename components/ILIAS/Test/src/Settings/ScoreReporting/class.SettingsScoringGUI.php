@@ -24,6 +24,7 @@ use ILIAS\Test\Settings\TestSettingsGUI;
 use ILIAS\Test\Scoring\Settings\Settings as SettingsScoring;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
+use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as Refinery;
@@ -93,10 +94,10 @@ class SettingsScoringGUI extends TestSettingsGUI
     {
         if (!$this->access->checkAccess('write', '', $this->test_gui->getRefId())) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_test'), true);
-            $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
+            $this->ctrl->redirectByClass([\ilRepositoryGUI::class, \ilObjTestGUI::class, \ilInfoScreenGUI::class]);
         }
 
-        $this->tabs->activateSubTab(\ilTestTabsManager::SETTINGS_SUBTAB_ID_SCORING);
+        $this->tabs->activateSubTab(TabsManager::SETTINGS_SUBTAB_ID_SCORING);
 
         $nextClass = $this->ctrl->getNextClass();
         switch ($nextClass) {
@@ -193,20 +194,11 @@ class SettingsScoringGUI extends TestSettingsGUI
             $this->refinery
         ];
 
+        $environment = [
+            'user_date_format' => $this->active_user->getDateTimeFormat(),
+            'user_time_zone' => $this->active_user->getTimeZone()
+        ];
 
-        $environment = [];
-
-        $data_factory = new DataFactory();
-        $user_format = $this->active_user->getDateFormat();
-        if ($this->active_user->getTimeFormat() == \ilCalendarSettings::TIME_FORMAT_24) {
-            $user_format = $data_factory->dateFormat()->withTime24($user_format);
-        } else {
-            $user_format = $data_factory->dateFormat()->withTime12($user_format);
-        }
-        $environment['user_date_format'] = $user_format;
-        $environment['user_time_zone'] = $this->active_user->getTimeZone();
-
-        $anonymity_flag = (bool) $this->test_object->getAnonymity();
         $disabled_flag = ($this->areScoringSettingsWritable() === false);
 
         $settings = $this->loadScoreSettings();
@@ -244,8 +236,8 @@ class SettingsScoringGUI extends TestSettingsGUI
             return false;
         }
 
-        if ($this->testOBJ->getScoreReporting() === ilObjTest::SCORE_REPORTING_DATE) {
-            $reporting_date = $this->testOBJ->getScoreSettings()->getResultSummarySettings()->getReportingDate();
+        if ($this->test_object->getScoreReporting() === SettingsResultSummary::SCORE_REPORTING_DATE) {
+            $reporting_date = $this->test_object->getScoreSettings()->getResultSummarySettings()->getReportingDate();
             return $reporting_date <= new DateTimeImmutable('now', new DateTimeZone('UTC'));
         }
 

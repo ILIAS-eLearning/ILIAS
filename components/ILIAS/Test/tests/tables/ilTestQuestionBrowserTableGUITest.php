@@ -31,6 +31,8 @@ class ilTestQuestionBrowserTableGUITest extends ilTestBaseTestCase
     {
         parent::setUp();
 
+        $this->addGlobal_ilSetting();
+
         $lng_mock = $this->createMock(ilLanguage::class);
         $lng_mock
                  ->method("txt")
@@ -53,7 +55,6 @@ class ilTestQuestionBrowserTableGUITest extends ilTestBaseTestCase
         $this->setGlobalVariable("tpl", $mainTpl_mock);
         $this->setGlobalVariable("tree", $tree_mock);
         $this->setGlobalVariable("ilDB", $db_mock);
-        $this->setGlobalVariable("ilUser", $this->createMock(ilObjUser::class));
         $this->setGlobalVariable("ilObjDataCache", $this->createMock(ilObjectDataCache::class));
 
         $component_factory = $this->createMock(ilComponentFactory::class);
@@ -81,6 +82,7 @@ class ilTestQuestionBrowserTableGUITest extends ilTestBaseTestCase
             $this->createMock(ILIAS\UI\Factory::class),
             $this->createMock(ILIAS\UI\Renderer::class),
             $this->createMock(ILIAS\Test\RequestDataCollector::class),
+            $this->createMock(ILIAS\Test\Utilities\TitleColumnsBuilder::class),
             $this->createMock(ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository::class)
         );
     }

@@ -20,15 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Logging;
 
+use ILIAS\Test\Utilities\TitleColumnsBuilder;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\DateFormat\DateFormat;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
-use ILIAS\StaticURL\Services as StaticURLServices;
 use ILIAS\UI\Component\Table;
 use ILIAS\UI\Component\Input\Container\Filter\Standard as Filter;
 use ILIAS\UI\URLBuilder;
@@ -52,7 +51,7 @@ class LogTable implements Table\DataRetrieval
     public const COLUMN_INTERACTION_TYPE = 'interaction_type';
 
     public const ACTION_ID_SHOW_ADDITIONAL_INFO = 'show_additional_information';
-    private const ACTION_ID_EXPORT_AS_CSV = 'export_as_csv';
+    private const ACTION_ID_EXPORT = 'export';
     private const ACTION_ID_DELETE = 'delete';
 
     private const FILTER_FIELD_PERIOD = 'period';
@@ -69,10 +68,9 @@ class LogTable implements Table\DataRetrieval
     private const ACTION_ADDITIONAL_INFORMATION = 'add_info';
     private const ACTION_EXPORT_AS_CSV = 'csv_export';
 
-    private const CSV_EXPORT_FILE_NAME = '_test_log_export.csv';
+    private const EXPORT_FILE_NAME = '_test_log_export';
 
     /**
-     *
      * @var array<string, string|array>
      */
     private array $filter_data;
@@ -80,13 +78,13 @@ class LogTable implements Table\DataRetrieval
     public function __construct(
         private readonly TestLoggingRepository $logging_repository,
         private readonly TestLogger $logger,
+        private readonly TitleColumnsBuilder $title_builder,
         private readonly GeneralQuestionPropertiesRepository $question_repo,
         private readonly UIFactory $ui_factory,
         private readonly UIRenderer $ui_renderer,
         private readonly DataFactory $data_factory,
         private readonly \ilLanguage $lng,
         private \ilGlobalTemplateInterface $tpl,
-        private readonly StaticURLServices $static_url,
         private readonly URLBuilder $url_builder,
         private readonly URLBuilderToken $action_parameter_token,
         private readonly URLBuilderToken $row_id_token,
@@ -106,10 +104,6 @@ class LogTable implements Table\DataRetrieval
         )->withActions($this->getActions());
     }
 
-    /**
-     * Filters should be part of the Table; for now, since they are not fully
-     * integrated, they are rendered and applied seperately
-     */
     public function getFilter(\ilUIService $ui_service): Filter
     {
         $field_factory = $this->ui_factory->input()->field();
@@ -215,9 +209,7 @@ class LogTable implements Table\DataRetrieval
         ) as $interaction) {
             yield $interaction->getLogEntryAsDataTableRow(
                 $this->lng,
-                $this->static_url,
-                $this->question_repo,
-                $this->ui_factory,
+                $this->title_builder,
                 $row_builder,
                 $environment
             );
@@ -260,7 +252,7 @@ class LogTable implements Table\DataRetrieval
     ): void {
         match ($action) {
             self::ACTION_ADDITIONAL_INFORMATION => $this->showAdditionalDetails($affected_items[0]),
-            self::ACTION_EXPORT_AS_CSV => $this->exportTestUserInteractionsAsCSV($affected_items),
+            self::ACTION_EXPORT_AS_CSV => $this->exportTestUserInteractions($affected_items),
             self::ACTION_CONFIRM_DELETE => $this->showConfirmTestUserInteractionsDeletion($affected_items),
             self::ACTION_DELETE => $this->deleteTestUserInteractions($affected_items)
         };
@@ -321,7 +313,7 @@ class LogTable implements Table\DataRetrieval
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('logs_deleted'));
     }
 
-    protected function exportTestUserInteractionsAsCSV(array $affected_items): void
+    protected function exportTestUserInteractions(array $affected_items): void
     {
         if ($affected_items === []) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('no_checkbox'));
@@ -341,15 +333,19 @@ class LogTable implements Table\DataRetrieval
             $interactions = $this->logging_repository->getLogsByUniqueIdentifiers($affected_items);
         }
 
-        $csv = $this->getColumHeadingsForCSV();
+        $header = $this->getColumHeadingsForExport();
+        $content = [];
         foreach ($interactions as $interaction) {
-            $csv .= $interaction->getLogEntryAsCsvRow(
+            $content[] = $interaction->getLogEntryAsExportRow(
                 $this->lng,
-                $this->question_repo,
+                $this->title_builder,
                 $this->logger->getAdditionalInformationGenerator(),
                 $environment
             );
         }
+
+        $workbook = $this->buildExcelWorkbook($header, $content);
+        $workbook->sendToClient(date('Y-m-d') . self::EXPORT_FILE_NAME);
 
         $stream = fopen('php://memory', 'r+');
         fwrite($stream, $csv);
@@ -360,17 +356,41 @@ class LogTable implements Table\DataRetrieval
         );
     }
 
-    private function getColumHeadingsForCSV(): string
+    private function getColumHeadingsForExport(): array
     {
-        return $this->lng->txt('date_time') . ';'
-            . $this->lng->txt('test') . ';'
-            . $this->lng->txt('author') . ';'
-            . $this->lng->txt('tst_participant') . ';'
-            . $this->lng->txt('client_ip') . ';'
-            . $this->lng->txt('question') . ';'
-            . $this->lng->txt('log_entry_type') . ';'
-            . $this->lng->txt('interaction_type') . ';'
-            . $this->lng->txt('additional_info') . "\n";
+        return [
+            $this->lng->txt('date_time'),
+            $this->lng->txt('test'),
+            $this->lng->txt('author'),
+            $this->lng->txt('tst_participant'),
+            $this->lng->txt('client_ip'),
+            $this->lng->txt('question'),
+            $this->lng->txt('log_entry_type'),
+            $this->lng->txt('interaction_type'),
+            $this->lng->txt('additional_info')
+        ];
+    }
+
+    private function buildExcelWorkbook(array $header, array $content): \ilExcel
+    {
+        $workbook = new \ilExcel();
+        $workbook->addSheet($this->lng->txt('history'));
+        $row = 1;
+        $column = 0;
+        foreach ($header as $header_cell) {
+            $workbook->setCell($row, $column++, $header_cell);
+        }
+        $workbook->setBold('A' . $row . ':' . $workbook->getColumnCoord($column - 1) . $row);
+        $workbook->setColors('A' . $row . ':' . $workbook->getColumnCoord($column - 1) . $row, 'C0C0C0');
+
+        foreach ($content as $content_row) {
+            $row++;
+            $column = 0;
+            foreach ($content_row as $content_cell) {
+                $workbook->setCell($row, $column++, $content_cell);
+            }
+        }
+        return $workbook;
     }
 
     protected function getActions(): array
@@ -385,8 +405,8 @@ class LogTable implements Table\DataRetrieval
                 ),
                 $this->row_id_token
             )->withAsync(),
-            self::ACTION_ID_EXPORT_AS_CSV => $af->multi(
-                $this->lng->txt('csv_export'),
+            self::ACTION_ID_EXPORT => $af->multi(
+                $this->lng->txt('export'),
                 $this->url_builder->withParameter(
                     $this->action_parameter_token,
                     self::ACTION_EXPORT_AS_CSV

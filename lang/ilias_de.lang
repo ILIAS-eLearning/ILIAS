@@ -426,8 +426,6 @@ adve#:#adve_use_physical#:#str|emp|imp durch <b>B</b>|<i>I</i>|<u>U</u> ersetzen
 adve#:#adve_use_physical_info#:#Die Einstellung ersetzt die Buttons der semantischen Styleklassen für strong, emphatic und important durch die fest definierten Auszeichnungen <b>B</b> (bold), <i>I</i> (italic) und <u>U</u> (underline). Achtung: hierbei kann es zu Inkonsistenzen kommen, wenn über den Styleeditor den Styleklassen für strong, emphatic und important andere Auszeichnungen zugeordnet wurden.
 adve#:#adve_use_tiny_mce#:#TinyMCE für WYSIWYG-Editieren aktivieren
 assessment#:#activate_logging#:#Protokollieren des Test und Assessments aktivieren
-assessment#:#activate_manual_scoring#:#Aktivieren der manuellen Bewertung für
-assessment#:#activate_manual_scoring_desc#:#Alle Fragen des gewählten Fragetyps können manuell bewertet werden. Achtung: Das nachträgliche Ändern von Ergebnissen kann rechtliche Auswirkungen haben!###Modified as part of gender mainstreaming activities for ILIAS 8
 assessment#:#addSuggestedSolution#:#Inhalte zur Wiederholung
 assessment#:#add_answers#:#Antworten hinzufügen
 assessment#:#add_circle#:#Kreis hinzufügen
@@ -435,6 +433,7 @@ assessment#:#add_gap#:#Lückentext hinzufügen
 assessment#:#add_imagemap#:#Imagemap importieren
 assessment#:#add_poly#:#Polygon hinzufügen
 assessment#:#add_rect#:#Rechteck hinzufügen
+assessment#:#add_users#:#Benutzer hinzufügen
 assessment#:#additional_rating_info#:#Bitte beachten Sie, dass die hier angegebenen Werte in Prozent angegeben werden und sich diese auf 100 summieren müssen.
 assessment#:#advanced_rating#:#Erweiterte Bewertung
 assessment#:#advanced_rating_info#:#Die erweiterte Bewertung ist nur dann möglich, wenn Sie für das Ergebnis eine Einheit bestimmt haben. Weitere Bewertungseinstellungen werden nach dem Speichern der festgelegten Einheiten angezeigt.
@@ -443,6 +442,7 @@ assessment#:#all_participants#:#Alle Teilnehmer
 assessment#:#allow_images#:#Grafikunterstützung für Antworten
 assessment#:#allowedextensions#:#Erlaubte Dateierweiterungen
 assessment#:#allowedextensions_info#:#Geben Sie eine kommagetrennte Liste der erlaubten Dateierweiterungen an, wenn Sie das Hochladen auf bestimmte Dateitypen einschränken wollen (z.B. doc, pdf, odt).
+assessment#:#already_added_extra_time#:#bereits hinzugefügt: %s min
 assessment#:#analyze_errortext#:#Text analysieren
 assessment#:#answer#:#Antwort
 assessment#:#answer_characters#:# Zeichen zugelassen, Anzahl der eingegebenen Zeichen:
@@ -531,8 +531,6 @@ assessment#:#ass_question#:#Frage
 assessment#:#ass_size#:#Größe
 assessment#:#ass_skl_import_fails_remove_btn#:#Diese Meldung entfernen
 assessment#:#assessment_existing_pool#:#Vorhandenen Fragenpool verwenden
-assessment#:#assessment_log_scoring_adjustment_activate#:#Verfügbare Fragetypen für den Nachkorrekturmodus
-assessment#:#assessment_log_scoring_adjustment_desc#:#Gewählte Fragetypen stehen im Nachkorrekturmodus zur Verfügung. Diese Einstellung berücksichtigt nicht, ob die Frage im Nachkorrekturmodus bearbeitet werden kann.
 assessment#:#assessment_new_pool#:#Neuen Fragenpool erstellen und verwenden
 assessment#:#assessment_no_pool#:#Keinen Fragenpool verwenden
 assessment#:#assessment_pool_selection#:#Poolauswahl
@@ -573,6 +571,7 @@ assessment#:#checkbox_unchecked#:#Nicht ausgewählt
 assessment#:#circle#:#Kreis
 assessment#:#circle_click_center#:#Bitte klicken Sie auf den Mittelpunkt der gewünschten Region
 assessment#:#circle_click_circle#:#Bitte klicken Sie auf einen Punkt auf dem Umkreis der gewünschten Region
+assessment#:#client_ip_range#:#Client IP Range
 assessment#:#clientip#:#Client IP
 assessment#:#close_text_hint#:#Um eine Lücke in den Text einzufügen, setzen Sie den Cursor an die entsprechende Position und nutzen Sie die Schaltfläche "Textlücke". Anschließend stehen weiter unten entsprechende Bearbeitungsbereiche zur Verfügung. Ebenso können Sie die Lücken zur Bearbeitung im Lückentext direkt anklicken.
 assessment#:#cloze_answer_text_info#:#Vorangestellte oder nachfolgende Leerzeichen werden beim Speichern aus der Antwort gelöscht.
@@ -587,15 +586,13 @@ assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Verknüpfung
 assessment#:#conf_delete_pass#:#Durchgang wirklich löschen?
-assessment#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Datensätze der Umfrage löschen wollen?
-assessment#:#confirm_delete_single_user_data#:#Sind Sie sicher, dass Sie alle Testdaten der ausgewählten Benutzer entfernen wollen?
 assessment#:#confirm_log_deletion#:#Sind Sie sicher, dass Sie die ausgewählten Protokolleinträge löschen möchten? Die gelöschten Einträge werden unwiderruflich gelöscht.
 assessment#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in den Test als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
 assessment#:#coordinates#:#Koordinaten
 assessment#:#copy_and_link_to_questionpool#:#Zu Fragenpool hinzufügen
 assessment#:#copy_no_questions_selected#:#Bitte wählen Sie mindestens eine Frage zum Kopieren aus.
 assessment#:#copy_questions_success#:#Die Fragen wurden kopiert.
-assessment#:#correct_answers#:#Richtige Antworten:
+assessment#:#correct_answers#:#Richtige Antworten
 assessment#:#counter#:#Zähler
 assessment#:#create_gaps#:#Lücken erzeugen und aktualisieren
 assessment#:#create_new#:#Erstelle neue
@@ -607,11 +604,11 @@ assessment#:#definition_image#:#Bild
 assessment#:#definition_text#:#Text
 assessment#:#definitions#:#Definitionen
 assessment#:#deleteSuggestedSolution#:#Inhalte zur Wiederholung entfernen
-assessment#:#delete_all_user_data#:#Testdaten aller Teilnehmer entfernen
-assessment#:#delete_all_user_data_confirmation#:#Wollen Sie wirklich die Testdaten aller Teilnehmer löschen?
+assessment#:#delete_all_user_data_confirmation#:#Wollen Sie wirklich die Testergebnisse aller Teilnehmer löschen?
 assessment#:#delete_image_header#:#Bild entfernen
 assessment#:#delete_image_question#:#Möchten Sie das Bild wirklich entfernen?
-assessment#:#delete_user_data#:#Testdaten entfernen
+assessment#:#delete_selected_user_data_confirmation#:#Sind Sie sicher, dass Sie alle Testdaten der ausgewählten Teilnehmenden entfernen wollen?
+assessment#:#delete_user_data#:#Testergebnisse entfernen
 assessment#:#description_maxchars#:#Wenn nichts eingegeben wird, ist die maximale Anzahl von Zeichen für diese Textantwort unbegrenzt.
 assessment#:#detail_ending_time_reached#:#Sie haben die längstmögliche Bearbeitungsdauer des Tests überschritten. Der Test konnte nur bis %s Uhr bearbeitet werden.
 assessment#:#detail_max_processing_time_reached#:#Sie haben die maximale Bearbeitungsdauer des Tests überschritten. Sie dürfen den Test nicht weiter bearbeiten!
@@ -626,6 +623,7 @@ assessment#:#direct_feedback#:#Überprüfen Sie Ihre Lösung
 assessment#:#discard_answer#:#Antwort löschen
 assessment#:#discard_answer_confirmation#:#Ihre Antwort wird vollständig und endgültig gelöscht. Zu einem späteren Zeitpunkt können Sie die Frage aber erneut beantworten.<br /><br />Soll Ihre Antwort endgültig gelöscht werden?
 assessment#:#dont_use_questionpool#:#Fragen nicht in einen Fragenpool einfügen sondern nur im vorliegenden Test nutzen
+assessment#:#download_all_files#:#Alle Dateien herunterladen
 assessment#:#duplicate#:#Kopieren
 assessment#:#duplicate_matching_values_selected#:#Sie haben mindestens einen doppelten Zuordnungswert ausgewählt!
 assessment#:#duplicate_order_values_entered#:#Sie haben mindestens eine doppelte Reihenfolge angegeben!
@@ -681,6 +679,7 @@ assessment#:#eval_legend_link#:#Für die Bedeutung der Spaltenüberschriften bet
 assessment#:#evaluated_users#:#Bewertete Benutzer
 assessment#:#exam_id#:#ILIAS-Prüfungsnummer:
 assessment#:#exam_id_label#:#ILIAS-Prüfungsnummer
+assessment#:#exam_id_of_attempt#:#Test ID des Versuchs
 assessment#:#examid_in_test_pass#:#ILIAS-Prüfungsnummer anzeigen
 assessment#:#examid_in_test_pass_desc#:#Im Test wird eine ILIAS-Prüfungsnummer angezeigt. Für jeden Testdurchlauf wird eine eigene Nummer erzeugt.
 assessment#:#examid_in_test_res#:#ILIAS-Prüfungsnummer anzeigen
@@ -689,7 +688,7 @@ assessment#:#exp_all_test_runs#:#Alle Durchläufe
 assessment#:#exp_eval_data#:#Daten exportieren
 assessment#:#exp_file_created#:#Exportdatei erzeugt.
 assessment#:#exp_grammar_as#:#als
-assessment#:#exp_scored_test_run#:#Bewerteter Durchlauf
+assessment#:#exp_scored_test_attempt#:#Bewerteter Durchlauf
 assessment#:#exp_type_certificate#:#Zertifikat (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
 assessment#:#exp_type_spss#:#durch Komma getrennte Werte (CSV)
@@ -702,7 +701,13 @@ assessment#:#export_cert_no_users#:#Ein Zertifikats-Archiv kann nicht generiert 
 assessment#:#export_essay_qst_with_html#:#Exportiere Freitext-Frage mit HTML Code
 assessment#:#export_essay_qst_with_html_desc#:#Wenn aktiviert, haben Sie die Möglichkeit Freitext-Fragen mit dem eingegebenen HTML-Code nach Excel zu exportieren.
 assessment#:#export_legacy_logs#:#Legacy-Log-Daten exportieren
+assessment#:#extra_time_byline#:#Tragen Sie hier die Extrazeit in Minuten ein. Bereits vorhandene Zeiten werden addiert.
+assessment#:#extra_time_for_all_participants#:#Sie bearbeiten die Extrazeit für alle Teilnehmer.
+assessment#:#extra_time_for_selected_participants#:#Sie bearbeiten die Extrazeit für mehrere Teilnehmer.
+assessment#:#extra_time_for_selected_participants_different#:#Sie haben Teilnehmer mit unterschiedlicher Extrazeit ausgewählt.
+assessment#:#extra_time_for_single_participant#:#Sie fügen Extrazeit dem folgenden Teilnehmer hinzu:
 assessment#:#extratime#:#Zeitverlängerung
+assessment#:#extratime_added#:#Die extra Zeit wurde für die gewählten Teilnehmer gespeichert.
 assessment#:#factor#:#Faktor
 assessment#:#failed_official#:#nicht bestanden
 assessment#:#failed_short#:#nicht bestanden
@@ -734,8 +739,16 @@ assessment#:#finish_pass_for_all_users_in_processing_time#:#Sie können die Durc
 assessment#:#finish_pass_for_user_confirmation#:#Wollen Sie den Test Durchlauf für den Teilnehmer „%s“ wirklich beenden?
 assessment#:#finish_pass_for_user_in_processing_time#:#WARNUNG: die Bearbeitungszeit für diesen Benutzer ist noch nicht vorbei! Sie sollten den Testlauf nur bei zwingendem Grund (z.B. Ausschluss vom Test) beenden.
 assessment#:#finish_test#:#Test beenden
+assessment#:#finish_test_all#:#Sind Sie sicher, dass die den Testdurchlauf für alle Teilnehmer beenden möchten?
+assessment#:#finish_test_multiple#:#Sind Sie sicher, dass Sie den Testdurchlauf für folgende Teilnehmer beenden möchten?
+assessment#:#finish_test_single#:#Sind Sie sicher, dass Sie den Testdurchlauf für den Teilnehmer "%s" beenden möchten?
 assessment#:#finish_unfinished_passes#:#Beendet noch offene Testdurchläufe
 assessment#:#finish_unfinished_passes_desc#:#Noch nicht beendete Testdurchläufe werden automatisch beendet – vorausgesetzt, es wurde für diese Tests ein Endzeitpunkt festgelegt oder Teilnehmende haben die maximale Bearbeitungsdauer überschritten.
+assessment#:#finished_by_administrator#:#Beendet durch Administrator
+assessment#:#finished_by_cronjob#:#Beendet durch Cronjob
+assessment#:#finished_by_duration#:#Beendet aufgrund Zeitlimit
+assessment#:#finished_by_participant#:#Beendet durch Teilnehmer
+assessment#:#finished_by_unknown#:#Beendet durch Unbekannt
 assessment#:#fixed_participants_hint#:#Dieser Test ist nur für die nachfolgend definierte Gruppe von Teilnehmern verfügbar. Soll der Test für alle Personen verfügbar sein, deren Rollen Lesezugriff auf den Test gewähren, müssen Sie im Reiter „Einstellungen“ die Option „Nur ausgewählte Teilnehmer“ deaktivieren.
 assessment#:#fixedparticipants_subtab#:#Ausgewählte Teilnehmer
 assessment#:#flashfile#:#Flash-Datei
@@ -751,13 +764,9 @@ assessment#:#gap#:#Lücke
 assessment#:#gap_combination#:#Lückentext-Kombination
 assessment#:#glossary_term#:#Glossarbegriff
 assessment#:#grading_mark_msg#:#Sie haben die Note &quot;[mark]&quot; erzielt.
-assessment#:#grading_obligations_answered_listentry#:#Beantwortet
-assessment#:#grading_obligations_answered_msg#:#Alle verpflichtenden Fragen wurden beantwortet.
-assessment#:#grading_obligations_listlabel#:#Verpflichtende Fragen
-assessment#:#grading_obligations_missing_listentry#:#Offen
-assessment#:#grading_obligations_missing_msg#:#Nicht alle verpflichtenden Fragen wurden beantwortet.
 assessment#:#grading_status_failed_msg#:#Schade, leider haben Sie den Test <b>nicht bestanden</b>.
 assessment#:#grading_status_passed_msg#:#Herzlichen Glückwunsch! Sie haben den Test <b>bestanden</b>.
+assessment#:#hide_best_solution#:#Beste Antworten ausblenden
 assessment#:#hints#:#Hinweise
 assessment#:#identical_scoring#:#Identische Bewertung
 assessment#:#identical_scoring_desc#:#Wenn ausgewählt, werden Lücken mit identischen Lösungen entsprechend der Vorgaben bewertet, selbst wenn die gleiche Lösung mehrere Male verwendet wurde. Ist das Kontrollkästchen nicht ausgewählt, wird nur die erste verwendete identische Lösung bewertet.
@@ -776,8 +785,13 @@ assessment#:#internal_links#:#Interne Verweise
 assessment#:#intprecision#:#Teilbar durch
 assessment#:#intprecision_info#:#"Teilbar durch" hat nur Auswirkungen auf die Variablenerzeugung, wenn der Wert für die Präzision 0 beträgt. In diesem Fall legt "Teilbar durch" fest, durch welche ganze Zahl die erzeugte Variable teilbar sein muss. Ein Wert von 10 erzeugt also nur ganze Zahlen, die durch 10 teilbar sind, ein Wert von 5 erzeugt ganze Zahlen, die durch 5 teilbar sind usw. Bei einer Präzision von 0 ist "Teilbar durch" ein Pflichtfeld und muss eine positive, ganze Zahl enthalten. Voreingestellt ist der Wert 1 für beliebige ganze Zahlen.
 assessment#:#invalid_ip#:#Ungültige IP
+assessment#:#ip_range_byline#:#Nur IP Adressen die innerhalb der IP Range liegen, können den Test starten. Sie können entweder IPv4 ODER IPv6 verwenden.
+assessment#:#ip_range_for_all_participants#:#Sie bearbeiten die IP Range für alle Teilnehmer.
+assessment#:#ip_range_for_selected_participants#:#Sie bearbeiten die IP Range für die folgende Teilnehmer:
+assessment#:#ip_range_for_single_participant#:#Sie bearbeiten die IP Range für folgenden Teilnehmer:
 assessment#:#ip_range_info#:#Nur Geräte mit einer IP aus der festgelegten Spanne können den Test starten.
 assessment#:#ip_range_label#:#Beschränkung auf IPs
+assessment#:#ip_range_updated#:#Die IP-Rang wurde für die gewählten Teilnehmer aktualisiert.
 assessment#:#javaapplet#:#Java-Applet
 assessment#:#kiosk#:#Prüfungsansicht
 assessment#:#kiosk_description#:#Die Prüfungsansicht zeigt den Test im Kiosk-Modus. Dabei werden alle Bildschirmelemente, die nicht zum Test gehören, ausgeblendet. Um Teilnehmer effektiv daran zu hindern, während des Tests andere Webseiten zu öffnen, setzen Sie bitte zusätzlich einen auf E-Klausuren spezialisierten Browser ein (z.B. den 'Safe Exam Browser').
@@ -826,6 +840,7 @@ assessment#:#lacex_assSingleChoice_NumberOfResultExpression_e#:#R = +2+
 assessment#:#lacex_assTextSubset_StringResultExpression_d#:#Für die 2te Anwortoption wurde der Text „Natriumchlorid“ eingetragen
 assessment#:#lacex_assTextSubset_StringResultExpression_e#:#R[2] = ~Natriumchlorid~
 assessment#:#lacex_example_header#:#Beispiele
+assessment#:#list_of_participants#:#Teilnehmer
 assessment#:#locked#:#gesperrt
 assessment#:#log_deletion_not_allowed#:#Es fehlen Ihnen die Berechtigung, um Protokolleinträge zu löschen.
 assessment#:#log_entry_type#:#Typ des Protokolleintrags
@@ -889,6 +904,7 @@ assessment#:#manscoring_not_allowed#:#Die manuelle Bewertung wurde für keinen F
 assessment#:#manscoring_questions_not_found#:#Dieser Testdurchlauf beinhaltet keine Fragetypen, die manuell bewertet werden können.
 assessment#:#manscoring_results_pass#:#Manuell bewertbare Fragen für Testdurchlauf %s
 assessment#:#manual_editing#:#Manuelle Editierung
+assessment#:#manual_entry#:#Manuell Eintragen
 assessment#:#mark_schema#:#Notenschema
 assessment#:#mark_schema_invalid#:#Das Notenschema konnte nicht erfolgreich validiert werden. Bitte erstellen Sie ein gültiges Schema.
 assessment#:#matches#:#passt zu
@@ -931,14 +947,13 @@ assessment#:#no_selection#:#--- Keine Auswahl ---
 assessment#:#no_selection_for_move#:#Keine Frage zum Verschieben ausgewählt
 assessment#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswählen!
 assessment#:#no_user_or_group_selected#:#Bitte wählen Sie eine Zielgruppe aus, in der die Suche durchgeführt werden soll (Benutzer und/oder Gruppen)!
-assessment#:#not_all_obligations_answered#:#Sie müssen alle verpflichtenden Fragen beantworten, bevor Sie den Test abschließen können.
+assessment#:#no_valid_participant_selection#:#Es wurden keine gültigen Teilnehmer für diese Aktion ausgewählt.
 assessment#:#not_evaluated_users#:#Noch nicht bewertete Benutzer
+assessment#:#not_started#:#Noch nicht gestartet
 assessment#:#not_yet_accessed#:#Noch kein Zugriff erfolgt
 assessment#:#nr_of_correct_answers#:#Anzahl der erwünschten Antworten
 assessment#:#number_of_answers#:#Anzahl der Antworten
 assessment#:#numeric_gap#:#Numerische Lücke
-assessment#:#obligations_summary#:#Übersicht verpflichtender Fragen
-assessment#:#obligatory#:#Verpflichtend
 assessment#:#option_label#:#Optionsbezeichnungen
 assessment#:#option_label_adequate#:#adäquat
 assessment#:#option_label_adequate_or_not#:#adäquat / nicht adäquat
@@ -985,6 +1000,7 @@ assessment#:#passed_short#:#bestanden
 assessment#:#passed_status#:#Bestanden-Status
 assessment#:#passes_finished#:#%s Durchläufe
 assessment#:#percentage#:#Prozentsatz
+assessment#:#percentage_points_achieved#:#Erreichte Punkte
 assessment#:#percentile#:#Perzentil
 assessment#:#picture#:#Bild
 assessment#:#point#:#Punkt
@@ -1005,6 +1021,7 @@ assessment#:#postponed#:#zurückgestellt
 assessment#:#precision#:#Präzision
 assessment#:#previous_question#:#Zurück
 assessment#:#previous_question_rows#:#← Fragen %d - %d von %d
+assessment#:#print_answers#:#Antworten Drucken
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Für die ausgewählte Frage ist keine statistische Auswertung vorhanden. Die Frage wurde bislang nie in einem Test verwendet.
 assessment#:#qpl_assessment_total_of_answers#:#Gesamtzahl der Antworten
 assessment#:#qpl_assessment_total_of_right_answers#:#Gesamtprozentsatz der richtigen Antworten
@@ -1151,9 +1168,11 @@ assessment#:#redirect_always#:#immer zur definierten Zielseite
 assessment#:#redirect_in_kiosk_mode#:#nur bei aktivierter Prüfungsansicht
 assessment#:#redirection_url#:#URL Zielseite
 assessment#:#region#:#Region
-assessment#:#remove_as_participant#:#Als festen Teilnehmer entfernen
+assessment#:#remaining_duration#:#Restdauer
 assessment#:#remove_gap#:#Lücke entfernen
+assessment#:#remove_participants#:#Teilnehmende entfernen
 assessment#:#remove_question#:#Entfernen
+assessment#:#remove_selected_participants_confirmation#:#Sind Sie sicher, dass Sie die ausgewählten Teilnehmenden entfernen wollen?
 assessment#:#remove_solution#:#Hinweis auf Inhalte zur Wiederholung entfernen
 assessment#:#res_contains_undef_res#:#In der Formel werden Ergebnisse verwendet, die im Fragen-Text nicht vorhanden sind.
 assessment#:#res_contains_undef_var#:#In der Formel werden Variablen verwendet, die im Fragen-Text nicht vorhanden sind.
@@ -1180,6 +1199,7 @@ assessment#:#resulttable_incorrect#:#Inkorrekte/Unvollständige
 assessment#:#resulttable_vc_sort_iooa#:#Reihenfolge im Test
 assessment#:#resulttable_vc_sort_posscore#:#Höchste (mögliche) Punktzahl zuerst
 assessment#:#review_view#:#Vorschau
+assessment#:#running#:#Aktiv
 assessment#:#saveOrder#:#Sortierung abspeichern
 assessment#:#saveOrderAndObligations#:#Sortierung und Obligationen abspeichern
 assessment#:#save_and_next#:#Speichern und weiter
@@ -1201,6 +1221,7 @@ assessment#:#select_at_least_one_feedback_type_and_trigger#:#Bitte mindestens ei
 assessment#:#select_gap#:#Auswahl-Lücke
 assessment#:#select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus!
 assessment#:#select_one_user#:#Bitte wählen Sie mindestens einen Benutzer aus!
+assessment#:#select_question#:#Frage auswählen
 assessment#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielposition zum Verschieben der Fragen aus und klicken Sie auf eine der Einfügeschaltflächen!
 assessment#:#select_unit#:#--- Einheit auswählen ---
 assessment#:#selected_category#:#Ausgewählte Kategorie: %s
@@ -1214,21 +1235,27 @@ assessment#:#showSuggestedSolution#:#Art
 assessment#:#show_all_test_properties_on_info_page#:#Testeigenschaften anzeigen
 assessment#:#show_all_test_properties_on_info_page_byline#:#Den Benutzern werden auf dem 'Info'-Reiter alle Testeigenschaften angezeigt, z.B. Reihenfolge, Bewertung oder Ergebnisausgabe.
 assessment#:#show_answer_overview#:#Antwortübersicht zeigen
+assessment#:#show_best_solution#:#Beste Antworten einblenden
 assessment#:#show_detailed_results#:#Detaillierte Testergebnisse (bewerteter Testdurchlauf)
 assessment#:#show_examview_html#:#Am Bildschirm
+assessment#:#show_hide_best_solution#:#Beste Antworten ein- oder ausblenden
 assessment#:#show_old_concluding_remarks#:#Alte Abschliessende Bemerkungen anzeigen
 assessment#:#show_old_introduction#:#Alten Einleitungstext anzeigen
 assessment#:#show_pass_overview#:#Ergebnisübersicht (bewerteter Testdurchlauf)
 assessment#:#show_requested_question_hints#:#Zeige angeforderte Lösungshinweise
+assessment#:#show_results#:#Testergebnisse anzeigen
 assessment#:#show_user_answers#:#Antworten (bewerteter Testdurchlauf)
 assessment#:#shuffle_answers#:#Antworten mischen
 assessment#:#skip_question#:#Nicht antworten und weiter
+assessment#:#solution#:#Lösungen
 assessment#:#solutionText#:#Text
 assessment#:#solution_contain_keywords#:#Punkte werden auf Basis des Vorkommens der folgenden Begriffe vergeben:
 assessment#:#solution_hint#:#Zugeordneter Inhalt zur Wiederholung
+assessment#:#solutions#:#Lösungen
 assessment#:#start_tag#:#Start-Marke
 assessment#:#statistical_data#:#Statistische Daten
 assessment#:#statistics#:#Statistik
+assessment#:#status_of_attempt#:#Status des Versuchs
 assessment#:#submit_and_check#:#Antwort speichern und Rückmeldung anfordern
 assessment#:#submit_answer#:#Speichern und weiter
 assessment#:#suggest_range#:#Bereich vorschlagen
@@ -1244,11 +1271,12 @@ assessment#:#term#:#Term
 assessment#:#term_image#:#Bild
 assessment#:#term_text#:#Text
 assessment#:#terms#:#Terme
+assessment#:#test_attempts_finished#:#Der Testdurchlauf wurde für die gewählten Teilnehmer beendet.
 assessment#:#test_confirm_template_reset#:#Sind Sie sicher, dass Sie die Vorlage nicht mehr verwenden wollen?
 assessment#:#test_delete_page#:#Frage entfernen
 assessment#:#test_edit_settings#:#Einstellungen bearbeiten
 assessment#:#test_enable_archiving#:#Archivierung aktivieren
-assessment#:#test_has_datasets_warning_page_view#:#Der Test enthält bereits Teilnehmerdatensätze. Sie können die Fragen erst wieder bearbeiten, wenn Sie alle Teilnehmerdatensätze löschen.
+assessment#:#test_has_datasets_warning_page_view#:#Der Test enthält bereits Teilnehmerdatensätze und es stehen nur eingeschränkte Möglichkeiten zur Anpassung der Fragen zur Verfügung. Sie können die Fragen erst wieder vollständig bearbeiten, wenn Sie alle Teilnehmerdatensätze löschen.
 assessment#:#test_has_datasets_warning_page_view_link#:#Teilnehmerergebnisse
 assessment#:#test_is_offline#:#Sie können den Test nicht starten! Der Test ist offline.
 assessment#:#test_jump_to#:#Zu Frage springen
@@ -1290,6 +1318,8 @@ assessment#:#toplist_col_percentage#:#Prozentwert
 assessment#:#toplist_col_rank#:#Platz
 assessment#:#toplist_col_score#:#Punktzahl
 assessment#:#toplist_col_wtime#:#Bearbeitungszeit
+assessment#:#total_attempts#:#Versuche Gesamt
+assessment#:#total_duration#:#Dauer Gesamt
 assessment#:#true#:#Wahr
 assessment#:#tst_access_code_created#:#Damit Sie dauerhaften Zugriff auf Ihre Testergebnisse haben und einen unterbrochenen Test wieder aufnehmen können, wurde für Sie ein persönlicher Zugangsschlüssel erzeugt. Bitte notieren Sie sich den nachfolgenden Code, um später den Test fortführen zu können.
 assessment#:#tst_activate_skill_service#:#Kompetenzen
@@ -1331,6 +1361,7 @@ assessment#:#tst_answered_questions_test#:#In diesem Test beantwortete Fragen
 assessment#:#tst_attached_xls_file#:#Sie finden die Testergebnisse für diesen Teilnehmer in der angehängten Excel-Datei.
 assessment#:#tst_attempt#:#Versuch
 assessment#:#tst_attempt_limit_message#:#Ihr Limit für Testversuche beträgt <b>%s</b>.
+assessment#:#tst_attempt_started#:#Versuch gestartet
 assessment#:#tst_back_to_pass_details#:#Zurück zur Übersicht des Durchlaufs
 assessment#:#tst_back_to_question_list#:#Zurück zur Fragenliste
 assessment#:#tst_back_to_top#:#Zurück nach oben
@@ -1365,7 +1396,6 @@ assessment#:#tst_corrections_answers_tbl_subindex#:#Antwortstatistik für %s
 assessment#:#tst_corrections_incompatible_question_set_type#:#Eine Nachkorrektur ist nur möglich, wenn der Test eine fest definierte Fragenauswahl verwendet.
 assessment#:#tst_corrections_manscore_reset_warning#:#Es liegen %s manuelle Bewertungen für die Frage "%s (ID: %s)" vor. Alle manuellen Bewertungen werden zurückgesetzt wenn die Frage gespeichert wird.
 assessment#:#tst_corrections_qst_form#:#Korrektur der Punkte
-assessment#:#tst_corrections_qst_remove_confirmation#:#Möchten Sie die Frage "%s (ID: %s)" wirklich endgültig aus dem Test entfernen?
 assessment#:#tst_corrections_tab_question#:#Frage
 assessment#:#tst_corrections_tab_solution#:#Lösung
 assessment#:#tst_corrections_tab_statistics#:#Antwortstatistik
@@ -1382,7 +1412,6 @@ assessment#:#tst_defaults_available#:#Verfügbare Standardeinstellungen
 assessment#:#tst_defaults_defaults_of_test#:#der Einstellungen dieses Tests als neue Standardeinstellung mit dem Namen
 assessment#:#tst_defaults_enter_name#:#Bitte geben Sie einen Namen für die neuen Standardeinstellungen an!
 assessment#:#tst_defaults_not_defined#:#Sie haben noch keine Standardeinstellungen definiert.
-assessment#:#tst_delete_dyn_test_results_btn#:#Testergebnisse entfernen
 assessment#:#tst_delete_missing_mark#:#Bitte wählen Sie mindestens eine Notenstufe zum Entfernen aus!
 assessment#:#tst_derive_new_pool#:#Neuen Fragenpool ableiten
 assessment#:#tst_derive_new_pools#:#Neue Fragenpools ableiten
@@ -1515,7 +1544,6 @@ assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Fragenpool
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Zeige Taxonomiefilter
 assessment#:#tst_insert_missing_question#:#Bitte wählen Sie mindestens eine Frage aus, die Sie in dem Test hinzufügen wollen!
 assessment#:#tst_insert_questions#:#Sind Sie sicher, dass Sie die folgenden Fragen dem Test hinzufügen wollen?
-assessment#:#tst_insert_questions_and_results#:#Dieser Test wurde bereits von %s Benutzern durchgeführt. Das Hinzufügen von Fragen wird dazu führen, dass alle bestehenden Testergebnisse dieses Tests gelöscht werden! Sind Sie sicher, dass Sie die folgenden Fragen hinzufügen wollen?
 assessment#:#tst_instant_feedback#:#Direkte Rückmeldung
 assessment#:#tst_instant_feedback_answer_generic#:#Rückmeldung zur richtigen Lösung
 assessment#:#tst_instant_feedback_answer_generic_desc#:#Ist die Gesamtheit der Antwort richtig, so zeigt ILIAS beim Anklicken des 'Rückmeldung anfordern'-Buttons die eine Art hinterlegter Rückmeldung an. Ist die Gesamtheit der Antwort nicht vollständig richtig, wird eine andere  Rückmeldung angezeigt. Beide Versionen müssen bei der Frage im Reiter 'Rückmeldung' hinterlegt werden.
@@ -1782,7 +1810,7 @@ assessment#:#tst_reached_points_of_max#:#%s von %s
 assessment#:#tst_remove_mark#:#Markierung entfernen
 assessment#:#tst_remove_question#:#Sind Sie sicher, dass Sie die folgende Frage aus Ihrem Test entfernen wollen?
 assessment#:#tst_remove_questions#:#Sind Sie sicher, dass Sie die folgenden Fragen aus Ihrem Test entfernen wollen?
-assessment#:#tst_remove_questions_and_results#:#Dieser Test wurde bereits von %s Benutzern bearbeitet. Das Entfernen von Fragen wird alle bestehenden Ergebnisse zu diesem Test löschen. Sind Sie sicher, dass Sie die folgenden Fragen entfernen wollen?
+assessment#:#tst_remove_questions_and_results#:#Der Test enthält bereits Teilnehmerdatensätze. Das Entfernen von Fragen wird die entsprechenden Ergebnisse löschen. Sind Sie sicher, dass Sie die folgenden Fragen entfernen wollen?
 assessment#:#tst_report_after_date#:#Nach einem festgelegten Datum
 assessment#:#tst_report_after_first_question#:#Testergebnisse bereits direkt nach Start des Tests anbieten
 assessment#:#tst_report_after_passed#:#Testergebnisse erst anzeigen wenn der Test bestanden wurde
@@ -1861,11 +1889,8 @@ assessment#:#tst_sequence_postpone#:#Fragen können an das Ende eines Testdurchl
 assessment#:#tst_sequence_properties#:#Durchführung: Funktionen für Teilnehmer
 assessment#:#tst_session_settings#:#Durchführung
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Der Test wurde offline gesetzt, da sich die Einstellung zur Auswahl der Testfragen geändert hat. Weisen Sie dem Test wieder Fragen zu. Anschließend können Sie den Test wieder online setzen.
-assessment#:#tst_setting_enable_obligations_info#:#Verpflichtende Fragen werden in der „Listenansicht“ definiert. Erst nach Beantwortung aller verpflichtender Fragen kann ein Test abgegeben werden. Dazu sollte die Option „Fragenliste und Bearbeitungsstand anzeigen“ aktiviert sein.###Modified as part of gender mainstreaming activities for ILIAS 8
-assessment#:#tst_setting_enable_obligations_label#:#Verpflichtende Fragen
 assessment#:#tst_setting_offer_hints_info#:#Teilnehmer können Lösungshinweise anfordern, um eine Frage zu beantworten. Pro gegebenem Lösungshinweis verringern sich die Punkte für die richtige Antwort.
 assessment#:#tst_setting_offer_hints_label#:#Lösungshinweise
-assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Verpflichtende Fragen" kann nicht zusammen mit "Antworten festschreiben" verwendet werden.
 assessment#:#tst_settings_conflict_postpone_and_lock#:#"Nicht beantwortete Fragen werden ans Testende geschoben" kann nicht zusammen mit "Antworten bei Anzeige der Folgefrage festschreiben" verwendet werden.
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#"Fragen mischen" kann nicht zusammen mit "Antworten bei Anzeige der Folgefrage festschreiben" verwendet werden.
 assessment#:#tst_settings_header_additional#:#Zusätzliche Funktionen
@@ -1903,7 +1928,6 @@ assessment#:#tst_shuffle_questions#:#Fragen mischen
 assessment#:#tst_shuffle_questions_description#:#Die Reihenfolge der Fragen wird pro Teilnehmer und pro Testdurchlauf neu gemischt.
 assessment#:#tst_signature#:#Unterschrift
 assessment#:#tst_single_answer_details#:#Zeige einzelne Antwort
-assessment#:#tst_single_results#:#Ergebnisse zu Einzelfragen
 assessment#:#tst_skill_triggerings_num_req_answers#:#Benötigte Anzahl Antworten für Kompetenzerhebungen
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetenzen werden erst erhoben, wenn mindestens diese Anzahl Antworten zur Berechnung der Kompetenzstufe beitragen.
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Mindestens eine im Test adressierte Kompetenz ist nicht ausreichend vielen Fragen zugeordnet. Für diese Kompetenzen werden keine Kompetenzeinträge für Teilnehmer erfasst.<br />Die Mindestanzahl für zugewiesene Fragen: %s
@@ -1918,10 +1942,9 @@ assessment#:#tst_src_quest_pool_def_list_table#:#Regeln für zufällige Auswahl 
 assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Test mit aktueller Fragenauswahl starten
 assessment#:#tst_start_new_test_pass#:#Neuen Testdurchlauf starten
 assessment#:#tst_start_test#:#Test starten
-assessment#:#tst_started#:#Test gestartet
 assessment#:#tst_starting_time#:#Start
 assessment#:#tst_starting_time_desc#:#Zeitpunkt, ab dem der Test begonnen werden kann. Ab diesem Moment ist das Klicken des Buttons „Test starten“ möglich, und Teilnehmer können Fragen beantworten.
-assessment#:#tst_stat_result_atimeofwork#:#Durchschnittliche Bearbeitungsdauer
+assessment#:#tst_stat_result_atimeofwork#:#Durchschnittliche Bearbeitungsdauer pro Frage
 assessment#:#tst_stat_result_firstvisit#:#Erster Aufruf
 assessment#:#tst_stat_result_lastvisit#:#Letzter Aufruf
 assessment#:#tst_stat_result_mark_median#:#Dem Median zugeordnete Note
@@ -1933,8 +1956,9 @@ assessment#:#tst_stat_result_rank_median#:#Dem Median zugeordneter Rang
 assessment#:#tst_stat_result_rank_participant#:#Rang der Teilnehmerin
 assessment#:#tst_stat_result_resultsmarks#:#Testergebnis als Note
 assessment#:#tst_stat_result_resultspoints#:#Testergebnis in Punkten
-assessment#:#tst_stat_result_timeofwork#:#Bearbeitungsdauer
+assessment#:#tst_stat_result_timeontask#:#Bearbeitungsdauer
 assessment#:#tst_stat_result_total_participants#:#Gesamtzahl der Teilnehmer
+assessment#:#tst_stat_result_total_timeontask#:#Totale Bearbeitungsdauer (Alle Durchgänge)
 assessment#:#tst_submit_results#:#JA, ich bestätige hiermit das Abschicken meiner Antworten
 assessment#:#tst_tab_competences#:#Kompetenzen
 assessment#:#tst_tab_results_objective_oriented#:#Testergebnisse nach Lernzielen
@@ -1953,7 +1977,6 @@ assessment#:#tst_tbl_col_started_passes#:#Gestartete Durchläufe
 assessment#:#tst_tbl_invited_users#:#Ausgewählte Teilnehmer
 assessment#:#tst_tbl_participants#:#Teilnehmer
 assessment#:#tst_tbl_results_grades#:#Ergebnisse und Noten
-assessment#:#tst_test_contains_obligatory_questions#:#Um diesen Test beenden zu können, müssen Sie alle verpflichtenden Fragen (*) beantworten.
 assessment#:#tst_test_result#:#Testergebnis
 assessment#:#tst_text_count_system#:#Bewertungsregel
 assessment#:#tst_threshold#:#Schwellenwert (in %)
@@ -1979,7 +2002,6 @@ assessment#:#tst_virtual_pass_header_lo_qualifying#:#Qualifizierende Ergebnisse 
 assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Ihre Antwort aus einem früheren Versuch wurde übernommen.
 assessment#:#tst_wf_info_answer_not_adopted#:#Es wurde aus früheren Versuchen keine Antwort übernommen. Daher müssen Sie diese Frage bearbeiten, andernfalls wird sich Ihr Lernzielergebnis verschlechtern.
 assessment#:#tst_wf_info_optional_question#:#Diese Frage gehört zu einem bereits bestandenen Lernziel.
-assessment#:#tst_you_have_to_answer_this_question#:#Diese Frage muss beantwortet werden, um den Test beenden zu können.
 assessment#:#tst_your_answer_was#:#Sie haben die folgende Antwort gegeben
 assessment#:#tst_your_answers#:#Dies sind die Antworten, die Sie zu den folgenden Fragen gegeben haben. Bitte kontrollieren Sie Ihre Antworten und senden Sie diese dann ab.
 assessment#:#un_add_category#:#Kategorie hinzufügen
@@ -2020,7 +2042,6 @@ assessment#:#use_previous_solution_advice#:#Die angezeigte Lösung wurde vormals
 assessment#:#user_has_finished_a_test#:#Ein Teilnehmer hat einen Test beendet.
 assessment#:#user_ip_outside_range#:#Sie dürfen von Ihrer IP aus, nicht auf den Test zugreifen.
 assessment#:#user_not_invited#:#Sie sind kein Teilnehmer der Prüfung.
-assessment#:#user_wrong_clientip#:#Falsche Client IP
 assessment#:#value_between_x_and_y#:#Der Wert muss zwischen %s und %s liegen
 assessment#:#values#:#Werte
 assessment#:#variable#:#Variable
@@ -2029,11 +2050,14 @@ assessment#:#variables#:#Variablen
 assessment#:#wait_for_next_pass_hint_msg#:#Erneuter Durchlauf möglich ab folgendem Zeitpunkt: %s
 assessment#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 assessment#:#width#:#Breite
+assessment#:#with_solution#:#Teilnahmen mit Lösungen
 assessment#:#with_solutions_participants#:#Teilnehmer mit Antworten
+assessment#:#without_solution#:#Teilnahmen ohne Lösungen
 assessment#:#without_solutions_participants#:#Teilnehmer ohne Antworten
 assessment#:#worked_through#:#Bearbeitet
 assessment#:#working_time#:#Bearbeitungsdauer
 assessment#:#you_received_a_of_b_points#:#Sie haben %s von %s möglichen Punkten erreicht.
+assessment#:#your_results#:#Ihre Ergebnisse
 auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#Um Ihr Anmeldekonto zu reaktivieren, können Sie einen ILIAS-Anmeldekonten-Code benutzen.
 auth#:#auth_account_code_title#:#Anmeldekonten-Code
@@ -8538,7 +8562,7 @@ dcl#:#dcl_add_perm_desc#:#Es können Einträge in dieser Tabelle erstellt werden
 dcl#:#dcl_additional_info_desc#:#Der Inhalt wird oberhalb der Tabelle angezeigt.
 dcl#:#dcl_all_entries#:#Alle Einträge
 dcl#:#dcl_any#:#Alle
-dcl#:#dcl_asc#:#Aufsteigend ↑  
+dcl#:#dcl_asc#:#Aufsteigend ↑
 dcl#:#dcl_boolean#:#Checkbox
 dcl#:#dcl_boolean_desc#:#Kontrollkästchen, das abgehakt werden kann
 dcl#:#dcl_cant_delete_last_table#:#Die Tabelle selbst kann nicht gelöscht werden, da sie die einzige Tabelle dieser Datensammlung ist. Es wurden aber Inhalt und Struktur der Tabelle erfolgreich gelöscht.

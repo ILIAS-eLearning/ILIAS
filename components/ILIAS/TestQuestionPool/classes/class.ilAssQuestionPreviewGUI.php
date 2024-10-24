@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\HTTP\Services as HTTPServices;
+use ILIAS\UI\Factory as UIFactory;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Random\Group as RandomGroup;
 use ILIAS\Refinery\Random\Seed\RandomSeed;
@@ -59,21 +60,50 @@ class ilAssQuestionPreviewGUI
     private ?ilAssQuestionPreviewSession $preview_session = null;
     private ?ilAssQuestionPreviewHintTracking $hint_tracking = null;
 
+    private ?string $info_message = null;
+
+    /**
+     * @var array<string $label, string $action> $primary_cmd
+     */
+    private array $primary_cmd = [];
+
+    /**
+     * @var array<string $label, string $action> $additional_cmds
+     */
+    private array $additional_cmds = [];
+
     public function __construct(
-        private ilCtrl $ctrl,
-        private ilRbacSystem $rbac_system,
+        private readonly ilCtrl $ctrl,
+        private readonly ilRbacSystem $rbac_system,
         private ilTabsGUI $tabs,
+        private ilToolbarGUI $toolbar,
         private ilGlobalTemplateInterface $tpl,
-        private ilLanguage $lng,
-        private ilDBInterface $db,
-        private RandomGroup $random_group,
-        private GlobalScreen $global_screen,
-        private HTTPServices $http,
-        private Refinery $refinery,
-        private bool $enable_editing = true
+        private readonly UIFactory $ui_factory,
+        private readonly ilLanguage $lng,
+        private readonly ilDBInterface $db,
+        private readonly RandomGroup $random_group,
+        private readonly GlobalScreen $global_screen,
+        private readonly HTTPServices $http,
+        private readonly Refinery $refinery,
+        private readonly int $parent_obj_ref_id
     ) {
         $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
         $this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
+    }
+
+    public function setInfoMessage(string $message): void
+    {
+        $this->info_message = $message;
+    }
+
+    public function setPrimaryCmd(string $label, string $cmd): void
+    {
+        $this->primary_cmd[$label] = $cmd;
+    }
+
+    public function addAdditionalCmd(string $label, string $cmd): void
+    {
+        $this->additional_cmds[$label] = $cmd;
     }
 
     public function getQuestion(): assQuestion
@@ -102,7 +132,7 @@ class ilAssQuestionPreviewGUI
         );
         // Assessment of questions sub menu entry
         $q_type = $this->question_obj->getQuestionType();
-        $classname = $q_type . "GUI";
+        $classname = $q_type . 'GUI';
         $this->tabs->addTarget(
             "statistics",
             $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', "assessment"),
@@ -218,7 +248,11 @@ class ilAssQuestionPreviewGUI
             $modal = $this->question_gui->getQuestionSyncModal(assQuestionGUI::CMD_SYNC_QUESTION_AND_RETURN);
         }
 
-        $this->populatePreviewToolbar($tpl);
+        if ($this->info_message !== null) {
+            $this->tpl->setOnScreenMessage('info', $this->info_message, true);
+        }
+
+        $this->populateToolbar();
         $this->populateQuestionOutput($tpl);
         $this->handleInstantResponseRendering($tpl);
 
@@ -324,32 +358,29 @@ class ilAssQuestionPreviewGUI
         $this->ctrl->redirect($this, self::CMD_SHOW);
     }
 
-    private function populatePreviewToolbar(ilTemplate $tpl): void
+    private function populateToolbar(): void
     {
-        $toolbarGUI = new ilAssQuestionPreviewToolbarGUI($this->lng);
+        $this->toolbar->setFormAction($this->ctrl->getFormAction($this, self::CMD_SHOW));
 
-        $toolbarGUI->setFormAction($this->ctrl->getFormAction($this, self::CMD_SHOW));
-        $toolbarGUI->setResetPreviewCmd(self::CMD_RESET);
-
-        // Check Permissions first, some Toolbar Actions are only available for write access
-        if (!$this->enable_editing) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('question_is_part_of_running_test'), true);
-        } elseif ($this->rbac_system->checkAccess('write', (int) $_GET['ref_id'])) {
-            $toolbarGUI->setEditPageCmd(
-                $this->ctrl->getLinkTargetByClass('ilAssQuestionPageGUI', 'edit')
-            );
-
-            $toolbarGUI->setEditQuestionCmd(
-                $this->ctrl->getLinkTargetByClass(
-                    get_class($this->question_gui),
-                    'editQuestion'
-                )
-            );
+        if ($this->rbac_system->checkAccess('write', $this->parent_obj_ref_id)) {
+            if ($this->primary_cmd !== []) {
+                $this->toolbar->addComponent(
+                    $this->ui_factory->button()->primary(key($this->primary_cmd), current($this->primary_cmd))
+                );
+            }
+            foreach ($this->additional_cmds as $label => $action) {
+                $this->toolbar->addComponent(
+                    $this->ui_factory->button()->standard($label, $action)
+                );
+            }
         }
 
-        $toolbarGUI->build();
-
-        $tpl->setVariable('PREVIEW_TOOLBAR', $this->ctrl->getHTML($toolbarGUI));
+        $this->toolbar->addComponent(
+            $this->ui_factory->button()->standard(
+                $this->lng->txt('qpl_reset_preview'),
+                $this->ctrl->getLinkTargetByClass(ilAssQuestionPreviewGUI::class, self::CMD_RESET)
+            )
+        );
     }
 
     private function populateQuestionOutput(ilTemplate $tpl): void
@@ -358,26 +389,26 @@ class ilAssQuestionPreviewGUI
         $this->ctrl->setReturnByClass('ilAssQuestionPageGUI', 'view');
         $this->ctrl->setReturnByClass('ilObjQuestionPoolGUI', 'questions');
 
-        $pageGUI = new ilAssQuestionPageGUI($this->question_obj->getId());
-        $pageGUI->setRenderPageContainer(false);
-        $pageGUI->setEditPreview(true);
-        $pageGUI->setEnabledTabs(false);
+        $page_gui = new ilAssQuestionPageGUI($this->question_obj->getId());
+        $page_gui->setRenderPageContainer(false);
+        $page_gui->setEditPreview(true);
+        $page_gui->setEnabledTabs(false);
 
         $this->question_gui->setPreviewSession($this->preview_session);
         $question = $this->question_gui->getObject();
         $question->setShuffler($this->getQuestionAnswerShuffler());
         $this->question_gui->setObject($question);
 
-        $questionHtml = $this->question_gui->getPreview(true, $this->isShowSpecificQuestionFeedbackRequired());
+        $question_html = $this->question_gui->getPreview(true, $this->isShowSpecificQuestionFeedbackRequired());
         $this->question_gui->magicAfterTestOutput();
 
-        $questionHtml .= $this->getQuestionNavigationHtml();
+        $question_html .= $this->getQuestionNavigationHtml();
 
-        $pageGUI->setQuestionHTML([$this->question_obj->getId() => $questionHtml]);
+        $page_gui->setQuestionHTML([$this->question_obj->getId() => $question_html]);
 
-        $pageGUI->setPresentationTitle($this->question_obj->getTitle());
+        $page_gui->setPresentationTitle($this->question_obj->getTitle());
 
-        $tpl->setVariable('QUESTION_OUTPUT', $pageGUI->preview());
+        $tpl->setVariable('QUESTION_OUTPUT', $page_gui->preview());
         // \ilPageObjectGUI::preview sets an undefined tab, so the "question" tab has to be activated again
         $this->tabs->setTabActive(self::TAB_ID_QUESTION);
     }

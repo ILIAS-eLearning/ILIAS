@@ -426,8 +426,6 @@ adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp###12 06 2011 new var
 adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other phyiscal attributes are assigned to the strong/emphatic/important style classes.###12 06 2011 new variable
 adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing###01 10 2011 new variable
 assessment#:#activate_logging#:#Activati log-ul de Testare si Evaluare
-assessment#:#activate_manual_scoring#:#Activate Manual Scoring for###29 11 2006 new variable
-assessment#:#activate_manual_scoring_desc#:#If the Manual Scoring is activated for a question type, all questions of this question type could be manually scored by a test author. Please be careful with these settings, because late manual scoring of automatically scored question types could cause even judical problems!###29 11 2006 new variable
 assessment#:#addSuggestedSolution#:#Add suggested solution###24 02 2009 new variable
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
 assessment#:#add_circle#:#Add circle area###24 07 2009 new variable
@@ -531,8 +529,6 @@ assessment#:#ass_question#:#Question ### 2006-8-11 --- Add new translation here.
 assessment#:#ass_size#:#Marime
 assessment#:#ass_skl_import_fails_remove_btn#:#Remove this Hint###31 08 2017 new variable
 assessment#:#assessment_existing_pool#:#Use existing question pool###12 06 2011 new variable
-assessment#:#assessment_log_scoring_adjustment_activate#:#Question types available in adjustment###24 10 2013 new variable
-assessment#:#assessment_log_scoring_adjustment_desc#:#Question types checked here are available in adjustment. This setting is regardless of the current ability of the question types, e.g. a question that does not support adjustment is still shown here.###24 10 2013 new variable
 assessment#:#assessment_new_pool#:#Create new question pool###12 06 2011 new variable
 assessment#:#assessment_no_pool#:#Do not use question pool###12 06 2011 new variable
 assessment#:#assessment_pool_selection#:#Pool Selection###12 06 2011 new variable
@@ -584,15 +580,13 @@ assessment#:#code#:#Cod
 assessment#:#codebase#:#Codebase###10 Jul 2006 new variable
 assessment#:#concatenation#:#Concatenare
 assessment#:#conf_delete_pass#:#Really delete pass?###28 08 2012 new variable
-assessment#:#confirm_delete_all_user_data#:#Sunteti sigur/sigura ca doriti sa stergeti toate informatiile despre utilizator din test?
-assessment#:#confirm_delete_single_user_data#:#Are you sure you want to delete the test data of the selected users?###06 Nov 2005 new variable
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#Intrebarea pe care ati schimbat-o este o copie creata pentru utilizare in testul activ. Doriti sa schimbati si intrebarea originala?
 assessment#:#coordinates#:#Coordonate
 assessment#:#copy_and_link_to_questionpool#:#Copy to question pool and link###12 06 2011 new variable
 assessment#:#copy_no_questions_selected#:#Please select at least one question to copy.###12 06 2011 new variable
 assessment#:#copy_questions_success#:#The question(s) has been copied.###12 06 2011 new variable
-assessment#:#correct_answers#:#Correct Answers: ###23 12 2015 new variable
+assessment#:#correct_answers#:#Correct Answers ###23 12 2015 new variable
 assessment#:#counter#:#Instrument de masura
 assessment#:#create_gaps#:#Creati spatii
 assessment#:#create_new#:#Creati nou
@@ -604,10 +598,10 @@ assessment#:#definition_image#:#Definition Image###12 08 2009 new variable
 assessment#:#definition_text#:#Definition Text###12 08 2009 new variable
 assessment#:#definitions#:#Definitions###12 08 2009 new variable
 assessment#:#deleteSuggestedSolution#:#Remove this suggested solution###24 02 2009 new variable
-assessment#:#delete_all_user_data#:#Delete Test Data of all Users###10 05 2007 new variable
 assessment#:#delete_all_user_data_confirmation#:#Do you really want to delete the test data of all users in this test?###10 05 2007 new variable
 assessment#:#delete_image_header#:#Delete image###06 08 2009 new variable
 assessment#:#delete_image_question#:#Do you really want to delete the image?###06 08 2009 new variable
+assessment#:#delete_selected_user_data_confirmation#:#Are you sure you want to delete the test data of the selected users?###06 Nov 2005 new variable
 assessment#:#delete_user_data#:#Delete test data of the selected users###06 Nov 2005 new variable
 assessment#:#description_maxchars#:#Daca nu s-a scris nimic numarul maxim de caractere pentru a raspunde la acest test este nelimitat.
 assessment#:#detail_ending_time_reached#:#Ati ajuns la finalul timpului acordat acestui test. Testul nu mai este disponibil de acum %s###10 Jul 2006 content changed
@@ -748,11 +742,6 @@ assessment#:#gap#:#Spatiu
 assessment#:#gap_combination#:#Gap Combination###26 09 2014 new variable
 assessment#:#glossary_term#:#Termen de glosar
 assessment#:#grading_mark_msg#:#Your resulting mark is: &quot;[mark]&quot;###26 09 2014 new variable
-assessment#:#grading_obligations_answered_listentry#:#Answered###08 10 2015 new variable
-assessment#:#grading_obligations_answered_msg#:#You filled out all obligatory questions.###26 09 2014 new variable
-assessment#:#grading_obligations_listlabel#:#Compulsory Questions###08 10 2015 new variable
-assessment#:#grading_obligations_missing_listentry#:#Open###08 10 2015 new variable
-assessment#:#grading_obligations_missing_msg#:#You didn't fill out all obligatory questions.###26 09 2014 new variable
 assessment#:#grading_status_failed_msg#:#Sorry, you <b>failed</b> the test.###26 09 2014 new variable
 assessment#:#grading_status_passed_msg#:#Congratulations, you <b>passed</b> the test.###26 09 2014 new variable
 assessment#:#hints#:#Hints###26 08 2024 new variable
@@ -928,14 +917,11 @@ assessment#:#no_selection#:#--- No Selection ---###06 11 2008 new variable
 assessment#:#no_selection_for_move#:#No question selected for moving###28 08 2012 new variable
 assessment#:#no_target_selected_for_move#:#Trebuie sa selectati o pozitie tinta!
 assessment#:#no_user_or_group_selected#:#Va rugam selectati ce optiune cautati(utilizatori si/sau grupuri)!###23 Dec 2005 content changed
-assessment#:#not_all_obligations_answered#:#You must answer all obligatory questions before you can finish the test.###28 08 2012 new variable
 assessment#:#not_evaluated_users#:#Not Yet Evaluated User###07 02 2020 new variable
 assessment#:#not_yet_accessed#:#Not yet accessed###12 11 2006 new variable
 assessment#:#nr_of_correct_answers#:#Number of requested answers###10 Jul 2006 new variable
 assessment#:#number_of_answers#:#Number of Answers###25 02 2007 new variable
 assessment#:#numeric_gap#:#Numeric Gap###29 11 2006 new variable
-assessment#:#obligations_summary#:#List of Obligatory Questions###28 08 2012 new variable
-assessment#:#obligatory#:#Obligatory###28 08 2012 new variable
 assessment#:#option_label#:#Option Labels###26 09 2014 new variable
 assessment#:#option_label_adequate#:#adequate###26 09 2014 new variable
 assessment#:#option_label_adequate_or_not#:#adequate / not adequate###26 09 2014 new variable
@@ -1145,8 +1131,8 @@ assessment#:#redirect_always#:#always to defined webpage###27 01 2015 new variab
 assessment#:#redirect_in_kiosk_mode#:#Redirect only in kiosk mode###24 10 2013 new variable
 assessment#:#redirection_url#:#Redirection target###24 10 2013 new variable
 assessment#:#region#:#Regiune
-assessment#:#remove_as_participant#:#Remove as Fixed Participant###12 11 2006 new variable
 assessment#:#remove_gap#:#Remove Gap###26 09 2014 new variable
+assessment#:#remove_participants#:#Remove Participant(s)###12 11 2006 new variable
 assessment#:#remove_question#:#Indepartati
 assessment#:#remove_solution#:#Indepartati solutia sugerata
 assessment#:#res_contains_undef_res#:#A result formula contains an undefined result!###24 10 2013 new variable
@@ -1325,6 +1311,7 @@ assessment#:#tst_answered_questions_test#:#Questions answered in this test###23 
 assessment#:#tst_attached_xls_file#:#You find the test result for this participant in the attached Excel file.###27 01 2015 new variable
 assessment#:#tst_attempt#:#Attempt###30 08 2015 new variable
 assessment#:#tst_attempt_limit_message#:#Your limit of test attempts is <b>%s</b>.###26 08 2024 new variable
+assessment#:#tst_attempt_started#:#Test Started ### 2006-8-11 --- Add new translation here.
 assessment#:#tst_back_to_pass_details#:#Back to Pass Details###26 09 2014 new variable
 assessment#:#tst_back_to_question_list#:#Back to Question List###26 09 2014 new variable
 assessment#:#tst_back_to_top#:#Back to Top###26 09 2014 new variable
@@ -1359,7 +1346,6 @@ assessment#:#tst_corrections_answers_tbl_subindex#:#Statistics for %s###10 11 20
 assessment#:#tst_corrections_incompatible_question_set_type#:#Corrections are only possible if the test uses a fixed set of questions.###29 07 2022 new variable
 assessment#:#tst_corrections_manscore_reset_warning#:#There are %s manual scorings that have been done for the question "%s (ID: %s)". All manual scorings will be reset when saving the question.###07 02 2020 new variable
 assessment#:#tst_corrections_qst_form#:#Correction of Points###10 11 2018 new variable
-assessment#:#tst_corrections_qst_remove_confirmation#:#Do you really want to finally remove the question "%s (ID: %s)" from the test?###10 11 2018 new variable
 assessment#:#tst_corrections_tab_question#:#Question###10 11 2018 new variable
 assessment#:#tst_corrections_tab_solution#:#Solution###10 11 2018 new variable
 assessment#:#tst_corrections_tab_statistics#:#Statistics###10 11 2018 new variable
@@ -1376,7 +1362,6 @@ assessment#:#tst_defaults_available#:#Available test defaults###25 02 2007 new v
 assessment#:#tst_defaults_defaults_of_test#:#the defaults of this test as###25 02 2007 new variable
 assessment#:#tst_defaults_enter_name#:#Please enter a name for your test defaults!###25 02 2007 new variable
 assessment#:#tst_defaults_not_defined#:#You don't have any test defaults defined yet.###25 02 2007 new variable
-assessment#:#tst_delete_dyn_test_results_btn#:#Delete Test Results###20 07 2014 new variable
 assessment#:#tst_delete_missing_mark#:#Va rugam sa selectati cel putin o nota intermediara pentru a o sterge
 assessment#:#tst_derive_new_pool#:#Derive New Question Pool###25 10 2016 new variable
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools###25 10 2016 new variable
@@ -1509,7 +1494,6 @@ assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Source Questio
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Provide Taxonomy Filter###24 10 2013 new variable
 assessment#:#tst_insert_missing_question#:#Va rugam selectati cel putin o intrebare pentru a fi inserata in test!
 assessment#:#tst_insert_questions#:#Sunteti sigur ca doriti sa inserati urmatoarele intrebari in test?
-assessment#:#tst_insert_questions_and_results#:#Acest test a fost deja completat de catre %s utilizatori. Ijntroducerea unor noi intrebari in test va sterge toate rezultatele obtinute de acesti utilizatori. Sunteti sigur/a ca doriti sa inserati urmatoarele intrebari in test?
 assessment#:#tst_instant_feedback#:#Instant Feedback - this information is shown after each question###12 11 2006 new variable
 assessment#:#tst_instant_feedback_answer_generic#:#Show Generic ("Correct/Wrong") Feedback###28 08 2012 new variable
 assessment#:#tst_instant_feedback_answer_generic_desc#:#The generic feedback prints a simple "right" or "wrong" feedback according to configuration of the question.###26 09 2014 new variable
@@ -1855,11 +1839,8 @@ assessment#:#tst_sequence_postpone#:#Questions may be postponed to the end of a 
 assessment#:#tst_sequence_properties#:#Proprietatile secventei
 assessment#:#tst_session_settings#:#Setarile sesiunii
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#The test has been set to offline, because the test mode setting has been changed. You have to set a new test mode relating question config before the test can be set to online again.###24 10 2013 new variable
-assessment#:#tst_setting_enable_obligations_info#:#If checked, questions of the test can be marked as obligatory (*). All obligatory questions need to be filled out to pass this test. You can set obligatory questions in the "list view". We recommend to also activate "Show List of Questions" when obligatory questions are defined.###28 08 2012 new variable
-assessment#:#tst_setting_enable_obligations_label#:#Obligatory Questions###28 08 2012 new variable
 assessment#:#tst_setting_offer_hints_info#:#If enabled, existing question specific hints are offered.###28 08 2012 new variable
 assessment#:#tst_setting_offer_hints_label#:#Question Specific Hints###28 08 2012 new variable
-assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Compulsory Questions" cannot be used together with "Answer Lock".###26 08 2024 new variable
 assessment#:#tst_settings_conflict_postpone_and_lock#:#"Unanswered questions will be enqueued" cannot be used together with "Lock Answers After Moving to Next Question".###26 08 2024 new variable
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#"Shuffle Questions" cannot be used together with "Lock Answers After Moving to Next Question".###26 08 2024 new variable
 assessment#:#tst_settings_header_additional#:#Additional Features###26 08 2024 new variable
@@ -1897,7 +1878,6 @@ assessment#:#tst_shuffle_questions#:#Shuffle questions###10 Jul 2006 new variabl
 assessment#:#tst_shuffle_questions_description#:#Shuffle the sequence of questions for every user on test start###10 Jul 2006 new variable
 assessment#:#tst_signature#:#Signature ### 2006-8-11 --- Add new translation here.
 assessment#:#tst_single_answer_details#:#Show Single Answer###26 09 2014 new variable
-assessment#:#tst_single_results#:#Results by Question###23 09 2008 new variable
 assessment#:#tst_skill_triggerings_num_req_answers#:#Required Amount of Answers for Competence Triggers###30 08 2015 new variable
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Competences aren't triggered before this amount of answered questions contributes to the competence level calculation.###30 08 2015 new variable
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#At least one of the competences addressed by this test is not triggered by the minimal required amount of questions.<br />The required amount of questions: %s###10 11 2018 new variable
@@ -1912,7 +1892,6 @@ assessment#:#tst_src_quest_pool_def_list_table#:#Source Question Pool Definition
 assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Start Test with Current Question Selection###24 10 2013 new variable
 assessment#:#tst_start_new_test_pass#:#Start New Test Pass###12 11 2006 new variable
 assessment#:#tst_start_test#:#Incepeti testul
-assessment#:#tst_started#:#Test Started ### 2006-8-11 --- Add new translation here.
 assessment#:#tst_starting_time#:#Timpul de inceput
 assessment#:#tst_starting_time_desc#:#Point in time after which the test can be started by clicking the button ‚Start‘, participants can provide answers to questions.###07 11 2014 new variable
 assessment#:#tst_stat_result_atimeofwork#:#Timpul mediu de lucru
@@ -1927,7 +1906,7 @@ assessment#:#tst_stat_result_rank_median#:#Nivelul medianei
 assessment#:#tst_stat_result_rank_participant#:#Nivelul participantului
 assessment#:#tst_stat_result_resultsmarks#:#Rezultatele testului in note
 assessment#:#tst_stat_result_resultspoints#:#Rezultatele testului in puncte
-assessment#:#tst_stat_result_timeofwork#:#Timpul de munca
+assessment#:#tst_stat_result_timeontask#:#Timpul de munca
 assessment#:#tst_stat_result_total_participants#:#Numarul total de participanti
 assessment#:#tst_submit_results#:#Da, confirm submiterea
 assessment#:#tst_tab_competences#:#Competences###26 09 2014 new variable
@@ -1947,7 +1926,6 @@ assessment#:#tst_tbl_col_started_passes#:#Started Passes###26 08 2024 new variab
 assessment#:#tst_tbl_invited_users#:#Manually Selected Participants###10 11 2018 new variable
 assessment#:#tst_tbl_participants#:#Participants###07 02 2020 new variable
 assessment#:#tst_tbl_results_grades#:#Results and Grades###10 11 2018 new variable
-assessment#:#tst_test_contains_obligatory_questions#:#To pass this test you have to answer at least all obligatory questions (*) correctly.###28 08 2012 new variable
 assessment#:#tst_test_result#:#Test Result###26 09 2014 new variable
 assessment#:#tst_text_count_system#:#Scoring system ### 2006-8-11 --- Add new translation here.
 assessment#:#tst_threshold#:#Thresholds###26 09 2014 new variable
@@ -1973,7 +1951,6 @@ assessment#:#tst_virtual_pass_header_lo_qualifying#:#Qualifying Test Results for
 assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Your answer from a previous attempt was adopted.###30 08 2015 new variable
 assessment#:#tst_wf_info_answer_not_adopted#:#There was no answer from previous attempts adopted, so you have to workthru this question, because otherwise your learning objective result will be degraded.###30 08 2015 new variable
 assessment#:#tst_wf_info_optional_question#:#This question relates to an allready passed learning objective.###30 08 2015 new variable
-assessment#:#tst_you_have_to_answer_this_question#:#You have to answer this question to be able to finish the test.###07 11 2014 new variable
 assessment#:#tst_your_answer_was#:#Your answer was###10 Nov 2005 new variable
 assessment#:#tst_your_answers#:#Acestea sint raspunsurile dumneavoastra date la urmatoarele intrebari
 assessment#:#un_add_category#:#Add Category###06 11 2013 new variable
@@ -2014,7 +1991,6 @@ assessment#:#use_previous_solution_advice#:#The shown solution for the question 
 assessment#:#user_has_finished_a_test#:#A participant has finished a test.###27 01 2015 new variable
 assessment#:#user_ip_outside_range#:#You are not allowed to access the test from this IP.###26 08 2024 new variable
 assessment#:#user_not_invited#:#Nu trebuie sa dati acest examen
-assessment#:#user_wrong_clientip#:#Nu aveti adresa IP corecta pentru acest test###10 Jul 2006 content changed
 assessment#:#value_between_x_and_y#:#The value should be between %s and %s###10 Jul 2006 new variable
 assessment#:#values#:#Values###24 07 2009 new variable
 assessment#:#variable#:#Variable###26 08 2024 new variable

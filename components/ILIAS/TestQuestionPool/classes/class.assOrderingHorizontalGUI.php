@@ -219,51 +219,35 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         bool $show_question_only = false,
         bool $show_inline_feedback = false
     ): string {
-        if (is_object($this->getPreviewSession()) && strlen((string) $this->getPreviewSession()->getParticipantsSolution())) {
-            $elements = (string) $this->getPreviewSession()->getParticipantsSolution();
-            $elements = $this->object->splitAndTrimOrderElementText($elements, $this->object->getAnswerSeparator());
+        $template = new ilTemplate('tpl.il_as_qpl_orderinghorizontal_output.html', true, true, 'components/ILIAS/TestQuestionPool');
+        $this->initializePlayerJS();
+
+        if ($this->getPreviewSession() !== null
+            && $this->getPreviewSession()->getParticipantsSolution() !== null) {
+            $elements = $this->object->splitAndTrimOrderElementText(
+                (string) $this->getPreviewSession()->getParticipantsSolution(),
+                $this->object->getAnswerSeparator()
+            );
         } else {
             $elements = $this->object->getRandomOrderingElements();
         }
 
-        $template = new ilTemplate("tpl.il_as_qpl_orderinghorizontal_preview.html", true, true, "components/ILIAS/TestQuestionPool");
-        $js = <<<JS
-
-        $('#horizontal_{QUESTION_ID}').ilHorizontalOrderingQuestion({
-            result_value_selector  : '.ilOrderingValue',
-            result_separator       : '{::}'
-        });
-
-JS;
-        $js = str_replace('{QUESTION_ID}', $this->object->getId(), $js);
-        $this->tpl->addOnLoadCode($js);
-
         foreach ($elements as $id => $element) {
-            $template->setCurrentBlock("element");
-            $template->setVariable("ELEMENT_ID", "e_" . $this->object->getId() . "_$id");
-            $template->setVariable("ORDERING_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($element));
-            $template->setVariable("ELEMENT_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($element));
+            $template->setCurrentBlock('element');
+            $template->setVariable('ELEMENT_ID', "e_{$this->object->getId()}_{$id}");
+            $template->setVariable('ELEMENT_VALUE', ilLegacyFormElementsUtil::prepareFormOutput($element));
             $template->parseCurrentBlock();
         }
-        $template->setVariable("QUESTION_ID", $this->object->getId());
-        $template->setVariable("VALUE_ORDERRESULT", ' value="' . join('{::}', $elements) . '"');
+        $template->setVariable('QUESTION_ID', $this->object->getId());
+        $template->setVariable('VALUE_ORDERRESULT', ' value="' . join('{::}', $elements) . '"');
         if ($this->object->getTextSize() >= 10) {
-            $template->setVariable("STYLE", " style=\"font-size: " . $this->object->getTextSize() . "%;\"");
+            $template->setVariable('STYLE', ' style="font-size: ' . $this->object->getTextSize() . '%;"');
         }
-        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
-        $questionoutput = $template->get();
-        if (!$show_question_only) {
-            // get page object output
-            $questionoutput = $this->getILIASPage($questionoutput);
+        $template->setVariable('QUESTIONTEXT', $this->object->getQuestionForHTMLOutput());
+        if ($show_question_only) {
+            return $template->get();
         }
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-        if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
-            iljQueryUtil::initjQuery();
-            iljQueryUtil::initjQueryUI();
-            $this->tpl->addJavaScript('assets/js/jquery.ui.touch-punch.js');
-        }
-        $this->tpl->addJavascript("assets/js/orderinghorizontal.js");
-        return $questionoutput;
+        return $this->getILIASPage($template->get());
     }
 
     public function getTestOutput(
@@ -273,29 +257,14 @@ JS;
         array|bool $user_post_solutions = false,
         bool $show_specific_inline_feedback = false
     ): string {
-        // generate the question output
-        $template = new ilTemplate("tpl.il_as_qpl_orderinghorizontal_output.html", true, true, "components/ILIAS/TestQuestionPool");
-        $plain_js = <<<JS
-    $().ready(function() {
-        if (typeof $.fn.ilHorizontalOrderingQuestion != 'undefined') {
-            $('#horizontal_{QUESTION_ID}').ilHorizontalOrderingQuestion({
-                result_value_selector: '.ilOrderingValue',
-                result_separator: '{::}'
-            });
-        }
-    });
-JS;
-        $js = str_replace('{QUESTION_ID}', $this->object->getId(), $plain_js);
-        $this->tpl->addOnLoadCode($js);
-
+        $template = new ilTemplate('tpl.il_as_qpl_orderinghorizontal_output.html', true, true, 'components/ILIAS/TestQuestionPool');
+        $this->initializePlayerJS();
 
         $elements = $this->object->getRandomOrderingElements();
-
         if ($active_id) {
             $solutions = $this->object->getTestOutputSolutions($active_id, $pass);
-            // hey.
-            if (is_array($solutions) && count($solutions) == 1) {
-                $elements = explode("{::}", $solutions[0]["value1"]);
+            if (count($solutions) == 1) {
+                $elements = explode('{::}', $solutions[0]['value1']);
             }
         }
         if (!is_array($solutions) || count($solutions) == 0) {
@@ -304,46 +273,18 @@ JS;
             ilSession::clear('qst_ordering_horizontal_elements');
         }
         foreach ($elements as $id => $element) {
-            $template->setCurrentBlock("element");
-            $template->setVariable("ELEMENT_ID", "e_" . $this->object->getId() . "_$id");
-            $template->setVariable("ORDERING_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($element));
-            $template->setVariable("ELEMENT_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($element));
+            $template->setCurrentBlock('element');
+            $template->setVariable('ELEMENT_ID', "e_{$this->object->getId()}_{$id}");
+            $template->setVariable('ELEMENT_VALUE', ilLegacyFormElementsUtil::prepareFormOutput($element));
             $template->parseCurrentBlock();
         }
-        $template->setVariable("QUESTION_ID", $this->object->getId());
+        $template->setVariable('QUESTION_ID', $this->object->getId());
         if ($this->object->getTextSize() >= 10) {
-            $template->setVariable("STYLE", " style=\"font-size: " . $this->object->getTextSize() . "%;\"");
+            $template->setVariable('STYLE', ' style="font-size: ' . $this->object->getTextSize() . '%;"');
         }
-        $template->setVariable("VALUE_ORDERRESULT", ' value="' . join('{::}', $elements) . '"');
-        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
-        $questionoutput = $template->get();
-        //if (!$show_question_only) {
-        // get page object output
-        $questionoutput = $this->getILIASPage($questionoutput);
-        //}
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-        if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
-            iljQueryUtil::initjQuery();
-            iljQueryUtil::initjQueryUI();
-            $this->tpl->addJavaScript('assets/js/jquery.ui.touch-punch.js');
-        }
-        $this->tpl->addJavascript("assets/js/orderinghorizontal.js");
-        $questionoutput = $template->get();
-        $pageoutput = $this->outQuestionPage("", $is_question_postponed, $active_id, $questionoutput);
-        return $pageoutput;
-    }
-
-    public function getPresentationJavascripts(): array
-    {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
-        $files = [];
-
-        if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
-            $files[] = './node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js';
-        }
-
-        return $files;
+        $template->setVariable('VALUE_ORDERRESULT', ' value="' . join('{::}', $elements) . '"');
+        $template->setVariable('QUESTIONTEXT', $this->object->getQuestionForHTMLOutput());
+        return $this->outQuestionPage("", $is_question_postponed, $active_id, $template->get());
     }
 
     public function getSpecificFeedbackOutput(array $userSolution): string
@@ -494,11 +435,16 @@ JS;
         $form->addItem($points);
     }
 
-    /**
-     * @param ilPropertyFormGUI $form
-     */
     public function saveCorrectionsFormProperties(ilPropertyFormGUI $form): void
     {
         $this->object->setPoints((float) str_replace(',', '.', $form->getInput('points')));
+    }
+
+    private function initializePlayerJS(): void
+    {
+        $this->tpl->addJavascript('assets/js/orderinghorizontal.js');
+        $this->tpl->addOnLoadCode(
+            "il.test.orderinghorizontal.init(document.querySelector('#horizontal_{$this->object->getId()}'));"
+        );
     }
 }

@@ -428,8 +428,6 @@ adve#:#adve_use_physical#:#Use b/i/u en lugar de str/emp/imp
 adve#:#adve_use_physical_info#:#Esta configuración reemplaza los botones de etiquetas semánticas para negrilla, cursiva y subrayado con los botones de atributos físicos b (negrita), i(itálica) y u(subrayado). Tenga en cuenta que esto puede dar lugar a incoherencias si se utiliza el editor de estilo y se asignan otros atributos a las clases de estilo strong/emphasis/important
 adve#:#adve_use_tiny_mce#:#Habilitar TinyMCE para edición WYSIWYG
 assessment#:#activate_logging#:#Activar informes de LOG de la herramienta de Tests
-assessment#:#activate_manual_scoring#:#Activar puntuación manual para
-assessment#:#activate_manual_scoring_desc#:#Si se activa la Puntuación Manual para un tipo de pregunta, todas las preguntas de este tipo podrían ser puntuadas de forma manual por un autor. Por favor, sea consciente de esta configuración, porque puntuar de forma manual preguntas que son puntuadas de forma automática podría causar incluso problemas de tipo legal.
 assessment#:#addSuggestedSolution#:#Añadir solución recomendada
 assessment#:#add_answers#:#Añadir respuetas
 assessment#:#add_circle#:#Añadir circulo
@@ -533,8 +531,6 @@ assessment#:#ass_question#:#Pregunta
 assessment#:#ass_size#:#Tamaño
 assessment#:#ass_skl_import_fails_remove_btn#:#Quitar esta sugerencia
 assessment#:#assessment_existing_pool#:#Usar banco de preguntas existente
-assessment#:#assessment_log_scoring_adjustment_activate#:#Tipos de preguntas disponibles en la configuración
-assessment#:#assessment_log_scoring_adjustment_desc#:#Los tipos de preguntas que se marcan aquí están disponibles en la configuración. Esta configuración es independiente de la posibilidad de modificar individualmente cada tipo de pregunta. P.e. Una pregunta que no admita ajustes también se muestra
 assessment#:#assessment_new_pool#:#Crear nuevo banco de preguntas
 assessment#:#assessment_no_pool#:#No usar el banco de preguntas
 assessment#:#assessment_pool_selection#:#Selección del banco
@@ -586,15 +582,13 @@ assessment#:#code#:#Código
 assessment#:#codebase#:#URL Base (Localización en Internet)
 assessment#:#concatenation#:#Concatenación
 assessment#:#conf_delete_pass#:#¿Desea borrar la contraseña?
-assessment#:#confirm_delete_all_user_data#:#¿Está usted seguro de que desea eliminar todos los datos de usuario del test?
-assessment#:#confirm_delete_single_user_data#:#¿Está seguro de que desea eliminar los datos de test de los usuarios seleccionados?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#La pregunta modificada es una copia que ha sido creada para usar con el test activo. Quiere cambiar la pregunta original también?
 assessment#:#coordinates#:#Coordenadas
 assessment#:#copy_and_link_to_questionpool#:#Copiar al banco de preguntas y enlazar
 assessment#:#copy_no_questions_selected#:#Por favor, seleccione al menos una pregunta a copiar
 assessment#:#copy_questions_success#:#La pregunta(s) ha sido copiada(s)
-assessment#:#correct_answers#:#Respuetas correctas:
+assessment#:#correct_answers#:#Respuetas correctas
 assessment#:#counter#:#Contador
 assessment#:#create_gaps#:#Crear huecos
 assessment#:#create_new#:#Crear nueva
@@ -606,10 +600,10 @@ assessment#:#definition_image#:#Definición de Imagen
 assessment#:#definition_text#:#Definición de Texto
 assessment#:#definitions#:#Definiciones
 assessment#:#deleteSuggestedSolution#:#Eliminar esta solución sugerida
-assessment#:#delete_all_user_data#:#Eliminar los datos de test de todos los usuarios
 assessment#:#delete_all_user_data_confirmation#:#¿Realmente quiere eliminar los datos de test de todos los usuarios para este test?
 assessment#:#delete_image_header#:#Borrar imagen
 assessment#:#delete_image_question#:#¿Estás seguro de querer eliminar la imagen?
+assessment#:#delete_selected_user_data_confirmation#:#¿Está seguro de que desea eliminar los datos de test de los usuarios seleccionados?
 assessment#:#delete_user_data#:#Eliminar datos de test de los usuarios seleccionados
 assessment#:#description_maxchars#:#Si no introduce ningun valor, el máximo número de caracteres para esta respuesta es ilimitada.
 assessment#:#detail_ending_time_reached#:#Se ha terminado el tiempo para el test. El test no está disponible desde %s
@@ -750,11 +744,6 @@ assessment#:#gap#:#Hueco
 assessment#:#gap_combination#:#Combinación de huecos
 assessment#:#glossary_term#:#Término de glosario
 assessment#:#grading_mark_msg#:#Tu puntuación total es: &quot;[mark]&quot;
-assessment#:#grading_obligations_answered_listentry#:#Contestado
-assessment#:#grading_obligations_answered_msg#:#Has completado todas las preguntas obligatorias.
-assessment#:#grading_obligations_listlabel#:#Preguntas obligatorias
-assessment#:#grading_obligations_missing_listentry#:#Abierto
-assessment#:#grading_obligations_missing_msg#:#No completaste todas las preguntas obligatorias.
 assessment#:#grading_status_failed_msg#:#Lo sentimos pero <b>no has superado</b> el test.
 assessment#:#grading_status_passed_msg#:#Enhorabuena, has <b>superado</b> el test.
 assessment#:#hints#:#Hints###26 08 2024 new variable
@@ -930,14 +919,11 @@ assessment#:#no_selection#:#--- No Seleccionado ---
 assessment#:#no_selection_for_move#:#No has seleccionado ninguna pregunta para mover
 assessment#:#no_target_selected_for_move#:#Debe seleccionar una posición objetivo!
 assessment#:#no_user_or_group_selected#:#Por favor active una opción sobre qué está buscando (usuarios y/o grupos)
-assessment#:#not_all_obligations_answered#:#Debe responder a todas las preguntas obligatorias antes de finalizar el test
 assessment#:#not_evaluated_users#:#Not Yet Evaluated User###07 02 2020 new variable
 assessment#:#not_yet_accessed#:#No ha accedido
 assessment#:#nr_of_correct_answers#:#Número de respuestas requeridas
 assessment#:#number_of_answers#:#Número de Respuestas
 assessment#:#numeric_gap#:#Hueco numérico
-assessment#:#obligations_summary#:#Listado de preguntas obligatorias
-assessment#:#obligatory#:#Obligatorio
 assessment#:#option_label#:#Etiquetas de opción
 assessment#:#option_label_adequate#:#adecuado
 assessment#:#option_label_adequate_or_not#:#adecuado /no adecuado
@@ -1147,8 +1133,8 @@ assessment#:#redirect_always#:#siempre hacia la página definida
 assessment#:#redirect_in_kiosk_mode#:#Redirigir solo en el modo kiosko
 assessment#:#redirection_url#:#Destino de redirección
 assessment#:#region#:#Región
-assessment#:#remove_as_participant#:#Eliminar como participante fijo
 assessment#:#remove_gap#:#Eliminar hueco
+assessment#:#remove_participants#:#Eliminar como participante fijo
 assessment#:#remove_question#:#Borrar
 assessment#:#remove_solution#:#Eliminar solución recomendada
 assessment#:#res_contains_undef_res#:#Una fórmula de resultados contiene un resultado indefinido!
@@ -1327,6 +1313,7 @@ assessment#:#tst_answered_questions_test#:#Preguntas contestadas en este test
 assessment#:#tst_attached_xls_file#:#Puede encontrar el resultado del test para este participante en el fichero Excel adjunto
 assessment#:#tst_attempt#:#Intento
 assessment#:#tst_attempt_limit_message#:#Your limit of test attempts is <b>%s</b>.###26 08 2024 new variable
+assessment#:#tst_attempt_started#:#Test comenzado
 assessment#:#tst_back_to_pass_details#:#Volver a detalles de realización
 assessment#:#tst_back_to_question_list#:#Volver a la lista de preguntas
 assessment#:#tst_back_to_top#:#Volver arriba
@@ -1361,7 +1348,6 @@ assessment#:#tst_corrections_answers_tbl_subindex#:#Statistics for %s
 assessment#:#tst_corrections_incompatible_question_set_type#:#Corrections are only possible if the test uses a fixed set of questions.###29 07 2022 new variable
 assessment#:#tst_corrections_manscore_reset_warning#:#There are %s manual scorings that have been done for the question "%s (ID: %s)". All manual scorings will be reset when saving the question.###07 02 2020 new variable
 assessment#:#tst_corrections_qst_form#:#Correction of Points
-assessment#:#tst_corrections_qst_remove_confirmation#:#Do you really want to finally remove the question "%s (ID: %s)" from the test?
 assessment#:#tst_corrections_tab_question#:#Question
 assessment#:#tst_corrections_tab_solution#:#Solution
 assessment#:#tst_corrections_tab_statistics#:#Statistics
@@ -1378,7 +1364,6 @@ assessment#:#tst_defaults_available#:#Configuraciones de test personal por defec
 assessment#:#tst_defaults_defaults_of_test#:#Nombre para grabar la configuración de este test como nueva configuración personal de test:
 assessment#:#tst_defaults_enter_name#:#Por favor introduzca un nombre para sus valores por defecto
 assessment#:#tst_defaults_not_defined#:#No ha definido aún ningún valor por defecto para este test
-assessment#:#tst_delete_dyn_test_results_btn#:#Borrar resultados del test
 assessment#:#tst_delete_missing_mark#:#Por favor seleccione al menos un rango de calificación para eliminarlo
 assessment#:#tst_derive_new_pool#:#Obtener nuevo banco de preguntas
 assessment#:#tst_derive_new_pools#:#Obtener nuevos bancos de preguntas
@@ -1511,7 +1496,6 @@ assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Banco de pregu
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Proporcionar filtro de taxonomía
 assessment#:#tst_insert_missing_question#:#Por favor seleccione al menos una pregunta para insertarla en el test!
 assessment#:#tst_insert_questions#:#Está seguro de que quiere insertar la(s) siguiente(s) pregunta(s) en el test?
-assessment#:#tst_insert_questions_and_results#:#Este test ya fue ejecutado por %s usuario(s). Insertar preguntas a este test borrará todos los resultados de estos usuarios. Esta seguro de que quiere insertar la(s) siguiente(s) pregunta(s) en el test?
 assessment#:#tst_instant_feedback#:#Retroalimentación Instantánea - Información que se puede mostrar después de cada pregunta
 assessment#:#tst_instant_feedback_answer_generic#:#Mostrar comentarios del tutor genéricos para "Correcto/Incorrecto"
 assessment#:#tst_instant_feedback_answer_generic_desc#:#Los comentarios del tutor genéricos muestran un mensaje de "correcto" o "incorrecto" que se ha debido configurar al editar la pregunta.
@@ -1857,11 +1841,8 @@ assessment#:#tst_sequence_postpone#:#Las preguntas pueden ser pospuestas para el
 assessment#:#tst_sequence_properties#:#Propiedades de la secuencia
 assessment#:#tst_session_settings#:#Configuración de Sesión
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#El test se ha desactivado porque la configuración ha sido modificada. Tienes que establecer un nuevo modo del test antes que pueda estar en línea de nuevo.
-assessment#:#tst_setting_enable_obligations_info#:#Se se activa, las preguntas del test pueden marcarse como obligatorias (*). Todas las preguntas obligatorias necesitan contestarse para finalizar la prueba. Puede definir preguntas obligatorias en "visualizar lista". Es recomendable que también se active “Mostrar lista de Preguntas” cuando se creen preguntas obligatorias.
-assessment#:#tst_setting_enable_obligations_label#:#Preguntas obligatorias
 assessment#:#tst_setting_offer_hints_info#:#Si se activa, se ofrecen las sugerencias específicas para cada pregunta.
 assessment#:#tst_setting_offer_hints_label#:#Sugerencias específicas para preguntas
-assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Compulsory Questions" cannot be used together with "Answer Lock".###26 08 2024 new variable
 assessment#:#tst_settings_conflict_postpone_and_lock#:#"Unanswered questions will be enqueued" cannot be used together with "Lock Answers After Moving to Next Question".###26 08 2024 new variable
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#"Shuffle Questions" cannot be used together with "Lock Answers After Moving to Next Question".###26 08 2024 new variable
 assessment#:#tst_settings_header_additional#:#Additional Features###26 08 2024 new variable
@@ -1899,7 +1880,6 @@ assessment#:#tst_shuffle_questions#:#Aleatorizar preguntas
 assessment#:#tst_shuffle_questions_description#:#Aleatorizar la secuencia de preguntas para cada usuario al comienzo del test
 assessment#:#tst_signature#:#Firma
 assessment#:#tst_single_answer_details#:#Mostrar respuesta única
-assessment#:#tst_single_results#:#Resultados por pregunta
 assessment#:#tst_skill_triggerings_num_req_answers#:#Cantidad de respuestas requeridas para activadores de competencias
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Las competencias no son activadas antes de que esta cantidad de preguntas contestadas contribuya al cálculo del nivel de competencia.
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Al menos una de las competencias evaluadas en este test no se aborda con la cantidad mínima necesaria de preguntas.<br />Cantidad necesaria de preguntas: %s
@@ -1914,7 +1894,6 @@ assessment#:#tst_src_quest_pool_def_list_table#:#Seleccione de banco de pregunta
 assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Comenzar test con la selección actual de preguntas
 assessment#:#tst_start_new_test_pass#:#Comenzar nueva ejecución de test
 assessment#:#tst_start_test#:#Comenzar el Test
-assessment#:#tst_started#:#Test comenzado
 assessment#:#tst_starting_time#:#Fecha de comienzo
 assessment#:#tst_starting_time_desc#:#Una vez inciada el test haciendo clic en el botón 'Comenzar el Test', los participantes pueden responder las preguntas.
 assessment#:#tst_stat_result_atimeofwork#:#Tiempo medio de trabajo
@@ -1929,7 +1908,7 @@ assessment#:#tst_stat_result_rank_median#:#Ranking de mediana
 assessment#:#tst_stat_result_rank_participant#:#Ranking de participantes
 assessment#:#tst_stat_result_resultsmarks#:#Resultados del Test en notas
 assessment#:#tst_stat_result_resultspoints#:#Resultados del Test en puntos
-assessment#:#tst_stat_result_timeofwork#:#Tiempo de trabajo
+assessment#:#tst_stat_result_timeontask#:#Tiempo de trabajo
 assessment#:#tst_stat_result_total_participants#:#Número total de participantes
 assessment#:#tst_submit_results#:#Sí, confirmo el envío.
 assessment#:#tst_tab_competences#:#Competencias
@@ -1949,7 +1928,6 @@ assessment#:#tst_tbl_col_started_passes#:#Started Passes###26 08 2024 new variab
 assessment#:#tst_tbl_invited_users#:#Manually Selected Participants
 assessment#:#tst_tbl_participants#:#Participants###07 02 2020 new variable
 assessment#:#tst_tbl_results_grades#:#Results and Grades
-assessment#:#tst_test_contains_obligatory_questions#:#Para superar este test tienes que responder por lo menos todas las preguntas obligatorias (*) correctamente.
 assessment#:#tst_test_result#:#Resultado del test
 assessment#:#tst_text_count_system#:#Sistema de puntuación
 assessment#:#tst_threshold#:#Umbrales
@@ -1975,7 +1953,6 @@ assessment#:#tst_virtual_pass_header_lo_qualifying#:#Calificación de resultados
 assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Se ha utilizado una respuesta tuya de un intento previo.
 assessment#:#tst_wf_info_answer_not_adopted#:#No hay una respuesta de ningún intento previo, por lo que debes realizarla. En otro caso, el resultado de tu objetivo de aprendizaje se verá disminuido.
 assessment#:#tst_wf_info_optional_question#:#Esta pregunta está relacionada con un objetvo de aprendizaje ya alcanzado.
-assessment#:#tst_you_have_to_answer_this_question#:#Debes contestar esta pregunta para poder finalizar el test.
 assessment#:#tst_your_answer_was#:#Su respuesta fue
 assessment#:#tst_your_answers#:#Estas son tus respuestas dadas a las siguientes preguntas.
 assessment#:#un_add_category#:#Añadir categoría
@@ -2016,7 +1993,6 @@ assessment#:#use_previous_solution_advice#:#La solución mostrada para la pregun
 assessment#:#user_has_finished_a_test#:#Un participante ha finalizado el test
 assessment#:#user_ip_outside_range#:#You are not allowed to access the test from this IP.###26 08 2024 new variable
 assessment#:#user_not_invited#:#Usted no debe hacer este examen
-assessment#:#user_wrong_clientip#:#No tiene una dirección IP correcta para usar este test
 assessment#:#value_between_x_and_y#:#El valor debería estar entre %s y %s
 assessment#:#values#:#Valores
 assessment#:#variable#:#Variable###26 08 2024 new variable

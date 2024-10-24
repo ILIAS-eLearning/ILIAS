@@ -20,22 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Logging;
 
-use ILIAS\Test\Export\CSVExportTrait;
-
-use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\Test\Utilities\TitleColumnsBuilder;
 
 use ILIAS\UI\Factory as UIFactory;
-use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Legacy\Legacy;
-use ILIAS\StaticURL\Services as StaticURLServices;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Component\Table\DataRow;
 
 class TestError implements TestUserInteraction
 {
-    use CSVExportTrait;
-    use ColumnsHelperFunctionsTrait;
-
     public const IDENTIFIER = 'te';
 
     private int $id;
@@ -66,9 +59,7 @@ class TestError implements TestUserInteraction
 
     public function getLogEntryAsDataTableRow(
         \ilLanguage $lng,
-        StaticURLServices $static_url,
-        GeneralQuestionPropertiesRepository $properties_repository,
-        UIFactory $ui_factory,
+        TitleColumnsBuilder $title_builder,
         DataRowBuilder $row_builder,
         array $environment
     ): DataRow {
@@ -78,10 +69,7 @@ class TestError implements TestUserInteraction
         $values = [
             'date_and_time' => \DateTimeImmutable::createFromFormat('U', (string) $this->modification_timestamp)
                 ->setTimezone($environment['timezone']),
-            'corresponding_test' => $this->buildTestTitleColumnContent(
-                $lng,
-                $static_url,
-                $ui_factory->link(),
+            'corresponding_test' => $title_builder->buildTestTitleAsLink(
                 $this->test_ref_id
             ),
             'admin' => $admin,
@@ -91,11 +79,7 @@ class TestError implements TestUserInteraction
         ];
 
         if ($this->question_id !== null) {
-            $values['question'] = $this->buildQuestionTitleColumnContent(
-                $properties_repository,
-                $lng,
-                $static_url,
-                $ui_factory->link(),
+            $values['question'] = $title_builder->buildQuestionTitleAsLink(
                 $this->question_id,
                 $this->test_ref_id
             );
@@ -107,45 +91,36 @@ class TestError implements TestUserInteraction
         );
     }
 
+    public function getLogEntryAsExportRow(
+        \ilLanguage $lng,
+        TitleColumnsBuilder $title_builder,
+        AdditionalInformationGenerator $additional_info,
+        array $environment
+    ): array {
+        $admin = $this->getUserForPresentation($this->admin_id);
+        $pax = $this->getUserForPresentation($this->pax_id);
+
+        return  [
+            \DateTimeImmutable::createFromFormat('U', (string) $this->modification_timestamp)
+                ->setTimezone($environment['timezone'])
+                ->format($environment['date_format']),
+            $title_builder->buildTestTitleAsText($this->test_ref_id),
+            $admin,
+            $pax,
+            '',
+            $title_builder->buildQuestionTitleAsText($this->question_id),
+            $lng->txt(self::LANG_VAR_PREFIX . self::IDENTIFIER),
+            $lng->txt(self::LANG_VAR_PREFIX . $this->interaction_type->value),
+            $this->error_message
+        ];
+    }
+
     public function getParsedAdditionalInformation(
         AdditionalInformationGenerator $additional_info,
         UIFactory $ui_factory,
         array $environment
     ): Legacy {
         return $ui_factory->legacy($this->error_message);
-    }
-
-    public function getLogEntryAsCsvRow(
-        \ilLanguage $lng,
-        GeneralQuestionPropertiesRepository $properties_repository,
-        AdditionalInformationGenerator $additional_info,
-        array $environment
-    ): string {
-        $admin = $this->getUserForPresentation($this->admin_id);
-        $pax = $this->getUserForPresentation($this->pax_id);
-
-        return implode(
-            ';',
-            $this->processCSVRow(
-                [
-                    \DateTimeImmutable::createFromFormat('U', (string) $this->modification_timestamp)
-                        ->setTimezone($environment['timezone'])
-                        ->format($environment['date_format']),
-                    $this->buildTestTitleCSVContent($lng, $this->test_ref_id),
-                    $admin,
-                    $pax,
-                    '',
-                    $this->buildQuestionTitleCSVContent(
-                        $properties_repository,
-                        $lng,
-                        $this->question_id
-                    ),
-                    $lng->txt(self::LANG_VAR_PREFIX . self::IDENTIFIER),
-                    $lng->txt(self::LANG_VAR_PREFIX . $this->interaction_type->value),
-                    $this->error_message
-                ]
-            )
-        ) . "\n";
     }
 
     public function toStorage(): array

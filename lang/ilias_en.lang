@@ -426,8 +426,6 @@ adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp
 adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for ‘strong’, ‘emphatic’ and ‘important’ with physical attribute buttons ‘b’ (bold), ‘i’ (italic) and ‘u’ (underline). Please note, that this may result in inconsistencies if the style editor is used and other physical attributes are assigned to the strong/emphatic/important style classes.
 adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing
 assessment#:#activate_logging#:#Activate Test and Assessment Logging
-assessment#:#activate_manual_scoring#:#Activate Manual Scoring for
-assessment#:#activate_manual_scoring_desc#:#If the Manual Scoring is activated for a question type, all questions of this question type could be manually scored by a test author. Please be careful with these settings, because late manual scoring of automatically scored question types could cause even judical problems!
 assessment#:#addSuggestedSolution#:#Add Content for Recapitulation
 assessment#:#add_answers#:#Add answers
 assessment#:#add_circle#:#Add circle area
@@ -435,6 +433,7 @@ assessment#:#add_gap#:#Add Gap Text
 assessment#:#add_imagemap#:#Import Image Map
 assessment#:#add_poly#:#Add polygon area
 assessment#:#add_rect#:#Add rectangle area
+assessment#:#add_users#:#Add Users
 assessment#:#additional_rating_info#:#Please note that the values given here are expressed as percentages and these must add up to 100.
 assessment#:#advanced_rating#:#Advanced Rating
 assessment#:#advanced_rating_info#:#The advanced rating is only available if a unit is assigned to the result. Further rating settings are displayed after saving the specified units.
@@ -443,6 +442,7 @@ assessment#:#all_participants#:#All participants
 assessment#:#allow_images#:#Image Support for Answers
 assessment#:#allowedextensions#:#Allowed File Extensions
 assessment#:#allowedextensions_info#:#Enter a comma separated list of allowed file extensions if you want to restrict the upload to a given set of file extensions (e.g. doc,xls,odt).
+assessment#:#already_added_extra_time#:#already added: %s min
 assessment#:#analyze_errortext#:#Analyze Error Text
 assessment#:#answer#:#Answer
 assessment#:#answer_characters#:# characters allowed, entered number of characters:
@@ -531,8 +531,6 @@ assessment#:#ass_question#:#Question
 assessment#:#ass_size#:#Size
 assessment#:#ass_skl_import_fails_remove_btn#:#Remove this Hint
 assessment#:#assessment_existing_pool#:#Use existing question pool
-assessment#:#assessment_log_scoring_adjustment_activate#:#Question types available in adjustment
-assessment#:#assessment_log_scoring_adjustment_desc#:#Question types checked here are available in adjustment. This setting is regardless of the current ability of the question types, e.g. a question that does not support adjustment is still shown here.
 assessment#:#assessment_new_pool#:#Create new question pool
 assessment#:#assessment_no_pool#:#Do not use question pool
 assessment#:#assessment_pool_selection#:#Pool Selection
@@ -573,6 +571,7 @@ assessment#:#checkbox_unchecked#:#Unchecked
 assessment#:#circle#:#Circle
 assessment#:#circle_click_center#:#Please click on center of the desired area.
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.
+assessment#:#client_ip_range#:#Client IP Range
 assessment#:#clientip#:#Client IP
 assessment#:#close_text_hint#:#To add a new gap set the cursor to the position of your choice and use the dropdown ‘Text Gap’. Corresponding editing sections will appear below. You can also edit gaps by clicking on the gaps within the gap text.
 assessment#:#cloze_answer_text_info#:#Spaces preceding or following the answer text will be deleted when the form is saved.
@@ -587,15 +586,13 @@ assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Concatenation
 assessment#:#conf_delete_pass#:#Are you sure you want to delete your existing answers?
-assessment#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the test?
-assessment#:#confirm_delete_single_user_data#:#Are you sure you want to remove the test data of the selected users?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.
 assessment#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active test. Do you want to change the original of the question too?
 assessment#:#coordinates#:#Coordinates
 assessment#:#copy_and_link_to_questionpool#:#Add to question pool
 assessment#:#copy_no_questions_selected#:#Please select at least one question to copy.
 assessment#:#copy_questions_success#:#The question(s) has been copied.
-assessment#:#correct_answers#:#Correct Answers:
+assessment#:#correct_answers#:#Correct Answers
 assessment#:#counter#:#Counter
 assessment#:#create_gaps#:#Create and Refresh Gaps
 assessment#:#create_new#:#Create New
@@ -607,11 +604,11 @@ assessment#:#definition_image#:#Definition Image
 assessment#:#definition_text#:#Definition Text
 assessment#:#definitions#:#Definitions
 assessment#:#deleteSuggestedSolution#:#Remove this content for recapitulation
-assessment#:#delete_all_user_data#:#Delete Test Data of all Participants
-assessment#:#delete_all_user_data_confirmation#:#Are you sure you want to delete the test data of all of the participants of this test?
+assessment#:#delete_all_user_data_confirmation#:#Are you sure you want to delete the test results of all of the participants of this test?
 assessment#:#delete_image_header#:#Remove image
 assessment#:#delete_image_question#:#Do you really want to remove the image?
-assessment#:#delete_user_data#:#Remove Test Data of Selected Users
+assessment#:#delete_selected_user_data_confirmation#:#Are you sure you want to remove the test data of the selected users?
+assessment#:#delete_user_data#:#Remove Result(s)
 assessment#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.
 assessment#:#detail_ending_time_reached#:#The maximum time available for completing this test has expired. This test has not been available since %s.
 assessment#:#detail_max_processing_time_reached#:#You have exceeded the maximum time available for completing this test! You are no longer allowed to continue with the test.
@@ -626,6 +623,7 @@ assessment#:#direct_feedback#:#Verify Your Solution
 assessment#:#discard_answer#:#Delete Answer###fau: testNav
 assessment#:#discard_answer_confirmation#:#Your answer will be finally and completely deleted. You can provide a new answer at any time. But this one will be purged.<br /><br />Do you want to delete your answer?
 assessment#:#dont_use_questionpool#:#Don't insert the questions in a question pool (only available in this test)
+assessment#:#download_all_files#:#Download All Files
 assessment#:#duplicate#:#Duplicate
 assessment#:#duplicate_matching_values_selected#:#You have selected duplicate matching values!
 assessment#:#duplicate_order_values_entered#:#You have entered duplicate order values!
@@ -681,6 +679,7 @@ assessment#:#eval_legend_link#:#Please refer to the legend for the meaning of th
 assessment#:#evaluated_users#:#Evaluated Users
 assessment#:#exam_id#:#Test ID:
 assessment#:#exam_id_label#:#Test ID
+assessment#:#exam_id_of_attempt#:#ID of Attempt
 assessment#:#examid_in_test_pass#:#Display Test ID
 assessment#:#examid_in_test_pass_desc#:#A Test ID is displayed in the test. A new, unique ID is generated for every test attempt.
 assessment#:#examid_in_test_res#:#Display ILIAS Test ID
@@ -689,7 +688,7 @@ assessment#:#exp_all_test_runs#:#All test attempts
 assessment#:#exp_eval_data#:#Export data
 assessment#:#exp_file_created#:#Export file created.
 assessment#:#exp_grammar_as#:#as
-assessment#:#exp_scored_test_run#:#Scored test attempt
+assessment#:#exp_scored_test_attempt#:#Scored Test Attempt
 assessment#:#exp_type_certificate#:#Certificate (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
 assessment#:#exp_type_spss#:#Comma Separated Values (CSV)
@@ -701,8 +700,14 @@ assessment#:#export_cert_ignored_for_users_s#:#The following account did not ach
 assessment#:#export_cert_no_users#:#A certificate archive cannot be created due to missing test participants.
 assessment#:#export_essay_qst_with_html#:#Export Essay Question with HTML code
 assessment#:#export_essay_qst_with_html_desc#:#If activated it is possible to export Essay Question with HTML to Excel.
-assessment#:#export_legacy_logs#:#Legacy Log-Daten exportieren
+assessment#:#export_legacy_logs#:#Export Legacy Log Data
+assessment#:#extra_time_byline#:#Put in extra time in minutes. Already entered extra time is added up.
+assessment#:#extra_time_for_all_participants#:#You are adding some extra time to all participants.
+assessment#:#extra_time_for_selected_participants#:#You are adding extra time to the selected participants.
+assessment#:#extra_time_for_selected_participants_different#:#You have selected participants with different additional times.
+assessment#:#extra_time_for_single_participant#:#Your are adding extra time to the following participant:
 assessment#:#extratime#:#Extra Time
+assessment#:#extratime_added#:#The extra time has been added to the selected participants.
 assessment#:#factor#:#Factor
 assessment#:#failed_official#:#failed
 assessment#:#failed_short#:#failed
@@ -734,8 +739,16 @@ assessment#:#finish_pass_for_all_users_in_processing_time#:#You cannot finish th
 assessment#:#finish_pass_for_user_confirmation#:#Are you sure you want to finish this test attempt for the participant "%s"?
 assessment#:#finish_pass_for_user_in_processing_time#:#WARNING: the processing time for this user is not over yet! You should only end the test run if there is a compelling reason (e.g. exclusion from the test).
 assessment#:#finish_test#:#Finish Test
+assessment#:#finish_test_all#:#Are you sure you want to finish the test attempts for all users?
+assessment#:#finish_test_multiple#:#Are you sure you want to finish the test attempts for the following participants?
+assessment#:#finish_test_single#:#Are you sure you want to finish the test attempt for the participant "%s"?
 assessment#:#finish_unfinished_passes#:#Finish Uncompleted Attempts
 assessment#:#finish_unfinished_passes_desc#:#Test attempts which have a set finishing time or a time limit will be closed by this cron job.
+assessment#:#finished_by_administrator#:#Finished by Administrator
+assessment#:#finished_by_cronjob#:#Finished by Cronjob
+assessment#:#finished_by_duration#:#Finished by time limit
+assessment#:#finished_by_participant#:#Finished by Participant
+assessment#:#finished_by_unknown#:#Finished by Unknown
 assessment#:#fixed_participants_hint#:#This test is only accessible for the manually added participants listed below. You can disable this setting by deactivating the checkbox ‘Manually Selected Participants’ in the test settings.
 assessment#:#fixedparticipants_subtab#:#Manually Selected Participants
 assessment#:#flashfile#:#Flash File
@@ -751,13 +764,9 @@ assessment#:#gap#:#Gap
 assessment#:#gap_combination#:#Gap Combination
 assessment#:#glossary_term#:#Glossary Term
 assessment#:#grading_mark_msg#:#Your mark is: &quot;[mark]&quot;
-assessment#:#grading_obligations_answered_listentry#:#Answered
-assessment#:#grading_obligations_answered_msg#:#You filled out all compulsory questions.
-assessment#:#grading_obligations_listlabel#:#Compulsory Questions
-assessment#:#grading_obligations_missing_listentry#:#Open
-assessment#:#grading_obligations_missing_msg#:#You didn‘t complete all compulsory questions.
 assessment#:#grading_status_failed_msg#:#Sorry, you have <b>failed</b> the test.
 assessment#:#grading_status_passed_msg#:#Congratulations, you have <b>passed</b> the test.
+assessment#:#hide_best_solution#:#Hide best solution
 assessment#:#hints#:#Hints
 assessment#:#identical_scoring#:#Identical Scoring
 assessment#:#identical_scoring_desc#:#If selected, gaps with identical solutions will be scored, even if the same solution was used twice or more. If not selected, only the first occurrence of the same solution will be scored.
@@ -776,8 +785,13 @@ assessment#:#internal_links#:#Internal Links
 assessment#:#intprecision#:#Divisible By
 assessment#:#intprecision_info#:#‘Divisible by’ affects only the creation of variables, if the value for the precision is 0. In this case, you define for ‘Divisible by’ an integer value, which must be divisible by with the created variable. A value of 10 thus generates only integers that are divisible by 10. A value of 5 produces integers that are divisible by 5, etc. For a precision of 0, ‘Divisible by’ is a mandatory field and must contain a positive integer. The default value is 1 for any integers.
 assessment#:#invalid_ip#:#Invalid IP
+assessment#:#ip_range_byline#:#Only IP addresses within the defined range can start the test. You can either use IPv4 OR IPv6 addresses.
+assessment#:#ip_range_for_all_participants#:#You are changing the IP Range of all participants
+assessment#:#ip_range_for_selected_participants#:#You are changing the IP Range of the following participant.
+assessment#:#ip_range_for_single_participant#:#You are changing the IP Range of the selected participants.
 assessment#:#ip_range_info#:#Only clients with an IP in the provided range will be able to access the test.
 assessment#:#ip_range_label#:#IP Range
+assessment#:#ip_range_updated#:#The IP-Range has been update for the selected participants.
 assessment#:#javaapplet#:#Java Applet
 assessment#:#kiosk#:#Exam View
 assessment#:#kiosk_description#:#Runs tests in kiosk mode. This hides the browser bar, navigation and all other screen elements that are not part of the test. Participants are prevented from opening other websites.<br />Effectively preventing participants from opening other websites during tests additionally requires the deployment of a suitable browser (e.g. Safe Exam Browser).
@@ -826,6 +840,7 @@ assessment#:#lacex_assSingleChoice_NumberOfResultExpression_e#:#R = +2+
 assessment#:#lacex_assTextSubset_StringResultExpression_d#:#For the second answer option the answer „sodium chloride“ was entered
 assessment#:#lacex_assTextSubset_StringResultExpression_e#:#R[2] = ~sodium chloride~
 assessment#:#lacex_example_header#:#Examples
+assessment#:#list_of_participants#:#Participants
 assessment#:#locked#:#locked
 assessment#:#log_deletion_not_allowed#:#You don't have the necessary permissions to delete log entries.
 assessment#:#log_entry_type#:#Log Entry Type
@@ -889,6 +904,7 @@ assessment#:#manscoring_not_allowed#:#The Manual Scoring wasn‘t activated for 
 assessment#:#manscoring_questions_not_found#:#This test attempt does not contain question types which can be scored manually.
 assessment#:#manscoring_results_pass#:#Manual Scored Questions for Pass %s
 assessment#:#manual_editing#:#Manual Editing
+assessment#:#manual_entry#:#Manual Entry
 assessment#:#mark_schema#:#Grading System
 assessment#:#mark_schema_invalid#:#The grading system that you have tried to create contains errors. Please make sure that the values in the ‘Minimum Score Required (in %]’ column are correct.
 assessment#:#matches#:#matches
@@ -931,14 +947,13 @@ assessment#:#no_selection#:#--- No Selection ---
 assessment#:#no_selection_for_move#:#No question selected for moving
 assessment#:#no_target_selected_for_move#:#You must select a target position!
 assessment#:#no_user_or_group_selected#:#Please check an option what are you searching for (users, groups, roles)!
-assessment#:#not_all_obligations_answered#:#You must answer all compulsory questions before you can finish the test.
+assessment#:#no_valid_participant_selection#:#No valid Participants selected.
 assessment#:#not_evaluated_users#:#Not Yet Evaluated User
+assessment#:#not_started#:#Not started yet
 assessment#:#not_yet_accessed#:#Not yet accessed
 assessment#:#nr_of_correct_answers#:#Number of Requested Answers
 assessment#:#number_of_answers#:#Number of Answers
 assessment#:#numeric_gap#:#Numeric Gap
-assessment#:#obligations_summary#:#List of Compulsory Questions
-assessment#:#obligatory#:#Compulsory
 assessment#:#option_label#:#Option Labels
 assessment#:#option_label_adequate#:#adequate
 assessment#:#option_label_adequate_or_not#:#adequate / not adequate
@@ -985,6 +1000,7 @@ assessment#:#passed_short#:#passed
 assessment#:#passed_status#:#Passed Status
 assessment#:#passes_finished#:#%s passes
 assessment#:#percentage#:#Percentage
+assessment#:#percentage_points_achieved#:#Reached Points
 assessment#:#percentile#:#Percentile
 assessment#:#picture#:#Picture
 assessment#:#point#:#Point
@@ -1005,6 +1021,7 @@ assessment#:#postponed#:#postponed
 assessment#:#precision#:#Precision
 assessment#:#previous_question#:#Previous
 assessment#:#previous_question_rows#:#<< Questions %d - %d of %d
+assessment#:#print_answers#:#Print Answers
 assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment of questions available for the selected question. The question has not yet been used in a test.
 assessment#:#qpl_assessment_total_of_answers#:#Total of Answers
 assessment#:#qpl_assessment_total_of_right_answers#:#Total Percentage of Correct Answers (percentage of maximum points)
@@ -1151,9 +1168,11 @@ assessment#:#redirect_always#:#always to the webpage specified below
 assessment#:#redirect_in_kiosk_mode#:#only when ‘Exam View’ is activated
 assessment#:#redirection_url#:#URL of webpage
 assessment#:#region#:#Region
-assessment#:#remove_as_participant#:#Remove as Fixed Participant
+assessment#:#remaining_duration#:#Remaining Duration
 assessment#:#remove_gap#:#Remove Gap
+assessment#:#remove_participants#:#Remove Participant(s)
 assessment#:#remove_question#:#Remove
+assessment#:#remove_selected_participants_confirmation#:#Are you sure you want to remove the selected participants from the test?
 assessment#:#remove_solution#:#Remove Content for Recapitulation
 assessment#:#res_contains_undef_res#:#A result formula contains an undefined result!
 assessment#:#res_contains_undef_var#:#A result formula contains an undefined variable!
@@ -1180,6 +1199,7 @@ assessment#:#resulttable_incorrect#:#Incorrect/Incomplete
 assessment#:#resulttable_vc_sort_iooa#:#in order of appearance
 assessment#:#resulttable_vc_sort_posscore#:#highest possible score first
 assessment#:#review_view#:#Review
+assessment#:#running#:#Running
 assessment#:#saveOrder#:#Save Order
 assessment#:#saveOrderAndObligations#:#Save Order and Obligations
 assessment#:#save_and_next#:#Save and Continue
@@ -1201,6 +1221,7 @@ assessment#:#select_at_least_one_feedback_type_and_trigger#:#Please Select at le
 assessment#:#select_gap#:#Select Gap
 assessment#:#select_max_one_item#:#Please select one item only
 assessment#:#select_one_user#:#Please select at least one user.
+assessment#:#select_question#:#Select a Question
 assessment#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!
 assessment#:#select_unit#:#--- Select Unit ---
 assessment#:#selected_category#:#Selected Category: %s
@@ -1214,21 +1235,27 @@ assessment#:#showSuggestedSolution#:#Type
 assessment#:#show_all_test_properties_on_info_page#:#Show all Test Properties
 assessment#:#show_all_test_properties_on_info_page_byline#:#Users will be presented with a complete list of test properties in the ‘Info’ tab, i.e. information on scoring and reporting.
 assessment#:#show_answer_overview#:#Show Answer Overview
+assessment#:#show_best_solution#:#Show best solution
 assessment#:#show_detailed_results#:#Show User’s Detailed Results (Marked Pass)
 assessment#:#show_examview_html#:#On screen
+assessment#:#show_hide_best_solution#:#Show or hide best solution
 assessment#:#show_old_concluding_remarks#:#Show old conlcuding remarks
 assessment#:#show_old_introduction#:#Show old introduction
 assessment#:#show_pass_overview#:#Show Marked Pass Overview
 assessment#:#show_requested_question_hints#:#Show Requested Hints
+assessment#:#show_results#:#Show Results
 assessment#:#show_user_answers#:#Show User’s Marked Answers
 assessment#:#shuffle_answers#:#Shuffle Answers
 assessment#:#skip_question#:#Do not Answer and Next
+assessment#:#solution#:#Solution
 assessment#:#solutionText#:#Text
 assessment#:#solution_contain_keywords#:#Score is granted based on the occurrence of the following keywords:
 assessment#:#solution_hint#:#Assigned Content for Recapitulation
+assessment#:#solutions#:#Solutions
 assessment#:#start_tag#:#Start Tag
 assessment#:#statistical_data#:#Statistical Data
 assessment#:#statistics#:#Statistics
+assessment#:#status_of_attempt#:#Status of Attempt
 assessment#:#submit_and_check#:#Save and Check Answer
 assessment#:#submit_answer#:#Save Answer
 assessment#:#suggest_range#:#Suggest Range
@@ -1244,11 +1271,12 @@ assessment#:#term#:#Term
 assessment#:#term_image#:#Term Image
 assessment#:#term_text#:#Term Text
 assessment#:#terms#:#Terms
+assessment#:#test_attempts_finished#:#The test pass has been finished for the selected participants.
 assessment#:#test_confirm_template_reset#:#Are you sure that you do not want to use the template anymore?
 assessment#:#test_delete_page#:#Delete Question
 assessment#:#test_edit_settings#:#Edit Settings
 assessment#:#test_enable_archiving#:#Enable Archiving
-assessment#:#test_has_datasets_warning_page_view#:#The test already contains data sets. You cannot edit the test questions until you remove these data sets.
+assessment#:#test_has_datasets_warning_page_view#:#The test already contains data sets. The options to edit questions are limited until you remove these data sets.
 assessment#:#test_has_datasets_warning_page_view_link#:#Participant Results
 assessment#:#test_is_offline#:#You cannot start the test! The test is offline.
 assessment#:#test_jump_to#:#Jump to Question
@@ -1290,6 +1318,8 @@ assessment#:#toplist_col_percentage#:#Percentage
 assessment#:#toplist_col_rank#:#Rank
 assessment#:#toplist_col_score#:#Score
 assessment#:#toplist_col_wtime#:#Working Time
+assessment#:#total_attempts#:#Total Attempts
+assessment#:#total_duration#:#Total Duration
 assessment#:#true#:#True
 assessment#:#tst_access_code_created#:#To provide you with permanent access to your test results and to offer you a possibility to resume this test, a unique test access code was created. Please make a note of this code so that you can continue the test later.
 assessment#:#tst_activate_skill_service#:#Competence Service
@@ -1325,12 +1355,13 @@ assessment#:#tst_answer_fixation_on_instantfb_or_followupqst_desc#:#A participan
 assessment#:#tst_answer_status_answered#:#Answered###fau: testNav
 assessment#:#tst_answer_status_editing#:# (editing)###fau: testNav
 assessment#:#tst_answer_status_not_answered#:#Not answered###fau: testNav
-assessment#:#tst_answered_questions#:#Answered Questions
+assessment#:#tst_answered_questions#:#Nr. of Answered Questions
 assessment#:#tst_answered_questions_of_total#:#%s of %s
 assessment#:#tst_answered_questions_test#:#Questions answered in this test
 assessment#:#tst_attached_xls_file#:#You can find the test results for this participant in the attached Excel file.
 assessment#:#tst_attempt#:#Attempt
 assessment#:#tst_attempt_limit_message#:#Your limit of test attempts is <b>%s</b>.
+assessment#:#tst_attempt_started#:#Attempt Started
 assessment#:#tst_back_to_pass_details#:#Back to Pass Details
 assessment#:#tst_back_to_question_list#:#Back to Question List
 assessment#:#tst_back_to_top#:#Back to Top
@@ -1365,7 +1396,6 @@ assessment#:#tst_corrections_answers_tbl_subindex#:#Statistics for %s
 assessment#:#tst_corrections_incompatible_question_set_type#:#Corrections are only possible if the test uses a fixed set of questions.
 assessment#:#tst_corrections_manscore_reset_warning#:#There are %s manual scorings that have been done for the question "%s (ID: %s)". All manual scorings will be reset when saving the question.
 assessment#:#tst_corrections_qst_form#:#Correction of Points
-assessment#:#tst_corrections_qst_remove_confirmation#:#Do you really want to finally remove the question "%s (ID: %s)" from the test?
 assessment#:#tst_corrections_tab_question#:#Question
 assessment#:#tst_corrections_tab_solution#:#Solution
 assessment#:#tst_corrections_tab_statistics#:#Statistics
@@ -1382,7 +1412,6 @@ assessment#:#tst_defaults_available#:#Available test defaults
 assessment#:#tst_defaults_defaults_of_test#:#the settings of this test as
 assessment#:#tst_defaults_enter_name#:#Please enter a name for your test default settings!
 assessment#:#tst_defaults_not_defined#:#You don’t have any test default settings defined yet.
-assessment#:#tst_delete_dyn_test_results_btn#:#Remove Test Results
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to remove it
 assessment#:#tst_derive_new_pool#:#Derive New Question Pool
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools
@@ -1515,7 +1544,6 @@ assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Source Questio
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Provide Taxonomy Filter
 assessment#:#tst_insert_missing_question#:#Please select at least one question to insert it into the test!
 assessment#:#tst_insert_questions#:#Are you sure you want to insert the following question(s) to the test?
-assessment#:#tst_insert_questions_and_results#:#This test was already executed by %s user(s). Inserting questions to this test will remove all test results of these users. Are you sure you want to insert the following question(s) to the test?
 assessment#:#tst_instant_feedback#:#Instant Feedback
 assessment#:#tst_instant_feedback_answer_generic#:#Feedback on Fully Correct Answer
 assessment#:#tst_instant_feedback_answer_generic_desc#:#If the answer provided is fully correct ILIAS will show one type of feedback upon clicking the ‘Check’ button.  If the answer provided is not fully correct, another type of feedback will be displayed. Both types of feedback have to be prepared in the tab ‘Feedback’ of the respective question.
@@ -1782,7 +1810,7 @@ assessment#:#tst_reached_points_of_max#:#%s of %s
 assessment#:#tst_remove_mark#:#Remove this flag
 assessment#:#tst_remove_question#:#Are you sure you want to remove the following question from the test?
 assessment#:#tst_remove_questions#:#Are you sure you want to remove the following questions from the test?
-assessment#:#tst_remove_questions_and_results#:#This test was already executed by %s user(s). Removing questions from this test will remove all test results of these users. Are you sure you want to remove the following question(s) from the test?
+assessment#:#tst_remove_questions_and_results#:#This test contains test results. Removing questions from this test will remove the corresponding results. Are you sure you want to remove the following question(s) from the test?
 assessment#:#tst_report_after_date#:#After a fixed score reporting date
 assessment#:#tst_report_after_first_question#:#Offer test results when the test has been started
 assessment#:#tst_report_after_passed#:#Offer test results when the test has been passed
@@ -1861,11 +1889,8 @@ assessment#:#tst_sequence_postpone#:#Questions may be postponed to the end of a 
 assessment#:#tst_sequence_properties#:#Administering the Test: Functionality Available to Participants
 assessment#:#tst_session_settings#:#Session Settings
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#The test has been set to offline, because the test mode setting has been changed. You have to set a new test mode relating question config before the test can be set to online again.
-assessment#:#tst_setting_enable_obligations_info#:#Only if all compulsory questions are answered ths test can be finished. Compulsory questions can be defined in the ‘List view’. For participants the option ‘Show List of Questions’ should be activated.
-assessment#:#tst_setting_enable_obligations_label#:#Compulsory Questions
 assessment#:#tst_setting_offer_hints_info#:#Participants request hints to answer a question. With every hint presented the maximum number of points to be earned decreases.
 assessment#:#tst_setting_offer_hints_label#:#Hints
-assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Compulsory Questions" cannot be used together with "Answer Lock".
 assessment#:#tst_settings_conflict_postpone_and_lock#:#"Unanswered questions will be enqueued" cannot be used together with "Lock Answers After Moving to Next Question".
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#"Shuffle Questions" cannot be used together with "Lock Answers After Moving to Next Question".
 assessment#:#tst_settings_header_additional#:#Additional Features
@@ -1903,7 +1928,6 @@ assessment#:#tst_shuffle_questions#:#Shuffle Questions
 assessment#:#tst_shuffle_questions_description#:#Shuffles the sequence of questions for every participant and every test attempt.
 assessment#:#tst_signature#:#Signature
 assessment#:#tst_single_answer_details#:#Show Single Answer
-assessment#:#tst_single_results#:#Results by Question
 assessment#:#tst_skill_triggerings_num_req_answers#:#Required Amount of Answers for Competence Triggers
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Competences aren't triggered before this amount of answered questions contributes to the competence level calculation.
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#At least one of the competences addressed by this test is not triggered by the minimal required amount of questions. No competence records will be written for these competences.<br />The required amount of questions: %s
@@ -1918,10 +1942,9 @@ assessment#:#tst_src_quest_pool_def_list_table#:#Rules for Random Selection of Q
 assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Start Test with Current Question Selection
 assessment#:#tst_start_new_test_pass#:#Start New Attempt on Test
 assessment#:#tst_start_test#:#Start the Test
-assessment#:#tst_started#:#Test Started
 assessment#:#tst_starting_time#:#Starting Time
 assessment#:#tst_starting_time_desc#:#Time from which the test can be started. From this moment on, clicking the button "Start test" is possible and participants can answer questions.
-assessment#:#tst_stat_result_atimeofwork#:#Average Time of Work
+assessment#:#tst_stat_result_atimeofwork#:#Average Time on Task per Question
 assessment#:#tst_stat_result_firstvisit#:#First Visit
 assessment#:#tst_stat_result_lastvisit#:#Last Visit
 assessment#:#tst_stat_result_mark_median#:#Mark of Median
@@ -1933,8 +1956,9 @@ assessment#:#tst_stat_result_rank_median#:#Rank of Median
 assessment#:#tst_stat_result_rank_participant#:#Rank of Participant
 assessment#:#tst_stat_result_resultsmarks#:#Test Results in Marks
 assessment#:#tst_stat_result_resultspoints#:#Test Results in Points
-assessment#:#tst_stat_result_timeofwork#:#Time of Work
+assessment#:#tst_stat_result_timeontask#:#Time on Task
 assessment#:#tst_stat_result_total_participants#:#Total Number of Participants
+assessment#:#tst_stat_result_total_timeontask#:#Total Time On Task (All Test Attempts)
 assessment#:#tst_submit_results#:#Yes, I do confirm the submission.
 assessment#:#tst_tab_competences#:#Competences
 assessment#:#tst_tab_results_objective_oriented#:#Test Results by Learning Objectives
@@ -1953,7 +1977,6 @@ assessment#:#tst_tbl_col_started_passes#:#Started Passes
 assessment#:#tst_tbl_invited_users#:#Manually Selected Participants
 assessment#:#tst_tbl_participants#:#Participants
 assessment#:#tst_tbl_results_grades#:#Results and Grades
-assessment#:#tst_test_contains_obligatory_questions#:#To end this test you have to answer all compulsory questions (*).
 assessment#:#tst_test_result#:#Test Result
 assessment#:#tst_text_count_system#:#Scoring System
 assessment#:#tst_threshold#:#Thresholds (in %)
@@ -1979,7 +2002,6 @@ assessment#:#tst_virtual_pass_header_lo_qualifying#:#Qualifying Test Results for
 assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Your answer from a previous attempt was adopted.
 assessment#:#tst_wf_info_answer_not_adopted#:#There was no answer from previous attempts adopted, so you have to work through this question, because otherwise your learning objective result will be degraded.
 assessment#:#tst_wf_info_optional_question#:#This question relates to an already passed learning objective.
-assessment#:#tst_you_have_to_answer_this_question#:#You have to answer this question to be able to finish the test.
 assessment#:#tst_your_answer_was#:#Your answer was
 assessment#:#tst_your_answers#:#These are your answers given to the following questions.
 assessment#:#un_add_category#:#Add Category
@@ -2020,7 +2042,6 @@ assessment#:#use_previous_solution_advice#:#The shown solution for the question 
 assessment#:#user_has_finished_a_test#:#A participant has finished a test.
 assessment#:#user_ip_outside_range#:#You are not allowed to access the test from this IP.
 assessment#:#user_not_invited#:#You are not supposed to take this test.
-assessment#:#user_wrong_clientip#:#You don't have the right IP address to access this test.
 assessment#:#value_between_x_and_y#:#The value should be between %s and %s
 assessment#:#values#:#Values
 assessment#:#variable#:#Variable
@@ -2029,11 +2050,14 @@ assessment#:#variables#:#Variables
 assessment#:#wait_for_next_pass_hint_msg#:#Additional pass is possible on time: %s
 assessment#:#warning_question_not_complete#:#Question is incomplete!
 assessment#:#width#:#Width
+assessment#:#with_solution#:#Participants with solution
 assessment#:#with_solutions_participants#:#Participants with solutions
+assessment#:#without_solution#:#Participants without solution
 assessment#:#without_solutions_participants#:#Participants without solutions
 assessment#:#worked_through#:#Worked Through
 assessment#:#working_time#:#Working Time
 assessment#:#you_received_a_of_b_points#:#You received %s of %s possible points
+assessment#:#your_results#:#Your Results
 auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#To re-activate your account you can use an ILIAS account code.
 auth#:#auth_account_code_title#:#Account Code
@@ -14300,7 +14324,7 @@ rbac#:#precondition_obligatory#:#Compulsory
 rbac#:#precondition_obligatory_alt#:#Precondition must be fulfilled
 rbac#:#precondition_obligatory_info#:#Compulsory preconditions must be fulfilled, for having access.
 rbac#:#precondition_obligatory_settings#:#Precondition Settings
-rbac#:#precondition_operator_range_err_min_max#:#The minimum value must be less than the maximum value. 
+rbac#:#precondition_operator_range_err_min_max#:#The minimum value must be less than the maximum value.
 rbac#:#precondition_operator_range_max#:#Maximum Percentage
 rbac#:#precondition_operator_range_min#:#Minimum Percentage
 rbac#:#prfa_edit_permission#:#User can change permission settings of Portfolio administration

@@ -31,10 +31,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
         global $DIC;
         parent::setUp();
 
-        $this->addGlobal_ilCtrl();
-        $this->addGlobal_ilUser();
         $this->addGlobal_ilToolbar();
-
 
         $this->testInfoScreenToolbarGUI = new ilTestInfoScreenToolbarGUI(
             $this->getTestObjMock(),

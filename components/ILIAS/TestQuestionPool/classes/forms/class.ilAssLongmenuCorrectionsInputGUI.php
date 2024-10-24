@@ -60,7 +60,7 @@ class ilAssLongmenuCorrectionsInputGUI extends ilAnswerWizardInputGUI
         $tpl->setVariable('NUM_ANSWERS', $this->values['answers_all_count']);
         $tpl->setVariable('BTN_SHOW', $this->ui->renderer()->render($button));
         $tpl->setVariable('TXT_ANSWERS', $this->lng->txt('answer_options'));
-        $tpl->setVariable('TXT_CORRECT_ANSWERS', $this->lng->txt('correct_answers'));
+        $tpl->setVariable('TXT_CORRECT_ANSWERS', $this->lng->txt('correct_answers') . ':');
 
         $tpl->setVariable('POSTVAR', $this->getPostVar());
 

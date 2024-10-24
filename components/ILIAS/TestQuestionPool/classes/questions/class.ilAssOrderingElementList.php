@@ -201,7 +201,7 @@ class ilAssOrderingElementList implements Iterator
     }
 
     /**
-     * @return ilAssOrderingElement[]
+     * @return array<ilAssOrderingElement>
      */
     public function getElements(): array
     {

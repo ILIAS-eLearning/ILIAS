@@ -149,10 +149,7 @@ class ilAssQuestionType
             )->isActive();
     }
 
-    /**
-     * @param array $questionTypeData
-     */
-    public static function completeMissingPluginName($question_type_data): array
+    public static function completeMissingPluginName(array $question_type_data): array
     {
         if ($question_type_data['plugin']
             && $question_type_data['plugin_name'] !== null

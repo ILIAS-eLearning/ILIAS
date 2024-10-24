@@ -806,37 +806,36 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
         $solutions = $this->getSolutionValues($active_id, $pass, $authorized_solution);
         $user_solution = [];
         foreach ($solutions as $solution_value) {
-            if (preg_match("/^(\\\$v\\d+)$/", $solution_value["value1"], $matches)) {
-                $user_solution[$matches[1]] = $solution_value["value2"];
-                $varObj = $this->getVariable($solution_value["value1"]);
-                $varObj->setValue($solution_value["value2"]);
+            if (preg_match('/^(\\\$v\\d+)$/', $solution_value['value1'], $matches)) {
+                $user_solution[$matches[1]] = $solution_value['value2'];
+                $var_obj = $this->getVariable($solution_value['value1']);
+                $var_obj->setValue($solution_value['value2']);
                 continue;
             }
 
-            if (preg_match("/^(\\\$r\\d+)$/", $solution_value["value1"], $matches)) {
+            if (preg_match('/^(\\\$r\\d+)$/', $solution_value['value1'], $matches)) {
                 if (!array_key_exists($matches[1], $user_solution)) {
                     $user_solution[$matches[1]] = [];
                 }
-                $user_solution[$matches[1]]["value"] = $solution_value["value2"];
+                $user_solution[$matches[1]]['value'] = $solution_value['value2'];
                 continue;
             }
 
-            if (preg_match("/^(\\\$r\\d+)_unit$/", $solution_value["value1"], $matches)) {
+            if (preg_match('/^(\\\$r\\d+)_unit$/', $solution_value['value1'], $matches)) {
                 if (!array_key_exists($matches[1], $user_solution)) {
                     $user_solution[$matches[1]] = [];
                 }
-                $user_solution[$matches[1]]["unit"] = $solution_value["value2"];
+                $user_solution[$matches[1]]['unit'] = $solution_value['value2'];
             }
         }
-        //vd($this->getResults());
+
         $points = 0;
         foreach ($this->getResults() as $result) {
-            //vd($user_solution[$result->getResult()]["value"]);
             $points += $result->getReachedPoints(
                 $this->getVariables(),
                 $this->getResults(),
-                $user_solution[$result->getResult()]["value"] ?? '',
-                $user_solution[$result->getResult()]["unit"] ?? '',
+                $user_solution[$result->getResult()]['value'] ?? '',
+                $user_solution[$result->getResult()]['unit'] ?? '',
                 $this->unitrepository->getUnits()
             );
         }
@@ -1082,67 +1081,34 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
         return $text;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setExportDetailsXLSX(ilAssExcelFormatHelper $worksheet, int $startrow, int $col, int $active_id, int $pass): int
-    {
-        parent::setExportDetailsXLSX($worksheet, $startrow, $col, $active_id, $pass);
-
-        $solution = $this->getSolutionValues($active_id, $pass);
-
-        $i = 1;
-        foreach ($solution as $solutionvalue) {
-            $worksheet->setCell($startrow + $i, $col, $solutionvalue['value1']);
-            $worksheet->setBold($worksheet->getColumnCoord($col) . ($startrow + $i));
-            if (strpos($solutionvalue['value1'], '_unit')) {
-                $unit = $this->getUnitrepository()->getUnit($solutionvalue['value2']);
-                if (is_object($unit)) {
-                    $worksheet->setCell($startrow + $i, $col + 2, $unit->getUnit());
-                }
-            } else {
-                $worksheet->setCell($startrow + $i, $col + 2, $solutionvalue['value2']);
-            }
-            if (str_starts_with($solutionvalue['value1'], '$v')) {
-                $var = $this->getVariable($solutionvalue['value1']);
-                if (is_object($var) && (is_object($var->getUnit()))) {
-                    $worksheet->setCell($startrow + $i, $col + 3, $var->getUnit()->getUnit());
-                }
-            }
-            $i++;
-        }
-
-        return $startrow + $i + 1;
-    }
-
     public function getBestSolution(array $solutions): array
     {
         $user_solution = [];
 
-        foreach ($solutions as $idx => $solution_value) {
-            if (preg_match("/^(\\\$v\\d+)$/", $solution_value["value1"], $matches)) {
-                $user_solution[$matches[1]] = $solution_value["value2"];
+        foreach ($solutions as $solution_value) {
+            if (preg_match('/^(\\\$v\\d+)$/', $solution_value['value1'], $matches)) {
+                $user_solution[$matches[1]] = $solution_value['value2'];
                 $varObj = $this->getVariable($matches[1]);
-                $varObj->setValue($solution_value["value2"]);
-            } elseif (preg_match("/^(\\\$r\\d+)$/", $solution_value["value1"], $matches)) {
+                $varObj->setValue($solution_value['value2']);
+            } elseif (preg_match('/^(\\\$r\\d+)$/', $solution_value['value1'], $matches)) {
                 if (!array_key_exists($matches[1], $user_solution)) {
                     $user_solution[$matches[1]] = [];
                 }
-                $user_solution[$matches[1]]["value"] = $solution_value["value2"];
-            } elseif (preg_match("/^(\\\$r\\d+)_unit$/", $solution_value["value1"], $matches)) {
+                $user_solution[$matches[1]]['value'] = $solution_value['value2'];
+            } elseif (preg_match('/^(\\\$r\\d+)_unit$/', $solution_value['value1'], $matches)) {
                 if (!array_key_exists($matches[1], $user_solution)) {
                     $user_solution[$matches[1]] = [];
                 }
-                $user_solution[$matches[1]]["unit"] = $solution_value["value2"];
+                $user_solution[$matches[1]]['unit'] = $solution_value['value2'];
             }
         }
         foreach ($this->getResults() as $result) {
-            $resVal = $result->calculateFormula($this->getVariables(), $this->getResults(), parent::getId(), false);
+            $resVal = $result->calculateFormula($this->getVariables(), $this->getResults(), $this->getId(), false);
 
             if (is_object($result->getUnit())) {
-                $user_solution[$result->getResult()]["unit"] = $result->getUnit()->getId();
-                $user_solution[$result->getResult()]["value"] = $resVal;
-            } elseif ($result->getUnit() == null) {
+                $user_solution[$result->getResult()]['unit'] = $result->getUnit()->getId();
+                $user_solution[$result->getResult()]['value'] = $resVal;
+            } elseif ($result->getUnit() === null) {
                 $unit_factor = 1;
                 // there is no fix result_unit, any "available unit" is accepted
 
@@ -1161,23 +1127,23 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
                 }
 
                 try {
-                    $user_solution[$result->getResult()]["value"] = ilMath::_div($resVal, $unit_factor, 55);
+                    $user_solution[$result->getResult()]['value'] = ilMath::_div($resVal, $unit_factor, 55);
                 } catch (ilMathDivisionByZeroException $ex) {
-                    $user_solution[$result->getResult()]["value"] = 0;
+                    $user_solution[$result->getResult()]['value'] = 0;
                 }
             }
             if ($result->getResultType() == assFormulaQuestionResult::RESULT_CO_FRAC
                 || $result->getResultType() == assFormulaQuestionResult::RESULT_FRAC) {
                 $value = assFormulaQuestionResult::convertDecimalToCoprimeFraction($resVal);
                 if (is_array($value)) {
-                    $user_solution[$result->getResult()]["value"] = $value[0];
-                    $user_solution[$result->getResult()]["frac_helper"] = $value[1];
+                    $user_solution[$result->getResult()]['value'] = $value[0];
+                    $user_solution[$result->getResult()]['frac_helper'] = $value[1];
                 } else {
-                    $user_solution[$result->getResult()]["value"] = $value;
-                    $user_solution[$result->getResult()]["frac_helper"] = null;
+                    $user_solution[$result->getResult()]['value'] = $value;
+                    $user_solution[$result->getResult()]['frac_helper'] = null;
                 }
             } else {
-                $user_solution[$result->getResult()]["value"] = round((float) $user_solution[$result->getResult()]["value"], $result->getPrecision());
+                $user_solution[$result->getResult()]['value'] = round((float) $user_solution[$result->getResult()]['value'], $result->getPrecision());
             }
         }
         return $user_solution;
@@ -1379,7 +1345,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
         );
     }
 
-    public function solutionValuesToLog(
+    protected function solutionValuesToLog(
         AdditionalInformationGenerator $additional_info,
         array $solution_values
     ): array {
@@ -1408,6 +1374,59 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
                 return $c;
             },
             []
+        );
+    }
+
+    public function solutionValuesToText(array $solution_values): array
+    {
+        ksort($solution_values);
+        return array_reduce(
+            $solution_values,
+            function (array $c, array $v): array {
+                if (!str_starts_with($v['value1'], '$r')) {
+                    return $c;
+                }
+                if (!strpos($v['value1'], '_unit')) {
+                    $c[$v['value1']] = "{$v['value1']} = {$v['value2']}";
+                    return $c;
+                }
+                $k = substr($v['value1'], 0, -5);
+                if (array_key_exists($k, $c)) {
+                    $c[$k] .= $v['value2'];
+                }
+                return $c;
+            },
+            []
+        );
+    }
+
+    public function getCorrectSolutionForTextOutput(int $active_id, int $pass): array
+    {
+        $best_solution = $this->getBestSolution($this->getSolutionValues($active_id, $pass));
+        return array_map(
+            function (string $v) use ($best_solution): string {
+                $solution = "{$v} = {$best_solution[$v]['value']}";
+                if (isset($best_solution['unit'])) {
+                    $solution .= "{$this->unitrepository->getUnit($best_solution['unit'])->getUnit()}";
+                }
+                return $solution;
+            },
+            array_keys($best_solution)
+        );
+    }
+
+    public function getVariablesAsTextArray(int $active_id, int $pass): array
+    {
+        $variables = $this->getVariableSolutionValuesForPass($active_id, $pass);
+        return array_map(
+            function (string $v) use ($variables): string {
+                $variable = "{$v} = {$variables[$v]}";
+                if ($this->getVariable($v)->getUnit() !== null) {
+                    $variable .= $this->getVariable($v)->getUnit()->getUnit();
+                }
+                return $variable;
+            },
+            array_keys($variables)
         );
     }
 }

@@ -19,6 +19,8 @@
 declare(strict_types=1);
 
 use ILIAS\Cron\Schedule\CronJobScheduleType;
+use ILIAS\Test\Results\Data\StatusOfAttempt;
+use ILIAS\Test\Results\Data\Repository as TestResultRepository;
 use ILIAS\Test\TestDIC;
 use ILIAS\Test\Logging\TestLogger;
 
@@ -39,6 +41,7 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
     protected array $test_ids;
     protected array $test_ending_times;
     protected ilTestProcessLockerFactory $processLockerFactory;
+    protected TestResultRepository $test_pass_result_repository;
 
     public function __construct()
     {
@@ -60,6 +63,8 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
             new ilSetting('assessment'),
             $this->db
         );
+
+        $this->test_pass_result_repository = TestDic::dic()['results.data.test_result_repository'];
     }
 
     public function getId(): string
@@ -250,19 +255,18 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
         $test_session = new ilTestSession($this->db, $this->user);
         $test_session->loadFromDb($active_id);
 
-        if(ilObject::_exists($obj_id)) {
+        if (ilObject::_exists($obj_id)) {
             $test = new ilObjTest($obj_id, false);
 
             $test->updateTestPassResults(
                 $active_id,
                 $test_session->getPass(),
-                $test->areObligationsEnabled(),
                 null,
                 $obj_id
             );
 
-            $pass_finisher = new ilTestPassFinishTasks($test_session, $obj_id);
-            $pass_finisher->performFinishTasks($processLocker);
+            $pass_finisher = new ilTestPassFinishTasks($test_session, $obj_id, $this->test_pass_result_repository);
+            $pass_finisher->performFinishTasks($processLocker, StatusOfAttempt::FINISHED_BY_CRONJOB);
             $this->logger->info('Test session with active id (' . $active_id . ') and obj_id (' . $obj_id . ') is now finished.');
         } else {
             $this->logger->info('Test object with id (' . $obj_id . ') does not exist.');

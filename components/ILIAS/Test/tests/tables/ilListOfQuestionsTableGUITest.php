@@ -80,36 +80,6 @@ class ilListOfQuestionsTableGUITest extends ilTestBaseTestCase
         $this->assertFalse($this->tableGui->isShowMarkerEnabled());
     }
 
-    public function testShowObligationsEnabled(): void
-    {
-        $this->assertIsBool($this->tableGui->isShowObligationsEnabled());
-        $this->tableGui->setShowObligationsEnabled(true);
-        $this->assertTrue($this->tableGui->isShowObligationsEnabled());
-
-        $this->tableGui->setShowObligationsEnabled(false);
-        $this->assertFalse($this->tableGui->isShowObligationsEnabled());
-    }
-
-    public function testObligationsFilterEnabled(): void
-    {
-        $this->assertIsBool($this->tableGui->isObligationsFilterEnabled());
-        $this->tableGui->setObligationsFilterEnabled(true);
-        $this->assertTrue($this->tableGui->isObligationsFilterEnabled());
-
-        $this->tableGui->setObligationsFilterEnabled(false);
-        $this->assertFalse($this->tableGui->isObligationsFilterEnabled());
-    }
-
-    public function testObligationsNotAnswered(): void
-    {
-        $this->assertIsBool($this->tableGui->areObligationsNotAnswered());
-        $this->tableGui->setObligationsNotAnswered(true);
-        $this->assertTrue($this->tableGui->areObligationsNotAnswered());
-
-        $this->tableGui->setObligationsNotAnswered(false);
-        $this->assertFalse($this->tableGui->areObligationsNotAnswered());
-    }
-
     public function testFinishTestButtonEnabled(): void
     {
         $this->assertIsBool($this->tableGui->isFinishTestButtonEnabled());

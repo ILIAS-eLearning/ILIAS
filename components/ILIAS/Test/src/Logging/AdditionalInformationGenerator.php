@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\Test\Logging;
 
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Listing\Descriptive as DescriptiveListing;
 use ILIAS\Refinery\Factory as Refinery;
@@ -38,10 +37,9 @@ class AdditionalInformationGenerator
 
     public const KEY_EVAL_FINALIZED = 'evaluation_finalized';
     public const KEY_FEEDBACK = 'tst_feedback';
-    public const KEY_MANDATORY_QUESTIONS = 'mandatory_questions';
-    public const KEY_QUESTION_TITLE = 'title';
-    public const KEY_QUESTION_TEXT = 'question';
-    public const KEY_QUESTION_TYPE = 'type';
+    public const KEY_QUESTION_TITLE = 'question_title';
+    public const KEY_QUESTION_TEXT = 'tst_question';
+    public const KEY_QUESTION_TYPE = 'tst_question_type';
     public const KEY_HOMOGENEOUS_SCORING = 'tst_inp_all_quest_points_equal_per_pool_desc';
     public const KEY_QUESTION_AMOUNT_TYPE = 'tst_inp_quest_amount_cfg_mode';
     public const KEY_QUESTION_AMOUNT_PER_TEST = 'tst_inp_quest_amount_per_test';
@@ -50,7 +48,7 @@ class AdditionalInformationGenerator
     public const KEY_SOURCE_TAXONOMY_FILTER = 'tst_inp_source_pool_filter_tax';
     public const KEY_SOURCE_TYPE_FILTER = 'tst_filter_question_type';
     public const KEY_SOURCE_LIFECYCLE_FILTER = 'qst_lifecycle';
-    public const KEY_REACHED_POINTS = 'points';
+    public const KEY_REACHED_POINTS = 'tst_reached_points';
     public const KEY_MARK_SHORT_NAME = 'tst_mark_short_form';
     public const KEY_MARK_OFFICIAL_NAME = 'tst_mark_official_form';
     public const KEY_MARK_MINIMUM_LEVEL = 'tst_mark_minimum_level';
@@ -77,6 +75,7 @@ class AdditionalInformationGenerator
     public const KEY_TEST_PASSWAITING_ENABLED = 'tst_pass_waiting_enabled';
     public const KEY_TEST_PROCESSING_TIME_ENABLED = 'tst_processing_time_duration';
     public const KEY_TEST_RESET_PROCESSING_TIME = 'tst_reset_processing_time';
+    public const KEY_TEST_ADDED_PROCESSING_TIME = 'minutes';
     public const KEY_TEST_KIOSK_ENABLED = 'kiosk';
     public const KEY_TEST_KIOSK_SHOW_TITLE = 'kiosk_show_title';
     public const KEY_TEST_KIOSK_SHOW_PARTICIPANT_NAME = 'kiosk_show_participant';
@@ -92,7 +91,6 @@ class AdditionalInformationGenerator
     public const KEY_TEST_FEEDBACK_SHOW_SOLUTION = 'tst_instant_feedback_solution';
     public const KEY_TEST_FEEDBACK_TRIGGER = 'tst_instant_feedback_trigger';
     public const KEY_TEST_LOCK_ANSWERS_MODE = 'tst_answer_fixation_handling';
-    public const KEY_TEST_COMPULSORY_QUESTIONS_ENABLED = 'tst_setting_enable_obligations_label';
     public const KEY_TEST_USE_PREVIOUS_ANSWERS_ENABELD = 'tst_use_previous_answers';
     public const KEY_TEST_SUSPEND_ALLOWED = 'tst_show_cancel';
     public const KEY_TEST_POSTPONED_MOVE_TO_END = 'tst_postpone';
@@ -303,14 +301,14 @@ class AdditionalInformationGenerator
         );
     }
 
-    public function parseForCSV(
+    public function parseForExport(
         array $additional_info,
         array $environment
     ): string {
         return implode(
             '; ',
             array_map(
-                fn($k) => "{$k}: {$this->parseValue($k, $additional_info[$k], $environment)}",
+                fn($k) => "{$k}: {$this->parseValue($k, $additional_info[$k] ?? '', $environment)}",
                 array_keys($additional_info)
             )
         );
@@ -366,8 +364,7 @@ class AdditionalInformationGenerator
                     true
                 );
             case self::KEY_USERS:
-                $this->buildListOfUsers($value);
-                // no break
+                return $this->buildListOfUsers($value);
             case self::KEY_QUESTION_TYPE:
                 return $this->lng->txt($value);
             case self::KEY_QUESTIONS:

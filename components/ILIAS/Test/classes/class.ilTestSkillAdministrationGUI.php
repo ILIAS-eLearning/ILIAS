@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\Logging\TestLogger;
-
+use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\Refinery\Factory as Refinery;
 
 /**
@@ -37,7 +37,7 @@ class ilTestSkillAdministrationGUI
     public function __construct(
         private ilCtrlInterface $ctrl,
         private ilAccessHandler $access,
-        private ilTabsGUI $tabs,
+        private TabsManager $tabs_manager,
         private ilGlobalTemplateInterface $tpl,
         private ilLanguage $lng,
         private Refinery $refinery,
@@ -61,10 +61,11 @@ class ilTestSkillAdministrationGUI
 
         $nextClass = $this->ctrl->getNextClass();
 
-        $this->manageTabs($nextClass);
-
         switch ($nextClass) {
             case 'ilassquestionskillassignmentsgui':
+                $this->tabs_manager->getQuestionsSubTabs();
+                $this->tabs_manager->activateTab(TabsManager::TAB_ID_QUESTIONS);
+                $this->tabs_manager->activateSubTab(TabsManager::SETTINGS_SUBTAB_ID_ASSIGN_SKILLS_TO_QUESTIONS);
 
                 $questionContainerId = $this->test_obj->getId();
 
@@ -89,6 +90,9 @@ class ilTestSkillAdministrationGUI
                 break;
 
             case 'iltestskilllevelthresholdsgui':
+                $this->tabs_manager->getSettingsSubTabs();
+                $this->tabs_manager->activateTab(TabsManager::TAB_ID_SETTINGS);
+                $this->tabs_manager->activateSubTab(TabsManager::SETTINGS_SUBTAB_ID_ASSIGN_SKILL_TRESHOLDS);
 
                 $gui = new ilTestSkillLevelThresholdsGUI($this->ctrl, $this->tpl, $this->lng, $this->db, $this->test_obj->getTestId());
                 $gui->setQuestionAssignmentColumnsEnabled(!$this->test_obj->isRandomTest());
@@ -109,32 +113,6 @@ class ilTestSkillAdministrationGUI
         }
 
         return true;
-    }
-
-    public function manageTabs($activeSubTabId)
-    {
-        $link = $this->ctrl->getLinkTargetByClass(
-            'ilAssQuestionSkillAssignmentsGUI',
-            ilAssQuestionSkillAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGNS
-        );
-        $this->tabs->addSubTab(
-            'ilassquestionskillassignmentsgui',
-            $this->lng->txt('qpl_skl_sub_tab_quest_assign'),
-            $link
-        );
-
-        $link = $this->ctrl->getLinkTargetByClass(
-            'ilTestSkillLevelThresholdsGUI',
-            ilTestSkillLevelThresholdsGUI::CMD_SHOW_SKILL_THRESHOLDS
-        );
-        $this->tabs->addSubTab(
-            'iltestskilllevelthresholdsgui',
-            $this->lng->txt('tst_skl_sub_tab_thresholds'),
-            $link
-        );
-
-        $this->tabs->activateTab('tst_tab_competences');
-        $this->tabs->activateSubTab($activeSubTabId);
     }
 
     private function isAccessDenied(): bool

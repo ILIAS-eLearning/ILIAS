@@ -78,7 +78,7 @@ class TestScoring
 
     public function recalculateSolutions(): void
     {
-        $participants = $this->test->getCompleteEvaluationData(false)->getParticipants();
+        $participants = $this->test->getCompleteEvaluationData()->getParticipants();
         if (is_array($participants)) {
             foreach ($participants as $active_id => $userdata) {
                 if (is_object($userdata) && is_array($userdata->getPasses())) {
@@ -93,7 +93,7 @@ class TestScoring
     {
         $user_data = $this
             ->test
-            ->getCompleteEvaluationData(false)
+            ->getCompleteEvaluationData()
             ->getParticipant($active_id);
 
         $this->recalculatePass(
@@ -144,7 +144,7 @@ class TestScoring
     ): void {
         $question = $question_gui->getObject();
         $reached = $question->calculateReachedPoints($active_id, $pass);
-        $actual_reached = $question->adjustReachedPointsByScoringOptions($reached, $active_id, $pass);
+        $actual_reached = $question->adjustReachedPointsByScoringOptions($reached, $active_id);
 
         if ($this->preserve_manual_scores === true && $questiondata['manual'] === 1) {
             return;
@@ -166,7 +166,6 @@ class TestScoring
         if ($logger->isLoggingEnabled()) {
             $logger->logScoringInteraction(
                 new TestScoringInteraction(
-                    $this->lng,
                     $this->test->getRefId(),
                     $questiondata['id'],
                     $this->scorer->getId(),
@@ -233,7 +232,7 @@ class TestScoring
             $passSelector->setActiveId($active_id);
 
             foreach ($passSelector->getExistingPasses() as $pass) {
-                $this->test->updateTestPassResults($active_id, $pass, $this->test->areObligationsEnabled());
+                $this->test->updateTestPassResults($active_id, $pass);
             }
 
             $this->test->updateTestResultCache($active_id);

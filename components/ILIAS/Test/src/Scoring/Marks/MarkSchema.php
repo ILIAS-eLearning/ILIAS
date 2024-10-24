@@ -73,12 +73,12 @@ class MarkSchema
      * @param integer   $passed_passed       Indicates the passed status of the passed mark (0 = failed, 1 = passed).
      */
     public function createSimpleSchema(
-        string $txt_failed_short = "failed",
-        string $txt_failed_official = "failed",
+        string $txt_failed_short = 'failed',
+        string $txt_failed_official = 'failed',
         float $percentage_failed = 0,
         bool $failed_passed = false,
-        string $txt_passed_short = "passed",
-        string $txt_passed_official = "passed",
+        string $txt_passed_short = 'passed',
+        string $txt_passed_official = 'passed',
         float $percentage_passed = 50,
         bool $passed_passed = true
     ): self {
@@ -93,7 +93,7 @@ class MarkSchema
         float $percentage
     ): ?Mark {
         $reached = round($percentage, 2);
-        foreach ($this->mark_steps as $step) {
+        foreach (array_reverse($this->mark_steps) as $step) {
             $level = round($step->getMinimumLevel(), 2);
             if ($reached >= $level) {
                 return $step;
@@ -147,7 +147,7 @@ class MarkSchema
             function ($a, $b): int {
                 if ($a->getMinimumLevel() === $b->getMinimumLevel()) {
                     $res = strcmp($a->getShortName(), $b->getShortName());
-                    if ($res == 0) {
+                    if ($res === 0) {
                         return strcmp($a->getOfficialName(), $b->getOfficialName());
                     } else {
                         return $res;

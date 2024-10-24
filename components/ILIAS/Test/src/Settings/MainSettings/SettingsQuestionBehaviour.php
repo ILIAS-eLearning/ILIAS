@@ -29,6 +29,7 @@ use ILIAS\UI\Component\Input\Field\Radio;
 use ILIAS\UI\Component\Input\Field\OptionalGroup;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\Constraint;
 
 class SettingsQuestionBehaviour extends TestSettings
 {
@@ -52,8 +53,7 @@ class SettingsQuestionBehaviour extends TestSettings
         protected bool $instant_feedback_solution_enabled,
         protected bool $force_instant_feedback_on_next_question,
         protected bool $lock_answer_on_instant_feedback,
-        protected bool $lock_answer_on_next_question,
-        protected bool $compulsory_questions_enabled
+        protected bool $lock_answer_on_next_question
     ) {
         parent::__construct($test_id);
     }
@@ -97,19 +97,8 @@ class SettingsQuestionBehaviour extends TestSettings
         $inputs['instant_feedback'] = $this->getInputInstantFeedback($lng, $f, $refinery, $environment);
         $inputs['lock_answers'] = $this->getInputLockAnswers($lng, $f, $refinery, $environment);
 
-        $inputs['enable_compulsory_questions'] = $f->checkbox(
-            $lng->txt('tst_setting_enable_obligations_label'),
-            $lng->txt('tst_setting_enable_obligations_info')
-        )->withValue($this->getCompulsoryQuestionsEnabled());
-
-        if ($environment['participant_data_exists']) {
-            $inputs['enable_compulsory_questions'] = $inputs['enable_compulsory_questions']->withDisabled(true);
-        }
-
-        $section = $f->section($inputs, $lng->txt('tst_presentation_properties'));
-        foreach ($this->getConstraintsSectionQuestionBehaviour($lng, $refinery) as $constraint) {
-            $section = $section->withAdditionalTransformation($constraint);
-        }
+        $section = $f->section($inputs, $lng->txt('tst_presentation_properties'))
+            ->withAdditionalTransformation($this->getShuffleAndLockAnswersConstraint($lng, $refinery));
 
         return $section;
     }
@@ -334,36 +323,20 @@ class SettingsQuestionBehaviour extends TestSettings
         );
     }
 
-    private function getConstraintsSectionQuestionBehaviour(
+    private function getShuffleAndLockAnswersConstraint(
         \ilLanguage $lng,
         Refinery $refinery
-    ): \Generator {
-        yield from [
-            $refinery->custom()->constraint(
-                function ($vs): bool {
-                    if ($vs['enable_compulsory_questions'] === true
-                        && (
-                            $vs['lock_answers']['lock_answer_on_instant_feedback']
-                            || $vs['lock_answers']['lock_answer_on_next_question']
-                        )
-                    ) {
-                        return false;
-                    }
-                    return true;
-                },
-                $lng->txt('tst_settings_conflict_compulsory_and_lock')
-            ),
-            $refinery->custom()->constraint(
-                function ($vs): bool {
-                    if ($vs['shuffle_questions'] === true
-                        && $vs['lock_answers']['lock_answer_on_next_question']) {
-                        return false;
-                    }
-                    return true;
-                },
-                $lng->txt('tst_settings_conflict_shuffle_and_lock'),
-            )
-        ];
+    ): Constraint {
+        return $refinery->custom()->constraint(
+            function ($vs): bool {
+                if ($vs['shuffle_questions'] === true
+                    && $vs['lock_answers']['lock_answer_on_next_question']) {
+                    return false;
+                }
+                return true;
+            },
+            $lng->txt('tst_settings_conflict_shuffle_and_lock'),
+        );
     }
 
     public function toStorage(): array
@@ -380,8 +353,7 @@ class SettingsQuestionBehaviour extends TestSettings
             'instant_verification' => ['integer', (int) $this->getInstantFeedbackSolutionEnabled()],
             'force_inst_fb' => ['integer', (int) $this->getForceInstantFeedbackOnNextQuestion()],
             'inst_fb_answer_fixation' => ['integer', (int) $this->getLockAnswerOnInstantFeedbackEnabled()],
-            'follow_qst_answer_fixation' => ['integer', (int) $this->getLockAnswerOnNextQuestionEnabled()],
-            'obligations_enabled' => ['integer', (int) $this->getCompulsoryQuestionsEnabled()]
+            'follow_qst_answer_fixation' => ['integer', (int) $this->getLockAnswerOnNextQuestionEnabled()]
         ];
     }
 
@@ -440,8 +412,6 @@ class SettingsQuestionBehaviour extends TestSettings
         }
         $log_array[AdditionalInformationGenerator::KEY_TEST_LOCK_ANSWERS_MODE] = $lock_answers;
 
-        $log_array[AdditionalInformationGenerator::KEY_TEST_COMPULSORY_QUESTIONS_ENABLED] = $additional_info
-            ->getEnabledDisabledTagForBool($this->getCompulsoryQuestionsEnabled());
         return $log_array;
     }
 
@@ -613,17 +583,5 @@ class SettingsQuestionBehaviour extends TestSettings
         }
 
         return self::ANSWER_FIXATION_NONE;
-    }
-
-    public function getCompulsoryQuestionsEnabled(): bool
-    {
-        return $this->compulsory_questions_enabled;
-    }
-
-    public function withCompulsoryQuestionsEnabled(bool $compulsory_questions_enabled): self
-    {
-        $clone = clone $this;
-        $clone->compulsory_questions_enabled = $compulsory_questions_enabled;
-        return $clone;
     }
 }

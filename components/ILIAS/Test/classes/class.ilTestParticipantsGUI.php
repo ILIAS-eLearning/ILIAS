@@ -18,103 +18,90 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\ResponseHandler;
+use ILIAS\Test\Presentation\TabsManager;
+use ILIAS\Test\Participants\ParticipantTable;
+use ILIAS\Test\ExportImport\Factory as ExportImportFactory;
+use ILIAS\Test\ExportImport\Types as ExportImportTypes;
+use ILIAS\Test\RequestDataCollector;
+use ILIAS\Test\Results\Data\Factory as ResultsDataFactory;
+use ILIAS\Test\Results\Presentation\Factory as ResultsPresentationFactory;
+use ILIAS\Test\Participants\ParticipantRepository;
+use ILIAS\Test\Participants\ParticipantTableActions;
+use ILIAS\Test\Participants\ParticipantTableDeleteParticipantAction;
+use ILIAS\Test\Participants\ParticipantTableIpRangeAction;
+use ILIAS\Test\Participants\ParticipantTableExtraTimeAction;
+use ILIAS\Test\Participants\ParticipantTableFinishTestAction;
+use ILIAS\Test\Participants\ParticipantTableDeleteResultsAction;
+use ILIAS\Test\Participants\ParticipantTableShowResultsAction;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Test\Results\Data\Repository as TestResultRepository;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-
-use ILIAS\Test\RequestDataCollector;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\Component\Modal\Modal;
 
 /**
  * Class ilTestParticipantsGUI
  *
  * @author    Björn Heyser <info@bjoernheyser.de>
- * @version    $Id$
  *
- * @package components\ILIAS/Test
- *
- * @ilCtrl_Calls ilTestParticipantsGUI: ilTestParticipantsTableGUI
  * @ilCtrl_Calls ilTestParticipantsGUI: ilRepositorySearchGUI
- * @ilCtrl_Calls ilTestParticipantsGUI: ilTestEvaluationGUI
  */
 class ilTestParticipantsGUI
 {
     public const CMD_SHOW = 'show';
-    public const CMD_SET_FILTER = 'setFilter';
-    public const CMD_RESET_FILTER = 'resetFilter';
-    public const CMD_SAVE_CLIENT_IP = 'saveClientIp';
 
     public const CALLBACK_ADD_PARTICIPANT = 'addParticipants';
 
-    protected ilTestObjectiveOrientedContainer $objective_parent;
-    protected ilTestAccess $test_access;
+    private const EXPORT_TYPE_PARAMETER = 'export_type';
+    private const EXPORT_PLUGIN_TYPE_PARAMETER = 'export_plugin_type';
 
     protected ilTestParticipantAccessFilterFactory $participant_access_filter;
 
     public function __construct(
         protected ilObjTest $test_obj,
-        protected ilTestQuestionSetConfig $question_set_config,
+        protected readonly ilObjUser $current_user,
+        protected readonly ilTestObjectiveOrientedContainer $objective_parent,
+        protected readonly ilTestQuestionSetConfig $question_set_config,
         protected ilAccess $access,
+        protected ilTestAccess $test_access,
         protected ilGlobalTemplateInterface $main_tpl,
         protected UIFactory $ui_factory,
         protected UIRenderer $ui_renderer,
+        protected ilUIService $ui_service,
+        protected DataFactory $data_factory,
         protected ilLanguage $lng,
         protected ilCtrlInterface $ctrl,
+        protected Refinery $refinery,
         protected ilDBInterface $db,
-        protected ilTabsGUI $tabs,
+        protected TabsManager $tabs_manager,
         protected ilToolbarGUI $toolbar,
-        protected RequestDataCollector $testrequest
+        protected ilComponentFactory $component_factory,
+        protected ExportImportFactory $export_factory,
+        protected RequestDataCollector $testrequest,
+        protected ResponseHandler $response_handler,
+        protected ParticipantRepository $participant_repository,
+        protected readonly ResultsDataFactory $results_data_factory,
+        protected readonly ResultsPresentationFactory $results_presentation_factory,
+        protected readonly TestResultRepository $test_pass_result_repository
     ) {
         $this->participant_access_filter = new ilTestParticipantAccessFilterFactory($access);
     }
 
-    public function getTestObj(): ilObjTest
-    {
-        return $this->test_obj;
-    }
-
-    public function setTestObj(ilObjTest $test_obj): void
-    {
-        $this->test_obj = $test_obj;
-    }
-
-    public function getQuestionSetConfig(): ilTestQuestionSetConfig
-    {
-        return $this->question_set_config;
-    }
-
-    public function setQuestionSetConfig(ilTestQuestionSetConfig $question_set_config): void
-    {
-        $this->question_set_config = $question_set_config;
-    }
-
-    public function getObjectiveParent(): ilTestObjectiveOrientedContainer
-    {
-        return $this->objective_parent;
-    }
-
-    public function setObjectiveParent(ilTestObjectiveOrientedContainer $objective_parent): void
-    {
-        $this->objective_parent = $objective_parent;
-    }
-
-    public function getTestAccess(): ilTestAccess
-    {
-        return $this->test_access;
-    }
-
-    public function setTestAccess(ilTestAccess $test_access): void
-    {
-        $this->test_access = $test_access;
-    }
-
     public function executeCommand(): void
     {
+        if (!$this->test_access->checkManageParticipantsAccess()) {
+            ilObjTestGUI::accessViolationRedirect();
+        }
         switch ($this->ctrl->getNextClass($this)) {
             case 'ilrepositorysearchgui':
                 $gui = new ilRepositorySearchGUI();
                 $gui->setCallback($this, self::CALLBACK_ADD_PARTICIPANT, []);
 
                 $gui->addUserAccessFilterCallable($this->participant_access_filter->getManageParticipantsUserFilter(
-                    $this->getTestObj()->getRefId()
+                    $this->test_obj->getRefId()
                 ));
 
 
@@ -123,19 +110,7 @@ class ilTestParticipantsGUI
 
                 break;
 
-            case "iltestevaluationgui":
-                $gui = new ilTestEvaluationGUI($this->getTestObj());
-                $gui->setObjectiveOrientedContainer($this->getObjectiveParent());
-                $gui->setTestAccess($this->getTestAccess());
-                $this->tabs->clearTargets();
-                $this->tabs->clearSubTabs();
-
-                $this->ctrl->forwardCommand($gui);
-
-                break;
-
             default:
-
                 $command = $this->ctrl->getCmd(self::CMD_SHOW) . 'Cmd';
                 $this->{$command}();
         }
@@ -143,150 +118,87 @@ class ilTestParticipantsGUI
 
     public function addParticipants($user_ids = []): ?bool
     {
-        $filter_closure = $this->participant_access_filter->getManageParticipantsUserFilter($this->getTestObj()->getRefId());
+        $filter_closure = $this->participant_access_filter->getManageParticipantsUserFilter($this->test_obj->getRefId());
         $filtered_user_ids = $filter_closure($user_ids);
 
         $countusers = 0;
         foreach ($filtered_user_ids as $user_id) {
-            $client_ip = $_POST["client_ip"][$countusers] ?? '';
-            $this->getTestObj()->inviteUser($user_id, $client_ip);
+            $client_ip = $this->testrequest->raw('client_ip')[$countusers] ?? '';
+            $this->test_obj->inviteUser($user_id, $client_ip);
             $countusers++;
         }
 
-        $message = "";
+        $message = '';
         if ($countusers) {
-            $message = $this->lng->txt("tst_invited_selected_users");
+            $message = $this->lng->txt('tst_invited_selected_users');
         }
         if (strlen($message)) {
             $this->main_tpl->setOnScreenMessage('info', $message, true);
         } else {
-            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("tst_invited_nobody"), true);
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('tst_invited_nobody'), true);
             return false;
         }
 
-        $this->ctrl->redirect($this, self::CMD_SHOW);
-        return null;
+        $this->ctrl->redirectByClass(self::class, self::CMD_SHOW);
     }
 
-    protected function buildTableGUI(): ilTestParticipantsTableGUI
+    public function showCmd(?Modal $modal = null): void
     {
-        $table_gui = new ilTestParticipantsTableGUI($this, self::CMD_SHOW, $this->ui_factory, $this->ui_renderer);
+        $this->addUserSearchControls($this->toolbar);
 
-        $table_gui->setParticipantHasSolutionsFilterEnabled(
-            $this->getTestObj()->getFixedParticipants()
+        if ($this->test_obj->evalTotalPersons() > 0) {
+            $this->addExportDropdown($this->toolbar);
+        }
+
+        $components = $this->getParticipantTable()->getComponents(
+            $this->getTableActionUrlBuilder(),
+            $this->ctrl->getLinkTargetByClass(self::class, 'show')
         );
 
-        if ($this->getTestObj()->getFixedParticipants()) {
-            $table_gui->setTitle($this->lng->txt('tst_tbl_invited_users'));
-        } else {
-            $table_gui->setTitle($this->lng->txt('tst_tbl_participants'));
+        if ($modal !== null) {
+            $components[] = $modal;
         }
 
-        return $table_gui;
+        $this->main_tpl->setContent(
+            $this->ui_renderer->render($components)
+        );
     }
 
-    protected function setFilterCmd(): void
+    public function executeTableActionCmd(): void
     {
-        $table_gui = $this->buildTableGUI();
-        $table_gui->initFilter($this->getTestObj()->getFixedParticipants());
-        $table_gui->writeFilterToSession();
-        $table_gui->resetOffset();
-        $this->showCmd();
+        $modal = $this->getParticipantTable()->execute($this->getTableActionUrlBuilder());
+        if ($modal !== null) {
+            $this->showCmd($modal);
+            return;
+        }
+        $this->ctrl->redirectByClass(self::class, self::CMD_SHOW);
     }
 
-    protected function resetFilterCmd(): void
+    private function getParticipantTable(): ParticipantTable
     {
-        $table_gui = $this->buildTableGUI();
-        $table_gui->resetFilter();
-        $table_gui->resetOffset();
-        $this->showCmd();
+        return new ParticipantTable(
+            $this->ui_factory,
+            $this->ui_service,
+            $this->lng,
+            $this->test_access,
+            $this->testrequest,
+            $this->participant_access_filter,
+            $this->participant_repository,
+            $this->results_data_factory,
+            $this->results_presentation_factory->getAttemptResultsSettings(
+                $this->test_obj,
+                false
+            ),
+            $this->current_user,
+            $this->test_obj,
+            $this->buildParticipantTableActions()
+        );
     }
 
-    public function showCmd(): void
+    private function getTableActionUrlBuilder(): URLBuilder
     {
-        $table_gui = $this->buildTableGUI();
-
-        if (!$this->getQuestionSetConfig()->areDepenciesBroken()) {
-            if ($this->getTestObj()->getFixedParticipants()) {
-                $participant_list = $this->getTestObj()->getInvitedParticipantList()->getAccessFilteredList(
-                    $this->participant_access_filter->getManageParticipantsUserFilter($this->getTestObj()->getRefId())
-                );
-
-                $table_gui->setData($this->applyFilterCriteria($participant_list->getParticipantsTableRows()));
-                $table_gui->setRowKeyDataField('usr_id');
-                $table_gui->setManageInviteesCommandsEnabled(true);
-                $table_gui->setDescription($this->lng->txt("fixed_participants_hint"));
-            } else {
-                $participant_list = $this->getTestObj()->getActiveParticipantList()->getAccessFilteredList(
-                    $this->participant_access_filter->getManageParticipantsUserFilter($this->getTestObj()->getRefId())
-                );
-
-                $table_gui->setData($participant_list->getParticipantsTableRows());
-                $table_gui->setRowKeyDataField('active_id');
-            }
-
-            $table_gui->setManageResultsCommandsEnabled(true);
-
-            $this->initToolbarControls($participant_list);
-        }
-
-        $table_gui->setAnonymity($this->getTestObj()->getAnonymity());
-
-        $table_gui->initColumns();
-        $table_gui->initCommands();
-
-        $table_gui->initFilter();
-        $table_gui->setFilterCommand(self::CMD_SET_FILTER);
-        $table_gui->setResetCommand(self::CMD_RESET_FILTER);
-
-        $this->main_tpl->setContent($this->ctrl->getHTML($table_gui));
-    }
-
-    protected function applyFilterCriteria(array $in_rows): array
-    {
-        $selected_pax = ilSession::get('form_tst_participants_' . $this->getTestObj()->getRefId() . '_selection');
-
-        if (!is_string($selected_pax)) {
-            return $in_rows;
-        }
-
-        $filter = unserialize($selected_pax, ['allowed_classes' => false]);
-
-        if (!is_string($filter) || $filter === 'all') {
-            return $in_rows;
-        }
-
-        $rows = [];
-
-        foreach ($in_rows as $row) {
-            $query = $this->db->query(
-                'SELECT count(solution_id) count
-				FROM tst_solutions
-				WHERE active_fi = ' . $this->db->quote($row['active_id'])
-                . ' HAVING count ' . ($filter === 'withSolutions' ? '>' : '=') . ' 0'
-            );
-
-            if (is_array($this->db->fetchAssoc($query))) {
-                $rows[] = $row;
-            }
-        }
-
-        return $rows;
-    }
-
-    protected function initToolbarControls(ilTestParticipantList $participant_list): void
-    {
-        if ($this->getTestObj()->getFixedParticipants()) {
-            $this->addUserSearchControls($this->toolbar);
-        }
-
-        if ($this->getTestObj()->getFixedParticipants() && $participant_list->hasUnfinishedPasses()) {
-            $this->toolbar->addSeparator();
-        }
-
-        if ($participant_list->hasUnfinishedPasses()) {
-            $this->addFinishAllPassesButton($this->toolbar);
-        }
+        $uri = $this->ctrl->getLinkTargetByClass(self::class, 'executeTableAction', '', true);
+        return new URLBuilder($this->data_factory->uri(ILIAS_HTTP_PATH . '/' . $uri));
     }
 
     protected function addUserSearchControls(ilToolbarGUI $toolbar): void
@@ -308,46 +220,181 @@ class ilTestParticipantsGUI
         $toolbar->addComponent($search_btn);
     }
 
-    protected function addFinishAllPassesButton(ilToolbarGUI $toolbar): void
+    private function addExportDropdown(ilToolbarGUI $toolbar): void
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
+        $toolbar->addSeparator();
 
-        $finish_all_user_passes_btn = $DIC->ui()->factory()->button()->standard(
-            $DIC->language()->txt('finish_all_user_passes'),
-            $DIC->ctrl()->getLinkTargetByClass('iltestevaluationgui', 'finishAllUserPasses')
-        );
-        $toolbar->addComponent($finish_all_user_passes_btn);
-    }
-
-    protected function saveClientIpCmd(): void
-    {
-        $filter_closure = $this->participant_access_filter->getManageParticipantsUserFilter($this->getTestObj()->getRefId());
-        $selected_users = $filter_closure($this->testrequest->raw('chbUser') ?? []);
-
-        if ($selected_users === []) {
-            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("select_one_user"), true);
-        }
-
-        foreach ($selected_users as $user_id) {
-            $this->getTestObj()->setClientIP($user_id, $_POST["clientip_" . $user_id]);
-        }
-
-        $this->ctrl->redirect($this, self::CMD_SHOW);
-    }
-
-    protected function removeParticipantsCmd(): void
-    {
-        $filter_closure = $this->participant_access_filter->getManageParticipantsUserFilter($this->getTestObj()->getRefId());
-        $a_user_ids = $filter_closure((array) $_POST["chbUser"]);
-
-        if (is_array($a_user_ids)) {
-            foreach ($a_user_ids as $user_id) {
-                $this->getTestObj()->disinviteUser($user_id);
-            }
+        if ($this->test_obj->getAnonymity()) {
+            $this->ctrl->setParameterByClass(self::class, self::EXPORT_TYPE_PARAMETER, 'all_test_runs_a');
+            $options = [
+                $this->ui_factory->button()->shy(
+                    $this->lng->txt('exp_scored_test_attempt'),
+                    $this->ctrl->getLinkTargetByClass(self::class, 'exportResults')
+                )
+            ];
         } else {
-            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("select_one_user"), true);
+            $options = $this->buildOptionsForTestWithNames();
         }
 
-        $this->ctrl->redirect($this, self::CMD_SHOW);
+        $options = $this->addPluginExportsToOptions($options);
+
+        $this->ctrl->clearParameterByClass(self::class, 'export_type');
+        $toolbar->addComponent(
+            $this->ui_factory->dropdown()->standard($options)->withLabel($this->lng->txt('exp_eval_data'))
+        );
+    }
+
+    /**
+     * @return array<\ILIAS\UI\Component\Button\Shy>
+     */
+    private function buildOptionsForTestWithNames(): array
+    {
+        $this->ctrl->setParameterByClass(self::class, self::EXPORT_TYPE_PARAMETER, ExportImportTypes::SCORED_ATTEMPT->value);
+        $options = [
+            $this->ui_factory->button()->shy(
+                $this->lng->txt('exp_scored_test_attempt'),
+                $this->ctrl->getLinkTargetByClass(self::class, 'exportResults')
+            )
+        ];
+        $this->ctrl->setParameterByClass(self::class, self::EXPORT_TYPE_PARAMETER, ExportImportTypes::ALL_ATTEMPTS->value);
+        $options[] = $this->ui_factory->button()->shy(
+            $this->lng->txt('exp_all_test_runs'),
+            $this->ctrl->getLinkTargetByClass(self::class, 'exportResults')
+        );
+        return $this->addCertificateExportToOptions($options);
+    }
+
+    /**
+     * @param array<\ILIAS\UI\Component\Button\Shy> $options
+     * @return array<\ILIAS\UI\Component\Button\Shy>
+     */
+    private function addCertificateExportToOptions(array $options): array
+    {
+        try {
+            if ((new ilCertificateActiveValidator())->validate()) {
+                $this->ctrl->setParameterByClass(self::class, self::EXPORT_TYPE_PARAMETER, ExportImportTypes::CERTIFICATE_ARCHIVE->value);
+                $options[] = $this->ui_factory->button()->shy(
+                    $this->lng->txt('exp_grammar_as') . ' ' . $this->lng->txt('exp_type_certificate'),
+                    $this->ctrl->getLinkTargetByClass(self::class, 'exportResults')
+                );
+            }
+        } catch (ilException $e) {
+        }
+        return $options;
+    }
+
+    /**
+     * @param array<\ILIAS\UI\Component\Button\Shy> $options
+     * @return array<\ILIAS\UI\Component\Button\Shy>
+     */
+    private function addPluginExportsToOptions(array $options): array
+    {
+        foreach ($this->component_factory->getActivePluginsInSlot('texp') as $plugin) {
+            $plugin->setTest($this->test_obj);
+            $this->ctrl->setParameterByClass(self::class, self::EXPORT_TYPE_PARAMETER, ExportImportTypes::PLUGIN->value);
+            $this->ctrl->setParameterByClass(self::class, self::EXPORT_PLUGIN_TYPE_PARAMETER, $plugin->getFormat());
+            $options[] = $this->ui_factory->button()->shy(
+                $plugin->getFormatLabel(),
+                $this->ctrl->getLinkTargetByClass(self::class, 'exportResults')
+            );
+        }
+        $this->ctrl->clearParameterByClass(self::class, self::EXPORT_PLUGIN_TYPE_PARAMETER);
+        return $options;
+    }
+
+    public function exportResultsCmd(): void
+    {
+        $export_type = ExportImportTypes::tryFrom(
+            $this->testrequest->strVal(self::EXPORT_TYPE_PARAMETER)
+        );
+
+        if ($export_type === null) {
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('error'));
+            $this->showCmd();
+            return;
+        }
+
+        $plugin_type = null;
+        if ($export_type === ExportImportTypes::PLUGIN) {
+            $plugin_type = $this->testrequest->strVal(self::EXPORT_PLUGIN_TYPE_PARAMETER);
+        }
+
+        $this->export_factory->getExporter(
+            $this->test_obj,
+            $export_type,
+            $plugin_type
+        )->deliver();
+        $this->showCmd();
+    }
+
+    private function buildParticipantTableActions(): ParticipantTableActions
+    {
+        return new ParticipantTableActions(
+            $this->ctrl,
+            $this->lng,
+            $this->main_tpl,
+            $this->ui_factory,
+            $this->ui_renderer,
+            $this->refinery,
+            $this->testrequest,
+            $this->response_handler,
+            $this->participant_repository,
+            $this->test_obj,
+            [
+                ParticipantTableDeleteParticipantAction::ACTION_ID => new ParticipantTableDeleteParticipantAction(
+                    $this->lng,
+                    $this->main_tpl,
+                    $this->ui_factory,
+                    $this->participant_repository,
+                    $this->test_access,
+                    $this->test_obj
+                ),
+                ParticipantTableIpRangeAction::ACTION_ID => new ParticipantTableIpRangeAction(
+                    $this->lng,
+                    $this->main_tpl,
+                    $this->ui_factory,
+                    $this->refinery,
+                    $this->participant_repository
+                ),
+                ParticipantTableExtraTimeAction::ACTION_ID => new ParticipantTableExtraTimeAction(
+                    $this->lng,
+                    $this->refinery,
+                    $this->main_tpl,
+                    $this->ui_factory,
+                    $this->participant_repository,
+                    $this->current_user,
+                    $this->test_obj
+                ),
+                ParticipantTableFinishTestAction::ACTION_ID => new ParticipantTableFinishTestAction(
+                    $this->lng,
+                    $this->main_tpl,
+                    $this->ui_factory,
+                    $this->db,
+                    new \ilTestProcessLockerFactory(
+                        new \ilSetting('assessment'),
+                        $this->db
+                    ),
+                    $this->current_user,
+                    $this->test_obj,
+                    $this->test_pass_result_repository
+                ),
+                ParticipantTableDeleteResultsAction::ACTION_ID => new ParticipantTableDeleteResultsAction(
+                    $this->lng,
+                    $this->main_tpl,
+                    $this->ui_factory,
+                    $this->db,
+                    $this->participant_access_filter,
+                    $this->test_access,
+                    $this->test_obj
+                ),
+                ParticipantTableShowResultsAction::ACTION_ID => new ParticipantTableShowResultsAction(
+                    $this->lng,
+                    $this->ui_factory,
+                    $this->test_access,
+                    $this->ctrl,
+                    $this->test_obj
+                )
+            ]
+        );
     }
 }

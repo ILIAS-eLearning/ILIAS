@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\MainSettings;
 
+use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\Test\Settings\TestSettingsGUI;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
@@ -35,9 +36,6 @@ use ILIAS\UI\Component\Input\Field\OptionalGroup;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation as TransformationInterface;
-use ILIAS\Data\Factory as DataFactory;
-use ilInfoScreenGUI;
-use ilObjTestGUI;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Refinery\Constraint;
 
@@ -123,7 +121,7 @@ class SettingsMainGUI extends TestSettingsGUI
     {
         if (!$this->access->checkAccess('write', '', $this->test_gui->getRefId())) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_test'), true);
-            $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
+            $this->ctrl->redirectByClass([\ilRepositoryGUI::class, \ilObjTestGUI::class, \ilInfoScreenGUI::class]);
         }
 
         $cmd = $this->ctrl->getCmd(self::CMD_SHOW_FORM);
@@ -131,8 +129,8 @@ class SettingsMainGUI extends TestSettingsGUI
 
         $this->object_data_cache->deleteCachedEntry($this->test_object->getId());
         $this->test_gui->prepareOutput();
-        $this->tabs->activateTab(\ilTestTabsManager::TAB_ID_SETTINGS);
-        $this->tabs->activateSubTab(\ilTestTabsManager::SUBTAB_ID_GENERAL_SETTINGS);
+        $this->tabs->activateTab(TabsManager::TAB_ID_SETTINGS);
+        $this->tabs->activateSubTab(TabsManager::SUBTAB_ID_GENERAL_SETTINGS);
     }
 
     private function showOldIntroduction(): void
@@ -264,8 +262,6 @@ class SettingsMainGUI extends TestSettingsGUI
             $this->logger->deleteParticipantInteractionsForTest($this->test_object->getRefId());
         }
 
-        $this->removeAllParticipantsIfRequired();
-
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
         $this->showForm();
     }
@@ -322,16 +318,8 @@ class SettingsMainGUI extends TestSettingsGUI
         $input_factory = $this->ui_factory->input();
         $refinery = $this->refinery;
 
-        $data_factory = new DataFactory();
-        $user_format = $this->active_user->getDateFormat();
-        if ($this->active_user->getTimeFormat() == \ilCalendarSettings::TIME_FORMAT_24) {
-            $user_format = $data_factory->dateFormat()->withTime24($user_format);
-        } else {
-            $user_format = $data_factory->dateFormat()->withTime12($user_format);
-        }
-
         $environment['participant_data_exists'] = $this->test_object->participantDataExist();
-        $environment['user_date_format'] = $user_format;
+        $environment['user_date_format'] = $this->active_user->getDateTimeFormat();
         $environment['user_time_zone'] = $this->active_user->getTimeZone();
 
         $main_inputs = [
@@ -475,15 +463,6 @@ class SettingsMainGUI extends TestSettingsGUI
         );
     }
 
-    private function removeAllParticipantsIfRequired(): void
-    {
-        if (!$this->test_object->participantDataExist() && !$this->test_object->getFixedParticipants()) {
-            foreach (array_keys($this->test_object->getInvitedUsers()) as $usr_id) {
-                $this->test_object->disinviteUser($usr_id);
-            }
-        }
-    }
-
     private function getGeneralSettingsSection(array $environment): Section
     {
         $field_factory = $this->ui_factory->input()->field();
@@ -559,13 +538,9 @@ class SettingsMainGUI extends TestSettingsGUI
         $trafo = $this->getTransformationForActivationLimitedOptionalGroup();
         $value = $this->getValueForActivationLimitedOptionalGroup();
 
-        $data_factory = new DataFactory();
-        $user_format = $this->active_user->getDateFormat();
-        $format = $data_factory->dateFormat()->withTime24($user_format);
-
         $inputs['time_span'] = $field_factory->duration($this->lng->txt('rep_time_period'))
             ->withTimezone($this->active_user->getTimeZone())
-            ->withFormat($format)
+            ->withFormat($this->active_user->getDateTimeFormat())
             ->withUseTime(true)
             ->withRequired(true);
         $inputs['activation_visibility'] = $field_factory->checkbox(
@@ -698,7 +673,7 @@ class SettingsMainGUI extends TestSettingsGUI
     {
         $test_behaviour_settings = $this->main_settings->getTestBehaviourSettings()
             ->withKioskMode($section['kiosk_mode'])
-            ->withExamIdInTestPassEnabled($section['show_exam_id']);
+            ->withExamIdInTestAttemptEnabled($section['show_exam_id']);
 
         if ($this->test_object->participantDataExist()) {
             return $test_behaviour_settings;
@@ -733,8 +708,7 @@ class SettingsMainGUI extends TestSettingsGUI
             ->withInstantFeedbackSolutionEnabled($section['instant_feedback']['enabled_feedback_types']['instant_feedback_solution'])
             ->withForceInstantFeedbackOnNextQuestion($section['instant_feedback']['feedback_on_next_question'])
             ->withLockAnswerOnInstantFeedbackEnabled($section['lock_answers']['lock_answer_on_instant_feedback'])
-            ->withLockAnswerOnNextQuestionEnabled($section['lock_answers']['lock_answer_on_next_question'])
-            ->withCompulsoryQuestionsEnabled($section['enable_compulsory_questions']);
+            ->withLockAnswerOnNextQuestionEnabled($section['lock_answers']['lock_answer_on_next_question']);
     }
 
 

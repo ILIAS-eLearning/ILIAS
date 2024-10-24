@@ -13949,6 +13949,28 @@ div.ilc_Page.readonly textarea[disabled] {
   top: 40px;
 }
 
+.c-test__dropzone {
+  display: none;
+  margin: 5px 10px 5px 0;
+  padding: 0;
+  background: #f9f9f9;
+  border: 1px dashed #dddddd;
+}
+.c-test__dropzone.c-test__dropzone--hover {
+  background: #f0f0f0;
+}
+.c-test__dropzone.c-test__dropzone--active {
+  display: block;
+}
+
+.ilc_qordul_OrderListHorizontal .c-test__dropzone {
+  float: left;
+}
+
+.ilc_qordul_OrderList .c-test__dropzone {
+  width: 100%;
+}
+
 #tst_output {
   display: flex;
 }

@@ -73,7 +73,7 @@ class ilAssOrderingElement
     protected ?string $uploadImageFile = null;
     protected bool $imageRemovalRequest = false;
     protected ?string $imagePathWeb = null;
-    protected ?string $imagePathFs = null;
+    protected ?string $image_path_fs = null;
     protected $imageThumbnailPrefix = null;
 
     /**
@@ -249,15 +249,12 @@ class ilAssOrderingElement
      */
     public function getImagePathFs(): ?string
     {
-        return $this->imagePathFs;
+        return $this->image_path_fs;
     }
 
-    /**
-     * @param string $imagePathFs
-     */
-    public function setImagePathFs($imagePathFs): void
+    public function setImagePathFs(string $image_path_fs): void
     {
-        $this->imagePathFs = $imagePathFs;
+        $this->image_path_fs = $image_path_fs;
     }
 
     public function getImageThumbnailPrefix()
@@ -270,10 +267,6 @@ class ilAssOrderingElement
         $this->imageThumbnailPrefix = $imageThumbnailPrefix;
     }
 
-    /**
-     * @param ilAssOrderingElement $element
-     * @return bool
-     */
     public function isSameElement(ilAssOrderingElement $element): bool
     {
         return [
@@ -289,9 +282,9 @@ class ilAssOrderingElement
         ];
     }
 
-    public function getStorageValue1($orderingType)
+    public function getStorageValue1(int $ordering_type): int|string
     {
-        switch ($orderingType) {
+        switch ($ordering_type) {
             case assOrderingQuestion::OQ_NESTED_TERMS:
             case assOrderingQuestion::OQ_NESTED_PICTURES:
 
@@ -304,9 +297,9 @@ class ilAssOrderingElement
         }
     }
 
-    public function getStorageValue2($orderingType)
+    public function getStorageValue2(int $ordering_type): int|string
     {
-        switch ($orderingType) {
+        switch ($ordering_type) {
             case assOrderingQuestion::OQ_NESTED_TERMS:
             case assOrderingQuestion::OQ_NESTED_PICTURES:
 

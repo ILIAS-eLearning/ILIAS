@@ -68,7 +68,6 @@ class ilAssQuestionPageCommandForwarder
 
         $q_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_PREVIEW);
         $q_gui->setQuestionTabs();
-        $q_gui->outAdditionalOutput();
         $question = $q_gui->getObject();
         $question->setObjId($this->test_obj->getId());
         $q_gui->setObject($question);
@@ -76,7 +75,7 @@ class ilAssQuestionPageCommandForwarder
         if ($this->ctrl->getCmd() === 'edit'
             && $this->test_obj->evalTotalPersons() !== 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('question_is_part_of_running_test'), true);
-            $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
+            $this->ctrl->redirectByClass(ilAssQuestionPreviewGUI::class, ilAssQuestionPreviewGUI::CMD_SHOW);
         }
 
         $this->ctrl->saveParameter($this, 'q_id');

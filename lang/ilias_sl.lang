@@ -426,8 +426,6 @@ adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp
 adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other physical attributes are assigned to the strong/emphatic/important style classes.
 adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing
 assessment#:#activate_logging#:#Aktiviraj protokol testov in ocen
-assessment#:#activate_manual_scoring#:#Aktiviraj ročno ocenjevanje za
-assessment#:#activate_manual_scoring_desc#:#Če je za določeno vrsto vprašanja aktivirano ročno ocenjevanje, lahko avtor testa ročno oceni vsa vprašanja tega tipa. Bodite previdni pri teh nastavitvah, saj lahko naknadno spreminjanje rezultatov vprašanj povzroči tudi pravne težave!
 assessment#:#addSuggestedSolution#:#Vsebine za ponavljanje
 assessment#:#add_answers#:#Dodaj odgovore
 assessment#:#add_circle#:#Dodaj krog
@@ -531,8 +529,6 @@ assessment#:#ass_question#:#Vprašanje
 assessment#:#ass_size#:#Velikost
 assessment#:#ass_skl_import_fails_remove_btn#:#Odstrani to sporočilo
 assessment#:#assessment_existing_pool#:#Uporabi obstoječo skupino vprašanj
-assessment#:#assessment_log_scoring_adjustment_activate#:#Tipi vprašanj, ki so na voljo za način naknadnega popravljanja
-assessment#:#assessment_log_scoring_adjustment_desc#:#Izbrani tipi vprašanj so na voljo v načinu naknadnega popravljanja Ta nastavitev ne upošteva, ali je vprašanje mogoče urediti v načinu naknadnega popravljanja
 assessment#:#assessment_new_pool#:#Ustvari in uporabi novo skupino vprašanj
 assessment#:#assessment_no_pool#:#Ne uporabi nobene skupine vprašanj
 assessment#:#assessment_pool_selection#:#Izbira skupine
@@ -584,15 +580,13 @@ assessment#:#code#:#Koda
 assessment#:#codebase#:#Osnova kode
 assessment#:#concatenation#:#Povezava
 assessment#:#conf_delete_pass#:#Ali ste prepričani, da želite izbrisati obdelavo?
-assessment#:#confirm_delete_all_user_data#:#Ali ste prepričani, da želite odstraniti testne podatke vseh uporabnikov testa?
-assessment#:#confirm_delete_single_user_data#:#Ali ste prepričani, da želite odstraniti testne podatke izbranih uporabnikov?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#Vprašanje, ki ste ga spremenili, je bilo z vnosom v test ustvarjeno kot kopija izvirnika. Ali želite spremembe zdaj uporabiti tudi za prvotno vprašanje?
 assessment#:#coordinates#:#Koordinate
 assessment#:#copy_and_link_to_questionpool#:#Dodaj v skupino vprašanj
 assessment#:#copy_no_questions_selected#:#Izberite najmanj eno vprašanje za kopiranje.
 assessment#:#copy_questions_success#:#Vprašanje/-a je bilo/so bila kopirano/-a.
-assessment#:#correct_answers#:#Pravilni odgovori:
+assessment#:#correct_answers#:#Pravilni odgovori
 assessment#:#counter#:#Števec
 assessment#:#create_gaps#:#Ustvarite in posodobite praznine
 assessment#:#create_new#:#Ustvari novo
@@ -604,10 +598,10 @@ assessment#:#definition_image#:#Slika
 assessment#:#definition_text#:#Besedilo
 assessment#:#definitions#:#Definicije
 assessment#:#deleteSuggestedSolution#:#Odstranite vsebine za ponavljanje
-assessment#:#delete_all_user_data#:#Odstranite testne podatke vseh udeležencev
 assessment#:#delete_all_user_data_confirmation#:#Ali res želite izbrisati testne podatke vseh udeležencev?
 assessment#:#delete_image_header#:#Odstranite sliko
 assessment#:#delete_image_question#:#Ali res želite odstraniti sliko?
+assessment#:#delete_selected_user_data_confirmation#:#Ali ste prepričani, da želite odstraniti testne podatke izbranih uporabnikov?
 assessment#:#delete_user_data#:#Odstranite testne podatke
 assessment#:#description_maxchars#:#Če ni nič vneseno, je maksimalno število znakov za ta besedilni odgovor neomejeno.
 assessment#:#detail_ending_time_reached#:#Presegli ste najdaljši možni čas, namenjen za obdelavo testa. Test je bil rešen le do %s.
@@ -748,11 +742,6 @@ assessment#:#gap#:#Praznina
 assessment#:#gap_combination#:#Kombinacija besedila s prazninami
 assessment#:#glossary_term#:#Pojem iz glosarja
 assessment#:#grading_mark_msg#:#Vaša ocena je &quot;[mark]&quot";
-assessment#:#grading_obligations_answered_listentry#:#Odgovorjeno
-assessment#:#grading_obligations_answered_msg#:#Odgovorili ste na vsa obvezna vprašanja.
-assessment#:#grading_obligations_listlabel#:#Obvezna vprašanja
-assessment#:#grading_obligations_missing_listentry#:#Odprto
-assessment#:#grading_obligations_missing_msg#:#Niste odgovorili na vsa obvezna vprašanja.
 assessment#:#grading_status_failed_msg#:#Škoda, žal testa<b>niste opravili</b>.
 assessment#:#grading_status_passed_msg#:#Čestitamo! Test<b>ste opravili</b>.
 assessment#:#hints#:#Hints###26 08 2024 new variable
@@ -928,14 +917,11 @@ assessment#:#no_selection#:#--- Brez izbire ---
 assessment#:#no_selection_for_move#:#Izbrano ni bilo nobeno vprašanje za pomikanje
 assessment#:#no_target_selected_for_move#:#Izbrati morate ciljni položaj!
 assessment#:#no_user_or_group_selected#:#Izberite ciljno skupino, v kateri želite opraviti iskanje (uporabniki in/ali skupine)!
-assessment#:#not_all_obligations_answered#:#Preden lahko zaključite test, morate odgovoriti na vsa obvezna vprašanja.
 assessment#:#not_evaluated_users#:#Not Yet Evaluated User
 assessment#:#not_yet_accessed#:#Dostopa še ni
 assessment#:#nr_of_correct_answers#:#Število želenih odgovorov
 assessment#:#number_of_answers#:#Število odgovorov
 assessment#:#numeric_gap#:#Praznina za številčni odgovor
-assessment#:#obligations_summary#:#Pregled obveznih vprašanj
-assessment#:#obligatory#:#Obvezno
 assessment#:#option_label#:#Oznake možnosti
 assessment#:#option_label_adequate#:#primerno
 assessment#:#option_label_adequate_or_not#:#primerno / neprimerno
@@ -1145,8 +1131,8 @@ assessment#:#redirect_always#:#vedno na določeno spletno mesto
 assessment#:#redirect_in_kiosk_mode#:#samo ko je aktiviran prikaz preizkusa
 assessment#:#redirection_url#:#URL spletne strani
 assessment#:#region#:#Regija
-assessment#:#remove_as_participant#:#Odstrani kot stalnega udeleženca
 assessment#:#remove_gap#:#Odstrani praznino
+assessment#:#remove_participants#:#Odstrani kot stalnega udeleženca
 assessment#:#remove_question#:#Odstrani
 assessment#:#remove_solution#:#Odstrani opozorilo glede vsebine ponavljanje
 assessment#:#res_contains_undef_res#:#Formula uporablja rezultate, ki jih ni v besedilu vprašanja!
@@ -1325,6 +1311,7 @@ assessment#:#tst_answered_questions_test#:#Odgovori na vprašanja v tem testu
 assessment#:#tst_attached_xls_file#:#Rezultate testa tega udeleženca najdete v priloženi excel datoteki.
 assessment#:#tst_attempt#:#Poskus
 assessment#:#tst_attempt_limit_message#:#Your limit of test attempts is <b>%s</b>.###26 08 2024 new variable
+assessment#:#tst_attempt_started#:#Test se je začel
 assessment#:#tst_back_to_pass_details#:#Nazaj k podrobnostim opravljanja testa
 assessment#:#tst_back_to_question_list#:#Nazaj na seznam vprašanj
 assessment#:#tst_back_to_top#:#Nazaj na vrh
@@ -1359,7 +1346,6 @@ assessment#:#tst_corrections_answers_tbl_subindex#:#Statistika odgovorov za %s
 assessment#:#tst_corrections_incompatible_question_set_type#:#Corrections are only possible if the test uses a fixed set of questions.
 assessment#:#tst_corrections_manscore_reset_warning#:#Za vprašanje "%s (ID:%s)" obstaja %s ročnih ocen. Ko se vprašanje shrani, se vse ročne ocene ponastavijo.
 assessment#:#tst_corrections_qst_form#:#Popravek točk
-assessment#:#tst_corrections_qst_remove_confirmation#:#Ali ste prepričani, da želite dokončno odstraniti vprašanje "%s (ID:%s)" iz testa?
 assessment#:#tst_corrections_tab_question#:#Vprašanje
 assessment#:#tst_corrections_tab_solution#:#Rešitev
 assessment#:#tst_corrections_tab_statistics#:#Statistika odgovorov
@@ -1376,7 +1362,6 @@ assessment#:#tst_defaults_available#:#Razpoložljive standardne nastavitve
 assessment#:#tst_defaults_defaults_of_test#:#nastavitve tega testa kot nove privzete nastavitve z imenom
 assessment#:#tst_defaults_enter_name#:#Vnesite ime za nove privzete nastavitve!
 assessment#:#tst_defaults_not_defined#:#Nimate še definiranih privzetih nastavitev.
-assessment#:#tst_delete_dyn_test_results_btn#:#Odstranite rezultate testa
 assessment#:#tst_delete_missing_mark#:#Izberite vsaj eno oceno, ki jo želite odstraniti!
 assessment#:#tst_derive_new_pool#:#Izpelji novo skupino vprašanj
 assessment#:#tst_derive_new_pools#:#Ustvarite nove skupine vprašanj
@@ -1509,7 +1494,6 @@ assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Skupina vpraš
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Prikaži taksonomski filter
 assessment#:#tst_insert_missing_question#:#Izberite vsaj eno vprašanje, ki ga želite dodati v test!
 assessment#:#tst_insert_questions#:#Ali ste prepričani, da želite testu dodati naslednje vprašanje/-a?
-assessment#:#tst_insert_questions_and_results#:#Ta test je opravilo že %s uporabnikov. Dodajanje vprašanj bo povzročilo izbris vseh obstoječih rezultatov tega testa. Ali ste prepričani, da želite dodati naslednje vprašanje/-a?
 assessment#:#tst_instant_feedback#:#Neposredna povratna informacija
 assessment#:#tst_instant_feedback_answer_generic#:#Povratna informacija o pravilni rešitvi
 assessment#:#tst_instant_feedback_answer_generic_desc#:#Če je odgovor popolnoma pravilen, ILIAS po kliku na gumb ‚Zahtevaj povratno informacijo' prikaže vrsto povratne informacije. Če odgovor ni povsem pravilen, se prikaže drugačna povratna informacija. Obe različici morata biti shranjeni pri vprašanju v zavihku 'Povratna informacija'.
@@ -1855,11 +1839,8 @@ assessment#:#tst_sequence_postpone#:#Vprašanja lahko premaknete na zaključek o
 assessment#:#tst_sequence_properties#:#Izvedba: Funkcije za udeležence
 assessment#:#tst_session_settings#:#Izvedba
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Test je bil umaknjen s spleta, ker je bila nastavitev za izbiro testnih vprašanj spremenjena. Ponovno dodelite vprašanja testu. Nato test lahko znova objavite na spletu.
-assessment#:#tst_setting_enable_obligations_info#:#Test lahko oddate le, če ste odgovorili na vsa obvezna vprašanja. Avtorji so obvezna vprašanja definirali v 'Pogledu seznama'. Za udeležence mora biti aktivirana možnost »Prikaži seznam vprašanj in stanje obdelave".
-assessment#:#tst_setting_enable_obligations_label#:#Obvezna vprašanja
 assessment#:#tst_setting_offer_hints_info#:#Udeleženci lahko zahtevajo namig za rešitev vprašanja. Ob vsakem namigu za rešitev se število točk za pravi odgovor zmanjša.
 assessment#:#tst_setting_offer_hints_label#:#Namigi za rešitev
-assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Compulsory Questions" cannot be used together with "Answer Lock".###26 08 2024 new variable
 assessment#:#tst_settings_conflict_postpone_and_lock#:#"Unanswered questions will be enqueued" cannot be used together with "Lock Answers After Moving to Next Question".###26 08 2024 new variable
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#"Shuffle Questions" cannot be used together with "Lock Answers After Moving to Next Question".###26 08 2024 new variable
 assessment#:#tst_settings_header_additional#:#Additional Features###26 08 2024 new variable
@@ -1897,7 +1878,6 @@ assessment#:#tst_shuffle_questions#:#Zmešaj vprašanja
 assessment#:#tst_shuffle_questions_description#:#Vrstni red vprašanj za vsakega udeleženca in vsak test se znova zmeša.
 assessment#:#tst_signature#:#Podpis
 assessment#:#tst_single_answer_details#:#Pokaži posamezni odgovor
-assessment#:#tst_single_results#:#Rezultati posameznih vprašanj
 assessment#:#tst_skill_triggerings_num_req_answers#:#Potrebno število odgovorov za ugotavljanje kompetenc
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetence se ugotavljajo le, če vsaj toliko odgovorov prispeva k izračunu stopnje kompetenc.
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Najmanj ena od kompetenc, ki jih vključuje test, ni bila dodeljena zadostnemu številu vprašanj. Za te kompetence niso zabeleženi nobeni vnosi kompetenc za udeležence.<br />Minimalno število za dodeljena vprašanja: %s
@@ -1912,7 +1892,6 @@ assessment#:#tst_src_quest_pool_def_list_table#:#Pravila za naključno izbiro vp
 assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Začni test z aktualno izbiro vprašanj
 assessment#:#tst_start_new_test_pass#:#Začni novo opravljanje testa
 assessment#:#tst_start_test#:#Začni test
-assessment#:#tst_started#:#Test se je začel
 assessment#:#tst_starting_time#:#Začetek
 assessment#:#tst_starting_time_desc#:#Trenutek, ko se test lahko začne. Klik na gumb ‚Začni test' je mogoč in udeleženci lahko odgovarjajo na vprašanja.
 assessment#:#tst_stat_result_atimeofwork#:#Povprečno trajanje obdelave
@@ -1927,7 +1906,7 @@ assessment#:#tst_stat_result_rank_median#:#Mediani dodeljeni rang
 assessment#:#tst_stat_result_rank_participant#:#Razvrstitev udeležencev
 assessment#:#tst_stat_result_resultsmarks#:#Rezultati testa v obliki ocene
 assessment#:#tst_stat_result_resultspoints#:#Rezultati testa v točkah
-assessment#:#tst_stat_result_timeofwork#:#Trajanje obdelave
+assessment#:#tst_stat_result_timeontask#:#Trajanje obdelave
 assessment#:#tst_stat_result_total_participants#:#Skupno število udeležencev
 assessment#:#tst_submit_results#:#DA, potrjujem, da sem oddal/a odgovore.
 assessment#:#tst_tab_competences#:#Kompetence
@@ -1947,7 +1926,6 @@ assessment#:#tst_tbl_col_started_passes#:#Started Passes###19 08 2022 new variab
 assessment#:#tst_tbl_invited_users#:#Izbrani udeleženci
 assessment#:#tst_tbl_participants#:#Udeleženci
 assessment#:#tst_tbl_results_grades#:#Rezultati in ocene
-assessment#:#tst_test_contains_obligatory_questions#:#Če želite zaključiti ta test, morate odgovoriti na vsa obvezna vprašanja (*).
 assessment#:#tst_test_result#:#Rezultat testa
 assessment#:#tst_text_count_system#:#Sistem ocenjevanja
 assessment#:#tst_threshold#:#Mejna vrednost (v %)
@@ -1973,7 +1951,6 @@ assessment#:#tst_virtual_pass_header_lo_qualifying#:#Kvalifikacijski rezultati z
 assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Vaš odgovor iz prejšnjega poskusa je bil prevzet.
 assessment#:#tst_wf_info_answer_not_adopted#:#Iz prejšnjih poskusov ni bil prevzet noben odgovor. Zato morate urediti to vprašanje, sicer se bo vaš učni rezultat poslabšal.
 assessment#:#tst_wf_info_optional_question#:#To vprašanje spada k že opravljenemu učnemu cilju.
-assessment#:#tst_you_have_to_answer_this_question#:#Da zaključite test, morate odgovoriti na to vprašanje.
 assessment#:#tst_your_answer_was#:#Podali ste naslednji odgovor
 assessment#:#tst_your_answers#:#To odgovori, ki ste jih podali na naslednja vprašanja. Preverite svoje odgovore in jih nato oddajte.
 assessment#:#un_add_category#:#Dodaj kategorijo
@@ -2014,7 +1991,6 @@ assessment#:#use_previous_solution_advice#:#Prikazano rešitev, ki ste jo oddali
 assessment#:#user_has_finished_a_test#:#Udeleženec je zaključil test.
 assessment#:#user_ip_outside_range#:#You are not allowed to access the test from this IP.###26 08 2024 new variable
 assessment#:#user_not_invited#:#Niste udeleženec tega izpita.
-assessment#:#user_wrong_clientip#:#Napačen IP odjemalca
 assessment#:#value_between_x_and_y#:#Vrednost mora biti med %s in %s
 assessment#:#values#:#Vrednosti
 assessment#:#variable#:#Variable###26 08 2024 new variable
