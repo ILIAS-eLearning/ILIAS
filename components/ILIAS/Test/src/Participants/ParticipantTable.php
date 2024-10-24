@@ -382,7 +382,11 @@ class ParticipantTable implements DataRetrieval
                     $this->lng->txt('no'),
                     'small'
                 )
-            )->withIsSortable(true);
+            )->withIsSortable(true)
+            ->withOrderingLabels(
+                "{$this->lng->txt('tst_passed')}, {$this->lng->txt('yes')} {$this->lng->txt('order_option_first')}",
+                "{$this->lng->txt('tst_passed')}, {$this->lng->txt('no')} {$this->lng->txt('order_option_first')}"
+            );
             $columns['mark'] = $column_factory->text($this->lng->txt('tst_mark'))
                 ->withIsOptional(true, false)
                 ->withIsSortable(true);
