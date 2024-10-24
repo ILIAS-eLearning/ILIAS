@@ -22,6 +22,7 @@ use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\RequestDataCollector;
 use ILIAS\TestQuestionPool\Presentation\QuestionTable;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\DI\RBACServices;
 use ILIAS\Taxonomy\Service;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use ILIAS\UI\Component\Input\Field\Select;
@@ -332,8 +333,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
             case 'ilquestionpoolexportgui':
                 $exp_gui = new ilQuestionPoolExportGUI($this);
-                $exp_gui->addFormat('xml', $this->lng->txt('qpl_export_xml'));
-                $exp_gui->addFormat('xlsx', $this->lng->txt('qpl_export_excel'), $this, 'createExportExcel');
                 $ret = $this->ctrl->forwardCommand($exp_gui);
                 break;
 
@@ -1305,7 +1304,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         }
     }
 
-    public function createExportExcel(): void
+    public function createExportExcelObject(): void
     {
         $rbacsystem = $this->rbac_system;
         if ($rbacsystem->checkAccess('write', $this->qplrequest->getRefId())) {
