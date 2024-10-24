@@ -3864,6 +3864,7 @@ common#:#current_ip_alert#:#Warnung: Wird hier eine falsche IP eingetragen, wird
 common#:#current_password#:#Derzeitiges Passwort
 common#:#current_user_avatar#:#Ihr Profilbild
 common#:#currently_used_disk_space#:#Aktueller Speicherverbrauch
+common#:#customize_page#:#Seite gestalten
 common#:#cut#:#Ausschneiden
 common#:#cutPage#:#Ausschneiden
 common#:#daily#:#Täglich
@@ -8087,6 +8088,9 @@ dash#:#dash_added_to_favs#:#Der Eintrag wurde zu den persönlichen Favoriten hin
 dash#:#dash_avail_presentation#:#Verfügbare Präsentationen
 dash#:#dash_avail_sortation#:#Verfügbare Sortierungen
 dash#:#dash_click_here#:#Hier klicken
+dash#:#dash_co_delete#:#Dashboard-Gestaltung löschen
+dash#:#dash_co_lang#:#Dashboard-Gestaltung nach Sprachen
+dash#:#dash_customization#:#Gestaltung der Dashboard-Seite
 dash#:#dash_dashboard#:#Dashboard
 dash#:#dash_default_presentation#:#Standardpräsentation
 dash#:#dash_default_sortation#:#Standardsortierung
@@ -8108,6 +8112,7 @@ dash#:#dash_main_panel#:#Hauptbereich
 dash#:#dash_make_favourite#:#Zu Favoriten hinzufügen
 dash#:#dash_member_main_alt#:#Eine Ansicht der Mitgliedschaften kann auch direkt im Haupmenü eingebunden werden.
 dash#:#dash_memberships#:#Meine Kurse und Gruppen
+dash#:#dash_page_edit_info#:#Der Inhalt dieser Seite wird allen Nutzern auf ihrem Dashboard angezeigt. Die Inhaltsblöcke des Dashboards werden darunter angezeigt.
 dash#:#dash_presentation#:#Präsentation
 dash#:#dash_recommended_content#:#Empfohlene Inhalte
 dash#:#dash_remove_from_list#:#Aus Liste entfernen
