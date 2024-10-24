@@ -34,7 +34,7 @@ il.UI.Input = il.UI.Input || {};
 		 * @type {{}}
 		 */
 		const SELECTOR = {
-			file_input: '.ui-input-file',
+			file_input: '[data-il-ui-component="file-field-input"]',
 			file_list: '.ui-input-file-input-list',
 			file_list_entry: '.ui-input-file-input',
 			file_entry_metadata: '.ui-input-file-metadata',
@@ -613,7 +613,7 @@ il.UI.Input = il.UI.Input || {};
             if (typeof file_inputs[Symbol.iterator] === 'function') {
                 let to_process = 0;
                 for (let i = 0; i < file_inputs.length; i++) {
-                    let input_id = file_inputs[i].id;
+                    let input_id = $(file_inputs[i]).attr('id');
                     let dropzone = dropzones[input_id];
                     processRemovals(input_id, event);
                     to_process += dropzone.files.length;
