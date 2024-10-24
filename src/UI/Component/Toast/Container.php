@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,14 +16,12 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Component\Toast;
 
 use ILIAS\UI\Component\Component;
 
-/**
- * Interface Container
- * @package ILIAS\UI\Component\Toast
- */
 interface Container extends Component
 {
     /**
@@ -36,4 +32,20 @@ interface Container extends Component
     public function withAdditionalToast(Toast $toast): Container;
 
     public function withoutToasts(): Container;
+
+    /**
+     * Create a copy of this container with a vanish time in miliseconds.
+     * The vanish time defines the time after which the toasts vanish.
+     */
+    public function withVanishTime(int $vanishTime): Container;
+
+    public function getVanishTime(): int;
+
+    /**
+     * Create a copy of this container with a delay time in miliseconds.
+     * The delay time defines the time when the toasts are shown after a page refresh or an asyncronous update.
+     */
+    public function withDelayTime(int $delayTime): Container;
+
+    public function getDelayTime(): int;
 }
