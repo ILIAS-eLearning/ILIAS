@@ -25,6 +25,7 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
 use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
+use ILIAS\GlobalScreen\Scope\isDecorateable;
 
 /**
  * HTML export view layout provider, hides main and meta bar
@@ -52,25 +53,37 @@ class ilHelpViewLayoutProvider extends AbstractModificationProvider
             return null;
         }
 
+        $f = $DIC->ui()->factory();
         $ttm = $DIC->help()->internal()->domain()->tooltips();
 
         $this->globalScreen()->collector()->mainmenu()->collectOnce();
         foreach ($this->globalScreen()->collector()->mainmenu()->getRawItems() as $item) {
-            $p = $item->getProviderIdentification();
+            if ($item instanceof isDecorateable) {
+                $p = $item->getProviderIdentification();
 
-            $tt_text = $ttm->getMainMenuTooltip($p->getInternalIdentifier());
-            $tt_text = addslashes(str_replace(array("\n", "\r"), '', $tt_text));
+                $tt_text = $ttm->getMainMenuTooltip($p->getInternalIdentifier());
+                $tt_text = addslashes(str_replace(array("\n", "\r"), '', $tt_text));
+                if ($tt_text !== "") {
+                    //$item->withTopics($DIC->ui()->factory()->helpTopics($p->getInternalIdentifier()));
+                    $item->withTopics(...$DIC->ui()->factory()->helpTopics($tt_text));
+                }
+            }
 
             if ($tt_text !== "" && $item instanceof hasSymbol && $item->hasSymbol()) {
-                $item->addSymbolDecorator(static function (Symbol $symbol) use ($tt_text): Symbol {
+                $item->addSymbolDecorator(static function (Symbol $symbol) use ($tt_text, $f): Symbol {
+                    /*  This does not work for multiple reasons, first, symbols do no
+                        accept help topics. Even if they would, it would be the wrong ui element to attach
+                        a help tooltip, since the symbol may be smaller than the parent button or link
+                        we need a $item->hasLink() and $item->hasButton() and Link and Button decorators instead
+                    return $symbol->withHelpTopics(
+                        ...$f->helpTopics($tt_text)
+                    );*/
                     return $symbol->withAdditionalOnLoadCode(static function ($id) use ($tt_text): string {
                         return "il.Tooltip.addToNearest('$id', 'button,a', { context:'', my:'bottom center', at:'top center', text:'$tt_text' });";
                     });
                 });
             }
         }
-
-        ilTooltipGUI::init();
 
         return null;
     }
