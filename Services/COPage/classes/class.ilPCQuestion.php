@@ -312,12 +312,17 @@ class ilPCQuestion extends ilPageContent
 
         $code = array();
 
+        $q_ids = $this->getPage()->getQuestionIds();
         if ($this->getPage()->getPageConfig()->getEnableSelfAssessment()) {
             if (!$this->getPage()->getPageConfig()->getEnableSelfAssessmentScorm() && $a_mode != ilPageObjectGUI::PREVIEW
                 && $a_mode != "offline" && $a_mode !== "edit") {
                 $ilCtrl->setParameterByClass(strtolower(get_class($this->getPage())) . "gui", "page_id", $this->getPage()->getId());
                 $url = $ilCtrl->getLinkTargetByClass(strtolower(get_class($this->getPage())) . "gui", "processAnswer", "", true, false);
                 $code[] = "ilCOPageQuestionHandler.initCallback('" . $url . "');";
+                // call renderers
+                foreach ($q_ids as $q_id) {
+                    $code[] = "renderILQuestion$q_id();";
+                }
             }
 
             if ($this->getPage()->getPageConfig()->getDisableDefaultQuestionFeedback()) {
@@ -325,13 +330,6 @@ class ilPCQuestion extends ilPageContent
             }
 
             $code[] = self::getJSTextInitCode($this->getPage()->getPageConfig()->getLocalizationLanguage()) . ' il.COPagePres.updateQuestionOverviews();';
-        }
-
-        $q_ids = $this->getPage()->getQuestionIds();
-
-        // call renderers
-        foreach ($q_ids as $q_id) {
-            $code[] = "renderILQuestion$q_id();";
         }
 
         // init answer status
