@@ -63,8 +63,12 @@ class ParticipantRepository
     /**
      * @param array<string, mixed> $filter
      */
-    public function getParticipants(int $test_id, ?array $filter, ?Range $range, Order $order): \Generator
-    {
+    public function getParticipants(
+        int $test_id,
+        ?array $filter = null,
+        ?Range $range = null,
+        ?Order $order = null
+    ): \Generator {
         $query = $this->getBaseQuery();
         [$where, $types, $values] = $this->applyFilter(
             $filter,
@@ -73,17 +77,17 @@ class ParticipantRepository
             [$test_id, $test_id]
         );
 
-        if (!empty($where)) {
+        if ($where !== []) {
             $where = join(' AND ', $where);
-            $query .= " WHERE $where";
+            $query .= " WHERE {$where}";
         }
 
-        $orderBy = $this->applyOrder($order);
+        $order_by = $this->applyOrder($order);
 
-        if ($orderBy) {
-            $query .= " ORDER BY $orderBy";
+        if ($order_by !== '') {
+            $query .= " ORDER BY {$order_by}";
         }
-        if ($range) {
+        if ($range !== null) {
             $query .= " LIMIT {$range->getStart()}, {$range->getLength()}";
         }
 
@@ -227,8 +231,12 @@ class ParticipantRepository
      *
      * @return array
      */
-    private function applyFilter(?array $filter, array $where, array $types, array $values): array
-    {
+    private function applyFilter(
+        ?array $filter,
+        array $where,
+        array $types,
+        array $values
+    ): array {
         if ($filter === null) {
             return [$where, $types, $values];
         }
@@ -262,11 +270,14 @@ class ParticipantRepository
         return [$where, $types, $values];
     }
 
-    private function applyOrder(Order $order): string
+    private function applyOrder(?Order $order): string
     {
-        $orderBy = [];
+        if ($order === null) {
+            return '';
+        }
+        $order_by = [];
         foreach ($order->get() as $subject => $direction) {
-            $orderBy[] = match ($subject) {
+            $order_by[] = match ($subject) {
                 'name' => "lastname $direction, firstname $direction",
                 'ip_range' => "ip_range_from $direction, ip_range_to $direction",
                 'total_attempts' => "tries $direction",
@@ -274,7 +285,7 @@ class ParticipantRepository
                 default => null
             };
         }
-        return trim(join(', ', array_filter($orderBy)));
+        return trim(join(', ', array_filter($order_by)));
     }
 
     private function isFilterSet(array $filter, string $key): bool
