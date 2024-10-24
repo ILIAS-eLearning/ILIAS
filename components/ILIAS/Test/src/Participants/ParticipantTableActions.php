@@ -198,10 +198,11 @@ class ParticipantTableActions
 
     protected function resolveSelectedParticipants(TableAction $action, array|string $selected_participants): array
     {
-        $participant_list = $this->test_obj->getActiveParticipantList();
-
         if ($selected_participants === 'ALL_OBJECTS') {
-            $selected_participants = $participant_list->getAllUserIds();
+            return array_filter(
+                iterator_to_array($this->repository->getParticipants($this->test_obj->getTestId())),
+                fn(Participant $participant) => $action->allowActionForRecord($participant)
+            );
         }
 
         return array_filter(

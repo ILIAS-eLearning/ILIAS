@@ -92,6 +92,8 @@ class ParticipantTableIpRangeAction implements TableAction
             $selected_participants
         );
 
+        $is_unique_ip_range = $this->isUniqueClientIp($selected_participants);
+
         return $this->ui_factory->modal()->roundtrip(
             $this->lng->txt('client_ip_range'),
             [
@@ -111,8 +113,8 @@ class ParticipantTableIpRangeAction implements TableAction
                         $this->lng->txt('min_ip_label')
                     )->withAdditionalTransformation($valid_ip_constraint)
                         ->withValue(
-                            $this->isUniqueClientIp($selected_participants) ?
-                            $selected_participants[0]->getClientIpFrom() :
+                            $is_unique_ip_range ?
+                            $selected_participants[0]->getClientIpFrom() ?? '' :
                             ''
                         ),
                     'to' => $this->ui_factory->input()->field()->text(
@@ -120,8 +122,8 @@ class ParticipantTableIpRangeAction implements TableAction
                         $this->lng->txt('ip_range_byline')
                     )->withAdditionalTransformation($valid_ip_constraint)
                         ->withValue(
-                            $this->isUniqueClientIp($selected_participants) ?
-                            $selected_participants[0]->getClientIpFrom() :
+                            $is_unique_ip_range ?
+                            $selected_participants[0]->getClientIpTo() ?? '' :
                             ''
                         ),
                 ])
