@@ -3745,6 +3745,7 @@ common#:#collapse#:#Collapse
 common#:#collapse_all#:#Collapse All
 common#:#collapse_content#:#Collapse Content
 common#:#collapsed#:#Collapsed
+common#:#column_selection#:#Column Selection
 common#:#columns#:#Columns
 common#:#comma_separated#:#Comma Separated
 common#:#comment#:#Comment
@@ -4002,6 +4003,7 @@ common#:#enable_trash_info#:#If enabled, deleted Objects are moved into Trash an
 common#:#enable_webdav#:#Enable WebDAV access
 common#:#enable_webdav_info#:#Allows WebDAV clients to access the repository as a web folder. Users can open web folders using the ‘Open as web folder’ action in the repository, or by entering the following address in a WebDAV client: <a href="%1$s" folder="%1$s">%1$s</a>
 common#:#enabled#:#Enabled
+common#:#enlarge#:#Enlarge
 common#:#enter_in_mb_desc#:#Enter a value in MB.
 common#:#enter_new_name#:#Please enter a name
 common#:#entered_notification#:#"%s" has joined the session "%s".
@@ -4510,6 +4512,7 @@ common#:#links_user_name#:#ILIAS username
 common#:#links_value#:#Parameter Value
 common#:#list#:#List
 common#:#list_of_questions#:#List of Questions
+common#:#list_view#:#List View
 common#:#listaction_learning_progress_settings#:#Learning Progress Settings
 common#:#lm#:#Learning Module ILIAS
 common#:#lm_add#:#Add ILIAS Learning Module
@@ -5646,6 +5649,7 @@ common#:#soap_user_administration#:#Administration via SOAP
 common#:#soap_user_administration_desc#:#If enabled, ILIAS can be administrated via SOAP.
 common#:#soap_wsdl_path#:#WSDL Path
 common#:#soap_wsdl_path_info#:#Please enter the path to the ilias wsdl file which should be used for the webservice. If you leave this field blank, the following path will be used per default:%s
+common#:#sort#:#Sort
 common#:#sort_ascending#:#Sort Ascending
 common#:#sort_ascending_long#:#Change Sort Direction to Ascending
 common#:#sort_by_this_column#:#Sort by this column
@@ -5727,6 +5731,7 @@ common#:#tests#:#Tests
 common#:#textbox#:#Textbox
 common#:#thread#:#Thread
 common#:#thumbnail#:#Thumbnail
+common#:#tile_view#:#Tile View
 common#:#time#:#Time
 common#:#time_limit#:#Access
 common#:#time_limit_add_time_limit_for_selected#:#Please enter a time period for the selected user(s)
