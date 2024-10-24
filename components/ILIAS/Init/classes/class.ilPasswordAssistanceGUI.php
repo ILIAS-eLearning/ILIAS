@@ -43,6 +43,8 @@ class ilPasswordAssistanceGUI implements ilCtrlSecurityInterface
     private ILIAS\UI\Factory $ui_factory;
     private ILIAS\UI\Renderer $ui_renderer;
     private ilObjUser $actor;
+    private ILIAS\Data\Clock\ClockInterface $clock;
+    private ILIAS\Init\PasswordAssitance\PasswordAssistanceRepository $pwa_repository;
 
     public function __construct()
     {
@@ -60,7 +62,11 @@ class ilPasswordAssistanceGUI implements ilCtrlSecurityInterface
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
         $this->actor = $DIC->user();
-
+        $this->clock = (new ILIAS\Data\Factory())->clock()->utc();
+        $this->pwa_repository = new \ILIAS\Init\PasswordAssitance\Repository\PasswordAssistanceDbRepository(
+            $DIC->database(),
+            $this->clock
+        );
         $this->help->setScreenIdComponent('init');
     }
 
@@ -380,12 +386,9 @@ class ilPasswordAssistanceGUI implements ilCtrlSecurityInterface
     {
         global $DIC;
 
-        require_once 'cli/inc.pwassist_session_handler.php';
-        $pwassist_session['pwassist_id'] = db_pwassist_create_id();
-        db_pwassist_session_write(
-            $pwassist_session['pwassist_id'],
-            3600,
-            $userObj->getId()
+        $session = $this->pwa_repository->createSession(
+            $this->pwa_repository->generateHash(),
+            new \ILIAS\Data\ObjectId($userObj->getId())
         );
 
         $pwassist_url = $this->buildUrl(
@@ -393,7 +396,7 @@ class ilPasswordAssistanceGUI implements ilCtrlSecurityInterface
             [
                 'client_id' => $this->getClientId(),
                 'lang' => $this->lng->getLangKey(),
-                'key' => $pwassist_session['pwassist_id']
+                'key' => $session->hash()->value()
             ]
         );
 
@@ -402,7 +405,7 @@ class ilPasswordAssistanceGUI implements ilCtrlSecurityInterface
             [
                 'client_id' => $this->getClientId(),
                 'lang' => $this->lng->getLangKey(),
-                'key' => $pwassist_session['pwassist_id']
+                'key' => $session->hash()->value()
             ]
         );
 
@@ -523,9 +526,18 @@ class ilPasswordAssistanceGUI implements ilCtrlSecurityInterface
             $pwassist_id = $this->retrieveRequestedKey();
         }
 
-        require_once 'cli/inc.pwassist_session_handler.php';
-        $pwassist_session = db_pwassist_session_read($pwassist_id);
-        if (!is_array($pwassist_session) || $pwassist_session['expires'] < time()) {
+        $result = $this->pwa_repository->getSessionByHash(
+            new \ILIAS\Init\PasswordAssitance\ValueObject\PasswordAssistanceHash($pwassist_id)
+        );
+        if ($result->isError()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('pwassist_session_expired'));
+            $this->showAssistanceForm(null);
+            return;
+        }
+
+        /** @var \ILIAS\Init\PasswordAssitance\Entity\PasswordAssistanceSession $session */
+        $session = $result->value();
+        if ($session->isExpired($this->clock)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('pwassist_session_expired'));
             $this->showAssistanceForm(null);
             return;
@@ -584,74 +596,88 @@ class ilPasswordAssistanceGUI implements ilCtrlSecurityInterface
         $password = $form_data[self::PROP_PASSWORD];
         $pwassist_id = $form_data[self::PROP_KEY];
 
-        require_once 'cli/inc.pwassist_session_handler.php';
-        $pwassist_session = db_pwassist_session_read($pwassist_id);
-        if (!is_array($pwassist_session) || $pwassist_session['expires'] < time()) {
+        $result = $this->pwa_repository->getSessionByHash(
+            new \ILIAS\Init\PasswordAssitance\ValueObject\PasswordAssistanceHash($pwassist_id)
+        );
+        if ($result->isError()) {
             $this->tpl->setOnScreenMessage(
                 'failure',
                 str_replace("\\n", '', $this->lng->txt('pwassist_session_expired'))
             );
             $this->showAssistanceForm($form);
+            return;
+        }
+
+        /** @var \ILIAS\Init\PasswordAssitance\Entity\PasswordAssistanceSession $session */
+        $session = $result->value();
+        if ($session->isExpired($this->clock)) {
+            $this->tpl->setOnScreenMessage(
+                'failure',
+                str_replace("\\n", '', $this->lng->txt('pwassist_session_expired'))
+            );
+            $this->showAssistanceForm($form);
+            return;
+        }
+
+        $is_successful = true;
+        $message = '';
+
+        /** @var ilObjUser|null $userObj */
+        $userObj = ilObjectFactory::getInstanceByObjId($session->usrId()->toInt(), false);
+        if (!($userObj instanceof ilObjUser)) {
+            $message = $this->lng->txt('user_does_not_exist');
+            $is_successful = false;
+        }
+
+        // check if the username entered by the user matches the
+        // one of the user object.
+        if ($is_successful && strcasecmp($userObj->getLogin(), $username) !== 0) {
+            $message = $this->lng->txt('pwassist_login_not_match');
+            $is_successful = false;
+        }
+
+        $error_lng_var = '';
+        if ($is_successful &&
+            !ilSecuritySettingsChecker::isPasswordValidForUserContext($password, $userObj, $error_lng_var)) {
+            $message = $this->lng->txt($error_lng_var);
+            $is_successful = false;
+        }
+
+        // End of validation
+        // If the validation was successful, we change the password of the
+        // user.
+        // ------------------
+        if ($is_successful) {
+            $is_successful = $userObj->resetPassword($password, $password);
+            if (!$is_successful) {
+                $message = $this->lng->txt('passwd_invalid');
+            }
+        }
+
+        // If we are successful so far, we update the user object.
+        // ------------------
+        if ($is_successful) {
+            $userObj->setLastPasswordChangeToNow();
+            $userObj->update();
+        }
+
+        // If we are successful, we destroy the password assistance
+        // session and redirect to the login page.
+        // Else we display the form again along with an error message.
+        // ------------------
+        if ($is_successful) {
+            $this->pwa_repository->deleteSession($session);
+            $this->showMessageForm(
+                $this->ui_renderer->render(
+                    $this->ui_factory->messageBox()->info(
+                        sprintf($this->lng->txt('pwassist_password_assigned'), $username)
+                    )
+                ),
+                self::PERMANENT_LINK_TARGET_PW
+            );
         } else {
-            $is_successful = true;
-            $message = '';
-
-            $userObj = ilObjectFactory::getInstanceByObjId((int) $pwassist_session['user_id'], false);
-            if (!($userObj instanceof ilObjUser)) {
-                $message = $this->lng->txt('user_does_not_exist');
-                $is_successful = false;
-            }
-
-            // check if the username entered by the user matches the
-            // one of the user object.
-            if ($is_successful && strcasecmp($userObj->getLogin(), $username) !== 0) {
-                $message = $this->lng->txt('pwassist_login_not_match');
-                $is_successful = false;
-            }
-
-            $error_lng_var = '';
-            if ($is_successful &&
-                !ilSecuritySettingsChecker::isPasswordValidForUserContext($password, $userObj, $error_lng_var)) {
-                $message = $this->lng->txt($error_lng_var);
-                $is_successful = false;
-            }
-
-            // End of validation
-            // If the validation was successful, we change the password of the
-            // user.
-            // ------------------
-            if ($is_successful) {
-                $is_successful = $userObj->resetPassword($password, $password);
-                if (!$is_successful) {
-                    $message = $this->lng->txt('passwd_invalid');
-                }
-            }
-
-            // If we are successful so far, we update the user object.
-            // ------------------
-            if ($is_successful) {
-                $userObj->setLastPasswordChangeToNow();
-                $userObj->update();
-            }
-
-            // If we are successful, we destroy the password assistance
-            // session and redirect to the login page.
-            // Else we display the form again along with an error message.
-            // ------------------
-            if ($is_successful) {
-                db_pwassist_session_destroy($pwassist_id);
-                $this->showMessageForm(
-                    $this->ui_renderer->render(
-                        $this->ui_factory->messageBox()->info(
-                            sprintf($this->lng->txt('pwassist_password_assigned'), $username)
-                        )
-                    ),
-                    self::PERMANENT_LINK_TARGET_PW
-                );
-            } else {
-                $this->tpl->setOnScreenMessage('failure', str_replace("\\n", '', $message));
-                $this->showAssignPasswordForm($form, $pwassist_id);
-            }
+            $this->tpl->setOnScreenMessage('failure', str_replace("\\n", '', $message));
+            $this->showAssignPasswordForm($form, $pwassist_id);
         }
     }
 
