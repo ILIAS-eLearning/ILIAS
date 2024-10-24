@@ -44,8 +44,7 @@ class ilUserCertificateTableProvider
         if (
             $this->database->tableColumnExists('il_cert_user_cert', 'background_image_path') &&
             $this->database->tableColumnExists('il_cert_user_cert', 'thumbnail_image_path')
-        )
-        {
+        ) {
             $additional_select =
                self::TABLE_NAME . '.thumbnail_image_path,
                ' . self::TABLE_NAME . '.thumbnail_image_ident,';
