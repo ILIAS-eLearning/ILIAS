@@ -30,6 +30,8 @@ use ILIAS\Test\TestDIC;
  */
 class ilObjTestFolder extends ilObject
 {
+    public const ADDITIONAL_QUESTION_CONTENT_EDITING_MODE_PAGE_OBJECT_DISABLED = 0;
+
     public const ASS_PROC_LOCK_MODE_NONE = 'none';
     public const ASS_PROC_LOCK_MODE_FILE = 'file';
     public const ASS_PROC_LOCK_MODE_DB = 'db';
