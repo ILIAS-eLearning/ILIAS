@@ -421,8 +421,8 @@ class ilContainer extends ilObject
         if ($ot2->getDefaultDescription() !== "") {
             $new_obj->setDescription($ot2->getDefaultDescription());
         }
-        $log->debug("**1**" . count($new_obj->getObjectTranslation()->getLanguages()));
-        $log->debug("ilContainer: cloning translations from " . $this->getId() . " to " .
+        $this->log->debug("**1**" . count($new_obj->getObjectTranslation()->getLanguages()));
+        $this->log->debug("ilContainer: cloning translations from " . $this->getId() . " to " .
             $new_obj->getId());
 
         #18624 - copy all sorting settings
