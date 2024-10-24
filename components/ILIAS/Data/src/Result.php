@@ -1,8 +1,22 @@
 <?php
 
-declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-/* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
 
 namespace ILIAS\Data;
 
@@ -10,6 +24,8 @@ namespace ILIAS\Data;
  * A result encapsulates a value or an error and simplifies the handling of those.
  *
  * To be implemented as immutable object.
+ *
+ * @template-covariant A
  */
 interface Result
 {
@@ -21,7 +37,7 @@ interface Result
     /**
      * Get the encapsulated value.
      *
-     * @return mixed
+     * @return A
      * @throws \Exception    if !isOK, will either throw the contained exception or
      *                      a NotOKException if a string is contained as error.
      */
@@ -43,8 +59,10 @@ interface Result
     /**
      * Get the encapsulated value or the supplied default if result is an error.
      *
-     * @param mixed $default
-     * @return mixed
+     * @template B
+     *
+     * @param B $default
+     * @return A|B
      */
     public function valueOr($default);
 
@@ -53,7 +71,10 @@ interface Result
      *
      * Does nothing if !isOK.
      *
-     * @param callable $f mixed -> mixed
+     * @template B
+     *
+     * @param callable(A): B $f
+     * @return Result<B>
      */
     public function map(callable $f): Result;
 
@@ -64,7 +85,10 @@ interface Result
      *
      * Does nothing if !isOK. This is monadic bind.
      *
-     * @param callable $f mixed -> Result|null
+     * @template B
+     *
+     * @param callable(A): ?Result<B> $f
+     * @return Result<A>|Result<B>
      * @throws    \UnexpectedValueException    If callable returns no instance of Result
      */
     public function then(callable $f): Result;
@@ -77,7 +101,10 @@ interface Result
      *
      * Does nothing if !isError.
      *
-     * @param callable $f string|\Exception -> Result|null
+     * @template B
+     *
+     * @param callable(string|\Exception): ?Result<B> $f
+     * @return Result<A>|Result<B>
      * @throws    \UnexpectedValueException    If callable returns no instance of Result
      */
     public function except(callable $f): Result;
