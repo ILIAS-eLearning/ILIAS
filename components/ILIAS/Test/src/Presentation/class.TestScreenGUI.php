@@ -92,7 +92,7 @@ class TestScreenGUI
         $this->tabs_manager->activateTab(TabsManager::TAB_ID_TEST);
 
         if (!$this->object->getMainSettings()->getAdditionalSettings()->getHideInfoTab()) {
-            $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
+            $this->ctrl->redirectByClass([\ilRepositoryGUI::class, \ilObjTestGUI::class, \ilInfoScreenGUI::class]);
         }
 
         $this->tpl->setOnScreenMessage('failure', sprintf(

@@ -84,7 +84,7 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
     {
         if (!$this->testrequest->isset('active_id') || $this->testrequest->int('active_id') === 0) {
             $this->tpl->setOnScreenMessage('failure', 'no active id given!', true);
-            $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
+            $this->ctrl->redirectByClass([\ilRepositoryGUI::class, \ilObjTestGUI::class, \ilInfoScreenGUI::class]);
         }
 
         return $this->testrequest->int('active_id');
@@ -123,7 +123,7 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
         if (!$this->object->getGlobalSettings()->isManualScoringEnabled()) {
             // allow only if at least one question type is marked for manual scoring
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("manscoring_not_allowed"), true);
-            $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
+            $this->ctrl->redirectByClass([ilRepositoryGUI::class, ilObjTestGUI::class, ilInfoScreenGUI::class]);
         }
 
         $this->tabs->activateTab(TabsManager::TAB_ID_MANUAL_SCORING);

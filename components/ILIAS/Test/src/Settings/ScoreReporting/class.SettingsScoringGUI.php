@@ -94,7 +94,7 @@ class SettingsScoringGUI extends TestSettingsGUI
     {
         if (!$this->access->checkAccess('write', '', $this->test_gui->getRefId())) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_test'), true);
-            $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
+            $this->ctrl->redirectByClass([\ilRepositoryGUI::class, \ilObjTestGUI::class, \ilInfoScreenGUI::class]);
         }
 
         $this->tabs->activateSubTab(TabsManager::SETTINGS_SUBTAB_ID_SCORING);

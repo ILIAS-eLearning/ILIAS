@@ -86,7 +86,7 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
         if (!$this->test_access->checkScoreParticipantsAccess()
             || !$this->object->getGlobalSettings()->isManualScoringEnabled()) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_test'), true);
-            $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
+            $this->ctrl->redirectByClass([\ilRepositoryGUI::class, \ilObjTestGUI::class, \ilInfoScreenGUI::class]);
         }
 
         $test_question_properties = $this->testquestionsrepository
