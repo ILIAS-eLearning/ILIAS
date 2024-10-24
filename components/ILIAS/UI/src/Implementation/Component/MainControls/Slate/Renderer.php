@@ -60,7 +60,9 @@ class Renderer extends AbstractComponentRenderer
             if ($entry instanceof ISlate\Slate && !$entry instanceof ISlate\Notification) {
                 $trigger_signal = $entry->getToggleSignal();
                 $triggerer = $f->button()->bulky($entry->getSymbol(), $entry->getName(), '#')
-                    ->withOnClick($trigger_signal);
+                    ->withOnClick($trigger_signal)
+                    ->withHelpTopics(...$entry->getHelpTopics())
+                ;
 
                 $mb_id = $entry->getMainBarTreePosition();
                 if ($mb_id) {

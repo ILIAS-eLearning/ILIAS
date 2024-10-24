@@ -139,7 +139,8 @@ class Renderer extends AbstractComponentRenderer
                 $trigger_signal = $component->getTriggerSignal($mb_id, $component::ENTRY_ACTION_TRIGGER);
                 $this->trigger_signals[] = $trigger_signal;
                 $button = $f->button()->bulky($entry->getSymbol(), $entry->getName(), '#')
-                    ->withOnClick($trigger_signal);
+                    ->withOnClick($trigger_signal)
+                    ->withHelpTopics(...$entry->getHelpTopics());
             } else {
                 //add Links/Buttons as toplevel entries
                 $pos = array_search($k, array_keys($entries));
@@ -358,7 +359,8 @@ class Renderer extends AbstractComponentRenderer
                     ->withEngagedState($engaged)
                     ->withOnClick($entry_signal)
                     ->appendOnClick($secondary_signal)
-                    ->withAriaRole(IBulky::MENUITEM);
+                    ->withAriaRole(IBulky::MENUITEM)
+                    ->withHelpTopics(...$entry->getHelpTopics());
 
                 $slate = $entry;
             } elseif ($entry instanceof IBulky) {
