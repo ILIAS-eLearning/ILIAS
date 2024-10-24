@@ -248,9 +248,9 @@ $xml_file_spl = new SplFileInfo('path to my xml file')
 $xsd_file_spl = new SplFileInfo('path to my xsd file')
 
 // Initialize a xml/xsd file handler
-$import = new \ILIAS\Export\ImportHandler\ilFactory();
-$xml_file_handler = $import->file()->xml()->withFileInfo($xml_file_spl);
-$xsd_file_handler = $import->file()->xsd()->withFileInfo($xsd_file_spl);
+$import = new \ILIAS\Export\ImportHandler\Factory();
+$xml_file_handler = $import->file()->xml()->handler()->withFileInfo($xml_file_spl);
+$xsd_file_handler = $import->file()->xsd()->hanlder()->withFileInfo($xsd_file_spl);
 
 /** @var \ILIAS\Export\ImportStatus\ilCollection $validation_results */
 // Validate
@@ -274,17 +274,17 @@ $xml_file_spl = new SplFileInfo('path to my xml file')
 $xsd_file_spl = new SplFileInfo('path to my xsd file')
 
 // Initialize a xml/xsd file handler
-$import = new \ILIAS\Export\ImportHandler\ilFactory();
-$xml_file_handler = $import->file()->xml()->withFileInfo($xml_file_spl);
-$xsd_file_handler = $import->file()->xsd()->withFileInfo($xsd_file_spl);
+$import = new \ILIAS\Export\ImportHandler\Factory();
+$xml_file_handler = $import->file()->xml()->handler()->withFileInfo($xml_file_spl);
+$xsd_file_handler = $import->file()->xsd()->handler()->withFileInfo($xsd_file_spl);
 
 // Build xPath to xml node
 // $path->toString() = '/RootElement/namespace:TargetElement'
-/** @var \ILIAS\Export\ImportHandler\File\Path\ilHandler $path */
-$path = $import->file()->path()->handler()
+/** @var \ILIAS\Export\ImportHandler\Path\Handler $path */
+$path = $import->path()->handler()
     ->withStartAtRoot(true)
-    ->withNode($import->file()->path()->node()->simple()->withName('RootElement'))
-    ->withNode($import->file()->path()->node()->simple()->withName('namespace:TargetElement'));
+    ->withNode($import->path()->node()->simple()->withName('RootElement'))
+    ->withNode($import->path()->node()->simple()->withName('namespace:TargetElement'));
 
 // Because the path contains the namespace 'namespace' we have to add the namespace
 // info to the xml file handler

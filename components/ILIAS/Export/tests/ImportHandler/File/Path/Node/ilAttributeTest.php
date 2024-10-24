@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-namespace Test\ImportHandler\File\Path\Node;
+namespace ILIAS\Export\Test\ImportHandler\File\Path\Node;
 
-use ILIAS\Export\ImportHandler\File\Path\Comparison\ilHandler as ilFilePathComparisonHandler;
-use ILIAS\Export\ImportHandler\File\Path\Node\ilAttribute as ilAttributeFilePathNode;
+use ILIAS\Export\ImportHandler\Path\Comparison\Handler as ilFilePathComparisonHandler;
+use ILIAS\Export\ImportHandler\Path\Node\Attribute as ilAttributeFilePathNode;
 use PHPUnit\Framework\TestCase;
 
 class ilAttributeTest extends TestCase

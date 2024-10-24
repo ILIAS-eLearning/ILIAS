@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-namespace Test\ImportHandler\File\Path\Comparison;
+namespace ILIAS\Export\Test\ImportHandler\File\Path\Comparison;
 
-use ILIAS\Export\ImportHandler\File\Path\Comparison\ilHandler as ilFilePathComparison;
-use ILIAS\Export\ImportHandler\File\Path\Comparison\Operator as ilFilePathComparisonOperator;
+use ILIAS\Export\ImportHandler\Path\Comparison\Handler as ilFilePathComparison;
+use ILIAS\Export\ImportHandler\Path\Comparison\Operator as ilFilePathComparisonOperator;
 use PHPUnit\Framework\TestCase;
 
 class ilHandlerTest extends TestCase
@@ -33,9 +33,16 @@ class ilHandlerTest extends TestCase
 
     public function testComparison(): void
     {
-        $comp1 = new ilFilePathComparison(ilFilePathComparisonOperator::EQUAL, 'Args');
-        $comp2 = new ilFilePathComparison(ilFilePathComparisonOperator::LOWER_EQUAL, '');
-        $comp3 = new ilFilePathComparison(ilFilePathComparisonOperator::GREATER, '2');
+        $comp1 = new ilFilePathComparison();
+        $comp1 = $comp1
+            ->withValue('Args')
+            ->withOperator(ilFilePathComparisonOperator::EQUAL);
+        $comp2 = $comp1
+            ->withOperator(ilFilePathComparisonOperator::LOWER_EQUAL)
+            ->withValue('');
+        $comp3 = $comp1
+            ->withOperator(ilFilePathComparisonOperator::GREATER)
+            ->withValue('2');
 
         $this->assertEquals(
             ilFilePathComparisonOperator::toString(ilFilePathComparisonOperator::EQUAL) . 'Args',

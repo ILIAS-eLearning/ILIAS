@@ -18,11 +18,11 @@
 
 declare(strict_types=1);
 
-namespace Test\ImportHandler\File\Namespace;
+namespace ILIAS\Export\Test\ImportHandler\File\Namespace;
 
-use ILIAS\Export\ImportHandler\File\Namespace\ilCollection as ilFileNamespaceCollection;
-use ILIAS\Export\ImportHandler\File\Namespace\ilHandler as ilFileNamespaceHandler;
-use ILIAS\Export\ImportHandler\I\File\Namespace\ilCollectionInterface as ilFileNamespaceCollectionInterface;
+use ILIAS\Export\ImportHandler\File\Namespace\Collection as ilFileNamespaceCollection;
+use ILIAS\Export\ImportHandler\File\Namespace\Handler as ilFileNamespaceHandler;
+use ILIAS\Export\ImportHandler\I\File\Namespace\CollectionInterface as ilFileNamespaceCollectionInterface;
 use PHPUnit\Framework\TestCase;
 
 class ilCollectionTest extends TestCase

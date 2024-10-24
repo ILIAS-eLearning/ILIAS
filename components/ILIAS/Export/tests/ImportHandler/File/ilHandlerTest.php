@@ -18,11 +18,11 @@
 
 declare(strict_types=1);
 
-namespace Test\ImportHandler\File;
+namespace ILIAS\Export\Test\ImportHandler\File;
 
-use ILIAS\Export\ImportHandler\File\ilHandler as ilFileHandler;
-use ILIAS\Export\ImportHandler\File\Namespace\ilCollection as ilFileNamespaceCollection;
-use ILIAS\Export\ImportHandler\File\Namespace\ilFactory as ilFileNamespaceFactory;
+use ILIAS\Export\ImportHandler\File\Handler as ilFileHandler;
+use ILIAS\Export\ImportHandler\File\Namespace\Collection as ilFileNamespaceCollection;
+use ILIAS\Export\ImportHandler\File\Namespace\Factory as ilFileNamespaceFactory;
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 
