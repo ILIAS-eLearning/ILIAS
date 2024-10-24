@@ -38,12 +38,10 @@ class ilAssQuestionSkillAssignmentPropertyFormGUITest extends assBaseTestCase
         $this->addGlobal_uiFactory();
         $this->addGlobal_uiRenderer();
 
-        $pageTemplate = $this->createMock(ilGlobalTemplateInterface::class);
         $ctrl = $this->createMock(ilCtrl::class);
-        $lng = $this->createMock(ilLanguage::class);
         $parentGUI = $this->createMock(ilAssQuestionSkillAssignmentsGUI::class);
 
-        $this->object = new ilAssQuestionSkillAssignmentPropertyFormGUI($pageTemplate, $ctrl, $lng, $parentGUI);
+        $this->object = new ilAssQuestionSkillAssignmentPropertyFormGUI($parentGUI);
     }
 
     public function testConstruct(): void
