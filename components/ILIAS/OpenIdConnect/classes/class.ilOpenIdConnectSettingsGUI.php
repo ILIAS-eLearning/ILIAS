@@ -638,9 +638,6 @@ class ilOpenIdConnectSettingsGUI
         return true;
     }
 
-    /**
-     * @throws ilCtrlException
-     */
     private function saveProfile(): void
     {
         $this->checkAccessBool('write');
@@ -944,7 +941,7 @@ class ilOpenIdConnectSettingsGUI
     /**
      * @throws ilCtrlException
      */
-    public function userMapping($form = null): void
+    public function userMapping(ilPropertyFormGUI $form = null): void
     {
         if ($form === null) {
             $form = $this->initUserMappingForm();
