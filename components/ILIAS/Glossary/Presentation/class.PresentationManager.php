@@ -64,4 +64,24 @@ class PresentationManager
     {
         return $this->session_repo->getLetter($this->glossary->getRefId());
     }
+
+    public function setSessionViewControlStart(int $vc_start): void
+    {
+        $this->session_repo->setViewControlStart($this->glossary->getRefId(), $vc_start);
+    }
+
+    public function getSessionViewControlStart(): int
+    {
+        return $this->session_repo->getViewControlStart($this->glossary->getRefId());
+    }
+
+    public function setSessionViewControlLength(int $vc_length): void
+    {
+        $this->session_repo->setViewControlLength($this->glossary->getRefId(), $vc_length);
+    }
+
+    public function getSessionViewControlLength(): int
+    {
+        return $this->session_repo->getViewControlLength($this->glossary->getRefId());
+    }
 }

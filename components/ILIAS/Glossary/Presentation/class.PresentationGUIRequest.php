@@ -118,4 +118,14 @@ class PresentationGUIRequest
     {
         return $this->int("page_length");
     }
+
+    public function getViewControlStart(): int
+    {
+        return $this->int("vc_start");
+    }
+
+    public function getViewControlLength(): int
+    {
+        return $this->int("vc_length");
+    }
 }

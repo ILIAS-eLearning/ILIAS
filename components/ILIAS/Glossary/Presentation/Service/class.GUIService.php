@@ -66,4 +66,13 @@ class GUIService
     ) {
         return new \ilPresentationFullGUI($parent_object, $glossary, $offline_mode, $tax_node);
     }
+
+    public function PresentationTableGUI(
+        \ilGlossaryPresentationGUI $parent_object,
+        \ilObjGlossary $glossary,
+        bool $offline_mode,
+        int $tax_node = 0
+    ) {
+        return new \ilPresentationTableGUI($parent_object, $glossary, $offline_mode, $tax_node);
+    }
 }

@@ -38,6 +38,7 @@ class GlossaryHtmlExport
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style;
     protected \ILIAS\Glossary\InternalService $service;
     protected \ilPresentationFullGUI $glo_full_gui;
+    protected \ilPresentationTableGUI $glo_table_gui;
 
     public function __construct(
         \ilObjGlossary $glo,
@@ -63,6 +64,10 @@ class GlossaryHtmlExport
                                 ->gui()
                                 ->presentation()
                                 ->PresentationFullGUI($this->glo_gui, $this->glossary, true);
+        $this->glo_table_gui = $this->service
+                                ->gui()
+                                ->presentation()
+                                ->PresentationTableGUI($this->glo_gui, $this->glossary, true);
 
         $this->global_screen->tool()->context()->current()->addAdditionalData(\ilHTMLExportViewLayoutProvider::HTML_EXPORT_RENDERING, true);
         $this->content_style = $DIC
@@ -164,7 +169,7 @@ class GlossaryHtmlExport
         if ($this->glossary->getPresentationMode() == "full_def") {
             $content = $this->glo_full_gui->renderPanelForOffline();
         } else {
-            $content = $this->glo_gui->listTerms();
+            $content = $this->glo_table_gui->renderPresentationTableForOffline();
         }
         $file = $this->target_dir . "/index.html";
 

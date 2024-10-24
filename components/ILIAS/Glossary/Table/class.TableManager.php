@@ -56,14 +56,6 @@ class TableManager
         return new TermDefinitionBulkCreationTable($raw_data, $glossary);
     }
 
-    public function getPresentationListTable(
-        \ilObjGlossary $glossary,
-        bool $offline,
-        int $tax_node
-    ): PresentationListTable {
-        return new PresentationListTable($glossary, $offline, $tax_node);
-    }
-
     public function getTermListTable(
         \ilObjGlossary $glossary,
         int $tax_node

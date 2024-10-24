@@ -18,14 +18,14 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\AdvancedMetaData\Services\SubObjectModes;
+namespace ILIAS\AdvancedMetaData\Services\SubObjectModes\Filter;
 
-use ILIAS\AdvancedMetaData\Services\SubObjectModes\DataTable;
-use ILIAS\AdvancedMetaData\Services\SubObjectModes\Filter;
+use ILIAS\UI\Component\Input\Container\Filter\FilterInput;
 
-interface SubObjectModesInterface
+interface SupplierInterface
 {
-    public function inDataTable(): DataTable\SupplierInterface;
-
-    public function inFilter(): Filter\SupplierInterface;
+    /**
+     * @return FilterInput[];
+     */
+    public function getFilterInputs(): array;
 }
