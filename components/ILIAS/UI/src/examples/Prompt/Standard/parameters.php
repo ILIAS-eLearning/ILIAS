@@ -58,8 +58,8 @@ function parameters()
     list($url_builder, $action_token, $amount_token) = $url_builder->acquireParameters($query_namespace, "action", "amount");
     $url_builder = $url_builder->withParameter($action_token, "showprompt");
 
-    $default_uri = $url_builder->withParameter($amount_token, "1")->buildURI();
-    $prompt = $factory->prompt()->standard($default_uri);
+    $prompt = $factory->prompt()->standard($url_builder)
+        ->withParameter($amount_token, "1");
 
     //build some endpoint
     $query = $DIC->http()->wrapper()->query();

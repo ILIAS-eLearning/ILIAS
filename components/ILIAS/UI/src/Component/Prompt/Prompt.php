@@ -24,6 +24,7 @@ use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Signal;
 use ILIAS\Data\URI;
+use ILIAS\UI\URLBuilderToken;
 
 interface Prompt extends Component, JavaScriptBindable
 {
@@ -36,4 +37,10 @@ interface Prompt extends Component, JavaScriptBindable
      * Get the signal to close this Prompt.
      */
     public function getCloseSignal(): Signal;
+
+    /**
+     * Consumers my modify the target url by altering the parameter
+     * identified by the respective token.
+     */
+    public function withParameter(URLBuilderToken $token, string|array $value): self;
 }

@@ -22,6 +22,7 @@ namespace ILIAS\UI\Component\Table\Action;
 
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
+use ILIAS\UI\Component\Prompt\Prompt;
 
 interface Factory
 {
@@ -37,7 +38,7 @@ interface Factory
      */
     public function standard(
         string $label,
-        URLBuilder $url_builder,
+        Prompt | URLBuilder $target,
         URLBuilderToken $row_id_parameter
     ): Standard;
 
@@ -53,7 +54,7 @@ interface Factory
      */
     public function single(
         string $label,
-        URLBuilder $url_builder,
+        Prompt | URLBuilder $target,
         URLBuilderToken $row_id_parameter
     ): Single;
 
@@ -69,7 +70,7 @@ interface Factory
      */
     public function multi(
         string $label,
-        URLBuilder $url_builder,
+        Prompt | URLBuilder $target,
         URLBuilderToken $row_id_parameter
     ): Multi;
 }

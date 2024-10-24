@@ -28,6 +28,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\GlobalScreen\GUI\I18n\MultiLanguage\TranslationWorkflowForm;
 use ILIAS\GlobalScreen\GUI\Pons;
 use ILIAS\Data\URI;
+use ILIAS\UI\URLBuilder;
 
 /**
  * @author            Fabian Schmid <fabian@sr.solutions>
@@ -115,7 +116,9 @@ class MultiLanguageGUI extends AbstractPonsGUI
         }
 
         $prompt = $this->ui_factory->prompt()->standard(
-            $this->pons->flow()->getHereAsURI(self::CMD_LANGUAGE_SELECTION)
+            new URLBuilder(
+                $this->pons->flow()->getHereAsURI(self::CMD_LANGUAGE_SELECTION)
+            )
         );
 
         // Edit Button

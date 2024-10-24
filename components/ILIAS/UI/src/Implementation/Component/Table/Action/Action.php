@@ -26,6 +26,7 @@ use ILIAS\UI\Component\Signal;
 use ILIAS\Data\URI;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
+use ILIAS\UI\Component\Prompt\Prompt;
 
 abstract class Action implements I\Action
 {
@@ -38,15 +39,16 @@ abstract class Action implements I\Action
     public const OPT_ACTIONID = 'actId';
     public const OPT_ROWID = 'rowid';
 
-    protected Signal|URI $target;
     protected bool $async = false;
+    protected ?Signal $async_signal = null;
 
     public function __construct(
         protected string $label,
-        protected URLBuilder $url_builder,
+        protected Prompt | URLBuilder $target,
         protected URLBuilderToken $row_id_parameter
     ) {
-        $this->target = $url_builder->buildURI();
+
+        $this->target = $target;
     }
 
     public function getLabel(): string
@@ -54,20 +56,21 @@ abstract class Action implements I\Action
         return $this->label;
     }
 
-    public function getTarget(): Signal|URI
+    public function getTarget(): Prompt|URLBuilder
     {
         return $this->target;
     }
 
-    public function withSignalTarget(Signal $target): self
+    public function isPrompt(): bool
     {
-        $clone = clone $this;
-        $clone->target = $target;
-        return $clone;
+        return $this->target instanceof Prompt;
     }
 
     public function withAsync(bool $async = true): self
     {
+        if ($async && $this->isPrompt()) {
+            throw new \LogicException('Prompt is async by default.');
+        }
         $clone = clone $this;
         $clone->async = $async;
         return $clone;
@@ -78,31 +81,38 @@ abstract class Action implements I\Action
         return $this->async;
     }
 
+    public function withAsyncSignal(Signal $async_signal): self
+    {
+        $clone = clone $this;
+        $clone->async_signal = $async_signal;
+        return $clone;
+    }
+
+    //internal, should throw when null
+    public function getAsyncSignal(): Signal
+    {
+        return $this->async_signal;
+    }
+
     public function withRowId(string $row_id): self
     {
         $clone = clone $this;
-        $target = $clone->getTarget();
-
-        if ($target instanceof Signal) {
-            $target->addOption('rowid', $row_id);
-        }
-        if ($target instanceof URI) {
-            $target = $this->url_builder->withParameter(
-                $this->row_id_parameter,
-                [$row_id]
-            )
-            ->buildURI();
-        }
-        $clone->target = $target;
+        $clone->target = $clone->target->withParameter(
+            $clone->row_id_parameter,
+            [$row_id]
+        );
         return $clone;
     }
 
     public function getURLBuilderJS(): string
     {
-        return $this->url_builder->renderObject([$this->row_id_parameter]);
+        $builder = $this->isPrompt() ? $this->target->getURLBuilder() : $this->target;
+        return $builder->renderObject([$this->row_id_parameter]);
     }
+
     public function getURLBuilderTokensJS(): string
     {
-        return $this->url_builder->renderTokens([$this->row_id_parameter]);
+        $builder = $this->isPrompt() ? $this->target->getURLBuilder() : $this->target;
+        return $builder->renderTokens([$this->row_id_parameter]);
     }
 }

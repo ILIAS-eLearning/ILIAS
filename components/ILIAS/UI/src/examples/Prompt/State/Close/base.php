@@ -71,7 +71,7 @@ function base()
     }
 
     //render prompt and button
-    $prompt = $factory->prompt()->standard($url_builder->buildURI());
+    $prompt = $factory->prompt()->standard($url_builder);
     return $renderer->render([
         $factory->button()->standard('Show Prompt', $prompt->getShowSignal()),
         $prompt
