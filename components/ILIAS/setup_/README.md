@@ -569,3 +569,10 @@ are printed bold**, all other fields might be omitted. A minimal example is
     * *deletion_unit* (type: string) possible values are `days`, `weeks`, `months`, `years`
     * *deletion_value* (type: string or number) depending on `deletion_unit` possible values are `days max 31`, `weeks max 52`, `months max 12`, `years no max`
     * *deletion_time* (type: string) with format `HH:MM e.g. 23:30`
+* *authentication* (type: object)
+  ```
+  "authentication" : {
+    "session_max_idle": 1800
+  }
+  ```
+  * *session_max_idle* (type: number) maximum session idle (in minutes)
