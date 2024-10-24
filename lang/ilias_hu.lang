@@ -580,7 +580,6 @@ assessment#:#code#:#Kód
 assessment#:#codebase#:#Kódbázis
 assessment#:#concatenation#:#Szavak összekapcsolása
 assessment#:#conf_delete_pass#:#Biztos, hogy törli a már létező válaszát?
-assessment#:#confirm_delete_all_user_data#:#Biztos, hogy eltávolítja minden felhasználójának tesztadatát?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#A módosított kérdés egy aktív teszt kérdésének másolata. Módosítja az eredeti kérdést is?
 assessment#:#coordinates#:#Koordináták
@@ -599,7 +598,6 @@ assessment#:#definition_image#:#Definíciókép
 assessment#:#definition_text#:#Definíciószöveg
 assessment#:#definitions#:#Definíciók
 assessment#:#deleteSuggestedSolution#:#Ezen tartalom eltávolítása
-assessment#:#delete_all_user_data#:#Összes felhasználó tesztadatának eltávolítása
 assessment#:#delete_all_user_data_confirmation#:#Biztos, hogy eltávolítja ebben a tesztben minden felhasználó tesztadatát?
 assessment#:#delete_image_header#:#Kép eltávolítása
 assessment#:#delete_image_question#:#Biztos, hogy eltávolítja a képet?

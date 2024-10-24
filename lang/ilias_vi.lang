@@ -582,7 +582,6 @@ assessment#:#code#:#Mã
 assessment#:#codebase#:#Codebase###25 02 2007 new variable
 assessment#:#concatenation#:#Kết hợp
 assessment#:#conf_delete_pass#:#Really delete pass?###28 08 2012 new variable
-assessment#:#confirm_delete_all_user_data#:#Bạn có chắc chắn muốn xóa tất cả các thông tin người sử dụng của bài kiểm tra không?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#Câu hỏi bạn đã thay đổi là một bản sao được tạo ra để sử dụng với bài kiểm tra đang hoạt động. Bạn có muốn thay đổi nguyên bản của câu hỏi không?
 assessment#:#coordinates#:#Tọa độ
@@ -601,7 +600,6 @@ assessment#:#definition_image#:#Definition Image###12 08 2009 new variable
 assessment#:#definition_text#:#Definition Text###12 08 2009 new variable
 assessment#:#definitions#:#Definitions###12 08 2009 new variable
 assessment#:#deleteSuggestedSolution#:#Remove this suggested solution###24 02 2009 new variable
-assessment#:#delete_all_user_data#:#Delete Test Data of all Users###10 05 2007 new variable
 assessment#:#delete_all_user_data_confirmation#:#Do you really want to delete the test data of all users in this test?###10 05 2007 new variable
 assessment#:#delete_image_header#:#Delete image###06 08 2009 new variable
 assessment#:#delete_image_question#:#Do you really want to delete the image?###06 08 2009 new variable

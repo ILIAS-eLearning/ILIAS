@@ -580,7 +580,6 @@ assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Concatenation
 assessment#:#conf_delete_pass#:#Really delete pass?
-assessment#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the test?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active test. Do you want to change the original of the question too?
 assessment#:#coordinates#:#Coordinates
@@ -599,8 +598,7 @@ assessment#:#definition_image#:#Definition Image
 assessment#:#definition_text#:#Definition Text
 assessment#:#definitions#:#Definitions
 assessment#:#deleteSuggestedSolution#:#Remove this suggested solution
-assessment#:#delete_all_user_data#:#Delete Test Data of all Users
-assessment#:#delete_all_user_data_confirmation#:#Do you really want to delete the test data of all users in this test?
+assessment#:#delete_all_user_data_confirmation#:#Do you really want to delete the test results of all users in this test?
 assessment#:#delete_image_header#:#Delete image
 assessment#:#delete_image_question#:#Do you really want to delete the image?
 assessment#:#delete_selected_user_data_confirmation#:#Are you sure you want to delete the test data of the selected users?

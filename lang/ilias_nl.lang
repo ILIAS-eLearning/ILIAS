@@ -580,7 +580,6 @@ assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Aaneenschakeling
 assessment#:#conf_delete_pass#:#Deze poging echt verwijderen?
-assessment#:#confirm_delete_all_user_data#:#Weet je zeker dat je alle gebruikersgegevens van de toets wilt verwijderen
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#De vraag die je hebt veranderd is een kopie die is gemaakt om te gebruiken in de actieve toets. Wil je de originele vraag ook aanpassen?
 assessment#:#coordinates#:#Coördinaten
@@ -599,7 +598,6 @@ assessment#:#definition_image#:#Definitie afbeelding
 assessment#:#definition_text#:#Definitie Tekst
 assessment#:#definitions#:#Definities
 assessment#:#deleteSuggestedSolution#:#Verwijder deze gesuggereerde oplossing
-assessment#:#delete_all_user_data#:#Verwijder toetsgegevens van alle gebruikers
 assessment#:#delete_all_user_data_confirmation#:#Weet je zeker dat je alle gebruikersgegevens van de toets wilt verwijderen
 assessment#:#delete_image_header#:#Verwijder afbeelding
 assessment#:#delete_image_question#:#Weet je er zeker van dat je de afbeelding wilt verwijderen

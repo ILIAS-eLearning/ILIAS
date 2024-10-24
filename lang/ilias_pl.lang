@@ -580,7 +580,6 @@ assessment#:#code#:#Kod
 assessment#:#codebase#:#Baza kodu
 assessment#:#concatenation#:#Złączenie
 assessment#:#conf_delete_pass#:#Czy naprawdę usunąć przebieg?
-assessment#:#confirm_delete_all_user_data#:#Czy chcesz usunąć wszystkie dane użytkownika testu?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#Pytanie, które zmieniłeś jest kopią utworzoną dla aktywnej ankiety. Czy chcesz również zmienić oryginalne pytanie?
 assessment#:#coordinates#:#Koordynaty
@@ -599,7 +598,6 @@ assessment#:#definition_image#:#Obraz definicji
 assessment#:#definition_text#:#Tekst definicji
 assessment#:#definitions#:#Definicje
 assessment#:#deleteSuggestedSolution#:#Usuń sugerowane rozwiązanie
-assessment#:#delete_all_user_data#:#Usuń dane testowe wszystkich użytkowników
 assessment#:#delete_all_user_data_confirmation#:#Czy chcesz usunąć dane testowe wszystkich użytkowników tego testu?
 assessment#:#delete_image_header#:#Usuń obraz
 assessment#:#delete_image_question#:#Czy naprawdę chcesz usunąć obraz?

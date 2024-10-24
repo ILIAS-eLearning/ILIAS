@@ -580,7 +580,6 @@ assessment#:#code#:#コード
 assessment#:#codebase#:#コードベース
 assessment#:#concatenation#:#結び付け
 assessment#:#conf_delete_pass#:#パスを本当に削除しますか?
-assessment#:#confirm_delete_all_user_data#:#本当に全ユーザのテストデータを削除しますか?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#変更した問題は実際のテストで使用するために作成したコピーです。オリジナルの問題も合わせて変更しますか?
 assessment#:#coordinates#:#座標
@@ -599,7 +598,6 @@ assessment#:#definition_image#:#定義イメージ
 assessment#:#definition_text#:#定義テキスト
 assessment#:#definitions#:#定義
 assessment#:#deleteSuggestedSolution#:#要約用のコンテンツを削除
-assessment#:#delete_all_user_data#:#全ユーザのテストデータを削除
 assessment#:#delete_all_user_data_confirmation#:#本当にこのテストの全ユーザのテストデータを削除しますか?
 assessment#:#delete_image_header#:#イメージを削除
 assessment#:#delete_image_question#:#本当にイメージを削除しますか?

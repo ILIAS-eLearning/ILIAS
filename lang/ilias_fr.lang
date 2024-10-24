@@ -565,7 +565,6 @@ assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Concaténation
 assessment#:#conf_delete_pass#:#Voulez vous vraiment supprimer cette tentative ?
-assessment#:#confirm_delete_all_user_data#:#Êtes-vous sûr(e) de vouloir supprimer toutes les informations utilisateurs du test ?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#La question que vous avez changée est une copie qui a été créée pour être utilisée dans le questionnaire de l'enquête en cours. Voulez-vous modifier l'original de cette question également ?
 assessment#:#coordinates#:#Coordonnées
@@ -584,7 +583,6 @@ assessment#:#definition_image#:#Texte de la définition
 assessment#:#definition_text#:#Texte de la définition
 assessment#:#definitions#:#Définitions
 assessment#:#deleteSuggestedSolution#:#Retirer cette solution suggérée
-assessment#:#delete_all_user_data#:#Supprimer les Données de Tous les Utilisateurs
 assessment#:#delete_all_user_data_confirmation#:#Voulez-vous vraiment supprimer les données de tous les utilisateurs de ce test ?
 assessment#:#delete_image_header#:#Supprimer l'image
 assessment#:#delete_image_question#:#àŠtes-vous certain de vouloir supprimer l'image ?

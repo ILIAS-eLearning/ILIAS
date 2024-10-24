@@ -135,7 +135,7 @@ class ParticipantTableDeleteResultsAction implements TableAction
     private function resolveMessage(bool $all_participants_selected): string
     {
         if ($all_participants_selected) {
-            return $this->lng->txt('confirm_delete_all_user_data');
+            return $this->lng->txt('delete_all_user_data_confirmation');
         }
 
         return $this->lng->txt('delete_selected_user_data_confirmation');

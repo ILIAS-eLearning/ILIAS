@@ -580,7 +580,6 @@ assessment#:#code#:#Kod
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Birleştirme
 assessment#:#conf_delete_pass#:#Geçenler gerçekten silinsin mi ?
-assessment#:#confirm_delete_all_user_data#:#Testin tüm kullanıcı verilerini silmek istediğinizden emin misiniz?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#Değiştirdiğiniz soru aktif test için oluşturulmuş bir sorunun kopyasıdır. Orjinali ile değiştirmek istiyor musunuz ?
 assessment#:#coordinates#:#Koordinatlar
@@ -599,7 +598,6 @@ assessment#:#definition_image#:#Görüntü Tanımı
 assessment#:#definition_text#:#Metin Tanımı
 assessment#:#definitions#:#Tanımlar
 assessment#:#deleteSuggestedSolution#:#Bu önerilen çözümü çıkarın
-assessment#:#delete_all_user_data#:#Tüm kullanıcıların test verilerini sil
 assessment#:#delete_all_user_data_confirmation#:#Bu testteki tüm kullanıcıların test verilerini silmek istiyor musunuz ?
 assessment#:#delete_image_header#:#Resimn sil
 assessment#:#delete_image_question#:#Gerçekten resmi silmek istiyor musunuz ?

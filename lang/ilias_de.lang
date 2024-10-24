@@ -586,7 +586,6 @@ assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Verknüpfung
 assessment#:#conf_delete_pass#:#Durchgang wirklich löschen?
-assessment#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Datensätze der Umfrage löschen wollen?
 assessment#:#confirm_log_deletion#:#Sind Sie sicher, dass Sie die ausgewählten Protokolleinträge löschen möchten? Die gelöschten Einträge werden unwiderruflich gelöscht.
 assessment#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in den Test als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
 assessment#:#coordinates#:#Koordinaten
@@ -605,8 +604,7 @@ assessment#:#definition_image#:#Bild
 assessment#:#definition_text#:#Text
 assessment#:#definitions#:#Definitionen
 assessment#:#deleteSuggestedSolution#:#Inhalte zur Wiederholung entfernen
-assessment#:#delete_all_user_data#:#Testdaten aller Teilnehmer entfernen
-assessment#:#delete_all_user_data_confirmation#:#Wollen Sie wirklich die Testdaten aller Teilnehmer löschen?
+assessment#:#delete_all_user_data_confirmation#:#Wollen Sie wirklich die Testergebnisse aller Teilnehmer löschen?
 assessment#:#delete_image_header#:#Bild entfernen
 assessment#:#delete_image_question#:#Möchten Sie das Bild wirklich entfernen?
 assessment#:#delete_selected_user_data_confirmation#:#Sind Sie sicher, dass Sie alle Testdaten der ausgewählten Teilnehmenden entfernen wollen?

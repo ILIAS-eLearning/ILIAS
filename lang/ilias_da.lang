@@ -580,7 +580,6 @@ assessment#:#code#:#Kode
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Konkatnering
 assessment#:#conf_delete_pass#:#Really delete pass?###28 08 2012 new variable
-assessment#:#confirm_delete_all_user_data#:#Er du sikker på at du vil slette alle besvarelser i testen?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#Spørgsmålet du har ændret er en kopi som er blevet lavet for at blive brugt i en aktiv test. ønsker du at ændre det originale spørgsmål?
 assessment#:#coordinates#:#Koordinater
@@ -599,7 +598,6 @@ assessment#:#definition_image#:#Definitionsbillede
 assessment#:#definition_text#:#Definitionstekst
 assessment#:#definitions#:#Definitioner
 assessment#:#deleteSuggestedSolution#:#Fjern løsningsforslag
-assessment#:#delete_all_user_data#:#Slet alle besvarelser
 assessment#:#delete_all_user_data_confirmation#:#Ønsker du at fortsætte og dermed slette alle brugernes besvarelser i denne test?
 assessment#:#delete_image_header#:#Slet billede
 assessment#:#delete_image_question#:#Er du sikker på du vil slette billedet?
