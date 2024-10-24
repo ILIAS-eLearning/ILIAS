@@ -19,6 +19,9 @@ function base()
     $df = new \ILIAS\Data\Factory();
     $refinery = $DIC['refinery'];
     $request = $DIC->http()->request();
+    $current_user_date_format = $df->dateFormat()->withTime24(
+        $DIC['ilUser']->getDateFormat()
+    );
 
     /**
      * This is what the table will look like:
@@ -31,7 +34,7 @@ function base()
         'login' => $f->table()->column()->text("Login")
             ->withHighlight(true),
         'email' => $f->table()->column()->eMail("eMail"),
-        'last' => $f->table()->column()->date("last login", $df->dateFormat()->germanLong()),
+        'last' => $f->table()->column()->date("last login", $current_user_date_format),
         'achieve' => $f->table()->column()->statusIcon("progress")
             ->withIsOptional(true),
         'achieve_txt' => $f->table()->column()->status("success")
@@ -146,7 +149,7 @@ function base()
         ): \Generator {
             $records = $this->getRecords($range, $order);
             foreach ($records as $idx => $record) {
-                $row_id = (string)$record['usr_id'];
+                $row_id = (string) $record['usr_id'];
                 $record['achieve_txt'] = $record['achieve'] > 80 ? 'passed' : 'failed';
                 $record['failure_txt'] = "not " . $record["achieve_txt"];
                 $record['repeat'] = $record['achieve'] < 80;

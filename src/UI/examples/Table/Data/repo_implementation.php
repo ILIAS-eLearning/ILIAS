@@ -38,12 +38,16 @@ class DataTableDemoRepo implements I\DataRetrieval
 {
     protected \ILIAS\UI\Factory $ui_factory;
     protected \ILIAS\Data\Factory $df;
+    protected \ILIAS\Data\DateFormat\DateFormat $current_user_date_format;
 
     public function __construct()
     {
         global $DIC;
         $this->ui_factory = $DIC['ui.factory'];
         $this->df = new \ILIAS\Data\Factory();
+        $this->current_user_date_format = $this->df->dateFormat()->withTime24(
+            $DIC['ilUser']->getDateFormat()
+        );
     }
 
     //the repo is capable of building its table-view (similar to forms from a repo)
@@ -70,7 +74,7 @@ class DataTableDemoRepo implements I\DataRetrieval
             $this->ui_factory->symbol()->icon()->custom('templates/default/images/standard/icon_unchecked.svg', '', 'small')
         ];
         foreach ($this->doSelect($order, $range) as $idx => $record) {
-            $row_id = (string)$record['usr_id'];
+            $row_id = (string) $record['usr_id'];
             $record['achieve_txt'] = $record['achieve'] > 80 ? 'passed' : 'failed';
             $record['failure_txt'] = "not " . $record["achieve_txt"];
             $record['repeat'] = $record['achieve'] < 80;
@@ -107,7 +111,7 @@ class DataTableDemoRepo implements I\DataRetrieval
             'login' => $f->table()->column()->text("Login")
                 ->withHighlight(true),
             'email' => $f->table()->column()->eMail("eMail"),
-            'last' => $f->table()->column()->date("last login", $this->df->dateFormat()->germanLong()),
+            'last' => $f->table()->column()->date("last login", $this->current_user_date_format),
             'achieve' => $f->table()->column()->status("progress")
                 ->withIsOptional(true),
             'achieve_txt' => $f->table()->column()->status("success")

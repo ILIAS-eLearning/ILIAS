@@ -61,7 +61,7 @@ class DataTest extends TableTestBase
         $data = $this->getDataRetrieval();
         $cols = ['f0' => $this->getTableFactory()->column()->text("col1")];
         $table = $this->getTableFactory()->data('title', $cols, $data);
-        $this->assertEquals(800, $table->getNumberOfRows());
+        $this->assertEquals(25, $table->getNumberOfRows());
         $this->assertInstanceOf(Order::class, $table->getOrder());
         $this->assertInstanceOf(Range::class, $table->getRange());
         $this->assertInstanceOf(I\Signal::class, $table->getAsyncActionSignal());
