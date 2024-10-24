@@ -18,7 +18,6 @@
 
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\RequestDataCollector;
-
 use ILIAS\Skill\Service\SkillUsageService;
 
 /**
@@ -378,9 +377,7 @@ class ilAssQuestionSkillAssignmentsGUI
             $form = $this->buildSkillQuestionAssignmentPropertiesForm($question_gui->getObject(), $assignment);
         }
 
-        $questionPageHTML = $this->buildQuestionPage($question_gui);
-
-        $this->tpl->setContent($this->ctrl->getHTML($form) . '<br />' . $questionPageHTML);
+        $this->tpl->setContent($form->getHTML() . '<br />' . $this->buildQuestionPage($question_gui));
     }
 
     private function saveSkillQuestionAssignmentPropertiesFormCmd(): void
@@ -449,14 +446,14 @@ class ilAssQuestionSkillAssignmentsGUI
         $this->ctrl->redirect($this, self::CMD_SHOW_SKILL_QUEST_ASSIGNS);
     }
 
-    private function buildSkillQuestionAssignmentPropertiesForm(assQuestion $question, ilAssQuestionSkillAssignment $assignment): ilAssQuestionSkillAssignmentPropertyFormGUI
-    {
-        $form = new ilAssQuestionSkillAssignmentPropertyFormGUI($this->tpl, $this->ctrl, $this->lng, $this);
-
+    private function buildSkillQuestionAssignmentPropertiesForm(
+        assQuestion $question,
+        ilAssQuestionSkillAssignment $assignment
+    ): ilAssQuestionSkillAssignmentPropertyFormGUI {
+        $form = new ilAssQuestionSkillAssignmentPropertyFormGUI($this);
         $form->setQuestion($question);
         $form->setAssignment($assignment);
         $form->setManipulationEnabled($this->isAssignmentEditingEnabled());
-
         $form->build();
 
         return $form;

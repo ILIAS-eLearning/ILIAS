@@ -16,6 +16,12 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\UI\Component\Modal\Modal;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+
 /**
  * User interface form for configuring under which conditions a competence is
  * awarded when a test question has been solved. Refers to one specific
@@ -26,90 +32,56 @@
  */
 class ilAssQuestionSkillAssignmentPropertyFormGUI extends ilPropertyFormGUI
 {
-    /** @var ilGlobalTemplateInterface */
-    private $pageTemplate;
-    /** @var ilAssQuestionSkillAssignmentsGUI */
-    private $parentGUI;
-    /** @var assQuestion */
-    private $question = null;
-    /** @var ilAssQuestionSkillAssignment */
-    private $assignment = null;
-    /** @var bool */
-    private $manipulationEnabled = false;
-    /** @var \ILIAS\UI\Factory */
-    private $uiFactory;
-    /** @var \ILIAS\UI\Renderer */
-    private $uiRenderer;
+    private ?assQuestion $question = null;
+    private ?ilAssQuestionSkillAssignment $assignment = null;
+    private bool $manipulation_enabled = false;
+    private UIFactory $ui_factory;
+    private UIRenderer $ui_renderer;
+    private ?Modal $legend_modal = null;
 
     public function __construct(
-        ilGlobalTemplateInterface $pageTemplate,
-        ilCtrl $ctrl,
-        ilLanguage $lng,
-        ilAssQuestionSkillAssignmentsGUI $parentGUI
+        private readonly ilAssQuestionSkillAssignmentsGUI $parent_gui
     ) {
         global $DIC;
-
-        $this->pageTemplate = $pageTemplate;
-        $this->ctrl = $ctrl;
-        $this->lng = $lng;
-        $this->parentGUI = $parentGUI;
-        $this->uiFactory = $DIC->ui()->factory();
-        $this->uiRenderer = $DIC->ui()->renderer();
+        $this->ui_factory = $DIC['ui.factory'];
+        $this->ui_renderer = $DIC['ui.renderer'];
 
         parent::__construct();
     }
 
-    /**
-     * @return assQuestion
-     */
     public function getQuestion(): ?assQuestion
     {
         return $this->question;
     }
 
-    /**
-     * @param assQuestion $question
-     */
-    public function setQuestion($question): void
+    public function setQuestion(assQuestion $question): void
     {
         $this->question = $question;
     }
 
-    /**
-     * @return ilAssQuestionSkillAssignment
-     */
     public function getAssignment(): ?ilAssQuestionSkillAssignment
     {
         return $this->assignment;
     }
 
-    /**
-     * @param ilAssQuestionSkillAssignment $assignment
-     */
-    public function setAssignment($assignment): void
+    public function setAssignment(ilAssQuestionSkillAssignment $assignment): void
     {
         $this->assignment = $assignment;
     }
 
-    /**
-     * @return boolean
-     */
     public function isManipulationEnabled(): bool
     {
-        return $this->manipulationEnabled;
+        return $this->manipulation_enabled;
     }
 
-    /**
-     * @param boolean $manipulationEnabled
-     */
-    public function setManipulationEnabled($manipulationEnabled): void
+    public function setManipulationEnabled(bool $manipulation_enabled): void
     {
-        $this->manipulationEnabled = $manipulationEnabled;
+        $this->manipulation_enabled = $manipulation_enabled;
     }
 
     public function build(): void
     {
-        $this->setFormAction($this->ctrl->getFormAction($this->parentGUI));
+        $this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
 
         if ($this->isManipulationEnabled()) {
             $this->addCommandButton(
@@ -145,62 +117,70 @@ class ilAssQuestionSkillAssignmentPropertyFormGUI extends ilPropertyFormGUI
         }
     }
 
+    public function getHTML(): string
+    {
+        if ($this->legend_modal === null) {
+            return parent::getHTML();
+        }
+        return parent::getHTML() . $this->ui_renderer->render($this->legend_modal);
+    }
+
     private function populateFullProperties(): void
     {
-        $evaluationMode = new ilRadioGroupInputGUI($this->lng->txt('condition'), 'eval_mode');
-        $evalOptionReachedQuestionPoints = new ilRadioOption(
+        $evaluation_mode = new ilRadioGroupInputGUI($this->lng->txt('condition'), 'eval_mode');
+        $eval_option_reached_pointsoints = new ilRadioOption(
             $this->lng->txt('qpl_skill_point_eval_by_quest_result'),
             'result'
         );
-        $evaluationMode->addOption($evalOptionReachedQuestionPoints);
-        $evalOptionLogicalAnswerCompare = new ilRadioOption(
+        $evaluation_mode->addOption($eval_option_reached_pointsoints);
+        $eval_option_logical_answer_compare = new ilRadioOption(
             $this->lng->txt('qpl_skill_point_eval_by_solution_compare'),
             'solution'
         );
-        $evaluationMode->addOption($evalOptionLogicalAnswerCompare);
-        $evaluationMode->setRequired(true);
-        $evaluationMode->setValue($this->assignment->getEvalMode());
+        $evaluation_mode->addOption($eval_option_logical_answer_compare);
+        $evaluation_mode->setRequired(true);
+        $evaluation_mode->setValue($this->assignment->getEvalMode());
         if (!$this->isManipulationEnabled()) {
-            $evaluationMode->setDisabled(true);
+            $evaluation_mode->setDisabled(true);
         }
-        $this->addItem($evaluationMode);
+        $this->addItem($evaluation_mode);
 
-        $questSolutionCompareExpressions = new ilLogicalAnswerComparisonExpressionInputGUI(
+        $quest_solution_compare_expressions = new ilLogicalAnswerComparisonExpressionInputGUI(
             $this->lng->txt('tst_solution_compare_cfg'),
             'solution_compare_expressions'
         );
-        $questSolutionCompareExpressions->setRequired(true);
-        $questSolutionCompareExpressions->setAllowMove($this->isManipulationEnabled());
-        $questSolutionCompareExpressions->setAllowAddRemove($this->isManipulationEnabled());
-        $questSolutionCompareExpressions->setQuestionObject($this->question);
-        $questSolutionCompareExpressions->setValues($this->assignment->getSolutionComparisonExpressionList()->get());
-        $questSolutionCompareExpressions->setMinvalueShouldBeGreater(false);
+        $quest_solution_compare_expressions->setRequired(true);
+        $quest_solution_compare_expressions->setAllowMove($this->isManipulationEnabled());
+        $quest_solution_compare_expressions->setAllowAddRemove($this->isManipulationEnabled());
+        $quest_solution_compare_expressions->setQuestionObject($this->question);
+        $quest_solution_compare_expressions->setValues($this->assignment->getSolutionComparisonExpressionList()->get());
+        $quest_solution_compare_expressions->setMinvalueShouldBeGreater(false);
+        $quest_solution_compare_expressions->setMinValue(1);
 
-        $questSolutionCompareExpressions->setMinValue(1);
         if ($this->isManipulationEnabled()) {
             if ($this->getQuestion() instanceof iQuestionCondition) {
                 // #19192
-                $legendGUI = new ilAssLacLegendGUI($this->pageTemplate, $this->lng, $this->uiFactory);
-                $legendGUI->setQuestionOBJ($this->getQuestion());
-                $legenModal = $legendGUI->get();
+                $legend_gui = new ilAssLacLegendGUI($this->global_tpl, $this->lng, $this->ui_factory);
+                $legend_gui->setQuestionOBJ($this->getQuestion());
+                $this->legend_modal = $legend_gui->get();
 
-                $legendToggleButton = $this->uiFactory
+                $legend_show_button = $this->ui_factory
                     ->button()
                     ->shy($this->lng->txt('ass_lac_show_legend_btn'), '#')
-                    ->withOnClick($legenModal->getShowSignal());
+                    ->withOnClick($this->legend_modal->getShowSignal());
 
-                $questSolutionCompareExpressions->setInfo($this->uiRenderer->render([
-                    $legendToggleButton,
-                    $legenModal
-                ]));
+                $quest_solution_compare_expressions->setInfo(
+                    $this->ui_renderer->render($legend_show_button)
+                );
             }
         } else {
-            $questSolutionCompareExpressions->setDisabled(true);
+            $quest_solution_compare_expressions->setDisabled(true);
         }
-        $evalOptionLogicalAnswerCompare->addSubItem($questSolutionCompareExpressions);
+        $eval_option_logical_answer_compare->addSubItem($quest_solution_compare_expressions);
 
-        $questResultSkillPoints = $this->buildResultSkillPointsInputField();
-        $evalOptionReachedQuestionPoints->addSubItem($questResultSkillPoints);
+        $eval_option_reached_pointsoints->addSubItem(
+            $this->buildResultSkillPointsInputField()
+        );
     }
 
     private function populateLimitedProperties(): void
@@ -221,7 +201,7 @@ class ilAssQuestionSkillAssignmentPropertyFormGUI extends ilPropertyFormGUI
         $questResultSkillPoints->setMinvalueShouldBeGreater(false);
         $questResultSkillPoints->setMinValue(1);
         $questResultSkillPoints->allowDecimals(false);
-        $questResultSkillPoints->setValue($this->assignment->getSkillPoints());
+        $questResultSkillPoints->setValue((string) $this->assignment->getSkillPoints());
         if (!$this->isManipulationEnabled()) {
             $questResultSkillPoints->setDisabled(true);
         }
