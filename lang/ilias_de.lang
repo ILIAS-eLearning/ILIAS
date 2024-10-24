@@ -10205,6 +10205,7 @@ grp#:#crs_grp_no_courses_assigned#:#Es sind keine Gruppen zugeordnet.
 grp#:#events#:#Sitzungen
 grp#:#grouping_change_assignment#:#Zuordnung ändern
 grp#:#grp_activate_notification#:#Benachrichtigung aktivieren
+grp#:#grp_activation_online_info#:#Nur wenn die Gruppe online geschaltet ist, können Personen der Gruppe beitreten und Gruppenmitglieder auf die Gruppe zugreifen. Andernfalls ist die Gruppe nur für die Gruppenadministration und Rollen mit dem Recht „Einstellungen bearbeiten“ verfügbar.
 grp#:#grp_add_to_group#:#Zur Gruppe hinzufügen
 grp#:#grp_add_user#:#Benutzer hinzufügen
 grp#:#grp_add_user_to_group#:#Benutzer zur Gruppe hinzufügen
