@@ -316,15 +316,6 @@ class ilObjTest extends ilObject
             [$this->getTestId()]
         );
 
-        /**
-         * 2023-08-08, sk: We check this here to allow an easy deletion of
-         * Dynamic-Tests in migration. The check can go with ILIAS10
-         * @todo: Remove check with ILIAS10
-         */
-        if ($this->isFixedTest() || $this->isRandomTest()) {
-            $this->question_set_config_factory->getQuestionSetConfig()->removeQuestionSetRelatedData();
-        }
-
         $tst_data_dir = ilFileUtils::getDataDir() . "/tst_data";
         $directory = $tst_data_dir . "/tst_" . $this->getId();
         if (is_dir($directory)) {
@@ -1014,7 +1005,7 @@ class ilObjTest extends ilObject
     public function removeQuestionsWithResults(array $question_ids): void
     {
         $scoring = new TestScoring(
-            $this->test_obj,
+            $this,
             $this->user,
             $this->db,
             $this->lng
@@ -1026,22 +1017,24 @@ class ilObjTest extends ilObject
         );
     }
 
-    private function removeQuestionWithResults(int $question_id, TestScoring $scoring): \Closure
+    private function removeQuestionWithResults(int $question_id, TestScoring $scoring): void
     {
         $question = \assQuestion::instantiateQuestion($question_id);
 
-        $participant_data = new ilTestParticipantData($this->database, $this->language);
+        $participant_data = new ilTestParticipantData($this->db, $this->lng);
         $participant_data->load($this->test_id);
 
         $question->removeAllExistingSolutions();
         $scoring->removeAllQuestionResults($question_id);
 
         $this->removeQuestion($question_id);
-        $this->test_obj->removeQuestionFromSequences(
-            $question_id,
-            $participant_data->getActiveIds(),
-            $this->reindexFixedQuestionOrdering()
-        );
+        if (!$this->isRandomTest()) {
+            $this->removeQuestionFromSequences(
+                $question_id,
+                $participant_data->getActiveIds(),
+                $this->reindexFixedQuestionOrdering()
+            );
+        }
 
         $scoring->updatePassAndTestResults($participant_data->getActiveIds());
         ilLPStatusWrapper::_refreshStatus($this->getId(), $participant_data->getUserIds());
