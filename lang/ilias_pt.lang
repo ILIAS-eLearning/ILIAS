@@ -580,7 +580,6 @@ assessment#:#code#:#Código
 assessment#:#codebase#:#Base do código
 assessment#:#concatenation#:#Concatenação
 assessment#:#conf_delete_pass#:#Tem a certeza que quer remover as suas respostas existentes?
-assessment#:#confirm_delete_all_user_data#:#Tem a certeza que quer apagar todos os dados do utilizador do teste?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#A pergunta que alterou é uma cópia que foi criada para ser usada com o teste ativo. Quer mudar também o original da pergunta?
 assessment#:#coordinates#:#Coordenadas
@@ -599,7 +598,6 @@ assessment#:#definition_image#:#Definição imagem
 assessment#:#definition_text#:#Definição texto
 assessment#:#definitions#:#Definições
 assessment#:#deleteSuggestedSolution#:#Remover este conteúdo para recapitulação
-assessment#:#delete_all_user_data#:#Apagar dados de teste de todos os utilizadores
 assessment#:#delete_all_user_data_confirmation#:#Tem a certeza que quer apagar os dados de teste de todos os utilizadores neste teste?
 assessment#:#delete_image_header#:#Remover imagem
 assessment#:#delete_image_question#:#Deseja realmente remover a imagem?

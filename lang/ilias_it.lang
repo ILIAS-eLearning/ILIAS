@@ -580,7 +580,6 @@ assessment#:#code#:#Codice
 assessment#:#codebase#:#Base dei codici
 assessment#:#concatenation#:#Concatenazione
 assessment#:#conf_delete_pass#:#Vuoi davvero cancellare il passaggio?
-assessment#:#confirm_delete_all_user_data#:#Sei sicuro di voler eliminare tutti i dati del test degli utenti?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#La domanda, che &
 assessment#:#coordinates#:#Coordinate
@@ -599,7 +598,6 @@ assessment#:#definition_image#:#Definizione dell'immagine
 assessment#:#definition_text#:#Definizione del testo
 assessment#:#definitions#:#Definizioni
 assessment#:#deleteSuggestedSolution#:#Rimuovere la soluzione proposta
-assessment#:#delete_all_user_data#:#Cancella i dati di test di tutti gli utenti
 assessment#:#delete_all_user_data_confirmation#:#Vuoi cancellare i dati di test di tutti gli utenti?
 assessment#:#delete_image_header#:#Cancella immagine
 assessment#:#delete_image_question#:#Vuoi davvero cancellare l'immagine?

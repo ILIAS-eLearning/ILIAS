@@ -579,7 +579,6 @@ assessment#:#code#:#代码
 assessment#:#codebase#:#代码库
 assessment#:#concatenation#:#级联
 assessment#:#conf_delete_pass#:#真的要删除通过的(pass)？
-assessment#:#confirm_delete_all_user_data#:#您确信要删除所有用户的测试数据吗？
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?
 assessment#:#coordinates#:#匹配
@@ -598,7 +597,6 @@ assessment#:#definition_image#:#图像定义
 assessment#:#definition_text#:#文本定义
 assessment#:#definitions#:#定义
 assessment#:#deleteSuggestedSolution#:#移除此建议方案
-assessment#:#delete_all_user_data#:#删除所有用户的测试数据
 assessment#:#delete_all_user_data_confirmation#:#您确信要删除这个测试的所有用户的测试数据吗？
 assessment#:#delete_image_header#:#删除图像
 assessment#:#delete_image_question#:#您确信要删除图像吗？

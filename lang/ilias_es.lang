@@ -582,7 +582,6 @@ assessment#:#code#:#Código
 assessment#:#codebase#:#URL Base (Localización en Internet)
 assessment#:#concatenation#:#Concatenación
 assessment#:#conf_delete_pass#:#¿Desea borrar la contraseña?
-assessment#:#confirm_delete_all_user_data#:#¿Está usted seguro de que desea eliminar todos los datos de usuario del test?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#La pregunta modificada es una copia que ha sido creada para usar con el test activo. Quiere cambiar la pregunta original también?
 assessment#:#coordinates#:#Coordenadas
@@ -601,7 +600,6 @@ assessment#:#definition_image#:#Definición de Imagen
 assessment#:#definition_text#:#Definición de Texto
 assessment#:#definitions#:#Definiciones
 assessment#:#deleteSuggestedSolution#:#Eliminar esta solución sugerida
-assessment#:#delete_all_user_data#:#Eliminar los datos de test de todos los usuarios
 assessment#:#delete_all_user_data_confirmation#:#¿Realmente quiere eliminar los datos de test de todos los usuarios para este test?
 assessment#:#delete_image_header#:#Borrar imagen
 assessment#:#delete_image_question#:#¿Estás seguro de querer eliminar la imagen?

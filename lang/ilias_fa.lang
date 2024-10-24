@@ -580,7 +580,6 @@ assessment#:#code#:#کد
 assessment#:#codebase#:#پایگاه کد
 assessment#:#concatenation#:#Concatenation
 assessment#:#conf_delete_pass#:#Really delete pass?###28 08 2012 new variable
-assessment#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the test?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active test. Do you want to change the original of the question too?
 assessment#:#coordinates#:#مختصات
@@ -599,7 +598,6 @@ assessment#:#definition_image#:#عکس تعریف
 assessment#:#definition_text#:#متن تعریف
 assessment#:#definitions#:#تعریف ها
 assessment#:#deleteSuggestedSolution#:#حذف راه حل پیشنهادی
-assessment#:#delete_all_user_data#:#پاک کردن داده تست همه کاربران
 assessment#:#delete_all_user_data_confirmation#:#Do you really want to delete the test data of all users in this test?
 assessment#:#delete_image_header#:#پاک کردن عکس
 assessment#:#delete_image_question#:#آیا واقعا می خواهید این عکس را پاک کنید؟

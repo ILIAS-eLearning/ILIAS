@@ -580,7 +580,6 @@ assessment#:#code#:#Код
 assessment#:#codebase#:#Кодовая база
 assessment#:#concatenation#:#Конкатенация
 assessment#:#conf_delete_pass#:#Really delete pass?
-assessment#:#confirm_delete_all_user_data#:#Вы действительно хотите удалить все данные пользователя из теста?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#Вопрос, который вы изменили, является копией вопроса, используемого с активным тестом. Хотите ли Вы также изменить и оригинал вопроса?
 assessment#:#coordinates#:#Координаты
@@ -599,7 +598,6 @@ assessment#:#definition_image#:#Определение изображения
 assessment#:#definition_text#:#Определение текста
 assessment#:#definitions#:#Определения
 assessment#:#deleteSuggestedSolution#:#Удалить это предлагаемое решение
-assessment#:#delete_all_user_data#:#Удалить данные теста всех пользователей
 assessment#:#delete_all_user_data_confirmation#:#Вы действительно хотите удалить все данные теста для всех пользователей этого теста?
 assessment#:#delete_image_header#:#Удалить изображение
 assessment#:#delete_image_question#:#Вы действительно хотите удалить изображение?

@@ -580,7 +580,6 @@ assessment#:#code#:#Kood
 assessment#:#codebase#:#Koodibaas
 assessment#:#concatenation#:#Jätkamine
 assessment#:#conf_delete_pass#:#Really delete pass?
-assessment#:#confirm_delete_all_user_data#:#Oled kindel, et soovi kustutada kõigi kasutajate testiandmed?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#Muudetud küsimus oli aktiivses testis kasutamiseks mõeldud koopia. Kas soovid muuta ka küsimuse originaali?
 assessment#:#coordinates#:#Koordinaadid
@@ -599,7 +598,6 @@ assessment#:#definition_image#:#Definitsiooni pilt
 assessment#:#definition_text#:#Definitsiooni tekst
 assessment#:#definitions#:#Definitsioonid
 assessment#:#deleteSuggestedSolution#:#Eemalda see soovitatud vastus
-assessment#:#delete_all_user_data#:#Kustuta kõikide kasutajate testiandmed
 assessment#:#delete_all_user_data_confirmation#:#Kas oled tõesti kindel, et soovid kustutada kõikide kasutajate andmed selles testis?
 assessment#:#delete_image_header#:#Kustuta pilt
 assessment#:#delete_image_question#:#Kas oled kindel, et soovid selle pildi kustutada?

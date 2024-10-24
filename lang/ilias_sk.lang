@@ -580,7 +580,6 @@ assessment#:#code#:#Kód
 assessment#:#codebase#:#Databáze kódu
 assessment#:#concatenation#:#Sřetězení
 assessment#:#conf_delete_pass#:#Really delete pass?###28 08 2012 new variable
-assessment#:#confirm_delete_all_user_data#:#Skutečně chcete smazat všechna data uživatelů tohoto testu?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#Vámi změněné otázky jsou kopií vytvořenou pro použití v aktivním testu. Chcete změnit také původní otázky?
 assessment#:#coordinates#:#Souřadnice
@@ -599,7 +598,6 @@ assessment#:#definition_image#:#Definice obrázku
 assessment#:#definition_text#:#Definice textu
 assessment#:#definitions#:#Definice
 assessment#:#deleteSuggestedSolution#:#Odstranit toho navrhované řešení
-assessment#:#delete_all_user_data#:#Smazat data testů všech uživatelů
 assessment#:#delete_all_user_data_confirmation#:#Skutečně chcete smazat data testů všech uživatelů tohoto testu?
 assessment#:#delete_image_header#:#Smazat obrázek
 assessment#:#delete_image_question#:#Skutečně chcete smazat tento obrázek?

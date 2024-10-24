@@ -580,7 +580,6 @@ assessment#:#code#:#Kod
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Länk
 assessment#:#conf_delete_pass#:#Vill du verkligen ta bort passagen?
-assessment#:#confirm_delete_all_user_data#:#Är du säker på att du vill radera alla poster från undersökningen?
 assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
 assessment#:#confirm_sync_questions#:#Frågan du ändrade skapades som en kopia av ett original när du infogade den i testet. Vill du nu tillämpa dina ändringar på den ursprungliga frågan?
 assessment#:#coordinates#:#Koordinater
@@ -599,7 +598,6 @@ assessment#:#definition_image#:#Image
 assessment#:#definition_text#:#Text
 assessment#:#definitions#:#Definitioner
 assessment#:#deleteSuggestedSolution#:#Ta bort innehåll för upprepning
-assessment#:#delete_all_user_data#:#Ta bort testdata från alla deltagare
 assessment#:#delete_all_user_data_confirmation#:#Vill du verkligen radera testdata för alla deltagare?
 assessment#:#delete_image_header#:#Ta bort bild
 assessment#:#delete_image_question#:#Vill du verkligen ta bort bilden?
