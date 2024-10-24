@@ -2676,7 +2676,7 @@ JS;
         // populate the instant response blocks in the
         $saved_tpl = $this->tpl;
         $this->tpl = $tpl;
-        $this->populateInstantResponseBlocks($question_gui, true); //FIXME
+        $this->populateInstantResponseBlocks($question_gui, true);
         $this->tpl = $saved_tpl;
 
         $tpl->setVariable('QUESTION_OUTPUT', $pageoutput);
@@ -2688,11 +2688,12 @@ JS;
      */
     private function getQuestionFeedbackModalHtml(ilTemplate $tpl, string $navUrl): string
     {
-        $modal = $this->ui_factory->modal()->interruptive(
+        $modal = $this->ui_factory->modal()->roundtrip(
             $this->lng->txt('tst_instant_feedback'),
-            $tpl->get(),
+            $this->ui_factory->legacy($tpl->get()),
+            [],
             $navUrl
-        )->withActionButtonLabel($this->lng->txt('proceed'));
+        )->withCancelButtonLabel($this->lng->txt('proceed'));
 
         return $this->ui_renderer->render([
             $modal->withOnLoad($modal->getShowSignal())
