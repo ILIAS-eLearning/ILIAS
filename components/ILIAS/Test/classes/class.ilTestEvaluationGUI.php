@@ -2039,8 +2039,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $tpl->addCss(\ilObjStyleSheet::getSyntaxStylePath());
         $tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css"), "print");
 
-        ilMathJax::getInstance()->includeMathJax($tpl);
-
         foreach ($this->global_screen->layout()->meta()->getJs()->getItemsInOrderOfDelivery() as $js) {
             $path = explode("?", $js->getContent());
             $file = $path[0];

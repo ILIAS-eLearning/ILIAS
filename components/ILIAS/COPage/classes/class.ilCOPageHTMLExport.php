@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Implementation\Render\MathJaxConfig;
+use ILIAS\UI\Implementation\Render\ilResourceRegistry;
+
 /**
  * HTML export class for pages
  *
@@ -46,6 +49,7 @@ class ilCOPageHTMLExport
     protected int $content_style_id = 0;
     protected ilObjUser $user;
     protected ilLogger $log;
+    protected MathJaxConfig $mathjax_config;
     protected \ILIAS\GlobalScreen\Services $global_screen;
     protected \ILIAS\Skill\Service\SkillTreeService $skill_tree_service;
     protected \ILIAS\Skill\Service\SkillPersonalService $skill_personal_service;
@@ -61,6 +65,7 @@ class ilCOPageHTMLExport
 
         $this->log = ilLoggerFactory::getLogger('copg');
         $this->user = $DIC->user();
+        $this->mathjax_config = $DIC[MathjaxConfig::class];
         $this->global_screen = $DIC->globalScreen();
         $this->skill_tree_service = $DIC->skills()->tree();
         $this->skill_personal_service = $DIC->skills()->personal();
@@ -171,6 +176,13 @@ class ilCOPageHTMLExport
         }
         // mediaelement.js
         ilPlayerUtil::copyPlayerFilesToTargetDirectory($this->flv_dir);
+
+        // MathJax (resources are files and directories in public folder)
+        if ($this->mathjax_config->isMathJaxEnabled()) {
+            foreach ($this->mathjax_config->getResourcesToExport() as $resource) {
+                $this->exportResourceFile($this->exp_dir, $resource);
+            }
+        }
     }
 
     protected function exportResourceFile(
@@ -180,7 +192,14 @@ class ilCOPageHTMLExport
         if (is_int(strpos($file, "?"))) {
             $file = substr($file, 0, strpos($file, "?"));
         }
-        if (is_file($file)) {
+        if (is_dir($file)) {
+            $dir = dirname($file);
+            ilFileUtils::makeDirParents($target_dir . "/" . $dir);
+            ilFileUtils::rCopy(
+                $file,
+                $this->exp_dir . "/" . $file
+            );
+        } elseif (is_file($file)) {
             $dir = dirname($file);
             ilFileUtils::makeDirParents($target_dir . "/" . $dir);
             if (!is_file($target_dir . "/" . $file)) {
@@ -210,13 +229,14 @@ class ilCOPageHTMLExport
         /* @todo check
         $scripts = [];
         $scripts = array_merge($scripts, ilPlayerUtil::getJsFilePaths());
+         */
 
-        $mathJaxSetting = new ilSetting("MathJax");
-        $use_mathjax = $mathJaxSetting->get("enable");
-        if ($use_mathjax) {
-            $scripts[] = $mathJaxSetting->get("path_to_mathjax");
+        if ($this->mathjax_config->isMathJaxEnabled()) {
+            $registry = new ilResourceRegistry($tpl);
+            foreach ($this->mathjax_config->getResources() as $resource) {
+                $registry->register($resource);
+            }
         }
-        */
 
         $tpl->addCss(\ilUtil::getStyleSheetLocation());
         $tpl->addCss(ilObjStyleSheet::getContentStylePath($this->getContentStyleId()));

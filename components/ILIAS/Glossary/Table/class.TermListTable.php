@@ -446,7 +446,7 @@ class TermListTable
                         $short_str = \ilStr::shortenTextExtended($short_str, $ltexe + 6, true);
                     }
 
-                    $short_str = \ilMathJax::getInstance()->insertLatexImages($short_str);
+                    $short_str = $this->ui_rend->render($this->ui_fac->legacy($short_str)->withLatexEnabled());
 
                     $short_str = \ilPCParagraph::xml2output(
                         $short_str,

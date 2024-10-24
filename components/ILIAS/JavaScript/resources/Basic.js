@@ -254,15 +254,33 @@ il.Util = {
   },
 
   /**
+   * Render Mathjax
+   * @param {array} elements Array of DOM elements
+   * @see https://docs.mathjax.org/en/latest/web/typeset.html#typesetting-math-in-a-web-page
+   */
+  renderMathJax(elements) {
+    if (typeof MathJax !== 'undefined') {
+      MathJax.startup.promise = MathJax.startup.promise
+        .then(() => MathJax.typesetPromise(elements)
+          .catch((err) => console.log(`MathJax typesetting failed: ${err.message}`)));
+    }
+  },
+
+  /**
 	 * print current window, thanks to anoack for the mathjax fix (see bug #)
 	 */
   print() {
     if (typeof (window.print) !== 'undefined') {
-      if (typeof MathJax !== 'undefined' && typeof MathJax.Hub !== 'undefined') {
-        MathJax.Hub.Queue(
-          ['Delay', MathJax.Callback, 700],
-          window.print,
-        );
+      if (typeof window.MathJax !== 'undefined') {
+        const interval_id = setInterval((resolve, reject) => {
+          if (typeof MathJax.startup.promise !== 'undefined') {
+            clearInterval(interval_id);
+            MathJax.startup.promise = MathJax.startup.promise
+              .then(() => MathJax.typesetPromise()
+                .then(window.print)
+                .catch((err) => console.log(`MathJax typesetting failed: ${err.message}`)));
+          }
+        });
       } else {
         window.print();
       }

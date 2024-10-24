@@ -367,7 +367,12 @@ JS;
         $cloze_text = new ilTextAreaInputGUI($this->lng->txt("cloze_text"), 'cloze_text');
         $cloze_text->setRequired(true);
         $cloze_text->setValue($this->applyIndizesToGapText($this->object->getClozeText()));
-        $cloze_text->setInfo($this->lng->txt("close_text_hint"));
+        $cloze_hint = $this->lng->txt("close_text_hint");
+        if ($this->mathjax_config->isMathJaxEnabled()) {
+            $cloze_hint .= ' ' . $this->lng->txt('mathjax_edit_hint');
+        }
+        $cloze_text->setInfo($cloze_hint);
+
         $cloze_text->setRows(10);
         $cloze_text->setCols(80);
         if (!$this->object->getSelfAssessmentEditingMode()) {

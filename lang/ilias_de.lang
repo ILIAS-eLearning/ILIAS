@@ -5846,7 +5846,6 @@ common#:#uploading#:#Hochladen...
 common#:#uri#:#URI
 common#:#url#:#URL
 common#:#url_not_found#:#Datei wurde nicht gefunden
-common#:#url_to_latex#:#URL zum LaTeX CGI-Skript
 common#:#use_customized_instructions#:#Angepassten Anleitungstext verwenden:
 common#:#use_default_instructions#:#Standard-Anleitungstext verwenden.
 common#:#user#:#Benutzer
@@ -7168,7 +7167,6 @@ content#:#cont_text_quot#:#Zitat:
 content#:#cont_text_str#:#Stark betont
 content#:#cont_text_sub#:#Tiefgestellt
 content#:#cont_text_sup#:#Hochgestellt
-content#:#cont_text_tex#:#LaTeX-Code:
 content#:#cont_text_xln#:#Externer Link
 content#:#cont_third_and_more#:#3. oder weitere
 content#:#cont_time#:#Zeit
@@ -11593,39 +11591,6 @@ maps#:#maps_std_location#:#Standardposition
 maps#:#maps_std_location_desc#:#Klicken Sie auf die Karte, um die eigene Position anzugeben.
 maps#:#maps_tile_server#:#Server für Kacheln
 maps#:#maps_zoom_level#:#Vergrößerungsstufe
-mathjax#:#mathjax_enable_client#:#MathJax im Browser aktivieren
-mathjax#:#mathjax_enable_client_info#:#Aktiviert die Darstellung von TeX im Browser durch Einbindung des MathJax-Skripts. MathJax 3 wird unterstützt, aber MathJax 2 empfohlen.
-mathjax#:#mathjax_enable_server#:#MathJax im Server aktivieren
-mathjax#:#mathjax_enable_server_info#:#Aktiviert die serverseitige Umwandlung von TeX in Grafiken.
-mathjax#:#mathjax_home_link#:# ➜ MathJax-Webseite
-mathjax#:#mathjax_limiter#:#Trennzeichen
-mathjax#:#mathjax_limiter_info#:#Wählen Sie die Trennzeichen, die ILIAS für das MathJax-Skript produzieren soll
-mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_polyfill_url#:#Url eines Polyfills
-mathjax#:#mathjax_polyfill_url_desc_line1#:#Für MathJax 2 und MathJax 3 mit aktuellen Browsern nicht benötigt.
-mathjax#:#mathjax_polyfill_url_desc_line2#:#Bitte entfernen Sie die Einbindung von polyfill.io! Siehe https://sansec.io/research/polyfill-supply-chain-attack
-mathjax#:#mathjax_script_url#:#URL des MathJax-Skripts
-mathjax#:#mathjax_script_url_desc_line1#:#Für MathJax 2 z.B. %s
-mathjax#:#mathjax_script_url_desc_line2#:#Bitte verwenden Sie den Safe Mode, um XSS-Angriffe durch MathJax-Code mit Javascript zu vermeiden. Für MathJax 2 kann er an die CDN-Url als Parameter angefügt werden (s.o). Für MathJax 3 müssen Sie ein Skript einbinden, dass ihn konfiguriert, bevor MathJax geladen wird. Verwenden Sie z.B. %s
-mathjax#:#mathjax_server_address#:#Server-Adresse
-mathjax#:#mathjax_server_address_info#:#z.B. http://localhost:8003
-mathjax#:#mathjax_server_cache_cleared#:#Der MathJax-Cache wurde geleert.
-mathjax#:#mathjax_server_cache_size#:#Cache-Größe
-mathjax#:#mathjax_server_cache_size_info#:#Festplattenspeicher, der zur Speicherung der Grafiken verbraucht wird.
-mathjax#:#mathjax_server_clear_cache#:# ➜ Jetzt Cache leeren
-mathjax#:#mathjax_server_for_browser#:#Für den Browser verwenden
-mathjax#:#mathjax_server_for_browser_info#:#TeX wird als SVG-Grafik eingebunden. Damit ist die Aktivierung von MathJax im Browser überflüssig.
-mathjax#:#mathjax_server_for_export#:#Für HTML-Exporte verwenden
-mathjax#:#mathjax_server_for_export_info#:#TeX wird in HTML-Exporten von Lernmodulen als SVG-Grafik exportiert.
-mathjax#:#mathjax_server_for_pdf#:#Für die PDF-Erzeugung verwenden
-mathjax#:#mathjax_server_for_pdf_info#:#Der Server wird zur Darstellung von TeX in PDF-Dokumenten verwendet.
-mathjax#:#mathjax_server_installation#:# ➜ Installationsanleitung
-mathjax#:#mathjax_server_timeout#:#Antwortzeit
-mathjax#:#mathjax_server_timeout_info#:#Maximale Wartezeit auf eine Antwort des MathJax-Servers in Sekunden
-mathjax#:#mathjax_settings#:#MathJax-Einstellungen
-mathjax#:#mathjax_test_expression#:#Test-Ausdruck
-mathjax#:#mathjax_test_expression_info_client#:#Dieser Ausdruck wird mit dem Skript im Browser dargestellt
-mathjax#:#mathjax_test_expression_info_server#:#Dieser Ausdruck wird auf dem Server in eine Grafik umgewandelt
 mcst#:#mcst_add_new_item#:#Neuen Mediacast-Beitrag hinzufügen
 mcst#:#mcst_audio_files#:#Audiodateien
 mcst#:#mcst_audioportable_settings_info#:#Kommagetrennte Liste von Dateiendungen
@@ -17182,6 +17147,7 @@ ui#:#label_fieldselection_refresh#:#Anwenden
 ui#:#label_pagination_limit#:#Pagination - Anzahl der Zeilen
 ui#:#label_pagination_offset#:#Pagination - Start
 ui#:#label_sortation#:#Sortierung
+ui#:#mathjax_edit_hint#:#Sie können LaTeX-Code zwischen den Begrenzern [tex] und [/tex] eingeben.
 ui#:#order_option_alphabetical_ascending#:#A bis Z
 ui#:#order_option_alphabetical_descending#:#Z bis A
 ui#:#order_option_chronological_ascending#:#Älteste zuerst

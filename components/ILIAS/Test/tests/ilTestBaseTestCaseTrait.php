@@ -27,6 +27,7 @@ use ILIAS\UI\Implementation\Factory;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\Refinery\Random\Group as RandomGroup;
 use GuzzleHttp\Psr7\Uri as GuzzleURI;
+use ILIAS\UI\Implementation\Render\MathJaxConfig;
 
 trait ilTestBaseTestCaseTrait
 {
@@ -322,6 +323,11 @@ trait ilTestBaseTestCaseTrait
             'file_delivery',
             $this->getFileDelivery()
         );
+    }
+
+    protected function addGlobal_mathjaxConfig(): void
+    {
+        $this->setGlobalVariable(MathJaxConfig::class, $this->createMock(MathJaxConfig::class));
     }
 
     protected function getFileDelivery(): \ILIAS\FileDelivery\Services

@@ -19,9 +19,8 @@
 		jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
 		{HANDLE_IMAGES}
 
-		if (typeof MathJax != "undefined" && typeof MathJax.Hub != "undefined") {
-			MathJax.Hub.Queue(["Typeset",MathJax.Hub, "container{VAL_ID}"]);
-		}
+		const el = document.getElementById("container{VAL_ID}");
+		il.Util.renderMathJax([el]);
 	}
 </script>
 <!-- END singlechoice -->
@@ -54,9 +53,8 @@ function renderILQuestion{VAL_ID}(){
 
 	question.init();
 
-	if (typeof MathJax != "undefined" && typeof MathJax.Hub != "undefined") {
-		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "container{VAL_ID}"]);
-	}
+	const el = document.getElementById("container{VAL_ID}");
+	il.Util.renderMathJax([el]);
 };
 </script>
 <!-- END multiplechoice -->
@@ -107,9 +105,8 @@ function renderILQuestion{VAL_ID}(){
 
 		{HANDLE_IMAGES}
 
-		if (typeof MathJax != "undefined") {
-			MathJax.Hub.Queue(["Typeset", MathJax.Hub, "container{VAL_ID}"]);
-		}
+		const el = document.getElementById("container{VAL_ID}");
+		il.Util.renderMathJax([el]);
 
 	})(questions[{VAL_ID}]);
 };
@@ -130,9 +127,8 @@ function renderILQuestion{VAL_ID}() {
 	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
 	{HANDLE_IMAGES}
 	jQuery("#order{VAL_ID}").sortable({axis: 'y', containment: '#container{VAL_ID}'});
-	if (typeof MathJax != "undefined") {
-		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "container{VAL_ID}"]);
-	}
+	const el = document.getElementById("container{VAL_ID}");
+	il.Util.renderMathJax([el]);
 }
 </script>
 <!-- END orderingquestion -->
@@ -303,9 +299,8 @@ function renderILQuestion{VAL_ID}()
 
 					questionData.engineInstance = question;
 
-					if (typeof MathJax != "undefined" && typeof MathJax.Hub != "undefined") {
-						MathJax.Hub.Queue(["Typeset", MathJax.Hub, "container{VAL_ID}"]);
-					}
+					const el = document.getElementById("container{VAL_ID}");
+					il.Util.renderMathJax([el]);
 				}
 		);
 

@@ -71,6 +71,7 @@ class ilObjTestGUITest extends ilTestBaseTestCase
         $this->addGlobal_objectService();
         $this->addGlobal_GlobalScreenService();
         $this->addGlobal_resourceStorage();
+        $this->addGlobal_mathjaxConfig();
 
         $this->testObj = $this->getNewTestGUI();
     }

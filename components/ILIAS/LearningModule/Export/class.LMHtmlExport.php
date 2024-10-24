@@ -341,14 +341,6 @@ class LMHtmlExport
                 "type" => "js")
         );
 
-        $mathJaxSetting = new \ilSetting("MathJax");
-        $use_mathjax = (bool) $mathJaxSetting->get("enable");
-        if ($use_mathjax) {
-            $scripts[] = array("source" => "",
-                "target" => $mathJaxSetting->get("path_to_mathjax"),
-                "type" => "js");
-        }
-
         // auto linking js
         foreach (\ilLinkifyUtil::getLocalJsPaths() as $p) {
             if (is_int(strpos($p, "ExtLink"))) {

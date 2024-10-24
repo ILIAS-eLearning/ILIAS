@@ -26,6 +26,7 @@ use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolutionsDatabas
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Notes\GUIService;
+use ILIAS\UI\Implementation\Render\MathJaxConfig;
 
 /**
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
@@ -120,6 +121,7 @@ abstract class assQuestionGUI
     protected ilGlobalPageTemplate $tpl;
     protected ilLanguage $lng;
     protected Refinery $refinery;
+    protected MathjaxConfig $mathjax_config;
 
     protected $error;
     protected string $errormessage;
@@ -177,6 +179,7 @@ abstract class assQuestionGUI
         $this->logger = $DIC['ilLog'];
         $this->component_repository = $DIC['component.repository'];
         $this->refinery = $DIC['refinery'];
+        $this->mathjax_config = $DIC[MathjaxConfig::class];
 
         $local_dic = QuestionPoolDIC::dic();
         $this->request = $local_dic['request_data_collector'];
@@ -893,6 +896,9 @@ abstract class assQuestionGUI
         } else {
             $question->setRteTags(ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
             $question->setUseTagsForRteOnly(false);
+        }
+        if ($this->mathjax_config->isMathJaxEnabled()) {
+            $question->setInfo($this->lng->txt('mathjax_edit_hint'));
         }
 
         $question_type = new ilHiddenInputGUI('question_type');
@@ -1850,7 +1856,6 @@ abstract class assQuestionGUI
      */
     public static function prepareTextareaOutput(
         ?string $txt_output,
-        bool $prepare_for_latex_output = false,
         bool $omitNl2BrWhenTextArea = false
     ): string {
         if ($txt_output === null || $txt_output === '') {
@@ -1882,21 +1887,6 @@ abstract class assQuestionGUI
                     $result = str_replace($found, $removed, $result);
                 }
             }
-        }
-
-        // since server side mathjax rendering does include svg-xml structures that indeed have linebreaks,
-        // do latex conversion AFTER replacing linebreaks with <br>. <svg> tag MUST NOT contain any <br> tags.
-        if ($prepare_for_latex_output) {
-            $result = ilMathJax::getInstance()->insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>");
-            $result = ilMathJax::getInstance()->insertLatexImages($result, "\[tex\]", "\[\/tex\]");
-        }
-
-        if ($prepare_for_latex_output) {
-            // replace special characters to prevent problems with the ILIAS template system
-            // eg. if someone uses {1} as an answer, nothing will be shown without the replacement
-            $result = str_replace("{", "&#123;", $result);
-            $result = str_replace("}", "&#125;", $result);
-            $result = str_replace("\\", "&#92;", $result);
         }
 
         return $result;

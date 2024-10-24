@@ -25,6 +25,7 @@ use ILIAS\UI\Component\Item\Item;
 use ILIAS\UI\Component\Modal\RoundTrip;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Forum\Drafts\ForumDraftsTable;
+use ILIAS\UI\Implementation\Render\MathJaxConfig;
 
 /**
  * @ilCtrl_Calls ilObjForumGUI: ilPermissionGUI, ilForumExportGUI, ilInfoScreenGUI
@@ -70,6 +71,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     public ilObjectDataCache $ilObjDataCache;
     public \ILIAS\DI\RBACServices $rbac;
     public ilHelpGUI $ilHelp;
+    private MathJaxConfig $mathjax_config;
     private Factory $factory;
     private Renderer $renderer;
 
@@ -95,6 +97,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->ilObjDataCache = $DIC['ilObjDataCache'];
         $this->ilNavigationHistory = $DIC['ilNavigationHistory'];
         $this->ilHelp = $DIC['ilHelp'];
+        $this->mathjax_config = $DIC[MathjaxConfig::class];
         $this->rbac = $DIC->rbac();
         $this->factory = $DIC->ui()->factory();
         $this->renderer = $DIC->ui()->renderer();
@@ -106,6 +109,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $this->lng->loadLanguageModule('forum');
         $this->lng->loadLanguageModule('content');
+        $this->lng->loadLanguageModule('ui');
 
         $this->initSessionStorage();
 
@@ -2420,6 +2424,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $oPostGUI->setRequired(true);
         $oPostGUI->setRows(15);
         $oPostGUI->setUseRte(true);
+        if ($this->mathjax_config->isMathJaxEnabled()) {
+            $oPostGUI->setInfo($this->lng->txt('mathjax_edit_hint'));
+        }
 
         $quotingAllowed = (
             !$this->isTopLevelReplyCommand() && (
@@ -4011,6 +4018,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $default_form = new ilForumThreadFormGUI(
             $this,
             $this->objProperties,
+            $this->mathjax_config,
             $this->isWritingWithPseudonymAllowed(),
             $allowNotification,
             $isDraft,
@@ -4043,6 +4051,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $minimal_form = new ilForumThreadFormGUI(
             $this,
             $this->objProperties,
+            $this->mathjax_config,
             $this->isWritingWithPseudonymAllowed(),
             $allowNotification,
             $isDraft,

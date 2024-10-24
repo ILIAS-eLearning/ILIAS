@@ -33,6 +33,7 @@ use ILIAS\Data\Result\Error;
 use ILIAS\Refinery\Transformation;
 use ILIAS\FileDelivery\Init;
 use ILIAS\LegalDocuments\Conductor;
+use ILIAS\UI\Implementation\Render\MathJaxConfig;
 
 // needed for slow queries, etc.
 if (!isset($GLOBALS['ilGlobalStartTime']) || !$GLOBALS['ilGlobalStartTime']) {
@@ -144,7 +145,6 @@ class ilInitialisation
         define("PATH_TO_UNZIP", $ilIliasIniFile->readVariable("tools", "unzip"));
         define("PATH_TO_GHOSTSCRIPT", $ilIliasIniFile->readVariable("tools", "ghostscript"));
         define("PATH_TO_JAVA", $ilIliasIniFile->readVariable("tools", "java"));
-        define("URL_TO_LATEX", $ilIliasIniFile->readVariable("tools", "latex"));
         define("PATH_TO_FOP", $ilIliasIniFile->readVariable("tools", "fop"));
         define("PATH_TO_SCSS", $ilIliasIniFile->readVariable("tools", "scss"));
         define("PATH_TO_PHANTOMJS", $ilIliasIniFile->readVariable("tools", "phantomjs"));
@@ -1551,6 +1551,15 @@ class ilInitialisation
      */
     public static function initUIFramework(\ILIAS\DI\Container $c): void
     {
+        // must be done here to avoid settings/db access in InitUIFramework
+        $c[MathjaxConfig::class] = function ($c) {
+            // this reads the enabling/disabling setting for MathJax rendering in the browser
+            $setting = new ilSetting('UI');
+            return new \ILIAS\UI\Implementation\Render\MathJaxDefaultConfig(
+                (bool) $setting->get('mathjax_enabled'),
+            );
+        };
+
         $init_ui = new InitUIFramework();
         $init_ui->init($c);
 

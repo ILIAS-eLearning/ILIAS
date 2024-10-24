@@ -775,6 +775,9 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             },
             $this->object->getAnswers()
         ));
+        if ($this->mathjax_config->isMathJaxEnabled()) {
+            $choices->setInfo($this->lng->txt('mathjax_edit_hint'));
+        }
         $form->addItem($choices);
         return $form;
     }
