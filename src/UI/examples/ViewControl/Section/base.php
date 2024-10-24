@@ -4,6 +4,19 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\ViewControl\Section;
 
+/**
+ * ---
+ * description: >
+ *   Example performing a page reload if switching between sections of some data.
+ *
+ * expected output: >
+ *   ILIAS shows three controls next to each other: A "Back" glyph, a label "Engaged Section" and a "Next" glyph.
+ *   Clicking "Engaged Section" will reload the website. Clicking the other two controls will result to the button in the
+ *   middle being disenganged and showing the label "Go to Engaged Section (Current Section: 1)". The counter increases with
+ *   each click onto the "Next" glyph and decreases with each click onto the "Back" glyph. Clicking the button in the middle
+ *   with the "Goto..." label will revert the buttons to the original status.
+ * ---
+ */
 function base()
 {
     //Loading factories

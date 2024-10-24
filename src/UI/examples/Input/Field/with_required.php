@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Input\Field;
 
 /**
- * Example showing the use of the withRequired() method
+ * ---
+ * description: >
+ *   Example showing the use of the withRequired() method
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function with_required()
 {

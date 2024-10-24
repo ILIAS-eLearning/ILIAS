@@ -1,20 +1,47 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Counter\Status;
 
 /**
- * Note, counters also offer an interface for manipulations through JS.
- * Checkout: src/UI/templates/js/Counter/counter.js for a complete spec.
+ * ---
+ * description: >
+ *   Base example for rendering a JS status counter
  *
+ * note: >
+ *   Counters also offer an interface for manipulations through JS.
+ *   Checkout src/UI/templates/js/Counter/counter.js for a complete spec.
+ * Example Usage: >
+ *   //Step 1: Get the counter Object
+ *   var counter = il.UI.counter.getCounterObject($some_jquery_object);
+ *   //Step 2: Do stuff with the counter Object
+ *   var novelty_count = counter.setNoveltyCount(3).getNoveltyCount(); //novelty count should be 3
+ *   novelty_count = counter.setNoveltyToStatus().getNoveltyCount(); //novelty count should be 0, status count 3
  *
- * Example Usage:
- * //Step 1: Get the counter Object
- * var counter = il.UI.counter.getCounterObject($some_jquery_object);
- * //Step 2: Do stuff with the counter Object
- * var novelty_count = counter.setNoveltyCount(3).getNoveltyCount(); //novelty count should be 3
- * novelty_count = counter.setNoveltyToStatus().getNoveltyCount(); //novelty count should be 0, status count 3
+ * expected output: >
+ *   ILIAS shows differennt JS-exmaples which can get altered directly:
+ *   - Click once to raise the status counter to 10.
+ *   - Click once to raise the novelty counter to 1.
+ *   - Click once to change the novelty counter to a status counter.
+ *   - Click once to change the status counter 3 to a novelty counter 7.
+ * ---
  */
 function with_js()
 {

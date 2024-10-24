@@ -5,7 +5,15 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\ViewControl\Mode;
 
 /**
- * Base example performing a page reload if active view is changed.
+ * ---
+ * description: >
+ *   Base example performing a page reload if active view is changed.
+ *
+ * expected output: >
+ *   ILIAS shows three controls next to each other. The first control is highlighted especially ("activ/engaged").
+ *   Clicking the first control won't activate any actions. Clicking the other controls activates/engages the
+ *   appropriate control while the other control will be deactived/disengaged.
+ * ---
  */
 function base()
 {

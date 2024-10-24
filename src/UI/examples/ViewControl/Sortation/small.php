@@ -4,7 +4,17 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\ViewControl\Sortation;
 
-//This can be used, when space is very scarce and the label can not be displayed
+/**
+ * ---
+ * description: >
+ *   This can be used, when space is very scarce and the label can not be displayed
+ *
+ * expected output: >
+ *   ILIAS shows a control with two arrows. Clicking the arrows will open a dropdown menu with three shy buttons
+ *   "Default Ordering", "Most Recent Ordering" and "Oldest Ordering". Clicking the button will reload the website.
+ *   The control is still the same as before.
+ * ---
+ */
 function small()
 {
     //Loading factories

@@ -1,11 +1,37 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Input\Container\Form\Standard;
 
 /**
- * Example showing how constraints and transformation can be attached to a form.
+ * ---
+ * description: >
+ *   Example showing how constraints and transformation can be attached to a form.
+ *
+ * expected output: >
+ *   ILIAS shows a section with two input fields titled "Left" and "Right".
+ *   Please enter an advertised number in english between 1 and 10 (e.g. "two" and "four").
+ *   ILIAS will add those numbers after the input was saved. The output will be displayed in following format:
+ *   2 + 4 = 6
+ *   Entering unvalid inputs will result to an error message below the input fields.
+ * ---
  */
 function data_processing()
 {

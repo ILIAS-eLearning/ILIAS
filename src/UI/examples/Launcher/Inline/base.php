@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Launcher\Inline;
 
+/**
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function base()
 {
     global $DIC;
@@ -21,7 +27,7 @@ function base()
 
     $icon = $ui_factory->symbol()->icon()->standard('ps', '', 'large');
 
-    $status_message =  $ui_factory->messageBox()->failure("You have to complete all preconditions first.")
+    $status_message = $ui_factory->messageBox()->failure("You have to complete all preconditions first.")
         ->withLinks([
             $ui_factory->link()->standard("Do this first", "#"),
             $ui_factory->link()->standard("And this is mandatory, too", "#")

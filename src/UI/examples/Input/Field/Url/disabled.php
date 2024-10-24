@@ -1,12 +1,35 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Input\Field\Url;
 
 /**
- * This example shows how to create and render a disabled URL input field and attach it to a form.
- * It does not contain any data processing.
+ * ---
+ * description: >
+ *   This example shows how to create and render a disabled URL input field and attach it to a form.
+ *   It does not contain any data processing.
+ *
+ * expected output: >
+ *   ILIAS shows an input field titled "Disabled Input". You can not activate the field and therefore you can also not
+ *   enter any text. Clicking "Save" will relaod the page.
+ * ---
  */
 function disabled()
 {

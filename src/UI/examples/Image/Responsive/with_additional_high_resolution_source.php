@@ -5,10 +5,16 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Image\Responsive;
 
 /**
- * Example showing different card sizes which use an image with additional
- * high resolution sources. The image defaults to the smallest version of
- * the image (144px wide) and loads the next bigger version for different
- * breakpoints (min-widths). The effect is best seen on desktop devices.
+ * ---
+ * description: >
+ *   Example showing different card sizes which use an image with additional
+ *   high resolution sources. The image defaults to the smallest version of
+ *   the image (144px wide) and loads the next bigger version for different
+ *   breakpoints (min-widths). The effect is best seen on desktop devices.
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  */
 function with_additional_high_resolution_source(): string
 {

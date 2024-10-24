@@ -5,30 +5,35 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\MainControls\MetaBar;
 
 /**
- * This is a rather extended example on the usage of the Notification Item async
- * functionality provided by src/UI/templates/js/Item/notification.js.
- * See notification.js for a detailed description of the function. Note that
- * we use some il.DemoScope to store some JS for Demo purposes, it contains the
- * following three items:
- *  - DemoScopeRemaining: Integer, Counting how many Items are still there
- *  - DemoScopeAdded: Integer, Counting how many Items have been addedf
- *  - DemoScopeItem: Most importantly, the Notification Object for executing all the
- *      Async logic.
+ * ---
+ * description: >
+ *   This is a rather extended example on the usage of the Notification Item async
+ *   functionality provided by src/UI/templates/js/Item/notification.js.
+ *   See notification.js for a detailed description of the function. Note that
+ *   we use some il.DemoScope to store some JS for Demo purposes, it contains the
+ *   following three items:
+ *    - DemoScopeRemaining: Integer, Counting how many Items are still there
+ *    - DemoScopeAdded: Integer, Counting how many Items have been addedf
+ *    - DemoScopeItem: Most importantly, the Notification Object for executing all the
+ *        Async logic.
  *
- * The functions of the public interface of interest featured here are:
- *  - getNotificationItemObject($item_or_object_inside_item): Most importantly, returning
- *       the Item Object, for access to all other functions of the interface.
+ *   The functions of the public interface of interest featured here are:
+ *    - getNotificationItemObject($item_or_object_inside_item): Most importantly, returning
+ *         the Item Object, for access to all other functions of the interface.
  *
- *  - replaceByAsyncItem(url,send_data): Replaces the item completely with a new retrieved async.
- *  - replaceContentByAsyncItemContent(url,send_data): Only replaces the data around the item
- *       (title, description and such)
- *  - addAsyncAggregate(url,send_data): Adds one aggregate retrieved async (the sub-like items).
- *  - getCounterObjectIfAny(): Gets an instance of the counter for manual manipulations.
+ *    - replaceByAsyncItem(url,send_data): Replaces the item completely with a new retrieved async.
+ *    - replaceContentByAsyncItemContent(url,send_data): Only replaces the data around the item
+ *         (title, description and such)
+ *    - addAsyncAggregate(url,send_data): Adds one aggregate retrieved async (the sub-like items).
+ *    - getCounterObjectIfAny(): Gets an instance of the counter for manual manipulations.
  *
- * Of further Interest could be (not featured here):
- *  - getCloseButtonOfItem(): Getting a jQuery instance of the close button, e.g. for attaching
- *     more interactions.
-
+ *   Of further Interest could be (not featured here):
+ *    - getCloseButtonOfItem(): Getting a jQuery instance of the close button, e.g. for attaching
+ *      more interactions.
+ *
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
  * @return string
  */
 function extended_example_for_developers(): string

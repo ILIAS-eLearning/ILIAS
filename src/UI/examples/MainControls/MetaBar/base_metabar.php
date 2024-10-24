@@ -6,6 +6,12 @@ namespace ILIAS\UI\examples\MainControls\MetaBar;
 
 use ILIAS\DI\Container;
 
+/**
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function base_metabar(): string
 {
     global $DIC;

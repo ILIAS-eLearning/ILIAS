@@ -8,6 +8,12 @@ use ILIAS\UI\Component\Chart\Bar\Bar;
 use ILIAS\UI\Component\Chart\Bar\BarConfig;
 use ILIAS\UI\Component\Chart\Bar\XAxis;
 
+/**
+ * ---
+ * expected output: >
+ *   ILIAS shows the rendered Component.
+ * ---
+ */
 function custom()
 {
     //Loading factories

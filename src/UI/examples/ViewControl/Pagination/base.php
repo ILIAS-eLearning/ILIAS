@@ -4,6 +4,18 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\ViewControl\Pagination;
 
+/**
+ * ---
+ * description: >
+ *   Example for rendering a pagination view control.
+ *
+ * expected output: >
+ *   ILIAS shows a series of numbers 1-10 positioned between a "Back" (<) and "Next" (<) glyph. Clicking a number loads a
+ *   new page: the updated number will be shown under the series of numbers, e.g. "entries 80-90" after clicking "9". You
+ *   can browse the pages through the glyphs too. Please note that the "Back" glyph can't be used on the first page and the
+ *   "Next" glyph can't be used on the last page.
+ * ---
+ */
 function base()
 {
     global $DIC;
