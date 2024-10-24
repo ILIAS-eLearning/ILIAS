@@ -376,7 +376,7 @@ class ilOpenIdConnectSettings
         return $result;
     }
 
-    public function getSupportedScopesFromUrl(string $discoveryURL) : bool
+    public function getSupportedScopesFromUrl(string $discoveryURL): bool
     {
         try {
             $curl = new ilCurlConnection($discoveryURL);
@@ -391,11 +391,12 @@ class ilOpenIdConnectSettings
             if ($curl->getInfo(CURLINFO_RESPONSE_CODE) === 200) {
                 $decoded_response = json_decode($response, false, 512, JSON_THROW_ON_ERROR);
 
-                if(isset($decoded_response->scopes_supported) &&
+                if (isset($decoded_response->scopes_supported) &&
                     is_array($decoded_response->scopes_supported) &&
-                    sizeof($decoded_response->scopes_supported) > 0) {
+                    $decoded_response->scopes_supported !== []) {
                     $available_scopes = $decoded_response->scopes_supported;
                     $this->setAdditionalScopes($available_scopes);
+
                     return true;
                 }
             }
@@ -404,6 +405,7 @@ class ilOpenIdConnectSettings
                 $curl->close();
             }
         }
+
         return false;
     }
 
@@ -544,6 +546,7 @@ class ilOpenIdConnectSettings
             }
             $mapping_fields[$id] = $this->lng->txt($id);
         }
+
         return $mapping_fields;
     }
 }

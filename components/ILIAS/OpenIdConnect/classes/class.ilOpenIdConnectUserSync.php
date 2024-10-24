@@ -24,20 +24,18 @@ declare(strict_types=1);
 class ilOpenIdConnectUserSync
 {
     public const AUTH_MODE = 'oidc';
+    private const UDF_STRING = 'udf_';
+
     private readonly ilLogger $logger;
     private readonly ilXmlWriter $writer;
-    private stdClass $user_info;
     private string $ext_account = '';
     private string $int_account = '';
     private int $usr_id = 0;
-    private const UDF_STRING = 'udf_';
     private ilUserDefinedFields $udf;
 
-    public function __construct(private readonly ilOpenIdConnectSettings $settings, stdClass $user_info)
+    public function __construct(private readonly ilOpenIdConnectSettings $settings, private readonly stdClass $user_info)
     {
         global $DIC;
-
-        $this->user_info = $user_info;
 
         $this->logger = $DIC->logger()->auth();
         $this->writer = new ilXmlWriter();
@@ -246,10 +244,12 @@ class ilOpenIdConnectUserSync
                     if (strpos($field, 'udf_') !== 0) {
                         continue 2;
                     }
+
                     $id_data = explode('_', $field);
                     if (!isset($id_data[1])) {
                         continue 2;
                     }
+
                     $definition = $this->udf->getDefinition((int) $id_data[1]);
                     if (empty($definition)) {
                         $this->logger->warning(sprintf(
@@ -324,7 +324,7 @@ class ilOpenIdConnectUserSync
                     $this->logger->debug('User account has no ' . $role_value);
                     continue;
                 }
-            } elseif (strcmp( (string) $this->user_info->{$role_attribute}, $role_value) !== 0) {
+            } elseif (strcmp((string) $this->user_info->{$role_attribute}, $role_value) !== 0) {
                 $this->logger->debug('User account has no ' . $role_value);
                 continue;
             }

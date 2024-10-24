@@ -43,6 +43,7 @@ class ilOpenIdConnectSettingsGUI
     private const SAVED_VALUES = 2;
     private const POST_VALUE = 'Mode';
     private const URL_VALIDATION_PROVIDER_STRING = '/.well-known/openid-configuration';
+    const EFFECTIVE_ATTRIBUTE_MAPPING_TAB = 2;
 
     private int $ref_id;
     /** @var array $body */
@@ -57,7 +58,6 @@ class ilOpenIdConnectSettingsGUI
     private readonly ilGlobalTemplateInterface $mainTemplate;
     private readonly ilTabsGUI $tabs;
     private readonly FileUpload $upload;
-
     private ilToolbarGUI $toolbar;
     private ?ilUserDefinedFields $udf = null;
     private ilGlobalTemplateInterface $tpl;
@@ -69,7 +69,6 @@ class ilOpenIdConnectSettingsGUI
     private Services $http;
     private Factory $factory;
     private \ILIAS\Refinery\Factory $refinery;
-
     private string $failed_validation_messages = '';
 
     public function __construct(int $a_ref_id)
@@ -451,7 +450,7 @@ class ilOpenIdConnectSettingsGUI
         $url = $this->settings->getProvider();
         if ($url !== '') {
             $this->toolbar->setFormAction($this->ctrl->getFormAction($this));
-            $this->toolbar->addFormButton($this->lng->txt('auth_oidc_configured_scopes'), "discoverScopesFromServer");
+            $this->toolbar->addFormButton($this->lng->txt('auth_oidc_configured_scopes'), 'discoverScopesFromServer');
         }
 
         $form = $this->initScopesForm();
@@ -470,29 +469,27 @@ class ilOpenIdConnectSettingsGUI
         return $form;
     }
 
-    /**
-     * @throws JsonException
-     */
-    private function discoverScopesFromServer() : void
+    private function discoverScopesFromServer(): void
     {
         $url = '';
         $type = $this->settings->getValidateScopes();
-        if($type === ilOpenIdConnectSettings::URL_VALIDATION_PROVIDER) {
-            $url = $this->settings->getProvider()  . self::URL_VALIDATION_PROVIDER_STRING;
-        } else if ($type === ilOpenIdConnectSettings::URL_VALIDATION_CUSTOM) {
+        if ($type === ilOpenIdConnectSettings::URL_VALIDATION_PROVIDER) {
+            $url = $this->settings->getProvider() . self::URL_VALIDATION_PROVIDER_STRING;
+        } elseif ($type === ilOpenIdConnectSettings::URL_VALIDATION_CUSTOM) {
             $url = $this->settings->getCustomDiscoveryUrl();
         }
 
-        if(strlen($url) > 0) {
+        if (strlen($url) > 0) {
             $found_scopes = $this->settings->getSupportedScopesFromUrl($url);
-            if($found_scopes === true) {
+            if ($found_scopes === true) {
                 $this->mainTemplate->setOnScreenMessage('success', $this->lng->txt('auth_oidc_discover_scopes_info'));
             }
         }
         $this->scopes();
     }
 
-    private function buildScopeSelection(array $ui_container): array {
+    private function buildScopeSelection(array $ui_container): array
+    {
         $disabled_input = $this->ui->input()->field()
                                    ->text($this->lng->txt('auth_oidc_settings_default_scopes'), '')
                                    ->withValue(ilOpenIdConnectSettings::DEFAULT_SCOPE)
@@ -513,7 +510,7 @@ class ilOpenIdConnectSettingsGUI
         );
         $group2 = $this->ui->input()->field()->group(
             [
-                $this->lng->txt('auth_oidc_settings_discovery_url') =>  $this->ui->input()->field()->text($this->lng->txt('auth_oidc_settings_discovery_url'))
+                $this->lng->txt('auth_oidc_settings_discovery_url') => $this->ui->input()->field()->text($this->lng->txt('auth_oidc_settings_discovery_url'))
                                                                                  ->withValue($this->settings->getCustomDiscoveryUrl() ?? '')
             ],
             $this->lng->txt('auth_oidc_settings_validate_scope_custom')
@@ -558,10 +555,10 @@ class ilOpenIdConnectSettingsGUI
                     foreach ($groups->getInputs() as $key => $input) {
                         $dedicated_name = $input->getDedicatedName();
                         $result_data = $result[$group][$key];
-                        if($dedicated_name === 'validate_scopes') {
+                        if ($dedicated_name === 'validate_scopes') {
                             $type = (int) $result_data[0];
                             $url = array_pop($result_data[1]);
-                        } elseif($dedicated_name === 'custom_scope') {
+                        } elseif ($dedicated_name === 'custom_scope') {
                             $custom_scopes = $result_data;
                         }
                     }
@@ -589,18 +586,15 @@ class ilOpenIdConnectSettingsGUI
         } else {
             $this->failed_validation_messages = $this->lng->txt('err_check_input');
         }
-        $this->mainTemplate->setOnScreenMessage('failure', $this->failed_validation_messages , true);
+        $this->mainTemplate->setOnScreenMessage('failure', $this->failed_validation_messages, true);
         $this->ctrl->redirect($this, 'scopes');
     }
 
     /**
-     * @param int         $type
-     * @param string|null $url
      * @param array<string, string> $scopes
-     * @return bool
-     * @throws JsonException
      */
-    protected function validateDiscoveryUrl(int $type, ?string $url, array $scopes) : bool {
+    protected function validateDiscoveryUrl(int $type, ?string $url, array $scopes): bool
+    {
         try {
             switch ($type) {
                 case ilOpenIdConnectSettings::URL_VALIDATION_PROVIDER:
@@ -679,7 +673,8 @@ class ilOpenIdConnectSettingsGUI
     /**
      * @throws ilCtrlException
      */
-    private function updateProfileMappingFieldValue(string $field) : void {
+    private function updateProfileMappingFieldValue(string $field): void
+    {
         $form = $this->initUserMappingForm();
         $request_form = $form->withRequest($this->request);
         $result = $request_form->getData();
@@ -842,29 +837,33 @@ class ilOpenIdConnectSettingsGUI
         if ($this->mapping_template === 2) {
             $url = $this->renderer->render($this->factory->link()->standard(
                 $this->lng->txt('auth_oidc_here'),
-                'https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims')
+                'https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims'
+            )
                                                          ->withOpenInNewViewport(true));
             $message = sprintf($this->lng->txt('auth_odic_scope_tab_info'), $url);
         } else {
             $url = $this->renderer->render($this->factory->link()->standard(
-                $this->lng->txt('auth_oidc_here'), $this->ctrl->getLinkTarget($this, self::STAB_SCOPES)));
+                $this->lng->txt('auth_oidc_here'),
+                $this->ctrl->getLinkTarget($this, self::STAB_SCOPES)
+            ));
             $tab_name = $this->lng->txt('auth_oidc_configured_scopes');
             $message = sprintf($this->lng->txt('auth_odic_scope_info'), $url, $tab_name);
         }
 
         $this->renderer->render($this->factory->link()->standard(
-            $url_text, $url));
+            $url_text,
+            $url
+        ));
         $this->mainTemplate->setOnScreenMessage('info', $message);
     }
 
-    private function initAttributeMapping() : void
+    private function initAttributeMapping(): void
     {
         $mapping = $this->attribute_mapping_template->getMappingRulesByAdditionalScopes($this->settings->getAdditionalScopes());
-        if(count($mapping) > 0 )
-        {
+        if (count($mapping) > 0) {
             $this->settings->clearProfileMaps();
         }
-        foreach($mapping as $field => $item) {
+        foreach ($mapping as $field => $item) {
             $this->settings->setProfileMappingFieldValue(
                 $field,
                 $item
@@ -877,7 +876,7 @@ class ilOpenIdConnectSettingsGUI
     /**
      * @throws ilCtrlException
      */
-    private function initUserMappingForm() : Standard
+    private function initUserMappingForm(): Standard
     {
         $ui_container = [];
         $this->initUserDefinedFields();
@@ -896,11 +895,12 @@ class ilOpenIdConnectSettingsGUI
         );
         return $this->ui->input()->container()->form()
                         ->standard(
-                            $this->ctrl->getFormAction($this, 'saveProfile'), $ui_container
+                            $this->ctrl->getFormAction($this, 'saveProfile'),
+                            $ui_container
                         );
     }
 
-    protected function buildUserMappingInputFormUDF($definition, array $ui_container) : array
+    protected function buildUserMappingInputFormUDF($definition, array $ui_container): array
     {
         $value = $this->settings->getProfileMappingFieldValue(self::UDF_STRING . $definition['field_id']);
         $update = $this->settings->getProfileMappingFieldUpdate(self::UDF_STRING . $definition['field_id']);
@@ -920,7 +920,7 @@ class ilOpenIdConnectSettingsGUI
         return $ui_container;
     }
 
-    protected function buildUserMappingInputForUserData(string $lang, string $mapping, array $ui_container) : array
+    protected function buildUserMappingInputForUserData(string $lang, string $mapping, array $ui_container): array
     {
         $value = $this->settings->getProfileMappingFieldValue($mapping);
         $update = $this->settings->getProfileMappingFieldUpdate($mapping);
@@ -957,7 +957,7 @@ class ilOpenIdConnectSettingsGUI
         }
 
         $request_wrapper = $this->http->wrapper()->query();
-        $active = 2;
+        $active = self::EFFECTIVE_ATTRIBUTE_MAPPING_TAB;
 
         $target = $this->http->request()->getRequestTarget();
         if ($request_wrapper->has(self::POST_VALUE) && $request_wrapper->retrieve(self::POST_VALUE, $this->refinery->kindlyTo()->int())) {
@@ -965,13 +965,13 @@ class ilOpenIdConnectSettingsGUI
         }
 
         $actions = array(
-            $this->lng->txt("auth_oidc_saved_values") => "$target&".self::POST_VALUE."=" . self::SAVED_VALUES,
-            $this->lng->txt(ilOpenIdAttributeMappingTemplate::OPEN_ID_CONFIGURED_SCOPES) => "$target&" . self::POST_VALUE."=" . self::DEFAULT_VALUES,
+            $this->lng->txt("auth_oidc_saved_values") => "$target&" . self::POST_VALUE . "=" . self::SAVED_VALUES,
+            $this->lng->txt(ilOpenIdAttributeMappingTemplate::OPEN_ID_CONFIGURED_SCOPES) => "$target&" . self::POST_VALUE . "=" . self::DEFAULT_VALUES,
         );
 
         $aria_label = "change_the_currently_displayed_mode";
-        $active_label =  $this->lng->txt("auth_oidc_saved_values");
-        if ($active !== 2) {
+        $active_label = $this->lng->txt("auth_oidc_saved_values");
+        if ($active !== self::EFFECTIVE_ATTRIBUTE_MAPPING_TAB) {
             $active_label = $this->lng->txt(ilOpenIdAttributeMappingTemplate::OPEN_ID_CONFIGURED_SCOPES);
         }
         $view_control = $this->factory->viewControl()->mode($actions, $aria_label)->withActive($active_label);

@@ -2060,7 +2060,7 @@ auth#:#auth_login_editor#:#Design Login-Page
 auth#:#auth_oidc#:#OpenID Connect
 auth#:#auth_oidc_configured_scopes#:#Pre-fill Scope-based Mapping
 auth#:#auth_oidc_discover_scopes#:#Perform Scope Auto Discovery
-auth#:#auth_oidc_discover_scopes_info#:#Performed auto discovery for scopes from server. Scopes are added to the field "Additional Scopes", please select your relevant scopes and save the form.
+auth#:#auth_oidc_discover_scopes_info#:#The automatic scope discovery was performed. Scopes are added to the field "Additional Scopes" in the form below. Please define your relevant scopes and save the form afterwards.
 auth#:#auth_oidc_here#:#here
 auth#:#auth_oidc_failed#:#Login via OpenID Connect failed
 auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect

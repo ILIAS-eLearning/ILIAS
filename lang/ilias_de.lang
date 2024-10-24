@@ -2060,7 +2060,7 @@ auth#:#auth_login_editor#:#Login-Seite gestalten
 auth#:#auth_oidc#:#OpenID Connect
 auth#:#auth_oidc_configured_scopes#:#Standard-Profildatenzuordnung für konfigurierte Scopes
 auth#:#auth_oidc_discover_scopes#:#Auto-Discovery für Scopes ausführen
-auth#:#auth_oidc_discover_scopes_info#:#Auto-Discovery für Scopes vom Server ausgeführt. Scopes wurden als "Zusätzliche Scopes" eingetragen, wählen sie bitte die für sie relevanten Scopes aus und speichern sie danach das Fomular.
+auth#:#auth_oidc_discover_scopes_info#:#Die Auto-Discovery für Scopes wurde vom Server ausgeführt. Die ermittelten Scopes wurden als "Zusätzliche Scopes" in das Eingabefeld unten übernommen. Wählen Sie bitte die für Sie relevanten Scope aus und speichern Sie anschließend das Fomular.
 auth#:#auth_oidc_here#:#hier
 auth#:#auth_oidc_failed#:#Login mittels OpenID Connect fehlgeschlagen
 auth#:#auth_oidc_login_element_info#:#Bei ILIAS anmelden über OpenID Connect

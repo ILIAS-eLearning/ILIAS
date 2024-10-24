@@ -20,26 +20,26 @@ declare(strict_types=1);
 
 class ilOpenIdAttributeMappingTemplate
 {
-    final const OPEN_ID_CONFIGURED_SCOPES = 'auth_oidc_configured_scopes';
+    final public const OPEN_ID_CONFIGURED_SCOPES = 'auth_oidc_configured_scopes';
 
     /**
-     * @param array{int, string} $additional_scopes
-     * @return array{string, string}
+     * @param array<int, string> $additional_scopes
+     * @return array<string, string>
      */
     public function getMappingRulesByAdditionalScopes(array $additional_scopes): array
     {
         $mapping_rule = [];
 
-        if(in_array('address', $additional_scopes)) {
+        if (in_array('address', $additional_scopes)) {
             $mapping_rule = $this->loadAddress($mapping_rule);
         }
-        if(in_array('email', $additional_scopes)) {
+        if (in_array('email', $additional_scopes)) {
             $mapping_rule = $this->loadEmail($mapping_rule);
         }
-        if(in_array('phone', $additional_scopes)) {
+        if (in_array('phone', $additional_scopes)) {
             $mapping_rule = $this->loadPhone($mapping_rule);
         }
-        if(in_array('profile', $additional_scopes)) {
+        if (in_array('profile', $additional_scopes)) {
             $mapping_rule = $this->loadProfile($mapping_rule);
         }
 
@@ -47,25 +47,25 @@ class ilOpenIdAttributeMappingTemplate
     }
 
     /**
-     * @param array{string, string} $mapping_rule
-     * @return array{string, string}
+     * @param array<string, string> $mapping_rule
+     * @return array<string, string>
      */
-    private function loadProfile(array $mapping_rule) : array
+    private function loadProfile(array $mapping_rule): array
     {
-        $mapping_rule['lastname']  = 'family_name';
+        $mapping_rule['lastname'] = 'family_name';
         $mapping_rule['firstname'] = 'given_name';
-        $mapping_rule['login']     = 'preferred_username';
-        $mapping_rule['gender']    = 'gender';
-        $mapping_rule['birthday']  = 'birthdate';
+        $mapping_rule['login'] = 'preferred_username';
+        $mapping_rule['gender'] = 'gender';
+        $mapping_rule['birthday'] = 'birthdate';
 
         return $mapping_rule;
     }
 
     /**
-     * @param array{string, string} $mapping_rule
-     * @return array{string, string}
+     * @param array<string, string> $mapping_rule
+     * @return array<string, string>
      */
-    private function loadEmail(array $mapping_rule) : array
+    private function loadEmail(array $mapping_rule): array
     {
         $mapping_rule['email'] = 'email';
 
@@ -73,13 +73,13 @@ class ilOpenIdAttributeMappingTemplate
     }
 
     /**
-     * @param array{string, string} $mapping_rule
-     * @return array{string, string}
+     * @param array<string, string> $mapping_rule
+     * @return array<string, string>
      */
-    private function loadAddress(array $mapping_rule) : array
+    private function loadAddress(array $mapping_rule): array
     {
-        $mapping_rule['street']  = 'street_address';
-        $mapping_rule['city']    = 'locality';
+        $mapping_rule['street'] = 'street_address';
+        $mapping_rule['city'] = 'locality';
         $mapping_rule['zipcode'] = 'postal_code';
         $mapping_rule['country'] = 'country';
 
@@ -87,10 +87,10 @@ class ilOpenIdAttributeMappingTemplate
     }
 
     /**
-     * @param array{string, string} $mapping_rule
-     * @return array{string, string}
+     * @param array<string, string> $mapping_rule
+     * @return array<string, string>
      */
-    private function loadPhone(array $mapping_rule) : array
+    private function loadPhone(array $mapping_rule): array
     {
         $mapping_rule['phone_home'] = 'phone_number';
 
