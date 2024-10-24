@@ -242,7 +242,7 @@ class ilTestPassesSelector
 
     private function isReportingDateReached(): bool
     {
-        $reporting_date = $this->testOBJ->getScoreSettings()->getResultSummarySettings()->getReportingDate();
+        $reporting_date = $this->test_obj->getScoreSettings()->getResultSummarySettings()->getReportingDate();
         return $reporting_date <= new DateTimeImmutable('now', new DateTimeZone('UTC'));
     }
 
