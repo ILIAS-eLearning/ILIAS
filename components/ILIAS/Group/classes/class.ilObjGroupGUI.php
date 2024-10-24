@@ -660,6 +660,13 @@ class ilObjGroupGUI extends ilContainerGUI
                     break;
             }
 
+            // activation
+            $property_online = $this->object->getObjectProperties()->getPropertyIsOnline();
+            $online = $form->getInput('activation_online') ?
+                $property_online->withOnline() :
+                $property_online->withOffline();
+            $this->object->getObjectProperties()->storePropertyIsOnline($online);
+
             // update object settings
             $this->object->update();
 
@@ -1475,6 +1482,19 @@ class ilObjGroupGUI extends ilContainerGUI
             $cdur->setStart($this->object->getStart());
             $cdur->setEnd($this->object->getEnd());
             $form->addItem($cdur);
+
+            // activation
+            $this->lng->loadLanguageModule('rep');
+
+            $section = new ilFormSectionHeaderGUI();
+            $section->setTitle($this->lng->txt('rep_activation_availability'));
+            $form->addItem($section);
+
+            $online = new ilCheckboxInputGUI($this->lng->txt('rep_activation_online'), 'activation_online');
+            $online->setChecked(!$this->object->getOfflineStatus());
+            $online->setInfo($this->lng->txt('grp_activation_online_info'));
+            $form->addItem($online);
+
 
             // Group registration ############################################################
             $pres = new ilFormSectionHeaderGUI();

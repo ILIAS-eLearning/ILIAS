@@ -10191,6 +10191,7 @@ grp#:#crs_grp_no_courses_assigned#:#No Groups Assigned
 grp#:#events#:#Sessions
 grp#:#grouping_change_assignment#:#Change Assignment
 grp#:#grp_activate_notification#:#Activate Notification
+grp#:#grp_activation_online_info#:#Set the group online to make it visible and available for group members. If not, only group administrators and roles with permission "Edit Settings" have access to it.
 grp#:#grp_add_to_group#:#Add to Group
 grp#:#grp_add_user#:#Add User
 grp#:#grp_add_user_to_group#:#Add user to group
