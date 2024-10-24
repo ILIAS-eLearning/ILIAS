@@ -3754,6 +3754,7 @@ common#:#collapse#:#Einklappen
 common#:#collapse_all#:#Alle zusammenklappen
 common#:#collapse_content#:#Inhalt einklappen
 common#:#collapsed#:#Geschlossen
+common#:#column_selection#:#Spaltenauswahl
 common#:#columns#:#Spalten
 common#:#comma_separated#:#Kommagetrennt
 common#:#comment#:#Kommentar
@@ -4013,6 +4014,7 @@ common#:#enable_trash_info#:#Gelöschte Objekte werden in den Papierkorb verscho
 common#:#enable_webdav#:#WebDAV Zugriff aktivieren
 common#:#enable_webdav_info#:#Erlaubt WebDAV Clients den Zugriff auf das Magazin über einen Webordner. Benutzer können Webordner öffnen, indem Sie im Magazin die Aktion "Als Webordner öffnen" ausführen, oder in einem WebDAV Client folgende Adresse eingeben: <a href="%1$s" folder="%1$s">%1$s</a>
 common#:#enabled#:#Eingeschaltet
+common#:#enlarge#:#Vergrössern
 common#:#enter_in_mb_desc#:#Geben Sie eine Größe in MB ein.
 common#:#enter_new_name#:#Bitte geben Sie einen Namen an
 common#:#entered_notification#:#„%s“ ist der Sitzung „%s“ beigetreten.
@@ -4521,6 +4523,7 @@ common#:#links_user_name#:#ILIAS-Anmeldename
 common#:#links_value#:#Parameter Wert
 common#:#list#:#Liste
 common#:#list_of_questions#:#Fragenliste
+common#:#list_view#:#Listenansicht
 common#:#listaction_learning_progress_settings#:#Lernfortschrittseinstellungen
 common#:#lm#:#Lernmodul ILIAS
 common#:#lm_add#:#ILIAS-Lernmodul anlegen
@@ -5657,6 +5660,7 @@ common#:#soap_user_administration#:#Administration über SOAP
 common#:#soap_user_administration_desc#:#Wenn eingeschaltet, kann ILIAS über die SOAP-Schnittstelle verwaltet werden.
 common#:#soap_wsdl_path#:#WSDL-Pfad
 common#:#soap_wsdl_path_info#:#Hier können Sie den Pfad zur WSDL-Datei angeben, die von ILIAS für den Web-Service genutzt werden soll. Falls Sie dieses Feld leer lassen, wird folgender Pfad als Standard verwendet:%s
+common#:#sort#:#Sortieren
 common#:#sort_ascending#:#Aufsteigend sortieren
 common#:#sort_ascending_long#:#Sortierung ändern zu aufsteigend
 common#:#sort_by_this_column#:#Nach dieser Spalte sortieren
@@ -5738,6 +5742,7 @@ common#:#tests#:#Tests
 common#:#textbox#:#Textbox
 common#:#thread#:#Thema
 common#:#thumbnail#:#Miniaturbild
+common#:#tile_view#:#Kachelansicht
 common#:#time#:#Zeit
 common#:#time_limit#:#Zugang
 common#:#time_limit_add_time_limit_for_selected#:#Bitte geben Sie einen Zeitraum für die ausgewählten Benutzer ein.

@@ -79,6 +79,12 @@ interface Glyph extends Symbol, Clickable
     public const ITALIC = "italic";
     public const LINK = "link";
     public const LAUNCH = "launch";
+    public const ENLARGE = "enlarge";
+    public const LIST_VIEW = "listView";
+    public const PREVIEW = "preview";
+    public const SORT = "sort";
+    public const COLUMN_SELECTION = "columnSelection";
+    public const TILE_VIEW = "tileView";
 
     /**
      * Get the type of the glyph.
