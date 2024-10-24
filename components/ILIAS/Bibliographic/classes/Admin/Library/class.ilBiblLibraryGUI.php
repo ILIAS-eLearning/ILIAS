@@ -25,6 +25,7 @@ class ilBiblLibraryGUI
 {
     use \ILIAS\components\OrgUnit\ARHelper\DIC;
     public const F_LIB_ID = 'lib_id';
+    public const F_LIB_IDS = 'lib_ids';
     public const CMD_DELETE = 'delete';
     public const CMD_EDIT = 'edit';
     public const CMD_INDEX = 'index';
@@ -79,29 +80,10 @@ class ilBiblLibraryGUI
 
         }
 
-        $a_table = $this->initTable();
-        $this->tpl()->setContent($a_table->getHTML());
+        $table_gui = new ilBiblLibraryTableGUI($this->facade);
+        $this->tpl()->setContent($table_gui->getRenderedTable());
 
         return true;
-    }
-
-
-    protected function initTable(): \ilBiblLibraryTableGUI
-    {
-        $table = new ilBiblLibraryTableGUI($this, $this->checkPermissionBoolAndReturn('write'));
-        $settings = $this->facade->libraryFactory()->getAll();
-        $result = array();
-        foreach ($settings as $set) {
-            $result[] = array(
-                "id" => $set->getId(),
-                "name" => $set->getName(),
-                "url" => $set->getUrl(),
-                "img" => $set->getImg(),
-            );
-        }
-        $table->setData($result);
-
-        return $table;
     }
 
 
@@ -122,8 +104,10 @@ class ilBiblLibraryGUI
     public function delete(): void
     {
         $this->checkPermissionAndFail('write');
-        $ilBibliographicSetting = $this->getInstanceFromRequest();
-        $ilBibliographicSetting->delete();
+        $ilBibliographicSettings = $this->getInstancesFromRequest();
+        foreach ($ilBibliographicSettings as $ilBibliographicSetting) {
+            $ilBibliographicSetting->delete();
+        }
         $this->ctrl()->redirect($this, self::CMD_INDEX);
     }
 
@@ -143,7 +127,7 @@ class ilBiblLibraryGUI
     public function update(): void
     {
         $this->checkPermissionAndFail('write');
-        $ilBibliographicSetting = $this->getInstanceFromRequest();
+        $ilBibliographicSetting = $this->getInstancesFromRequest()[0];
         $form = new ilBiblLibraryFormGUI($ilBibliographicSetting);
         $form->setValuesByPost();
         if ($form->saveObject()) {
@@ -176,34 +160,37 @@ class ilBiblLibraryGUI
     public function edit(): void
     {
         $this->checkPermissionAndFail('write');
-        $this->ctrl()->saveParameter($this, self::F_LIB_ID);
-        $ilBibliographicSetting = $this->getInstanceFromRequest();
+        $ilBibliographicSetting = $this->getInstancesFromRequest()[0];
         $form = new ilBiblLibraryFormGUI($ilBibliographicSetting);
         $this->tpl()->setContent($form->getHTML());
     }
 
-    private function getInstanceFromRequest(): \ilBiblLibraryInterface
+    /**
+     * return ilBiblLibraryInterface[]
+     */
+    private function getInstancesFromRequest(): array
     {
-        // check Query
-        if ($this->wrapper->query()->has(self::F_LIB_ID)) {
-            return $this->facade->libraryFactory()
-                                ->findById(
-                                    $this->wrapper->query()->retrieve(
-                                        self::F_LIB_ID,
-                                        $this->refinery->kindlyTo()->int()
-                                    )
-                                );
+        $lib_ids = null;
+        $to_int = $this->refinery->kindlyTo()->int();
+        $to_int_array = $this->refinery->kindlyTo()->listOf($to_int);
+        if ($this->wrapper->query()->has(self::F_LIB_IDS)) {
+            $lib_ids = $this->wrapper->query()->retrieve(self::F_LIB_IDS, $to_int_array);
+        } elseif ($this->wrapper->query()->has(self::F_LIB_ID)) {
+            $lib_ids[] = $this->wrapper->query()->retrieve(self::F_LIB_ID, $to_int);
+        } elseif ($this->wrapper->post()->has(self::F_LIB_IDS)) {
+            $lib_ids = $this->wrapper->post()->retrieve(self::F_LIB_IDS, $to_int_array);
+        } elseif ($this->wrapper->post()->has(self::F_LIB_ID)) {
+            $lib_ids[] = $this->wrapper->post()->retrieve(self::F_LIB_ID, $to_int);
         }
-        // check post
-        if ($this->wrapper->post()->has(self::F_LIB_ID)) {
-            return $this->facade->libraryFactory()
-                                ->findById(
-                                    $this->wrapper->post()->retrieve(
-                                        self::F_LIB_ID,
-                                        $this->refinery->kindlyTo()->int()
-                                    )
-                                );
+
+        if ($lib_ids === null) {
+            throw new ilException('library not found');
         }
-        throw new ilException('library not found');
+
+        $instances = [];
+        foreach ($lib_ids as $lib_id) {
+            $instances[] = $this->facade->libraryFactory()->findById($lib_id);
+        }
+        return $instances;
     }
 }

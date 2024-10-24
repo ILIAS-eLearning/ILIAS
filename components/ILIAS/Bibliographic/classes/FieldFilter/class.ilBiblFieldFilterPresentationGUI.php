@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Component\Input\Field\MultiSelect;
+use ILIAS\UI\Component\Input\Field\Select;
+use ILIAS\UI\Component\Input\Field\Text;
+
 /**
  * Class ilBiblFieldFilterPresentationGUI
  *
@@ -24,14 +28,14 @@
 class ilBiblFieldFilterPresentationGUI
 {
     use \ILIAS\components\OrgUnit\ARHelper\DIC;
-    protected \ilBiblFactoryFacadeInterface $facade;
-    protected \ilBiblFieldFilterInterface $filter;
+    protected ilBiblFactoryFacadeInterface $facade;
+    protected ilBiblFieldFilterInterface $filter;
 
 
     /**
      * ilBiblFieldFilterPresentationGUI constructor.
      */
-    public function __construct(\ilBiblFieldFilterInterface $filter, ilBiblFactoryFacadeInterface $facade)
+    public function __construct(ilBiblFieldFilterInterface $filter, ilBiblFactoryFacadeInterface $facade)
     {
         $this->facade = $facade;
         $this->filter = $filter;
@@ -39,7 +43,7 @@ class ilBiblFieldFilterPresentationGUI
     }
 
 
-    public function getFilterItem(): \ilTableFilterItem
+    public function getFilterInput(): MultiSelect|Select|Text
     {
         $field = $this->facade->fieldFactory()->findById($this->getFilter()->getFieldId());
         $translated = $this->facade->translationFactory()->translate($field);
@@ -51,34 +55,31 @@ class ilBiblFieldFilterPresentationGUI
 
         switch ($ilBiblFieldFilter->getFilterType()) {
             case ilBiblFieldFilterInterface::FILTER_TYPE_TEXT_INPUT:
-                $filter = new ilTextInputGUI($translated, $field->getIdentifier());
+                $filter_input = $this->ui()->factory()->input()->field()->text($translated);
                 break;
             case ilBiblFieldFilterInterface::FILTER_TYPE_SELECT_INPUT:
-                $filter = new ilSelectInputGUI($translated, $field->getIdentifier());
-                $options[null] = $this->lng()->txt("please_select");
-                $options += $f->getPossibleValuesForFieldAndObject($field, $obj_id);
-                $filter->setOptions($options);
+                $options = $f->getPossibleValuesForFieldAndObject($field, $obj_id);
+                $filter_input = $this->ui()->factory()->input()->field()->select($translated, $options);
                 break;
             case ilBiblFieldFilterInterface::FILTER_TYPE_MULTI_SELECT_INPUT:
-                $filter = new ilMultiSelectInputGUI($translated, $field->getIdentifier());
                 $options = $f->getPossibleValuesForFieldAndObject($field, $obj_id);
-                $filter->setOptions($options);
+                $filter_input = $this->ui()->factory()->input()->field()->multiSelect($translated, $options);
                 break;
             default:
                 throw new LogicException('no filter type used');
         }
 
-        return $filter;
+        return $filter_input;
     }
 
 
-    public function getFilter(): \ilBiblFieldFilterInterface
+    public function getFilter(): ilBiblFieldFilterInterface
     {
         return $this->filter;
     }
 
 
-    public function setFilter(\ilBiblFieldFilterInterface $filter): void
+    public function setFilter(ilBiblFieldFilterInterface $filter): void
     {
         $this->filter = $filter;
     }
