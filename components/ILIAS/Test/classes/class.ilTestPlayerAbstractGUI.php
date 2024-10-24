@@ -2395,7 +2395,7 @@ JS;
         $skillEvaluation->setPass($test_session->getPass());
 
         $skillEvaluation->setNumRequiredBookingsForSkillTriggering(
-            $this->test_obj->getGlobalSettings()->getSkillTriggeringNumberOfAnswers()
+            $this->object->getGlobalSettings()->getSkillTriggeringNumberOfAnswers()
         );
 
 
