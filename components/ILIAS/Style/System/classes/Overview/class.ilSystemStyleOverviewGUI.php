@@ -183,6 +183,37 @@ class ilSystemStyleOverviewGUI
         $this->tpl->setContent($table->getHTML().$table->getModalsHtml());
     }
 
+    public function saveStyleSettings(): void
+    {
+        $active_styles = $this->request_wrapper->post()->retrieve('st_act', $this->refinery->identity());
+
+        if ($this->checkStyleSettings($this->message_stack, $active_styles)) {
+            $all_styles = ilStyleDefinition::getAllSkinStyles();
+            foreach ($all_styles as $style) {
+                if (!isset($active_styles[$style['id']])) {
+                    ilSystemStyleSettings::_deactivateStyle($style['template_id'], $style['style_id']);
+                } else {
+                    ilSystemStyleSettings::_activateStyle($style['template_id'], $style['style_id']);
+                }
+            }
+
+            //set default skin and style
+            if ($this->request_wrapper->post()->has('default_skin_style')) {
+                $sknst = $this->request_wrapper->post()->retrieve(
+                    'default_skin_style',
+                    $this->refinery->string()->splitString(':')
+                );
+                ilSystemStyleSettings::setCurrentDefaultStyle($sknst[0], $sknst[1]);
+            }
+            $this->message_stack->addMessage(new ilSystemStyleMessage(
+                $this->lng->txt('msg_obj_modified'),
+                ilSystemStyleMessage::TYPE_SUCCESS
+            ));
+        }
+        $this->message_stack->sendMessages();
+        $this->ctrl->redirect($this, 'edit');
+    }
+
     public function moveUserStyles(): void
     {
         global $DIC;
@@ -217,11 +248,11 @@ class ilSystemStyleOverviewGUI
         $this->ctrl->redirect($this, 'edit');
     }
 
-    protected function checkStyleSettings(ilSystemStyleMessageStack $message_stack, array $active_styles): bool
+    protected function checkStyleSettings(ilSystemStyleMessageStack $message_stack, ?array $active_styles): bool
     {
         $passed = true;
 
-        if (count($active_styles) < 1) {
+        if (!$active_styles || count($active_styles) < 1) {
             $passed = false;
             $message_stack->addMessage(new ilSystemStyleMessage(
                 $this->lng->txt('at_least_one_style'),
@@ -229,10 +260,16 @@ class ilSystemStyleOverviewGUI
             ));
         }
 
-        $default_style = $this->request_wrapper->post()->retrieve(
-            'default_skin_style',
-            $this->refinery->kindlyTo()->string()
-        );
+        if ($this->request_wrapper->post()->has('default_skin_style')) {
+            $default_style = $this->request_wrapper->post()->retrieve(
+                'default_skin_style',
+                $this->refinery->kindlyTo()->string()
+            );
+        } else {
+            $default_style = $this->config->getDefaultStyleId();
+        }
+
+
 
         if (!isset($active_styles[$default_style])) {
             $passed = false;
