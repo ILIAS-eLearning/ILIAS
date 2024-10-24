@@ -40,6 +40,7 @@ abstract class Action implements I\Action
 
     protected Signal|URI $target;
     protected bool $async = false;
+    protected bool $prompt = false;
 
     public function __construct(
         protected string $label,
@@ -68,6 +69,9 @@ abstract class Action implements I\Action
 
     public function withAsync(bool $async = true): self
     {
+        if ($this->isPrompt()) {
+            throw new \LogicException("Action is configured to use Prompt already. Use either Async or Prompt", 1);
+        }
         $clone = clone $this;
         $clone->async = $async;
         return $clone;
@@ -76,6 +80,21 @@ abstract class Action implements I\Action
     public function isAsync(): bool
     {
         return $this->async;
+    }
+
+    public function withPrompt(bool $prompt = true): self
+    {
+        if ($this->isAsync()) {
+            throw new \LogicException("Action is async already. Use either Async or Prompt", 1);
+        }
+        $clone = clone $this;
+        $clone->prompt = $prompt;
+        return $clone;
+    }
+
+    public function isPrompt(): bool
+    {
+        return $this->prompt;
     }
 
     public function withRowId(string $row_id): self
