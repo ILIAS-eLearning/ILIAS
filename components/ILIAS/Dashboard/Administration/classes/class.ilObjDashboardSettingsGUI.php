@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\DI\UIServices;
+use ILIAS\Style\Content\GUIService;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Implementation\Component\Input\Field\FormInput;
 use ILIAS\UI\Renderer;
@@ -27,6 +28,7 @@ use ILIAS\UI\Component\Input\Field\Section;
 
 /**
  * @ilCtrl_Calls      ilObjDashboardSettingsGUI: ilPermissionGUI
+ * @ilCtrl_Calls      ilObjDashboardSettingsGUI: ilDashboardPageLanguageSelectGUI, ilObjectContentStyleSettingsGUI
  * @ilCtrl_isCalledBy ilObjDashboardSettingsGUI: ilAdministrationGUI
  */
 class ilObjDashboardSettingsGUI extends ilObjectGUI
@@ -42,6 +44,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
     protected ilPDSelectedItemsBlockViewSettings $viewSettings;
     protected UIServices $ui;
     protected ilDashboardSidePanelSettingsRepository $side_panel_settings;
+    protected GUIService $style_gui;
 
     public function __construct(
         $a_data,
@@ -61,6 +64,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $this->ui_renderer = $DIC->ui()->renderer();
         $this->request = $DIC->http()->request();
         $this->ui = $DIC->ui();
+        $this->style_gui = $DIC->contentStyle()->gui();
 
         $this->type = 'dshs';
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
@@ -84,12 +88,27 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
         switch ($this->ctrl->getNextClass($this)) {
             case strtolower(ilPermissionGUI::class):
-                $this->tabs_gui->setTabActive('perm_settings');
+                $this->tabs_gui->activateTab('perm_settings');
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
-
+            case strtolower(ilDashboardPageLanguageSelectGUI::class):
+                $this->tabs_gui->activateTab('dash_customization');
+                $this->ctrl->forwardCommand(new ilDashboardPageLanguageSelectGUI());
+                break;
+            case strtolower(ilObjectContentStyleSettingsGUI::class):
+                $this->tabs_gui->clearTargets();
+                $this->ctrl->setParameterByClass(ilDashboardPageGUI::class, 'dshs_lang', $this->request->getQueryParams()['dshs_lang']);
+                $this->tabs_gui->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTargetByClass(
+                    [ilDashboardPageLanguageSelectGUI::class, ilDashboardPageGUI::class],
+                    'edit'
+                ));
+                $gui = $this->style_gui->objectSettingsGUIForRefId(null, $this->getRefId());
+                $this->ctrl->setParameter($gui, 'dshs_lang', $this->request->getQueryParams()['dshs_lang']);
+                $this->ctrl->forwardCommand($gui);
+                break;
             default:
+                $this->tabs_gui->activateTab('settings');
                 if (!$cmd || $cmd === 'view') {
                     $cmd = 'editSettings';
                 }
@@ -106,6 +125,10 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
                 'settings',
                 $this->ctrl->getLinkTarget($this, 'editSettings'),
                 ['editSettings', 'view']
+            );
+            $this->tabs_gui->addTarget(
+                'dash_customization',
+                $this->ctrl->getLinkTarget($this, 'editCustomization')
             );
         }
 
@@ -295,6 +318,32 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $form = $this->getViewForm(self::VIEW_MODE_PRESENTATION);
 
         $this->tpl->setContent($this->ui->renderer()->renderAsync($form));
+    }
+
+    public function editCustomization(): void
+    {
+        $this->ui->mainTemplate()->setOnScreenMessage(
+            $this->ui->mainTemplate()::MESSAGE_TYPE_INFO,
+            $this->lng->txt('dash_page_edit_info'),
+            true
+        );
+
+        $this->tabs_gui->activateTab('dash_customization');
+
+        $content = $this->ui->renderer()->render(
+            $this->ui->factory()->button()->standard(
+                $this->lng->txt('customize_page'),
+                $this->ctrl->getLinkTargetByClass([self::class, ilDashboardPageLanguageSelectGUI::class], 'select')
+            )
+        );
+
+        if (ilDashboardPageGUI::isLanguageAvailable($this->user->getLanguage())) {
+            $content .= (new ilDashboardPageGUI($this->user->getLanguage()))->showPage();
+        } elseif (ilDashboardPageGUI::isLanguageAvailable($this->lng->getContentLanguage())) {
+            $content .= (new ilDashboardPageGUI($this->lng->getDefaultLanguage()))->showPage();
+        }
+
+        $this->tpl->setContent($content);
     }
 
     public function getViewSectionPresentation(int $view, string $title): Section
