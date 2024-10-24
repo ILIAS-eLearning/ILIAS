@@ -2394,10 +2394,9 @@ JS;
         $skillEvaluation->setActiveId($test_session->getActiveId());
         $skillEvaluation->setPass($test_session->getPass());
 
-        $skillEvaluation->setNumRequiredBookingsForSkillTriggering((int) $this->ass_settings->get(
-            'ass_skl_trig_num_answ_barrier',
-            ilObjTestFolder::DEFAULT_SKL_TRIG_NUM_ANSWERS_BARRIER
-        ));
+        $skillEvaluation->setNumRequiredBookingsForSkillTriggering(
+            $this->test_obj->getGlobalSettings()->getSkillTriggeringNumberOfAnswers()
+        );
 
 
         $skillEvaluation->init($questionList);
