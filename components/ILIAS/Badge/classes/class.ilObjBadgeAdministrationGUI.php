@@ -36,7 +36,7 @@ use ILIAS\Badge\ilBadgeUserTableGUI;
  */
 class ilObjBadgeAdministrationGUI extends ilObjectGUI
 {
-    const TABLE_ALL_OBJECTS_ACTION = 'ALL_OBJECTS';
+    public const TABLE_ALL_OBJECTS_ACTION = 'ALL_OBJECTS';
     private \ILIAS\ResourceStorage\Services $resource_storage;
     protected ilRbacSystem $rbacsystem;
     protected ilBadgeGUIRequest $badge_request;
@@ -70,14 +70,16 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         $this->lng->loadLanguageModule("badge");
     }
 
-    protected function getTemplateIdsFromUrl() : array
+    protected function getTemplateIdsFromUrl(): array
     {
         $tmpl_ids = [];
         $action_parameter_token = 'tid_id';
         $query = $this->http->wrapper()->query();
         if ($query->has($action_parameter_token)) {
-            $tmpl_ids = $query->retrieve($action_parameter_token,
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()));
+            $tmpl_ids = $query->retrieve(
+                $action_parameter_token,
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
+            );
         }
 
         return $tmpl_ids;
@@ -112,10 +114,10 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
                 $action_parameter_token = 'tid_id';
                 $query = $this->http->wrapper()->query();
                 if ($query->has($action_parameter_token)) {
-                    if($query->has($action_parameter_token)) {
+                    if ($query->has($action_parameter_token)) {
                         $id = $query->retrieve($action_parameter_token, $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()));
-                        if(is_array($id)) {
-                            $id =  array_pop($id);
+                        if (is_array($id)) {
+                            $id = array_pop($id);
                         }
                         $this->ctrl->setParameter($this, "tid", $id);
                     }
@@ -123,33 +125,33 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
                 $action = '';
                 $parameter = 'tid_table_action';
                 if ($query->has($parameter)) {
-                    $action = $query->retrieve($parameter , $this->refinery->kindlyTo()->string());
+                    $action = $query->retrieve($parameter, $this->refinery->kindlyTo()->string());
                 }
-                if($action === 'badge_type_activate') {
+                if ($action === 'badge_type_activate') {
                     $this->activateTypes();
                 } elseif ($action === 'badge_type_deactivate') {
                     $this->deactivateTypes();
-                } elseif($action === 'badge_image_template_editImageTemplate') {
+                } elseif ($action === 'badge_image_template_editImageTemplate') {
                     $this->editImageTemplate();
                     $render_default = false;
-                } elseif($action === 'obj_badge_user') {
+                } elseif ($action === 'obj_badge_user') {
                     $this->editImageTemplate();
                     $render_default = false;
-                } elseif($action === 'obj_badge_activate') {
+                } elseif ($action === 'obj_badge_activate') {
                     $this->activateObjectBadges();
                     $render_default = false;
-                } elseif($action === 'obj_badge_deactivate') {
+                } elseif ($action === 'obj_badge_deactivate') {
                     $this->deactivateObjectBadges();
                     $render_default = false;
-                } elseif($action === 'obj_badge_show_users') {
+                } elseif ($action === 'obj_badge_show_users') {
                     $this->listObjectBadgeUsers();
                     $render_default = false;
-                } elseif($action === 'badge_image_template_delete') {
+                } elseif ($action === 'badge_image_template_delete') {
                     $this->deleteImageTemplates();
                     $render_default = false;
                 }
 
-                if($render_default) {
+                if ($render_default) {
                     $this->$cmd();
                     break;
                 }
@@ -329,7 +331,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
             }
 
             $res = [];
-            if (current($tmpl_ids) ===  self::TABLE_ALL_OBJECTS_ACTION) {
+            if (current($tmpl_ids) === self::TABLE_ALL_OBJECTS_ACTION) {
                 $types = $handler->getAvailableTypes(false);
                 foreach ($types as $id => $type) {
                     $res[] = $id;
@@ -498,7 +500,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         ilBadgeImageTemplate $a_tmpl
     ): void {
         $a_form->getItemByPostVar("title")->setValue($a_tmpl->getTitle());
-        if($a_tmpl->getImageRid() !== null) {
+        if ($a_tmpl->getImageRid() !== null) {
             $img = $a_tmpl->getImageFromResourceId($a_tmpl->getImageRid());
             $a_form->getItemByPostVar("img")->setImage($img);
             $a_form->getItemByPostVar("img")->setValue($a_tmpl->getImageRid());
@@ -637,7 +639,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         $parent_ref_ids = ilObject::_getAllReferences($parent_obj_id);
         $parent_ref_id = array_pop($parent_ref_ids);
 
-        if($this->http->wrapper()->query()->has('ref_id')) {
+        if ($this->http->wrapper()->query()->has('ref_id')) {
             $parent_ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
         }
         if (!$parent_ref_id) {
@@ -708,7 +710,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
             $filter = ['type' => '' , 'title' => '', 'object' => ''];
             $badge_ids = [];
             foreach (ilBadge::getObjectInstances($filter) as $badge_item) {
-                if(isset($badge_item['id'])) {
+                if (isset($badge_item['id'])) {
                     $badge_ids[] = $badge_item['id'];
                 }
             }

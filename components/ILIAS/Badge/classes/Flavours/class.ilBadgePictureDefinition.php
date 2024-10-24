@@ -34,10 +34,6 @@ class ilBadgePictureDefinition implements FlavourDefinition
         'xs' => 120
     ];
 
-    public function __construct() {
-
-    }
-
     public function getId(): string
     {
         return self::ID;

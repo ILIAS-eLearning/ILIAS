@@ -24,7 +24,7 @@ use ILIAS\Setup\Migration;
 
 class ilBadgesFilesMigration implements Migration
 {
-    const TABLE_NAME = 'badge_badge';
+    private const TABLE_NAME = 'badge_badge';
 
     protected ilResourceStorageMigrationHelper $helper;
 
@@ -66,12 +66,12 @@ class ilBadgesFilesMigration implements Migration
         $id = (int) $d->id;
         $image = $d->image;
 
-        if($image !== '' && $image !== null) {
+        if ($image !== '' && $image !== null) {
             $image = $this->getImagePath($id, $image);
             $base_path = dirname($image);
             $pattern = '/(.+)/m';
 
-            if (is_dir($base_path) &&  file_exists($image) && count(scandir($base_path)) > 2) {
+            if (is_dir($base_path) && file_exists($image) && count(scandir($base_path)) > 2) {
                 $collection_id = $this->helper->moveFilesOfPatternToCollection(
                     $base_path,
                     $pattern,

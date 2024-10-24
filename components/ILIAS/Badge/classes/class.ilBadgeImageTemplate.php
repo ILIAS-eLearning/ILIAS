@@ -122,7 +122,7 @@ class ilBadgeImageTemplate
 
     protected function setImage(?string $a_value): void
     {
-        if($a_value !== null) {
+        if ($a_value !== null) {
             $this->image = trim($a_value);
         }
     }
@@ -170,16 +170,16 @@ class ilBadgeImageTemplate
         }
     }
 
-    public function processImageUpload( $badge) : void
+    public function processImageUpload($badge): void
     {
         try {
             if (!$this->upload_service->hasBeenProcessed()) {
                 $this->upload_service->process();
             }
-            if($this->upload_service->hasUploads()) {
+            if ($this->upload_service->hasUploads()) {
                 $array_result = $this->upload_service->getResults();
                 $array_result = array_pop($array_result);
-                if($array_result->getName() !== '') {
+                if ($array_result->getName() !== '') {
                     $stakeholder = new ilBadgeFileStakeholder();
                     $identification = $this->resource_storage->manage()->upload($array_result, $stakeholder);
                     $this->resource_storage->flavours()->ensure($identification, new \ilBadgePictureDefinition());
@@ -269,10 +269,10 @@ class ilBadgeImageTemplate
     {
         $this->setId($a_row["id"]);
         $this->setTitle($a_row["title"]);
-        if(isset($a_row["image"])) {
+        if (isset($a_row["image"])) {
             $this->setImage($a_row["image"]);
         }
-        if(isset($a_row["image_rid"])) {
+        if (isset($a_row["image_rid"])) {
             $this->setImageRid($a_row["image_rid"]);
         }
         $this->setTypes($a_row["types"]);
@@ -365,17 +365,17 @@ class ilBadgeImageTemplate
         }
     }
 
-    public function getImageRid() : ?string
+    public function getImageRid(): ?string
     {
         return $this->image_rid;
     }
 
-    public function setImageRid(?string $image_rid = null) : void
+    public function setImageRid(?string $image_rid = null): void
     {
         $this->image_rid = $image_rid;
     }
 
-    public function getImageFromResourceId(?string $image_rid, int $badge_id = null, $size = 4) : string
+    public function getImageFromResourceId(?string $image_rid, int $badge_id = null, $size = 4): string
     {
         $image_src = '';
 
@@ -384,12 +384,12 @@ class ilBadgeImageTemplate
             if ($identification !== null) {
                 $flavour = $this->resource_storage->flavours()->get($identification, new \ilBadgePictureDefinition());
                 $urls = $this->resource_storage->consume()->flavourUrls($flavour)->getURLsAsArray(false);
-                if(sizeof($urls) === 5 && isset($urls[$size])) {
+                if (sizeof($urls) === 5 && isset($urls[$size])) {
                     $image_src = $urls[$size];
                 }
             }
         } else {
-            if($badge_id !== null) {
+            if ($badge_id !== null) {
                 $badge = new ilBadge($badge_id);
                 $image_src = $badge->getImage();
             }

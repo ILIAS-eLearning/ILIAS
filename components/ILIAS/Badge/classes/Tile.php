@@ -59,7 +59,7 @@ class Tile
         if (!$format_date) {
             class_exists(ilDateTime::class); // Ensure ilDateTime is loaded as IL_CAL_UNIX is defined in ilDateTime.php.
             $format_date = static fn($date, int $format = IL_CAL_UNIX): string => (
-            ilDatePresentation::formatDate(new ilDateTime($date, $format))
+                ilDatePresentation::formatDate(new ilDateTime($date, $format))
             );
         }
         $this->format_date = $format_date;

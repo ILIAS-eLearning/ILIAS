@@ -1,4 +1,5 @@
 <?php
+
 namespace ILIAS\Badge;
 
 use ILIAS\UI\Factory;
@@ -34,7 +35,8 @@ class ilBadgeTableGUI
     private readonly string $parent_type;
     private readonly ilLanguage $lng;
     private readonly ilGlobalTemplateInterface $tpl;
-    public function __construct(int $parent_obj_id, string $parent_obj_type) {
+    public function __construct(int $parent_obj_id, string $parent_obj_type)
+    {
         global $DIC;
         $this->lng = $DIC->language();
         $this->tpl = $DIC->ui()->mainTemplate();
@@ -47,7 +49,7 @@ class ilBadgeTableGUI
         $this->parent_id = $parent_obj_id;
         $this->parent_type = $parent_obj_type;
     }
-    protected function buildColumns() : array
+    protected function buildColumns(): array
     {
         $column = $this->factory->table()->column();
         $lng = $this->lng;
@@ -94,7 +96,7 @@ class ilBadgeTableGUI
              * @param array $data
              * @return array
              */
-            protected function getBadges(Container $DIC) : array
+            protected function getBadges(Container $DIC): array
             {
                 $data = [];
                 $badge_img_large = null;
@@ -106,9 +108,9 @@ class ilBadgeTableGUI
                     $badge_rid = $badge->getImageRid();
                     $image_src = $this->badge_image_service->getImageFromResourceId($badge, $badge_rid);
                     $badge_image_large = $this->badge_image_service->getImageFromResourceId($badge, $badge_rid, 0);
-                    if($badge_rid != '') {
+                    if ($badge_rid != '') {
                         $badge_template_image = $image_src;
-                        if($badge_template_image !== '') {
+                        if ($badge_template_image !== '') {
                             $badge_img = $this->factory->image()->responsive(
                                 $badge_template_image,
                                 $badge->getTitle()
@@ -117,7 +119,7 @@ class ilBadgeTableGUI
                         }
                     }
 
-                    if($badge_img_large !== '') {
+                    if ($badge_img_large !== '') {
                         $badge_img_large = $DIC->ui()->factory()->image()->responsive(
                             $badge_image_large,
                             $badge->getTitle()
@@ -127,8 +129,12 @@ class ilBadgeTableGUI
                             'badge_criteria' => $badge->getCriteria(),
                         ];
 
-                        $modal = $modal_container->constructModal($badge_img_large, $badge->getTitle(), '',
-                            $badge_information);
+                        $modal = $modal_container->constructModal(
+                            $badge_img_large,
+                            $badge->getTitle(),
+                            '',
+                            $badge_information
+                        );
                     }
                     $data[] = array(
                         'id' => $badge->getId(),
@@ -138,8 +144,8 @@ class ilBadgeTableGUI
                             ? ilBadge::getExtendedTypeCaption($badge->getTypeInstance())
                             : $badge->getTypeInstance()->getCaption(),
                         'manual' => (!$badge->getTypeInstance() instanceof ilBadgeAuto),
-                        'image_rid' => $modal_container->renderShyButton($image_html, $modal) . ' ' .   $modal_container->renderModal($modal),
-                        'title' =>   $modal_container->renderShyButton($title, $modal),
+                        'image_rid' => $modal_container->renderShyButton($image_html, $modal) . ' ' . $modal_container->renderModal($modal),
+                        'title' => $modal_container->renderShyButton($title, $modal),
                         'renderer' => ''
                     );
                 }
@@ -153,7 +159,7 @@ class ilBadgeTableGUI
                 Order $order,
                 ?array $filter_data,
                 ?array $additional_parameters
-            ) : Generator {
+            ): Generator {
                 $records = $this->getRecords($range, $order);
                 foreach ($records as $idx => $record) {
                     $row_id = (string) $record['id'];
@@ -164,18 +170,20 @@ class ilBadgeTableGUI
             public function getTotalRowCount(
                 ?array $filter_data,
                 ?array $additional_parameters
-            ) : ?int {
+            ): ?int {
                 return count($this->getRecords());
             }
 
-            protected function getRecords(Range $range = null, Order $order = null) : array
+            protected function getRecords(Range $range = null, Order $order = null): array
             {
                 global $DIC;
                 $data = $this->getBadges($DIC);
 
                 if ($order) {
-                    list($order_field, $order_direction) = $order->join([],
-                        fn($ret, $key, $value) => [$key, $value]);
+                    list($order_field, $order_direction) = $order->join(
+                        [],
+                        fn($ret, $key, $value) => [$key, $value]
+                    );
                     usort($data, fn($a, $b) => $a[$order_field] <=> $b[$order_field]);
                     if ($order_direction === 'DESC') {
                         $data = array_reverse($data);
@@ -199,8 +207,8 @@ class ilBadgeTableGUI
     protected function getActions(
         URLBuilder $url_builder,
         URLBuilderToken $action_parameter_token,
-        URLBuilderToken  $row_id_token
-    ) : array {
+        URLBuilderToken $row_id_token
+    ): array {
         $f = $this->factory;
         return [
             'badge_table_activate' =>
@@ -229,7 +237,7 @@ class ilBadgeTableGUI
         ];
     }
 
-    public function renderTable() : void
+    public function renderTable(): void
     {
         $f = $this->factory;
         $r = $this->renderer;
@@ -278,7 +286,7 @@ class ilBadgeTableGUI
                         $this->lng->txt('badge_deletion_confirmation'),
                         '#'
                     )->withAffectedItems($items)
-                      ->withAdditionalOnLoadCode(static fn($id) : string => "console.log('ASYNC JS');")
+                      ->withAdditionalOnLoadCode(static fn($id): string => "console.log('ASYNC JS');")
                 ]));
                 exit();
             }

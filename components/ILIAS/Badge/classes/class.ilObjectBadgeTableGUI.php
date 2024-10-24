@@ -1,4 +1,5 @@
 <?php
+
 namespace ILIAS\Badge;
 
 use ILIAS\UI\Factory;
@@ -41,7 +42,8 @@ class ilObjectBadgeTableGUI
     private readonly ilGlobalTemplateInterface $tpl;
     private $parent_obj;
 
-    public function __construct($parentObj) {
+    public function __construct($parentObj)
+    {
         global $DIC;
         $this->lng = $DIC->language();
         $this->tpl = $DIC->ui()->mainTemplate();
@@ -53,7 +55,7 @@ class ilObjectBadgeTableGUI
         $this->parent_obj = $parentObj;
     }
 
-    protected function buildDataRetrievalObject(Factory $f, Renderer $r, $p) : DataRetrieval
+    protected function buildDataRetrievalObject(Factory $f, Renderer $r, $p): DataRetrieval
     {
         return new class ($f, $r, $p) implements DataRetrieval {
             private ilBadgeImage $badge_image_service;
@@ -78,9 +80,9 @@ class ilObjectBadgeTableGUI
                 $this->access = $DIC->access();
             }
 
-            protected function userHasWritePermission(int $parent_id) : bool
+            protected function userHasWritePermission(int $parent_id): bool
             {
-                if($this->user_has_write_permission === null) {
+                if ($this->user_has_write_permission === null) {
                     $parent_ref_id = ilObject::_getAllReferences($parent_id);
                     if (count($parent_ref_id) > 0) {
                         $parent_ref_id = array_pop($parent_ref_id);
@@ -98,7 +100,7 @@ class ilObjectBadgeTableGUI
                 Order $order,
                 ?array $filter_data,
                 ?array $additional_parameters
-            ) : Generator {
+            ): Generator {
                 $records = $this->getRecords($range, $order);
                 foreach ($records as $idx => $record) {
                     $row_id = (string) $record['id'];
@@ -109,11 +111,11 @@ class ilObjectBadgeTableGUI
             public function getTotalRowCount(
                 ?array $filter_data,
                 ?array $additional_parameters
-            ) : ?int {
+            ): ?int {
                 return count($this->getRecords());
             }
 
-            protected function getRecords(Range $range = null, Order $order = null) : array
+            protected function getRecords(Range $range = null, Order $order = null): array
             {
                 $data = [];
                 $image_html = '';
@@ -126,9 +128,9 @@ class ilObjectBadgeTableGUI
                     $type_caption = ilBadge::getExtendedTypeCaption($types[$badge_item['type_id']]);
                     $badge_rid = $badge_item['image_rid'];
                     $image_src = $this->badge_image_service->getImageFromResourceId($badge_item, $badge_rid);
-                    if($badge_rid != '') {
+                    if ($badge_rid != '') {
                         $badge_template_image = $image_src;
-                        if($badge_template_image !== '') {
+                        if ($badge_template_image !== '') {
                             $badge_img = $this->factory->image()->responsive(
                                 $badge_template_image,
                                 $badge_item['title']
@@ -136,7 +138,7 @@ class ilObjectBadgeTableGUI
                             $image_html = $this->renderer->render($badge_img);
                         }
                         $image_html_large = $this->badge_image_service->getImageFromResourceId($badge_item, $badge_rid, 0);
-                        if($image_html_large !== '') {
+                        if ($image_html_large !== '') {
                             $badge_img_large = $this->ui_factory->image()->responsive(
                                 $image_html_large,
                                 $badge_item['title']
@@ -172,32 +174,38 @@ class ilObjectBadgeTableGUI
                     $badge_information = [
                         'active' => ($badge_item['active'] ? $this->lng->txt('yes') : $this->lng->txt('no')),
                         'type' => $type_caption,
-                        'container' => $container_url_link ?  : $badge_item['parent_title'],
+                        'container' => $container_url_link ?: $badge_item['parent_title'],
                     ];
 
-                    $modal = $modal_container->constructModal($badge_img_large, $badge_item['title'], '',
-                        $badge_information);
+                    $modal = $modal_container->constructModal(
+                        $badge_img_large,
+                        $badge_item['title'],
+                        '',
+                        $badge_information
+                    );
 
                     $data[] = [
                         'id' => (int) $badge_item['id'],
                         'active' => (bool) $badge_item['active'],
                         'type' => $type_caption,
-                        'image_rid' => $modal_container->renderShyButton($image_html, $modal) . ' ' .   $modal_container->renderModal($modal),
-                        'title' =>  $modal_container->renderShyButton($badge_item['title'], $modal),
+                        'image_rid' => $modal_container->renderShyButton($image_html, $modal) . ' ' . $modal_container->renderModal($modal),
+                        'title' => $modal_container->renderShyButton($badge_item['title'], $modal),
                         'container' => $badge_item['parent_title'],
                         'container_icon' => $container_icon,
-                        'container_url' => $container_icon . $container_url_link ?  : '',
+                        'container_url' => $container_icon . $container_url_link ?: '',
                         'container_deleted' => ($badge_item['deleted'] ?? false),
                         'container_id' => (int) $badge_item['parent_id'],
                         'container_type' => $badge_item['parent_type'],
                     ];
                 }
                 if ($order) {
-                    list($order_field, $order_direction) = $order->join([],
-                        fn($ret, $key, $value) => [$key, $value]);
+                    list($order_field, $order_direction) = $order->join(
+                        [],
+                        fn($ret, $key, $value) => [$key, $value]
+                    );
                     usort($data, fn($a, $b) => $a[$order_field] <=> $b[$order_field]);
-                    if($order_field === 'active'){
-                        if($order_direction === 'ASC') {
+                    if ($order_field === 'active') {
+                        if ($order_direction === 'ASC') {
                             $data = array_reverse($data);
                         }
                     } elseif ($order_direction === 'DESC') {
@@ -221,8 +229,8 @@ class ilObjectBadgeTableGUI
     protected function getActions(
         URLBuilder $url_builder,
         URLBuilderToken $action_parameter_token,
-        URLBuilderToken  $row_id_token
-    ) : array {
+        URLBuilderToken $row_id_token
+    ): array {
         $f = $this->factory;
 
         return [
@@ -252,7 +260,7 @@ class ilObjectBadgeTableGUI
         ];
     }
 
-    public function renderTable() : void
+    public function renderTable(): void
     {
         $f = $this->factory;
         $r = $this->renderer;
@@ -301,7 +309,7 @@ class ilObjectBadgeTableGUI
 
             if ($action === 'obj_badge_delete') {
                 $items = [];
-                if(is_array($ids) && count($ids) > 0) {
+                if (is_array($ids) && count($ids) > 0) {
                     foreach ($ids as $id) {
                         $badge = new ilBadge($id);
                         $items[] = $f->modal()->interruptiveItem()->keyValue($id, $badge->getId(), $badge->getTitle());
@@ -312,7 +320,7 @@ class ilObjectBadgeTableGUI
                             $this->lng->txt('badge_deletion_confirmation'),
                             '#'
                         )->withAffectedItems($items)
-                          ->withAdditionalOnLoadCode(static fn($id) : string => "console.log('ASYNC JS');")
+                          ->withAdditionalOnLoadCode(static fn($id): string => "console.log('ASYNC JS');")
                     ]));
                     exit();
                 }

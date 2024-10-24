@@ -23,7 +23,7 @@
 class ilBadgeLearningHistoryProvider extends ilAbstractLearningHistoryProvider implements ilLearningHistoryProviderInterface
 {
     protected ilObjUser $current_user;
-    protected \ILIAS\DI\UIServices  $ui;
+    protected \ILIAS\DI\UIServices $ui;
 
     public function __construct(
         int $user_id,

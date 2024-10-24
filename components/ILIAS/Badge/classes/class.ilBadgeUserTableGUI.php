@@ -1,4 +1,5 @@
 <?php
+
 namespace ILIAS\Badge;
 
 use ILIAS\UI\Factory;
@@ -36,7 +37,8 @@ class ilBadgeUserTableGUI
     private readonly ?ilBadge $award_badge;
     private readonly ilLanguage $lng;
     private readonly ilGlobalTemplateInterface $tpl;
-    public function __construct(int $parent_ref_id, ?ilBadge $award_badge = null) {
+    public function __construct(int $parent_ref_id, ?ilBadge $award_badge = null)
+    {
         global $DIC;
         $this->lng = $DIC->language();
         $this->tpl = $DIC->ui()->mainTemplate();
@@ -70,18 +72,18 @@ class ilBadgeUserTableGUI
              * @param array $data
              * @return array
              */
-            protected function getBadgeImageTemplates(Container $DIC, array $data) : array
+            protected function getBadgeImageTemplates(Container $DIC, array $data): array
             {
 
                 global $DIC;
-                $a_parent_obj_id     = null;
-                $assignments         = null;
-                $user_ids            = null;
-                $parent_ref_id       = $this->parent_ref_id;
+                $a_parent_obj_id = null;
+                $assignments = null;
+                $user_ids = null;
+                $parent_ref_id = $this->parent_ref_id;
                 $a_restrict_badge_id = 0;
-                $data                = [];
-                $badges              = [];
-                $tree                = $DIC->repositoryTree();
+                $data = [];
+                $badges = [];
+                $tree = $DIC->repositoryTree();
 
                 if (!$a_parent_obj_id) {
                     $a_parent_obj_id = ilObject::_lookupObjId($parent_ref_id);
@@ -137,7 +139,7 @@ class ilBadgeUserTableGUI
                             $type = ilBadge::getExtendedTypeCaption($badge->getTypeInstance());
                             $title = $badge->getTitle();
                             $issued = $immutable->setTimestamp($timestamp);
-                            $parent_id =  $parent["id"] ?? 0;
+                            $parent_id = $parent["id"] ?? 0;
                             $data[$idx] = [
                                 "user_id" => $user_id,
                                 "name" => $name,
@@ -149,8 +151,7 @@ class ilBadgeUserTableGUI
                                 "parent_meta" => $parent
                             ];
                         }
-                    }
-                    elseif ($this->award_badge) {
+                    } elseif ($this->award_badge) {
                         $idx = "0-" . $user["usr_id"];
                         $user_id = $user['usr_id'];
                         $name = $user['lastname'] . ', ' . $user['firstname'];
@@ -177,10 +178,10 @@ class ilBadgeUserTableGUI
                 Order $order,
                 ?array $filter_data,
                 ?array $additional_parameters
-            ) : Generator {
+            ): Generator {
                 $records = $this->getRecords($range, $order);
                 foreach ($records as $idx => $record) {
-                    if(isset($idx)) {
+                    if (isset($idx)) {
                         $row_id = (string) $idx;
                         yield $row_builder->buildDataRow($row_id, $record);
                     }
@@ -190,11 +191,11 @@ class ilBadgeUserTableGUI
             public function getTotalRowCount(
                 ?array $filter_data,
                 ?array $additional_parameters
-            ) : ?int {
+            ): ?int {
                 return count($this->getRecords());
             }
 
-            protected function getRecords(Range $range = null, Order $order = null) : array
+            protected function getRecords(Range $range = null, Order $order = null): array
             {
 
                 global $DIC;
@@ -203,8 +204,10 @@ class ilBadgeUserTableGUI
                 $data = $this->getBadgeImageTemplates($DIC, $data);
 
                 if ($order) {
-                    list($order_field, $order_direction) = $order->join([],
-                        fn($ret, $key, $value) => [$key, $value]);
+                    list($order_field, $order_direction) = $order->join(
+                        [],
+                        fn($ret, $key, $value) => [$key, $value]
+                    );
                     usort($data, fn($a, $b) => $a[$order_field] <=> $b[$order_field]);
                     if ($order_direction === 'DESC') {
                         $data = array_reverse($data);
@@ -219,7 +222,7 @@ class ilBadgeUserTableGUI
         };
     }
 
-    public function renderTable() : void
+    public function renderTable(): void
     {
         $f = $this->factory;
         $r = $this->renderer;

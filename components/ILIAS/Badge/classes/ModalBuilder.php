@@ -13,7 +13,6 @@ use ILIAS\UI\Factory;
 
 class ModalBuilder
 {
-
     private ?Factory $ui_factory;
     private ?Renderer $ui_renderer;
     protected ?ilBadgeAssignment $assignment = null;
@@ -37,8 +36,7 @@ class ModalBuilder
         string $badge_title,
         string $badge_description = null,
         array $badge_properties = []
-    ) : Modal
-    {
+    ): Modal {
         $modal_content[] = $badge_image;
 
         if ($this->assignment) {
@@ -54,18 +52,18 @@ class ModalBuilder
         return $this->ui_factory->modal()->roundtrip($badge_title, $modal_content);
     }
 
-    public function renderModal(Modal $modal) : string
+    public function renderModal(Modal $modal): string
     {
         return $this->ui_renderer->render($modal);
     }
 
-    public function renderShyButton(string $label, Modal $modal) : string
+    public function renderShyButton(string $label, Modal $modal): string
     {
         $button = $this->ui_factory->button()->shy($label, $modal->getShowSignal());
         return $this->ui_renderer->render($button);
     }
 
-    private function translateKeysWithValidDataAttribute(array $properties) : array
+    private function translateKeysWithValidDataAttribute(array $properties): array
     {
         $translations = [];
 

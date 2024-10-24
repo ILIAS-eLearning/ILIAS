@@ -25,13 +25,13 @@ class ilBadgeImage
         $this->main_template = $main_template;
     }
 
-    public function getImageFromBadge(ilBadge $badge) : string
+    public function getImageFromBadge(ilBadge $badge): string
     {
         $image_rid = $badge->getImageRid();
         return $this->getImageFromResourceId($badge, $image_rid);
     }
 
-    public function getImageFromResourceId(ilBadge|array $badge, ?string $image_rid, $size = 4) : string
+    public function getImageFromResourceId(ilBadge|array $badge, ?string $image_rid, $size = 4): string
     {
         $image_src = '';
 
@@ -40,11 +40,11 @@ class ilBadgeImage
             if ($identification !== null) {
                 $flavour = $this->resource_storage->flavours()->get($identification, new \ilBadgePictureDefinition());
                 $urls = $this->resource_storage->consume()->flavourUrls($flavour)->getURLsAsArray(false);
-                if(sizeof($urls) === 5 && isset($urls[$size])) {
+                if (sizeof($urls) === 5 && isset($urls[$size])) {
                     $image_src = $urls[$size];
                 }
             }
-        } elseif(is_array($badge) && isset($badge['image'])) {
+        } elseif (is_array($badge) && isset($badge['image'])) {
             $image_src = $badge['image'];
         } else {
             $image_src = $badge->getImage();
@@ -53,7 +53,7 @@ class ilBadgeImage
         return $image_src;
     }
 
-    public function processImageUpload(ilBadge $badge) : void
+    public function processImageUpload(ilBadge $badge): void
     {
         try {
             $array_result = $this->upload_service->getResults();

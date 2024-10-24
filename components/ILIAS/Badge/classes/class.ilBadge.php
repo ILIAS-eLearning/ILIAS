@@ -47,7 +47,7 @@ class ilBadge
         Container $container = null
     ) {
 
-        if($container === null) {
+        if ($container === null) {
             global $DIC;
             $container = $DIC;
         }
@@ -158,7 +158,7 @@ class ilBadge
         if ($this->getId()) {
             $this->setId(0);
             $this->create();
-            if($this->getImageRid()) {
+            if ($this->getImageRid()) {
                 $this->update();
             } else {
                 $img = $this->getImagePath();
@@ -321,7 +321,7 @@ class ilBadge
 
     protected function setImage(?string $a_value): void
     {
-        if($a_value !== null) {
+        if ($a_value !== null) {
             $this->image = trim($a_value);
         }
     }
@@ -493,8 +493,8 @@ class ilBadge
         if (file_exists($this->getImagePath())) {
             unlink($this->getImagePath());
         } else {
-            if($this->getImageRid() !== null) {
-                try{
+            if ($this->getImageRid() !== null) {
+                try {
                     $this->resource_storage->manage()->remove($this->getImageRid(), new ilBadgeFileStakeholder());
                 } catch (Exception $e) {
                 }
@@ -606,14 +606,14 @@ class ilBadge
                 : $lng->txt("badge_subtype_manual")) . ")";
     }
 
-    public function getImageRid() : ?ResourceIdentification
+    public function getImageRid(): ?ResourceIdentification
     {
         return $this->image_rid;
     }
 
-    public function setImageRid(?string $image_rid) : void
+    public function setImageRid(?string $image_rid): void
     {
-        if($image_rid !== null) {
+        if ($image_rid !== null) {
             $this->image_rid = new ResourceIdentification($image_rid);
         }
     }

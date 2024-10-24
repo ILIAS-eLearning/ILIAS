@@ -86,9 +86,9 @@ class ilBadgeProfileGUI
                 $action = '';
                 $parameter = 'badge_table_action';
                 if ($query->has($parameter)) {
-                    $action = $query->retrieve($parameter , $DIC->refinery()->kindlyTo()->string());
+                    $action = $query->retrieve($parameter, $DIC->refinery()->kindlyTo()->string());
                 }
-                if($action === 'obj_badge_activate') {
+                if ($action === 'obj_badge_activate') {
                     $this->activate();
                 } elseif ($action === 'obj_badge_deactivate') {
                     $this->deactivate();
@@ -126,7 +126,7 @@ class ilBadgeProfileGUI
         $action_parameter_token = 'badge_id';
         $query = $DIC->http()->wrapper()->query();
         if ($query->has($action_parameter_token)) {
-            if($query->has($action_parameter_token)) {
+            if ($query->has($action_parameter_token)) {
                 $ids = $query->retrieve($action_parameter_token, $DIC->refinery()->kindlyTo()->listOf($DIC->refinery()->kindlyTo()->string()));
             }
         }

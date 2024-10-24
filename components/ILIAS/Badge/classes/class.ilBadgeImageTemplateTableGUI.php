@@ -1,4 +1,5 @@
 <?php
+
 namespace ILIAS\Badge;
 
 use ILIAS\UI\Factory;
@@ -28,7 +29,8 @@ class ilBadgeImageTemplateTableGUI
     private readonly Services $http;
     private readonly ilLanguage $lng;
     private readonly ilGlobalTemplateInterface $tpl;
-    public function __construct() {
+    public function __construct()
+    {
         global $DIC;
         $this->lng = $DIC->language();
         $this->tpl = $DIC->ui()->mainTemplate();
@@ -58,7 +60,7 @@ class ilBadgeImageTemplateTableGUI
              * @param array $data
              * @return array
              */
-            protected function getBadgeImageTemplates(Container $DIC, array $data) : array
+            protected function getBadgeImageTemplates(Container $DIC, array $data): array
             {
                 $modal_container = new ModalBuilder();
 
@@ -67,7 +69,7 @@ class ilBadgeImageTemplateTableGUI
                     if ($template->getId() !== null) {
                         $badge_template_image = $template->getImageFromResourceId($template->getImageRid());
                         $badge_template_image_large = $template->getImageFromResourceId($template->getImageRid(), null, 0);
-                        if($badge_template_image !== '') {
+                        if ($badge_template_image !== '') {
                             $badge_img = $DIC->ui()->factory()->image()->responsive(
                                 $badge_template_image,
                                 $template->getTitle()
@@ -75,7 +77,7 @@ class ilBadgeImageTemplateTableGUI
                             $image_html = $DIC->ui()->renderer()->render($badge_img);
                         }
 
-                        if($badge_template_image_large !== '') {
+                        if ($badge_template_image_large !== '') {
                             $badge_img_large = $DIC->ui()->factory()->image()->responsive(
                                 $badge_template_image_large,
                                 $template->getTitle()
@@ -84,8 +86,8 @@ class ilBadgeImageTemplateTableGUI
                             $modal = $modal_container->constructModal($badge_img_large, $template->getTitle(), '');
                             $data[] =
                                 ['id' => $template->getId(),
-                                 'image_rid' => $modal_container->renderShyButton($image_html, $modal) . ' ' .   $modal_container->renderModal($modal),
-                                 'title' =>   $modal_container->renderShyButton($template->getTitle(), $modal),
+                                 'image_rid' => $modal_container->renderShyButton($image_html, $modal) . ' ' . $modal_container->renderModal($modal),
+                                 'title' => $modal_container->renderShyButton($template->getTitle(), $modal),
                                 ];
                         }
 
@@ -101,7 +103,7 @@ class ilBadgeImageTemplateTableGUI
                 Order $order,
                 ?array $filter_data,
                 ?array $additional_parameters
-            ) : Generator {
+            ): Generator {
                 $records = $this->getRecords($range, $order);
                 foreach ($records as $idx => $record) {
                     $row_id = (string) $record['id'];
@@ -112,11 +114,11 @@ class ilBadgeImageTemplateTableGUI
             public function getTotalRowCount(
                 ?array $filter_data,
                 ?array $additional_parameters
-            ) : ?int {
+            ): ?int {
                 return count($this->getRecords());
             }
 
-            protected function getRecords(Range $range = null, Order $order = null) : array
+            protected function getRecords(Range $range = null, Order $order = null): array
             {
 
                 global $DIC;
@@ -125,8 +127,10 @@ class ilBadgeImageTemplateTableGUI
                 $data = $this->getBadgeImageTemplates($DIC, $data);
 
                 if ($order) {
-                    list($order_field, $order_direction) = $order->join([],
-                        fn($ret, $key, $value) => [$key, $value]);
+                    list($order_field, $order_direction) = $order->join(
+                        [],
+                        fn($ret, $key, $value) => [$key, $value]
+                    );
                     usort($data, fn($a, $b) => $a[$order_field] <=> $b[$order_field]);
                     if ($order_direction === 'DESC') {
                         $data = array_reverse($data);
@@ -150,8 +154,8 @@ class ilBadgeImageTemplateTableGUI
     protected function getActions(
         URLBuilder $url_builder,
         URLBuilderToken $action_parameter_token,
-        URLBuilderToken  $row_id_token
-    ) : array {
+        URLBuilderToken $row_id_token
+    ): array {
         $f = $this->factory;
         return [
             'badge_image_template_edit' => $f->table()->action()->single(
@@ -168,7 +172,7 @@ class ilBadgeImageTemplateTableGUI
         ];
     }
 
-    public function renderTable() : void
+    public function renderTable(): void
     {
         $f = $this->factory;
         $r = $this->renderer;
@@ -209,8 +213,11 @@ class ilBadgeImageTemplateTableGUI
             if ($query_values === ['ALL_OBJECTS']) {
                 foreach (ilBadgeImageTemplate::getInstances() as $template) {
                     if ($template->getId() !== null) {
-                        $items[] = $f->modal()->interruptiveItem()->keyValue($template->getId(), $template->getId(),
-                            $template->getTitle());
+                        $items[] = $f->modal()->interruptiveItem()->keyValue(
+                            $template->getId(),
+                            $template->getId(),
+                            $template->getTitle()
+                        );
                     }
                 }
             } else {
@@ -221,8 +228,11 @@ class ilBadgeImageTemplateTableGUI
                     }
                 } else {
                     $badge = new ilBadgeImageTemplate($query_values);
-                    $items[] = $f->modal()->interruptiveItem()->keyValue($badge->getId(), $badge->getId(),
-                        $badge->getTitle());
+                    $items[] = $f->modal()->interruptiveItem()->keyValue(
+                        $badge->getId(),
+                        $badge->getId(),
+                        $badge->getTitle()
+                    );
                 }
 
             }
@@ -234,7 +244,7 @@ class ilBadgeImageTemplateTableGUI
                         $this->lng->txt('badge_deletion_confirmation'),
                         '#'
                     )->withAffectedItems($items)
-                      ->withAdditionalOnLoadCode(static fn($id) : string => "console.log('ASYNC JS');")
+                      ->withAdditionalOnLoadCode(static fn($id): string => "console.log('ASYNC JS');")
                 ]));
                 exit();
             }

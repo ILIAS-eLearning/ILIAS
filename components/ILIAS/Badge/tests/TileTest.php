@@ -190,7 +190,7 @@ class TileTest extends TestCase
         $language = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
         $resource_storage = $this->getMockBuilder(Services::class)->disableOriginalConstructor()->getMock();
         $language->method('txt')->willReturnCallback(
-            static fn (string $lang_key) => 'Translated: ' . $lang_key
+            static fn(string $lang_key) => 'Translated: ' . $lang_key
         );
         $container->method('ui')->willReturn($ui);
         $container->method('ctrl')->willReturn($ctrl);
@@ -200,7 +200,7 @@ class TileTest extends TestCase
             throw new Exception('Should not be called.');
         };
         $sign_file = function (string $path) use ($signed_file, $badge_image_path): string {
-          //Todo: fix this case
+            //Todo: fix this case
             #  $this->assertSame($badge_image_path, $path);
             return $signed_file;
         };

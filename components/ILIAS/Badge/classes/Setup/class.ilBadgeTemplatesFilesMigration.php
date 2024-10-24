@@ -24,7 +24,7 @@ use ILIAS\Setup\Migration;
 
 class ilBadgeTemplatesFilesMigration implements Migration
 {
-    const TABLE_NAME = 'badge_image_template';
+    private const TABLE_NAME = 'badge_image_template';
 
     protected ilResourceStorageMigrationHelper $helper;
 
@@ -66,12 +66,12 @@ class ilBadgeTemplatesFilesMigration implements Migration
         $id = (int) $d->id;
         $image = $d->image;
 
-        if($image !== '') {
+        if ($image !== '') {
             $image = $this->getImagePath($id, $image);
             $base_path = dirname($image);
             $pattern = '/(.+)/m';
 
-            if (is_dir($base_path) &&  file_exists($image) && count(scandir($base_path)) > 2) {
+            if (is_dir($base_path) && file_exists($image) && count(scandir($base_path)) > 2) {
                 $collection_id = $this->helper->moveFilesOfPatternToCollection(
                     $base_path,
                     $pattern,
@@ -132,7 +132,7 @@ class ilBadgeTemplatesFilesMigration implements Migration
     public function getRemainingAmountOfSteps(): int
     {
         $r = $this->helper->getDatabase()->query(
-            "SELECT count(id) as amount FROM ". self::TABLE_NAME ."
+            "SELECT count(id) as amount FROM " . self::TABLE_NAME . "
                              WHERE  image_rid IS NULL OR image_rid = '';"
         );
         $d = $this->helper->getDatabase()->fetchObject($r);

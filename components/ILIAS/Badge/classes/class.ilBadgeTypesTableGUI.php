@@ -1,4 +1,5 @@
 <?php
+
 namespace ILIAS\Badge;
 
 use ILIAS\UI\Factory;
@@ -29,7 +30,8 @@ class ilBadgeTypesTableGUI
     private readonly Services $http;
     private readonly ilLanguage $lng;
     private readonly ilGlobalTemplateInterface $tpl;
-    public function __construct() {
+    public function __construct()
+    {
         global $DIC;
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('cmps');
@@ -60,7 +62,7 @@ class ilBadgeTypesTableGUI
              * @param array $data
              * @return array
              */
-            protected function getBadgeImageTemplates(Container $DIC, array $data) : array
+            protected function getBadgeImageTemplates(Container $DIC, array $data): array
             {
                 $data = array();
 
@@ -94,7 +96,7 @@ class ilBadgeTypesTableGUI
                 Order $order,
                 ?array $filter_data,
                 ?array $additional_parameters
-            ) : Generator {
+            ): Generator {
                 $records = $this->getRecords($range, $order);
                 foreach ($records as $idx => $record) {
                     $row_id = (string) $record['id'];
@@ -105,11 +107,11 @@ class ilBadgeTypesTableGUI
             public function getTotalRowCount(
                 ?array $filter_data,
                 ?array $additional_parameters
-            ) : ?int {
+            ): ?int {
                 return count($this->getRecords());
             }
 
-            protected function getRecords(Range $range = null, Order $order = null) : array
+            protected function getRecords(Range $range = null, Order $order = null): array
             {
 
                 global $DIC;
@@ -118,8 +120,10 @@ class ilBadgeTypesTableGUI
                 $data = $this->getBadgeImageTemplates($DIC, $data);
 
                 if ($order) {
-                    list($order_field, $order_direction) = $order->join([],
-                        fn($ret, $key, $value) => [$key, $value]);
+                    list($order_field, $order_direction) = $order->join(
+                        [],
+                        fn($ret, $key, $value) => [$key, $value]
+                    );
                     usort($data, fn($a, $b) => $a[$order_field] <=> $b[$order_field]);
                     if ($order_direction === 'DESC') {
                         $data = array_reverse($data);
@@ -143,8 +147,8 @@ class ilBadgeTypesTableGUI
     protected function getActions(
         URLBuilder $url_builder,
         URLBuilderToken $action_parameter_token,
-        URLBuilderToken  $row_id_token
-    ) : array {
+        URLBuilderToken $row_id_token
+    ): array {
         $f = $this->factory;
         return [
             'badge_type_activate' => $f->table()->action()->multi(
@@ -161,7 +165,7 @@ class ilBadgeTypesTableGUI
         ];
     }
 
-    public function renderTable() : void
+    public function renderTable(): void
     {
         $f = $this->factory;
         $r = $this->renderer;
@@ -175,18 +179,33 @@ class ilBadgeTypesTableGUI
         $columns = [
             'name' => $f->table()->column()->text($this->lng->txt("name")),
             'comp' => $f->table()->column()->text($this->lng->txt("cmps_component")),
-            'manual' => $f->table()->column()->boolean($this->lng->txt("badge_manual"), $this->lng->txt("yes"),
-                $this->lng->txt("no"))
-                          ->withOrderingLabels($badge_manual_txt . $this->lng->txt("no"),
-                              $badge_manual_txt . $this->lng->txt("yes")),
-            'activity' => $f->table()->column()->boolean($this->lng->txt("badge_activity_badges"),
-                $this->lng->txt("yes"), $this->lng->txt("no"))
-                            ->withOrderingLabels($badge_activity_txt . $this->lng->txt("no"),
-                                $badge_activity_txt. $this->lng->txt("yes")),
-            'active' => $f->table()->column()->boolean($this->lng->txt("active"), $this->lng->txt("yes"),
-                $this->lng->txt("no"))
-                          ->withOrderingLabels($active_txt . $this->lng->txt("no"),
-                              $active_txt . $this->lng->txt("yes")),
+            'manual' => $f->table()->column()->boolean(
+                $this->lng->txt("badge_manual"),
+                $this->lng->txt("yes"),
+                $this->lng->txt("no")
+            )
+                          ->withOrderingLabels(
+                              $badge_manual_txt . $this->lng->txt("no"),
+                              $badge_manual_txt . $this->lng->txt("yes")
+                          ),
+            'activity' => $f->table()->column()->boolean(
+                $this->lng->txt("badge_activity_badges"),
+                $this->lng->txt("yes"),
+                $this->lng->txt("no")
+            )
+                            ->withOrderingLabels(
+                                $badge_activity_txt . $this->lng->txt("no"),
+                                $badge_activity_txt . $this->lng->txt("yes")
+                            ),
+            'active' => $f->table()->column()->boolean(
+                $this->lng->txt("active"),
+                $this->lng->txt("yes"),
+                $this->lng->txt("no")
+            )
+                          ->withOrderingLabels(
+                              $active_txt . $this->lng->txt("no"),
+                              $active_txt . $this->lng->txt("yes")
+                          ),
 
         ];
 
