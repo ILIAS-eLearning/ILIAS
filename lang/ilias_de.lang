@@ -8757,7 +8757,6 @@ dcl#:#dcl_table_create#:#Erstelle Tabelle
 dcl#:#dcl_table_edit#:#Speichern
 dcl#:#dcl_table_id#:#Tabellen ID
 dcl#:#dcl_table_info#:#Nachfolgend legen Sie fest, was Personen in dieser Tabelle tun dürfen, die für die Datensammlung das Recht „Eintragen“ besitzen.
-dcl#:#dcl_table_info_title#:#Info
 dcl#:#dcl_table_list_fields#:#Felder der ausgewählten Tabelle
 dcl#:#dcl_table_list_tables#:#Verfügbare Tabellen
 dcl#:#dcl_table_settings_saved#:#Tabellen Einstellungen wurden gespeichert.
