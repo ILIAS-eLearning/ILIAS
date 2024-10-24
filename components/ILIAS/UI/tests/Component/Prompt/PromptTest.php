@@ -27,16 +27,18 @@ use PHPUnit\Framework\Attributes\Depends;
 
 class PromptTest extends \ILIAS_UI_TestBase
 {
-    protected string $uri_stub_value;
-    protected \ILIAS\Data\URI & Stub $uri_stub;
+    protected string $url_builder_stub_value;
+    protected \ILIAS\UI\URLBuilder & Stub $url_builder_stub;
     protected string $message_box_stub_html;
     protected I\MessageBox\MessageBox & Stub $message_box_stub;
 
     protected function setUp(): void
     {
-        $this->uri_stub_value = sha1(\ILIAS\Data\URI::class);
-        $this->uri_stub = $this->createStub(\ILIAS\Data\URI::class);
-        $this->uri_stub->method('__toString')->willReturn($this->uri_stub_value);
+        $this->url_builder_stub_value = sha1(\ILIAS\UI\URLBuilder::class);
+        $uri_stub = $this->createStub(\ILIAS\Data\URI::class);
+        $uri_stub->method('__toString')->willReturn($this->url_builder_stub_value);
+        $this->url_builder_stub = $this->createStub(\ILIAS\UI\URLBuilder::class);
+        $this->url_builder_stub->method('buildURI')->willReturn($uri_stub);
 
         $this->message_box_stub_html = sha1(I\MessageBox\MessageBox::class);
         $this->message_box_stub = $this->createStub(I\MessageBox\MessageBox::class);
@@ -48,7 +50,7 @@ class PromptTest extends \ILIAS_UI_TestBase
     public function getUIFactory(): \NoUIFactory
     {
         $real_prompt_factory = new I\Prompt\Factory(
-            $this->createStub(I\SignalGeneratorInterface::class),
+            new I\SignalGenerator(),
             $this->createStub(I\Prompt\State\Factory::class),
         );
 
@@ -74,7 +76,7 @@ class PromptTest extends \ILIAS_UI_TestBase
 
     public function testRender(): void
     {
-        $prompt = $this->getUIFactory()->prompt()->standard($this->uri_stub);
+        $prompt = $this->getUIFactory()->prompt()->standard($this->url_builder_stub);
 
         $renderer = $this->getDefaultRenderer(null, [$this->message_box_stub]);
 
@@ -110,7 +112,7 @@ HTML;
 
     public function testRenderWithTitle(): void
     {
-        $prompt = $this->getUIFactory()->prompt()->standard($this->uri_stub);
+        $prompt = $this->getUIFactory()->prompt()->standard($this->url_builder_stub);
 
         $title = sha1('Hello World!');
         $prompt = $prompt->withTitle($title);
@@ -124,5 +126,48 @@ HTML;
         $actual = $renderer->render($prompt);
 
         $this->assertStringContainsString($this->brutallyTrimHTML($expected), $this->brutallyTrimHTML($actual));
+    }
+
+    public function testShowSignal(): void
+    {
+        $prompt = $this->getUIFactory()->prompt()->standard($this->url_builder_stub);
+        $signal = $prompt->getShowSignal();
+        $this->assertSame(['url' => $this->url_builder_stub_value], $signal->getOptions());
+    }
+
+    public function testShowSignalAfterWithParameter(): void
+    {
+        $test_value = 'some_new_parameter_value';
+        $url_builder_token_stub = $this->createStub(\ILIAS\UI\URLBuilderToken::class);
+
+        $initial_uri_stub = $this->createStub(\ILIAS\Data\URI::class);
+        $initial_uri_stub->method('__toString')->willReturn('initial_uri');
+        $altered_uri_stub = $this->createStub(\ILIAS\Data\URI::class);
+        $altered_uri_stub->method('__toString')->willReturn('altered_uri');
+
+        $url_builder_mock = $this->createMock(\ILIAS\UI\URLBuilder::class);
+        $url_builder_mock->method('buildURI')->willReturn($initial_uri_stub, $altered_uri_stub);
+
+        $prompt = $this->getUIFactory()->prompt()->standard($url_builder_mock);
+
+        $initial_signal = $prompt->getShowSignal();
+        $this->assertSame(['url' => $initial_uri_stub->__toString()], $initial_signal->getOptions());
+
+        $url_builder_mock
+            ->expects($this->once())
+            ->method('withParameter')
+            ->with($url_builder_token_stub, $test_value)
+            ->willReturnSelf();
+        $prompt = $prompt->withParameter($url_builder_token_stub, $test_value);
+
+        $altered_signal = $prompt->getShowSignal();
+        $this->assertSame(['url' => $altered_uri_stub->__toString()], $altered_signal->getOptions());
+    }
+
+    public function testShowSignalWithLegacyParameter(): void
+    {
+        $prompt = $this->getUIFactory()->prompt()->standard($this->url_builder_stub);
+        $this->expectException(\LogicException::class);
+        $prompt->getShowSignal($this->createStub(\ILIAS\Data\URI::class));
     }
 }

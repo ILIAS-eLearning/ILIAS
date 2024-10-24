@@ -21,32 +21,23 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Table\Action;
 
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use ILIAS\UI\Component\Table\Action as I;
-use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Component as C;
 use ILIAS\Data\URI;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 
-abstract class Action implements I\Action
+abstract class Action implements C\Table\Action\Action
 {
     use ComponentHelper;
-    /**
-     * JS needs to know about the type of an action
-     * and where to find the options (in case of signal)
-     * Theses constants are passed to il.UI.table.data.init
-     */
-    public const OPT_ACTIONID = 'actId';
-    public const OPT_ROWID = 'rowid';
 
-    protected Signal|URI $target;
-    protected bool $async = false;
+    protected bool $is_legacy_async = false;
+    protected ?C\Signal $legacy_async_signal = null;
 
     public function __construct(
         protected string $label,
-        protected URLBuilder $url_builder,
-        protected URLBuilderToken $row_id_parameter
+        protected C\Prompt\Prompt|URLBuilder $target,
+        protected URLBuilderToken $row_id_parameter,
     ) {
-        $this->target = $url_builder->buildURI();
     }
 
     public function getLabel(): string
@@ -54,55 +45,62 @@ abstract class Action implements I\Action
         return $this->label;
     }
 
-    public function getTarget(): Signal|URI
+    public function getTarget(): C\Prompt\Prompt|URLBuilder
     {
         return $this->target;
     }
 
-    public function withSignalTarget(Signal $target): self
+    /**
+     * @inheritDoc
+     */
+    public function withAsync(bool $is_async = true): self
     {
+        if ($this->target instanceof C\Prompt\Prompt) {
+            throw new \LogicException('Action already migrated to Prompt and is async by default.');
+        }
         $clone = clone $this;
-        $clone->target = $target;
+        $clone->is_legacy_async = $is_async;
         return $clone;
     }
 
-    public function withAsync(bool $async = true): self
+    /**
+     * @deprecated use {@see self::getTarget() to determine behaviour}
+     */
+    public function isTargetLegacyAsync(): bool
+    {
+        return $this->is_legacy_async;
+    }
+
+    /**
+     * @deprecated do not pass information between rendering steps via DTO!
+     */
+    public function withLegacyAsyncSignal(C\Signal $signal): static
     {
         $clone = clone $this;
-        $clone->async = $async;
+        $clone->legacy_async_signal = $signal;
         return $clone;
     }
 
-    public function isAsync(): bool
+    /**
+     * @deprecated do not pass information between rendering steps via DTO!
+     */
+    public function getLegacyAsyncSignal(): C\Signal
     {
-        return $this->async;
+        return $this->legacy_async_signal;
     }
 
     public function withRowId(string $row_id): self
     {
         $clone = clone $this;
-        $target = $clone->getTarget();
-
-        if ($target instanceof Signal) {
-            $target->addOption('rowid', $row_id);
-        }
-        if ($target instanceof URI) {
-            $target = $this->url_builder->withParameter(
-                $this->row_id_parameter,
-                [$row_id]
-            )
-            ->buildURI();
-        }
-        $clone->target = $target;
+        $clone->target = $clone->target->withParameter(
+            $this->getRowIdParameter(),
+            [$row_id]
+        );
         return $clone;
     }
 
-    public function getURLBuilderJS(): string
+    public function getRowIdParameter(): URLBuilderToken
     {
-        return $this->url_builder->renderObject([$this->row_id_parameter]);
-    }
-    public function getURLBuilderTokensJS(): string
-    {
-        return $this->url_builder->renderTokens([$this->row_id_parameter]);
+        return $this->row_id_parameter;
     }
 }
