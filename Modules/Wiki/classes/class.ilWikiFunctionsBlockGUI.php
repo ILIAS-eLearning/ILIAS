@@ -102,19 +102,6 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
     {
         return $this->pageob;
     }
-
-    public function fillDataSection(): void
-    {
-        $this->setDataSection($this->getLegacyContent());
-    }
-
-    //
-    // New rendering
-    //
-
-    protected bool $new_rendering = true;
-
-
     protected function getLegacyContent(): string
     {
         $ilCtrl = $this->ctrl;

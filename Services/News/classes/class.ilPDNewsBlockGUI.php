@@ -64,18 +64,11 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
             $this->cache_hit = true;
         }
 
-        if (!$this->cache_hit && $this->getDynamic()) {
-            $this->dynamic = true;
-            $data = [];
-        } else {
-            // do not ask two times for the data (e.g. if user displays a
-            // single item on the personal desktop and the news block is
-            // displayed at the same time)
-            if (empty(self::$st_data)) {
-                self::$st_data = $this->getNewsData();
-            }
-            $data = self::$st_data;
+
+        if (empty(self::$st_data)) {
+            self::$st_data = $this->getNewsData();
         }
+        $data = self::$st_data;
 
         $this->setTitle($lng->txt("news_internal_news"));
         $this->setRowTemplate("tpl.block_row_news_for_context.html", "Services/News");
@@ -145,18 +138,6 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
         switch ($next_class) {
             default:
                 return $this->$cmd();
-        }
-    }
-
-    public function fillDataSection(): void
-    {
-        if ($this->dynamic) {
-            $this->setDataSection($this->getDynamicReload());
-        } elseif (count($this->getData()) > 0) {
-            parent::fillDataSection();
-        } else {
-            $this->setEnableNumInfo(false);
-            $this->setDataSection($this->getOverview());
         }
     }
 

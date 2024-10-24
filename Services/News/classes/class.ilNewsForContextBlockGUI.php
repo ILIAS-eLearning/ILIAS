@@ -38,7 +38,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
     protected bool $dynamic = false;
     protected ilNewsCache $acache;
     protected bool $show_view_selection;
-    protected bool $new_rendering = true;
 
     /**
      * @var false|mixed|string|null
@@ -97,10 +96,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             self::$st_data = ilNewsItem::prepareNewsDataFromCache($cres);
             $this->cache_hit = true;
         }
-        if ($this->getDynamic() && !$this->cache_hit) {
-            $this->dynamic = true;
-            $data = [];
-        } elseif (!empty(self::$st_data)) {
+        if (!empty(self::$st_data)) {
             $data = self::$st_data;
         } else {
             $data = $this->getNewsData();
@@ -213,17 +209,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
             default:
                 return $this->$cmd();
-        }
-    }
-
-    public function fillDataSection(): void
-    {
-        if ($this->dynamic) {
-            $this->setDataSection($this->getDynamicReload());
-        } elseif (count($this->getData()) > 0) {
-            parent::fillDataSection();
-        } else {
-            $this->setDataSection($this->getOverview());
         }
     }
 
@@ -370,39 +355,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         } elseif ($got_notices) {
             $this->view = "";
         }
-    }
-
-    /**
-     * get flat list for dashboard
-     */
-    public function fillRow(array $a_set): void
-    {
-        $info = $this->getInfoForData($a_set);
-
-        $this->tpl->setCurrentBlock("long");
-        $this->tpl->setVariable("VAL_CREATION_DATE", $info["creation_date"]);
-        $this->tpl->parseCurrentBlock();
-
-        if ($info["ref_id"] > 0) {
-            $this->tpl->setCurrentBlock("news_context");
-            $this->tpl->setVariable("TYPE", $info["type_txt"]);
-            $this->tpl->setVariable("IMG_TYPE", $info["type_icon"]);
-            $this->tpl->setVariable("TITLE", $info["obj_title"]);
-            if ($info["user_read"] > 0) {
-                $this->tpl->setVariable("TITLE_CLASS", 'class="light"');
-            }
-
-            $this->tpl->parseCurrentBlock();
-        }
-
-        // title
-        $this->tpl->setVariable("VAL_TITLE", $info["news_title"]);
-
-        if ($info["user_read"] > 0) {
-            $this->tpl->setVariable("A_CLASS", 'class="light"');
-        }
-
-        $this->tpl->setVariable("HREF_SHOW", $info["url"]);
     }
 
     public function getInfoForData(array $news): array
@@ -1249,40 +1201,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         return $this->ui->renderer()->render($panel);
     }
 
-    public function getDynamic(): bool
-    {
-        $ilCtrl = $this->ctrl;
-        $ilUser = $this->user;
-
-        // @todo: enable js loading
-        if ($this->new_rendering) {
-            return false;
-        }
-
-        if ($ilCtrl->getCmd() === "hideNotifications" ||
-            $ilCtrl->getCmd() === "showNotifications") {
-            return false;
-        }
-
-        if ($ilCtrl->getCmdClass() !== "ilcolumngui" && $ilCtrl->getCmd() !== "enableJS") {
-            $sess_feed_js = "";
-            if (ilSession::get("il_feed_js") != "") {
-                $sess_feed_js = ilSession::get("il_feed_js");
-            }
-
-            if ($sess_feed_js !== "n" &&
-                ($ilUser->getPref("il_feed_js") !== "n" || $sess_feed_js === "y")) {
-                // do not get feed dynamically, if cache hit is given.
-                //				if (!$this->feed->checkCacheHit())
-                //				{
-                return true;
-                //				}
-            }
-        }
-
-        return false;
-    }
-
     public function getDynamicReload(): string
     {
         $ilCtrl = $this->ctrl;
@@ -1350,12 +1268,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $ilUser->writePref("il_feed_js", "y");
         $this->send($this->getHTML());
     }
-
-    //
-    // New rendering
-    //
-
-
 
     protected function getListItemForData(array $data): ?\ILIAS\UI\Component\Item\Item
     {
