@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Component\MainControls;
 
@@ -310,32 +310,54 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     The Footer is a unique page section to accommodate links and shy buttons
-     *     triggering Round Trip Modals that are not being used on a regular basis,
-     *     such as links to the pages's imprint or a privacy policy document.
-     *
+     *     The Footer is a unique page section which can be used to accommodate links to
+     *     internal or external resources, shy-buttons for triggering internal dialogs, and/or
+     *     simple text information. It serves as a navigational and informational tool for
+     *     users, which is consistent accross all Pages.
      *   composition: >
-     *     The Footer is composed of a list of Links or Shy Buttons triggering
-     *     Round Trip Modals and an optional text-part.
+     *     The Footer is initially empty and can be composed out of five optional sections.
+     *     If no section is provided with corresponding data, the Footer will not be visible.
+     *       - section 1 (permanent-link): the permanent-link section is composed only of a
+     *         link to the current page, which can be copied by the users.
+     *       - section 2 (link-groups): the link-groups section consists of groups of links or shy-
+     *         buttons, which are represented by a leading title. The links and shy-buttons of a
+     *         link-group will be displayed in an unordered list, next to all other link-groups.
+     *       - section 3 (links): the links section consists of links or shy-buttons which do
+     *         not belong to any group. They are all contained in an unordered list.
+     *       - section 4 (icons): the icon section consists Icons, which may contain an action.
+     *         All of these Icons are contained in an unordered list.
+     *       - section 5 (text): the text section is composed out of text information, which is
+     *         contained in an unordered list.
+     *   effect: >
+     *     When interacted with, the Footer can navigate to different parts of the Page, external
+     *     resources, or trigger internal Dialogs.
      *
      * context:
      *   - The Footer is used with the Standard Page.
      *
      * rules:
      *   usage:
-     *     1: The Footer is unique for the page - there MUST be not more than one.
+     *     1: The Footer is unique for the page - there MUST NOT be more than one.
      *     2: >
-     *        Elements in the Footer SHOULD NOT vary according to context, but MAY
-     *        vary according to the user's role or state (logged in/not logged in/...).
+     *       Elements in the Footer SHOULD NOT vary according to context, but MAY
+     *       vary according to the user's role or state (logged in/not logged in/...).
      *     3: >
-     *        Although the footer is constructed only with its "static" parts,
-     *        it SHOULD have attached a permanent URL for the current page/object.
-     * ----
-     * @param  \ILIAS\UI\Component\Link\Standard[] $links
-     * @param  string $text
+     *       Although the footer is constructed only with its "static" parts,
+     *       it SHOULD have attached a permanent URL for the current page/object.
+     *     4: >
+     *       Shy-buttons and Icon-signals MUST NOT be used for anything other than
+     *       triggering a Signal to open an internal modal when provided to the Footer.
+     *   accessibility:
+     *     1: >
+     *       Each section of the Footer MUST be operable using the keyboard and properly
+     *       labled for screen readers. This is the case for all UI components, however,
+     *       since the Footer is carrying critical information appearing on every page, it
+     *       is of special importance here.
+     *
+     * ---
      * @return  \ILIAS\UI\Component\MainControls\Footer
      */
-    public function footer(array $links, string $text = ''): Footer;
+    public function footer(): Footer;
 
 
     /**

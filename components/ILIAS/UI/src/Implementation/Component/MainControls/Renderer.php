@@ -30,6 +30,8 @@ use ILIAS\UI\Implementation\Component\Button\Bulky as IBulky;
 use ILIAS\UI\Implementation\Component\MainControls\Slate\Slate as ISlate;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\Template as UITemplateWrapper;
+use ILIAS\UI\Implementation\Component\MainControls as I;
+use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\Data\URI;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
@@ -417,35 +419,159 @@ class Renderer extends AbstractComponentRenderer
         return $this->bindJavaScript($component);
     }
 
-    protected function renderFooter(Footer $component, RendererInterface $default_renderer): string
+    protected function renderFooter(I\Footer $component, RendererInterface $default_renderer): string
     {
-        $tpl = $this->getTemplate("tpl.footer.html", true, true);
-        $links = $component->getLinks();
-        $modalsWithTriggers = $component->getModals();
-        $links = array_merge($links, array_column($modalsWithTriggers, 1));
-
-        if ($links) {
-            $link_list = $this->getUIFactory()->listing()->unordered($links);
-            $tpl->setVariable('LINKS', $default_renderer->render($link_list));
+        if (!$this->isFooterVisible($component)) {
+            return '';
         }
 
-        if ($modalsWithTriggers !== []) {
-            $tpl->setVariable('MODALS', $default_renderer->render(
-                array_column($modalsWithTriggers, 0)
-            ));
+        $template = $this->getTemplate("tpl.footer.html", true, true);
+
+        // maybe render section 1 (permanent link):
+        if (null !== ($permanent_url = $component->getPermanentURL())) {
+            $this->parseAdditionalFooterSectionItems(
+                $template,
+                $default_renderer,
+                'permanent-link',
+                $this->txt('footer_permanent_link'),
+                [
+                    [$this->getUIFactory()->link()->standard($this->txt('perma_link'), (string) $permanent_url), null],
+                ],
+            );
         }
 
-        $tpl->setVariable('TEXT', $component->getText());
+        // maybe render section 2 (link groups):
+        if ([] !== ($additional_link_groups = $component->getAdditionalLinkGroups())) {
+            $link_groups = [];
+            foreach ($additional_link_groups as [$title, $actions]) {
+                $link_groups[] = [$this->getUIFactory()->listing()->unordered($actions), $title];
+            }
 
-        $perm_url = $component->getPermanentURL();
-        if ($perm_url instanceof URI) {
-            $url = $perm_url->__toString();
-            $link = $this->getUIFactory()
-                         ->link()
-                         ->standard($this->txt('perma_link'), $url);
-            $tpl->setVariable('PERMANENT', $default_renderer->render($link));
+            $this->parseAdditionalFooterSectionItems(
+                $template,
+                $default_renderer,
+                'link-groups',
+                $this->txt('footer_link_groups'),
+                $link_groups,
+            );
         }
-        return $tpl->get();
+
+        // maybe render section 3 (links):
+        if ([] !== ($additional_links = $component->getAdditionalLinks())) {
+            $links = array_map(static fn($link) => [$link, null], $additional_links);
+            $this->parseAdditionalFooterSectionItems(
+                $template,
+                $default_renderer,
+                'links',
+                $this->txt('footer_links'),
+                $links,
+            );
+        }
+
+        // maybe render section 4 (icons):
+        if ([] !== ($additional_icons = $component->getAdditionalIcons())) {
+            $icons = [];
+            foreach ($additional_icons as [$icon, $action]) {
+                if (null !== $action) {
+                    if ($action instanceof URI) {
+                        $action = (string) $action;
+                    }
+                    $icons[] = $this->getUIFactory()->button()->shy('', $action)->withSymbol($icon);
+                } else {
+                    $icons[] = $icon;
+                }
+            }
+
+            $this->parseAdditionalFooterSectionIcons(
+                $template,
+                $default_renderer,
+                'icons',
+                $this->txt('footer_icons'),
+                $icons
+            );
+        }
+
+        // maybe render section 5 (texts):
+        if ([] !== ($additional_texts = $component->getAdditionalTexts())) {
+            $texts = array_map(static fn($text) => [$text, null], $additional_texts);
+            $this->parseAdditionalFooterSectionItems(
+                $template,
+                $default_renderer,
+                'texts',
+                $this->txt('footer_texts'),
+                $texts,
+            );
+        }
+
+        // modals are appended to the rendered footer HTML for legacy support.
+        // can be removed after Footer::withAdditionalModalAndTrigger() is.
+        return $template->get() . $default_renderer->render($component->getModals());
+    }
+
+    /**
+     * @param array<array{0: string|Component\Component|Component\Component[], 1: string|null}> $section_items (use as [$content, $title] = <entry>)
+     */
+    protected function parseAdditionalFooterSectionItems(
+        Template $template,
+        RendererInterface $default_renderer,
+        string $section_type,
+        string $section_label,
+        array $section_items = [],
+    ): void {
+        foreach ($section_items as [$content, $title]) {
+            $template->setCurrentBlock('with_additional_item');
+            if (null !== $title) {
+                $template->setVariable('ITEM_TITLE', $this->convertSpecialCharacters($title));
+            }
+            if ($content instanceof Component\Component) {
+                $content = $default_renderer->render($content);
+            } else {
+                $content = $this->convertSpecialCharacters($content);
+            }
+            $template->setVariable('ITEM_CONTENT', $content);
+            $template->parseCurrentBlock();
+        }
+
+        $this->parseFooterSection($template, $section_type, $section_label);
+    }
+
+    /**
+     * @param array<Component\Symbol\Icon\Icon|Component\Button\Shy> $section_icons
+     */
+    protected function parseAdditionalFooterSectionIcons(
+        Template $template,
+        RendererInterface $default_renderer,
+        string $section_type,
+        string $section_label,
+        array $section_icons = [],
+    ): void {
+        foreach ($section_icons as $icon) {
+            $template->setCurrentBlock('with_additional_icon');
+            $template->setVariable('ICON', $default_renderer->render($icon));
+            $template->parseCurrentBlock();
+        }
+
+        $this->parseFooterSection($template, $section_type, $section_label);
+    }
+
+    protected function parseFooterSection(
+        Template $template,
+        string $section_type,
+        string $section_label,
+    ): void {
+        $template->setCurrentBlock('with_additional_section');
+        $template->setVariable('SECTION_TYPE', $section_type);
+        $template->setVariable('SECTION_LABEL', $section_label);
+        $template->parseCurrentBlock();
+    }
+
+    protected function isFooterVisible(I\Footer $component): bool
+    {
+        return $component->getPermanentURL() !== null
+            || !empty($component->getAdditionalLinkGroups())
+            || !empty($component->getAdditionalLinks())
+            || !empty($component->getAdditionalIcons())
+            || !empty($component->getAdditionalTexts());
     }
 
     /**

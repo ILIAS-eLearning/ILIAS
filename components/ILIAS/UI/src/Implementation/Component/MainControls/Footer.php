@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,44 +16,105 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\MainControls;
 
 use ILIAS\UI\Component\MainControls;
 use ILIAS\UI\Component\Modal;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use ILIAS\UI\Component\Button;
-use ILIAS\UI\Component\Link\Link;
+use ILIAS\UI\Component\Link\Standard as Link;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
+use ILIAS\UI\Component\Button\Shy;
+use ILIAS\UI\Component\Signal;
 use ILIAS\Data\URI;
 
 class Footer implements MainControls\Footer
 {
     use ComponentHelper;
 
-    private string $text;
-    private array $links;
+    /** @var Modal\RoundTrip[] */
+    private array $modals = [];
 
-    /**
-     * @var [Modal\RoundTrip, Button\Shy][]
-     */
-    private array $modalsWithTriggers = [];
     protected ?URI $permanent_url = null;
 
-    public function __construct(array $links, string $text = '')
+    /** @var array<array{0: string, 1: array<Link|Shy}> (use as [$title, $actions] = <entry>) */
+    protected array $link_groups = [];
+
+    /** @var array<array{0: Icon, 1: Signal|URI|null}> (use as [$icon, $action] = <entry>) */
+    protected array $icons = [];
+
+    /** @var array<Link|Shy> */
+    protected array $links = [];
+
+    /** @var string[] */
+    protected array $texts = [];
+
+    /**
+     * @inheritDoc
+     */
+    public function withAdditionalLinkGroup(string $title, array $actions): MainControls\Footer
     {
-        $types = [Link::class,];
-        $this->checkArgListElements('links', $links, $types);
-        $this->links = $links;
-        $this->text = $text;
+        $this->checkArgListElements('actions', $actions, [Link::class, Shy::class]);
+
+        $clone = clone $this;
+        $clone->link_groups[] = [$title, $actions];
+        return $clone;
     }
 
-    public function getLinks(): array
+    /**
+     * @return array<array{0: string, 1: array<Link|Shy}> (use as [$title, $actions] = <entry>)
+     */
+    public function getAdditionalLinkGroups(): array
+    {
+        return $this->link_groups;
+    }
+
+    public function withAdditionalLink(Link|Shy ...$actions): MainControls\Footer
+    {
+        $this->checkArgListElements('actions', $actions, [Link::class, Shy::class]);
+
+        $clone = clone $this;
+        array_push($clone->links, ...$actions);
+        return $clone;
+    }
+
+    /**
+     * @return array<Link|Shy>
+     */
+    public function getAdditionalLinks(): array
     {
         return $this->links;
     }
 
-    public function getText(): string
+    public function withAdditionalIcon(Icon $icon, Signal|URI|null $action = null): MainControls\Footer
     {
-        return $this->text;
+        $clone = clone $this;
+        $clone->icons[] = [$icon, $action];
+        return $clone;
+    }
+
+    /**
+     * @return array<array{0: Icon, 1: Signal|URI|null}> (use as [$icon, $action] = <entry>)
+     */
+    public function getAdditionalIcons(): array
+    {
+        return $this->icons;
+    }
+
+    public function withAdditionalText(string ...$texts): MainControls\Footer
+    {
+        $clone = clone $this;
+        array_push($clone->texts, ...$texts);
+        return $clone;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getAdditionalTexts(): array
+    {
+        return $this->texts;
     }
 
     public function withPermanentURL(URI $url): MainControls\Footer
@@ -71,21 +130,20 @@ class Footer implements MainControls\Footer
     }
 
     /**
-     * @return array containing entries with [Modal\RoundTrip, Button\Shy]
+     * @return Modal\RoundTrip[]
      */
     public function getModals(): array
     {
-        return $this->modalsWithTriggers;
+        return $this->modals;
     }
 
-    public function withAdditionalModalAndTrigger(
-        Modal\RoundTrip $roundTripModal,
-        Button\Shy $shyButton
-    ): MainControls\Footer {
-        $shyButton = $shyButton->withOnClick($roundTripModal->getShowSignal());
+    public function withAdditionalModalAndTrigger(Modal\RoundTrip $roundTripModal, Shy $shyButton): self
+    {
+        $linked_shy_button = $shyButton->withOnClick($roundTripModal->getShowSignal());
 
         $clone = clone $this;
-        $clone->modalsWithTriggers[] = [$roundTripModal, $shyButton];
+        $clone->links[] = $linked_shy_button;
+        $clone->modals[] = $roundTripModal;
         return $clone;
     }
 }

@@ -139,7 +139,9 @@ function pagedemoFooter(\ILIAS\UI\Factory $f): \ILIAS\UI\Component\MainControls\
     $links[] = $f->link()->standard("Goto ILIAS", "http://www.ilias.de");
     $links[] = $f->link()->standard("Goto ILIAS", "http://www.ilias.de");
 
-    return $f->mainControls()->footer($links, $text)
+    return $f->mainControls()->footer()
+             ->withAdditionalLink(...$links)
+             ->withAdditionalText($text)
              ->withPermanentURL(
                  $df->uri(
                      ($_SERVER['REQUEST_SCHEME'] ?? "http") . '://'

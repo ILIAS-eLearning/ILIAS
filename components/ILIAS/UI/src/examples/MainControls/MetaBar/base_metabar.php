@@ -115,7 +115,6 @@ function pageMetabarDemoMainbar(\ILIAS\UI\Factory $f): \ILIAS\UI\Component\MainC
 function pageMetabarDemoFooter(\ILIAS\UI\Factory $f): \ILIAS\UI\Component\MainControls\Footer
 {
     $text = 'Footer';
-    $links = [];
 
-    return $f->mainControls()->footer($links, $text);
+    return $f->mainControls()->footer()->withAdditionalText($text);
 }

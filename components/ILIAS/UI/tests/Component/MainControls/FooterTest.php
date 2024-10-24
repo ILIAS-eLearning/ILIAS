@@ -21,319 +21,284 @@ declare(strict_types=1);
 require_once("vendor/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
+use PHPUnit\Framework\MockObject\MockObject;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component as I;
-use ILIAS\UI\Implementation\Component\SignalGenerator;
-use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\Data;
-use ILIAS\UI\Implementation\Component\Input\Field\Group;
 
-/**
- * Tests for the Footer.
- */
 class FooterTest extends ILIAS_UI_TestBase
 {
-    private array $links = [];
-    private string $text = '';
-    private string $perm_url = '';
+    protected C\Link\Standard $link_mock;
+    protected C\Symbol\Icon\Icon $icon_mock;
+    protected C\Button\Shy $shy_mock;
+    protected C\Listing\Unordered $unordered_mock;
+    protected C\Button\Factory $button_factory;
+    protected C\Link\Factory $link_factory;
+    protected C\Listing\Factory $listing_factory;
+    protected \ILIAS\Data\URI $uri_mock;
+    protected string $link_html;
+    protected string $icon_html;
+    protected string $shy_html;
+    protected string $unordered_html;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
-        $f = new I\Link\Factory();
-        $this->links = [
-            $f->standard("Goto ILIAS", "http://www.ilias.de"),
-            $f->standard("go up", "#")
-        ];
-        $this->text = 'footer text';
-        $this->perm_url = 'http://www.ilias.de/goto.php?target=xxx_123';
+        $this->link_html = sha1(C\Link\Standard::class);
+        $this->icon_html = sha1(C\Symbol\Icon\Icon::class);
+        $this->shy_html = sha1(C\Button\Shy::class);
+        $this->unordered_html = sha1(C\Listing\Unordered::class);
+
+        $this->link_mock = $this->createMock(C\Link\Standard::class);
+        $this->link_mock->method('getCanonicalName')->willReturn($this->link_html);
+
+        $this->icon_mock = $this->createMock(C\Symbol\Icon\Icon::class);
+        $this->icon_mock->method('getCanonicalName')->willReturn($this->icon_html);
+
+        $this->shy_mock = $this->createMock(C\Button\Shy::class);
+        $this->shy_mock->method('getCanonicalName')->willReturn($this->shy_html);
+
+        $this->unordered_mock = $this->createMock(C\Listing\Unordered::class);
+        $this->unordered_mock->method('getCanonicalName')->willReturn($this->unordered_html);
+
+        $this->button_factory = $this->createMock(C\Button\Factory::class);
+        $this->button_factory->method('shy')->willReturn($this->shy_mock);
+
+        $this->link_factory = $this->createMock(C\Link\Factory::class);
+        $this->link_factory->method('standard')->willReturn($this->link_mock);
+
+        $this->listing_factory = $this->createMock(C\Listing\Factory::class);
+        $this->listing_factory->method('unordered')->willReturn($this->unordered_mock);
+
+        $this->uri_mock = $this->createMock(\ILIAS\Data\URI::class);
+
+        parent::setUp();
     }
 
-    protected function getFactory(): I\MainControls\Factory
+    public function testSetAndGetModalsWithTrigger(): void
     {
-        $sig_gen = new I\SignalGenerator();
-        $counter_factory = new I\Counter\Factory();
-        $slate_factory = new I\MainControls\Slate\Factory(
-            $sig_gen,
-            $counter_factory,
-            new I\Symbol\Factory(
-                new I\Symbol\Icon\Factory(),
-                new I\Symbol\Glyph\Factory(),
-                new I\Symbol\Avatar\Factory()
-            )
-        );
-        return new I\MainControls\Factory($sig_gen, $slate_factory);
+        $signal_mock = $this->createMock(C\Signal::class);
+
+        $modal_mock = $this->createMock(C\Modal\RoundTrip::class);
+        $modal_mock->method('getShowSignal')->willReturn($signal_mock);
+
+        $shy_mock = $this->shy_mock;
+        $shy_mock->expects($this->once())->method('withOnClick')->with($signal_mock);
+
+        /** @var I\MainControls\Footer $footer */
+        $footer = $this->getUIFactory()->mainControls()->footer();
+        $footer = $footer->withAdditionalModalAndTrigger($modal_mock, $shy_mock);
+
+        $this->assertCount(1, $footer->getModals());
+        $this->assertCount(1, $footer->getAdditionalLinks());
     }
 
-    public function testConstruction(): C\MainControls\Footer
+    public function testRenderWithPermanentUrl(): void
     {
-        $footer = $this->getFactory()->footer($this->links, $this->text);
-        $this->assertInstanceOf(
-            "ILIAS\\UI\\Component\\MainControls\\Footer",
-            $footer
-        );
-        return $footer;
-    }
+        $footer = $this->getUIFactory()->mainControls()->footer();
+        $footer = $footer->withPermanentURL($this->uri_mock);
 
-    public function testConstructionNoLinks(): C\MainControls\Footer
-    {
-        $footer = $this->getFactory()->footer([], $this->text);
-        $this->assertInstanceOf(
-            "ILIAS\\UI\\Component\\MainControls\\Footer",
-            $footer
-        );
-        return $footer;
-    }
+        $this->link_factory->expects($this->once())->method('standard')->with('perma_link', $this->uri_mock);
 
-    /**
-     * @depends testConstruction
-     */
-    public function testGetLinks(C\MainControls\Footer $footer): void
-    {
+        $renderer = $this->getDefaultRenderer(null, [$this->link_mock]);
+        $actual_html = $renderer->render($footer);
+
+        $expected_html = <<<EOT
+<footer class="c-maincontrols c-maincontrols__footer">
+    <section class="c-maincontrols__footer-grid" data-section="permanent-link" aria-label="footer_permanent_link" tabindex="0">
+        <div class="c-maincontrols__footer-grid__item text-left">$this->link_html</div>
+    </section>
+</footer>
+EOT;
+
         $this->assertEquals(
-            $this->links,
-            $footer->getLinks()
+            $this->brutallyTrimHTML($expected_html),
+            $this->brutallyTrimHTML($actual_html)
         );
     }
 
-    /**
-     * @depends testConstruction
-     */
-    public function testGetText(C\MainControls\Footer $footer): void
+    public function testRenderWithAdditionalLinkGroup(): void
     {
+        $link_group_title = sha1('link_group_1');
+
+        $footer = $this->getUIFactory()->mainControls()->footer();
+        $footer = $footer->withAdditionalLinkGroup($link_group_title, [$this->link_mock]);
+
+        $this->listing_factory->expects($this->once())->method('unordered')->with([$this->link_mock]);
+
+        $renderer = $this->getDefaultRenderer(null, [$this->unordered_mock]);
+        $actual_html = $renderer->render($footer);
+
+        $expected_html = <<<EOT
+<footer class="c-maincontrols c-maincontrols__footer">
+    <section class="c-maincontrols__footer-grid" data-section="link-groups" aria-label="footer_link_groups" tabindex="0">
+        <div class="c-maincontrols__footer-grid__item text-left">
+            <strong>$link_group_title</strong>$this->unordered_html
+        </div>
+    </section>
+</footer>
+EOT;
+
         $this->assertEquals(
-            $this->text,
-            $footer->getText()
+            $this->brutallyTrimHTML($expected_html),
+            $this->brutallyTrimHTML($actual_html)
         );
     }
 
-    /**
-     * @depends testConstruction
-     */
-    public function testGetAndSetModalsWithTrigger(C\MainControls\Footer $footer): C\MainControls\Footer
+    public function testRenderWithAdditionalLink(): void
     {
-        $bf = new I\Button\Factory();
-        $signalGenerator = new SignalGenerator();
-        $mf = $this->getModalFactory();
-        $legacy = new ILIAS\UI\Implementation\Component\Legacy\Legacy('PhpUnit', $signalGenerator);
+        $footer = $this->getUIFactory()->mainControls()->footer();
+        $footer = $footer->withAdditionalLink($this->link_mock);
 
-        $shyButton1 = $bf->shy('Button1', '#');
-        $shyButton2 = $bf->shy('Button2', '#');
+        $renderer = $this->getDefaultRenderer(null, [$this->link_mock]);
+        $actual_html = $renderer->render($footer);
 
-        $modal1 = $mf->roundtrip('Modal1', $legacy);
-        $modal2 = $mf->roundtrip('Modal2', $legacy);
+        $expected_html = <<<EOT
+<footer class="c-maincontrols c-maincontrols__footer">
+    <section class="c-maincontrols__footer-grid" data-section="links" aria-label="footer_links" tabindex="0">
+        <div class="c-maincontrols__footer-grid__item text-left">$this->link_html</div>
+    </section>
+</footer>
+EOT;
 
-        $footer = $footer
-            ->withAdditionalModalAndTrigger($modal1, $shyButton1)
-            ->withAdditionalModalAndTrigger($modal2, $shyButton2);
-
-        $this->assertCount(2, $footer->getModals());
-
-        return $footer;
-    }
-
-    /**
-     * @depends testConstruction
-     */
-    public function testPermanentURL(C\MainControls\Footer $footer): C\MainControls\Footer
-    {
-        $df = new Data\Factory();
-        $footer = $footer->withPermanentURL($df->uri($this->perm_url));
-        $perm_url = $footer->getPermanentURL();
-        $this->assertInstanceOf("\\ILIAS\\Data\\URI", $perm_url);
         $this->assertEquals(
-            $perm_url->getBaseURI() . '?' . $perm_url->getQuery(),
-            $this->perm_url
+            $this->brutallyTrimHTML($expected_html),
+            $this->brutallyTrimHTML($actual_html)
         );
-        return $footer;
+    }
+
+    public function testRenderWithAdditionalIcon(): void
+    {
+        $footer = $this->getUIFactory()->mainControls()->footer();
+        $footer = $footer->withAdditionalIcon($this->icon_mock);
+
+        $renderer = $this->getDefaultRenderer(null, [$this->icon_mock]);
+        $actual_html = $renderer->render($footer);
+
+        $expected_html = <<<EOT
+<footer class="c-maincontrols c-maincontrols__footer">
+    <section class="c-maincontrols__footer-grid" data-section="icons" aria-label="footer_icons" tabindex="0">
+        <div class="c-maincontrols__footer-grid__item l-bar__group">
+            <span class="l-bar__element">$this->icon_html</span>
+        </div>
+    </section>
+</footer>
+EOT;
+
+        $this->assertEquals(
+            $this->brutallyTrimHTML($expected_html),
+            $this->brutallyTrimHTML($actual_html)
+        );
+    }
+
+    public function testRenderWithAdditionalText(): void
+    {
+        $text = sha1('text_1');
+
+        $footer = $this->getUIFactory()->mainControls()->footer();
+        $footer = $footer->withAdditionalText($text);
+
+        $renderer = $this->getDefaultRenderer();
+        $actual_html = $renderer->render($footer);
+
+        $expected_html = <<<EOT
+<footer class="c-maincontrols c-maincontrols__footer">
+    <section class="c-maincontrols__footer-grid" data-section="texts" aria-label="footer_texts" tabindex="0">
+        <div class="c-maincontrols__footer-grid__item text-left">$text</div>
+    </section>
+</footer>
+EOT;
+
+        $this->assertEquals(
+            $this->brutallyTrimHTML($expected_html),
+            $this->brutallyTrimHTML($actual_html)
+        );
+    }
+
+    public function testRenderWithModalsAndTrigger(): void
+    {
+        $modal_html = sha1(C\Modal\RoundTrip::class);
+        $modal_mock = $this->createMock(C\Modal\RoundTrip::class);
+        $modal_mock->method('getCanonicalName')->willReturn($modal_html);
+        $modal_mock->method('getShowSignal')->willReturn(
+            $this->createMock(C\Signal::class)
+        );
+
+        $shy_mock = $this->shy_mock;
+        $shy_mock->method('withOnClick')->willReturnSelf();
+
+        $footer = $this->getUIFactory()->mainControls()->footer();
+        $footer = $footer->withAdditionalModalAndTrigger($modal_mock, $shy_mock);
+
+        $renderer = $this->getDefaultRenderer(null, [$modal_mock, $shy_mock]);
+        $actual_html = $renderer->render($footer);
+
+        $expected_html = <<<EOT
+<footer class="c-maincontrols c-maincontrols__footer">
+    <section class="c-maincontrols__footer-grid" data-section="links" aria-label="footer_links" tabindex="0">
+        <div class="c-maincontrols__footer-grid__item text-left">$this->shy_html</div>
+    </section>
+</footer>$modal_html
+EOT;
+
+        $this->assertEquals(
+            $this->brutallyTrimHTML($expected_html),
+            $this->brutallyTrimHTML($actual_html)
+        );
+    }
+
+    public function testRenderEmptyFooter(): void
+    {
+        $footer = $this->getUIFactory()->mainControls()->footer();
+
+        $renderer = $this->getDefaultRenderer();
+        $actual_html = $renderer->render($footer);
+
+        $expected_html = '';
+
+        $this->assertEquals($expected_html, $actual_html);
     }
 
     public function getUIFactory(): NoUIFactory
     {
-        return new class () extends NoUIFactory {
-            public function listing(): C\Listing\Factory
-            {
-                return new I\Listing\Factory();
+        return new class (
+            $this->createMock(I\SignalGeneratorInterface::class),
+            $this->createMock(C\Counter\Factory::class),
+            $this->createMock(C\Symbol\Factory::class),
+            $this->button_factory,
+            $this->link_factory,
+            $this->listing_factory,
+        ) extends NoUIFactory {
+            public function __construct(
+                protected I\SignalGeneratorInterface $signal_generator,
+                protected C\Counter\Factory $counter_factory,
+                protected C\Symbol\Factory $symbol_factory,
+                protected C\Button\Factory $button_factory,
+                protected C\Link\Factory $link_factory,
+                protected C\Listing\Factory $listing_factory,
+            ) {
             }
-
+            public function mainControls(): C\MainControls\Factory
+            {
+                return new I\MainControls\Factory(
+                    $this->signal_generator,
+                    new I\MainControls\Slate\Factory(
+                        $this->signal_generator,
+                        $this->counter_factory,
+                        $this->symbol_factory,
+                    ),
+                );
+            }
+            public function button(): C\Button\Factory
+            {
+                return $this->button_factory;
+            }
             public function link(): C\Link\Factory
             {
-                return new I\Link\Factory();
+                return $this->link_factory;
+            }
+            public function listing(): C\Listing\Factory
+            {
+                return $this->listing_factory;
             }
         };
-    }
-
-    /**
-     * @depends testConstruction
-     */
-    public function testRendering(C\MainControls\Footer $footer): void
-    {
-        $r = $this->getDefaultRenderer();
-        $html = $r->render($footer);
-
-        $expected = <<<EOT
-		<div class="il-maincontrols-footer">
-			<div class="il-footer-content">
-				<div class="il-footer-text">
-					footer text
-				</div>
-
-				<div class="il-footer-links">
-					<ul>
-						<li><a href="http://www.ilias.de" >Goto ILIAS</a></li>
-						<li><a href="#" >go up</a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-EOT;
-
-        $this->assertEquals(
-            $this->brutallyTrimHTML($expected),
-            $this->brutallyTrimHTML($html)
-        );
-    }
-
-    /**
-     * @depends testConstructionNoLinks
-     */
-    public function testRenderingNoLinks(C\MainControls\Footer $footer): void
-    {
-        $r = $this->getDefaultRenderer();
-        $html = $r->render($footer);
-
-        $expected = <<<EOT
-		<div class="il-maincontrols-footer">
-			<div class="il-footer-content">
-				<div class="il-footer-text">
-					footer text
-				</div>
-			</div>
-		</div>
-EOT;
-
-        $this->assertEquals(
-            $this->brutallyTrimHTML($expected),
-            $this->brutallyTrimHTML($html)
-        );
-    }
-
-    /**
-     * @depends testPermanentURL
-     */
-    public function testRenderingPermUrl($footer): void
-    {
-        $r = $this->getDefaultRenderer();
-        $html = $r->render($footer);
-
-        $expected = <<<EOT
-        <div class="il-maincontrols-footer">
-            <div class="il-footer-content">
-                <div class="il-footer-permanent-url"><a href="http://www.ilias.de/goto.php?target=xxx_123">perma_link</a>
-                </div>
-
-                <div class="il-footer-text">footer text</div>
-
-                <div class="il-footer-links">
-                    <ul>
-                        <li><a href="http://www.ilias.de" >Goto ILIAS</a></li>
-                        <li><a href="#" >go up</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-EOT;
-
-        $this->assertEquals(
-            $this->brutallyTrimHTML($expected),
-            $this->brutallyTrimHTML($html)
-        );
-    }
-
-    /**
-     * @depends testGetAndSetModalsWithTrigger
-     */
-    public function testRenderingModalsWithTriggers(C\MainControls\Footer $footer): void
-    {
-        $r = $this->getDefaultRenderer();
-        $html = $r->render($footer);
-
-        $expected = <<<EOT
-        <div class="il-maincontrols-footer">
-            <div class="il-footer-content">
-                <div class="il-footer-text">footer text</div>
-
-                <div class="il-footer-links">
-                    <ul>
-                        <li><a href="http://www.ilias.de" >Goto ILIAS</a></li>
-                        <li><a href="#" >go up</a></li>
-                        <li><button class="btn btn-link" id="id_1" >Button1</button></li>
-                        <li><button class="btn btn-link" id="id_2">Button2</button></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="il-footer-modals">
-                <dialog class="c-modal il-modal-roundtrip" tabindex="-1" role="dialog" id="id_3">
-                    <div class="modal-dialog" role="document" data-replace-marker="component">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <form>
-                                    <button formmethod="dialog" class="close" aria-label="close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </form>
-                                <h1 class="modal-title">Modal1</h1>
-                            </div>
-                            <div class="modal-body">PhpUnit</div>
-                            <div class="modal-footer">
-                                <form>
-                                    <button formmethod="dialog" class="btn btn-default" data-dismiss="modal">cancel</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </dialog>
-                <dialog class="c-modal il-modal-roundtrip" tabindex="-1" role="dialog" id="id_5">
-                    <div class="modal-dialog" role="document" data-replace-marker="component">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <form>
-                                    <button formmethod="dialog" class="close" aria-label="close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </form>
-                                <h1 class="modal-title">Modal2</h1>
-                            </div>
-                            <div class="modal-body">PhpUnit</div>
-                            <div class="modal-footer">
-                                <form>
-                                    <button formmethod="dialog" class="btn btn-default" data-dismiss="modal">cancel</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </dialog>
-            </div>
-        </div>
-EOT;
-
-        $this->assertEquals(
-            $this->brutallyTrimHTML($expected),
-            $this->brutallyTrimHTML($html)
-        );
-    }
-
-    protected function getModalFactory(): I\Modal\Factory
-    {
-        $group_mock = $this->createMock(Group::class);
-        $group_mock->method('withNameFrom')->willReturnSelf();
-
-        $factory_mock = $this->createMock(FieldFactory::class);
-        $factory_mock->method('group')->willReturn($group_mock);
-
-        return new I\Modal\Factory(
-            new SignalGeneratorMock(),
-            $this->createMock(C\Modal\InterruptiveItem\Factory::class),
-            $factory_mock,
-        );
     }
 }
