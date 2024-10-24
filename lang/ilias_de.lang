@@ -2206,7 +2206,7 @@ background_tasks#:#ui_msg_sum_file_sizes#:#Die Gesamtdownloadgröße vor Erstell
 background_tasks#:#waiting#:#Warten
 badge#:#awarded_by#:#Vergeben durch
 badge#:#badge_activity_badges#:#Automatisch vergebenes Badge
-badge#:#badge_add_template#:#Template hinzufügen
+badge#:#badge_add_template#:#Vorlage hinzufügen
 badge#:#badge_add_to_backpack#:#Zum Backpack hinzufügen
 badge#:#badge_add_to_backpack_multi#:#Versuche %s zum Backpack hinzuzufügen
 badge#:#badge_add_to_profile#:#Zum Profil hinzufügen
@@ -2225,6 +2225,7 @@ badge#:#badge_create_image_processing_failed#:#Der Badge konnte nicht angelegt w
 badge#:#badge_criteria#:#Kriterien
 badge#:#badge_crs_merit#:#Händisch vergebenes Badge
 badge#:#badge_deletion_confirmation#:#Wollen Sie wirklich die folgenden Badges und alle ihre jeweiligen Zuweisungen löschen?
+badge#:#badge_deletion#:#Badge erfolgreich gelöscht.
 badge#:#badge_edit_with_published#:#%s Benutzer haben dieses Badge bereits zu ihrem Backpack hinzugefügt. Badge-Attribute zu verändern führt deshalb zu Inkonsistenzen. Evtl. wäre ein neues Badge sinnvoller.
 badge#:#badge_image_from_template#:#Vorlage nutzen
 badge#:#badge_image_from_upload#:#Bild hochladen
@@ -2260,6 +2261,7 @@ badge#:#badge_profile_more#:#Alle zeigen
 badge#:#badge_profile_view#:#Anzeigen
 badge#:#badge_remove_badge#:#Badge entziehen
 badge#:#badge_remove_from_profile#:#Aus Profil entfernen
+badge#:#badge_select_one#:#Sie müssen mindestens einen Badge auswählen
 badge#:#badge_service_activate#:#Service aktivieren
 badge#:#badge_service_activate_info#:#Aktiveren Sie den Service, um Badges verfügbar zu machen
 badge#:#badge_settings#:#Badge Einstellungen

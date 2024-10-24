@@ -34,6 +34,7 @@ use ILIAS\UI\Component\Item\Group;
 use ILIAS\UI\Component\Item\Standard as Item;
 use ILIAS\UI\Component\Listing\Factory as Listing;
 use ILIAS\UI\Factory as UI;
+use ILIAS\UI\Renderer;
 use PHPUnit\Framework\TestCase;
 use ilBadge;
 use ilLanguage;
@@ -51,7 +52,7 @@ class ModalTest extends TestCase
 
     public function testComponents(): void
     {
-        $badge = $this->getMockBuilder(ilBadge::class)->disableOriginalConstructor()->getMock();
+        #$badge = $this->getMockBuilder(ilBadge::class)->disableOriginalConstructor()->getMock();
         $container = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
         $content = $this->getMockBuilder(ModalContent::class)->disableOriginalConstructor()->getMock();
         $divider = $this->getMockBuilder(Divider::class)->getMock();
@@ -75,6 +76,7 @@ class ModalTest extends TestCase
         $ui->method('factory')->willReturn($factory);
         $container->method('ui')->willReturn($ui);
         $container->method('language')->willReturn($language);
+
         $image->expects(self::once())->method('responsive')->willReturn($image_component);
         $divider->expects(self::once())->method('horizontal')->willReturn($divider_component);
 
@@ -86,6 +88,7 @@ class ModalTest extends TestCase
         $item_component->method('withDescription')->willReturn($item_component);
         $item_component->method('withProperties')->with($properties)->willReturn($item_component);
 
+        $badge = new ilBadge(0, $container);
         $content->method('badge')->willReturn($badge);
         $content->method('properties')->willReturn($properties);
 

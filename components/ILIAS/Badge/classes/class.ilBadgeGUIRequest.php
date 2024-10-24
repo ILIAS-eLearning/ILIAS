@@ -150,6 +150,41 @@ class ilBadgeGUIRequest
         return $badge_ids;
     }
 
+    public function getBadgeIdFromUrl(): int
+    {
+        $tmpl_ids = [];
+        $id = 0;
+        $action_parameter_token = 'tid_id';
+        $query = $this->http->wrapper()->query();
+        if ($query->has($action_parameter_token)) {
+            $tmpl_ids = $query->retrieve(
+                $action_parameter_token,
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
+            );
+            if (count($tmpl_ids) === 1) {
+                $id = (int) array_pop($tmpl_ids);
+            }
+        }
+
+        return $id;
+    }
+
+    public function getMultiActionBadgeIdsFromUrl(): array
+    {
+        $tmpl_ids = [];
+        $action_parameter_token = 'tid_id';
+        $query = $this->http->wrapper()->query();
+        if ($query->has($action_parameter_token)) {
+            $tmpl_ids = $query->retrieve(
+                $action_parameter_token,
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
+            );
+        }
+
+        return $tmpl_ids;
+    }
+
+
     public function getBadgeId(): int
     {
         return $this->int("bid");

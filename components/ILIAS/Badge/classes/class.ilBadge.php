@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\ResourceStorage\Services;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\DI\Container;
 use ILIAS\Services\Badge\BadgeException;
 
 /**
@@ -23,7 +26,6 @@ use ILIAS\Services\Badge\BadgeException;
  */
 class ilBadge
 {
-    protected ilLanguage $lng;
     protected ilDBInterface $db;
 
     protected int $id = 0;
@@ -33,17 +35,25 @@ class ilBadge
     protected string $title = "";
     protected string $desc = "";
     protected string $image = "";
+    protected ?ResourceIdentification $image_rid = null;
     protected string $valid = "";
     protected ?array $config = null;
     protected string $criteria = "";
 
-    public function __construct(
-        int $a_id = null
-    ) {
-        global $DIC;
+    private ?Services $resource_storage = null;
 
-        $this->lng = $DIC->language();
-        $this->db = $DIC->database();
+    public function __construct(
+        int $a_id = null,
+        Container $container = null
+    ) {
+
+        if ($container === null) {
+            global $DIC;
+            $container = $DIC;
+        }
+
+        $this->db = $container->database();
+        $this->resource_storage = $container->resourceStorage();
         if ($a_id) {
             $this->read($a_id);
         }
@@ -138,23 +148,24 @@ class ilBadge
     }
 
     public function copy(
-        int $a_new_parent_id
+        int $a_new_parent_id,
+        string $copy_suffix
     ): void {
-        $lng = $this->lng;
-
-        $this->setTitle($this->getTitle() . " " . $lng->txt("copy_of_suffix"));
+        $this->setTitle($this->getTitle() . " " . $copy_suffix);
         $this->setParentId($a_new_parent_id);
         $this->setActive(false);
 
         if ($this->getId()) {
-            $img = $this->getImagePath();
-
             $this->setId(0);
             $this->create();
-
-            if ($img) {
-                // see uploadImage()
-                copy($img, $this->getImagePath());
+            if ($this->getImageRid()) {
+                $this->update();
+            } else {
+                $img = $this->getImagePath();
+                if ($img) {
+                    // see uploadImage()
+                    copy($img, $this->getImagePath());
+                }
             }
         }
     }
@@ -308,9 +319,11 @@ class ilBadge
         return $this->config;
     }
 
-    protected function setImage(string $a_value): void
+    protected function setImage(?string $a_value): void
     {
-        $this->image = trim($a_value);
+        if ($a_value !== null) {
+            $this->image = trim($a_value);
+        }
     }
 
     public function getImage(): string
@@ -368,6 +381,9 @@ class ilBadge
             }
 
             return "img" . $this->getId() . "." . $suffix;
+        } else {
+            $image_rid = $this->getImageRid();
+            #  $image_src = $this->badge_image_service->getImageFromBadge($a_badge);
         }
         return "";
     }
@@ -420,10 +436,11 @@ class ilBadge
         $this->setDescription($a_row["descr"]);
         $this->setCriteria($a_row["crit"]);
         $this->setImage($a_row["image"]);
+        $this->setImageRid($a_row["image_rid"]);
         $this->setValid($a_row["valid"]);
         $this->setConfiguration($a_row["conf"]
-                ? unserialize($a_row["conf"], ["allowed_classes" => false])
-                : null);
+            ? unserialize($a_row["conf"], ["allowed_classes" => false])
+            : null);
     }
 
     public function create(): void
@@ -475,6 +492,13 @@ class ilBadge
 
         if (file_exists($this->getImagePath())) {
             unlink($this->getImagePath());
+        } else {
+            if ($this->getImageRid() !== null) {
+                try {
+                    $this->resource_storage->manage()->remove($this->getImageRid(), new ilBadgeFileStakeholder());
+                } catch (Exception $e) {
+                }
+            }
         }
 
         $this->deleteStaticFiles();
@@ -495,7 +519,8 @@ class ilBadge
             "title" => ["text", $this->getTitle()],
             "descr" => ["text", $this->getDescription()],
             "crit" => ["text", $this->getCriteria()],
-            "image" => ["text", $this->getImage()],
+            "image" => ["text", null],
+            "image_rid" => ["text", $this->getImageRid()],
             "valid" => ["text", $this->getValid()],
             "conf" => [
                 "text", $this->getConfiguration() ? serialize($this->getConfiguration()) : null
@@ -579,5 +604,17 @@ class ilBadge
             ($a_type instanceof ilBadgeAuto
                 ? $lng->txt("badge_subtype_auto")
                 : $lng->txt("badge_subtype_manual")) . ")";
+    }
+
+    public function getImageRid(): ?ResourceIdentification
+    {
+        return $this->image_rid;
+    }
+
+    public function setImageRid(?string $image_rid): void
+    {
+        if ($image_rid !== null) {
+            $this->image_rid = new ResourceIdentification($image_rid);
+        }
     }
 }

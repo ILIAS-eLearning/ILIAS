@@ -77,38 +77,25 @@ class ilBadgeProfileGUI
         $lng->loadLanguageModule("badge");
 
         switch ($ilCtrl->getNextClass()) {
+
             default:
-                $this->setTabs();
                 $cmd = $ilCtrl->getCmd("listBadges");
+
+                global $DIC;
+                $query = $DIC->http()->wrapper()->query();
+                $action = '';
+                $parameter = 'badge_table_action';
+                if ($query->has($parameter)) {
+                    $action = $query->retrieve($parameter, $DIC->refinery()->kindlyTo()->string());
+                }
+                if ($action === 'obj_badge_activate') {
+                    $this->activate();
+                } elseif ($action === 'obj_badge_deactivate') {
+                    $this->deactivate();
+                }
                 $this->$cmd();
                 break;
         }
-    }
-
-    protected function setTabs(): void
-    {
-        $ilTabs = $this->tabs;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-    }
-
-    protected function getSubTabs(string $a_active): void
-    {
-        $ilTabs = $this->tabs;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-
-        $ilTabs->addTab(
-            "list",
-            $lng->txt("badge_profile_view"),
-            $ilCtrl->getLinkTarget($this, "listBadges")
-        );
-        $ilTabs->addTab(
-            "manage",
-            $lng->txt("badge_profile_manage"),
-            $ilCtrl->getLinkTarget($this, "manageBadges")
-        );
-        $ilTabs->activateTab($a_active);
     }
 
     protected function listBadges(): void
@@ -119,26 +106,30 @@ class ilBadgeProfileGUI
 
     private function renderDeck(string $deck): string
     {
-        $template = new ilTemplate('tpl.badge_backpack.html', true, true, 'components/ILIAS/Badge');
+        $template = new ilTemplate('tpl.badge_backpack.html', true, true, 'components/ILIAS/Badge/');
         $template->setVariable('DECK', $deck);
         return $template->get();
     }
 
     protected function manageBadges(): void
     {
-        global $DIC;
-
-        $table = new ilBadgePersonalTableGUI($this, "manageBadges");
-        (new PresentationHeader($DIC, self::class))->show($this->lng->txt('table_view'));
-        $this->tpl->setContent($table->getHTML());
+        $tpl = new ilBadgePersonalTableGUI();
+        $tpl->renderTable();
     }
 
     protected function getMultiSelection(): array
     {
+        global $DIC;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
-
+        $action_parameter_token = 'badge_id';
+        $query = $DIC->http()->wrapper()->query();
+        if ($query->has($action_parameter_token)) {
+            if ($query->has($action_parameter_token)) {
+                $ids = $query->retrieve($action_parameter_token, $DIC->refinery()->kindlyTo()->listOf($DIC->refinery()->kindlyTo()->string()));
+            }
+        }
         $ids = $this->request->getBadgeIds();
         if (count($ids) > 0) {
             $res = array();
@@ -266,7 +257,7 @@ class ilBadgeProfileGUI
             return;
         }
 
-        $tmpl = new ilTemplate("tpl.badge_backpack.html", true, true, "components/ILIAS/Badge");
+        $tmpl = new ilTemplate('tpl.badge_backpack.html', true, true, 'components/ILIAS/Badge/');
 
         $tmpl->setVariable("BACKPACK_TITLE", $lng->txt("badge_backpack_list"));
 

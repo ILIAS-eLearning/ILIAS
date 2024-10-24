@@ -40,6 +40,8 @@ class Tile
     /** @var Closure(int): string */
     private readonly Closure $format_date;
 
+    private ilBadgeImage|null $badge_image_service = null;
+
     /**
      * @param Closure(string): string $sign_file
      * @param Closure(int): string $format_date
@@ -61,6 +63,7 @@ class Tile
             );
         }
         $this->format_date = $format_date;
+        $this->badge_image_service = new ilBadgeImage($container->resourceStorage(), $container->upload(), $container->ui()->mainTemplate());
     }
 
     /**
@@ -130,10 +133,11 @@ class Tile
 
     private function image(Component $modal, ilBadge $badge): Component
     {
+        $image_src = $this->badge_image_service->getImageFromBadge($badge);
         return $this->container->ui()
                                ->factory()
                                ->image()
-                               ->responsive(($this->sign_file)($badge->getImagePath()), $badge->getImage())
+                               ->responsive(($this->sign_file)($image_src), $image_src)
                                ->withAction($modal->getShowSignal());
     }
 
