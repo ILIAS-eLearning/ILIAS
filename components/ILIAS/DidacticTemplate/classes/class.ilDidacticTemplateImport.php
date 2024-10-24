@@ -102,7 +102,7 @@ class ilDidacticTemplateImport
         $xml_spl_info = new SplFileInfo($this->getInputFile());
         $xsd_spl_info = $import->schema()->folder()->handler()->getLatest(self::SCHEMA_TYPE);
         $xml_file_handler = $import->file()->xml()->handler()->withFileInfo($xml_spl_info);
-        $xsd_file_handler = $import->file()->xsd()->withFileInfo($xsd_spl_info);
+        $xsd_file_handler = $import->file()->xsd()->handler()->withFileInfo($xsd_spl_info);
         return $import->validation()->handler()->validateXMLFile($xml_file_handler, $xsd_file_handler);
     }
 

@@ -21,7 +21,10 @@ declare(strict_types=1);
 namespace ILIAS\Export\ImportHandler\I\File\XSD;
 
 use ILIAS\Export\ImportHandler\I\File\HandlerInterface as FileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XSD\HandlerInterface as XSDFileInterface;
+use SplFileInfo;
 
 interface HandlerInterface extends FileHandlerInterface
 {
+    public function withFileInfo(SplFileInfo $file_info): XSDFileInterface;
 }

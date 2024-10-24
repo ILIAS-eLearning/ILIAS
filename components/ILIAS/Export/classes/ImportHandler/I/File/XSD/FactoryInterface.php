@@ -25,5 +25,5 @@ use SplFileInfo;
 
 interface FactoryInterface
 {
-    public function withFileInfo(SplFileInfo $file_info): XSDFileHandlerInterface;
+    public function handler(): XSDFileHandlerInterface;
 }

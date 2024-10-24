@@ -68,7 +68,9 @@ class Factory implements FileFactory
 
     public function xsd(): XSDFileFactoryInterface
     {
-        return new XSDFileFactory();
+        return new XSDFileFactory(
+            $this->import_handler
+        );
     }
 
     public function namespace(): FileNamespaceFactoryInterface

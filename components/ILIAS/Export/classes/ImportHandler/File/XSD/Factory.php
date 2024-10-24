@@ -22,14 +22,25 @@ namespace ILIAS\Export\ImportHandler\File\XSD;
 
 use ILIAS\Export\ImportHandler\File\Namespace\Factory as FileNamespaceFactory;
 use ILIAS\Export\ImportHandler\File\XSD\Handler as XSDFileHandler;
+use ILIAS\Export\ImportHandler\I\FactoryInterface as ImportHandlerFactoryInterface;
 use ILIAS\Export\ImportHandler\I\File\XSD\FactoryInterface as XSDFileHandlerFactoryInterface;
 use ILIAS\Export\ImportHandler\I\File\XSD\HandlerInterface as XSDFileHandlerInterface;
 use SplFileInfo;
 
 class Factory implements XSDFileHandlerFactoryInterface
 {
-    public function withFileInfo(SplFileInfo $file_info): XSDFileHandlerInterface
+    protected ImportHandlerFactoryInterface $import_handler;
+
+    public function __construct(
+        ImportHandlerFactoryInterface $import_handler
+    ) {
+        $this->import_handler = $import_handler;
+    }
+
+    public function handler(): XSDFileHandlerInterface
     {
-        return (new XSDFileHandler(new FileNamespaceFactory()))->withFileInfo($file_info);
+        return new XSDFileHandler(
+            $this->import_handler->file()->namespace()
+        );
     }
 }

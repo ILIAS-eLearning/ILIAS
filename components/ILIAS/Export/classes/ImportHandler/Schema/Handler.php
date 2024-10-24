@@ -70,7 +70,7 @@ class Handler implements SchemaInterface
         );
         return is_null($latest_file_info)
             ? null
-            : $this->xsd_file_factory->withFileInfo($latest_file_info);
+            : $this->xsd_file_factory->handler()->withFileInfo($latest_file_info);
     }
 
     public function getXSDFileHandlerLatest(): null|XSDFileInterface
@@ -87,7 +87,7 @@ class Handler implements SchemaInterface
         );
         return is_null($latest_file_info)
             ? null
-            : $this->xsd_file_factory->withFileInfo($latest_file_info);
+            : $this->xsd_file_factory->handler()->withFileInfo($latest_file_info);
     }
 
     public function doesXSDFileWithMatchingVersionExist(): bool

@@ -250,7 +250,7 @@ $xsd_file_spl = new SplFileInfo('path to my xsd file')
 // Initialize a xml/xsd file handler
 $import = new \ILIAS\Export\ImportHandler\Factory();
 $xml_file_handler = $import->file()->xml()->handler()->withFileInfo($xml_file_spl);
-$xsd_file_handler = $import->file()->xsd()->withFileInfo($xsd_file_spl);
+$xsd_file_handler = $import->file()->xsd()->hanlder()->withFileInfo($xsd_file_spl);
 
 /** @var \ILIAS\Export\ImportStatus\ilCollection $validation_results */
 // Validate
@@ -276,7 +276,7 @@ $xsd_file_spl = new SplFileInfo('path to my xsd file')
 // Initialize a xml/xsd file handler
 $import = new \ILIAS\Export\ImportHandler\Factory();
 $xml_file_handler = $import->file()->xml()->handler()->withFileInfo($xml_file_spl);
-$xsd_file_handler = $import->file()->xsd()->withFileInfo($xsd_file_spl);
+$xsd_file_handler = $import->file()->xsd()->handler()->withFileInfo($xsd_file_spl);
 
 // Build xPath to xml node
 // $path->toString() = '/RootElement/namespace:TargetElement'

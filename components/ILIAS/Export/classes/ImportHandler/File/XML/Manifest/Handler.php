@@ -68,10 +68,11 @@ class Handler extends XMLFileHandler implements XMLFileManifestInterface
         ImportStatusSchemaFolderInterface $schema_folder
     ) {
         parent::__construct($namespace_factory, $import_status_factory);
-        $this->manifest_xsd_handler = $xsd_file_factory->withFileInfo($schema_folder->getLatest(
-            self::XSD_TYPE,
-            self::XSD_SUB_TYPE
-        ));
+        $this->manifest_xsd_handler = $xsd_file_factory->handler()
+            ->withFileInfo($schema_folder->getLatest(
+                self::XSD_TYPE,
+                self::XSD_SUB_TYPE
+            ));
         $this->file_path_factory = $file_path_factory;
         $this->xml_file_factory = $xml_file_factory;
         $this->parser_factory = $parser_factory;
