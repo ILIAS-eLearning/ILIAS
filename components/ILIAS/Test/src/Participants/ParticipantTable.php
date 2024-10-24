@@ -23,7 +23,6 @@ namespace ILIAS\Test\Participants;
 use ILIAS\Test\Results\Data\Factory as ResultsDataFactory;
 use ILIAS\Test\Results\Presentation\Settings as ResultsPresentationSettings;
 use ILIAS\Language\Language;
-use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;
 use ILIAS\Test\RequestDataCollector;
@@ -47,12 +46,12 @@ class ParticipantTable implements DataRetrieval
         private readonly \ilUIService $ui_service,
         private readonly Language $lng,
         private readonly \ilTestAccess $test_access,
-        private readonly DataFactory $data_factory,
         private readonly RequestDataCollector $test_request,
         private readonly \ilTestParticipantAccessFilterFactory $participant_access_filter,
         private readonly ParticipantRepository $repository,
         private readonly ResultsDataFactory $results_data_factory,
         private readonly ResultsPresentationSettings $results_presentation_settings,
+        private readonly \ilObjUser $current_user,
         private readonly \ilObjTest $test_object,
         private readonly ParticipantTableActions $table_actions
     ) {
@@ -96,11 +95,9 @@ class ParticipantTable implements DataRetrieval
         $processing_time = $this->test_object->getProcessingTimeInSeconds();
         $reset_time_on_new_attempt = $this->test_object->getResetProcessingTime();
 
-        foreach ($this->getViewControlledRecords($filter_data, $range, $order) as $record) {
-            $date_format = $this->data_factory->dateFormat()->withTime24($this->data_factory->dateFormat()->germanShort());
+        $current_user_timezone = new \DateTimeZone($this->current_user->getTimeZone());
 
-            $first_access = $record->getAttemptOverviewInformation()?->getStartedDate();
-            $last_access = $record->getLastAccess();
+        foreach ($this->getViewControlledRecords($filter_data, $range, $order) as $record) {
             $total_duration = $record->getTotalDuration($processing_time);
             $status_of_attempt = $record->getAttemptOverviewInformation()?->getStatusOfAttempt() ?? StatusOfAttempt::NOT_YET_STARTED;
 
@@ -108,10 +105,8 @@ class ParticipantTable implements DataRetrieval
                 'name' => sprintf('%s, %s', $record->getLastname(), $record->getFirstname()),
                 'login' => $record->getLogin(),
                 'matriculation' => $record->getMatriculation(),
-                'attempt_started_at' => $first_access !== null ? $date_format->applyTo($first_access) : '',
                 'status_of_attempt' => $this->lng->txt($status_of_attempt->value),
                 'id_of_attempt' => $record->getAttemptOverviewInformation()?->getExamId(),
-                'last_access' => $last_access !== null ? $date_format->applyTo($last_access) : '',
                 'ip_range' => $record->getClientIpTo() !== '' || $record->getClientIpFrom() !== ''
                     ? sprintf('%s - %s', $record->getClientIpFrom(), $record->getClientIpTo())
                     : '',
@@ -121,11 +116,20 @@ class ParticipantTable implements DataRetrieval
                 'remaining_duration' => sprintf('%d min', $record->getRemainingDuration($processing_time, $reset_time_on_new_attempt) / 60),
             ];
 
+            $first_access = $record->getAttemptOverviewInformation()?->getStartedDate();
+            if ($first_access !== null) {
+                $row['attempt_started_at'] = $first_access->setTimezone($current_user_timezone);
+            }
+
+            $last_access = $record->getLastAccess();
+            if ($last_access !== null) {
+                $row['last_access'] = $last_access->setTimezone($current_user_timezone);
+            }
             if ($record->getActiveId() !== null
-                && $this->test_access->checkResultsAccessForActiveId(
-                    $record->getActiveId(),
-                    $this->test_object->getTestId()
-                ) || $record === null && $this->test_access->checkParticipantsResultsAccess()) {
+               && $this->test_access->checkResultsAccessForActiveId(
+                   $record->getActiveId(),
+                   $this->test_object->getTestId()
+               ) || $record === null && $this->test_access->checkParticipantsResultsAccess()) {
                 $row['reached_points'] = sprintf(
                     $this->lng->txt('tst_reached_points_of_max'),
                     $record->getAttemptOverviewInformation()?->getReachedPoints(),
@@ -321,8 +325,10 @@ class ParticipantTable implements DataRetrieval
             'ip_range' => $column_factory->text($this->lng->txt('client_ip_range'))
                 ->withIsOptional(true, false)
                 ->withIsSortable(true),
-            'attempt_started_at' => $column_factory->text($this->lng->txt('tst_attempt_started'))
-                ->withIsSortable(true),
+            'attempt_started_at' => $column_factory->date(
+                $this->lng->txt('tst_attempt_started'),
+                $this->current_user->getDateTimeFormat()
+            )->withIsSortable(true),
             'total_attempts' => $column_factory->number($this->lng->txt('total_attempts'))
                 ->withIsOptional(true, false)
                 ->withIsSortable(true),
@@ -374,7 +380,10 @@ class ParticipantTable implements DataRetrieval
                 ->withIsSortable(true);
         }
 
-        $columns['last_access'] = $column_factory->text($this->lng->txt('last_access'));
+        $columns['last_access'] = $column_factory->date(
+            $this->lng->txt('last_access'),
+            $this->current_user->getDateTimeFormat()
+        );
 
         return $columns;
     }

@@ -181,7 +181,6 @@ class ilTestParticipantsGUI
             $this->ui_service,
             $this->lng,
             $this->test_access,
-            $this->data_factory,
             $this->testrequest,
             $this->participant_access_filter,
             $this->participant_repository,
@@ -190,6 +189,7 @@ class ilTestParticipantsGUI
                 $this->test_obj,
                 false
             ),
+            $this->current_user,
             $this->test_obj,
             $this->buildParticipantTableActions()
         );
