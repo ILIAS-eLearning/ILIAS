@@ -102,7 +102,9 @@ class ParticipantTable implements DataRetrieval
             $status_of_attempt = $record->getAttemptOverviewInformation()?->getStatusOfAttempt() ?? StatusOfAttempt::NOT_YET_STARTED;
 
             $row = [
-                'name' => sprintf('%s, %s', $record->getLastname(), $record->getFirstname()),
+                'name' => $this->test_object->getAnonymity()
+                    ? $this->lng->txt('anonymous')
+                    : sprintf('%s, %s', $record->getLastname(), $record->getFirstname()),
                 'login' => $record->getLogin(),
                 'matriculation' => $record->getMatriculation(),
                 'status_of_attempt' => $this->lng->txt($status_of_attempt->value),
@@ -317,8 +319,14 @@ class ParticipantTable implements DataRetrieval
         $column_factory = $this->ui_factory->table()->column();
 
         $columns = [
-            'name' => $column_factory->text($this->lng->txt('name'))->withIsSortable(true),
-            'login' => $column_factory->text($this->lng->txt('login'))->withIsSortable(true),
+            'name' => $column_factory->text($this->lng->txt('name'))
+                ->withIsSortable(!$this->test_object->getAnonymity())
+        ];
+        if (!$this->test_object->getAnonymity()) {
+            $columns['login'] = $column_factory->text($this->lng->txt('login'))->withIsSortable(true);
+        }
+
+        $columns += [
             'matriculation' => $column_factory->text($this->lng->txt('matriculation'))
                 ->withIsOptional(true, false)
                 ->withIsSortable(false),
