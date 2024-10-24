@@ -36,6 +36,7 @@ class MapDBRepository
     ): void {
         $this->removeScreenIdsOfChapter($a_chap);
         foreach ($a_ids as $id) {
+            $full_id = $id;
             $id = trim($id);
             $id = explode("/", $id);
             if ($id[0] != "") {
@@ -56,6 +57,7 @@ class MapDBRepository
                           "screen_id" => array("text", $id[1]),
                           "screen_sub_id" => array("text", $id2[0]),
                           "perm" => array("text", $id2[1]),
+                          "full_id" => array("text", trim($full_id)),
                           "module_id" => array("integer", 0)
                     ),
                     array()
@@ -118,7 +120,7 @@ class MapDBRepository
             if ($rec["perm"] != "" && $rec["perm"] != "-") {
                 $id .= "#" . $rec["perm"];
             }
-            $screen_ids[] = $id;
+            $screen_ids[] = $rec["full_id"];
         }
         return $screen_ids;
     }
@@ -138,12 +140,10 @@ class MapDBRepository
                     $sc_id[2] = "-";
                 }
                 $set = $this->db->query(
+                    $q =
                     "SELECT chap, perm FROM help_map JOIN lm_tree" .
                     " ON (help_map.chap = lm_tree.child) " .
-                    " WHERE (component = " . $this->db->quote($sc_id[0], "text") .
-                    " OR component = " . $this->db->quote("*", "text") . ")" .
-                    " AND screen_id = " . $this->db->quote($sc_id[1], "text") .
-                    " AND screen_sub_id = " . $this->db->quote($sc_id[2], "text") .
+                    " WHERE full_id = " . $this->db->quote($a_screen_id, "text") .
                     " AND module_id = " . $this->db->quote($module_id, "integer") .
                     " ORDER BY lm_tree.lft"
                 );

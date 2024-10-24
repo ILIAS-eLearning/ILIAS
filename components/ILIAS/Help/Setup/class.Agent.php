@@ -35,4 +35,9 @@ class Agent extends Setup\Agent\NullAgent
     {
         return new \ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilHelpDBUpdateSteps());
     }
+
+    public function getBuildArtifactObjective(): Setup\Objective
+    {
+        return new \ilHelpBuildScreenIdMapObjective();
+    }
 }
