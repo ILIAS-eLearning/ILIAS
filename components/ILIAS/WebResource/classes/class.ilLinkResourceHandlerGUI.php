@@ -62,11 +62,6 @@ class ilLinkResourceHandlerGUI implements ilCtrlBaseClassInterface
             ) : 0;
 
         $next_class = $this->ctrl->getNextClass($this);
-        if ($next_class == "") {
-            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-            // $this->ctrl->setCmdClass(ilObjLinkResourceGUI::class);
-            $next_class = $this->ctrl->getNextClass($this);
-        }
         if ($this->access->checkAccess("read", "", $ref_id)) {
             $this->navigationHistory->addItem(
                 $ref_id,
@@ -74,11 +69,15 @@ class ilLinkResourceHandlerGUI implements ilCtrlBaseClassInterface
                 "webr"
             );
         }
+        if ($next_class == "") {
+            $this->ctrl->saveParameter($this, 'ref_id');
+            $this->ctrl->redirectByClass(ilObjLinkResourceGUI::class);
+        }
         switch ($next_class) {
-            case 'ilobjlinkresourcegui':
+            case strtolower(ilObjLinkResourceGUI::class):
                 $link_gui = new ilObjLinkResourceGUI(
                     $ref_id,
-                    ilObjLinkResourceGUI::REPOSITORY_NODE_ID
+                    ilObject2GUI::REPOSITORY_NODE_ID
                 );
                 $this->ctrl->forwardCommand($link_gui);
                 break;

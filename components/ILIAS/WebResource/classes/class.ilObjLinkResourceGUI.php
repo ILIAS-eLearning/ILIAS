@@ -162,11 +162,15 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                 break;
 
             default:
-                if (!$cmd) {
-                    // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-                    // $this->ctrl->setCmd("view");
+                if ($this->getIdType() === ilObject2GUI::WORKSPACE_OBJECT_ID) {
+                    parent::executeCommand();
+                    break;
                 }
-                parent::executeCommand();
+                if (!$cmd) {
+                    $cmd = 'view';
+                }
+                $this->prepareOutput();
+                $this->$cmd();
         }
 
         if (!$this->getCreationMode()) {
