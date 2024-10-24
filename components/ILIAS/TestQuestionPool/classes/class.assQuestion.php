@@ -44,6 +44,7 @@ use ILIAS\Notes\Note;
 use ILIAS\DI\LoggingServices;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\Services as HTTPServices;
+use ILIAS\UI\Implementation\Render\MathJaxConfig;
 
 /**
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
@@ -80,6 +81,7 @@ abstract class assQuestion implements Question
     protected Transformation $shuffler;
     protected LoggingServices $log;
     protected Container $dic;
+    protected MathJaxConfig $mathjax_config;
 
     private ?ilTestQuestionConfig $test_question_config = null;
     protected \ilAssQuestionLifecycle $lifecycle;
@@ -135,6 +137,7 @@ abstract class assQuestion implements Question
         $this->question_files = $local_dic['question_files'];
         $this->suggestedsolution_repo = $local_dic['question.repo.suggestedsolutions'];
         $this->current_user = $DIC['ilUser'];
+        $this->mathjax_config = $DIC[MathjaxConfig::class];
         $this->lng = $lng;
         $this->tpl = $tpl;
         $this->db = $ilDB;

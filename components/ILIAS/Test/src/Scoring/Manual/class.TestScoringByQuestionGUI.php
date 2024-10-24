@@ -58,12 +58,6 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
         \ilYuiUtil::initPanel();
         \ilYuiUtil::initOverlay();
 
-        $math_jax_setting = new \ilSetting('MathJax');
-
-        if ($math_jax_setting->get("enable")) {
-            $this->tpl->addJavaScript($math_jax_setting->get("path_to_mathjax"));
-        }
-
         $this->tpl->addJavaScript("assets/js/Basic.js");
         $this->tpl->addJavaScript("assets/js/Form.js");
         $this->tpl->addJavascript('assets/js/LegacyModal.js');

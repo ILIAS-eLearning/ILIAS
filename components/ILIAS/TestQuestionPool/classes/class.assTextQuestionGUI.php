@@ -670,6 +670,9 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $anyKeyword->setQuestionObject($this->object);
         $anyKeyword->setSingleline(true);
         $anyKeyword->setValues($this->object->getAnswers());
+        if ($this->mathjax_config->isMathJaxEnabled()) {
+            $anyKeyword->setInfo($this->lng->txt('mathjax_edit_hint'));
+        }
         $scoringOptionAnyKeyword->addSubItem($anyKeyword);
 
         // All Keywords
@@ -678,6 +681,9 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         //$allKeyword->setQuestionObject($this->object);
         //$allKeyword->setSingleline(TRUE);
         $allKeyword->setValues(self::buildAnswerTextOnlyArray($this->object->getAnswers()));
+        if ($this->mathjax_config->isMathJaxEnabled()) {
+            $allKeyword->setInfo($this->lng->txt('mathjax_edit_hint'));
+        }
         $scoringOptionAllKeyword->addSubItem($allKeyword);
         $allKeywordPoints = new ilNumberInputGUI($this->lng->txt("points"), "all_keyword_points");
         $allKeywordPoints->allowDecimals(true);
@@ -693,6 +699,9 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $oneKeyword->setRequired(true);
         //$oneKeyword->setQuestionObject($this->object);
         //$oneKeyword->setSingleline(TRUE);
+        if ($this->mathjax_config->isMathJaxEnabled()) {
+            $oneKeyword->setInfo($this->lng->txt('mathjax_edit_hint'));
+        }
         $oneKeyword->setValues(self::buildAnswerTextOnlyArray($this->object->getAnswers()));
         $scoringOptionOneKeyword->addSubItem($oneKeyword);
         $oneKeywordPoints = new ilNumberInputGUI($this->lng->txt("points"), "one_keyword_points");

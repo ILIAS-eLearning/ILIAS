@@ -296,9 +296,7 @@ ilias.questions.assTextQuestion = function(a_id) {
 	const el = document.getElementById("feedback" + a_id);
 	if (el) {
 		el.style.display = '';
-		if (typeof MathJax != "undefined") {
-			MathJax.Hub.Queue(["Typeset",MathJax.Hub, el]);
-		}
+		il.Util.renderMathJax([el]);
 	}
 	answers[a_id].passed = true;
 	ilias.questions.scormHandler(a_id,"neutral",jQuery('#textarea'+a_id).val());
@@ -944,9 +942,7 @@ ilias.questions.showFeedback = function(a_id) {
 	const el = document.getElementById('feedback' + a_id);
 	if (el) {
 		el.style.display = '';
-		if (typeof MathJax != "undefined" && typeof MathJax.Hub != "undefined") {
-			MathJax.Hub.Queue(["Typeset",MathJax.Hub, el]);
-		}
+		il.Util.renderMathJax([el]);
 	}
 
 	// update question overviews

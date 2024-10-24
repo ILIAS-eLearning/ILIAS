@@ -32,8 +32,7 @@ class ilAssSelfAssessmentQuestionFormatter implements ilAssSelfAssessmentMigrato
         $string = ilRTE::_replaceMediaObjectImageSrc($string, 1);
         $string = str_replace("</li><br />", "</li>", $string);
         $string = str_replace("</li><br>", "</li>", $string);
-        $string = ilMathJax::getInstance()->insertLatexImages($string, "\[tex\]", "\[\/tex\]");
-        $string = ilMathJax::getInstance()->insertLatexImages($string, "\<span class\=\"latex\">", "\<\/span>");
+        $string = ilRTE::replaceLatexSpan($string);
         $string = str_replace('{', '&#123;', $string);
         $string = str_replace('}', '&#125;', $string);
 

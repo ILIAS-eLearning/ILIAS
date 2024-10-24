@@ -167,6 +167,53 @@ class ilRTE
     }
 
     /**
+     * Replace the latex delimiters used by the rich text editor
+     * Unfortunately these can't be processed by MathJax:
+     * "Note that the delimiters can’t look like HTML tags (i.e., can’t include the less-than sign),
+     * as these would be turned into tags by the browser before MathJax has the chance to run.
+     * You can only include text, not tags, as your math delimiters."
+     * @see https://docs.mathjax.org/en/latest/options/input/tex.html#option-descriptions
+     */
+    public static function replaceLatexSpan(string $content): string
+    {
+        $start = '<span class="latex">';
+        $end = '</span>';
+
+        // current position to start the search for delimiters
+        $cpos = 0;
+
+        // find position of start delimiter
+        while (is_int($spos = strpos($content, $start, $cpos))) {
+
+            // find position of end delimiter
+            if (is_int($epos = strpos($content, $end, $spos + strlen($start)))) {
+
+                // extract the tex code inside the delimiters
+                $tex = substr($content, $spos + strlen($start), $epos - $spos - strlen($start));
+
+                // wrap in new delimiters
+                $tex = '[tex]' . $tex . '[/tex]';
+
+                // replace the tex code with delimiters
+                $content = substr($content, 0, $spos) . $tex . substr($content, $epos + strlen($end));
+
+                // continue search behind replacement
+                $cpos = $spos + strlen($tex);
+
+            } else {
+                // end delimiter position not found => stop search
+                break;
+            }
+
+            if ($cpos >= strlen($content)) {
+                // current position at the end => stop search
+                break;
+            }
+        }
+        return $content;
+    }
+
+    /**
      * Replaces image source from mob image urls with the mob id or replaces mob id with the correct image source
      * @param string $a_text text, including media object tags
      * @param integer $a_direction 0 to replace image src => mob id, 1 to replace mob id => image src

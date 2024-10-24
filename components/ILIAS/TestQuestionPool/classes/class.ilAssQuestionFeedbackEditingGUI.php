@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\TestQuestionPool\RequestDataCollector;
+use ILIAS\UI\Implementation\Render\MathJaxConfig;
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -47,11 +48,14 @@ class ilAssQuestionFeedbackEditingGUI
         protected readonly ilTabsGUI $tabs,
         protected readonly ilLanguage $lng,
         protected readonly ilHelpGUI $help,
+        private readonly MathJaxConfig $mathjax_config,
         private readonly RequestDataCollector $request,
         private readonly bool $in_pool_context = false
     ) {
         $this->question_obj = $question_gui->getObject();
         $this->feedback_obj = $question_gui->getObject()->feedbackOBJ;
+
+        $this->lng->loadLanguageModule('ui');
     }
 
     /**
@@ -105,6 +109,11 @@ class ilAssQuestionFeedbackEditingGUI
         $this->tpl->parseCurrentBlock();
 
         $form = $this->buildForm();
+        // set the mathjax hint as form description to avoid injection in all feedback classes
+        // may be changed with migration of the forms to the ui framework
+        if ($this->mathjax_config->isMathJaxEnabled()) {
+            $form->setDescription($this->lng->txt('mathjax_edit_hint'));
+        }
 
         $this->feedback_obj->initGenericFormProperties($form);
         if ($this->question_obj->hasSpecificFeedback()) {

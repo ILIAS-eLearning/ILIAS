@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Implementation\Render\MathJaxConfig;
+
 class ilForumThreadFormGUI extends ilPropertyFormGUI
 {
     public const ALIAS_INPUT = 'alias';
@@ -33,12 +35,14 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
     public function __construct(
         private readonly ilObjForumGUI $delegatingGui,
         private readonly ilForumProperties $properties,
+        private readonly MathjaxConfig $mathjax_config,
         private readonly bool $allowPseudonyms,
         private readonly bool $allowNotification,
         private readonly bool $isDraftContext,
         private readonly int $draftId
     ) {
         parent::__construct();
+        $this->lng->loadLanguageModule('ui');
     }
 
     private function addAliasInput(): void
@@ -71,9 +75,6 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
         $message->setRows(15);
         $message->setRequired(true);
         $message->setUseRte(true);
-        $message->addPlugin('latex');
-        $message->addButton('latex');
-        $message->addButton('pastelatex');
         $message->addPlugin('ilfrmquote');
         $message->usePurifier(true);
         $message->setRTERootBlockElement('');
@@ -95,6 +96,9 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
             'formatselect'
         ]);
         $message->setPurifier(ilHtmlPurifierFactory::getInstanceByType('frm_post'));
+        if ($this->mathjax_config->isMathJaxEnabled()) {
+            $message->setInfo($this->lng->txt('mathjax_edit_hint'));
+        }
         $this->addItem($message);
     }
 

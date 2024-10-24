@@ -68,8 +68,6 @@ class Util
      */
     public function exportCOPageFiles(int $style_sheet_id = 0, string $obj_type = ""): void
     {
-        \ilMathJax::getInstance()->init(\ilMathJax::PURPOSE_EXPORT);
-
         // init co page html exporter
         $this->co_page_html_export->setContentStyleId($style_sheet_id);
         $this->co_page_html_export->createDirectories();
