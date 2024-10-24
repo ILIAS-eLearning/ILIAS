@@ -358,6 +358,7 @@ class ilTestParticipantsGUI
                 ),
                 ParticipantTableExtraTimeAction::ACTION_ID => new ParticipantTableExtraTimeAction(
                     $this->lng,
+                    $this->refinery,
                     $this->main_tpl,
                     $this->ui_factory,
                     $this->participant_repository,
