@@ -358,38 +358,6 @@ are printed bold**, all other fields might be omitted. A minimal example is
   * *enable* (type: boolean) the logging, defaults to `false`
   * *path_to_logfile* (type: string) to be used for logging
   * *errorlog_dir* (type: string) to put error logs in
-* *mathjax* (type: object) contains settings for ILIAS/MathJax
-    
-    The MathJax settings can also be done manually in the ILIAS adminstration.  
-    Settings included here will overwrite those at the next update.
-    MathJax 3 is supported, but MathJax 2 is recommended.
-    ```
-	"mathjax": {
-		"client_enabled": true,
-		"client_polyfill_url": "",
-		"client_script_url": "https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe",
-		"client_limiter": 0,
-		"server_enabled": true,
-		"server_address": "http://your.mathjax.server:8003",
-		"server_timeout": 5,
-		"server_for_browser": true,
-		"server_for_export": true,
-		"server_for_pdf": true
-	},
-    ```
-  * *client_enabled* (type: boolean) client-side rendering in the browser is enabled
-  * *client_polyfill_url* (type: string) url of a polyfill script for MathJax 3 to support older browsers
-  * *client_script_url* (type: string) url of the MathJax script to be included on the browser page
-  * *client_limiter* (type: integer) type of delimiters expected by the included MathJax script
-    * 0: \\( ... \\)
-    * 1: [tex] ... [/tex]
-    * 2: \<span class="math"\> ... \</span\>
-  * *server_enabled* (type: boolean) server-side rendering is enabled
-  * *server_address* (type: string) address of the rendering server
-  * *server_timeout* (type: integer) timeout in seconds to wait for a server response
-  * *server_for_browser* (type: boolean) use the server for rendering in the browser
-  * *server_for_export* (type: boolean) use the server for HTML exports
-  * *server_for_pdf* (type: boolean) use the server for PDF generation
 * *preview* (type: object) contains settings for ILIAS/Preview
     ```
 	"preview" : {
@@ -452,6 +420,13 @@ are printed bold**, all other fields might be omitted. A minimal example is
     * *country* (type: string) of said person
     * *phone* (type: string) of said person
     * **email** (type: string) of said person
+* *ui* (type: object) contains settings for ILIAS/UI
+    ```
+	"ui" : {
+		"mathjax_enabled" : false
+	},
+    ```
+  * *mathjax_enabled* (type: bool) enables the rendering of mathjax expressions in dedicated contents and adds hints on the inputs where these expressions can be entered
 * *utilities* (type: object) contains settings for ILIAS/Utilities
     ```
 	"utilities" : {
