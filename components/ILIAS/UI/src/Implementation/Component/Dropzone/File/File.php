@@ -265,4 +265,20 @@ abstract class File implements FileDropzone
     {
         return $this;
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getPromptButtons(): array
+    {
+        return $this->buttons;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getPromptTitle(): string
+    {
+        return $this->type;
+    }
 }
