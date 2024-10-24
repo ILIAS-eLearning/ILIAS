@@ -24,57 +24,33 @@ declare(strict_types=1);
  */
 class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUITest extends ilTestBaseTestCase
 {
-    private ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI $tableGui;
-    private ilTestRandomQuestionSetConfigGUI $parentObj_mock;
+    private ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI $testObj;
 
     protected function setUp(): void
     {
+        global $DIC;
         parent::setUp();
 
-        $ctrl_mock = $this->createMock(ilCtrl::class);
-        $ctrl_mock->expects($this->any())
-                  ->method("getFormAction")
-                  ->willReturnCallback(function () {
-                      return "testFormAction";
-                  });
-        $this->setGlobalVariable("ilCtrl", $ctrl_mock);
-        ;
-        $component_factory = $this->createMock(ilComponentFactory::class);
-        $component_factory->method("getActivePluginsInSlot")->willReturn(new ArrayIterator());
-        $this->setGlobalVariable("component.factory", $component_factory);
+        $this->addGlobal_ilAccess();
+        $this->addGlobal_ilCtrl();
+        $this->addGlobal_ilUser();
+        $this->addGlobal_ilDB();
+        $this->addGlobal_http();
 
-        $this->parentObj_mock = $this->createMock(ilTestRandomQuestionSetConfigGUI::class);
-        $this->tableGui = new ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI(
-            $this->parentObj_mock,
-            "",
-            $this->createMock(ilAccess::class),
-            $this->createMock(ILIAS\UI\Factory::class),
-            $this->createMock(ILIAS\UI\Renderer::class),
-            [],
-            []
+        $translator_mock = $this->createMock(ilTestQuestionFilterLabelTranslater::class);
+        $this->testObj = new ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI(
+            $DIC['ilAccess'],
+            $DIC['ilCtrl'],
+            $DIC['lng'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $DIC['http'],
+            $translator_mock
         );
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        $this->assertInstanceOf(ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI::class, $this->tableGui);
-    }
-
-    public function testDefinitionEditModeEnabled(): void
-    {
-        $this->assertIsBool($this->tableGui->isDefinitionEditModeEnabled());
-        $this->tableGui->setDefinitionEditModeEnabled(false);
-        $this->assertFalse($this->tableGui->isDefinitionEditModeEnabled());
-        $this->tableGui->setDefinitionEditModeEnabled(true);
-        $this->assertTrue($this->tableGui->isDefinitionEditModeEnabled());
-    }
-
-    public function testQuestionAmountColumnEnabled(): void
-    {
-        $this->assertIsBool($this->tableGui->isQuestionAmountColumnEnabled());
-        $this->tableGui->setQuestionAmountColumnEnabled(false);
-        $this->assertFalse($this->tableGui->isQuestionAmountColumnEnabled());
-        $this->tableGui->setQuestionAmountColumnEnabled(true);
-        $this->assertTrue($this->tableGui->isQuestionAmountColumnEnabled());
+        $this->assertInstanceOf(ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI::class, $this->testObj);
     }
 }
