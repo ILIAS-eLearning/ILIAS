@@ -576,16 +576,15 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
     public static function _getParticipantId($active_id): int
     {
         global $DIC;
-        $lng = $DIC['lng'];
         $ilDB = $DIC['ilDB'];
 
         $result = $ilDB->queryF(
-            "SELECT user_fi FROM tst_active WHERE active_id = %s",
-            ["integer"],
+            'SELECT user_fi FROM tst_active WHERE active_id = %s',
+            ['integer'],
             [$active_id]
         );
         $row = $ilDB->fetchAssoc($result);
-        return $row["user_fi"];
+        return $row['user_fi'];
     }
 
 
