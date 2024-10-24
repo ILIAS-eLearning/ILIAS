@@ -529,7 +529,7 @@ class ilOpenIdConnectSettings
     {
         return $this->custom_discovery_url;
     }
-    
+
     /**
      * @return array<string, string>
      */
