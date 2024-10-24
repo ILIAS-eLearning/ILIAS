@@ -78,7 +78,7 @@ class ilImport
         }
         // create instance of export config object
         $comp_arr = explode("/", $a_comp);
-        $a_class = "il" . $comp_arr[1] . "ImportConfig";
+        $a_class = "il" . ($comp_arr[2] ?? $comp_arr[1]) . "ImportConfig";
         $imp_config = new $a_class();
         $this->configs[$a_comp] = $imp_config;
         return $imp_config;
