@@ -1,27 +1,26 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+
+use ILIAS\AdvancedMetaData\Record\File\Factory as ilAMDRecordFileFactory;
+use ILIAS\Data\ObjectId;
+use ILIAS\Filesystem\Stream\Streams;
 
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -30,117 +29,100 @@ declare(strict_types=1);
  */
 class ilAdvancedMDRecordExportFiles
 {
+    protected const SIZE = 'size';
+    protected const DATE = 'date';
+    protected const NAME = 'name';
+    protected ilAMDRecordFileFactory $amd_record_file_factory;
     protected string $export_dir = '';
+    protected ObjectId|null $object_id;
+    protected int $user_id;
 
-    public function __construct(int $a_obj_id = null)
-    {
-        $this->export_dir = ilFileUtils::getDataDir() . '/ilAdvancedMetaData/export';
-        if ($a_obj_id) {
-            $this->export_dir .= "_" . $a_obj_id;
-        }
-        $this->init();
+    public function __construct(
+        int $user_id,
+        ObjectId $a_obj_id = null
+    ) {
+        $this->amd_record_file_factory = new ilAMDRecordFileFactory();
+        $this->user_id = $user_id;
+        $this->object_id = $a_obj_id;
     }
 
     /**
-     * Read files info
-     * @access public
      * @return array array e.g array(records => 'ECS-Server',size => '123',created' => 121212)
      */
     public function readFilesInfo(): array
     {
-        $file_info = array();
-        foreach ($this->getFiles() as $name => $data) {
-            if ($data['type'] != 'file') {
-                continue;
-            }
-            $file_parts = explode('.', $name);
-            if (!is_numeric($file_parts[0]) or (strcmp('xml', $file_parts[1]) != 0)) {
-                continue;
-            }
-            $file_info = [];
-            $file_info[$file_parts[0]]['size'] = $data['size'];
-            $file_info[$file_parts[0]]['date'] = $file_parts[0];
-
-            if ($xml = simplexml_load_file($this->export_dir . '/' . $name)) {
-                $records = array();
-                foreach ($xml->xpath('Record/Title') as $title) {
-                    $records[] = (string) $title;
-                }
-                $file_info[$file_parts[0]]['name'] = $records;
-            }
+        $file_info = [];
+        $elements = is_null($this->object_id)
+            ? $this->amd_record_file_factory->handler()->getGlobalFiles()
+            : $this->amd_record_file_factory->handler()->getFilesByObjectId($this->object_id);
+        foreach ($elements as $element) {
+            $file_id = $element->getIRSS()->getResourceIdSerialized();
+            $file_info[$file_id][self::SIZE] = $element->getIRSS()->getResourceSize();
+            $file_info[$file_id][self::DATE] = $element->getIRSS()->getCreationDate()->getTimestamp();
+            $file_info[$file_id][self::NAME] = $element->getIRSS()->getRecords();
         }
         return $file_info;
     }
 
-    /**
-     * Get files
-     * @return array<string, array{type: string, size: string}>
-     */
-    public function getFiles(): array
-    {
-        if (!is_dir($this->export_dir)) {
-            return array();
+    public function create(
+        string $a_xml
+    ): void {
+        $file_name = time() . '.xml';
+        $stream = Streams::ofString($a_xml);
+        if (is_null($this->object_id)) {
+            $this->amd_record_file_factory->handler()->addGlobalFile(
+                $this->user_id,
+                $file_name,
+                $stream
+            );
         }
-        $files = [];
-        foreach (ilFileUtils::getDir($this->export_dir) as $file_name => $file_data) {
-            $files[(string) $file_name] = $file_data;
+        if (!is_null($this->object_id)) {
+            $this->amd_record_file_factory->handler()->addFile(
+                $this->object_id,
+                $this->user_id,
+                $file_name,
+                $stream
+            );
         }
-        return $files;
     }
 
-    /**
-     * Create new export file from xml string
-     */
-    public function create(string $a_xml): void
-    {
-        global $DIC;
-
-        $ilLog = $DIC['ilLog'];
-
-        if (!$fp = fopen($this->export_dir . '/' . time() . '.xml', 'w+')) {
-            $ilLog->write(__METHOD__ . ': Cannot open file ' . $this->export_dir . '/' . time() . '.xml');
-            throw new ilException('Cannot write export file.');
+    public function download(
+        string $file_id,
+        string|null $filename_overwrite = null
+    ): void {
+        if (is_null($this->object_id)) {
+            $this->amd_record_file_factory->handler()->downloadGlobal(
+                $file_id,
+                $filename_overwrite
+            );
         }
-
-        fwrite($fp, $a_xml);
-        fclose($fp);
+        if (!is_null($this->object_id)) {
+            $this->amd_record_file_factory->handler()->download(
+                $this->object_id,
+                $file_id,
+                $filename_overwrite
+            );
+        }
     }
 
-    public function deleteByFileId(int $a_timest): bool
-    {
-        global $DIC;
-
-        $ilLog = $DIC['ilLog'];
-
-        if (!unlink($this->export_dir . '/' . $a_timest . '.xml')) {
-            $ilLog->write(__METHOD__ . ': Cannot delete file ' . $this->export_dir . '/' . $a_timest . '.xml');
-            return false;
+    public function deleteByFileId(
+        int $user_id,
+        string $file_id
+    ): bool {
+        $global = is_null($this->object_id);
+        if ($global) {
+            $this->amd_record_file_factory->handler()->deleteGlobal(
+                $user_id,
+                $file_id
+            );
+        }
+        if (!$global) {
+            $this->amd_record_file_factory->handler()->delete(
+                $this->object_id,
+                $user_id,
+                $file_id
+            );
         }
         return true;
-    }
-
-    public function getAbsolutePathByFileId(int $a_file_basename): string
-    {
-        global $DIC;
-
-        $ilLog = $DIC['ilLog'];
-
-        $a_file_basename = (string) $a_file_basename;
-        if (!file_exists($this->export_dir . '/' . $a_file_basename . '.xml')) {
-            $ilLog->write(__METHOD__ . ': Cannot find file ' . $this->export_dir . '/' . $a_file_basename . '.xml');
-            return '';
-        }
-        return $this->export_dir . '/' . $a_file_basename . '.xml';
-    }
-
-    /**
-     * init export directory
-     * @access private
-     */
-    private function init(): void
-    {
-        if (!is_dir($this->export_dir)) {
-            ilFileUtils::makeDirParents($this->export_dir);
-        }
     }
 }

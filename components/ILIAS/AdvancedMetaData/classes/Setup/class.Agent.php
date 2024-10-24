@@ -37,6 +37,9 @@ class Agent extends Setup\Agent\NullAgent
 
     public function getMigrations(): array
     {
-        return [new SelectOptionsMigration()];
+        return [
+            new SelectOptionsMigration(),
+            new RecordFilesMigration()
+        ];
     }
 }
