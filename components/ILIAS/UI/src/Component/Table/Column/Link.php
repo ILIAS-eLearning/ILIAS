@@ -22,4 +22,5 @@ namespace ILIAS\UI\Component\Table\Column;
 
 interface Link extends Column
 {
+    public function withIsNullable(bool $nullable): void;
 }

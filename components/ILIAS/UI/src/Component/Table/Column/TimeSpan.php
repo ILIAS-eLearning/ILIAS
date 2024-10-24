@@ -25,4 +25,5 @@ use ILIAS\Data\DateFormat\DateFormat;
 interface TimeSpan extends Column
 {
     public function getFormat(): DateFormat;
+    public function withIsNullable(bool $nullable): void;
 }
