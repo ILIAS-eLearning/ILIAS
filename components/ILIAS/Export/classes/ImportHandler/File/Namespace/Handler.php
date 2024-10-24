@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\File\Namespace;
 
-use ILIAS\Export\ImportHandler\I\File\Namespace\HandlerInterface as ParserNamespaceHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\Namespace\HandlerInterface as FileNamespaceHandlerInterface;
 
-class Handler implements ParserNamespaceHandlerInterface
+class Handler implements FileNamespaceHandlerInterface
 {
     protected string $prefix;
     protected string $namespace;
@@ -43,14 +43,14 @@ class Handler implements ParserNamespaceHandlerInterface
         return $this->namespace;
     }
 
-    public function withPrefix(string $prefix): ParserNamespaceHandlerInterface
+    public function withPrefix(string $prefix): FileNamespaceHandlerInterface
     {
         $clone = clone $this;
         $clone->prefix = $prefix;
         return $clone;
     }
 
-    public function withNamespace(string $namespace): ParserNamespaceHandlerInterface
+    public function withNamespace(string $namespace): FileNamespaceHandlerInterface
     {
         $clone = clone $this;
         $clone->namespace = $namespace;
