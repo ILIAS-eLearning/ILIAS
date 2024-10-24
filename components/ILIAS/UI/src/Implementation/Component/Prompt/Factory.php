@@ -31,7 +31,7 @@ class Factory implements I\Factory
     ) {
     }
 
-    public function standard(URI $async_url): I\Prompt
+    public function standard(URI $async_url = null): I\Prompt
     {
         return new Standard($this->signal_generator, $async_url);
     }

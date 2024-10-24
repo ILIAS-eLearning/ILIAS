@@ -51,7 +51,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Prompt\Prompt
      */
-    public function standard(URI $async_url): Prompt;
+    public function standard(URI $async_url = null): Prompt;
 
     /**
      * ---

@@ -54,7 +54,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate('tpl.prompt.html', true, true);
         $show_signal = $component->getShowSignal();
         $close_signal = $component->getCloseSignal();
-        $url = $component->getAsyncUrl()->__toString();
+        $url = $component->getAsyncUrl()?->__toString();
         $component = $component->withAdditionalOnLoadCode(
             fn($id) => "
                 il.UI.prompt.init('$id');

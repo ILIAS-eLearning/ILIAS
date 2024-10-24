@@ -25,7 +25,6 @@ use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
-
 use ILIAS\Data\URI;
 
 /**
@@ -41,13 +40,13 @@ abstract class Prompt implements I\Prompt
 
     public function __construct(
         SignalGenerator $signal_generator,
-        protected URI $async_url
+        protected ?URI $async_url
     ) {
         $this->show_signal = $signal_generator->create();
         $this->close_signal = $signal_generator->create();
     }
 
-    public function getAsyncUrl(): URI
+    public function getAsyncUrl(): ?URI
     {
         return $this->async_url;
     }
@@ -56,7 +55,7 @@ abstract class Prompt implements I\Prompt
     {
         $target = $uri ?? $this->async_url;
         $signal = clone $this->show_signal;
-        $signal->addOption('url', $target->__toString());
+        $signal->addOption('url', $target ? $target->__toString() : '#');
         return $signal;
     }
 

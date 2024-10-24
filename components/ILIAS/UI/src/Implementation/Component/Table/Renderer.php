@@ -223,6 +223,10 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('COL_COUNT', (string) $component->getColumnCount());
         $tpl->setVariable('VIEW_CONTROLS', $default_renderer->render($view_controls));
 
+        $tpl->setVariable('DIALOG', $default_renderer->render(
+            $this->getUIFactory()->prompt()->standard()
+        ));
+
         $sortation_signal = null;
         // if the generator is empty, and thus invalid, we render an empty row.
         if (!$rows->valid()) {
@@ -369,7 +373,7 @@ class Renderer extends AbstractComponentRenderer
         $actions = [];
         foreach ($component->getAllActions() as $action_id => $action) {
             $component = $component->withAdditionalOnLoadCode($this->getActionRegistration((string) $action_id, $action));
-            if ($action->isAsync()) {
+            if ($action->isAsync() || $action->isPrompt()) {
                 $signal = clone $component->getAsyncActionSignal();
                 $signal->addOption(Action::OPT_ACTIONID, $action_id);
                 $action = $action->withSignalTarget($signal);
@@ -503,13 +507,19 @@ class Renderer extends AbstractComponentRenderer
         string $action_id,
         Action $action
     ): \Closure {
-        $async = $action->isAsync() ? 'true' : 'false';
+        $async = 'none';
+        if ($action->isAsync()) {
+            $async = 'async';
+        }
+        if ($action->isPrompt()) {
+            $async = 'prompt';
+        }
         $url_builder_js = $action->getURLBuilderJS();
         $tokens_js = $action->getURLBuilderTokensJS();
 
         return static function ($id) use ($action_id, $async, $url_builder_js, $tokens_js): string {
             return "
-                il.UI.table.data.get('{$id}').registerAction('{$action_id}', {$async}, {$url_builder_js}, {$tokens_js});
+                il.UI.table.data.get('{$id}').registerAction('{$action_id}', '{$async}', {$url_builder_js}, {$tokens_js});
             ";
         };
     }
