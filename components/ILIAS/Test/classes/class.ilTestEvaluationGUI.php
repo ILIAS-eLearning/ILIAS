@@ -252,7 +252,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $test_session = $this->test_session_factory->getSession();
 
         if (!$this->object->getShowPassDetails()) {
-            $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
+            $this->ctrl->redirectByClass([ilRepositoryGUI::class, ilObjTestGUI::class, ilInfoScreenGUI::class]);
         }
 
         $active_id = $test_session->getActiveId();
@@ -379,7 +379,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $uname = $this->object->userLookupFullName($user_id, true);
 
         if (!$this->object->canShowTestResults($test_session)) {
-            $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
+            $this->ctrl->redirectByClass([ilRepositoryGUI::class, ilObjTestGUI::class, ilInfoScreenGUI::class]);
         }
 
         $templatehead = new ilTemplate('tpl.il_as_tst_results_participants.html', true, true, "components/ILIAS/Test");
@@ -460,7 +460,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
     {
         if (!$this->object->getShowSolutionPrintview()) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('no_permission'), true);
-            $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
+            $this->ctrl->redirectByClass([ilRepositoryGUI::class, ilObjTestGUI::class, ilInfoScreenGUI::class]);
         }
 
         $template = new ilTemplate('tpl.il_as_tst_info_list_of_answers.html', true, true, "components/ILIAS/Test");
@@ -607,7 +607,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
                 // no break
             case ilTestPassDeletionConfirmationGUI::CONTEXT_INFO_SCREEN:
-                $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
+                $this->ctrl->redirectByClass([ilRepositoryGUI::class, ilObjTestGUI::class, ilInfoScreenGUI::class]);
         }
     }
 

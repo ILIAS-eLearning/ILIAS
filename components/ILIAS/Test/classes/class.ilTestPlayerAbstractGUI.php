@@ -203,7 +203,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
                     if (!$testPassesSelector->openPassExists()) {
                         $this->tpl->setOnScreenMessage('info', $this->lng->txt('tst_pass_finished'), true);
-                        $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
+                        $this->ctrl->redirectByClass([ilRepositoryGUI::class, ilObjTestGUI::class, ilInfoScreenGUI::class]);
                     }
                 }
 
@@ -241,7 +241,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         if (!$executable['executable']) {
             $this->tpl->setOnScreenMessage('info', $executable['errormessage'], true);
-            $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
+            $this->ctrl->redirectByClass([ilRepositoryGUI::class, ilObjTestGUI::class, ilInfoScreenGUI::class]);
         }
     }
 
@@ -289,7 +289,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $tagging_gui = new ilTaggingGUI();
         $tagging_gui->setObject($this->object->getId(), $this->object->getType());
         $tagging_gui->saveInput();
-        $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
+        $this->ctrl->redirectByClass([ilRepositoryGUI::class, ilObjTestGUI::class, ilInfoScreenGUI::class]);
     }
 
     /**
@@ -670,7 +670,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $this->test_session->setAccessCodeToSession($_POST['anonymous_id']);
         }
 
-        $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
+        $this->ctrl->redirectByClass([ilRepositoryGUI::class, ilObjTestGUI::class, ilInfoScreenGUI::class]);
     }
 
     /**
@@ -697,7 +697,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         }
 
         $this->ctrl->setParameterByClass('ilObjTestGUI', 'lock', $testStartLock);
-        $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
+        $this->ctrl->redirectByClass([ilRepositoryGUI::class, ilObjTestGUI::class, ilInfoScreenGUI::class]);
     }
 
     public function getLockParameter()
