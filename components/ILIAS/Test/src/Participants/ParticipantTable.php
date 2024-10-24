@@ -136,10 +136,7 @@ class ParticipantTable implements DataRetrieval
                     $record->getAttemptOverviewInformation()?->getNrOfAnsweredQuestions(),
                     $record->getAttemptOverviewInformation()?->getNrOfTotalQuestions()
                 );
-                $row['percent_of_available_points'] = sprintf(
-                    '%.2f%%',
-                    $record->getAttemptOverviewInformation()?->getReachedPointsInPercent()
-                );
+                $row['percent_of_available_points'] = $record->getAttemptOverviewInformation()?->getReachedPointsInPercent();
                 $row['test_passed'] = $record->getAttemptOverviewInformation()?->hasPassingMark() ?? false;
                 $row['mark'] = $record->getAttemptOverviewInformation()?->getMark();
             }
@@ -355,7 +352,8 @@ class ParticipantTable implements DataRetrieval
             $columns['nr_of_answered_questions'] = $column_factory->text($this->lng->txt('tst_answered_questions'))
                 ->withIsOptional(true, false)
                 ->withIsSortable(true);
-            $columns['percent_of_available_points'] = $column_factory->text($this->lng->txt('tst_percent_solved'))
+            $columns['percent_of_available_points'] = $column_factory->number($this->lng->txt('tst_percent_solved'))
+                ->withUnit('%')
                 ->withIsOptional(true, false)
                 ->withIsSortable(true);
             $columns['test_passed'] = $column_factory->boolean(
