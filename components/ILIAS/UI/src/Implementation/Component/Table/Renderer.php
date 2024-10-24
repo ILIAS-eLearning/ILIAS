@@ -58,6 +58,9 @@ class Renderer extends AbstractComponentRenderer
         if ($component instanceof Component\Table\OrderingRow) {
             return $this->renderOrderingRow($component, $default_renderer);
         }
+        if($component instanceof Component\Table\EmptyCell) {
+            return $this->renderEmptyCell($component, $default_renderer);
+        }
         $this->cannotHandleComponent($component);
     }
 
@@ -704,5 +707,13 @@ class Renderer extends AbstractComponentRenderer
             "$(document).on('$close', function() { il.UI.table.presentation.get('$table_id').collapseRow('$id'); return false; });" .
             "$(document).on('$toggle', function() { il.UI.table.presentation.get('$table_id').toggleRow('$id'); return false; });"
         );
+    }
+
+    public function renderEmptyCell(EmptyCell $component, RendererInterface $default_renderer): string
+    {
+        $tpl = $this->getTemplate("tpl.emptycell.html", true, true);
+        $tpl->setCurrentBlock('cell_content');
+        $tpl->setVariable('CELL_CONTENT', $component->getEmptyPlaceholder());
+        return $tpl->get();
     }
 }

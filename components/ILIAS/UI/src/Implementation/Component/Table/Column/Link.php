@@ -28,6 +28,9 @@ class Link extends Column implements C\Link
 {
     public function format($value): string|Component
     {
+        if(empty($value)) {
+            return $this->asEmptyCell();
+        }
         $this->checkArgInstanceOf('value', $value, Standard::class);
         return $value;
     }

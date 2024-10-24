@@ -39,6 +39,11 @@ interface Column extends \ILIAS\UI\Component\Component
         string $desc_label = null
     ): self;
 
+    /**
+     * you may specify a placeholder to be displayed if the value is empty
+     */
+    public function withEmptyPlaceholder(string $empty_placeholder): self;
+
     public function withIsOptional(bool $is_optional, bool $is_initially_visible = true): self;
     public function isOptional(): bool;
     public function isInitiallyVisible(): bool;

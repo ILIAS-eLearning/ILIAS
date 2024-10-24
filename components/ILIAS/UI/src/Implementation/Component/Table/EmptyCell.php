@@ -18,20 +18,22 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Implementation\Component\Table\Column;
+namespace ILIAS\UI\Implementation\Component\Table;
 
-use ILIAS\UI\Component\Table\Column as C;
-use ILIAS\UI\Component\Table\EmptyCell;
-use ILIAS\UI\Component\Symbol\Icon\Icon;
+use ILIAS\UI\Component\Table as T;
+use ILIAS\UI\Implementation\Component\ComponentHelper;
 
-class StatusIcon extends Column implements C\StatusIcon
+class EmptyCell implements T\EmptyCell
 {
-    public function format($value): Icon|EmptyCell
+    use ComponentHelper;
+
+    public function __construct(
+        protected string $empty_placeholder
+    ) {
+    }
+
+    public function getEmptyPlaceholder(): string
     {
-        if(empty($value)) {
-            return $this->asEmptyCell();
-        }
-        $this->checkArgInstanceOf('value', $value, Icon::class);
-        return $value;
+        return $this->empty_placeholder;
     }
 }

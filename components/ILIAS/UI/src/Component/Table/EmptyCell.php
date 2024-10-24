@@ -18,20 +18,13 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Implementation\Component\Table\Column;
+namespace ILIAS\UI\Component\Table;
 
-use ILIAS\UI\Component\Table\Column as C;
-use ILIAS\UI\Component\Table\EmptyCell;
-use ILIAS\UI\Component\Symbol\Icon\Icon;
-
-class StatusIcon extends Column implements C\StatusIcon
+/**
+ * A EmptyCell represents the content in a table cell when the cell is empty. It is used to display a placeholder
+ * in the cell.
+ */
+interface EmptyCell extends \ILIAS\UI\Component\Component
 {
-    public function format($value): Icon|EmptyCell
-    {
-        if(empty($value)) {
-            return $this->asEmptyCell();
-        }
-        $this->checkArgInstanceOf('value', $value, Icon::class);
-        return $value;
-    }
+    public function getEmptyPlaceholder(): string;
 }
