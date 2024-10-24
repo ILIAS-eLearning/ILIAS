@@ -43,7 +43,7 @@ class ilOpenIdConnectSettingsGUI
     private const SAVED_VALUES = 2;
     private const POST_VALUE = 'Mode';
     private const URL_VALIDATION_PROVIDER_STRING = '/.well-known/openid-configuration';
-    public const EFFECTIVE_ATTRIBUTE_MAPPING_TAB = 2;
+    private const EFFECTIVE_ATTRIBUTE_MAPPING_TAB = 2;
 
     private int $ref_id;
     /** @var array $body */
