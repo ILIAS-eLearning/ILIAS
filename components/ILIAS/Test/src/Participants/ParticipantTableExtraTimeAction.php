@@ -28,6 +28,7 @@ use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\UI\Component\Table\Action\Action;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
+use ILIAS\Refinery\Factory as Refinery;
 use Psr\Http\Message\ServerRequestInterface;
 
 class ParticipantTableExtraTimeAction implements TableAction
@@ -36,6 +37,7 @@ class ParticipantTableExtraTimeAction implements TableAction
 
     public function __construct(
         private readonly Language $lng,
+        private readonly Refinery $refinery,
         private readonly \ilGlobalTemplateInterface $tpl,
         private readonly UIFactory $ui_factory,
         private readonly ParticipantRepository $participant_repository,
@@ -103,6 +105,7 @@ class ParticipantTableExtraTimeAction implements TableAction
                 'extra_time' => $this->ui_factory->input()->field()->numeric(
                     $this->lng->txt('extratime')
                 )->withRequired(true)
+                ->withAdditionalTransformation($this->refinery->int()->isGreaterThan(0))
                 ->withValue(0)
                 ->withByline(
                     $this->lng->txt('extra_time_byline')
