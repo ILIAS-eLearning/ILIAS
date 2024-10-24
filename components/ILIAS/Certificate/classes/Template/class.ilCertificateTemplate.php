@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -35,6 +37,8 @@ class ilCertificateTemplate
         private readonly bool $currentlyActive,
         private readonly string $backgroundImagePath = '',
         private readonly string $thumbnailImagePath = '',
+        private readonly string $backgroundIdentification = '',
+        private readonly string $thumbnailIdentification = '',
         private readonly ?int $id = null,
         private readonly bool $deleted = false
     ) {
@@ -85,6 +89,19 @@ class ilCertificateTemplate
         return $this->id;
     }
 
+    public function getCurrentBackgroundImageUsed(): string
+    {
+        if ($this->getBackgroundImageIdentification() === '' || $this->getBackgroundImageIdentification() === '-') {
+            return $this->getBackgroundImagePath();
+        }
+        return $this->getBackgroundImageIdentification();
+    }
+
+    public function getBackgroundImageIdentification(): string
+    {
+        return $this->backgroundIdentification;
+    }
+
     public function getBackgroundImagePath(): string
     {
         return $this->backgroundImagePath;
@@ -98,6 +115,19 @@ class ilCertificateTemplate
     public function isDeleted(): bool
     {
         return $this->deleted;
+    }
+
+    public function getCurrentThumbnailImageUsed(): string
+    {
+        if ($this->getThumbnailImageIdentification() === '' || $this->getThumbnailImageIdentification() === '-') {
+            return $this->getThumbnailImagePath();
+        }
+        return $this->getThumbnailImageIdentification();
+    }
+
+    public function getThumbnailImageIdentification(): string
+    {
+        return $this->thumbnailIdentification;
     }
 
     public function getThumbnailImagePath(): string

@@ -64,15 +64,15 @@ class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
     public function step_5(): void
     {
         if (
-            $this->db->tableExists('il_cert_template')
-            && !$this->db->indexExistsByFields('il_cert_template', ['background_image_path', 'currently_active'])
+            $this->db->tableExists('il_cert_template') &&
+            !$this->db->indexExistsByFields('il_cert_template', ['background_image_path', 'currently_active'])
         ) {
             $this->db->addIndex('il_cert_template', ['background_image_path', 'currently_active'], 'i5');
         }
 
         if (
-            $this->db->tableExists('il_cert_user_cert')
-            && !$this->db->indexExistsByFields('il_cert_user_cert', ['background_image_path', 'currently_active'])
+            $this->db->tableExists('il_cert_user_cert') &&
+            !$this->db->indexExistsByFields('il_cert_user_cert', ['background_image_path', 'currently_active'])
         ) {
             $this->db->addIndex('il_cert_user_cert', ['background_image_path', 'currently_active'], 'i7');
         }
@@ -125,5 +125,75 @@ class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         if ($num === 0) {
             $this->db->addUniqueConstraint('il_cert_user_cert', ['certificate_id'], 'c1');
         }
+    }
+
+    public function step_9(): void
+    {
+        if (
+            $this->db->tableExists('il_cert_user_cert')
+        ) {
+            $this->db->addTableColumn(
+                'il_cert_user_cert',
+                'background_image_ident',
+                [
+                    'type' => ilDBConstants::T_TEXT,
+                    'length' => 255,
+                    'notnull' => false,
+                ]
+            );
+
+            $this->db->addTableColumn(
+                'il_cert_user_cert',
+                'thumbnail_image_ident',
+                [
+                    'type' => ilDBConstants::T_TEXT,
+                    'length' => 255,
+                    'notnull' => false,
+                ]
+            );
+        }
+
+        if (
+            $this->db->tableExists('il_cert_template')
+        ) {
+            $this->db->addTableColumn(
+                'il_cert_template',
+                'background_image_ident',
+                [
+                    'type' => ilDBConstants::T_TEXT,
+                    'length' => 255,
+                    'notnull' => false,
+                ]
+            );
+
+            $this->db->addTableColumn(
+                'il_cert_template',
+                'thumbnail_image_ident',
+                [
+                    'type' => ilDBConstants::T_TEXT,
+                    'length' => 255,
+                    'notnull' => false,
+                ]
+            );
+        }
+
+        $res = $this->db->query(
+            'SELECT value FROM settings WHERE keyword = ' .
+            $this->db->quote('defaultImageFileName', ilDBConstants::T_TEXT) . ' AND module = ' .
+            $this->db->quote('certificate', ilDBConstants::T_TEXT)
+        );
+        $row = $this->db->fetchAssoc($res);
+        $defaultImageFileName = $row['value'] ?? '';
+
+        $this->db->manipulate(
+            'DELETE FROM settings WHERE keyword = ' .
+            $this->db->quote('defaultImageFileName', ilDBConstants::T_TEXT) . ' AND module = ' .
+            $this->db->quote('certificate', ilDBConstants::T_TEXT)
+        );
+        $this->db->insert('settings', [
+            'module' => [ilDBConstants::T_TEXT, 'certificate'],
+            'keyword' => [ilDBConstants::T_TEXT, 'cert_bg_image'],
+            'value' => [ilDBConstants::T_TEXT, $defaultImageFileName],
+        ]);
     }
 }

@@ -120,6 +120,7 @@ class ilCertificateCron extends ilCronJob
                 'Will not start cron job, because the mode is not set as cron job. Current Mode in settings: "%s"',
                 $currentMode
             ));
+
             return $result;
         }
 
@@ -153,6 +154,7 @@ class ilCertificateCron extends ilCronJob
                 $this->logger->warning('Due the error, the entry will now be removed from the queue.');
 
                 $this->queueRepository->removeFromQueue($entry->getId());
+
                 continue;
             }
         }
@@ -246,7 +248,7 @@ class ilCertificateCron extends ilCronJob
         $type = $object->getType();
 
         $userObject = $this->objectHelper->getInstanceByObjId($userId, false);
-        if (!($userObject instanceof ilObjUser)) {
+        if (!$userObject instanceof ilObjUser) {
             throw new ilCertificateOwnerNotFound('The given user id"' . $userId . '" could not be referred to an actual user');
         }
 
@@ -271,7 +273,6 @@ class ilCertificateCron extends ilCronJob
             $certificateContent,
         );
 
-        $thumbnailImagePath = $template->getThumbnailImagePath();
         $userCertificate = new ilUserCertificate(
             $template->getId(),
             $objId,
@@ -287,7 +288,9 @@ class ilCertificateCron extends ilCronJob
             true,
             $cert_id,
             $template->getBackgroundImagePath(),
-            $thumbnailImagePath,
+            $template->getThumbnailImagePath(),
+            $template->getBackgroundImageIdentification(),
+            $template->getThumbnailImageIdentification(),
             null,
         );
 

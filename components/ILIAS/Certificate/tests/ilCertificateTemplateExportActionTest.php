@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\ResourceStorage\Services as IRSS;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -40,10 +42,12 @@ class ilCertificateTemplateExportActionTest extends ilCertificateBaseTestCase
                 true,
                 '/some/where/background.jpg',
                 '/some/where/thumbnail.jpg',
+                '-',
+                '-',
                 50
             ));
 
-        $filesystem = $this->getMockBuilder(ILIAS\Filesystem\Filesystem::class)
+        $irss = $this->getMockBuilder(IRSS::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -65,7 +69,7 @@ class ilCertificateTemplateExportActionTest extends ilCertificateBaseTestCase
             100,
             '/some/where/background.jpg',
             $templateRepository,
-            $filesystem,
+            $irss,
             $objectHelper,
             $utilHelper
         );

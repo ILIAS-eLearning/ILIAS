@@ -45,7 +45,10 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
                 'v5.4.0',
                 1_234_567_890,
                 true,
-                'samples/background.jpg'
+                'samples/background.jpg',
+                '',
+                '-',
+                '-'
             ));
 
         $templateRepositoryMock->expects($this->once())->method("deleteTemplate");
@@ -63,9 +66,7 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
 
         $action = new ilCertificateTemplateDeleteAction(
             $templateRepositoryMock,
-            __DIR__,
             'v5.4.0',
-            $utilHelper,
             $objectHelper
         );
 

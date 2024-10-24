@@ -59,6 +59,8 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
                         true,
                         '/some/where/background.jpg',
                         '/some/where/card_thumb.jpg',
+                        '-',
+                        '-',
                         null
                     ),
                     new ilCertificateTemplate(
@@ -73,6 +75,8 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
                         true,
                         '/some/where/background.jpg',
                         '/some/where/card_thumb.jpg',
+                        '-',
+                        '-',
                         null
                     ),
                     new ilCertificateTemplate(
@@ -87,6 +91,8 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
                         true,
                         '/certificates/default/background.jpg',
                         '/some/where/card_thumb.jpg',
+                        '-',
+                        '-',
                         null
                     )
                 ]
@@ -95,16 +101,6 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
         $templateRepository
             ->expects($this->exactly(3))
             ->method('save');
-
-        $fileSystem = $this->getMockBuilder(\ILIAS\Filesystem\Filesystem::class)
-            ->getMock();
-
-        $fileSystem->method('has')
-            ->willReturn(true);
-
-        $fileSystem
-            ->expects($this->exactly(7))
-            ->method('copy');
 
         $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->getMock();
@@ -120,11 +116,8 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
             $database,
             new ilCertificatePathFactory(),
             $templateRepository,
-            'some/web/directory',
-            $fileSystem,
             $objectHelper,
-            $global_certificate_settings,
-            '/certificates/default/background.jpg'
+            $global_certificate_settings
         );
 
         $oldObject = $this->getMockBuilder(ilObject::class)

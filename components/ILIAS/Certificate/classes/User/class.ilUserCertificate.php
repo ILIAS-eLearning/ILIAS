@@ -26,6 +26,8 @@ use ILIAS\Certificate\ValueObject\CertificateId;
 class ilUserCertificate
 {
     private readonly int $validUntil;
+    private readonly ?string $backgroundImageIdentification;
+    private readonly ?string $thumbnailImageIdentification;
     private readonly ?string $backgroundImagePath;
     private readonly ?string $thumbnailImagePath;
 
@@ -45,11 +47,15 @@ class ilUserCertificate
         private readonly CertificateId $certificate_id,
         ?string $backgroundImagePath = null,
         ?string $thumbnailImagePath = null,
+        ?string $backgroundImageIdentification = null,
+        ?string $thumbnailImageIdentification = null,
         private ?int $id = null
     ) {
         $this->validUntil = (int) $validUntil;
         $this->backgroundImagePath = (string) $backgroundImagePath;
         $this->thumbnailImagePath = (string) $thumbnailImagePath;
+        $this->backgroundImageIdentification = (string) $backgroundImageIdentification;
+        $this->thumbnailImageIdentification = (string) $thumbnailImageIdentification;
     }
 
     public function withId(int $id): self
@@ -133,14 +139,40 @@ class ilUserCertificate
         return $this->id;
     }
 
-    public function getBackgroundImagePath(): ?string
+    public function getBackgroundImagePath(): string
     {
         return $this->backgroundImagePath;
+    }
+
+    public function getBackgroundImageIdentification(): string
+    {
+        return $this->backgroundImageIdentification;
+    }
+
+    public function getCurrentBackgroundImageUsed(): string
+    {
+        if ($this->getBackgroundImageIdentification() === '' || $this->getBackgroundImageIdentification() === '-') {
+            return $this->getBackgroundImagePath();
+        }
+        return $this->getBackgroundImageIdentification();
     }
 
     public function getThumbnailImagePath(): string
     {
         return $this->thumbnailImagePath;
+    }
+
+    public function getThumbnailImageIdentification(): string
+    {
+        return $this->thumbnailImageIdentification;
+    }
+
+    public function getCurrentThumbnailImageUsed(): string
+    {
+        if ($this->getThumbnailImageIdentification() === '' || $this->getThumbnailImageIdentification() === '-') {
+            return $this->getThumbnailImagePath();
+        }
+        return $this->getThumbnailImageIdentification();
     }
 
     public function getCertificateId(): CertificateId
