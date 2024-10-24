@@ -39,7 +39,8 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
 // Modals
 // --------------------------------------------------
 
-.c-modal {
+.c-modal,
+.il-prompt dialog {
 	border: none;
 	background: none;
 	@include box-shadow($il-shadow--large);
@@ -117,7 +118,7 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
   }
 
   // Actual modal
-  .modal-content {
+  .modal-content, .il-prompt dialog {
 	position: relative;
 	background-color: $modal-content-bg;
 	background-clip: padding-box;
@@ -127,6 +128,10 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
 	// @include box-shadow(0 3px 9px rgba(0, 0, 0, .5));
 	// Remove focus outline from opened modal
 	outline: 0;
+  }
+
+  .il-prompt dialog hr {
+	  margin: 0;
   }
 
   // Modal background
@@ -143,12 +148,20 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
 	&.fade.in { @include opacity($modal-backdrop-opacity); }
   }
 
+  .modal-header,
+  .il-prompt__header,
+  .modal-body,
+  .il-prompt__contents,
+  .modal-footer,
+  .il-prompt__buttons {
+	  padding: $modal-title-padding;
+	  @include clearfix;
+  }
+
   // Modal header
   // Top section of the modal w/ title and dismiss
   .modal-header {
-	padding: $modal-title-padding;
 	border-bottom: 1px solid $modal-header-border-color;
-	@include clearfix;
   }
   // Close icon
   .modal-header .close {
@@ -166,7 +179,6 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
   // Where all modal content resides (sibling of .modal-header and .modal-footer)
   .modal-body {
 	position: relative;
-	padding: $modal-inner-padding;
 
 	  .il-standard-form {
 		  .il-standard-form-header + .il-section-input {
@@ -177,7 +189,6 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
 
   // Footer (for actions)
   .modal-footer {
-	padding: $modal-inner-padding;
 	text-align: right; // right align buttons
 	border-top: 1px solid $modal-footer-border-color;
 	@include clearfix; // clear it in case folks use .pull-* classes on buttons
@@ -231,14 +242,15 @@ $il-modal-dark-carousel-color: $il-main-bg !default;
 	// end of section based on bootstrap 3
 
 // modal sizes responsive and variants
-.c-modal {
+.c-modal, .il-prompt {
 	@include on-screen-size(small) {
 		margin: 0;
 		padding: 0;
 		max-width: 100vw;
 		max-width: 100svw;
 	}
-	.modal-dialog {
+	.modal-dialog,
+	dialog {
 		width: 70vw;
 		width: 70svw;
 		&.modal-sm {
