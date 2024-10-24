@@ -436,7 +436,7 @@ class ilOpenIdConnectSettingsGUI
         return $select;
     }
 
-    protected function profile(ilPropertyFormGUI $form = null): void
+    private function profile(ilPropertyFormGUI $form = null): void
     {
         $this->checkAccess('read');
         $this->chooseMapping();
@@ -534,7 +534,7 @@ class ilOpenIdConnectSettingsGUI
         return $ui_container;
     }
 
-    protected function saveScopes(): void
+    private function saveScopes(): void
     {
         $this->checkAccess('write');
         $validation = false;
@@ -593,7 +593,7 @@ class ilOpenIdConnectSettingsGUI
     /**
      * @param array<string, string> $scopes
      */
-    protected function validateDiscoveryUrl(int $type, ?string $url, array $scopes): bool
+    private function validateDiscoveryUrl(int $type, ?string $url, array $scopes): bool
     {
         try {
             switch ($type) {
@@ -670,9 +670,6 @@ class ilOpenIdConnectSettingsGUI
         $this->ctrl->redirect($this, self::STAB_PROFILE);
     }
 
-    /**
-     * @throws ilCtrlException
-     */
     private function updateProfileMappingFieldValue(string $field): void
     {
         $form = $this->initUserMappingForm();
@@ -698,7 +695,7 @@ class ilOpenIdConnectSettingsGUI
         }
     }
 
-    protected function roles(ilPropertyFormGUI $form = null): void
+    private function roles(ilPropertyFormGUI $form = null): void
     {
         $this->checkAccess('read');
         $this->setSubTabs(self::STAB_ROLES);
@@ -818,7 +815,7 @@ class ilOpenIdConnectSettingsGUI
         $this->tabs->activateSubTab($active_tab);
     }
 
-    public function chooseMapping(): void
+    private function chooseMapping(): void
     {
         $this->showInfoMessage();
         $this->setSubTabs(self::STAB_PROFILE);
@@ -830,7 +827,7 @@ class ilOpenIdConnectSettingsGUI
         $this->initAttributeMapping();
     }
 
-    private function showInfoMessage()
+    private function showInfoMessage(): void
     {
         $url_text = $this->lng->txt('auth_oidc_here');
 
@@ -873,9 +870,6 @@ class ilOpenIdConnectSettingsGUI
         $this->userMapping();
     }
 
-    /**
-     * @throws ilCtrlException
-     */
     private function initUserMappingForm(): Standard
     {
         $ui_container = [];
@@ -920,7 +914,7 @@ class ilOpenIdConnectSettingsGUI
         return $ui_container;
     }
 
-    protected function buildUserMappingInputForUserData(string $lang, string $mapping, array $ui_container): array
+    private function buildUserMappingInputForUserData(string $lang, string $mapping, array $ui_container): array
     {
         $value = $this->settings->getProfileMappingFieldValue($mapping);
         $update = $this->settings->getProfileMappingFieldUpdate($mapping);
