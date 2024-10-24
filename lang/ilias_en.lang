@@ -599,6 +599,7 @@ assessment#:#correct_answers#:#Correct Answers:
 assessment#:#counter#:#Counter
 assessment#:#create_gaps#:#Create and Refresh Gaps
 assessment#:#create_new#:#Create New
+assessment#:#created#:#Created
 assessment#:#customstyle#:#Custom Style
 assessment#:#dashboard_tab#:#Participants
 assessment#:#date_time#:#Date and Time
@@ -1240,6 +1241,8 @@ assessment#:#ta_resulttable_vc_mode_aria#:#switch question mode
 assessment#:#tab_nest_answers#:#Nesting
 assessment#:#tax_filter#:#Taxonomy
 assessment#:#tax_filter_notax#:#Questions without assigned Taxonomy
+assessment#:#taxonomy_node_title#:#Taxonomy Node Title
+assessment#:#taxonomy_title#:#Taxonomy Title
 assessment#:#term#:#Term
 assessment#:#term_image#:#Term Image
 assessment#:#term_text#:#Term Text
@@ -1263,6 +1266,7 @@ assessment#:#test_question_set_type_random_info#:#Each test participant will see
 assessment#:#test_results#:#Summary Test Results
 assessment#:#test_scoring#:#Scoring Options
 assessment#:#test_template_reset#:#The template has been removed.
+assessment#:#test_title#:#Test Title
 assessment#:#test_using_template#:#This test uses the template %s. If you do not want to use a template and have access to all settings, please click here: %s.
 assessment#:#test_using_template_link#:#Do not use template anymore
 assessment#:#text_correct#:#Correct Text
@@ -1513,6 +1517,7 @@ assessment#:#tst_input_dynamic_question_set_question_ordering_by_date#:#Order Qu
 assessment#:#tst_input_dynamic_question_set_question_ordering_by_tax#:#Order Questions by Taxonomy
 assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Source Question Pool
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Provide Taxonomy Filter
+assessment#:#tst_insert_in_test#:#Insert in Test
 assessment#:#tst_insert_missing_question#:#Please select at least one question to insert it into the test!
 assessment#:#tst_insert_questions#:#Are you sure you want to insert the following question(s) to the test?
 assessment#:#tst_insert_questions_and_results#:#This test was already executed by %s user(s). Inserting questions to this test will remove all test results of these users. Are you sure you want to insert the following question(s) to the test?
@@ -2014,6 +2019,7 @@ assessment#:#unit_placeholder#:#** New Unit **
 assessment#:#units#:#Units
 assessment#:#unlimited#:#unlimited
 assessment#:#unlock#:#Unlock
+assessment#:#updated#:#Updated
 assessment#:#uploaded_material#:#Uploaded Material
 assessment#:#use_previous_solution#:#Use Previous Solution
 assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to confirm the adoption of the solution, if you like to use it without any change.

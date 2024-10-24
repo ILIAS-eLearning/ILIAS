@@ -599,6 +599,7 @@ assessment#:#correct_answers#:#Richtige Antworten:
 assessment#:#counter#:#Zähler
 assessment#:#create_gaps#:#Lücken erzeugen und aktualisieren
 assessment#:#create_new#:#Erstelle neue
+assessment#:#created#:#Erstellt
 assessment#:#customstyle#:#Eigenes Stylesheet
 assessment#:#dashboard_tab#:#Teilnehmer
 assessment#:#date_time#:#Datum und Uhrzeit
@@ -1240,6 +1241,8 @@ assessment#:#ta_resulttable_vc_mode_aria#:#Anzeigeoptionen für Fragen
 assessment#:#tab_nest_answers#:#Einrückung
 assessment#:#tax_filter#:#Taxonomie
 assessment#:#tax_filter_notax#:#Fragen ohne zugeordnete Taxonomie
+assessment#:#taxonomy_node_title#:#Taxonomie Knoten Titel
+assessment#:#taxonomy_title#:#Taxonomie Titel
 assessment#:#term#:#Term
 assessment#:#term_image#:#Bild
 assessment#:#term_text#:#Text
@@ -1263,6 +1266,7 @@ assessment#:#test_question_set_type_random_info#:#Jedem Teilnehmenden werden unt
 assessment#:#test_results#:#Bekanntgabe des Testergebnisses
 assessment#:#test_scoring#:#Bewertung des Tests
 assessment#:#test_template_reset#:#Die Vorlage wurde entfernt.
+assessment#:#test_title#:#Test Titel
 assessment#:#test_using_template#:#Dieser Test verwendet die Vorlage %s. Wenn Sie keine Vorlage und alle Einstellungen verwenden wollen, klicken Sie bitte hier: %s.
 assessment#:#test_using_template_link#:#Vorlage nicht mehr verwenden
 assessment#:#text_correct#:#Korrekter Text
@@ -1513,6 +1517,7 @@ assessment#:#tst_input_dynamic_question_set_question_ordering_by_date#:#Ordne Fr
 assessment#:#tst_input_dynamic_question_set_question_ordering_by_tax#:#Ordne Fragen nach Taxonomieknoten
 assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Fragenpool
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Zeige Taxonomiefilter
+assessment#:#tst_insert_in_test#:#In Test einfügen
 assessment#:#tst_insert_missing_question#:#Bitte wählen Sie mindestens eine Frage aus, die Sie in dem Test hinzufügen wollen!
 assessment#:#tst_insert_questions#:#Sind Sie sicher, dass Sie die folgenden Fragen dem Test hinzufügen wollen?
 assessment#:#tst_insert_questions_and_results#:#Dieser Test wurde bereits von %s Benutzern durchgeführt. Das Hinzufügen von Fragen wird dazu führen, dass alle bestehenden Testergebnisse dieses Tests gelöscht werden! Sind Sie sicher, dass Sie die folgenden Fragen hinzufügen wollen?
@@ -2014,6 +2019,7 @@ assessment#:#unit_placeholder#:#** Neue Einheit **
 assessment#:#units#:#Einheiten
 assessment#:#unlimited#:#unbegrenzt
 assessment#:#unlock#:#Entsperren
+assessment#:#updated#:#Aktualisiert
 assessment#:#uploaded_material#:#Hochgeladene Materialien
 assessment#:#use_previous_solution#:#Verwende vorherige Lösung
 assessment#:#use_previous_solution_advice#:#Die angezeigte Lösung wurde vormals von Ihnen abgegeben. Sie müssen die Übernahme dieser Lösung unterhalb der Frage bestätigen, falls Sie die Lösung ohne Änderungen übernehmen wollen.
