@@ -20,22 +20,22 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\File\XML\Export;
 
-use ILIAS\Export\ImportHandler\I\File\XML\HandlerInterface as ilXMLFileHandlerInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Tree\HandlerInterface as ilImportHandlerParserNodeInfoTreeInterface;
-use ILIAS\Export\ImportHandler\I\Path\HandlerInterface as ilImportHandlerPathInterface;
-use ILIAS\Export\ImportHandler\I\Validation\Set\CollectionInterface as ilFileValidationSetCollectionInterface;
-use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ilImportStatusCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\HandlerInterface as XMLFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Tree\HandlerInterface as ParserNodeInfoTreeInterface;
+use ILIAS\Export\ImportHandler\I\Path\HandlerInterface as PathInterface;
+use ILIAS\Export\ImportHandler\I\Validation\Set\CollectionInterface as FileValidationSetCollectionInterface;
+use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ImportStatusCollectionInterface;
 use SplFileInfo;
 
-interface HandlerInterface extends ilXMLFileHandlerInterface
+interface HandlerInterface extends XMLFileHandlerInterface
 {
-    public function getValidationSets(): ilFileValidationSetCollectionInterface;
+    public function getValidationSets(): FileValidationSetCollectionInterface;
 
-    public function buildValidationSets(): ilImportStatusCollectionInterface;
+    public function buildValidationSets(): ImportStatusCollectionInterface;
 
-    public function getPathToComponentRootNodes(): ilImportHandlerPathInterface;
+    public function getPathToComponentRootNodes(): PathInterface;
 
-    public function getILIASPath(ilImportHandlerParserNodeInfoTreeInterface $component_tree): string;
+    public function getILIASPath(ParserNodeInfoTreeInterface $component_tree): string;
 
     public function withFileInfo(SplFileInfo $file_info): HandlerInterface;
 

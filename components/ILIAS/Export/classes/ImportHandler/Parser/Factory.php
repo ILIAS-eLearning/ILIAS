@@ -20,38 +20,38 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\Parser;
 
-use ILIAS\Export\ImportHandler\I\FactoryInterface as ilImportHandlerFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Parser\DOM\FactoryInterface as ilDOMParserFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Parser\FactoryInterface as ilParserFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\FactoryInterface as ilImportHandlerParserNodeInfoFactoryInterface;
-use ILIAS\Export\ImportHandler\Parser\DOM\Factory as ilDOMParserFactory;
-use ILIAS\Export\ImportHandler\Parser\NodeInfo\Factory as ilImportHandlerParserNodeInfoFactory;
+use ILIAS\Export\ImportHandler\I\FactoryInterface as ImportHandlerFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\DOM\FactoryInterface as DOMParserFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\FactoryInterface as ParserFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\FactoryInterface as ParserNodeInfoFactoryInterface;
+use ILIAS\Export\ImportHandler\Parser\DOM\Factory as DOMParserFactory;
+use ILIAS\Export\ImportHandler\Parser\NodeInfo\Factory as ParserNodeInfoFactory;
 use ilLogger;
 
-class Factory implements ilParserFactoryInterface
+class Factory implements ParserFactoryInterface
 {
-    protected ilImportHandlerFactoryInterface $import_handler;
+    protected ImportHandlerFactoryInterface $import_handler;
     protected ilLogger $logger;
 
     public function __construct(
-        ilImportHandlerFactoryInterface $import_handler,
+        ImportHandlerFactoryInterface $import_handler,
         ilLogger $logger
     ) {
         $this->import_handler = $import_handler;
         $this->logger = $logger;
     }
 
-    public function DOM(): ilDOMParserFactoryInterface
+    public function DOM(): DOMParserFactoryInterface
     {
-        return new ilDOMParserFactory(
+        return new DOMParserFactory(
             $this->import_handler,
             $this->logger
         );
     }
 
-    public function nodeInfo(): ilImportHandlerParserNodeInfoFactoryInterface
+    public function nodeInfo(): ParserNodeInfoFactoryInterface
     {
-        return new ilImportHandlerParserNodeInfoFactory(
+        return new ParserNodeInfoFactory(
             $this->import_handler,
             $this->logger
         );

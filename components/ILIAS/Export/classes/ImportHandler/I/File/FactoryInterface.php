@@ -20,15 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\File;
 
-use ILIAS\Export\ImportHandler\I\File\Namespace\FactoryInterface as ilFileNamespaceFactoryInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\FactoryInterface as ilXMLFileFactoryInterface;
-use ILIAS\Export\ImportHandler\I\File\XSD\FactoryInterface as ilXSDFileFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\Namespace\FactoryInterface as FileNamespaceFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\FactoryInterface as XMLFileFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XSD\FactoryInterface as XSDFileFactoryInterface;
 
 interface FactoryInterface
 {
-    public function xml(): ilXMLFileFactoryInterface;
+    public function xml(): XMLFileFactoryInterface;
 
-    public function xsd(): ilXSDFileFactoryInterface;
+    public function xsd(): XSDFileFactoryInterface;
 
-    public function namespace(): ilFileNamespaceFactoryInterface;
+    public function namespace(): FileNamespaceFactoryInterface;
 }

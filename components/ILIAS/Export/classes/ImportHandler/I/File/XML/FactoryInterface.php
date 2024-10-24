@@ -20,18 +20,18 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\File\XML;
 
-use ILIAS\Export\ImportHandler\I\File\XML\CollectionInterface as ilImportHandlerXMLFileCollectionInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\Export\FactoryInterface as ilImportHandlerXMLExportFileFactoryInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\HandlerInterface as ilImportHandlerXMLFileInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\Manifest\FactoryInterface as ilImportHandlerManifestFileFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\CollectionInterface as XMLFileCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\FactoryInterface as XMLExportFileFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\HandlerInterface as XMLFileInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Manifest\FactoryInterface as ManifestFileFactoryInterface;
 
 interface FactoryInterface
 {
-    public function handler(): ilImportHandlerXMLFileInterface;
+    public function handler(): XMLFileInterface;
 
-    public function collection(): ilImportHandlerXMLFileCollectionInterface;
+    public function collection(): XMLFileCollectionInterface;
 
-    public function manifest(): ilImportHandlerManifestFileFactoryInterface;
+    public function manifest(): ManifestFileFactoryInterface;
 
-    public function export(): ilImportHandlerXMLExportFileFactoryInterface;
+    public function export(): XMLExportFileFactoryInterface;
 }

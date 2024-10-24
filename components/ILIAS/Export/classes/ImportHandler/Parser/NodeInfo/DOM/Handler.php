@@ -22,22 +22,22 @@ namespace ILIAS\Export\ImportHandler\Parser\NodeInfo\DOM;
 
 use DOMAttr;
 use DOMNode;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\CollectionInterface as ilImportHandlerParserNodeInfoCollectionInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\DOM\HandlerInterface as ilImportHandlerParserNodeInfoilDOMNodeInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\FactoryInterface as ilImportHandlerParserNodeInfoFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\CollectionInterface as ParserNodeInfoCollectionInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\DOM\HandlerInterface as ParserNodeInfoilDOMNodeInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\FactoryInterface as ParserNodeInfoFactoryInterface;
 use ilImportException;
 
-class Handler implements ilImportHandlerParserNodeInfoilDOMNodeInterface
+class Handler implements ParserNodeInfoilDOMNodeInterface
 {
     /**
      * @var array<string, string>
      */
     protected array $attributes;
     protected DOMNode $node;
-    protected ilImportHandlerParserNodeInfoFactoryInterface $info;
+    protected ParserNodeInfoFactoryInterface $info;
 
     public function __construct(
-        ilImportHandlerParserNodeInfoFactoryInterface $info
+        ParserNodeInfoFactoryInterface $info
     ) {
         $this->attributes = [];
         $this->info = $info;
@@ -80,7 +80,7 @@ class Handler implements ilImportHandlerParserNodeInfoilDOMNodeInterface
         return $this->attributes[$attribute_name];
     }
 
-    public function getChildren(): ilImportHandlerParserNodeInfoCollectionInterface
+    public function getChildren(): ParserNodeInfoCollectionInterface
     {
         $collection = $this->info->collection();
         $children = $this->node->childNodes;

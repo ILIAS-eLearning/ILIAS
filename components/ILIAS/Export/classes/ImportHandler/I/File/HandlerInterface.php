@@ -20,15 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\File;
 
-use ILIAS\Export\ImportHandler\I\File\Namespace\CollectionInterface as ilFileNamespaceCollectionInterface;
-use ILIAS\Export\ImportHandler\I\File\Namespace\HandlerInterface as ilFileNamespaceHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\Namespace\CollectionInterface as FileNamespaceCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\Namespace\HandlerInterface as FileNamespaceHandlerInterface;
 use SplFileInfo;
 
 interface HandlerInterface
 {
-    public function withAdditionalNamespace(ilFileNamespaceHandlerInterface $namespace_handler): HandlerInterface;
+    public function withAdditionalNamespace(FileNamespaceHandlerInterface $namespace_handler): HandlerInterface;
 
-    public function getNamespaces(): ilFileNamespaceCollectionInterface;
+    public function getNamespaces(): FileNamespaceCollectionInterface;
 
     public function withFileInfo(SplFileInfo $file_info): HandlerInterface;
 

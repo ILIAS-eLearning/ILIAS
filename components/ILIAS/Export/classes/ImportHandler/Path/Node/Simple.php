@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\Path\Node;
 
-use ILIAS\Export\ImportHandler\I\Path\Node\SimpleInterface as ilSimpleFilePathNodeInterface;
+use ILIAS\Export\ImportHandler\I\Path\Node\SimpleInterface as SimpleFilePathNodeInterface;
 
-class Simple implements ilSimpleFilePathNodeInterface
+class Simple implements SimpleFilePathNodeInterface
 {
     protected string $node_name;
 
@@ -31,7 +31,7 @@ class Simple implements ilSimpleFilePathNodeInterface
         $this->node_name = '';
     }
 
-    public function withName(string $node_name): ilSimpleFilePathNodeInterface
+    public function withName(string $node_name): SimpleFilePathNodeInterface
     {
         $clone = clone $this;
         $clone->node_name = $node_name;

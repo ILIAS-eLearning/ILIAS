@@ -21,21 +21,21 @@ declare(strict_types=1);
 namespace ILIAS\Export\ImportHandler\I\File\XML\Manifest;
 
 use ILIAS\Export\ImportHandler\File\XML\Manifest\ExportObjectType;
-use ILIAS\Export\ImportHandler\I\File\XML\Export\CollectionInterface as ilXMLExportFileCollectionInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\HandlerInterface as ilXMLFileHandlerInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\Manifest\HandlerCollectionInterface as ilManifestXMLFileHandlerCollectionInterface;
-use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ilImportStatusHandlerCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\CollectionInterface as XMLExportFileCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\HandlerInterface as XMLFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Manifest\HandlerCollectionInterface as ManifestXMLFileHandlerCollectionInterface;
+use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ImportStatusHandlerCollectionInterface;
 use SplFileInfo;
 
-interface HandlerInterface extends ilXMLFileHandlerInterface
+interface HandlerInterface extends XMLFileHandlerInterface
 {
     public function withFileInfo(SplFileInfo $file_info): HandlerInterface;
 
     public function getExportObjectType(): ExportObjectType;
 
-    public function validateManifestXML(): ilImportStatusHandlerCollectionInterface;
+    public function validateManifestXML(): ImportStatusHandlerCollectionInterface;
 
-    public function findXMLFileHandlers(): ilXMLExportFileCollectionInterface;
+    public function findXMLFileHandlers(): XMLExportFileCollectionInterface;
 
-    public function findManifestXMLFileHandlers(): ilManifestXMLFileHandlerCollectionInterface;
+    public function findManifestXMLFileHandlers(): ManifestXMLFileHandlerCollectionInterface;
 }

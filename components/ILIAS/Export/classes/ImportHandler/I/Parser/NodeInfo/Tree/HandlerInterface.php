@@ -20,31 +20,31 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Tree;
 
-use ILIAS\Export\ImportHandler\I\File\XML\HandlerInterface as ilXMLFileHandlerInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Attribute\CollectionInterface as ilXMLFileNodeInfoAttributePairCollectionInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\CollectionInterface as ilXMLFileNodeInfoCollectionInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\HandlerInterface as ilXMLFileNodeInfoInterface;
-use ILIAS\Export\ImportHandler\I\Path\HandlerInterface as ilImportHandlerPathInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\HandlerInterface as XMLFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Attribute\CollectionInterface as XMLFileNodeInfoAttributePairCollectionInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\CollectionInterface as XMLFileNodeInfoCollectionInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\HandlerInterface as XMLFileNodeInfoInterface;
+use ILIAS\Export\ImportHandler\I\Path\HandlerInterface as PathInterface;
 
 interface HandlerInterface
 {
-    public function withRoot(ilXMLFileNodeInfoInterface $node_info): HandlerInterface;
+    public function withRoot(XMLFileNodeInfoInterface $node_info): HandlerInterface;
 
     public function withRootInFile(
-        ilXMLFileHandlerInterface $xml_handler,
-        ilImportHandlerPathInterface $path_handler
+        XMLFileHandlerInterface $xml_handler,
+        PathInterface $path_handler
     ): HandlerInterface;
 
     public function getNodesWith(
-        ilXMLFileNodeInfoAttributePairCollectionInterface $attribute_pairs
-    ): ilXMLFileNodeInfoCollectionInterface;
+        XMLFileNodeInfoAttributePairCollectionInterface $attribute_pairs
+    ): XMLFileNodeInfoCollectionInterface;
 
     public function getFirstNodeWith(
-        ilXMLFileNodeInfoAttributePairCollectionInterface $attribute_pairs
-    ): ilXMLFileNodeInfoInterface|null;
+        XMLFileNodeInfoAttributePairCollectionInterface $attribute_pairs
+    ): XMLFileNodeInfoInterface|null;
 
     public function getAttributePath(
-        ilXMLFileNodeInfoInterface $startNode,
+        XMLFileNodeInfoInterface $startNode,
         string $attribute_name,
         string $path_separator,
         bool $skip_nodes_without_attribute = true

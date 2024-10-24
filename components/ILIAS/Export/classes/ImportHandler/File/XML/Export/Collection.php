@@ -20,13 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\File\XML\Export;
 
-use ILIAS\Export\ImportHandler\I\File\XML\Export\CollectionInterface as ilXMLExportFileCollectionInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\Export\HandlerInterface as ilXMLExportFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\CollectionInterface as XMLExportFileCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\HandlerInterface as XMLExportFileHandlerInterface;
 
-class Collection implements ilXMLExportFileCollectionInterface
+class Collection implements XMLExportFileCollectionInterface
 {
     /**
-     * @var ilXMLExportFileHandlerInterface[]
+     * @var XMLExportFileHandlerInterface[]
      */
     protected array $elements;
     protected int $index;
@@ -37,14 +37,14 @@ class Collection implements ilXMLExportFileCollectionInterface
         $this->index = 0;
     }
 
-    public function withElement(ilXMLExportFileHandlerInterface $element): ilXMLExportFileCollectionInterface
+    public function withElement(XMLExportFileHandlerInterface $element): XMLExportFileCollectionInterface
     {
         $clone = clone $this;
         $clone->elements[] = $element;
         return $clone;
     }
 
-    public function withMerged(ilXMLExportFileCollectionInterface $other): ilXMLExportFileCollectionInterface
+    public function withMerged(XMLExportFileCollectionInterface $other): XMLExportFileCollectionInterface
     {
         $clone = clone $this;
         $clone->elements = array_merge($this->toArray(), $other->toArray());
@@ -61,7 +61,7 @@ class Collection implements ilXMLExportFileCollectionInterface
         return $this->elements;
     }
 
-    public function current(): ilXMLExportFileHandlerInterface
+    public function current(): XMLExportFileHandlerInterface
     {
         return $this->elements[$this->index];
     }

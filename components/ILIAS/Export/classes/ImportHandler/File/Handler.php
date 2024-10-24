@@ -20,38 +20,38 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\File;
 
-use ILIAS\Export\ImportHandler\I\File\HandlerInterface as ilFileHandlerInterface;
-use ILIAS\Export\ImportHandler\I\File\Namespace\CollectionInterface as ilFileNamespaceCollectionInterface;
-use ILIAS\Export\ImportHandler\I\File\Namespace\FactoryInterface as ilFileNamespaceFactoryInterface;
-use ILIAS\Export\ImportHandler\I\File\Namespace\HandlerInterface as ilFileNamespaceHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\HandlerInterface as FileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\Namespace\CollectionInterface as FileNamespaceCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\Namespace\FactoryInterface as FileNamespaceFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\Namespace\HandlerInterface as FileNamespaceHandlerInterface;
 use SplFileInfo;
 
-class Handler implements ilFileHandlerInterface
+class Handler implements FileHandlerInterface
 {
     protected SplFileInfo $spl_file_info;
-    protected ilFileNamespaceFactoryInterface $namespace;
-    protected ilFileNamespaceCollectionInterface $namespaces;
+    protected FileNamespaceFactoryInterface $namespace;
+    protected FileNamespaceCollectionInterface $namespaces;
 
     public function __construct(
-        ilFileNamespaceFactoryInterface $namespace
+        FileNamespaceFactoryInterface $namespace
     ) {
         $this->namespace = $namespace;
         $this->namespaces = $namespace->collection();
     }
 
-    public function withAdditionalNamespace(ilFileNamespaceHandlerInterface $namespace_handler): ilFileHandlerInterface
+    public function withAdditionalNamespace(FileNamespaceHandlerInterface $namespace_handler): FileHandlerInterface
     {
         $clone = clone $this;
         $clone->namespaces = $clone->namespaces->withElement($namespace_handler);
         return $clone;
     }
 
-    public function getNamespaces(): ilFileNamespaceCollectionInterface
+    public function getNamespaces(): FileNamespaceCollectionInterface
     {
         return $this->namespaces;
     }
 
-    public function withFileInfo(SplFileInfo $file_info): ilFileHandlerInterface
+    public function withFileInfo(SplFileInfo $file_info): FileHandlerInterface
     {
         $clone = clone $this;
         $clone->spl_file_info = $file_info;
@@ -70,7 +70,7 @@ class Handler implements ilFileHandlerInterface
             : $this->spl_file_info->getPath() . DIRECTORY_SEPARATOR . $this->spl_file_info->getFilename();
     }
 
-    public function getSubPathToDirBeginningAtPathEnd(string $dir_name): ilFileHandlerInterface
+    public function getSubPathToDirBeginningAtPathEnd(string $dir_name): FileHandlerInterface
     {
         $parts = explode(DIRECTORY_SEPARATOR, $this->getFilePath());
         $trimmed_str = '';
@@ -87,7 +87,7 @@ class Handler implements ilFileHandlerInterface
         return $clone;
     }
 
-    public function getSubPathToDirBeginningAtPathStart(string $dir_name): ilFileHandlerInterface
+    public function getSubPathToDirBeginningAtPathStart(string $dir_name): FileHandlerInterface
     {
         $parts = explode(DIRECTORY_SEPARATOR, $this->getFilePath());
         $trimmed_str = '';

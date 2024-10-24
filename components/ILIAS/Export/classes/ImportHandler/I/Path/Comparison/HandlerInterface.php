@@ -20,11 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\Path\Comparison;
 
-use ILIAS\Export\ImportHandler\Path\Comparison\Operator as ilImportHandlerPathComparisonOperator;
+use ILIAS\Export\ImportHandler\Path\Comparison\Operator as PathComparisonOperator;
 
 interface HandlerInterface
 {
-    public function withOperator(ilImportHandlerPathComparisonOperator $operator): HandlerInterface;
+    public function withOperator(PathComparisonOperator $operator): HandlerInterface;
 
     public function withValue(string $value): HandlerInterface;
 

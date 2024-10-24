@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\Path\Node;
 
-use ILIAS\Export\ImportHandler\I\Path\Node\AnyElementInterface as ilAnyElementFilePathNodeInterface;
+use ILIAS\Export\ImportHandler\I\Path\Node\AnyElementInterface as AnyElementFilePathNodeInterface;
 
-class AnyElement implements ilAnyElementFilePathNodeInterface
+class AnyElement implements AnyElementFilePathNodeInterface
 {
     public function toString(): string
     {

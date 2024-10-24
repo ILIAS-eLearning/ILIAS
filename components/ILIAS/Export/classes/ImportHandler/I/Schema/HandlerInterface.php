@@ -21,33 +21,33 @@ declare(strict_types=1);
 namespace ILIAS\Export\ImportHandler\I\Schema;
 
 use ILIAS\Data\Version;
-use ILIAS\Export\ImportHandler\I\File\XSD\HandlerInterface as ilXSDFileHandlerInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\HandlerInterface as ilImportHandlerXMLFileNodeInfoInterface;
-use ILIAS\Export\ImportHandler\I\Schema\HandlerInterface as ilImportHandlerSchemaInterface;
+use ILIAS\Export\ImportHandler\I\File\XSD\HandlerInterface as XSDFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\HandlerInterface as XMLFileNodeInfoInterface;
+use ILIAS\Export\ImportHandler\I\Schema\HandlerInterface as SchemaInterface;
 
 interface HandlerInterface
 {
-    public function getXSDFileHandlerByVersionOrLatest(): null|ilXSDFileHandlerInterface;
+    public function getXSDFileHandlerByVersionOrLatest(): null|XSDFileHandlerInterface;
 
-    public function getXSDFileHandlerLatest(): null|ilXSDFileHandlerInterface;
+    public function getXSDFileHandlerLatest(): null|XSDFileHandlerInterface;
 
     public function doesXSDFileWithMatchingVersionExist(): bool;
 
     public function withInformationOf(
-        ilImportHandlerXMLFileNodeInfoInterface $xml_file_node_info
-    ): ilImportHandlerSchemaInterface;
+        XMLFileNodeInfoInterface $xml_file_node_info
+    ): SchemaInterface;
 
     public function withType(
         string $type
-    ): ilImportHandlerSchemaInterface;
+    ): SchemaInterface;
 
     public function withSubType(
         string $subtype
-    ): ilImportHandlerSchemaInterface;
+    ): SchemaInterface;
 
     public function withVersion(
         Version $version
-    ): ilImportHandlerSchemaInterface;
+    ): SchemaInterface;
 
     public function getVersion(): null|Version;
 

@@ -20,27 +20,27 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\File\XML\Export;
 
-use ILIAS\Export\ImportHandler\File\XML\Export\Collection as ilXMLExportFileHandlerCollection;
-use ILIAS\Export\ImportHandler\File\XML\Export\Component\Factory as ilComponentXMLExportFileFactory;
-use ILIAS\Export\ImportHandler\File\XML\Export\DataSet\Factory as ilDataSetXMLExportFileFactory;
-use ILIAS\Export\ImportHandler\I\FactoryInterface as ilImportHandlerFactoryInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\Export\CollectionInterface as ilXMLExportFileCollectionInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\Export\Component\FactoryInterface as ilComponentXMLExportFileHandlerFactoryInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\Export\DataSet\FactoryInterface as ilDataSetXMLExportFileHandlerFactoryInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\Export\FactoryInterface as ilXMLExportFileFactoryInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\Export\HandlerInterface as ilXMLExportFileHandlerInterface;
+use ILIAS\Export\ImportHandler\File\XML\Export\Collection as XMLExportFileHandlerCollection;
+use ILIAS\Export\ImportHandler\File\XML\Export\Component\Factory as ComponentXMLExportFileFactory;
+use ILIAS\Export\ImportHandler\File\XML\Export\DataSet\Factory as DataSetXMLExportFileFactory;
+use ILIAS\Export\ImportHandler\I\FactoryInterface as ImportHandlerFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\CollectionInterface as XMLExportFileCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\Component\FactoryInterface as ComponentXMLExportFileHandlerFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\DataSet\FactoryInterface as DataSetXMLExportFileHandlerFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\FactoryInterface as XMLExportFileFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\HandlerInterface as XMLExportFileHandlerInterface;
 use ilLanguage;
 use ilLogger;
 use SplFileInfo;
 
-class Factory implements ilXMLExportFileFactoryInterface
+class Factory implements XMLExportFileFactoryInterface
 {
-    protected ilImportHandlerFactoryInterface $import_handler;
+    protected ImportHandlerFactoryInterface $import_handler;
     protected ilLogger $logger;
     protected ilLanguage $lng;
 
     public function __construct(
-        ilImportHandlerFactoryInterface $import_handler,
+        ImportHandlerFactoryInterface $import_handler,
         ilLogger $logger,
         ilLanguage $lng
     ) {
@@ -49,7 +49,7 @@ class Factory implements ilXMLExportFileFactoryInterface
         $this->import_handler = $import_handler;
     }
 
-    public function withFileInfo(SplFileInfo $file_info): ilXMLExportFileHandlerInterface
+    public function withFileInfo(SplFileInfo $file_info): XMLExportFileHandlerInterface
     {
         $comp_handler = $this->component()->handler()->withFileInfo($file_info);
         $dataset_handler = $this->dataSet()->handler()->withFileInfo($file_info);
@@ -59,23 +59,23 @@ class Factory implements ilXMLExportFileFactoryInterface
         return $comp_handler;
     }
 
-    public function collection(): ilXMLExportFileCollectionInterface
+    public function collection(): XMLExportFileCollectionInterface
     {
-        return new ilXMLExportFileHandlerCollection();
+        return new XMLExportFileHandlerCollection();
     }
 
-    public function component(): ilComponentXMLExportFileHandlerFactoryInterface
+    public function component(): ComponentXMLExportFileHandlerFactoryInterface
     {
-        return new ilComponentXMLExportFileFactory(
+        return new ComponentXMLExportFileFactory(
             $this->import_handler,
             $this->logger,
             $this->lng
         );
     }
 
-    public function dataSet(): ilDataSetXMLExportFileHandlerFactoryInterface
+    public function dataSet(): DataSetXMLExportFileHandlerFactoryInterface
     {
-        return new ilDataSetXMLExportFileFactory(
+        return new DataSetXMLExportFileFactory(
             $this->import_handler,
             $this->logger,
             $this->lng

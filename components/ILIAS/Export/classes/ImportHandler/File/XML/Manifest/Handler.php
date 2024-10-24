@@ -20,25 +20,25 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\File\XML\Manifest;
 
-use ILIAS\Export\ImportHandler\File\XML\Handler as ilImportHandlerXMLFileHandler;
-use ILIAS\Export\ImportHandler\I\File\Namespace\FactoryInterface as ilImportHandlerFileNamespaceFactoryInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\Export\CollectionInterface as ilImportHandlerXMLExportFileCollectionInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\FactoryInterface as ilImportHandlerXMLFileFactoryInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\Manifest\HandlerCollectionInterface as ilImportHandlerManifestXMLFileCollectionInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\Manifest\HandlerInterface as ilImportHandlerXMLFileManifestInterface;
-use ILIAS\Export\ImportHandler\I\File\XSD\FactoryInterface as ilImportHandlerXSDFileFactoryInterface;
-use ILIAS\Export\ImportHandler\I\File\XSD\HandlerInterface as ilImportHandlerXSDFileInterface;
-use ILIAS\Export\ImportHandler\I\Parser\FactoryInterface as ilImportHandlerParserFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Parser\HandlerInterface as ilImportHandlerParserInterface;
-use ILIAS\Export\ImportHandler\I\Path\FactoryInterface as ilImportHandlerPathFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Schema\Folder\HandlerInterface as ilImportStatusSchemaFolderInterface;
-use ILIAS\Export\ImportHandler\I\Validation\HandlerInterface as ilImportHandlerValidationInterface;
-use ILIAS\Export\ImportStatus\Exception\ilException as ilImportStatusException;
-use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ilImportStatusHandlerCollectionInterface;
-use ILIAS\Export\ImportStatus\I\ilFactoryInterface as ilImportStatusFactoryInterface;
+use ILIAS\Export\ImportHandler\File\XML\Handler as XMLFileHandler;
+use ILIAS\Export\ImportHandler\I\File\Namespace\FactoryInterface as FileNamespaceFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\CollectionInterface as XMLExportFileCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\FactoryInterface as XMLFileFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Manifest\HandlerCollectionInterface as ManifestXMLFileCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Manifest\HandlerInterface as XMLFileManifestInterface;
+use ILIAS\Export\ImportHandler\I\File\XSD\FactoryInterface as XSDFileFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XSD\HandlerInterface as XSDFileInterface;
+use ILIAS\Export\ImportHandler\I\Parser\FactoryInterface as ParserFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\HandlerInterface as ParserInterface;
+use ILIAS\Export\ImportHandler\I\Path\FactoryInterface as PathFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Schema\Folder\HandlerInterface as ImportStatusSchemaFolderInterface;
+use ILIAS\Export\ImportHandler\I\Validation\HandlerInterface as ValidationInterface;
+use ILIAS\Export\ImportStatus\Exception\ilException as ImportStatusException;
+use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ImportStatusHandlerCollectionInterface;
+use ILIAS\Export\ImportStatus\I\ilFactoryInterface as ImportStatusFactoryInterface;
 use SplFileInfo;
 
-class Handler extends ilImportHandlerXMLFileHandler implements ilImportHandlerXMLFileManifestInterface
+class Handler extends XMLFileHandler implements XMLFileManifestInterface
 {
     protected const EXPORT_NODE_NAME = 'Export';
     protected const EXPORT_SET_NODE_NAME = 'ExportSet';
@@ -50,22 +50,22 @@ class Handler extends ilImportHandlerXMLFileHandler implements ilImportHandlerXM
     protected const XSD_TYPE = 'exp';
     protected const XSD_SUB_TYPE = 'manifest';
 
-    protected ilImportHandlerXSDFileInterface $manifest_xsd_handler;
-    protected ilImportHandlerParserFactoryInterface $parser_factory;
-    protected ilImportHandlerParserInterface $parser_handler;
-    protected ilImportHandlerValidationInterface $validation;
-    protected ilImportHandlerPathFactoryInterface $file_path_factory;
-    protected ilImportHandlerXMLFileFactoryInterface $xml_file_factory;
+    protected XSDFileInterface $manifest_xsd_handler;
+    protected ParserFactoryInterface $parser_factory;
+    protected ParserInterface $parser_handler;
+    protected ValidationInterface $validation;
+    protected PathFactoryInterface $file_path_factory;
+    protected XMLFileFactoryInterface $xml_file_factory;
 
     public function __construct(
-        ilImportHandlerFileNamespaceFactoryInterface $namespace_factory,
-        ilImportStatusFactoryInterface $import_status_factory,
-        ilImportHandlerValidationInterface $validation,
-        ilImportHandlerParserFactoryInterface $parser_factory,
-        ilImportHandlerPathFactoryInterface $file_path_factory,
-        ilImportHandlerXMLFileFactoryInterface $xml_file_factory,
-        ilImportHandlerXSDFileFactoryInterface $xsd_file_factory,
-        ilImportStatusSchemaFolderInterface $schema_folder
+        FileNamespaceFactoryInterface $namespace_factory,
+        ImportStatusFactoryInterface $import_status_factory,
+        ValidationInterface $validation,
+        ParserFactoryInterface $parser_factory,
+        PathFactoryInterface $file_path_factory,
+        XMLFileFactoryInterface $xml_file_factory,
+        XSDFileFactoryInterface $xsd_file_factory,
+        ImportStatusSchemaFolderInterface $schema_folder
     ) {
         parent::__construct($namespace_factory, $import_status_factory);
         $this->manifest_xsd_handler = $xsd_file_factory->withFileInfo($schema_folder->getLatest(
@@ -79,7 +79,7 @@ class Handler extends ilImportHandlerXMLFileHandler implements ilImportHandlerXM
     }
 
     /**
-     * @throws ilImportStatusException
+     * @throws ImportStatusException
      */
     public function withFileInfo(SplFileInfo $file_info): Handler
     {
@@ -91,7 +91,7 @@ class Handler extends ilImportHandlerXMLFileHandler implements ilImportHandlerXM
     }
 
     /**
-     * @throws ilImportStatusException
+     * @throws ImportStatusException
      */
     public function getExportObjectType(): ExportObjectType
     {
@@ -118,15 +118,15 @@ class Handler extends ilImportHandlerXMLFileHandler implements ilImportHandlerXM
         return ExportObjectType::NONE;
     }
 
-    public function validateManifestXML(): ilImportStatusHandlerCollectionInterface
+    public function validateManifestXML(): ImportStatusHandlerCollectionInterface
     {
         return $this->validation->validateXMLFile($this, $this->manifest_xsd_handler);
     }
 
     /**
-     * @throws ilImportStatusException
+     * @throws ImportStatusException
      */
-    public function findXMLFileHandlers(): ilImportHandlerXMLExportFileCollectionInterface
+    public function findXMLFileHandlers(): XMLExportFileCollectionInterface
     {
         $type_name = ExportObjectType::toString($this->getExportObjectType());
         $path = $this->file_path_factory->handler()
@@ -150,9 +150,9 @@ class Handler extends ilImportHandlerXMLFileHandler implements ilImportHandlerXM
     }
 
     /**
-     * @throws ilImportStatusException
+     * @throws ImportStatusException
      */
-    public function findManifestXMLFileHandlers(): ilImportHandlerManifestXMLFileCollectionInterface
+    public function findManifestXMLFileHandlers(): ManifestXMLFileCollectionInterface
     {
         $export_obj_type = $this->getExportObjectType();
         $type_name = ExportObjectType::toString($export_obj_type);

@@ -23,33 +23,33 @@ namespace ILIAS\Export\ImportHandler\Parser\DOM;
 use DOMDocument;
 use DOMNode;
 use DOMXPath;
-use ILIAS\Export\ImportHandler\I\File\XML\HandlerInterface as ilXMLFileHandlerInterface;
-use ILIAS\Export\ImportHandler\I\Parser\DOM\HandlerInterface as ilDOMParserHandlerInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\CollectionInterface as ilXMLFileNodeInfoCollectionInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\FactoryInterface as ilXMLFileNodeInfoFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Path\HandlerInterface as ilImportHandlerPathInterface;
-use ILIAS\Export\ImportStatus\Exception\ilException as ilImportStatusException;
+use ILIAS\Export\ImportHandler\I\File\XML\HandlerInterface as XMLFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\Parser\DOM\HandlerInterface as DOMParserHandlerInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\CollectionInterface as XMLFileNodeInfoCollectionInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\FactoryInterface as XMLFileNodeInfoFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Path\HandlerInterface as PathInterface;
+use ILIAS\Export\ImportStatus\Exception\ilException as ImportStatusException;
 use ilLogger;
 
-class Handler implements ilDOMParserHandlerInterface
+class Handler implements DOMParserHandlerInterface
 {
-    protected ilXMLFileHandlerInterface $xml_file_handler;
-    protected ilXMLFileNodeInfoFactoryInterface $info;
+    protected XMLFileHandlerInterface $xml_file_handler;
+    protected XMLFileNodeInfoFactoryInterface $info;
     protected ilLogger $logger;
     protected DOMDocument $dom_doc;
 
     public function __construct(
         ilLogger $logger,
-        ilXMLFileNodeInfoFactoryInterface $info,
+        XMLFileNodeInfoFactoryInterface $info,
     ) {
         $this->logger = $logger;
         $this->info = $info;
     }
 
     /**
-     * @throws ilImportStatusException
+     * @throws ImportStatusException
      */
-    public function withFileHandler(ilXMLFileHandlerInterface $file_handler): ilDOMParserHandlerInterface
+    public function withFileHandler(XMLFileHandlerInterface $file_handler): DOMParserHandlerInterface
     {
         $clone = clone $this;
         $clone->xml_file_handler = $file_handler;
@@ -57,7 +57,7 @@ class Handler implements ilDOMParserHandlerInterface
         return $clone;
     }
 
-    public function getNodeInfoAt(ilImportHandlerPathInterface $path): ilXMLFileNodeInfoCollectionInterface
+    public function getNodeInfoAt(PathInterface $path): XMLFileNodeInfoCollectionInterface
     {
         $dom_xpath = new DOMXPath($this->dom_doc);
         foreach ($this->xml_file_handler->getNamespaces() as $namespace) {

@@ -21,9 +21,9 @@ declare(strict_types=1);
 namespace ILIAS\Export\ImportHandler\Path\Node;
 
 use ILIAS\Export\ImportHandler\I\Path\Comparison\HandlerInterface;
-use ILIAS\Export\ImportHandler\I\Path\Node\IndexInterface as ilIndexFilePathNodeInterface;
+use ILIAS\Export\ImportHandler\I\Path\Node\IndexInterface as IndexFilePathNodeInterface;
 
-class Index implements ilIndexFilePathNodeInterface
+class Index implements IndexFilePathNodeInterface
 {
     protected HandlerInterface $comparison;
     protected int $index;
@@ -35,21 +35,21 @@ class Index implements ilIndexFilePathNodeInterface
         $this->indexing_from_end_enabled = false;
     }
 
-    public function withIndex(int $index): ilIndexFilePathNodeInterface
+    public function withIndex(int $index): IndexFilePathNodeInterface
     {
         $clone = clone $this;
         $clone->index = $index;
         return $clone;
     }
 
-    public function withComparison(HandlerInterface $comparison): ilIndexFilePathNodeInterface
+    public function withComparison(HandlerInterface $comparison): IndexFilePathNodeInterface
     {
         $clone = clone $this;
         $clone->comparison = $comparison;
         return $clone;
     }
 
-    public function withIndexingFromEndEnabled(bool $enabled): ilIndexFilePathNodeInterface
+    public function withIndexingFromEndEnabled(bool $enabled): IndexFilePathNodeInterface
     {
         $clone = clone $this;
         $clone->indexing_from_end_enabled = $enabled;

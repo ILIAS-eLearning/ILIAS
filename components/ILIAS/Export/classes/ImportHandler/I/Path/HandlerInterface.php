@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Export\ImportHandler\I\Path;
 
 use Countable;
-use ILIAS\Export\ImportHandler\I\Path\Node\NodeInterface as ilImportHandlerPathNodeInterface;
+use ILIAS\Export\ImportHandler\I\Path\Node\NodeInterface as PathNodeInterface;
 use Iterator;
 
 interface HandlerInterface extends Iterator, Countable
@@ -29,23 +29,23 @@ interface HandlerInterface extends Iterator, Countable
     public function withStartAtRoot(bool $enabled): HandlerInterface;
 
     public function withNode(
-        ilImportHandlerPathNodeInterface $node
+        PathNodeInterface $node
     ): HandlerInterface;
 
     public function toString(): string;
 
     public function subPath(int $start, ?int $end = null): HandlerInterface;
 
-    public function firstElement(): ilImportHandlerPathNodeInterface|null;
+    public function firstElement(): PathNodeInterface|null;
 
-    public function lastElement(): ilImportHandlerPathNodeInterface|null;
+    public function lastElement(): PathNodeInterface|null;
 
     /**
-     * @return ilImportHandlerPathNodeInterface[]
+     * @return PathNodeInterface[]
      */
     public function toArray(): array;
 
-    public function current(): ilImportHandlerPathNodeInterface;
+    public function current(): PathNodeInterface;
 
     public function next(): void;
 

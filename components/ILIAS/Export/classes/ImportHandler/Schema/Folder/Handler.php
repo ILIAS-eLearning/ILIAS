@@ -22,23 +22,23 @@ namespace ILIAS\Export\ImportHandler\Schema\Folder;
 
 use DirectoryIterator;
 use ILIAS\Data\Version;
-use ILIAS\Export\ImportHandler\I\FactoryInterface as ilImportHandlerFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Schema\Folder\HandlerInterface as ilImportHanlderSchemaFolderInterface;
-use ILIAS\Export\ImportHandler\I\Schema\Info\CollectionInterface as ilImportHandlerSchemaInfoCollectionInterface;
+use ILIAS\Export\ImportHandler\I\FactoryInterface as ImportHandlerFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Schema\Folder\HandlerInterface as SchemaFolderInterface;
+use ILIAS\Export\ImportHandler\I\Schema\Info\CollectionInterface as SchemaInfoCollectionInterface;
 use ilLogger;
 use SplFileInfo;
 
-class Handler implements ilImportHanlderSchemaFolderInterface
+class Handler implements SchemaFolderInterface
 {
     protected const FILE_EXTENSION = 'xsd';
     protected const FILE_PREFIX = 'ilias_';
     protected const SCHEMA_DEFINITION_LOCATION = '../components/ILIAS/Export/xml/SchemaValidation';
-    protected ilImportHandlerFactoryInterface $import_handler;
-    protected ilImportHandlerSchemaInfoCollectionInterface $collection;
+    protected ImportHandlerFactoryInterface $import_handler;
+    protected SchemaInfoCollectionInterface $collection;
     protected ilLogger $logger;
 
     public function __construct(
-        ilImportHandlerFactoryInterface $import_handler,
+        ImportHandlerFactoryInterface $import_handler,
         ilLogger $logger
     ) {
         $this->import_handler = $import_handler;

@@ -20,21 +20,21 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\Validation\Set;
 
-use ILIAS\Export\ImportHandler\I\Validation\Set\CollectionInterface as ilFileValidationSetCollectionInterface;
-use ILIAS\Export\ImportHandler\I\Validation\Set\FactoryInterface as ilFileValidationSetFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Validation\Set\HandlerInterface as ilFileValidationSetInterface;
-use ILIAS\Export\ImportHandler\Validation\Set\Collection as ilFileValidationSetCollection;
-use ILIAS\Export\ImportHandler\Validation\Set\Handler as ilFileValidationSetHandler;
+use ILIAS\Export\ImportHandler\I\Validation\Set\CollectionInterface as FileValidationSetCollectionInterface;
+use ILIAS\Export\ImportHandler\I\Validation\Set\FactoryInterface as FileValidationSetFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Validation\Set\HandlerInterface as FileValidationSetInterface;
+use ILIAS\Export\ImportHandler\Validation\Set\Collection as FileValidationSetCollection;
+use ILIAS\Export\ImportHandler\Validation\Set\Handler as FileValidationSetHandler;
 
-class Factory implements ilFileValidationSetFactoryInterface
+class Factory implements FileValidationSetFactoryInterface
 {
-    public function handler(): ilFileValidationSetInterface
+    public function handler(): FileValidationSetInterface
     {
-        return new ilFileValidationSetHandler();
+        return new FileValidationSetHandler();
     }
 
-    public function collection(): ilFileValidationSetCollectionInterface
+    public function collection(): FileValidationSetCollectionInterface
     {
-        return new ilFileValidationSetCollection();
+        return new FileValidationSetCollection();
     }
 }

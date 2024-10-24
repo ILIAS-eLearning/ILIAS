@@ -20,28 +20,28 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\Schema\Folder;
 
-use ILIAS\Export\ImportHandler\I\FactoryInterface as ilImportHandlerFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Schema\Folder\FactoryInterface as ilImportHandlerSchemaFolderFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Schema\Folder\HandlerInterface as ilImportHanlderSchemaFolderInterface;
-use ILIAS\Export\ImportHandler\Schema\Folder\Handler as ilImportHanlderSchemaFolder;
+use ILIAS\Export\ImportHandler\I\FactoryInterface as ImportHandlerFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Schema\Folder\FactoryInterface as SchemaFolderFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Schema\Folder\HandlerInterface as SchemaFolderInterface;
+use ILIAS\Export\ImportHandler\Schema\Folder\Handler as SchemaFolder;
 use ilLogger;
 
-class Factory implements ilImportHandlerSchemaFolderFactoryInterface
+class Factory implements SchemaFolderFactoryInterface
 {
-    protected ilImportHandlerFactoryInterface $import_handler;
+    protected ImportHandlerFactoryInterface $import_handler;
     protected ilLogger $logger;
 
     public function __construct(
-        ilImportHandlerFactoryInterface $import_handler,
+        ImportHandlerFactoryInterface $import_handler,
         ilLogger $logger
     ) {
         $this->import_handler = $import_handler;
         $this->logger = $logger;
     }
 
-    public function handler(): ilImportHanlderSchemaFolderInterface
+    public function handler(): SchemaFolderInterface
     {
-        return new ilImportHanlderSchemaFolder(
+        return new SchemaFolder(
             $this->import_handler,
             $this->logger
         );

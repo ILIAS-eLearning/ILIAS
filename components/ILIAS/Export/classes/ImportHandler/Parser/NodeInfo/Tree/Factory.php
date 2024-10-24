@@ -20,28 +20,28 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\Parser\NodeInfo\Tree;
 
-use ILIAS\Export\ImportHandler\I\FactoryInterface as ilImportHandlerFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Tree\FactoryInterface as ilImportHandlerParserNodeInfoTreeFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Tree\HandlerInterface as ilImportHandlerParserNodeInfoTreeInterface;
-use ILIAS\Export\ImportHandler\Parser\NodeInfo\Tree\Handler as ilImportHandlerParserNodeInfoTree;
+use ILIAS\Export\ImportHandler\I\FactoryInterface as ImportHandlerFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Tree\FactoryInterface as ParserNodeInfoTreeFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Tree\HandlerInterface as ParserNodeInfoTreeInterface;
+use ILIAS\Export\ImportHandler\Parser\NodeInfo\Tree\Handler as ParserNodeInfoTree;
 use ilLogger;
 
-class Factory implements ilImportHandlerParserNodeInfoTreeFactoryInterface
+class Factory implements ParserNodeInfoTreeFactoryInterface
 {
-    protected ilImportHandlerFactoryInterface $import_handler;
+    protected ImportHandlerFactoryInterface $import_handler;
     protected ilLogger $logger;
 
     public function __construct(
-        ilImportHandlerFactoryInterface $import_handler,
+        ImportHandlerFactoryInterface $import_handler,
         ilLogger $logger
     ) {
         $this->import_handler = $import_handler;
         $this->logger = $logger;
     }
 
-    public function handler(): ilImportHandlerParserNodeInfoTreeInterface
+    public function handler(): ParserNodeInfoTreeInterface
     {
-        return new ilImportHandlerParserNodeInfoTree(
+        return new ParserNodeInfoTree(
             $this->import_handler->parser()->nodeInfo(),
             $this->import_handler->parser(),
             $this->logger

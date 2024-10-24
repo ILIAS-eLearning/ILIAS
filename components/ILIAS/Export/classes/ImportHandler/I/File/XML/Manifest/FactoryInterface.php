@@ -20,12 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\File\XML\Manifest;
 
-use ILIAS\Export\ImportHandler\I\File\XML\Manifest\HandlerCollectionInterface as ilManifestXMLFileHandlerCollectionInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\Manifest\HandlerInterface as ilManifestXMLFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Manifest\HandlerCollectionInterface as ManifestXMLFileHandlerCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Manifest\HandlerInterface as ManifestXMLFileHandlerInterface;
 
 interface FactoryInterface
 {
-    public function handler(): ilManifestXMLFileHandlerInterface;
+    public function handler(): ManifestXMLFileHandlerInterface;
 
-    public function collection(): ilManifestXMLFileHandlerCollectionInterface;
+    public function collection(): ManifestXMLFileHandlerCollectionInterface;
 }

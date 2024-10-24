@@ -21,37 +21,37 @@ declare(strict_types=1);
 namespace ILIAS\Export\ImportHandler\File\XML\Export\Component;
 
 use ILIAS\Data\Version;
-use ILIAS\Export\ImportHandler\File\XML\Export\Handler as ilXMLExportFileHandler;
-use ILIAS\Export\ImportHandler\I\File\Namespace\FactoryInterface as ilFileNamespaceHandlerInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\Export\Component\HandlerInterface as ilComponentXMLExportFileHandlerInterface;
-use ILIAS\Export\ImportHandler\I\Parser\FactoryInterface as ilParserFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Attribute\FactoryInterface as ilXMlFileInfoNodeAttributeFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Path\FactoryInterface as ilImportHandlerPathFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Path\HandlerInterface as ilImportHandlerPathInterface;
-use ILIAS\Export\ImportHandler\I\Schema\FactoryInterface as ilImportHandlerSchemaFactory;
-use ILIAS\Export\ImportHandler\I\Validation\Set\CollectionInterface as ilFileValidationSetCollectionInterface;
-use ILIAS\Export\ImportHandler\I\Validation\Set\FactoryInterface as ilFileValidationSetFactoryInterface;
-use ILIAS\Export\ImportStatus\Exception\ilException as ilImportStatusException;
-use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ilImportStatusCollectionInterface;
-use ILIAS\Export\ImportStatus\I\ilFactoryInterface as ilImportStatusFactoryInterface;
+use ILIAS\Export\ImportHandler\File\XML\Export\Handler as XMLExportFileHandler;
+use ILIAS\Export\ImportHandler\I\File\Namespace\FactoryInterface as FileNamespaceHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\Component\HandlerInterface as ComponentXMLExportFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\Parser\FactoryInterface as ParserFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Attribute\FactoryInterface as XMlFileInfoNodeAttributeFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Path\FactoryInterface as PathFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Path\HandlerInterface as PathInterface;
+use ILIAS\Export\ImportHandler\I\Schema\FactoryInterface as SchemaFactory;
+use ILIAS\Export\ImportHandler\I\Validation\Set\CollectionInterface as FileValidationSetCollectionInterface;
+use ILIAS\Export\ImportHandler\I\Validation\Set\FactoryInterface as FileValidationSetFactoryInterface;
+use ILIAS\Export\ImportStatus\Exception\ilException as ImportStatusException;
+use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ImportStatusCollectionInterface;
+use ILIAS\Export\ImportStatus\I\ilFactoryInterface as ImportStatusFactoryInterface;
 use ILIAS\Export\ImportStatus\StatusType;
 use ilLanguage;
 use ilLogger;
 use SplFileInfo;
 
-class Handler extends ilXMLExportFileHandler implements ilComponentXMLExportFileHandlerInterface
+class Handler extends XMLExportFileHandler implements ComponentXMLExportFileHandlerInterface
 {
-    protected ilFileValidationSetCollectionInterface $sets;
+    protected FileValidationSetCollectionInterface $sets;
 
     public function __construct(
-        ilFileNamespaceHandlerInterface $namespace,
-        ilImportStatusFactoryInterface $status,
-        ilImportHandlerSchemaFactory $schema,
-        ilParserFactoryInterface $parser,
-        ilImportHandlerPathFactoryInterface $path,
+        FileNamespaceHandlerInterface $namespace,
+        ImportStatusFactoryInterface $status,
+        SchemaFactory $schema,
+        ParserFactoryInterface $parser,
+        PathFactoryInterface $path,
         ilLogger $logger,
-        ilXMlFileInfoNodeAttributeFactoryInterface $attribute,
-        ilFileValidationSetFactoryInterface $set,
+        XMlFileInfoNodeAttributeFactoryInterface $attribute,
+        FileValidationSetFactoryInterface $set,
         ilLanguage $lng
     ) {
         parent::__construct($namespace, $status, $schema, $parser, $path, $logger, $attribute, $set, $lng);
@@ -65,12 +65,12 @@ class Handler extends ilXMLExportFileHandler implements ilComponentXMLExportFile
         return $clone;
     }
 
-    public function getValidationSets(): ilFileValidationSetCollectionInterface
+    public function getValidationSets(): FileValidationSetCollectionInterface
     {
         return $this->sets;
     }
 
-    public function buildValidationSets(): ilImportStatusCollectionInterface
+    public function buildValidationSets(): ImportStatusCollectionInterface
     {
         $statuses = $this->status->collection();
         try {
@@ -143,13 +143,13 @@ class Handler extends ilXMLExportFileHandler implements ilComponentXMLExportFile
                     ->withFilePathHandler($path_to_component)
             );
             $this->sets = $sets;
-        } catch (ilImportStatusException $e) {
+        } catch (ImportStatusException $e) {
             $statuses = $statuses->getMergedCollectionWith($e->getStatuses());
         }
         return $statuses;
     }
 
-    public function getPathToComponentRootNodes(): ilImportHandlerPathInterface
+    public function getPathToComponentRootNodes(): PathInterface
     {
         return $this->path->handler()->withStartAtRoot(true)
             ->withNode($this->path->node()->simple()->withName('exp:Export'))

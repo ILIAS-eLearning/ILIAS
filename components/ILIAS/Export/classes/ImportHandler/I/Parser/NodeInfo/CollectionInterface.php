@@ -21,25 +21,25 @@ declare(strict_types=1);
 namespace ILIAS\Export\ImportHandler\I\Parser\NodeInfo;
 
 use Countable;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\HandlerInterface as ilXMLFileNodeInfoInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\HandlerInterface as XMLFileNodeInfoInterface;
 use Iterator;
 
 interface CollectionInterface extends Iterator, Countable
 {
     public function withMerged(CollectionInterface $other): CollectionInterface;
 
-    public function withElement(ilXMLFileNodeInfoInterface $element): CollectionInterface;
+    public function withElement(XMLFileNodeInfoInterface $element): CollectionInterface;
 
-    public function getFirst(): ilXMLFileNodeInfoInterface;
+    public function getFirst(): XMLFileNodeInfoInterface;
 
     public function removeFirst(): CollectionInterface;
 
     /**
-     * @return ilXMLFileNodeInfoInterface[]
+     * @return XMLFileNodeInfoInterface[]
      */
     public function toArray(): array;
 
-    public function current(): ilXMLFileNodeInfoInterface;
+    public function current(): XMLFileNodeInfoInterface;
 
     public function next(): void;
 

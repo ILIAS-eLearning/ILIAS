@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\Parser\NodeInfo\Attribute;
 
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Attribute\HandlerInterface as ilImportHandlerParserNodeInfoAttributeInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Attribute\HandlerInterface as ParserNodeInfoAttributeInterface;
 
-class Handler implements ilImportHandlerParserNodeInfoAttributeInterface
+class Handler implements ParserNodeInfoAttributeInterface
 {
     protected string $key;
     protected string $value;
@@ -35,7 +35,7 @@ class Handler implements ilImportHandlerParserNodeInfoAttributeInterface
 
     public function withValue(
         string $value
-    ): ilImportHandlerParserNodeInfoAttributeInterface {
+    ): ParserNodeInfoAttributeInterface {
         $clone = clone $this;
         $clone->value = $value;
         return $clone;
@@ -43,7 +43,7 @@ class Handler implements ilImportHandlerParserNodeInfoAttributeInterface
 
     public function withKey(
         string $key
-    ): ilImportHandlerParserNodeInfoAttributeInterface {
+    ): ParserNodeInfoAttributeInterface {
         $clone = clone $this;
         $clone->key = $key;
         return $clone;

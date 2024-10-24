@@ -20,30 +20,30 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\Schema;
 
-use ILIAS\Data\Factory as ilDataFactory;
-use ILIAS\Export\ImportHandler\I\FactoryInterface as ilImportHandlerFactoryInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\HandlerInterface as ilImportHandlerXMLFileInterface;
-use ILIAS\Export\ImportHandler\I\Path\HandlerInterface as ilImportHandlerPathInterface;
-use ILIAS\Export\ImportHandler\I\Schema\CollectionInterface as ilImportHandlerSchemaCollectionInterface;
-use ILIAS\Export\ImportHandler\I\Schema\FactoryInterface as ilImportHandlerSchemaFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Schema\Folder\FactoryInterface as ilImportHandlerSchemaFolderFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Schema\HandlerInterface as ilImportHandlerSchemaInterface;
-use ILIAS\Export\ImportHandler\I\Schema\Info\FactoryInterface as ilImportHandlerSchemaInfoFactoryInterface;
-use ILIAS\Export\ImportHandler\Schema\Collection as ilImportHandlerSchemaCollection;
-use ILIAS\Export\ImportHandler\Schema\Folder\Factory as ilImportHandlerSchemaFolderFactory;
-use ILIAS\Export\ImportHandler\Schema\Handler as ilImportHandlerSchema;
-use ILIAS\Export\ImportHandler\Schema\Info\Factory as ilImportHandlerSchemaInfoFactory;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Export\ImportHandler\I\FactoryInterface as ImportHandlerFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\HandlerInterface as XMLFileInterface;
+use ILIAS\Export\ImportHandler\I\Path\HandlerInterface as PathInterface;
+use ILIAS\Export\ImportHandler\I\Schema\CollectionInterface as SchemaCollectionInterface;
+use ILIAS\Export\ImportHandler\I\Schema\FactoryInterface as SchemaFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Schema\Folder\FactoryInterface as SchemaFolderFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Schema\HandlerInterface as SchemaInterface;
+use ILIAS\Export\ImportHandler\I\Schema\Info\FactoryInterface as SchemaInfoFactoryInterface;
+use ILIAS\Export\ImportHandler\Schema\Collection as SchemaCollection;
+use ILIAS\Export\ImportHandler\Schema\Folder\Factory as SchemaFolderFactory;
+use ILIAS\Export\ImportHandler\Schema\Handler as Schema;
+use ILIAS\Export\ImportHandler\Schema\Info\Factory as SchemaInfoFactory;
 use ilLogger;
 
-class Factory implements ilImportHandlerSchemaFactoryInterface
+class Factory implements SchemaFactoryInterface
 {
-    protected ilImportHandlerFactoryInterface $import_handler;
-    protected ilDataFactory $data_factory;
+    protected ImportHandlerFactoryInterface $import_handler;
+    protected DataFactory $data_factory;
     protected ilLogger $logger;
 
     public function __construct(
-        ilImportHandlerFactoryInterface $import_handler,
-        ilDataFactory $data_factory,
+        ImportHandlerFactoryInterface $import_handler,
+        DataFactory $data_factory,
         ilLogger $logger
     ) {
         $this->import_handler = $import_handler;
@@ -51,9 +51,9 @@ class Factory implements ilImportHandlerSchemaFactoryInterface
         $this->logger = $logger;
     }
 
-    public function handler(): ilImportHandlerSchemaInterface
+    public function handler(): SchemaInterface
     {
-        return new ilImportHandlerSchema(
+        return new Schema(
             $this->folder()->handler(),
             $this->data_factory,
             $this->import_handler->parser(),
@@ -61,30 +61,30 @@ class Factory implements ilImportHandlerSchemaFactoryInterface
         );
     }
 
-    public function collection(): ilImportHandlerSchemaCollectionInterface
+    public function collection(): SchemaCollectionInterface
     {
-        return new ilImportHandlerSchemaCollection();
+        return new SchemaCollection();
     }
 
-    public function folder(): ilImportHandlerSchemaFolderFactoryInterface
+    public function folder(): SchemaFolderFactoryInterface
     {
-        return new ilImportHandlerSchemaFolderFactory(
+        return new SchemaFolderFactory(
             $this->import_handler,
             $this->logger
         );
     }
 
-    public function info(): ilImportHandlerSchemaInfoFactoryInterface
+    public function info(): SchemaInfoFactoryInterface
     {
-        return new ilImportHandlerSchemaInfoFactory(
+        return new SchemaInfoFactory(
             $this->logger
         );
     }
 
     public function collectionFrom(
-        ilImportHandlerXMLFileInterface $xml_file_handler,
-        ilImportHandlerPathInterface $path_to_entities
-    ): ilImportHandlerSchemaCollectionInterface {
+        XMLFileInterface $xml_file_handler,
+        PathInterface $path_to_entities
+    ): SchemaCollectionInterface {
         $parser_factory = $this->import_handler->parser();
         $path_factory = $this->import_handler->path();
         $path_to_export_node = $path_factory->handler()

@@ -20,37 +20,37 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\File\XML;
 
-use ILIAS\Data\Factory as ilDataFactory;
-use ILIAS\Export\ImportHandler\File\XML\Collection as ilImportHandlerXMLFileCollection;
-use ILIAS\Export\ImportHandler\File\XML\Export\Factory as ilImportHandlerXMLExportFileFactory;
-use ILIAS\Export\ImportHandler\File\XML\Handler as ilImportHandlerXMLFile;
-use ILIAS\Export\ImportHandler\File\XML\Manifest\Factory as ilImportHandlerManifestFileFactory;
-use ILIAS\Export\ImportHandler\I\FactoryInterface as ilImportHandlerFactoryInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\CollectionInterface as ilImportHandlerXMLFileCollectionInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\Export\FactoryInterface as ilImportHandlerXMLExportFileFactoryInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\FactoryInterface as ilImportHandlerXMLFileFactoryInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\HandlerInterface as ilImportHandlerXMLFileInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\Manifest\FactoryInterface as ilImportHandlerManifestFileFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Schema\FactoryInterface as ilImportHandlerSchemaFactoryInterface;
-use ILIAS\Export\ImportHandler\Schema\Factory as ilImportHandlerSchemaFactory;
-use ILIAS\Export\ImportStatus\ilFactory as ilImportStatusFactory;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Export\ImportHandler\File\XML\Collection as XMLFileCollection;
+use ILIAS\Export\ImportHandler\File\XML\Export\Factory as XMLExportFileFactory;
+use ILIAS\Export\ImportHandler\File\XML\Handler as XMLFile;
+use ILIAS\Export\ImportHandler\File\XML\Manifest\Factory as ManifestFileFactory;
+use ILIAS\Export\ImportHandler\I\FactoryInterface as ImportHandlerFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\CollectionInterface as XMLFileCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\FactoryInterface as XMLExportFileFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\FactoryInterface as XMLFileFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\HandlerInterface as XMLFileInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Manifest\FactoryInterface as ManifestFileFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Schema\FactoryInterface as SchemaFactoryInterface;
+use ILIAS\Export\ImportHandler\Schema\Factory as SchemaFactory;
+use ILIAS\Export\ImportStatus\ilFactory as ImportStatusFactory;
 use ilLanguage;
 use ilLogger;
 
-class Factory implements ilImportHandlerXMLFileFactoryInterface
+class Factory implements XMLFileFactoryInterface
 {
-    protected ilImportHandlerFactoryInterface $import_handler;
+    protected ImportHandlerFactoryInterface $import_handler;
     protected ilLogger $logger;
     protected ilLanguage $lng;
-    protected ilImportStatusFactory $import_status_factory;
-    protected ilDataFactory $data_factory;
+    protected ImportStatusFactory $import_status_factory;
+    protected DataFactory $data_factory;
 
     public function __construct(
-        ilImportHandlerFactoryInterface $import_handler,
-        ilImportStatusFactory $import_status_factory,
+        ImportHandlerFactoryInterface $import_handler,
+        ImportStatusFactory $import_status_factory,
         ilLogger $logger,
         ilLanguage $lng,
-        ilDataFactory $data_factory
+        DataFactory $data_factory
     ) {
         $this->import_handler = $import_handler;
         $this->logger = $logger;
@@ -59,40 +59,40 @@ class Factory implements ilImportHandlerXMLFileFactoryInterface
         $this->import_status_factory = $import_status_factory;
     }
 
-    public function handler(): ilImportHandlerXMLFileInterface
+    public function handler(): XMLFileInterface
     {
-        return new ilImportHandlerXMLFile(
+        return new XMLFile(
             $this->import_handler->file()->namespace(),
             $this->import_status_factory
         );
     }
 
-    public function collection(): ilImportHandlerXMLFileCollectionInterface
+    public function collection(): XMLFileCollectionInterface
     {
-        return new ilImportHandlerXMLFileCollection();
+        return new XMLFileCollection();
     }
 
-    public function manifest(): ilImportHandlerManifestFileFactoryInterface
+    public function manifest(): ManifestFileFactoryInterface
     {
-        return new ilImportHandlerManifestFileFactory(
+        return new ManifestFileFactory(
             $this->import_handler,
             $this->logger,
             $this->import_status_factory
         );
     }
 
-    public function export(): ilImportHandlerXMLExportFileFactoryInterface
+    public function export(): XMLExportFileFactoryInterface
     {
-        return new ilImportHandlerXMLExportFileFactory(
+        return new XMLExportFileFactory(
             $this->import_handler,
             $this->logger,
             $this->lng
         );
     }
 
-    public function schema(): ilImportHandlerSchemaFactoryInterface
+    public function schema(): SchemaFactoryInterface
     {
-        return new ilImportHandlerSchemaFactory(
+        return new SchemaFactory(
             $this->import_handler,
             $this->data_factory,
             $this->logger

@@ -20,15 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\Path;
 
-use ILIAS\Export\ImportHandler\I\Path\Comparison\FactoryInterface as ilImportHandlerPathComparisonFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Path\HandlerInterface as ilImportHandlerPathInterface;
-use ILIAS\Export\ImportHandler\I\Path\Node\FactoryInterface as ilImportHandlerPathNodeFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Path\Comparison\FactoryInterface as PathComparisonFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Path\HandlerInterface as PathInterface;
+use ILIAS\Export\ImportHandler\I\Path\Node\FactoryInterface as PathNodeFactoryInterface;
 
 interface FactoryInterface
 {
-    public function handler(): ilImportHandlerPathInterface;
+    public function handler(): PathInterface;
 
-    public function node(): ilImportHandlerPathNodeFactoryInterface;
+    public function node(): PathNodeFactoryInterface;
 
-    public function comparison(): ilImportHandlerPathComparisonFactoryInterface;
+    public function comparison(): PathComparisonFactoryInterface;
 }

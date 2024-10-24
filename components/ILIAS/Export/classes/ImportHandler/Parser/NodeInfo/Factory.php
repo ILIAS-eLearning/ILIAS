@@ -20,54 +20,54 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\Parser\NodeInfo;
 
-use ILIAS\Export\ImportHandler\I\FactoryInterface as ilImportHandlerFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Attribute\FactoryInterface as ilImportHandlerParserNodeInfoAttributeFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\CollectionInterface as ilImportHandlerParserNodeInfoCollectionInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\DOM\FactoryInterface as ilImportHandlerParserDOMNodeInfoFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\FactoryInterface as ilImportHandlerParserNodeInfoFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Tree\FactoryInterface as ilImportHandlerParserNodeInfoTreeFactoryInterface;
-use ILIAS\Export\ImportHandler\Parser\NodeInfo\Attribute\Factory as ilImportHandlerParserNodeInfoAttributeFactory;
-use ILIAS\Export\ImportHandler\Parser\NodeInfo\Collection as ilImportHandlerParserNodeInfoCollection;
-use ILIAS\Export\ImportHandler\Parser\NodeInfo\DOM\Factory as ilImportHandlerParserDOMNodeInfoFactory;
-use ILIAS\Export\ImportHandler\Parser\NodeInfo\Tree\Factory as ilImportHandlerParserNodeInfoTreeFactory;
+use ILIAS\Export\ImportHandler\I\FactoryInterface as ImportHandlerFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Attribute\FactoryInterface as ParserNodeInfoAttributeFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\CollectionInterface as ParserNodeInfoCollectionInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\DOM\FactoryInterface as ParserDOMNodeInfoFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\FactoryInterface as ParserNodeInfoFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Tree\FactoryInterface as ParserNodeInfoTreeFactoryInterface;
+use ILIAS\Export\ImportHandler\Parser\NodeInfo\Attribute\Factory as ParserNodeInfoAttributeFactory;
+use ILIAS\Export\ImportHandler\Parser\NodeInfo\Collection as ParserNodeInfoCollection;
+use ILIAS\Export\ImportHandler\Parser\NodeInfo\DOM\Factory as ParserDOMNodeInfoFactory;
+use ILIAS\Export\ImportHandler\Parser\NodeInfo\Tree\Factory as ParserNodeInfoTreeFactory;
 use ilLogger;
 
-class Factory implements ilImportHandlerParserNodeInfoFactoryInterface
+class Factory implements ParserNodeInfoFactoryInterface
 {
-    protected ilImportHandlerFactoryInterface $import_handler;
+    protected ImportHandlerFactoryInterface $import_handler;
     protected ilLogger $logger;
 
     public function __construct(
-        ilImportHandlerFactoryInterface $import_handler,
+        ImportHandlerFactoryInterface $import_handler,
         ilLogger $logger
     ) {
         $this->import_handler = $import_handler;
         $this->logger = $logger;
     }
 
-    public function collection(): ilImportHandlerParserNodeInfoCollectionInterface
+    public function collection(): ParserNodeInfoCollectionInterface
     {
-        return new ilImportHandlerParserNodeInfoCollection();
+        return new ParserNodeInfoCollection();
     }
 
-    public function tree(): ilImportHandlerParserNodeInfoTreeFactoryInterface
+    public function tree(): ParserNodeInfoTreeFactoryInterface
     {
-        return new ilImportHandlerParserNodeInfoTreeFactory(
+        return new ParserNodeInfoTreeFactory(
             $this->import_handler,
             $this->logger
         );
     }
 
-    public function attribute(): ilImportHandlerParserNodeInfoAttributeFactoryInterface
+    public function attribute(): ParserNodeInfoAttributeFactoryInterface
     {
-        return new ilImportHandlerParserNodeInfoAttributeFactory(
+        return new ParserNodeInfoAttributeFactory(
             $this->logger
         );
     }
 
-    public function DOM(): ilImportHandlerParserDOMNodeInfoFactoryInterface
+    public function DOM(): ParserDOMNodeInfoFactoryInterface
     {
-        return new ilImportHandlerParserDOMNodeInfoFactory(
+        return new ParserDOMNodeInfoFactory(
             $this
         );
     }

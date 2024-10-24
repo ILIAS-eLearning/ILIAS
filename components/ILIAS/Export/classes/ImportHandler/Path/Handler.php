@@ -20,13 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\Path;
 
-use ILIAS\Export\ImportHandler\I\Path\HandlerInterface as ilParserPathHandlerInterface;
-use ILIAS\Export\ImportHandler\I\Path\Node\NodeInterface as ilFilePathNodeInterface;
+use ILIAS\Export\ImportHandler\I\Path\HandlerInterface as ParserPathHandlerInterface;
+use ILIAS\Export\ImportHandler\I\Path\Node\NodeInterface as FilePathNodeInterface;
 
-class Handler implements ilParserPathHandlerInterface
+class Handler implements ParserPathHandlerInterface
 {
     /**
-     * @var ilFilePathNodeInterface[]
+     * @var FilePathNodeInterface[]
      */
     protected array $nodes;
     protected int $index;
@@ -39,14 +39,14 @@ class Handler implements ilParserPathHandlerInterface
         $this->with_start_at_root_enabled = false;
     }
 
-    public function withStartAtRoot(bool $enabled): ilParserPathHandlerInterface
+    public function withStartAtRoot(bool $enabled): ParserPathHandlerInterface
     {
         $clone = clone $this;
         $clone->with_start_at_root_enabled = $enabled;
         return $clone;
     }
 
-    public function withNode(ilFilePathNodeInterface $node): ilParserPathHandlerInterface
+    public function withNode(FilePathNodeInterface $node): ParserPathHandlerInterface
     {
         $clone = clone $this;
         $clone->nodes[] = $node;
@@ -75,7 +75,7 @@ class Handler implements ilParserPathHandlerInterface
         return $path_str;
     }
 
-    public function subPath(int $start, ?int $end = null): ilParserPathHandlerInterface
+    public function subPath(int $start, ?int $end = null): ParserPathHandlerInterface
     {
         $clone = clone $this;
         $clone->nodes = is_null($end)
@@ -84,14 +84,14 @@ class Handler implements ilParserPathHandlerInterface
         return $clone;
     }
 
-    public function firstElement(): ilFilePathNodeInterface|null
+    public function firstElement(): FilePathNodeInterface|null
     {
         return $this->count() > 0
             ? $this->nodes[0]
             : null;
     }
 
-    public function lastElement(): ilFilePathNodeInterface|null
+    public function lastElement(): FilePathNodeInterface|null
     {
         return $this->count() > 0
             ? $this->nodes[$this->count() - 1]
@@ -99,14 +99,14 @@ class Handler implements ilParserPathHandlerInterface
     }
 
     /**
-     * @return ilFilePathNodeInterface[]
+     * @return FilePathNodeInterface[]
      */
     public function toArray(): array
     {
         return $this->nodes;
     }
 
-    public function current(): ilFilePathNodeInterface
+    public function current(): FilePathNodeInterface
     {
         return $this->nodes[$this->index];
     }

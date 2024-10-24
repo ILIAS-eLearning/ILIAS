@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\Path\Node;
 
-use ILIAS\Export\ImportHandler\I\Path\Node\NodeInterface as ilImportHandlerPathNodeInterface;
+use ILIAS\Export\ImportHandler\I\Path\Node\NodeInterface as PathNodeInterface;
 
-interface SimpleInterface extends ilImportHandlerPathNodeInterface
+interface SimpleInterface extends PathNodeInterface
 {
     public function withName(string $node_name): SimpleInterface;
 }

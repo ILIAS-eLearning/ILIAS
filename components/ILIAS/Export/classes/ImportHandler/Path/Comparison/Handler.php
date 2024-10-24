@@ -20,10 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\Path\Comparison;
 
-use ILIAS\Export\ImportHandler\I\Path\Comparison\HandlerInterface as ilImportHandlerFilePathComparisonInterface;
-use ILIAS\Export\ImportHandler\Path\Comparison\Operator as ilImportHandlerPathComparisonOperator;
+use ILIAS\Export\ImportHandler\I\Path\Comparison\HandlerInterface as FilePathComparisonInterface;
+use ILIAS\Export\ImportHandler\Path\Comparison\Operator as PathComparisonOperator;
 
-class Handler implements ilImportHandlerFilePathComparisonInterface
+class Handler implements FilePathComparisonInterface
 {
     protected Operator $operator;
     protected string $value;
@@ -34,8 +34,8 @@ class Handler implements ilImportHandlerFilePathComparisonInterface
     }
 
     public function withOperator(
-        ilImportHandlerPathComparisonOperator $operator
-    ): ilImportHandlerFilePathComparisonInterface {
+        PathComparisonOperator $operator
+    ): FilePathComparisonInterface {
         $clone = clone $this;
         $clone->operator = $operator;
         return $clone;
@@ -43,7 +43,7 @@ class Handler implements ilImportHandlerFilePathComparisonInterface
 
     public function withValue(
         string $value
-    ): ilImportHandlerFilePathComparisonInterface {
+    ): FilePathComparisonInterface {
         $clone = clone $this;
         $clone->value = $value;
         return $clone;

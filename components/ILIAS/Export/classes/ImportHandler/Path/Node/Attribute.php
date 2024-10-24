@@ -21,9 +21,9 @@ declare(strict_types=1);
 namespace ILIAS\Export\ImportHandler\Path\Node;
 
 use ILIAS\Export\ImportHandler\I\Path\Comparison\HandlerInterface;
-use ILIAS\Export\ImportHandler\I\Path\Node\AttributeInterface as ilAttributeFilePathNodeInterface;
+use ILIAS\Export\ImportHandler\I\Path\Node\AttributeInterface as AttributeFilePathNodeInterface;
 
-class Attribute implements ilAttributeFilePathNodeInterface
+class Attribute implements AttributeFilePathNodeInterface
 {
     protected HandlerInterface $comparison;
     protected string $attribute;
@@ -35,21 +35,21 @@ class Attribute implements ilAttributeFilePathNodeInterface
         $this->any_attribute_enabled = false;
     }
 
-    public function withAttribute(string $attribute): ilAttributeFilePathNodeInterface
+    public function withAttribute(string $attribute): AttributeFilePathNodeInterface
     {
         $clone = clone $this;
         $clone->attribute = $attribute;
         return $clone;
     }
 
-    public function withComparison(HandlerInterface $comparison): ilAttributeFilePathNodeInterface
+    public function withComparison(HandlerInterface $comparison): AttributeFilePathNodeInterface
     {
         $clone = clone $this;
         $clone->comparison = $comparison;
         return $clone;
     }
 
-    public function withAnyAttributeEnabled(bool $enabled): ilAttributeFilePathNodeInterface
+    public function withAnyAttributeEnabled(bool $enabled): AttributeFilePathNodeInterface
     {
         $clone = clone $this;
         $clone->any_attribute_enabled = $enabled;

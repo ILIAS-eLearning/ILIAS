@@ -20,13 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\Schema;
 
-use ILIAS\Export\ImportHandler\I\Schema\CollectionInterface as ilImportHandlerSchemaCollectionInterface;
-use ILIAS\Export\ImportHandler\I\Schema\HandlerInterface as ilImportHandlerSchemaInterface;
+use ILIAS\Export\ImportHandler\I\Schema\CollectionInterface as SchemaCollectionInterface;
+use ILIAS\Export\ImportHandler\I\Schema\HandlerInterface as SchemaInterface;
 
-class Collection implements ilImportHandlerSchemaCollectionInterface
+class Collection implements SchemaCollectionInterface
 {
     /**
-     * @var ilImportHandlerSchemaInterface[]
+     * @var SchemaInterface[]
      */
     protected array $elements;
     protected int $index;
@@ -43,16 +43,16 @@ class Collection implements ilImportHandlerSchemaCollectionInterface
     }
 
     public function withElement(
-        ilImportHandlerSchemaInterface $element
-    ): ilImportHandlerSchemaCollectionInterface {
+        SchemaInterface $element
+    ): SchemaCollectionInterface {
         $clone = clone $this;
         $clone->elements[] = $element;
         return $clone;
     }
 
     public function withMerged(
-        ilImportHandlerSchemaCollectionInterface $other
-    ): ilImportHandlerSchemaCollectionInterface {
+        SchemaCollectionInterface $other
+    ): SchemaCollectionInterface {
         $clone = clone $this;
         $clone->elements = array_merge($clone->elements, $other->toArray());
         return $clone;
@@ -63,7 +63,7 @@ class Collection implements ilImportHandlerSchemaCollectionInterface
         return $this->elements;
     }
 
-    public function current(): ilImportHandlerSchemaInterface
+    public function current(): SchemaInterface
     {
         return $this->elements[$this->index];
     }

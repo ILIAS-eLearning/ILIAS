@@ -20,12 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\Validation;
 
-use ILIAS\Export\ImportHandler\I\Validation\HandlerInterface as ilFileValidationHandlerInterface;
-use ILIAS\Export\ImportHandler\I\Validation\Set\FactoryInterface as ilFileValidationPairFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Validation\HandlerInterface as FileValidationHandlerInterface;
+use ILIAS\Export\ImportHandler\I\Validation\Set\FactoryInterface as FileValidationPairFactoryInterface;
 
 interface FactoryInterface
 {
-    public function handler(): ilFileValidationHandlerInterface;
+    public function handler(): FileValidationHandlerInterface;
 
-    public function set(): ilFileValidationPairFactoryInterface;
+    public function set(): FileValidationPairFactoryInterface;
 }

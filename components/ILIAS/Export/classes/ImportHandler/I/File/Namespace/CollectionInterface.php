@@ -21,21 +21,21 @@ declare(strict_types=1);
 namespace ILIAS\Export\ImportHandler\I\File\Namespace;
 
 use Countable;
-use ILIAS\Export\ImportHandler\I\File\Namespace\HandlerInterface as ilParserNamespaceHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\Namespace\HandlerInterface as ParserNamespaceHandlerInterface;
 use Iterator;
 
 interface CollectionInterface extends Iterator, Countable
 {
     public function withMerged(CollectionInterface $other): CollectionInterface;
 
-    public function withElement(ilParserNamespaceHandlerInterface $element): CollectionInterface;
+    public function withElement(ParserNamespaceHandlerInterface $element): CollectionInterface;
 
     /**
-     * @return ilParserNamespaceHandlerInterface[]
+     * @return ParserNamespaceHandlerInterface[]
      */
     public function toArray(): array;
 
-    public function current(): ilParserNamespaceHandlerInterface;
+    public function current(): ParserNamespaceHandlerInterface;
 
     public function next(): void;
 

@@ -20,24 +20,24 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\Validation;
 
-use ILIAS\Export\ImportHandler\I\FactoryInterface as ilImportHandlerFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Validation\FactoryInterface as ilFileValidationFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Validation\HandlerInterface as ilFileValidationHandlerInterface;
-use ILIAS\Export\ImportHandler\I\Validation\Set\FactoryInterface as ilFileValidationSetFactoryInterface;
-use ILIAS\Export\ImportHandler\Validation\Handler as ilFileValidationHandler;
-use ILIAS\Export\ImportHandler\Validation\Set\Factory as ilFileValidationSetFactory;
-use ILIAS\Export\ImportStatus\I\ilFactoryInterface as ilImportStatusFactoryInterface;
+use ILIAS\Export\ImportHandler\I\FactoryInterface as ImportHandlerFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Validation\FactoryInterface as FileValidationFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Validation\HandlerInterface as FileValidationHandlerInterface;
+use ILIAS\Export\ImportHandler\I\Validation\Set\FactoryInterface as FileValidationSetFactoryInterface;
+use ILIAS\Export\ImportHandler\Validation\Handler as FileValidationHandler;
+use ILIAS\Export\ImportHandler\Validation\Set\Factory as FileValidationSetFactory;
+use ILIAS\Export\ImportStatus\I\ilFactoryInterface as ImportStatusFactoryInterface;
 use ilLogger;
 
-class Factory implements ilFileValidationFactoryInterface
+class Factory implements FileValidationFactoryInterface
 {
     protected ilLogger $logger;
-    protected ilImportHandlerFactoryInterface $import_handler;
-    protected ilImportStatusFactoryInterface $import_status_factory;
+    protected ImportHandlerFactoryInterface $import_handler;
+    protected ImportStatusFactoryInterface $import_status_factory;
 
     public function __construct(
-        ilImportStatusFactoryInterface $import_status_factory,
-        ilImportHandlerFactoryInterface $import_handler,
+        ImportStatusFactoryInterface $import_status_factory,
+        ImportHandlerFactoryInterface $import_handler,
         ilLogger $logger,
     ) {
         $this->import_status_factory = $import_status_factory;
@@ -45,9 +45,9 @@ class Factory implements ilFileValidationFactoryInterface
         $this->logger = $logger;
     }
 
-    public function handler(): ilFileValidationHandlerInterface
+    public function handler(): FileValidationHandlerInterface
     {
-        return new ilFileValidationHandler(
+        return new FileValidationHandler(
             $this->logger,
             $this->import_handler->parser(),
             $this->import_status_factory,
@@ -55,8 +55,8 @@ class Factory implements ilFileValidationFactoryInterface
         );
     }
 
-    public function set(): ilFileValidationSetFactoryInterface
+    public function set(): FileValidationSetFactoryInterface
     {
-        return new ilFileValidationSetFactory();
+        return new FileValidationSetFactory();
     }
 }

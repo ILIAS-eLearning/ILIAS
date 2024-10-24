@@ -20,33 +20,33 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\File;
 
-use ILIAS\Data\Factory as ilDataFactory;
-use ILIAS\Export\ImportHandler\File\Namespace\Factory as ilFileNamespaceFactory;
-use ILIAS\Export\ImportHandler\File\XML\Factory as ilXMLFileFactory;
-use ILIAS\Export\ImportHandler\File\XSD\Factory as ilXSDFileFactory;
-use ILIAS\Export\ImportHandler\I\FactoryInterface as ilImportHandlerFactoryInterface;
-use ILIAS\Export\ImportHandler\I\File\FactoryInterface as ilFileFactory;
-use ILIAS\Export\ImportHandler\I\File\Namespace\FactoryInterface as ilFileNamespaceFactoryInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\FactoryInterface as ilXMLFileFactoryInterface;
-use ILIAS\Export\ImportHandler\I\File\XSD\FactoryInterface as ilXSDFileFactoryInterface;
-use ILIAS\Export\ImportStatus\ilFactory as ilImportStatusFactory;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Export\ImportHandler\File\Namespace\Factory as FileNamespaceFactory;
+use ILIAS\Export\ImportHandler\File\XML\Factory as XMLFileFactory;
+use ILIAS\Export\ImportHandler\File\XSD\Factory as XSDFileFactory;
+use ILIAS\Export\ImportHandler\I\FactoryInterface as ImportHandlerFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\FactoryInterface as FileFactory;
+use ILIAS\Export\ImportHandler\I\File\Namespace\FactoryInterface as FileNamespaceFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\FactoryInterface as XMLFileFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XSD\FactoryInterface as XSDFileFactoryInterface;
+use ILIAS\Export\ImportStatus\ilFactory as ImportStatusFactory;
 use ilLanguage;
 use ilLogger;
 
-class Factory implements ilFileFactory
+class Factory implements FileFactory
 {
-    protected ilImportHandlerFactoryInterface $import_handler;
+    protected ImportHandlerFactoryInterface $import_handler;
     protected ilLogger $logger;
     protected ilLanguage $lng;
-    protected ilImportStatusFactory $import_status_factory;
-    protected ilDataFactory $data_factory;
+    protected ImportStatusFactory $import_status_factory;
+    protected DataFactory $data_factory;
 
     public function __construct(
-        ilImportHandlerFactoryInterface $import_handler,
-        ilImportStatusFactory $import_status_factory,
+        ImportHandlerFactoryInterface $import_handler,
+        ImportStatusFactory $import_status_factory,
         ilLogger $logger,
         ilLanguage $lng,
-        ilDataFactory $data_factory
+        DataFactory $data_factory
     ) {
         $this->import_handler = $import_handler;
         $this->import_status_factory = $import_status_factory;
@@ -55,9 +55,9 @@ class Factory implements ilFileFactory
         $this->data_factory = $data_factory;
     }
 
-    public function xml(): ilXMLFileFactoryInterface
+    public function xml(): XMLFileFactoryInterface
     {
-        return new ilXMLFileFactory(
+        return new XMLFileFactory(
             $this->import_handler,
             $this->import_status_factory,
             $this->logger,
@@ -66,13 +66,13 @@ class Factory implements ilFileFactory
         );
     }
 
-    public function xsd(): ilXSDFileFactoryInterface
+    public function xsd(): XSDFileFactoryInterface
     {
-        return new ilXSDFileFactory();
+        return new XSDFileFactory();
     }
 
-    public function namespace(): ilFileNamespaceFactoryInterface
+    public function namespace(): FileNamespaceFactoryInterface
     {
-        return new ilFileNamespaceFactory();
+        return new FileNamespaceFactory();
     }
 }

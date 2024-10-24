@@ -20,12 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\Schema\Info;
 
-use ILIAS\Export\ImportHandler\I\Schema\Info\CollectionInterface as ilImportHandlerSchemaInfoCollectionInterface;
-use ILIAS\Export\ImportHandler\I\Schema\Info\HandlerInterface as ilImportHandlerSchemaInfoInterface;
+use ILIAS\Export\ImportHandler\I\Schema\Info\CollectionInterface as SchemaInfoCollectionInterface;
+use ILIAS\Export\ImportHandler\I\Schema\Info\HandlerInterface as SchemaInfoInterface;
 
 interface FactoryInterface
 {
-    public function handler(): ilImportHandlerSchemaInfoInterface;
+    public function handler(): SchemaInfoInterface;
 
-    public function collection(): ilImportHandlerSchemaInfoCollectionInterface;
+    public function collection(): SchemaInfoCollectionInterface;
 }

@@ -20,28 +20,28 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\Parser\NodeInfo\Tree;
 
-use ILIAS\Export\ImportHandler\I\File\XML\HandlerInterface as ilImportHanlderXMLFileInterface;
-use ILIAS\Export\ImportHandler\I\Parser\FactoryInterface as ilImportHandlerParserFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Attribute\CollectionInterface as ilImportHandlerParserNodeInfoAttributeCollectionInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\CollectionInterface as ilImportHandlerParserNodeInfoCollectionInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\FactoryInterface as ilImportHandlerParserNodeInfoFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\HandlerInterface as ilImportHandlerParserNodeInfoInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Tree\HandlerInterface as ilImportHandlerParserNodeInfoTreeInterface;
-use ILIAS\Export\ImportHandler\I\Path\HandlerInterface as ilImportHandlerPathInterface;
-use ILIAS\Export\ImportStatus\Exception\ilException as ilImportStatusException;
+use ILIAS\Export\ImportHandler\I\File\XML\HandlerInterface as XMLFileInterface;
+use ILIAS\Export\ImportHandler\I\Parser\FactoryInterface as ParserFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Attribute\CollectionInterface as ParserNodeInfoAttributeCollectionInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\CollectionInterface as ParserNodeInfoCollectionInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\FactoryInterface as ParserNodeInfoFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\HandlerInterface as ParserNodeInfoInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Tree\HandlerInterface as ParserNodeInfoTreeInterface;
+use ILIAS\Export\ImportHandler\I\Path\HandlerInterface as PathInterface;
+use ILIAS\Export\ImportStatus\Exception\ilException as ImportStatusException;
 use ilLogger;
 
-class Handler implements ilImportHandlerParserNodeInfoTreeInterface
+class Handler implements ParserNodeInfoTreeInterface
 {
-    protected ilImportHandlerParserNodeInfoInterface $root;
-    protected ilImportHandlerParserNodeInfoFactoryInterface $info;
-    protected ilImportHandlerParserFactoryInterface $parser;
-    protected ilImportHanlderXMLFileInterface $xml;
+    protected ParserNodeInfoInterface $root;
+    protected ParserNodeInfoFactoryInterface $info;
+    protected ParserFactoryInterface $parser;
+    protected XMLFileInterface $xml;
     protected ilLogger $logger;
 
     public function __construct(
-        ilImportHandlerParserNodeInfoFactoryInterface $info,
-        ilImportHandlerParserFactoryInterface $parser,
+        ParserNodeInfoFactoryInterface $info,
+        ParserFactoryInterface $parser,
         ilLogger $logger
     ) {
         $this->info = $info;
@@ -49,7 +49,7 @@ class Handler implements ilImportHandlerParserNodeInfoTreeInterface
         $this->logger = $logger;
     }
 
-    public function withRoot(ilImportHandlerParserNodeInfoInterface $node_info): ilImportHandlerParserNodeInfoTreeInterface
+    public function withRoot(ParserNodeInfoInterface $node_info): ParserNodeInfoTreeInterface
     {
         $clone = clone $this;
         $clone->root = $node_info;
@@ -57,12 +57,12 @@ class Handler implements ilImportHandlerParserNodeInfoTreeInterface
     }
 
     /**
-     * @throws ilImportStatusException
+     * @throws ImportStatusException
      */
     public function withRootInFile(
-        ilImportHanlderXMLFileInterface $xml_handler,
-        ilImportHandlerPathInterface $path_handler
-    ): ilImportHandlerParserNodeInfoTreeInterface {
+        XMLFileInterface $xml_handler,
+        PathInterface $path_handler
+    ): ParserNodeInfoTreeInterface {
         $clone = clone $this;
         $clone->xml = $xml_handler;
         $items = $this->parser->DOM()->handler()
@@ -78,8 +78,8 @@ class Handler implements ilImportHandlerParserNodeInfoTreeInterface
     }
 
     public function getNodesWith(
-        ilImportHandlerParserNodeInfoAttributeCollectionInterface $attribute_pairs
-    ): ilImportHandlerParserNodeInfoCollectionInterface {
+        ParserNodeInfoAttributeCollectionInterface $attribute_pairs
+    ): ParserNodeInfoCollectionInterface {
         if (!isset($this->root)) {
             return $this->info->collection();
         }
@@ -97,14 +97,14 @@ class Handler implements ilImportHandlerParserNodeInfoTreeInterface
     }
 
     public function getFirstNodeWith(
-        ilImportHandlerParserNodeInfoAttributeCollectionInterface $attribute_pairs
-    ): ilImportHandlerParserNodeInfoInterface|null {
+        ParserNodeInfoAttributeCollectionInterface $attribute_pairs
+    ): ParserNodeInfoInterface|null {
         $nodes = $this->getNodesWith($attribute_pairs);
         return count($nodes) === 0 ? null : $nodes->getFirst();
     }
 
     public function getAttributePath(
-        ilImportHandlerParserNodeInfoInterface $startNode,
+        ParserNodeInfoInterface $startNode,
         string $attribute_name,
         string $path_separator,
         bool $skip_nodes_without_attribute = true

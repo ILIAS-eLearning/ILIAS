@@ -21,24 +21,24 @@ declare(strict_types=1);
 namespace ILIAS\Export\ImportHandler\Parser\NodeInfo\DOM;
 
 use DOMNode;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\DOM\FactoryInterface as ilImportHandlerParserDOMNodeInfoFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\DOM\HandlerInterface as ilImportHandlerParserNodeInfoDOMNodeInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\FactoryInterface as ilImportHandlerParserNodeInfoFactoryInterface;
-use ILIAS\Export\ImportHandler\Parser\NodeInfo\DOM\Handler as ilImportHandlerParserDOMNodeInfo;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\DOM\FactoryInterface as ParserDOMNodeInfoFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\DOM\HandlerInterface as ParserNodeInfoDOMNodeInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\FactoryInterface as ParserNodeInfoFactoryInterface;
+use ILIAS\Export\ImportHandler\Parser\NodeInfo\DOM\Handler as ParserDOMNodeInfo;
 
-class Factory implements ilImportHandlerParserDOMNodeInfoFactoryInterface
+class Factory implements ParserDOMNodeInfoFactoryInterface
 {
-    protected ilImportHandlerParserNodeInfoFactoryInterface $info;
+    protected ParserNodeInfoFactoryInterface $info;
 
     public function __construct(
-        ilImportHandlerParserNodeInfoFactoryInterface $info
+        ParserNodeInfoFactoryInterface $info
     ) {
         $this->info = $info;
     }
 
-    public function withDOMNode(DOMNode $node): ilImportHandlerParserNodeInfoDOMNodeInterface
+    public function withDOMNode(DOMNode $node): ParserNodeInfoDOMNodeInterface
     {
-        return (new ilImportHandlerParserDOMNodeInfo(
+        return (new ParserDOMNodeInfo(
             $this->info
         ))->withDOMNode($node);
     }

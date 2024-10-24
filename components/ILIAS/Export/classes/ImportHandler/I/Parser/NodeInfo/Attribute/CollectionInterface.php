@@ -21,22 +21,22 @@ declare(strict_types=1);
 namespace ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Attribute;
 
 use Countable;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Attribute\HandlerInterface as ilXMLFileNodeInfoAttributePairInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\HandlerInterface as ilXMLFileNodeInfoInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Attribute\HandlerInterface as XMLFileNodeInfoAttributePairInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\HandlerInterface as XMLFileNodeInfoInterface;
 use Iterator;
 
 interface CollectionInterface extends Iterator, Countable
 {
-    public function matches(ilXMLFileNodeInfoInterface $node_info): bool;
+    public function matches(XMLFileNodeInfoInterface $node_info): bool;
 
-    public function withElement(ilXMLFileNodeInfoAttributePairInterface $element): CollectionInterface;
+    public function withElement(XMLFileNodeInfoAttributePairInterface $element): CollectionInterface;
 
     /**
-     * @return ilXMLFileNodeInfoAttributePairInterface[]
+     * @return XMLFileNodeInfoAttributePairInterface[]
      */
     public function toArray(): array;
 
-    public function current(): ilXMLFileNodeInfoAttributePairInterface;
+    public function current(): XMLFileNodeInfoAttributePairInterface;
 
     public function next(): void;
 

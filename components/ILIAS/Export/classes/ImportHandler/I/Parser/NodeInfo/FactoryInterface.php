@@ -20,18 +20,18 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\Parser\NodeInfo;
 
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Attribute\FactoryInterface as ilImportHandlerNodeInfoAttributeFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\CollectionInterface as ilImportHandlerNodeInfoCollectionInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\DOM\FactoryInterface as ilImportHandlerDOMNodeInfoFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Tree\FactoryInterface as ilImportHandlerParserNodeInfoTreeFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Attribute\FactoryInterface as NodeInfoAttributeFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\CollectionInterface as NodeInfoCollectionInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\DOM\FactoryInterface as DOMNodeInfoFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Tree\FactoryInterface as ParserNodeInfoTreeFactoryInterface;
 
 interface FactoryInterface
 {
-    public function collection(): ilImportHandlerNodeInfoCollectionInterface;
+    public function collection(): NodeInfoCollectionInterface;
 
-    public function tree(): ilImportHandlerParserNodeInfoTreeFactoryInterface;
+    public function tree(): ParserNodeInfoTreeFactoryInterface;
 
-    public function attribute(): ilImportHandlerNodeInfoAttributeFactoryInterface;
+    public function attribute(): NodeInfoAttributeFactoryInterface;
 
-    public function DOM(): ilImportHandlerDOMNodeInfoFactoryInterface;
+    public function DOM(): DOMNodeInfoFactoryInterface;
 }

@@ -20,10 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\File\Namespace;
 
-use ILIAS\Export\ImportHandler\I\File\Namespace\CollectionInterface as ilParserNamespaceCollectionInterface;
-use ILIAS\Export\ImportHandler\I\File\Namespace\HandlerInterface as ilParserNamespaceHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\Namespace\CollectionInterface as ParserNamespaceCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\Namespace\HandlerInterface as ParserNamespaceHandlerInterface;
 
-class Collection implements ilParserNamespaceCollectionInterface
+class Collection implements ParserNamespaceCollectionInterface
 {
     protected array $elements;
     protected int $index;
@@ -39,14 +39,14 @@ class Collection implements ilParserNamespaceCollectionInterface
         return count($this->elements);
     }
 
-    public function withMerged(ilParserNamespaceCollectionInterface $other): ilParserNamespaceCollectionInterface
+    public function withMerged(ParserNamespaceCollectionInterface $other): ParserNamespaceCollectionInterface
     {
         $clone = clone $this;
         $clone->elements = array_merge($this->toArray(), $other->toArray());
         return $clone;
     }
 
-    public function withElement(ilParserNamespaceHandlerInterface $element): ilParserNamespaceCollectionInterface
+    public function withElement(ParserNamespaceHandlerInterface $element): ParserNamespaceCollectionInterface
     {
         $clone = clone $this;
         $clone->elements[] = $element;
@@ -58,7 +58,7 @@ class Collection implements ilParserNamespaceCollectionInterface
         return $this->elements;
     }
 
-    public function current(): ilParserNamespaceHandlerInterface
+    public function current(): ParserNamespaceHandlerInterface
     {
         return $this->elements[$this->index];
     }

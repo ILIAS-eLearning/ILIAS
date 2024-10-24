@@ -20,19 +20,19 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\File\XML;
 
-use ILIAS\Export\ImportHandler\I\File\XML\CollectionInterface as ilXMLFileHandlerCollectionInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\HandlerInterface as ilXMLFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\CollectionInterface as XMLFileHandlerCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\HandlerInterface as XMLFileHandlerInterface;
 
-class Collection implements ilXMLFileHandlerCollectionInterface
+class Collection implements XMLFileHandlerCollectionInterface
 {
     /**
-     * @var ilXMLFileHandlerInterface[];
+     * @var XMLFileHandlerInterface[];
      */
     protected array $elements;
     protected int $index;
 
     /**
-     * @param ilXMLFileHandlerInterface[] $initial_elements
+     * @param XMLFileHandlerInterface[] $initial_elements
      */
     public function __construct(array $initial_elements = [])
     {
@@ -45,7 +45,7 @@ class Collection implements ilXMLFileHandlerCollectionInterface
         return count($this->elements);
     }
 
-    public function current(): ilXMLFileHandlerInterface
+    public function current(): XMLFileHandlerInterface
     {
         return $this->elements[$this->index];
     }
@@ -70,14 +70,14 @@ class Collection implements ilXMLFileHandlerCollectionInterface
         $this->index = 0;
     }
 
-    public function withMerged(ilXMLFileHandlerCollectionInterface $other): ilXMLFileHandlerCollectionInterface
+    public function withMerged(XMLFileHandlerCollectionInterface $other): XMLFileHandlerCollectionInterface
     {
         $clone = clone $this;
         $clone->elements = array_merge($clone->toArray(), $other->toArray());
         return $clone;
     }
 
-    public function withElement(ilXMLFileHandlerInterface $element): ilXMLFileHandlerCollectionInterface
+    public function withElement(XMLFileHandlerInterface $element): XMLFileHandlerCollectionInterface
     {
         $clone = clone $this;
         $clone->elements[] = $element;
@@ -85,7 +85,7 @@ class Collection implements ilXMLFileHandlerCollectionInterface
     }
 
     /**
-     * @return ilXMLFileHandlerInterface[]
+     * @return XMLFileHandlerInterface[]
      */
     public function toArray(): array
     {

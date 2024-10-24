@@ -20,16 +20,16 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\Path;
 
-use ILIAS\Export\ImportHandler\I\Path\Comparison\FactoryInterface as ilImportHandlerPathComparisonFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Path\FactoryInterface as ilFilePAthFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Path\HandlerInterface as ilFilePathHandlerInterface;
-use ILIAS\Export\ImportHandler\I\Path\Node\FactoryInterface as ilImportHandlerPathNodeFactoryInterface;
-use ILIAS\Export\ImportHandler\Path\Comparison\Factory as ilImportHandlerPathComparisonFactory;
-use ILIAS\Export\ImportHandler\Path\Handler as ilImportHandlerPath;
-use ILIAS\Export\ImportHandler\Path\Node\Factory as ilImportHandlerPathNodeFactory;
+use ILIAS\Export\ImportHandler\I\Path\Comparison\FactoryInterface as PathComparisonFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Path\FactoryInterface as FilePAthFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Path\HandlerInterface as FilePathHandlerInterface;
+use ILIAS\Export\ImportHandler\I\Path\Node\FactoryInterface as PathNodeFactoryInterface;
+use ILIAS\Export\ImportHandler\Path\Comparison\Factory as PathComparisonFactory;
+use ILIAS\Export\ImportHandler\Path\Handler as Path;
+use ILIAS\Export\ImportHandler\Path\Node\Factory as PathNodeFactory;
 use ilLogger;
 
-class Factory implements ilFilePathFactoryInterface
+class Factory implements FilePathFactoryInterface
 {
     protected ilLogger $logger;
 
@@ -39,20 +39,20 @@ class Factory implements ilFilePathFactoryInterface
         $this->logger = $logger;
     }
 
-    public function handler(): ilFilePathHandlerInterface
+    public function handler(): FilePathHandlerInterface
     {
-        return new ilImportHandlerPath();
+        return new Path();
     }
 
-    public function node(): ilImportHandlerPathNodeFactoryInterface
+    public function node(): PathNodeFactoryInterface
     {
-        return new ilImportHandlerPathNodeFactory(
+        return new PathNodeFactory(
             $this->logger
         );
     }
 
-    public function comparison(): ilImportHandlerPathComparisonFactoryInterface
+    public function comparison(): PathComparisonFactoryInterface
     {
-        return new ilImportHandlerPathComparisonFactory();
+        return new PathComparisonFactory();
     }
 }

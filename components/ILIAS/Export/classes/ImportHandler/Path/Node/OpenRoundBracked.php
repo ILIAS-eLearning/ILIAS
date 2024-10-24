@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\Path\Node;
 
-use ILIAS\Export\ImportHandler\I\Path\Node\OpenRoundBrackedInterface as ilOpenRoundBrackedFilePathNodeInterface;
+use ILIAS\Export\ImportHandler\I\Path\Node\OpenRoundBrackedInterface as OpenRoundBrackedFilePathNodeInterface;
 
-class OpenRoundBracked implements ilOpenRoundBrackedFilePathNodeInterface
+class OpenRoundBracked implements OpenRoundBrackedFilePathNodeInterface
 {
     public function toString(): string
     {

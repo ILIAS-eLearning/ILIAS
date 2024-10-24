@@ -20,28 +20,28 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\Parser\DOM;
 
-use ILIAS\Export\ImportHandler\I\FactoryInterface as ilImportHandlerFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Parser\DOM\FactoryInterface as ilDOMParserFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Parser\DOM\HandlerInterface as ilImportHandlerDOMParserInterface;
-use ILIAS\Export\ImportHandler\Parser\DOM\Handler as ilImportHandlerDOMParser;
+use ILIAS\Export\ImportHandler\I\FactoryInterface as ImportHandlerFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\DOM\FactoryInterface as DOMParserFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\DOM\HandlerInterface as DOMParserInterface;
+use ILIAS\Export\ImportHandler\Parser\DOM\Handler as DOMParser;
 use ilLogger;
 
-class Factory implements ilDOMParserFactoryInterface
+class Factory implements DOMParserFactoryInterface
 {
-    protected ilImportHandlerFactoryInterface $import_handler;
+    protected ImportHandlerFactoryInterface $import_handler;
     protected ilLogger $logger;
 
     public function __construct(
-        ilImportHandlerFactoryInterface $import_handler,
+        ImportHandlerFactoryInterface $import_handler,
         ilLogger $logger
     ) {
         $this->import_handler = $import_handler;
         $this->logger = $logger;
     }
 
-    public function handler(): ilImportHandlerDOMParserInterface
+    public function handler(): DOMParserInterface
     {
-        return new ilImportHandlerDOMParser(
+        return new DOMParser(
             $this->logger,
             $this->import_handler->parser()->nodeInfo()
         );

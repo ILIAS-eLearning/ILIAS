@@ -20,21 +20,21 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I;
 
-use ILIAS\Export\ImportHandler\I\File\FactoryInterface as ilImportHandlerFileFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Parser\FactoryInterface as ilImportHandlerParserFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Path\FactoryInterface as ilImportHandlerPathFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Schema\FactoryInterface as ilImportHandlerSchemaFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Validation\FactoryInterface as ilImportHandlerValidationFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\FactoryInterface as FileFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\FactoryInterface as ParserFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Path\FactoryInterface as PathFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Schema\FactoryInterface as SchemaFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Validation\FactoryInterface as ValidationFactoryInterface;
 
 interface FactoryInterface
 {
-    public function parser(): ilImportHandlerParserFactoryInterface;
+    public function parser(): ParserFactoryInterface;
 
-    public function file(): ilImportHandlerFileFactoryInterface;
+    public function file(): FileFactoryInterface;
 
-    public function schema(): ilImportHandlerSchemaFactoryInterface;
+    public function schema(): SchemaFactoryInterface;
 
-    public function path(): ilImportHandlerPathFactoryInterface;
+    public function path(): PathFactoryInterface;
 
-    public function validation(): ilImportHandlerValidationFactoryInterface;
+    public function validation(): ValidationFactoryInterface;
 }

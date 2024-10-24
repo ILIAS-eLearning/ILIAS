@@ -20,12 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Attribute;
 
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Attribute\CollectionInterface as ilXMLFileNodeInfoAttributeCollectionInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Attribute\HandlerInterface as ilXMLFileNodeInfoAttributePairInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Attribute\CollectionInterface as XMLFileNodeInfoAttributeCollectionInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Attribute\HandlerInterface as XMLFileNodeInfoAttributePairInterface;
 
 interface FactoryInterface
 {
-    public function handler(): ilXMLFileNodeInfoAttributePairInterface;
+    public function handler(): XMLFileNodeInfoAttributePairInterface;
 
-    public function collection(): ilXMLFileNodeInfoAttributeCollectionInterface;
+    public function collection(): XMLFileNodeInfoAttributeCollectionInterface;
 }

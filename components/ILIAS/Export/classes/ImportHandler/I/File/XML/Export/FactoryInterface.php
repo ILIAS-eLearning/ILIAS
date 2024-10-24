@@ -20,19 +20,19 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\File\XML\Export;
 
-use ILIAS\Export\ImportHandler\I\File\XML\Export\CollectionInterface as ilXMLExportFileCollectionInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\Export\Component\FactoryInterface as ilComponentXMLExportFileHandlerFactoryInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\Export\DataSet\FactoryInterface as ilDataSetXMLExportFileHandlerFactoryInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\Export\HandlerInterface as ilXMLExportFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\CollectionInterface as XMLExportFileCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\Component\FactoryInterface as ComponentXMLExportFileHandlerFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\DataSet\FactoryInterface as DataSetXMLExportFileHandlerFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\HandlerInterface as XMLExportFileHandlerInterface;
 use SplFileInfo;
 
 interface FactoryInterface
 {
-    public function withFileInfo(SplFileInfo $file_info): ilXMLExportFileHandlerInterface;
+    public function withFileInfo(SplFileInfo $file_info): XMLExportFileHandlerInterface;
 
-    public function collection(): ilXMLExportFileCollectionInterface;
+    public function collection(): XMLExportFileCollectionInterface;
 
-    public function component(): ilComponentXMLExportFileHandlerFactoryInterface;
+    public function component(): ComponentXMLExportFileHandlerFactoryInterface;
 
-    public function dataSet(): ilDataSetXMLExportFileHandlerFactoryInterface;
+    public function dataSet(): DataSetXMLExportFileHandlerFactoryInterface;
 }

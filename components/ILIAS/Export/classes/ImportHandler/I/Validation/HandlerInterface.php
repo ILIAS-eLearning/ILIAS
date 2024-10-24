@@ -20,26 +20,26 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\Validation;
 
-use ILIAS\Export\ImportHandler\I\File\XML\HandlerInterface as ilXMLFileHandlerInterface;
-use ILIAS\Export\ImportHandler\I\File\XSD\HandlerInterface as ilXSDFileHandlerInterface;
-use ILIAS\Export\ImportHandler\I\Path\HandlerInterface as ilImportHandlerPathInterface;
-use ILIAS\Export\ImportHandler\I\Validation\Set\CollectionInterface as ilFileValidationSetCollectionInterface;
-use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ilImportStatusHandlerCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\HandlerInterface as XMLFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XSD\HandlerInterface as XSDFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\Path\HandlerInterface as PathInterface;
+use ILIAS\Export\ImportHandler\I\Validation\Set\CollectionInterface as FileValidationSetCollectionInterface;
+use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ImportStatusHandlerCollectionInterface;
 
 interface HandlerInterface
 {
     public function validateXMLFile(
-        ilXMLFileHandlerInterface $xml_file_handler,
-        ilXSDFileHandlerInterface $xsd_file_handler
-    ): ilImportStatusHandlerCollectionInterface;
+        XMLFileHandlerInterface $xml_file_handler,
+        XSDFileHandlerInterface $xsd_file_handler
+    ): ImportStatusHandlerCollectionInterface;
 
     public function validateXMLAtPath(
-        ilXMLFileHandlerInterface $xml_file_handler,
-        ilXSDFileHandlerInterface $xsd_file_handler,
-        ilImportHandlerPathInterface $path_handler
-    ): ilImportStatusHandlerCollectionInterface;
+        XMLFileHandlerInterface $xml_file_handler,
+        XSDFileHandlerInterface $xsd_file_handler,
+        PathInterface $path_handler
+    ): ImportStatusHandlerCollectionInterface;
 
     public function validateSets(
-        ilFileValidationSetCollectionInterface $sets
-    ): ilImportStatusHandlerCollectionInterface;
+        FileValidationSetCollectionInterface $sets
+    ): ImportStatusHandlerCollectionInterface;
 }

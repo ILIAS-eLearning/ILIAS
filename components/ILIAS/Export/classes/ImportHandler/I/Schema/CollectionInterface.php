@@ -21,21 +21,21 @@ declare(strict_types=1);
 namespace ILIAS\Export\ImportHandler\I\Schema;
 
 use Countable;
-use ILIAS\Export\ImportHandler\I\Schema\HandlerInterface as ilImportHandlerSchemaInterface;
+use ILIAS\Export\ImportHandler\I\Schema\HandlerInterface as SchemaInterface;
 use Iterator;
 
 interface CollectionInterface extends Iterator, Countable
 {
-    public function withElement(ilImportHandlerSchemaInterface $element): CollectionInterface;
+    public function withElement(SchemaInterface $element): CollectionInterface;
 
     public function withMerged(CollectionInterface $other): CollectionInterface;
 
     /**
-     * @return ilImportHandlerSchemaInterface[]
+     * @return SchemaInterface[]
      */
     public function toArray(): array;
 
-    public function current(): ilImportHandlerSchemaInterface;
+    public function current(): SchemaInterface;
 
     public function next(): void;
 

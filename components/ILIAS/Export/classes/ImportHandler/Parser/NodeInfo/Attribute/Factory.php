@@ -20,14 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\Parser\NodeInfo\Attribute;
 
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Attribute\CollectionInterface as ilImportHandlerParserNodeInfoAttributeCollectionInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Attribute\FactoryInterface as ilImportHandlerParserNodeInfoAttributeFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Attribute\HandlerInterface as ilImportHandlerParserNodeInfoAttributeInterface;
-use ILIAS\Export\ImportHandler\Parser\NodeInfo\Attribute\Collection as ilImportHandlerParserNodeInfoAttribureCollection;
-use ILIAS\Export\ImportHandler\Parser\NodeInfo\Attribute\Handler as ilImportHandlerParserNodeInfoAttribute;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Attribute\CollectionInterface as ParserNodeInfoAttributeCollectionInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Attribute\FactoryInterface as ParserNodeInfoAttributeFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Attribute\HandlerInterface as ParserNodeInfoAttributeInterface;
+use ILIAS\Export\ImportHandler\Parser\NodeInfo\Attribute\Collection as ParserNodeInfoAttribureCollection;
+use ILIAS\Export\ImportHandler\Parser\NodeInfo\Attribute\Handler as ParserNodeInfoAttribute;
 use ilLogger;
 
-class Factory implements ilImportHandlerParserNodeInfoAttributeFactoryInterface
+class Factory implements ParserNodeInfoAttributeFactoryInterface
 {
     protected ilLogger $logger;
 
@@ -36,14 +36,14 @@ class Factory implements ilImportHandlerParserNodeInfoAttributeFactoryInterface
         $this->logger = $logger;
     }
 
-    public function handler(): ilImportHandlerParserNodeInfoAttributeInterface
+    public function handler(): ParserNodeInfoAttributeInterface
     {
-        return new ilImportHandlerParserNodeInfoAttribute();
+        return new ParserNodeInfoAttribute();
     }
 
-    public function collection(): ilImportHandlerParserNodeInfoAttributeCollectionInterface
+    public function collection(): ParserNodeInfoAttributeCollectionInterface
     {
-        return new ilImportHandlerParserNodeInfoAttribureCollection(
+        return new ParserNodeInfoAttribureCollection(
             $this->logger
         );
     }

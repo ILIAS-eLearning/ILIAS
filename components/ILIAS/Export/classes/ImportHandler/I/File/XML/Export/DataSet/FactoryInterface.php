@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\File\XML\Export\DataSet;
 
-use ILIAS\Export\ImportHandler\I\File\XML\Export\DataSet\HandlerInterface as ilDatasetXMLExportFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\DataSet\HandlerInterface as DatasetXMLExportFileHandlerInterface;
 
 interface FactoryInterface
 {
-    public function handler(): ilDatasetXMLExportFileHandlerInterface;
+    public function handler(): DatasetXMLExportFileHandlerInterface;
 }

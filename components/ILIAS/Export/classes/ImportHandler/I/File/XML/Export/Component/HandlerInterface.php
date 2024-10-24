@@ -20,10 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\File\XML\Export\Component;
 
-use ILIAS\Export\ImportHandler\I\File\XML\Export\HandlerInterface as ilXMLExportFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\HandlerInterface as XMLExportFileHandlerInterface;
 use SplFileInfo;
 
-interface HandlerInterface extends ilXMLExportFileHandlerInterface
+interface HandlerInterface extends XMLExportFileHandlerInterface
 {
     public function withFileInfo(SplFileInfo $file_info): HandlerInterface;
 }

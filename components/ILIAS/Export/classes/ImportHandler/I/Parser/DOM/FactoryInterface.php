@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\Parser\DOM;
 
-use ILIAS\Export\ImportHandler\I\Parser\DOM\HandlerInterface as ilImportHandlerDOMParserInterface;
+use ILIAS\Export\ImportHandler\I\Parser\DOM\HandlerInterface as DOMParserInterface;
 
 interface FactoryInterface
 {
-    public function handler(): ilImportHandlerDOMParserInterface;
+    public function handler(): DOMParserInterface;
 }

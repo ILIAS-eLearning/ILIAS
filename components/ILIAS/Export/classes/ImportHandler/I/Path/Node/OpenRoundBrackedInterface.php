@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\Path\Node;
 
-use ILIAS\Export\ImportHandler\I\Path\Node\NodeInterface as ilImportHandlerPathNodeInterface;
+use ILIAS\Export\ImportHandler\I\Path\Node\NodeInterface as PathNodeInterface;
 
-interface OpenRoundBrackedInterface extends ilImportHandlerPathNodeInterface
+interface OpenRoundBrackedInterface extends PathNodeInterface
 {
 }

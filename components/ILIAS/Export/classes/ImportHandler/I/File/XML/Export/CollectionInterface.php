@@ -21,21 +21,21 @@ declare(strict_types=1);
 namespace ILIAS\Export\ImportHandler\I\File\XML\Export;
 
 use Countable;
-use ILIAS\Export\ImportHandler\I\File\XML\Export\HandlerInterface as ilXMLExportFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\HandlerInterface as XMLExportFileHandlerInterface;
 use Iterator;
 
 interface CollectionInterface extends Iterator, Countable
 {
-    public function withElement(ilXMLExportFileHandlerInterface $element): CollectionInterface;
+    public function withElement(XMLExportFileHandlerInterface $element): CollectionInterface;
 
     public function withMerged(CollectionInterface $other): CollectionInterface;
 
     /**
-     * @return ilXMLExportFileHandlerInterface[]
+     * @return XMLExportFileHandlerInterface[]
      */
     public function toArray(): array;
 
-    public function current(): ilXMLExportFileHandlerInterface;
+    public function current(): XMLExportFileHandlerInterface;
 
     public function next(): void;
 

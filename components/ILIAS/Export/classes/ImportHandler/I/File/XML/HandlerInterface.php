@@ -21,10 +21,10 @@ declare(strict_types=1);
 namespace ILIAS\Export\ImportHandler\I\File\XML;
 
 use DOMDocument;
-use ILIAS\Export\ImportHandler\I\File\HandlerInterface as ilFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\HandlerInterface as FileHandlerInterface;
 use SplFileInfo;
 
-interface HandlerInterface extends ilFileHandlerInterface
+interface HandlerInterface extends FileHandlerInterface
 {
     public function withFileInfo(SplFileInfo $file_info): HandlerInterface;
 

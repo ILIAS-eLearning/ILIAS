@@ -20,14 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\Path\Node;
 
-use ILIAS\Export\ImportHandler\I\Path\Comparison\HandlerInterface as ilImportHandlerPathComparisonInterface;
-use ILIAS\Export\ImportHandler\I\Path\Node\NodeInterface as ilImportHandlerPathNodeInterface;
+use ILIAS\Export\ImportHandler\I\Path\Comparison\HandlerInterface as PathComparisonInterface;
+use ILIAS\Export\ImportHandler\I\Path\Node\NodeInterface as PathNodeInterface;
 
-interface AttributeInterface extends ilImportHandlerPathNodeInterface
+interface AttributeInterface extends PathNodeInterface
 {
     public function withAttribute(string $attribute): AttributeInterface;
 
-    public function withComparison(ilImportHandlerPathComparisonInterface $comparison): AttributeInterface;
+    public function withComparison(PathComparisonInterface $comparison): AttributeInterface;
 
     public function withAnyAttributeEnabled(bool $enabled): AttributeInterface;
 }

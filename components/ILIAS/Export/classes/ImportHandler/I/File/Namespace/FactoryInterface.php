@@ -20,12 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\File\Namespace;
 
-use ILIAS\Export\ImportHandler\I\File\Namespace\CollectionInterface as ilFileNamespaceCollectionInterface;
-use ILIAS\Export\ImportHandler\I\File\Namespace\HandlerInterface as ilFileNamespaceHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\Namespace\CollectionInterface as FileNamespaceCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\Namespace\HandlerInterface as FileNamespaceHandlerInterface;
 
 interface FactoryInterface
 {
-    public function handler(): ilFileNamespaceHandlerInterface;
+    public function handler(): FileNamespaceHandlerInterface;
 
-    public function collection(): ilFileNamespaceCollectionInterface;
+    public function collection(): FileNamespaceCollectionInterface;
 }

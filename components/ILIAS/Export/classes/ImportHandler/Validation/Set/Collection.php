@@ -20,13 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\Validation\Set;
 
-use ILIAS\Export\ImportHandler\I\Validation\Set\CollectionInterface as ilFileValidationSetCollectionInterface;
-use ILIAS\Export\ImportHandler\I\Validation\Set\HandlerInterface as ilFileValidationPairHandlerInterface;
+use ILIAS\Export\ImportHandler\I\Validation\Set\CollectionInterface as FileValidationSetCollectionInterface;
+use ILIAS\Export\ImportHandler\I\Validation\Set\HandlerInterface as FileValidationPairHandlerInterface;
 
-class Collection implements ilFileValidationSetCollectionInterface
+class Collection implements FileValidationSetCollectionInterface
 {
     /**
-     * @var ilFileValidationPairHandlerInterface[]
+     * @var FileValidationPairHandlerInterface[]
      */
     protected array $elements;
     protected int $index;
@@ -43,16 +43,16 @@ class Collection implements ilFileValidationSetCollectionInterface
     }
 
     public function withElement(
-        ilFileValidationPairHandlerInterface $element
-    ): ilFileValidationSetCollectionInterface {
+        FileValidationPairHandlerInterface $element
+    ): FileValidationSetCollectionInterface {
         $clone = clone $this;
         $clone->elements[] = $element;
         return $clone;
     }
 
     public function withMerged(
-        ilFileValidationSetCollectionInterface $other
-    ): ilFileValidationSetCollectionInterface {
+        FileValidationSetCollectionInterface $other
+    ): FileValidationSetCollectionInterface {
         $clone = clone $this;
         $clone->elements = array_merge($this->toArray(), $other->toArray());
         return $clone;
@@ -63,7 +63,7 @@ class Collection implements ilFileValidationSetCollectionInterface
         return $this->elements;
     }
 
-    public function current(): ilFileValidationPairHandlerInterface
+    public function current(): FileValidationPairHandlerInterface
     {
         return $this->elements[$this->index];
     }

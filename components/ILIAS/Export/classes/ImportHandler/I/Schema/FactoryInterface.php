@@ -20,25 +20,25 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\Schema;
 
-use ILIAS\Export\ImportHandler\I\File\XML\HandlerInterface as ilImportHandlerXMLFileInterface;
-use ILIAS\Export\ImportHandler\I\Path\HandlerInterface as ilImportHandlerPathInterface;
-use ILIAS\Export\ImportHandler\I\Schema\CollectionInterface as ilImportHandlerSchemaCollectionInterface;
-use ILIAS\Export\ImportHandler\I\Schema\Folder\FactoryInterface as ilImportHandlerSchemaFolderFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Schema\HandlerInterface as ilImportHandlerSchemaInterface;
-use ILIAS\Export\ImportHandler\I\Schema\Info\FactoryInterface as ilImportHandlerSchemaInfoFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\HandlerInterface as XMLFileInterface;
+use ILIAS\Export\ImportHandler\I\Path\HandlerInterface as PathInterface;
+use ILIAS\Export\ImportHandler\I\Schema\CollectionInterface as SchemaCollectionInterface;
+use ILIAS\Export\ImportHandler\I\Schema\Folder\FactoryInterface as SchemaFolderFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Schema\HandlerInterface as SchemaInterface;
+use ILIAS\Export\ImportHandler\I\Schema\Info\FactoryInterface as SchemaInfoFactoryInterface;
 
 interface FactoryInterface
 {
-    public function handler(): ilImportHandlerSchemaInterface;
+    public function handler(): SchemaInterface;
 
-    public function collection(): ilImportHandlerSchemaCollectionInterface;
+    public function collection(): SchemaCollectionInterface;
 
     public function collectionFrom(
-        ilImportHandlerXMLFileInterface $xml_file_handler,
-        ilImportHandlerPathInterface $path_to_entities
-    ): ilImportHandlerSchemaCollectionInterface;
+        XMLFileInterface $xml_file_handler,
+        PathInterface $path_to_entities
+    ): SchemaCollectionInterface;
 
-    public function folder(): ilImportHandlerSchemaFolderFactoryInterface;
+    public function folder(): SchemaFolderFactoryInterface;
 
-    public function info(): ilImportHandlerSchemaInfoFactoryInterface;
+    public function info(): SchemaInfoFactoryInterface;
 }

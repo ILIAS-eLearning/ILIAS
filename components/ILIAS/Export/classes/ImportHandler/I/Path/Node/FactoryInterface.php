@@ -20,27 +20,27 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\Path\Node;
 
-use ILIAS\Export\ImportHandler\I\Path\Node\AnyElementInterface as ilImportHandlerPathNodeAnyElementInterface;
-use ILIAS\Export\ImportHandler\I\Path\Node\AnyNodeInterface as ilImportHandlerPathNodeAnyNodeInterface;
-use ILIAS\Export\ImportHandler\I\Path\Node\AttributeInterface as ilImportHandlerPathNodeAttributeInterface;
-use ILIAS\Export\ImportHandler\I\Path\Node\CloseRoundBrackedInterface as ilImportHandlerPathNodeCloseRoundBrackedInterface;
-use ILIAS\Export\ImportHandler\I\Path\Node\IndexInterface as ilImportHandlerPathNodeIndexInterface;
-use ILIAS\Export\ImportHandler\I\Path\Node\OpenRoundBrackedInterface as ilImportHandlerPathNodeOpenRoundBrackedInterface;
-use ILIAS\Export\ImportHandler\I\Path\Node\SimpleInterface as ilImportHandlerPathNodeSimpleInterface;
+use ILIAS\Export\ImportHandler\I\Path\Node\AnyElementInterface as PathNodeAnyElementInterface;
+use ILIAS\Export\ImportHandler\I\Path\Node\AnyNodeInterface as PathNodeAnyNodeInterface;
+use ILIAS\Export\ImportHandler\I\Path\Node\AttributeInterface as PathNodeAttributeInterface;
+use ILIAS\Export\ImportHandler\I\Path\Node\CloseRoundBrackedInterface as PathNodeCloseRoundBrackedInterface;
+use ILIAS\Export\ImportHandler\I\Path\Node\IndexInterface as PathNodeIndexInterface;
+use ILIAS\Export\ImportHandler\I\Path\Node\OpenRoundBrackedInterface as PathNodeOpenRoundBrackedInterface;
+use ILIAS\Export\ImportHandler\I\Path\Node\SimpleInterface as PathNodeSimpleInterface;
 
 interface FactoryInterface
 {
-    public function anyElement(): ilImportHandlerPathNodeAnyElementInterface;
+    public function anyElement(): PathNodeAnyElementInterface;
 
-    public function anyNode(): ilImportHandlerPathNodeAnyNodeInterface;
+    public function anyNode(): PathNodeAnyNodeInterface;
 
-    public function attribute(): ilImportHandlerPathNodeAttributeInterface;
+    public function attribute(): PathNodeAttributeInterface;
 
-    public function index(): ilImportHandlerPathNodeIndexInterface;
+    public function index(): PathNodeIndexInterface;
 
-    public function simple(): ilImportHandlerPathNodeSimpleInterface;
+    public function simple(): PathNodeSimpleInterface;
 
-    public function openRoundBracked(): ilImportHandlerPathNodeOpenRoundBrackedInterface;
+    public function openRoundBracked(): PathNodeOpenRoundBrackedInterface;
 
-    public function closeRoundBracked(): ilImportHandlerPathNodeCloseRoundBrackedInterface;
+    public function closeRoundBracked(): PathNodeCloseRoundBrackedInterface;
 }

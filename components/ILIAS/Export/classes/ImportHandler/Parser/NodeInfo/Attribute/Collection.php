@@ -20,15 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\Parser\NodeInfo\Attribute;
 
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Attribute\CollectionInterface as ilImportHandlerParserNodeInfoAttributeCollectionInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Attribute\HandlerInterface as ilImportHandlerParserNodeInfoAttributeInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\HandlerInterface as ilImportHandlerParserNodeInfoInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Attribute\CollectionInterface as ParserNodeInfoAttributeCollectionInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Attribute\HandlerInterface as ParserNodeInfoAttributeInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\HandlerInterface as ParserNodeInfoInterface;
 use ilLogger;
 
-class Collection implements ilImportHandlerParserNodeInfoAttributeCollectionInterface
+class Collection implements ParserNodeInfoAttributeCollectionInterface
 {
     /**
-     * @var ilImportHandlerParserNodeInfoAttributeInterface[]
+     * @var ParserNodeInfoAttributeInterface[]
      */
     protected array $elements;
     protected int $index;
@@ -42,7 +42,7 @@ class Collection implements ilImportHandlerParserNodeInfoAttributeCollectionInte
         $this->logger = $logger;
     }
 
-    public function matches(ilImportHandlerParserNodeInfoInterface $node_info): bool
+    public function matches(ParserNodeInfoInterface $node_info): bool
     {
         foreach ($this->elements as $element) {
             if (
@@ -57,8 +57,8 @@ class Collection implements ilImportHandlerParserNodeInfoAttributeCollectionInte
     }
 
     public function withElement(
-        ilImportHandlerParserNodeInfoAttributeInterface $element
-    ): ilImportHandlerParserNodeInfoAttributeCollectionInterface {
+        ParserNodeInfoAttributeInterface $element
+    ): ParserNodeInfoAttributeCollectionInterface {
         $clone = clone $this;
         $clone->elements[] = $element;
         return $clone;
@@ -69,7 +69,7 @@ class Collection implements ilImportHandlerParserNodeInfoAttributeCollectionInte
         return $this->elements;
     }
 
-    public function current(): ilImportHandlerParserNodeInfoAttributeInterface
+    public function current(): ParserNodeInfoAttributeInterface
     {
         return $this->elements[$this->index];
     }

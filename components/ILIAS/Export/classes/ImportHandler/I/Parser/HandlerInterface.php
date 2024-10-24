@@ -20,13 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\Parser;
 
-use ILIAS\Export\ImportHandler\I\File\XML\HandlerInterface as ilXMLFileHandlerInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\CollectionInterface as ilXMLFileNodeInfoCollectionInterface;
-use ILIAS\Export\ImportHandler\I\Path\HandlerInterface as ilImportHandlerPathInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\HandlerInterface as XMLFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\CollectionInterface as XMLFileNodeInfoCollectionInterface;
+use ILIAS\Export\ImportHandler\I\Path\HandlerInterface as PathInterface;
 
 interface HandlerInterface
 {
-    public function withFileHandler(ilXMLFileHandlerInterface $file_handler): HandlerInterface;
+    public function withFileHandler(XMLFileHandlerInterface $file_handler): HandlerInterface;
 
-    public function getNodeInfoAt(ilImportHandlerPathInterface $path): ilXMLFileNodeInfoCollectionInterface;
+    public function getNodeInfoAt(PathInterface $path): XMLFileNodeInfoCollectionInterface;
 }

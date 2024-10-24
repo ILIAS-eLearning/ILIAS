@@ -20,14 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\Schema\Info;
 
-use ILIAS\Export\ImportHandler\I\Schema\Info\CollectionInterface as ilImportHandlerSchemaInfoCollectionInterface;
-use ILIAS\Export\ImportHandler\I\Schema\Info\FactoryInterface as ilImportHandlerSchemaInfoFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Schema\Info\HandlerInterface as ilImportHandlerSchemaInfoInterface;
-use ILIAS\Export\ImportHandler\Schema\Info\Collection as ilImportHandlerSchemaInfoCollection;
-use ILIAS\Export\ImportHandler\Schema\Info\Handler as ilImportHandlerSchemaInfo;
+use ILIAS\Export\ImportHandler\I\Schema\Info\CollectionInterface as SchemaInfoCollectionInterface;
+use ILIAS\Export\ImportHandler\I\Schema\Info\FactoryInterface as SchemaInfoFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Schema\Info\HandlerInterface as SchemaInfoInterface;
+use ILIAS\Export\ImportHandler\Schema\Info\Collection as SchemaInfoCollection;
+use ILIAS\Export\ImportHandler\Schema\Info\Handler as SchemaInfo;
 use ilLogger;
 
-class Factory implements ilImportHandlerSchemaInfoFactoryInterface
+class Factory implements SchemaInfoFactoryInterface
 {
     protected ilLogger $logger;
 
@@ -37,14 +37,14 @@ class Factory implements ilImportHandlerSchemaInfoFactoryInterface
         $this->logger = $logger;
     }
 
-    public function handler(): ilImportHandlerSchemaInfoInterface
+    public function handler(): SchemaInfoInterface
     {
-        return new ilImportHandlerSchemaInfo();
+        return new SchemaInfo();
     }
 
-    public function collection(): ilImportHandlerSchemaInfoCollectionInterface
+    public function collection(): SchemaInfoCollectionInterface
     {
-        return new ilImportHandlerSchemaInfoCollection(
+        return new SchemaInfoCollection(
             $this->logger
         );
     }

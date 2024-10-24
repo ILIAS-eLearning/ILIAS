@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\Schema\Folder;
 
-use ILIAS\Export\ImportHandler\I\Schema\Folder\HandlerInterface as ilImportHanlderSchemaFolderInterface;
+use ILIAS\Export\ImportHandler\I\Schema\Folder\HandlerInterface as SchemaFolderInterface;
 
 interface FactoryInterface
 {
-    public function handler(): ilImportHanlderSchemaFolderInterface;
+    public function handler(): SchemaFolderInterface;
 }

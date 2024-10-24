@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\Path\Comparison;
 
-use ILIAS\Export\ImportHandler\I\Path\Comparison\HandlerInterface as ilImportHandlerPathComparisonHandlerInterface;
+use ILIAS\Export\ImportHandler\I\Path\Comparison\HandlerInterface as PathComparisonHandlerInterface;
 
 interface FactoryInterface
 {
-    public function handler(): ilImportHandlerPathComparisonHandlerInterface;
+    public function handler(): PathComparisonHandlerInterface;
 }

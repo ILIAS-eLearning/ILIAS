@@ -20,21 +20,21 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\File\Namespace;
 
-use ILIAS\Export\ImportHandler\File\Namespace\Collection as ilParserNamespaceCollection;
-use ILIAS\Export\ImportHandler\File\Namespace\Handler as ilParserNamespaceHandler;
-use ILIAS\Export\ImportHandler\I\File\Namespace\CollectionInterface as ilParserNamespaceCollectionInterface;
-use ILIAS\Export\ImportHandler\I\File\Namespace\FactoryInterface as ilParserNamespaceFactoryInterface;
-use ILIAS\Export\ImportHandler\I\File\Namespace\HandlerInterface as ilParserNamespaceHandlerInterface;
+use ILIAS\Export\ImportHandler\File\Namespace\Collection as ParserNamespaceCollection;
+use ILIAS\Export\ImportHandler\File\Namespace\Handler as ParserNamespaceHandler;
+use ILIAS\Export\ImportHandler\I\File\Namespace\CollectionInterface as ParserNamespaceCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\Namespace\FactoryInterface as ParserNamespaceFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\Namespace\HandlerInterface as ParserNamespaceHandlerInterface;
 
-class Factory implements ilParserNamespaceFactoryInterface
+class Factory implements ParserNamespaceFactoryInterface
 {
-    public function handler(): ilParserNamespaceHandlerInterface
+    public function handler(): ParserNamespaceHandlerInterface
     {
-        return new ilParserNamespaceHandler();
+        return new ParserNamespaceHandler();
     }
 
-    public function collection(): ilParserNamespaceCollectionInterface
+    public function collection(): ParserNamespaceCollectionInterface
     {
-        return new ilParserNamespaceCollection();
+        return new ParserNamespaceCollection();
     }
 }

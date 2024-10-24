@@ -20,12 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\Validation\Set;
 
-use ILIAS\Export\ImportHandler\I\Validation\Set\CollectionInterface as ilFileValidationSetCollectionInterface;
-use ILIAS\Export\ImportHandler\I\Validation\Set\HandlerInterface as ilFileValidationSetInterface;
+use ILIAS\Export\ImportHandler\I\Validation\Set\CollectionInterface as FileValidationSetCollectionInterface;
+use ILIAS\Export\ImportHandler\I\Validation\Set\HandlerInterface as FileValidationSetInterface;
 
 interface FactoryInterface
 {
-    public function handler(): ilFileValidationSetInterface;
+    public function handler(): FileValidationSetInterface;
 
-    public function collection(): ilFileValidationSetCollectionInterface;
+    public function collection(): FileValidationSetCollectionInterface;
 }

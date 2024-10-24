@@ -20,12 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\Parser;
 
-use ILIAS\Export\ImportHandler\I\Parser\DOM\FactoryInterface as ilImportHandlerParserDOMFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\FactoryInterface as ilImportHandlerParserNodeInfoFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\DOM\FactoryInterface as ParserDOMFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\FactoryInterface as ParserNodeInfoFactoryInterface;
 
 interface FactoryInterface
 {
-    public function DOM(): ilImportHandlerParserDOMFactoryInterface;
+    public function DOM(): ParserDOMFactoryInterface;
 
-    public function nodeInfo(): ilImportHandlerParserNodeInfoFactoryInterface;
+    public function nodeInfo(): ParserNodeInfoFactoryInterface;
 }

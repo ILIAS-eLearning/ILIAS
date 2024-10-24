@@ -20,23 +20,23 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\File\XML\Manifest;
 
-use ILIAS\Export\ImportHandler\I\File\XML\Manifest\HandlerCollectionInterface as ilImportHandlerManifestXMLFileCollectionInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\Manifest\HandlerInterface as ilImportHandlerManifestXMLFileInterface;
-use ILIAS\Export\ImportStatus\Exception\ilException as ilImportStatusException;
-use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ilImportStatusHandlerCollectionInterface;
-use ILIAS\Export\ImportStatus\I\ilFactoryInterface as ilImportStatusFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Manifest\HandlerCollectionInterface as ManifestXMLFileCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Manifest\HandlerInterface as ManifestXMLFileInterface;
+use ILIAS\Export\ImportStatus\Exception\ilException as ImportStatusException;
+use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ImportStatusHandlerCollectionInterface;
+use ILIAS\Export\ImportStatus\I\ilFactoryInterface as ImportStatusFactoryInterface;
 
-class Collection implements ilImportHandlerManifestXMLFileCollectionInterface
+class Collection implements ManifestXMLFileCollectionInterface
 {
     /**
-     * @var ilImportHandlerManifestXMLFileInterface[];
+     * @var ManifestXMLFileInterface[];
      */
     protected array $elements;
-    protected ilImportStatusFactoryInterface $import_status;
+    protected ImportStatusFactoryInterface $import_status;
     protected int $index;
 
     public function __construct(
-        ilImportStatusFactoryInterface $import_status,
+        ImportStatusFactoryInterface $import_status,
     ) {
         $this->import_status = $import_status;
         $this->elements = [];
@@ -48,7 +48,7 @@ class Collection implements ilImportHandlerManifestXMLFileCollectionInterface
         return count($this->elements);
     }
 
-    public function current(): ilImportHandlerManifestXMLFileInterface
+    public function current(): ManifestXMLFileInterface
     {
         return $this->elements[$this->index];
     }
@@ -74,16 +74,16 @@ class Collection implements ilImportHandlerManifestXMLFileCollectionInterface
     }
 
     public function withMerged(
-        ilImportHandlerManifestXMLFileCollectionInterface $other
-    ): ilImportHandlerManifestXMLFileCollectionInterface {
+        ManifestXMLFileCollectionInterface $other
+    ): ManifestXMLFileCollectionInterface {
         $clone = clone $this;
         $clone->elements = array_merge($clone->toArray(), $other->toArray());
         return $clone;
     }
 
     public function withElement(
-        ilImportHandlerManifestXMLFileInterface $element
-    ): ilImportHandlerManifestXMLFileCollectionInterface {
+        ManifestXMLFileInterface $element
+    ): ManifestXMLFileCollectionInterface {
         $clone = clone $this;
         $clone->elements[] = $element;
         return $clone;
@@ -100,7 +100,7 @@ class Collection implements ilImportHandlerManifestXMLFileCollectionInterface
         return false;
     }
 
-    public function validateElements(): ilImportStatusHandlerCollectionInterface
+    public function validateElements(): ImportStatusHandlerCollectionInterface
     {
         $status_collection = $this->import_status->collection()->withNumberingEnabled(true);
         foreach ($this as $manfiest_file_handler) {
@@ -112,9 +112,9 @@ class Collection implements ilImportHandlerManifestXMLFileCollectionInterface
     }
 
     /**
-     * @throws ilImportStatusException
+     * @throws ImportStatusException
      */
-    public function findNextFiles(): ilImportHandlerManifestXMLFileCollectionInterface
+    public function findNextFiles(): ManifestXMLFileCollectionInterface
     {
         $collection = clone $this;
         $collection->rewind();
@@ -126,7 +126,7 @@ class Collection implements ilImportHandlerManifestXMLFileCollectionInterface
     }
 
     /**
-     * @return ilImportHandlerManifestXMLFileInterface[]
+     * @return ManifestXMLFileInterface[]
      */
     public function toArray(): array
     {

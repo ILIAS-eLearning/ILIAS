@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Tree;
 
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Tree\HandlerInterface as ilImportHandlerParserNodeInfoTreeInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\Tree\HandlerInterface as ParserNodeInfoTreeInterface;
 
 interface FactoryInterface
 {
-    public function handler(): ilImportHandlerParserNodeInfoTreeInterface;
+    public function handler(): ParserNodeInfoTreeInterface;
 }

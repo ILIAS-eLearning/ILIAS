@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\Parser\NodeInfo;
 
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\CollectionInterface as ilXMLFileNodeInfoCollectionInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\CollectionInterface as XMLFileNodeInfoCollectionInterface;
 
 interface HandlerInterface
 {
@@ -30,7 +30,7 @@ interface HandlerInterface
 
     public function getValueOfAttribute(string $attribute_name): string;
 
-    public function getChildren(): ilXMLFileNodeInfoCollectionInterface;
+    public function getChildren(): XMLFileNodeInfoCollectionInterface;
 
     public function getParent(): HandlerInterface|null;
 

@@ -20,28 +20,28 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler;
 
-use ILIAS\Data\Factory as ilDataFactory;
-use ILIAS\Export\ImportHandler\File\Factory as ilImportHandlerFileFactory;
-use ILIAS\Export\ImportHandler\I\FactoryInterface as ilImportHandlerFactoryInterface;
-use ILIAS\Export\ImportHandler\I\File\FactoryInterface as ilImportHandlerFileFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Parser\FactoryInterface as ilImportHandlerParserFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Path\FactoryInterface as ilImportHandlerPathFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Schema\FactoryInterface as ilImportHandlerSchemaFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Validation\FactoryInterface as ilImportHandlerValidationFactoryInterface;
-use ILIAS\Export\ImportHandler\Parser\Factory as ilImportHandlerParserFactory;
-use ILIAS\Export\ImportHandler\Path\Factory as ilImportHandlerPathFactory;
-use ILIAS\Export\ImportHandler\Schema\Factory as ilImportHandlerSchemaFactory;
-use ILIAS\Export\ImportHandler\Validation\Factory as ilImportHandlerValidationFactory;
-use ILIAS\Export\ImportStatus\ilFactory as ilImportStatusFactory;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Export\ImportHandler\File\Factory as FileFactory;
+use ILIAS\Export\ImportHandler\I\FactoryInterface as ImportHandlerFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\FactoryInterface as FileFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\FactoryInterface as ParserFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Path\FactoryInterface as PathFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Schema\FactoryInterface as SchemaFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Validation\FactoryInterface as ValidationFactoryInterface;
+use ILIAS\Export\ImportHandler\Parser\Factory as ParserFactory;
+use ILIAS\Export\ImportHandler\Path\Factory as PathFactory;
+use ILIAS\Export\ImportHandler\Schema\Factory as SchemaFactory;
+use ILIAS\Export\ImportHandler\Validation\Factory as ValidationFactory;
+use ILIAS\Export\ImportStatus\ilFactory as ImportStatusFactory;
 use ilLanguage;
 use ilLogger;
 
-class Factory implements ilImportHandlerFactoryInterface
+class Factory implements ImportHandlerFactoryInterface
 {
     protected ilLogger $logger;
     protected ilLanguage $lng;
-    protected ilImportStatusFactory $import_status_factory;
-    protected ilDataFactory $data_factory;
+    protected ImportStatusFactory $import_status_factory;
+    protected DataFactory $data_factory;
 
     public function __construct()
     {
@@ -49,21 +49,21 @@ class Factory implements ilImportHandlerFactoryInterface
         $this->logger = $DIC->logger()->root();
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule("exp");
-        $this->import_status_factory = new ilImportStatusFactory();
-        $this->data_factory = new ilDataFactory();
+        $this->import_status_factory = new ImportStatusFactory();
+        $this->data_factory = new DataFactory();
     }
 
-    public function parser(): ilImportHandlerParserFactoryInterface
+    public function parser(): ParserFactoryInterface
     {
-        return new ilImportHandlerParserFactory(
+        return new ParserFactory(
             $this,
             $this->logger
         );
     }
 
-    public function file(): ilImportHandlerFileFactoryInterface
+    public function file(): FileFactoryInterface
     {
-        return new ilImportHandlerFileFactory(
+        return new FileFactory(
             $this,
             $this->import_status_factory,
             $this->logger,
@@ -72,25 +72,25 @@ class Factory implements ilImportHandlerFactoryInterface
         );
     }
 
-    public function schema(): ilImportHandlerSchemaFactoryInterface
+    public function schema(): SchemaFactoryInterface
     {
-        return new ilImportHandlerSchemaFactory(
+        return new SchemaFactory(
             $this,
             $this->data_factory,
             $this->logger
         );
     }
 
-    public function path(): ilImportHandlerPathFactoryInterface
+    public function path(): PathFactoryInterface
     {
-        return new ilImportHandlerPathFactory(
+        return new PathFactory(
             $this->logger
         );
     }
 
-    public function validation(): ilImportHandlerValidationFactoryInterface
+    public function validation(): ValidationFactoryInterface
     {
-        return new ilImportHandlerValidationFactory(
+        return new ValidationFactory(
             $this->import_status_factory,
             $this,
             $this->logger

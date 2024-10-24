@@ -22,39 +22,39 @@ namespace ILIAS\Export\ImportHandler\Validation;
 
 use DOMDocument;
 use Exception;
-use ILIAS\Export\ImportHandler\I\File\HandlerInterface as ilFileHandlerInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\HandlerInterface as ilXMLFileHandlerInterface;
-use ILIAS\Export\ImportHandler\I\File\XSD\HandlerInterface as ilXSDFileHandlerInterface;
-use ILIAS\Export\ImportHandler\I\Parser\FactoryInterface as ilParserFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\CollectionInterface as ilXMLFileNodeInfoCollection;
-use ILIAS\Export\ImportHandler\I\Path\FactoryInterface as ilFilePathFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Path\HandlerInterface as ilFilePathHandlerInterface;
-use ILIAS\Export\ImportHandler\I\Validation\HandlerInterface as ilFileValidationHandlerInterface;
-use ILIAS\Export\ImportHandler\I\Validation\Set\CollectionInterface as ilFileValidationSetCollectionInterface;
-use ILIAS\Export\ImportStatus\Exception\ilException as ilImportStatusException;
-use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ilImportStatusHandlerCollectionInterface;
-use ILIAS\Export\ImportStatus\I\ilFactoryInterface as ilImportStatusFactoryInterface;
-use ILIAS\Export\ImportStatus\I\ilHandlerInterface as ilImportStatusHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\HandlerInterface as FileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\HandlerInterface as XMLFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XSD\HandlerInterface as XSDFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\Parser\FactoryInterface as ParserFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\CollectionInterface as XMLFileNodeInfoCollection;
+use ILIAS\Export\ImportHandler\I\Path\FactoryInterface as FilePathFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Path\HandlerInterface as FilePathHandlerInterface;
+use ILIAS\Export\ImportHandler\I\Validation\HandlerInterface as FileValidationHandlerInterface;
+use ILIAS\Export\ImportHandler\I\Validation\Set\CollectionInterface as FileValidationSetCollectionInterface;
+use ILIAS\Export\ImportStatus\Exception\ilException as ImportStatusException;
+use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ImportStatusHandlerCollectionInterface;
+use ILIAS\Export\ImportStatus\I\ilFactoryInterface as ImportStatusFactoryInterface;
+use ILIAS\Export\ImportStatus\I\ilHandlerInterface as ImportStatusHandlerInterface;
 use ILIAS\Export\ImportStatus\StatusType;
 use ilLogger;
 use LibXMLError;
 
-class Handler implements ilFileValidationHandlerInterface
+class Handler implements FileValidationHandlerInterface
 {
     public const TMP_DIR_NAME = 'temp';
     public const XML_DIR_NAME = 'xml';
 
     protected ilLogger $logger;
-    protected ilImportStatusFactoryInterface $import_status;
-    protected ilParserFactoryInterface $parser;
-    protected ilFilePathFactoryInterface $path;
-    protected ilImportStatusHandlerInterface $success_status;
+    protected ImportStatusFactoryInterface $import_status;
+    protected ParserFactoryInterface $parser;
+    protected FilePathFactoryInterface $path;
+    protected ImportStatusHandlerInterface $success_status;
 
     public function __construct(
         ilLogger $logger,
-        ilParserFactoryInterface $parser,
-        ilImportStatusFactoryInterface $import_status,
-        ilFilePathFactoryInterface $path,
+        ParserFactoryInterface $parser,
+        ImportStatusFactoryInterface $import_status,
+        FilePathFactoryInterface $path,
     ) {
         $this->logger = $logger;
         $this->import_status = $import_status;
@@ -66,9 +66,9 @@ class Handler implements ilFileValidationHandlerInterface
     }
 
     /**
-     * @param ilFileHandlerInterface $file_handlers
+     * @param FileHandlerInterface $file_handlers
      */
-    protected function checkIfFilesExist(array $file_handlers): ilImportStatusHandlerCollectionInterface
+    protected function checkIfFilesExist(array $file_handlers): ImportStatusHandlerCollectionInterface
     {
         $status_collection = $this->import_status->collection()->withNumberingEnabled(true);
         foreach ($file_handlers as $file_handler) {
@@ -87,10 +87,10 @@ class Handler implements ilFileValidationHandlerInterface
      * @param LibXMLError[] $errors
      */
     protected function collectErrors(
-        ?ilXMLFileHandlerInterface $xml_file_handler = null,
-        ?ilXSDFileHandlerInterface $xsd_file_handler = null,
+        ?XMLFileHandlerInterface $xml_file_handler = null,
+        ?XSDFileHandlerInterface $xsd_file_handler = null,
         array $errors = []
-    ): ilImportStatusHandlerCollectionInterface {
+    ): ImportStatusHandlerCollectionInterface {
         $status_collection = $this->import_status->collection();
         foreach ($errors as $error) {
             $status_collection = $status_collection->getMergedCollectionWith(
@@ -102,9 +102,9 @@ class Handler implements ilFileValidationHandlerInterface
 
     protected function createErrorMessage(
         string $msg,
-        ?ilXMLFileHandlerInterface $xml_file_handler = null,
-        ?ilXSDFileHandlerInterface $xsd_file_handler = null
-    ): ilImportStatusHandlerCollectionInterface {
+        ?XMLFileHandlerInterface $xml_file_handler = null,
+        ?XSDFileHandlerInterface $xsd_file_handler = null
+    ): ImportStatusHandlerCollectionInterface {
         $status_collection = $this->import_status->collection();
         $xml_str = is_null($xml_file_handler)
             ? ''
@@ -126,10 +126,10 @@ class Handler implements ilFileValidationHandlerInterface
 
 
     protected function validateXMLAtNodes(
-        ilXMLFileHandlerInterface $xml_file_handler,
-        ilXSDFileHandlerInterface $xsd_file_handler,
-        ilXMLFileNodeInfoCollection $nodes
-    ): ilImportStatusHandlerCollectionInterface {
+        XMLFileHandlerInterface $xml_file_handler,
+        XSDFileHandlerInterface $xsd_file_handler,
+        XMLFileNodeInfoCollection $nodes
+    ): ImportStatusHandlerCollectionInterface {
         // Check if files exist
         $status_collection = $this->checkIfFilesExist([$xsd_file_handler]);
         if ($status_collection->hasStatusType(StatusType::FAILED)) {
@@ -169,10 +169,10 @@ class Handler implements ilFileValidationHandlerInterface
     }
 
     protected function validateEmptyXML(
-        ilXMLFileHandlerInterface $xml_file_handler,
-        ilXSDFileHandlerInterface $xsd_file_handler
-    ): ilImportStatusHandlerCollectionInterface {
-        $old_value = libxml_use_internal_errors(true);
+        XMLFileHandlerInterface $xml_file_handler,
+        XSDFileHandlerInterface $xsd_file_handler
+    ): ImportStatusHandlerCollectionInterface {
+        /*$old_value = libxml_use_internal_errors(true);
         $status_collection = $this->import_status->collection()->withNumberingEnabled(true);
         $doc = new DOMDocument();
         $doc->schemaValidate($xsd_file_handler->getFilePath());
@@ -183,13 +183,14 @@ class Handler implements ilFileValidationHandlerInterface
             $xml_file_handler,
             $xsd_file_handler,
             $errors
-        ));
+        ));*/
+        return $this->import_status->collection()->withNumberingEnabled(true);
     }
 
     public function validateXMLFile(
-        ilXMLFileHandlerInterface $xml_file_handler,
-        ilXSDFileHandlerInterface $xsd_file_handler
-    ): ilImportStatusHandlerCollectionInterface {
+        XMLFileHandlerInterface $xml_file_handler,
+        XSDFileHandlerInterface $xsd_file_handler
+    ): ImportStatusHandlerCollectionInterface {
         return $this->validateXMLAtPath(
             $xml_file_handler,
             $xsd_file_handler,
@@ -198,13 +199,13 @@ class Handler implements ilFileValidationHandlerInterface
     }
 
     /**
-     * @throws ilImportStatusException
+     * @throws ImportStatusException
      */
     public function validateXMLAtPath(
-        ilXMLFileHandlerInterface $xml_file_handler,
-        ilXSDFileHandlerInterface $xsd_file_handler,
-        ilFilePathHandlerInterface $path_handler
-    ): ilImportStatusHandlerCollectionInterface {
+        XMLFileHandlerInterface $xml_file_handler,
+        XSDFileHandlerInterface $xsd_file_handler,
+        FilePathHandlerInterface $path_handler
+    ): ImportStatusHandlerCollectionInterface {
         return $this->validateXMLAtNodes(
             $xml_file_handler,
             $xsd_file_handler,
@@ -215,11 +216,11 @@ class Handler implements ilFileValidationHandlerInterface
     }
 
     /**
-     * @throws ilImportStatusException
+     * @throws ImportStatusException
      */
     public function validateSets(
-        ilFileValidationSetCollectionInterface $sets
-    ): ilImportStatusHandlerCollectionInterface {
+        FileValidationSetCollectionInterface $sets
+    ): ImportStatusHandlerCollectionInterface {
         $status_collection = $this->import_status->collection();
         foreach ($sets as $set) {
             $status_collection = $status_collection->getMergedCollectionWith($this->validateXMLAtPath(

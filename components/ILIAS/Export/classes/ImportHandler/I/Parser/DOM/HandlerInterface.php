@@ -20,10 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\Parser\DOM;
 
-use ILIAS\Export\ImportHandler\I\File\XML\HandlerInterface as ilXMLFileHandlerInterface;
-use ILIAS\Export\ImportHandler\I\Parser\HandlerInterface as ilParserHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\HandlerInterface as XMLFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\Parser\HandlerInterface as ParserHandlerInterface;
 
-interface HandlerInterface extends ilParserHandlerInterface
+interface HandlerInterface extends ParserHandlerInterface
 {
-    public function withFileHandler(ilXMLFileHandlerInterface $file_handler): HandlerInterface;
+    public function withFileHandler(XMLFileHandlerInterface $file_handler): HandlerInterface;
 }

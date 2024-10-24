@@ -20,27 +20,27 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\I\Validation\Set;
 
-use ILIAS\Export\ImportHandler\I\File\XML\HandlerInterface as ilXMLFileHandlerInterface;
-use ILIAS\Export\ImportHandler\I\File\XSD\HandlerInterface as ilXSDFileHandlerInterface;
-use ILIAS\Export\ImportHandler\I\Path\HandlerInterface as ilImportHandlerPathInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\HandlerInterface as XMLFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\File\XSD\HandlerInterface as XSDFileHandlerInterface;
+use ILIAS\Export\ImportHandler\I\Path\HandlerInterface as PathInterface;
 
 interface HandlerInterface
 {
-    public function getXMLFileHandler(): ilXMLFileHandlerInterface;
+    public function getXMLFileHandler(): XMLFileHandlerInterface;
 
-    public function getFilePathHandler(): ilImportHandlerPathInterface;
+    public function getFilePathHandler(): PathInterface;
 
-    public function getXSDFileHandler(): ilXSDFileHandlerInterface;
+    public function getXSDFileHandler(): XSDFileHandlerInterface;
 
     public function withFilePathHandler(
-        ilImportHandlerPathInterface $path_handler
+        PathInterface $path_handler
     ): HandlerInterface;
 
     public function withXSDFileHanlder(
-        ilXSDFileHandlerInterface $xsd_file_handler
+        XSDFileHandlerInterface $xsd_file_handler
     ): HandlerInterface;
 
     public function withXMLFileHandler(
-        ilXMLFileHandlerInterface $xml_file_handler
+        XMLFileHandlerInterface $xml_file_handler
     ): HandlerInterface;
 }

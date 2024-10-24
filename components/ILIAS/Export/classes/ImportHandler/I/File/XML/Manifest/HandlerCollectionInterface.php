@@ -22,28 +22,28 @@ namespace ILIAS\Export\ImportHandler\I\File\XML\Manifest;
 
 use Countable;
 use ILIAS\Export\ImportHandler\File\XML\Manifest\ExportObjectType;
-use ILIAS\Export\ImportHandler\I\File\XML\Manifest\HandlerInterface as ilManifestXMLFileHandlerInterface;
-use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ilImportStatusHandlerCollectionInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Manifest\HandlerInterface as ManifestXMLFileHandlerInterface;
+use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ImportStatusHandlerCollectionInterface;
 use Iterator;
 
 interface HandlerCollectionInterface extends Iterator, Countable
 {
     public function withMerged(HandlerCollectionInterface $other): HandlerCollectionInterface;
 
-    public function withElement(ilManifestXMLFileHandlerInterface $element): HandlerCollectionInterface;
+    public function withElement(ManifestXMLFileHandlerInterface $element): HandlerCollectionInterface;
 
-    public function validateElements(): ilImportStatusHandlerCollectionInterface;
+    public function validateElements(): ImportStatusHandlerCollectionInterface;
 
     public function containsExportObjectType(ExportObjectType $type): bool;
 
     public function findNextFiles(): HandlerCollectionInterface;
 
     /**
-     * @return ilManifestXMLFileHandlerInterface[]
+     * @return ManifestXMLFileHandlerInterface[]
      */
     public function toArray(): array;
 
-    public function current(): ilManifestXMLFileHandlerInterface;
+    public function current(): ManifestXMLFileHandlerInterface;
 
     public function next(): void;
 

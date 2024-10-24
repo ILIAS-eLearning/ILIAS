@@ -21,9 +21,9 @@ declare(strict_types=1);
 namespace ILIAS\Export\ImportHandler\I\Parser\NodeInfo\DOM;
 
 use DOMNode;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\HandlerInterface as ilXMLFileNodeInfoHandlerInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\HandlerInterface as XMLFileNodeInfoHandlerInterface;
 
-interface HandlerInterface extends ilXMLFileNodeInfoHandlerInterface
+interface HandlerInterface extends XMLFileNodeInfoHandlerInterface
 {
     public function withDOMNode(DOMNode $node): HandlerInterface;
 

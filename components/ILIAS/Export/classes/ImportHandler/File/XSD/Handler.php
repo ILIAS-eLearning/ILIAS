@@ -20,13 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\File\XSD;
 
-use ILIAS\Export\ImportHandler\File\Handler as ilImportHandlerFile;
-use ILIAS\Export\ImportHandler\I\File\XSD\HandlerInterface as ilImportHandlerXSDFileInterface;
+use ILIAS\Export\ImportHandler\File\Handler as File;
+use ILIAS\Export\ImportHandler\I\File\XSD\HandlerInterface as XSDFileInterface;
 use SplFileInfo;
 
-class Handler extends ilImportHandlerFile implements ilImportHandlerXSDFileInterface
+class Handler extends File implements XSDFileInterface
 {
-    public function withFileInfo(SplFileInfo $file_info): ilImportHandlerXSDFileInterface
+    public function withFileInfo(SplFileInfo $file_info): XSDFileInterface
     {
         $clone = clone $this;
         $clone->spl_file_info = $file_info;

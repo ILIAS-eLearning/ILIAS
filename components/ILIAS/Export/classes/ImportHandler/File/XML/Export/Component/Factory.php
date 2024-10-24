@@ -20,22 +20,22 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\File\XML\Export\Component;
 
-use ILIAS\Export\ImportHandler\File\XML\Export\Component\Handler as ilComponentXMLExportFileHandler;
-use ILIAS\Export\ImportHandler\I\FactoryInterface as ilImportHandlerFactoryInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\Export\Component\FactoryInterface as ilComponentXMLExportFileFactoryInterface;
-use ILIAS\Export\ImportHandler\I\File\XML\Export\Component\HandlerInterface as ilComponentXMLExportFileHandlerInterface;
-use ILIAS\Export\ImportStatus\ilFactory as ilImportStatusFactory;
+use ILIAS\Export\ImportHandler\File\XML\Export\Component\Handler as ComponentXMLExportFileHandler;
+use ILIAS\Export\ImportHandler\I\FactoryInterface as ImportHandlerFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\Component\FactoryInterface as ComponentXMLExportFileFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XML\Export\Component\HandlerInterface as ComponentXMLExportFileHandlerInterface;
+use ILIAS\Export\ImportStatus\ilFactory as ImportStatusFactory;
 use ilLanguage;
 use ilLogger;
 
-class Factory implements ilComponentXMLExportFileFactoryInterface
+class Factory implements ComponentXMLExportFileFactoryInterface
 {
-    protected ilImportHandlerFactoryInterface $import_handler;
+    protected ImportHandlerFactoryInterface $import_handler;
     protected ilLogger $logger;
     protected ilLanguage $lng;
 
     public function __construct(
-        ilImportHandlerFactoryInterface $import_handler,
+        ImportHandlerFactoryInterface $import_handler,
         ilLogger $logger,
         ilLanguage $lng
     ) {
@@ -44,11 +44,11 @@ class Factory implements ilComponentXMLExportFileFactoryInterface
         $this->import_handler = $import_handler;
     }
 
-    public function handler(): ilComponentXMLExportFileHandlerInterface
+    public function handler(): ComponentXMLExportFileHandlerInterface
     {
-        return new ilComponentXMLExportFileHandler(
+        return new ComponentXMLExportFileHandler(
             $this->import_handler->file()->namespace(),
-            new ilImportStatusFactory(),
+            new ImportStatusFactory(),
             $this->import_handler->schema(),
             $this->import_handler->parser(),
             $this->import_handler->path(),

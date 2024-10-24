@@ -20,16 +20,16 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\File\XSD;
 
-use ILIAS\Export\ImportHandler\File\Namespace\Factory as ilFileNamespaceFactory;
-use ILIAS\Export\ImportHandler\File\XSD\Handler as ilXSDFileHandler;
-use ILIAS\Export\ImportHandler\I\File\XSD\FactoryInterface as ilXSDFileHandlerFactoryInterface;
-use ILIAS\Export\ImportHandler\I\File\XSD\HandlerInterface as ilXSDFileHandlerInterface;
+use ILIAS\Export\ImportHandler\File\Namespace\Factory as FileNamespaceFactory;
+use ILIAS\Export\ImportHandler\File\XSD\Handler as XSDFileHandler;
+use ILIAS\Export\ImportHandler\I\File\XSD\FactoryInterface as XSDFileHandlerFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XSD\HandlerInterface as XSDFileHandlerInterface;
 use SplFileInfo;
 
-class Factory implements ilXSDFileHandlerFactoryInterface
+class Factory implements XSDFileHandlerFactoryInterface
 {
-    public function withFileInfo(SplFileInfo $file_info): ilXSDFileHandlerInterface
+    public function withFileInfo(SplFileInfo $file_info): XSDFileHandlerInterface
     {
-        return (new ilXSDFileHandler(new ilFileNamespaceFactory()))->withFileInfo($file_info);
+        return (new XSDFileHandler(new FileNamespaceFactory()))->withFileInfo($file_info);
     }
 }

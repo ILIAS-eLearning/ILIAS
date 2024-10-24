@@ -21,21 +21,21 @@ declare(strict_types=1);
 namespace ILIAS\Export\ImportHandler\I\Validation\Set;
 
 use Countable;
-use ILIAS\Export\ImportHandler\I\Validation\Set\HandlerInterface as ilFileValidationPairHandlerInterface;
+use ILIAS\Export\ImportHandler\I\Validation\Set\HandlerInterface as FileValidationPairHandlerInterface;
 use Iterator;
 
 interface CollectionInterface extends Iterator, Countable
 {
-    public function withElement(ilFileValidationPairHandlerInterface $element): CollectionInterface;
+    public function withElement(FileValidationPairHandlerInterface $element): CollectionInterface;
 
     public function withMerged(CollectionInterface $other): CollectionInterface;
 
     /**
-     * @return ilFileValidationPairHandlerInterface[]
+     * @return FileValidationPairHandlerInterface[]
      */
     public function toArray(): array;
 
-    public function current(): ilFileValidationPairHandlerInterface;
+    public function current(): FileValidationPairHandlerInterface;
 
     public function next(): void;
 

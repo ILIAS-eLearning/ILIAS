@@ -21,14 +21,14 @@ declare(strict_types=1);
 namespace ILIAS\Export\ImportHandler\Schema\Info;
 
 use ILIAS\Data\Version;
-use ILIAS\Export\ImportHandler\I\Schema\Info\CollectionInterface as ilImportHandlerSchemaInfoCollectionInterface;
-use ILIAS\Export\ImportHandler\I\Schema\Info\HandlerInterface as ilImportHandlerSchemaInfoInterface;
+use ILIAS\Export\ImportHandler\I\Schema\Info\CollectionInterface as SchemaInfoCollectionInterface;
+use ILIAS\Export\ImportHandler\I\Schema\Info\HandlerInterface as SchemaInfoInterface;
 use ilLogger;
 
-class Collection implements ilImportHandlerSchemaInfoCollectionInterface
+class Collection implements SchemaInfoCollectionInterface
 {
     /**
-     * @var ilImportHandlerSchemaInfoInterface[]
+     * @var SchemaInfoInterface[]
      */
     protected array $elements;
     protected int $index;
@@ -43,8 +43,8 @@ class Collection implements ilImportHandlerSchemaInfoCollectionInterface
     }
 
     public function withElement(
-        ilImportHandlerSchemaInfoInterface $element
-    ): ilImportHandlerSchemaInfoCollectionInterface {
+        SchemaInfoInterface $element
+    ): SchemaInfoCollectionInterface {
         $clone = clone $this;
         $clone->elements[] = $element;
         return $clone;
@@ -53,7 +53,7 @@ class Collection implements ilImportHandlerSchemaInfoCollectionInterface
     public function getLatest(
         string $component,
         string $sub_type = ''
-    ): ilImportHandlerSchemaInfoInterface|null {
+    ): SchemaInfoInterface|null {
         $current = null;
         foreach ($this->elements as $schema_info) {
             if (
@@ -79,7 +79,7 @@ class Collection implements ilImportHandlerSchemaInfoCollectionInterface
         Version $version,
         string $type,
         string $sub_type = ''
-    ): ilImportHandlerSchemaInfoInterface|null {
+    ): SchemaInfoInterface|null {
         foreach ($this->elements as $schema_info) {
             if (
                 $schema_info->getVersion()->equals($version) &&
@@ -96,7 +96,7 @@ class Collection implements ilImportHandlerSchemaInfoCollectionInterface
         Version $version,
         string $type,
         string $sub_type = ''
-    ): ilImportHandlerSchemaInfoInterface|null {
+    ): SchemaInfoInterface|null {
         $schema_with_version = $this->getByVersion($version, $type, $sub_type);
         if (!is_null($schema_with_version)) {
             return $schema_with_version;
@@ -124,7 +124,7 @@ class Collection implements ilImportHandlerSchemaInfoCollectionInterface
         return $this->index;
     }
 
-    public function current(): ilImportHandlerSchemaInfoInterface
+    public function current(): SchemaInfoInterface
     {
         return $this->elements[$this->index];
     }

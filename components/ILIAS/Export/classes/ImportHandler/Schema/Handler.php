@@ -20,30 +20,30 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\Schema;
 
-use ILIAS\Data\Factory as ilDataFactory;
+use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Version;
-use ILIAS\Export\ImportHandler\I\File\XSD\FactoryInterface as ilImportHandlerXSDFileFactoryInterface;
-use ILIAS\Export\ImportHandler\I\File\XSD\HandlerInterface as ilImportHandlerXSDFileInterface;
-use ILIAS\Export\ImportHandler\I\Parser\FactoryInterface as ilImportHandlerParserFactoryInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\HandlerInterface as ilImportHandlerXMLFileNodeInfoInterface;
-use ILIAS\Export\ImportHandler\I\Schema\Folder\HandlerInterface as ilImportHandlerSchemaFolderInterface;
-use ILIAS\Export\ImportHandler\I\Schema\HandlerInterface as ilImportHandlerSchemaInterface;
+use ILIAS\Export\ImportHandler\I\File\XSD\FactoryInterface as XSDFileFactoryInterface;
+use ILIAS\Export\ImportHandler\I\File\XSD\HandlerInterface as XSDFileInterface;
+use ILIAS\Export\ImportHandler\I\Parser\FactoryInterface as ParserFactoryInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\HandlerInterface as XMLFileNodeInfoInterface;
+use ILIAS\Export\ImportHandler\I\Schema\Folder\HandlerInterface as SchemaFolderInterface;
+use ILIAS\Export\ImportHandler\I\Schema\HandlerInterface as SchemaInterface;
 
-class Handler implements ilImportHandlerSchemaInterface
+class Handler implements SchemaInterface
 {
-    protected ilImportHandlerSchemaFolderInterface $schema_folder;
-    protected ilImportHandlerParserFactoryInterface $parser_factory;
-    protected ilImportHandlerXSDFileFactoryInterface $xsd_file_factory;
-    protected ilDataFactory $data_factory;
+    protected SchemaFolderInterface $schema_folder;
+    protected ParserFactoryInterface $parser_factory;
+    protected XSDFileFactoryInterface $xsd_file_factory;
+    protected DataFactory $data_factory;
     protected null|string $type;
     protected null|string $subtype;
     protected null|Version $version;
 
     public function __construct(
-        ilImportHandlerSchemaFolderInterface $schema_folder,
-        ilDataFactory $data_factory,
-        ilImportHandlerParserFactoryInterface $parser_factory,
-        ilImportHandlerXSDFileFactoryInterface $xsd_file_factory
+        SchemaFolderInterface $schema_folder,
+        DataFactory $data_factory,
+        ParserFactoryInterface $parser_factory,
+        XSDFileFactoryInterface $xsd_file_factory
     ) {
         $this->schema_folder = $schema_folder;
         $this->parser_factory = $parser_factory;
@@ -54,7 +54,7 @@ class Handler implements ilImportHandlerSchemaInterface
         $this->version = null;
     }
 
-    public function getXSDFileHandlerByVersionOrLatest(): null|ilImportHandlerXSDFileInterface
+    public function getXSDFileHandlerByVersionOrLatest(): null|XSDFileInterface
     {
         if (
             is_null($this->getVersion()) ||
@@ -73,7 +73,7 @@ class Handler implements ilImportHandlerSchemaInterface
             : $this->xsd_file_factory->withFileInfo($latest_file_info);
     }
 
-    public function getXSDFileHandlerLatest(): null|ilImportHandlerXSDFileInterface
+    public function getXSDFileHandlerLatest(): null|XSDFileInterface
     {
         if (
             is_null($this->getPrimaryType()) ||
@@ -108,8 +108,8 @@ class Handler implements ilImportHandlerSchemaInterface
     }
 
     public function withInformationOf(
-        ilImportHandlerXMLFileNodeInfoInterface $xml_file_node_info
-    ): ilImportHandlerSchemaInterface {
+        XMLFileNodeInfoInterface $xml_file_node_info
+    ): SchemaInterface {
         $type_str = $xml_file_node_info->getValueOfAttribute('Entity');
         $types = str_contains($type_str, '_')
             ? explode('_', $type_str)
@@ -130,7 +130,7 @@ class Handler implements ilImportHandlerSchemaInterface
 
     public function withType(
         string $type
-    ): ilImportHandlerSchemaInterface {
+    ): SchemaInterface {
         $clone = clone $this;
         $clone->type = $type;
         return $clone;
@@ -138,7 +138,7 @@ class Handler implements ilImportHandlerSchemaInterface
 
     public function withSubType(
         string $subtype
-    ): ilImportHandlerSchemaInterface {
+    ): SchemaInterface {
         $clone = clone $this;
         $clone->subtype = $subtype;
         return $clone;
@@ -146,7 +146,7 @@ class Handler implements ilImportHandlerSchemaInterface
 
     public function withVersion(
         Version $version
-    ): ilImportHandlerSchemaInterface {
+    ): SchemaInterface {
         $clone = clone $this;
         $clone->version = $version;
         return $clone;

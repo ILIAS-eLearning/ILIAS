@@ -2,13 +2,13 @@
 
 namespace ILIAS\Export\ImportHandler\Parser\NodeInfo;
 
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\CollectionInterface as ilImportHandlerParserNodeInfoCollectionInterface;
-use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\HandlerInterface as ilImportHandlerParserNodeInfoInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\CollectionInterface as ParserNodeInfoCollectionInterface;
+use ILIAS\Export\ImportHandler\I\Parser\NodeInfo\HandlerInterface as ParserNodeInfoInterface;
 
-class Collection implements ilImportHandlerParserNodeInfoCollectionInterface
+class Collection implements ParserNodeInfoCollectionInterface
 {
     /**
-     * @var ilImportHandlerParserNodeInfoInterface[]
+     * @var ParserNodeInfoInterface[]
      */
     protected array $elements;
     protected int $index;
@@ -19,12 +19,12 @@ class Collection implements ilImportHandlerParserNodeInfoCollectionInterface
         $this->index = 0;
     }
 
-    public function getFirst(): ilImportHandlerParserNodeInfoInterface
+    public function getFirst(): ParserNodeInfoInterface
     {
         return $this->elements[0];
     }
 
-    public function removeFirst(): ilImportHandlerParserNodeInfoCollectionInterface
+    public function removeFirst(): ParserNodeInfoCollectionInterface
     {
         $clone = clone $this;
         $clone->index = $this->index;
@@ -38,16 +38,16 @@ class Collection implements ilImportHandlerParserNodeInfoCollectionInterface
     }
 
     public function withMerged(
-        ilImportHandlerParserNodeInfoCollectionInterface $other
-    ): ilImportHandlerParserNodeInfoCollectionInterface {
+        ParserNodeInfoCollectionInterface $other
+    ): ParserNodeInfoCollectionInterface {
         $clone = clone $this;
         $clone->elements = array_merge($this->toArray(), $other->toArray());
         return $clone;
     }
 
     public function withElement(
-        ilImportHandlerParserNodeInfoInterface $element
-    ): ilImportHandlerParserNodeInfoCollectionInterface {
+        ParserNodeInfoInterface $element
+    ): ParserNodeInfoCollectionInterface {
         $clone = clone $this;
         $clone->elements[] = $element;
         return $clone;
@@ -58,7 +58,7 @@ class Collection implements ilImportHandlerParserNodeInfoCollectionInterface
         return $this->elements;
     }
 
-    public function current(): ilImportHandlerParserNodeInfoInterface
+    public function current(): ParserNodeInfoInterface
     {
         return $this->elements[$this->index];
     }
