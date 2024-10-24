@@ -24,6 +24,7 @@ use ILIAS\Test\Presentation\TestScreenGUI;
 use ILIAS\TestQuestionPool\Questions\QuestionAutosaveable;
 use ILIAS\TestQuestionPool\Questions\QuestionPartiallySaveable;
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
+use ILIAS\UI\Component\Signal;
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -60,6 +61,16 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     protected ilTestQuestionRelatedObjectivesList $question_related_objectives_list;
 
     protected ?InterruptiveModal $finish_test_modal = null;
+
+    protected const DISCARD_MODAL = "discard_modal";
+    protected const LOCKS_CHANGED_MODAL = "locks_changed_modal";
+    protected const LOCKS_UNCHANGED_MODAL = "locks_unchanged_modal";
+
+    /**
+     * @var array<self::DISCARD_MODAL|self::LOCKS_CHANGED_MODAL|self::LOCKS_UNCHANGED_MODAL, Signal>
+     * @see ilTestPlayerQuestionEditControl.js
+     */
+    protected array $modal_signals = [];
 
     public function __construct(ilObjTest $object)
     {
@@ -1242,7 +1253,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             )
         );
         $this->tpl->parseCurrentBlock();
-
         $this->tpl->setVariable('QUESTION_OUTPUT', $pageoutput);
 
         $this->tpl->setVariable("FORMACTION", $formAction);
@@ -1253,18 +1263,18 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     protected function showQuestionEditable(assQuestionGUI $question_gui, $formAction, $isQuestionWorkedThrough, $instantResponse)
     {
-        $questionNavigationGUI = $this->buildEditableStateQuestionNavigationGUI($question_gui->getObject()->getId());
+        $question_navigation_gui = $this->buildEditableStateQuestionNavigationGUI($question_gui->getObject()->getId());
         if ($isQuestionWorkedThrough) {
-            $questionNavigationGUI->setDiscardSolutionButtonEnabled(true);
+            $question_navigation_gui->setDiscardSolutionButtonEnabled(true);
             // fau: testNav - set answere status in question header
             $question_gui->getQuestionHeaderBlockBuilder()->setQuestionAnswered(true);
             // fau.
         } elseif ($this->object->isPostponingEnabled()) {
-            $questionNavigationGUI->setSkipQuestionLinkTarget(
+            $question_navigation_gui->setSkipQuestionLinkTarget(
                 $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::SKIP_QUESTION)
             );
         }
-        $question_gui->setNavigationGUI($questionNavigationGUI);
+        $question_gui->setNavigationGUI($question_navigation_gui);
 
         $isPostponed = $this->isShowingPostponeStatusReguired($question_gui->getObject()->getId());
 
@@ -1300,6 +1310,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         }
         // hey.
 
+        $this->modal_signals = $this->populateModals();
+        $question_navigation_gui->setShowDiscardModalSignal($this->modal_signals[self::DISCARD_MODAL]);
+
         // Answer specific feedback is rendered into the display of the test question with in the concrete question types outQuestionForTest-method.
         // Notation of the params prior to getting rid of this crap in favor of a class
         $question_gui->outQuestionForTest(
@@ -1310,8 +1323,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $userPostSolution,
             $answerFeedbackEnabled
         );
-
-        $this->populateModals();
 
         // fau: testNav - pouplate the new question edit control instead of the deprecated intermediate solution saver
         $this->populateQuestionEditControl($question_gui);
@@ -2630,7 +2641,11 @@ JS;
         return ilTestPlayerCommands::QUESTION_SUMMARY;
     }
 
-    protected function populateInstantResponseModal(assQuestionGUI $question_gui, $navUrl)
+
+    /**
+     * @throws ilTemplateException
+     */
+    protected function populateInstantResponseModal(assQuestionGUI $question_gui, $navUrl): void
     {
         $question_gui->setNavigationGUI(null);
         $question_gui->getQuestionHeaderBlockBuilder()->setQuestionAnswered(true);
@@ -2665,18 +2680,24 @@ JS;
         $this->tpl = $saved_tpl;
 
         $tpl->setVariable('QUESTION_OUTPUT', $pageoutput);
+        $this->tpl->setVariable('INSTANT_RESPONSE_MODAL', $this->getQuestionFeedbackModalHtml($tpl, $navUrl));
+    }
 
-        $button = $this->ui_factory->button()->primary($this->lng->txt('proceed'), $navUrl);
-        $tpl->setVariable('BUTTON', $this->ui_renderer->render($button));
+    /**
+     * @throws ilTemplateException
+     */
+    private function getQuestionFeedbackModalHtml(ilTemplate $tpl, string $navUrl): string
+    {
+        $modal = $this->ui_factory->modal()->roundtrip(
+            $this->lng->txt('tst_instant_feedback'),
+            $this->ui_factory->legacy($tpl->get()),
+            [],
+            $navUrl
+        )->withCancelButtonLabel($this->lng->txt('proceed'));
 
-        $modal = ilModalGUI::getInstance();
-        $modal->setType(ilModalGUI::TYPE_LARGE);
-        $modal->setId('tst_question_feedback_modal');
-        $modal->setHeading($this->lng->txt('tst_instant_feedback'));
-        $modal->setBody($tpl->get());
-
-        $this->tpl->addOnLoadCode("$('#tst_question_feedback_modal').modal('show');");
-        $this->tpl->setVariable('INSTANT_RESPONSE_MODAL', $modal->getHTML());
+        return $this->ui_renderer->render([
+            $modal->withOnLoad($modal->getShowSignal())
+        ]);
     }
     // fau;
 
@@ -2962,102 +2983,83 @@ JS;
         $this->tpl->setVariable($this->getContentBlockName(), $content_html);
     }
 
-    protected function populateModals()
+    /**
+     * @return array<self::DISCARD_MODAL|self::LOCKS_CHANGED_MODAL|self::LOCKS_UNCHANGED_MODAL, Signal>
+     * @throws ilTemplateException|ilCtrlException
+     */
+    protected function populateModals(): array
     {
-        $this->populateDiscardSolutionModal();
+        $signals = [self::DISCARD_MODAL => $this->populateDiscardSolutionModal()];
 
         if ($this->object->isFollowupQuestionAnswerFixationEnabled()) {
-            $this->populateNextLocksChangedModal();
-
-            $this->populateNextLocksUnchangedModal();
+            $signals[self::LOCKS_CHANGED_MODAL] = $this->populateNextLocksChangedModal();
+            $signals[self::LOCKS_UNCHANGED_MODAL] = $this->populateNextLocksUnchangedModal();
         }
+
+        return $signals;
     }
 
-    protected function populateDiscardSolutionModal()
+    /**
+     * @return Signal Signal to show the modal
+     * @throws ilTemplateException|ilCtrlException
+     */
+    protected function populateDiscardSolutionModal(): Signal
     {
-        $tpl = new ilTemplate('tpl.tst_player_confirmation_modal.html', true, true, 'components/ILIAS/Test');
-
-        $tpl->setVariable('CONFIRMATION_TEXT', $this->lng->txt('discard_answer_confirmation'));
-
-        $button = $this->ui_factory->button()->standard($this->lng->txt('discard_answer'), '#')
-        ->withAdditionalOnLoadCode(
-            fn($id) => "document.getElementById('$id').addEventListener(
-                'click',
-                 (event)=>{
-                    event.target.name = 'cmd[discardSolution]';
-                    event.target.form.requestSubmit(event.target);
-                }
-            )"
-        );
-
-        $tpl->setCurrentBlock('buttons');
-        $tpl->setVariable('BUTTON', $this->ui_renderer->render($button));
-        $tpl->parseCurrentBlock();
-
-        $button = $this->ui_factory->button()->primary($this->lng->txt('cancel'), '#')
-        ->withAdditionalOnLoadCode(
-            fn($id) => "document.getElementById('$id').addEventListener(
-                'click',
-                 ()=>$('#tst_discard_solution_modal').modal('hide')
-            );"
-        );
-        $tpl->setCurrentBlock('buttons');
-        $tpl->setVariable('BUTTON', $this->ui_renderer->render($button));
-        $tpl->parseCurrentBlock();
-
-        $modal = ilModalGUI::getInstance();
-        $modal->setId('tst_discard_solution_modal');
-        $modal->setHeading($this->lng->txt('discard_answer'));
-        $modal->setBody($tpl->get());
+        $modal = $this->ui_factory->modal()->interruptive(
+            $this->lng->txt('discard_answer'),
+            $this->lng->txt('discard_answer_confirmation'),
+            $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::DISCARD_SOLUTION)
+        )->withActionButtonLabel($this->lng->txt('discard_answer'));
 
         $this->tpl->setCurrentBlock('discard_solution_modal');
-        $this->tpl->setVariable('DISCARD_SOLUTION_MODAL', $modal->getHTML());
+        $this->tpl->setVariable('DISCARD_SOLUTION_MODAL', $this->ui_renderer->render($modal));
         $this->tpl->parseCurrentBlock();
+        return $modal->getShowSignal();
     }
 
-    protected function populateNextLocksUnchangedModal()
+    /**
+     * @return Signal Signal to show the modal
+     * @throws ilTemplateException
+     */
+    protected function populateNextLocksUnchangedModal(): Signal
     {
-        $modal = new ilTestPlayerConfirmationModal($this->ui_renderer);
-        $modal->setModalId('tst_next_locks_unchanged_modal');
-
-        $modal->setHeaderText($this->lng->txt('tst_nav_next_locks_empty_answer_header'));
-        $modal->setConfirmationText($this->lng->txt('tst_nav_next_locks_empty_answer_confirm'));
-
-        $button = $this->ui_factory->button()->standard($this->lng->txt('tst_proceed'), '#');
-        $modal->addButton($button);
-
-        $button = $this->ui_factory->button()->primary($this->lng->txt('cancel'), '#');
-        $modal->addButton($button);
+        $modal = $this->ui_factory->modal()->interruptive(
+            $this->lng->txt('tst_nav_next_locks_empty_answer_header'),
+            $this->lng->txt('tst_nav_next_locks_empty_answer_confirm'),
+            'javascript:il.TestPlayerQuestionEditControl.confirmNextLocksUnchanged()'
+        )->withActionButtonLabel($this->lng->txt('tst_proceed'));
 
         $this->tpl->setCurrentBlock('next_locks_unchanged_modal');
-        $this->tpl->setVariable('NEXT_LOCKS_UNCHANGED_MODAL', $modal->getHTML());
+        $this->tpl->setVariable('NEXT_LOCKS_UNCHANGED_MODAL', $this->ui_renderer->render($modal));
         $this->tpl->parseCurrentBlock();
+        return $modal->getShowSignal();
     }
 
-    protected function populateNextLocksChangedModal()
+    protected function populateNextLocksChangedModal(): Signal
     {
+        $empty_signal = new \ILIAS\UI\Implementation\Component\Signal('');
         if ($this->isFollowUpQuestionLocksConfirmationPrevented()) {
-            return;
+            return $empty_signal;
         }
 
-        $modal = new ilTestPlayerConfirmationModal($this->ui_renderer);
-        $modal->setModalId('tst_next_locks_changed_modal');
+        $modal_message = $this->ui_factory->messageBox()->confirmation(
+            $this->lng->txt('tst_nav_next_locks_current_answer_confirm')
+        );
+        $modal_checkbox = $this->ui_factory->input()->field()->checkbox(
+            $this->lng->txt('tst_dont_show_msg_again_in_current_session')
+        )->withDedicatedName(self::FOLLOWUP_QST_LOCKS_PREVENT_CONFIRMATION_PARAM);
 
-        $modal->setHeaderText($this->lng->txt('tst_nav_next_locks_current_answer_header'));
-        $modal->setConfirmationText($this->lng->txt('tst_nav_next_locks_current_answer_confirm'));
-
-        $modal->setConfirmationCheckboxName(self::FOLLOWUP_QST_LOCKS_PREVENT_CONFIRMATION_PARAM);
-        $modal->setConfirmationCheckboxLabel($this->lng->txt('tst_dont_show_msg_again_in_current_session'));
-
-        $button = $this->ui_factory->button()->primary($this->lng->txt('tst_save_and_proceed'), '#');
-        $modal->addButton($button);
-
-        $button = $this->ui_factory->button()->standard($this->lng->txt('cancel'), '#');
-        $modal->addButton($button);
+        $modal = $this->ui_factory->modal()->roundtrip(
+            $this->lng->txt('tst_nav_next_locks_current_answer_header'),
+            $modal_message,
+            [ $modal_checkbox ],
+            'javascript:il.TestPlayerQuestionEditControl.confirmNextLocksChanged()'
+        )->withSubmitLabel($this->lng->txt('tst_proceed'));
 
         $this->tpl->setCurrentBlock('next_locks_changed_modal');
-        $this->tpl->setVariable('NEXT_LOCKS_CHANGED_MODAL', $modal->getHTML());
+        $this->tpl->setVariable('NEXT_LOCKS_CHANGED_MODAL', $this->ui_renderer->render($modal));
         $this->tpl->parseCurrentBlock();
+        return $modal->getShowSignal();
     }
 
     public const FOLLOWUP_QST_LOCKS_PREVENT_CONFIRMATION_PARAM = 'followup_qst_locks_prevent_confirmation';
@@ -3104,6 +3106,10 @@ JS;
         $config['questionLocked'] = $this->isParticipantsAnswerFixed($question_gui->getObject()->getId());
         $config['nextQuestionLocks'] = $this->object->isFollowupQuestionAnswerFixationEnabled();
         $config['autosaveFailureMessage'] = $this->lng->txt('autosave_failed');
+
+        // Add the modal signals and parameter name for the follow-up question locks confirmation
+        $config['modalSignals'] = array_map(fn(Signal $signal) => $signal->getId(), $this->modal_signals);
+        $config['preventConfirmationParam'] = self::FOLLOWUP_QST_LOCKS_PREVENT_CONFIRMATION_PARAM;
 
         $this->tpl->addJavascript('assets/js/ilTestPlayerQuestionEditControl.js');
         $this->tpl->addOnLoadCode('il.TestPlayerQuestionEditControl.init(' . json_encode($config) . ')');

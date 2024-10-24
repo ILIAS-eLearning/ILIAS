@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Button\Button;
@@ -113,6 +114,11 @@ class ilTestQuestionNavigationGUI
      * @var bool
      */
     private $anythingRendered = false;
+
+    /**
+     * @var ?Signal
+     */
+    private ?Signal $showDiscardModalSignal = null;
 
     /**
      * @param ilLanguage $lng
@@ -370,6 +376,22 @@ class ilTestQuestionNavigationGUI
         $this->anythingRendered = true;
     }
 
+    /**
+     * @param Signal $showDiscardModalSignal
+     */
+    public function setShowDiscardModalSignal(Signal $showDiscardModalSignal): void
+    {
+        $this->showDiscardModalSignal = $showDiscardModalSignal;
+    }
+
+    /**
+     * @return Signal
+     */
+    public function getShowDiscardModalSignal(): Signal
+    {
+        return $this->showDiscardModalSignal ?? new \ILIAS\UI\Implementation\Component\Signal("");
+    }
+
     public function getActionsHTML(): string
     {
         $tpl = $this->getTemplate('actions');
@@ -417,12 +439,7 @@ class ilTestQuestionNavigationGUI
             '#'
         )
         ->withUnavailableAction(!$this->isDiscardSolutionButtonEnabled())
-        ->withAdditionalOnLoadCode(
-            fn($id) => "document.getElementById('$id').addEventListener(
-                'click',
-                 ()=>$('#tst_discard_solution_modal').modal('show')
-            )"
-        );
+        ->withOnClick($this->getShowDiscardModalSignal());
 
         $list = $this->ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt("actions"));
         $tpl->setVariable('ACTION_MENU', $this->ui_renderer->render($list));
