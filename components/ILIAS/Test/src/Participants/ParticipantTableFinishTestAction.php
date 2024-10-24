@@ -121,7 +121,7 @@ class ParticipantTableFinishTestAction implements TableAction
 
             $test_pass_finisher = new \ilTestPassFinishTasks(
                 $test_session_factory->getSession($participant->getActiveId()),
-                $this->test_obj->getTestId(),
+                $this->test_obj->getId(),
                 $this->test_pass_result_repository
             );
             $test_pass_finisher->performFinishTasks($process_locker, StatusOfAttempt::FINISHED_BY_ADMINISTRATOR);
