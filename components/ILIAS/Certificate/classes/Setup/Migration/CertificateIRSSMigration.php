@@ -30,6 +30,7 @@ use ILIAS\Filesystem\Filesystems;
 use ilResourceStorageMigrationHelper;
 use ILIAS\Certificate\File\ilCertificateTemplateStakeholder;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ilDBConstants;
 
 class CertificateIRSSMigration implements Migration
 {
@@ -59,7 +60,6 @@ class CertificateIRSSMigration implements Migration
 
     public function prepare(Environment $environment): void
     {
-        global $DIC;
         $this->db = $environment->getResource(Environment::RESOURCE_DATABASE);
         $this->helper = new ilResourceStorageMigrationHelper(new ilCertificateTemplateStakeholder(), $environment);
         $this->stakeholder = new ilCertificateTemplateStakeholder();
@@ -130,7 +130,7 @@ class CertificateIRSSMigration implements Migration
             return;
         }
 
-        $rid = $this->helper->movePathToStorage(
+        $resource_id = $this->helper->movePathToStorage(
             ILIAS_ABSOLUTE_PATH . '/' . ILIAS_WEB_DIR . '/' . CLIENT_ID . $filepath,
             $this->stakeholder->getOwnerOfNewResources(),
             null,
@@ -138,10 +138,9 @@ class CertificateIRSSMigration implements Migration
             true
         );
 
-        if (!isset($rid) || $rid === null) {
-            $rid = '-';
-        } elseif ($rid instanceof ResourceIdentification) {
-            $rid = $rid->serialize();
+        $image_ident = '-';
+        if ($resource_id instanceof ResourceIdentification) {
+            $image_ident = $resource_id->serialize();
         }
 
         $query = "
@@ -149,24 +148,24 @@ class CertificateIRSSMigration implements Migration
                 SET background_image_ident = %s WHERE background_image_path = %s;";
         $this->db->manipulateF(
             $query,
-            ['text', 'text'],
-            [$rid, $filepath]
+            [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
+            [$image_ident, $filepath]
         );
         $query = "
                 UPDATE {$this->db->quoteIdentifier($table)}
                 SET thumbnail_image_ident = %s WHERE thumbnail_image_path = %s;";
         $this->db->manipulateF(
             $query,
-            ['text', 'text'],
-            [$rid, $filepath]
+            [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
+            [$image_ident, $filepath]
         );
-        if ($rid !== '-') {
+        if ($image_ident !== '-') {
             $query = "
                     UPDATE {$this->db->quoteIdentifier($table)}
                     SET background_image_path = NULL WHERE background_image_path = %s;";
             $this->db->manipulateF(
                 $query,
-                ['text'],
+                [ilDBConstants::T_TEXT],
                 [$filepath]
             );
             $query = "
@@ -174,7 +173,7 @@ class CertificateIRSSMigration implements Migration
                     SET thumbnail_image_path = NULL WHERE thumbnail_image_path = %s;";
             $this->db->manipulateF(
                 $query,
-                ['text'],
+                [ilDBConstants::T_TEXT],
                 [$filepath]
             );
         }
@@ -199,7 +198,7 @@ class CertificateIRSSMigration implements Migration
         );
         $row = $this->db->fetchAssoc($result);
 
-        $paths = (int) $row['count'];
+        $paths = (int) ($row['count'] ?? 0);
 
         $result = $this->db->query(
             '
@@ -218,7 +217,7 @@ class CertificateIRSSMigration implements Migration
         );
         $row = $this->db->fetchAssoc($result);
 
-        $paths += (int) $row['count'];
+        $paths += (int) ($row['count'] ?? 0);
 
         return (int) ceil($paths / self::NUMBER_OF_STEPS);
     }

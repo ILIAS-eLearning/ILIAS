@@ -136,7 +136,7 @@ class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
                 'il_cert_user_cert',
                 'background_image_ident',
                 [
-                    'type' => 'text',
+                    'type' => ilDBConstants::T_TEXT,
                     'length' => 255,
                     'notnull' => false,
                 ]
@@ -146,7 +146,7 @@ class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
                 'il_cert_user_cert',
                 'thumbnail_image_ident',
                 [
-                    'type' => 'text',
+                    'type' => ilDBConstants::T_TEXT,
                     'length' => 255,
                     'notnull' => false,
                 ]
@@ -160,7 +160,7 @@ class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
                 'il_cert_template',
                 'background_image_ident',
                 [
-                    'type' => 'text',
+                    'type' => ilDBConstants::T_TEXT,
                     'length' => 255,
                     'notnull' => false,
                 ]
@@ -170,22 +170,30 @@ class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
                 'il_cert_template',
                 'thumbnail_image_ident',
                 [
-                    'type' => 'text',
+                    'type' => ilDBConstants::T_TEXT,
                     'length' => 255,
                     'notnull' => false,
                 ]
             );
         }
 
-        $res = $this->db->query("SELECT value FROM settings WHERE keyword = 'defaultImageFileName'");
+        $res = $this->db->query(
+            'SELECT value FROM settings WHERE keyword = ' .
+            $this->db->quote('defaultImageFileName', ilDBConstants::T_TEXT) . ' AND module = ' .
+            $this->db->quote('certificate', ilDBConstants::T_TEXT)
+        );
         $row = $this->db->fetchAssoc($res);
         $defaultImageFileName = $row['value'] ?? '';
 
-        $this->db->manipulate("DELETE FROM settings WHERE keyword = 'defaultImageFileName'");
+        $this->db->manipulate(
+            'DELETE FROM settings WHERE keyword = ' .
+            $this->db->quote('defaultImageFileName', ilDBConstants::T_TEXT) . ' AND module = ' .
+            $this->db->quote('certificate', ilDBConstants::T_TEXT)
+        );
         $this->db->insert('settings', [
-            'module' => ['text', 'certificate'],
-            'keyword' => ['text', 'cert_bg_image'],
-            'value' => ['text', $defaultImageFileName],
+            'module' => [ilDBConstants::T_TEXT, 'certificate'],
+            'keyword' => [ilDBConstants::T_TEXT, 'cert_bg_image'],
+            'value' => [ilDBConstants::T_TEXT, $defaultImageFileName],
         ]);
     }
 }

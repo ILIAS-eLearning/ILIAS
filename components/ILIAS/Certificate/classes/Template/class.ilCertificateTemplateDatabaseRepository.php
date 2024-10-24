@@ -69,16 +69,16 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
             'created_timestamp' => ['integer', $certificateTemplate->getCreatedTimestamp()],
             'currently_active' => ['integer', (int) $certificateTemplate->isCurrentlyActive()],
             'deleted' => ['integer', (int) $certificateTemplate->isDeleted()],
-            'background_image_ident' => ['text', $certificateTemplate->getBackgroundImageIdentification()],
-            'thumbnail_image_ident' => ['text', $certificateTemplate->getThumbnailImageIdentification()]
+            'background_image_ident' => [ilDBConstants::T_TEXT, $certificateTemplate->getBackgroundImageIdentification()],
+            'thumbnail_image_ident' => [ilDBConstants::T_TEXT, $certificateTemplate->getThumbnailImageIdentification()]
         ];
 
         if (
             $this->database->tableColumnExists('il_cert_user_cert', 'background_image_path') &&
             $this->database->tableColumnExists('il_cert_user_cert', 'thumbnail_image_path')
         ) {
-            $columns['background_image_path'] = ['text', $certificateTemplate->getBackgroundImagePath()];
-            $columns['thumbnail_image_path'] = ['text', $certificateTemplate->getThumbnailImagePath()];
+            $columns['background_image_path'] = [ilDBConstants::T_TEXT, $certificateTemplate->getBackgroundImagePath()];
+            $columns['thumbnail_image_path'] = [ilDBConstants::T_TEXT, $certificateTemplate->getThumbnailImagePath()];
         }
 
         $this->database->insert(self::TABLE_NAME, $columns);
@@ -95,9 +95,9 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
     {
         $sql = 'UPDATE ' . self::TABLE_NAME . ' SET currently_active = ' . $this->database->quote(
             $currentlyActive,
-            'integer'
+            ilDBConstants::T_INTEGER
         ) .
-            ' WHERE id = ' . $this->database->quote($certificateTemplate->getId(), 'integer');
+            ' WHERE id = ' . $this->database->quote($certificateTemplate->getId(), ilDBConstants::T_INTEGER);
 
         return $this->database->manipulate($sql);
     }
@@ -109,7 +109,7 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
         $sql = '
             SELECT * FROM
             ' . self::TABLE_NAME . '
-            WHERE id = ' . $this->database->quote($templateId, 'integer') . '
+            WHERE id = ' . $this->database->quote($templateId, ilDBConstants::T_INTEGER) . '
             ORDER BY version ASC
         ';
 
@@ -134,7 +134,7 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
         $sql = '
             SELECT * FROM ' .
             self::TABLE_NAME . ' ' .
-            'WHERE obj_id = ' . $this->database->quote($objId, 'integer') . ' ' .
+            'WHERE obj_id = ' . $this->database->quote($objId, ilDBConstants::T_INTEGER) . ' ' .
             'AND deleted = 0 ' .
             'ORDER BY version ASC'
         ;
@@ -164,7 +164,7 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
 
         $sql = '
             SELECT * FROM ' . self::TABLE_NAME . '
-            WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
+            WHERE obj_id = ' . $this->database->quote($objId, ilDBConstants::T_INTEGER) . '
             AND deleted = 0
             ORDER BY id DESC
         ';
@@ -205,7 +205,7 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
 
         $sql = '
             SELECT * FROM ' . self::TABLE_NAME . '
-            WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
+            WHERE obj_id = ' . $this->database->quote($objId, ilDBConstants::T_INTEGER) . '
             AND deleted = 0
             AND currently_active = 1
         ';
@@ -269,8 +269,8 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
         $sql = '
             UPDATE ' . self::TABLE_NAME . '
             SET deleted = 1, currently_active = 0
-            WHERE id = ' . $this->database->quote($templateId, 'integer') . '
-            AND obj_id = ' . $this->database->quote($objectId, 'integer');
+            WHERE id = ' . $this->database->quote($templateId, ilDBConstants::T_INTEGER) . '
+            AND obj_id = ' . $this->database->quote($objectId, ilDBConstants::T_INTEGER);
 
         $this->database->manipulate($sql);
 
@@ -301,7 +301,7 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
 
         $sql = 'UPDATE ' . self::TABLE_NAME . '
             SET currently_active = 1
-            WHERE id = ' . $this->database->quote($previousCertificate->getId(), 'integer');
+            WHERE id = ' . $this->database->quote($previousCertificate->getId(), ilDBConstants::T_INTEGER);
 
         $this->database->manipulate($sql);
 
@@ -380,7 +380,7 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
 
         $sql = '
             SELECT * FROM ' . self::TABLE_NAME . '
-            WHERE obj_id = ' . $this->database->quote($objId, 'integer') . '
+            WHERE obj_id = ' . $this->database->quote($objId, ilDBConstants::T_INTEGER) . '
             ORDER BY id ASC 
             ';
 
@@ -402,7 +402,7 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
         $sql = '
             UPDATE ' . self::TABLE_NAME . '
             SET currently_active = 0
-            WHERE obj_id = ' . $this->database->quote($objId, 'integer');
+            WHERE obj_id = ' . $this->database->quote($objId, ilDBConstants::T_INTEGER);
 
         $this->database->manipulate($sql);
 
@@ -420,7 +420,8 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
         );
 
         $affected_rows = $this->database->manipulateF(
-            'UPDATE ' . self::TABLE_NAME . ' SET background_image_ident = %s WHERE currently_active = 1 AND (background_image_ident = %s OR background_image_ident = %s )',
+            'UPDATE ' . self::TABLE_NAME . ' SET background_image_ident = %s ' .
+            'WHERE currently_active = 1 AND (background_image_ident = %s OR background_image_ident = %s )',
             [
                 'text',
                 'text',
@@ -454,7 +455,7 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
             'SELECT EXISTS(SELECT 1 FROM ' . self::TABLE_NAME . ' WHERE 
             (background_image_ident = %s OR thumbnail_image_ident = %s)
              AND currently_active = 1) AS does_exist',
-            ['text', 'text'],
+            [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
             [$relative_image_identification, $relative_image_identification]
         );
 
@@ -487,8 +488,8 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
             (bool) $row['currently_active'],
             (string) ($row['background_image_path'] ?? ''),
             (string) ($row['thumbnail_image_path'] ?? ''),
-            (string) $row['background_image_ident'],
-            (string) $row['thumbnail_image_ident'],
+            (string) ($row['background_image_ident'] ?? ''),
+            (string) ($row['thumbnail_image_ident'] ?? ''),
             isset($row['id']) ? (int) $row['id'] : null
         );
     }

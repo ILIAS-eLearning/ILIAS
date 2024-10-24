@@ -165,7 +165,7 @@ class ilUserCertificateGUI
 
             foreach ($data['items'] as $certificateData) {
                 $thumbnail_image_identification = $certificateData['thumbnail_image_ident'] ?? '';
-                $imagePath = ilUtil::getImagePath('standard/icon_cert.svg');
+                $imagePath = '';
                 if ($thumbnail_image_identification === '' || $thumbnail_image_identification === '-') {
                     $thumbnail_image_identification = $certificateData['thumbnail_image_path'] ?? '';
                     if ($thumbnail_image_identification !== '' && $this->filesystem->has($thumbnail_image_identification)) {
@@ -176,6 +176,10 @@ class ilUserCertificateGUI
                     if ($thumb_rid instanceof ResourceIdentification) {
                         $imagePath = $this->irss->consume()->src($thumb_rid)->getSrc(true);
                     }
+                }
+
+                if ($imagePath === '') {
+                    $imagePath = ilUtil::getImagePath('standard/icon_cert.svg');
                 }
 
                 $cardImage = $this->uiFactory->image()->standard(

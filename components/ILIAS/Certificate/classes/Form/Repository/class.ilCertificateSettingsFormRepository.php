@@ -220,10 +220,10 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
                 /** @var string $url */
                 $bgimage->setImage($url);
             }
-        } elseif ($this->filesystem->has($bg_image_path)) {
+        } elseif ($bg_image_path !== '' && $this->filesystem->has($bg_image_path)) {
             $bgimage->setImage(
                 ilWACSignedPath::signFile(
-                    ILIAS_HTTP_PATH . '/public/' . ILIAS_WEB_DIR . '/' . CLIENT_ID . $bg_image_path
+                    ILIAS_HTTP_PATH . '/' . ILIAS_WEB_DIR . '/' . CLIENT_ID . $bg_image_path
                 )
             );
         }
@@ -248,10 +248,10 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
                 $thumbnailImage->setImage($this->irss->consume()->src($identification)->getSrc());
                 $allowThumbnailDeletion = true;
             }
-        } elseif ($this->filesystem->has($old_thumbnail_image_path)) {
+        } elseif ($old_thumbnail_image_path !== '' && $this->filesystem->has($old_thumbnail_image_path)) {
             $thumbnailImage->setImage(
                 ilWACSignedPath::signFile(
-                    ILIAS_HTTP_PATH . '/public/' . ILIAS_WEB_DIR . '/' . CLIENT_ID . $old_thumbnail_image_path
+                    ILIAS_HTTP_PATH . '/' . ILIAS_WEB_DIR . '/' . CLIENT_ID . $old_thumbnail_image_path
                 )
             );
             $allowThumbnailDeletion = true;
