@@ -30,8 +30,10 @@ use SplFileInfo;
 
 class Handler implements ilImportHanlderSchemaFolderInterface
 {
-    protected ilImportHandlerFactoryInterface $import_handler;
+    protected const FILE_EXTENSION = 'xsd';
+    protected const FILE_PREFIX = 'ilias_';
     protected const SCHEMA_DEFINITION_LOCATION = '../components/ILIAS/Export/xml/SchemaValidation';
+    protected ilImportHandlerFactoryInterface $import_handler;
     protected ilImportHandlerSchemaInfoCollectionInterface $collection;
     protected ilLogger $logger;
 
@@ -47,54 +49,30 @@ class Handler implements ilImportHanlderSchemaFolderInterface
 
     public function getLatest(string $type, string $sub_type = ''): ?SplFileInfo
     {
-        if ($this->collection->count() === 0) {
-            return null;
-        }
-        $this->collection->sortByVersion();
-        $this->collection->rewind();
-        return $this->collection->current()->getFile();
+        $schema_info = $this->collection->getLatest($type, $sub_type);
+        return is_null($schema_info) ? null : $schema_info->getFile();
     }
 
     public function getByVersion(Version $version, string $type, string $sub_type = ''): ?SplFileInfo
     {
-        $collection = $this->collection->getByType($type, $sub_type);
-        foreach ($collection as $schema_info) {
-            if ($schema_info->getVersion()->equals($version)) {
-                return $schema_info->getFile();
-            }
-        }
-        return null;
+        $schema_info = $this->collection->getByVersion($version, $type, $sub_type);
+        return is_null($schema_info) ? null : $schema_info->getFile();
     }
 
     public function getByVersionOrLatest(Version $version, string $type, string $sub_type = ''): ?SplFileInfo
     {
-        $collection = $this->collection->getByType($type, $sub_type);
-        foreach ($collection as $schema_info) {
-            if ($schema_info->getVersion()->equals($version)) {
-                return $schema_info->getFile();
-            }
-        }
-        return $this->getLatest($type, $sub_type);
+        $schema_info = $this->collection->getByVersionOrLatest($version, $type, $sub_type);
+        return is_null($schema_info) ? null : $schema_info->getFile();
     }
 
     private function readSchemaFiles(): void
     {
         foreach (new DirectoryIterator(self::SCHEMA_DEFINITION_LOCATION) as $file) {
-            if ($file->isDot()) {
-                $this->logger->debug('Ignoring file (dot file): ' . $file->getFilename());
-                continue;
-            }
-            if ($file->getExtension() !== 'xsd') {
-                $this->logger->debug('Ignoring file (!xsd): ' . $file->getFilename());
-                continue;
-            }
-            $parts = explode('_', $file->getFilename());
-            if (!count($parts)) {
-                $this->logger->debug('Ignoring file (!_separated): ' . $file->getFilename());
-                continue;
-            }
-            if ($parts[0] !== 'ilias') {
-                $this->logger->debug('Ignoring file (!ilias): ' . $file->getFilename() . ' ' . $parts[0]);
+            if (
+                $file->isDot() ||
+                $file->getExtension() !== self::FILE_EXTENSION ||
+                !str_starts_with($file->getFilename(), self::FILE_PREFIX)
+            ) {
                 continue;
             }
             $matches = [];

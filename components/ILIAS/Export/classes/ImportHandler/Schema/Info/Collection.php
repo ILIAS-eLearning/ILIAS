@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\ImportHandler\Schema\Info;
 
+use ILIAS\Data\Version;
 use ILIAS\Export\ImportHandler\I\Schema\Info\CollectionInterface as ilImportHandlerSchemaInfoCollectionInterface;
 use ILIAS\Export\ImportHandler\I\Schema\Info\HandlerInterface as ilImportHandlerSchemaInfoInterface;
 use ilLogger;
@@ -49,33 +50,58 @@ class Collection implements ilImportHandlerSchemaInfoCollectionInterface
         return $clone;
     }
 
-    public function sortByVersion(): void
-    {
-        uasort($this->elements, function (ilImportHandlerSchemaInfoInterface $a, ilImportHandlerSchemaInfoInterface $b): int {
-            if ($a->getVersion()->equals($b->getVersion())) {
-                return 0;
-            }
-            if ($a->getVersion()->isGreaterThan($b->getVersion())) {
-                return 1;
-            }
-            return -1;
-        });
-    }
-
-    public function getByType(
+    public function getLatest(
         string $component,
         string $sub_type = ''
-    ): ilImportHandlerSchemaInfoCollectionInterface {
-        $collection = clone $this;
-        $new_elements = [];
-        foreach ($collection->elements as $schema_info) {
-            if ($schema_info->getComponent() === $component && $schema_info->getSubtype() === $sub_type) {
-                $new_elements[] = $schema_info;
-                $this->logger->info('Found version: ' . $schema_info->getFile()->getFilename());
+    ): ilImportHandlerSchemaInfoInterface|null {
+        $current = null;
+        foreach ($this->elements as $schema_info) {
+            if (
+                $schema_info->getComponent() !== $component ||
+                $schema_info->getSubType() !== $sub_type
+            ) {
+                continue;
+            }
+            if (
+                is_null($current) ||
+                (
+                    !is_null($current) &&
+                    $current->getVersion()->isSmallerThan($schema_info->getVersion())
+                )
+            ) {
+                $current = $schema_info;
             }
         }
-        $collection->elements = $new_elements;
-        return $collection;
+        return $current;
+    }
+
+    public function getByVersion(
+        Version $version,
+        string $type,
+        string $sub_type = ''
+    ): ilImportHandlerSchemaInfoInterface|null {
+        foreach ($this->elements as $schema_info) {
+            if (
+                $schema_info->getVersion()->equals($version) &&
+                $schema_info->getComponent() === $type &&
+                $schema_info->getSubtype() === $sub_type
+            ) {
+                return $schema_info;
+            }
+        }
+        return null;
+    }
+
+    public function getByVersionOrLatest(
+        Version $version,
+        string $type,
+        string $sub_type = ''
+    ): ilImportHandlerSchemaInfoInterface|null {
+        $schema_with_version = $this->getByVersion($version, $type, $sub_type);
+        if (!is_null($schema_with_version)) {
+            return $schema_with_version;
+        }
+        return $this->getLatest($type, $sub_type);
     }
 
     public function next(): void

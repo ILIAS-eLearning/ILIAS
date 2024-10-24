@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Export\ImportHandler\I\Schema\Info;
 
 use Countable;
+use ILIAS\Data\Version;
 use ILIAS\Export\ImportHandler\I\Schema\Info\HandlerInterface as ilImportHandlerSchemaInfoInterface;
 use Iterator;
 
@@ -30,7 +31,22 @@ interface CollectionInterface extends Iterator, Countable
         ilImportHandlerSchemaInfoInterface $element
     ): CollectionInterface;
 
-    public function sortByVersion(): void;
+    public function getLatest(
+        string $component,
+        string $sub_type = ''
+    ): ilImportHandlerSchemaInfoInterface|null;
+
+    public function getByVersion(
+        Version $version,
+        string $type,
+        string $sub_type = ''
+    ): ilImportHandlerSchemaInfoInterface|null;
+
+    public function getByVersionOrLatest(
+        Version $version,
+        string $type,
+        string $sub_type = ''
+    ): ilImportHandlerSchemaInfoInterface|null;
 
     public function next(): void;
 

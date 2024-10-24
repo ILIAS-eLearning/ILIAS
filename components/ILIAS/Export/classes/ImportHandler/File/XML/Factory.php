@@ -56,6 +56,7 @@ class Factory implements ilImportHandlerXMLFileFactoryInterface
         $this->logger = $logger;
         $this->lng = $lng;
         $this->data_factory = $data_factory;
+        $this->import_status_factory = $import_status_factory;
     }
 
     public function handler(): ilImportHandlerXMLFileInterface
