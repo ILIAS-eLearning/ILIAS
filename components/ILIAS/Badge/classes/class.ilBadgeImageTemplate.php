@@ -17,6 +17,8 @@
  *********************************************************************/
 
 use ILIAS\FileUpload\Exception\IllegalStateException;
+use ILIAS\ResourceStorage\Services;
+use ILIAS\FileUpload\FileUpload;
 
 /**
  * Badge Template
@@ -32,9 +34,9 @@ class ilBadgeImageTemplate
     protected ?string $image_rid = "";
     /** @var string[] */
     protected ?array $types = null;
-    protected $resource_storage;
-    protected $upload_service;
-    protected $main_template;
+    protected Services $resource_storage;
+    protected FileUpload $upload_service;
+    protected ilGlobalTemplateInterface $main_template;
 
     public function __construct(int $a_id = null)
     {
