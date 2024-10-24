@@ -23,15 +23,20 @@ namespace ILIAS\UI\Implementation\Component\Legacy;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
+use ILIAS\UI\Implementation\Component\LatexAwareRendererTrait;
+use ILIAS\UI\Implementation\Render\ResourceRegistry;
+use ILIAS\UI\Implementation\Render\LatexAwareRenderer;
 
 /**
  * Class Renderer
  * @package ILIAS\UI\Implementation\Component\Legacy\Html
  */
-class Renderer extends AbstractComponentRenderer
+class Renderer extends AbstractComponentRenderer implements LatexAwareRenderer
 {
+    use LatexAwareRendererTrait;
+
     /**
-     * @inheritdocs
+     * @param Component\LatexAwareComponent $component
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
@@ -41,7 +46,20 @@ class Renderer extends AbstractComponentRenderer
 
         $component = $this->registerSignals($component);
         $this->bindJavaScript($component);
+
+        if ($component->isLatexEnabled()) {
+            return $this->addLatexEnabling($component->getContent());
+        } elseif ($component->isLatexDisabled()) {
+            return $this->addLatexDisabling($component->getContent());
+        }
+
         return $component->getContent();
+    }
+
+    public function registerResources(ResourceRegistry $registry): void
+    {
+        parent::registerResources($registry);
+        $this->registerMathJaxResources($registry);
     }
 
     protected function registerSignals(Legacy $component): Component\JavaScriptBindable

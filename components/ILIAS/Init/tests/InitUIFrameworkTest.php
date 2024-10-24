@@ -19,6 +19,7 @@
 require_once("vendor/composer/vendor/autoload.php");
 
 use PHPUnit\Framework\TestCase;
+use ILIAS\UI\Implementation\Render\MathJaxConfig;
 
 class InitUIFrameworkTest extends TestCase
 {
@@ -38,6 +39,7 @@ class InitUIFrameworkTest extends TestCase
         $this->dic["tpl"] = $this->createMock("\ilGlobalTemplateInterface");
         $this->dic["refinery"] = $this->createMock("\ILIAS\Refinery\Factory");
         $this->dic["help.text_retriever"] = $this->createMock("ILIAS\UI\Help\TextRetriever\Echoing");
+        $this->dic[MathjaxConfig::class] = $this->createMock(MathjaxConfig::class);
     }
 
     public function testUIFrameworkInitialization(): void

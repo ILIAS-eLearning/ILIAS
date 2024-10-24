@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\Data\Factory;
+use ILIAS\UI\Implementation\Render\MathJaxConfig;
 
 /**
  * Responsible for loading the UI Framework into the dependency injection container of ILIAS
@@ -280,7 +281,8 @@ class InitUIFramework
                             $c["ui.pathresolver"],
                             $c["ui.data_factory"],
                             $c["help.text_retriever"],
-                            $c["ui.upload_limit_resolver"]
+                            $c["ui.upload_limit_resolver"],
+                            $c[MathJaxConfig::class]
                         ),
                         new ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory(
                             $c["ui.factory"],
@@ -290,7 +292,8 @@ class InitUIFramework
                             $c["ui.pathresolver"],
                             $c["ui.data_factory"],
                             $c["help.text_retriever"],
-                            $c["ui.upload_limit_resolver"]
+                            $c["ui.upload_limit_resolver"],
+                            $c[MathJaxConfig::class]
                         ),
                         new ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory(
                             $c["ui.factory"],
@@ -300,7 +303,8 @@ class InitUIFramework
                             $c["ui.pathresolver"],
                             $c["ui.data_factory"],
                             $c["help.text_retriever"],
-                            $c["ui.upload_limit_resolver"]
+                            $c["ui.upload_limit_resolver"],
+                            $c[MathJaxConfig::class]
                         ),
                         new ILIAS\UI\Implementation\Component\MessageBox\MessageBoxRendererFactory(
                             $c["ui.factory"],
@@ -310,7 +314,8 @@ class InitUIFramework
                             $c["ui.pathresolver"],
                             $c["ui.data_factory"],
                             $c["help.text_retriever"],
-                            $c["ui.upload_limit_resolver"]
+                            $c["ui.upload_limit_resolver"],
+                            $c[MathJaxConfig::class]
                         ),
                         new ILIAS\UI\Implementation\Component\Input\Container\Form\FormRendererFactory(
                             $c["ui.factory"],
@@ -320,7 +325,8 @@ class InitUIFramework
                             $c["ui.pathresolver"],
                             $c["ui.data_factory"],
                             $c["help.text_retriever"],
-                            $c["ui.upload_limit_resolver"]
+                            $c["ui.upload_limit_resolver"],
+                            $c[MathJaxConfig::class]
                         ),
                     )
                 )
