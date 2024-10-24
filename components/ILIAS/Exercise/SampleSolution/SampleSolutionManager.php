@@ -48,7 +48,7 @@ class SampleSolutionManager
         $this->domain = $domain;
     }
 
-    public function getStakeholder(): ResourceStakeholder
+    protected function getStakeholder(): ResourceStakeholder
     {
         return $this->stakeholder;
     }

@@ -23,6 +23,7 @@
  */
 class ilBookingObjectGUI
 {
+    protected \ILIAS\BookingManager\Objects\ObjectsManager $objects_manager;
     protected \ILIAS\BookingManager\Schedule\ScheduleManager $schedule_manager;
     protected ilBookBulkCreationGUI $bulk_creation_gui;
     protected ilObjBookingPool $pool;
@@ -107,6 +108,7 @@ class ilBookingObjectGUI
         $this->ctrl->saveParameter($this, "object_id");
 
         $this->rsv_ids = array_map('intval', $this->book_request->getReservationIdsFromString());
+        $this->objects_manager = $DIC->bookingManager()->internal()->domain()->objects($this->pool->getId());
     }
 
     public function activateManagement(bool $a_val): void
@@ -416,8 +418,8 @@ class ilBookingObjectGUI
             $desc->setValue($obj->getDescription());
             $nr->setValue($obj->getNrOfItems());
             $pdesc->setValue($obj->getPostText());
-            $file->setValue($obj->getFile());
-            $pfile->setValue($obj->getPostFile());
+            $file->setValue($this->objects_manager->getObjectInfoFilename($id));
+            $pfile->setValue($this->objects_manager->getBookingInfoFilename($id));
 
             if (isset($schedule)) {
                 $schedule->setValue($obj->getScheduleId());
@@ -466,16 +468,16 @@ class ilBookingObjectGUI
 
                 $file = $form->getItemByPostVar("file");
                 if ($_FILES["file"]["tmp_name"]) {
-                    $obj->uploadFile($_FILES["file"]);
+                    $this->objects_manager->importObjectInfoFromLegacyUpload($obj->getId(), $_FILES["file"]);
                 } elseif ($file !== null && $file->getDeletionFlag()) {
-                    $obj->deleteFile();
+                    $this->objects_manager->deleteObjectInfo($obj->getId());
                 }
 
                 $pfile = $form->getItemByPostVar("post_file");
                 if ($_FILES["post_file"]["tmp_name"]) {
-                    $obj->uploadPostFile($_FILES["post_file"]);
+                    $this->objects_manager->importBookingInfoFromLegacyUpload($obj->getId(), $_FILES["post_file"]);
                 } elseif ($pfile !== null && $pfile->getDeletionFlag()) {
-                    $obj->deletePostFile();
+                    $this->objects_manager->deleteBookingInfo($obj->getId());
                 }
 
                 $obj->update();
@@ -602,10 +604,6 @@ class ilBookingObjectGUI
             return;
         }
 
-        $obj = new ilBookingObject($id);
-        $file = $obj->getFileFullPath();
-        if ($file) {
-            ilFileDelivery::deliverFileLegacy($file, $obj->getFile());
-        }
+        $this->objects_manager->deliverObjectInfo($id);
     }
 }

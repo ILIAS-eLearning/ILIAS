@@ -20,6 +20,7 @@ namespace ILIAS\BookingManager\Objects;
 use ILIAS\BookingManager\InternalRepoService;
 use ILIAS\BookingManager\InternalDataService;
 use ILIAS\BookingManager\InternalDomainService;
+use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -36,6 +37,8 @@ class ObjectsManager
         InternalDataService $data,
         InternalRepoService $repo,
         InternalDomainService $domain,
+        protected ResourceStakeholder $object_info_stakeholder,
+        protected ResourceStakeholder $book_info_stakeholder,
         int $pool_id
     ) {
         $this->object_repo = $repo->objects();
@@ -99,6 +102,81 @@ class ObjectsManager
                 $object->setScheduleId($schedule_id);
             }
             $object->save();
+        }
+    }
+
+    //
+    // Object and booking resource management
+    //
+
+    public function importObjectInfoFromLegacyUpload(int $booking_obj_id, array $file_input): string
+    {
+        if (!isset($file_input["tmp_name"])) {
+            return "";
+        }
+        return $this->object_repo->importObjectInfoFromLegacyUpload(
+            $booking_obj_id,
+            $file_input,
+            $this->object_info_stakeholder
+        );
+    }
+
+    public function importBookingInfoFromLegacyUpload(int $booking_obj_id, array $file_input): string
+    {
+        if (!isset($file_input["tmp_name"])) {
+            return "";
+        }
+        return $this->object_repo->importBookingInfoFromLegacyUpload(
+            $booking_obj_id,
+            $file_input,
+            $this->book_info_stakeholder
+        );
+    }
+
+    public function deliverObjectInfo(int $booking_obj_id): void
+    {
+        if ($this->object_repo->hasObjectInfo($booking_obj_id)) {
+            $this->object_repo->deliverObjectInfo($booking_obj_id);
+        }
+    }
+
+    public function deliverBookingInfo(int $booking_obj_id): void
+    {
+        if ($this->object_repo->hasBookingInfo($booking_obj_id)) {
+            $this->object_repo->deliverBookingInfo($booking_obj_id);
+        }
+    }
+
+    public function getObjectInfoFilename(int $booking_obj_id): string
+    {
+        return $this->object_repo->getObjectInfoFilename($booking_obj_id);
+    }
+
+    public function getBookingInfoFilename(int $booking_obj_id): string
+    {
+        return $this->object_repo->getBookingInfoFilename($booking_obj_id);
+    }
+
+    public function deleteObjectInfo(int $booking_obj_id): void
+    {
+        if ($this->object_repo->hasObjectInfo($booking_obj_id)) {
+            $this->object_repo->deleteObjectInfo($booking_obj_id);
+        }
+    }
+
+    public function deleteBookingInfo(int $booking_obj_id): string
+    {
+        if ($this->object_repo->hasBookingInfo($booking_obj_id)) {
+            $this->object_repo->deleteBookingInfo($booking_obj_id);
+        }
+    }
+
+    public function cloneTo(
+        int $from_booking_obj_id,
+        int $to_booking_obj_id
+    ): void {
+        if ($this->object_repo->hasObjectInfo($from_booking_obj_id)) {
+            $this->object_repo->clone($from_booking_obj_id, $to_booking_obj_id);
         }
     }
 

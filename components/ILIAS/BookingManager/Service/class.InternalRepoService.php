@@ -27,15 +27,19 @@ use ILIAS\BookingManager\BookingProcess\SelectedObjectsDBRepository;
 use ILIAS\BookingManager\Schedule\SchedulesDBRepository;
 use ILIAS\BookginManager\Participants\ParticipantsRepository;
 use ILIAS\BookingManager\Settings\SettingsDBRepository;
+use ILIAS\Exercise\IRSS\IRSSWrapper;
+use ILIAS\Exercise;
 
 class InternalRepoService
 {
     protected static array $instances = [];
+    protected IRSSWrapper $irss_wrapper;
 
     public function __construct(
         protected InternalDataService $data,
         protected \ilDBInterface $db
     ) {
+        $this->irss_wrapper = new IRSSWrapper(new Exercise\InternalDataService());
     }
 
     public function preferences(): \ilBookingPreferencesDBRepository
@@ -61,6 +65,7 @@ class InternalRepoService
     public function objects(): ObjectsDBRepository
     {
         return self::$instances["objects"] ??= new ObjectsDBRepository(
+            $this->irss_wrapper,
             $this->db
         );
     }

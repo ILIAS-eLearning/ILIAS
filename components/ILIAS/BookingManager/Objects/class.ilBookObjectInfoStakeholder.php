@@ -22,7 +22,7 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 
-class ilExcSampleSolutionStakeholder extends AbstractResourceStakeholder
+class ilBookObjectInfoStakeholder extends AbstractResourceStakeholder
 {
     protected int $owner = 6;
     private int $current_user;
@@ -31,7 +31,7 @@ class ilExcSampleSolutionStakeholder extends AbstractResourceStakeholder
     public function __construct(int $owner = 6)
     {
         global $DIC;
-        $this->current_user = (!is_array($DIC ?? false) && (int) ($DIC->isDependencyAvailable('user'))
+        $this->current_user = (!is_array($DIC) && (int) ($DIC->isDependencyAvailable('user'))
             ? $DIC->user()->getId()
             : (defined('ANONYMOUS_USER_ID') ? ANONYMOUS_USER_ID : 6));
         $this->owner = $owner;
@@ -39,7 +39,7 @@ class ilExcSampleSolutionStakeholder extends AbstractResourceStakeholder
 
     public function getId(): string
     {
-        return 'exc_sample_solution';
+        return 'book_object_info';
     }
 
     public function getOwnerOfNewResources(): int
@@ -92,13 +92,13 @@ class ilExcSampleSolutionStakeholder extends AbstractResourceStakeholder
     {
         $this->initDB();
         $r = $this->database->queryF(
-            "SELECT exc_id FROM exc_assignment WHERE exc_assignment.solution_rid = %s;",
+            "SELECT pool_id FROM booking_object WHERE booking_object.obj_info_rid = %s;",
             ['text'],
             [$identification->serialize()]
         );
         $d = $this->database->fetchObject($r);
 
-        return (isset($d->exc_id) ? (int) $d->exc_id : null);
+        return (isset($d->pool_id) ? (int) $d->pool_id : null);
     }
 
     private function initDB(): void

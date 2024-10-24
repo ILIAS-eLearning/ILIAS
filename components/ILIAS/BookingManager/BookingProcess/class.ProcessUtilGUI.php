@@ -271,11 +271,7 @@ class ProcessUtilGUI
             return;
         }
 
-        $obj = new \ilBookingObject($id);
-        $file = $obj->getPostFileFullPath();
-        if ($file) {
-            \ilFileDelivery::deliverFileLegacy($file, $obj->getPostFile());
-        }
+        $this->domain->objects($this->pool->getId())->deliverBookingInfo($id);
     }
 
 }

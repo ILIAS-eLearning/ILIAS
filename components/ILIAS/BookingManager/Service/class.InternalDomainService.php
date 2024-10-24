@@ -79,6 +79,8 @@ class InternalDomainService
             $this->data_service,
             $this->repo_service,
             $this,
+            new \ilBookObjectInfoStakeholder(),
+            new \ilBookBookingInfoStakeholder(),
             $pool_id
         );
     }
