@@ -83,14 +83,14 @@ class TestDIC extends PimpleContainer
             );
 
         $dic['results.presentation.factory'] = static fn($c): ResultsPresentationFactory =>
-           new ResultsPresentationFactory(
-               $DIC['ui.factory'],
-               $DIC['ui.renderer'],
-               $DIC['refinery'],
-               new DataFactory(),
-               $DIC['http'],
-               $DIC['lng']
-           );
+            new ResultsPresentationFactory(
+                $DIC['ui.factory'],
+                $DIC['ui.renderer'],
+                $DIC['refinery'],
+                new DataFactory(),
+                $DIC['http'],
+                $DIC['lng']
+            );
 
         $dic['results.data.test_result_repository'] = static fn($c): TestResultRepository =>
             new TestResultRepository($DIC['ilDB']);

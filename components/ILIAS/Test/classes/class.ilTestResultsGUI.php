@@ -23,6 +23,8 @@ use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Settings\ScoreReporting\SettingsResultSummary;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\Test\Results\Toplist\TestTopListRepository;
+use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as Refinery;
@@ -50,9 +52,7 @@ class ilTestResultsGUI
 
     public function __construct(
         private ilObjTest $test_object,
-        private ilTestQuestionSetConfig $question_set_config,
         private readonly ilCtrlInterface $ctrl,
-        private readonly ilAccess $access,
         private readonly ilTestAccess $test_access,
         private readonly ilDBInterface $db,
         private readonly Refinery $refinery,
@@ -60,7 +60,6 @@ class ilTestResultsGUI
         private readonly ilLanguage $lng,
         private readonly TestLogger $logger,
         private readonly ilComponentRepository $component_repository,
-        private ilTabsGUI $tabs,
         private TabsManager $test_tabs,
         private readonly ilToolbarGUI $toolbar,
         private readonly ilGlobalTemplateInterface $main_tpl,
@@ -144,7 +143,7 @@ class ilTestResultsGUI
 
                 $gui = new ilTestToplistGUI(
                     $this->test_object,
-                    new ilTestTopList($this->test_object, $this->db),
+                    new TestTopListRepository($this->test_object, $this->db),
                     $this->ctrl,
                     $this->main_tpl,
                     $this->lng,

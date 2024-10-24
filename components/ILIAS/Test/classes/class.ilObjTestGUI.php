@@ -413,9 +413,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
                 $gui = new ilTestResultsGUI(
                     $this->getTestObject(),
-                    $this->test_question_set_config_factory->getQuestionSetConfig(),
                     $this->ctrl,
-                    $this->access,
                     $this->test_access,
                     $this->db,
                     $this->refinery,
@@ -423,7 +421,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->lng,
                     $this->getTestObject()->getTestlogger(),
                     $this->component_repository,
-                    $this->tabs_gui,
                     $this->tabs_manager,
                     $this->toolbar,
                     $this->tpl,

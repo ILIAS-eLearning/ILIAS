@@ -36,9 +36,7 @@ class ilTestResultsGUITest extends ilTestBaseTestCase
 
         $this->testObj = new ilTestResultsGUI(
             $this->getTestObjMock(),
-            $this->createMock(ilTestQuestionSetConfig::class),
             $DIC['ilCtrl'],
-            $DIC['ilAccess'],
             $this->createMock(ilTestAccess::class),
             $DIC['ilDB'],
             $DIC['refinery'],
@@ -46,7 +44,6 @@ class ilTestResultsGUITest extends ilTestBaseTestCase
             $DIC['lng'],
             $this->createMock(\ILIAS\Test\Logging\TestLogger::class),
             $DIC['component.repository'],
-            $DIC['ilTabs'],
             $this->createMock(ILIAS\Test\Presentation\TabsManager::class),
             $DIC['ilToolbar'],
             $DIC['tpl'],
@@ -56,6 +53,7 @@ class ilTestResultsGUITest extends ilTestBaseTestCase
             $this->createMock(ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository::class),
             $this->createMock(ILIAS\Test\RequestDataCollector::class),
             $DIC['http'],
+            $this->createMock(ILIAS\Data\Factory::class),
             $this->createMock(ilTestSession::class),
             $this->createMock(ilTestObjectiveOrientedContainer::class)
         );
