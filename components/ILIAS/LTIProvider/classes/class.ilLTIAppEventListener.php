@@ -18,6 +18,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ceLTIc\LTI\Enum\ServiceAction;
+use ceLTIc\LTI\Outcome;
+use ceLTIc\LTI\ResourceLink;
+use ceLTIc\LTI\UserResult;
+
 /**
  * Class ilLTIAppEventListener
  */
@@ -131,13 +136,13 @@ class ilLTIAppEventListener implements \ilAppEventListener
      */
     protected function tryOutcomeService(int $resource, string $ext_account, int $a_status, int $a_percentage): void
     {
-        $resource_link = \ILIAS\LTI\ToolProvider\ResourceLink::fromRecordId($resource, $this->connector);
+        $resource_link = ResourceLink::fromRecordId($resource, $this->connector);
         if (!$resource_link->hasOutcomesService()) {
             $this->logger->debug('No outcome service available for resource id: ' . $resource);
             return;
         }
         $this->logger->debug('Trying outcome service with status ' . $a_status . ' and percentage ' . $a_percentage);
-        $user = \ILIAS\LTI\ToolProvider\UserResult::fromResourceLink($resource_link, $ext_account);
+        $user = UserResult::fromResourceLink($resource_link, $ext_account);
 
         if ($a_status == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
             $score = 1;
@@ -154,10 +159,10 @@ class ilLTIAppEventListener implements \ilAppEventListener
 
         $this->logger->debug('Sending score: ' . (string) $score);
 
-        $outcome = new \ILIAS\LTI\ToolProvider\Outcome((string) $score);
+        $outcome = new Outcome((string) $score);
 
         $resource_link->doOutcomesService(
-            \ILIAS\LTI\ToolProvider\ResourceLink::EXT_WRITE,
+            ServiceAction::Write,
             $outcome,
             $user
         );
@@ -237,14 +242,14 @@ class ilLTIAppEventListener implements \ilAppEventListener
 
             foreach ($resources as $resource) {
                 // $this->tryOutcomeService($resource, $ext_account, $a_status, $a_percentage);
-                $resource_link = \ILIAS\LTI\ToolProvider\ResourceLink::fromRecordId($resource, $connector);
+                $resource_link = ResourceLink::fromRecordId($resource, $connector);
                 if ($resource_link->hasOutcomesService()) {
-                    $user = \ILIAS\LTI\ToolProvider\UserResult::fromResourceLink($resource_link, $ext_account);
+                    $user = UserResult::fromResourceLink($resource_link, $ext_account);
                     $logger->debug('Sending score: ' . (string) $score);
-                    $outcome = new \ILIAS\LTI\ToolProvider\Outcome((string) $score);
+                    $outcome = new Outcome((string) $score);
 
                     $resource_link->doOutcomesService(
-                        \ILIAS\LTI\ToolProvider\ResourceLink::EXT_WRITE,
+                        ServiceAction::Write,
                         $outcome,
                         $user
                     );
