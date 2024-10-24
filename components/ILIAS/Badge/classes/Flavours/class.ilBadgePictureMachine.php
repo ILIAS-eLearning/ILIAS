@@ -111,7 +111,7 @@ class ilBadgePictureMachine extends AbstractMachine implements FlavourMachine
         int $size
     ) {
         $quality = $size <= self::FULL_QUALITY_SIZE_THRESHOLD
-            ? 100 // we take 100% jpeg quality for small resultions
+            ? 100
             : $this->definition->getQuality();
 
 

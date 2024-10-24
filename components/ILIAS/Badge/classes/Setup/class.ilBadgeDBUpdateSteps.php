@@ -28,7 +28,7 @@ class ilBadgeDBUpdateSteps implements ilDatabaseUpdateSteps
 
     public function step_1(): void
     {
-        if (! $this->db->tableColumnExists('badge_badge', 'image_rid')) {
+        if (!$this->db->tableColumnExists('badge_badge', 'image_rid')) {
             $attributes = [
                 'type' => 'text',
                 'length' => 64,
@@ -45,7 +45,7 @@ class ilBadgeDBUpdateSteps implements ilDatabaseUpdateSteps
 
     public function step_2(): void
     {
-        if (! $this->db->tableColumnExists('badge_image_template', 'image_rid')) {
+        if (!$this->db->tableColumnExists('badge_image_template', 'image_rid')) {
             $attributes = [
                 'type' => 'text',
                 'length' => 64,

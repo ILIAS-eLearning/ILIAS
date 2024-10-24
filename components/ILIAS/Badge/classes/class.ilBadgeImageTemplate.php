@@ -170,7 +170,7 @@ class ilBadgeImageTemplate
         }
     }
 
-    public function processImageUpload($badge): void
+    public function processImageUpload(ilBadgeImageTemplate $badge): void
     {
         try {
             if (!$this->upload_service->hasBeenProcessed()) {
