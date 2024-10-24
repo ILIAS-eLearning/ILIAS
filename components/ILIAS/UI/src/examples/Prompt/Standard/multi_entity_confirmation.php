@@ -151,7 +151,7 @@ function multi_entity_confirmation(): string
     }
 
     // create a Standard Prompt that requests the simulated GET endpoint
-    $prompt = $factory->prompt()->standard($confirmation_get_url->buildURI())->withTitle('Confirm deletion');
+    $prompt = $factory->prompt()->standard($confirmation_get_url)->withTitle('Confirm deletion');
 
     // create a Button that triggers the Standard Prompt
     $button = $factory->button()->primary('Delete entities', $prompt->getShowSignal());

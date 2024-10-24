@@ -22,15 +22,22 @@ export default class DataTableFactory {
   #jquery;
 
   /**
+   * @type {JQueryEventDispatcher}
+   */
+  #eventDispatcher;
+
+  /**
    * @type {Array<string, DataTable>}
    */
   #instances = [];
 
   /**
    * @param {jQuery} jquery
+   * @param {JQueryEventDispatcher} eventDispatcher
    */
-  constructor(jquery) {
+  constructor(jquery, eventDispatcher) {
     this.#jquery = jquery;
+    this.#eventDispatcher = eventDispatcher;
   }
 
   /**
@@ -47,6 +54,7 @@ export default class DataTableFactory {
 
     this.#instances[tableId] = new DataTable(
       this.#jquery,
+      this.#eventDispatcher,
       optActionId,
       optRowId,
       tableId,
