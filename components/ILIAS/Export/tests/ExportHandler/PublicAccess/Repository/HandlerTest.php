@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Export\Test\ExportHandler\PublicAccess\Repository;
 
-use _PHPStan_9815bbba4\Nette\Utils\AssertionException;
 use Exception;
 use ILIAS\Data\ObjectId;
 use PHPUnit\Framework\MockObject\MockObject;
