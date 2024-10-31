@@ -3928,7 +3928,6 @@ class ilObjectListGUI
                            htmlspecialchars(addslashes($title))
                        ));
 
-
         $path = $this->getTileImagePath();
 
         // workaround for #26205
@@ -3984,12 +3983,12 @@ class ilObjectListGUI
                 $app_info['fullday']
             ) . $title;
         }
-
+        //updating the call for the icon to reflect if there is a custom icon. This was updated in future ILIAS Versions
         $icon = $this->ui->factory()
-                         ->symbol()
-                         ->icon()
-                         ->standard($type, $this->lng->txt('obj_' . $type))
-                         ->withIsOutlined(true);
+            ->symbol()
+            ->icon()
+            ->custom(ilObject::_getIcon($obj_id), $this->lng->txt("icon") . " " . $this->lng->txt('obj_' . $type))
+            ->withSize('medium');
 
         // card title action
         $card_title_action = "";
@@ -4008,7 +4007,6 @@ class ilObjectListGUI
                 $image = $image->withAction($card_title_action);
             }
         }
-
         $card = $ui->factory()->card()->repositoryObject(
             $title . '<span data-list-item-id="' . $this->getUniqueItemId(true) . '"></span>',
             $image
@@ -4024,9 +4022,10 @@ class ilObjectListGUI
 
         $l = [];
         foreach ($this->determineProperties() as $p) {
-            if ($p["alert"] && $p['property'] !== $this->lng->txt('learning_progress')) {
+            //removing the check for learning progress so option for both is available.
+            //if ($p["alert"] && $p['property'] !== $this->lng->txt('learning_progress')) {
                 $l[(string) $p['property']] = (string) $p['value'];
-            }
+            //}
         }
         if (count($l) > 0) {
             $prop_list = $ui->factory()->listing()->descriptive($l);
@@ -4037,6 +4036,7 @@ class ilObjectListGUI
         }
 
         $lp = ilLPStatus::getListGUIStatus($obj_id, false);
+
         if (is_array($lp) && array_key_exists('status', $lp)) {
             $percentage = (int) ilLPStatus::_lookupPercentage($obj_id, $this->user->getId());
             if ($lp['status'] == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
