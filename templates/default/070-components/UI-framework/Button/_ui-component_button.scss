@@ -129,6 +129,11 @@ input.btn {
   }
 }
 
+.c-sequence__navigation--back > .btn-default,
+.c-sequence__navigation--next > .btn-default {
+  @extend .btn-ctrl;
+}
+
 // ILIAS doesn't use btn-success, btn-info, btn-warning, btn-danger
 
 // Link buttons

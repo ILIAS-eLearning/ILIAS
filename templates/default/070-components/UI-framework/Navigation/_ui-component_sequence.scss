@@ -1,0 +1,89 @@
+@use "../../../010-settings" as s;
+@use "../../../050-layout/basics" as l;
+@use "../../../050-layout/standardpage/layout_standardpage" as lstp;
+@use "../../../050-layout/layout_breakpoints" as lbrk;
+
+$c-sequence__shadow--down: 0 6px 3px -3px rgba(0, 0, 0, 0.15);
+
+.c-sequence {
+  position: relative;
+  border: s.$il-main-border;
+  border-radius: s.$il-border-radius-secondary-large;
+  background-color: s.$il-main-bg;
+  padding: 0 l.$il-margin-xlarge-horizontal;
+
+  &__header {
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: l.$il-margin-xxlarge-horizontal;
+    padding-top: l.$il-padding-xlarge-vertical;
+    background-color: s.$il-main-bg;
+    box-shadow: $c-sequence__shadow--down;
+    z-index: 2;
+
+    .c-sequence__navigation {
+      display: grid;
+      grid-template-columns: max-content max-content max-content;
+      grid-template-areas: "back viewctrl next";
+      gap: l.$il-margin-large-horizontal;
+      align-items: center;
+      justify-content: center;
+      width: max-content;
+
+      &--back {
+        grid-area: back;
+      }
+
+      &--viewcontrols {
+        grid-area: viewctrl;
+
+        .l-bar__space-keeper {
+          justify-content: center;
+        }
+      }
+
+      &--next {
+        grid-area: next;
+      }
+
+      @include lbrk.on-screen-size(small) {
+        width: 100%;
+      }
+    }
+
+    &__segment {
+      display:grid;
+      width: 100%;
+      padding: l.$il-padding-xxlarge-vertical l.$il-margin-xlarge-horizontal;
+      grid-template-areas: "title actions";
+      grid-template-columns: 1fr max-content;
+      &__title {
+        grid-area: title;
+      }
+
+      &__actions {
+        grid-area: actions;
+      }
+    }
+  }
+  &__segment__contents {
+    margin: 0 l.$il-margin-xlarge-horizontal;
+  }
+  &__global-actions {
+    @include lbrk.on-screen-size(small) {
+      width: 100%;
+    }
+  }
+}
+
+.il-layout-page-content:has(> .breadcrumbs) {
+  .c-sequence__header {
+    top: lstp.$il-standard-page-breadcrumbs-height;
+  }
+}
+

@@ -87,4 +87,6 @@ interface FactoryInternal extends \ILIAS\UI\Factory
     public function entity(): I\Entity\Factory;
 
     public function prompt(): I\Prompt\Factory;
+
+    public function navigation(): I\Navigation\Factory;
 }

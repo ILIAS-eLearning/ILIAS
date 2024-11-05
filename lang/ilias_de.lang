@@ -17278,6 +17278,8 @@ ui#:#ui_link_label#:#Label
 ui#:#ui_link_url#:#URL
 ui#:#ui_md_input_edit#:#Bearbeiten
 ui#:#ui_md_input_view#:#Vorschau
+ui#:#ui_nav_sequence_control_label#:#Steuerung der nachfolgenden Sequenz von Inhalten
+ui#:#ui_nav_sequence_description#:#Wird genutzt, um durch Inhalte zu navigieren oder um Aktionen und Filter auszulösen, welche die gesamte Sequenz betreffen.
 ui#:#ui_pagination_unlimited#:#Unbegrenzt
 ui#:#ui_select_dropdown_label#:#Bitte auswählen
 ui#:#ui_table_no_records#:#Keine Einträge
