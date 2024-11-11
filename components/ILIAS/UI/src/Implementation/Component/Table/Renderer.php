@@ -204,7 +204,7 @@ class Renderer extends AbstractComponentRenderer
         $component = $this->registerActions($component);
 
         [$component, $view_controls] = $component->applyViewControls(
-            $component->getFilter() ?? [],
+            $component->getFilter(),
             $component->getAdditionalParameters()
         );
 
@@ -213,6 +213,7 @@ class Renderer extends AbstractComponentRenderer
             array_keys($component->getVisibleColumns()),
             $component->getRange(),
             $component->getOrder(),
+            $component->getAdditionalViewControlData(),
             $component->getFilter(),
             $component->getAdditionalParameters()
         );

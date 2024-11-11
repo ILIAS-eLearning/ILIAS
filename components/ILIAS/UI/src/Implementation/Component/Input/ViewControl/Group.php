@@ -56,7 +56,9 @@ class Group extends ViewControlInput implements ViewControlGroupInterface, Group
      */
     public function withNameFrom(NameSource $source, ?string $parent_name = null): self
     {
-        /** @var $clone self */
+        //"reset" name source for a minimum of generated dynamic names
+        $source = new (get_class($source))();
+
         $clone = parent::withNameFrom($source, $parent_name);
         $clone->setInputs($this->nameInputs($source, $clone->getName()));
         return $clone;

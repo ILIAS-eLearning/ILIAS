@@ -154,6 +154,7 @@ interface Factory
      *      1: View Controls MUST reside in a View Control Container.
      *      2: View Controls MUST be visually close to the visualization their operation will have effect upon.
      *      3: View Controls MUST effect one visualization only.
+     *      4: View Controls allready have dedicated names. Those names SHOULD NOT be overridden.
      *   accessibility:
      *      1: View  Controls MUST be operable via keyboard only.
      *

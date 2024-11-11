@@ -80,7 +80,7 @@ class Renderer extends AbstractComponentRenderer
             }
         }
 
-        $internal_signal = $component->getInternalSignal();
+        $internal_signal = $component->withResetInternalSignal()->getInternalSignal();
         $param_name = $component->getName();
         if ($container_submit_signal = $component->getOnChangeSignal()) {
             $component = $component->withAdditionalOnLoadCode(
