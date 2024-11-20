@@ -45,6 +45,15 @@ class ilOrgUnitAppEventListener
                         break;
                 }
                 break;
+            case 'components/ILIAS/AdvancedMetaData':
+                switch ($a_event) {
+                    case 'recordDeleted':
+                        $delete_record_id = $a_parameter['record_id'];
+                        if (ilAdvancedMDRecord::_lookupTypeById($delete_record_id) == 'orgu') {
+                            ilOrgUnitType::deleteOrgUnitTypeAssignmentByRecId($delete_record_id);
+                        }
+                        break;
+                }
         }
     }
 

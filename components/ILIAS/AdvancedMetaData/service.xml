@@ -9,4 +9,7 @@
 		<pluginslot id="amdc" name="AdvancedMDClaiming" />
 	</pluginslots>
 	<logging/>
+    <events>
+        <event type="listen" id="components/ILIAS/AdvancedMetaData" />
+    </events>
 </service>
