@@ -49,7 +49,8 @@ class ilOrgUnitAppEventListener
                 switch ($a_event) {
                     case 'recordDeleted':
                         $delete_record_id = $a_parameter['record_id'];
-                        if (ilAdvancedMDRecord::_lookupTypeById($delete_record_id) == 'orgu') {
+                        $record_types = $a_parameter['record_types'];
+                        if (in_array('orgu', $record_types)) {
                             ilOrgUnitType::deleteOrgUnitTypeAssignmentByRecId($delete_record_id);
                         }
                         break;

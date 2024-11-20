@@ -434,11 +434,17 @@ class ilAdvancedMDRecord
     public function delete(): void
     {
         $record_id = $this->getRecordId();
+        $record_types = [];
+        foreach ($this->getAssignedObjectTypes() as $obj_type) {
+            $record_types[] = $obj_type['obj_type'];
+
+        }
         $this->il_app_event_handler->raise(
             'components/ILIAS/AdvancedMetaData',
             'recordDeleted',
             [
-                'record_id' => $record_id
+                'record_id' => $record_id,
+                'record_types' => $record_types
             ]
         );
         ilAdvancedMDRecord::_delete($record_id);
@@ -916,18 +922,5 @@ class ilAdvancedMDRecord
         }
 
         return $res;
-    }
-
-    public static function _lookupTypeById(int $id): ?string
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $query = "SELECT obj_type FROM adv_md_record_objs " . PHP_EOL
-            . "WHERE record_id = " . $ilDB->quote($id, 'integer');
-        $res = $ilDB->query($query);
-        if ($row = $ilDB->fetchAssoc($res)) {
-            return $row["obj_type"];
-        }
-        return null;
     }
 }

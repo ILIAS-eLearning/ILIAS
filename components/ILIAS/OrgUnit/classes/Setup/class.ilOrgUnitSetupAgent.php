@@ -63,7 +63,9 @@ class ilOrgUnitSetupAgent implements Setup\Agent
 
     public function getMigrations(): array
     {
-        return [];
+        return [
+            new ilOrgUnitRemoveDeletedMDSetsMigration()
+        ];
     }
 
     public function getNamedObjectives(?Setup\Config $config = null): array
