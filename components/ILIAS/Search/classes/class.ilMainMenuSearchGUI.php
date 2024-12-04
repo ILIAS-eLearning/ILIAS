@@ -75,7 +75,6 @@ class ilMainMenuSearchGUI
     public function getHTML(): string
     {
         iljQueryUtil::initjQuery();
-        iljQueryUtil::initjQueryUI();
 
         $this->tpl = new ilTemplate('tpl.main_menu_search.html', true, true, 'components/ILIAS/Search');
         if ($this->user->getId() != ANONYMOUS_USER_ID) {
