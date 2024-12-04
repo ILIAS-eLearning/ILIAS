@@ -65,7 +65,6 @@ class ResourcesCollector
         // (for all other modes they are included automatically)
         if ($this->output_mode == \ilPageObjectGUI::OFFLINE) {
             $this->js_files[] = \iljQueryUtil::getLocaljQueryPath();
-            $this->js_files[] = \iljQueryUtil::getLocaljQueryUIPath();
             $this->js_files[] = 'assets/js/Basic.js';
             $this->js_files[] = 'assets/js/mathjax_config.js';
             $this->js_files[] = 'node_modules/mathjax/es5/tex-chtml-full.js';
