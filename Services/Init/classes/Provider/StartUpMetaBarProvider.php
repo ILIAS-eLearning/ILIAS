@@ -128,7 +128,7 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
 
     private function isUserOnLoginPage(UriInterface $uri): bool
     {
-        return preg_match('%^.*/login.php$%', $uri->getPath()) === 1;
+        return preg_match('%^.*(?:/login\.php|/)$%', $uri->getPath()) === 1;
     }
 
     private function appendUrlParameterString(string $existing_url, string $addition): string
