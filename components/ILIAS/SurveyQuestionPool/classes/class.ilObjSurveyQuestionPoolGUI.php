@@ -29,6 +29,7 @@ use ILIAS\SurveyQuestionPool\Editing\EditingGUIRequest;
  * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilObjectMetaDataGUI, ilPermissionGUI, ilObjectCopyGUI
  * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ILIAS\SurveyQuestionPool\Settings\SettingsGUI
+ * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilExportGUI
  */
 class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 {
@@ -141,6 +142,11 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
                     $this->object->getRefId()
                 );
                 $this->ctrl->forwardCommand($gui);
+                break;
+
+            case strtolower(ilExportGUI::class):
+                $export = new ilExportGUI($this, $this->object);
+                $this->ctrl->forwardCommand($export);
                 break;
 
             case "":
@@ -444,27 +450,30 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
      */
     public function exportObject(): void
     {
-        $ilToolbar = $this->toolbar;
+        /*
+            $ilToolbar = $this->toolbar;
 
-        $this->tabs_gui->activateTab("export");
-        $ilToolbar->addButton(
-            $this->lng->txt('create_export_file'),
-            $this->ctrl->getLinkTarget($this, 'createExportFile')
-        );
-
-        $table_gui = new ilSurveyQuestionPoolExportTableGUI($this, 'export');
-        $export_dir = $this->object->getExportDirectory();
-        $export_files = $this->object->getExportFiles($export_dir);
-        $data = array();
-        foreach ($export_files as $exp_file) {
-            $file_arr = explode("__", $exp_file);
-            $data[] = array('file' => $exp_file,
-                            'date' => ilDatePresentation::formatDate(new ilDateTime($file_arr[0], IL_CAL_UNIX)),
-                            'size' => filesize($export_dir . "/" . $exp_file)
+            $this->tabs_gui->activateTab("export");
+            $ilToolbar->addButton(
+                $this->lng->txt('create_export_file'),
+                $this->ctrl->getLinkTarget($this, 'createExportFile')
             );
-        }
-        $table_gui->setData($data);
-        $this->tpl->setContent($table_gui->getHTML());
+
+            $table_gui = new ilSurveyQuestionPoolExportTableGUI($this, 'export');
+            $export_dir = $this->object->getExportDirectory();
+            $export_files = $this->object->getExportFiles($export_dir);
+            $data = array();
+            foreach ($export_files as $exp_file) {
+                $file_arr = explode("__", $exp_file);
+                $data[] = array('file' => $exp_file,
+                                'date' => ilDatePresentation::formatDate(new ilDateTime($file_arr[0], IL_CAL_UNIX)),
+                                'size' => filesize($export_dir . "/" . $exp_file)
+                );
+            }
+            $table_gui->setData($data);
+            $this->tpl->setContent($table_gui->getHTML());*/
+        $export = new ilExportGUI($this, $this->object);
+        $export->listExportFiles();
     }
 
     /**
