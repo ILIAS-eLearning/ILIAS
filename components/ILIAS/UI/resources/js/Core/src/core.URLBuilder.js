@@ -15,7 +15,7 @@
  ********************************************************************
  */
 
-import URLBuilderToken from './core.URLBuilderToken';
+import URLBuilderToken from './core.URLBuilderToken.js';
 
 const URLBuilderUrlMaxLength = 2048;
 const URLBuilderSeparator = '_';

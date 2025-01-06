@@ -76,6 +76,7 @@ export default class DrilldownFactory {
 
     this.#instances[drilldownId] = new Drilldown(
       this.#jQuery,
+      this.#document,
       new DrilldownPersistence(new this.#il.Utilities.CookieStorage(persistanceId)),
       new DrilldownModel(),
       new DrilldownMapping(this.#document, this.#resizeObserver, drilldownId),

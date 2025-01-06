@@ -14,7 +14,7 @@
  *
  *********************************************************************/
 
-import PresentationTable from './presentationtable.class';
+import PresentationTable from './presentationtable.class.js';
 
 export default class PresentationTableFactory {
   /**

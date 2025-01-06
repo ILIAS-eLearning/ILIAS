@@ -15,9 +15,10 @@
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
 
-import { assert } from 'chai';
+import { describe, it } from 'node:test';
+import { strict } from 'node:assert/strict';
 import loadHighResolutionSource
-  from '../../../resources/js/Image/src/loadHighResolutionSource';
+  from '../../../resources/js/Image/src/loadHighResolutionSource.js';
 
 describe('loadHighResolutionSource', () => {
   it('should choose the best possible source.', () => {
@@ -71,7 +72,7 @@ describe('loadHighResolutionSource', () => {
         imageElement.loader = null;
       }
 
-      assert.equal(imageElement.src, expectedSources.get(width));
+      strict.equal(imageElement.src, expectedSources.get(width));
     }
   });
 });
