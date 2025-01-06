@@ -345,6 +345,7 @@ class ilTestCorrectionsGUI
 
         $scoring = new ilTestScoring($this->testOBJ, $this->database);
         $scoring->setPreserveManualScores(true);
+        $scoring->setQuestionId($question_id);
         $scoring->recalculateSolutions();
 
         $this->main_tpl->setOnScreenMessage('success', $this->language->txt('saved_successfully'));
