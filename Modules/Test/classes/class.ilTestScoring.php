@@ -43,6 +43,11 @@ class ilTestScoring
     private array $recalculated_passes = [];
     private int $question_id = 0;
 
+    /**
+     * @var array<int, assQuestionGUI> $question_cache
+     */
+    protected $question_cache = [];
+
     public function __construct(
         private ilObjTest $test,
         private ilDBInterface $db
@@ -112,12 +117,16 @@ class ilTestScoring
         $questions = $passdata->getAnsweredQuestions();
         if (is_array($questions)) {
             foreach ($questions as $questiondata) {
-                if ($this->getQuestionId() && $this->getQuestionId() != $questiondata['id']) {
+                $q_id = $questiondata['id'];
+                if ($this->getQuestionId() && $this->getQuestionId() != $q_id) {
                     continue;
                 }
 
-                $question_gui = $this->test->createQuestionGUI('', $questiondata['id']);
-                $this->recalculateQuestionScore($question_gui, $active_id, $pass, $questiondata);
+                if (!isset($this->question_cache[$q_id])) {
+                    $this->question_cache[$q_id] = $this->test->createQuestionGUI("", $q_id);
+                }
+
+                $this->recalculateQuestionScore($this->question_cache[$q_id], $active_id, $pass, $questiondata);
             }
         }
     }
