@@ -77,7 +77,6 @@ class ilTestScoring
                 if (is_object($userdata) && is_array($userdata->getPasses())) {
                     $this->recalculatePasses($userdata, $active_id);
                 }
-                $this->test->updateTestResultCache($active_id);
             }
         }
     }
