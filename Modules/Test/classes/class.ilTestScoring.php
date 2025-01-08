@@ -43,15 +43,27 @@ class ilTestScoring
     private array $recalculated_passes = [];
     private int $question_id = 0;
 
+    protected ilLanguage $lng;
+
     /**
      * @var array<int, assQuestionGUI> $question_cache
      */
-    protected $question_cache = [];
+    protected array $question_cache = [];
+
+    /**
+     * @var array<int, array{'login': string, 'name': string, 'fullname': string}> $participants
+     */
+    protected array $participants = [];
+
+    protected string $initiator = '';
 
     public function __construct(
         private ilObjTest $test,
         private ilDBInterface $db
     ) {
+        global $DIC;
+        $this->lng = $DIC->language();
+        $this->initiator = $DIC->user()->getFullname() . " (" . $DIC->user()->getLogin() . ")";
     }
 
     public function setPreserveManualScores(bool $preserve_manual_scores): void
@@ -76,6 +88,7 @@ class ilTestScoring
 
     public function recalculateSolutions(): void
     {
+        $this->participants = $this->test->getParticipants();
         $participants = $this->test->getCompleteEvaluationData(false)->getParticipants();
         if (is_array($participants)) {
             foreach ($participants as $active_id => $userdata) {
@@ -107,6 +120,7 @@ class ilTestScoring
                 $this->addRecalculatedPassByActive($active_id, $pass);
             }
         }
+        $this->test->updateTestResultCache($active_id);
     }
 
     public function recalculatePass(
@@ -116,46 +130,100 @@ class ilTestScoring
     ) {
         $questions = $passdata->getAnsweredQuestions();
         if (is_array($questions)) {
-            foreach ($questions as $questiondata) {
-                $q_id = $questiondata['id'];
-                if ($this->getQuestionId() && $this->getQuestionId() != $q_id) {
-                    continue;
+            foreach ($questions as $question_data) {
+                $q_id = $question_data['id'];
+                if (!$this->getQuestionId() || $this->getQuestionId() == $q_id) {
+                    $this->recalculateQuestionScore($q_id, $active_id, $pass, $question_data);
                 }
-
-                if (!isset($this->question_cache[$q_id])) {
-                    $this->question_cache[$q_id] = $this->test->createQuestionGUI("", $q_id);
-                }
-
-                $this->recalculateQuestionScore($this->question_cache[$q_id], $active_id, $pass, $questiondata);
             }
         }
     }
 
-    public function recalculateQuestionScore(
-        assQuestionGUI $question_gui,
-        int $active_id,
-        int $pass,
-        array $questiondata
-    ): void {
-        $reached = $question_gui->object->calculateReachedPoints($active_id, $pass);
-        $actual_reached = $question_gui->object->adjustReachedPointsByScoringOptions($reached, $active_id, $pass);
+    public function recalculateQuestionScore(int $q_id, $active_id, $pass, $questiondata)
+    {
+        if (!isset($this->question_cache[$q_id])) {
+            $this->question_cache[$q_id] = $this->test->createQuestionGUI("", $q_id)->object;
+        }
+        $question = $this->question_cache[$q_id];
+
+        $old_points = $question->getReachedPoints($active_id, $pass);
+        $reached = $question->calculateReachedPoints($active_id, $pass);
+        $actual_reached = $question->adjustReachedPointsByScoringOptions($reached, $active_id, $pass);
 
         if ($this->preserve_manual_scores == true && $questiondata['manual'] == '1') {
             // Do we need processing here?
         } else {
-            assQuestion::setForcePassResultUpdateEnabled(true);
-
-            assQuestion::_setReachedPoints(
+            $this->updateReachedPoints(
                 $active_id,
                 $questiondata['id'],
+                $old_points,
                 $actual_reached,
-                $question_gui->object->getMaximumPoints(),
+                $question->getMaximumPoints(),
                 $pass,
-                false,
-                true
             );
+        }
 
-            assQuestion::setForcePassResultUpdateEnabled(false);
+    }
+
+    /**
+     * This is an optimized version of \assQuestion::_setReachedPoints that only executes updates in the database if
+     * necessary. In addition, unlike the original, this method does NOT update the test cache, so this must also be called
+     * afterward.
+     *
+     * @see assQuestion::_setReachedPoints
+     */
+    public function updateReachedPoints(int $active_id, int $question_id, float $old_points, float $points, float $max_points, int $pass)
+    {
+        // Only update the test results if necessary
+        $has_changed = $old_points != $points;
+        if ($has_changed && $points <= $max_points) {
+            $this->db->update(
+                "tst_test_result",
+                [
+                    'points' => ['float', $points],
+                    'tstamp' => ['integer', time()],
+                ],
+                [
+                    'active_fi' => ['integer', $active_id],
+                    'question_fi' => ['integer', $question_id],
+                    'pass' => ['integer', $pass]
+                ]
+            );
+        }
+
+        // Always update the pass result as the maximum points might have changed
+        $data = ilObjTest::_getQuestionCountAndPointsForPassOfParticipant($active_id, $pass);
+        $values = [
+            'maxpoints' => ['float', $data['points']],
+            'tstamp' => ['integer', time()],
+        ];
+
+        if ($has_changed) {
+            $result = $this->db->queryF(
+                "SELECT SUM(points) reachedpoints FROM tst_test_result WHERE active_fi = %s AND pass = %s",
+                ['integer', 'integer'],
+                [$active_id, $pass]
+            );
+            $values['points'] = ['float', (float) $result->fetchAssoc()['reachedpoints'] || 0];
+        }
+
+        $this->db->update(
+            'tst_pass_result',
+            $values,
+            ['active_fi' => ['integer', $active_id], 'pass' => ['integer', $pass]]
+        );
+
+        ilCourseObjectiveResult::_updateObjectiveResult(ilObjTest::_getUserIdFromActiveId($active_id), $active_id, $question_id);
+        if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
+            $msg = $this->lng->txtlng('assessment', 'log_answer_changed_points', ilObjAssessmentFolder::_getLogLanguage());
+            $username = $this->participants[$active_id] ? $this->participants[$active_id]["name"] : "";
+            assQuestion::logAction(sprintf(
+                $msg,
+                $username,
+                $old_points,
+                $points,
+                $this->initiator
+            ), $active_id, $question_id);
         }
     }
 
