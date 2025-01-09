@@ -235,6 +235,7 @@ JS;
                     $gap_combination,
                     $this->request_data_collector->rawArray('gap_combination_values')
                 );
+                $this->object->setGapCombinationsExists(true);
             }
         }
 
@@ -1675,5 +1676,6 @@ JS;
             $combinationPoints,
             $combinationValues
         );
+        $this->object->setGapCombinationsExists(true);
     }
 }
