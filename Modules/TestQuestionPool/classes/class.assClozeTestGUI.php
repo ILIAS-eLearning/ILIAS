@@ -285,6 +285,7 @@ JS;
                     $_POST['gap_combination'],
                     $_POST['gap_combination_values']
                 );
+                $this->object->setGapCombinationsExists(true);
             }
         }
         if ($this->ctrl->getCmd() != 'createGaps') {
@@ -1824,5 +1825,6 @@ JS;
             $combinationPoints,
             $combinationValues
         );
+        $this->object->setGapCombinationsExists(true);
     }
 }
