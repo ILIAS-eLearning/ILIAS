@@ -39,7 +39,7 @@ class ilImagePathResolver implements ImagePathResolver
 
         if (is_object($styleDefinition) && $current_skin != "default") {
             $image_dir = $styleDefinition->getImageDirectory($current_style);
-            $skin_img = "./Customizing/global/skin/" .
+            $skin_img = "./Customizing/skin/" .
                 $current_skin . "/" . $current_style . "/" . $image_dir . "/" . $image_path;
         }
 

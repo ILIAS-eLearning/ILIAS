@@ -90,7 +90,7 @@ class ilFileSystemDirectoriesCreatedObjective implements Setup\Objective
             );
             $customizing_dir_objective = new ilFileSystemDirectoryCopiedRecursivelyObjective(
                 $tmp_dir . DIRECTORY_SEPARATOR . "Customizing",
-                $root . "/Customizing",
+                $root . "/public/Customizing",
                 false,
                 true
             );

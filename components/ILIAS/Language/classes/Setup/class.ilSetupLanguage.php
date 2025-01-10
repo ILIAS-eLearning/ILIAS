@@ -55,7 +55,7 @@ class ilSetupLanguage extends ilLanguage
         $this->lang_key = $a_lang_key ?: $this->lang_default;
         $il_absolute_path = realpath(__DIR__ . "/../../../../../");
         $this->lang_path = $il_absolute_path . "/lang";
-        $this->cust_lang_path = $il_absolute_path . "/Customizing/global/lang";
+        $this->cust_lang_path = $il_absolute_path . "/lang/Customizing";
     }
 
     /**

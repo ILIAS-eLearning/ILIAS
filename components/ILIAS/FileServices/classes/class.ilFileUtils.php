@@ -364,7 +364,7 @@ class ilFileUtils
             str_starts_with($a_target, CLIENT_DATA_DIR . "/temp") => Location::TEMPORARY,
             str_starts_with($a_target, CLIENT_DATA_DIR) => Location::STORAGE,
 
-            str_starts_with($a_target, ILIAS_ABSOLUTE_PATH . '/Customizing') => Location::CUSTOMIZING,
+            str_starts_with($a_target, ILIAS_ABSOLUTE_PATH . '/public/Customizing') => Location::CUSTOMIZING,
             default => throw new InvalidArgumentException(
                 "Can not move files to \"$a_target\" because path can not be mapped to web, storage or customizing location."
             ),

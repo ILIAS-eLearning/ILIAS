@@ -20,6 +20,7 @@
 		],
 		"pre-install-cmd": [
 			"mkdir -p public/Customizing/global/plugins"
+			"mkdir -p public/Customizing/skin"
 		],
 		"post-install-cmd": [
 			"@php vendor/composer/rmdirs.php"
@@ -99,7 +100,6 @@
 		"exclude-from-classmap": [
 			"./components/ILIAS/Migration",
 			"./*/*/lib",
-			"./Customizing/**/vendor",
 			"./public/Customizing/**/vendor",
 			"./components/ILIAS/setup_/sql",
 			"./cli/setup.php",

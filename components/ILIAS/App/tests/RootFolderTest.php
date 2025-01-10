@@ -63,7 +63,6 @@ final class RootFolderTest extends TestCase
         'artifacts',
         'cli',
         'components',
-        'Customizing',
         'docs',
         'extern',
         'lang',

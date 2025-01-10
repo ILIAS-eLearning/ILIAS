@@ -269,7 +269,7 @@ class ilInitialisation
              * @var FilesystemFactory $delegatingFactory
              */
             $delegatingFactory = $c['filesystem.factory'];
-            $customizingConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/' . 'Customizing');
+            $customizingConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/public/' . 'Customizing');
             return $delegatingFactory->getLocal($customizingConfiguration);
         };
 

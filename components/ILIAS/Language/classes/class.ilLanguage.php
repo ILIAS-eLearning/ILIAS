@@ -83,7 +83,7 @@ class ilLanguage implements \ILIAS\Language\Language
         $this->usage_log_enabled = self::isUsageLogEnabled();
 
         $this->lang_path = ILIAS_ABSOLUTE_PATH . "/lang";
-        $this->cust_lang_path = ILIAS_ABSOLUTE_PATH . "/Customizing/global/lang";
+        $this->cust_lang_path = ILIAS_ABSOLUTE_PATH . "/lang/Customizing";
 
         $this->lang_default = $client_ini->readVariable("language", "default") ?? 'en';
         $this->lang_user = $this->lang_default;
