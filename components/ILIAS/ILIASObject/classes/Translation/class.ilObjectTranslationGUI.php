@@ -54,7 +54,6 @@ class ilObjectTranslationGUI
     protected ArrayBasedRequestWrapper $post_wrapper;
     protected RequestInterface $request;
     protected Refinery $refinery;
-    protected LOMServices $lom_services;
 
     protected ilObjectGUI $obj_gui;
     protected ilObject $obj;
@@ -81,8 +80,6 @@ class ilObjectTranslationGUI
         $this->post_wrapper = $DIC->http()->wrapper()->post();
         $this->request = $DIC->http()->request();
         $this->refinery = $DIC['refinery'];
-        $this->lom_services = $DIC->learningObjectMetadata();
-
 
         $this->obj_gui = $obj_gui;
         $this->obj = $obj_gui->getObject();
@@ -251,9 +248,9 @@ class ilObjectTranslationGUI
     {
         return $this->ui_factory->modal()->roundtrip(
             $this->lng->txt('confirm'),
-            $this->ui_factory->legacy()->content($this->lng->txt('obj_select_master_lang')),
+            null,
             [
-                'langs' => $this->getMultiLangFormInput(true)
+                'langs' => $this->getMultiLangSelectionInput()
             ],
             $this->ctrl->getFormActionByClass(self::class, self::CMD_SAVE_LANGUAGES)
         );
@@ -308,7 +305,7 @@ class ilObjectTranslationGUI
             $this->lng->txt('confirm'),
             $this->ui_factory->legacy()->content($this->lng->txt('obj_select_master_lang')),
             [
-                'lang' => $this->getMultiLangFormInput()
+                'lang' => $this->getMasterLangSelectionInput()
             ],
             $this->ctrl->getFormActionByClass(self::class, self::CMD_SAVE_CONTENT_TRANSLATION_ACTIVATION)
         );
@@ -417,31 +414,48 @@ class ilObjectTranslationGUI
         $this->ctrl->redirect($this, self::CMD_LIST_TRANSLATIONS);
     }
 
-    public function getMultiLangFormInput(bool $add = false): Input
+    public function getMultiLangSelectionInput(bool $add = false): Input
     {
-        $options = [];
-        foreach ($this->lom_services->dataHelper()->getAllLanguages() as $language) {
-            $options[$language->value()] = $language->presentableLabel();
-        }
-
-        if ($add) {
-            $master_lang = $this->obj_trans->getMasterLanguage();
-            $trafo = $this->refinery->custom()->transformation(
-                function (array $vs) use ($master_lang) {
-                    $langs = [];
-                    foreach ($vs as $v) {
-                        if ($v !== $master_lang && $v !== '') {
-                            $langs[] = $v;
-                        }
-                    }
-                    return $langs;
+        $enabled_langs = $this->obj_trans->getLanguages();
+        $options = array_reduce(
+            $this->lng->getInstalledLanguages(),
+            function (array $c, string $v) use ($enabled_langs): array {
+                if (!array_key_exists($v, $enabled_langs)) {
+                    $c[$v] = $this->lng->txt("meta_l_{$v}");
                 }
-            );
-            return $this->ui_factory->input()->field()->multiSelect(
-                $this->lng->txt('obj_additional_langs'),
-                $options
-            )->withAdditionalTransformation($trafo);
-        }
+                return $c;
+            },
+            []
+        );
+
+        $master_lang = $this->obj_trans->getMasterLanguage();
+        $trafo = $this->refinery->custom()->transformation(
+            function (array $vs) use ($master_lang) {
+                $langs = [];
+                foreach ($vs as $v) {
+                    if ($v !== $master_lang && $v !== '') {
+                        $langs[] = $v;
+                    }
+                }
+                return $langs;
+            }
+        );
+        return $this->ui_factory->input()->field()->multiSelect(
+            $this->lng->txt('obj_additional_langs'),
+            $options
+        )->withAdditionalTransformation($trafo);
+    }
+
+    public function getMasterLangSelectionInput(): Input
+    {
+        $options = array_reduce(
+            $this->lng->getInstalledLanguages(),
+            function (array $c, string $v): array {
+                $c[$v] = $this->lng->txt("meta_l_{$v}");
+                return $c;
+            },
+            []
+        );
 
         $trafo = $this->refinery->custom()->transformation(
             fn($v) => in_array($v, array_keys($options)) ? $v : $this->lng->getDefaultLanguage()
