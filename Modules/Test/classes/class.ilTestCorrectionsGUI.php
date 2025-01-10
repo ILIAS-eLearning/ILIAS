@@ -286,10 +286,12 @@ class ilTestCorrectionsGUI
         $this->main_tpl->parseCurrentBlock();
     }
 
-    protected function showAnswerStatistic()
+    protected function showAnswerStatistic($participant_results = null)
     {
         $questionGUI = $this->getQuestion((int) $this->testrequest->raw('qid'));
-        $solutions = $this->getSolutions($questionGUI->object);
+        $solutions = $participant_results
+            ? $this->getSolutionsByParticipantResults($questionGUI->object, $participant_results)
+            : $this->getSolutions($questionGUI->object);
 
         $this->setCorrectionTabsContext($questionGUI, 'answers');
 
@@ -346,10 +348,10 @@ class ilTestCorrectionsGUI
         $scoring = new ilTestScoring($this->testOBJ, $this->database);
         $scoring->setPreserveManualScores(true);
         $scoring->setQuestionId($question_id);
-        $scoring->recalculateSolutions();
+        $results = $scoring->recalculateSolutions();
 
         $this->main_tpl->setOnScreenMessage('success', $this->language->txt('saved_successfully'));
-        $this->showAnswerStatistic();
+        $this->showAnswerStatistic($results);
     }
 
     protected function confirmQuestionRemoval()
@@ -526,6 +528,24 @@ class ilTestCorrectionsGUI
         }
 
         return $solutionRows;
+    }
+
+    /**
+     * @param array<int, ilTestEvaluationUserData> $participant_results
+     */
+    protected function getSolutionsByParticipantResults(assQuestion $question, array $participant_results): array
+    {
+        $solutions = [];
+
+        foreach ($participant_results as $active_id => $result) {
+            foreach ($result->getPasses() as $pass) {
+                foreach ($question->getSolutionValues($active_id, $pass->getPass()) as $row) {
+                    $solutions[] = $row;
+                }
+            }
+        }
+
+        return $solutions;
     }
 
     /**

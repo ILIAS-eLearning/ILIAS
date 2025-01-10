@@ -88,30 +88,21 @@ class ilTestScoring
         $this->question_id = $question_id;
     }
 
-    public function recalculateSolutions(): void
+    /**
+     * @return ilTestEvaluationUserData[]
+     */
+    public function recalculateSolutions(): array
     {
         $factory = new ilTestEvaluationFactory($this->db, $this->test);
         $this->participants = $factory->getCorrectionsEvaluationData()->getParticipants();
-        if (is_array($this->participants)) {
-            foreach ($this->participants as $active_id => $userdata) {
-                if (is_object($userdata) && is_array($userdata->getPasses())) {
-                    $this->recalculatePasses($userdata, $active_id);
-                }
+
+        foreach ($this->participants as $active_id => $userdata) {
+            if (is_object($userdata) && is_array($userdata->getPasses())) {
+                $this->recalculatePasses($userdata, $active_id);
             }
         }
-        $this->participants = [];
-    }
 
-    public function recalculateSolution(int $active_id, int $pass): void
-    {
-        $user_data = $this
-            ->test
-            ->getCompleteEvaluationData(false)
-            ->getParticipant($active_id)
-            ->getPass($pass);
-
-        $this->recalculatePass($user_data, $active_id, $pass);
-        $this->test->updateTestResultCache($active_id);
+        return $this->participants;
     }
 
     public function recalculatePasses(ilTestEvaluationUserData $userdata, int $active_id): void
