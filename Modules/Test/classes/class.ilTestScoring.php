@@ -55,7 +55,8 @@ class ilTestScoring
      */
     protected array $participants = [];
 
-    protected string $initiator = '';
+    protected string $initiator_name;
+    protected int $initiator_id;
 
     public function __construct(
         private ilObjTest $test,
@@ -63,7 +64,8 @@ class ilTestScoring
     ) {
         global $DIC;
         $this->lng = $DIC->language();
-        $this->initiator = $DIC->user()->getFullname() . " (" . $DIC->user()->getLogin() . ")";
+        $this->initiator_name = $DIC->user()->getFullname() . " (" . $DIC->user()->getLogin() . ")";
+        $this->initiator_id = $DIC->user()->getId();
     }
 
     public function setPreserveManualScores(bool $preserve_manual_scores): void
@@ -217,13 +219,19 @@ class ilTestScoring
         ilCourseObjectiveResult::_updateObjectiveResult(ilObjTest::_getUserIdFromActiveId($active_id), $active_id, $question_id);
         if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
             $msg = $this->lng->txtlng('assessment', 'log_answer_changed_points', ilObjAssessmentFolder::_getLogLanguage());
-            assQuestion::logAction(sprintf(
+            $msg = sprintf(
                 $msg,
                 $this->participants[$active_id] ? $this->participants[$active_id]->getName() : '',
                 $old_points,
                 $points,
-                $this->initiator
-            ), $active_id, $question_id);
+                $this->initiator_name
+            );
+            ilObjAssessmentFolder::_addLog(
+                $this->initiator_id,
+                $this->test->getId(),
+                $msg,
+                $question_id
+            );
         }
     }
 
