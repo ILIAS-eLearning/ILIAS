@@ -51,7 +51,7 @@ class ilTestScoring
     protected array $question_cache = [];
 
     /**
-     * @var array<int, array{'login': string, 'name': string, 'fullname': string}> $participants
+     * @var ilTestEvaluationUserData[] $participants
      */
     protected array $participants = [];
 
@@ -88,15 +88,16 @@ class ilTestScoring
 
     public function recalculateSolutions(): void
     {
-        $this->participants = $this->test->getParticipants();
-        $participants = $this->test->getCompleteEvaluationData(false)->getParticipants();
-        if (is_array($participants)) {
-            foreach ($participants as $active_id => $userdata) {
+        $factory = new ilTestEvaluationFactory($this->db, $this->test);
+        $this->participants = $factory->getCorrectionsEvaluationData()->getParticipants();
+        if (is_array($this->participants)) {
+            foreach ($this->participants as $active_id => $userdata) {
                 if (is_object($userdata) && is_array($userdata->getPasses())) {
                     $this->recalculatePasses($userdata, $active_id);
                 }
             }
         }
+        $this->participants = [];
     }
 
     public function recalculateSolution(int $active_id, int $pass): void
@@ -216,10 +217,9 @@ class ilTestScoring
         ilCourseObjectiveResult::_updateObjectiveResult(ilObjTest::_getUserIdFromActiveId($active_id), $active_id, $question_id);
         if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
             $msg = $this->lng->txtlng('assessment', 'log_answer_changed_points', ilObjAssessmentFolder::_getLogLanguage());
-            $username = $this->participants[$active_id] ? $this->participants[$active_id]["name"] : "";
             assQuestion::logAction(sprintf(
                 $msg,
-                $username,
+                $this->participants[$active_id] ? $this->participants[$active_id]->getName() : '',
                 $old_points,
                 $points,
                 $this->initiator

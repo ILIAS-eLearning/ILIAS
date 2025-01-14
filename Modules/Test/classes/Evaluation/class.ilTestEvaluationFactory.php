@@ -123,6 +123,62 @@ class ilTestEvaluationFactory
         return $ret;
     }
 
+    public function getCorrectionsEvaluationData(): ilTestEvaluationData
+    {
+        $eval_data_rows = $this->queryEvaluationData($this->getAccessFilteredActiveIds());
+        $scoring_settings = $this->getPassScoringSettings();
+        $participants = [];
+        $current_user = null;
+        $current_attempt = null;
+
+        foreach ($eval_data_rows as $row) {
+            if ($current_user !== $row['active_fi']) {
+                $current_user = $row['active_fi'];
+                $current_attempt = null;
+
+                $user_eval_data = new ilTestEvaluationUserData($scoring_settings);
+
+                $user_eval_data->setName(
+                    $this->buildName($row['usr_id'], $row['firstname'], $row['lastname'], $row['title'])
+                );
+
+                if ($row['login'] !== null) {
+                    $user_eval_data->setLogin($row['login']);
+                }
+                if ($row['usr_id'] !== null) {
+                    $user_eval_data->setUserID($row['usr_id']);
+                }
+                $user_eval_data->setSubmitted((bool) $row['submitted']);
+                $user_eval_data->setLastFinishedPass($row['last_finished_pass']);
+                $user_eval_data->setFirstVisit(-1);
+                $user_eval_data->setLastVisit(-1);
+            }
+
+            if ($current_attempt !== $row['pass']) {
+                $current_attempt = $row['pass'];
+                $attempt = new \ilTestEvaluationPassData();
+                $attempt->setPass($row['pass']);
+                $attempt->setReachedPoints($row['points']);
+            }
+
+            if ($row['question_fi'] !== null) {
+                $attempt->addAnsweredQuestion(
+                    $row["question_fi"],
+                    $row["qpl_maxpoints"],
+                    $row["result_points"],
+                    (bool) $row['answered'],
+                    null,
+                    $row['manual']
+                );
+            }
+
+            $user_eval_data->addPass($row['pass'], $attempt);
+            $participants[$row['active_fi']] = $user_eval_data;
+        }
+
+        return new ilTestEvaluationData($participants);
+    }
+
     public function getEvaluationData(): ilTestEvaluationData
     {
         $eval_data_rows = $this->queryEvaluationData($this->getAccessFilteredActiveIds());
