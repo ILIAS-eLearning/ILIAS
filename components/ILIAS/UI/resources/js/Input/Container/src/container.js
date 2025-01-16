@@ -29,7 +29,7 @@ import ContainerFactory from './container.factory';
 
 const transforms = {
   'switchable-group-field-input': new SwitchableGroupTransforms(),
-  'optional-roup-field-input': new OptionalGroupTransforms(),
+  'optional-group-field-input': new OptionalGroupTransforms(),
   'radio-field-input': new RadioTransforms(),
   'multiSelect-field-input': new MultiSelectTransforms(),
   'password-field-input': new PasswordTransforms(),
