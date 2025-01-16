@@ -343,6 +343,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                                     data-il-ui-input-name="name_0[input_1][]"><label for="id_3">text_input</label>
                                     <div class="c-input__field"><input id="id_3" type="text" name="name_0[input_1][]"
                                             class="c-field-text" /></div>
+                                    <div class="c-input__value_representation"></div>
                                 </fieldset><input id="id_4" type="hidden" name="name_0[input_2][]" value="" />
                             </div>
                             <div class="ui-input-file-input-progress-container">
@@ -457,6 +458,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                                 data-il-ui-input-name="name_0[input_1][]"><label for="id_3">text_input</label>
                                 <div class="c-input__field"><input id="id_3" type="text" name="name_0[input_1][]"
                                         class="c-field-text" /></div>
+                                        <div class="c-input__value_representation"></div>
                                 </fieldset><input id="id_4" type="hidden" name="name_0[input_2][]" value="" />
                             </div>
                             <div class="ui-input-file-input-progress-container">
