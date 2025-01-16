@@ -85,7 +85,7 @@ export default class Container {
   }
 
   /**
-   * @param {FormNode} pointer
+   * @param {FormNode} current
    * @param {HTMLElement} domFieldNode
    * @return {void}
    */
