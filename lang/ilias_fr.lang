@@ -8215,7 +8215,7 @@ dateplaner#:#cal_ms_users_responsible#:#Responsables utilisateurs
 dateplaner#:#cal_new_app#:#Nouvel Evènement
 dateplaner#:#cal_new_ms#:#Nouvelle Tâche
 dateplaner#:#cal_no_ending#:#Aucune Date de Fin
-dateplaner#:#cal_no_events_block#:#Es sind keine Termine für Sie vorhanden.###07 02 2020 new variable
+dateplaner#:#cal_no_events_block#:#Aucune date n'est disponible pour vous.
 dateplaner#:#cal_no_events_info#:#Aucun évènement trouvé pour la période sélectionnée.
 dateplaner#:#cal_no_recurrence#:#Aucune Répétition
 dateplaner#:#cal_notification#:#Message de Notification
@@ -15904,7 +15904,7 @@ tagging#:#tagging_users_using_tag#:#Utilisateurs utilisant Tag
 task#:#task_deadline#:#End###07 02 2020 new variable
 task#:#task_derived_tasks#:#Tasks###07 02 2020 new variable
 task#:#task_details#:#Details###07 02 2020 new variable
-task#:#task_no_task_items#:#Es sind keine To-Dos für Sie vorhanden.###07 02 2020 new variable
+task#:#task_no_task_items#:#Il n'y a aucune tâche pour vous.
 task#:#task_no_tasks#:#You do not have any open tasks.###07 02 2020 new variable
 task#:#task_start#:#Start###07 02 2020 new variable
 task#:#task_task#:#Task###07 02 2020 new variable
