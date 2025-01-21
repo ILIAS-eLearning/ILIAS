@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 /**
- * Synchronization of user accounts used in auth container ldap, cas,...
+ * Synchronization of user accounts used in auth container ldap, ,...
  *
  * @author Stefan Meyer <meyer@leifos.com>
  */

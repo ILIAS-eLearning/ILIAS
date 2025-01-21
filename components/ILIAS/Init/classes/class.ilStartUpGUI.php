@@ -312,7 +312,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $page_editor_html = $this->showOpenIdConnectLoginForm($page_editor_html);
         $page_editor_html = $this->showLoginInformation($page_editor_html, $tpl);
         $page_editor_html = $this->showLoginForm($page_editor_html, $form);
-        $page_editor_html = $this->showCASLoginForm($page_editor_html);
         $page_editor_html = $this->showShibbolethLoginForm($page_editor_html);
         $page_editor_html = $this->showSamlLoginForm($page_editor_html);
         $page_editor_html = $this->showRegistrationLinks($page_editor_html);
@@ -595,39 +594,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             ->withAdditionalTransformation($this->saniziteArrayElementsTrafo());
     }
 
-    private function doCasAuthentication(): void
-    {
-        $this->getLogger()->debug('Trying cas authentication');
-        $credentials = new ilAuthFrontendCredentialsCAS();
-
-        $provider_factory = new ilAuthProviderFactory();
-        $provider = $provider_factory->getProviderByAuthMode($credentials, ilAuthUtils::AUTH_CAS);
-
-        $status = ilAuthStatus::getInstance();
-
-        $frontend_factory = new ilAuthFrontendFactory();
-        $frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
-        $frontend = $frontend_factory->getFrontend(
-            $this->authSession,
-            $status,
-            $credentials,
-            [$provider]
-        );
-        $frontend->authenticate();
-
-        switch ($status->getStatus()) {
-            case ilAuthStatus::STATUS_AUTHENTICATED:
-                $this->getLogger()->debug('Authentication successful.');
-                ilInitialisation::redirectToStartingPage();
-
-                // no break
-            case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
-            default:
-                $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt($status->getReason()));
-                $this->showLoginPage();
-        }
-    }
-
     private function doLTIAuthentication(): void
     {
         $this->getLogger()->debug('Trying lti authentication');
@@ -821,29 +787,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     {
         if ($page_editor_html !== '') {
             return $page_editor_html;
-        }
-
-        return $page_editor_html;
-    }
-
-    private function showCASLoginForm(string $page_editor_html): string
-    {
-        if ($this->setting->get('cas_active')) {
-            $tpl = new ilTemplate('tpl.login_form_cas.html', true, true, 'components/ILIAS/Init');
-            $tpl->setVariable('TXT_CAS_LOGIN', $this->lng->txt('login_to_ilias_via_cas'));
-            $tpl->setVariable('TXT_CAS_LOGIN_BUTTON', ilUtil::getImagePath('auth/cas_login_button.png'));
-            $tpl->setVariable('TXT_CAS_LOGIN_INSTRUCTIONS', $this->setting->get('cas_login_instructions'));
-            $this->ctrl->setParameter($this, 'forceCASLogin', '1');
-            $tpl->setVariable('TARGET_CAS_LOGIN', $this->ctrl->getLinkTarget($this, 'doCasAuthentication'));
-            $this->ctrl->setParameter($this, 'forceCASLogin', '');
-
-            return $this->substituteLoginPageElements(
-                $GLOBALS['tpl'],
-                $page_editor_html,
-                $tpl->get(),
-                '[list-cas-login-form]',
-                'CAS_LOGIN_FORM'
-            );
         }
 
         return $page_editor_html;
@@ -1066,7 +1009,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 '[list-user-agreement]',
                 '[list-dpro-agreement]',
                 '[list-login-form]',
-                '[list-cas-login-form]',
                 '[list-saml-login]',
                 '[list-shibboleth-login-form]',
                 '[list-openid-connect-login]'

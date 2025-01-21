@@ -85,8 +85,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         $generalSettingsTpl->setVariable('TXT_LDAP', $this->lng->txt('auth_ldap'));
         $generalSettingsTpl->setVariable('TXT_SHIB', $this->lng->txt('auth_shib'));
 
-        $generalSettingsTpl->setVariable('TXT_CAS', $this->lng->txt('auth_cas'));
-
         $generalSettingsTpl->setVariable('TXT_SCRIPT', $this->lng->txt('auth_script'));
 
         $generalSettingsTpl->setVariable('TXT_APACHE', $this->lng->txt('auth_apache'));
@@ -98,7 +96,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             ilAuthUtils::AUTH_LDAP,
             ilAuthUtils::AUTH_SHIBBOLETH,
             ilAuthUtils::AUTH_SAML,
-            ilAuthUtils::AUTH_CAS,
             ilAuthUtils::AUTH_APACHE,
             ilAuthUtils::AUTH_OPENID_CONNECT
         ];
@@ -217,7 +214,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         $fields = [];
         $reg_roles = ilObjRole::_lookupRegisterAllowed();
 
-        $excluded_auth_names = ['default', 'cas', 'saml', 'shibboleth', 'ldap', 'apache', 'ecs', 'openid'];
+        $excluded_auth_names = ['default', 'saml', 'shibboleth', 'ldap', 'apache', 'ecs', 'openid'];
         // do not list auth modes with external login screen
         // even not default, because it can easily be set to
         // a non-working auth mode
@@ -898,13 +895,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($shib_settings_gui);
                 break;
 
-            case 'ilcassettingsgui':
-                $this->tabs_gui->setTabActive('auth_cas');
-
-                $cas_settings = new ilCASSettingsGUI($this->object->getRefId());
-                $this->ctrl->forwardCommand($cas_settings);
-                break;
-
             case strtolower(ilAuthPageEditorGUI::class):
                 $this->setSubTabs('authSettings');
                 $this->tabs_gui->setTabActive('authentication_settings');
@@ -983,11 +973,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             $this->tabs_gui->addTarget(
                 'auth_shib',
                 $this->ctrl->getLinkTargetByClass('ilauthshibbolethsettingsgui', 'settings')
-            );
-
-            $this->tabs_gui->addTarget(
-                'auth_cas',
-                $this->ctrl->getLinkTargetByClass('ilcassettingsgui', 'settings')
             );
 
             $this->tabs_gui->addTarget(

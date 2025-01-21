@@ -622,7 +622,7 @@ class ilInitialisation
 
     /**
      * set session handler to db
-     * Used in Soap/CAS
+     * Used in Soap
      */
     public static function setSessionHandler(): void
     {
@@ -1228,8 +1228,6 @@ class ilInitialisation
         global $ilErr;
 
         self::handleErrorReporting();
-
-        // breaks CAS: must be included after CAS context isset in AuthUtils
 
         self::requireCommonIncludes();
         $GLOBALS["DIC"]["ilias.version"] = $GLOBALS["DIC"][\ILIAS\Data\Factory::class]->version(ILIAS_VERSION_NUMERIC);
