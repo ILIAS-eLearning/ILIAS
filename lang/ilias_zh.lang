@@ -5890,7 +5890,7 @@ common#:#user_defined_list#:#用户定义字段概况
 common#:#user_deleted#:#用户已删除
 common#:#user_detail#:#详细数据
 common#:#user_ext_account#:#外部账号
-common#:#user_ext_account_desc#:#账号用于外部身份验证。 (CAS 或 SOAP 身份验证)
+common#:#user_ext_account_desc#:#账号用于外部身份验证。 (SOAP 身份验证)
 common#:#user_image#:#用户图像
 common#:#user_import_failed#:#用户导入失败。
 common#:#user_imported#:#用户导入完成。
@@ -10722,7 +10722,7 @@ ldap#:#ldap_add_missing#:#分配缺失角色
 ldap#:#ldap_add_remove#:#添加/删除角色
 ldap#:#ldap_add_role_ass_rule#:#角色分配的新规则
 ldap#:#ldap_as_ds#:#作为数据库源来使用
-ldap#:#ldap_as_ds_info#:#如果已激活，这个LDAP配置仅用于组合其他身份验证方法的用户账号的同步上。(例如,CAS)。
+ldap#:#ldap_as_ds_info#:#如果已激活，这个LDAP配置仅用于组合其他身份验证方法的用户账号的同步上。(例如)。
 ldap#:#ldap_assignment_type#:#分配类型
 ldap#:#ldap_authentication_settings#:#身份验证设置
 ldap#:#ldap_bind_anonymous#:#匿名绑定

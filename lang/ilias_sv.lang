@@ -4900,7 +4900,7 @@ common#:#obj_ass#:#Asset
 common#:#obj_assf#:#Test och bedömning
 common#:#obj_assf_desc#:#Inställningar och administration av testet och bedömningsverktyget
 common#:#obj_auth#:#Autentisering / Ny registrering
-common#:#obj_auth_desc#:#Konfigurera typen av användarautentisering (lokal, LDAP, CAS, ...) och de nya inloggningarna här.
+common#:#obj_auth_desc#:#Konfigurera typen av användarautentisering (lokal, LDAP, ...) och de nya inloggningarna här.
 common#:#obj_awra#:#"Vem är online?" display
 common#:#obj_awra_desc#:#"Vem är online?"-Administratörens display
 common#:#obj_bdga#:#Badges
@@ -5891,7 +5891,7 @@ common#:#user_defined_list#:#Oversikt över användardefinierade fält
 common#:#user_deleted#:#ILIAS-konto raderat
 common#:#user_detail#:#Detaljer
 common#:#user_ext_account#:#Externt inloggningskonto
-common#:#user_ext_account_desc#:#Logonkonto som används för extern autentisering. (CAS-, SOAP- eller LDAP-autentisering)
+common#:#user_ext_account_desc#:#Logonkonto som används för extern autentisering. (SOAP- eller LDAP-autentisering)
 common#:#user_image#:#Användarbild
 common#:#user_import_failed#:#User import misslyckades.
 common#:#user_imported#:#User import slutförd.
@@ -10723,7 +10723,7 @@ ldap#:#ldap_add_missing#:#Tilldela roller som saknas
 ldap#:#ldap_add_remove#:#Lägg till/ta bort roller
 ldap#:#ldap_add_role_ass_rule#:#Ny regel för ILIAS rolltilldelning
 ldap#:#ldap_as_ds#:#Använd som datakälla
-ldap#:#ldap_as_ds_info#:#I kombination med andra autentiseringstyper (t.ex. CAS eller SAML) används LDAP-konfigurationen endast för att synkronisera uppgifterna i ILIAS-kontona. Direkt autentisering via LDAP är inte möjlig.
+ldap#:#ldap_as_ds_info#:#I kombination med andra autentiseringstyper (t.ex. SAML) används LDAP-konfigurationen endast för att synkronisera uppgifterna i ILIAS-kontona. Direkt autentisering via LDAP är inte möjlig.
 ldap#:#ldap_assignment_type#:#Typ av uppdrag
 ldap#:#ldap_authentication_settings#:#Inställningar för autentisering
 ldap#:#ldap_bind_anonymous#:#Ankoppla anonymt

@@ -5892,7 +5892,7 @@ common#:#user_defined_list#:#Felhasználó-definiált adatmezők
 common#:#user_deleted#:#Felhasználót sikeresen törölte.
 common#:#user_detail#:#Adatok részletezése
 common#:#user_ext_account#:#Külső belépési jogosultság
-common#:#user_ext_account_desc#:#Belépési jogosultság külső hitelesítéshez (CAS-, SOAP- veya LDAP-hitelesítéshez)
+common#:#user_ext_account_desc#:#Belépési jogosultság külső hitelesítéshez (SOAP- veya LDAP-hitelesítéshez)
 common#:#user_image#:#Felhasználói kép
 common#:#user_import_failed#:#Felhasználó importálás sikertelen.
 common#:#user_imported#:#Felhasználó importálás befejeződött.
@@ -10724,7 +10724,7 @@ ldap#:#ldap_add_missing#:#Hiányzó szerepek összerendelése
 ldap#:#ldap_add_remove#:#Szerepek létrehozása /eltávolítása
 ldap#:#ldap_add_role_ass_rule#:#Új szerep a szerep-összerendelésekhez
 ldap#:#ldap_as_ds#:#Adatok forrásaként
-ldap#:#ldap_as_ds_info#:#Ha be van kapcsolva, ez az LDAP-konfiguráció a többi hitelesítési módszerrel együtt (például CAS) csak a felhasználói fiókok szinkronizációjához használható. A közvetlen LDAP-hitelesítés így nem lehetséges.
+ldap#:#ldap_as_ds_info#:#Ha be van kapcsolva, ez az LDAP-konfiguráció a többi hitelesítési módszerrel együtt csak a felhasználói fiókok szinkronizációjához használható. A közvetlen LDAP-hitelesítés így nem lehetséges.
 ldap#:#ldap_assignment_type#:#Hozzárendelési típus
 ldap#:#ldap_authentication_settings#:#Hitelesítési beállítások
 ldap#:#ldap_bind_anonymous#:#Kapcsolódás névtelenül

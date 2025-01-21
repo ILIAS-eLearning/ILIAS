@@ -5891,7 +5891,7 @@ common#:#user_defined_list#:#カスタムユーザプロファイルフィール
 common#:#user_deleted#:#ユーザ削除
 common#:#user_detail#:#詳細データ
 common#:#user_ext_account#:#外部アカウント
-common#:#user_ext_account_desc#:#外部認証(CAS, SOAP, LDAP またはRadius認証)に使用されるアカウント
+common#:#user_ext_account_desc#:#外部認証(SOAP, LDAP またはRadius認証)に使用されるアカウント
 common#:#user_image#:#ユーザイメージ
 common#:#user_import_failed#:#ユーザインポートに失敗しました。
 common#:#user_imported#:#ユーザインポートは完了しました。

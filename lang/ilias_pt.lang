@@ -5473,7 +5473,7 @@ common#:#resources#:#Utilizadores ativos
 common#:#right#:#Atribuição de utilizador
 common#:#rights#:#%1$s (o utilizador não está autorizado a usar o sistema de correio)
 common#:#role#:#Campos personalizados
-common#:#role_add_user#:#Conta usada para autenticação externa. (CAS, SOAP, LDAP ou autenticação Radius)
+common#:#role_add_user#:#Conta usada para autenticação externa. (SOAP, LDAP ou autenticação Radius)
 common#:#role_added#:#Utilizador apagado
 common#:#role_assignment#:#Importação de utilizador completa.
 common#:#role_assignment_updated#:#A atribuição de funções foi atualizada.
@@ -10723,7 +10723,7 @@ ldap#:#ldap_add_missing#:#Atribuir funções em falta
 ldap#:#ldap_add_remove#:#Adicionar/Remover funções
 ldap#:#ldap_add_role_ass_rule#:#Nova regra para atribuições de funções
 ldap#:#ldap_as_ds#:#Usar como fonte de dados
-ldap#:#ldap_as_ds_info#:#Se estiver ativado, esta configuração LDAP é usada apenas para a sincronização das contas de utilizador juntamente com outros métodos de autenticação (p. ex. CAS).
+ldap#:#ldap_as_ds_info#:#Se estiver ativado, esta configuração LDAP é usada apenas para a sincronização das contas de utilizador juntamente com outros métodos de autenticação.
 ldap#:#ldap_assignment_type#:#Tipo de atribuição
 ldap#:#ldap_authentication_settings#:#Definições de autenticação
 ldap#:#ldap_bind_anonymous#:#Vincular anonimamente

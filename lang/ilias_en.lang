@@ -5877,7 +5877,7 @@ common#:#user_defined_list#:#Custom User Data Fields
 common#:#user_deleted#:#User deleted
 common#:#user_detail#:#Detail Data
 common#:#user_ext_account#:#External Account
-common#:#user_ext_account_desc#:#Account used for external authentication. (CAS, SOAP or LDAP authentication)
+common#:#user_ext_account_desc#:#Account used for external authentication. (SOAP or LDAP authentication)
 common#:#user_image#:#User Image
 common#:#user_import_failed#:#User import failed.
 common#:#user_imported#:#User import complete.
@@ -10717,7 +10717,7 @@ ldap#:#ldap_add_missing#:#Assign Missing Roles
 ldap#:#ldap_add_remove#:#Add/Remove Roles
 ldap#:#ldap_add_role_ass_rule#:#New Rule for Role Assignments
 ldap#:#ldap_as_ds#:#Use as Data Source
-ldap#:#ldap_as_ds_info#:#If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods (e.g. CAS).
+ldap#:#ldap_as_ds_info#:#If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods.
 ldap#:#ldap_assignment_type#:#Assignment Type
 ldap#:#ldap_authentication_settings#:#Authentication Settings
 ldap#:#ldap_bind_anonymous#:#Bind Anonymously

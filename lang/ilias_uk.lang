@@ -5891,7 +5891,7 @@ common#:#user_defined_list#:#Overview User-defined Fields###25 02 2007 new varia
 common#:#user_deleted#:#Користувач Видалений
 common#:#user_detail#:#Детальні Дані
 common#:#user_ext_account#:#External Account###25 02 2007 new variable
-common#:#user_ext_account_desc#:#Account used for external authentication. (CAS or SOAP authentication)###25 02 2007 new variable
+common#:#user_ext_account_desc#:#Account used for external authentication. (SOAP authentication)###25 02 2007 new variable
 common#:#user_image#:#User Image###30 04 2009 new variable
 common#:#user_import_failed#:#Імпорт користувача пройшов невдало.
 common#:#user_imported#:#Імпорт користувача завершився вдало.
@@ -10723,7 +10723,7 @@ ldap#:#ldap_add_missing#:#Assign Missing Roles###24 07 2009 new variable
 ldap#:#ldap_add_remove#:#Add/Remove Roles###24 07 2009 new variable
 ldap#:#ldap_add_role_ass_rule#:#New Rule for Role Assignments###23 08 2007 new variable
 ldap#:#ldap_as_ds#:#Use as Data Source###22 03 2011 new variable
-ldap#:#ldap_as_ds_info#:#If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods (e.g. CAS).###22 03 2011 new variable
+ldap#:#ldap_as_ds_info#:#If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods.###22 03 2011 new variable
 ldap#:#ldap_assignment_type#:#Assignment Type###23 08 2007 new variable
 ldap#:#ldap_authentication_settings#:#Authentication Settings###25 02 2007 new variable
 ldap#:#ldap_bind_anonymous#:#Bind Anonymously###25 02 2007 new variable

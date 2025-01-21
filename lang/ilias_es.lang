@@ -5893,7 +5893,7 @@ common#:#user_defined_list#:#Ver campos definidos por el usuario
 common#:#user_deleted#:#Usuario eliminado
 common#:#user_detail#:#Datos Detallados
 common#:#user_ext_account#:#Cuenta Externa
-common#:#user_ext_account_desc#:#Cuenta usada para autenticación externa. (autenticación CAS o SOAP)
+common#:#user_ext_account_desc#:#Cuenta usada para autenticación externa. (SOAP)
 common#:#user_image#:#Imagen de Usuario
 common#:#user_import_failed#:#La importación de usuarios falló.
 common#:#user_imported#:#Importación de Usuario completada.
@@ -10725,7 +10725,7 @@ ldap#:#ldap_add_missing#:#Asignar Roles ausentes
 ldap#:#ldap_add_remove#:#Añadir/Eliminar Roles
 ldap#:#ldap_add_role_ass_rule#:#Nueva regla para asignación de rol
 ldap#:#ldap_as_ds#:#Usar como fuente de datos
-ldap#:#ldap_as_ds_info#:#Si se activa, la configuración de este ldap se usa para sincronización de cuentas de usuario con otros métodos de autenticación (ej. CAS)
+ldap#:#ldap_as_ds_info#:#Si se activa, la configuración de este ldap se usa para sincronización de cuentas de usuario con otros métodos de autenticación
 ldap#:#ldap_assignment_type#:#Tipo de asignación
 ldap#:#ldap_authentication_settings#:#Configuración de Autenticación
 ldap#:#ldap_bind_anonymous#:#Bind Anónimamente

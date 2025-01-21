@@ -5891,7 +5891,7 @@ common#:#user_defined_list#:#Overzicht gebruikers-gedefinieerde velden
 common#:#user_deleted#:#Gebruiker gewist
 common#:#user_detail#:#Detail-gegevens
 common#:#user_ext_account#:#Externe Account
-common#:#user_ext_account_desc#:#Account gebruikt voor externe authenticatie. (CAS or SOAP authenticatie)
+common#:#user_ext_account_desc#:#Account gebruikt voor externe authenticatie. (SOAP authenticatie)
 common#:#user_image#:#Afbeelding gebruiker
 common#:#user_import_failed#:#Gebruikers import mislukt
 common#:#user_imported#:#Gebruikers import gereed
@@ -10723,7 +10723,7 @@ ldap#:#ldap_add_missing#:#Assign Missing Roles
 ldap#:#ldap_add_remove#:#Add/Remove Roles
 ldap#:#ldap_add_role_ass_rule#:#New Rule for Role Assignments
 ldap#:#ldap_as_ds#:#Use as Data Source
-ldap#:#ldap_as_ds_info#:#If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods (e.g. CAS).
+ldap#:#ldap_as_ds_info#:#If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods.
 ldap#:#ldap_assignment_type#:#Assignment Type
 ldap#:#ldap_authentication_settings#:#Authenticatie instellingen
 ldap#:#ldap_bind_anonymous#:#Anonieme band

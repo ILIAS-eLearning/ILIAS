@@ -4885,7 +4885,7 @@ common#:#obj_ass#:#Atout
 common#:#obj_assf#:#Test et évaluation
 common#:#obj_assf_desc#:#Paramétrage et gestion de l'outil de test et d'évaluation
 common#:#obj_auth#:#Authentification / Nouvelle inscription
-common#:#obj_auth_desc#:#Configurez ici le type d'authentification des utilisateurs (local, LDAP, CAS, ...) ainsi que les nouvelles inscriptions.
+common#:#obj_auth_desc#:#Configurez ici le type d'authentification des utilisateurs (local, LDAP, ...) ainsi que les nouvelles inscriptions.
 common#:#obj_awra#:#Annonce 'Qui est en ligne ?'
 common#:#obj_awra_desc#:#Paramétrage de l'annonce 'Qui est en ligne ?'
 common#:#obj_bdga#:#Badges
@@ -5876,7 +5876,7 @@ common#:#user_defined_list#:#Champs Utilisateur Personnalisés
 common#:#user_deleted#:#Utilisateur supprimé
 common#:#user_detail#:#Détail
 common#:#user_ext_account#:#Compte Externe
-common#:#user_ext_account_desc#:#Compte utilisé pour l'authentification externe (authentification CAS, SOAP, LDAP ou Radius)
+common#:#user_ext_account_desc#:#Compte utilisé pour l'authentification externe (authentification SOAP, LDAP ou Radius)
 common#:#user_image#:#Image de l'Utilisateur
 common#:#user_import_failed#:#Echec d'importation utilisateur
 common#:#user_imported#:#Importation utilisateur terminée.
@@ -10708,7 +10708,7 @@ ldap#:#ldap_add_missing#:#Assigner rôles manquants
 ldap#:#ldap_add_remove#:#Ajouter/supprimer rôles
 ldap#:#ldap_add_role_ass_rule#:#Nouvelle règle pour les assignations de rôle
 ldap#:#ldap_as_ds#:#Utiliser comme source de données
-ldap#:#ldap_as_ds_info#:#Si activée, cette configuration de LDAP est utilisée uniquement pour la synchronisation des comptes d'utilisateur en association avec une autre méthode d'authentification (i.e. CAS or Radius).
+ldap#:#ldap_as_ds_info#:#Si activée, cette configuration de LDAP est utilisée uniquement pour la synchronisation des comptes d'utilisateur en association avec une autre méthode d'authentification (i.e. Radius).
 ldap#:#ldap_assignment_type#:#Type d'assignation
 ldap#:#ldap_authentication_settings#:#Paramètres d'Authentification
 ldap#:#ldap_bind_anonymous#:#Bind de façon anonyme

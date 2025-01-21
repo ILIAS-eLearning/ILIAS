@@ -5892,7 +5892,7 @@ common#:#user_defined_list#:#Περίληψη πεδίων ορισμένων α
 common#:#user_deleted#:#Ο χρήστης διαγράφηκε
 common#:#user_detail#:#Λεπτομερή δεδομένα
 common#:#user_ext_account#:#Εξωτερικός λογαριασμός
-common#:#user_ext_account_desc#:#Ο λογαριασμός χρησιμοποιείται για εξωτερική πιστοποίηση. (Πιστοποίηση CAS ή SOAP)
+common#:#user_ext_account_desc#:#Ο λογαριασμός χρησιμοποιείται για εξωτερική πιστοποίηση. (SOAP)
 common#:#user_image#:#User Image###30 04 2009 new variable
 common#:#user_import_failed#:#Η εισαγωγή χρήστη απέτυχε.
 common#:#user_imported#:#Η εισαγωγή χρήστη ολοκληρώθηκε.
@@ -10724,7 +10724,7 @@ ldap#:#ldap_add_missing#:#Assign Missing Roles###24 07 2009 new variable
 ldap#:#ldap_add_remove#:#Add/Remove Roles###24 07 2009 new variable
 ldap#:#ldap_add_role_ass_rule#:#New Rule for Role Assignments
 ldap#:#ldap_as_ds#:#Use as Data Source###22 03 2011 new variable
-ldap#:#ldap_as_ds_info#:#If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods (e.g. CAS).###22 03 2011 new variable
+ldap#:#ldap_as_ds_info#:#If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods.###22 03 2011 new variable
 ldap#:#ldap_assignment_type#:#Assignment Type
 ldap#:#ldap_authentication_settings#:#Authentication Settings
 ldap#:#ldap_bind_anonymous#:#Bind Anonymously

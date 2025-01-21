@@ -4900,7 +4900,7 @@ common#:#obj_ass#:#Sredstvo
 common#:#obj_assf#:#Test in ocena
 common#:#obj_assf_desc#:#Nastavitve in upravljanje orodja za teste in oceno
 common#:#obj_auth#:#Avtentikacija / Nova prijava
-common#:#obj_auth_desc#:#Tukaj konfigurirajte način avtentikacije uporabnikov (lokalno, LDAP, CAS ...) in nove prijave.
+common#:#obj_auth_desc#:#Tukaj konfigurirajte način avtentikacije uporabnikov (lokalno, LDAP, ...) in nove prijave.
 common#:#obj_awra#:#Napis „Kdo je na spletu?“
 common#:#obj_awra_desc#:#Upravljanje napisa „Kdo je na spletu?“
 common#:#obj_bdga#:#Značke
@@ -5891,7 +5891,7 @@ common#:#user_defined_list#:#Pregled uporabniško definiranih polj
 common#:#user_deleted#:#Uporabnik je izbrisan
 common#:#user_detail#:#Podrobnosti
 common#:#user_ext_account#:#Zunanji uporabniški račun
-common#:#user_ext_account_desc#:#Uporabniški račun, ki se uporablja za zunanjo avtentikacijo. (avtentikacije CAS, SOAP, LDAP ali Radius)
+common#:#user_ext_account_desc#:#Uporabniški račun, ki se uporablja za zunanjo avtentikacijo. (avtentikacije SOAP, LDAP ali Radius)
 common#:#user_image#:#Slika uporabnika
 common#:#user_import_failed#:#Uvoz uporabnika ni uspel.
 common#:#user_imported#:#Uvoz uporabnika je zaključen.
@@ -10723,7 +10723,7 @@ ldap#:#ldap_add_missing#:#Dodeli manjkajoče vloge
 ldap#:#ldap_add_remove#:#Dodaj/odstrani vloge
 ldap#:#ldap_add_role_ass_rule#:#Novo pravilo za dodeljevanje vlog ILIAS
 ldap#:#ldap_as_ds#:#Uporabi kot vir podatkov
-ldap#:#ldap_as_ds_info#:#Če je aktivirano, se konfiguracija LDAP za sinhronizacijo uporabniških podatkov uporablja v kombinaciji z drugimi metodami avtentikacije (CAS, Radius ...). Neposredna avtentikacija preko LDAP ni mogoča.
+ldap#:#ldap_as_ds_info#:#Če je aktivirano, se konfiguracija LDAP za sinhronizacijo uporabniških podatkov uporablja v kombinaciji z drugimi metodami avtentikacije (Radius ...). Neposredna avtentikacija preko LDAP ni mogoča.
 ldap#:#ldap_assignment_type#:#Vrsta dodelitve
 ldap#:#ldap_authentication_settings#:#Nastavitve za avtentikacijo
 ldap#:#ldap_bind_anonymous#:#Poveži se anonimno

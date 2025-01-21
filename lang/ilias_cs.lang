@@ -5891,7 +5891,7 @@ common#:#user_defined_list#:#Přehled uživatelem definovaných polí
 common#:#user_deleted#:#Uživatel odstraněn
 common#:#user_detail#:#Podrobné údaje
 common#:#user_ext_account#:#Externí účet
-common#:#user_ext_account_desc#:#Účet použitý pro externí autentizaci. (Autentizace CAS, SOAP nebo LDAP)
+common#:#user_ext_account_desc#:#Účet použitý pro externí autentizaci. (SOAP nebo LDAP)
 common#:#user_image#:#Obrázek uživatele
 common#:#user_import_failed#:#Import uživatele selhal.
 common#:#user_imported#:#Import uživatele ukončen.
@@ -10723,7 +10723,7 @@ ldap#:#ldap_add_missing#:#Přiřadit chybějící role
 ldap#:#ldap_add_remove#:#Přidat/Odstranit Role
 ldap#:#ldap_add_role_ass_rule#:#Nové pravidlo pro přiřazení role
 ldap#:#ldap_as_ds#:#Použít zdroj dat
-ldap#:#ldap_as_ds_info#:#Je-li aktivováno, tato konfigurace LDAP je použita pro synchronizaci uživatelských účtů v kombinaci s jinými metodami autentizace (např. CAS).
+ldap#:#ldap_as_ds_info#:#Je-li aktivováno, tato konfigurace LDAP je použita pro synchronizaci uživatelských účtů v kombinaci s jinými metodami autentizace.
 ldap#:#ldap_assignment_type#:#Typ přiřazení
 ldap#:#ldap_authentication_settings#:#Nastavení autentizace
 ldap#:#ldap_bind_anonymous#:#Anonymní přihlášení

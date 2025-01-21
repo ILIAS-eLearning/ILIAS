@@ -5891,7 +5891,7 @@ common#:#user_defined_list#:#حقول ملف المستخدم الشخصي ال�
 common#:#user_deleted#:#تم حذف المستخدم
 common#:#user_detail#:#Detail Data
 common#:#user_ext_account#:#الحساب الخارجي
-common#:#user_ext_account_desc#:#Account used for external authentication. (CAS, SOAP or LDAP authentication)
+common#:#user_ext_account_desc#:#Account used for external authentication. SOAP or LDAP authentication)
 common#:#user_image#:#صورة المستخدم
 common#:#user_import_failed#:#فشل استيراد المستخدم
 common#:#user_imported#:#استيراد المستخدم مكتمل
@@ -10723,7 +10723,7 @@ ldap#:#ldap_add_missing#:#تعيين القوانين المفقودة
 ldap#:#ldap_add_remove#:#اضافة\ ازالة قوانين
 ldap#:#ldap_add_role_ass_rule#:#قاعدة جديدة لتعيين الوظائف
 ldap#:#ldap_as_ds#:#Use as Data Source
-ldap#:#ldap_as_ds_info#:#If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods (e.g. CAS).
+ldap#:#ldap_as_ds_info#:#If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods.
 ldap#:#ldap_assignment_type#:#نوع التعيين
 ldap#:#ldap_authentication_settings#:#اعدادات المصادقة
 ldap#:#ldap_bind_anonymous#:#التزام كمجهول

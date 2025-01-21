@@ -5891,7 +5891,7 @@ common#:#user_defined_list#:#Podgląd pól zdefiniowanych przez użytkownika
 common#:#user_deleted#:#Użytkownik usunięty
 common#:#user_detail#:#Dane szczegółowe
 common#:#user_ext_account#:#Konto zewnętrzne
-common#:#user_ext_account_desc#:#Konto używane do zewnętrznej identyfikacji. (identyfikacja CAS lub SOAP)
+common#:#user_ext_account_desc#:#Konto używane do zewnętrznej identyfikacji. (identyfikacja SOAP)
 common#:#user_image#:#Obraz użytkownika
 common#:#user_import_failed#:#Błędny import użytkowników.
 common#:#user_imported#:#Zakończony import użytkowników.
@@ -10723,7 +10723,7 @@ ldap#:#ldap_add_missing#:#Przydziel brakujące role
 ldap#:#ldap_add_remove#:#Dodaj/usuń rolę
 ldap#:#ldap_add_role_ass_rule#:#Nowe zasady przydzielania ról ILIAS
 ldap#:#ldap_as_ds#:#Użyj jako źródła danych
-ldap#:#ldap_as_ds_info#:#Jeśli ta opcja jest aktywna, konfigurację LDAP stosuje się do synchronizacji danych użytkownika w połączeniu z innymi rodzajami identyfikacji (CAS, itd.). Nie ma możliwości przeprowadzenia bezpośredniej identyfikacji za pomocą LDAP.
+ldap#:#ldap_as_ds_info#:#Jeśli ta opcja jest aktywna, konfigurację LDAP stosuje się do synchronizacji danych użytkownika w połączeniu z innymi rodzajami identyfikacji (itd.). Nie ma możliwości przeprowadzenia bezpośredniej identyfikacji za pomocą LDAP.
 ldap#:#ldap_assignment_type#:#Rodzaj przydziału
 ldap#:#ldap_authentication_settings#:#Ustawienia autoryzacji
 ldap#:#ldap_bind_anonymous#:#Połączenie anonimowe

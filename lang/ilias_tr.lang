@@ -5891,7 +5891,7 @@ common#:#user_defined_list#:#Seçimli Kullanıcı Veri Alanları
 common#:#user_deleted#:#Kullanıcı silindi
 common#:#user_detail#:#Detay Veri
 common#:#user_ext_account#:#Dış Hesap
-common#:#user_ext_account_desc#:#Hesap, harici kimlik doğrulaması için kullanılır. (CAS, SOAP veya LDAP kimlik doğrulama)
+common#:#user_ext_account_desc#:#Hesap, harici kimlik doğrulaması için kullanılır. (SOAP veya LDAP kimlik doğrulama)
 common#:#user_image#:#Kullanıcı Resmi
 common#:#user_import_failed#:#Kullanıcı içe aktarılamadı.
 common#:#user_imported#:#Kullanıcı içe aktarımı tamamlandı.
@@ -10723,7 +10723,7 @@ ldap#:#ldap_add_missing#:#Ata Eksik Rolleri
 ldap#:#ldap_add_remove#:#Ekle / Kaldır Rolleri
 ldap#:#ldap_add_role_ass_rule#:#Rol Atamaları için Yeni Kural
 ldap#:#ldap_as_ds#:#Veri kaynağı olarak Kullanım
-ldap#:#ldap_as_ds_info#:#aktif ise, bu LDAP yapılandırmasını diğer kimlik doğrulama yöntemleri (örneğin CAS) ile birlikte kullanıcı hesaplarının senkronizasyonu için kullanılır.
+ldap#:#ldap_as_ds_info#:#aktif ise, bu LDAP yapılandırmasını diğer kimlik doğrulama yöntemleri ile birlikte kullanıcı hesaplarının senkronizasyonu için kullanılır.
 ldap#:#ldap_assignment_type#:#Atama Türü
 ldap#:#ldap_authentication_settings#:#Kimlik Doğrulama Ayarları
 ldap#:#ldap_bind_anonymous#:#Bind Anonim

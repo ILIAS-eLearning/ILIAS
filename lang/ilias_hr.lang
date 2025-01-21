@@ -5891,7 +5891,7 @@ common#:#user_defined_list#:#Polja s prilagođenim korisničkim podacima
 common#:#user_deleted#:#Korisnik je izbrisan
 common#:#user_detail#:#Detaljni podaci
 common#:#user_ext_account#:#Vanjski račun
-common#:#user_ext_account_desc#:#Račun koji se koristi za vanjsku provjeru autentičnosti. (CAS, SOAP, LDAP ili radijus autentifikacija)
+common#:#user_ext_account_desc#:#Račun koji se koristi za vanjsku provjeru autentičnosti. (SOAP, LDAP ili radijus autentifikacija)
 common#:#user_image#:#Slika korisnika
 common#:#user_import_failed#:#Uvoz korisnika nije uspio.
 common#:#user_imported#:#Uvoz korisnika dovršen.
@@ -10723,7 +10723,7 @@ ldap#:#ldap_add_missing#:#Dodijeli nedostajuće uloge
 ldap#:#ldap_add_remove#:#Dodaj/ukloni uloge
 ldap#:#ldap_add_role_ass_rule#:#Novo pravilo za dodjelu uloga
 ldap#:#ldap_as_ds#:#Koristite kao izvor podataka
-ldap#:#ldap_as_ds_info#:#Ako se aktivira, ova konfiguracija LDAP-a koristi se samo za sinkronizaciju korisničkih računa u kombinaciji s drugim metodama provjere autentičnosti (npr. CAS).
+ldap#:#ldap_as_ds_info#:#Ako se aktivira, ova konfiguracija LDAP-a koristi se samo za sinkronizaciju korisničkih računa u kombinaciji s drugim metodama provjere autentičnosti.
 ldap#:#ldap_assignment_type#:#Vrsta dodjele
 ldap#:#ldap_authentication_settings#:#Postavke provjere autentičnosti
 ldap#:#ldap_bind_anonymous#:#Poveži anonimno

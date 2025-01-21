@@ -5891,7 +5891,7 @@ common#:#user_defined_list#:#Peržiūrėti Vartotojo-sukurtus Laukelius
 common#:#user_deleted#:#Vartotojas ištrintas
 common#:#user_detail#:#Išsamesni Duomenys
 common#:#user_ext_account#:#Išorinė Paskyra
-common#:#user_ext_account_desc#:#Paskyra, naudojama išorinei autorizacijai. (CAS ar SOAP autorizacija)
+common#:#user_ext_account_desc#:#Paskyra, naudojama išorinei autorizacijai. (SOAP autorizacija)
 common#:#user_image#:#User Image###30 04 2009 new variable
 common#:#user_import_failed#:#Vartotojų importavimas nepavyko.
 common#:#user_imported#:#Vartotojų importavimas baigtas.
@@ -10723,7 +10723,7 @@ ldap#:#ldap_add_missing#:#Assign Missing Roles###24 07 2009 new variable
 ldap#:#ldap_add_remove#:#Add/Remove Roles###24 07 2009 new variable
 ldap#:#ldap_add_role_ass_rule#:#New Rule for Role Assignments###23 08 2007 new variable
 ldap#:#ldap_as_ds#:#Use as Data Source###22 03 2011 new variable
-ldap#:#ldap_as_ds_info#:#If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods (e.g. CAS).###22 03 2011 new variable
+ldap#:#ldap_as_ds_info#:#If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods.###22 03 2011 new variable
 ldap#:#ldap_assignment_type#:#Assignment Type###23 08 2007 new variable
 ldap#:#ldap_authentication_settings#:#Autorizacijos Nuostatos
 ldap#:#ldap_bind_anonymous#:#Bind Anonymously###08 12 2006 new variable
