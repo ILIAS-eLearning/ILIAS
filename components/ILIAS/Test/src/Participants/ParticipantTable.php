@@ -106,6 +106,7 @@ class ParticipantTable implements DataRetrieval
                 'name' => $this->test_object->buildName($record->getUserId(), $record->getLastname(), $record->getFirstname()),
                 'login' => $record->getLogin(),
                 'matriculation' => $record->getMatriculation(),
+                'total_time_on_task' => $record->getAttemptOverviewInformation()?->getHumanReadableTotalTimeOnTask() ?? '',
                 'status_of_attempt' => $this->lng->txt($status_of_attempt->value),
                 'id_of_attempt' => $record->getAttemptOverviewInformation()?->getExamId(),
                 'ip_range' => $record->getClientIpTo() !== '' || $record->getClientIpFrom() !== ''
@@ -354,6 +355,8 @@ class ParticipantTable implements DataRetrieval
                 $this->lng->txt('tst_attempt_started'),
                 $this->current_user->getDateTimeFormat()
             )->withIsSortable(true),
+            'total_time_on_task' => $column_factory->text($this->lng->txt('working_time'))
+                ->withIsOptional(true, false),
             'total_attempts' => $column_factory->number($this->lng->txt('total_attempts'))
                 ->withIsOptional(true, false)
                 ->withIsSortable(true),
@@ -455,7 +458,7 @@ class ParticipantTable implements DataRetrieval
         return $this->limitRecords(
             $this->sortRecords(
                 $this->filterRecords(
-                    $records = $this->results_data_factory->addAttemptOverviewInformationToParticipants(
+                    $this->results_data_factory->addAttemptOverviewInformationToParticipants(
                         $this->results_presentation_settings,
                         $this->test_object,
                         $this->loadRecords($filter_data, $order)
