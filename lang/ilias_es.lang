@@ -2077,8 +2077,6 @@ auth#:#auth_account_migration_new#:#Crear nueva cuenta de usuario
 auth#:#auth_activation_code_success#:#Su cuenta se ha reactivado. Ahora puede iniciar sesión en ILIAS.
 auth#:#auth_allow_local_info#:#Si se habilita, aún será posible una autenticación local en la base de datos ILIAS (con una contraseña/inicio de sesión local) para aquellas cuentas de usuario cuyo modo de autenticación esté configurado como SAML.
 auth#:#auth_auth_settings#:#Configuración
-auth#:#auth_cas_ldap#:#Sincronización usando LDAP
-auth#:#auth_cas_ldap_info#:#Si está activado, la sincronización de cuentas de usuarios y asignación de roles se hace usando una configuración existente de LDAP
 auth#:#auth_cron_destroy_expired_sessions#:#Deletion of Expired Sessions###26 08 2024 new variable
 auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessions.###26 08 2024 new variable
 auth#:#auth_err_expired#:#Se ha desactivado su sesión debido a la inactividad.
@@ -2181,8 +2179,6 @@ auth#:#auth_saml_user_mapping#:#Asignación de perfil de usuario
 auth#:#auth_saml_username_claim#:#Atributo para nombre de usuario
 auth#:#auth_saml_username_claim_info#:#Defina el atributo que usa ILIAS para generar el nombre de usuario que será visible en ILIAS.
 auth#:#auth_sync#:#Sincronización de usuario
-auth#:#auth_sync_cas#:#Generación automática de cuentas de usuarios
-auth#:#auth_sync_cas_info#:#Crea cuentas de usuario ILIAS de forma automática, para los usuarios que se han autenticado contra CAS, sin tener una cuenta ILIAS todavía
 auth#:#destination_after_logout#:#Destination After Logout###28 10 2024 new variable
 auth#:#destination_external_ressource#:#Show External Ressource###28 10 2024 new variable
 auth#:#destination_external_ressource_url#:#External URL###28 10 2024 new variable
@@ -3600,13 +3596,6 @@ common#:#attachments#:#Archivos adjuntos
 common#:#attempts#:#Intentos
 common#:#auth_active_roles#:#Roles globales activados para el registro
 common#:#auth_allow_local#:#Permitir Autenticación Local
-common#:#auth_cas#:#CAS
-common#:#auth_cas_allow_local_desc#:#Esto le permite a los usuarios CAS autenticarse con su usuario local ILIAS y una contraseña local
-common#:#auth_cas_auth#:#Configurar autenticación CAS
-common#:#auth_cas_auth_desc#:#Para que la autenticación CAS funcione, debe establecerse la configuración del servidor prevent_super_global_replacement en client.ini.php.
-common#:#auth_cas_port_desc#:#Ej. 443 si la URI del servidor CAS es https://auth.yourserver.com:443/cas/
-common#:#auth_cas_server_desc#:#Ej. auth.yourserver.com si la URI del servidor CAS es https://auth.yourserver.com:443/cas/
-common#:#auth_cas_uri_desc#:#Local URI, e.g. cas si la URI del servidor CAS https://auth.yourserver.com:443/cas/
 common#:#auth_configure#:#configurar...
 common#:#auth_create_users#:#Crear usuarios no existentes automáticamente
 common#:#auth_default#:#Configuración por defecto
@@ -4062,7 +4051,6 @@ common#:#entry_status#:#Entry status###07 02 2020 new variable
 common#:#err_1_param#:#Sólo 1 parámetro!
 common#:#err_2_param#:#Sólo 2 parámetros!
 common#:#err_auth_apache_failed#:#La autenticación ha fallado. Tal vez no tiene un certificado de usuario válido o su tarjeta inteligente no ha sido introducida.
-common#:#err_auth_cas_no_ilias_user#:#Login incorrecto. La autenticación CAS fue ejecutada con éxito, pero no existe un usuario ILIAS asociado. Por favor contacte con su administrador
 common#:#err_auth_ldap_no_ilias_user#:#La identificación falló. Autenticación LDAP exitosa, pero no existe el usuario ILIAS correspondiente. Por favor, contacte con su administrador de sistema.
 common#:#err_auth_mode_inactive#:#Su método de autenticación está desactivado.
 common#:#err_auth_soap_no_ilias_user#:#La identificación falló. La autenticación SOAP tuvo éxito, pero no existe usuario ILIAS correspondiente. Por favor contacte con el administrador del sistema.
@@ -4596,7 +4584,6 @@ common#:#login_information_desc#:#Por favor introduzca la información de login 
 common#:#login_information_settings_saved#:#La información de entrada se almacenó correctamente
 common#:#login_invalid#:#El login escogido es inválido! Sólo los siguientes caracteres están permitidos (mínimo 4 caracteres): A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_to_ilias#:#entrada a ILIAS
-common#:#login_to_ilias_via_cas#:#Entrar a ILIAS a través de un Servicio de Autenticación Centralizado
 common#:#login_to_ilias_via_saml#:#Iniciar sesión en ILIAS mediante autenticación SAML
 common#:#login_to_ilias_via_shibboleth#:#Entrar a ILIAS vía
 common#:#loginname_already_exists#:#Este nombre de usuario ya existe
@@ -6758,7 +6745,6 @@ content#:#cont_localfile#:#Fichero local
 content#:#cont_localization#:#Localización
 content#:#cont_localization_info#:#Lenguaje utilizado en los textos predefinidos, ejemplo. "Anterior" y "Siguiente"
 content#:#cont_location#:#Localización
-content#:#cont_lpe_cas_login_form#:#Formulario de inicio de sesión CAS
 content#:#cont_lpe_dpro_agreement_link#:#Declaration of Data Protection Link###26 08 2024 new variable
 content#:#cont_lpe_language_selection#:#Selección de idioma
 content#:#cont_lpe_login_form#:#Formulario de inicio de sesión

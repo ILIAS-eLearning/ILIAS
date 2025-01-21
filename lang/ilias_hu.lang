@@ -2075,8 +2075,6 @@ auth#:#auth_account_migration_new#:#Új ILIAS-fiók létrehozása
 auth#:#auth_activation_code_success#:#Fiókját újra aktív, bejelentkezhet az ILIAS-ba.
 auth#:#auth_allow_local_info#:#Ha be van kapcsolva, ILIAS adatbázisú helyi hitelesítés (helyi felhasználónév/jelszó párossal) még lehetséges azoknak az fiókoknak, melyek hitelesítési módja SAML.
 auth#:#auth_auth_settings#:#Beállítások
-auth#:#auth_cas_ldap#:#Szinkronizáció LDAP használatával
-auth#:#auth_cas_ldap_info#:#Ha be van kapcsolva, a felhasználói fiókok és szerep-összerendelések szinkronizációja létező LDAP-konfiguráció használatával valósul meg.
 auth#:#auth_cron_destroy_expired_sessions#:#Deletion of Expired Sessions###26 08 2024 new variable
 auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessions.###26 08 2024 new variable
 auth#:#auth_err_expired#:#Munkamenete inaktivitás miatt lejárt.
@@ -2179,8 +2177,6 @@ auth#:#auth_saml_user_mapping#:#Felhasználói profil leképezése
 auth#:#auth_saml_username_claim#:#Felhasználónév attribútuma
 auth#:#auth_saml_username_claim_info#:#Ez meghatározza azt az ILIAS attribútumot, ami alapján generáljuk az ILIAS-ban megjelenő a felhasználónevet.
 auth#:#auth_sync#:#Felhasználó szinkronizációja
-auth#:#auth_sync_cas#:#ILIAS-fiók automatikus generálása
-auth#:#auth_sync_cas_info#:#ILIAS-fiókok automatikus létrehozása azoknak a felhasználóknak, akiket sikeresen azonosítottak CAS-on keresztül, és még nincs ILIAS-fiókjuk.
 auth#:#destination_after_logout#:#Destination After Logout###28 10 2024 new variable
 auth#:#destination_external_ressource#:#Show External Ressource###28 10 2024 new variable
 auth#:#destination_external_ressource_url#:#External URL###28 10 2024 new variable
@@ -3598,13 +3594,6 @@ common#:#attachments#:#Mellékletek
 common#:#attempts#:#Próbálkozások
 common#:#auth_active_roles#:#Globális szerepek elérhetők a regisztrációs űrlapon
 common#:#auth_allow_local#:#Helyi hitelesítés engedélyezése
-common#:#auth_cas#:#CAS
-common#:#auth_cas_allow_local_desc#:#A CAS felhasználók számára ez engedélyezi a helyi ILIAS-uk felhasználónevével és a helyi jelszavukkal való hitelesítésüket.
-common#:#auth_cas_auth#:#CAS-hitelesítés konfigurálása
-common#:#auth_cas_auth_desc#:#A CAS-nak 4.3.1 vagy magasabb PHP-ra van szüksége CURL támogatással (7.5 vagy magasabb)
-common#:#auth_cas_port_desc#:#Például 443, ha a teljes CAS szerver URI https://auth.yourserver.com:443/cas/
-common#:#auth_cas_server_desc#:#Például auth.yourserver.com, ha a teljes CAS szerver URI https://auth.yourserver.com:443/cas/
-common#:#auth_cas_uri_desc#:#Helyi URI, például cas, ha a teljes CAS szerver URI https://auth.yourserver.com:443/cas/
 common#:#auth_configure#:#konfigurálás...
 common#:#auth_create_users#:#Nemlétező felhasználók automatikus létrehozása
 common#:#auth_default#:#Alapértelmezett beállítás
@@ -4060,7 +4049,6 @@ common#:#entry_status#:#Bejegyzés állapota
 common#:#err_1_param#:#Csak 1 paramétert!
 common#:#err_2_param#:#Csak 2 paramétert!
 common#:#err_auth_apache_failed#:#Bejelentkezés sikertelen. Lehetséges, hogy Önnek nem érvényes a felhasználói tanúsítványa, vagy smartcardját nem helyezte be.
-common#:#err_auth_cas_no_ilias_user#:#Bejelentkezés sikertelen. A CAS-hitelesítés sikeres, de nincs megfelelő ILIAS-felhasználó. Vegye fel a kapcsolatot egy rendszergazdával!
 common#:#err_auth_ldap_no_ilias_user#:#Bejelentkezés sikertelen. Az LDAP-azonosítás sikerült, de nem létezik megfelelő ILIAS-felhasználó. Vegye fel a kapcsolatot egy rendszergazdával!
 common#:#err_auth_mode_inactive#:#Az Ön hitelesítési módszere ki van kapcsolva.
 common#:#err_auth_soap_no_ilias_user#:#Bejelentkezés sikertelen. A SOAP-hitelesítés sikeres, de nincs megfelelő ILIAS-felhasználó. Vegye fel a kapcsolatot egy rendszergazdával!
@@ -4594,7 +4582,6 @@ common#:#login_information_desc#:#Adjon meg bejelentkezési információkat a me
 common#:#login_information_settings_saved#:#A bejelentkezési információkat sikeresen mentette.
 common#:#login_invalid#:#A választott felhasználónév nem érvényes! Csak a következő karakterek használhatók (minimum 3 karakter): A-Z a-z 0-9 _.+*@!$%~
 common#:#login_to_ilias#:#Bejelentkezés az ILIAS-ba
-common#:#login_to_ilias_via_cas#:#Központi hitelesítési szolgáltatáson keresztüli bejelentkezés az ILIAS-ba
 common#:#login_to_ilias_via_saml#:#Bejelentkezés az ILIAS-ba SAML hitelesítésen keresztül
 common#:#login_to_ilias_via_shibboleth#:#ILIAS-ba bejelentkezés ezen keresztül:
 common#:#loginname_already_exists#:#Már van ilyen felhasználónév.
@@ -6757,7 +6744,6 @@ content#:#cont_localfile#:#Helyi fájl
 content#:#cont_localization#:#Lokalizáció
 content#:#cont_localization_info#:#A nyelv előre definiált szövegeket használ, például 'Előző', 'Következő'.
 content#:#cont_location#:#Elhelyezkedés
-content#:#cont_lpe_cas_login_form#:#CAS bejelentkezési űrlap
 content#:#cont_lpe_dpro_agreement_link#:#Declaration of Data Protection Link###26 08 2024 new variable
 content#:#cont_lpe_language_selection#:#Nyelvválasztás
 content#:#cont_lpe_login_form#:#Bejelentkezési űrlap

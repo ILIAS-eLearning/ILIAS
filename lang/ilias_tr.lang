@@ -2075,8 +2075,6 @@ auth#:#auth_account_migration_new#:#Yeni Kullanıcı Hesabı Oluşturma
 auth#:#auth_activation_code_success#:#Your account has been reactivated. You can now login to ILIAS.###07 02 2017 new variable
 auth#:#auth_allow_local_info#:#If enabled a local authentication against the ILIAS database is still possible (with a local login/password) for those user accounts, whose authentication mode is set to SAML.###31 08 2017 new variable
 auth#:#auth_auth_settings#:#Settings###24 10 2013 new variable
-auth#:#auth_cas_ldap#:#LDAP kullanarak Senkronizasyon
-auth#:#auth_cas_ldap_info#:#Etkinse kullanıcı hesapları ve rol atamalarını senkronizasyon varolan LDAP yapılandırması kullanılarak yapılır.
 auth#:#auth_cron_destroy_expired_sessions#:#Deletion of Expired Sessions###26 08 2024 new variable
 auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessions.###26 08 2024 new variable
 auth#:#auth_err_expired#:#Your session has been deactivated due to inactivity.###25 10 2016 new variable
@@ -2179,8 +2177,6 @@ auth#:#auth_saml_user_mapping#:#User Profile Mapping###31 08 2017 new variable
 auth#:#auth_saml_username_claim#:#Arrtibue for Username###31 08 2017 new variable
 auth#:#auth_saml_username_claim_info#:#Define the attribute ILIAS uses to generate the username which will be visible in ILIAS.###31 08 2017 new variable
 auth#:#auth_sync#:#Kullanıcı Senkronizasyon
-auth#:#auth_sync_cas#:#Kullanıcı hesaplarının Otomatik nesil
-auth#:#auth_sync_cas_info#:#Henüz bir ILIAS hesabı kalmadan başarıyla CAS karşı kimliği doğrulanmış kullanıcılar için, otomatik ILIAS kullanıcı hesapları oluşturur.
 auth#:#destination_after_logout#:#Destination After Logout###28 10 2024 new variable
 auth#:#destination_external_ressource#:#Show External Ressource###28 10 2024 new variable
 auth#:#destination_external_ressource_url#:#External URL###28 10 2024 new variable
@@ -3598,13 +3594,6 @@ common#:#attachments#:#Dosya Ekle
 common#:#attempts#:#Denemeleri
 common#:#auth_active_roles#:#Kayıt formu üzerinde mevcut Küresel roller
 common#:#auth_allow_local#:#Yerel Kimlik İzin
-common#:#auth_cas#:#CAS
-common#:#auth_cas_allow_local_desc#:#Bu CAS kullanıcıların kendi yerel ILIAS adınızı ve yerel bir şifre ile kimlik doğrulaması sağlar.
-common#:#auth_cas_auth#:#Yapılandırma CAS Doğrulama
-common#:#auth_cas_auth_desc#:#CAS CURL desteği (7.5 veya üstü) ile PHP 4.3.1 veya üstü gerektirir
-common#:#auth_cas_port_desc#:#Eg 443 tam CAS sunucu URI https://auth.yourserver.com:443/cas/ ise
-common#:#auth_cas_server_desc#:#Tam CAS sunucu tanım https://auth.yourserver.com:443/cas/ ise, Örnek auth.yourserver.com
-common#:#auth_cas_uri_desc#:#Tam CAS sunucu URI https://auth.yourserver.com:443/cas/ ise Yerel URI, örneğin cas
 common#:#auth_configure#:#configure ...
 common#:#auth_create_users#:#otomatik olmayan mevcut kullanıcılar oluşturun
 common#:#auth_default#:#Varsayılan ayar
@@ -4060,7 +4049,6 @@ common#:#entry_status#:#Entry status###07 02 2020 new variable
 common#:#err_1_param#:#Sadece 1 parametresi!
 common#:#err_2_param#:#Sadece 2 parametresi!
 common#:#err_auth_apache_failed#:#Kimlik doğrulama başarısız oldu. Belki hiçbir geçerli kullanıcı sertifikası ya da akıllı kart takılı değil.
-common#:#err_auth_cas_no_ilias_user#:#Oturum açılamadı. CAS kimlik doğrulaması başarılı, ancak ilgili ILIAS kullanıcı bulunmadığı. Sistem yöneticinize başvurun.
 common#:#err_auth_ldap_no_ilias_user#:#Oturum açılamadı. LDAP kimlik doğrulaması başarılı, ancak ilgili ILIAS kullanıcı bulunmadığı. Sistem yöneticinize başvurun.
 common#:#err_auth_mode_inactive#:#Kimlik doğrulama yöntemi devre dışı bırakılır.
 common#:#err_auth_soap_no_ilias_user#:#Oturum açılamadı. SOAP kimlik doğrulaması başarılı, ancak ilgili ILIAS kullanıcı bulunmadığı. Sistem yöneticinize başvurun.
@@ -4594,7 +4582,6 @@ common#:#login_information_desc#:#ilgili dil için giriş bilgilerinizi giriniz.
 common#:#login_information_settings_saved#:#Giriş bilgileri başarıyla kaydedildi
 common#:#login_invalid#:#Seçilen giriş geçersizdir! Yalnızca aşağıdaki karakterlere izin verilir (en az 3 karakter):. AZ az 0-9 _ - + * @!% $ ~
 common#:#login_to_ilias#:#Giriş
-common#:#login_to_ilias_via_cas#:#Merkez Kimlik Doğrulama Hizmeti ile ILIAS'a Giriş
 common#:#login_to_ilias_via_saml#:#Login to ILIAS via SAML Authentification###31 08 2017 new variable
 common#:#login_to_ilias_via_shibboleth#:#ILIAS'a şunlar ile giriş yap
 common#:#loginname_already_exists#:#Bu oturum açma adı zaten var.
@@ -6756,7 +6743,6 @@ content#:#cont_localfile#:#Yerel Dosya
 content#:#cont_localization#:#Yerelleştirme
 content#:#cont_localization_info#:#Öntanımlı metinler için kullanılan dil. Örneğin; "Önceki" ve "Sonraki".
 content#:#cont_location#:#Yer
-content#:#cont_lpe_cas_login_form#:#CAS Login Form###10 11 2018 new variable
 content#:#cont_lpe_dpro_agreement_link#:#Declaration of Data Protection Link###26 08 2024 new variable
 content#:#cont_lpe_language_selection#:#Language Selection###10 11 2018 new variable
 content#:#cont_lpe_login_form#:#Login Form###10 11 2018 new variable

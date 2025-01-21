@@ -2075,8 +2075,6 @@ auth#:#auth_account_migration_new#:#新規ユーザアカウントを作成し�
 auth#:#auth_activation_code_success#:#アカウントは再アクティブにされました。ILIASへログインできます。
 auth#:#auth_allow_local_info#:#ILIASに対してローカル認証を有効にするとデータベースはそのユーザカウント用に(ローカルログイン/パスワードで)認証モードをSAMLに設定することが可能です。
 auth#:#auth_auth_settings#:#設定
-auth#:#auth_cas_ldap#:#Synchronization using LDAP###19 08 2022 new variable
-auth#:#auth_cas_ldap_info#:#If enabled, the synchronization of user accounts and role assignments is done using an existing LDAP configuration.###19 08 2022 new variable
 auth#:#auth_cron_destroy_expired_sessions#:#Deletion of Expired Sessions###26 08 2024 new variable
 auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessions.###26 08 2024 new variable
 auth#:#auth_err_expired#:#使用されていないのでセッションは解除されました。
@@ -2179,8 +2177,6 @@ auth#:#auth_saml_user_mapping#:#ユーザプロファイルマッピング
 auth#:#auth_saml_username_claim#:#ユーザ名用の属性
 auth#:#auth_saml_username_claim_info#:#ILIASへ表示されるユーザ名の生成用にILIASが使用する属性を定義。
 auth#:#auth_sync#:#ユーザの同期
-auth#:#auth_sync_cas#:#ユーザアカウントの自動作成
-auth#:#auth_sync_cas_info#:#ILIASアカウントがない状態の場合でもCAS認証成功ユーザ用のILIASユーザアカウントを自動作成します。
 auth#:#destination_after_logout#:#Destination After Logout###28 10 2024 new variable
 auth#:#destination_external_ressource#:#Show External Ressource###28 10 2024 new variable
 auth#:#destination_external_ressource_url#:#External URL###28 10 2024 new variable
@@ -3598,13 +3594,6 @@ common#:#attachments#:#添付
 common#:#attempts#:#試行
 common#:#auth_active_roles#:#登録フォームに割り当てるグローバル役割
 common#:#auth_allow_local#:#ローカル認証を許可
-common#:#auth_cas#:#CAS
-common#:#auth_cas_allow_local_desc#:#ILIASのユーザ名とパスワードの認証でCASユーザをアクセス許可します。
-common#:#auth_cas_auth#:#CAS認証を設定
-common#:#auth_cas_auth_desc#:#CASはCURLサポート (7.5以降)付のPHP 4.3.1が必須です
-common#:#auth_cas_port_desc#:#例 フルCASサーバーURIがhttps//auth.yourserver.comの場合は443。
-common#:#auth_cas_server_desc#:#例 フルCASサーバーURIがhttps//auth.yourserver.comの場合はauth.yourserver.com:443/cas/
-common#:#auth_cas_uri_desc#:#ローカルUR例　 フルCASサーバーURIがの場合はhttps//auth.yourserver.com:443/cas/
 common#:#auth_configure#:#構成中...
 common#:#auth_create_users#:#存在しないユーザを自動的に作成
 common#:#auth_default#:#初期設定設定
@@ -4060,7 +4049,6 @@ common#:#entry_status#:#Entry status
 common#:#err_1_param#:#パラメーターの1つだけ!
 common#:#err_2_param#:#パラメーターの2つだけ!
 common#:#err_auth_apache_failed#:#認証に失敗しました。有効なユーザ証明書がないかスマート カードが挿入されていない可能性があります。
-common#:#err_auth_cas_no_ilias_user#:#ログイン失敗しました。CAS認証はできましたが対応するILIASユーザが誰もいません。システム管理者へ連絡してください。
 common#:#err_auth_ldap_no_ilias_user#:#ログインに失敗しました。LDAP認証はできましたが対応するILIASユーザが誰もいません。システム管理者へ連絡してください。
 common#:#err_auth_mode_inactive#:#認証方式が使用可能になっていません。
 common#:#err_auth_soap_no_ilias_user#:#ログイン失敗しました。SOAP認証はできましたが対応するILIASユーザが誰もいません。システム管理者へ連絡してください。
@@ -4594,7 +4582,6 @@ common#:#login_information_desc#:#それぞれの言語のログイン情報を�
 common#:#login_information_settings_saved#:#ログイン情報は正しく保存されました
 common#:#login_invalid#:#ログインが正しくありません! 次の文字のみ使用できます。　A-Z a-z 0-9 _.-+*@!$%~(最低3文字)
 common#:#login_to_ilias#:#ILIASへログイン
-common#:#login_to_ilias_via_cas#:#中央認証サービス経由でILIASへログイン
 common#:#login_to_ilias_via_saml#:#SAML認証経由でILIASへログインする
 common#:#login_to_ilias_via_shibboleth#:#経由でILIASへログイン
 common#:#loginname_already_exists#:#このログイン名は既に使用されています。
@@ -6756,7 +6743,6 @@ content#:#cont_localfile#:#ローカルファイル
 content#:#cont_localization#:#言語対応
 content#:#cont_localization_info#:#言語は事前定義のテキスト(例："前へ"や"次へ")に使用されます。
 content#:#cont_location#:#ロケーション
-content#:#cont_lpe_cas_login_form#:#CAS Login Form
 content#:#cont_lpe_dpro_agreement_link#:#Declaration of Data Protection Link###26 08 2024 new variable
 content#:#cont_lpe_language_selection#:#言語選択
 content#:#cont_lpe_login_form#:#Login Form

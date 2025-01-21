@@ -2089,8 +2089,6 @@ auth#:#auth_account_migration_new#:#Create New User Account
 auth#:#auth_activation_code_success#:#Your account has been reactivated. You can now login to ILIAS.
 auth#:#auth_allow_local_info#:#If enabled a local authentication against the ILIAS database is still possible (with a local login/password) for those user accounts, whose authentication mode is set to SAML.
 auth#:#auth_auth_settings#:#Settings
-auth#:#auth_cas_ldap#:#Synchronization using LDAP
-auth#:#auth_cas_ldap_info#:#If enabled, the synchronization of user accounts and role assignments is done using an existing LDAP configuration.
 auth#:#auth_cron_destroy_expired_sessions#:#Deletion of Expired Sessions
 auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessions.
 auth#:#auth_err_expired#:#Your session has been deactivated due to inactivity.
@@ -2194,8 +2192,6 @@ auth#:#auth_saml_user_mapping#:#User Profile Mapping
 auth#:#auth_saml_username_claim#:#Attribute for Username
 auth#:#auth_saml_username_claim_info#:#Define the attribute ILIAS uses to generate the username which will be visible in ILIAS.
 auth#:#auth_sync#:#User Synchronisation
-auth#:#auth_sync_cas#:#Automatic generation of user accounts
-auth#:#auth_sync_cas_info#:#Automatically create ILIAS user accounts for users who have successfully authenticated themselves using CAS, but do not yet have an ILIAS account.
 auth#:#destination_after_logout#:#Destination After Logout
 auth#:#destination_external_ressource#:#Show External Ressource
 auth#:#destination_external_ressource_url#:#External URL
@@ -3587,13 +3583,6 @@ common#:#attachments#:#Attachments
 common#:#attempts#:#Attempts
 common#:#auth_active_roles#:#Global Roles Available on Registration Form
 common#:#auth_allow_local#:#Allow Local Authentication
-common#:#auth_cas#:#CAS
-common#:#auth_cas_allow_local_desc#:#Allows CAS users to authenticate themselves with their local ILIAS username and a local password.
-common#:#auth_cas_auth#:#Configure CAS Authentication
-common#:#auth_cas_auth_desc#:#For CAS authentication to work, the server setting prevent_super_global_replacement in client.ini.php must be set.
-common#:#auth_cas_port_desc#:#E.g. 443 if the full CAS server URI is https://auth.yourserver.com:443/cas/
-common#:#auth_cas_server_desc#:#E.g. auth.yourserver.com if the full CAS server URI is https://auth.yourserver.com:443/cas/
-common#:#auth_cas_uri_desc#:#Local URI, e.g. cas if the full CAS server URI is https://auth.yourserver.com:443/cas/
 common#:#auth_configure#:#configure...
 common#:#auth_create_users#:#Create Non-Existing Users Automatically
 common#:#auth_default#:#Default setting
@@ -4052,7 +4041,6 @@ common#:#entry_status#:#Entry status
 common#:#err_1_param#:#Only 1 parameter!
 common#:#err_2_param#:#Only 2 parameter!
 common#:#err_auth_apache_failed#:#The authentication has failed. Maybe you have no valid user certificate or your smart card is not inserted.
-common#:#err_auth_cas_no_ilias_user#:#Login failed. CAS authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.
 common#:#err_auth_ldap_no_ilias_user#:#Login failed. LDAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.
 common#:#err_auth_mode_inactive#:#Your authentication method is deactivated.
 common#:#err_auth_soap_no_ilias_user#:#Login failed. SOAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.
@@ -4575,7 +4563,6 @@ common#:#login_data#:#Login data
 common#:#login_exists#:#There is already a user with this login name! Please choose another one.
 common#:#login_invalid#:#The chosen login is invalid! Only the following characters are allowed (minimum 3 characters): A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_to_ilias#:#Login to ILIAS
-common#:#login_to_ilias_via_cas#:#Login to ILIAS via Central Authentication Service
 common#:#login_to_ilias_via_login_form#:#Login to ILIAS
 common#:#login_to_ilias_via_saml#:#Login to ILIAS via SAML Authentication
 common#:#login_to_ilias_via_shibboleth#:#Login to ILIAS via
@@ -6737,7 +6724,6 @@ content#:#cont_localfile#:#Local File
 content#:#cont_localization#:#Localization
 content#:#cont_localization_info#:#Language used for predefined texts, e.g. ‘Previous’ and ’Next’.
 content#:#cont_location#:#Location
-content#:#cont_lpe_cas_login_form#:#CAS Login Form
 content#:#cont_lpe_dpro_agreement_link#:#Declaration of Data Protection Link
 content#:#cont_lpe_language_selection#:#Language Selection
 content#:#cont_lpe_login_form#:#Login Form

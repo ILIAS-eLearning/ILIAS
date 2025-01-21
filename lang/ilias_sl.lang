@@ -2075,8 +2075,6 @@ auth#:#auth_account_migration_new#:#Create New User Account
 auth#:#auth_activation_code_success#:#Your account has been reactivated. You can now login to ILIAS.
 auth#:#auth_allow_local_info#:#If enabled a local authentication against the ILIAS database is still possible (with a local login/password) for those user accounts, whose authentication mode is set to SAML.
 auth#:#auth_auth_settings#:#Settings
-auth#:#auth_cas_ldap#:#Synchronization using LDAP###19 08 2022 new variable
-auth#:#auth_cas_ldap_info#:#If enabled, the synchronization of user accounts and role assignments is done using an existing LDAP configuration.###19 08 2022 new variable
 auth#:#auth_cron_destroy_expired_sessions#:#Deletion of Expired Sessions###26 08 2024 new variable
 auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessions.###26 08 2024 new variable
 auth#:#auth_err_expired#:#Your session has been deactivated due to inactivity.
@@ -2179,8 +2177,6 @@ auth#:#auth_saml_user_mapping#:#User Profile Mapping
 auth#:#auth_saml_username_claim#:#Attribute for Username
 auth#:#auth_saml_username_claim_info#:#Define the attribute ILIAS uses to generate the username which will be visible in ILIAS.
 auth#:#auth_sync#:#User Synchronisation
-auth#:#auth_sync_cas#:#Automatic generation of user accounts
-auth#:#auth_sync_cas_info#:#Creates automatically ILIAS user accounts, for users that successfully authenticated against CAS, without having an ILIAS account yet.
 auth#:#destination_after_logout#:#Destination After Logout###28 10 2024 new variable
 auth#:#destination_external_ressource#:#Show External Ressource###28 10 2024 new variable
 auth#:#destination_external_ressource_url#:#External URL###28 10 2024 new variable
@@ -3598,13 +3594,6 @@ common#:#attachments#:#Priloge
 common#:#attempts#:#Poskusi
 common#:#auth_active_roles#:#Razpoložljive globalne vloge na obrazcu za registracijo
 common#:#auth_allow_local#:#Dovoli lokalno avtentikacijo
-common#:#auth_cas#:#CAS
-common#:#auth_cas_allow_local_desc#:#Uporabnikom CAS omogoči prijavo/avtentikacijo z lokalnim uporabniškim imenom ILIAS in lokalnim geslom.
-common#:#auth_cas_auth#:#Konfiguriraj avtentikacijo CAS
-common#:#auth_cas_auth_desc#:#CAS zahteva PHP 4.3.1 ali novejši s podporo za CURL (7.5 ali novejši)
-common#:#auth_cas_port_desc#:#Npr. 443, če je URI strežnika CAS "https://auth.yourserver.com:443/cas/"
-common#:#auth_cas_server_desc#:#Npr. "auth.yourserver.com", če je URI strežnika CAS "https://auth.yourserver.com:443/cas/"
-common#:#auth_cas_uri_desc#:#Lokalni URI-ji, npr. "cas", če je URI strežnika CAS "https://auth.yourserver.com:443/cas/"
 common#:#auth_configure#:#konfiguriraj...
 common#:#auth_create_users#:#Samodejno ustvari uporabnike, ki še niso vneseni.
 common#:#auth_default#:#Privzeta nastavitev
@@ -4060,7 +4049,6 @@ common#:#entry_status#:#Status vnosa
 common#:#err_1_param#:#Samo 1 parameter!
 common#:#err_2_param#:#Samo 2 parametra!
 common#:#err_auth_apache_failed#:#Avtentikacija ni uspela.
-common#:#err_auth_cas_no_ilias_user#:#Prijava ni uspela! Avtentikacija CAS je bila uspešna, vendar ne obstaja noben ustrezen uporabnik ILIAS. Obrnite se na sistemskega administratorja.
 common#:#err_auth_ldap_no_ilias_user#:#Prijava ni uspela! Avtentikacija LDAP je bila uspešna, vendar ne obstaja noben ustrezen uporabnik ILIAS. Obrnite se na sistemskega administratorja.
 common#:#err_auth_mode_inactive#:#Prijava trenutno ni mogoča.
 common#:#err_auth_soap_no_ilias_user#:#Prijava ni uspela! Avtentikacija SOAP je bila uspešna, vendar ne obstaja noben ustrezen uporabnik ILIAS. Obrnite se na sistemskega administratorja.
@@ -4594,7 +4582,6 @@ common#:#login_information_desc#:#Tukaj vnesite informacije za prijavo za posame
 common#:#login_information_settings_saved#:#Informacije za prijavo so bile uspešno shranjene
 common#:#login_invalid#:#Izbrano uporabniško ime ni dovoljeno! Uporabniško ime mora imeti vsaj tri znake in lahko vsebuje samo naslednje znake: A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_to_ilias#:#Prijava v ILIAS
-common#:#login_to_ilias_via_cas#:#Prijava v ILIAS preko centralnega sistema za avtentikacijo
 common#:#login_to_ilias_via_saml#:#Prijava v ILIAS preko avtentikacije SAML
 common#:#login_to_ilias_via_shibboleth#:#Prijava v ILIAS preko
 common#:#loginname_already_exists#:#To uporabniško ime že obstaja.
@@ -6756,7 +6743,6 @@ content#:#cont_localfile#:#Lokalna datoteka
 content#:#cont_localization#:#Jezik
 content#:#cont_localization_info#:#Nastavitev je potrebna za prednastavljena besedila v modulu (npr. "Naprej" / "Nazaj").
 content#:#cont_location#:#Položaj
-content#:#cont_lpe_cas_login_form#:#Prijavna maska CAS
 content#:#cont_lpe_dpro_agreement_link#:#Declaration of Data Protection Link###26 08 2024 new variable
 content#:#cont_lpe_language_selection#:#Izbira jezika
 content#:#cont_lpe_login_form#:#Prijavna maska

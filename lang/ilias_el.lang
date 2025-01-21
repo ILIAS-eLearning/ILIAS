@@ -2076,8 +2076,6 @@ auth#:#auth_account_migration_new#:#Create New User Account###26 03 2010 new var
 auth#:#auth_activation_code_success#:#Your account has been reactivated. You can now login to ILIAS.###07 02 2017 new variable
 auth#:#auth_allow_local_info#:#If enabled a local authentication against the ILIAS database is still possible (with a local login/password) for those user accounts, whose authentication mode is set to SAML.###31 08 2017 new variable
 auth#:#auth_auth_settings#:#Settings###24 10 2013 new variable
-auth#:#auth_cas_ldap#:#Synchronization using LDAP###22 03 2011 new variable
-auth#:#auth_cas_ldap_info#:#If enabled, the synchronization of user accounts and role assignments is done using an existing LDAP configuration.###22 03 2011 new variable
 auth#:#auth_cron_destroy_expired_sessions#:#Deletion of Expired Sessions###26 08 2024 new variable
 auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessions.###26 08 2024 new variable
 auth#:#auth_err_expired#:#Your session has been deactivated due to inactivity.###25 10 2016 new variable
@@ -2180,8 +2178,6 @@ auth#:#auth_saml_user_mapping#:#User Profile Mapping###31 08 2017 new variable
 auth#:#auth_saml_username_claim#:#Arrtibue for Username###31 08 2017 new variable
 auth#:#auth_saml_username_claim_info#:#Define the attribute ILIAS uses to generate the username which will be visible in ILIAS.###31 08 2017 new variable
 auth#:#auth_sync#:#User Synchronisation###22 03 2011 new variable
-auth#:#auth_sync_cas#:#Automatic generation of user accounts###22 03 2011 new variable
-auth#:#auth_sync_cas_info#:#Creates automatically ILIAS user accounts, for users that successfully authenticated against CAS, without having an ILIAS account yet.###22 03 2011 new variable
 auth#:#destination_after_logout#:#Destination After Logout###28 10 2024 new variable
 auth#:#destination_external_ressource#:#Show External Ressource###28 10 2024 new variable
 auth#:#destination_external_ressource_url#:#External URL###28 10 2024 new variable
@@ -3599,13 +3595,6 @@ common#:#attachments#:#Επισυναπτόμενα
 common#:#attempts#:#Attempts
 common#:#auth_active_roles#:#Καθολικοί ρόλοι διαθέσιμοι κατά την εγγραφή
 common#:#auth_allow_local#:#Επιτρέπεται η Τοπική Εγκυρότητα
-common#:#auth_cas#:#CAS
-common#:#auth_cas_allow_local_desc#:#Επιτρέπει σε χρήστες CAS να επικυρωθούν με το τοπικό όνομα χρήστη και κωδικό του ILIAS.
-common#:#auth_cas_auth#:#Ρύθμιση επικύρωσης CAS
-common#:#auth_cas_auth_desc#:#Το CAS απαιτεί PHP 4.3.1 ή νεώτερη με υποστήριξη CURL (7.5 ή νεώτερη)
-common#:#auth_cas_port_desc#:#Π.χ. 443 αν το πλήρες URI του διακομιστή CAS είναι https://auth.yourserver.com:443/cas/
-common#:#auth_cas_server_desc#:#Π.χ. auth.yourserver.com αν το πλήρες URI του διακομιστή CAS είνα https://auth.yourserver.com:443/cas/
-common#:#auth_cas_uri_desc#:#Τοπική URI, e.g. cas if the full CAS server URI is https://auth.yourserver.com:443/cas/
 common#:#auth_configure#:#ρύθμιση...
 common#:#auth_create_users#:#Αυτόματη δημιουργία μη υπαρχόντων χρηστών
 common#:#auth_default#:#Προκαθορισμένη ρύθμιση
@@ -4061,7 +4050,6 @@ common#:#entry_status#:#Entry status###07 02 2020 new variable
 common#:#err_1_param#:#Μόνο 1 παράμετρος!
 common#:#err_2_param#:#Μόνο 2 παράμετρος!
 common#:#err_auth_apache_failed#:#The authentication has failed. Maybe you have no valid user certificate or your smartcard is not inserted.###20 10 2010 new variable
-common#:#err_auth_cas_no_ilias_user#:#Αποτυχημένη Σύνδεση. Η επικύρωση CAS ήταν επιτυχής, αλλά δεν υπάρχει αντίστοιχος χρήστης ILIAS. Παρακαλώ επικοινωνήστε με το διαχειριστή του συστήματος.
 common#:#err_auth_ldap_no_ilias_user#:#Login failed. LDAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.
 common#:#err_auth_mode_inactive#:#Your authentication method is deactivated.
 common#:#err_auth_soap_no_ilias_user#:#Αποτυχημένη Σύνδεση. Η επικύρωση SOAP ήταν επιτυχής, αλλά δεν υπάρχει αντίστοιχος χρήστης ILIAS. Παρακαλώ επικοινωνήστε με το διαχειριστή του συστήματος.
@@ -4595,7 +4583,6 @@ common#:#login_information_desc#:#Please enter a login information for the respe
 common#:#login_information_settings_saved#:#The login information were saved successfully
 common#:#login_invalid#:#Το δοθέν όνομα χρήστη δεν είναι έγκυρο! Μόνο οι ακόλουθοι χαρακτήρες επιτρέπονται (το λιγότερο 4 χαρακτήρες): A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_to_ilias#:#Σύνδεση στο ILIAS
-common#:#login_to_ilias_via_cas#:#Σύνδεση στο ILIAS μέσω Κεντρικής Υπηρεσίας Επικύρωσης (Central Authentication Service)
 common#:#login_to_ilias_via_saml#:#Login to ILIAS via SAML Authentification###31 08 2017 new variable
 common#:#login_to_ilias_via_shibboleth#:#Σύνδεση στο ILIAS μέσω του Shibboleth
 common#:#loginname_already_exists#:#This login name already exists.###30 04 2009 new variable
@@ -6757,7 +6744,6 @@ content#:#cont_localfile#:#Local File
 content#:#cont_localization#:#Localization###12 06 2011 new variable
 content#:#cont_localization_info#:#Language used for predifined texts, e.g. "Previous" and "Next".###12 06 2011 new variable
 content#:#cont_location#:#Location
-content#:#cont_lpe_cas_login_form#:#CAS Login Form###10 11 2018 new variable
 content#:#cont_lpe_dpro_agreement_link#:#Declaration of Data Protection Link###26 08 2024 new variable
 content#:#cont_lpe_language_selection#:#Language Selection###10 11 2018 new variable
 content#:#cont_lpe_login_form#:#Login Form###10 11 2018 new variable

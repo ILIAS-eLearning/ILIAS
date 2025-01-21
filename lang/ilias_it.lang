@@ -2075,8 +2075,6 @@ auth#:#auth_account_migration_new#:#Crea un nuovo Account Utente
 auth#:#auth_activation_code_success#:#Il tuo account è stato riattivato. Adesso puoi collegarti a ILIAS.
 auth#:#auth_allow_local_info#:#Se è ancora possibile abilitare un'autenticazione locale contro il database ILIAS (con un accesso/password locale) per quegli account utente la cui modalità di autenticazione è impostata su SAML.
 auth#:#auth_auth_settings#:#Impostazioni
-auth#:#auth_cas_ldap#:#Sincronizzazione attraverso LDAP
-auth#:#auth_cas_ldap_info#:#Se abilitata, la sincronizzazione degli account utente e delle assegnazioni di ruolo viene eseguita utilizzando una configurazione LDAP esistente.
 auth#:#auth_cron_destroy_expired_sessions#:#Deletion of Expired Sessions###26 08 2024 new variable
 auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessions.###26 08 2024 new variable
 auth#:#auth_err_expired#:#La tua sessione è stata disattivata a causa della inattività.
@@ -2179,8 +2177,6 @@ auth#:#auth_saml_user_mapping#:#Mappatura profilo utente
 auth#:#auth_saml_username_claim#:#Attributo per il nome utente
 auth#:#auth_saml_username_claim_info#:#Definire l'attributo che ILIAS utilizza per generare il nome utente che sarà visibile in ILIAS.
 auth#:#auth_sync#:#Sincronizzazione utente
-auth#:#auth_sync_cas#:#Generazione automatica degli account utente
-auth#:#auth_sync_cas_info#:#Crea automaticamente gli account utente ILIAS, per gli utenti che hanno eseguito l'autenticazione con CAS, senza avere ancora un account ILIAS.
 auth#:#destination_after_logout#:#Destination After Logout###28 10 2024 new variable
 auth#:#destination_external_ressource#:#Show External Ressource###28 10 2024 new variable
 auth#:#destination_external_ressource_url#:#External URL###28 10 2024 new variable
@@ -3598,13 +3594,6 @@ common#:#attachments#:#Allegati
 common#:#attempts#:#Tentativi
 common#:#auth_active_roles#:#Ruoli globali attivati per la registrazione
 common#:#auth_allow_local#:#Consenti Autenticazione Locale
-common#:#auth_cas#:#CAS
-common#:#auth_cas_allow_local_desc#:#Ciò consente agli utenti CAS di autenticarsi con il nome utente ILIAS e password locali.
-common#:#auth_cas_auth#:#Configura CAS Authentication
-common#:#auth_cas_auth_desc#:#Affinché l'autenticazione CAS funzioni, è necessario impostare l'impostazione del server prevent_super_global_replacement in client.ini.php.
-common#:#auth_cas_port_desc#:#Ad esempio 443 se l’URI del server CAS completo è https://auth.yourserver.com:443/cas/
-common#:#auth_cas_server_desc#:#Ad esempio auth.yourserver.com se l’URI del server CAS completo è https://auth.yourserver.com:443/cas/
-common#:#auth_cas_uri_desc#:#URI locale, ad esempio cas se l’URI del server CAS completo è https://auth.yourserver.com:443/cas/
 common#:#auth_configure#:#configura ...
 common#:#auth_create_users#:#Creare utenti non-esistenti automaticamente
 common#:#auth_default#:#Impostazioni predefinite
@@ -4060,7 +4049,6 @@ common#:#entry_status#:#Entry status###07 02 2020 new variable
 common#:#err_1_param#:#Solo 1 parametro!
 common#:#err_2_param#:#Solo 2 parametri!
 common#:#err_auth_apache_failed#:#The authentication has failed. Maybe you have no valid user certificate or your smartcard is not inserted.
-common#:#err_auth_cas_no_ilias_user#:#Accesso non riuscito. Autenticazione CAS riuscita, ma non esiste alcun utente ILIAS corrispondente. Si prega di contattare il proprio amministratore di sistema.
 common#:#err_auth_ldap_no_ilias_user#:#Accesso non riuscito. Autenticazione LDAP riuscita, ma non esiste alcun utente ILIAS corrispondente. Si prega di contattare il proprio amministratore di sistema.
 common#:#err_auth_mode_inactive#:#Il tuo metodo di autenticazione è disattivato.
 common#:#err_auth_soap_no_ilias_user#:#Accesso non riuscito. Autenticazione SOAP riuscita, ma non esiste alcun utente ILIAS corrispondente. Si prega di contattare il proprio amministratore di sistema.
@@ -4594,7 +4582,6 @@ common#:#login_information_desc#:#Inserire le informazioni di accesso per la ris
 common#:#login_information_settings_saved#:#Le informazioni di accesso sono state salvate con successo
 common#:#login_invalid#:#L&
 common#:#login_to_ilias#:#Entra in ILIAS
-common#:#login_to_ilias_via_cas#:#Accesso a ILIAS tramite Servizio di autenticazione centrale
 common#:#login_to_ilias_via_saml#:#Accedi a ILIAS tramite l’autenticazione SAML
 common#:#login_to_ilias_via_shibboleth#:#Entra in ILIAS utilizzando Shibboleth
 common#:#loginname_already_exists#:#Questo nome di accesso esiste già.
@@ -6756,7 +6743,6 @@ content#:#cont_localfile#:#File locale
 content#:#cont_localization#:#Localizzazione
 content#:#cont_localization_info#:#Language used for predifined texts, e.g. "Previous" and "Next".
 content#:#cont_location#:#Posizione
-content#:#cont_lpe_cas_login_form#:#CAS modulo di accesso
 content#:#cont_lpe_dpro_agreement_link#:#Declaration of Data Protection Link###26 08 2024 new variable
 content#:#cont_lpe_language_selection#:#Selezione delle lingua
 content#:#cont_lpe_login_form#:#Modulo di accesso

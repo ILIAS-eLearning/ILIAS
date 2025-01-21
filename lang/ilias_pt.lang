@@ -2075,8 +2075,6 @@ auth#:#auth_account_migration_new#:#Aprovar postings
 auth#:#auth_activation_code_success#:#A sua conta foi reativada. Pode agora fazer login em ILIAS.
 auth#:#auth_allow_local_info#:#Se estiver ativada, é ainda possível fazer um autenticação local contra a base de dados ILIAS (com um login local/palavra-passe) para essas contas de utilizador, cujo modo de autenticação está definido para SAML.
 auth#:#auth_auth_settings#:#Definições
-auth#:#auth_cas_ldap#:#Certifique-se que estabelece as permissões apropriadas no separador "Permissões" para permitir que os utilizadores anónimos possam aceder a este item de repositório.
-auth#:#auth_cas_ldap_info#:#Nomes de utilizadores automaticamente criados
 auth#:#auth_cron_destroy_expired_sessions#:#Deletion of Expired Sessions###26 08 2024 new variable
 auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessions.###26 08 2024 new variable
 auth#:#auth_err_expired#:#A sua sessão foi desativada por causa de inatividade.
@@ -2179,8 +2177,6 @@ auth#:#auth_saml_user_mapping#:#Mapeamento do perfil do utilizador
 auth#:#auth_saml_username_claim#:#Atributo para nome de utilizador
 auth#:#auth_saml_username_claim_info#:#ILIAS usa a definição do atributo para criar o nome de utilizador que será visível em ILIAS.
 auth#:#auth_sync#:#+++ <b>
-auth#:#auth_sync_cas#:#Se estiver selecionado, as mensagens no chat de repositório e as conversações no ecrã serão apagadas depois do limite definido.
-auth#:#auth_sync_cas_info#:#"[INVITER_NAME]" convida-o para a sala de chat "[ROOM_NAME]"
 auth#:#destination_after_logout#:#Destination After Logout###28 10 2024 new variable
 auth#:#destination_external_ressource#:#Show External Ressource###28 10 2024 new variable
 auth#:#destination_external_ressource_url#:#External URL###28 10 2024 new variable
@@ -3598,13 +3594,6 @@ common#:#attachments#:#As contas serão apagadas quando tiver passado este perí
 common#:#attempts#:#Tentativas
 common#:#auth_active_roles#:#Apagar
 common#:#auth_allow_local#:#Autorizar autenticação local
-common#:#auth_cas#:#CAS
-common#:#auth_cas_allow_local_desc#:#Isto permite aos utilizadores CAS autenticarem-se com o seu nome de utilizador ILIAS local e uma palavra-passe local.
-common#:#auth_cas_auth#:#Configurar autenticação CAS
-common#:#auth_cas_auth_desc#:#Para que a autenticação CAS funcione, a configuração do servidor prevent_super_global_replacement em client.ini.php deve ser definida.
-common#:#auth_cas_port_desc#:#P. ex. 443 se o URI de servidor CAS inteiro URI for https://auth.yourserver.com:443/cas/
-common#:#auth_cas_server_desc#:#P. ex. auth.yourserver.com se o URI de servidor CAS inteiro for https://auth.yourserver.com:443/cas/
-common#:#auth_cas_uri_desc#:#Local URI, p. ex. cas se o URI de servidor CAS inteiro for https://auth.yourserver.com:443/cas/
 common#:#auth_configure#:#a configurar...
 common#:#auth_create_users#:#Criar automaticamente utilizadores inexistentes
 common#:#auth_default#:#Definição padrão
@@ -4060,7 +4049,6 @@ common#:#entry_status#:#Administrador do curso
 common#:#err_1_param#:#Membro do grupo
 common#:#err_2_param#:#Imagem
 common#:#err_auth_apache_failed#:#Importar
-common#:#err_auth_cas_no_ilias_user#:#Login falhou. A autenticação CAS foi bem-sucedida, mas não existe um utilizador ILIAS correspondente. Entre em contacto com o administrador do seu sistema.
 common#:#err_auth_ldap_no_ilias_user#:#Login falhou. A autenticação LDAP foi bem-sucedida, mas não existe um utilizador ILIAS correspondente. Entre em contacto com o administrador do seu sistema.
 common#:#err_auth_mode_inactive#:#O seu método de autenticação foi desativado.
 common#:#err_auth_soap_no_ilias_user#:#Login falhou. A autenticação SOAP foi bem-sucedida, mas não existe um utilizador ILIAS correspondente. Entre em contacto com o administrador do seu sistema.
@@ -4594,7 +4582,6 @@ common#:#login_information_desc#:#Insira uma informação de login para o respet
 common#:#login_information_settings_saved#:#A informação de login foi guardada com sucesso
 common#:#login_invalid#:#Mediacasts
 common#:#login_to_ilias#:#Bancos de media
-common#:#login_to_ilias_via_cas#:#Unidades organizacionais
 common#:#login_to_ilias_via_saml#:#Login para ILIAS via autenticação SAML
 common#:#login_to_ilias_via_shibboleth#:#Teste bancos de perguntas
 common#:#loginname_already_exists#:#Este nome de login já existe.
@@ -6756,7 +6743,6 @@ content#:#cont_localfile#:#Ficheiro local
 content#:#cont_localization#:#Localização
 content#:#cont_localization_info#:#Cursos atribuídos
 content#:#cont_location#:#Localização
-content#:#cont_lpe_cas_login_form#:#Formulário login CAS
 content#:#cont_lpe_dpro_agreement_link#:#Declaration of Data Protection Link###26 08 2024 new variable
 content#:#cont_lpe_language_selection#:#Seleção de idioma
 content#:#cont_lpe_login_form#:#Formulário login
