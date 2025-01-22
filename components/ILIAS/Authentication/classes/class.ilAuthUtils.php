@@ -623,6 +623,10 @@ class ilAuthUtils
             case self::AUTH_OPENID_CONNECT:
             case self::AUTH_SAML:
             case self::AUTH_SOAP:
+                if (!self::isPasswordModificationEnabled($a_authmode)) {
+                    return self::LOCAL_PWV_NO;
+                }
+                return self::LOCAL_PWV_USER;
             case self::AUTH_PROVIDER_LTI:
             case self::AUTH_ECS:
             case self::AUTH_SCRIPT:
