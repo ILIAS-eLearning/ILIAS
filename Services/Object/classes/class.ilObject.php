@@ -19,7 +19,6 @@
 declare(strict_types=1);
 
 use ILIAS\Object\ilObjectDIC;
-use ILIAS\Object\Properties\ObjectReferenceProperties\ObjectReferenceProperties;
 
 /**
  * Class ilObject
@@ -1847,10 +1846,11 @@ class ilObject
         string $type = "",
         bool $offline = false
     ): string {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
-
-        $ilSetting = $DIC->settings();
-        $objDefinition = $DIC["objDefinition"];
+        $objDefinition = $DIC['objDefinition'];
+        $icon_factory = $DIC['ui.factory']->symbol()->icon();
+        $irss = $DIC['resource_storage'];
 
         if ($obj_id == "" && $type == "") {
             return "";
@@ -1864,16 +1864,19 @@ class ilObject
             $size = "big";
         }
 
-        if ($obj_id && $ilSetting->get('custom_icons')) {
-            $customIconFactory = $DIC['object.customicons.factory'];
-            $customIcon = $customIconFactory->getPresenterByObjId($obj_id, $type);
-            if ($customIcon->exists()) {
-                $filename = $customIcon->getFullPath();
-                return $filename . '?tmp=' . filemtime($filename);
-            }
-        }
-
         if ($obj_id) {
+            /** @var ilObjectPropertyIcon $property_icon */
+            $property_icon = ilObjectDIC::dic()['additional_properties_repository']->getFor($obj_id)->getPropertyIcon();
+            $custom_icon = $property_icon->getCustomIcon();
+            if ($custom_icon?->exists()) {
+                return $custom_icon->getFullPath() . '?tmp=' . filemtime($custom_icon->getFullPath());
+            }
+
+            $file_type_specific_icon = $property_icon->getObjectTypeSpecificItem($obj_id, $icon_factory, $irss);
+            if ($file_type_specific_icon !== null) {
+                return $file_type_specific_icon->getIconPath();
+            }
+
             $dtpl_icon_factory = ilDidacticTemplateIconFactory::getInstance();
             if ($ref_id) {
                 $path = $dtpl_icon_factory->getIconPathForReference($ref_id);

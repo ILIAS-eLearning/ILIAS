@@ -96,7 +96,7 @@ class ilObjectAdditionalProperties
         return $clone;
     }
 
-    public function getPropertyIcon(): ilObjectProperty
+    public function getPropertyIcon(): ilObjectPropertyIcon
     {
         return $this->property_icon;
     }

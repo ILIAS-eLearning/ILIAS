@@ -22,6 +22,9 @@ use ILIAS\Object\Properties\ObjectTypeSpecificProperties\ilObjectTypeSpecificPro
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\File;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Component\Symbol\Icon\Custom as CustomIcon;
+use ILIAS\UI\Component\Symbol\Icon\Factory as IconFactory;
+use ILIAS\ResourceStorage\Services as StorageService;
 use ILIAS\FileUpload\MimeType;
 
 /**
@@ -42,9 +45,20 @@ class ilObjectPropertyIcon implements ilObjectProperty
     ) {
     }
 
-    public function getIcon(): ?ilObjectCustomIcon
+    public function getObjectTypeSpecificItem(
+        int $object_id,
+        IconFactory $factory,
+        StorageService $irss
+    ): ?CustomIcon {
+        if ($this->object_type_specific_property_providers === null) {
+            return null;
+        }
+        return $this->object_type_specific_property_providers->getObjectTypeSpecificIcon($object_id, $factory, $irss);
+    }
+
+    public function getCustomIcon(): ?ilObjectCustomIcon
     {
-        return $this->custom_icon;
+        return $this->custom_icons_enabled ? $this->custom_icon : null;
     }
 
     public function getDeletedFlag(): bool
