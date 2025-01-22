@@ -229,7 +229,7 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
                     <div class="modal-body">$msg_html
                         <form id="id_3" class="c-form c-form--horizontal" enctype="multipart/form-data" action="http://localhost/ilias.php" method="post">
                             <fieldset class="c-input" data-il-ui-component="checkbox-field-input" data-il-ui-input-name="form/input_0">
-                                <label for="id_2">Understood</label>
+                                <label class="c-input__label" for="id_2">Understood</label>
                                 <div class="c-input__field">
                                     <input type="checkbox" id="id_2" value="checked" name="form/input_0" class="c-field-checkbox" />
                                 </div>
