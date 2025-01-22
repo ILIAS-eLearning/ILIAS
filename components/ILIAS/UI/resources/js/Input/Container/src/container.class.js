@@ -42,6 +42,11 @@ const FIELD_INPUT_AREA = '.c-input__field';
 /**
  * @type {string}
  */
+const FIELD_LABEL = '.c-input__label';
+
+/**
+ * @type {string}
+ */
 const SEARCH_INPUT = '[name]';
 
 export default class Container {
@@ -81,7 +86,7 @@ export default class Container {
 
     Array.from(container.querySelectorAll(SEARCH_FIELD))
       .filter((domFieldNode) => domFieldNode.parentNode === domFieldNode.closest('form'))
-      .forEach((domFieldNode) => this.#register(this.#nodes, domFieldNode));
+      .forEach((domFieldNode) => this.#discoverHTMLElementsRecursively(this.#nodes, domFieldNode));
   }
 
   /**
@@ -89,7 +94,7 @@ export default class Container {
    * @param {HTMLElement} domFieldNode
    * @return {void}
    */
-  #register(current, domFieldNode) {
+  #discoverHTMLElementsRecursively(current, domFieldNode) {
     const node = this.#buildNode(domFieldNode);
     current.addChildNode(node);
 
@@ -98,14 +103,17 @@ export default class Container {
         (cn) => cn.closest(FIELD_INPUT_AREA) === domFieldNode.querySelector(FIELD_INPUT_AREA),
       );
     if (furtherChildren.length > 0) {
-      furtherChildren.forEach((domChildFieldNode) => this.#register(node, domChildFieldNode));
+      furtherChildren.forEach((domChildFieldNode) => this.#discoverHTMLElementsRecursively(
+        node,
+        domChildFieldNode,
+      ));
     }
   }
 
   #buildNode(domFieldNode) {
     const type = domFieldNode.getAttribute(FIELD_ATTRIBUTE_TYPE);
     const name = domFieldNode.getAttribute(FIELD_ATTRIBUTE_NAME);
-    const label = domFieldNode.querySelector('label').textContent.trim();
+    const label = domFieldNode.querySelector(FIELD_LABEL).textContent.trim();
 
     const node = new FormNode(type, name, label);
     node.setTransforms(this.#getTransformsFor(type));
