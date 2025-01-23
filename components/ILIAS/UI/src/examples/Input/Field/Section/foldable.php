@@ -7,10 +7,17 @@ namespace ILIAS\UI\examples\Input\Field\Section;
 /**
  * ---
  * description: >
- *   Sections may fold
+ *   This example is not really about sections, but rather a demonstration
+ *   of il.UI.Input.Container.
+ *   Container will build up and access a hierarchical structure of form nodes in JS.
  *
  * expected output: >
- *   ILIAS shows the rendered Component.
+ *   There are several sections with a variety of fields.
+ *   Underneath the form are three buttons:
+ *   - "log struct" will output a JS object in the browser's console that
+ *     holds all relevant formnodes, i.e., unchecked optional children will be left out.
+ *   - "fold" will collapse the form in an indented list of field labels and values
+ *   - "unfold" will show the form again.
  * ---
  */
 function foldable()
