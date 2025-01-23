@@ -90,55 +90,6 @@ export default class Container {
   }
 
   /**
-   * @param {FormNode} current
-   * @param {HTMLElement} domFieldNode
-   * @return {void}
-   */
-  #discoverHTMLElementsRecursively(current, domFieldNode) {
-    const node = this.#buildNode(domFieldNode);
-    current.addChildNode(node);
-
-    const furtherChildren = Array.from(domFieldNode.querySelectorAll(`${FIELD_INPUT_AREA} ${SEARCH_FIELD}`))
-      .filter(
-        (cn) => cn.closest(FIELD_INPUT_AREA) === domFieldNode.querySelector(FIELD_INPUT_AREA),
-      );
-    if (furtherChildren.length > 0) {
-      furtherChildren.forEach((domChildFieldNode) => this.#discoverHTMLElementsRecursively(
-        node,
-        domChildFieldNode,
-      ));
-    }
-  }
-
-  #buildNode(domFieldNode) {
-    const type = domFieldNode.getAttribute(FIELD_ATTRIBUTE_TYPE);
-    const name = domFieldNode.getAttribute(FIELD_ATTRIBUTE_NAME);
-    const label = domFieldNode.querySelector(FIELD_LABEL).textContent.trim();
-
-    const node = new FormNode(type, name, label);
-    node.setTransforms(this.#getTransformsFor(type));
-
-    Array.from(domFieldNode.querySelectorAll(SEARCH_INPUT))
-      .filter(
-        (input) => input.closest(SEARCH_FIELD) === domFieldNode,
-      )
-      .forEach((input) => node.addHtmlField(input));
-
-    return node;
-  }
-
-  /**
-   * @param {string} type
-   * @return {valueRepresentation}
-   */
-  #getTransformsFor(type) {
-    if (this.#transforms[type]) {
-      return this.#transforms[type];
-    }
-    return null;
-  }
-
-  /**
    * @return {FormNode}
    */
   getNodes() {
@@ -214,6 +165,8 @@ export default class Container {
     let node = initNode;
     if (!out) {
       out = [];
+    }
+    if (!node) {
       node = this.#nodes;
     }
 
@@ -225,5 +178,54 @@ export default class Container {
       );
     }
     return out;
+  }
+
+  /**
+   * @param {FormNode} current
+   * @param {HTMLElement} domFieldNode
+   * @return {void}
+   */
+  #discoverHTMLElementsRecursively(current, domFieldNode) {
+    const node = this.#buildNode(domFieldNode);
+    current.addChildNode(node);
+
+    const furtherChildren = Array.from(domFieldNode.querySelectorAll(`${FIELD_INPUT_AREA} ${SEARCH_FIELD}`))
+      .filter(
+        (cn) => cn.closest(FIELD_INPUT_AREA) === domFieldNode.querySelector(FIELD_INPUT_AREA),
+      );
+    if (furtherChildren.length > 0) {
+      furtherChildren.forEach((domChildFieldNode) => this.#discoverHTMLElementsRecursively(
+        node,
+        domChildFieldNode,
+      ));
+    }
+  }
+
+  #buildNode(domFieldNode) {
+    const type = domFieldNode.getAttribute(FIELD_ATTRIBUTE_TYPE);
+    const name = domFieldNode.getAttribute(FIELD_ATTRIBUTE_NAME);
+    const label = domFieldNode.querySelector(FIELD_LABEL).textContent.trim();
+
+    const node = new FormNode(type, name, label);
+    node.setTransforms(this.#getTransformsFor(type));
+
+    Array.from(domFieldNode.querySelectorAll(SEARCH_INPUT))
+      .filter(
+        (input) => input.closest(SEARCH_FIELD) === domFieldNode,
+      )
+      .forEach((input) => node.addHtmlField(input));
+
+    return node;
+  }
+
+  /**
+   * @param {string} type
+   * @return {valueRepresentation}
+   */
+  #getTransformsFor(type) {
+    if (this.#transforms[type]) {
+      return this.#transforms[type];
+    }
+    return null;
   }
 }

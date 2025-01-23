@@ -15,17 +15,17 @@
 
 import $ from 'jquery';
 
-import SwitchableGroupTransforms from './transforms/switchablegroup.transform';
-import OptionalGroupTransforms from './transforms/optionalgroup.transform';
-import RadioTransforms from './transforms/radio.transform';
-import PasswordTransforms from './transforms/password.transform';
-import DurationTransforms from './transforms/duration.transform';
-import LinkTransforms from './transforms/link.transform';
-import SelectTransforms from './transforms/select.transform';
-import MultiSelectTransforms from './transforms/multiselect.transform';
+import SwitchableGroupTransforms from './transforms/switchablegroup.transform.js';
+import OptionalGroupTransforms from './transforms/optionalgroup.transform.js';
+import RadioTransforms from './transforms/radio.transform.js';
+import PasswordTransforms from './transforms/password.transform.js';
+import DurationTransforms from './transforms/duration.transform.js';
+import LinkTransforms from './transforms/link.transform.js';
+import SelectTransforms from './transforms/select.transform.js';
+import MultiSelectTransforms from './transforms/multiselect.transform.js';
 
-import filter from './filter.main';
-import ContainerFactory from './container.factory';
+import filter from './filter.main.js';
+import ContainerFactory from './container.factory.js';
 
 const transforms = {
   'switchable-group-field-input': new SwitchableGroupTransforms(),
@@ -42,4 +42,20 @@ il = il || {};
 il.UI = il.UI || {};
 il.UI.filter = filter($);
 il.UI.Input = il.UI.Input || {};
+
+/**
+ * This provides client side access to form nodes and their values.
+ *
+ * Retrieve a form
+ *  const form = il.UI.Input.Container.get(form.id);
+ * and get its nodes
+ *  const formparts = form.getNodes();
+ * or a specific node, e.g.
+ *  const node = form.getNodeByName('form/input_4/input_6');
+ * With a node, you may retrieve its value representation:
+ *  values = form.getValuesRepresentation(node);
+ * You may also get all nodes in a flat array, either starting at
+ * the container or by specifying a specific start-node:
+ *  const allNodes = form.getNodesFlat(node);
+ */
 il.UI.Input.Container = new ContainerFactory(transforms);
