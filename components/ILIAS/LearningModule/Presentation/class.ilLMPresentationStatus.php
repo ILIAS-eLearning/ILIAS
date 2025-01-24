@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\ILIASObject\Translations\Translation;
+
 /**
  * Contains info on offline mode, focus, translation, etc.
  *
@@ -32,7 +34,7 @@ class ilLMPresentationStatus
     protected string $requested_focus_return;
     protected string $requested_focus_id;
     protected string $requested_transl;
-    protected ilObjectTranslation $ot;
+    protected Translation $ot;
     protected ilObjLearningModule $lm;
     protected string $lang;
     protected int $focus_id = 0;
@@ -43,6 +45,7 @@ class ilLMPresentationStatus
         ilObjUser $user,
         ilObjLearningModule $lm,
         ilLMTree $lm_tree,
+        Translation $ot,
         string $requested_transl = "",
         string $requested_focus_id = "",
         string $requested_focus_return = "",
@@ -53,7 +56,7 @@ class ilLMPresentationStatus
         bool $embed_mode = false
     ) {
         $this->lm = $lm;
-        $this->ot = ilObjectTranslation::getInstance($lm->getId());
+        $this->ot = $ot;
         $this->requested_transl = $requested_transl;
         $this->requested_focus_id = $requested_focus_id;
         $this->requested_focus_return = $requested_focus_return;
@@ -72,7 +75,7 @@ class ilLMPresentationStatus
         // determine language
         $this->lang = "-";
         $this->concrete_lang = "-";
-        if ($this->ot->getContentActivated()) {
+        if ($this->ot->getCOPageTranslationActivated()) {
             $langs = $this->ot->getLanguages();
             if (isset($langs[$this->requested_transl]) || $this->requested_transl == $this->ot->getMasterLanguage()) {
                 $this->lang = $this->requested_transl;

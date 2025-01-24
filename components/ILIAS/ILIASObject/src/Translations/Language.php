@@ -18,19 +18,16 @@
 
 declare(strict_types=1);
 
-class ilObjectTranslationLanguage
-{
-    protected string $language_code;
-    protected string $title;
-    protected string $description;
-    protected bool $default = false;
+namespace ILIAS\ILIASObject\Translations;
 
-    public function __construct(string $language_code, string $title, string $description, bool $default)
-    {
-        $this->language_code = $language_code;
-        $this->title = $title;
-        $this->description = $description;
-        $this->default = $default;
+class Language
+{
+    public function __construct(
+        private readonly string $language_code,
+        private string $title,
+        private string $description,
+        private bool $default = false
+    ) {
     }
 
     public function getLanguageCode(): string
@@ -38,19 +35,16 @@ class ilObjectTranslationLanguage
         return $this->language_code;
     }
 
-    public function setLanguageCode(string $language_code): void
-    {
-        $this->language_code = $language_code;
-    }
-
     public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setTitle(string $title): void
+    public function withTitle(string $title): self
     {
-        $this->title = $title;
+        $clone = clone $this;
+        $clone->title = $title;
+        return $clone;
     }
 
     public function getDescription(): string
@@ -58,9 +52,11 @@ class ilObjectTranslationLanguage
         return $this->description;
     }
 
-    public function setDescription(string $description): void
+    public function withDescription(string $description): self
     {
-        $this->description = $description;
+        $clone = clone $this;
+        $clone->description = $description;
+        return $clone;
     }
 
     public function isDefault(): bool
@@ -68,8 +64,10 @@ class ilObjectTranslationLanguage
         return $this->default;
     }
 
-    public function setDefault(bool $default): void
+    public function withDefault(bool $default): self
     {
-        $this->default = $default;
+        $clone = clone $this;
+        $clone->default = $default;
+        return $clone;
     }
 }

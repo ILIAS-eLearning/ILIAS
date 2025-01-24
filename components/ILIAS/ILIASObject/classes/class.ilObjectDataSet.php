@@ -18,8 +18,9 @@
 
 declare(strict_types=1);
 
-use ILIAS\Object\ilObjectDIC;
+use ILIAS\ILIASObject\LocalDIC;
 use ILIAS\ResourceStorage\Services as ResourceStorage;
+use ILIAS\ILIASObject\Translations\Translation;
 
 /**
  * Object data set class
@@ -32,9 +33,9 @@ use ILIAS\ResourceStorage\Services as ResourceStorage;
  */
 class ilObjectDataSet extends ilDataSet
 {
-    protected ilObjectDIC $obj_dic;
+    protected LocalDIC $obj_dic;
     protected ResourceStorage $storage;
-    protected ilObjectPropertiesAgregator $object_properties_agregator;
+    protected ilObjectPropertiesAgregator $properties_agregator;
 
     public function __construct()
     {
@@ -42,8 +43,8 @@ class ilObjectDataSet extends ilDataSet
         global $DIC;
         $this->storage = $DIC->resourceStorage();
 
-        $obj_dic = ilObjectDIC::dic();
-        $this->object_properties_agregator = $obj_dic['object_properties_agregator'];
+        $obj_dic = LocalDIC::dic();
+        $this->properties_agregator = $obj_dic['properties.agregator'];
 
         parent::__construct();
     }
@@ -210,7 +211,7 @@ class ilObjectDataSet extends ilDataSet
         if ($entity == "tile") {
             $this->data = [];
             foreach ($ids as $id) {
-                $rid = $this->object_properties_agregator->getFor((int) $id)
+                $rid = $this->properties_agregator->getFor((int) $id)
                     ->getPropertyTileImage()->getTileImage()->getRid();
                 if ($rid === null) {
                     continue;
@@ -297,7 +298,7 @@ class ilObjectDataSet extends ilDataSet
             case 'transl_entry':
                 $new_id = $this->getNewObjId($mapping, $rec['ObjId']);
                 if ($new_id > 0) {
-                    $transl = ilObjectTranslation::getInstance($new_id);
+                    $transl = new Translation($this->db, $new_id);
                     $transl->addLanguage(
                         $rec['LangCode'],
                         $rec['Title'],
@@ -312,7 +313,7 @@ class ilObjectDataSet extends ilDataSet
             case 'transl':
                 $new_id = $this->getNewObjId($mapping, $rec['ObjId']);
                 if ($new_id > 0) {
-                    $transl = ilObjectTranslation::getInstance($new_id);
+                    $transl = new Translation($this->db, $new_id);
                     $transl->setMasterLanguage($rec['MasterLang']);
                     $transl->save();
                 }
@@ -355,7 +356,7 @@ class ilObjectDataSet extends ilDataSet
                 $dir = str_replace('..', '', $rec['Dir']);
                 if ($new_id > 0 && $dir != '' && $this->getImportDirectory() != '') {
                     $source_dir = $this->getImportDirectory() . '/' . $dir;
-                    $object_properties = $this->object_properties_agregator->getFor($new_id);
+                    $object_properties = $this->properties_agregator->getFor($new_id);
                     $ti = $object_properties->getPropertyTileImage()->getTileImage();
                     $ti->createFromImportDir($source_dir);
                     $object_properties->storePropertyTileImage(

@@ -21,6 +21,7 @@ declare(strict_types=0);
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 use ILIAS\News\Service as News;
+use ILIAS\ILIASObject\Translations\TranslationGUI;
 
 /**
  * Class ilObjCourseGUI
@@ -40,7 +41,7 @@ use ILIAS\News\Service as News;
  * @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI, ilObjectMetaDataGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilCourseMembershipGUI, ilPropertyFormGUI, ilContainerSkillGUI, ilCalendarPresentationGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilMemberExportSettingsGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilLTIProviderObjectSettingGUI, ilObjectTranslationGUI, ilBookingGatewayGUI, ilRepositoryTrashGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilLTIProviderObjectSettingGUI, ILIAS\ILIASObject\Translations\TranslationGUI, ilBookingGatewayGUI, ilRepositoryTrashGUI
  * @extends      ilContainerGUI
  */
 class ilObjCourseGUI extends ilContainerGUI
@@ -1571,9 +1572,9 @@ class ilObjCourseGUI extends ilContainerGUI
                 }
                 $this->tabs_gui->addSubTabTarget(
                     "obj_multilinguality",
-                    $this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", ""),
+                    $this->ctrl->getLinkTargetByClass(TranslationGUI::class, ""),
                     "",
-                    "ilobjecttranslationgui"
+                    TranslationGUI::class
                 );
                 break;
         }
@@ -2421,12 +2422,12 @@ class ilObjCourseGUI extends ilContainerGUI
                 $this->ctrl->forwardCommand($gui);
                 break;
 
-            case 'ilobjecttranslationgui':
+            case strtolower(TranslationGUI::class):
                 $this->checkPermissionBool("write");
                 $this->setSubTabs("properties");
                 $this->tabs_gui->activateTab("settings");
                 $this->tabs_gui->activateSubTab("obj_multilinguality");
-                $transgui = new ilObjectTranslationGUI($this);
+                $transgui = new TranslationGUI($this);
                 $this->ctrl->forwardCommand($transgui);
                 break;
 

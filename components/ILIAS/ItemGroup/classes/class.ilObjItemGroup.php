@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\ILIASObject\Translations\Translation;
+
 /**
  * Class ilObjItemGroup
  * @author Alexander Killing <killing@leifos.de>
@@ -120,7 +122,7 @@ class ilObjItemGroup extends ilObject2
         $lng = $DIC->language();
 
         // add default translation
-        $obj_trans = ilObjectTranslation::getInstance($this->getId());
+        $obj_trans = new Translation($this->db, $this->getId());
         $obj_trans->addLanguage(
             $lng->getDefaultLanguage(),
             $this->getTitle(),
@@ -136,7 +138,7 @@ class ilObjItemGroup extends ilObject2
         if ($this->getId()) {
             $this->item_data_ar->update();
 
-            $trans = ilObjectTranslation::getInstance($this->getId());
+            $trans = new Translation($this->db, $this->getId());
             ;
             $trans->setDefaultTitle($this->getTitle());
             $trans->setDefaultDescription($this->getLongDescription());
@@ -161,9 +163,9 @@ class ilObjItemGroup extends ilObject2
 
 
         // translations
-        $ot = ilObjectTranslation::getInstance($this->getId());
+        $ot = new Translation($this->db, $this->getId());
         $ot->copy($new_obj->getId());
-        $ot2 = ilObjectTranslation::getInstance($new_obj->getId());
+        $ot2 = new Translation($this->db, $new_obj->getId());
         $ot2->read();
         if ($ot2->getDefaultTitle() !== "") {
             $new_obj->setTitle($ot2->getDefaultTitle());

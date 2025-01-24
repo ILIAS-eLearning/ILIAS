@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\UICore\PageContentProvider;
+use ILIAS\ILIASObject\Translations\Translation;
 
 /**
  * Class ilWikiPage GUI class
@@ -33,7 +34,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
     protected \ILIAS\Exercise\InternalDomainService $exc_domain;
     protected \ILIAS\Wiki\InternalDomainService $domain;
     protected \ILIAS\Wiki\Page\PageManager $wiki_pm;
-    protected ilObjectTranslation $ot;
+    protected Translation $ot;
     protected \ILIAS\Wiki\InternalGUIService $wiki_gui;
     protected \ILIAS\Notes\Service $notes;
     protected \ILIAS\HTTP\Services $http;
@@ -487,7 +488,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
         $this->ctrl->setParameterByClass(self::class, "wpg_id", $this->getId());
         $this->ctrl->setParameterByClass(self::class, "page", null);
-        if ($this->ot->getContentActivated()) {
+        if ($this->ot->getCOPageTranslationActivated()) {
             $actions = [];
             foreach ($this->ot->getLanguages() as $language) {
                 $lang_code = ($language->getLanguageCode() === $this->ot->getMasterLanguage())

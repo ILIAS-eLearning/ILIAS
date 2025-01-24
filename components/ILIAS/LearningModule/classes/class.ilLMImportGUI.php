@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\LearningModule\Editing\EditingGUIRequest;
+use ILIAS\ILIASObject\Translations\Translation;
 
 /**
  * Import related features for learning modules
@@ -29,6 +30,7 @@ class ilLMImportGUI
     protected ilGlobalTemplateInterface $tpl;
     protected ilObjLearningModule $lm;
     protected EditingGUIRequest $request;
+    protected Translation $ot;
     public function __construct(ilObjLearningModule $a_lm)
     {
         global $DIC;
@@ -45,6 +47,7 @@ class ilLMImportGUI
         $this->lng = $DIC->language();
         $this->tpl = $DIC["tpl"];
         $this->lm = $a_lm;
+        $this->ot = new Translation($DIC->database(), $this->lm->getId());
     }
 
     public function executeCommand(): void
@@ -72,6 +75,7 @@ class ilLMImportGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
+        $this->
 
         $options = [];
 
@@ -86,7 +90,7 @@ class ilLMImportGUI
         $fi->setSize(30);
         $form->addItem($fi);
 
-        $ot = ilObjectTranslation::getInstance($this->lm->getId());
+        $ot = $this->ot;
         foreach ($ot->getLanguages() as $l) {
             if ($l->getLanguageCode() !== $ot->getMasterLanguage()) {
                 $options[$l->getLanguageCode()] = $lng->txt("meta_l_" . $l->getLanguageCode());
@@ -112,7 +116,7 @@ class ilLMImportGUI
         $conf = $imp->getConfig("components/ILIAS/LearningModule");
 
         $target_lang = $this->request->getImportLang();
-        $ot = ilObjectTranslation::getInstance($this->lm->getId());
+        $ot = $this->ot;
         if ($target_lang == $ot->getMasterLanguage() || $target_lang == "") {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("cont_transl_master_language_not_allowed"), true);
             $ilCtrl->redirect($this, "showTranslationImportForm");

@@ -22,6 +22,7 @@ namespace ILIAS\Wiki\Wiki;
 
 use ILIAS\Wiki\InternalGUIService;
 use ILIAS\Wiki\InternalDomainService;
+use ILIAS\ILIASObject\Translations\Translation;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -51,7 +52,7 @@ class GUIService
         );
     }
 
-    public function translation(int $wiki_ref_id = 0): \ilObjectTranslation
+    public function translation(int $wiki_ref_id = 0): Translation
     {
         if ($wiki_ref_id === 0) {
             $wiki_ref_id = $this->gui_service->request()->getRefId();

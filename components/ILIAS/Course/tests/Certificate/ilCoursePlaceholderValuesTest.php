@@ -31,7 +31,8 @@ use ilCertificateUtilHelper;
 use ilCertificateObjectHelper;
 use ilDefaultPlaceholderValues;
 use PHPUnit\Framework\TestCase;
-use ilObjectTranslationLanguage;
+use ILIAS\ILIASObject\Translations\Language as ilObjectTranslationLanguage;
+use ILIAS\ILIASObject\Translations\Translation;
 use ilObjectCustomUserFieldsPlaceholderValues;
 
 /**
@@ -95,7 +96,7 @@ class ilCoursePlaceholderValuesTest extends TestCase
         $objectMock->method('getTitle')
             ->willReturn('Some Title');
 
-        $obj_translation = $this->getMockBuilder(ilObjectTranslation::class)
+        $obj_translation = $this->getMockBuilder(Translation::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -219,7 +220,7 @@ class ilCoursePlaceholderValuesTest extends TestCase
         $objectMock->method('getTitle')
             ->willReturn('SomeTitle');
 
-        $obj_translation = $this->getMockBuilder(ilObjectTranslation::class)
+        $obj_translation = $this->getMockBuilder(Translation::class)
             ->disableOriginalConstructor()
             ->getMock();
 

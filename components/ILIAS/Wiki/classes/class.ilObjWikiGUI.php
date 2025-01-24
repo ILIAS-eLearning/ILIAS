@@ -21,6 +21,8 @@ use ILIAS\GlobalScreen\ScreenContext\ContextServices;
 use ILIAS\Wiki\WikiGUIRequest;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\Wiki\Settings\SettingsGUI;
+use ILIAS\ILIASObject\Translations\Translation;
+use ILIAS\ILIASObject\Translations\TranslationGUI;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -33,7 +35,7 @@ use ILIAS\Wiki\Settings\SettingsGUI;
  * @ilCtrl_Calls ilObjWikiGUI: ilObjectMetaDataGUI
  * @ilCtrl_Calls ilObjWikiGUI: ilSettingsPermissionGUI
  * @ilCtrl_Calls ilObjWikiGUI: ilRepositoryObjectSearchGUI, ilObjectCopyGUI, ilObjNotificationSettingsGUI
- * @ilCtrl_Calls ilObjWikiGUI: ilLTIProviderObjectSettingGUI, ilObjectTranslationGUI
+ * @ilCtrl_Calls ilObjWikiGUI: ilLTIProviderObjectSettingGUI, ILIAS\ILIASObject\Translations\TranslationGUI
  * @ilCtrl_Calls ilObjWikiGUI: ILIAS\Wiki\Settings\SettingsGUI
  */
 class ilObjWikiGUI extends ilObjectGUI
@@ -43,7 +45,7 @@ class ilObjWikiGUI extends ilObjectGUI
     protected \ILIAS\Wiki\Content\GUIService $content_gui;
     protected \ILIAS\Wiki\Navigation\ImportantPageManager $imp_pages;
     protected \ILIAS\Wiki\Page\PageManager $pm;
-    protected ilObjectTranslation $ot;
+    protected Translation $ot;
     protected \ILIAS\HTTP\Services $http;
     protected string $requested_page;
     protected ilPropertyFormGUI $form_gui;
@@ -155,12 +157,12 @@ class ilObjWikiGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
 
-            case 'ilobjecttranslationgui':
+            case strtolower(TranslationGUI::class):
                 $this->checkPermission("read");
                 $this->addHeaderAction();
                 $ilTabs->activateTab("settings");
                 $this->setSettingsSubTabs("obj_multilinguality");
-                $transgui = new ilObjectTranslationGUI($this);
+                $transgui = new TranslationGUI($this);
                 $transgui->setTitleDescrOnlyMode(false);
                 $this->ctrl->forwardCommand($transgui);
                 break;
@@ -555,7 +557,7 @@ class ilObjWikiGUI extends ilObjectGUI
                 array("", "ilobjectcontentstylesettingsgui", "ilobjwikigui",
             "ilinfoscreengui", "ilpermissiongui", "ilexportgui", "ilratingcategorygui", "ilobjnotificationsettingsgui", "iltaxmdgui",
             "ilwikistatgui", "ilwikipagetemplategui", "iladvancedmdsettingsgui", "ilsettingspermissiongui", 'ilrepositoryobjectsearchgui',
-            'ilobjecttranslationgui')
+            strtolower(TranslationGUI::class))
             ) || $ilCtrl->getNextClass() === "ilpermissiongui") {
             if ($this->requested_page !== "") {
                 $page_id = ($this->edit_request->getWikiPageId() > 0)
@@ -726,7 +728,7 @@ class ilObjWikiGUI extends ilObjectGUI
                 $ilTabs->addSubTab(
                     'obj_multilinguality',
                     $lng->txt("obj_multilinguality"),
-                    $this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", "")
+                    $this->ctrl->getLinkTargetByClass(TranslationGUI::class, "")
                 );
             }
 

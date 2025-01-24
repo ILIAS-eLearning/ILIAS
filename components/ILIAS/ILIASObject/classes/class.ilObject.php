@@ -18,8 +18,9 @@
 
 declare(strict_types=1);
 
-use ILIAS\Object\ilObjectDIC;
+use ILIAS\ILIASObject\LocalDIC;
 use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+use ILIAS\ILIASObject\Translations\Translation;
 
 /**
  * Class ilObject
@@ -51,7 +52,7 @@ class ilObject
     protected ilObjUser $user;
     protected ilLanguage $lng;
     protected LOMServices $lom_services;
-    private ilObjectDIC $object_dic;
+    private LocalDIC $object_dic;
 
     protected bool $call_by_reference;
     protected int $max_title = self::TITLE_LENGTH;
@@ -101,7 +102,7 @@ class ilObject
         $this->tree = $DIC["tree"];
         $this->app_event_handler = $DIC["ilAppEventHandler"];
         $this->lom_services = $DIC->learningObjectMetadata();
-        $this->object_dic = ilObjectDIC::dic();
+        $this->object_dic = LocalDIC::dic();
 
         $this->call_by_reference = $this->referenced;
 
@@ -139,7 +140,7 @@ class ilObject
     public function getObjectProperties(): ilObjectProperties
     {
         if ($this->object_properties === null) {
-            $this->object_properties = $this->object_dic['object_properties_agregator']->getFor($this->id, $this->type);
+            $this->object_properties = $this->object_dic['properties.agregator']->getFor($this->id, $this->type);
         }
         return $this->object_properties;
     }
@@ -1666,7 +1667,7 @@ class ilObject
             return $this->getTitle();
         }
 
-        $obj_translations = ilObjectTranslation::getInstance($this->getId());
+        $obj_translations = new Translation($this->db, $this->getId());
 
         $other_children_of_same_type = $this->tree->getChildsByType($target_id, $this->type);
 
@@ -1688,12 +1689,12 @@ class ilObject
     }
 
     private function appendCopyInfoToTranslations(
-        ilObjectTranslation $obj_translations,
+        Translation $obj_translations,
         array $other_children_of_same_type
     ): string {
         $nodes_translations = array_map(
-            fn(array $child): ilObjectTranslation =>
-                ilObjectTranslation::getInstance($child['obj_id']),
+            fn(array $child): Translation =>
+                new Translation($this->db, $child['obj_id']),
             $other_children_of_same_type
         );
 
@@ -1728,7 +1729,7 @@ class ilObject
 
     private function getCallbackForTitlesPerLanguageTransformation(): callable
     {
-        return function (array $npl, ?ilObjectTranslation $nt): array {
+        return function (array $npl, ?Translation $nt): array {
             $langs = $nt->getLanguages();
             foreach ($langs as $lang) {
                 if (!array_key_exists($lang->getLanguageCode(), $npl)) {
@@ -1863,7 +1864,7 @@ class ilObject
 
         if ($obj_id) {
             /** @var ilObjectPropertyIcon $property_icon */
-            $property_icon = ilObjectDIC::dic()['additional_properties_repository']->getFor($obj_id)->getPropertyIcon();
+            $property_icon = LocalDIC::dic()['properties.additional.repository']->getFor($obj_id)->getPropertyIcon();
             $custom_icon = $property_icon->getCustomIcon();
             if ($custom_icon?->exists()) {
                 return $custom_icon->getFullPath() . '?tmp=' . filemtime($custom_icon->getFullPath());

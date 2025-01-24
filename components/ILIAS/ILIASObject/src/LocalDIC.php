@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Object;
+namespace ILIAS\ILIASObject;
 
 use ILIAS\Object\Properties\ObjectTypeSpecificProperties\Factory as ObjectTypeSpecificPropertiesFactory;
 use ILIAS\Object\Properties\ObjectTypeSpecificProperties\ilObjectTypeSpecificPropertiesArtifactObjective;
@@ -27,18 +27,19 @@ use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectTileImageStakeholde
 use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectTileImageFlavourDefinition;
 use ILIAS\Object\Properties\ObjectReferenceProperties\ObjectReferencePropertiesCachedRepository;
 use ILIAS\Object\Properties\ObjectReferenceProperties\ObjectAvailabilityPeriodPropertiesCachedRepository;
+use ILIAS\ILIASObject\Translations\DatabaseRepository;
 use Pimple\Container as PimpleContainer;
 use ILIAS\DI\Container as ILIASContainer;
 
-class ilObjectDIC extends PimpleContainer
+class LocalDIC extends PimpleContainer
 {
-    private static ?ilObjectDIC $dic = null;
+    private static ?LocalDIC $dic = null;
 
     public static function dic(): self
     {
         if (self::$dic === null) {
             global $DIC;
-            self::$dic = new ilObjectDIC();
+            self::$dic = new LocalDIC();
             self::$dic->init($DIC);
         }
 
@@ -47,36 +48,36 @@ class ilObjectDIC extends PimpleContainer
 
     private function init(ILIASContainer $DIC): void
     {
-        $this['common_settings'] = fn($c): \ilObjectCommonSettings => new \ilObjectCommonSettings(
+        $this['settings.common'] = fn($c): \ilObjectCommonSettings => new \ilObjectCommonSettings(
             $DIC['lng'],
             $DIC['upload'],
             $DIC['resource_storage'],
             $DIC['http'],
-            $c['tile_image_stackholder'],
-            $c['tile_image_flavour']
+            $c['properties.additional.tile_image.stackholder'],
+            $c['properties.additional.tile_image.flavour']
         );
 
-        $this['object_properties_agregator'] = fn($c): \ilObjectPropertiesAgregator => new \ilObjectPropertiesAgregator(
-            $c['core_properties_repository'],
-            $c['additional_properties_repository'],
-            $c['object_type_specific_properties_factory'],
+        $this['properties.agregator'] = fn($c): \ilObjectPropertiesAgregator => new \ilObjectPropertiesAgregator(
+            $c['properties.core.repository'],
+            $c['properties.additional.repository'],
+            $c['properties.object_type_specific.factory'],
             $DIC['learning_object_metadata']
         );
 
-        $this['core_properties_repository'] = fn($c): \ilObjectCorePropertiesRepository
+        $this['properties.core.repository'] = fn($c): \ilObjectCorePropertiesRepository
             => new \ilObjectCorePropertiesCachedRepository(
                 $DIC['ilDB'],
                 $DIC['objDefinition'],
                 $DIC['resource_storage'],
-                $c['tile_image_stackholder'],
+                $c['properties.additional.tile_image.stackholder'],
                 new ilObjectTileImageFlavourDefinition(),
-                $c['object_type_specific_properties_factory']
+                $c['properties.object_type_specific.factory']
             );
 
-        $this['multi_object_properties_manipulator'] = fn($c): MultiObjectPropertiesManipulator
+        $this['properties.multi_manipulator'] = fn($c): MultiObjectPropertiesManipulator
             => new MultiObjectPropertiesManipulator(
-                $c['object_reference_repository'],
-                $c['object_properties_agregator'],
+                $c['properties.object_reference.repositoy'],
+                $c['properties.agregator'],
                 $DIC['lng'],
                 $DIC['ilCtrl'],
                 $DIC['ilUser'],
@@ -85,19 +86,19 @@ class ilObjectDIC extends PimpleContainer
                 $DIC['refinery']
             );
 
-        $this['additional_properties_repository'] = fn($c): \ilObjectAdditionalPropertiesRepository
+        $this['properties.additional.repository'] = fn($c): \ilObjectAdditionalPropertiesRepository
             => new \ilObjectAdditionalPropertiesLegacyRepository(
                 $DIC['object.customicons.factory'],
-                $c['object_type_specific_properties_factory']
+                $c['properties.object_type_specific.factory']
             );
 
-        $this['tile_image_stackholder'] = static fn($c): ilObjectTileImageStakeholder
+        $this['properties.additional.tile_image.stackholder'] = static fn($c): ilObjectTileImageStakeholder
             => new ilObjectTileImageStakeholder();
 
-        $this['tile_image_flavour'] = static fn($c): ilObjectTileImageFlavourDefinition
+        $this['properties.additional.tile_image.flavour'] = static fn($c): ilObjectTileImageFlavourDefinition
             => new ilObjectTileImageFlavourDefinition();
 
-        $this['object_type_specific_properties_factory'] = fn($c): ObjectTypeSpecificPropertiesFactory
+        $this['properties.object_type_specific.factory'] = fn($c): ObjectTypeSpecificPropertiesFactory
             => new ObjectTypeSpecificPropertiesFactory(
                 is_readable(ilObjectTypeSpecificPropertiesArtifactObjective::PATH()) ?
                     include ilObjectTypeSpecificPropertiesArtifactObjective::PATH()
@@ -105,16 +106,20 @@ class ilObjectDIC extends PimpleContainer
                 $DIC['ilDB']
             );
 
-        $this['object_reference_repository'] = fn($c): ObjectReferencePropertiesCachedRepository
+        $this['properties.object_reference.repositoy'] = fn($c): ObjectReferencePropertiesCachedRepository
             => new ObjectReferencePropertiesCachedRepository(
-                $c['availability_period_repository'],
+                $c['properties.object_reference.availability_period.repository'],
                 $DIC['ilDB']
             );
 
-        $this['availability_period_repository'] = fn($c): ObjectAvailabilityPeriodPropertiesCachedRepository
+        $this['properties.object_reference.availability_period.repository'] = fn($c): ObjectAvailabilityPeriodPropertiesCachedRepository
             => new ObjectAvailabilityPeriodPropertiesCachedRepository(
                 $DIC['ilDB'],
                 $DIC['tree']
+            );
+        $this['translations.repository'] = fn($c): DatabaseRepository
+            => new DatabaseRepository(
+                $DIC['ilDB']
             );
     }
 }

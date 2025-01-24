@@ -25,6 +25,8 @@ use ILIAS\Repository\Form\FormAdapterGUI;
 use ILIAS\MediaPool\InternalGUIService;
 use ILIAS\FileUpload\Handler\HandlerResult;
 use ILIAS\MediaPool\Settings\SettingsGUI;
+use ILIAS\ILIASObject\Translations\Translation;
+use ILIAS\ILIASObject\Translations\TranslationGUI;
 
 /**
  * User Interface class for media pool objects
@@ -33,7 +35,7 @@ use ILIAS\MediaPool\Settings\SettingsGUI;
  *
  * @ilCtrl_Calls ilObjMediaPoolGUI: ilObjMediaObjectGUI, ilObjFolderGUI, ilEditClipboardGUI, ilPermissionGUI
  * @ilCtrl_Calls ilObjMediaPoolGUI: ilInfoScreenGUI, ilMediaPoolPageGUI, ilExportGUI
- * @ilCtrl_Calls ilObjMediaPoolGUI: ilCommonActionDispatcherGUI, ilObjectCopyGUI, ilObjectTranslationGUI, ilMediaPoolImportGUI
+ * @ilCtrl_Calls ilObjMediaPoolGUI: ilCommonActionDispatcherGUI, ilObjectCopyGUI, ILIAS\ILIASObject\Translations\TranslationGUI, ilMediaPoolImportGUI
  * @ilCtrl_Calls ilObjMediaPoolGUI: ilObjectMetaDataGUI
  * @ilCtrl_Calls ilObjMediaPoolGUI: ilMobMultiSrtUploadGUI, ilObjectMetaDataGUI, ilRepoStandardUploadHandlerGUI, ilMediaCreationGUI
  * @ilCtrl_Calls ilObjMediaPoolGUI: ILIAS\MediaPool\Settings\SettingsGUI
@@ -53,6 +55,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
     protected ilGlobalTemplateInterface $main_tpl;
     protected FileUpload $upload;
     protected ilLogger $mep_log;
+    protected ilDBInterface $db;
     public bool $output_prepared;
 
     public function __construct(
@@ -80,6 +83,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
         $this->mep_log = ilLoggerFactory::getLogger("mep");
 
+        $this->db = $DIC->database();
 
         $this->mode = ($this->mep_request->getMode() !== "")
             ? $this->mep_request->getMode()
@@ -392,13 +396,13 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 $this->ctrl->forwardCommand($gui);
                 break;
 
-            case 'ilobjecttranslationgui':
+            case strtolower(TranslationGUI::class):
                 $this->prepareOutput();
                 $this->addHeaderAction();
                 //$this->setTabs("settings");
                 $ilTabs->activateTab("settings");
                 $this->setSettingsSubTabs("obj_multilinguality");
-                $transgui = new ilObjectTranslationGUI($this);
+                $transgui = new TranslationGUI($this);
                 $transgui->setTitleDescrOnlyMode(false);
                 $this->ctrl->forwardCommand($transgui);
                 $this->tpl->printToStdout();
@@ -1230,7 +1234,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
             if ($mset->get("mep_activate_pages")) {
                 $ilTabs->addSubTabTarget(
                     "obj_multilinguality",
-                    $this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", "")
+                    $this->ctrl->getLinkTargetByClass(TranslationGUI::class, "")
                 );
             }
         }
@@ -1414,9 +1418,9 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
     public function export(): void
     {
-        $ot = ilObjectTranslation::getInstance($this->object->getId());
+        $ot = new Translation($this->db, $this->object->getId());
         $opt = "";
-        if ($ot->getContentActivated()) {
+        if ($ot->getCOPageTranslationActivated()) {
             $format = explode("_", $this->mep_request->getExportFormat());
             $opt = ilUtil::stripSlashes($format[1]);
         }

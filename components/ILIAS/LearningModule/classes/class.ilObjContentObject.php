@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+use ILIAS\ILIASObject\Translations\Translation;
 
 /**
  * @author Alex Killing <alex.killing@gmx.de>
@@ -1935,8 +1936,7 @@ class ilObjContentObject extends ilObject
         unset($obj_settings);
 
         // copy (page) multilang settings
-        $ot = ilObjectTranslation::getInstance($this->getId());
-        $ot->copy($new_obj->getId());
+        (new Translation($this->db, $this->getId()))->copy($new_obj->getId());
 
         // copy lm menu
         $menu = new ilLMMenuEditor();
@@ -2123,8 +2123,8 @@ class ilObjContentObject extends ilObject
 
             case 'General':
                 // Update Title and description
-                $ot = ilObjectTranslation::getInstance($this->getId());
-                if (!$ot->getContentActivated()) {
+                $ot = (new Translation($this->db, $this->getId()));
+                if (!$ot->getCOPageTranslationActivated()) {
                     return;
                 }
 
@@ -2152,8 +2152,8 @@ class ilObjContentObject extends ilObject
         $dirs = array("xml");
         $export_files = array();
 
-        $ot = ilObjectTranslation::getInstance($this->getId());
-        if ($ot->getContentActivated()) {
+        $ot = (new Translation($this->db, $this->getId()));
+        if ($ot->getCOPageTranslationActivated()) {
             $langs = $ot->getLanguages();
             foreach ($langs as $l => $ldata) {
                 $dirs[] = "html_" . $l;

@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 use ILIAS\News\Service as News;
+use ILIAS\ILIASObject\Translations\TranslationGUI;
 
 /**
  * Class ilObjGroupGUI
@@ -36,7 +37,7 @@ use ILIAS\News\Service as News;
  * @ilCtrl_Calls ilObjGroupGUI: ilGroupMembershipGUI, ilBadgeManagementGUI, ilMailMemberSearchGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
  * @ilCtrl_Calls ilObjGroupGUI: ilContainerSkillGUI, ilCalendarPresentationGUI
  * @ilCtrl_Calls ilObjGroupGUI: ilLTIProviderObjectSettingGUI
- * @ilCtrl_Calls ilObjGroupGUI: ilObjectMetaDataGUI, ilObjectTranslationGUI, ilPropertyFormGUI
+ * @ilCtrl_Calls ilObjGroupGUI: ilObjectMetaDataGUI, ILIAS\ILIASObject\Translations\TranslationGUI, ilPropertyFormGUI
  *
  *
  *
@@ -370,11 +371,11 @@ class ilObjGroupGUI extends ilContainerGUI
                 break;
 
 
-            case 'ilobjecttranslationgui':
+            case strtolower(TranslationGUI::class):
                 $this->checkPermissionBool("write");
                 $this->setSubTabs("settings");
                 $this->tabs->activateTab("settings");
-                $transgui = new ilObjectTranslationGUI($this);
+                $transgui = new TranslationGUI($this);
                 $this->ctrl->forwardCommand($transgui);
                 break;
 
@@ -1859,9 +1860,9 @@ class ilObjGroupGUI extends ilContainerGUI
 
                 $this->tabs_gui->addSubTabTarget(
                     "obj_multilinguality",
-                    $this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", ""),
+                    $this->ctrl->getLinkTargetByClass(TranslationGUI::class, ""),
                     "",
-                    "ilobjecttranslationgui"
+                    TranslationGUI::class
                 );
 
 

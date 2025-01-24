@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Category\StandardGUIRequest;
+use ILIAS\ILIASObject\Translations\TranslationGUI;
 
 /**
  * Class ilObjCategoryGUI
@@ -27,7 +28,8 @@ use ILIAS\Category\StandardGUIRequest;
  * @author Alexander Killing <killing@leifos.de>
  *
  * @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilContainerPageGUI, ilObjUserGUI, ilObjUserFolderGUI
- * @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI, ilObjStyleSheetGUI, ilCommonActionDispatcherGUI, ilObjectTranslationGUI, ilObjectContentStyleSettingsGUI
+ * @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI, ilObjStyleSheetGUI, ilCommonActionDispatcherGUI,
+ * @ilCtrl_Calls ilObjCategoryGUI: ILIAS\ILIASObject\Translations\TranslationGUI, ilObjectContentStyleSettingsGUI
  * @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI, ilDidacticTemplateGUI, ilExportGUI
  * @ilCtrl_Calls ilObjCategoryGUI: ilTaxonomySettingsGUI, ilObjectMetaDataGUI, ilContainerNewsSettingsGUI, ilContainerFilterAdminGUI
  * @ilCtrl_Calls ilObjCategoryGUI: ilRepositoryTrashGUI
@@ -237,12 +239,12 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
                 $this->ctrl->forwardCommand($exp);
                 break;
 
-            case 'ilobjecttranslationgui':
+            case strtolower(TranslationGUI::class):
                 $this->checkPermissionBool("write");
                 $this->prepareOutput();
                 //$this->tabs_gui->setTabActive('export');
                 $this->setEditTabs("settings_trans");
-                $transgui = new ilObjectTranslationGUI($this);
+                $transgui = new TranslationGUI($this);
                 $this->ctrl->forwardCommand($transgui);
                 break;
 
@@ -736,7 +738,7 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
         $this->tabs_gui->addSubTab(
             "settings_trans",
             $this->lng->txt("obj_multilinguality"),
-            $this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", "")
+            $this->ctrl->getLinkTargetByClass(TranslationGUI::class, "")
         );
 
         //news tab

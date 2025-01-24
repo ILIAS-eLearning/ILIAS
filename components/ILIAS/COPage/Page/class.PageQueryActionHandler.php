@@ -23,6 +23,7 @@ use ILIAS\COPage\Editor\Server;
 use ParagraphStyleSelector;
 use SectionStyleSelector;
 use MediaObjectStyleSelector;
+use ILIAS\ILIASObject\Translations\Translation;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -39,6 +40,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     protected Server\UIWrapper $ui_wrapper;
     protected \ilCtrl $ctrl;
     protected \ilComponentFactory $component_factory;
+    protected Translation $translation;
 
     public function __construct(\ilPageObjectGUI $page_gui, string $pc_id = "")
     {
@@ -60,6 +62,13 @@ class PageQueryActionHandler implements Server\QueryActionHandler
             ->domain()
             ->pc()
             ->definition();
+
+        if ($page_gui->getPageConfig()->getMultiLangSupport()) {
+            $this->translation = $page_gui->getPageObject()->getP(
+                $DIC->database(),
+                $page_gui->getPageObject()->getParentId()
+            );
+        }
     }
 
     /**
@@ -415,9 +424,9 @@ class PageQueryActionHandler implements Server\QueryActionHandler
 
         // general multi lang support and single page mode?
         if ($config->getMultiLangSupport()) {
-            $ot = \ilObjectTranslation::getInstance($page->getParentId());
+            $ot = $this->translation;
 
-            if ($ot->getContentActivated()) {
+            if ($ot->getCOPageTranslationActivated()) {
                 $lng->loadLanguageModule("meta");
 
                 if ($page->getLanguage() != "-") {
@@ -458,9 +467,9 @@ class PageQueryActionHandler implements Server\QueryActionHandler
 
         // general multi lang support and single page mode?
         if ($config->getMultiLangSupport()) {
-            $ot = \ilObjectTranslation::getInstance($page->getParentId());
+            $ot = $this->translation;
 
-            if ($ot->getContentActivated()) {
+            if ($ot->getCOPageTranslationActivated()) {
                 $lng->loadLanguageModule("meta");
 
                 $ml_gui = new \ilPageMultiLangGUI(

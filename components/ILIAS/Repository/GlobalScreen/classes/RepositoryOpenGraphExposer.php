@@ -29,6 +29,7 @@ use ILIAS\GlobalScreen\ScreenContext\ScreenContext;
 use ILIAS\Data\Meta\Html\OpenGraph\Image as OGImage;
 use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 use ILIAS\MetaData\Services\Reader\ReaderInterface as LOMReader;
+use ILIAS\ILIASObject\Translations\Translation;
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
@@ -76,7 +77,7 @@ final class RepositoryOpenGraphExposer extends AbstractModificationProvider
 
     private function exposeObjectOpenGraphMetaData(\ilObject $object): void
     {
-        $object_translation = \ilObjectTranslation::getInstance($object->getId());
+        $object_translation = new Translation($this->dic->database(), $object->getId());
 
         $additional_locale_count = 0;
         $additional_locales = [];

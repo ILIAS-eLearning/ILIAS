@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\ILIASObject\Translations\Translation;
+
 /**
  * Import related features for media pools (currently used for translation imports)
  *
@@ -28,6 +30,7 @@ class ilMediaPoolImportGUI
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected ilGlobalTemplateInterface $tpl;
+    protected Translation $ot;
 
     public function __construct(ilObjMediaPool $a_mep)
     {
@@ -41,6 +44,7 @@ class ilMediaPoolImportGUI
             ->internal()
             ->gui()
             ->standardRequest();
+        $this->ot = new Translation($DIC->database(), $a_mep->getId());
     }
 
     public function executeCommand(): void
@@ -80,7 +84,7 @@ class ilMediaPoolImportGUI
         $fi->setSize(30);
         $form->addItem($fi);
 
-        $ot = ilObjectTranslation::getInstance($this->mep->getId());
+        $ot = $this->ot;
         $options = [];
         foreach ($ot->getLanguages() as $l) {
             if ($l->getLanguageCode() != $ot->getMasterLanguage()) {
@@ -109,7 +113,7 @@ class ilMediaPoolImportGUI
         $conf = $imp->getConfig("components/ILIAS/MediaPool");
 
         $target_lang = $this->request->getImportLang();
-        $ot = ilObjectTranslation::getInstance($this->mep->getId());
+        $ot = $this->ot;
         if ($target_lang === $ot->getMasterLanguage()) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("mep_transl_master_language_not_allowed"), true);
             $ilCtrl->redirect($this, "showTranslationImportForm");

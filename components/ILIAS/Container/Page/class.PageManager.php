@@ -19,6 +19,7 @@
 namespace ILIAS\Container\Page;
 
 use ILIAS\Container\InternalDomainService;
+use ILIAS\ILIASObject\Translations\Translation;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -31,6 +32,7 @@ class PageManager
     protected \ILIAS\Style\Content\DomainService $content_style_domain;
 
     public function __construct(
+        \ilDBInterface $db,
         InternalDomainService $domain_service,
         \ILIAS\Style\Content\DomainService $content_style_domain,
         \ilContainer $container,
@@ -41,8 +43,8 @@ class PageManager
         $this->container = $container;
         $user = $this->domain_service->user();
         if (is_null($lang)) {
-            $ot = \ilObjectTranslation::getInstance($this->container->getId());
-            $this->lang = $ot->getEffectiveContentLang($user->getCurrentLanguage(), "cont");
+            $ot = new Translation($db, $this->container->getId());
+            $this->lang = $ot->getEffectiveCOPageLang($user->getCurrentLanguage(), "cont");
         } else {
             $this->lang = $lang;
         }

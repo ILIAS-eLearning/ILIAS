@@ -22,6 +22,7 @@ use ILIAS\ContentPage\PageMetrics\Command\StorePageMetricsCommand;
 use ILIAS\ContentPage\PageMetrics\PageMetricsRepositoryImp;
 use ILIAS\ContentPage\PageMetrics\PageMetricsService;
 use ILIAS\Style\Content\DomainService;
+use ILIAS\ILIASObject\Translations\Translation;
 
 class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
 {
@@ -44,7 +45,7 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
     private function initTranslationService(): void
     {
         if (null === $this->objTrans && $this->getId() > 0) {
-            $this->objTrans = ilObjectTranslation::getInstance($this->getId());
+            $this->objTrans = new Translation($this->db, $this->getId());
         }
     }
 
@@ -56,7 +57,7 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
         );
     }
 
-    public function getObjectTranslation(): ilObjectTranslation
+    public function getObjectTranslation(): Translation
     {
         return $this->objTrans;
     }

@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\ILIASObject\Translations;
+
+use ILIAS\ILIASObject\LocalDIC;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
@@ -25,14 +28,13 @@ use Psr\Http\Message\RequestInterface;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Input\Input;
 use ILIAS\UI\Component\Modal\Modal;
-use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 
 /**
  * GUI class for object translation handling.
  *
  * @author Alex Killing <alex.killing@gmx.de>
  */
-class ilObjectTranslationGUI
+class TranslationGUI
 {
     protected const CMD_LIST_TRANSLATIONS = 'listTranslations';
     protected const CMD_SAVE_TRANSLATIONS = 'saveTranslations';
@@ -43,28 +45,29 @@ class ilObjectTranslationGUI
     protected const CMD_SET_FALLBACK = 'setFallback';
     protected const CMD_DEACTIVATE_CONTENT_MULTILANG = 'deactivateContentMultiLang';
     protected const CMD_SAVE_CONTENT_TRANSLATION_ACTIVATION = 'saveContentTranslationActivation';
-    protected ilToolbarGUI $toolbar;
-    protected ilObjUser $user;
-    protected ilAccess $access;
-    protected ilLanguage $lng;
-    protected ilCtrl $ctrl;
-    protected ilGlobalTemplateInterface $tpl;
+
+    protected \ilToolbarGUI $toolbar;
+    protected \ilObjUser $user;
+    protected \ilLanguage $lng;
+    protected \ilAccess $access;
+    protected \ilCtrl $ctrl;
+    protected \ilGlobalTemplateInterface $tpl;
     protected UIFactory $ui_factory;
     protected Renderer $ui_renderer;
     protected ArrayBasedRequestWrapper $post_wrapper;
     protected RequestInterface $request;
     protected Refinery $refinery;
 
-    protected ilObjectGUI $obj_gui;
-    protected ilObject $obj;
-    protected ilObjectTranslation $obj_trans;
+    protected \ilObjectGUI $obj_gui;
+    protected \ilObject $obj;
+    protected Translation $obj_trans;
 
     protected bool $title_descr_only = true;
     protected bool $hide_description = false;
     protected bool $fallback_lang_mode = true;
     protected bool $support_content_translation = true;
 
-    public function __construct($obj_gui)
+    public function __construct(\ilObjectGUI $obj_gui)
     {
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
@@ -84,7 +87,7 @@ class ilObjectTranslationGUI
         $this->obj_gui = $obj_gui;
         $this->obj = $obj_gui->getObject();
 
-        $this->obj_trans = ilObjectTranslation::getInstance($this->obj->getId());
+        $this->obj_trans = LocalDIC::dic()['translations.repository']->getFor($this->obj->getId());
     }
 
     public function hideDescription(bool $hide): void
@@ -206,10 +209,10 @@ class ilObjectTranslationGUI
 
     public function listTranslations(bool $get_post_values = false, bool $add = false): void
     {
-        $this->lng->loadLanguageModule(ilObject::_lookupType($this->obj->getId()));
+        $this->lng->loadLanguageModule(\ilObject::_lookupType($this->obj->getId()));
 
         $add_langs_modal = $this->getAddLanguagesModal();
-        if ($this->getTitleDescrOnlyMode() || $this->obj_trans->getContentActivated()) {
+        if ($this->getTitleDescrOnlyMode() || $this->obj_trans->getCOPageTranslationActivated()) {
             $this->toolbar->addComponent(
                 $this->ui_factory->button()->standard(
                     $this->lng->txt('obj_add_languages'),
@@ -222,7 +225,7 @@ class ilObjectTranslationGUI
             $content_translation_modal = $this->addContentTranslationToolbarActionAndRetrieveCorrespondingModal();
         }
 
-        $table = new ilObjectTranslation2TableGUI(
+        $table = new \ilObjectTranslation2TableGUI(
             $this,
             self::CMD_LIST_TRANSLATIONS,
             !$this->hide_description,
@@ -265,12 +268,12 @@ class ilObjectTranslationGUI
             $deactivation_modal_text_tag = 'obj_deactivate_content_transl_conf';
         }
 
-        if ($this->getTitleDescrOnlyMode() && !$this->obj_trans->getContentActivated()) {
+        if ($this->getTitleDescrOnlyMode() && !$this->obj_trans->getCOPageTranslationActivated()) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('obj_multilang_title_descr_only'));
         }
 
         $activate_modal = $this->getActivateMultilingualityModal();
-        if (!$this->obj_trans->getContentActivated()) {
+        if (!$this->obj_trans->getCOPageTranslationActivated()) {
             $this->toolbar->addComponent(
                 $this->ui_factory->button()->standard(
                     $this->lng->txt('obj_activate' . $lang_var_postfix),
@@ -393,14 +396,14 @@ class ilObjectTranslationGUI
                 $is_default = ($this->obj_trans->getMasterLanguage() === $languages[$k]);
             }
             if ($languages[$k] === $obj_store_lang) {
-                $this->obj->setTitle(ilUtil::stripSlashes($v));
-                $this->obj->setDescription(ilUtil::stripSlashes($descriptions[$k] ?? ''));
+                $this->obj->setTitle(\ilUtil::stripSlashes($v));
+                $this->obj->setDescription(\ilUtil::stripSlashes($descriptions[$k] ?? ''));
             }
 
             $this->obj_trans->addLanguage(
-                ilUtil::stripSlashes($languages[$k]),
-                ilUtil::stripSlashes($v),
-                ilUtil::stripSlashes($descriptions[$k] ?? ''),
+                \ilUtil::stripSlashes($languages[$k]),
+                \ilUtil::stripSlashes($v),
+                \ilUtil::stripSlashes($descriptions[$k] ?? ''),
                 $is_default
             );
         }
@@ -548,7 +551,7 @@ class ilObjectTranslationGUI
             $this->ctrl->redirect($this, self::CMD_LIST_TRANSLATIONS);
         }
 
-        $cgui = new ilConfirmationGUI();
+        $cgui = new \ilConfirmationGUI();
         $cgui->setFormAction($this->ctrl->getFormAction($this));
         $cgui->setHeaderText($this->lng->txt('obj_conf_delete_lang'));
         $cgui->setCancel($this->lng->txt('cancel'), self::CMD_LIST_TRANSLATIONS);

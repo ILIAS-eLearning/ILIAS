@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Container\Content\ViewManager;
 use ILIAS\Refinery;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
+use ILIAS\ILIASObject\Translations\TranslationGUI;
 
 /**
  * Class ilObjStudyProgrammeGUI class
@@ -32,7 +33,7 @@ use ILIAS\HTTP\Wrapper\RequestWrapper;
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeMembersGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeAutoMembershipsGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjectCopyGUI
- * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjectTranslationGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeGUI: ILIAS\ILIASObject\Translations\TranslationGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilCertificateGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeAutoCategoriesGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilContainerGUI
@@ -221,12 +222,12 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 $gui = new ilobjectcopygui($this);
                 $this->ctrl->forwardCommand($gui);
                 break;
-            case 'ilobjecttranslationgui':
+            case strtolower(TranslationGUI::class):
                 $this->denyAccessIfNot(ilPRGPermissionsHelper::ROLEPERM_WRITE);
                 $this->getSubTabs('settings');
                 $this->tabs_gui->activateTab(self::TAB_SETTINGS);
                 $this->tabs_gui->activateSubTab('settings_trans');
-                $transgui = new ilObjectTranslationGUI($this);
+                $transgui = new TranslationGUI($this);
                 $this->ctrl->forwardCommand($transgui);
                 break;
             case "ilcertificategui":
@@ -601,7 +602,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 $this->tabs_gui->addSubTab(
                     "settings_trans",
                     $this->lng->txt("obj_multilinguality"),
-                    $this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", "")
+                    $this->ctrl->getLinkTargetByClass(TranslationGUI::class, "")
                 );
 
                 $validator = new ilCertificateActiveValidator();

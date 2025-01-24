@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Folder\StandardGUIRequest;
+use ILIAS\ILIASObject\Translations\TranslationGUI;
 
 /**
  * Class ilObjFolderGUI
@@ -30,7 +31,7 @@ use ILIAS\Folder\StandardGUIRequest;
  * @ilCtrl_Calls ilObjFolderGUI: ilInfoScreenGUI, ilContainerPageGUI, ilColumnGUI
  * @ilCtrl_Calls ilObjFolderGUI: ilObjectCopyGUI, ilObjectContentStyleSettingsGUI
  * @ilCtrl_Calls ilObjFolderGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilDidacticTemplateGUI
- * @ilCtrl_Calls ilObjFolderGUI: ilBackgroundTaskHub, ilObjectTranslationGUI, ilRepositoryTrashGUI
+ * @ilCtrl_Calls ilObjFolderGUI: ilBackgroundTaskHub, ILIAS\ILIASObject\Translations\TranslationGUI, ilRepositoryTrashGUI
  */
 class ilObjFolderGUI extends ilContainerGUI
 {
@@ -199,11 +200,11 @@ class ilObjFolderGUI extends ilContainerGUI
                 $this->viewObject();
                 break;
 
-            case 'ilobjecttranslationgui':
+            case strtolower(TranslationGUI::class):
                 $this->checkPermissionBool("write");
                 $this->prepareOutput();
                 $this->setSubTabs("settings_trans");
-                $transgui = new ilObjectTranslationGUI($this);
+                $transgui = new TranslationGUI($this);
                 $this->ctrl->forwardCommand($transgui);
                 break;
 
@@ -584,7 +585,7 @@ class ilObjFolderGUI extends ilContainerGUI
         $this->tabs_gui->addSubTab(
             "settings_trans",
             $this->lng->txt("obj_multilinguality"),
-            $this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", "")
+            $this->ctrl->getLinkTargetByClass(TranslationGUI::class, "")
         );
 
         $ilTabs->activateSubTab($a_tab);

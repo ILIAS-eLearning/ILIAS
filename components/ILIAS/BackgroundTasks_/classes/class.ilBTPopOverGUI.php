@@ -27,6 +27,7 @@ use ILIAS\BackgroundTasks\Task\UserInteraction;
 use ILIAS\UI\Component\Button\Button;
 use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Component\Legacy\Content;
 use ILIAS\BackgroundTasks\Task\Job;
 
 /**

@@ -22,6 +22,7 @@ use ILIAS\DI\UIServices;
 use ILIAS\Repository\Clipboard\ClipboardManager;
 use ILIAS\Container\StandardGUIRequest;
 use ILIAS\Container\Content\ModeManager;
+use ILIAS\ILIASObject\Translations\TranslationGUI;
 
 /**
  * Class ilContainerGUI
@@ -308,8 +309,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->tpl->parseCurrentBlock();
 
         // get page object
-        $ot = ilObjectTranslation::getInstance($this->object->getId());
-        $lang = $ot->getEffectiveContentLang($ilUser->getCurrentLanguage(), "cont");
+        $ot = $this->object->getObjectTranslation();
+        $lang = $ot->getEffectiveCOPageLang($ilUser->getCurrentLanguage(), "cont");
         $page_gui = new ilContainerPageGUI($this->object->getId(), 0, $lang);
         $style = $this->content_style_domain->styleForRefId($this->object->getRefId());
         $page_gui->setStyleId($style->getEffectiveStyleId());
@@ -2223,7 +2224,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     {
         $trans = null;
         if ($this->getCreationMode() === false) {
-            /** @var ilObjectTranslation $trans */
+            /** @var ILIAS\ILIASObject\Translations\Translation $trans */
             $trans = $this->object->getObjectTranslation();
         }
         $title = new ilTextInputGUI($this->lng->txt("title"), "title");
@@ -2236,7 +2237,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             $languages = $this->domain->metadata()->getLOMLanguagesForSelectInputs();
             $title->setInfo(
                 $this->lng->txt("language") . ": " . $languages[$trans->getDefaultLanguage()] .
-                ' <a href="' . $this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", "") .
+                ' <a href="' . $this->ctrl->getLinkTargetByClass(TranslationGUI::class, "") .
                 '">&raquo; ' . $this->lng->txt("obj_more_translations") . '</a>'
             );
 

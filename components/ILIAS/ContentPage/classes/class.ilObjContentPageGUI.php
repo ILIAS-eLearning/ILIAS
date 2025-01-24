@@ -25,6 +25,8 @@ use ILIAS\ContentPage\PageMetrics\Event\PageUpdatedEvent;
 use ILIAS\DI\Container;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+use ILIAS\ILIASObject\Translations\Translation;
+use ILIAS\ILIASObject\Translations\TranslationGUI;
 
 /**
  * @ilCtrl_isCalledBy ilObjContentPageGUI: ilRepositoryGUI
@@ -37,7 +39,7 @@ use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
  * @ilCtrl_Calls      ilObjContentPageGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilContentPagePageGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilObjectContentStyleSettingsGUI
- * @ilCtrl_Calls      ilObjContentPageGUI: ilObjectTranslationGUI
+ * @ilCtrl_Calls      ilObjContentPageGUI: ILIAS\ILIASObject\Translations\TranslationGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilPageMultiLangGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilMDEditorGUI
  */
@@ -54,6 +56,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
     private readonly \ILIAS\DI\UIServices $uiServices;
     private readonly bool $in_page_editor_style_context;
     private readonly LOMServices $lom_services;
+    private readonly Translation $translation;
 
     public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
@@ -90,6 +93,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $this->content_style_gui = $cs->gui();
         if (is_object($this->object)) {
             $this->content_style_domain = $cs->domain()->styleForRefId($this->object->getRefId());
+            $this->translation = new Translation($DIC->database(), $this->object->getId());
         }
 
         $this->in_page_editor_style_context = $this->http->wrapper()->query()->has(
@@ -226,14 +230,14 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         }
 
         switch (strtolower($nextClass)) {
-            case strtolower(ilObjectTranslationGUI::class):
+            case strtolower(TranslationGUI::class):
                 $this->checkPermission('write');
 
                 $this->prepareOutput();
                 $this->tabs_gui->activateTab(self::UI_TAB_ID_SETTINGS);
                 $this->setSettingsSubTabs(self::UI_TAB_ID_I18N);
 
-                $transgui = new ilObjectTranslationGUI($this);
+                $transgui = new TranslationGUI($this);
                 $this->ctrl->forwardCommand($transgui);
                 break;
 
@@ -293,6 +297,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                     $this->tabs_gui,
                     $this->lng,
                     $obj,
+                    $this->translation,
                     $this->user,
                     $this->refinery,
                     $this->content_style_domain
@@ -474,7 +479,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
             $this->tabs_gui->addSubTab(
                 self::UI_TAB_ID_I18N,
                 $this->lng->txt('obj_multilinguality'),
-                $this->ctrl->getLinkTargetByClass(ilObjectTranslationGUI::class)
+                $this->ctrl->getLinkTargetByClass(TranslationGUI::class)
             );
 
             $this->tabs_gui->activateSubTab($activeTab);
@@ -541,6 +546,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $this->tabs_gui,
                 $this->lng,
                 $this->object,
+                $this->translation,
                 $this->user,
                 $this->refinery,
                 $this->content_style_domain

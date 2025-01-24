@@ -23,7 +23,7 @@ The naming of variables/concepts has become inconsistent over time.
 
 ### Default Language
 
-- The `ilObjectTranslation` class contains methods to get the default language, description and title, as well to set the default title and description.
+- The `ILIAS\ILIASObject\Translations\Translation` class contains methods to get the default language, description and title, as well to set the default title and description.
 - Default language here means: Fallback language, if given, master language otherwise.
 
 ## Storing title/description

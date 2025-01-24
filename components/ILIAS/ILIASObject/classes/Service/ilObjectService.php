@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Object\ilObjectDIC;
+use ILIAS\ILIASObject\LocalDIC;
 
 class ilObjectService
 {
@@ -29,7 +29,7 @@ class ilObjectService
      */
     public function commonSettings(): \ilObjectCommonSettings
     {
-        $object_dic = ilObjectDIC::dic();
-        return $object_dic['common_settings'];
+        $object_dic = LocalDIC::dic();
+        return $object_dic['settings.common'];
     }
 }

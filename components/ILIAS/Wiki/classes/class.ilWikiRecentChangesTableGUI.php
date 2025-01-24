@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\ILIASObject\Translations\Translation;
+
 /**
  * TableGUI class for recent changes in wiki
  *
@@ -25,7 +27,7 @@ class ilWikiRecentChangesTableGUI extends ilTable2GUI
 {
     protected int $requested_ref_id;
     protected int $wiki_id = 0;
-    protected ilObjectTranslation $ot;
+    protected Translation $ot;
     protected \ILIAS\Wiki\Page\PageManager $pm;
 
     public function __construct(
@@ -51,7 +53,7 @@ class ilWikiRecentChangesTableGUI extends ilTable2GUI
 
         $this->addColumn($this->lng->txt("wiki_last_changed"));
         $this->addColumn($this->lng->txt("wiki_page"));
-        if ($this->ot->getContentActivated()) {
+        if ($this->ot->getCOPageTranslationActivated()) {
             $this->addColumn($this->lng->txt("language"));
         }
         $this->addColumn($this->lng->txt("wiki_last_changed_by"));
@@ -90,7 +92,7 @@ class ilWikiRecentChangesTableGUI extends ilTable2GUI
     {
         $ilCtrl = $this->ctrl;
 
-        if ($this->ot->getContentActivated()) {
+        if ($this->ot->getCOPageTranslationActivated()) {
             $l = $a_set["lang"];
             if ($l === "-") {
                 $l = $this->ot->getMasterLanguage();

@@ -22,6 +22,7 @@ use ILIAS\ContentPage\PageMetrics\Event\PageUpdatedEvent;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Style\Content\Object\ObjectFacade;
+use ILIAS\ILIASObject\Translations\Translation;
 
 class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
 {
@@ -53,6 +54,7 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
         protected ilTabsGUI $tabs,
         protected ilLanguage $lng,
         protected ilObjContentPage $parentObject,
+        protected Translation $translation,
         protected ilObjUser $actor,
         protected Refinery $refinery,
         protected ObjectFacade $content_style_domain
@@ -229,8 +231,7 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
      */
     public function forward(string $ctrlLink = ''): string
     {
-        $ot = ilObjectTranslation::getInstance($this->parentObject->getId());
-        $language = $ot->getEffectiveContentLang($this->actor->getCurrentLanguage(), $this->parentObject->getType());
+        $language = $this->translation->getEffectiveCOPageLang($this->actor->getCurrentLanguage(), $this->parentObject->getType());
 
         switch ($this->presentationMode) {
             case self::PRESENTATION_MODE_EDITING:

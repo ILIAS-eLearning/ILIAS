@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\News\Service as News;
+use ILIAS\ILIASObject\Translations\Translation;
 
 /**
  * Class ilContainer
@@ -75,7 +76,7 @@ class ilContainer extends ilObject
     protected bool $news_timeline = false;
     protected bool $news_timeline_auto_entries = false;
     protected ilSetting $setting;
-    protected ?ilObjectTranslation $obj_trans = null;
+    protected ?Translation $obj_trans = null;
     protected int $style_id = 0;
     protected bool $news_timeline_landing_page = false;
     protected bool $news_block_activated = false;
@@ -104,7 +105,7 @@ class ilContainer extends ilObject
         parent::__construct($a_id, $a_reference);
 
         if ($this->getId() > 0) {
-            $this->obj_trans = ilObjectTranslation::getInstance($this->getId());
+            $this->obj_trans = new Translation($this->db, $this->getId());
         }
         $this->recommended_content_manager = new ilRecommendedContentManager();
         $this->content_style_domain = $DIC->contentStyle()->domain();
@@ -126,12 +127,12 @@ class ilContainer extends ilObject
         ];
     }
 
-    public function getObjectTranslation(): ?ilObjectTranslation
+    public function getObjectTranslation(): ?Translation
     {
         return $this->obj_trans;
     }
 
-    public function setObjectTranslation(?ilObjectTranslation $obj_trans): void
+    public function setObjectTranslation(?Translation $obj_trans): void
     {
         $this->obj_trans = $obj_trans;
     }
@@ -412,10 +413,10 @@ class ilContainer extends ilObject
         $log = ilLoggerFactory::getLogger("cont");
 
         // translations
-        $ot = ilObjectTranslation::getInstance($this->getId());
+        $ot = new Translation($this->db, $this->getId());
         $ot->setDefaultTitle($new_obj->getTitle());     // get possible "- COPY" extension
         $ot->copy($new_obj->getId());
-        $ot2 = ilObjectTranslation::getInstance($new_obj->getId());
+        $ot2 = Translation($this->db, $new_obj->getId());
         $ot2->read();
         $new_obj->setObjectTranslation($ot2);
         if ($ot2->getDefaultDescription() !== "") {
@@ -827,7 +828,7 @@ class ilContainer extends ilObject
         $ret = parent::create();
 
         // set translation object, since we have an object id now
-        $this->obj_trans = ilObjectTranslation::getInstance($this->getId());
+        $this->obj_trans = new Translation($this->db, $this->getId());
 
         // add default translation
         $this->addTranslation(
@@ -905,7 +906,7 @@ class ilContainer extends ilObject
         //$this->setStyleSheetId(ilObjStyleSheet::lookupObjectStyle($this->getId()));
 
         $this->readContainerSettings();
-        $this->obj_trans = ilObjectTranslation::getInstance($this->getId());
+        $this->obj_trans = new Translation($this->db, $this->getId());
     }
 
     public function readContainerSettings(): void

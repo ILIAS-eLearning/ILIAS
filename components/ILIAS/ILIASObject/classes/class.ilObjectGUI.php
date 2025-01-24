@@ -30,7 +30,7 @@ use ILIAS\UI\Component\Input\Field\Radio;
 use ILIAS\UI\Component\Modal\RoundTrip;
 use ILIAS\Object\ImplementsCreationCallback;
 use ILIAS\Object\CreationCallbackTrait;
-use ILIAS\Object\ilObjectDIC;
+use ILIAS\ILIASObject\LocalDIC;
 use ILIAS\Object\Properties\MultiObjectPropertiesManipulator;
 use ILIAS\ILIASObject\Creation\AddNewItemElement;
 use ILIAS\ILIASObject\Creation\AddNewItemElementTypes;
@@ -214,7 +214,7 @@ class ilObjectGUI implements ImplementsCreationCallback
     private function getMultiObjectPropertiesManipulator(): MultiObjectPropertiesManipulator
     {
         if (!isset($this->multi_object_manipulator)) {
-            $this->multi_object_manipulator = ilObjectDIC::dic()['multi_object_properties_manipulator'];
+            $this->multi_object_manipulator = LocalDIC::dic()['properties.multi_manipulator'];
         }
         return $this->multi_object_manipulator;
     }

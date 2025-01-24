@@ -17,12 +17,14 @@
  *********************************************************************/
 
 use ILIAS\ItemGroup\StandardGUIRequest;
+use ILIAS\ILIASObject\Translations\TranslationGUI;
 
 /**
  * User Interface class for item groups
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilObjItemGroupGUI: ilPermissionGUI, ilDidacticTemplateGUI
- * @ilCtrl_Calls ilObjItemGroupGUI: ilCommonActionDispatcherGUI, ilObjectCopyGUI, ilObjectTranslationGUI
+ * @ilCtrl_Calls ilObjItemGroupGUI: ilCommonActionDispatcherGUI, ilObjectCopyGUI,
+ * @ilCtrl_Calls ilObjItemGroupGUI: ILIAS\ILIASObject\Translations\TranslationGUI,
  * @ilCtrl_isCalledBy ilObjItemGroupGUI: ilRepositoryGUI, ilAdministrationGUI
  */
 class ilObjItemGroupGUI extends ilObject2GUI
@@ -85,11 +87,11 @@ class ilObjItemGroupGUI extends ilObject2GUI
                 $this->ctrl->forwardCommand($gui);
                 break;
 
-            case 'ilobjecttranslationgui':
+            case strtolower(TranslationGUI::class):
                 $this->checkPermissionBool("write");
                 $this->prepareOutput();
                 $this->setSettingsSubTabs("settings_trans");
-                $transgui = new ilObjectTranslationGUI($this);
+                $transgui = new TranslationGUI($this);
                 $transgui->setEnableFallbackLanguage(false);
                 $transgui->supportContentTranslation(false);
                 $transgui->hideDescription(true);
@@ -326,7 +328,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $this->tabs_gui->addSubTab(
             "settings_trans",
             $this->lng->txt("obj_multilinguality"),
-            $this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", "")
+            $this->ctrl->getLinkTargetByClass(TranslationGUI::class, "")
         );
         $this->tabs_gui->activateTab("settings");
         $this->tabs_gui->activateSubTab($active_tab);

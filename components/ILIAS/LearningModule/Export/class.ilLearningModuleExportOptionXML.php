@@ -26,10 +26,12 @@ use ILIAS\Export\ExportHandler\I\Consumer\Context\HandlerInterface as ilExportHa
 class ilLearningModuleExportOptionXML extends ilLegacyExportOption
 {
     protected ilLanguage $lng;
+    protected ilDBInterface $db;
 
     public function init(Container $DIC): void
     {
         $this->lng = $DIC->language();
+        $this->db = $DIC->database();
         parent::init($DIC);
     }
 
@@ -51,8 +53,8 @@ class ilLearningModuleExportOptionXML extends ilLegacyExportOption
     public function isObjectSupported(
         ObjectId $object_id
     ): bool {
-        $ot = ilObjectTranslation::getInstance($object_id->toInt());
-        return $ot->getContentActivated();
+        $ot = new Translation($this->db, $object_id->toInt());
+        return $ot->getCOPageTranslationActivated();
     }
 
     public function isPublicAccessPossible(): bool

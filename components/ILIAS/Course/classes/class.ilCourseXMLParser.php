@@ -18,6 +18,8 @@
 
 declare(strict_types=0);
 
+use ILIAS\ILIASObject\Translations\Translation;
+
 /**
  * Course XML Parser
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -43,6 +45,7 @@ class ilCourseXMLParser extends ilSaxParser implements ilSaxSubsetParser
     private ?ilObjCourse $course_obj;
     private ?ilLogger $log;
     protected ilSetting $setting;
+    protected Translation $translation;
     protected ilSaxController $sax_controller;
     protected ilCourseParticipants $course_members;
     protected ilCourseWaitingList $course_waiting_list;
@@ -58,6 +61,7 @@ class ilCourseXMLParser extends ilSaxParser implements ilSaxSubsetParser
         $this->log = $DIC->logger()->crs();
         $this->setting = $DIC->settings();
         $this->course_obj = $a_course_obj;
+        $this->translation = new Translation($DIC->database(), $this->course_obj->getId());
         $this->course_members = ilCourseParticipants::_getInstanceByObjId($this->course_obj->getId());
         $this->course_waiting_list = new ilCourseWaitingList($this->course_obj->getId());
         // flip the array so we can use array_key_exists
@@ -482,7 +486,7 @@ class ilCourseXMLParser extends ilSaxParser implements ilSaxSubsetParser
 
                 $this->course_obj->readContainerSettings();
                 // see #26169
-                $transl = ilObjectTranslation::getInstance($this->course_obj->getId());
+                $transl = $this->translation;
                 if ($transl->getDefaultTitle() !== "") {
                     $this->course_obj->setTitle($transl->getDefaultTitle());
                 }

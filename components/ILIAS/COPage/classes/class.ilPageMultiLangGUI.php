@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\ILIASObject\Translations\Translation;
+
 /**
  * Page multilinguality GUI class.
  * This could be generalized as an object service in the future.
@@ -24,7 +26,7 @@
  */
 class ilPageMultiLangGUI
 {
-    protected ilObjectTranslation $ot;
+    protected Translation $ot;
     protected \ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected bool $single_page_mode = false;
@@ -48,7 +50,7 @@ class ilPageMultiLangGUI
         //$this->ml = new ilPageMultiLang($a_parent_type, $a_parent_id);
 
         // object translation
-        $this->ot = ilObjectTranslation::getInstance($a_parent_id);
+        $this->ot = new Translation($DIC->database(), $a_parent_id);
     }
 
     /**
