@@ -764,36 +764,32 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
     private function renderThreadOverview(ilForum $frm, ForumDto $frm_object): void
     {
-        $data_objects = $this->forum_thread_table_session_storage->fetchData($frm, $frm_object);
+        $threads_page = $this->forum_thread_table_session_storage->fetchData($frm, $frm_object);
 
         $top_group = [];
         $thread_group = [];
 
-        if (count($data_objects) > 0) {
-            foreach ($data_objects as $thread) {
-                if (array_key_exists('thread', $thread)) {
-                    /** @var ilForumTopic $current_thread */
-                    $current_thread = $thread['thread'];
-                    $ref_id = $this->object->getRefId();
-                    $subject = $current_thread->getSubject();
-                    if ($current_thread->isClosed()) {
-                        $subject .= ' (' . $this->lng->txt('forums_closed') . ')';
-                    }
+        if (count($threads_page->getForumTopics()) > 0) {
+            foreach ($threads_page->getForumTopics() as $thread) {
+                $ref_id = $this->object->getRefId();
+                $subject = $thread->getSubject();
+                if ($thread->isClosed()) {
+                    $subject .= ' (' . $this->lng->txt('forums_closed') . ')';
+                }
 
-                    $link = $this->getLinkActionForThread($ref_id, $subject, 'viewThread', $current_thread->getId());
-                    $actions = $this->getActionsForThreadOverview($ref_id, $current_thread);
+                $link = $this->getLinkActionForThread($ref_id, $subject, 'viewThread', $thread->getId());
+                $actions = $this->getActionsForThreadOverview($ref_id, $thread);
 
-                    $list_item = $this->factory
-                        ->item()
-                        ->standard($link)
-                        ->withActions($actions)
-                        ->withProperties($this->getThreadProperties($current_thread));
-                    $list_item = $this->markTopThreadInOverview($current_thread, $list_item);
-                    if ($current_thread->isSticky()) {
-                        $top_group[] = $list_item;
-                    } else {
-                        $thread_group[] = $list_item;
-                    }
+                $list_item = $this->factory
+                    ->item()
+                    ->standard($link)
+                    ->withActions($actions)
+                    ->withProperties($this->getThreadProperties($thread));
+                $list_item = $this->markTopThreadInOverview($thread, $list_item);
+                if ($thread->isSticky()) {
+                    $top_group[] = $list_item;
+                } else {
+                    $thread_group[] = $list_item;
                 }
             }
         }

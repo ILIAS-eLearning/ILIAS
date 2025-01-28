@@ -50,7 +50,7 @@ class ForumThreadTableSessionStorage
         $this->refinery = $refinery ?? $DIC->refinery();
     }
 
-    public function fetchData(ilForum $forum, ForumDto $topicData): array
+    public function fetchData(ilForum $forum, ForumDto $topicData): ThreadsPage
     {
         $sortation = $this->getThreadSortation();
         $page = $this->getThreadPage();
@@ -79,13 +79,11 @@ class ForumThreadTableSessionStorage
             );
         }
 
-        $temp_data = (array_map(static function (ilForumTopic $thread): array {
-            return ['thread' => $thread];
-        }, $data['items']));
+        $items = $data['items'];
 
         $thread_ids = [];
         $user_ids = [];
-        foreach ($data['items'] as $thread) {
+        foreach ($items as $thread) {
             /** @var ilForumTopic $thread */
             $thread_ids[] = $thread->getId();
             if ($thread->getDisplayUserId() > 0) {
@@ -100,7 +98,7 @@ class ForumThreadTableSessionStorage
 
         ilForumAuthorInformationCache::preloadUserObjects(array_unique($user_ids));
 
-        return $temp_data;
+        return new ThreadsPage($items);
     }
 
     public function getThreadSortation(): ThreadSortation
