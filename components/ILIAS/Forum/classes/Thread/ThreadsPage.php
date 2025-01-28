@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 
-
 namespace ILIAS\Forum\Thread;
 
 use ilForumTopic;
