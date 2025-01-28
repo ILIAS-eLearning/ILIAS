@@ -33,21 +33,18 @@ use ThreadSortation;
 
 class ForumThreadTableSessionStorage
 {
-    public const KEY_THREAD_SORTATION = 'thread_sortation';
-    public const KEY_THREAD_PAGE = 'thread_page';
+    public const string KEY_THREAD_SORTATION = 'thread_sortation';
+    public const string KEY_THREAD_PAGE = 'thread_page';
 
     private WrapperFactory $http_wrapper;
     private Factory $refinery;
 
     public function __construct(
-        private int $forum_ref_id,
-        private bool $is_moderator,
-        ?WrapperFactory $http_wrapper = null,
-        ?Factory $refinery = null
+        private readonly int  $forum_ref_id,
+        private readonly bool $is_moderator,
+        ?WrapperFactory       $http_wrapper = null,
+        ?Factory              $refinery = null
     ) {
-        $this->forum_ref_id = $forum_ref_id;
-        $this->is_moderator = $is_moderator;
-
         global $DIC;
         $this->http_wrapper = $http_wrapper ?? $DIC->http()->wrapper();
         $this->refinery = $refinery ?? $DIC->refinery();
