@@ -103,13 +103,11 @@ class ForumThreadTableSessionStorage
 
     public function getThreadSortation(): ThreadSortation
     {
-        $query_thread_sortation = $this->getKeyValueFromQuery(self::KEY_THREAD_SORTATION, ThreadSortation::DEFAULT_SORTATION->value);
+        $query_thread_sortation = $this->getKeyValueFromQuery(self::KEY_THREAD_SORTATION);
 
-        if ($query_thread_sortation !== ThreadSortation::DEFAULT_SORTATION->value) {
+        if ($query_thread_sortation !== null) {
             $this->setSessionKeyValue($this->forum_ref_id, self::KEY_THREAD_SORTATION, $query_thread_sortation);
-            return ThreadSortation::tryFrom(
-                $query_thread_sortation
-            );
+            return ThreadSortation::tryFrom($query_thread_sortation);
         }
 
         $session_thread_sortation = $this->getKeyValueFromSession(
@@ -125,9 +123,9 @@ class ForumThreadTableSessionStorage
 
     public function getThreadPage(): int
     {
-        $query_thread_page = $this->getKeyValueFromQuery(self::KEY_THREAD_PAGE, 0);
+        $query_thread_page = $this->getKeyValueFromQuery(self::KEY_THREAD_PAGE, null);
 
-        if ($query_thread_page !== 0) {
+        if ($query_thread_page !== null) {
             $this->setSessionKeyValue($this->forum_ref_id, self::KEY_THREAD_PAGE, $query_thread_page);
             return $query_thread_page;
         }
@@ -139,7 +137,7 @@ class ForumThreadTableSessionStorage
         );
     }
 
-    private function getKeyValueFromQuery(string $key, int $default): int
+    private function getKeyValueFromQuery(string $key, ?int $default = null): ?int
     {
         return $this->http_wrapper->query()->retrieve(
             $key,
