@@ -156,6 +156,7 @@ class ForumThreadTableSessionStorage
         if ($session_value === null) {
             $session_value = $default;
         }
+
         return $session_value;
     }
 
