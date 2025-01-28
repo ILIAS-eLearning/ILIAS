@@ -822,7 +822,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             );
         }
 
-        $view_controls[] = $this->getSortationViewControl($forum_thread_session_storage->getThreadPage());
+        $view_controls[] = $this->getSortationViewControl($this->forum_thread_table_session_storage->getThreadPage());
         $view_controls[] = $this->factory
             ->viewControl()
             ->pagination()
