@@ -1,4 +1,4 @@
-# How to Handle Text in ILIAS?
+# How to Represent Text in ILIAS?
 
 As an application with content management functionality, ILIAS handles text in
 various locations: on handcrafted pages, in mails, in feedbacks, comments and
@@ -128,12 +128,12 @@ interface Shape
     /**
      * @throws \InvalidArgumentException if $text does not match format. 
      */
-    public function toHTML($text) : HTMLText;
+    public function toHTML(Text $text) : HTMLText;
 
     /**
      * @throws \InvalidArgumentException if $text does not match format. 
      */
-    public function toPlainText($text) : PlainText;
+    public function toPlainText(Text $text) : PlainText;
 
     public function getMarkup() : Markup;
 
@@ -157,7 +157,7 @@ class WordOnlyMarkdownShape extends SimpleDocumentMarkdownShape
 
 class SimpleDocumentMarkdownShape extends MarkdownShape 
 {
-    /* will support paragraphs, headlines and lists on top */
+    /* will support paragraphs, headlines, lists, blockquotes, code and links on top */
 }
 
 /* ... */
