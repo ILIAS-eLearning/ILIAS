@@ -44,8 +44,7 @@ class ForumThreadTableSessionStorage
         private readonly bool $is_moderator,
         ?WrapperFactory       $http_wrapper = null,
         ?Factory              $refinery = null
-    )
-    {
+    ) {
         global $DIC;
         $this->http_wrapper = $http_wrapper ?? $DIC->http()->wrapper();
         $this->refinery = $refinery ?? $DIC->refinery();
