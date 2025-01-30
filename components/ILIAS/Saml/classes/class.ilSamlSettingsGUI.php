@@ -22,6 +22,7 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\DI\RBACServices;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Data\Factory;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 
 final class ilSamlSettingsGUI
@@ -568,106 +569,126 @@ final class ilSamlSettingsGUI
         ]));
     }
 
-    private function getIdpSettingsForm(): ilPropertyFormGUI
+    private function getIdpSettingsForm(array $values = []): StandardForm
     {
-        $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this, self::CMT_SAVE_IDP_SETTINGS));
-        $form->setTitle(sprintf($this->lng->txt('auth_saml_configure_idp'), $this->idp->getEntityId()));
+        $ui_field = $this->ui_factory->input()->field();
 
-        $idp = new ilTextInputGUI($this->lng->txt('auth_saml_idp'), 'entity_id');
-        $idp->setDisabled(true);
-        $form->addItem($idp);
+        /** @var FormInput[] $inputs */
+        $inputs = [
+            $ui_field->text(
+                $this->lng->txt('auth_saml_idp')
+            )->withValue($values['entity_id'] ?? "")->withDisabled(true),
+            self::METADATA_STORAGE_KEY => $ui_field->textarea(
+                $this->lng->txt('auth_saml_add_idp_md_label'),
+                $this->lng->txt('auth_saml_add_idp_md_info')
+            )
+                ->withoutStripTags()
+                ->withValue($values[self::METADATA_STORAGE_KEY] ?? "")
+                ->withRequired(true)
+                ->withDedicatedName(self::METADATA_STORAGE_KEY),
+            'allow_local_auth' => $ui_field->checkbox(
+                $this->lng->txt('auth_allow_local'),
+                $this->lng->txt('auth_allow_local_info')
+            )->withValue((bool) ($values['allow_local_auth'] ?? true)),
+            'uid_claim' => $ui_field->text(
+                $this->lng->txt('auth_saml_uid_claim'),
+                $this->lng->txt('auth_saml_uid_claim_info')
+            )->withValue($values['uid_claim'] ?? "")->withRequired(true),
+            'sync_status' => $ui_field->optionalGroup(
+                [
+                'login_claim' => $ui_field->text(
+                    $this->lng->txt('auth_saml_username_claim'),
+                    $this->lng->txt('auth_saml_username_claim_info')
+                )->withRequired(true),
+                'default_role_id' => $ui_field->select(
+                    $this->lng->txt('auth_saml_role_select'),
+                    $this->prepareRoleSelection()
+                )->withRequired(true),
+                'account_migr_status' => $ui_field->checkbox(
+                    $this->lng->txt('auth_saml_migration'),
+                    $this->lng->txt('auth_saml_migration_info')
+                )
+            ],
+                $this->lng->txt('auth_saml_sync'),
+                $this->lng->txt('auth_saml_sync_info')
+            )->withValue(
+                (isset($values['sync_status']) && $values['sync_status'])
+                ? [
+                    'login_claim' => $values['login_claim'] ?? "",
+                    'default_role_id' => $values['default_role_id'] ?? array_key_first($this->prepareRoleSelection()),
+                    'account_migr_status' => (bool) ($values['account_migr_status'] ?? true)
+                ]
+                : null
+            )
+        ];
 
-        $this->addMetadataElement($form);
-
-        $local = new ilCheckboxInputGUI($this->lng->txt('auth_allow_local'), 'allow_local_auth');
-        $local->setValue('1');
-        $local->setInfo($this->lng->txt('auth_allow_local_info'));
-        $form->addItem($local);
-
-        $uid_claim = new ilTextInputGUI($this->lng->txt('auth_saml_uid_claim'), 'uid_claim');
-        $uid_claim->setInfo($this->lng->txt('auth_saml_uid_claim_info'));
-        $uid_claim->setRequired(true);
-        $form->addItem($uid_claim);
-
-        $sync = new ilCheckboxInputGUI($this->lng->txt('auth_saml_sync'), 'sync_status');
-        $sync->setInfo($this->lng->txt('auth_saml_sync_info'));
-        $sync->setValue('1');
-
-        $username_claim = new ilTextInputGUI($this->lng->txt('auth_saml_username_claim'), 'login_claim');
-        $username_claim->setInfo($this->lng->txt('auth_saml_username_claim_info'));
-        $username_claim->setRequired(true);
-        $sync->addSubItem($username_claim);
-
-        $role = new ilSelectInputGUI($this->lng->txt('auth_saml_role_select'), 'default_role_id');
-        $role->setOptions($this->prepareRoleSelection());
-        $role->setRequired(true);
-        $sync->addSubItem($role);
-
-        $migr = new ilCheckboxInputGUI($this->lng->txt('auth_saml_migration'), 'account_migr_status');
-        $migr->setInfo($this->lng->txt('auth_saml_migration_info'));
-        $migr->setValue('1');
-        $sync->addSubItem($migr);
-        $form->addItem($sync);
-
-        if (!$this->rbac->system()->checkAccess(self::PERMISSION_WRITE, $this->ref_id)) {
-            foreach ($form->getItems() as $item) {
-                $item->setDisabled(true);
+        $write_access = $this->rbac->system()->checkAccess(self::PERMISSION_WRITE, $this->ref_id);
+        $inputs = array_map(static function (FormInput $input) use ($write_access) {
+            if (!$write_access) {
+                $input = $input->withDisabled(true);
             }
-        } else {
-            $form->addCommandButton(self::CMT_SAVE_IDP_SETTINGS, $this->lng->txt(self::CMD_SAVE));
-        }
-        $form->addCommandButton(self::DEFAULT_CMD, $this->lng->txt(self::LNG_CANCEL));
+            return $input;
+        }, $inputs);
 
-        return $form;
+        $this->ctrl->setParameter($this, self::REQUEST_PARAM_SAML_IDP_ID, $this->idp->getIdpId());
+        return $this->ui_factory->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, self::CMT_SAVE_IDP_SETTINGS),
+            $inputs
+        );
     }
 
-    private function showIdpSettings(?ilPropertyFormGUI $form = null): void
+    private function showIdpSettings(?StandardForm $form = null): void
     {
         $this->tabs->setSubTabActive('auth_saml_idp_settings');
 
-        if (null === $form) {
-            $form = $this->getIdpSettingsForm();
+        if (!$form) {
+
             $data = $this->idp->toArray();
             $this->populateWithMetadata($this->idp, $data);
-            $form->setValuesByArray($data);
-        } else {
-            $form->setValuesByPost();
+            $form = $this->getIdpSettingsForm($data);
         }
 
         $this->help->setSubScreenId('edit_idp');
 
-        $this->tpl->setContent($form->getHTML());
+        $title = $this->ui_factory->item()->standard(sprintf($this->lng->txt('auth_saml_configure_idp'), $this->idp->getEntityId()));
+        $this->tpl->setContent($this->ui_renderer->render([
+            $title,
+            $form
+        ]));
     }
 
     private function saveIdpSettings(): void
     {
         $this->ensureWriteAccess();
 
-        $form = $this->getIdpSettingsForm();
-        if ($form->checkInput()) {
+        $form = $this->getIdpSettingsForm()->withRequest($this->httpState->request());
+
+        if (!$form->getError()) {
             $this->idp->bindForm($form);
             $this->idp->persist();
-            $this->tpl->setOnScreenMessage(self::MESSAGE_TYPE_SUCCESS, $this->lng->txt(self::LNG_SAVED_SUCCESSFULLY));
 
-            $this->storeMetadata($this->idp, $form->getInput(self::METADATA_STORAGE_KEY));
+            $this->storeMetadata($this->idp, $form->getData()[self::METADATA_STORAGE_KEY] ?? '');
+            $this->tpl->setOnScreenMessage(self::MESSAGE_TYPE_SUCCESS, $this->lng->txt(self::LNG_SAVED_SUCCESSFULLY), true);
         }
 
+        $this->ctrl->redirect($this, self::CMD_SHOW_IDP_SETTINGS);
         $this->showIdpSettings($form);
     }
 
-    private function getIdpForm(): ilPropertyFormGUI
+    private function getIdpForm(): StandardForm
     {
-        $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this, self::CMD_SAVE_NEW_IDP));
-        $form->setTitle($this->lng->txt('auth_saml_add_idp_btn'));
-
-        $this->addMetadataElement($form);
-
-        $form->addCommandButton(self::CMD_SAVE_NEW_IDP, $this->lng->txt(self::CMD_SAVE));
-        $form->addCommandButton('listIdps', $this->lng->txt(self::LNG_CANCEL));
-
-        return $form;
+        return $this->ui_factory->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, self::CMD_SAVE_NEW_IDP),
+            [
+                self::METADATA_STORAGE_KEY => $this->ui_factory->input()->field()->textarea(
+                    $this->lng->txt('auth_saml_add_idp_md_label'),
+                    $this->lng->txt('auth_saml_add_idp_md_info')
+                )
+                    ->withValue($values[self::METADATA_STORAGE_KEY] ?? "")
+                    ->withRequired(true)
+                    ->withDedicatedName(self::METADATA_STORAGE_KEY),
+            ]
+        );
     }
 
     private function saveNewIdp(): void
@@ -675,12 +696,11 @@ final class ilSamlSettingsGUI
         $this->ensureWriteAccess();
 
         $form = $this->getIdpForm();
-        if ($form->checkInput()) {
+        if (!$form->getError()) {
             $idp = new ilSamlIdp();
             $idp->bindForm($form);
             $idp->persist();
-
-            $this->storeMetadata($idp, $form->getInput(self::METADATA_STORAGE_KEY));
+            $this->storeMetadata($this->idp, $form->getData()[self::METADATA_STORAGE_KEY] ?? '');
 
             $this->tpl->setOnScreenMessage(
                 self::MESSAGE_TYPE_SUCCESS,
@@ -694,41 +714,23 @@ final class ilSamlSettingsGUI
         $this->showNewIdpForm($form);
     }
 
-    private function showNewIdpForm(?ilPropertyFormGUI $form = null): void
+    private function showNewIdpForm(?StandardForm $form = null): void
     {
         $this->ensureWriteAccess();
 
         if (null === $form) {
             $form = $this->getIdpForm();
         } else {
-            $form->setValuesByPost();
+            $form = $form->withRequest($this->httpState->request());
         }
 
         $this->help->setSubScreenId('create_idp');
 
-        $this->tpl->setContent($form->getHTML());
-    }
-
-    private function addMetadataElement(ilPropertyFormGUI $form): void
-    {
-        $metadata = new ilSamlIdpMetadataInputGUI(
-            $this->lng->txt('auth_saml_add_idp_md_label'),
-            self::METADATA_STORAGE_KEY,
-            new ilSamlIdpXmlMetadataParser(
-                new Factory(),
-                new ilSamlIdpXmlMetadataErrorFormatter()
-            )
-        );
-        $metadata->setInfo($this->lng->txt('auth_saml_add_idp_md_info'));
-        $metadata->setRows(20);
-        $metadata->setRequired(true);
-
-        $purifier = new ilHtmlPurifierComposite();
-        $purifier->addPurifier(new ilSamlIdpMetadataPurifier());
-
-        $metadata->setPurifier($purifier);
-        $metadata->usePurifier(true);
-        $form->addItem($metadata);
+        $title = $this->ui_factory->item()->standard($this->lng->txt('auth_saml_add_idp_btn'));
+        $this->tpl->setContent($this->ui_renderer->render([
+            $title,
+            $form
+        ]));
     }
 
     private function populateWithMetadata(ilSamlIdp $idp, array &$data): void
