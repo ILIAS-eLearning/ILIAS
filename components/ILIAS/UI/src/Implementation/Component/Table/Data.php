@@ -109,7 +109,7 @@ class Data extends AbstractTable implements T\Data
     }
 
 
-    public function withAdditionalViewControlData(mixed $additional_viewcontrol_data): self
+    protected function withAdditionalViewControlData(mixed $additional_viewcontrol_data): self
     {
         $clone = clone $this;
         $clone->additional_viewcontrol_data = $additional_viewcontrol_data;
@@ -136,56 +136,33 @@ class Data extends AbstractTable implements T\Data
         mixed $filter_data,
         mixed $additional_parameters = []
     ): array {
-        $table = $this;
-        $total_count = $this->getDataRetrieval()->getTotalRowCount($filter_data, $additional_parameters);
-        $view_controls = $this->getViewControls($total_count);
-
-        if ($request = $this->getRequest()) {
-            # This retrieves container data from the request
-            $data = $this->applyValuesToViewcontrols($view_controls, $request)->getData();
-            $range = $data[self::VIEWCONTROL_KEY_PAGINATION];
-            $range = ($range instanceof Range) ? $range : null;
-            $order = $data[self::VIEWCONTROL_KEY_ORDERING];
-            $order = ($order instanceof Order) ? $order : null;
-
-            if ($range instanceof Range) {
-                $range = $range->withStart($range->getStart() < $total_count ? $range->getStart() : 0);
-                $range = $range->croppedTo($total_count ?? PHP_INT_MAX);
-            }
-
-            $table = $table
-                ->withRange($range)
-                ->withOrder($order)
-                ->withSelectedOptionalColumns($data[self::VIEWCONTROL_KEY_FIELDSELECTION] ?? null);
-            # This retrieves the view controls that should be displayed
-            $view_controls = $table->applyValuesToViewcontrols($table->getViewControls($total_count), $request);
+        $request = $this->getRequest();
+        if ($request === null) {
+            return [
+                $this,
+                $this->getViewControls()
+            ];
         }
 
-        $data = $this->applyValuesToViewcontrols($this->getViewControls(null), $request)->getData();
         $additional_viewcontrol_data = array_filter(
-            $data,
+            $this->applyValuesToViewcontrols($this->getViewControls(null), $request)->getData(),
             fn($key) => !in_array($key, [self::VIEWCONTROL_KEY_PAGINATION, self::VIEWCONTROL_KEY_ORDERING, self::VIEWCONTROL_KEY_FIELDSELECTION]),
             ARRAY_FILTER_USE_KEY
         );
 
-        $total_count = $this->getDataRetrieval()->getTotalRowCount(
-            $additional_viewcontrol_data,
-            $filter_data,
-            $additional_parameters
-        );
-        $data = $this->applyValuesToViewcontrols(
-            $this->getViewControls($total_count),
-            $request
-        )->getData();
+        $total_count = $this->getDataRetrieval()->getTotalRowCount($additional_viewcontrol_data, $filter_data, $additional_parameters);
+        $view_controls = $this->getViewControls($total_count);
+
+        $data = $this->applyValuesToViewcontrols($view_controls, $request)->getData();
         $range = $data[self::VIEWCONTROL_KEY_PAGINATION];
         $range = ($range instanceof Range) ? $range : null;
-        if ($range instanceof Range) {
-            $range = $range->withStart($range->getStart() <= $total_count ? $range->getStart() : 0);
-            $range = $range->croppedTo($total_count ?? PHP_INT_MAX);
-        }
-
         $order = $data[self::VIEWCONTROL_KEY_ORDERING];
         $order = ($order instanceof Order) ? $order : null;
+
+        if ($range instanceof Range) {
+            $range = $range->withStart($range->getStart() < $total_count ? $range->getStart() : 0);
+            $range = $range->croppedTo($total_count ?? PHP_INT_MAX);
+        }
 
         $table = $this
             ->withRange($range)

@@ -104,7 +104,11 @@ function with_additional_viewcontrols()
     };
 
     $table = $f->table()
-            ->data('a data table with additional view controls', $columns, $data_retrieval)
+            ->data(
+                $data_retrieval,
+                'a data table with additional view controls',
+                $columns
+            )
             /**
              * add view controls to the table
              */

@@ -167,8 +167,15 @@ class ilObjectConsumerTableGUI implements DataRetrieval
      * @throws ilObjectNotFoundException
      * @throws ilDatabaseException
      */
-    public function getRows(DataRowBuilder $row_builder, array $visible_column_ids, Range $range, Order $order, ?array $filter_data, ?array $additional_parameters): Generator
-    {
+    public function getRows(
+        DataRowBuilder $row_builder,
+        array $visible_column_ids,
+        Range $range,
+        Order $order,
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): Generator {
         foreach ($this->records as $record) {
             $record["active"] = $this->ui_factory->symbol()->icon()->custom(
                 $record["active"] ?
@@ -197,8 +204,11 @@ class ilObjectConsumerTableGUI implements DataRetrieval
         }
     }
 
-    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
-    {
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): ?int {
         return count($this->records);
     }
 

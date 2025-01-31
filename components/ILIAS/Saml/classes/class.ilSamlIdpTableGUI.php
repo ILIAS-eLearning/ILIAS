@@ -171,8 +171,9 @@ final readonly class ilSamlIdpTableGUI implements \ILIAS\UI\Component\Table\Data
         array $visible_column_ids,
         \ILIAS\Data\Range $range,
         \ILIAS\Data\Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): Generator {
         foreach ($this->getRecords($range, $order) as $item) {
             yield $row_builder
@@ -191,8 +192,11 @@ final readonly class ilSamlIdpTableGUI implements \ILIAS\UI\Component\Table\Data
         }
     }
 
-    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
-    {
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): ?int {
         return count($this->idps);
     }
 }

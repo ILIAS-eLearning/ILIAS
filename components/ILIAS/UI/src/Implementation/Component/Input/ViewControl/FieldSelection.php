@@ -36,28 +36,16 @@ class FieldSelection extends ViewControlInput implements VCInterface\FieldSelect
     public function __construct(
         DataFactory $data_factory,
         Refinery $refinery,
-        protected SignalGeneratorInterface $signal_generator,
+        SignalGeneratorInterface $signal_generator,
         protected array $options
     ) {
         parent::__construct($data_factory, $refinery);
-        $this->initInternalSignal();
+        $this->internal_selection_signal = $signal_generator->create();
     }
 
     protected function isClientSideValueOk($value): bool
     {
         return is_null($value) || is_array($value);
-    }
-
-    protected function initInternalSignal(): void
-    {
-        $this->internal_selection_signal = $this->signal_generator->create();
-    }
-
-    public function withResetInternalSignal(): self
-    {
-        $clone = clone $this;
-        $clone->initInternalSignal();
-        return $clone;
     }
 
     public function getInternalSignal(): Signal

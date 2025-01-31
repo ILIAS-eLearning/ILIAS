@@ -230,16 +230,16 @@ class DataViewControlsTest extends TableTestBase
             ->withId($table_id)
             ->withRequest(
                 $this->getRequestMock([
-                    'vctesting_data_table/input_0/input_1' => 0,
-                    'vctesting_data_table/input_0/input_2' => 10,
-                    'vctesting_data_table/input_3/input_4' => 'f2',
-                    'vctesting_data_table/input_3/input_5' => 'DESC',
-                    'vctesting_data_table/input_6' => ['f2']
+                    'vctesting_data_table/input_7/input_8' => 0,
+                    'vctesting_data_table/input_7/input_9' => 10,
+                    'vctesting_data_table/input_10/input_11' => 'f2',
+                    'vctesting_data_table/input_10/input_12' => 'DESC',
+                    'vctesting_data_table/input_13' => ['f2']
                 ])
             );
         list($table, $view_controls) = $table->applyViewControls([], []);
-        //applied values from viewcontrols
 
+        //applied values from viewcontrols
         $this->assertEquals(new Range(0, 10), $table->getRange());
         $this->assertEquals(new Order('f2', Order::DESC), $table->getOrder());
         $this->assertEquals(1, count($table->getSelectedOptionalColumns()));
@@ -271,7 +271,7 @@ class DataViewControlsTest extends TableTestBase
             'f2' => $factory->column()->text('f2'),
         ];
         $total_count = 200;
-        $table = $factory->data('Table', $columns, $this->getDataRetrieval($total_count))
+        $table = $factory->data($this->getDataRetrieval($total_count), 'Table', $columns)
             ->withAdditionalViewControl(
                 $this->getViewControlFactory()->mode([
                     'mode1' => 'a mode',
@@ -281,10 +281,9 @@ class DataViewControlsTest extends TableTestBase
             ->withId('testing_data_table_id')
             ->withRequest(
                 $this->getRequestMock([
-                    'vctesting_data_table_id/additional' => 'mode2'
+                    'vctesting_data_table_id/additional_12' => 'mode2'
                 ])
             );
-
         list($table, $view_controls) = $table->applyViewControls([], []);
 
         $this->assertEquals(

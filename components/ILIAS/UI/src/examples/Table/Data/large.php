@@ -82,8 +82,9 @@ function large()
             array $visible_column_ids,
             Range $range,
             Order $order,
-            ?array $filter_data,
-            ?array $additional_parameters
+            mixed $additional_viewcontrol_data,
+            mixed $filter_data,
+            mixed $additional_parameters
         ): \Generator {
             $records = array_values($this->records);
             foreach ($this->records as $record) {
@@ -93,8 +94,9 @@ function large()
         }
 
         public function getTotalRowCount(
-            ?array $filter_data,
-            ?array $additional_parameters
+            mixed $additional_viewcontrol_data,
+            mixed $filter_data,
+            mixed $additional_parameters
         ): ?int {
             return count($this->records);
         }

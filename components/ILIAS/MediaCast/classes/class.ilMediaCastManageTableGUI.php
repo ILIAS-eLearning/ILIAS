@@ -119,8 +119,9 @@ class ilMediaCastManageTableGUI implements Table\DataRetrieval
         array $visible_column_ids,
         Range $range,
         Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): \Generator {
         $cnt = 0;
         foreach ($this->mediacast->getSortedItemsArray() as $item) {
@@ -173,8 +174,9 @@ class ilMediaCastManageTableGUI implements Table\DataRetrieval
     }
 
     public function getTotalRowCount(
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): ?int {
         return count($this->mediacast->getSortedItemsArray());
     }

@@ -79,8 +79,9 @@ class Handler implements ilExportHandlerTableDataRetrievalInterface
         array $visible_column_ids,
         ilDataRange $range,
         ilDataOrder $order,
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): Generator {
         [$column_name, $direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
         $public_access_status = [
@@ -153,8 +154,9 @@ class Handler implements ilExportHandlerTableDataRetrievalInterface
     }
 
     public function getTotalRowCount(
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): ?int {
         $context = $this->export_handler->consumer()->context()->handler($this->export_gui, $this->export_object);
         $count = 0;
