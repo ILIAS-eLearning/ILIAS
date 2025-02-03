@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-
 declare(strict_types=1);
 
 class ilDclTableViewFieldSetting extends ActiveRecord

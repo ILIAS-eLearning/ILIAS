@@ -1,7 +1,5 @@
 <?php
 
-namespace ILIAS\LearningHistory;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ namespace ILIAS\LearningHistory;
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+namespace ILIAS\LearningHistory;
 
 use ilAchievementsGUI;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;

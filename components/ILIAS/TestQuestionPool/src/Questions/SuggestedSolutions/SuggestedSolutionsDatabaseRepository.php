@@ -14,7 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- */
+ *********************************************************************/
 
 declare(strict_types=1);
 

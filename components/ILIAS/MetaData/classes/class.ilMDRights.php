@@ -39,11 +39,6 @@ class ilMDRights extends ilMDBase
     private string $description = '';
     private ?ilMDLanguageItem $description_language = null;
 
-    /**
-     * @param string[] $a_types
-     * @param string[] $a_copyright
-     * @return int[]
-     */
     public static function lookupRightsByTypeAndCopyright(array $a_types, array $a_copyright): array
     {
         global $DIC;

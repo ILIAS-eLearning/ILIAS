@@ -64,9 +64,6 @@ class ilMDCopyrightSelectionEntry
         $this->read();
     }
 
-    /**
-     * @return ilMDCopyrightSelectionEntry[]
-     */
     public static function _getEntries(): array
     {
         global $DIC;
@@ -293,7 +290,6 @@ class ilMDCopyrightSelectionEntry
             'entry_id' => array('integer', $next_id),
             'title' => array('text', $this->getTitle()),
             'description' => array('clob', $this->getDescription()),
-            //'copyright' => array('clob', $this->getCopyright()),
             'outdated' => array('integer', $this->getOutdated()),
             'position' => array('integer', $this->getNextOrderPosition())
         ));
@@ -306,7 +302,6 @@ class ilMDCopyrightSelectionEntry
         $this->db->update('il_md_cpr_selections', array(
             'title' => array('text', $this->getTitle()),
             'description' => array('clob', $this->getDescription()),
-            //'copyright' => array('clob', $this->getCopyright()),
             'outdated' => array('integer', $this->getOutdated()),
             'position' => array('integer', $this->getOrderPosition())
         ), array(

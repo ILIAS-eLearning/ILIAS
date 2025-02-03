@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * @ilCtrl_Calls ilMDSettingsControllerGUI: ilMDCopyrightConfigurationGUI, ilMDOERSettingsGUI, ilMDVocabulariesGUI
- */
 class ilMDSettingsControllerGUI
 {
     protected const OER_SETTINGS_TAB = 'md_oer_settings';

@@ -23,8 +23,7 @@
 * @version $Id$
 *
 * @ingroup components\ILIASTestQuestionPool
- */
-
+*/
 class ilSolutionExplorer extends ilExplorer
 {
     /**

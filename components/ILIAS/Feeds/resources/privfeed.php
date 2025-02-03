@@ -22,7 +22,6 @@
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  */
-
 require_once '../vendor/composer/vendor/autoload.php';
 
 ilContext::init(ilContext::CONTEXT_RSS_AUTH);

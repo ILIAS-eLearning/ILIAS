@@ -25,7 +25,6 @@
 *
 * @ingroup components\ILIASCourseReference
 */
-
 class ilObjCourseReferenceAccess extends ilContainerReferenceAccess
 {
     /**

@@ -25,8 +25,6 @@
 *
 * @package ilias-search
 */
-
-
 class ilSearchResult
 {
     private string $permission = 'visible';

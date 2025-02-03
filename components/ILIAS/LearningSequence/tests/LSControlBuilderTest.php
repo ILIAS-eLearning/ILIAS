@@ -1,20 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
-
-use PHPUnit\Framework\TestCase;
-use ILIAS\KioskMode\ControlBuilder;
-use ILIAS\KioskMode\TOCBuilder;
-use ILIAS\KioskMode\LocatorBuilder;
-use ILIAS\Data\Factory as DataFactory;
-use ILIAS\UI\Component\Button as Button;
-use ILIAS\UI\Component\ViewControl;
-
-require_once('IliasMocks.php');
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -30,6 +15,18 @@ require_once('IliasMocks.php');
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
+
+use PHPUnit\Framework\TestCase;
+use ILIAS\KioskMode\ControlBuilder;
+use ILIAS\KioskMode\TOCBuilder;
+use ILIAS\KioskMode\LocatorBuilder;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\UI\Component\Button as Button;
+use ILIAS\UI\Component\ViewControl;
+
+require_once('IliasMocks.php');
 
 class LSControlBuilderTest extends TestCase
 {

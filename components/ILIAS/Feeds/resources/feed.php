@@ -20,7 +20,6 @@
  * News feed script.
  * @author Alexander Killing <killing@leifos.de>
  */
-
 require_once '../vendor/composer/vendor/autoload.php';
 
 ilContext::init(ilContext::CONTEXT_RSS);

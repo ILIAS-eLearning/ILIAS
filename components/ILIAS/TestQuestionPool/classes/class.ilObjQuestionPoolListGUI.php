@@ -25,7 +25,7 @@
 *
 * @extends ilObjectListGUI
 * @ingroup components\ILIASTestQuestionPool
- */
+*/
 class ilObjQuestionPoolListGUI extends ilObjectListGUI
 {
     protected $command_link_params = [];

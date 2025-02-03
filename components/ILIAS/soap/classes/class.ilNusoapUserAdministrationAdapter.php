@@ -22,7 +22,6 @@
  * @version $Id$
  * @package ilias
  */
-
 use ILIAS\BackgroundTasks\Implementation\TaskManager\AsyncTaskManager;
 use ILIAS\OrgUnit\Webservices\SOAP\AddUserIdToPositionInOrgUnit;
 use ILIAS\OrgUnit\Webservices\SOAP\Base;

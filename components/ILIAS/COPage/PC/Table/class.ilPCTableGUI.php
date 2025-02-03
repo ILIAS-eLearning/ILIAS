@@ -19,7 +19,6 @@
 /**
  * User Interface for Table Editing
  * @author Alexander Killing <killing@leifos.de>
-
  * See https://mantis.ilias.de/view.php?id=32856
  * @ilCtrl_Calls ilPCTableGUI: ilAssGenFeedbackPageGUI
  */

@@ -67,10 +67,6 @@ class Standard implements WriterInterface
         return $xml;
     }
 
-    /**
-     * When copyright selection is active, objects should always be
-     * exported with copyright, so we add it here as scaffolds if necessary.
-     */
     protected function prepareCopyright(SetInterface $set): SetInterface
     {
         if (!$this->copyright_handler->isCopyrightSelectionActive()) {

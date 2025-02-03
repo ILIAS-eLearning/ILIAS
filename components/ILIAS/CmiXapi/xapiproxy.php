@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,9 +16,10 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 // hardcoded namespace
 // attention: maybe a problem with composer v2 / psr4 autoload  requires exact matching of namespace and parent folder name?
-
 namespace XapiProxy;
 
 // hardcoded context for better performance

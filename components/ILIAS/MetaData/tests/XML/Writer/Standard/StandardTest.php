@@ -213,10 +213,6 @@ class StandardTest extends TestCase
                     );
                 }
 
-                /*
-                 * Always insert the copyright when testing, the manipulator automatically
-                 * takes care of the case where it is already there.
-                 */
                 $insert_array = [
                     'name' => 'copyright',
                     'type' => Type::NULL,

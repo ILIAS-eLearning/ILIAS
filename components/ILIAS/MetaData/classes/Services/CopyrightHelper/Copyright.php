@@ -70,21 +70,11 @@ class Copyright implements CopyrightInterface
         return $this->entry->description();
     }
 
-    /**
-     * The copyright as UI Components, as it should be presented in the
-     * UI almost everywhere.
-     * If only a string can be returned, it is returned in a legacy UI component.
-     * @return Image[]|Link[]|Content[]
-     */
     public function presentAsUIComponents(): array
     {
         return $this->renderer->toUIComponents($this->entry->copyrightData());
     }
 
-    /**
-     * The copyright without image in a reduced presentation, for displaying
-     * copyright where no UI components can be used (e.g. exports of tables).
-     */
     public function presentAsString(): string
     {
         return $this->renderer->toString($this->entry->copyrightData());

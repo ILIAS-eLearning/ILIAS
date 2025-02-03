@@ -1,7 +1,5 @@
 <?php
 
-namespace ILIAS\Tasks\DerivedTasks\Provider;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ namespace ILIAS\Tasks\DerivedTasks\Provider;
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+namespace ILIAS\Tasks\DerivedTasks\Provider;
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;

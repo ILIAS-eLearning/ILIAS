@@ -18,10 +18,10 @@
 
 /**
 /**
- * GUI class for course objective view
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- */
+* GUI class for course objective view
+*
+* @author Stefan Meyer <smeyer.ilias@gmx.de>
+*/
 class ilContainerObjectiveGUI extends ilContainerContentGUI
 {
     public const MATERIALS_TESTS = 1;

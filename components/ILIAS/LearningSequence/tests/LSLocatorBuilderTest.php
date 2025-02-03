@@ -1,16 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
-
-use ILIAS\KioskMode\ControlBuilder;
-use ILIAS\Data\Factory as DataFactory;
-use ILIAS\UI\Implementation\Component\BreadCrumbs\Breadcrumbs;
-
-require_once('IliasMocks.php');
-require_once(__DIR__ . "/../../../../components/ILIAS/UI/tests/Base.php");
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -26,6 +15,15 @@ require_once(__DIR__ . "/../../../../components/ILIAS/UI/tests/Base.php");
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
+
+use ILIAS\KioskMode\ControlBuilder;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\UI\Implementation\Component\BreadCrumbs\Breadcrumbs;
+
+require_once('IliasMocks.php');
+require_once(__DIR__ . "/../../../../components/ILIAS/UI/tests/Base.php");
 
 class LSLocatorBuilderTest extends ILIAS_UI_TestBase
 {

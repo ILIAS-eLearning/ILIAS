@@ -127,9 +127,6 @@ class CopyrightHelper implements CopyrightHelperInterface
         return $this->prepareCreateOrUpdateOfCopyright($manipulator, $custom_copyright);
     }
 
-    /**
-     * @return CopyrightInterface[]
-     */
     public function getAllCopyrightPresets(): \Generator
     {
         if (!$this->isCopyrightSelectionActive()) {
@@ -141,9 +138,6 @@ class CopyrightHelper implements CopyrightHelperInterface
         }
     }
 
-    /**
-     * @return CopyrightInterface[]
-     */
     public function getNonOutdatedCopyrightPresets(): \Generator
     {
         if (!$this->isCopyrightSelectionActive()) {

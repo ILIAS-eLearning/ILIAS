@@ -13,13 +13,12 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
 /**
  * Class ilOrgUnitUserQueries
  * @author: Benjamin Seglias   <bs@studer-raimann.ch>
  */
-
 class ilOrgUnitUserQueries implements ilOrgUnitUserQueriesInterface
 {
     protected \ILIAS\DI\Container $dic;

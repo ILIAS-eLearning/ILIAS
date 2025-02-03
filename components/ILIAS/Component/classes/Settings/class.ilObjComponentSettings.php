@@ -13,9 +13,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
-
+ *********************************************************************/
 
 /**
  * Settings for components (modules, services, plugins).

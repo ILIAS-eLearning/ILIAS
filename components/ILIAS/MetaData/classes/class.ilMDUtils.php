@@ -76,10 +76,6 @@ class ilMDUtils
         return true;
     }
 
-    /**
-     * Returns an empty string if copyright selection is not active,
-     * regardless of input.
-     */
     public static function _parseCopyright(string $a_copyright): string
     {
         $settings = ilMDSettings::_getInstance();
@@ -90,9 +86,6 @@ class ilMDUtils
         return ilMDCopyrightSelectionEntry::_lookupCopyright($a_copyright);
     }
 
-    /**
-     * Returns an empty string if copyright selection is not active.
-     */
     public static function _getDefaultCopyright(): string
     {
         $default_id = ilMDCopyrightSelectionEntry::getDefault();

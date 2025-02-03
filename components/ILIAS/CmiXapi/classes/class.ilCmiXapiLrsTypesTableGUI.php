@@ -25,7 +25,6 @@
  *
  * @package     Module/CmiXapi
  */
-
 declare(strict_types=1);
 
 class ilCmiXapiLrsTypesTableGUI extends ilTable2GUI

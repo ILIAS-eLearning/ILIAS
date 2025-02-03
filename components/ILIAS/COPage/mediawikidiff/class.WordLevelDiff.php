@@ -1,21 +1,30 @@
 <?php
 
-// Copyright holded by MediaWiki contributers, Licensed under GPL version 2 or later
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * See diff.doc
  * @todo indicate where diff.doc can be found.
  * @addtogroup DifferenceEngine
  */
-
-
 // A PHP diff engine for phpwiki. (Taken from phpwiki-1.3.3)
 //
-// Copyright (C) 2000, 2001 Geoffrey T. Dairiki <dairiki@dairiki.org>
 // You may copy this code freely under the conditions of the GPL.
 //
-
 define('USE_ASSERTS', function_exists('assert'));
 
 /**

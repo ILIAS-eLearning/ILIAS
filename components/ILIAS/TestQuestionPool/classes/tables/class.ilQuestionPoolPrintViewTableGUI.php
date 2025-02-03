@@ -23,7 +23,6 @@
 *
 * @ingroup components\ILIASQuestionPool
 */
-
 class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
 {
     protected $outputmode;

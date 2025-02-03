@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * The interface a class has to fullfill if it should be used as leaf in a
  * program.
@@ -28,7 +28,6 @@ declare(strict_types=1);
  *
  * @author : Richard Klees <richard.klees@concepts-and-training.de>
  */
-
 interface ilStudyProgrammeLeaf
 {
     /**

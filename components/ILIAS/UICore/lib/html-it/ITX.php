@@ -1,12 +1,26 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2005 Ulf Wendel, Pierre-Alain Joye                |
 // +----------------------------------------------------------------------+
 // | This source file is subject to the New BSD license, That is bundled  |
-// | with this package in the file LICENSE, and is available through      |
 // | the world-wide-web at                                                |
 // | http://www.opensource.org/licenses/bsd-license.php                   |
 // | If you did not receive a copy of the new BSD license and are unable  |
@@ -16,7 +30,6 @@ declare(strict_types=1);
 // | Author: Ulf Wendel <ulf.wendel@phpdoc.de>                            |
 // |         Pierre-Alain Joye <pajoye@php.net>                           |
 // +----------------------------------------------------------------------+
-
 /**
  * Integrated Template Extension - ITX
  * With this class you get the full power of the phplib template class.

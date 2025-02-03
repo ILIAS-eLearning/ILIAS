@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-
 class ilObjectXMLParser extends ilSaxParser
 {
     public array $object_data = [];

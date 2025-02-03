@@ -91,11 +91,5 @@ interface ServicesInterface
      */
     public function dataHelper(): DataHelperInterface;
 
-    /**
-     * The LOM of an object also contains its copyright information, which might consist of
-     * a reference to a preset copyright. This helper offers some infrastructure
-     * to parse and manipulate copyright information of objects, to access the copyright
-     * presets, and to search and filter objects by copyright.
-     */
     public function copyrightHelper(): CopyrightHelperInterface;
 }

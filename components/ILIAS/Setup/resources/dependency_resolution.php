@@ -13,7 +13,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 // This is the default resolution for ambiguous dependencies of components in
 // Standard ILIAS.
@@ -25,7 +26,6 @@
 //
 // The entry "*" for the dependant will define fallbacks to be used for all components
 // that have no explicit disambiguation.
-
 return [
     "*" => [
         \ILIAS\Language\Language::class => \ilSetupLanguage::class

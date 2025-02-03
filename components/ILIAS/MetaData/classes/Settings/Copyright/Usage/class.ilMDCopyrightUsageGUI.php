@@ -22,11 +22,6 @@ use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 use ILIAS\MetaData\Copyright\EntryInterface;
 
-/**
- * @author       Jesús López <lopez@leifos.com>
- * @ilCtrl_Calls ilMDCopyrightUsageGUI: ilPublicUserProfileGUI
- * @ingroup      ServicesMetaData
- */
 class ilMDCopyrightUsageGUI
 {
     public const DEFAULT_CMD = 'showUsageTable';
