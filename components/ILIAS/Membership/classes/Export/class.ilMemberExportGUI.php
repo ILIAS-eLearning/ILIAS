@@ -185,7 +185,7 @@ class ilMemberExportGUI
         return $form;
     }
 
-    public function initCSV(ilPropertyFormGUI $a_form = null): void
+    public function initCSV(?ilPropertyFormGUI $a_form = null): void
     {
         if (!$a_form) {
             $a_form = $this->initSettingsForm();
@@ -193,7 +193,7 @@ class ilMemberExportGUI
         $this->tpl->setContent($a_form->getHTML());
     }
 
-    public function initExcel(ilPropertyFormGUI $a_form = null): void
+    public function initExcel(?ilPropertyFormGUI $a_form = null): void
     {
         if (!$a_form) {
             $a_form = $this->initSettingsForm(true);

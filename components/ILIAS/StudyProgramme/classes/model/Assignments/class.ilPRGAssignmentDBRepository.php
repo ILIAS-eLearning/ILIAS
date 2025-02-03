@@ -200,8 +200,8 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
 
     public function getAllForNodeIsContained(
         int $prg_obj_id,
-        array $user_filter = null,
-        ilPRGAssignmentFilter $custom_filters = null
+        ?array $user_filter = null,
+        ?ilPRGAssignmentFilter $custom_filters = null
     ): array {
         $conditions = [
             'pgs.' . self::PROGRESS_FIELD_PRG_ID . ' = ' . $this->db->quote($prg_obj_id, 'integer')
@@ -221,8 +221,8 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
 
     public function countAllForNodeIsContained(
         int $prg_obj_id,
-        array $user_filter = null,
-        ilPRGAssignmentFilter $custom_filters = null
+        ?array $user_filter = null,
+        ?ilPRGAssignmentFilter $custom_filters = null
     ): int {
         $conditions = [
             'pgs.' . self::PROGRESS_FIELD_PRG_ID . ' = ' . $this->db->quote($prg_obj_id, 'integer')
@@ -236,7 +236,7 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
         return $this->count($conditions);
     }
 
-    public function getAllForSpecificNode(int $prg_obj_id, array $user_filter = null): array
+    public function getAllForSpecificNode(int $prg_obj_id, ?array $user_filter = null): array
     {
         $conditions = [
             self::ASSIGNMENT_FIELD_ROOT_PRG_ID . ' = ' . $this->db->quote($prg_obj_id, 'integer')

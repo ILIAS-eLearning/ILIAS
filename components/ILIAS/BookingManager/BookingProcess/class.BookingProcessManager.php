@@ -160,9 +160,9 @@ class BookingProcessManager
         int $user_to_book,
         int $assigner_id = 0,
         int $context_obj_id = 0,
-        int $a_from = null,
-        int $a_to = null,
-        int $a_group_id = null,
+        ?int $a_from = null,
+        ?int $a_to = null,
+        ?int $a_group_id = null,
         string $message = ""
     ): int {
         $lng = $this->domain->lng();

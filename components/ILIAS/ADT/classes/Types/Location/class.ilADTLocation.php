@@ -30,7 +30,7 @@ class ilADTLocation extends ilADT
 
     // properties
 
-    public function setLongitude(float $a_value = null): void
+    public function setLongitude(?float $a_value = null): void
     {
         $this->longitude = $a_value;
     }

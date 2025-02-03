@@ -106,7 +106,7 @@ class ilSurveyRaterGUI
     }
 
     protected function add(
-        ilPropertyFormGUI $form = null
+        ?ilPropertyFormGUI $form = null
     ): void {
         $form_html = (!is_null($form))
             ? $form->getHTML()
@@ -255,7 +255,7 @@ class ilSurveyRaterGUI
     }
 
 
-    public function mailRaters(ilPropertyFormGUI $a_form = null): void
+    public function mailRaters(?ilPropertyFormGUI $a_form = null): void
     {
         $appr_id = $this->parent->handleRatersAccess();
         $this->ctrl->setParameterByClass("ilSurveyParticipantsGUI", "appr_id", $appr_id);

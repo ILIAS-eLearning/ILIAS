@@ -36,10 +36,10 @@ class ilContainerFilterService
     protected LOMServices $lom_services;
 
     public function __construct(
-        ilLanguage $lng = null,
-        ilContainerFilterAdvMDAdapter $adv_adapter = null,
-        ilContainerFilterFieldData $container_field_data = null,
-        LOMServices $lom_services = null
+        ?ilLanguage $lng = null,
+        ?ilContainerFilterAdvMDAdapter $adv_adapter = null,
+        ?ilContainerFilterFieldData $container_field_data = null,
+        ?LOMServices $lom_services = null
     ) {
         global $DIC;
 

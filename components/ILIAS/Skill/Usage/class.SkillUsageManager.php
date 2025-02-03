@@ -66,10 +66,10 @@ class SkillUsageManager implements SkillUsageInfo
     protected \ilLanguage $lng;
 
     public function __construct(
-        SkillUsageDBRepository $usage_repo = null,
-        SkillTreeFactory $tree_factory = null,
-        \ilSkillTreeRepository $tree_repo = null,
-        SkillProfileManager $profile_manager = null
+        ?SkillUsageDBRepository $usage_repo = null,
+        ?SkillTreeFactory $tree_factory = null,
+        ?\ilSkillTreeRepository $tree_repo = null,
+        ?SkillProfileManager $profile_manager = null
     ) {
         global $DIC;
 

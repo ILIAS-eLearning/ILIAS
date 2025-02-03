@@ -48,7 +48,7 @@ class ilObjectCoreProperties
         private ilObjectPropertyTitleAndDescription $property_title_and_description,
         private ilObjectPropertyIsOnline $property_is_online,
         private ilObjectPropertyTileImage $property_tile_image,
-        array $data = null
+        ?array $data = null
     ) {
         if ($this->checkDataArray($data)) {
             $this->setValuesByArray($data);

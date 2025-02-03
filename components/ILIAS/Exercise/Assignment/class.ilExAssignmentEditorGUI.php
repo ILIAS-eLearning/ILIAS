@@ -66,7 +66,7 @@ class ilExAssignmentEditorGUI
     public function __construct(
         int $a_exercise_id,
         bool $a_enable_peer_review_completion_settings,
-        ilExAssignment $a_ass = null
+        ?ilExAssignment $a_ass = null
     ) {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
@@ -1486,7 +1486,7 @@ class ilExAssignmentEditorGUI
     /**
      * @throws ilDateTimeException
      */
-    public function editPeerReviewObject(ilPropertyFormGUI $a_form = null): void
+    public function editPeerReviewObject(?ilPropertyFormGUI $a_form = null): void
     {
         $ilTabs = $this->tabs;
         $tpl = $this->tpl;

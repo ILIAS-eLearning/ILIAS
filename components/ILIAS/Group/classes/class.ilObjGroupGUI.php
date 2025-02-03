@@ -904,7 +904,7 @@ class ilObjGroupGUI extends ilContainerGUI
         $this->editInfoObject();
     }
 
-    public function readMemberData(array $ids, array $selected_columns = null): array
+    public function readMemberData(array $ids, ?array $selected_columns = null): array
     {
         $privacy = ilPrivacySettings::getInstance();
 

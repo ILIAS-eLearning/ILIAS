@@ -321,7 +321,7 @@ class HTML_Template_IT
      * @param string[] $options array of options.
      * @throws ilTemplateException
      */
-    public function __construct(string $root = '', array $options = null)
+    public function __construct(string $root = '', ?array $options = null)
     {
         global $DIC;
         $DIC = $DIC instanceof Container ? $DIC : new Container([]);

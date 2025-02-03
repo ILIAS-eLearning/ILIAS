@@ -46,7 +46,7 @@ class Settings extends TestSettings
         \ilLanguage $lng,
         FieldFactory $f,
         Refinery $refinery,
-        array $environment = null
+        ?array $environment = null
     ): FormInput {
         $trafo = $refinery->kindlyTo()->Int();
         $fields = [

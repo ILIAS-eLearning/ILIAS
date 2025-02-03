@@ -94,7 +94,7 @@ class GUIService
         );
     }
 
-    public function getRandomAssignmentGUI(\ilObjExercise $exc = null): \ilExcRandomAssignmentGUI
+    public function getRandomAssignmentGUI(?\ilObjExercise $exc = null): \ilExcRandomAssignmentGUI
     {
         if ($exc === null) {
             $exc = $this->gui_service->request()->getExercise();

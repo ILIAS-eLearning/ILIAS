@@ -161,7 +161,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
         string $a_import_id,
         string $a_sub_type = "",
         int $a_sub_id = 0,
-        int $a_local_rec_id = null
+        ?int $a_local_rec_id = null
     ): void {
         $this->current_value = null;
 

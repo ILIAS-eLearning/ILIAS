@@ -49,12 +49,12 @@ class ilTreeSetupAgent implements Agent
         });
     }
 
-    public function getInstallObjective(Config $config = null): Objective
+    public function getInstallObjective(?Config $config = null): Objective
     {
         return new Objective\NullObjective();
     }
 
-    public function getUpdateObjective(Config $config = null): Objective
+    public function getUpdateObjective(?Config $config = null): Objective
     {
         return new ilDatabaseUpdateStepsExecutedObjective(new ilTreeDBUpdateSteps8());
     }

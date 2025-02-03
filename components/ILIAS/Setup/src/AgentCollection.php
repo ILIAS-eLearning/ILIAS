@@ -105,7 +105,7 @@ class AgentCollection implements Agent
     /**
      * @inheritdocs
      */
-    public function getInstallObjective(Config $config = null): Objective
+    public function getInstallObjective(?Config $config = null): Objective
     {
         if (!is_null($config)) {
             $this->checkConfig($config);
@@ -131,7 +131,7 @@ class AgentCollection implements Agent
     /**
      * @inheritdocs
      */
-    public function getUpdateObjective(Config $config = null): Objective
+    public function getUpdateObjective(?Config $config = null): Objective
     {
         if ($config !== null) {
             $this->checkConfig($config);

@@ -243,17 +243,17 @@ class ilMembershipNotifications
         return array_intersect($all, $users);
     }
 
-    public function activateUser(int $a_user_id = null): bool
+    public function activateUser(?int $a_user_id = null): bool
     {
         return $this->toggleUser(true, $a_user_id);
     }
 
-    public function deactivateUser(int $a_user_id = null): bool
+    public function deactivateUser(?int $a_user_id = null): bool
     {
         return $this->toggleUser(false, $a_user_id);
     }
 
-    protected function getUser(int $a_user_id = null): ?ilObjUser
+    protected function getUser(?int $a_user_id = null): ?ilObjUser
     {
         if (
             $a_user_id === null ||
@@ -273,7 +273,7 @@ class ilMembershipNotifications
         return null;
     }
 
-    protected function toggleUser(bool $a_status, int $a_user_id = null): bool
+    protected function toggleUser(bool $a_status, ?int $a_user_id = null): bool
     {
         if (!self::isActive()) {
             return false;

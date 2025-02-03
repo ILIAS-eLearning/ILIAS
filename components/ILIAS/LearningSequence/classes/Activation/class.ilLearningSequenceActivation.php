@@ -33,8 +33,8 @@ class ilLearningSequenceActivation
         int $ref_id,
         bool $online = false,
         bool $effective_online = false,
-        \DateTime $activation_start = null,
-        \DateTime $activation_end = null
+        ?\DateTime $activation_start = null,
+        ?\DateTime $activation_end = null
     ) {
         $this->ref_id = $ref_id;
         $this->online = $online;
@@ -70,7 +70,7 @@ class ilLearningSequenceActivation
         return $this->activation_start;
     }
 
-    public function withActivationStart(\DateTime $activation_start = null): ilLearningSequenceActivation
+    public function withActivationStart(?\DateTime $activation_start = null): ilLearningSequenceActivation
     {
         $clone = clone $this;
         $clone->activation_start = $activation_start;
@@ -82,7 +82,7 @@ class ilLearningSequenceActivation
         return $this->activation_end;
     }
 
-    public function withActivationEnd(\DateTime $activation_end = null): ilLearningSequenceActivation
+    public function withActivationEnd(?\DateTime $activation_end = null): ilLearningSequenceActivation
     {
         $clone = clone $this;
         $clone->activation_end = $activation_end;

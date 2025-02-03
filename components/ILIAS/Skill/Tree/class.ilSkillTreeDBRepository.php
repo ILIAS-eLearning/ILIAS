@@ -26,7 +26,7 @@ class ilSkillTreeDBRepository implements ilSkillTreeRepository
     protected ilDBInterface $db;
     protected Tree\SkillTreeFactory $tree_factory;
 
-    public function __construct(Tree\SkillTreeFactory $tree_factory, ilDBInterface $db = null)
+    public function __construct(Tree\SkillTreeFactory $tree_factory, ?ilDBInterface $db = null)
     {
         global $DIC;
 

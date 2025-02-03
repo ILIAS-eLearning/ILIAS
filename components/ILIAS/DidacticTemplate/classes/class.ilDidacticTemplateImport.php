@@ -306,7 +306,7 @@ class ilDidacticTemplateImport
     /**
      * Parse template action from xml
      */
-    protected function parseActions(ilDidacticTemplateSetting $set, SimpleXMLElement $actions = null): void
+    protected function parseActions(ilDidacticTemplateSetting $set, ?SimpleXMLElement $actions = null): void
     {
         if ($actions === null) {
             return;

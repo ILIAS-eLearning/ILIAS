@@ -152,7 +152,7 @@ class DownloadListTable
                 return count($this->getRecords());
             }
 
-            protected function getRecords(Data\Range $range = null): array
+            protected function getRecords(?Data\Range $range = null): array
             {
                 $export_files = [];
                 $types = ["xml", "html"];

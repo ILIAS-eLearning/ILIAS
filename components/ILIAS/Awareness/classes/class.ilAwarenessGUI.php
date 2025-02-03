@@ -41,9 +41,9 @@ class ilAwarenessGUI implements ilCtrlBaseClassInterface
     protected ilUserActionGUI $user_action_gui;
 
     public function __construct(
-        InternalDataService $data_service = null,
-        InternalDomainService $domain_service = null,
-        InternalGUIService $gui_service = null
+        ?InternalDataService $data_service = null,
+        ?InternalDomainService $domain_service = null,
+        ?InternalGUIService $gui_service = null
     ) {
         global $DIC;
 

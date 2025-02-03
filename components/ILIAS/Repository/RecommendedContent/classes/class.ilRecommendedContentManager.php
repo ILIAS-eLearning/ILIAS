@@ -30,9 +30,9 @@ class ilRecommendedContentManager
     protected ilAccessHandler $access;
 
     public function __construct(
-        ilRecommendedContentDBRepository $repo = null,
-        ilRbacReview $rbacreview = null,
-        ilFavouritesManager $fav_manager = null
+        ?ilRecommendedContentDBRepository $repo = null,
+        ?ilRbacReview $rbacreview = null,
+        ?ilFavouritesManager $fav_manager = null
     ) {
         global $DIC;
 

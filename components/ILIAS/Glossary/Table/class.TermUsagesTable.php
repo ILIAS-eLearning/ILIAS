@@ -125,7 +125,7 @@ class TermUsagesTable
                 return count($this->getRecords());
             }
 
-            protected function getRecords(Data\Range $range = null, Data\Order $order = null): array
+            protected function getRecords(?Data\Range $range = null, ?Data\Order $order = null): array
             {
                 $usages = \ilGlossaryTerm::getUsages($this->term_id);
 

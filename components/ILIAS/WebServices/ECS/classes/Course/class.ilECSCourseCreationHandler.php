@@ -576,7 +576,7 @@ class ilECSCourseCreationHandler
      * Return 0 if object isn't imported.
      * Searches for the (hopefully) unique content id of an imported object
      */
-    protected function getImportId(int $a_content_id, string $a_sub_id = null): int
+    protected function getImportId(int $a_content_id, ?string $a_sub_id = null): int
     {
         return ilECSImportManager::getInstance()->lookupObjIdByContentId(
             $this->getServer()->getServerId(),

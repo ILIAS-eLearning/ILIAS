@@ -121,7 +121,7 @@ class ilMDCopyrightConfigurationGUI
 
     public function showCopyrightSelection(
         int $current_id = 0,
-        RoundTrip $current_modal = null
+        ?RoundTrip $current_modal = null
     ): void {
         $has_write = $this->access_service->hasCurrentUserWriteAccess();
 
@@ -260,7 +260,7 @@ class ilMDCopyrightConfigurationGUI
     }
 
     protected function initCopyrightEditModal(
-        EntryInterface $entry = null,
+        ?EntryInterface $entry = null,
         bool $open_on_load = false
     ): RoundTrip {
         $inputs = [];

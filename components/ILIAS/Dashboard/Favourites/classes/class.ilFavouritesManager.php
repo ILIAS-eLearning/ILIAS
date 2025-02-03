@@ -28,7 +28,7 @@ class ilFavouritesManager
     protected ilFavouritesDBRepository $repo;
     protected bool $globally_activated;
 
-    public function __construct(ilFavouritesDBRepository $repo = null)
+    public function __construct(?ilFavouritesDBRepository $repo = null)
     {
         global $DIC;
 

@@ -128,7 +128,7 @@ class ilDclContentExporter
      * @return bool|void
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception|\PhpOffice\PhpSpreadsheet\Exception
      */
-    public function export(string $format = self::EXPORT_EXCEL, string $filepath = null, bool $send = false)
+    public function export(string $format = self::EXPORT_EXCEL, ?string $filepath = null, bool $send = false)
     {
         if (count($this->tables) == 0) {
             return;
@@ -211,7 +211,7 @@ class ilDclContentExporter
         return true;
     }
 
-    public function exportAsync(string $format = self::EXPORT_EXCEL, string $filepath = null): mixed
+    public function exportAsync(string $format = self::EXPORT_EXCEL, ?string $filepath = null): mixed
     {
         global $DIC;
         $ilLog = $DIC['ilLog'];

@@ -192,7 +192,7 @@ abstract class ilButtonBase implements ilToolbarItem
     /**
      * Render current HTML attributes
      */
-    protected function renderAttributes(array $a_additional_attr = null): string
+    protected function renderAttributes(?array $a_additional_attr = null): string
     {
         $attr = array();
         $attr["id"] = $this->getId();

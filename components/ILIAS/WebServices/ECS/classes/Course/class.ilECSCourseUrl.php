@@ -59,7 +59,7 @@ class ilECSCourseUrl
     /**
      * Add lms url
      */
-    public function addLmsCourseUrls(ilECSCourseLmsUrl $lms_url = null): void
+    public function addLmsCourseUrls(?ilECSCourseLmsUrl $lms_url = null): void
     {
         $this->lms_course_urls[] = $lms_url;
     }

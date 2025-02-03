@@ -90,7 +90,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
     * Please do not check any preconditions handled by
     * ilConditionHandler here.
     */
-    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, int $user_id = null): bool
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
         if (is_null($user_id)) {
             $user_id = $this->user->getId();

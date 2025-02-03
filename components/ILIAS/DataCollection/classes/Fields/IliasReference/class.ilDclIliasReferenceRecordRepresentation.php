@@ -41,7 +41,7 @@ class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentat
         return $html;
     }
 
-    public function getSingleHTML(array $options = null, bool $link = true): string
+    public function getSingleHTML(?array $options = null, bool $link = true): string
     {
         $value = $this->getRecordField()->getValue();
         if (!$value) {

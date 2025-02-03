@@ -544,7 +544,7 @@ class ilExport
         string $a_class,
         string $a_entity,
         string $a_target_release,
-        array $a_id = null
+        ?array $a_id = null
     ): bool {
         $success = true;
         $this->log->debug("process exporter, comp: " . $a_comp . ", class: " . $a_class . ", entity: " . $a_entity .

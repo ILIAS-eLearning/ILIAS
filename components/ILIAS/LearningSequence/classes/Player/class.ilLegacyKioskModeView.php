@@ -109,7 +109,7 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
     /**
      * @inheritDoc
      */
-    public function updateGet(State $state, string $command, int $parameter = null): State
+    public function updateGet(State $state, string $command, ?int $parameter = null): State
     {
         return $state;
     }
@@ -129,7 +129,7 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
         State $state,
         Factory $factory,
         URLBuilder $url_builder,
-        array $post = null
+        ?array $post = null
     ): Component {
         $obj_type = $this->object->getType();
         $obj_type_txt = $this->lng->txt('obj_' . $obj_type);

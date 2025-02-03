@@ -90,11 +90,11 @@ trait AssignmentRepoMockNIFT
     {
         throw new Exception("Not implemented for testing", 1);
     }
-    public function countAllForNodeIsContained(int $prg_obj_id, array $user_filter = null, ilPRGAssignmentFilter $custom_filters = null): int
+    public function countAllForNodeIsContained(int $prg_obj_id, ?array $user_filter = null, ?ilPRGAssignmentFilter $custom_filters = null): int
     {
         throw new Exception("Not implemented for testing", 1);
     }
-    public function getAllForSpecificNode(int $prg_obj_id, array $user_filter = null): array
+    public function getAllForSpecificNode(int $prg_obj_id, ?array $user_filter = null): array
     {
         throw new Exception("Not implemented for testing", 1);
     }
@@ -262,7 +262,7 @@ class PrgMock extends ilObjStudyProgramme
         return $this->env->settings_repo;
     }
 
-    protected function refreshLPStatus(int $usr_id, int $node_obj_id = null): void
+    protected function refreshLPStatus(int $usr_id, ?int $node_obj_id = null): void
     {
     }
 

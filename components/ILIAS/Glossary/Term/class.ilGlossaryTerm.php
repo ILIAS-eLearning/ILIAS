@@ -460,7 +460,7 @@ class ilGlossaryTerm
         string $a_def = "",
         int $a_tax_node = 0,
         bool $a_add_amet_fields = false,
-        array $a_amet_filter = null,
+        ?array $a_amet_filter = null,
         bool $a_include_references = false
     ): array {
         global $DIC;

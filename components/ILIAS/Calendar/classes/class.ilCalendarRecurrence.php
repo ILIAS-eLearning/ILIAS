@@ -204,7 +204,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
         return is_object($this->freq_until_date) ? $this->freq_until_date : null;
     }
 
-    public function setFrequenceUntilDate(ilDateTime $a_date = null): void
+    public function setFrequenceUntilDate(?ilDateTime $a_date = null): void
     {
         $this->freq_until_date = $a_date;
     }

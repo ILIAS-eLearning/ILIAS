@@ -239,7 +239,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
         return $this->ui->renderer()->render($panel);
     }
 
-    public function editSettings(ilPropertyFormGUI $a_private_form = null): string
+    public function editSettings(?ilPropertyFormGUI $a_private_form = null): string
     {
         $ilUser = $this->user;
         $lng = $this->lng;

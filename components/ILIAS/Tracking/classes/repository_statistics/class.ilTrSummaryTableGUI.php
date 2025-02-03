@@ -638,7 +638,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
     protected function getItemsPercentages(
         $data = null,
         int $overall = 0,
-        array $value_map = null,
+        ?array $value_map = null,
         $limit = 3
     ): array {
         if (!$overall) {
@@ -711,7 +711,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
     protected function getItemsPercentagesStatus(
         $data = null,
         int $overall = 0,
-        array $value_map = null
+        ?array $value_map = null
     ): array {
         $result = array();
         foreach ($value_map as $id => $caption) {

@@ -65,7 +65,7 @@ class ilConditionHandlerGUI
 
     protected bool $automatic_validation = true;
 
-    public function __construct(int $a_ref_id = null)
+    public function __construct(?int $a_ref_id = null)
     {
         global $DIC;
 

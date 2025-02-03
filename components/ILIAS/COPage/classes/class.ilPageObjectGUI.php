@@ -753,7 +753,7 @@ class ilPageObjectGUI
         ilObject $a_rep_obj,
         string $a_type,
         int $a_sub_obj_id,
-        object $a_observer_obj = null,
+        ?object $a_observer_obj = null,
         string $a_observer_func = ""
     ): void {
         $this->use_meta_data = true;
@@ -1716,7 +1716,7 @@ class ilPageObjectGUI
         $a_anchors = false,
         $a_save_new = true,
         $a_user_links = false,
-        \ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper = null
+        ?\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper = null
     ): string {
         global $DIC;
 
@@ -2924,11 +2924,11 @@ class ilPageObjectGUI
      * Get html for public and/or private notes
      */
     public function getNotesHTML(
-        object $a_content_object = null,
+        ?object $a_content_object = null,
         bool $a_enable_private_notes = true,
         bool $a_enable_public_notes = false,
         bool $a_enable_notes_deletion = false,
-        callable $a_callback = null,
+        ?callable $a_callback = null,
         bool $export = false
     ): string {
         // scorm 2004 page gui

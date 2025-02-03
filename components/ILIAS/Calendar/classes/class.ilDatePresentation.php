@@ -84,7 +84,7 @@ class ilDatePresentation
         bool $a_skip_day = false,
         bool $a_include_wd = false,
         bool $include_seconds = false,
-        ilObjUser $user = null,
+        ?ilObjUser $user = null,
     ): string {
         global $DIC;
         if ($user) {
@@ -175,7 +175,7 @@ class ilDatePresentation
         ilDateTime $start,
         ilDateTime $end,
         bool $a_skip_starting_day = false,
-        ilObjUser $user = null
+        ?ilObjUser $user = null
     ): string {
         global $DIC;
         if (!$user) {

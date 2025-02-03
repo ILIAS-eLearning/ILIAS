@@ -27,7 +27,7 @@ class ilCalendarUtil
     public static string $init_done;
     protected static bool $init_datetimepicker = false;
 
-    public static function convertDateToUtcDBTimestamp(\ilDateTime $date = null): ?string
+    public static function convertDateToUtcDBTimestamp(?\ilDateTime $date = null): ?string
     {
         if (is_null($date)) {
             return null;
@@ -54,7 +54,7 @@ class ilCalendarUtil
      * @param int month (1-12)
      * @param bool short or long month translation
      */
-    public static function _numericMonthToString(int $a_month, bool $a_long = true, ilLanguage $lng = null): string
+    public static function _numericMonthToString(int $a_month, bool $a_long = true, ?ilLanguage $lng = null): string
     {
         global $DIC;
 
@@ -69,7 +69,7 @@ class ilCalendarUtil
      * @param int day of week (0 for sunday, 1 for monday)
      * @param bool short or long day translation
      */
-    public static function _numericDayToString(int $a_day, bool $a_long = true, ilLanguage $lng = null): string
+    public static function _numericDayToString(int $a_day, bool $a_long = true, ?ilLanguage $lng = null): string
     {
         global $DIC;
 
@@ -529,7 +529,7 @@ class ilCalendarUtil
      * @return array date, warnings, errors
      * @throws ilDateTimeException
      */
-    public static function parseDateString(string $date, bool $add_time = false, string $force_format = null): array
+    public static function parseDateString(string $date, bool $add_time = false, ?string $force_format = null): array
     {
         global $DIC;
 

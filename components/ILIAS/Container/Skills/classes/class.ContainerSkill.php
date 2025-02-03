@@ -40,7 +40,7 @@ class ContainerSkill implements GapAnalysisSkill
         int $tref_id,
         int $cont_obj_id,
         string $title = "",
-        SkillProfile $profile = null
+        ?SkillProfile $profile = null
     ) {
         $this->skill_id = $skill_id;
         $this->tref_id = $tref_id;

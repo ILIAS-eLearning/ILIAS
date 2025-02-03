@@ -74,7 +74,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
         return true;
     }
 
-    private function showFormCmd(ilPropertyFormGUI $form = null): void
+    private function showFormCmd(?ilPropertyFormGUI $form = null): void
     {
         if ($form instanceof ilPropertyFormGUI) {
             $form->setValuesByPost();
@@ -153,7 +153,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
         $this->ctrl->redirectByClass(ilAssQuestionHintsGUI::class);
     }
 
-    private function buildForm(ilAssQuestionHint $questionHint = null): ilPropertyFormGUI
+    private function buildForm(?ilAssQuestionHint $questionHint = null): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTableWidth('100%');

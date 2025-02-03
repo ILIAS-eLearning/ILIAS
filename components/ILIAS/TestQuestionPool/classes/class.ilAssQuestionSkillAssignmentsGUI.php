@@ -354,9 +354,9 @@ class ilAssQuestionSkillAssignmentsGUI
     }
 
     private function showSkillQuestionAssignmentPropertiesFormCmd(
-        assQuestionGUI $question_gui = null,
-        ilAssQuestionSkillAssignment $assignment = null,
-        ilPropertyFormGUI $form = null
+        ?assQuestionGUI $question_gui = null,
+        ?ilAssQuestionSkillAssignment $assignment = null,
+        ?ilPropertyFormGUI $form = null
     ): void {
         $this->handleAssignmentConfigurationHintMessage();
 

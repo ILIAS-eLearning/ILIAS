@@ -113,8 +113,8 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
     public function __construct(
         ilObjUser $actor,
         int $view = self::VIEW_SELECTED_ITEMS,
-        Setting $settings = null,
-        DashboardAccess $access = null
+        ?Setting $settings = null,
+        ?DashboardAccess $access = null
     ) {
         global $DIC;
 

@@ -28,7 +28,7 @@ class ilOrgUnitUserAssignmentDBRepository implements OrgUnitUserAssignmentReposi
     protected ilAppEventHandler $ilAppEventHandler;
     protected ilOrgUnitPositionDBRepository $positionRepo;
 
-    public function __construct(ilDBInterface $db, ilAppEventHandler $handler = null)
+    public function __construct(ilDBInterface $db, ?ilAppEventHandler $handler = null)
     {
         $this->db = $db;
 
@@ -405,8 +405,8 @@ class ilOrgUnitUserAssignmentDBRepository implements OrgUnitUserAssignmentReposi
         array $orgu_ids,
         int $position_id,
         bool $count_only = false,
-        Range $range = null,
-        Order $order = null
+        ?Range $range = null,
+        ?Order $order = null
     ) {
         $sql_order_part = $order ? $order->join('ORDER BY', fn(...$o) => implode(' ', $o)) : '';
         $sql_range_part = $range ? sprintf('LIMIT %2$s OFFSET %1$s', ...$range->unpack()) : '';

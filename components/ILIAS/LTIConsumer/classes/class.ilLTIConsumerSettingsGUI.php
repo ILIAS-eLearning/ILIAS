@@ -165,7 +165,7 @@ class ilLTIConsumerSettingsGUI
         }
     }
 
-    protected function showSettingsCmd(ilLTIConsumerSettingsFormGUI $form = null): void
+    protected function showSettingsCmd(?ilLTIConsumerSettingsFormGUI $form = null): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 

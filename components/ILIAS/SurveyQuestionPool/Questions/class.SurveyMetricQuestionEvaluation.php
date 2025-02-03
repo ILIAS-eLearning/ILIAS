@@ -30,7 +30,7 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
     protected function parseResults(
         ilSurveyEvaluationResults $a_results,
         array $a_answers,
-        SurveyCategories $a_categories = null
+        ?SurveyCategories $a_categories = null
     ): void {
         parent::parseResults($a_results, $a_answers);
 

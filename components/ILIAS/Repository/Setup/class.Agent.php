@@ -29,7 +29,7 @@ use ILIAS\Setup\Metrics;
  */
 class Agent extends Setup\Agent\NullAgent
 {
-    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
     {
         return new \ilDatabaseUpdateStepsExecutedObjective(new RepositoryDBUpdateSteps());
     }

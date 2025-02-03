@@ -389,7 +389,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     }
 
 
-    protected function setStart(ilDateTime $a_value = null): void
+    protected function setStart(?ilDateTime $a_value = null): void
     {
         $this->grp_start = $a_value;
     }
@@ -399,7 +399,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         return $this->grp_start;
     }
 
-    protected function setEnd(ilDateTime $a_value = null): void
+    protected function setEnd(?ilDateTime $a_value = null): void
     {
         $this->grp_end = $a_value;
     }
@@ -1517,7 +1517,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         }
     }
 
-    public static function mayLeave(int $a_group_id, int $a_user_id = null, ?ilDate &$a_date = null): bool
+    public static function mayLeave(int $a_group_id, ?int $a_user_id = null, ?ilDate &$a_date = null): bool
     {
         global $DIC;
 

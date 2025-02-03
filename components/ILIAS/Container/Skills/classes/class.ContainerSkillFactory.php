@@ -34,7 +34,7 @@ class ContainerSkillFactory
         int $tref_id,
         int $cont_obj_id = 0,
         string $title = "",
-        SkillProfile $profile = null
+        ?SkillProfile $profile = null
     ): ContainerSkill {
         return new ContainerSkill(
             $skill_id,

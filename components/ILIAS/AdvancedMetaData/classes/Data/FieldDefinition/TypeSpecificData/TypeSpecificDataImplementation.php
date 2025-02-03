@@ -27,7 +27,7 @@ abstract class TypeSpecificDataImplementation extends PersistenceTrackingDataImp
 {
     private ?int $field_id;
 
-    public function __construct(int $field_id = null)
+    public function __construct(?int $field_id = null)
     {
         $this->field_id = $field_id;
     }

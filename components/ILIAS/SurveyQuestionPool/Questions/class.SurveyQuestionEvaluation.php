@@ -124,7 +124,7 @@ abstract class SurveyQuestionEvaluation
     protected function parseResults(
         ilSurveyEvaluationResults $a_results,
         array $a_answers,
-        SurveyCategories $a_categories = null
+        ?SurveyCategories $a_categories = null
     ): void {
         $num_users_answered = count($a_answers);
 

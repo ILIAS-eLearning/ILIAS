@@ -296,7 +296,7 @@ abstract class SurveyQuestionGUI
         }
     }
 
-    protected function editQuestion(ilPropertyFormGUI $a_form = null): void
+    protected function editQuestion(?ilPropertyFormGUI $a_form = null): void
     {
         $ilTabs = $this->tabs;
 
@@ -619,11 +619,11 @@ abstract class SurveyQuestionGUI
     //
 
     abstract public function getWorkingForm(
-        array $working_data = null,
+        ?array $working_data = null,
         int $question_title = 1,
         bool $show_questiontext = true,
         string $error_message = "",
-        int $survey_id = null,
+        ?int $survey_id = null,
         bool $compress_view = false
     ): string;
 
@@ -631,7 +631,7 @@ abstract class SurveyQuestionGUI
     protected function renderStatisticsDetailsTable(
         array $a_head,
         array $a_rows,
-        array $a_foot = null
+        ?array $a_foot = null
     ): string {
         $html = array();
         $html[] = '<div class="ilTableOuter table-responsive">';

@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 class ilLPStatusStudyProgramme extends ilLPStatus
 {
-    protected static function getAssignments(int $obj_id, int $usr_id = null): array
+    protected static function getAssignments(int $obj_id, ?int $usr_id = null): array
     {
         $dic = ilStudyProgrammeDIC::dic();
         $repo = $dic['repo.assignment'];

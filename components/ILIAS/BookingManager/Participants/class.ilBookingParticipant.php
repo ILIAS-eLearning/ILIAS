@@ -137,8 +137,8 @@ class ilBookingParticipant
 
     public static function getList(
         int $a_booking_pool,
-        array $a_filter = null,
-        int $a_object_id = null
+        ?array $a_filter = null,
+        ?int $a_object_id = null
     ): array {
         global $DIC;
 

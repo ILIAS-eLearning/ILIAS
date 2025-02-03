@@ -875,7 +875,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         ilUtil::deliverData($res, "lang_deprecated.csv");
     }
 
-    protected function getUrl(string $action, array $lang_ids = null): string
+    protected function getUrl(string $action, ?array $lang_ids = null): string
     {
         $url_builder = $this->url_builder->withParameter($this->action_token, $action);
         if($lang_ids) {

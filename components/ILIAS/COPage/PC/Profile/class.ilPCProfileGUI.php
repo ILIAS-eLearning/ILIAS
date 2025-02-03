@@ -59,7 +59,7 @@ class ilPCProfileGUI extends ilPageContentGUI
     /**
      * Insert new personal data form.
      */
-    public function insert(ilPropertyFormGUI $a_form = null): void
+    public function insert(?ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
 
@@ -74,7 +74,7 @@ class ilPCProfileGUI extends ilPageContentGUI
     /**
      * Edit personal data form.
      */
-    public function edit(ilPropertyFormGUI $a_form = null): void
+    public function edit(?ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
 

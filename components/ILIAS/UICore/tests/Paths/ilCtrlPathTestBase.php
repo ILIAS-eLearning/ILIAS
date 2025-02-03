@@ -36,10 +36,10 @@ class ilCtrlPathTestBase extends TestCase
      * @param string|null $cid_path
      * @return ilCtrlPathInterface
      */
-    protected function getPath(string $cid_path = null): ilCtrlPathInterface
+    protected function getPath(?string $cid_path = null): ilCtrlPathInterface
     {
         return new class ($this->structure, $cid_path) extends ilCtrlAbstractPath {
-            public function __construct(ilCtrlStructureInterface $structure, string $cid_path = null)
+            public function __construct(ilCtrlStructureInterface $structure, ?string $cid_path = null)
             {
                 parent::__construct($structure);
                 $this->cid_path = $cid_path;

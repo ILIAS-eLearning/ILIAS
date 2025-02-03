@@ -33,7 +33,7 @@ class Readable
     public function __construct(
         private readonly ilAccessHandler $access,
         $references_of = [ilObject::class, '_getAllReferences'],
-        Incident $incident = null
+        ?Incident $incident = null
     ) {
         $this->references_of = Closure::fromCallable($references_of);
         $this->incident = $incident ?? new Incident();

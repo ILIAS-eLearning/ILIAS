@@ -39,7 +39,7 @@ class RunDBRepository
 
     public function __construct(
         InternalDataService $data,
-        \ilDBInterface $db = null
+        ?\ilDBInterface $db = null
     ) {
         global $DIC;
 

@@ -233,7 +233,7 @@ class ProfileTable
                 return count($this->getRecords());
             }
 
-            protected function getRecords(Data\Range $range = null, Data\Order $order = null): array
+            protected function getRecords(?Data\Range $range = null, ?Data\Order $order = null): array
             {
                 if ($this->skill_tree_id) {
                     $profiles = $this->skill_profile_manager->getProfilesForSkillTree($this->skill_tree_id);

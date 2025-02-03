@@ -76,7 +76,7 @@ class ilCommonSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
+    public function getInstallObjective(?Setup\Config $config = null): Setup\Objective
     {
         return new Setup\Objective\ObjectiveWithPreconditions(
             new \ilMakeInstallationAccessibleObjective($config),
@@ -115,7 +115,7 @@ class ilCommonSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
     {
         $objectives = [
             new Setup\Objective\ObjectiveWithPreconditions(

@@ -64,7 +64,7 @@ class DomainService
      * Get random assignment manager.
      * The manager is used if the "Pass Mode" is set to "Random Selection" in the exercise settings.
      */
-    public function randomAssignments(\ilObjExercise $exercise, \ilObjUser $user = null): Mandatory\RandomAssignmentsManager
+    public function randomAssignments(\ilObjExercise $exercise, ?\ilObjUser $user = null): Mandatory\RandomAssignmentsManager
     {
         if (!isset(self::$managers[Mandatory\RandomAssignmentsManager::class][$exercise->getId()])) {
             self::$managers[Mandatory\RandomAssignmentsManager::class][$exercise->getId()] =

@@ -29,7 +29,7 @@ class TestAbstractOfFinder extends AbstractOfFinder
 {
     public array $class_names = [];
 
-    protected function getAllClassNames(array $additional_ignore, string $matching_path = null): \Iterator
+    protected function getAllClassNames(array $additional_ignore, ?string $matching_path = null): \Iterator
     {
         foreach ($this->class_names as $class_name) {
             yield $class_name;

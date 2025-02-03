@@ -42,9 +42,9 @@ class ilBasicSkill extends ilSkillTreeNode implements Usage\SkillUsageInfo
 
     public function __construct(
         int $a_id = 0,
-        ilSkillLevelRepository $bsc_skl_lvl_db_rep = null,
-        ilSkillUserLevelRepository $bsc_skl_usr_lvl_db_rep = null,
-        ilSkillTreeRepository $bsc_skl_tre_rep = null
+        ?ilSkillLevelRepository $bsc_skl_lvl_db_rep = null,
+        ?ilSkillUserLevelRepository $bsc_skl_usr_lvl_db_rep = null,
+        ?ilSkillTreeRepository $bsc_skl_tre_rep = null
     ) {
         global $DIC;
 
@@ -268,7 +268,7 @@ class ilBasicSkill extends ilSkillTreeNode implements Usage\SkillUsageInfo
 
     public static function getNewAchievementsPerUser(
         string $a_timestamp,
-        string $a_timestamp_to = null,
+        ?string $a_timestamp_to = null,
         int $a_user_id = 0,
         int $a_self_eval = 0
     ): array {

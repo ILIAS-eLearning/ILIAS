@@ -99,7 +99,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         bool $a_all_languages = false,
         string $a_export_dir = "",
         bool $claim_repo_context = true,
-        array $query_params = null,
+        ?array $query_params = null,
         bool $embed_mode = false
     ) {
         global $DIC;

@@ -49,7 +49,7 @@ class ilPCBlog extends ilPageContent
      */
     public function setData(
         int $a_blog_id,
-        array $a_posting_ids = null
+        ?array $a_posting_ids = null
     ): void {
         $ilUser = $this->user;
 

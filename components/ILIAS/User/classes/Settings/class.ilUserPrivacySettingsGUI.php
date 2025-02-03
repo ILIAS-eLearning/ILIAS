@@ -111,7 +111,7 @@ class ilUserPrivacySettingsGUI
     }
 
     public function showPrivacySettings(
-        \ILIAS\UI\Component\Input\Container\Form\Standard $form = null
+        ?\ILIAS\UI\Component\Input\Container\Form\Standard $form = null
     ): void {
         $main_tpl = $this->main_tpl;
         $user = $this->user;

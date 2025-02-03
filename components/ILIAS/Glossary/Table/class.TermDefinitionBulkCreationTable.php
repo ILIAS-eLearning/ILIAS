@@ -118,7 +118,7 @@ class TermDefinitionBulkCreationTable
                 return count($this->getRecords());
             }
 
-            protected function getRecords(Data\Range $range = null): array
+            protected function getRecords(?Data\Range $range = null): array
             {
                 $data = $this->term_manager->getDataArrayFromInputString($this->raw_data);
 

@@ -142,9 +142,9 @@ class ilStudyProgrammeUserTable
         int $prg_id,
         ?array $valid_user_ids,
         Order $order,
-        ilPRGAssignmentFilter $custom_filters = null,
-        int $limit = null,
-        int $offset = null
+        ?ilPRGAssignmentFilter $custom_filters = null,
+        ?int $limit = null,
+        ?int $offset = null
     ): array {
         $data = $this->assignment_repo->getAllForNodeIsContained(
             $prg_id,

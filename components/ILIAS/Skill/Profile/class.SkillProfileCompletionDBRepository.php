@@ -34,8 +34,8 @@ class SkillProfileCompletionDBRepository
     protected Service\SkillInternalFactoryService $factory_service;
 
     public function __construct(
-        \ilDBInterface $db = null,
-        Service\SkillInternalFactoryService $factory_service = null
+        ?\ilDBInterface $db = null,
+        ?Service\SkillInternalFactoryService $factory_service = null
     ) {
         global $DIC;
 

@@ -58,7 +58,7 @@ class ilCOPageHTMLExport
 
     public function __construct(
         string $a_exp_dir,
-        \ILIAS\COPage\PageLinker $linker = null,
+        ?\ILIAS\COPage\PageLinker $linker = null,
         int $ref_id = 0,
         protected ?ExportCollector $export_collector = null
     ) {
@@ -225,7 +225,7 @@ class ilCOPageHTMLExport
     }
 
     public function getPreparedMainTemplate(
-        ilGlobalTemplateInterface $a_tpl = null
+        ?ilGlobalTemplateInterface $a_tpl = null
     ): ilGlobalTemplateInterface {
         global $DIC;
         $this->log->debug("get main template");
@@ -439,7 +439,7 @@ class ilCOPageHTMLExport
      * Export page elements
      */
     public function exportPageElements(
-        callable $a_update_callback = null
+        ?callable $a_update_callback = null
     ): void {
         $this->log->debug("export page elements");
 

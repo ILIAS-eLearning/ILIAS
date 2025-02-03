@@ -127,7 +127,7 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
         return $this->log_settings;
     }
 
-    public function settings(ilPropertyFormGUI $form = null)
+    public function settings(?ilPropertyFormGUI $form = null)
     {
         if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);

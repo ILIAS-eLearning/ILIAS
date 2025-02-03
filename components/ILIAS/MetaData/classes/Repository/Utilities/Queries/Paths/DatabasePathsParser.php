@@ -267,9 +267,9 @@ class DatabasePathsParser implements DatabasePathsParserInterface
     protected function getBaseJoinConditionsForTable(
         string $first_table_alias,
         string $table_alias,
-        string $parent_table_alias = null,
-        string $parent_table = null,
-        string $parent_type = null
+        ?string $parent_table_alias = null,
+        ?string $parent_table = null,
+        ?string $parent_type = null
     ): string {
         $table_alias = $this->quoteIdentifier($table_alias);
         $first_table_alias = $this->quoteIdentifier($first_table_alias);

@@ -56,9 +56,9 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         int $a_ref_id,
         ilObjBookingPool $pool,
         bool $a_show_all,
-        array $a_filter_pre = null,
-        int $a_group_id = null,
-        array $context_obj_ids = null
+        ?array $a_filter_pre = null,
+        ?int $a_group_id = null,
+        ?array $context_obj_ids = null
     ) {
         global $DIC;
 
@@ -266,7 +266,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
     }
 
     public function initFilter(
-        array $a_filter_pre = null
+        ?array $a_filter_pre = null
     ): void {
         if (is_array($a_filter_pre) &&
             isset($a_filter_pre["object"])) {

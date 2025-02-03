@@ -444,7 +444,7 @@ class ilDclTable
     /**
      * @param ilDclTableView[] $tableviews
      */
-    public function sortTableViews(array $tableviews = null): void
+    public function sortTableViews(?array $tableviews = null): void
     {
         if ($tableviews == null) {
             $tableviews = $this->getTableViews();

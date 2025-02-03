@@ -139,7 +139,7 @@ class ilUserQuery
     /**
      * Set last login filter
      */
-    public function setLastLogin(ilDateTime $dt = null): void
+    public function setLastLogin(?ilDateTime $dt = null): void
     {
         $this->last_login = $dt;
     }
@@ -564,9 +564,9 @@ class ilUserQuery
         bool $a_no_courses_filter = false,
         int $a_course_group_filter = 0,
         int $a_role_filter = 0,
-        array $a_user_folder_filter = null,
-        array $a_additional_fields = null,
-        array $a_user_filter = null,
+        ?array $a_user_folder_filter = null,
+        ?array $a_additional_fields = null,
+        ?array $a_user_filter = null,
         string $a_first_letter = "",
         string $a_authentication_filter = ""
     ): array {

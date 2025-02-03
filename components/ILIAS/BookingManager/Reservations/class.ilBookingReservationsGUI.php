@@ -385,7 +385,7 @@ class ilBookingReservationsGUI
      * (C2.a) Cancel aggregated booking from reservations screen (with and without schedule)
      *        called in (C2)
      */
-    public function rsvConfirmCancelAggregation(array $a_ids = null): void
+    public function rsvConfirmCancelAggregation(?array $a_ids = null): void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;

@@ -305,7 +305,7 @@ class LevelResourcesTable
                 return count($this->getRecords());
             }
 
-            protected function getRecords(Data\Range $range = null, Data\Order $order = null): array
+            protected function getRecords(?Data\Range $range = null, ?Data\Order $order = null): array
             {
                 $resources = $this->resource_manager->getResourcesOfLevel(
                     $this->base_skill_id,

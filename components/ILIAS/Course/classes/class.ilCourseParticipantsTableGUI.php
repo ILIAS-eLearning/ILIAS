@@ -42,7 +42,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         bool $a_show_learning_progress = false,
         bool $a_show_timings = false,
         bool $a_show_lp_status_sync = false,
-        ilCertificateUserForObjectPreloader $preloader = null
+        ?ilCertificateUserForObjectPreloader $preloader = null
     ) {
         global $DIC;
 

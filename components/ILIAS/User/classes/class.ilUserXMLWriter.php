@@ -290,7 +290,7 @@ class ilUserXMLWriter extends ilXmlWriter
     public function __addElement(
         string $tagname,
         ?string $value,
-        array $attrs = null,
+        ?array $attrs = null,
         ?string $settingsname = null,
         bool $requiredTag = false
     ): void {

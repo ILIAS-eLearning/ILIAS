@@ -183,7 +183,7 @@ class ilAdvancedMDValues
     /**
      * Write record values
      */
-    public function write(array $a_additional_data = null): void
+    public function write(?array $a_additional_data = null): void
     {
         $this->getActiveRecord()->write($a_additional_data);
     }
@@ -491,7 +491,7 @@ class ilAdvancedMDValues
         array $a_records,
         string $a_obj_id_key,
         string $a_obj_subid_key,
-        array $a_amet_filter = null
+        ?array $a_amet_filter = null
     ): array {
         $results = array();
 

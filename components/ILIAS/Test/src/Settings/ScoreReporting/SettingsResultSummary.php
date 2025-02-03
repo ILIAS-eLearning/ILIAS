@@ -48,7 +48,7 @@ class SettingsResultSummary extends TestSettings
         \ilLanguage $lng,
         FieldFactory $f,
         Refinery $refinery,
-        array $environment = null
+        ?array $environment = null
     ): FormInput {
         $trafo = $refinery->custom()->transformation(
             function ($v) {

@@ -38,12 +38,12 @@ class LegacyTableSetupAgent implements Setup\Agent
         throw new \LogicException('Agent has no config.');
     }
 
-    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
+    public function getInstallObjective(?Setup\Config $config = null): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
 
-    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
     {
         return new ObjectiveCollection(
             'Database is updated for component/ILIAS/Table',

@@ -29,7 +29,7 @@ abstract class ilSCComponentTaskGUI
 
     protected ?ilSCTask $task;
 
-    public function __construct(ilSCTask $task = null)
+    public function __construct(?ilSCTask $task = null)
     {
         global $DIC;
         $this->task = $task;

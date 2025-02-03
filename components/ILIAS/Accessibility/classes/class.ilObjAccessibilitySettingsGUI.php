@@ -173,7 +173,7 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
         }
     }
 
-    protected function editAccessibilitySettings(ilPropertyFormGUI $form = null): void
+    protected function editAccessibilitySettings(?ilPropertyFormGUI $form = null): void
     {
         $this->tabs_gui->setTabActive('acc_settings');
         if (!$form) {

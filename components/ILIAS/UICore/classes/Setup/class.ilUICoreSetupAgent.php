@@ -39,7 +39,7 @@ class ilUICoreSetupAgent implements Agent
     /**
      * @inheritdoc
      */
-    public function getInstallObjective(Config $config = null): Objective
+    public function getInstallObjective(?Config $config = null): Objective
     {
         return new NullObjective();
     }
@@ -47,7 +47,7 @@ class ilUICoreSetupAgent implements Agent
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Config $config = null): Objective
+    public function getUpdateObjective(?Config $config = null): Objective
     {
         return new ilDatabaseUpdateStepsExecutedObjective(
             new ilCtrlDatabaseUpdateSteps()

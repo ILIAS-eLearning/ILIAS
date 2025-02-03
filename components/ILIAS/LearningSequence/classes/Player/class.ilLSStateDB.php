@@ -116,7 +116,7 @@ class ilLSStateDB
         int $usr_id,
         int $ref_id,
         ILIAS\KioskMode\State $state,
-        int $current_item = null
+        ?int $current_item = null
     ): void {
         $insert_first = $this->entryExistsFor($lso_ref_id, $usr_id) === false;
         $states = $this->getStatesFor($lso_ref_id, [$usr_id]);

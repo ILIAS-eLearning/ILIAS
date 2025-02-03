@@ -223,7 +223,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
         $this->editObject();
     }
 
-    public function editObject(ilPropertyFormGUI $form = null): void
+    public function editObject(?ilPropertyFormGUI $form = null): void
     {
         global $DIC;
 

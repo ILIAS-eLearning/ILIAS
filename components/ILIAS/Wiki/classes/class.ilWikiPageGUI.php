@@ -1032,7 +1032,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
     }
 
     public function editAdvancedMetaData(
-        ilPropertyFormGUI $a_form = null
+        ?ilPropertyFormGUI $a_form = null
     ): void {
         $ilTabs = $this->tabs_gui;
         $lng = $this->lng;

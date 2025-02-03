@@ -419,7 +419,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      *
      * @see $matchingpairs
      */
-    public function addMatchingPair(assAnswerMatchingTerm $term = null, assAnswerMatchingDefinition $definition = null, $points = 0.0): void
+    public function addMatchingPair(?assAnswerMatchingTerm $term = null, ?assAnswerMatchingDefinition $definition = null, $points = 0.0): void
     {
         $pair = $this->createMatchingPair($term, $definition, $points);
         array_push($this->matchingpairs, $pair);
@@ -592,7 +592,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @param string $term The text of the term
     * @see $terms
     */
-    public function insertTerm($position, assAnswerMatchingTerm $term = null): void
+    public function insertTerm($position, ?assAnswerMatchingTerm $term = null): void
     {
         if (is_null($term)) {
             $term = $this->createMatchingTerm();
@@ -612,7 +612,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @param object $definition The definition
     * @see $definitions
     */
-    public function insertDefinition($position, assAnswerMatchingDefinition $definition = null): void
+    public function insertDefinition($position, ?assAnswerMatchingDefinition $definition = null): void
     {
         if (is_null($definition)) {
             $definition = $this->createMatchingDefinition();
@@ -1333,8 +1333,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return new assAnswerMatchingDefinition($term, $picture, $identifier);
     }
     protected function createMatchingPair(
-        assAnswerMatchingTerm $term = null,
-        assAnswerMatchingDefinition $definition = null,
+        ?assAnswerMatchingTerm $term = null,
+        ?assAnswerMatchingDefinition $definition = null,
         float $points = 0.0
     ): assAnswerMatchingPair {
         $term = $term ?? $this->createMatchingTerm();

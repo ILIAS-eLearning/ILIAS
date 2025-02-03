@@ -43,8 +43,8 @@ class ilLikeData
 
     public function __construct(
         array $a_obj_ids = array(),
-        ilDBInterface $db = null,
-        ilLanguage $lng = null
+        ?ilDBInterface $db = null,
+        ?ilLanguage $lng = null
     ) {
         global $DIC;
 

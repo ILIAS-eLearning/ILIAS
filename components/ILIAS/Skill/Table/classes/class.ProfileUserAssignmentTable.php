@@ -193,7 +193,7 @@ class ProfileUserAssignmentTable
                 return count($this->getRecords());
             }
 
-            protected function getRecords(Data\Range $range = null, Data\Order $order = null): array
+            protected function getRecords(?Data\Range $range = null, ?Data\Order $order = null): array
             {
                 $assignments = $this->profile_manager->getAssignments($this->profile->getId());
 

@@ -36,7 +36,7 @@ class ilBookingSchedule
     protected ?ilDateTime $av_to = null;
 
     public function __construct(
-        int $a_id = null
+        ?int $a_id = null
     ) {
         global $DIC;
 

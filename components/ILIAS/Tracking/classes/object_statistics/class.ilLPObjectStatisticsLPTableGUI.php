@@ -44,7 +44,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
     public function __construct(
         ?object $a_parent_obj,
         string $a_parent_cmd,
-        array $a_preselect = null,
+        ?array $a_preselect = null,
         bool $a_is_chart = false,
         bool $a_is_details = false
     ) {

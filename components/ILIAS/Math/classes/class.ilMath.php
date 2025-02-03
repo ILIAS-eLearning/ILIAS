@@ -136,7 +136,7 @@ class ilMath
     /**
      * @throws ilMathException
      */
-    public static function getInstance(string $adapter = null): \ilMathAdapter
+    public static function getInstance(?string $adapter = null): \ilMathAdapter
     {
         if (null === $adapter) {
             return static::getFirstValidAdapter();

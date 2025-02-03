@@ -138,7 +138,7 @@ class ilRating
         int $a_sub_obj_id,
         string $a_sub_obj_type,
         int $a_user_id,
-        int $a_category_id = null
+        ?int $a_category_id = null
     ): float {
         global $DIC;
 
@@ -174,9 +174,9 @@ class ilRating
     public static function getOverallRatingForObject(
         int $a_obj_id,
         string $a_obj_type,
-        int $a_sub_obj_id = null,
-        string $a_sub_obj_type = null,
-        int $a_category_id = null
+        ?int $a_sub_obj_id = null,
+        ?string $a_sub_obj_type = null,
+        ?int $a_category_id = null
     ): array {
         global $DIC;
 
@@ -225,7 +225,7 @@ class ilRating
     public static function getExportData(
         int $a_obj_id,
         string $a_obj_type,
-        array $a_category_ids = null
+        ?array $a_category_ids = null
     ): array {
         global $DIC;
 

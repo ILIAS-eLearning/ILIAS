@@ -70,9 +70,9 @@ class ilObjectMetaDataGUI
     private ilObjectRequestRetriever $retriever;
 
     public function __construct(
-        ilObject $object = null,
+        ?ilObject $object = null,
         $sub_type = null,
-        int $sub_id = null,
+        ?int $sub_id = null,
         bool $in_repository = true
     ) {
         global $DIC;
@@ -369,7 +369,7 @@ class ilObjectMetaDataGUI
     /**
      * Get tab link if available
      */
-    public function getTab(string $base_class = null): ?string
+    public function getTab(?string $base_class = null): ?string
     {
         if (!$base_class) {
             $path = [];
@@ -479,7 +479,7 @@ class ilObjectMetaDataGUI
         return $form;
     }
 
-    protected function edit(ilPropertyFormGUI $a_form = null): void
+    protected function edit(?ilPropertyFormGUI $a_form = null): void
     {
         if (!$a_form) {
             $a_form = $this->initEditForm();

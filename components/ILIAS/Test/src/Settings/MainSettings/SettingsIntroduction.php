@@ -43,7 +43,7 @@ class SettingsIntroduction extends TestSettings
         \ilLanguage $lng,
         FieldFactory $f,
         Refinery $refinery,
-        array $environment = null
+        ?array $environment = null
     ): FormInput {
         $inputs['introduction_enabled'] = $f->checkbox(
             $lng->txt('tst_introduction'),

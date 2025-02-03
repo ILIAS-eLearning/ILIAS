@@ -220,7 +220,7 @@ abstract class ilCtrlAbstractPath implements ilCtrlPathInterface
      * @param string|null $path
      * @return string
      */
-    protected function appendCid(string $cid, string $path = null): string
+    protected function appendCid(string $cid, ?string $path = null): string
     {
         if (null === $path) {
             return $cid;

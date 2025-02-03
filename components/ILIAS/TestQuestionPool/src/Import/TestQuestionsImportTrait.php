@@ -103,7 +103,7 @@ trait TestQuestionsImportTrait
         string $form_cmd,
         string $importdir,
         string $qtifile,
-        string $path_to_uploaded_file_in_temp_dir = null
+        ?string $path_to_uploaded_file_in_temp_dir = null
     ): ?StandardForm {
         $qtiParser = new \ilQTIParser(
             $importdir,

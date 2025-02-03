@@ -133,7 +133,7 @@ class ilTree
     public function __construct(
         int $a_tree_id,
         int $a_root_id = 0,
-        ilDBInterface $db = null
+        ?ilDBInterface $db = null
     ) {
         global $DIC;
 

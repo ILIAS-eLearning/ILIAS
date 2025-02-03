@@ -31,7 +31,7 @@ class SelectSpecificDataImplementation extends TypeSpecificDataImplementation im
     protected array $options;
 
     public function __construct(
-        int $field_id = null,
+        ?int $field_id = null,
         Option ...$options
     ) {
         parent::__construct($field_id);

@@ -31,7 +31,7 @@ class ilUserSettingsConfig
     protected ?ilSetting $settings;
 
     public function __construct(
-        ilSetting $settings = null
+        ?ilSetting $settings = null
     ) {
         global $DIC;
 

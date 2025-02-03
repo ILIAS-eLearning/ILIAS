@@ -43,7 +43,7 @@ class ilObjectOwnershipManagementGUI
     protected bool $read_only;
     private ilObjectRequestRetriever $retriever;
 
-    public function __construct(int $user_id = null, bool $read_only = false)
+    public function __construct(?int $user_id = null, bool $read_only = false)
     {
         global $DIC;
 
@@ -155,7 +155,7 @@ class ilObjectOwnershipManagementGUI
         $this->ctrl->redirectByClass('ilRepositoryGUI');
     }
 
-    protected function redirectCmd(int $ref_id, string $class, string $cmd = null): void
+    protected function redirectCmd(int $ref_id, string $class, ?string $cmd = null): void
     {
         $node = $this->tree->getNodeData($ref_id);
         $gui_class = 'ilObj' . $this->obj_definition->getClassName($node['type']) . 'GUI';

@@ -898,7 +898,7 @@ if (!class_exists('OAuthServer')) {
          * @param OAuthToken $token|null
          * @throws OAuthException
          */
-        private function checkSignature(OAuthRequest $request, OAuthConsumer $consumer, OAuthToken $token = null): void
+        private function checkSignature(OAuthRequest $request, OAuthConsumer $consumer, ?OAuthToken $token = null): void
         {
             // this should probably be in a different method
             $timestamp = (int) $request->get_parameter('oauth_timestamp');

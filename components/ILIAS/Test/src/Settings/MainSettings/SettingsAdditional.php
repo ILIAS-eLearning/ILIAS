@@ -45,7 +45,7 @@ class SettingsAdditional extends TestSettings
         \ilLanguage $lng,
         FieldFactory $f,
         Refinery $refinery,
-        array $environment = null
+        ?array $environment = null
     ): array {
         $inputs = [];
         if ((new \ilSkillManagementSettings())->isActivated()) {

@@ -32,7 +32,7 @@ class LSUrlBuilder implements URLBuilder
         $this->base_url = $base_url;
     }
 
-    public function getURL(string $command, int $param = null): ILIAS\Data\URI
+    public function getURL(string $command, ?int $param = null): ILIAS\Data\URI
     {
         $query = $this->base_url->getQuery();
         if (!$query) {
@@ -50,7 +50,7 @@ class LSUrlBuilder implements URLBuilder
         return $this->base_url->withQuery(http_build_query($params));
     }
 
-    public function getHref(string $command, int $param = null): string
+    public function getHref(string $command, ?int $param = null): string
     {
         $url = $this->getURL($command, $param);
         return $url->getBaseURI() . '?' . $url->getQuery();

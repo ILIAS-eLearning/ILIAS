@@ -30,7 +30,7 @@ class ilExcCriteriaCatalogue
     protected ?string $title = null;
     protected int $pos = 0;
 
-    public function __construct(int $a_id = null)
+    public function __construct(?int $a_id = null)
     {
         global $DIC;
 

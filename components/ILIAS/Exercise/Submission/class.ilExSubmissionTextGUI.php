@@ -145,7 +145,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
     }
 
     public function editAssignmentTextObject(
-        ilPropertyFormGUI $a_form = null
+        ?ilPropertyFormGUI $a_form = null
     ): void {
         $ilCtrl = $this->ctrl;
 

@@ -43,7 +43,7 @@ class ilCertificateSettingsLTIConsumerFormRepository implements ilCertificateFor
         ilAccess $access,
         ilToolbarGUI $toolbar,
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
-        ilCertificateSettingsFormRepository $settingsFormRepository = null
+        ?ilCertificateSettingsFormRepository $settingsFormRepository = null
     ) {
         //        $this->object = $object;
         //        $this->language = $language;

@@ -161,7 +161,7 @@ class GlossaryForeignTermTable
                 return count($this->getRecords());
             }
 
-            protected function getRecords(Data\Range $range = null): array
+            protected function getRecords(?Data\Range $range = null): array
             {
                 $records = [];
                 $i = 0;

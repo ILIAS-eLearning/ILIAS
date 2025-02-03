@@ -195,7 +195,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
     }
 
     public function getParsedAnswers(
-        array $a_working_data = null,
+        ?array $a_working_data = null,
         bool $a_only_user_anwers = false
     ): array {
         if (is_array($a_working_data)) {
@@ -552,11 +552,11 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
      * Creates the question output form for the learner
      */
     public function getWorkingForm(
-        array $working_data = null,
+        ?array $working_data = null,
         int $question_title = 1,
         bool $show_questiontext = true,
         string $error_message = "",
-        int $survey_id = null,
+        ?int $survey_id = null,
         bool $compress_view = false
     ): string {
         $layout = $this->object->getLayout();

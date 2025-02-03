@@ -61,7 +61,7 @@ class SubmissionManager
         int $user_id,
         ?array $submit_ids = null,
         bool $only_valid = false,
-        string $min_timestamp = null,
+        ?string $min_timestamp = null,
         bool $print_versions = false
     ): \Generator {
         $type_uses_print_versions = in_array($this->assignment->getType(), [

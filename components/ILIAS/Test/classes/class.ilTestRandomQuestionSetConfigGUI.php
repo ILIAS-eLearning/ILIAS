@@ -280,7 +280,7 @@ class ilTestRandomQuestionSetConfigGUI
         return $this->testrequest->raw(self::HTTP_PARAM_AFTER_REBUILD_QUESTION_STAGE_CMD);
     }
 
-    private function showGeneralConfigFormCmd(ilTestRandomQuestionSetGeneralConfigFormGUI $form = null): void
+    private function showGeneralConfigFormCmd(?ilTestRandomQuestionSetGeneralConfigFormGUI $form = null): void
     {
         $disabled_form = $this->preventFormBecauseOfSync();
 
@@ -499,7 +499,7 @@ class ilTestRandomQuestionSetConfigGUI
         $this->tpl->setContent($selector->getHTML(true));
     }
 
-    private function showCreateSourcePoolDefinitionFormCmd(ilTestRandomQuestionSetPoolDefinitionFormGUI $form = null): void
+    private function showCreateSourcePoolDefinitionFormCmd(?ilTestRandomQuestionSetPoolDefinitionFormGUI $form = null): void
     {
         $this->question_set_config->loadFromDb();
 
@@ -595,7 +595,7 @@ class ilTestRandomQuestionSetConfigGUI
         return $form;
     }
 
-    private function showEditSourcePoolDefinitionFormCmd(ilTestRandomQuestionSetPoolDefinitionFormGUI $form = null): void
+    private function showEditSourcePoolDefinitionFormCmd(?ilTestRandomQuestionSetPoolDefinitionFormGUI $form = null): void
     {
         $this->question_set_config->loadFromDb();
 

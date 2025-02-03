@@ -47,7 +47,7 @@ class ilPrivacySecuritySetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getConfigInput(Setup\Config $config = null): UI\Component\Input\Container\Form\FormInput
+    public function getConfigInput(?Setup\Config $config = null): UI\Component\Input\Container\Form\FormInput
     {
         throw new LogicException("Not yet implemented.");
     }
@@ -70,7 +70,7 @@ class ilPrivacySecuritySetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
+    public function getInstallObjective(?Setup\Config $config = null): Setup\Objective
     {
         return new Setup\ObjectiveCollection(
             "Complete objectives from Services/PrivacySecurity",
@@ -82,7 +82,7 @@ class ilPrivacySecuritySetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
     {
         if ($config === null || $config instanceof Setup\NullConfig) {
             return new Setup\Objective\NullObjective();

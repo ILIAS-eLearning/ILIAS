@@ -413,8 +413,8 @@ class ObjectiveRenderer
     protected function renderObjective(
         int $a_objective_id,
         bool &$a_has_lo_page,
-        \ilAccordionGUI $a_accordion = null,
-        array $a_lo_result = null
+        ?\ilAccordionGUI $a_accordion = null,
+        ?array $a_lo_result = null
     ): string {
         $ilUser = $this->domain->user();
         $lng = $this->domain->lng();
@@ -658,14 +658,14 @@ class ObjectiveRenderer
      * @return string
      */
     public static function renderProgressMeter(
-        int $a_perc_result = null,
-        int $a_perc_limit = null,
-        int $a_compare_value = null,
-        string $a_caption = null,
-        string $a_url = null,
-        string $a_tt_id = null,
-        string $a_tt_txt = null,
-        string $a_next_step = null,
+        ?int $a_perc_result = null,
+        ?int $a_perc_limit = null,
+        ?int $a_compare_value = null,
+        ?string $a_caption = null,
+        ?string $a_url = null,
+        ?string $a_tt_id = null,
+        ?string $a_tt_txt = null,
+        ?string $a_next_step = null,
         bool $a_sub = false,
         int $a_sub_style = 30,
         string $a_main_text = '',
@@ -786,7 +786,7 @@ class ObjectiveRenderer
         array $a_lo_result,
         bool $a_list_mode = false,
         bool $a_sub = false,
-        string $a_tt_suffix = null
+        ?string $a_tt_suffix = null
     ): string {
         global $DIC;
 
@@ -894,7 +894,7 @@ class ObjectiveRenderer
 
     protected function buildAccordionTitle(
         \ilCourseObjective $a_objective,
-        array $a_lo_result = null
+        ?array $a_lo_result = null
     ): string {
         global $DIC;
 

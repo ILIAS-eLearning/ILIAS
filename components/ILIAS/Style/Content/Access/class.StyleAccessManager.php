@@ -33,7 +33,7 @@ class StyleAccessManager
     protected int $user_id = 0;
     protected ilRbacSystem $rbacsystem;
 
-    public function __construct(ilRbacSystem $rbacsystem = null, int $ref_id = 0, int $user_id = 0)
+    public function __construct(?ilRbacSystem $rbacsystem = null, int $ref_id = 0, int $user_id = 0)
     {
         global $DIC;
 

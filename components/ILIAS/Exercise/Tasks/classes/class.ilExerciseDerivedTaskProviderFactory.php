@@ -31,8 +31,8 @@ class ilExerciseDerivedTaskProviderFactory implements ilDerivedTaskProviderFacto
 
     public function __construct(
         ilTaskService $task_service,
-        ilAccess $access = null,
-        ilLanguage $lng = null
+        ?ilAccess $access = null,
+        ?ilLanguage $lng = null
     ) {
         global $DIC;
 

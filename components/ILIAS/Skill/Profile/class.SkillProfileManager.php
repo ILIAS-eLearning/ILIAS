@@ -36,10 +36,10 @@ class SkillProfileManager implements Usage\SkillUsageInfo
     protected \ilLanguage $lng;
 
     public function __construct(
-        SkillProfileDBRepository $profile_repo = null,
-        SkillProfileLevelsDBRepository $profile_levels_repo = null,
-        SkillProfileUserDBRepository $profile_user_repo = null,
-        SkillProfileRoleDBRepository $profile_role_repo = null
+        ?SkillProfileDBRepository $profile_repo = null,
+        ?SkillProfileLevelsDBRepository $profile_levels_repo = null,
+        ?SkillProfileUserDBRepository $profile_user_repo = null,
+        ?SkillProfileRoleDBRepository $profile_role_repo = null
     ) {
         global $DIC;
 

@@ -36,7 +36,7 @@ class ilDummyKioskModeView extends ilKioskModeView
     public function updateGet(
         State $state,
         string $command,
-        int $parameter = null
+        ?int $parameter = null
     ): State {
         return new State();
     }
@@ -50,7 +50,7 @@ class ilDummyKioskModeView extends ilKioskModeView
         State $state,
         Factory $factory,
         URLBuilder $url_builder,
-        array $post = null
+        ?array $post = null
     ): Component {
         return new ILIAS\UI\Implementation\Component\Button\Close();
     }

@@ -52,7 +52,7 @@ interface ServicesInterface
         int $obj_id,
         int $sub_id,
         string $type,
-        PathInterface $limited_to = null
+        ?PathInterface $limited_to = null
     ): ReaderInterface;
 
     /**

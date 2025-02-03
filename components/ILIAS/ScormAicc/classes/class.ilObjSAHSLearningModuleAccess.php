@@ -66,7 +66,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
      *    );
      * @return array<int, array>
      */
-    public static function _getCommands(int $a_obj_id = null): array
+    public static function _getCommands(?int $a_obj_id = null): array
     {
         $commands = array(
             array("permission" => "read", "cmd" => "view", "lang_var" => "show", "default" => true),

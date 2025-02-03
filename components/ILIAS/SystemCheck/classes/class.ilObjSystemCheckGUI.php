@@ -175,7 +175,7 @@ class ilObjSystemCheckGUI extends ilObjectGUI
         return true;
     }
 
-    protected function trash(ilPropertyFormGUI $form = null): void
+    protected function trash(?ilPropertyFormGUI $form = null): void
     {
         $this->checkPermission('write');
 

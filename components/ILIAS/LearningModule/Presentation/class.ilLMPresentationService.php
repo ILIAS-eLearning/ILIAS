@@ -42,7 +42,7 @@ class ilLMPresentationService
         bool $offline = false,
         bool $export_all_languages = false,
         string $export_format = "",
-        ilCtrl $ctrl = null,
+        ?ilCtrl $ctrl = null,
         bool $embed_mode = false
     ) {
         global $DIC;

@@ -33,7 +33,7 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
     public function __construct(
         ilObjCourseVerificationGUI $a_parent_obj,
         string $a_parent_cmd = '',
-        ilUserCertificateRepository $userCertificateRepository = null
+        ?ilUserCertificateRepository $userCertificateRepository = null
     ) {
         global $DIC;
 

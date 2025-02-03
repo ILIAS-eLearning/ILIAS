@@ -580,7 +580,7 @@ class ilObjLearningSequence extends ilContainer
      * @param string[] $columns
      * @return array<int|string, array>
      */
-    public function readMemberData(array $user_ids, array $columns = null): array
+    public function readMemberData(array $user_ids, ?array $columns = null): array
     {
         return $this->getLsRoles()->readMemberData($user_ids, $columns);
     }

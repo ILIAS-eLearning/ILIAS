@@ -33,7 +33,7 @@ trait HasConfigReader
      */
     protected ConfigReader $config_reader;
 
-    protected function readAgentConfig(Agent $agent, InputInterface $input, string $use_config_field = null): ?Config
+    protected function readAgentConfig(Agent $agent, InputInterface $input, ?string $use_config_field = null): ?Config
     {
         if (!($this->config_reader instanceof ConfigReader)) {
             throw new \LogicException("\$this->config_reader not properly initialized.");

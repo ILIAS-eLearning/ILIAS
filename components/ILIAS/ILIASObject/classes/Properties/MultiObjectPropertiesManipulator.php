@@ -104,7 +104,7 @@ class MultiObjectPropertiesManipulator
     private function buildModal(
         string $post_url,
         ?array $items = null,
-        array $ref_ids = null,
+        ?array $ref_ids = null,
         bool $all_settings_are_equal = false
     ): RoundTripModal {
         $ref_id_for_value = null;

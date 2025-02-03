@@ -491,7 +491,7 @@ abstract class ilObject2GUI extends ilObjectGUI
         string $perm,
         string $cmd = "",
         string $type = "",
-        int $ref_id = null
+        ?int $ref_id = null
     ): void {
         parent::checkPermission($perm, $cmd, $type, $ref_id);
     }
@@ -634,7 +634,7 @@ abstract class ilObject2GUI extends ilObjectGUI
     /**
      * Add object to tree at given position
      */
-    public function putObjectInTree(ilObject $obj, int $parent_node_id = null): void
+    public function putObjectInTree(ilObject $obj, ?int $parent_node_id = null): void
     {
         $this->object_id = $obj->getId();
 

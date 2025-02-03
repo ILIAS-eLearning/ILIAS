@@ -2873,7 +2873,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         return $form;
     }
 
-    public function newAccountMailObject(ilPropertyFormGUI $form = null): void
+    public function newAccountMailObject(?ilPropertyFormGUI $form = null): void
     {
         $this->raiseErrorOnMissingWrite();
         $this->setSubTabs('settings');

@@ -48,7 +48,7 @@ class ilExSubmissionGUI
     public function __construct(
         ilObjExercise $a_exercise,
         ilExAssignment $a_ass,
-        int $a_user_id = null
+        ?int $a_user_id = null
     ) {
         global $DIC;
 

@@ -454,7 +454,7 @@ class ilObjectDefinition
     public function getCreatableSubObjects(
         string $obj_type,
         int $context = self::MODE_REPOSITORY,
-        int $parent_ref_id = null
+        ?int $parent_ref_id = null
     ): array {
         $sub_objects = $this->getSubObjects($obj_type);
 

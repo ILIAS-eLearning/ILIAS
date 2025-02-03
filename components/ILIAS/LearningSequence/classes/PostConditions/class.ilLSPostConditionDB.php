@@ -70,7 +70,7 @@ class ilLSPostConditionDB
         return $conditions;
     }
 
-    public function delete(array $ref_ids, ilDBInterface $db = null): void
+    public function delete(array $ref_ids, ?ilDBInterface $db = null): void
     {
         if ($ref_ids === []) {
             return;

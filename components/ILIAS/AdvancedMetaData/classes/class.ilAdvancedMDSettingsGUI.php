@@ -895,7 +895,7 @@ class ilAdvancedMDSettingsGUI
         $this->ctrl->redirect($this, "editFields");
     }
 
-    public function editRecord(ilPropertyFormGUI $form = null): void
+    public function editRecord(?ilPropertyFormGUI $form = null): void
     {
         $record_id = $this->getRecordIdFromQuery();
         if (!$record_id) {
@@ -1092,7 +1092,7 @@ class ilAdvancedMDSettingsGUI
      * @access public
      * @param
      */
-    public function createRecord(ilPropertyFormGUI $form = null): void
+    public function createRecord(?ilPropertyFormGUI $form = null): void
     {
         $this->initRecordObject();
         $this->setRecordSubTabs();
@@ -1270,7 +1270,7 @@ class ilAdvancedMDSettingsGUI
      * Edit field
      * @access public
      */
-    public function editField(ilPropertyFormGUI $a_form = null): void
+    public function editField(?ilPropertyFormGUI $a_form = null): void
     {
         $record_id = $this->getRecordIdFromQuery();
         $field_id = $this->getFieldIdFromQuery();
@@ -1349,7 +1349,7 @@ class ilAdvancedMDSettingsGUI
      * Show field type selection
      * @access public
      */
-    public function createField(ilPropertyFormGUI $a_form = null): void
+    public function createField(?ilPropertyFormGUI $a_form = null): void
     {
         $record_id = $this->getRecordIdFromQuery();
         $field_type = $this->getFieldTypeFromPost();
@@ -2256,7 +2256,7 @@ class ilAdvancedMDSettingsGUI
     // complex options
     //
 
-    public function editComplexOption(ilPropertyFormGUI $a_form = null): void
+    public function editComplexOption(?ilPropertyFormGUI $a_form = null): void
     {
         $field_id = $this->getFieldIdFromQuery();
         if (!$field_id) {

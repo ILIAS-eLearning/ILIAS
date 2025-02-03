@@ -321,7 +321,7 @@ class ilUserImportParser extends ilSaxParser
     /**
      * generate a tag with given name and attributes
      */
-    public function buildTag(string $type, string $name, array $attr = null): string // Missing array type.
+    public function buildTag(string $type, string $name, ?array $attr = null): string // Missing array type.
     {
         $tag = '<';
 

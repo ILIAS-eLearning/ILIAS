@@ -198,8 +198,8 @@ class ilOrgUnitTypeGUI
     }
 
     protected function getIconForm(
-        string $section_title = null,
-        string $current_identifier = null
+        ?string $section_title = null,
+        ?string $current_identifier = null
     ): StandardForm {
         $handler_gui = new ilOrgUnitTypeUploadHandlerGUI();
 
@@ -296,7 +296,7 @@ class ilOrgUnitTypeGUI
         return 0;
     }
 
-    public function getSingleTypeLinkTarget(string $action, int $type_id = null): string
+    public function getSingleTypeLinkTarget(string $action, ?int $type_id = null): string
     {
         $target_id = $type_id ? [$type_id] : [$this->getRowIdFromQuery()];
         return $this->url_builder

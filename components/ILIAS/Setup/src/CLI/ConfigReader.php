@@ -37,7 +37,7 @@ class ConfigReader
     protected JsonParser $json_parser;
     protected string $base_dir;
 
-    public function __construct(JsonParser $json_parser, string $base_dir = null)
+    public function __construct(JsonParser $json_parser, ?string $base_dir = null)
     {
         $this->json_parser = $json_parser;
         $this->base_dir = $base_dir ?? getcwd();

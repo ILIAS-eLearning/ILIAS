@@ -72,7 +72,7 @@ class ilObjStudyProgrammeReferenceAccess extends ilContainerReferenceAccess
         return true;
     }
 
-    public static function _getCommands(int $a_ref_id = null): array
+    public static function _getCommands(?int $a_ref_id = null): array
     {
         global $DIC;
         $ilAccess = $DIC->access();

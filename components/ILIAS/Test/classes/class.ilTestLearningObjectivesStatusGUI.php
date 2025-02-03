@@ -74,7 +74,7 @@ class ilTestLearningObjectivesStatusGUI
         $this->usr_id = $usr_id;
     }
 
-    public function getHTML(int $objective_id = null): string
+    public function getHTML(?int $objective_id = null): string
     {
         $this->lng->loadLanguageModule('crs');
 

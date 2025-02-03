@@ -49,7 +49,7 @@ class SettingsTestBehaviour extends TestSettings
         \ilLanguage $lng,
         FieldFactory $f,
         Refinery $refinery,
-        array $environment = null
+        ?array $environment = null
     ): FormInput {
         $inputs['limit_attempts'] = $this->getInputLimitAttempts(
             $lng,

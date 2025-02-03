@@ -1418,7 +1418,7 @@ class ilRbacReview
         self::$assigned_users_cache = [];
     }
 
-    public static function _getCustomRBACOperationId(string $operation, \ilDBInterface $ilDB = null): ?int
+    public static function _getCustomRBACOperationId(string $operation, ?\ilDBInterface $ilDB = null): ?int
     {
         if (!$ilDB) {
             global $DIC;
@@ -1440,7 +1440,7 @@ class ilRbacReview
         return (int) $row["ops_id"] ?? null;
     }
 
-    public static function _isRBACOperation(int $type_id, int $ops_id, \ilDBInterface $ilDB = null): bool
+    public static function _isRBACOperation(int $type_id, int $ops_id, ?\ilDBInterface $ilDB = null): bool
     {
         if (!$ilDB) {
             global $DIC;

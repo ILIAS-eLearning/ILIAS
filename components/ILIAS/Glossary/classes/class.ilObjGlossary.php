@@ -419,7 +419,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         int $a_tax_node = 0,
         bool $a_include_offline_childs = false,
         bool $a_add_amet_fields = false,
-        array $a_amet_filter = null,
+        ?array $a_amet_filter = null,
         bool $a_omit_virtual = false,
         bool $a_include_references = false
     ): array {

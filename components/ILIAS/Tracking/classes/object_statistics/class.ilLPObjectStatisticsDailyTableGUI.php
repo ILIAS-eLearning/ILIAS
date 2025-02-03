@@ -35,7 +35,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
     public function __construct(
         ?object $a_parent_obj,
         string $a_parent_cmd,
-        array $a_preselect = null,
+        ?array $a_preselect = null,
         bool $a_load_items = true
     ) {
         $this->preselected = $a_preselect;

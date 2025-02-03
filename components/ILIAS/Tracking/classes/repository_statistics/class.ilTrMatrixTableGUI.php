@@ -325,7 +325,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
     public function getItems(
         array $a_user_fields,
-        array $a_privary_fields = null
+        ?array $a_privary_fields = null
     ): array {
 
         // #17081

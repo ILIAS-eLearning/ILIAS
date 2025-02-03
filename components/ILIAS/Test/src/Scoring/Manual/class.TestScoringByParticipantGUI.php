@@ -167,7 +167,7 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
         $this->showManScoringParticipantsTable();
     }
 
-    private function showManScoringParticipantScreen(\ilPropertyFormGUI $form = null): void
+    private function showManScoringParticipantScreen(?\ilPropertyFormGUI $form = null): void
     {
         $active_id = $this->fetchActiveIdParameter();
 

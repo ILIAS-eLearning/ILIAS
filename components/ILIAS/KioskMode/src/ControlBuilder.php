@@ -29,7 +29,7 @@ interface ControlBuilder
      *
      * @throws \LogicException if view wants to introduce a second next button.
      */
-    public function next(string $command, int $parameter = null): ControlBuilder;
+    public function next(string $command, ?int $parameter = null): ControlBuilder;
 
     /**
      * A previous control allows the user to go back to the previous item in the object.
@@ -39,7 +39,7 @@ interface ControlBuilder
      *
      * @throws \LogicException if view wants to introduce a second previous button.
      */
-    public function previous(string $command, int $parameter = null): ControlBuilder;
+    public function previous(string $command, ?int $parameter = null): ControlBuilder;
 
     /**
      * A done control allows the user to mark the object as done.
@@ -49,7 +49,7 @@ interface ControlBuilder
      *
      * @throws \LogicException if view wants to introduce a second done button.
      */
-    public function done(string $command, int $parameter = null): ControlBuilder;
+    public function done(string $command, ?int $parameter = null): ControlBuilder;
 
     /**
      * A generic control needs to have a label that tells what it does.
@@ -57,7 +57,7 @@ interface ControlBuilder
      * The $parameter can be used to pass additional information to View::updateGet
      * if required, e.g. about a chapter in the content.
      */
-    public function generic(string $label, string $command, int $parameter = null): ControlBuilder;
+    public function generic(string $label, string $command, ?int $parameter = null): ControlBuilder;
 
     /**
      * A genericWithSignal will trigger the Signal rather than refreshing the View.
@@ -99,5 +99,5 @@ interface ControlBuilder
      * @param	mixed $state one of the STATE_ constants from TOCBuilder
      */
 
-    public function tableOfContent(string $label, string $command, int $parameter = null, $state = null): TOCBuilder;
+    public function tableOfContent(string $label, string $command, ?int $parameter = null, $state = null): TOCBuilder;
 }

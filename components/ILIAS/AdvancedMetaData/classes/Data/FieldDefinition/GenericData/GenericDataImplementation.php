@@ -37,7 +37,7 @@ class GenericDataImplementation extends PersistenceTrackingDataImplementation im
         protected bool $searchable,
         protected bool $required,
         protected array $field_values,
-        int $id = null
+        ?int $id = null
     ) {
         $this->id = $id;
     }

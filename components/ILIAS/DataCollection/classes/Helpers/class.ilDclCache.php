@@ -128,7 +128,7 @@ class ilDclCache
         return null;
     }
 
-    public static function getTableCache(int $table_id = null): ilDclTable
+    public static function getTableCache(?int $table_id = null): ilDclTable
     {
         if (is_null($table_id) === true || $table_id === 0) {
             return new ilDclTable();

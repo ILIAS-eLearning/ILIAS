@@ -165,7 +165,7 @@ class TreeTable
                 return count($this->getRecords());
             }
 
-            protected function getRecords(Data\Range $range = null, Data\Order $order = null): array
+            protected function getRecords(?Data\Range $range = null, ?Data\Order $order = null): array
             {
                 $items = array_filter(array_map(
                     function (\ilObjSkillTree $skillTree): array {

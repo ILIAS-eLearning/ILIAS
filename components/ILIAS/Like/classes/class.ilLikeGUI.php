@@ -142,7 +142,7 @@ class ilLikeGUI
      * @throws ilLikeDataException
      */
     protected function renderEmoCounters(
-        ILIAS\UI\Component\Signal $modal_signal = null,
+        ?ILIAS\UI\Component\Signal $modal_signal = null,
         bool $unavailable = false
     ): string {
         $ilCtrl = $this->ctrl;

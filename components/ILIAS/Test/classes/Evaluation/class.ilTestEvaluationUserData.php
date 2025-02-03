@@ -282,7 +282,7 @@ class ilTestEvaluationUserData
         return $this->questions[$pass] ?? null;
     }
 
-    public function addQuestion(int $original_id, int $question_id, float $max_points, int $sequence = null, int $pass = 0): void
+    public function addQuestion(int $original_id, int $question_id, float $max_points, ?int $sequence = null, int $pass = 0): void
     {
         if (!isset($this->questions[$pass])) {
             $this->questions[$pass] = [];

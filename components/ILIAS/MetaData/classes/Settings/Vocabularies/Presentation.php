@@ -136,7 +136,7 @@ class Presentation
      */
     public function makeValuesPresentable(
         VocabularyInterface $vocabulary,
-        int $limit = null
+        ?int $limit = null
     ): array {
         $presentable_values = [];
         $i = 0;

@@ -235,7 +235,7 @@ class GlobalTemplateLegacyInitialisationAdapter implements GlobalTemplate
         return $this->getLegacyGlobalTemplateInstance()->touchBlock($block);
     }
 
-    public function addBlockFile(string $var, string $block, string $template_name, string $in_module = null): bool
+    public function addBlockFile(string $var, string $block, string $template_name, ?string $in_module = null): bool
     {
         return $this->getLegacyGlobalTemplateInstance()->addBlockFile($var, $block, $template_name, $in_module);
     }

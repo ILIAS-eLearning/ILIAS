@@ -695,7 +695,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         }
     }
 
-    public function editSettingsObject(ilPropertyFormGUI $a_form = null): void
+    public function editSettingsObject(?ilPropertyFormGUI $a_form = null): void
     {
         if ($a_form === null) {
             $a_form = $this->initSettingsForm();

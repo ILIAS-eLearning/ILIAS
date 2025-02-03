@@ -69,7 +69,7 @@ interface ilCtrlInterface
      * @param string|null $a_base_class
      * @throws ilCtrlException if no valid baseclass is provided.
      */
-    public function callBaseClass(string $a_base_class = null): void;
+    public function callBaseClass(?string $a_base_class = null): void;
 
     /**
      * Forwards the request by invoking executeCommand() on the
@@ -93,7 +93,7 @@ interface ilCtrlInterface
      * @return string
      * @throws ilCtrlException if getHTML() cannot be invoked.
      */
-    public function getHTML(object $a_gui_object, array $a_parameters = null): string;
+    public function getHTML(object $a_gui_object, ?array $a_parameters = null): string;
 
     /**
      * Returns the command passed with the current POST or GET request
@@ -102,7 +102,7 @@ interface ilCtrlInterface
      * @param string|null $fallback_command
      * @return string|null
      */
-    public function getCmd(string $fallback_command = null): ?string;
+    public function getCmd(?string $fallback_command = null): ?string;
 
     /**
      * Returns the fully-qualified classname of the requested command class.
@@ -229,8 +229,8 @@ interface ilCtrlInterface
      */
     public function getLinkTarget(
         object $a_gui_obj,
-        string $a_cmd = null,
-        string $a_anchor = null,
+        ?string $a_cmd = null,
+        ?string $a_anchor = null,
         bool $is_async = false,
         bool $has_xml_style = false
     ): string;
@@ -248,8 +248,8 @@ interface ilCtrlInterface
      */
     public function getLinkTargetByClass(
         $a_class,
-        string $a_cmd = null,
-        string $a_anchor = null,
+        ?string $a_cmd = null,
+        ?string $a_anchor = null,
         bool $is_async = false,
         bool $has_xml_style = false
     ): string;
@@ -266,8 +266,8 @@ interface ilCtrlInterface
      */
     public function getFormAction(
         object $a_gui_obj,
-        string $a_fallback_cmd = null,
-        string $a_anchor = null,
+        ?string $a_fallback_cmd = null,
+        ?string $a_anchor = null,
         bool $is_async = false,
         bool $has_xml_style = false
     ): string;
@@ -285,8 +285,8 @@ interface ilCtrlInterface
      */
     public function getFormActionByClass(
         $a_class,
-        string $a_fallback_cmd = null,
-        string $a_anchor = null,
+        ?string $a_fallback_cmd = null,
+        ?string $a_anchor = null,
         bool $is_async = false,
         bool $has_xml_style = false
     ): string;
@@ -302,8 +302,8 @@ interface ilCtrlInterface
      */
     public function redirect(
         object $a_gui_obj,
-        string $a_cmd = null,
-        string $a_anchor = null,
+        ?string $a_cmd = null,
+        ?string $a_anchor = null,
         bool $is_async = false
     ): void;
 
@@ -318,8 +318,8 @@ interface ilCtrlInterface
      */
     public function redirectByClass(
         $a_class,
-        string $a_cmd = null,
-        string $a_anchor = null,
+        ?string $a_cmd = null,
+        ?string $a_anchor = null,
         bool $is_async = false
     ): void;
 
@@ -421,7 +421,7 @@ interface ilCtrlInterface
      * @return mixed
      * @throws ilCtrlException if a provided class cannot be found.
      */
-    public function setReturn(object $a_gui_obj, string $a_cmd = null): void;
+    public function setReturn(object $a_gui_obj, ?string $a_cmd = null): void;
 
     /**
      * Sets the return command of a given class.
@@ -431,7 +431,7 @@ interface ilCtrlInterface
      * @return mixed
      * @throws ilCtrlException if a provided class cannot be found.
      */
-    public function setReturnByClass(string $a_class, string $a_cmd = null): void;
+    public function setReturnByClass(string $a_class, ?string $a_cmd = null): void;
 
     /**
      * @see ilCtrlInterface::getReturnClass().
@@ -463,7 +463,7 @@ interface ilCtrlInterface
      * @param string|null $a_anchor
      * @throws ilCtrlException if the object was not yet provided with a return target.
      */
-    public function returnToParent(object $a_gui_obj, string $a_anchor = null): void;
+    public function returnToParent(object $a_gui_obj, ?string $a_anchor = null): void;
 
     /**
      * Returns the current redirect source.

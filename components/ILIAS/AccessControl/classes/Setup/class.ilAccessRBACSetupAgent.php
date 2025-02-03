@@ -29,7 +29,7 @@ class ilAccessRBACSetupAgent extends Setup\Agent\NullAgent
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
     {
         return new ilDatabaseUpdateStepsExecutedObjective(new ilAccessRBACDeleteDbkSteps());
     }

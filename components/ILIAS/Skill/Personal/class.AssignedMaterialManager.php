@@ -32,8 +32,8 @@ class AssignedMaterialManager implements Usage\SkillUsageInfo
     protected PersonalSkillDBRepository $personal_repo;
 
     public function __construct(
-        AssignedMaterialDBRepository $ass_mat_repo = null,
-        PersonalSkillDBRepository $personal_repo = null
+        ?AssignedMaterialDBRepository $ass_mat_repo = null,
+        ?PersonalSkillDBRepository $personal_repo = null
     ) {
         global $DIC;
 

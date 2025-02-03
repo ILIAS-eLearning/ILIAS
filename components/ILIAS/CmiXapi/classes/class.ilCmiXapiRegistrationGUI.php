@@ -80,7 +80,7 @@ class ilCmiXapiRegistrationGUI
     /**
      * @param ilPropertyFormGUI|null $form
      */
-    protected function showFormCmd(ilPropertyFormGUI $form = null): void
+    protected function showFormCmd(?ilPropertyFormGUI $form = null): void
     {
         if ($form === null) {
             $form = $this->buildForm();

@@ -955,7 +955,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @throws ilException
      */
-    public function assignUser(int $usr_id, int $acting_usr_id = null, $raise_event = true): ilPRGAssignment
+    public function assignUser(int $usr_id, ?int $acting_usr_id = null, $raise_event = true): ilPRGAssignment
     {
         $this->members_cache = null;
 
@@ -1572,7 +1572,7 @@ class ilObjStudyProgramme extends ilContainer
         $prg->succeed($user_id, $obj_id);
     }
 
-    public function succeed(int $usr_id, int $triggering_obj_id, ilPRGAssignment $ass = null): void
+    public function succeed(int $usr_id, int $triggering_obj_id, ?ilPRGAssignment $ass = null): void
     {
         $progress_node_id = $this->getId();
         if (is_null($ass)) {
@@ -1678,7 +1678,7 @@ class ilObjStudyProgramme extends ilContainer
         return new DateTimeImmutable();
     }
 
-    protected function refreshLPStatus(int $usr_id, int $node_obj_id = null): void
+    protected function refreshLPStatus(int $usr_id, ?int $node_obj_id = null): void
     {
         if (is_null($node_obj_id)) {
             $node_obj_id = $this->getId();
@@ -1821,7 +1821,7 @@ class ilObjStudyProgramme extends ilContainer
     public function updatePlanFromRepository(
         int $assignment_id,
         int $acting_usr_id,
-        ilPRGMessageCollection $err_collection = null
+        ?ilPRGMessageCollection $err_collection = null
     ): void {
         $assignment = $this->assignment_repository->get($assignment_id)
             ->updatePlanFromRepository(
@@ -1837,7 +1837,7 @@ class ilObjStudyProgramme extends ilContainer
     public function acknowledgeCourses(
         int $assignment_id,
         array $nodes,
-        ilPRGMessageCollection $err_collection = null
+        ?ilPRGMessageCollection $err_collection = null
     ): void {
         $acting_usr_id = $this->getLoggedInUserId();
         $assignment = $this->assignment_repository->get($assignment_id);

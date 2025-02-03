@@ -80,7 +80,7 @@ class LinkAdapterGUI
         return $this->getStandardLink();
     }
 
-    public function toToolbar(bool $sticky = false, \ilToolbarGUI $toolbar = null): void
+    public function toToolbar(bool $sticky = false, ?\ilToolbarGUI $toolbar = null): void
     {
         $link = $this->getLink();
         if (is_null($toolbar)) {

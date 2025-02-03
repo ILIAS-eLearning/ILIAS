@@ -334,7 +334,7 @@ class ilOrgUnitPositionGUI extends BaseCommands
         return $this->positionRepo->getSingle($id, 'id');
     }
 
-    public function getSinglePosLinkTarget(string $action, int $pos_id = null): string
+    public function getSinglePosLinkTarget(string $action, ?int $pos_id = null): string
     {
         $target_id = $pos_id !== null ? [$pos_id] : [$this->getRowIdFromQuery()];
         return $this->url_builder

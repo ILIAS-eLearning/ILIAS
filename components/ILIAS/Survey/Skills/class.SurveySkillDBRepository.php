@@ -29,7 +29,7 @@ class SurveySkillDBRepository
     protected \ilDBInterface $db;
 
     public function __construct(
-        \ilDBInterface $db = null
+        ?\ilDBInterface $db = null
     ) {
         global $DIC;
 

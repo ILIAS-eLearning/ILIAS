@@ -117,7 +117,7 @@ class DataRetrieval implements BaseDataRetrieval
         return count($this->getVocabs());
     }
 
-    protected function getVocabs(Range $range = null): array
+    protected function getVocabs(?Range $range = null): array
     {
         if (isset($this->vocabs)) {
             $vocabs = $this->vocabs;

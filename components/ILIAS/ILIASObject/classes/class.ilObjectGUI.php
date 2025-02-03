@@ -1063,7 +1063,7 @@ class ilObjectGUI implements ImplementsCreationCallback
     /**
      * Add object to tree at given position
      */
-    public function putObjectInTree(ilObject $obj, int $parent_node_id = null): void
+    public function putObjectInTree(ilObject $obj, ?int $parent_node_id = null): void
     {
         if (!$parent_node_id) {
             $parent_node_id = $this->requested_ref_id;

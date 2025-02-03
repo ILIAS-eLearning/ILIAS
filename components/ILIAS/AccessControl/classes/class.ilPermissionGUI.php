@@ -187,7 +187,7 @@ class ilPermissionGUI
         return $this->gui_obj->getObject();
     }
 
-    public function perm(ilTable2GUI $table = null): void
+    public function perm(?ilTable2GUI $table = null): void
     {
         $dtpl = new ilDidacticTemplateGUI($this->gui_obj);
         if ($dtpl->appendToolbarSwitch(
@@ -585,7 +585,7 @@ class ilPermissionGUI
         return $objDefinition->isContainer($a_type) && $a_type != 'root' && $a_type != 'adm' && $a_type != 'rolf';
     }
 
-    private function displayImportRoleForm(ilPropertyFormGUI $form = null): void
+    private function displayImportRoleForm(?ilPropertyFormGUI $form = null): void
     {
         $this->tabs->clearTargets();
 

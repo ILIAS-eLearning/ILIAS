@@ -270,7 +270,7 @@ class ilObjLanguage extends ilObject
      * Refresh languages of activated plugins
      * $a_lang_keys    keys of languages to be refreshed (not yet supported, all available will be refreshed)
      */
-    public static function refreshPlugins(array $a_lang_keys = null): void
+    public static function refreshPlugins(?array $a_lang_keys = null): void
     {
         global $DIC;
 
@@ -508,8 +508,8 @@ class ilObjLanguage extends ilObject
         string $a_identifier,
         string $a_lang_key,
         string $a_value,
-        string $a_local_change = null,
-        string $a_remarks = null
+        ?string $a_local_change = null,
+        ?string $a_remarks = null
     ): bool {
         global $DIC;
         $ilDB = $DIC->database();
@@ -555,8 +555,8 @@ class ilObjLanguage extends ilObject
         string $a_identifier,
         string $a_lang_key,
         string $a_value,
-        string $a_local_change = null,
-        string $a_remarks = null
+        ?string $a_local_change = null,
+        ?string $a_remarks = null
     ): void {
         global $DIC;
         $ilDB = $DIC->database();

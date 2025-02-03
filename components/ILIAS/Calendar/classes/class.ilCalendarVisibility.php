@@ -175,7 +175,7 @@ class ilCalendarVisibility
         }
     }
 
-    public function delete(int $a_cat_id = null): void
+    public function delete(?int $a_cat_id = null): void
     {
         if ($a_cat_id) {
             $query = "DELETE FROM cal_cat_visibility " .

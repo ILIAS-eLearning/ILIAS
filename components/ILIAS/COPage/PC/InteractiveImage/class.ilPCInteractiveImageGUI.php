@@ -371,7 +371,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
         $tpl->setContent($tab->getHTML());
     }
 
-    public function addOverlayImages(ilPropertyFormGUI $a_form = null): void
+    public function addOverlayImages(?ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
 
@@ -634,7 +634,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
         $this->iim_gui->editorInit()->initUI($this->tpl);
     }
 
-    public function getOverlayUploadFormAdapter(array $path = null): \ILIAS\Repository\Form\FormAdapterGUI
+    public function getOverlayUploadFormAdapter(?array $path = null): \ILIAS\Repository\Form\FormAdapterGUI
     {
         if (is_null($path)) {
             $path = [self::class];
@@ -678,7 +678,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
         return $f;
     }
 
-    public function getBackgroundPropertiesFormAdapter(array $path = null): \ILIAS\Repository\Form\FormAdapterGUI
+    public function getBackgroundPropertiesFormAdapter(?array $path = null): \ILIAS\Repository\Form\FormAdapterGUI
     {
         if (is_null($path)) {
             $path = [self::class];

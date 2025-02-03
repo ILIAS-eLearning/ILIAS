@@ -55,7 +55,7 @@ class ilStyleDefinition
      * ilStyleDefinition constructor.
      * @throws ilSystemStyleException
      */
-    public function __construct(string $skin_id = '', ilSystemStyleConfig $system_style_config = null)
+    public function __construct(string $skin_id = '', ?ilSystemStyleConfig $system_style_config = null)
     {
         global $DIC;
 

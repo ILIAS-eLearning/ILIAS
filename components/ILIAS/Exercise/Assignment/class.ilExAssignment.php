@@ -1468,7 +1468,7 @@ class ilExAssignment
      */
     public static function sendFeedbackNotifications(
         int $a_ass_id,
-        int $a_user_id = null
+        ?int $a_user_id = null
     ): bool {
         global $DIC;
 

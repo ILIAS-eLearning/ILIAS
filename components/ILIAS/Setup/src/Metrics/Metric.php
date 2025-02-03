@@ -85,7 +85,7 @@ final class Metric
         string $stability,
         string $type,
         $value,
-        string $description = null
+        ?string $description = null
     ) {
         $this->checkStability($stability, $type);
         $this->checkType($type);

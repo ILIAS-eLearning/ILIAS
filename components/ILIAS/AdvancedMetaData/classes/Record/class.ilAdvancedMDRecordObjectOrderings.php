@@ -34,7 +34,7 @@ class ilAdvancedMDRecordObjectOrderings
      * @param ?int                 $obj_id
      * @return ilAdvancedMDRecord[]
      */
-    public function sortRecords(array $records, int $obj_id = null): array
+    public function sortRecords(array $records, ?int $obj_id = null): array
     {
         // if local custom meta is not enabled use global sorting
         $use_global = true;

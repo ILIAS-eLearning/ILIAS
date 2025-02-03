@@ -474,7 +474,7 @@ class ilObjectServiceSettingsGUI
      * Edit tool settings (calendar, news, comments, ...)
      * @param ilPropertyFormGUI $form
      */
-    protected function editSettings(ilPropertyFormGUI $form = null): void
+    protected function editSettings(?ilPropertyFormGUI $form = null): void
     {
         if (!$form instanceof ilPropertyFormGUI) {
             // TODO: cant find initSettingsForm, is editSettings ever called?

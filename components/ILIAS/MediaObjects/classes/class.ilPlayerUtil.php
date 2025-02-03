@@ -44,7 +44,7 @@ class ilPlayerUtil
      * Init mediaelement.js scripts
      */
     public static function initMediaElementJs(
-        ilGlobalTemplateInterface $a_tpl = null
+        ?ilGlobalTemplateInterface $a_tpl = null
     ): void {
         global $DIC;
 

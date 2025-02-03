@@ -21,7 +21,7 @@ class ilADTBoolean extends ilADT
 
     // properties
 
-    public function setStatus(bool $a_value = null): void
+    public function setStatus(?bool $a_value = null): void
     {
         $this->value = $a_value;
     }

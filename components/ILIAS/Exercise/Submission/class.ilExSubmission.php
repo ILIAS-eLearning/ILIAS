@@ -52,7 +52,7 @@ class ilExSubmission
     public function __construct(
         ilExAssignment $a_ass,
         int $a_user_id,
-        ilExAssignmentTeam $a_team = null,      // did not find any place that sets this....
+        ?ilExAssignmentTeam $a_team = null,      // did not find any place that sets this....
         bool $a_is_tutor = false,
         bool $a_public_submissions = false
     ) {
@@ -230,7 +230,7 @@ class ilExSubmission
         return false;
     }
 
-    public function isInTeam(int $a_user_id = null): bool
+    public function isInTeam(?int $a_user_id = null): bool
     {
         $ilUser = $this->user;
 
@@ -298,7 +298,7 @@ class ilExSubmission
      * after the last download of the tutor.
      */
     public function lookupNewFiles(
-        int $a_tutor = null
+        ?int $a_tutor = null
     ): array {
         $ilDB = $this->db;
         $ilUser = $this->user;
@@ -491,7 +491,7 @@ class ilExSubmission
     }
 
     public function downloadFiles(
-        array $a_file_ids = null,
+        ?array $a_file_ids = null,
         bool $a_only_new = false,
         bool $a_peer_review_mask_filename = false
     ): bool {
@@ -690,7 +690,7 @@ class ilExSubmission
      */
     public function addResourceObject(
         string $a_wsp_id,                   // note: text assignments currently call this with "TEXT"
-        string $a_text = null
+        ?string $a_text = null
     ): int {
         $ilDB = $this->db;
 

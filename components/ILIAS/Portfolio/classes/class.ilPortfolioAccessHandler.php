@@ -189,7 +189,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
     public function addPermission(
         int $a_node_id,
         int $a_object_id,
-        string $a_extended_data = null
+        ?string $a_extended_data = null
     ): void {
         $ilDB = $this->db;
         $ilUser = $this->user;
@@ -220,7 +220,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
      */
     public function removePermission(
         int $a_node_id,
-        int $a_object_id = null
+        ?int $a_object_id = null
     ): void {
         $ilDB = $this->db;
 
@@ -414,9 +414,9 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
     }
 
     public function findSharedObjects(
-        array $a_filter = null,
-        array $a_crs_ids = null,
-        array $a_grp_ids = null
+        ?array $a_filter = null,
+        ?array $a_crs_ids = null,
+        ?array $a_grp_ids = null
     ): array {
         $ilDB = $this->db;
         $ilUser = $this->user;

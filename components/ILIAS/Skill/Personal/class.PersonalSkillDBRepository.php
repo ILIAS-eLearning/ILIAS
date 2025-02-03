@@ -35,8 +35,8 @@ class PersonalSkillDBRepository
 
     public function __construct(
         \ilSkillTreeRepository $tree_repo,
-        \ilDBInterface $db = null,
-        Service\SkillInternalFactoryService $factory_service = null
+        ?\ilDBInterface $db = null,
+        ?Service\SkillInternalFactoryService $factory_service = null
     ) {
         global $DIC;
 

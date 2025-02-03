@@ -229,7 +229,7 @@ class AssignMaterialsTable
                 return count($this->getRecords());
             }
 
-            protected function getRecords(Data\Range $range = null): array
+            protected function getRecords(?Data\Range $range = null): array
             {
                 $skill = \ilSkillTreeNodeFactory::getInstance($this->basic_skill_id);
                 $records = [];

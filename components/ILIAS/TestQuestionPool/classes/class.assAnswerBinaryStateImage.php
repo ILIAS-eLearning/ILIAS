@@ -47,7 +47,7 @@ class ASS_AnswerBinaryStateImage extends ASS_AnswerBinaryState
      * @param string  $a_image    The image filename
      * @param integer $id         The database id of the answer
      */
-    public function __construct($answertext = "", $points = 0.0, $order = 0, $state = false, string $a_image = null, int $id = -1)
+    public function __construct($answertext = "", $points = 0.0, $order = 0, $state = false, ?string $a_image = null, int $id = -1)
     {
         parent::__construct($answertext, (float) $points, $order, $state, $id);
         $this->setImage($a_image);

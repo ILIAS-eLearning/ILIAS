@@ -815,7 +815,7 @@ class ilLOEditorGUI
         $this->ctrl->redirect($this, 'testOverview');
     }
 
-    protected function testAssignment(ilPropertyFormGUI $form = null): void
+    protected function testAssignment(?ilPropertyFormGUI $form = null): void
     {
         if ($this->getTestType() === ilLOSettings::TYPE_TEST_UNDEFINED) {
             $this->setTestType($this->initTestTypeFromQuery());
@@ -844,7 +844,7 @@ class ilLOEditorGUI
         );
     }
 
-    protected function testSettings(ilPropertyFormGUI $form = null): void
+    protected function testSettings(?ilPropertyFormGUI $form = null): void
     {
         $this->ctrl->setParameter($this, 'tt', $this->getTestType());
         switch ($this->getTestType()) {
@@ -1040,7 +1040,7 @@ class ilLOEditorGUI
         $this->showStatus(ilLOEditorStatus::SECTION_OBJECTIVES);
     }
 
-    protected function showObjectiveCreation(ilPropertyFormGUI $form = null): void
+    protected function showObjectiveCreation(?ilPropertyFormGUI $form = null): void
     {
         $this->tabs->activateSubTab('objectives');
         if (!$form instanceof ilPropertyFormGUI) {

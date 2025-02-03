@@ -4248,7 +4248,7 @@ class ilObjUser extends ilObject
     public static function findInterests(
         string $a_term,
         ?int $a_user_id = null,
-        string $a_field_id = null
+        ?string $a_field_id = null
     ): array {
         global $DIC;
 

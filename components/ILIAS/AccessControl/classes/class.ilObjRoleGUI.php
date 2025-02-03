@@ -408,7 +408,7 @@ class ilObjRoleGUI extends ilObjectGUI
         $this->ctrl->redirect($this, 'edit');
     }
 
-    private function buildEditPage(StandardForm $form = null): void
+    private function buildEditPage(?StandardForm $form = null): void
     {
         $page_content = [];
         if ($this->object->getId() != SYSTEM_ROLE_ID) {

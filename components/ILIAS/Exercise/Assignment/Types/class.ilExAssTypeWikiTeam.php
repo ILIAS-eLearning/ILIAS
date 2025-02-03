@@ -35,7 +35,7 @@ class ilExAssTypeWikiTeam implements ilExAssignmentTypeInterface
      *
      * @param ilLanguage|null $a_lng
      */
-    public function __construct(ilLanguage $a_lng = null)
+    public function __construct(?ilLanguage $a_lng = null)
     {
         global $DIC;
 

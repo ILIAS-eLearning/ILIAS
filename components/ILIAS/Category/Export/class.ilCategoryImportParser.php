@@ -73,7 +73,7 @@ class ilCategoryImportParser extends ilContainerBaseXmlParser
     public function buildTag(
         string $type,
         string $name,
-        array $attr = null
+        ?array $attr = null
     ): string {
         $tag = "<";
 

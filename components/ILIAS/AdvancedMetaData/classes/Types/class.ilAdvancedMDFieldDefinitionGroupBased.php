@@ -38,7 +38,7 @@ abstract class ilAdvancedMDFieldDefinitionGroupBased extends ilAdvancedMDFieldDe
         return $def;
     }
 
-    public function setOptions(array $a_values = null): void
+    public function setOptions(?array $a_values = null): void
     {
         if ($a_values !== null) {
             foreach ($a_values as $idx => $value) {

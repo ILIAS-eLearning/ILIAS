@@ -43,7 +43,7 @@ class ilPCProfile extends ilPageContent
 
     public function setFields(
         string $a_mode,
-        array $a_fields = null
+        ?array $a_fields = null
     ): void {
         $ilUser = $this->user;
 

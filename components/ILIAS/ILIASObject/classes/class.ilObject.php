@@ -1468,7 +1468,7 @@ class ilObject
         return false;
     }
 
-    final public static function _getObjectsByType(string $obj_type = "", int $owner = null): array
+    final public static function _getObjectsByType(string $obj_type = "", ?int $owner = null): array
     {
         global $DIC;
         $db = $DIC->database();
@@ -2161,7 +2161,7 @@ class ilObject
         return $this->obj_definition->getSubObjects($this->type, $filter);
     }
 
-    public static function _getObjectTypeIdByTitle(string $type, \ilDBInterface $ilDB = null): ?int
+    public static function _getObjectTypeIdByTitle(string $type, ?\ilDBInterface $ilDB = null): ?int
     {
         if (!$ilDB) {
             global $DIC;

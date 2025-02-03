@@ -74,7 +74,7 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
         ilAssQuestionHintAbstractGUI $parentGUI,
         $parentCmd,
         $tableMode = self::TBL_MODE_TESTOUTPUT,
-        ilAssQuestionHintsOrderingClipboard $hintOrderingClipboard = null
+        ?ilAssQuestionHintsOrderingClipboard $hintOrderingClipboard = null
     ) {
         global $DIC;
         $lng = $DIC['lng'];

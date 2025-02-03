@@ -103,7 +103,7 @@ class ilExerciseManagementGUI
      * @param InternalService $service
      * @param ilExAssignment|null       $a_ass
      */
-    public function __construct(InternalService $service, ilExAssignment $a_ass = null)
+    public function __construct(InternalService $service, ?ilExAssignment $a_ass = null)
     {
         global $DIC;
 
@@ -1310,7 +1310,7 @@ class ilExerciseManagementGUI
      * Save assignment status (participant view)
      * @throws ilExcUnknownAssignmentTypeException
      */
-    public function saveStatusParticipantObject(array $selected_ass_ids = null): void
+    public function saveStatusParticipantObject(?array $selected_ass_ids = null): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -1344,7 +1344,7 @@ class ilExerciseManagementGUI
      * @throws ilExcUnknownAssignmentTypeException
      */
     public function saveStatusAllObject(
-        array $a_selected = null,
+        ?array $a_selected = null,
         bool $a_redirect = true
     ): void {
         $user_ids = $this->listed_participants;
@@ -1542,7 +1542,7 @@ class ilExerciseManagementGUI
     }
 
     public function adoptTeamsFromGroupObject(
-        ilPropertyFormGUI $a_form = null
+        ?ilPropertyFormGUI $a_form = null
     ): void {
         $ilCtrl = $this->ctrl;
         $ilTabs = $this->tabs_gui;
@@ -1741,7 +1741,7 @@ class ilExerciseManagementGUI
 
 
     public function showMultiFeedbackObject(
-        FormAdapterGUI $form = null
+        ?FormAdapterGUI $form = null
     ): void {
         $lng = $this->lng;
         $tpl = $this->tpl;

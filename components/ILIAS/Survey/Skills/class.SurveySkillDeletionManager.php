@@ -29,7 +29,7 @@ class SurveySkillDeletionManager
     protected SurveySkillDBRepository $survey_skill_repo;
 
     public function __construct(
-        SurveySkillDBRepository $survey_skill_repo = null
+        ?SurveySkillDBRepository $survey_skill_repo = null
     ) {
         global $DIC;
 

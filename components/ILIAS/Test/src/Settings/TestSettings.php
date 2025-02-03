@@ -50,7 +50,7 @@ abstract class TestSettings
         \ilLanguage $lng,
         FieldFactory $f,
         Refinery $refinery,
-        array $environment = null
+        ?array $environment = null
     ): FormInput | array;
 
     abstract public function toStorage(): array;

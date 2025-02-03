@@ -27,7 +27,7 @@ class ilConditionFactory
 {
     protected ilConditionObjectAdapterInterface $cond_obj_adapter;
 
-    public function __construct(ilConditionObjectAdapterInterface $cond_obj_adapter = null)
+    public function __construct(?ilConditionObjectAdapterInterface $cond_obj_adapter = null)
     {
         if (is_null($cond_obj_adapter)) {
             $this->cond_obj_adapter = new ilConditionObjectAdapter();

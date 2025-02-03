@@ -33,7 +33,7 @@ class MediaPoolRepository
     protected \ilDBInterface $db;
     protected LOMServices $lom_services;
 
-    public function __construct(\ilDBInterface $db = null)
+    public function __construct(?\ilDBInterface $db = null)
     {
         global $DIC;
         $this->db = ($db) ?: $DIC->database();

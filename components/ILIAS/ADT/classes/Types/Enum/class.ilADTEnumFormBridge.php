@@ -18,7 +18,7 @@ class ilADTEnumFormBridge extends ilADTFormBridge
         $this->auto_sort = (bool) $a_value;
     }
 
-    public function forceRadio($a_value, array $a_info = null)
+    public function forceRadio($a_value, ?array $a_info = null)
     {
         $this->force_radio = (bool) $a_value;
         if ($this->force_radio) {

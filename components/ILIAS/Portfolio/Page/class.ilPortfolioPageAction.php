@@ -24,7 +24,7 @@ class ilPortfolioPageAction
 {
     protected ilObjUser $actor;
 
-    public function __construct(ilObjUser $actor = null)
+    public function __construct(?ilObjUser $actor = null)
     {
         global $DIC;
         if (is_null($actor)) {

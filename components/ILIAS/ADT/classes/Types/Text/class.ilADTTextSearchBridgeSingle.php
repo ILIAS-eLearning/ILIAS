@@ -64,7 +64,7 @@ class ilADTTextSearchBridgeSingle extends ilADTSearchBridgeSingle
         $this->addToParentElement($text);
     }
 
-    public function importFromPost(array $a_post = null): bool
+    public function importFromPost(?array $a_post = null): bool
     {
         $post = $this->extractPostValues($a_post);
 

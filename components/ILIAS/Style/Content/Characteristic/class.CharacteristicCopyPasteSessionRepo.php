@@ -32,7 +32,7 @@ class CharacteristicCopyPasteSessionRepo
 
     protected Session $session;
 
-    public function __construct(Session $session = null)
+    public function __construct(?Session $session = null)
     {
         $this->session = ($session)
             ?: new class () implements Session {

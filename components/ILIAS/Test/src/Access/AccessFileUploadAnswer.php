@@ -57,8 +57,8 @@ class AccessFileUploadAnswer implements SimpleAccess
         $object_id_of_test_id = [ilObjTest::class, '_getObjectIDFromTestID'],
         $references_of = [ilObject::class, '_getAllReferences'],
         $session = [ilSession::class, 'get'],
-        callable $checkResultsAccess = null,
-        Incident $incident = null
+        ?callable $checkResultsAccess = null,
+        ?Incident $incident = null
     ) {
         $this->incident = $incident ?? new Incident();
         $this->object_id_of_test_id = Closure::fromCallable($object_id_of_test_id);
@@ -104,7 +104,7 @@ class AccessFileUploadAnswer implements SimpleAccess
         return $code && $this->userDidUpload($test_id, $file, $code);
     }
 
-    private function userDidUpload(int $test_id, string $file, string $code = null): bool
+    private function userDidUpload(int $test_id, string $file, ?string $code = null): bool
     {
         $where = [
             'active_id = active_fi',

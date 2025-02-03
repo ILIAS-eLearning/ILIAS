@@ -77,7 +77,7 @@ class ilTestCorrectionsGUI
         $this->{$command}();
     }
 
-    protected function showQuestion(ilPropertyFormGUI $form = null)
+    protected function showQuestion(?ilPropertyFormGUI $form = null)
     {
         $this->setCorrectionTabsContext($this->question_gui, 'question');
 

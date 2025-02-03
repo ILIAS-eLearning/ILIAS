@@ -73,8 +73,8 @@ class ilMediaCreationGUI
         Closure $after_upload,
         Closure $after_url_saving,
         Closure $after_pool_insert,
-        Closure $finish_single_upload = null,
-        Closure $on_mob_update = null
+        ?Closure $finish_single_upload = null,
+        ?Closure $on_mob_update = null
     ) {
         global $DIC;
 

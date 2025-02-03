@@ -42,7 +42,7 @@ class ExternalConditionObjective implements Setup\Objective
     public function __construct(
         string $label,
         \Closure $condition,
-        string $message = null,
+        ?string $message = null,
         bool $block_setup = false
     ) {
         $this->condition = $condition;

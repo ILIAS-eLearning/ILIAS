@@ -93,7 +93,7 @@ class ObjectAvailabilityPeriodProperty implements \ilObjectProperty
         \ilLanguage $language,
         FieldFactory $field_factory,
         Refinery $refinery,
-        array $environment = null
+        ?array $environment = null
     ): FormInput {
         $constraint = $this->getConstraintForActivationLimitedOptionalGroup(
             $refinery,

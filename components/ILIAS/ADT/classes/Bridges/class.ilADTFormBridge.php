@@ -220,7 +220,7 @@ abstract class ilADTFormBridge
      * @param ilADTFormBridge $a_parent_adt
      * @return bool
      */
-    public function shouldBeImportedFromPost(ilADTFormBridge $a_parent_adt = null): bool
+    public function shouldBeImportedFromPost(?ilADTFormBridge $a_parent_adt = null): bool
     {
         if ($this->isDisabled()) {
             return false;

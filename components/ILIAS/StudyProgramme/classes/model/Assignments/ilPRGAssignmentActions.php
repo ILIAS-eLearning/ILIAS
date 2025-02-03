@@ -183,7 +183,7 @@ trait ilPRGAssignmentActions
     protected function applyProgressDeadline(
         ilStudyProgrammeSettingsRepository $settings_repo,
         ilPRGProgress $progress,
-        int $acting_usr_id = null,
+        ?int $acting_usr_id = null,
         bool $recalculate = true
     ): ilPRGProgress {
         $today = $this->getNow();

@@ -973,7 +973,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
     protected function forwardCommandToQuestionPreview(
         string $cmd,
-        assQuestionGUI $question_gui = null
+        ?assQuestionGUI $question_gui = null
     ): void {
         $this->prepareOutput();
 
@@ -1615,7 +1615,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->ctrl->redirect($this, self::SHOW_QUESTIONS_CMD);
     }
 
-    private function insertQuestionsObject(array $selected_array = null): void
+    private function insertQuestionsObject(?array $selected_array = null): void
     {
         if (($selected_array ?? $this->testrequest->getQuestionIds()) === []) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('tst_insert_missing_question'), true);
@@ -1628,7 +1628,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         return;
     }
 
-    public function createQuestionFormObject(Form $form = null): void
+    public function createQuestionFormObject(?Form $form = null): void
     {
         $this->tabs_manager->getQuestionsSubTabs();
         $this->tabs_manager->activateSubTab(TabsManager::SUBTAB_ID_QST_LIST_VIEW);
@@ -2461,7 +2461,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     }
 
     public function copyAndLinkQuestionsToPoolObject(
-        int $ref_id = null,
+        ?int $ref_id = null,
         array $question_ids = []
     ) {
 

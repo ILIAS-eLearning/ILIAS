@@ -38,8 +38,8 @@ interface ilStudyProgrammeAutoMembershipsRepository
         string $source_type,
         int $source_id,
         bool $enabled,
-        int $last_edited_usr_id = null,
-        DateTimeImmutable $last_edited = null
+        ?int $last_edited_usr_id = null,
+        ?DateTimeImmutable $last_edited = null
     ): ilStudyProgrammeAutoMembershipSource;
 
     /**

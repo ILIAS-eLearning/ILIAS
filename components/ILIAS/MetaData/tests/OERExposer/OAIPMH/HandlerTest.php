@@ -71,7 +71,7 @@ class HandlerTest extends TestCase
                     public function sendResponseAndClose(
                         int $status_code,
                         string $message = '',
-                        \DOMDocument $body = null
+                        ?\DOMDocument $body = null
                     ): void {
                         $this->exposed_responses[] = [
                             'status' => $status_code,

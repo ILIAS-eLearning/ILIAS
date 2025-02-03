@@ -32,8 +32,8 @@ class ilRatingCategory
 
 
     public function __construct(
-        int $a_id = null,
-        \ilDBInterface $db = null
+        ?int $a_id = null,
+        ?\ilDBInterface $db = null
     ) {
         global $DIC;
 

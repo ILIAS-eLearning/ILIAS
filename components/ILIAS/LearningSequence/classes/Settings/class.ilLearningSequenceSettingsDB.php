@@ -124,8 +124,8 @@ class ilLearningSequenceSettingsDB
         int $obj_id,
         string $abstract = '',
         string $extro = '',
-        string $abstract_image = null,
-        string $extro_image = null,
+        ?string $abstract_image = null,
+        ?string $extro_image = null,
         bool $gallery = false
     ): ilLearningSequenceSettings {
         return new ilLearningSequenceSettings(

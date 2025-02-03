@@ -185,7 +185,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 
     // Display form for single file upload
     public function uploadFormObject(
-        ilPropertyFormGUI $a_form = null
+        ?ilPropertyFormGUI $a_form = null
     ): void {
         if (!$this->submission->canSubmit()) {
             $this->ctrl->redirect($this, "submissionScreen");
@@ -210,7 +210,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
     }
 
     public function uploadZipFormObject(
-        \ILIAS\Repository\Form\FormAdapterGUI $a_form = null
+        ?\ILIAS\Repository\Form\FormAdapterGUI $a_form = null
     ): void {
         if (!$this->submission->canSubmit()) {
             $this->ctrl->redirect($this, "submissionScreen");

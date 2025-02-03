@@ -535,8 +535,8 @@ class ilSurveyEvaluationGUI
         ilExcel $a_excel,
         ilSurveyEvaluationResults $a_results,
         int &$a_excel_row,
-        array $a_grid = null,
-        array $a_text_answers = null,
+        ?array $a_grid = null,
+        ?array $a_text_answers = null,
         bool $a_include_mode = true
     ): void {
         $kv = array();

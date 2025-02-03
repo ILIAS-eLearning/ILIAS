@@ -21,7 +21,7 @@ class ilADTDateTime extends ilADT
 
     // properties
 
-    public function setDate(ilDateTime $a_value = null)
+    public function setDate(?ilDateTime $a_value = null)
     {
         if ($a_value && $a_value->isNull()) {
             $a_value = null;

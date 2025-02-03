@@ -29,7 +29,7 @@ class PersonalSkillManager
     protected PersonalSkillDBRepository $personal_repo;
 
     public function __construct(
-        \ILIAS\Skill\Personal\PersonalSkillDBRepository $personal_repo = null
+        ?\ILIAS\Skill\Personal\PersonalSkillDBRepository $personal_repo = null
     ) {
         global $DIC;
 

@@ -869,7 +869,7 @@ class PropertyAndActionBuilderUI
 
     protected function getSubmissionLink(
         string $a_cmd,
-        array $a_params = null
+        ?array $a_params = null
     ): string {
         $ilCtrl = $this->ctrl;
 

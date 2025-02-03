@@ -45,7 +45,7 @@ class ilADTFloatSearchBridgeSingle extends ilADTSearchBridgeSingle
         $this->addToParentElement($number);
     }
 
-    public function importFromPost(array $a_post = null): bool
+    public function importFromPost(?array $a_post = null): bool
     {
         $post = $this->extractPostValues($a_post);
 

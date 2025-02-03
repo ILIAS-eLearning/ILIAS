@@ -268,7 +268,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
         array $daily_apps,
         ilDateTime $date,
         int $num_day,
-        array $hours = null,
+        ?array $hours = null,
         int $morning_aggr = 0,
         int $evening_aggr = 0
     ): array {

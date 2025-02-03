@@ -30,7 +30,7 @@ class SkillUserService
     protected SkillInternalManagerService $manager_service;
     protected int $user_id = 0;
 
-    public function __construct(int $user_id, SkillInternalManagerService $manager_service = null)
+    public function __construct(int $user_id, ?SkillInternalManagerService $manager_service = null)
     {
         global $DIC;
 

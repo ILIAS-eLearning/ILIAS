@@ -739,7 +739,7 @@ class ilObjExercise extends ilObject
         ilExAssignment $a_ass,
         array $a_user_ids,
         bool $a_has_submitted,
-        array $a_valid_submissions = null
+        ?array $a_valid_submissions = null
     ): void {
         foreach ($a_user_ids as $user_id) {
             $member_status = $a_ass->getMemberStatus($user_id);

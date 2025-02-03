@@ -171,7 +171,7 @@ class ilTestSkillLevelThresholdsGUI
         $this->ctrl->redirect($this, self::CMD_SHOW_SKILL_THRESHOLDS);
     }
 
-    private function showSkillThresholdsCmd(ilTestSkillLevelThresholdsTableGUI $table = null): void
+    private function showSkillThresholdsCmd(?ilTestSkillLevelThresholdsTableGUI $table = null): void
     {
         if (null === $table) {
             $table = $this->getPopulatedTable();

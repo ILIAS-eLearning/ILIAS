@@ -787,7 +787,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         return null;
     }
 
-    private function buildTermHtml(assAnswerMatchingTerm $term, int $definition_id = null): string
+    private function buildTermHtml(assAnswerMatchingTerm $term, ?int $definition_id = null): string
     {
         $template = new ilTemplate('tpl.il_as_qpl_matching_term_output.html', true, true, 'components/ILIAS/TestQuestionPool');
 

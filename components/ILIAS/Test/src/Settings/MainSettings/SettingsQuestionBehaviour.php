@@ -66,7 +66,7 @@ class SettingsQuestionBehaviour extends TestSettings
         \ilLanguage $lng,
         FieldFactory $f,
         Refinery $refinery,
-        array $environment = null
+        ?array $environment = null
     ): FormInput {
         $inputs['title_output'] = $f->radio($lng->txt('tst_title_output'))
             ->withOption('0', $lng->txt('tst_title_output_full'))

@@ -372,7 +372,7 @@ abstract class ilExcCriteria
         ilExAssignment $a_ass,
         int $a_giver_id,
         int $a_peer_id,
-        ilPropertyFormGUI $a_form = null
+        ?ilPropertyFormGUI $a_form = null
     ) {
         $this->form = $a_form;
         $this->ass = $a_ass;

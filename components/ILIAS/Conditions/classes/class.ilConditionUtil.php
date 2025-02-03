@@ -32,7 +32,7 @@ class ilConditionUtil
     protected ilConditionObjectAdapterInterface $cond_obj_adapter;
     protected ilObjectDefinition $obj_definition;
 
-    public function __construct(ilConditionObjectAdapterInterface $cond_obj_adapter = null)
+    public function __construct(?ilConditionObjectAdapterInterface $cond_obj_adapter = null)
     {
         global $DIC;
 

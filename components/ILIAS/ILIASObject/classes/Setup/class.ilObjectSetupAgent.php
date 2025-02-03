@@ -27,7 +27,7 @@ use ILIAS\Setup\Metrics;
 
 class ilObjectSetupAgent extends NullAgent
 {
-    public function getUpdateObjective(Config $config = null): Objective
+    public function getUpdateObjective(?Config $config = null): Objective
     {
         return new ObjectiveCollection(
             'Database is updated for ILIASObject',

@@ -18,7 +18,7 @@ class ilCourseReferenceXmlWriter extends ilContainerReferenceXmlWriter
     * @param	string	input encoding
     * @access	public
     */
-    public function __construct(ilObjCourseReference $ref = null)
+    public function __construct(?ilObjCourseReference $ref = null)
     {
         parent::__construct($ref);
     }

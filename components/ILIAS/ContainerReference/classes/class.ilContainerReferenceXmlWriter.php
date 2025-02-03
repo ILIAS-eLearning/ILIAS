@@ -33,7 +33,7 @@ class ilContainerReferenceXmlWriter extends ilXmlWriter
     private int $mode = self::MODE_SOAP;
     private ?ilContainerReference $ref;
 
-    public function __construct(ilContainerReference $ref = null)
+    public function __construct(?ilContainerReference $ref = null)
     {
         global $DIC;
 

@@ -349,7 +349,7 @@ abstract class ilBlockGUI
         return $this->rowtemplatedir;
     }
 
-    public function addBlockCommand(string $a_href, string $a_text, string $a_onclick = "", RoundTrip $modal = null): void
+    public function addBlockCommand(string $a_href, string $a_text, string $a_onclick = "", ?RoundTrip $modal = null): void
     {
         $this->block_commands[] = [
             "href" => $a_href,

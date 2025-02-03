@@ -52,7 +52,7 @@ class ilChartDataPie extends ilChartData
         return $this->label_radius;
     }
 
-    public function addPiePoint(int $a_value, string $a_caption = null): void
+    public function addPiePoint(int $a_value, ?string $a_caption = null): void
     {
         $this->data[] = array($a_value, $a_caption);
     }

@@ -172,7 +172,7 @@ class ilExcCriteriaCatalogueGUI
     //
 
     protected function initForm(
-        ilExcCriteriaCatalogue $a_cat_obj = null
+        ?ilExcCriteriaCatalogue $a_cat_obj = null
     ): ilPropertyFormGUI {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -199,7 +199,7 @@ class ilExcCriteriaCatalogueGUI
         return $form;
     }
 
-    protected function add(ilPropertyFormGUI $a_form = null): void
+    protected function add(?ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
 
@@ -218,7 +218,7 @@ class ilExcCriteriaCatalogueGUI
     }
 
     protected function importForm(
-        ilExcCriteriaCatalogue $a_cat_obj = null
+        ?ilExcCriteriaCatalogue $a_cat_obj = null
     ): void {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -271,7 +271,7 @@ class ilExcCriteriaCatalogueGUI
         return null;
     }
 
-    protected function edit(ilPropertyFormGUI $a_form = null): void
+    protected function edit(?ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
 

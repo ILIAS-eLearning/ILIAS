@@ -61,7 +61,7 @@ class ilSearchResultPresentation
      * Constructor
      * @param object	$container container gui object
      */
-    public function __construct(object $container = null, int $a_mode = self::MODE_LUCENE)
+    public function __construct(?object $container = null, int $a_mode = self::MODE_LUCENE)
     {
         global $DIC;
 

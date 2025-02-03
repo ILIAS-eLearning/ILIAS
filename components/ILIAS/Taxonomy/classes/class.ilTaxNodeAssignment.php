@@ -43,7 +43,7 @@ class ilTaxNodeAssignment
         int $a_obj_id,
         string $a_item_type,
         int $a_tax_id,
-        ilDBInterface $db = null
+        ?ilDBInterface $db = null
     ) {
         global $DIC;
 

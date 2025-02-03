@@ -171,7 +171,7 @@ class BlogHtmlExport
      * @throws \ilTemplateException
      */
     public function exportHTMLPages(
-        string $a_link_template = null,
+        ?string $a_link_template = null,
         ?\Closure $a_tpl_callback = null,
         ?\ilCOPageHTMLExport $a_co_page_html_export = null,
         string $a_index_name = "index.html"

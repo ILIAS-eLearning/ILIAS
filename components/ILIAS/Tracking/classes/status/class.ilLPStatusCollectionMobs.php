@@ -127,7 +127,7 @@ class ilLPStatusCollectionMobs extends ilLPStatus
     public function determineStatus(
         int $a_obj_id,
         int $a_usr_id,
-        object $a_obj = null
+        ?object $a_obj = null
     ): int {
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
         if (ilChangeEvent::hasAccessed($a_obj_id, $a_usr_id)) {

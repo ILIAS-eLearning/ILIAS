@@ -79,7 +79,7 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
     }
 
     protected function showManScoringByQuestionParticipantsTable(
-        RoundTripModal $modal = null
+        ?RoundTripModal $modal = null
     ): void {
         $this->tabs->activateTab(TabsManager::TAB_ID_MANUAL_SCORING);
 
@@ -290,7 +290,7 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
         int $question_id,
         int $active_id,
         int $attempt,
-        \ilPropertyFormGUI $form = null
+        ?\ilPropertyFormGUI $form = null
     ): RoundTripModal {
         $question_gui = $this->object->createQuestionGUI('', $question_id);
 

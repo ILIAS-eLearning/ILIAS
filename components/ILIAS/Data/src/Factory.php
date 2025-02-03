@@ -94,7 +94,7 @@ class Factory
      * @throw   \InvalidArgumentException if first argument is int and second is not a valid unit.
      * @throw   \InvalidArgumentException if string size can't be interpreted
      */
-    public function dataSize($size, string $unit = null): DataSize
+    public function dataSize($size, ?string $unit = null): DataSize
     {
         if (is_string($size)) {
             $match = [];

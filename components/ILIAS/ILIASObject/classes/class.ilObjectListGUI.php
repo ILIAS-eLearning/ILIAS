@@ -441,7 +441,7 @@ class ilObjectListGUI
         return $this->link_enabled;
     }
 
-    public function enablePath(bool $path, int $start_node = 0, \ilPathGUI $path_gui = null): void
+    public function enablePath(bool $path, int $start_node = 0, ?\ilPathGUI $path_gui = null): void
     {
         $this->path_enabled = $path;
         $this->path_start_node = $start_node;
@@ -2145,9 +2145,9 @@ class ilObjectListGUI
 
     public function enableRating(
         bool $value,
-        string $text = null,
+        ?string $text = null,
         bool $categories = false,
-        array $ctrl_path = null,
+        ?array $ctrl_path = null,
         bool $force_rate_parent = false
     ): void {
         $this->rating_enabled = $value;
@@ -2240,7 +2240,7 @@ class ilObjectListGUI
         string $redraw_url,
         string $notes_url,
         string $tags_url,
-        ilGlobalTemplateInterface $tpl = null
+        ?ilGlobalTemplateInterface $tpl = null
     ): void {
         global $DIC;
 
@@ -2270,10 +2270,10 @@ class ilObjectListGUI
     public function addHeaderIcon(
         string $id,
         string $img,
-        string $tooltip = null,
-        string $onclick = null,
-        string $status_text = null,
-        string $href = null
+        ?string $tooltip = null,
+        ?string $onclick = null,
+        ?string $status_text = null,
+        ?string $href = null
     ): void {
         $this->header_icons[$id] = [
             'img' => $img,
@@ -2299,7 +2299,7 @@ class ilObjectListGUI
         $this->ajax_hash = $hash;
     }
 
-    public function getHeaderAction(ilGlobalTemplateInterface $main_tpl = null): string
+    public function getHeaderAction(?ilGlobalTemplateInterface $main_tpl = null): string
     {
         if ($main_tpl == null) {
             $main_tpl = $this->main_tpl;

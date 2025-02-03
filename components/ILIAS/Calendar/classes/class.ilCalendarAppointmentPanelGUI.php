@@ -43,7 +43,7 @@ class ilCalendarAppointmentPanelGUI
     protected ilTree $tree;
     protected ilObjUser $user;
 
-    protected function __construct(ilDate $seed = null)
+    protected function __construct(?ilDate $seed = null)
     {
         global $DIC;
 

@@ -33,7 +33,7 @@ use ILIAS\Export\Setup\BuildExportOptionsMapObjective as ilExportSetupBuildOptio
 
 class Agent extends NullAgent
 {
-    public function getUpdateObjective(Config $config = null): Objective
+    public function getUpdateObjective(?Config $config = null): Objective
     {
         return new ObjectiveCollection(
             "Export",

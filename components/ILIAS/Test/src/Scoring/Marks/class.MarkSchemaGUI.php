@@ -237,7 +237,7 @@ class MarkSchemaGUI
         )->withActionButtonLabel($this->lng->txt('tst_mark_reset_to_simple_mark_schema'));
     }
 
-    private function buildMarkModal(Mark $mark = null, int $mark_index = -1): RoundTripModal
+    private function buildMarkModal(?Mark $mark = null, int $mark_index = -1): RoundTripModal
     {
         $title_lng_var = 'edit';
         if ($mark === null) {

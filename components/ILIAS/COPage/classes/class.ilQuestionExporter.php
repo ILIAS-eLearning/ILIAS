@@ -129,7 +129,7 @@ class ilQuestionExporter
         return self::$media_files;
     }
 
-    public static function questionsJS(array $a_qids = null)
+    public static function questionsJS(?array $a_qids = null)
     {
         $exportstring = '';
         if (!is_array($a_qids)) {

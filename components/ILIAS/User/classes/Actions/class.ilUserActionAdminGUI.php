@@ -62,7 +62,7 @@ class ilUserActionAdminGUI
         $this->lng->loadLanguageModule('usr');
     }
 
-    public function setActionContext(ilUserActionContext $a_val = null): void
+    public function setActionContext(?ilUserActionContext $a_val = null): void
     {
         $this->action_context = $a_val;
     }

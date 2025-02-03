@@ -27,8 +27,8 @@ class ContainerSkillDBRepository
     protected SkillInternalFactoryService $factory_service;
 
     public function __construct(
-        \ilDBInterface $db = null,
-        SkillInternalFactoryService $factory_service = null,
+        ?\ilDBInterface $db = null,
+        ?SkillInternalFactoryService $factory_service = null,
     ) {
         global $DIC;
 

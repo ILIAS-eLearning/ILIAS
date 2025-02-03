@@ -86,7 +86,7 @@ abstract class AbstractOfFinder
     protected function genericGetMatchingClassNames(
         callable $is_matching,
         array $additional_ignore = [],
-        string $matching_path = null
+        ?string $matching_path = null
     ): \Iterator {
         foreach ($this->getAllClassNames($additional_ignore, $matching_path) as $class_name) {
             try {
@@ -103,7 +103,7 @@ abstract class AbstractOfFinder
     /**
      * @param   string[] $additional_ignore
      */
-    protected function getAllClassNames(array $additional_ignore, string $matching_path = null): \Iterator
+    protected function getAllClassNames(array $additional_ignore, ?string $matching_path = null): \Iterator
     {
         $ignore = array_merge($this->ignore, $additional_ignore);
 

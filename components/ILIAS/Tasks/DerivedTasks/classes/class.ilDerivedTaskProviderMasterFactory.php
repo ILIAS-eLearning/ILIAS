@@ -62,7 +62,7 @@ class ilDerivedTaskProviderMasterFactory
      * @param int $user_id get instances for user with user id
      * @return ilLearningHistoryProviderInterface[]
      */
-    public function getAllProviders(bool $active_only = false, int $user_id = null): array
+    public function getAllProviders(bool $active_only = false, ?int $user_id = null): array
     {
         $providers = array();
 

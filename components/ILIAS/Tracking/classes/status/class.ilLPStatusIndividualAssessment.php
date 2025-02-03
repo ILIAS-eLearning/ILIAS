@@ -59,7 +59,7 @@ class ilLPStatusIndividualAssessment extends ilLPStatus
     public function determineStatus(
         int $a_obj_id,
         int $a_usr_id,
-        object $a_obj = null
+        ?object $a_obj = null
     ): int {
         switch ((string) ilIndividualAssessmentLPInterface::determineStatusOfMember(
             $a_obj_id,

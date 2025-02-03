@@ -26,7 +26,7 @@ class ilUIFramework
 {
     public const BOOTSTRAP_JS = "./assets/js/bootstrap.min.js";
 
-    public static function init(ilGlobalTemplateInterface $template = null): void
+    public static function init(?ilGlobalTemplateInterface $template = null): void
     {
         global $DIC;
 

@@ -586,9 +586,9 @@ class ilSurveyEditorGUI
     //
 
     public function createQuestionObject(
-        ilPropertyFormGUI $a_form = null,
+        ?ilPropertyFormGUI $a_form = null,
         $sel_question_types = null,
-        string $pgov_pos = null
+        ?string $pgov_pos = null
     ): ?ilPropertyFormGUI {
         $this->executeCreateQuestionObject(null, 1, $pgov_pos);
     }
@@ -804,7 +804,7 @@ class ilSurveyEditorGUI
     //
 
     public function editQuestionblockObject(
-        ilPropertyFormGUI $a_form = null
+        ?ilPropertyFormGUI $a_form = null
     ): void {
         $block_id = $this->request->getBlockId();
         $this->ctrl->setParameter($this, "bl_id", $block_id);
@@ -818,7 +818,7 @@ class ilSurveyEditorGUI
     }
 
     public function createQuestionblockObject(
-        ilPropertyFormGUI $a_form = null
+        ?ilPropertyFormGUI $a_form = null
     ): void {
         if (!$a_form) {
             // gather questions from table selected
@@ -985,7 +985,7 @@ class ilSurveyEditorGUI
     }
 
     public function addHeadingObject(
-        ilPropertyFormGUI $a_form = null
+        ?ilPropertyFormGUI $a_form = null
     ): void {
         $q_id = $this->request->getQuestionId();
         $this->ctrl->setParameter($this, "q_id", $q_id);
@@ -1000,7 +1000,7 @@ class ilSurveyEditorGUI
     }
 
     public function editHeadingObject(
-        ilPropertyFormGUI $a_form = null
+        ?ilPropertyFormGUI $a_form = null
     ): void {
         $q_id = $this->request->getQuestionId();
         $this->ctrl->setParameter($this, "q_id", $q_id);

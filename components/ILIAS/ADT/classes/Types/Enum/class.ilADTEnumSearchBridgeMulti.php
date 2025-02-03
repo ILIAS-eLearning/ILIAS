@@ -90,7 +90,7 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
         $this->addToParentElement($cbox);
     }
 
-    public function importFromPost(array $a_post = null): bool
+    public function importFromPost(?array $a_post = null): bool
     {
         $post = $this->extractPostValues($a_post);
 

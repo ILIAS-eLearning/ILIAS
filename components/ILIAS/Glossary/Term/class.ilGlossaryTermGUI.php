@@ -149,7 +149,7 @@ class ilGlossaryTermGUI
     }
 
     public function editTerm(
-        ilPropertyFormGUI $a_form = null
+        ?ilPropertyFormGUI $a_form = null
     ): void {
         $ilTabs = $this->tabs_gui;
         $ilCtrl = $this->ctrl;
@@ -284,7 +284,7 @@ class ilGlossaryTermGUI
      */
     public function output(
         bool $a_offline = false,
-        ilGlobalTemplateInterface $a_tpl = null,
+        ?ilGlobalTemplateInterface $a_tpl = null,
         string $a_outputmode = "presentation"
     ): void {
         if ($a_tpl != null) {

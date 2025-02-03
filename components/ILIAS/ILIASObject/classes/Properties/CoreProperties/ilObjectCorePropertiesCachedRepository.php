@@ -57,7 +57,7 @@ class ilObjectCorePropertiesCachedRepository implements ilObjectCorePropertiesRe
         $this->data_cache = [];
     }
 
-    public function getFor(?int $object_id, string $type = null): ilObjectCoreProperties
+    public function getFor(?int $object_id, ?string $type = null): ilObjectCoreProperties
     {
         if ($object_id === null
             || $object_id === 0) {

@@ -36,7 +36,7 @@ class ilBookingObject
     protected string $post_file = "";
 
     public function __construct(
-        int $a_id = null
+        ?int $a_id = null
     ) {
         global $DIC;
 
@@ -238,7 +238,7 @@ class ilBookingObject
      */
     public static function getList(
         int $a_pool_id,
-        string $a_title = null
+        ?string $a_title = null
     ): array {
         global $DIC;
 
@@ -359,7 +359,7 @@ class ilBookingObject
 
     public function doClone(
         int $a_pool_id,
-        array $a_schedule_map = null
+        ?array $a_schedule_map = null
     ): void {
         $new_obj = new self();
         $new_obj->setPoolId($a_pool_id);

@@ -308,7 +308,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
     protected function renderProfile(
         int $a_user_id,
         string $a_type,
-        array $a_fields = null
+        ?array $a_fields = null
     ): string {
         $ilCtrl = $this->ctrl;
 
@@ -473,7 +473,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
     protected function renderBlogTeaser(
         int $a_user_id,
         int $a_blog_id,
-        array $a_posting_ids = null
+        ?array $a_posting_ids = null
     ): string {
         // not used
         // $user_id = $this->getPageContentUserId($a_user_id);

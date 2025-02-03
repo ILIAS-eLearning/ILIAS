@@ -75,7 +75,7 @@ class ilPCFileListGUI extends ilPageContentGUI
     /**
      * insert new file list form
      */
-    public function insert(ilPropertyFormGUI $a_form = null): void
+    public function insert(?ilPropertyFormGUI $a_form = null): void
     {
         $ilTabs = $this->tabs;
         $sub_command = $this->sub_command;

@@ -194,7 +194,7 @@ class ilRepositorySearchGUI
      */
     public static function fillAutoCompleteToolbar(
         object $parent_object,
-        ilToolbarGUI $toolbar = null,
+        ?ilToolbarGUI $toolbar = null,
         array $a_options = [],
         bool $a_sticky = false
     ): ilToolbarGUI {
@@ -693,7 +693,7 @@ class ilRepositorySearchGUI
         $this->showSearchUserTable([$selected], 'showSearchResults');
     }
 
-    public function initFormSearch(ilObjUser $user = null): void
+    public function initFormSearch(?ilObjUser $user = null): void
     {
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($this->ctrl->getFormAction($this, 'showSearch'));

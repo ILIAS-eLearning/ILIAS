@@ -170,7 +170,7 @@ class ilCalendarCategoryGUI
         $this->ctrl->returnToParent($this);
     }
 
-    protected function add(ilPropertyFormGUI $form = null): void
+    protected function add(?ilPropertyFormGUI $form = null): void
     {
         $this->tabs->clearTargets();
         $this->tabs->setBackTarget($this->lng->txt("cal_back_to_list"), $this->ctrl->getLinkTarget($this, 'cancel'));
@@ -231,7 +231,7 @@ class ilCalendarCategoryGUI
         $this->ctrl->redirect($this, 'manage');
     }
 
-    protected function edit(ilPropertyFormGUI $form = null): void
+    protected function edit(?ilPropertyFormGUI $form = null): void
     {
         $this->tabs->activateTab("edit");
         $this->readPermissions();
@@ -1153,7 +1153,7 @@ class ilCalendarCategoryGUI
         $this->tpl->setContent($toolbar->getHTML() . $table_gui->getHTML());
     }
 
-    protected function importAppointments(ilPropertyFormGUI $form = null): void
+    protected function importAppointments(?ilPropertyFormGUI $form = null): void
     {
         if (!$this->category_id) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);

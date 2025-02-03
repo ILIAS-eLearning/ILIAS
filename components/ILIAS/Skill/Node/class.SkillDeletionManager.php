@@ -48,17 +48,17 @@ class SkillDeletionManager
     protected \ilAppEventHandler $event_handler;
 
     public function __construct(
-        SkillTreeManager $tree_manager = null,
-        PersonalSkillManager $personal_manager = null,
-        AssignedMaterialManager $material_manager = null,
-        SkillProfileManager $profile_manager = null,
-        SkillProfileCompletionManager $profile_completion_manager = null,
-        SkillResourcesManager $resources_manager = null,
-        SkillUsageManager $usage_manager = null,
-        \ilSkillTreeRepository $tree_repo = null,
-        \ilSkillLevelRepository $level_repo = null,
-        \ilSkillUserLevelRepository $user_level_repo = null,
-        \ilAppEventHandler $event_handler = null,
+        ?SkillTreeManager $tree_manager = null,
+        ?PersonalSkillManager $personal_manager = null,
+        ?AssignedMaterialManager $material_manager = null,
+        ?SkillProfileManager $profile_manager = null,
+        ?SkillProfileCompletionManager $profile_completion_manager = null,
+        ?SkillResourcesManager $resources_manager = null,
+        ?SkillUsageManager $usage_manager = null,
+        ?\ilSkillTreeRepository $tree_repo = null,
+        ?\ilSkillLevelRepository $level_repo = null,
+        ?\ilSkillUserLevelRepository $user_level_repo = null,
+        ?\ilAppEventHandler $event_handler = null,
     ) {
         global $DIC;
 
@@ -93,7 +93,7 @@ class SkillDeletionManager
         }
     }
 
-    public function deleteNode(int $node_id, \ilSkillTree $tree = null): void
+    public function deleteNode(int $node_id, ?\ilSkillTree $tree = null): void
     {
         if ($node_id != \ilTree::POS_FIRST_NODE || $node_id !== 0) {
             if (!$tree) {

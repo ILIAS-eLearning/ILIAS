@@ -116,7 +116,7 @@ abstract class ilExplorerBaseGUI
         return $this->search_term;
     }
 
-    public function setMainTemplate(ilGlobalTemplateInterface $a_main_tpl = null): void
+    public function setMainTemplate(?ilGlobalTemplateInterface $a_main_tpl = null): void
     {
         $this->tpl = $a_main_tpl;
     }
@@ -595,7 +595,7 @@ abstract class ilExplorerBaseGUI
 
 
     // Init JS/CSS
-    public static function init(ilGlobalTemplateInterface $a_main_tpl = null): void
+    public static function init(?ilGlobalTemplateInterface $a_main_tpl = null): void
     {
         global $DIC;
 

@@ -609,7 +609,7 @@ class TestScreenGUI
         return false;
     }
 
-    private function buildLinkTarget(string $cmd = null): string
+    private function buildLinkTarget(?string $cmd = null): string
     {
         $target = array_merge(['ilRepositoryGUI', 'ilObjTestGUI'], ['ilTestSkillAdministrationGUI', 'ilTestSkillLevelThresholdsGUI']);
         return $this->ctrl->getLinkTargetByClass($target, $cmd);

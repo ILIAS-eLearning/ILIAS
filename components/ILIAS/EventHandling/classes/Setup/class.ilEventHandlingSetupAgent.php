@@ -42,7 +42,7 @@ class ilEventHandlingSetupAgent implements Setup\Agent
     /**
      * @inheritDoc
      */
-    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
+    public function getInstallObjective(?Setup\Config $config = null): Setup\Objective
     {
         return new ilEventHandlingDefinitionsStoredObjective();
     }
@@ -50,7 +50,7 @@ class ilEventHandlingSetupAgent implements Setup\Agent
     /**
      * @inheritDoc
      */
-    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
     {
         return new Setup\ObjectiveCollection(
             "Updates of Services/EventHandling",

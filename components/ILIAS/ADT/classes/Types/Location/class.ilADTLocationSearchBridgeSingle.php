@@ -97,7 +97,7 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
         return (bool) ($a_post["tgl"] ?? false);
     }
 
-    public function importFromPost(array $a_post = null): bool
+    public function importFromPost(?array $a_post = null): bool
     {
         $post = $this->extractPostValues($a_post);
 

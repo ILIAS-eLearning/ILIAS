@@ -716,7 +716,7 @@ class ilCourseObjectivesGUI
         return ilObjTest::_lookupRandomTest(ilObject::_lookupObjId($tst_ref_id));
     }
 
-    protected function showRandomTestAssignment(ilPropertyFormGUI $form = null): void
+    protected function showRandomTestAssignment(?ilPropertyFormGUI $form = null): void
     {
         $this->ctrl->saveParameter($this, 'objective_id');
         $this->objective = new ilCourseObjective($this->course_obj, $this->initObjectiveIdFromQuery());

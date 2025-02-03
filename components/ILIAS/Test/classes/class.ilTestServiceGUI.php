@@ -351,8 +351,8 @@ class ilTestServiceGUI
         $show_question_only = false,
         $show_reached_points = false,
         $anchorNav = false,
-        ilTestQuestionRelatedObjectivesList $objectives_list = null,
-        ResultsTitlesBuilder $testResultHeaderLabelBuilder = null
+        ?ilTestQuestionRelatedObjectivesList $objectives_list = null,
+        ?ResultsTitlesBuilder $testResultHeaderLabelBuilder = null
     ): string {
         $maintemplate = new ilTemplate('tpl.il_as_tst_list_of_answers.html', true, true, 'components/ILIAS/Test');
 
@@ -464,7 +464,7 @@ class ilTestServiceGUI
         int $pass,
         ilTestServiceGUI $target_gui,
         string $target_cmd,
-        ilTestQuestionRelatedObjectivesList $objectives_list = null,
+        ?ilTestQuestionRelatedObjectivesList $objectives_list = null,
         bool $multiple_objectives_involved = true
     ): ilTestPassDetailsOverviewTableGUI {
         $this->ctrl->setParameter($target_gui, 'active_id', $active_id);
@@ -599,7 +599,7 @@ class ilTestServiceGUI
      * @return string HTML code of the correct solution comparison
      * @access public
      */
-    public function getCorrectSolutionOutput($question_id, $active_id, $pass, ilTestQuestionRelatedObjectivesList $objectives_list = null): string
+    public function getCorrectSolutionOutput($question_id, $active_id, $pass, ?ilTestQuestionRelatedObjectivesList $objectives_list = null): string
     {
         $ilUser = $this->user;
 

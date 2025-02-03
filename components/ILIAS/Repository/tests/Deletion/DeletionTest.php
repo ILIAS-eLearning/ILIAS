@@ -295,7 +295,7 @@ class DeletionTest extends TestCase
     }
 
     public function initDeletion(
-        TreeInterface $tree_mock = null,
+        ?TreeInterface $tree_mock = null,
         bool $trash_enabled = true,
         bool $access_given = true,
         array $failing_obj_ids = []

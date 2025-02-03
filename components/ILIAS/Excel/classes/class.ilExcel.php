@@ -495,7 +495,7 @@ class ilExcel
     public function setColors(
         string $a_coords,
         string $a_background,
-        string $a_font = null
+        ?string $a_font = null
     ): void {
         $opts = [
             'fill' => [

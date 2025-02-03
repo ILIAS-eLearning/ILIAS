@@ -44,8 +44,8 @@ interface PRGAssignmentRepository
     */
     public function getAllForNodeIsContained(
         int $prg_obj_id,
-        array $user_filter = null,
-        ilPRGAssignmentFilter $custom_filters = null
+        ?array $user_filter = null,
+        ?ilPRGAssignmentFilter $custom_filters = null
     ): array;
 
     /**
@@ -54,8 +54,8 @@ interface PRGAssignmentRepository
      */
     public function countAllForNodeIsContained(
         int $prg_obj_id,
-        array $user_filter = null,
-        ilPRGAssignmentFilter $custom_filters = null
+        ?array $user_filter = null,
+        ?ilPRGAssignmentFilter $custom_filters = null
     ): int;
 
     /**
@@ -63,7 +63,7 @@ interface PRGAssignmentRepository
     * where the given node is the root-node of the assignment
     * @return ilPRGAssignment[]
     */
-    public function getAllForSpecificNode(int $prg_obj_id, array $user_filter = null): array;
+    public function getAllForSpecificNode(int $prg_obj_id, ?array $user_filter = null): array;
 
     /**
      * @return ilPRGAssignment[]

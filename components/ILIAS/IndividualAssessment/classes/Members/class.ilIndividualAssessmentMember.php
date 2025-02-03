@@ -114,7 +114,7 @@ class ilIndividualAssessmentMember
         return $this->change_time;
     }
 
-    public function withChangeTime(DateTimeImmutable $change_time = null): ilIndividualAssessmentMember
+    public function withChangeTime(?DateTimeImmutable $change_time = null): ilIndividualAssessmentMember
     {
         $clone = clone $this;
         $clone->change_time = $change_time;

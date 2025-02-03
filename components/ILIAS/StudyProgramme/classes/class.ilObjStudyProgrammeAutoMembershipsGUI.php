@@ -360,8 +360,8 @@ class ilObjStudyProgrammeAutoMembershipsGUI
     }
 
     protected function getModal(
-        string $source_type = null,
-        int $source_id = null,
+        ?string $source_type = null,
+        ?int $source_id = null,
         bool $search_recursive = false
     ): RoundTrip {
         $this->ctrl->setParameter($this, self::F_ORIGINAL_SOURCE_TYPE, $source_type);
@@ -465,8 +465,8 @@ class ilObjStudyProgrammeAutoMembershipsGUI
     }
 
     protected function getForm(
-        string $source_type = null,
-        int $source_id = null,
+        ?string $source_type = null,
+        ?int $source_id = null,
         bool $search_recursive = false
     ): ilPropertyFormGUI {
         $form = new ilPropertyFormGUI();
@@ -574,8 +574,8 @@ class ilObjStudyProgrammeAutoMembershipsGUI
     protected function getSelectionForm(
         string $selected_source_type,
         string $selected_source,
-        string $source_type = null,
-        string $source_id = null
+        ?string $source_type = null,
+        ?string $source_id = null
     ): ilPropertyFormGUI {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "save"));

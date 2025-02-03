@@ -29,8 +29,8 @@ class ilFavouritesDBRepository
     protected ilTree $tree;
 
     public function __construct(
-        ilDBInterface $db = null,
-        ilTree $tree = null
+        ?ilDBInterface $db = null,
+        ?ilTree $tree = null
     ) {
         global $DIC;
 

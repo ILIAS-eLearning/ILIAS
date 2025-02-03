@@ -111,7 +111,7 @@ class ProcessUtilGUI
     public function handleBookingSuccess(
         int $a_obj_id,
         string $post_info_cmd,
-        array $a_rsv_ids = null
+        ?array $a_rsv_ids = null
     ): void {
         $this->log->debug("handleBookingSuccess");
         $main_tpl = $this->gui->mainTemplate();

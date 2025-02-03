@@ -739,8 +739,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     public function addStandardRow(
         ilTemplate $a_tpl,
         string $a_html,
-        int $a_item_ref_id = null,
-        int $a_item_obj_id = null,
+        ?int $a_item_ref_id = null,
+        ?int $a_item_obj_id = null,
         string $a_image_type = ""
     ): void {
         $ilSetting = $this->settings;
@@ -1983,7 +1983,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         int $srcRef,
         int $dstRef,
         array &$mapping,
-        string $newName = null
+        ?string $newName = null
     ): int {
         $tree = $this->tree;
 
@@ -2565,7 +2565,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->ctrl->redirect($this, "trash");
     }
 
-    protected function restoreToNewLocationObject(ilPropertyFormGUI $form = null): void
+    protected function restoreToNewLocationObject(?ilPropertyFormGUI $form = null): void
     {
         $this->tabs_gui->activateTab('trash');
 

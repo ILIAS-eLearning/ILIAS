@@ -319,7 +319,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         throw new ilTemplateException("block " . var_export($blockname, true) . " not found");
     }
 
-    public function addBlockFile(string $var, string $block, string $template_name, string $in_module = null): bool
+    public function addBlockFile(string $var, string $block, string $template_name, ?string $in_module = null): bool
     {
         if ($this->blockExists($block)) {
             $this->legacy_content_template->removeBlockData($block);

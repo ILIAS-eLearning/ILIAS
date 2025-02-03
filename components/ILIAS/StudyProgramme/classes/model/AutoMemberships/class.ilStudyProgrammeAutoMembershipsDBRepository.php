@@ -80,8 +80,8 @@ class ilStudyProgrammeAutoMembershipsDBRepository implements ilStudyProgrammeAut
         string $source_type,
         int $source_id,
         bool $enabled,
-        int $last_edited_usr_id = null,
-        DateTimeImmutable $last_edited = null,
+        ?int $last_edited_usr_id = null,
+        ?DateTimeImmutable $last_edited = null,
         bool $search_recursive = false
     ): ilStudyProgrammeAutoMembershipSource {
         if (is_null($last_edited_usr_id)) {

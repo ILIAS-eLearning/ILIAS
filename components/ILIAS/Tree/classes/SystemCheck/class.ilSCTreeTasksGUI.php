@@ -39,7 +39,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
     protected Factory $refinery;
     private ilDBInterface $db;
 
-    public function __construct(ilSCTask $task = null)
+    public function __construct(?ilSCTask $task = null)
     {
         global $DIC;
         parent::__construct($task);

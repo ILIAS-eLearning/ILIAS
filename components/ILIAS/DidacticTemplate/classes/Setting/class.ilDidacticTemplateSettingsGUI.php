@@ -243,7 +243,7 @@ class ilDidacticTemplateSettingsGUI
         $this->overview();
     }
 
-    protected function showImportForm(ilPropertyFormGUI $form = null): void
+    protected function showImportForm(?ilPropertyFormGUI $form = null): void
     {
         $setting = $this->initTemplateFromRequest();
         if ($setting instanceof ilDidacticTemplateSetting) {
@@ -382,7 +382,7 @@ class ilDidacticTemplateSettingsGUI
         }
     }
 
-    protected function editTemplate(?int $template_id = null, ilPropertyFormGUI $form = null): void
+    protected function editTemplate(?int $template_id = null, ?ilPropertyFormGUI $form = null): void
     {
         $setting = null;
         if (is_null($template_id)) {
@@ -762,7 +762,7 @@ class ilDidacticTemplateSettingsGUI
         }
     }
 
-    public function showEditImportForm(ilPropertyFormGUI $form = null): void
+    public function showEditImportForm(?ilPropertyFormGUI $form = null): void
     {
         $this->initTemplateFromRequest();
         $this->setEditTabs("import");

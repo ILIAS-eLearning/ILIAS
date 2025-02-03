@@ -112,7 +112,7 @@ class ilObjTestFolderGUI extends ilObjectGUI
         }
     }
 
-    public function showGlobalSettingsObject(Form $form = null): void
+    public function showGlobalSettingsObject(?Form $form = null): void
     {
         $this->tabs_gui->setTabActive('settings');
 
@@ -169,7 +169,7 @@ class ilObjTestFolderGUI extends ilObjectGUI
         );
     }
 
-    protected function showLogSettingsObject(Form $form = null): void
+    protected function showLogSettingsObject(?Form $form = null): void
     {
         $this->tabs_gui->activateTab('logs');
 

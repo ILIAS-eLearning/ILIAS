@@ -26,7 +26,7 @@ use ILIAS\Poll\Setup\DBUpdateSteps10;
 
 class ilPollSetupAgent extends NullAgent
 {
-    public function getUpdateObjective(Config $config = null): Objective
+    public function getUpdateObjective(?Config $config = null): Objective
     {
         return new ObjectiveCollection(
             'Poll',
@@ -35,7 +35,7 @@ class ilPollSetupAgent extends NullAgent
         );
     }
 
-    public function getMigrations(Config $config = null): array
+    public function getMigrations(?Config $config = null): array
     {
         return [
             new \ilPollImagesMigration()

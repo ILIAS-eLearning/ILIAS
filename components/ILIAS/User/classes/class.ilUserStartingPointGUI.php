@@ -125,7 +125,7 @@ class ilUserStartingPointGUI
         $this->tpl->setContent($tbl->getHTML());
     }
 
-    public function initUserStartingPointForm(ilPropertyFormGUI $form = null): void
+    public function initUserStartingPointForm(?ilPropertyFormGUI $form = null): void
     {
         if (!($form instanceof ilPropertyFormGUI)) {
             $form = $this->getUserStartingPointForm();
@@ -133,7 +133,7 @@ class ilUserStartingPointGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function initRoleStartingPointForm(ilPropertyFormGUI $form = null): void
+    public function initRoleStartingPointForm(?ilPropertyFormGUI $form = null): void
     {
         if (!($form instanceof ilPropertyFormGUI)) {
             $form = $this->getRoleStartingPointForm();

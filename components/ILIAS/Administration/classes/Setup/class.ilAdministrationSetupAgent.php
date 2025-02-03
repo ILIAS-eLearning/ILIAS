@@ -33,7 +33,7 @@ use ilDatabaseUpdateStepsMetricsCollectedObjective;
  */
 class ilAdministrationSetupAgent extends NullAgent
 {
-    public function getUpdateObjective(Config $config = null) : Objective
+    public function getUpdateObjective(?Config $config = null) : Objective
     {
         return new ilDatabaseUpdateStepsExecutedObjective(new ilAdministrationDBUpdateSteps());
     }

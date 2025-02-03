@@ -156,7 +156,7 @@ abstract class ilParticipants
     /**
      * Check if (current) user has access to the participant list
      */
-    public static function hasParticipantListAccess(int $a_obj_id, int $a_usr_id = null): bool
+    public static function hasParticipantListAccess(int $a_obj_id, ?int $a_usr_id = null): bool
     {
         global $DIC;
 

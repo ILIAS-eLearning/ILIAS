@@ -27,7 +27,7 @@ class ilSkillLevelDBRepository implements ilSkillLevelRepository
     protected ilDBInterface $db;
     protected ilSkillTreeRepository $tree_repo;
 
-    public function __construct(ilSkillTreeRepository $tree_repo, ilDBInterface $db = null)
+    public function __construct(ilSkillTreeRepository $tree_repo, ?ilDBInterface $db = null)
     {
         global $DIC;
 

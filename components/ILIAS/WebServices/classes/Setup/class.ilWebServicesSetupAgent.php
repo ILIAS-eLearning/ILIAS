@@ -44,7 +44,7 @@ class ilWebServicesSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getConfigInput(Setup\Config $config = null): UI\Component\Input\Container\Form\FormInput
+    public function getConfigInput(?Setup\Config $config = null): UI\Component\Input\Container\Form\FormInput
     {
         throw new \LogicException("Not yet implemented.");
     }
@@ -73,7 +73,7 @@ class ilWebServicesSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
+    public function getInstallObjective(?Setup\Config $config = null): Setup\Objective
     {
         return new ilWebServicesConfigStoredObjective($config);
     }
@@ -81,7 +81,7 @@ class ilWebServicesSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
     {
         $wsrv_objective = new Setup\Objective\NullObjective();
         if (!is_null($config)) {

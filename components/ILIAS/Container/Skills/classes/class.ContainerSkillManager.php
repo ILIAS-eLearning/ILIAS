@@ -41,13 +41,13 @@ class ContainerSkillManager
     public function __construct(
         int $cont_obj_id,
         int $cont_ref_id,
-        ContainerSkillDBRepository $cont_skill_repo = null,
-        ContainerMemberSkillDBRepository $cont_member_skill_repo = null,
-        SkillService\SkillTreeService $tree_service = null,
-        SkillService\SkillProfileService $profile_service = null,
-        SkillService\SkillPersonalService $personal_service = null,
-        SkillInternalFactoryService $factory_service = null,
-        \ilSkillManagementSettings $skmg_settings = null
+        ?ContainerSkillDBRepository $cont_skill_repo = null,
+        ?ContainerMemberSkillDBRepository $cont_member_skill_repo = null,
+        ?SkillService\SkillTreeService $tree_service = null,
+        ?SkillService\SkillProfileService $profile_service = null,
+        ?SkillService\SkillPersonalService $personal_service = null,
+        ?SkillInternalFactoryService $factory_service = null,
+        ?\ilSkillManagementSettings $skmg_settings = null
     ) {
         global $DIC;
 

@@ -65,7 +65,7 @@ abstract class ilChart
     /**
      * Get data series instance
      */
-    abstract public function getDataInstance(int $a_type = null): ilChartData;
+    abstract public function getDataInstance(?int $a_type = null): ilChartData;
 
     /**
      * Validate data series

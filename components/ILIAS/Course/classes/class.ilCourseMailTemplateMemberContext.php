@@ -33,10 +33,10 @@ class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
     protected ilLanguage $lng;
 
     public function __construct(
-        \OrgUnit\PublicApi\OrgUnitUserService $orgUnitUserService = null,
-        ilMailEnvironmentHelper $envHelper = null,
-        ilMailUserHelper $usernameHelper = null,
-        ilMailLanguageHelper $languageHelper = null
+        ?\OrgUnit\PublicApi\OrgUnitUserService $orgUnitUserService = null,
+        ?ilMailEnvironmentHelper $envHelper = null,
+        ?ilMailUserHelper $usernameHelper = null,
+        ?ilMailLanguageHelper $languageHelper = null
     ) {
         parent::__construct($orgUnitUserService, $envHelper, $usernameHelper, $languageHelper);
     }
@@ -119,7 +119,7 @@ class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
     public function resolveSpecificPlaceholder(
         string $placeholder_id,
         array $context_parameters,
-        ilObjUser $recipient = null
+        ?ilObjUser $recipient = null
     ): string {
         /**
          * @var $ilObjDataCache ilObjectDataCache

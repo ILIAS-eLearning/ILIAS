@@ -47,7 +47,7 @@ class UIWrapper
         string $content,
         string $type,
         string $action,
-        array $data = null,
+        ?array $data = null,
         string $component = "",
         bool $primary = false,
         string $aria_label = ""
@@ -124,7 +124,7 @@ class UIWrapper
         string $content,
         string $type,
         string $action,
-        array $data = null,
+        ?array $data = null,
         string $component = "",
         bool $primary = false,
         string $aria_label = ""
@@ -378,7 +378,7 @@ class UIWrapper
         string $component,
         string $type,
         string $action,
-        array $data = null
+        ?array $data = null
     ): \ILIAS\UI\Component\Button\Shy {
         $ui = $this->ui;
         $f = $ui->factory();
@@ -405,7 +405,7 @@ class UIWrapper
         string $component,
         string $type,
         string $action,
-        array $data = null
+        ?array $data = null
     ): string {
         $ui = $this->ui;
         // workaround to clear async code from dropdowns

@@ -404,7 +404,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         return $result;
     }
 
-    public function getAvailableAnswerOptions(int $index = null): array
+    public function getAvailableAnswerOptions(?int $index = null): array
     {
         return [
             "lower" => $this->getLowerLimit(),

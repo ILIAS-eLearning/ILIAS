@@ -476,7 +476,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->ctrl->redirect($this, "");
     }
 
-    public function editInfoObject(ilPropertyFormGUI $a_form = null): void
+    public function editInfoObject(?ilPropertyFormGUI $a_form = null): void
     {
         $this->checkPermission('write');
         $this->setSubTabs('properties');
@@ -1003,7 +1003,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->ctrl->redirect($this, "edit");
     }
 
-    public function editObject(ilPropertyFormGUI $form = null): void
+    public function editObject(?ilPropertyFormGUI $form = null): void
     {
         $this->setSubTabs('properties');
         $this->tabs_gui->setSubTabActive('general');
@@ -1644,7 +1644,7 @@ class ilObjCourseGUI extends ilContainerGUI
         ));
     }
 
-    public function readMemberData(array $ids, array $selected_columns = null, bool $skip_names = false): array
+    public function readMemberData(array $ids, ?array $selected_columns = null, bool $skip_names = false): array
     {
         $show_tracking =
             (

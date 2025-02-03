@@ -1564,7 +1564,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
      * Include media object presentation JS
      */
     public static function includePresentationJS(
-        ilGlobalTemplateInterface $a_tpl = null
+        ?ilGlobalTemplateInterface $a_tpl = null
     ): void {
         global $DIC;
 

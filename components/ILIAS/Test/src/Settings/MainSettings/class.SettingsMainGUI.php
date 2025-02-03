@@ -154,7 +154,7 @@ class SettingsMainGUI extends TestSettingsGUI
         );
     }
 
-    private function showForm(StandardForm $form = null, InterruptiveModal $modal = null): void
+    private function showForm(?StandardForm $form = null, ?InterruptiveModal $modal = null): void
     {
         if ($form === null) {
             $form = $this->buildForm();

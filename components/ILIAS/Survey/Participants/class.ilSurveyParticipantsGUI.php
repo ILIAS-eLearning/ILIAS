@@ -194,7 +194,7 @@ class ilSurveyParticipantsGUI
     }
 
     protected function filterSurveyParticipantsByAccess(
-        array $a_finished_ids = null
+        ?array $a_finished_ids = null
     ): array {
         $all_participants = $this->object->getSurveyParticipants($a_finished_ids, false, true);
         $participant_ids = [];
@@ -1349,7 +1349,7 @@ class ilSurveyParticipantsGUI
     }
 
     public function addExternalRaterFormObject(
-        ilPropertyFormGUI $a_form = null
+        ?ilPropertyFormGUI $a_form = null
     ): void {
         $ilTabs = $this->tabs;
         $ilAccess = $this->access;
@@ -1649,7 +1649,7 @@ class ilSurveyParticipantsGUI
     }
 
     public function mailRatersObjectOld(
-        ilPropertyFormGUI $a_form = null
+        ?ilPropertyFormGUI $a_form = null
     ): void {
         $ilTabs = $this->tabs;
         $rater_ids = $this->edit_request->getRaterIds();

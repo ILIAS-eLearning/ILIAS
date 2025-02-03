@@ -119,7 +119,7 @@ class ilCmiXapiSettingsGUI
         $this->showCmd($form);
     }
 
-    protected function showCmd(ilPropertyFormGUI $form = null): void
+    protected function showCmd(?ilPropertyFormGUI $form = null): void
     {
         $this->dic->tabs()->activateSubTab(self::SUBTAB_ID_SETTINGS);
 

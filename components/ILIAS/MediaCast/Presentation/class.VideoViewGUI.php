@@ -45,7 +45,7 @@ class VideoViewGUI
 
     public function __construct(
         \ilObjMediaCast $obj,
-        \ilGlobalTemplateInterface $tpl = null,
+        ?\ilGlobalTemplateInterface $tpl = null,
         string $rss_link = ""
     ) {
         global $DIC;

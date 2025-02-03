@@ -29,7 +29,7 @@ interface ilMathAdapter
      * @param int|null $scale
      * @return mixed
      */
-    public function add($left_operand, $right_operand, int $scale = null);
+    public function add($left_operand, $right_operand, ?int $scale = null);
 
     /**
      * Subtracts two numbers
@@ -38,7 +38,7 @@ interface ilMathAdapter
      * @param int|null $scale
      * @return mixed
      */
-    public function sub($left_operand, $right_operand, int $scale = null);
+    public function sub($left_operand, $right_operand, ?int $scale = null);
 
     /**
      * Multiplies two numbers
@@ -47,7 +47,7 @@ interface ilMathAdapter
      * @param int|null $scale
      * @return mixed
      */
-    public function mul($left_operand, $right_operand, int $scale = null);
+    public function mul($left_operand, $right_operand, ?int $scale = null);
 
     /**
      * Divides two numbers
@@ -57,7 +57,7 @@ interface ilMathAdapter
      * @return mixed
      * @throws ilMathDivisionByZeroException
      */
-    public function div($left_operand, $right_operand, int $scale = null);
+    public function div($left_operand, $right_operand, ?int $scale = null);
 
     /**
      * Gets modulus of two numbers
@@ -75,7 +75,7 @@ interface ilMathAdapter
      * @param int|null $scale
      * @return mixed
      */
-    public function pow($left_operand, $right_operand, int $scale = null);
+    public function pow($left_operand, $right_operand, ?int $scale = null);
 
     /**
      * Gets the square root of a number
@@ -83,7 +83,7 @@ interface ilMathAdapter
      * @param int|null $scale
      * @return mixed
      */
-    public function sqrt($operand, int $scale = null);
+    public function sqrt($operand, ?int $scale = null);
 
 
     /**
@@ -93,7 +93,7 @@ interface ilMathAdapter
      * @param int|null $scale
      * @return mixed
      */
-    public function comp($left_operand, $right_operand, int $scale = null);
+    public function comp($left_operand, $right_operand, ?int $scale = null);
 
     /**
      * Checks whether or not two numbers are identical
@@ -102,7 +102,7 @@ interface ilMathAdapter
      * @param int|null $scale
      * @return bool
      */
-    public function equals($left_operand, $right_operand, int $scale = null): bool;
+    public function equals($left_operand, $right_operand, ?int $scale = null): bool;
 
     /**
      * This method adapts the behaviour of bcscale()
@@ -110,7 +110,7 @@ interface ilMathAdapter
      * @param int|null $scale
      * @return mixed
      */
-    public function applyScale($left_operand, int $scale = null);
+    public function applyScale($left_operand, ?int $scale = null);
 
     /**
      * @param mixed $value

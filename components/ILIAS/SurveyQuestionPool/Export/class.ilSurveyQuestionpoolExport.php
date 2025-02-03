@@ -67,7 +67,7 @@ class ilSurveyQuestionpoolExport
      * build export file (complete zip file)
      */
     public function buildExportFile(
-        array $questions = null
+        ?array $questions = null
     ): string {
         switch ($this->mode) {
             default:
@@ -79,7 +79,7 @@ class ilSurveyQuestionpoolExport
      * build xml export file
      */
     public function buildExportFileXML(
-        array $questions = null
+        ?array $questions = null
     ): string {
         // create directories
         $this->spl_obj->createExportDirectory();

@@ -32,7 +32,7 @@ class ilCategoryXmlWriter extends ilXmlWriter
     private int $mode = self::MODE_SOAP;
     private ?ilObjCategory $category;
 
-    public function __construct(ilObjCategory $cat = null)
+    public function __construct(?ilObjCategory $cat = null)
     {
         global $DIC;
 

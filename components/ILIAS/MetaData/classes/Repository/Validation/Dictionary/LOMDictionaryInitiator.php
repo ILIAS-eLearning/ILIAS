@@ -126,7 +126,7 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
     protected function addTag(
         StructureElementInterface $element,
         Restriction $restriction,
-        int $index = null
+        ?int $index = null
     ): void {
         if (is_null($index)) {
             $tag = $this->tag_factory->tag(

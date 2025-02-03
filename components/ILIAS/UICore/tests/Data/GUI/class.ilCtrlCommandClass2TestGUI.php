@@ -18,7 +18,7 @@ class ilCtrlCommandClass2TestGUI
         return self::class;
     }
 
-    public function getHTML(array $args = null): string
+    public function getHTML(?array $args = null): string
     {
         if (!empty($args)) {
             return $args[array_key_first($args)];

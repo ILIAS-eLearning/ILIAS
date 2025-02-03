@@ -135,7 +135,7 @@ class ilLPStatusObjectives extends ilLPStatus
     public function determineStatus(
         int $a_obj_id,
         int $a_usr_id,
-        object $a_obj = null
+        ?object $a_obj = null
     ): int {
         // the status completed depends on:
         // $status_info['num_objectives'] (ilLPStatusWrapper::_getStatusInfo($a_obj_id);)

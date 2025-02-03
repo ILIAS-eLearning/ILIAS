@@ -96,7 +96,7 @@ class ilLTIPlatform extends Platform
      * Class constructor.
      * @param ilLTIDataConnector|null $dataConnector A data connector object
      */
-    public function __construct(ilLTIDataConnector $dataConnector = null)
+    public function __construct(?ilLTIDataConnector $dataConnector = null)
     {
         $this->initialize();
         if (empty($dataConnector)) {
@@ -276,7 +276,7 @@ class ilLTIPlatform extends Platform
      * @param bool                      $autoEnable    True if the platform is to be enabled automatically (optional, default is false)
      * @return ilLTIPlatform                         The platform object
      */
-    public static function fromPlatformId(string $platformId, ?string $clientId, ?string $deploymentId, DataConnector $dataConnector = null, bool $autoEnable = false): ilLTIPlatform
+    public static function fromPlatformId(string $platformId, ?string $clientId, ?string $deploymentId, ?DataConnector $dataConnector = null, bool $autoEnable = false): ilLTIPlatform
     {
         $platform = new ilLTIPlatform($dataConnector);
         $platform->initialize();

@@ -347,7 +347,7 @@ class ilSecuritySettings
      * @param ilPropertyFormGUI|null $a_form
      * @return int|null 0, if everything is ok, an error code otherwise
      */
-    public function validate(ilPropertyFormGUI $a_form = null): ?int
+    public function validate(?ilPropertyFormGUI $a_form = null): ?int
     {
         $code = null;
 

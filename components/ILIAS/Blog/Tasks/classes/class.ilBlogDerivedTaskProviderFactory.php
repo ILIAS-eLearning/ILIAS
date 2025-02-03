@@ -30,8 +30,8 @@ class ilBlogDerivedTaskProviderFactory implements ilDerivedTaskProviderFactory
 
     public function __construct(
         ilTaskService $taskService,
-        \ilAccess $accessHandler = null,
-        \ilLanguage $lng = null
+        ?\ilAccess $accessHandler = null,
+        ?\ilLanguage $lng = null
     ) {
         global $DIC;
 

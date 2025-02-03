@@ -161,7 +161,7 @@ EOT;
         return $button;
     }
 
-    public function toToolbar(bool $sticky = false, \ilToolbarGUI $toolbar = null): void
+    public function toToolbar(bool $sticky = false, ?\ilToolbarGUI $toolbar = null): void
     {
         $button = $this->getButton();
         if (is_null($toolbar)) {

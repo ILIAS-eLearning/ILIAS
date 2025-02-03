@@ -120,7 +120,7 @@ class InternalGUIService
         return new \ilObjExerciseGUI([], $ref_id, true);
     }
 
-    public function getRandomAssignmentGUI(\ilObjExercise $exc = null): \ilExcRandomAssignmentGUI
+    public function getRandomAssignmentGUI(?\ilObjExercise $exc = null): \ilExcRandomAssignmentGUI
     {
         if ($exc === null) {
             $exc = $this->request()->getExercise();
@@ -135,8 +135,8 @@ class InternalGUIService
     }
 
     public function getSubmissionGUI(
-        \ilObjExercise $exc = null,
-        \ilExAssignment $ass = null,
+        ?\ilObjExercise $exc = null,
+        ?\ilExAssignment $ass = null,
         $member_id = null
     ): \ilExSubmissionGUI {
         if ($exc === null) {

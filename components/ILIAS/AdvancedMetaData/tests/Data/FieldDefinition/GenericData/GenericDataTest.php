@@ -26,7 +26,7 @@ use ILIAS\AdvancedMetaData\Data\FieldDefinition\Type;
 class GenericDataTest extends TestCase
 {
     protected function getData(
-        int $id = null,
+        ?int $id = null,
         string $title = 'title'
     ): GenericDataImplementation {
         return new GenericDataImplementation(

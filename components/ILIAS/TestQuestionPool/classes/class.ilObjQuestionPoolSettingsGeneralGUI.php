@@ -91,7 +91,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
         }
     }
 
-    private function showFormCmd(Form $form = null): void
+    private function showFormCmd(?Form $form = null): void
     {
         $this->tabs->activateSubTab(self::TAB_COMMON_SETTINGS);
         if ($form === null) {

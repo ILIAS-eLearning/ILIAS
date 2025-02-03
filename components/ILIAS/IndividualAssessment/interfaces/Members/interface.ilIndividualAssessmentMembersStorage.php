@@ -37,8 +37,8 @@ interface ilIndividualAssessmentMembersStorage
      */
     public function loadMembersAsSingleObjects(
         ilObjIndividualAssessment $obj,
-        string $filter = null,
-        string $sort = null
+        ?string $filter = null,
+        ?string $sort = null
     ): array;
 
     /**

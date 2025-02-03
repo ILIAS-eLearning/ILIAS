@@ -3571,8 +3571,8 @@ class ilObjSurvey extends ilObject
      * @throws ilDateTimeException
      */
     public function getSurveyCodesForExport(
-        array $a_codes = null,
-        array $a_ids = null
+        ?array $a_codes = null,
+        ?array $a_ids = null
     ): string {
         $ilDB = $this->db;
         $ilUser = $this->user;
@@ -3645,8 +3645,8 @@ class ilObjSurvey extends ilObject
      * @todo move to code manager
      */
     public function getSurveyCodesTableData(
-        array $ids = null,
-        string $lang = null
+        ?array $ids = null,
+        ?string $lang = null
     ): array {
         $ilDB = $this->db;
 
@@ -4011,7 +4011,7 @@ class ilObjSurvey extends ilObject
         string $a_material,
         bool $close_material_tag = true,
         bool $add_mobs = true,
-        array $attribs = null
+        ?array $attribs = null
     ): void {
         $a_xml_writer->xmlStartTag("material", $attribs);
         $attrs = array(
@@ -4617,7 +4617,7 @@ class ilObjSurvey extends ilObject
      */
     public function getAppraiseesToRate(
         ?int $a_user_id,
-        int $a_anonymous_id = null
+        ?int $a_anonymous_id = null
     ): array {
         $ilDB = $this->db;
 
@@ -4667,7 +4667,7 @@ class ilObjSurvey extends ilObject
     public function is360SurveyStarted(
         int $appr_id,
         int $user_id,
-        string $anonymous_code = null
+        ?string $anonymous_code = null
     ): ?int {
         $ilDB = $this->db;
 
@@ -4697,7 +4697,7 @@ class ilObjSurvey extends ilObject
      * @todo move to run manager
      */
     public function getUserSurveyExecutionStatus(
-        string $a_code = null
+        ?string $a_code = null
     ): ?array {
         $ilUser = $this->user;
         $ilDB = $this->db;
@@ -4861,7 +4861,7 @@ class ilObjSurvey extends ilObject
         int $a_appraisee_id,
         int $a_user_id,
         int $a_anonymous_id,
-        int $a_tstamp = null
+        ?int $a_tstamp = null
     ): void {
         $ilDB = $this->db;
 
@@ -5466,13 +5466,13 @@ class ilObjSurvey extends ilObject
     }
 
     public function setActivationStartDate(
-        int $starting_time = null
+        ?int $starting_time = null
     ): void {
         $this->activation_starting_time = $starting_time;
     }
 
     public function setActivationEndDate(
-        int $ending_time = null
+        ?int $ending_time = null
     ): void {
         $this->activation_ending_time = $ending_time;
     }
@@ -5544,7 +5544,7 @@ class ilObjSurvey extends ilObject
     }
 
     public function getReminderMailTemplates(
-        int &$defaultTemplateId = null
+        ?int &$defaultTemplateId = null
     ): array {
         global $DIC;
 

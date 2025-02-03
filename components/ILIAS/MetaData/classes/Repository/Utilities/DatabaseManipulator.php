@@ -95,7 +95,7 @@ class DatabaseManipulator implements DatabaseManipulatorInterface
     protected function collectRowsForManipulationFromElementAndSubElements(
         int $depth,
         ElementInterface $element,
-        AssignmentRowInterface $current_row = null,
+        ?AssignmentRowInterface $current_row = null,
         bool $delete_all = false
     ): array {
         if ($depth > 20) {
@@ -164,7 +164,7 @@ class DatabaseManipulator implements DatabaseManipulatorInterface
     protected function collectRowsForTransferFromElementAndSubElements(
         int $depth,
         ElementInterface $element,
-        AssignmentRowInterface $current_row = null
+        ?AssignmentRowInterface $current_row = null
     ): array {
         if ($depth > 20) {
             throw new \ilMDStructureException('LOM Structure is nested to deep.');

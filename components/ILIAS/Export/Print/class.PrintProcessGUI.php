@@ -55,7 +55,7 @@ class PrintProcessGUI
         \ILIAS\HTTP\Services $http,
         UIServices $ui,
         \ilLanguage $lng,
-        string $body_class = null
+        ?string $body_class = null
     ) {
         global $DIC;
 

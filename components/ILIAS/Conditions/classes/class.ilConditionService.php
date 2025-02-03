@@ -36,7 +36,7 @@ class ilConditionService
         }
     }
 
-    public static function getInstance(ilConditionObjectAdapterInterface $cond_obj_adapter = null): ilConditionService
+    public static function getInstance(?ilConditionObjectAdapterInterface $cond_obj_adapter = null): ilConditionService
     {
         return new self($cond_obj_adapter);
     }

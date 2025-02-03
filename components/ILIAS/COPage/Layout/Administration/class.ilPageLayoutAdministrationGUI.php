@@ -223,7 +223,7 @@ class ilPageLayoutAdministrationGUI
         $this->ctrl->redirect($this, "listLayouts");
     }
 
-    public function addPageLayout(ilPropertyFormGUI $a_form = null): void
+    public function addPageLayout(?ilPropertyFormGUI $a_form = null): void
     {
         if (!$a_form) {
             $a_form = $this->initAddPageLayoutForm();

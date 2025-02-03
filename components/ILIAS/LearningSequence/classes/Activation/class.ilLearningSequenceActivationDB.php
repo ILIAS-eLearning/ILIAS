@@ -148,8 +148,8 @@ class ilLearningSequenceActivationDB
         int $ref_id,
         bool $online = false,
         bool $effective_online = false,
-        \DateTime $activation_start = null,
-        \DateTime $activation_end = null
+        ?\DateTime $activation_start = null,
+        ?\DateTime $activation_end = null
     ): ilLearningSequenceActivation {
         return new ilLearningSequenceActivation(
             $ref_id,

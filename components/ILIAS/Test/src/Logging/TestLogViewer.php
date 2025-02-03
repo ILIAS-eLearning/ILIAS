@@ -61,7 +61,7 @@ class TestLogViewer
         URLBuilder $url_builder,
         URLBuilderToken $action_parameter_token,
         URLBuilderToken $row_id_token,
-        int $ref_id = null
+        ?int $ref_id = null
     ): array {
         $log_table = new LogTable(
             $this->logging_repository,
@@ -91,7 +91,7 @@ class TestLogViewer
         URLBuilder $url_builder,
         URLBuilderToken $action_parameter_token,
         URLBuilderToken $row_id_token,
-        int $ref_id = null
+        ?int $ref_id = null
     ): void {
         $log_table = new LogTable(
             $this->logging_repository,

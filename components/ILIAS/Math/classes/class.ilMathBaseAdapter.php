@@ -25,7 +25,7 @@ abstract class ilMathBaseAdapter implements ilMathAdapter
     /**
      * @inheritDoc
      */
-    public function applyScale($left_operand, int $scale = null): string
+    public function applyScale($left_operand, ?int $scale = null): string
     {
         if (is_numeric($left_operand)) {
             $scale = (int) $scale;
@@ -58,7 +58,7 @@ abstract class ilMathBaseAdapter implements ilMathAdapter
     /**
      * @inheritDoc
      */
-    public function equals($left_operand, $right_operand, int $scale = null): bool
+    public function equals($left_operand, $right_operand, ?int $scale = null): bool
     {
         return $this->comp($left_operand, $right_operand, $scale) === 0;
     }

@@ -17,7 +17,7 @@ class ilLogComponentLevel
 
     protected ilDBInterface $db;
 
-    public function __construct(string $a_component_id, int $a_level = null)
+    public function __construct(string $a_component_id, ?int $a_level = null)
     {
         global $DIC;
 

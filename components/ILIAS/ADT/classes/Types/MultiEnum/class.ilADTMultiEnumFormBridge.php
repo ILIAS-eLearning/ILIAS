@@ -12,7 +12,7 @@ class ilADTMultiEnumFormBridge extends ilADTFormBridge
         return ($a_adt instanceof ilADTMultiEnum);
     }
 
-    public function setOptionInfos(array $a_info = null): void
+    public function setOptionInfos(?array $a_info = null): void
     {
         $this->option_infos = $a_info;
     }

@@ -31,7 +31,7 @@ class SkillLevelManager
 {
     protected SkillInternalRepoService $repo_service;
 
-    public function __construct(SkillInternalRepoService $repo_service = null)
+    public function __construct(?SkillInternalRepoService $repo_service = null)
     {
         global $DIC;
 

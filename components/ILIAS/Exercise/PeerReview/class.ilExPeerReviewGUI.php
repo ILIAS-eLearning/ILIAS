@@ -47,7 +47,7 @@ class ilExPeerReviewGUI
 
     public function __construct(
         ilExAssignment $a_ass,
-        ilExSubmission $a_submission = null
+        ?ilExSubmission $a_submission = null
     ) {
         global $DIC;
 
@@ -802,7 +802,7 @@ class ilExPeerReviewGUI
     }
 
     public function editPeerReviewItemObject(
-        ilPropertyFormGUI $a_form = null
+        ?ilPropertyFormGUI $a_form = null
     ): void {
         $tpl = $this->tpl;
 

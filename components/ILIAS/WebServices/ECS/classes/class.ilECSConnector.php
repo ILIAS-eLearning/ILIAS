@@ -40,7 +40,7 @@ class ilECSConnector
 
     protected ilLogger $logger;
 
-    public function __construct(ilECSSetting $settings = null)
+    public function __construct(?ilECSSetting $settings = null)
     {
         global $DIC;
 

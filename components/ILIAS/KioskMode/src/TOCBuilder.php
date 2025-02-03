@@ -35,7 +35,7 @@ interface TOCBuilder
      *
      * @param	mixed $state one of the LP_ constants from TOCBuilder
      */
-    public function node(string $label, int $parameter = null, int $lp = null): TOCBuilder;
+    public function node(string $label, ?int $parameter = null, ?int $lp = null): TOCBuilder;
 
     /**
      * Build an entry in the TOC.

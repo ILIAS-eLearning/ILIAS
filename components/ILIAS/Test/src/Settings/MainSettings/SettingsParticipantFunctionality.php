@@ -46,7 +46,7 @@ class SettingsParticipantFunctionality extends TestSettings
         \ilLanguage $lng,
         FieldFactory $f,
         Refinery $refinery,
-        array $environment = null
+        ?array $environment = null
     ): FormInput {
         $inputs['use_previous_answers'] = $f->checkbox(
             $lng->txt('tst_use_previous_answers'),

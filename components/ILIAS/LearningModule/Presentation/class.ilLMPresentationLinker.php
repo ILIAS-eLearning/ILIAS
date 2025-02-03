@@ -51,7 +51,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
         bool $offline,
         string $export_format,
         bool $export_all_languages,
-        ilCtrl $ctrl = null,
+        ?ilCtrl $ctrl = null,
         bool $embed_mode = false,
         string $frame = "",
         int $obj_id = 0

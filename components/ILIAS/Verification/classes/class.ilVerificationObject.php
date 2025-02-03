@@ -251,7 +251,7 @@ abstract class ilVerificationObject extends ilObject2
         }
     }
 
-    public static function initStorage(int $a_id, string $a_subdir = null): string
+    public static function initStorage(int $a_id, ?string $a_subdir = null): string
     {
         $storage = new ilVerificationStorageFile($a_id);
         $storage->create();

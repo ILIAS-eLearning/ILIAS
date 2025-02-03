@@ -33,7 +33,7 @@ trait ObjectiveHelper
     protected function achieveObjective(
         Objective $objective,
         Environment $environment,
-        IOWrapper $io = null
+        ?IOWrapper $io = null
     ): Environment {
         $iterator = new ObjectiveIterator($environment, $objective);
         $current = null;

@@ -33,9 +33,9 @@ class SkillResourceDBRepository
     protected \ilTree $tree;
 
     public function __construct(
-        \ilDBInterface $db = null,
-        Service\SkillInternalFactoryService $factory_service = null,
-        \ilTree $tree = null
+        ?\ilDBInterface $db = null,
+        ?Service\SkillInternalFactoryService $factory_service = null,
+        ?\ilTree $tree = null
     ) {
         global $DIC;
 

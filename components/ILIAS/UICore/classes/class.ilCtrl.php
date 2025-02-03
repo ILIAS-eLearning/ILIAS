@@ -68,7 +68,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function callBaseClass(string $a_base_class = null): void
+    public function callBaseClass(?string $a_base_class = null): void
     {
         // prioritise the context's baseclass over the given one.
         $a_base_class = $this->context->getBaseClass() ?? $a_base_class;
@@ -122,7 +122,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function getHTML(object $a_gui_object, array $a_parameters = null): string
+    public function getHTML(object $a_gui_object, ?array $a_parameters = null): string
     {
         $class_name = get_class($a_gui_object);
 
@@ -155,7 +155,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function getCmd(string $fallback_command = null): ?string
+    public function getCmd(?string $fallback_command = null): ?string
     {
         $command = $this->getDeterminedCommand() ?? $fallback_command;
         if (null !== $this->command && $command === $this->command) {
@@ -315,8 +315,8 @@ class ilCtrl implements ilCtrlInterface
      */
     public function getLinkTarget(
         object $a_gui_obj,
-        string $a_cmd = null,
-        string $a_anchor = null,
+        ?string $a_cmd = null,
+        ?string $a_anchor = null,
         bool $is_async = false,
         bool $has_xml_style = false
     ): string {
@@ -334,8 +334,8 @@ class ilCtrl implements ilCtrlInterface
      */
     public function getLinkTargetByClass(
         $a_class,
-        string $a_cmd = null,
-        string $a_anchor = null,
+        ?string $a_cmd = null,
+        ?string $a_anchor = null,
         bool $is_async = false,
         bool $has_xml_style = false
     ): string {
@@ -353,8 +353,8 @@ class ilCtrl implements ilCtrlInterface
      */
     public function getFormAction(
         object $a_gui_obj,
-        string $a_fallback_cmd = null,
-        string $a_anchor = null,
+        ?string $a_fallback_cmd = null,
+        ?string $a_anchor = null,
         bool $is_async = false,
         bool $has_xml_style = false
     ): string {
@@ -372,8 +372,8 @@ class ilCtrl implements ilCtrlInterface
      */
     public function getFormActionByClass(
         $a_class,
-        string $a_fallback_cmd = null,
-        string $a_anchor = null,
+        ?string $a_fallback_cmd = null,
+        ?string $a_anchor = null,
         bool $is_async = false,
         bool $has_xml_style = false
     ): string {
@@ -392,8 +392,8 @@ class ilCtrl implements ilCtrlInterface
      */
     public function redirect(
         object $a_gui_obj,
-        string $a_cmd = null,
-        string $a_anchor = null,
+        ?string $a_cmd = null,
+        ?string $a_anchor = null,
         bool $is_async = false
     ): void {
         $this->redirectByClass(
@@ -409,8 +409,8 @@ class ilCtrl implements ilCtrlInterface
      */
     public function redirectByClass(
         $a_class,
-        string $a_cmd = null,
-        string $a_anchor = null,
+        ?string $a_cmd = null,
+        ?string $a_anchor = null,
         bool $is_async = false
     ): void {
         $this->redirectToURL(
@@ -576,7 +576,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function setReturn(object $a_gui_obj, string $a_cmd = null): void
+    public function setReturn(object $a_gui_obj, ?string $a_cmd = null): void
     {
         $this->setReturnByClass($this->getClassByObject($a_gui_obj), $a_cmd);
     }
@@ -584,7 +584,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function setReturnByClass(string $a_class, string $a_cmd = null): void
+    public function setReturnByClass(string $a_class, ?string $a_cmd = null): void
     {
         $this->structure->setReturnTargetByClass(
             $a_class,
@@ -598,7 +598,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function returnToParent(object $a_gui_obj, string $a_anchor = null): void
+    public function returnToParent(object $a_gui_obj, ?string $a_anchor = null): void
     {
         $class_name = $this->getClassByObject($a_gui_obj);
         $target_url = $this->getParentReturnByClass($class_name);
@@ -847,8 +847,8 @@ class ilCtrl implements ilCtrlInterface
      */
     private function getTargetUrl(
         $a_class,
-        string $a_cmd = null,
-        string $a_anchor = null,
+        ?string $a_cmd = null,
+        ?string $a_anchor = null,
         bool $is_async = false,
         bool $is_escaped = false,
         bool $is_post = false
@@ -1004,7 +1004,7 @@ class ilCtrl implements ilCtrlInterface
      * @param string|null $cmd
      * @return bool
      */
-    private function isCmdSecure(bool $is_post, string $cmd_class, string $cmd = null): bool
+    private function isCmdSecure(bool $is_post, string $cmd_class, ?string $cmd = null): bool
     {
         // if no command is specified, the command is
         // considered safe if it's not a POST command.

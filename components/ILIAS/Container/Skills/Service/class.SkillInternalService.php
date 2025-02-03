@@ -59,8 +59,8 @@ class SkillInternalService
     }
 
     public function gui(
-        array $query_params = null,
-        array $post_data = null
+        ?array $query_params = null,
+        ?array $post_data = null
     ): SkillInternalGUIService {
         return new SkillInternalGUIService(
             $this->http,

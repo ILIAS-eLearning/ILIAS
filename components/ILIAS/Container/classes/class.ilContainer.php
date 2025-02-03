@@ -254,7 +254,7 @@ class ilContainer extends ilObject
     public static function _lookupContainerSetting(
         int $a_id,
         string $a_keyword,
-        string $a_default_value = null
+        ?string $a_default_value = null
     ): string {
         global $DIC;
 
@@ -648,7 +648,7 @@ class ilContainer extends ilObject
         bool $a_admin_panel_enabled = false,
         bool $a_include_side_block = false,
         int $a_get_single = 0,
-        ilContainerUserFilter $container_user_filter = null
+        ?ilContainerUserFilter $container_user_filter = null
     ): array {
         $objDefinition = $this->obj_definition;
 
@@ -1049,7 +1049,7 @@ class ilContainer extends ilObject
 
     protected function applyContainerUserFilter(
         array $objects,
-        ilContainerUserFilter $container_user_filter = null
+        ?ilContainerUserFilter $container_user_filter = null
     ): array {
         $filter = $this->domain->content()->filter(
             $objects,

@@ -397,7 +397,7 @@ class ilExPeerReview
 
     public function countGivenFeedback(
         bool $a_validate = true,
-        int $a_user_id = null
+        ?int $a_user_id = null
     ): int {
         $ilDB = $this->db;
         $ilUser = $this->user;

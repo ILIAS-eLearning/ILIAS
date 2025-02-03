@@ -36,7 +36,7 @@ interface View
      *
      * Commands and parameters are defined by the view in `buildControl`.
      */
-    public function updateGet(State $state, string $command, int $parameter = null): State;
+    public function updateGet(State $state, string $command, ?int $parameter = null): State;
 
     /**
      * Update the state and the object based on the provided command and post-data.
@@ -59,6 +59,6 @@ interface View
         State $state,
         UI\Factory $factory,
         URLBuilder $url_builder,
-        array $post = null
+        ?array $post = null
     ): UI\Component\Component;
 }

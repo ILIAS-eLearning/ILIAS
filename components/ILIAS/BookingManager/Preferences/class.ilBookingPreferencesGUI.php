@@ -87,7 +87,7 @@ class ilBookingPreferencesGUI
     }
 
     protected function listPreferenceOptions(
-        Form\Standard $form = null
+        ?Form\Standard $form = null
     ): void {
         $ui = $this->ui;
         if (count(ilBookingObject::getList($this->pool->getId())) > 0) {

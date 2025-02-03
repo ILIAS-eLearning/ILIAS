@@ -70,7 +70,7 @@ class Mode
         );
     }
 
-    public function getModeInfo(string $mode = null): string
+    public function getModeInfo(?string $mode = null): string
     {
         switch ($this->getMode()) {
             case self::PROFILE_DISABLED:

@@ -44,7 +44,7 @@ class ilIndividualAssessmentSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
+    public function getInstallObjective(?Setup\Config $config = null): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
@@ -52,7 +52,7 @@ class ilIndividualAssessmentSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
     {
         return new ilDatabaseUpdateStepsExecutedObjective(
             new ilIndividualAssessmentRectifyMembersTableDBUpdateSteps()

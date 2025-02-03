@@ -759,7 +759,7 @@ class ilAdvancedMDRecord
     public static function saveObjRecSelection(
         int $a_obj_id,
         string $a_sub_type = "",
-        array $a_records = null,
+        ?array $a_records = null,
         bool $a_delete_before = true
     ): void {
         global $DIC;
@@ -831,7 +831,7 @@ class ilAdvancedMDRecord
         return $recs;
     }
 
-    public function _clone(array &$a_fields_map, int $a_parent_obj_id = null): ilAdvancedMDRecord
+    public function _clone(array &$a_fields_map, ?int $a_parent_obj_id = null): ilAdvancedMDRecord
     {
         $new_obj = new self();
         $new_obj->setActive($this->isActive());

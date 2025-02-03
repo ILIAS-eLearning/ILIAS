@@ -33,10 +33,10 @@ class ilExcMailTemplatePeerReminderContext extends ilMailTemplateContext
     protected ilObjectDataCache $obj_data_cache;
 
     public function __construct(
-        OrgUnitUserService $orgUnitUserService = null,
-        ilMailEnvironmentHelper $envHelper = null,
-        ilMailUserHelper $usernameHelper = null,
-        ilMailLanguageHelper $languageHelper = null
+        ?OrgUnitUserService $orgUnitUserService = null,
+        ?ilMailEnvironmentHelper $envHelper = null,
+        ?ilMailUserHelper $usernameHelper = null,
+        ?ilMailLanguageHelper $languageHelper = null
     ) {
         global $DIC;
 
@@ -106,7 +106,7 @@ class ilExcMailTemplatePeerReminderContext extends ilMailTemplateContext
     public function resolveSpecificPlaceholder(
         string $placeholder_id,
         array $context_parameters,
-        ilObjUser $recipient = null
+        ?ilObjUser $recipient = null
     ): string {
         $ilObjDataCache = $this->obj_data_cache;
 

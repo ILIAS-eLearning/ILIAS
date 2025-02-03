@@ -41,9 +41,9 @@ class ilCmiXapiPlaceholderDescription implements ilCertificatePlaceholderDescrip
      * @param ilUserDefinedFieldsPlaceholderDescription|null $userDefinedFieldPlaceHolderDescriptionObject
      */
     public function __construct(
-        ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
-        ilLanguage $language = null,
-        ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
+        ?ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
+        ?ilLanguage $language = null,
+        ?ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
     ) {
         global $DIC;
 
@@ -79,7 +79,7 @@ class ilCmiXapiPlaceholderDescription implements ilCertificatePlaceholderDescrip
         return $this->placeholder;
     }
 
-    public function createPlaceholderHtmlDescription(ilTemplate $template = null): string
+    public function createPlaceholderHtmlDescription(?ilTemplate $template = null): string
     {
         if (null === $template) {
             $template = new ilTemplate('tpl.default_description.html', true, true, 'components/ILIAS/Certificate');

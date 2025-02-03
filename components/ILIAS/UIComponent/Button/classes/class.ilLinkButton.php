@@ -67,7 +67,7 @@ class ilLinkButton extends ilButtonBase
         return '&nbsp;' . $this->getCaption() . '&nbsp;';
     }
 
-    protected function renderAttributes(array $a_additional_attr = null): string
+    protected function renderAttributes(?array $a_additional_attr = null): string
     {
         if ('_blank' === $this->getTarget()) {
             $relAttrVal = 'noopener';

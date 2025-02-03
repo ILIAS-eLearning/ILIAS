@@ -57,7 +57,7 @@ class ilPCSkillsGUI extends ilPageContentGUI
         }
     }
 
-    public function insert(ilPropertyFormGUI $a_form = null): void
+    public function insert(?ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
 
@@ -79,7 +79,7 @@ class ilPCSkillsGUI extends ilPageContentGUI
         }
     }
 
-    public function edit(ilPropertyFormGUI $a_form = null): void
+    public function edit(?ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
 

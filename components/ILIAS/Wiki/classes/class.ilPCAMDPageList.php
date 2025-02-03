@@ -57,7 +57,7 @@ class ilPCAMDPageList extends ilPageContent
 
     public function setData(
         array $a_fields_data,
-        int $a_mode = null
+        ?int $a_mode = null
     ): void {
         $ilDB = $this->db;
 
@@ -94,7 +94,7 @@ class ilPCAMDPageList extends ilPageContent
      * Get filter field values
      */
     public function getFieldValues(
-        int $a_data_id = null
+        ?int $a_data_id = null
     ): array {
         $ilDB = $this->db;
 

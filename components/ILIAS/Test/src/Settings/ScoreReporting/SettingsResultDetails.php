@@ -54,7 +54,7 @@ class SettingsResultDetails extends TestSettings
         \ilLanguage $lng,
         FieldFactory $f,
         Refinery $refinery,
-        array $environment = null
+        ?array $environment = null
     ): FormInput {
         $fields = [
             'solution_best_solution' =>

@@ -27,7 +27,7 @@ class ilDashboardSidePanelSettingsRepository
 
     protected ilSetting $setting;
 
-    public function __construct(ilSetting $dashboard_settings = null)
+    public function __construct(?ilSetting $dashboard_settings = null)
     {
         $this->setting = is_null($dashboard_settings)
             ? new ilSetting('dash')

@@ -66,7 +66,7 @@ class ilExcAssMemberState
         ilExcIndividualDeadline $a_idl,
         int $a_time,
         ilLanguage $lng,
-        ilExAssignmentTeam $a_team = null
+        ?ilExAssignmentTeam $a_team = null
     ) {
         $this->time = $a_time;
         $this->ass_id = $a_ass->getId();
@@ -129,7 +129,7 @@ class ilExcAssMemberState
         ilExcIndividualDeadline $a_idl,
         int $a_time,
         ilLanguage $lng,
-        ilExAssignmentTeam $a_team = null
+        ?ilExAssignmentTeam $a_team = null
     ): ilExcAssMemberState {
         return new self($a_ass, $a_user, $a_idl, $a_time, $lng, $a_team);
     }

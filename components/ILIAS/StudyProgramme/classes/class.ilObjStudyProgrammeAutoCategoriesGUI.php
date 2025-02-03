@@ -288,7 +288,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         return $this->object;
     }
 
-    protected function getModal(int $current_ref_id = null): RoundTrip
+    protected function getModal(?int $current_ref_id = null): RoundTrip
     {
         if (!is_null($current_ref_id)) {
             $this->ctrl->setParameter($this, self::CHECKBOX_CATEGORY_REF_IDS, (string) $current_ref_id);

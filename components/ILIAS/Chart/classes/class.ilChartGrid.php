@@ -34,7 +34,7 @@ class ilChartGrid extends ilChart
         $this->setYAxisToInteger(false);
     }
 
-    public function getDataInstance(int $a_type = null): ilChartData
+    public function getDataInstance(?int $a_type = null): ilChartData
     {
         switch ($a_type) {
             case self::DATA_BARS:

@@ -243,7 +243,7 @@ class ilADTActiveRecordByType
      * Create/insert record
      * @param array $a_additional_data
      */
-    public function write(array $a_additional_data = null): void
+    public function write(?array $a_additional_data = null): void
     {
         // find existing entries
         $existing = [];
@@ -386,7 +386,7 @@ class ilADTActiveRecordByType
         return '';
     }
 
-    public static function deleteByPrimary(string $a_table, array $a_primary, string $a_type = null): void
+    public static function deleteByPrimary(string $a_table, array $a_primary, ?string $a_type = null): void
     {
         global $DIC;
 
@@ -469,7 +469,7 @@ class ilADTActiveRecordByType
         array $a_primary_def,
         array $a_source_primary,
         array $a_target_primary,
-        array $a_additional = null
+        ?array $a_additional = null
     ): bool {
         global $DIC;
 

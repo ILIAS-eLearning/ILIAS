@@ -282,7 +282,7 @@ abstract class RequestProcessorTestCase extends TestCase
      * Append datestamps to identifiers with +YYYY-MM-DD
      */
     protected function getRepository(
-        string $earliest_datestamp = null,
+        ?string $earliest_datestamp = null,
         int $record_count = 0,
         string ...$identifiers
     ): RepositoryInterface {

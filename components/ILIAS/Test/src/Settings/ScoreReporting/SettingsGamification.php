@@ -54,7 +54,7 @@ class SettingsGamification extends TestSettings
         \ilLanguage $lng,
         FieldFactory $f,
         Refinery $refinery,
-        array $environment = null
+        ?array $environment = null
     ): FormInput {
         $optional_group = $f->optionalGroup(
             [

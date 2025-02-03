@@ -39,7 +39,7 @@ class ilAdvancedMDRecordExportFiles
 
     public function __construct(
         int $user_id,
-        ObjectId $a_obj_id = null
+        ?ObjectId $a_obj_id = null
     ) {
         $this->amd_record_file_factory = new ilAMDRecordFileFactory();
         $this->user_id = $user_id;

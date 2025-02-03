@@ -62,7 +62,7 @@ class ilECSUserConsentModalGUI
     public function __construct(
         int $a_usr_id,
         int $a_ref_id,
-        ilRemoteObjectBaseGUI $remote_gui = null
+        ?ilRemoteObjectBaseGUI $remote_gui = null
     ) {
         global $DIC;
 

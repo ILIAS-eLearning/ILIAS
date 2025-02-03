@@ -27,7 +27,7 @@ class ilBookingPreferencesDBRepository
 
     public function __construct(
         ILIAS\BookingManager\InternalDataService $data,
-        ilDBInterface $db = null
+        ?ilDBInterface $db = null
     ) {
         global $DIC;
 

@@ -259,7 +259,7 @@ class ilLTIConsumerAdministrationGUI
         $this->showGlobalProviderFormCmd($form);
     }
 
-    protected function showGlobalProviderImportCmd(ilPropertyFormGUI $form = null): void
+    protected function showGlobalProviderImportCmd(?ilPropertyFormGUI $form = null): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 

@@ -538,7 +538,7 @@ class ilCalendarAppointmentGUI
     /**
      * edit appointment
      */
-    protected function edit(bool $a_edit_single_app = false, ilPropertyFormGUI $form = null): void
+    protected function edit(bool $a_edit_single_app = false, ?ilPropertyFormGUI $form = null): void
     {
         $this->help->setScreenIdComponent("cal");
         $this->help->setScreenId("app");

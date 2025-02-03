@@ -99,8 +99,8 @@ class ilCommonActionDispatcherGUI
         ?int $node_id,
         string $obj_type,
         int $obj_id,
-        string $sub_type = null,
-        int $sub_id = null,
+        ?string $sub_type = null,
+        ?int $sub_id = null,
         int $news_id = 0
     ): string {
         return

@@ -62,7 +62,7 @@ class XapiProxyResponse
      * @param array|string|null $fakePostBody
      * @return void
      */
-    public function handleResponse(Request $request, Response $response, array|string $fakePostBody = null): void
+    public function handleResponse(Request $request, Response $response, array|string|null $fakePostBody = null): void
     {
         // check transfer encoding bug
         if ($fakePostBody !== null) {
@@ -91,7 +91,7 @@ class XapiProxyResponse
      * @param array|string|null $post
      * @return void
      */
-    public function fakeResponseBlocked(array|string $post = null): void
+    public function fakeResponseBlocked(array|string|null $post = null): void
     {
         $this->xapiproxy->log()->debug($this->msg("fakeResponseFromBlockedRequest"));
         if ($post === null) {

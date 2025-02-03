@@ -1174,7 +1174,7 @@ s     */
      * Resolves all internal link targets of the page, if targets are available
      * (after import)
      */
-    public function resolveIntLinks(array $a_link_map = null): bool
+    public function resolveIntLinks(?array $a_link_map = null): bool
     {
         return $this->link->resolveIntLinks($this->getDomDoc(), $a_link_map);
     }

@@ -40,8 +40,8 @@ class SkillResourcesManager implements Usage\SkillUsageInfo
     protected \ilSkillLevelRepository $level_repo;
 
     public function __construct(
-        SkillResourceDBRepository $skill_res_repo = null,
-        \ilSkillLevelRepository $level_repo = null
+        ?SkillResourceDBRepository $skill_res_repo = null,
+        ?\ilSkillLevelRepository $level_repo = null
     ) {
         global $DIC;
 

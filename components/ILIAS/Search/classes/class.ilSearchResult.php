@@ -324,8 +324,8 @@ class ilSearchResult
     public function filter(
         int $a_root_node,
         bool $check_and,
-        ilDate $creation_filter_date_start = null,
-        ilDate $creation_filter_date_end = null
+        ?ilDate $creation_filter_date_start = null,
+        ?ilDate $creation_filter_date_end = null
     ): bool {
         // get ref_ids and check access
         $counter = 0;

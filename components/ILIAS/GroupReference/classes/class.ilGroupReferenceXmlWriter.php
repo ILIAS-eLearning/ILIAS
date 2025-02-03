@@ -17,7 +17,7 @@ class ilGroupReferenceXmlWriter extends ilContainerReferenceXmlWriter
      * ilGroupReferenceXmlWriter constructor.
      * @param ilObjGroupReference|null $ref
      */
-    public function __construct(ilObjGroupReference $ref = null)
+    public function __construct(?ilObjGroupReference $ref = null)
     {
         parent::__construct($ref);
     }

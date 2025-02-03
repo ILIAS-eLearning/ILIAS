@@ -178,10 +178,10 @@ class ilLearningHistoryGUI
      * render timeline
      */
     protected function renderTimeline(
-        int $from = null,
-        int $to = null,
-        array $classes = null,
-        string $mode = null
+        ?int $from = null,
+        ?int $to = null,
+        ?array $classes = null,
+        ?string $mode = null
     ): string {
         $collector = $this->lhist_service->factory()->collector();
         $ctrl = $this->ctrl;

@@ -39,7 +39,7 @@ class WeekGridGUI
      */
     public function __construct(
         array $entries = [],
-        \ilDate $seed = null,
+        ?\ilDate $seed = null,
         int $day_start = 8,
         int $day_end = 19,
         int $time_format = \ilCalendarSettings::TIME_FORMAT_24,

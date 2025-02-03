@@ -36,8 +36,8 @@ class SkillInternalGUIService
     public function __construct(
         HTTP\Services $http,
         Refinery\Factory $refinery,
-        array $query_params = null,
-        array $post_data = null
+        ?array $query_params = null,
+        ?array $post_data = null
     ) {
         global $DIC;
 

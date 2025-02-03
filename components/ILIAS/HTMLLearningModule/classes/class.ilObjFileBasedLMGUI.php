@@ -623,7 +623,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         );
     }
 
-    protected function importFileObject(int $parent_id = null): void
+    protected function importFileObject(?int $parent_id = null): void
     {
         try {
             parent::importFileObject();

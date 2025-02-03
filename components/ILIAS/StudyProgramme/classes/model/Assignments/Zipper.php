@@ -84,7 +84,7 @@ class Zipper
         return $clone;
     }
 
-    public function modifyAll(callable $f, Zipper $zipper = null): Zipper
+    public function modifyAll(callable $f, ?Zipper $zipper = null): Zipper
     {
         $zipper = $zipper ?? $this;
         $zipper = $zipper->modifyFocus($f);

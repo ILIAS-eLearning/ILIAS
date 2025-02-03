@@ -59,7 +59,7 @@ class ilSingleUserShareGUI
         }
     }
 
-    public function initShareForm(ilPropertyFormGUI $form = null): void
+    public function initShareForm(?ilPropertyFormGUI $form = null): void
     {
         if (!($form instanceof ilPropertyFormGUI)) {
             $form = $this->getShareForm();

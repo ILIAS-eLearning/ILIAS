@@ -150,7 +150,7 @@ class LSControlBuilder implements ControlBuilder
         return $this;
     }
 
-    public function next(string $command, int $parameter = null): ControlBuilder
+    public function next(string $command, ?int $parameter = null): ControlBuilder
     {
         if ($this->next_control) {
             throw new \LogicException("Only one next-control per view...", 1);
@@ -165,7 +165,7 @@ class LSControlBuilder implements ControlBuilder
         return $this;
     }
 
-    public function previous(string $command, int $parameter = null): ControlBuilder
+    public function previous(string $command, ?int $parameter = null): ControlBuilder
     {
         if ($this->previous_control) {
             throw new \LogicException("Only one previous-control per view...", 1);
@@ -180,7 +180,7 @@ class LSControlBuilder implements ControlBuilder
         return $this;
     }
 
-    public function done(string $command, int $parameter = null): ControlBuilder
+    public function done(string $command, ?int $parameter = null): ControlBuilder
     {
         if ($this->done_control) {
             throw new \LogicException("Only one done-control per view...", 1);
@@ -192,7 +192,7 @@ class LSControlBuilder implements ControlBuilder
         return $this;
     }
 
-    public function generic(string $label, string $command, int $parameter = null): ControlBuilder
+    public function generic(string $label, string $command, ?int $parameter = null): ControlBuilder
     {
         $cmd = $this->url_builder->getHref($command, $parameter);
         $this->controls[] = $this->ui_factory->button()->standard($label, $cmd);
@@ -233,7 +233,7 @@ class LSControlBuilder implements ControlBuilder
     public function tableOfContent(
         string $label,
         string $command,
-        int $parameter = null,
+        ?int $parameter = null,
         $state = null
     ): TOCBuilder {
         if ($this->toc) {

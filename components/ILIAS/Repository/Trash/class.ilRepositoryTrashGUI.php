@@ -90,7 +90,7 @@ class ilRepositoryTrashGUI
     }
 
     public function restoreToNewLocation(
-        ilPropertyFormGUI $form = null
+        ?ilPropertyFormGUI $form = null
     ): void {
         $this->lng->loadLanguageModule('rep');
 

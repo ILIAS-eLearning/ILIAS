@@ -396,8 +396,8 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
      * @inheritdoc
      */
     public function getAllTypes(
-        Range $range = null,
-        Order $order = null
+        ?Range $range = null,
+        ?Order $order = null
     ): array {
         $return = [];
         foreach ($this->getAllTypesRecords($range, $order) as $row) {

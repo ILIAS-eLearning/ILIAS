@@ -55,8 +55,8 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
      */
     public function loadMembersAsSingleObjects(
         ilObjIndividualAssessment $obj,
-        string $filter = null,
-        string $sort = null
+        ?string $filter = null,
+        ?string $sort = null
     ): array {
         $members = [];
         $sql = $this->loadMemberQuery();

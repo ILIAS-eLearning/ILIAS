@@ -23,7 +23,7 @@ use ILIAS\Setup\Metrics;
 
 class ilTestQuestionPoolSetupAgent extends NullAgent
 {
-    public function getUpdateObjective(ILIAS\Setup\Config $config = null): ILIAS\Setup\Objective
+    public function getUpdateObjective(?ILIAS\Setup\Config $config = null): ILIAS\Setup\Objective
     {
         return new ObjectiveCollection(
             'Database is updated for component/ILIAS/TestQuestionPool',

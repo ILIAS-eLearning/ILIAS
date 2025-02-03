@@ -22,7 +22,7 @@ class ilChartSpider extends ilChart
     protected array $leg_labels = array();
     protected float $y_max = 0;
 
-    public function getDataInstance(int $a_type = null): ilChartData
+    public function getDataInstance(?int $a_type = null): ilChartData
     {
         return new ilChartDataSpider();
     }

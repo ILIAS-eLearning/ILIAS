@@ -102,7 +102,7 @@ class ilECSParticipantSettingsGUI
     /**
      * Settings
      */
-    private function settings(ilPropertyFormGUI $form = null): void
+    private function settings(?ilPropertyFormGUI $form = null): void
     {
         $this->renderConsentToolbar();
 

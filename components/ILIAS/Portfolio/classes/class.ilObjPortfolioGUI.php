@@ -540,7 +540,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
     //
 
     protected function createPortfolioFromTemplate(
-        ilPropertyFormGUI $a_form = null
+        ?ilPropertyFormGUI $a_form = null
     ): void {
         $title = $this->port_request->getPortfolioTitle();
         $prtt_id = $this->port_request->getPortfolioTemplate();

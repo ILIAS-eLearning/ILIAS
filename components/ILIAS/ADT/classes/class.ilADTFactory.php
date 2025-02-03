@@ -48,7 +48,7 @@ class ilADTFactory
         return in_array($a_type, $this->getValidTypes());
     }
 
-    public function initTypeClass(string $a_type, string $a_class = null): string
+    public function initTypeClass(string $a_type, ?string $a_class = null): string
     {
         $class = '';
         if ($this->isValidType($a_type)) {

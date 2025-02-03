@@ -26,7 +26,7 @@ class ilWorkspaceFolderSorting
 
     protected ilLanguage $lng;
 
-    public function __construct(ilLanguage $lng = null)
+    public function __construct(?ilLanguage $lng = null)
     {
         global $DIC;
 

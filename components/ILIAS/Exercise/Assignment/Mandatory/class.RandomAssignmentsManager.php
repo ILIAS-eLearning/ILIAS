@@ -43,8 +43,8 @@ class RandomAssignmentsManager
         \ilObjExercise $exc,
         RandomAssignmentsDBRepository $rand_ass_repo,
         Submission\SubmissionRepositoryInterface $submission_repo,
-        \ilObjUser $user = null,
-        \ilLanguage $lng = null
+        ?\ilObjUser $user = null,
+        ?\ilLanguage $lng = null
     ) {
         global $DIC;
 

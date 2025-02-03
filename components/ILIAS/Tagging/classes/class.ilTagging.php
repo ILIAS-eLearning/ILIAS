@@ -418,7 +418,7 @@ class ilTagging
      */
     public static function _findObjectsByTag(
         string $a_tag,
-        int $a_user_id = null,
+        ?int $a_user_id = null,
         bool $a_invert = false
     ): array {
         global $DIC;
@@ -454,7 +454,7 @@ class ilTagging
      */
     public static function _getListTagsForObjects(
         array $a_obj_ids,
-        int $a_user_id = null
+        ?int $a_user_id = null
     ): array {
         global $DIC;
 

@@ -26,7 +26,7 @@ class ilStandardGlossarySelectorGUI extends ilRepositorySelectorExplorerGUI
     public function __construct(
         ilObjGlossaryGUI $a_parent_obj,
         string $a_parent_cmd,
-        ilObjGlossaryGUI $a_selection_gui = null,
+        ?ilObjGlossaryGUI $a_selection_gui = null,
         string $a_selection_cmd = "selectObject",
         string $a_selection_par = "sel_ref_id",
     ) {

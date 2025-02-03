@@ -179,7 +179,7 @@ class ilOrgUnitOperationContextDBRepository implements OrgUnitOperationContextRe
     }
 
 
-    private function appendPath(ilOrgUnitOperationContext $operation_context, int $next = null): ilOrgUnitOperationContext
+    private function appendPath(ilOrgUnitOperationContext $operation_context, ?int $next = null): ilOrgUnitOperationContext
     {
         $parent_context_id = ($next >= 0) ? $next : $operation_context->getParentContextId();
         if ($parent_context_id > 0) {

@@ -43,10 +43,10 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
     protected ilLanguage $lng;
 
     public function __construct(
-        OrgUnitUserService $orgUnitUserService = null,
-        ilMailEnvironmentHelper $envHelper = null,
-        ilMailUserHelper $usernameHelper = null,
-        ilMailLanguageHelper $languageHelper = null
+        ?OrgUnitUserService $orgUnitUserService = null,
+        ?ilMailEnvironmentHelper $envHelper = null,
+        ?ilMailUserHelper $usernameHelper = null,
+        ?ilMailLanguageHelper $languageHelper = null
     ) {
         parent::__construct(
             $orgUnitUserService,
@@ -157,7 +157,7 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
     public function resolveSpecificPlaceholder(
         string $placeholder_id,
         array $context_parameters,
-        ilObjUser $recipient = null
+        ?ilObjUser $recipient = null
     ): string {
         if (is_null($recipient)) {
             return '';
@@ -326,8 +326,8 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
     }
 
     protected function date2String(
-        DateTimeImmutable $date_time = null,
-        ilObjUser $user = null
+        ?DateTimeImmutable $date_time = null,
+        ?ilObjUser $user = null
     ): string {
         if (is_null($date_time)) {
             return '';

@@ -59,7 +59,7 @@ class ilLanguageStatisticsTable implements DataTableInterface\DataRetrieval
         ];
     }
 
-    public function getItems(Range $range = null, Order $order = null): array
+    public function getItems(?Range $range = null, ?Order $order = null): array
     {
         $modules = ilObjLanguageExt::_getModules($this->object->key);
 

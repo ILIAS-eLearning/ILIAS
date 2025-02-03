@@ -135,7 +135,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         }
     }
 
-    public function view(StandardForm $a_form = null): void
+    public function view(?StandardForm $a_form = null): void
     {
         $this->tabs_gui->activateTab("settings");
 
@@ -515,7 +515,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->view($form);
     }
 
-    public function customIcons(StandardForm $a_form = null): void
+    public function customIcons(?StandardForm $a_form = null): void
     {
         $this->tabs_gui->activateTab("icons");
 
@@ -735,7 +735,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         return $form;
     }
 
-    protected function addNewItemGroup(ilPropertyFormGUI $a_form = null): void
+    protected function addNewItemGroup(?ilPropertyFormGUI $a_form = null): void
     {
         if (!$a_form) {
             $a_form = $this->initNewItemGroupForm();
@@ -763,7 +763,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->addNewItemGroup($form);
     }
 
-    protected function editNewItemGroup(ilPropertyFormGUI $a_form = null): void
+    protected function editNewItemGroup(?ilPropertyFormGUI $a_form = null): void
     {
         $grp_id = $this->admin_gui_request->getNewItemGroupId();
         if (!$grp_id) {

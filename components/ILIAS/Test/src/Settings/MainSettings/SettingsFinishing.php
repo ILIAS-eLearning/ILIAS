@@ -48,7 +48,7 @@ class SettingsFinishing extends TestSettings
         \ilLanguage $lng,
         FieldFactory $f,
         Refinery $refinery,
-        array $environment = null
+        ?array $environment = null
     ): FormInput {
         $inputs['show_answer_overview'] = $f->checkbox(
             $lng->txt('enable_examview'),

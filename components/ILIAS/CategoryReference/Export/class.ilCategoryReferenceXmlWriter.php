@@ -25,7 +25,7 @@ declare(strict_types=1);
  */
 class ilCategoryReferenceXmlWriter extends ilContainerReferenceXmlWriter
 {
-    public function __construct(ilObjCategoryReference $ref = null)
+    public function __construct(?ilObjCategoryReference $ref = null)
     {
         global $DIC;
 

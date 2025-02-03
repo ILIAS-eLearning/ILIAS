@@ -172,7 +172,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
     /**
      * Edit question pool properties
      */
-    public function propertiesObject(ilPropertyFormGUI $a_form = null): void
+    public function propertiesObject(?ilPropertyFormGUI $a_form = null): void
     {
         $this->ctrl->redirectByClass(\ILIAS\SurveyQuestionPool\Settings\SettingsGUI::class);
     }

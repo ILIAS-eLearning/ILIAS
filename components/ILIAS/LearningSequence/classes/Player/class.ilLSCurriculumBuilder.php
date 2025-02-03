@@ -34,7 +34,7 @@ class ilLSCurriculumBuilder
         ILIAS\UI\Factory $ui_factory,
         ilLanguage $language,
         string $goto_command,
-        LSUrlBuilder $url_builder = null
+        ?LSUrlBuilder $url_builder = null
     ) {
         $this->ls_items = $ls_items;
         $this->ui_factory = $ui_factory;

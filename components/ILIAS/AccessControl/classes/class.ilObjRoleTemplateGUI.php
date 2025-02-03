@@ -153,7 +153,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
     /**
      * Create new object
      */
-    public function editObject(ilPropertyFormGUI $form = null): void
+    public function editObject(?ilPropertyFormGUI $form = null): void
     {
         $this->tabs_gui->activateTab('settings');
 

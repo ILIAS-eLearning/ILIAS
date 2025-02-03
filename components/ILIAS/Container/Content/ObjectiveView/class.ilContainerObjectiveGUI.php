@@ -315,7 +315,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 
     // Show all other (no assigned tests, no assigned materials) materials
     protected function showMaterials(
-        int $a_mode = null,
+        ?int $a_mode = null,
         bool $a_is_manage = false,
         bool $a_as_accordion = false
     ): void {
@@ -632,8 +632,8 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
     protected function renderObjective(
         int $a_objective_id,
         bool &$a_has_lo_page,
-        ilAccordionGUI $a_accordion = null,
-        array $a_lo_result = null
+        ?ilAccordionGUI $a_accordion = null,
+        ?array $a_lo_result = null
     ): string {
         $ilUser = $this->user;
         $lng = $this->lng;
@@ -871,14 +871,14 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
      * @deprecated use ks progress or ks progress bar meter instead
      */
     public static function renderProgressBar(
-        int $a_perc_result = null,
-        int $a_perc_limit = null,
-        string $a_css = null,
-        string $a_caption = null,
-        string $a_url = null,
-        string $a_tt_id = null,
-        string $a_tt_txt = null,
-        string $a_next_step = null,
+        ?int $a_perc_result = null,
+        ?int $a_perc_limit = null,
+        ?string $a_css = null,
+        ?string $a_caption = null,
+        ?string $a_url = null,
+        ?string $a_tt_id = null,
+        ?string $a_tt_txt = null,
+        ?string $a_next_step = null,
         bool $a_sub = false,
         int $a_sub_style = 30
     ): string {
@@ -955,11 +955,11 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         ?int $a_perc_result = null,
         ?int $a_perc_limit = null,
         ?int $a_compare_value = null,
-        string $a_caption = null,
-        string $a_url = null,
-        string $a_tt_id = null,
-        string $a_tt_txt = null,
-        string $a_next_step = null,
+        ?string $a_caption = null,
+        ?string $a_url = null,
+        ?string $a_tt_id = null,
+        ?string $a_tt_txt = null,
+        ?string $a_next_step = null,
         bool $a_sub = false,
         int $a_sub_style = 30,
         string $a_main_text = '',
@@ -1077,7 +1077,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         array $a_lo_result,
         bool $a_list_mode = false,
         bool $a_sub = false,
-        string $a_tt_suffix = null
+        ?string $a_tt_suffix = null
     ): string {
         global $DIC;
 
@@ -1183,7 +1183,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 
     protected function buildAccordionTitle(
         ilCourseObjective $a_objective,
-        array $a_lo_result = null
+        ?array $a_lo_result = null
     ): string {
         global $DIC;
 

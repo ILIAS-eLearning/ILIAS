@@ -88,8 +88,8 @@ class ilOrgUnitPositionDBRepository implements OrgUnitPositionRepository, Table\
      * @return ilOrgUnitPosition[]
      */
     public function getAllPositions(
-        Range $range = null,
-        Order $order = null
+        ?Range $range = null,
+        ?Order $order = null
     ): array {
         $sql_order_part = $order ? $order->join('ORDER BY', fn(...$o) => implode(' ', $o)) : '';
         $sql_range_part = $range ? sprintf('LIMIT %2$s OFFSET %1$s', ...$range->unpack()) : '';

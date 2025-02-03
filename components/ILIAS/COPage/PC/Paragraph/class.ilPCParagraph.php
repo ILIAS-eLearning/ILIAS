@@ -1657,7 +1657,7 @@ class ilPCParagraph extends ilPageContent
     protected static function linkTermsInDom(
         DOMDocument $a_dom,
         array $a_terms,
-        DOMNode $a_par_node = null
+        ?DOMNode $a_par_node = null
     ): void {
         global $DIC;
 

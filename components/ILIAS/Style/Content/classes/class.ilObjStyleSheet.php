@@ -2843,7 +2843,7 @@ class ilObjStyleSheet extends ilObject
      * Save media query order
      */
     public function saveMediaQueryOrder(
-        array $a_order_nr = null
+        ?array $a_order_nr = null
     ): void {
         $ilDB = $this->db;
 

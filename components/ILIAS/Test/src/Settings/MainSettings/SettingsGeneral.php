@@ -45,7 +45,7 @@ class SettingsGeneral extends TestSettings
         \ilLanguage $lng,
         FieldFactory $f,
         Refinery $refinery,
-        array $environment = null
+        ?array $environment = null
     ): FormInput | array {
         $inputs['question_set_type'] = $f->radio(
             $lng->txt('test_question_set_type')

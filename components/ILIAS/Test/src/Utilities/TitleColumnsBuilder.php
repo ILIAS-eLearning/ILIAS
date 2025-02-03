@@ -125,7 +125,7 @@ class TitleColumnsBuilder
 
     public function buildAccessCheckedQuestionpoolTitleAsLink(
         ?int $qpl_id,
-        string $title = null,
+        ?string $title = null,
         bool $reference = false
     ): StandardLink {
         if ($qpl_id === null) {

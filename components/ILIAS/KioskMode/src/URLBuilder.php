@@ -17,5 +17,5 @@ interface URLBuilder
     /**
      * Get an URL for the provided command and params.
      */
-    public function getURL(string $command, int $param = null): Data\URI;
+    public function getURL(string $command, ?int $param = null): Data\URI;
 }

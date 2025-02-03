@@ -69,7 +69,7 @@ class ilStudyProgrammeCommonSettingsGUI
         $this->object = $object;
     }
 
-    protected function editSettings(ilPropertyFormGUI $form = null): string
+    protected function editSettings(?ilPropertyFormGUI $form = null): string
     {
         if (is_null($form)) {
             $form = $this->buildForm();

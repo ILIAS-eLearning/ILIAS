@@ -938,7 +938,7 @@ class ilObjStudyProgrammeMembersGUI
      * Get studyprogramm object for ref_id
      * Use this ref_id if argument is null
      */
-    public function getStudyProgramme(int $ref_id = null): ilObjStudyProgramme
+    public function getStudyProgramme(?int $ref_id = null): ilObjStudyProgramme
     {
         if ($ref_id === null) {
             $ref_id = $this->ref_id;

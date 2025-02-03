@@ -113,7 +113,7 @@ class ilLanguageFolderTable implements DataTableInterface\DataRetrieval
     /**
      * Get language data
      */
-    public function getItems(Range $range = null, Order $order = null): array
+    public function getItems(?Range $range = null, ?Order $order = null): array
     {
         $languages = $this->folder->getLanguages();
         $data = [];

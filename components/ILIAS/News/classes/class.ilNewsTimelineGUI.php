@@ -173,7 +173,7 @@ class ilNewsTimelineGUI
         }
     }
 
-    public function show(ilPropertyFormGUI $form = null): void
+    public function show(?ilPropertyFormGUI $form = null): void
     {
         $this->tpl->setContent($this->getHTML($form));
     }
@@ -191,7 +191,7 @@ class ilNewsTimelineGUI
         );
     }
 
-    public function getHTML(ilPropertyFormGUI $form = null): string
+    public function getHTML(?ilPropertyFormGUI $form = null): string
     {
         // toolbar
         if ($this->getEnableAddNews() &&

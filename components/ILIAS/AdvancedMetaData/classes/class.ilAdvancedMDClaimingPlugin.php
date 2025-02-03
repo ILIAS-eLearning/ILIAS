@@ -200,7 +200,7 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
         string $a_title,
         ?string $a_description = null,
         bool $a_searchable = false,
-        array $a_definition = null
+        ?array $a_definition = null
     ): ?int {
         global $DIC;
 

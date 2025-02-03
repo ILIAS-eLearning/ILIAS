@@ -44,7 +44,7 @@ abstract class ilADTBasedObjectGUI
     // VERY BASIC EXAMPLE OF FORM HANDLING
     //
 
-    public function editAction(ilADTGroupFormBridge $a_form = null): bool
+    public function editAction(?ilADTGroupFormBridge $a_form = null): bool
     {
         if (!$a_form) {
             $a_form = $this->initForm();

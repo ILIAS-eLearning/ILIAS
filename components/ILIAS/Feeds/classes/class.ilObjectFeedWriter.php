@@ -28,7 +28,7 @@ class ilObjectFeedWriter extends ilFeedWriter
     public function __construct(
         int $a_ref_id,
         ?int $a_userid = null,
-        string $a_purpose = null
+        ?string $a_purpose = null
     ) {
         global $DIC;
 

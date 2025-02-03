@@ -614,7 +614,7 @@ class ilNewsItem
         bool $a_forum_group_sequences = false,
         bool $a_no_auto_generated = false,
         bool $a_ignore_date_filter = false,
-        int $a_user_id = null,
+        ?int $a_user_id = null,
         int $a_limit = 0,
         array $a_excluded = []
     ): array {
@@ -735,7 +735,7 @@ class ilNewsItem
         bool $a_prevent_aggregation = false,
         string $a_starting_date = "",
         bool $a_no_auto_generated = false,
-        int $a_user_id = null,
+        ?int $a_user_id = null,
         int $a_limit = 0,
         array $a_exclude = []
     ): array {
@@ -1215,7 +1215,7 @@ class ilNewsItem
         $a_time_period = 0,
         string $a_starting_date = "",
         bool $a_no_auto_generated = false,
-        int $a_user_id = null,
+        ?int $a_user_id = null,
         int $a_limit = 0,
         array $a_exclude = []
     ): array {

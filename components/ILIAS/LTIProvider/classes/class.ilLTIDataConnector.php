@@ -1686,7 +1686,7 @@ class ilLTIDataConnector extends DataConnector
         int $a_ref_id,
         string $a_lti_user,
         int $a_ext_consumer,
-        ilDateTime $since = null
+        ?ilDateTime $since = null
     ): array {
         $db = $this->database;
 

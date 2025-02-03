@@ -34,7 +34,7 @@ class OptionImplementation extends PersistenceTrackingDataImplementation impleme
 
     public function __construct(
         protected int $position,
-        int $option_id = null,
+        ?int $option_id = null,
         OptionTranslation ...$translations
     ) {
         $this->option_id = $option_id;

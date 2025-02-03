@@ -30,8 +30,8 @@ class ContainerSkillDeletionManager
     protected ContainerMemberSkillDBRepository $cont_member_skill_repo;
 
     public function __construct(
-        ContainerSkillDBRepository $cont_skill_repo = null,
-        ContainerMemberSkillDBRepository $cont_member_skill_repo = null
+        ?ContainerSkillDBRepository $cont_skill_repo = null,
+        ?ContainerMemberSkillDBRepository $cont_member_skill_repo = null
     ) {
         global $DIC;
 

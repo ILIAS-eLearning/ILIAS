@@ -30,7 +30,7 @@ class ilCourseObjectiveSetupAgent extends NullAgent
 {
     use Setup\Agent\HasNoNamedObjective;
 
-    public function getUpdateObjective(Config $config = null): Objective
+    public function getUpdateObjective(?Config $config = null): Objective
     {
         return new ObjectiveCollection(
             'Database is updated for component/ILIAS/Course',
@@ -53,7 +53,7 @@ class ilCourseObjectiveSetupAgent extends NullAgent
         throw new LogicException('Agent has no config.');
     }
 
-    public function getInstallObjective(Config $config = null): Objective
+    public function getInstallObjective(?Config $config = null): Objective
     {
         return new Objective\NullObjective();
     }

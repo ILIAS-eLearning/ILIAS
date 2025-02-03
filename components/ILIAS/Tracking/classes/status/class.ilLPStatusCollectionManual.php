@@ -90,7 +90,7 @@ class ilLPStatusCollectionManual extends ilLPStatus
     public function determineStatus(
         int $a_obj_id,
         int $a_usr_id,
-        object $a_obj = null
+        ?object $a_obj = null
     ): int {
         $info = self::_getStatusInfo($a_obj_id);
 
@@ -149,7 +149,7 @@ class ilLPStatusCollectionManual extends ilLPStatus
     public static function _setObjectStatus(
         int $a_obj_id,
         int $a_user_id,
-        array $a_completed = null
+        ?array $a_completed = null
     ): void {
         global $DIC;
 

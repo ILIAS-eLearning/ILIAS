@@ -19,7 +19,7 @@
  */
 class ilChartPie extends ilChart
 {
-    public function getDataInstance(int $a_type = null): ilChartData
+    public function getDataInstance(?int $a_type = null): ilChartData
     {
         return new ilChartDataPie();
     }

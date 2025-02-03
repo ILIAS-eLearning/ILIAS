@@ -42,7 +42,7 @@ class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
         \ilCtrl $ctrl,
         \ilObjPortfolio $portfolio,
         bool $include_signature = false,
-        array $selected_pages = null,
+        ?array $selected_pages = null,
         bool $include_declaration = false
     ) {
         global $DIC;

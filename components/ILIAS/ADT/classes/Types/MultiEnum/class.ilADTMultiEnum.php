@@ -40,7 +40,7 @@ abstract class ilADTMultiEnum extends ilADT
         $this->values[] = $value_index;
     }
 
-    public function setSelections(array $a_values = null): void
+    public function setSelections(?array $a_values = null): void
     {
         if ($a_values === null) {
             return;

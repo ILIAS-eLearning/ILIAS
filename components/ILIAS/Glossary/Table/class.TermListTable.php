@@ -382,7 +382,7 @@ class TermListTable
                 return count($this->getRecords());
             }
 
-            protected function getRecords(Data\Range $range = null, Data\Order $order = null, ?array $filter_data = null): array
+            protected function getRecords(?Data\Range $range = null, ?Data\Order $order = null, ?array $filter_data = null): array
             {
                 $filter_term = "";
                 $filter_def = "";

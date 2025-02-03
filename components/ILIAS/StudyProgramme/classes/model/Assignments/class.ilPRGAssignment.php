@@ -119,7 +119,7 @@ class ilPRGAssignment
 
     public function withRestarted(
         int $restarted_asssignment_id,
-        \DateTimeImmutable $restart_date = null
+        ?\DateTimeImmutable $restart_date = null
     ): self {
         $clone = clone $this;
         $clone->restarted_asssignment_id = $restarted_asssignment_id;
@@ -167,7 +167,7 @@ class ilPRGAssignment
         return $this->progress->getNodeId();
     }
 
-    public function getProgresses(array &$ret = [], ilPRGProgress $pgs = null): array
+    public function getProgresses(array &$ret = [], ?ilPRGProgress $pgs = null): array
     {
         if (!$pgs) {
             $pgs = $this->getProgressTree();

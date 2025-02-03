@@ -120,7 +120,7 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
         return $toolbar;
     }
 
-    protected function showLrsTypeFormCmd(ilPropertyFormGUI $form = null): void
+    protected function showLrsTypeFormCmd(?ilPropertyFormGUI $form = null): void
     {
         $this->tabs_gui->activateTab(self::TAB_ID_LRS_TYPES);
 

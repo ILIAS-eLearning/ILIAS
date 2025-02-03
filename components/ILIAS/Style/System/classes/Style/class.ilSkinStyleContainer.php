@@ -48,7 +48,7 @@ class ilSkinStyleContainer
         Language $lng,
         ilSkin $skin,
         ilSystemStyleMessageStack $message_stack,
-        ilSystemStyleConfig $system_styles_conf = null,
+        ?ilSystemStyleConfig $system_styles_conf = null,
     ) {
         $this->lng = $lng;
         $this->skin = $skin;

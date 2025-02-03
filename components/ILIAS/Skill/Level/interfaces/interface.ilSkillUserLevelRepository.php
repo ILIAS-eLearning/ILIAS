@@ -70,7 +70,7 @@ interface ilSkillUserLevelRepository
 
     public function getNewAchievementsPerUser(
         string $a_timestamp,
-        string $a_timestamp_to = null,
+        ?string $a_timestamp_to = null,
         int $a_user_id = 0,
         int $a_self_eval = 0
     ): array;

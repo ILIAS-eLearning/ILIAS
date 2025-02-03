@@ -49,7 +49,7 @@ class IIMManager
     public function handleUploadResult(
         FileUpload $upload,
         UploadResult $result,
-        \ilObjMediaObject $mob = null
+        ?\ilObjMediaObject $mob = null
     ): BasicHandlerResult {
         $this->log->debug("Handle mob upload");
         $title = $result->getName();

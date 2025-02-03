@@ -301,7 +301,7 @@ class ilMultilingualismGUI
     /**
      * Add language
      */
-    public function addLanguages(ilPropertyFormGUI $form = null): void
+    public function addLanguages(?ilPropertyFormGUI $form = null): void
     {
         $tpl = $this->tpl;
 

@@ -109,7 +109,7 @@ class DatabaseReader implements DatabaseReaderInterface
         StructureElementInterface|StructureNavigatorInterface $struct,
         RessourceIDInterface $ressource_id,
         int $id_from_parent_table,
-        RowInterface $result_row = null
+        ?RowInterface $result_row = null
     ): \Generator {
         if ($depth > 20) {
             throw new \ilMDStructureException('LOM Structure is nested to deep.');
