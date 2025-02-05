@@ -1763,6 +1763,7 @@ assessment#:#tst_res_jump_to_participant_hint_opt#:#Zu Teilnehmer springen
 assessment#:#tst_res_lo_objectives_header#:#Relevante Lernziele
 assessment#:#tst_res_lo_try_header#:#Versuch
 assessment#:#tst_res_lo_try_n#:#%s. Versuch
+assessment#:#tst_res_tab_msg_no_lp_access#:#Sie dürfen aktuell nicht auf Ihren Lernfortschritt zugreifen, da der Zugriff auf die Testresultate nicht freigegeben ist.
 assessment#:#tst_res_tab_msg_res_after_date#:#Die Testergebnisse werden Ihnen hier zu folgendem Datum präsentiert: %s
 assessment#:#tst_res_tab_msg_res_after_date_no_res#:#Wenn Sie den Test durchführen werden Ihnen hier zu folgendem Datum die Testergebnisse präsentiert: %s
 assessment#:#tst_res_tab_msg_res_after_finish_test#:#Wenn Sie den Test abgeschlossen haben werden Ihnen hier die Testergebnisse präsentiert.
