@@ -23,14 +23,22 @@ namespace ILIAS\Setup\Activities;
 use ILIAS\Component\Dependencies\Name;
 use ILIAS\UI\Component\Input\Control\Form\FormInput;
 use ILIAS\Data\Result;
+use ILIAS\Data\Text;
 
+/**
+ * This is a stub...
+ */
 class GetStatus extends \ILIAS\Component\Activities\Query
 {
-    public function getDescription(): string
+    public function getDescription(): Text\SimpleDocumentMarkdown
     {
     }
 
     public function getInputDescription(): \ILIAS\UI\Component\Input\Control\Form\FormInput
+    {
+    }
+
+    public function getOutputDescription(\ILIAS\Data\Description\Factory $f): \ILIAS\Data\Description\Description
     {
     }
 
