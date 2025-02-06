@@ -29,6 +29,7 @@ use ilGlobalTemplateInterface;
 use ilWACSignedPath;
 use ilFSStorageBadgeImageTemplate;
 use ILIAS\Badge;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 class ilBadgeImage
 {
@@ -94,5 +95,10 @@ class ilBadgeImage
         } catch (IllegalStateException $e) {
             $this->main_template->setOnScreenMessage('failure', $e->getMessage(), true);
         }
+    }
+
+    public function cloneBadgeImageByRid(ResourceIdentification $identification): ResourceIdentification
+    {
+        return $this->resource_storage->manage()->clone($identification);
     }
 }

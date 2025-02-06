@@ -22,6 +22,8 @@ use ILIAS\FileUpload\Exception\IllegalStateException;
 use ILIAS\Badge\ilBadgeTableGUI;
 use ILIAS\Badge\ilBadgeUserTableGUI;
 use ILIAS\Refinery\Factory;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\ResourceStorage\Collection\ResourceCollection;
 
 /**
  * @ilCtrl_Calls ilBadgeManagementGUI: ilPropertyFormGUI
@@ -483,10 +485,7 @@ class ilBadgeManagementGUI
                 $this->badge_image_service->processImageUpload($badge);
             } else {
                 $tmpl = new ilBadgeImageTemplate($form->getInput('tmpl'));
-                if ($tmpl->getImageRid() !== null) {
-                    $badge->setImageRid($tmpl->getImageRid());
-                    $badge->update();
-                }
+                $this->cloneBadgeTemplate($tmpl, $badge);
             }
 
             $this->tpl->setOnScreenMessage('success', $lng->txt('settings_saved'), true);
@@ -597,11 +596,7 @@ class ilBadgeManagementGUI
             $tmpl_id = $form->getInput('tmpl');
             if ($tmpl_id !== '') {
                 $tmpl = new ilBadgeImageTemplate($tmpl_id);
-                if ($tmpl->getImageRid() !== '') {
-                    $badge->setImageRid($tmpl->getImageRid());
-                    $this->badge_image_service->processImageUpload($badge);
-                    $badge->update();
-                }
+                $this->cloneBadgeTemplate($tmpl, $badge);
             }
 
             $this->tpl->setOnScreenMessage('success', $lng->txt('settings_saved'), true);
@@ -989,5 +984,35 @@ class ilBadgeManagementGUI
 
         $this->tpl->setOnScreenMessage('success', $lng->txt('settings_saved'), true);
         $ilCtrl->redirect($this, 'listUsers');
+    }
+
+
+    /**
+     * @param ilBadgeImageTemplate $tmpl
+     * @param ilBadge              $badge
+     * @return void
+     * @throws Exception
+     */
+    protected function cloneBadgeTemplate(ilBadgeImageTemplate $tmpl, ilBadge $badge): void
+    {
+        if ($tmpl->getImageRid() !== '') {
+            $orig_rid = new ResourceIdentification($tmpl->getImageRid());
+            $new_rid = $this->badge_image_service->cloneBadgeImageByRid($orig_rid);
+            $badge->setImageRid($new_rid);
+            $badge->update();
+        }
+        //Todo: should we really try to migrate here?
+        elseif ($tmpl->getImage() !== '') {
+            $image_path = $tmpl->getImagePath();
+            $migration_helper = new ilResourceStorageMigrationHelper();
+            $new_rid = $migration_helper->movePathToStorage($image_path, ResourceCollection::NO_SPECIFIC_OWNER);
+            if ($new_rid === null) {
+                $new_rid = '-';
+            } else {
+                $new_rid = $new_rid->serialize();
+            }
+            $badge->setImageRid($new_rid);
+            $badge->update();
+        }
     }
 }
