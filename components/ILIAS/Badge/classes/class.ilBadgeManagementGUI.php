@@ -24,6 +24,7 @@ use ILIAS\Badge\ilBadgeUserTableGUI;
 use ILIAS\Refinery\Factory;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
+use ILIAS\Setup\ArrayEnvironment;
 
 /**
  * @ilCtrl_Calls ilBadgeManagementGUI: ilPropertyFormGUI
@@ -1004,7 +1005,7 @@ class ilBadgeManagementGUI
         //Todo: should we really try to migrate here?
         elseif ($tmpl->getImage() !== '') {
             $image_path = $tmpl->getImagePath();
-            $migration_helper = new ilResourceStorageMigrationHelper();
+            $migration_helper = new ilResourceStorageMigrationHelper(new ilBadgeFileStakeholder(), new ArrayEnvironment([]));
             $new_rid = $migration_helper->movePathToStorage($image_path, ResourceCollection::NO_SPECIFIC_OWNER);
             if ($new_rid === null) {
                 $new_rid = '-';
