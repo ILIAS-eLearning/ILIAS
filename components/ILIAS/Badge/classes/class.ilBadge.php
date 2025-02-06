@@ -20,9 +20,11 @@ use ILIAS\ResourceStorage\Services;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\DI\Container;
 use ILIAS\Services\Badge\BadgeException;
+use ILIAS\Badge\ilBadgeImage;
 
 class ilBadge
 {
+    private ?ilLogger $log = null;
     protected ilDBInterface $db;
     protected int $id = 0;
     protected int $parent_id = 0;
@@ -50,6 +52,7 @@ class ilBadge
 
         $this->db = $container->database();
         $this->resource_storage = $container->resourceStorage();
+        $this->log = $container->logger()->root();
         if ($a_id) {
             $this->read($a_id);
         }
@@ -129,13 +132,7 @@ class ilBadge
                 $this->setImageRid($new_collection_id);
                 $this->create();
             } else {
-                $img = $this->getImagePath();
-                $this->setId(0);
-                $this->create();
-                if ($img) {
-                    // see uploadImage()
-                    copy($img, $this->getImagePath());
-                }
+                $this->log->warning('You have to run the Badge files migration.');
             }
         }
     }
@@ -159,15 +156,12 @@ class ilBadge
 
         if ($this->getId()) {
             $this->setId(0);
+            $old_rid = $this->getImageRid();
             $this->create();
-            if ($this->getImageRid()) {
+            if ($old_rid !== null) {
+                $new_rid = $this->resource_storage->manage()->clone(new ResourceIdentification($old_rid));
+                $this->setImageRid($new_rid);
                 $this->update();
-            } else {
-                $img = $this->getImagePath();
-                if ($img) {
-                    // see uploadImage()
-                    copy($img, $this->getImagePath());
-                }
             }
         }
     }
@@ -501,14 +495,11 @@ class ilBadge
             return;
         }
 
-        if (file_exists($this->getImagePath())) {
-            unlink($this->getImagePath());
-        } else {
-            if ($this->getImageRid() !== null) {
-                try {
-                    $this->resource_storage->manage()->remove(new ResourceIdentification($this->getImageRid()), new ilBadgeFileStakeholder());
-                } catch (Exception $e) {
-                }
+        if ($this->getImageRid() !== null) {
+            try {
+                $this->resource_storage->manage()->remove(new ResourceIdentification($this->getImageRid()), new ilBadgeFileStakeholder());
+            } catch (Exception $e) {
+                $this->log->warning(sprintf('There was an exception, while deleting the badge with id %s. Exception: %s', $this->getId(), $e->getMessage()));
             }
         }
 

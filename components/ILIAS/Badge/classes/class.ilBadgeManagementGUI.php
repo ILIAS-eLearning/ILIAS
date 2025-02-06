@@ -486,7 +486,7 @@ class ilBadgeManagementGUI
                 $this->badge_image_service->processImageUpload($badge);
             } else {
                 $tmpl = new ilBadgeImageTemplate($form->getInput('tmpl'));
-                $this->cloneBadgeTemplate($tmpl, $badge);
+                $this->cloneBadgeTemplate($badge, new ResourceIdentification($tmpl->getImageRid()));
             }
 
             $this->tpl->setOnScreenMessage('success', $lng->txt('settings_saved'), true);
@@ -584,6 +584,11 @@ class ilBadgeManagementGUI
             $badge->setDescription($form->getInput('desc'));
             $badge->setCriteria($form->getInput('crit'));
             $badge->setValid($form->getInput('valid'));
+
+            if ($badge->getImageRid() !== '') {
+                $this->resource_storage->manage()->remove(new ResourceIdentification($badge->getImageRid()), new ilBadgeFileStakeholder());
+            }
+
             $image = $form->getInput('img');
             if (isset($image['name']) && $image['name'] !== '') {
                 $this->badge_image_service->processImageUpload($badge);
@@ -597,7 +602,7 @@ class ilBadgeManagementGUI
             $tmpl_id = $form->getInput('tmpl');
             if ($tmpl_id !== '') {
                 $tmpl = new ilBadgeImageTemplate($tmpl_id);
-                $this->cloneBadgeTemplate($tmpl, $badge);
+                $this->cloneBadgeTemplate($badge, new ResourceIdentification($tmpl->getImageRid()));
             }
 
             $this->tpl->setOnScreenMessage('success', $lng->txt('settings_saved'), true);
@@ -987,31 +992,15 @@ class ilBadgeManagementGUI
         $ilCtrl->redirect($this, 'listUsers');
     }
 
-
     /**
-     * @param ilBadgeImageTemplate $tmpl
-     * @param ilBadge              $badge
+     * @param ilBadge                     $badge
+     * @param ResourceIdentification|null $rid
      * @return void
-     * @throws Exception
      */
-    protected function cloneBadgeTemplate(ilBadgeImageTemplate $tmpl, ilBadge $badge): void
+    protected function cloneBadgeTemplate(ilBadge $badge, ?ResourceIdentification $rid): void
     {
-        if ($tmpl->getImageRid() !== '') {
-            $orig_rid = new ResourceIdentification($tmpl->getImageRid());
-            $new_rid = $this->badge_image_service->cloneBadgeImageByRid($orig_rid);
-            $badge->setImageRid($new_rid);
-            $badge->update();
-        }
-        //Todo: should we really try to migrate here?
-        elseif ($tmpl->getImage() !== '') {
-            $image_path = $tmpl->getImagePath();
-            $migration_helper = new ilResourceStorageMigrationHelper(new ilBadgeFileStakeholder(), new ArrayEnvironment([]));
-            $new_rid = $migration_helper->movePathToStorage($image_path, ResourceCollection::NO_SPECIFIC_OWNER);
-            if ($new_rid === null) {
-                $new_rid = '-';
-            } else {
-                $new_rid = $new_rid->serialize();
-            }
+        if ($rid !== null) {
+            $new_rid = $this->badge_image_service->cloneBadgeImageByRid($rid);
             $badge->setImageRid($new_rid);
             $badge->update();
         }
