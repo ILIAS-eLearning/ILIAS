@@ -585,26 +585,23 @@ class ilBadgeManagementGUI
             $badge->setCriteria($form->getInput('crit'));
             $badge->setValid($form->getInput('valid'));
 
-            if ($badge->getImageRid() !== '') {
-                $this->resource_storage->manage()->remove(new ResourceIdentification($badge->getImageRid()), new ilBadgeFileStakeholder());
-            }
-
             $image = $form->getInput('img');
             if (isset($image['name']) && $image['name'] !== '') {
+                $this->removeResourceStorageImage($badge);
                 $this->badge_image_service->processImageUpload($badge);
             }
 
             if ($custom) {
                 $badge->setConfiguration($custom->getConfigFromForm($form));
             }
-            $badge->update();
-
             $tmpl_id = $form->getInput('tmpl');
             if ($tmpl_id !== '') {
+                $this->removeResourceStorageImage($badge);
                 $tmpl = new ilBadgeImageTemplate($tmpl_id);
                 $this->cloneBadgeTemplate($badge, new ResourceIdentification($tmpl->getImageRid()));
             }
 
+            $badge->update();
             $this->tpl->setOnScreenMessage('success', $lng->txt('settings_saved'), true);
             $ilCtrl->redirect($this, 'listBadges');
         }
@@ -996,6 +993,7 @@ class ilBadgeManagementGUI
      * @param ilBadge                     $badge
      * @param ResourceIdentification|null $rid
      * @return void
+     * @throws Exception
      */
     protected function cloneBadgeTemplate(ilBadge $badge, ?ResourceIdentification $rid): void
     {
@@ -1003,6 +1001,20 @@ class ilBadgeManagementGUI
             $new_rid = $this->badge_image_service->cloneBadgeImageByRid($rid);
             $badge->setImageRid($new_rid);
             $badge->update();
+        }
+    }
+
+    /**
+     * @param ilBadge $badge
+     * @return void
+     */
+    protected function removeResourceStorageImage(ilBadge $badge): void
+    {
+        if ($badge->getImageRid() !== '') {
+            $this->resource_storage->manage()->remove(
+                new ResourceIdentification($badge->getImageRid()),
+                new ilBadgeFileStakeholder()
+            );
         }
     }
 }
