@@ -107,7 +107,6 @@ final class ilSamlSettingsGUI
     private readonly ilCtrlInterface $ctrl;
     private readonly ilLanguage $lng;
     private readonly ilGlobalTemplateInterface $tpl;
-    private readonly ilRbacSystem $rbac_system;
     private readonly RBACServices $rbac;
     private readonly ilErrorHandling $error_handler;
     private readonly ilTabsGUI $tabs;
@@ -128,7 +127,6 @@ final class ilSamlSettingsGUI
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->lng = $DIC->language();
-        $this->rbac_system = $DIC->rbac()->system();
         $this->rbac = $DIC->rbac();
         $this->error_handler = $DIC['ilErr'];
         $this->tabs = $DIC->tabs();
@@ -415,7 +413,7 @@ final class ilSamlSettingsGUI
             $this->addAttributeRuleFieldToForm($form, $definition['field_name'], 'udf_' . $definition['field_id']);
         }
 
-        if (!$this->rbac_system->checkAccess(self::PERMISSION_WRITE, $this->ref_id)) {
+        if (!$this->rbac->system()->checkAccess(self::PERMISSION_WRITE, $this->ref_id)) {
             foreach ($form->getItems() as $item) {
                 $item->setDisabled(true);
             }
@@ -498,7 +496,7 @@ final class ilSamlSettingsGUI
 
     private function getSettingsForm(array $values = []): StandardForm
     {
-        $access = $this->rbac_system->checkAccess(self::PERMISSION_WRITE, $this->ref_id);
+        $access = $this->rbac->system()->checkAccess(self::PERMISSION_WRITE, $this->ref_id);
         $form = $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getFormAction($this, $access ? self::CMD_SAVE_SETTINGS : self::CMD_SHOW_SETTINGS),
             [
@@ -613,7 +611,7 @@ final class ilSamlSettingsGUI
         $sync->addSubItem($migr);
         $form->addItem($sync);
 
-        if (!$this->rbac_system->checkAccess(self::PERMISSION_WRITE, $this->ref_id)) {
+        if (!$this->rbac->system()->checkAccess(self::PERMISSION_WRITE, $this->ref_id)) {
             foreach ($form->getItems() as $item) {
                 $item->setDisabled(true);
             }
