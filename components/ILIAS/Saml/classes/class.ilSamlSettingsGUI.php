@@ -106,7 +106,7 @@ final class ilSamlSettingsGUI
     private readonly ilCtrlInterface $ctrl;
     private readonly ilLanguage $lng;
     private readonly ilGlobalTemplateInterface $tpl;
-    private readonly ilAccessHandler $access;
+    private readonly ilRbacSystem $rbac_system;
     private readonly RBACServices $rbac;
     private readonly ilErrorHandling $error_handler;
     private readonly ilTabsGUI $tabs;
@@ -127,7 +127,7 @@ final class ilSamlSettingsGUI
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->lng = $DIC->language();
-        $this->access = $DIC->access();
+        $this->rbac_system = $DIC->rbac()->system();
         $this->rbac = $DIC->rbac();
         $this->error_handler = $DIC['ilErr'];
         $this->tabs = $DIC->tabs();
@@ -414,7 +414,7 @@ final class ilSamlSettingsGUI
             $this->addAttributeRuleFieldToForm($form, $definition['field_name'], 'udf_' . $definition['field_id']);
         }
 
-        if (!$this->access->checkAccess(self::PERMISSION_WRITE, '', $this->ref_id)) {
+        if (!$this->rbac_system->checkAccess(self::PERMISSION_WRITE, $this->ref_id)) {
             foreach ($form->getItems() as $item) {
                 $item->setDisabled(true);
             }
@@ -505,7 +505,7 @@ final class ilSamlSettingsGUI
                     $this->lng->txt('auth_saml_login_form_info')
                 )
                     ->withValue((bool) ($values[self::LNG_LOGIN_FORM] ?? true))
-                    ->withDisabled(!$this->access->checkAccess(self::PERMISSION_WRITE, '', $this->ref_id)),
+                    ->withDisabled(!$this->rbac_system->checkAccess(self::PERMISSION_WRITE, $this->ref_id)),
             ]
         );
     }
@@ -605,7 +605,7 @@ final class ilSamlSettingsGUI
         $sync->addSubItem($migr);
         $form->addItem($sync);
 
-        if (!$this->access->checkAccess(self::PERMISSION_WRITE, '', $this->ref_id)) {
+        if (!$this->rbac_system->checkAccess(self::PERMISSION_WRITE, $this->ref_id)) {
             foreach ($form->getItems() as $item) {
                 $item->setDisabled(true);
             }
