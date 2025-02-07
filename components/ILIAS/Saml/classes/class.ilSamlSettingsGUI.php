@@ -497,7 +497,8 @@ final class ilSamlSettingsGUI
 
     private function getSettingsForm(array $values = []): StandardForm
     {
-        return $this->ui_factory->input()->container()->form()->standard(
+        $access = $this->rbac_system->checkAccess(self::PERMISSION_WRITE, $this->ref_id);
+        $form = $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getFormAction($this, self::CMD_SAVE_SETTINGS),
             [
                 self::LNG_LOGIN_FORM => $this->ui_factory->input()->field()->checkbox(
@@ -505,9 +506,15 @@ final class ilSamlSettingsGUI
                     $this->lng->txt('auth_saml_login_form_info')
                 )
                     ->withValue((bool) ($values[self::LNG_LOGIN_FORM] ?? true))
-                    ->withDisabled(!$this->rbac_system->checkAccess(self::PERMISSION_WRITE, $this->ref_id)),
+                    ->withDisabled(!$access),
             ]
         );
+
+        if (!$access) {
+            $form = $form->withSubmitLabel($this->lng->txt('refresh'));
+        }
+
+        return $form;
     }
 
     /**
