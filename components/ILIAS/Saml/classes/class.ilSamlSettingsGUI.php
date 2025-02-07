@@ -48,6 +48,7 @@ final class ilSamlSettingsGUI
     private const LNG_LOGIN_FORM = 'login_form';
     private const LNG_CANCEL = 'cancel';
 
+    private const CMD_SHOW_SETTINGS = 'showSettings';
     private const CMD_SAVE_NEW_IDP = 'saveNewIdp';
     private const CMD_SAVE_SETTINGS = 'saveSettings';
     private const CMD_SHOW_IDP_SETTINGS = 'showIdpSettings';
@@ -65,8 +66,8 @@ final class ilSamlSettingsGUI
     private const GLOBAL_COMMANDS = [
         self::DEFAULT_CMD,
         'showAddIdpForm',
-        'showSettings',
-        'saveSettings',
+        self::CMD_SHOW_SETTINGS,
+        self::CMD_SAVE_SETTINGS,
         'showNewIdpForm',
         'saveNewIdp',
     ];
@@ -360,8 +361,8 @@ final class ilSamlSettingsGUI
 
                 $this->tabs->addSubTabTarget(
                     'settings',
-                    $this->ctrl->getLinkTarget($this, 'showSettings'),
-                    ['showSettings', self::CMD_SAVE_SETTINGS],
+                    $this->ctrl->getLinkTarget($this, self::CMD_SHOW_SETTINGS),
+                    [self::CMD_SHOW_SETTINGS, self::CMD_SAVE_SETTINGS],
                     self::class
                 );
                 break;
@@ -499,7 +500,7 @@ final class ilSamlSettingsGUI
     {
         $access = $this->rbac_system->checkAccess(self::PERMISSION_WRITE, $this->ref_id);
         $form = $this->ui_factory->input()->container()->form()->standard(
-            $this->ctrl->getFormAction($this, self::CMD_SAVE_SETTINGS),
+            $this->ctrl->getFormAction($this, $access ? self::CMD_SAVE_SETTINGS : self::CMD_SHOW_SETTINGS),
             [
                 self::LNG_LOGIN_FORM => $this->ui_factory->input()->field()->checkbox(
                     $this->lng->txt('auth_saml_login_form'),
