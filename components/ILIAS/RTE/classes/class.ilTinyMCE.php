@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Language\Language;
+
 /**
  * Tiny MCE editor class
  *
@@ -75,21 +77,24 @@ class ilTinyMCE extends ilRTE
     }
 
     public function addRTESupport(
+        Language $lng,
+        ilObjUser $user,
         int $obj_id,
         string $obj_type,
         string $a_module = '',
         bool $allowFormElements = false,
         ?string $cfg_template = null
     ): void {
+        $settings = new ilRTESettings($lng, $user);
         if ($this->browser->isMobile()) {
-            ilObjAdvancedEditing::_setRichTextEditorUserState(0);
+            $settings->setRichTextEditorUserState(0);
         } else {
-            ilObjAdvancedEditing::_setRichTextEditorUserState(1);
+            $settings->setRichTextEditorUserState(1);
         }
 
         if (
-            ilObjAdvancedEditing::_getRichTextEditorUserState() !== 0 &&
-            strcmp(ilObjAdvancedEditing::_getRichTextEditor(), "0") !== 0
+            $settings->getRichTextEditorUserState() !== 0 &&
+            strcmp($settings->getRichTextEditor(), '0') !== 0
         ) {
             $tpl = new ilTemplate(
                 ($cfg_template ?? "tpl.tinymce.js"),
@@ -98,7 +103,7 @@ class ilTinyMCE extends ilRTE
                 "components/ILIAS/RTE"
             );
 
-            $tags = ilObjAdvancedEditing::_getUsedHTMLTags($a_module);
+            $tags = ilRTESettings::_getUsedHTMLTags($a_module);
             if ($allowFormElements) {
                 $tpl->touchBlock("formelements");
             }

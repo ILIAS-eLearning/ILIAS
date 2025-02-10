@@ -16,22 +16,11 @@
  *
  *********************************************************************/
 
-declare(strict_types=1);
-
-namespace ILIAS;
-
-class AdvancedEditing implements Component\Component
+/**
+ * Class for advanced editing exception handling in ILIAS.
+ *
+ * @author Michael Jansen <mjansen@databay.de>
+ */
+class ilAdvancedEditingRequiredTagsException extends ilException
 {
-    public function init(
-        array | \ArrayAccess &$define,
-        array | \ArrayAccess &$implement,
-        array | \ArrayAccess &$use,
-        array | \ArrayAccess &$contribute,
-        array | \ArrayAccess &$seek,
-        array | \ArrayAccess &$provide,
-        array | \ArrayAccess &$pull,
-        array | \ArrayAccess &$internal,
-    ): void {
-        // ...
-    }
 }

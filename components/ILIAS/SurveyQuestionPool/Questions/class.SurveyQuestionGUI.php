@@ -258,7 +258,7 @@ abstract class SurveyQuestionGUI
         $question->setRequired(true);
         $question->setRows(10);
         $question->setCols(80);
-        if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
+        if ((new \ilRTESettings($this->lng, $this->user))->getRichTextEditor() === "tinymce") {
             $question->setUseRte(true);
             $question->setRteTagSet("mini");
         }

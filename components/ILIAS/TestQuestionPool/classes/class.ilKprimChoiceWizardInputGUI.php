@@ -454,7 +454,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
             return ilArrayUtil::stripSlashesRecursive(
                 $answer_text,
                 false,
-                ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
+                ilRTESettings::_getUsedHTMLTagsAsString("assessment")
             );
         }
 
