@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Multilingualism;
+namespace ILIAS\DidacticTemplate\Multilingualism;
 
 use ILIAS\Repository\BaseGUIRequest;
 

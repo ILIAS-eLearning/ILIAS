@@ -25,7 +25,7 @@ use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
  */
 class ilMultilingualismGUI
 {
-    protected \ILIAS\Multilingualism\StandardGUIRequest $request;
+    protected \ILIAS\DidacticTemplate\Multilingualism\StandardGUIRequest $request;
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;
