@@ -18,21 +18,24 @@
 
 declare(strict_types=1);
 
-namespace ILIAS;
+namespace ILIAS\Container\Block;
 
-class Block implements Component\Component
+/**
+ * Block data service
+ * @author Alexander Killing <killing@leifos.de>
+ */
+class InternalDataService
 {
-    public function init(
-        array | \ArrayAccess &$define,
-        array | \ArrayAccess &$implement,
-        array | \ArrayAccess &$use,
-        array | \ArrayAccess &$contribute,
-        array | \ArrayAccess &$seek,
-        array | \ArrayAccess &$provide,
-        array | \ArrayAccess &$pull,
-        array | \ArrayAccess &$internal,
-    ): void {
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "ilblockcallback.js");
+    // protected ...\DataFactory ..._factory;
+
+    public function __construct()
+    {
+        //$this->..._factory = new ...\DataFactory();
     }
+
+    /*
+    public function ...() : ...\...
+    {
+        return $this->..._factory->...();
+    }*/
 }

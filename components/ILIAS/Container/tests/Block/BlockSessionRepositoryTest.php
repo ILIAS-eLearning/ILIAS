@@ -25,12 +25,12 @@ use PHPUnit\Framework\TestCase;
  */
 class BlockSessionRepositoryTest extends TestCase
 {
-    protected \ILIAS\Block\BlockSessionRepository $repo;
+    protected \ILIAS\Container\Block\BlockSessionRepository $repo;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->repo = new \ILIAS\Block\BlockSessionRepository();
+        $this->repo = new \ILIAS\Container\Block\BlockSessionRepository();
     }
 
     protected function tearDown(): void

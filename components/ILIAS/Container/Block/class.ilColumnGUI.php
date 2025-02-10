@@ -45,7 +45,7 @@ class ilColumnGUI
     protected string $coltype;
     protected ilDashboardSidePanelSettingsRepository $dash_side_panel_settings;
     protected ?ItemPresentationManager $item_presentation = null;
-    protected \ILIAS\Block\StandardGUIRequest $request;
+    protected \ILIAS\Container\Block\StandardGUIRequest $request;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected ilObjUser $user;
@@ -191,7 +191,7 @@ class ilColumnGUI
         $this->setColType($a_col_type);
         $this->setSide($a_side);
 
-        $block_service = new ILIAS\Block\Service($DIC);
+        $block_service = new ILIAS\Container\Block\Service($DIC);
         $this->request = $block_service->internal()
            ->gui()
            ->standardRequest();
@@ -228,7 +228,7 @@ class ilColumnGUI
     {
         global $DIC;
 
-        $block_service = new ILIAS\Block\Service($DIC);
+        $block_service = new ILIAS\Container\Block\Service($DIC);
         $request = $block_service->internal()
             ->gui()
             ->standardRequest();
@@ -298,7 +298,7 @@ class ilColumnGUI
 
         $ilCtrl = $DIC->ctrl();
 
-        $block_service = new ILIAS\Block\Service($DIC);
+        $block_service = new ILIAS\Container\Block\Service($DIC);
         $request = $block_service->internal()
                                  ->gui()
                                  ->standardRequest();

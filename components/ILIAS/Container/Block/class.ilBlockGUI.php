@@ -62,8 +62,8 @@ abstract class ilBlockGUI
     protected \ILIAS\UI\Renderer $renderer;
     protected Factory $factory;
     protected object $gui_object;
-    protected \ILIAS\Block\StandardGUIRequest $request;
-    protected \ILIAS\Block\BlockManager $block_manager;
+    protected \ILIAS\Container\Block\StandardGUIRequest $request;
+    protected \ILIAS\Container\Block\BlockManager $block_manager;
     private \ILIAS\HTTP\GlobalHttpState $http;
 
     protected bool $repositorymode = false;
@@ -101,7 +101,7 @@ abstract class ilBlockGUI
         $this->renderer = $DIC->ui()->renderer();
 
         $this->http = $DIC->http();
-        $block_service = new ILIAS\Block\Service($DIC);
+        $block_service = new ILIAS\Container\Block\Service($DIC);
         $this->block_manager = $block_service->internal()
             ->domain()
             ->block();

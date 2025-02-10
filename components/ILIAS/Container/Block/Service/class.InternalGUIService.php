@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Block;
+namespace ILIAS\Container\Block;
 
 use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICGUIServices;
