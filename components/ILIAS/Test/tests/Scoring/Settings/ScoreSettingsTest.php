@@ -244,6 +244,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
         $refinery = new \ILIAS\Refinery\Factory($data_factory, $language);
 
         $field_factory = new ILIAS\UI\Implementation\Component\Input\Field\Factory(
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class),
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             new \ILIAS\UI\Implementation\Component\SignalGenerator(),
             $data_factory,

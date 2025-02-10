@@ -252,12 +252,16 @@ class InitUIFramework
         };
         $c["ui.factory.input.field"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
+                $c["ui.factory.input.field.node"],
                 $c["ui.upload_limit_resolver"],
                 $c["ui.signal_generator"],
                 $c["ui.data_factory"],
                 $c["refinery"],
                 $c["lng"]
             );
+        };
+        $c["ui.factory.input.field.node"] = function ($c) {
+            return new ILIAS\UI\Implementation\Component\Input\Field\Node\Factory();
         };
         $c["ui.factory.input.container"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Input\Container\Factory(
@@ -355,6 +359,16 @@ class InitUIFramework
                             $c["ui.upload_limit_resolver"]
                         ),
                         new ILIAS\UI\Implementation\Component\Input\Container\Form\FormRendererFactory(
+                            $c["ui.factory"],
+                            $c["ui.template_factory"],
+                            $c["lng"],
+                            $c["ui.javascript_binding"],
+                            $c["ui.pathresolver"],
+                            $c["ui.data_factory"],
+                            $c["help.text_retriever"],
+                            $c["ui.upload_limit_resolver"]
+                        ),
+                        new ILIAS\UI\Implementation\Component\Menu\MenuRendererFactory(
                             $c["ui.factory"],
                             $c["ui.template_factory"],
                             $c["lng"],

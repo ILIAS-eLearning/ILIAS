@@ -53,8 +53,8 @@ class DefaultRenderer implements Renderer
 
         $root = $root ?? $this;
 
+        $out = '';
         if (is_array($component)) {
-            $out = '';
             foreach ($component as $_component) {
                 $out .= $root->render($_component);
             }

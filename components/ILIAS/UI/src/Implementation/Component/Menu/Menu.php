@@ -37,7 +37,7 @@ abstract class Menu implements IMenu\Menu
     protected $label;
 
     /**
-     * @var Component\Component[]
+     * @var array<Component\Menu\Sub, Component\Clickable, Component\Link\Link, Component\Divider\Horizontal, Component\Input\Field\Node\Node>
      */
     protected array $items = [];
 
@@ -60,10 +60,11 @@ abstract class Menu implements IMenu\Menu
     protected function checkItemParameter(array $items): void
     {
         $classes = [
-            Sub::class,
+            Component\Menu\Sub::class,
             Component\Clickable::class,
             Component\Link\Link::class,
-            Component\Divider\Horizontal::class
+            Component\Divider\Horizontal::class,
+            Component\Input\Field\Node\Node::class,
         ];
         $this->checkArgListElements("items", $items, $classes);
     }

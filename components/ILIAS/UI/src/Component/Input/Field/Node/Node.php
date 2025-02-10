@@ -18,31 +18,11 @@
 namespace ILIAS\UI\Component\Input\Field\Node;
 
 use ILIAS\UI\Component\Symbol\Icon\Icon;
+use ILIAS\UI\Component\Component;
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-interface Node
+interface Node extends Component
 {
-    /**
-     * Returns the unique identifier of this node.
-     */
-    public function getId(): string|int;
-
-    /**
-     * Returns the display value of this node.
-     */
-    public function getName(): string;
-
-    /**
-     * Returns an Icon which visually represents this node. Defaults to an
-     * abbreviation using the first letter of the node name.
-     */
-    public function getIcon(): ?Icon;
-
-    /**
-     * Returns all sub-nodes of the current node.
-     * @return Node[]
-     */
-    public function getChildren(): array;
 }

@@ -40,7 +40,7 @@ export default class DrilldownPersistence {
      * @returns {string}
      */
   read() {
-    return this.#cookieStorage.items[this.#key] ?? 0;
+    return this.#cookieStorage.items[this.#key] ?? '0';
   }
 
   /**

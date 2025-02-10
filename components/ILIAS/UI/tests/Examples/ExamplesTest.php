@@ -38,6 +38,9 @@ class ExamplesTest extends ILIAS_UI_TestBase
     protected const MAY_NOT_HAVE_EXAMPLES = [
         \ILIAS\UI\Help\Topic::class,
         \ILIAS\UI\Component\Progress\State\Bar\State::class,
+        \ILIAS\UI\Component\Input\Field\Node\Node::class,
+        \ILIAS\UI\Component\Input\Field\Node\Async::class,
+        \ILIAS\UI\Component\Input\Field\Node\Leaf::class,
     ];
 
     protected static string $path_to_base_factory = "components/ILIAS/UI/src/Factory.php";

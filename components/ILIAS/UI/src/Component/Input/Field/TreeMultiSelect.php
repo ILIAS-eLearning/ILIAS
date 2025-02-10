@@ -22,11 +22,11 @@ use ILIAS\UI\Component\Input\Container\Form\FormInput;
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-interface TreeMultiSelect extends FormInput, HasDynamicInputs
+interface TreeMultiSelect extends FormInput
 {
     /**
-     * Get an input like this, but allow the selection of sub-nodes under an already
+     * Get an input like this, but allow the selection of child-nodes under an already
      * selected parent node. By default, such sub-nodes cannot be selected anymore.
      */
-    public function withSelectSubNodes(bool $is_allowed): static;
+    public function withSelectChildNodes(bool $is_allowed): static;
 }

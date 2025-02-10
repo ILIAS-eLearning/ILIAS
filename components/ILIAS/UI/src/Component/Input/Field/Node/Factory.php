@@ -18,6 +18,7 @@
 namespace ILIAS\UI\Component\Input\Field\Node;
 
 use ILIAS\UI\Component\Symbol\Icon\Icon;
+use ILIAS\Data\URI;
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
@@ -25,83 +26,87 @@ use ILIAS\UI\Component\Symbol\Icon\Icon;
 interface Factory
 {
     /**
-     *  ---
-     *  description:
-     *    purpose: >
-     *      A node is used by the tree select input and multi tree select input to visualise an entry
-     *      inside the tree which can own sub-nodes. Nodes consist of a unique identifier, name and
-     *      optional icon. It can represent any kind of data.
-     *    rivals:
-     *      Async Node: >
-     *          An async node should be used if the sub-nodes of a node should be rendered asynchronously
-     *          on the client.
-     *      Leaf Node: A leaf node should be used if the node cannot own any sub-nodes.
-     *    rules:
-     *       usage:
-     *           1: >
-     *              Icons SHOULD reflect the kind of data a node represents as closely as possible.
-     *              If there is only one kind of data, an icon SHOULD NOT be provided.
-     *  ---
-     * @param string                                      $id
+     * ---
+     * description:
+     *   purpose: >
+     *     A branch node is used by the tree select input and multi tree select input to visualise an
+     *     entry inside the tree which can own sub-nodes. Nodes consist of a unique identifier, name and
+     *     optional icon. It can represent any kind of data.
+     *   rivals:
+     *     Async Node: >
+     *         An async node should be used if the sub-nodes of a node should be rendered asynchronously
+     *         on the client.
+     *     Leaf Node: A leaf node should be used if the node cannot own any sub-nodes.
+     *
+     * rules:
+     *   usage:
+     *     1: >
+     *       Icons SHOULD reflect the kind of data a node represents as closely as possible.
+     *       If there is only one kind of data, an icon SHOULD NOT be provided.
+     * ---
+     * @param string|int                                  $id
      * @param string                                      $name
      * @param \ILIAS\UI\Component\Input\Field\Node\Node   $children
      * @param \ILIAS\UI\Component\Symbol\Glyph\Glyph|null $icon
      * @return \ILIAS\UI\Component\Input\Field\Node\Node
      */
-    public function node(
-        string $id,
+    public function branch(
+        string|int $id,
         string $name,
         ?Icon $icon = null,
-        Node ...$children
-    ): Node;
+        Node ...$children,
+    ): Branch;
 
     /**
-     *  ---
-     *  description:
-     *    purpose: >
-     *      An async node is used by the tree select input and multi tree select input to visualise an
-     *      entry inside the tree whose sub-nodes will be rendered asynchronously. This node consist
-     *      of a unique identifier, name and optional icon. It can represent any kind of data.
-     *    rivals:
-     *      Node: >
-     *          A node should be used if the sub-nodes of a node should not be rendered asynchronously
-     *          on the client.
-     *      Leaf Node: A leaf node should be used if the node cannot own any sub-nodes.
-     *    rules:
-     *       usage:
-     *           1: >
-     *              Icons SHOULD reflect the kind of data a node represents as closely as possible.
-     *              If there is only one kind of data, an icon SHOULD NOT be provided.
-     *  ---
-     * @param string                                      $id
+     * ---
+     * description:
+     *   purpose: >
+     *     An async node is used by the tree select input and multi tree select input to visualise an
+     *     entry inside the tree whose sub-nodes will be rendered asynchronously. This node consist
+     *     of a unique identifier, name and optional icon. It can represent any kind of data.
+     *   rivals:
+     *     Node: >
+     *         A node should be used if the sub-nodes of a node should not be rendered asynchronously
+     *         on the client.
+     *     Leaf Node: A leaf node should be used if the node cannot own any sub-nodes.
+     *
+     * rules:
+     *   usage:
+     *     1: >
+     *       Icons SHOULD reflect the kind of data a node represents as closely as possible.
+     *       If there is only one kind of data, an icon SHOULD NOT be provided.
+     * ---
+     * @param \ILIAS\Data\URI                             $render_url
+     * @param string|int                                  $id
      * @param string                                      $name
      * @param \ILIAS\UI\Component\Symbol\Glyph\Glyph|null $icon
      * @return \ILIAS\UI\Component\Input\Field\Node\Async
      */
-    public function async(string $id, string $name, Icon $icon = null): Async;
+    public function async(URI $render_url, string|int $id, string $name, ?Icon $icon = null): Async;
 
     /**
-     *  ---
-     *  description:
-     *    purpose: >
-     *      An leaf node is used by the tree select input and multi tree select input to visualise an
-     *      entry inside the tree which cannot own any sub-nodes. This node consist of a unique identifier,
-     *      name and optional icon. It can represent any kind of data.
-     *    rivals:
-     *      Node: A node should be used if the node cannot own any sub-nodes.
-     *      Async Node: >
-     *          A node should be used if the sub-nodes of a node should not be rendered asynchronously
-     *          on the client.
-     *    rules:
-     *       usage:
-     *           1: >
-     *              Icons SHOULD reflect the kind of data a node represents as closely as possible.
-     *              If there is only one kind of data, an icon SHOULD NOT be provided.
-     *  ---
-     * @param string                                      $id
+     * ---
+     * description:
+     *   purpose: >
+     *     An leaf node is used by the tree select input and multi tree select input to visualise an
+     *     entry inside the tree which cannot own any sub-nodes. This node consist of a unique identifier,
+     *     name and optional icon. It can represent any kind of data.
+     *   rivals:
+     *     Node: A node should be used if the node cannot own any sub-nodes.
+     *     Async Node: >
+     *         A node should be used if the sub-nodes of a node should not be rendered asynchronously
+     *         on the client.
+     *
+     * rules:
+     *   usage:
+     *     1: >
+     *       Icons SHOULD reflect the kind of data a node represents as closely as possible.
+     *       If there is only one kind of data, an icon SHOULD NOT be provided.
+     * ---
+     * @param string|int                                  $id
      * @param string                                      $name
      * @param \ILIAS\UI\Component\Symbol\Glyph\Glyph|null $icon
      * @return \ILIAS\UI\Component\Input\Field\Node\Leaf
      */
-    public function leaf(string $id, string $name, ?Icon $icon = null): Leaf;
+    public function leaf(string|int $id, string $name, ?Icon $icon = null): Leaf;
 }

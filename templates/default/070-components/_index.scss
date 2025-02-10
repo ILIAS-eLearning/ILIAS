@@ -21,7 +21,6 @@
 @use "./UI-framework/Dropdown/_ui-component_dropdown.scss";
 @use "./UI-framework/Dropzone/_ui-component_dropzone.scss";
 @use "./UI-framework/Entity/ui-component_entity";
-@use "./UI-framework/Input/_ui-component_input.scss";
 @use "./UI-framework/Item/_ui-component_item.scss";
 @use "./UI-framework/Launcher/ui-component_launcher";
 @use "./UI-framework/Layout/_ui-component_layout.scss";
@@ -32,6 +31,7 @@
 @use "./UI-framework/Listing/_ui-component_entitylisting.scss";
 @use "./UI-framework/MainControls/_ui-component_maincontrols.scss";
 @use "./UI-framework/Menu/_ui-component_menu.scss";
+@use "./UI-framework/Input/_ui-component_input.scss";
 @use "./UI-framework/MessageBox/_ui-component_messagebox.scss";
 @use "./UI-framework/Modal/_ui-component_modal.scss";
 @use "./UI-framework/Panel/_ui-component_panel.scss";

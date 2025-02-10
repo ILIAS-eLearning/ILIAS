@@ -40,6 +40,7 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
     {
         $this->language = $this->createMock(ILIAS\Language\Language::class);
         return new I\Input\Field\Factory(
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class),
             $this->createMock(I\Input\UploadLimitResolver::class),
             new I\SignalGenerator(),
             $this->df,

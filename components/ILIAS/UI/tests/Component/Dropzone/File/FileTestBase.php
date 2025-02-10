@@ -43,6 +43,7 @@ abstract class FileTestBase extends \ILIAS_UI_TestBase
 
         $signal_generator = new I\Component\SignalGenerator();
         $field_factory = new I\Component\Input\Field\Factory(
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class),
             $this->createMock(I\Component\Input\UploadLimitResolver::class),
             $signal_generator,
             $this->getDataFactory(),

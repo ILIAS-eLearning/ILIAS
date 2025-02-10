@@ -22,6 +22,6 @@ use ILIAS\UI\Component\Input\Container\Form\FormInput;
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-interface TreeSelect extends FormInput, HasDynamicInputs
+interface TreeSelect extends FormInput
 {
 }

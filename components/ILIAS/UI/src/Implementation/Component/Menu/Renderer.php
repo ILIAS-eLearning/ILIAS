@@ -25,6 +25,7 @@ use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Component\Menu;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
+use ILIAS\UI\Implementation\Render\Template;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -91,17 +92,15 @@ class Renderer extends AbstractComponentRenderer
             }
         );
         $id_drilldown = $this->bindJavaScript($component);
-        $id_filter = $this->createId();
 
         $tpl_name = "tpl.drilldown.html";
         $tpl = $this->getTemplate($tpl_name, true, true);
         $tpl->setVariable("ID", $id_drilldown);
-        $tpl->setVariable('LABEL', sprintf($this->txt('filter_nodes_in'), $component->getLabel()));
         $tpl->setVariable('ARIA_LABEL', $component->getLabel());
-        $tpl->setVariable('ID_FILTER', $id_filter);
         $tpl->setVariable('BACKNAV', $back_button_html);
         $tpl->setVariable('DRILLDOWN', $items_html);
         $tpl->setVariable('NO_ITEMS_TEXT', $this->txt(self::NO_ITEMS_LABEL));
+        $this->addMenuFilter($component, $tpl, $default_renderer);
 
         return $tpl->get();
     }
@@ -124,12 +123,23 @@ class Renderer extends AbstractComponentRenderer
         return $html;
     }
 
+    protected function addMenuFilter(
+        Menu\Menu $component,
+        Template $template,
+        RendererInterface $default_renderer,
+    ): void {
+        $template->setCurrentBlock('with_filter');
+        $template->setVariable('LABEL', sprintf($this->txt('filter_nodes_in'), $component->getLabel()));
+        $template->setVariable('ID_FILTER', $this->createId());
+        $template->parseCurrentBlock();
+    }
+
     /**
      * @inheritdoc
      */
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('assets/js/drilldown.js');
+        $registry->register('assets/js/drilldown.min.js');
     }
 }

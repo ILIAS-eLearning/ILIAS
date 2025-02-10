@@ -88,6 +88,7 @@ class ilStudyProgrammeDeadlineSettingsTest extends TestCase
         $refinery = new ILIAS\Refinery\Factory($df, $lng);
 
         $f = new ILIAS\UI\Implementation\Component\Input\Field\Factory(
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class),
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             new ILIAS\UI\Implementation\Component\SignalGenerator(),
             $df,

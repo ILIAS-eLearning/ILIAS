@@ -232,6 +232,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $refinery = new \ILIAS\Refinery\Factory($df, $language);
 
         $if = new ILIAS\UI\Implementation\Component\Input\Field\Factory(
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class),
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             new SignalGenerator(),
             $df,
@@ -298,6 +299,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $refinery = new \ILIAS\Refinery\Factory($df, $language);
 
         $if = new ILIAS\UI\Implementation\Component\Input\Field\Factory(
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class),
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             new SignalGenerator(),
             $df,

@@ -16,6 +16,11 @@
 
 export default class Drilldown {
   /**
+   * @type {Set<function(string)>}
+   */
+  #engageListeners = new Set();
+
+  /**
    * @type {DrilldownPersistence}
    */
   #persistence;
@@ -31,47 +36,83 @@ export default class Drilldown {
   #mapping;
 
   /**
-   * @param {jQuery} $
-   * @param {Document} document
+   * @type {string}
+   */
+  #backSignal;
+
+  /**
+   * @param {JQueryEventListener} jqueryEventListener
    * @param {DrilldownPersistence} persistence
    * @param {DrilldownModel} model
    * @param {DrilldownMapping} mapping
    * @param {string} backSignal
    */
-  constructor($, document, persistence, model, mapping, backSignal) {
+  constructor(jqueryEventListener, document, persistence, model, mapping, backSignal) {
     this.#persistence = persistence;
     this.#model = model;
     this.#mapping = mapping;
+    this.#backSignal = backSignal;
 
-    $(document).on(backSignal, () => { this.#upLevel(); });
-    this.#mapping.setFilterHandler(
+    jqueryEventListener.on(document, this.#backSignal, () => { this.#upLevel(); });
+    this.#mapping.maybeAddFilterHandler(
       (e) => {
         if (e.key !== 'Tab' && e.key !== 'Shift') {
           this.#filter(e);
         }
       },
     );
-    this.#mapping.setResizeHandler(() => { this.#apply(); });
+
+    this.parseLevels();
+    this.engageLevel(this.#persistence.read());
+  }
+
+  parseLevels() {
     this.#mapping.parseLevel(
-      (headerDisplayElement, parent, leaves) => this.#model
-        .addLevel(headerDisplayElement, parent, leaves),
+      (headerDisplayElement, parent, leaves, sublist, level) => this.#model
+        .addLevel(headerDisplayElement, parent, leaves, sublist, level),
       (index, text) => this.#model.buildLeaf(index, text),
       (levelId) => {
-        this.#engageLevel(levelId);
+        this.engageLevel(levelId);
       },
     );
-
-    this.#engageLevel(this.#persistence.read());
   }
 
   /**
-   *
-   * @param {integer} levelId
+   * @param {function(string)} callback (receives drilldown-level argument)
+   */
+  removeEngageListener(callback) {
+    if (this.#engageListeners.has(callback)) {
+      this.#engageListeners.delete(callback);
+    }
+  }
+
+  /**
+   * @param {function(string)} callback
+   */
+  addEngageListener(callback) {
+    if (!this.#engageListeners.has(callback)) {
+      this.#engageListeners.add(callback);
+    }
+  }
+
+  /**
+   * Returns the signal which is triggered when the back-nav is clicked.
+   * @returns {string}
+   */
+  getBackSignal() {
+    return this.#backSignal;
+  }
+
+  /**
+   * @param {string} levelId
    * @returns {void}
    */
-  #engageLevel(levelId) {
+  engageLevel(levelId) {
     this.#model.engageLevel(levelId);
     this.#apply();
+    this.#engageListeners.forEach((callback) => {
+      callback(levelId);
+    });
   }
 
   /**
@@ -90,7 +131,7 @@ export default class Drilldown {
    */
   #upLevel() {
     this.#model.upLevel();
-    this.#apply();
+    this.engageLevel(this.#model.getCurrent().id);
   }
 
   /**
