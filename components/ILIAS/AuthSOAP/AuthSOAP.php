@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
-class SOAPAuth implements Component\Component
+class AuthSOAP implements Component\Component
 {
     public function init(
         array | \ArrayAccess &$define,

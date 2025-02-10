@@ -8,7 +8,7 @@
     ],
     "tester": "",
     "testcase_writer": "",
-    "path": "Services/SOAPAuth",
+    "path": "Services/AuthSOAP",
     "belong_to_component": "SOAP",
     "used_in_components": []
 }

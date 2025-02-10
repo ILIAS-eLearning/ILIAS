@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-class ilSOAPAuth
+class ilAuthSOAP
 {
     public static function testConnection(string $a_ext_uid, string $a_soap_pw, bool $a_new_user): string
     {
