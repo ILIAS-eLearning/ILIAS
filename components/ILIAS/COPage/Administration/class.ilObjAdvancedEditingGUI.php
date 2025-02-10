@@ -16,13 +16,13 @@
  *
  *********************************************************************/
 
-use ILIAS\AdvancedEditing\StandardGUIRequest;
+use ILIAS\COPage\AdvancedEditing\StandardGUIRequest;
 
 /**
  * Class ilObjAdvancedEditingGUI
  *
  * @author Helmut Schottmüller <hschottm@gmx.de>
- * @ilCtrl_Calls ilObjAdvancedEditingGUI: ilPermissionGUI
+ * @ilCtrl_Calls ilObjAdvancedEditingGUI: ilPermissionGUI, ilRTESettingsGUI
  */
 class ilObjAdvancedEditingGUI extends ilObjectGUI
 {
@@ -30,6 +30,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
     protected string $cgrp = "";
     protected StandardGUIRequest $std_request;
     protected ilComponentRepository $component_repository;
+    protected ilObjUser $current_user;
 
     public function __construct(
         $a_data,
@@ -40,6 +41,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         global $DIC;
 
         $this->component_repository = $DIC["component.repository"];
+        $this->current_user = $DIC['ilUser'];
 
         $this->type = "adve";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
@@ -68,6 +70,19 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
 
+            case strtolower(ilRTESettingsGUI::class):
+                $rte_gui = new ilRTESettingsGUI(
+                    $this->ref_id,
+                    $this->tpl,
+                    $this->ctrl,
+                    $this->lng,
+                    $this->access,
+                    $this->current_user,
+                    $this->tabs_gui
+                );
+                $rte_gui->$cmd();
+                break;
+
             default:
                 if ($cmd === null || $cmd === "" || $cmd === "view") {
                     $cmd = "showGeneralPageEditorSettings";
@@ -93,39 +108,6 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
     public function getAdminTabs(): void
     {
         $this->getTabs();
-    }
-
-    public function addSubtabs(): void
-    {
-        if ($this->ctrl->getNextClass() !== "ilpermissiongui" &&
-            !in_array($this->ctrl->getCmd(), array(
-                "showPageEditorSettings",
-                "showGeneralPageEditorSettings",
-                "",
-                "view"
-            ), true)) {
-            $this->tabs_gui->addSubTabTarget(
-                "adve_general_settings",
-                $this->ctrl->getLinkTarget($this, "settings"),
-                array("settings", "saveSettings"),
-                "",
-                ""
-            );
-            $this->tabs_gui->addSubTabTarget(
-                "adve_assessment_settings",
-                $this->ctrl->getLinkTarget($this, "assessment"),
-                array("assessment", "saveAssessmentSettings"),
-                "",
-                ""
-            );
-            $this->tabs_gui->addSubTabTarget(
-                "adve_frm_post_settings",
-                $this->ctrl->getLinkTarget($this, "frmPost"),
-                array("frmPost", "saveFrmPostSettings"),
-                "",
-                ""
-            );
-        }
     }
 
     public function addPageEditorSettingsSubtabs(): void
@@ -160,7 +142,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 
             $this->tabs_gui->addTarget(
                 "adve_rte_settings",
-                $this->ctrl->getLinkTarget($this, "settings"),
+                $this->ctrl->getLinkTargetByClass([self::class, ilRTESettingsGUI::class], "settings"),
                 array("settings","assessment", "frmPost"),
                 "",
                 ""
@@ -175,149 +157,6 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
                 'ilpermissiongui'
             );
         }
-        $this->addSubtabs();
-    }
-
-    public function settingsObject(): void
-    {
-        $tpl = $this->tpl;
-        $form = $this->getTinyForm();
-        $tpl->setContent($form->getHTML());
-    }
-
-    public function getTinyForm(): ilPropertyFormGUI
-    {
-        $editor = ilObjAdvancedEditing::_getRichTextEditor();
-        $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this));
-        $form->setTitle($this->lng->txt("adve_activation"));
-        $cb = new ilCheckboxInputGUI($this->lng->txt("adve_use_tiny_mce"), "use_tiny");
-        if ($editor === "tinymce") {
-            $cb->setChecked(true);
-        }
-        $form->addItem($cb);
-        if ($this->checkPermissionBool("write")) {
-            $form->addCommandButton("saveSettings", $this->lng->txt("save"));
-        }
-
-        return $form;
-    }
-
-    public function saveSettingsObject(): void
-    {
-        $this->checkPermission("write");
-
-        $form = $this->getTinyForm();
-        $form->checkInput();
-
-        if ($form->getInput("use_tiny")) {
-            $this->object->setRichTextEditor("tinymce");
-        } else {
-            $this->object->setRichTextEditor("");
-        }
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-
-        $this->ctrl->redirect($this, 'settings');
-    }
-
-    public function assessmentObject(): void
-    {
-        $form = $this->initTagsForm(
-            "assessment",
-            "saveAssessmentSettings",
-            "advanced_editing_assessment_settings"
-        );
-
-        $this->tpl->setContent($form->getHTML());
-    }
-
-    public function saveAssessmentSettingsObject(): void
-    {
-        $form = $this->initTagsForm(
-            "assessment",
-            "saveAssessmentSettings",
-            "advanced_editing_assessment_settings"
-        );
-        if (!$this->saveTags("assessment", "assessment", $form)) {
-            $form->setValuesByPost();
-            $this->tpl->setContent($form->getHTML());
-        }
-    }
-
-    public function frmPostObject(): void
-    {
-        $form = $this->initTagsForm(
-            "frm_post",
-            "saveFrmPostSettings",
-            "advanced_editing_frm_post_settings"
-        );
-
-        $this->tpl->setContent($form->getHTML());
-    }
-
-    public function saveFrmPostSettingsObject(): void
-    {
-        $form = $this->initTagsForm(
-            "frm_post",
-            "saveFrmPostSettings",
-            "advanced_editing_frm_post_settings"
-        );
-        if (!$this->saveTags("frm_post", "frmPost", $form)) {
-            $form->setValuesByPost();
-            $this->tpl->setContent($form->getHTML());
-        }
-    }
-
-    protected function initTagsForm(
-        string $a_id,
-        string $a_cmd,
-        string $a_title
-    ): ilPropertyFormGUI {
-        $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this, $a_cmd));
-        $form->setTitle($this->lng->txt($a_title));
-
-        $alltags = $this->object->getHTMLTags();
-        $alltags = array_combine($alltags, $alltags);
-
-        $tags = new ilMultiSelectInputGUI($this->lng->txt("advanced_editing_allow_html_tags"), "html_tags");
-        $tags->setHeight(400);
-        $tags->enableSelectAll(true);
-        $tags->enableSelectedFirst(true);
-        $tags->setOptions($alltags);
-        $tags->setValue(ilObjAdvancedEditing::_getUsedHTMLTags($a_id));
-        $form->addItem($tags);
-
-        if ($this->access->checkAccess("write", "", $this->object->getRefId())) {
-            $form->addCommandButton($a_cmd, $this->lng->txt("save"));
-        }
-
-        return $form;
-    }
-
-    protected function saveTags(
-        string $a_id,
-        string $a_cmd,
-        ilPropertyFormGUI $form
-    ): bool {
-        $this->checkPermission("write");
-        try {
-            if ($form->checkInput()) {
-                $html_tags = $form->getInput("html_tags");
-                // get rid of select all
-                if (array_key_exists(0, $html_tags) && (string) $html_tags[0] === '') {
-                    unset($html_tags[0]);
-                }
-                $this->object->setUsedHTMLTags((array) $html_tags, $a_id);
-                $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
-            } else {
-                return false;
-            }
-        } catch (ilAdvancedEditingRequiredTagsException $e) {
-            $this->tpl->setOnScreenMessage('info', $e->getMessage(), true);
-        }
-        $this->ctrl->redirect($this, $a_cmd);
-        return true;
     }
 
     public function showPageEditorSettingsObject(): void

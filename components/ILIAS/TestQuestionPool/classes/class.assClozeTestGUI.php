@@ -334,7 +334,7 @@ JS;
         if (!$this->object->getSelfAssessmentEditingMode()) {
             if ($this->object->getAdditionalContentEditingMode() !== assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_IPE) {
                 $cloze_text->setUseRte(true);
-                $cloze_text->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
+                $cloze_text->setRteTags(ilRTESettings::_getUsedHTMLTags("assessment"));
             }
         } else {
             $cloze_text->setRteTags(ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());

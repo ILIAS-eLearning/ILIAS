@@ -33,6 +33,7 @@ abstract class ilExSubmissionBaseGUI
     protected \ILIAS\Exercise\Notification\NotificationManager $notification;
     protected \ILIAS\Exercise\InternalDomainService $domain;
     protected \ILIAS\Exercise\InternalGUIService $gui;
+    protected ilObjUser $user;
     protected ilCtrl $ctrl;
     protected ilTabsGUI $tabs_gui;
     protected ilLanguage $lng;
@@ -59,6 +60,7 @@ abstract class ilExSubmissionBaseGUI
         $this->gui = $service->gui();
         $this->domain = $service->domain();
 
+        $this->user = $this->domain->user();
         $this->ctrl = $this->gui->ctrl();
         $this->tabs_gui = $this->gui->tabs();
         $this->lng = $this->domain->lng();

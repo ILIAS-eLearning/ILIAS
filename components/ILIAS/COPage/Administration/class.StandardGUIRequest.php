@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace ILIAS\AdvancedEditing;
+namespace ILIAS\COPage\AdvancedEditing;
 
 use ILIAS\Repository;
 

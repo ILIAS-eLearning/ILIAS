@@ -899,7 +899,7 @@ abstract class assQuestionGUI
         if (!$this->object->getSelfAssessmentEditingMode()) {
             if ($this->object->getAdditionalContentEditingMode() !== assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_IPE) {
                 $question->setUseRte(true);
-                $question->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags('assessment'));
+                $question->setRteTags(ilRTESettings::_getUsedHTMLTags('assessment'));
                 $question->setRTESupport($this->object->getId(), 'qpl', 'assessment');
             }
         } else {
@@ -1930,7 +1930,7 @@ abstract class assQuestionGUI
             return ilArrayUtil::stripSlashesRecursive(
                 $answer_text,
                 false,
-                ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
+                ilRTESettings::_getUsedHTMLTagsAsString("assessment")
             );
         }
 

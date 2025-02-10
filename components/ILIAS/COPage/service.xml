@@ -41,4 +41,10 @@
 	<crons>
 		<cron id="copg_history_cleanup" class="ilCleanCOPageHistoryCronjob" path="Services/COPage/Cron" />
 	</crons>
+    <objects>
+        <object id="adve" class_name="AdvancedEditing" dir="classes"
+			checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">
+			<parent id="adm" max="1">adm</parent>
+		</object>
+    </objects>
 </service>

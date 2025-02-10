@@ -44,6 +44,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
     protected bool $usePurifier = false;
     protected ?ilHtmlPurifierInterface $Purifier = null;
     protected ?string $root_block_element = null;
+    private ilObjUser $user;
 
     protected array $rte_tag_set = array(
         "mini" => array("strong", "em", "u", "ol", "li", "ul", "blockquote", "a", "p", "span", "br"), // #13286/#17981
@@ -82,6 +83,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
         global $DIC;
 
         $this->lng = $DIC->language();
+        $this->user = $DIC->user();
         parent::__construct($a_title, $a_postvar);
         $this->setType("textarea");
         $this->setRteTagSet("standard");
@@ -359,7 +361,15 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
                 }
 
                 if (count($this->rteSupport) >= 3) {
-                    $rte->addRTESupport($this->rteSupport["obj_id"], $this->rteSupport["obj_type"], $this->rteSupport["module"], false, $this->rteSupport['cfg_template']);
+                    $rte->addRTESupport(
+                        $this->lng,
+                        $this->user,
+                        $this->rteSupport["obj_id"],
+                        $this->rteSupport["obj_type"],
+                        $this->rteSupport["module"],
+                        false,
+                        $this->rteSupport['cfg_template']
+                    );
                 } else {
                     // disable all plugins for mini-tagset
                     if (!array_diff($this->getRteTags(), $this->getRteTagSet("mini"))) {

@@ -16,11 +16,9 @@
  *
  *********************************************************************/
 
-/**
- * Class for advanced editing exception handling in ILIAS.
- *
- * @author Michael Jansen <mjansen@databay.de>
- */
-class ilAdvancedEditingRequiredTagsException extends ilAdvancedEditingException
+declare(strict_types=1);
+
+class ilObjAdvancedEditing extends ilObject
 {
+    protected string $type = 'adve';
 }

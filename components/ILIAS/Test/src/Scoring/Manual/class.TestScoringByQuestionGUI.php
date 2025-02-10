@@ -198,7 +198,7 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
             $feedback_text = \ilUtil::stripSlashes(
                 $form->getInput('feedback'),
                 false,
-                \ilObjAdvancedEditing::_getUsedHTMLTagsAsString('assessment')
+                \ilRTESettings::_getUsedHTMLTagsAsString('assessment')
             );
         }
         if ($new_reached_points !== $previously_reached_points) {
@@ -495,7 +495,7 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
             $this->tpl->addJavaScript($math_jax_setting->get('path_to_mathjax'));
         }
 
-        if (\ilObjAdvancedEditing::_getRichTextEditor() === 'tinymce') {
+        if ((new \ilRTESettings($this->lng, $this->user))->getRichTextEditor() === 'tinymce') {
             $this->initTinymce();
         }
     }
