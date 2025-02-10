@@ -18,24 +18,36 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Block;
+namespace ILIAS\Container\Block;
+
+use ILIAS\Block\BlockSessionRepository;
 
 /**
- * Block data service
+ * Block repo service
  * @author Alexander Killing <killing@leifos.de>
  */
-class InternalDataService
+class InternalRepoService
 {
-    // protected ...\DataFactory ..._factory;
+    protected InternalDataService $data;
+    protected \ilDBInterface $db;
 
-    public function __construct()
+    public function __construct(InternalDataService $data, \ilDBInterface $db)
     {
-        //$this->..._factory = new ...\DataFactory();
+        $this->data = $data;
+        $this->db = $db;
     }
 
     /*
-    public function ...() : ...\...
+    public function ...() : ...\RepoService
     {
-        return $this->..._factory->...();
+        return new ...\RepoService(
+            $this->data,
+            $this->db
+        );
     }*/
+
+    public function blockSession(): BlockSessionRepository
+    {
+        return new BlockSessionRepository();
+    }
 }

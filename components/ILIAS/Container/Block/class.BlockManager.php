@@ -18,36 +18,30 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Block;
-
-use ILIAS\Block\BlockSessionRepository;
+namespace ILIAS\Container\Block;
 
 /**
- * Block repo service
  * @author Alexander Killing <killing@leifos.de>
  */
-class InternalRepoService
+class BlockManager
 {
-    protected InternalDataService $data;
-    protected \ilDBInterface $db;
+    protected BlockSessionRepository $repo;
 
-    public function __construct(InternalDataService $data, \ilDBInterface $db)
+    public function __construct(BlockSessionRepository $repo)
     {
-        $this->data = $data;
-        $this->db = $db;
+        $this->repo = $repo;
     }
 
-    /*
-    public function ...() : ...\RepoService
-    {
-        return new ...\RepoService(
-            $this->data,
-            $this->db
-        );
-    }*/
+    public function setNavPar(
+        string $par,
+        string $val
+    ): void {
+        $this->repo->setNavPar($par, $val);
+    }
 
-    public function blockSession(): BlockSessionRepository
-    {
-        return new BlockSessionRepository();
+    public function getNavPar(
+        string $par
+    ): string {
+        return $this->repo->getNavPar($par);
     }
 }
