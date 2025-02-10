@@ -216,7 +216,7 @@ class ilMultilingualism
     {
         $this->setLanguages(array());
         $set = $this->db->query(
-            "SELECT * FROM il_translations " .
+            "SELECT * FROM il_dt_translations " .
             " WHERE id = " . $this->db->quote($this->getObjId(), "integer") .
             " AND id_type = " . $this->db->quote($this->getType(), "text")
         );
@@ -233,7 +233,7 @@ class ilMultilingualism
     public function delete(): void
     {
         $this->db->manipulate(
-            "DELETE FROM il_translations " .
+            "DELETE FROM il_dt_translations " .
             " WHERE id = " . $this->db->quote($this->getObjId(), "integer") .
             " AND id_type = " . $this->db->quote($this->getType(), "text")
         );
@@ -244,7 +244,7 @@ class ilMultilingualism
         $this->delete();
 
         foreach ($this->getLanguages() as $l => $trans) {
-            $this->db->manipulate($t = "INSERT INTO il_translations " .
+            $this->db->manipulate($t = "INSERT INTO il_dt_translations " .
                 "(id, id_type, title, description, lang_code, lang_default) VALUES (" .
                 $this->db->quote($this->getObjId(), "integer") . "," .
                 $this->db->quote($this->getType(), "text") . "," .

@@ -16,22 +16,23 @@
  *
  *********************************************************************/
 
-declare(strict_types=1);
-
-namespace ILIAS;
-
-class Multilingualism implements Component\Component
+class ilDidacticTemplate11DBUpdateSteps implements \ilDatabaseUpdateSteps
 {
-    public function init(
-        array | \ArrayAccess &$define,
-        array | \ArrayAccess &$implement,
-        array | \ArrayAccess &$use,
-        array | \ArrayAccess &$contribute,
-        array | \ArrayAccess &$seek,
-        array | \ArrayAccess &$provide,
-        array | \ArrayAccess &$pull,
-        array | \ArrayAccess &$internal,
-    ): void {
-        // ...
+    protected \ilDBInterface $db;
+
+    public function prepare(\ilDBInterface $db): void
+    {
+        $this->db = $db;
+    }
+
+    public function step_1(): void
+    {
+        if ($this->db->tableExists('il_translations')
+            && !$this->db->tableExists('il_dt_translations')) {
+            $this->db->renameTable(
+                'il_translations',
+                'il_dt_translations'
+            );
+        }
     }
 }
