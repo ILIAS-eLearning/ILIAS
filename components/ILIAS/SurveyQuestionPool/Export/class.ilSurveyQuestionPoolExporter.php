@@ -37,7 +37,7 @@ class ilSurveyQuestionPoolExporter extends ilXmlExporter
 
         $spl_exp = new ilSurveyQuestionpoolExport($spl, 'xml');
         $spl_exp->buildExportFile();
-        return "";
+        return $spl->toXmlForExport();
     }
 
     public function getXmlExportTailDependencies(
@@ -45,7 +45,7 @@ class ilSurveyQuestionPoolExporter extends ilXmlExporter
         string $a_target_release,
         array $a_ids
     ): array {
-        $deps = [];
+        $dependencies = [];
 
         // service settings
         $deps[] = [
@@ -54,7 +54,34 @@ class ilSurveyQuestionPoolExporter extends ilXmlExporter
             "ids" => $a_ids
         ];
 
-        return $deps;
+        $advmd_ids = [];
+        foreach ($a_ids as $id) {
+            $rec_ids = $this->getActiveAdvMDRecords($id);
+            foreach ($rec_ids as $rec_id) {
+                $advmd_ids[] = $id . ":" . $rec_id;
+            }
+        }
+
+        if ($advmd_ids !== []) {
+            $dependencies[] = [
+                "component" => "components/ILIAS/AdvancedMetaData",
+                "entity" => "advmd",
+                "ids" => $advmd_ids
+            ];
+        }
+
+        $md_ids = [];
+        foreach ($a_ids as $spl_id) {
+            $md_ids[] = $spl_id . ":0:spl";
+        }
+        if ($md_ids !== []) {
+            $dependencies[] = [
+                "component" => "components/ILIAS/MetaData",
+                "entity" => "md",
+                "ids" => $md_ids
+            ];
+        }
+        return $dependencies;
     }
 
     public function getValidSchemaVersions(string $a_entity): array
@@ -67,5 +94,27 @@ class ilSurveyQuestionPoolExporter extends ilXmlExporter
                 "min" => "4.1.0",
                 "max" => "")
         );
+    }
+
+    protected function getActiveAdvMDRecords(int $a_id): array
+    {
+        $active = [];
+        $component = 'spl';
+        foreach (ilAdvancedMDRecord::_getActivatedRecordsByObjectType($component) as $record_obj) {
+            foreach ($record_obj->getAssignedObjectTypes() as $obj_info) {
+                if ($obj_info['obj_type'] == $component && $obj_info['optional'] == 0) {
+                    $active[] = $record_obj->getRecordId();
+                }
+                // local activation
+                if (
+                    $obj_info['obj_type'] == $component &&
+                    $obj_info['optional'] == 1 &&
+                    $a_id == $record_obj->getParentObject()
+                ) {
+                    $active[] = $record_obj->getRecordId();
+                }
+            }
+        }
+        return $active;
     }
 }
