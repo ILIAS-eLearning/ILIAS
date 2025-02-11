@@ -17,6 +17,8 @@
  *********************************************************************/
 
 use ILIAS\SurveyQuestionPool\Editing\EditingGUIRequest;
+use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\HTTP\Services as HTTPServices;
 
 /**
  * Class ilObjSurveyQuestionPoolGUI
@@ -40,6 +42,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
     protected ilNavigationHistory $nav_history;
     protected ilHelpGUI $help;
     protected ilLogger $log;
+    protected RefineryFactory $refinery;
+    protected HTTPServices $http;
     public string $defaultscript;
 
     public function __construct()
@@ -49,6 +53,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         $this->nav_history = $DIC["ilNavigationHistory"];
         $this->toolbar = $DIC->toolbar();
         $this->help = $DIC["ilHelp"];
+        $this->refinery = $DIC->refinery();
+        $this->http = $DIC->http();
 
         $this->edit_request = $DIC->surveyQuestionPool()
             ->internal()
@@ -230,6 +236,18 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("qpl_export_select_none"));
             $this->questionsObject();
         }
+    }
+
+    public function exportQuestionExportTabObject(): void
+    {
+        $qids = $this->http->wrapper()->query()->retrieve(
+            "qid",
+            $this->refinery->custom()->transformation(function (string $value) {
+                $value = urldecode($value);
+                return explode(',', $value);
+            })
+        );
+        $this->createExportFileObject($qids);
     }
 
     /**
