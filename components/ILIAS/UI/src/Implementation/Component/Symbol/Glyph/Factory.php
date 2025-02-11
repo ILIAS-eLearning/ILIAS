@@ -308,4 +308,9 @@ class Factory implements G\Factory
     {
         return new Glyph(G\Glyph::TILE_VIEW, "tile_view", $action);
     }
+
+    public function dragHandle(string $action = null): G\Glyph
+    {
+        return new Glyph(G\Glyph::DRAG_HANDLE, "drag_handle", $action);
+    }
 }

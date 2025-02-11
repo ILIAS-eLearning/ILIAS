@@ -519,3 +519,8 @@ $icon-font-svg-id:        "glyphicons_halflingsregular" !default;
   font-family: il-icons;
   content: "\e909";
 }
+.glyphicon-dragHandle:before {
+  font-family: il-icons;
+  content: "\e90d";
+  cursor: grab;
+}

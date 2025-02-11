@@ -102,6 +102,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         G\Glyph::SORT => "glyphicon glyphicon-sort",
         G\Glyph::COLUMN_SELECTION => "glyphicon glyphicon-columnSelection",
         G\Glyph::TILE_VIEW => "glyphicon glyphicon-tileView",
+        G\Glyph::DRAG_HANDLE => "glyphicon glyphicon-dragHandle",
     );
 
     public static array $aria_labels = array(
@@ -162,6 +163,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         G\Glyph::SORT => "sort",
         G\Glyph::COLUMN_SELECTION => "column_selection",
         G\Glyph::TILE_VIEW => "tile_view",
+        G\Glyph::DRAG_HANDLE => "drag_handle",
     );
 
     /**

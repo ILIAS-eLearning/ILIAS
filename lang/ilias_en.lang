@@ -3991,6 +3991,7 @@ common#:#dpro_withdraw_consent_info_external#:#Please contact the administrator 
 common#:#drafts#:#Drafts
 common#:#drag_file_here#:#Drag-and-drop your file here
 common#:#drag_files_here#:#Drag-and-drop your files here
+common#:#drag_handle#:#Draggable element
 common#:#drop_files_on_repo_obj_info#:#Drop the files here to upload them into this object.
 common#:#edit#:#Edit
 common#:#edit_assignments#:#Edit Assignments
@@ -17367,6 +17368,7 @@ ui#:#ui_md_input_view#:#View
 ui#:#ui_pagination_unlimited#:#Unlimited
 ui#:#ui_select_dropdown_label#:#Please select
 ui#:#ui_table_no_records#:#No records
+ui#:#ui_table_order#:#Order
 ui#:#ui_transcription#:#Transcript
 ui#:#vc_sort#:#Sort by:
 user#:#all_roles_has_starting_point#:#All the roles have starting points

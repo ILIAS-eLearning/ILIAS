@@ -3989,6 +3989,7 @@ common#:#dpro_withdraw_consent_info_external#:#Bitte benachrichtigen Sie den zus
 common#:#drafts#:#Entwürfe
 common#:#drag_file_here#:#Ziehen Sie die Datei in diesen Bereich
 common#:#drag_files_here#:#Ziehen Sie die Dateien in diesen Bereich
+common#:#drag_handle#:#Ziehbares Element
 common#:#drop_files_on_repo_obj_info#:#Ziehen Sie die Dateien hier hin, um sie in dieses Objekt hochzuladen.
 common#:#edit#:#Bearbeiten
 common#:#edit_assignments#:#Übungseinheiten bearbeiten
@@ -17367,6 +17368,7 @@ ui#:#ui_md_input_view#:#Vorschau
 ui#:#ui_pagination_unlimited#:#Unbegrenzt
 ui#:#ui_select_dropdown_label#:#Bitte auswählen
 ui#:#ui_table_no_records#:#Keine Einträge
+ui#:#ui_table_order#:#Reihenfolge
 ui#:#ui_transcription#:#Abschrift
 ui#:#vc_sort#:#Sortiert nach:
 user#:#all_roles_has_starting_point#:#Alle Rollen mit definierter Startseite

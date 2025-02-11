@@ -528,6 +528,10 @@ class Renderer extends AbstractComponentRenderer
         $cell_tpl = $this->getTemplate("tpl.orderingcell.html", true, true);
         $this->fillCells($component, $cell_tpl, $default_renderer);
 
+        $drag_handle = $this->getUIFactory()->symbol()->glyph()->dragHandle();
+        $drag_handle = $default_renderer->render($drag_handle);
+        $cell_tpl->setVariable('DRAG_HANDLE', $drag_handle);
+
         if ($component->isOrderingDisabled()) {
             return $cell_tpl->get();
         }
@@ -543,7 +547,8 @@ class Renderer extends AbstractComponentRenderer
             }
         };
 
-        $input = $this->getUIFactory()->input()->field()->numeric('order')
+        $numeric_label = $this->txt("ui_table_order");
+        $input = $this->getUIFactory()->input()->field()->numeric($numeric_label)
             ->withDedicatedName($component->getId())
             ->withNameFrom($namesource)
             ->withValue($component->getPosition() * 10);
@@ -643,6 +648,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('TITLE', $component->getTitle());
         $tpl->setVariable('COL_COUNT', (string) $component->getColumnCount());
         $tpl->setVariable('VIEW_CONTROLS', $default_renderer->render($view_controls));
+
 
         $columns = $component->getVisibleColumns();
         foreach ($columns as $col_id => $col) {
