@@ -34,9 +34,6 @@ class ilSurveyQuestionPoolExporter extends ilXmlExporter
     ): string {
         $spl = new ilObjSurveyQuestionPool($a_id, false);
         $spl->loadFromDb();
-
-        $spl_exp = new ilSurveyQuestionpoolExport($spl, 'xml');
-        $spl_exp->buildExportFile();
         return $spl->toXmlForExport();
     }
 
