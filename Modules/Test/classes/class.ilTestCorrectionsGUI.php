@@ -286,7 +286,10 @@ class ilTestCorrectionsGUI
         $this->main_tpl->parseCurrentBlock();
     }
 
-    protected function showAnswerStatistic($participant_results = null)
+    /**
+     * @param null|array<int, ilTestEvaluationUserData> $participant_results
+     */
+    protected function showAnswerStatistic(?array $participant_results = null)
     {
         $questionGUI = $this->getQuestion((int) $this->testrequest->raw('qid'));
         $solutions = $participant_results
