@@ -125,6 +125,8 @@ $il-table-presentation-details-viewcontrols-btn-bg: white;
 // ==========
 //
 
+$table-ordering__inset-row__shadow: inset 0px 0px 14px 2px #00000063;
+
 //
 // Basic Table Design
 //
@@ -153,7 +155,8 @@ $il-table-presentation-details-viewcontrols-btn-bg: white;
 }
 
 // hover row on larger screens only
-.c-table-data__row:hover td.c-table-data__cell {
+.c-table-ordering:not(.dragInProgress) .c-table-data__row:hover td.c-table-data__cell,
+.c-table-data .c-table-data__row:hover td.c-table-data__cell {
     @include brk.on-screen-size(medium) {
         background-color: $il-main-darker-bg;
     }
@@ -265,7 +268,6 @@ th.c-table-data__cell:after {
         height: 100%;
         width: 5px;
         background: linear-gradient(90deg, rgba(0, 0, 0, 0.1294117647), transparent);
-        z-index: 2;
     }
 }
 
@@ -278,7 +280,6 @@ th.c-table-data__cell:after {
     position: -webkit-sticky;
     position: sticky;
     left: -1px; // so text doesn't glitch through on left edge
-    z-index: 2;
 }
 
 .c-table-data__positioninput {
@@ -362,7 +363,8 @@ td.c-table-data__cell--highlighted {
     background-color: $il-main-dark-bg;
 }
 // hover on larger screens only
-.c-table-data__row:hover td.c-table-data__cell--highlighted {
+.c-table-data .c-table-data__row:hover td.c-table-data__cell--highlighted,
+.c-table-ordering:not(.dragInProgress) .c-table-data__row:hover td.c-table-data__cell--highlighted {
     @include brk.on-screen-size(medium) {
         background-color: darken($il-main-darker-bg, 7%);
     }
@@ -405,6 +407,8 @@ td.c-table-data__cell--highlighted {
         .c-table-data__table {
             border-bottom: 1px solid $il-main-border-color;
         }
+
+
 
         //
         // Table Header
@@ -451,7 +455,6 @@ td.c-table-data__cell--highlighted {
         //
         // Row Selection & Multiaction (pull to top)
         //
-
         .c-table-data__rowselection,
         .c-table-data__rowaction {
             order: -1;
@@ -460,5 +463,45 @@ td.c-table-data__cell--highlighted {
         .c-table-data__rowaction {
             margin-left: auto;
         }
+    }
+}
+
+// for drag and drop
+tr.c-table-data__row.c-table-data__row {
+    &--touch-drag-image,
+    &--drag-image {
+        border: 2px solid $il-focus-color;
+        pointer-events: none;
+        position: fixed;
+        background-color: $il-main-bg;
+        box-shadow: $il-shadow--large;
+    }
+    &--drag-origin {
+        opacity: .5;
+        background-color: $il-main-darker-bg;
+        box-shadow: $table-ordering__inset-row__shadow;
+        td {
+            background: transparent;
+        }
+    }
+    &--placeholder {
+        box-shadow: $table-ordering__inset-row__shadow;
+        height: 25px;
+        td {
+            background-color: transparent;
+        }
+    }
+    &--drag-settle {
+        animation: drag-settle;
+        animation-duration: 0.2s;
+    }
+}
+
+@keyframes drag-settle {
+    0% {
+        transform: scale(1.3);
+    }
+    100% {
+        transform: scale(1);
     }
 }
