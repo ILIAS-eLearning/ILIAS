@@ -39,6 +39,10 @@ class Group1 extends Group
 
 class Group2 extends Group
 {
+    public function isClientSideValueOk($value): bool
+    {
+        return parent::isClientSideValueOk($value);
+    }
 }
 
 class SwitchableGroupInputTest extends ILIAS_UI_TestBase
@@ -186,12 +190,15 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
             ->expects($this->never())
             ->method("withValue");
         $this->child2
+            ->method('isClientSideValueOk')
+            ->willReturn(true);
+        $this->child2
             ->expects($this->once())
             ->method("withValue")
-            ->with(2)
+            ->with([2])
             ->willReturn($this->child2);
 
-        $new_group = $this->switchable_group->withValue(["child2", 2]);
+        $new_group = $this->switchable_group->withValue(["child2", [2]]);
 
         $this->assertEquals(["child1" => $this->child1, "child2" => $this->child2], $new_group->getInputs());
         $this->assertInstanceOf(SwitchableGroup::class, $new_group);
