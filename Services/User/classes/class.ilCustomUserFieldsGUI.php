@@ -363,7 +363,7 @@ class ilCustomUserFieldsGUI
                     break;
 
                 default:
-                    $plugin = ilCustomUserFieldsHelper::getInstance()->getPluginForType($udf_type);
+                    $plugin = ilCustomUserFieldsHelper::getInstance()->getPluginForType((string) $udf_type);
                     if ($plugin instanceof ilUDFDefinitionPlugin) {
                         $form->setTitle($plugin->getDefinitionUpdateFormTitle());
                     }
@@ -461,7 +461,7 @@ class ilCustomUserFieldsGUI
             $new_id = $user_field_definitions->add();
 
             if ($user_field_definitions->isPluginType()) {
-                $plugin = ilCustomUserFieldsHelper::getInstance()->getPluginForType($user_field_definitions->getFieldType());
+                $plugin = ilCustomUserFieldsHelper::getInstance()->getPluginForType((string) $user_field_definitions->getFieldType());
                 if ($plugin instanceof ilUDFDefinitionPlugin) {
                     $plugin->updateDefinitionFromForm($form, $new_id);
                 }
@@ -607,7 +607,7 @@ class ilCustomUserFieldsGUI
             $user_field_definitions->update($this->field_id);
 
             if ($user_field_definitions->isPluginType()) {
-                $plugin = ilCustomUserFieldsHelper::getInstance()->getPluginForType($user_field_definitions->getFieldType());
+                $plugin = ilCustomUserFieldsHelper::getInstance()->getPluginForType((string) $user_field_definitions->getFieldType());
                 if ($plugin instanceof ilUDFDefinitionPlugin) {
                     $plugin->updateDefinitionFromForm($form, $this->field_id);
                 }
