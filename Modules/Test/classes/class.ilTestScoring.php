@@ -198,7 +198,7 @@ class ilTestScoring
                 ['integer', 'integer'],
                 [$active_id, $pass]
             );
-            $values['points'] = ['float', (float) $result->fetchAssoc()['reachedpoints'] || 0];
+            $values['points'] = ['float', (float) $result->fetchAssoc()['reachedpoints'] ?? 0.0];
         }
 
         $this->db->update(
