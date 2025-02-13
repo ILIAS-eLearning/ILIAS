@@ -1809,7 +1809,7 @@ class ilObjectListGUI
         if ($this->std_cmd_only
             || $this->user->getId() === ANONYMOUS_USER_ID
             || !$this->getContainerObject() instanceof ilDesktopItemHandling
-            || $this->settings->get('rep_favourites', '0') === '0') {
+            || $this->settings->get('rep_favourites', '0') !== '1') {
             return;
         }
 
