@@ -473,7 +473,11 @@ class ilAssQuestionSkillAssignmentsGUI
 
         $form->setQuestion($question);
         $form->setAssignment($assignment);
-        $form->setManipulationEnabled($this->isAssignmentEditingEnabled());
+
+        $form->setManipulationEnabled(
+            $this->isAssignmentEditingEnabled()
+            && $question->getOriginalId() === null
+        );
 
         $form->build();
 
@@ -559,6 +563,7 @@ class ilAssQuestionSkillAssignmentsGUI
     {
         $table = new ilAssQuestionSkillAssignmentsTableGUI($this, self::CMD_SHOW_SKILL_QUEST_ASSIGNS, $this->ctrl, $this->lng);
         $table->setManipulationsEnabled($this->isAssignmentEditingEnabled());
+        $table->setManipulationAllowedList($this->buildManipulationAllowedList());
         $table->init();
 
         return $table;
@@ -570,6 +575,19 @@ class ilAssQuestionSkillAssignmentsGUI
         $assignmentList->setParentObjId($this->getQuestionContainerId());
 
         return $assignmentList;
+    }
+
+    /**
+     * Questions from a question pool may not be edited (JF 3 MAR 2024) and are filtered out here.
+     *
+     * @return array<int, bool>
+     */
+    private function buildManipulationAllowedList(): array
+    {
+        return array_map(
+            static fn(array $questionData) => $questionData['original_id'] === null,
+            $this->questionList->getQuestionDataArray()
+        );
     }
 
     /**
