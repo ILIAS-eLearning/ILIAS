@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Repository\Administration\AdministrationGUIRequest;
 use ILIAS\HTTP\GlobalHttpState;
@@ -313,7 +313,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $fav = $f->checkbox(
             $this->lng->txt("rep_favourites"),
             $this->lng->txt("rep_favourites_info")
-        )->withValue((bool) $ilSetting->get("rep_favourites"));
+        )->withValue($ilSetting->get("rep_favourites", "0") === "1");
 
         //TODO split this up into two sections
         $settings = $f->section(
@@ -422,7 +422,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 
             $ilSetting->set(
                 "rep_favourites",
-                (string) $data["rep_favourites"]
+                $data["rep_favourites"] ? "1" : "0"
             );
 
             if ($data["rep_export_limitation"][0] === 'rep_export_unlimited') {
