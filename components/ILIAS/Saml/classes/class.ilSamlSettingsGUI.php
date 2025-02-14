@@ -554,7 +554,7 @@ final class ilSamlSettingsGUI
         $this->showSettings($form);
     }
 
-    private function showSettings(StandardForm $form = null): void
+    private function showSettings(?StandardForm $form = null): void
     {
         if (!$form) {
             $form = $this->getSettingsForm([
