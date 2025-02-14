@@ -20,12 +20,13 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Input\Field\Image;
 
 use ILIAS\Data\ImagePurpose;
+use ILIAS\UI\URLBuilder;
 
 /**
  * ---
  * description: >
- *   The example shows how to create and render a Image Field for images where the purpose
- *   is user-defined and attach it to a Standard Form. The example does not show data processing.
+ *   The example shows how to create and render a Image Field and attach it to a Standard Form.
+ *   The example also shows data processing.
  *
  * expected output: >
  *   ILIAS shows the Image Field inside a Standard Form. Its label and byline are correctly
@@ -34,17 +35,25 @@ use ILIAS\Data\ImagePurpose;
  *   clicking Shy Button inside it, which opens a file browser window. Once you have choosen
  *   a file, a new file entry above the discernible box will show appear. Clicking the Glyph
  *   next to the name of your file will expand the entry further. Another Switchable Group Field
- *   becomes visible, which is required and must be used to define the image purpose. The option
- *   for informative images should show another Textarea Field which is required and the option
- *   for decorative images should not show any more Fields.
+ *   becomes visible, which can be used to provide more information about the image. Once
+ *   information has been filled out and the Form is submitted, the output should become
+ *   visible above the Standard Form.
  * ---
  */
-function user_defined(): string
+function base(): string
 {
     global $DIC;
 
+    $http = $DIC->http();
     $factory = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
+    $get_request = $http->wrapper()->query();
+    $data_factory = new \ILIAS\Data\Factory();
+    $refinery_factory = new \ILIAS\Refinery\Factory($data_factory, $DIC->language());
+
+    $example_uri = $data_factory->uri((string) $http->request()->getUri());
+    $url_builder = new URLBuilder($example_uri);
+    [$url_builder, $token] = $url_builder->acquireParameter(explode('\\', __NAMESPACE__), "process");
 
     $input = $factory->input()->field()->image(
         new \ilUIDemoFileUploadHandlerGUI(),
@@ -53,7 +62,18 @@ function user_defined(): string
         'Please provide an alternate text if necessary.',
     );
 
-    $form = $factory->input()->container()->form()->standard("#", [$input]);
+    $form = $factory->input()->container()->form()->standard(
+        (string) $url_builder->withParameter($token, '1')->buildURI(),
+        [$input]
+    );
 
-    return $renderer->render($form);
+    // simulates a form processing endpoint:
+    if ($get_request->has($token->getName())) {
+        $form = $form->withRequest($http->request());
+        $data = $form->getData();
+    } else {
+        $data = 'No submitted data yet.';
+    }
+
+    return '<pre>' . print_r($data, true) . '</pre>' . $renderer->render($form);
 }

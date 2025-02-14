@@ -17236,6 +17236,10 @@ ui#:#footer_link_groups#:#Footer Link-Gruppen
 ui#:#footer_links#:#Footer Links
 ui#:#footer_permanent_link#:#Footer Permanent Link
 ui#:#footer_texts#:#Footer Texte
+ui#:#image_alt_text#:#Alternativtext
+ui#:#image_purpose_decorative#:#Dekoratives Bild
+ui#:#image_purpose_informative#:#Informatives Bild
+ui#:#image_purpose_user_defined#:#Verwendungszweck
 ui#:#label_fieldselection#:#Spaltenauswahl
 ui#:#label_fieldselection_refresh#:#Anwenden
 ui#:#label_modeviewcontrol#:#Anzeigemodus

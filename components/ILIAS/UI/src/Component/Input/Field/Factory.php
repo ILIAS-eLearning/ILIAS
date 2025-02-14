@@ -584,18 +584,17 @@ interface Factory
      *     user device storage.
      *   composition: >
      *     The File Field consists of a Dropzone and a Shy Button. Uploaded files
-     *     are listed in an EntityListing above the input, featuring the files
-     *     most important information like title, size and type. Optionally, each
-     *     entry may contain an epandable content area, featuring the provided
+     *     are listed in a file entry above the input, featuring the files most
+     *     important information like title, size and type. Optionally, each
+     *     entry may contain an expandable content area, featuring the provided
      *     metadata input. Among each entry there are several Glyphs, to expand,
      *     collapse or remove the corresponding entry.
      *   effect: >
      *     Clicking the Shy Button opens the browsers file dialog, letting the
      *     user choose files from their device. Depending on the provided mime-
      *     types, only certain files will be selectable in this dialog.
-     *     Dragging files from the device into the browser window, where ILIAS
-     *     is open, will highlight the Dropzone where they can be dropped.
-     *     Dropping files will create a new entry inside the PropertyListing.
+     *     Dragging files into the Dropzone and dropping them will create a new file
+     *     entry above the Shy Button.
      *     Clicking the expand/collapse Glyphs will reveal or hide the file
      *     entry's metadata input.
      *     Clicking the removal Glyph will delete the file entry from the list.
@@ -623,7 +622,6 @@ interface Factory
      *
      * context:
      *   - Upload icons for items in the MainBar (https://docu.ilias.de/goto_docu_wiki_wpage_3993_1357.html)
-     *
      * ---
      * @param UploadHandler $handler
      * @param string        $label
@@ -647,19 +645,17 @@ interface Factory
      *     screen readers depending on the image purpose.
      *   composition: >
      *     The Image Field consists of a Dropzone and a Shy Button. Uploaded files
-     *     are listed in an EntityListing above the input, featuring an image
-     *     preview and the files most important information like title, size and type.
-     *     Optionally, each entry may contain an epandable content area, featuring
+     *     are listed in a file entry above the input, featuring the most important
+     *     information like title, size and type.
+     *     Optionally, each entry may contain an expandable content area, featuring
      *     some additional inputs, depending on the image purpose and metadata input.
-     *     Among each entry there are several Glyphs, to expand, collapse or remove
-     *     the corresponding entry.
+     *     Among each entry there are Glyphs to expand, collapse or remove it.
      *   effect: >
      *     Clicking the Shy Button opens the browsers file dialog, letting the
      *     user choose files from their device. Depending on the provided mime-
      *     types, only certain images will be selectable in this dialog.
-     *     Dragging files from the device into the browser window, where ILIAS
-     *     is open, will highlight the Dropzone where they can be dropped.
-     *     Dropping files will create a new entry inside the PropertyListing.
+     *     Dragging files into the Dropzone and dropping them will create a new file
+     *     entry above the Shy Button.
      *     Clicking the expand/collapse Glyphs will reveal or hide the file
      *     entrys additional inputs.
      *     Clicking the removal Glyph will delete the file entry from the list.
@@ -690,9 +686,8 @@ interface Factory
      *     1: The input MUST be operable using the keyboard only.
      *
      * context:
-     *   - Page editor: >
-     *       this input will be used inside the ILIAS page editor to encourage users
-     *       to provide alternate texts, depending on the image purpose.
+     *   - this input will be used inside the ILIAS page editor to encourage users
+     *     to provide alternate texts, depending on the image purpose.
      *
      * background: https://docu.ilias.de/goto_docu_wiki_wpage_5882_1357.html
      * ---

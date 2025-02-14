@@ -28,7 +28,6 @@ use ILIAS\UI\Component\Input\Field\UploadHandler;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\Language\Language;
 use ILIAS\Data\ImagePurpose;
-use ILIAS\UI\Component\Input\Field\Image;
 
 class Factory implements I\Factory
 {
@@ -129,7 +128,6 @@ class Factory implements I\Factory
             $this,
             $this->refinery,
             $this->upload_limit_resolver,
-            $this,
             $handler,
             $label,
             $metadata_input,
@@ -144,7 +142,18 @@ class Factory implements I\Factory
         ?string $byline = null,
         FormInput $metadata_input = null
     ): Image {
-        throw new \ILIAS\UI\NotImplementedException();
+        return new Image(
+            $this->lng,
+            $this->data_factory,
+            $this,
+            $this->refinery,
+            $this->upload_limit_resolver,
+            $upload_handler,
+            $image_purpose,
+            $label,
+            $metadata_input,
+            $byline,
+        );
     }
 
     public function url(string $label, ?string $byline = null): Url

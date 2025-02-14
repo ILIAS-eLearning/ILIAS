@@ -17243,6 +17243,10 @@ ui#:#footer_link_groups#:#Footer Link-Groups
 ui#:#footer_links#:#Footer Links
 ui#:#footer_permanent_link#:#Footer Permanent Link
 ui#:#footer_texts#:#Footer Texts
+ui#:#image_alt_text#:#Alternate Text
+ui#:#image_purpose_decorative#:#Decorative Image
+ui#:#image_purpose_informative#:#Informative Image
+ui#:#image_purpose_user_defined#:#Image Purpose
 ui#:#label_fieldselection#:#Field Selection
 ui#:#label_fieldselection_refresh#:#Apply
 ui#:#label_modeviewcontrol#:#view mode
