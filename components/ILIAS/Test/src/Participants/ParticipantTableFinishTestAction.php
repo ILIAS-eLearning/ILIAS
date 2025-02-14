@@ -119,14 +119,6 @@ class ParticipantTableFinishTestAction implements TableAction
             return null;
         }
 
-        // This is required here because of late test object binding
-        $test_session_factory = new \ilTestSessionFactory(
-            $this->test_obj,
-            $this->db,
-            $this->user
-        );
-
-        // If reset processing time is disabled it's not allowed to finish multiple attempts at once while one is still running
         if (!$this->test_obj->getResetProcessingTime() && count($selected_participants) > 1) {
             foreach ($selected_participants as $participant) {
                 if ($participant->hasUnfinishedAttempts()) {
@@ -139,6 +131,13 @@ class ParticipantTableFinishTestAction implements TableAction
                 }
             }
         }
+
+        // This is required here because of late test object binding
+        $test_session_factory = new \ilTestSessionFactory(
+            $this->test_obj,
+            $this->db,
+            $this->user
+        );
 
         foreach ($selected_participants as $participant) {
             $process_locker = $this->process_locker_factory->withContextId($participant->getActiveId())->getLocker();
