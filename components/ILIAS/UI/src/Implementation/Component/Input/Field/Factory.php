@@ -129,6 +129,7 @@ class Factory implements I\Factory
             $this,
             $this->refinery,
             $this->upload_limit_resolver,
+            $this,
             $handler,
             $label,
             $metadata_input,
