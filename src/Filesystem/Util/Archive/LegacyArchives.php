@@ -77,7 +77,7 @@ final class LegacyArchives
         $zip->addDirectory($directory_to_zip);
         $zip_stream = $zip->get();
 
-        return file_put_contents($path_to_output_zip, $zip_stream->getContents()) > 0;
+        return $zip_stream->getSize() > 0;
     }
 
     /**
