@@ -259,6 +259,7 @@ administration#:#language_scope_unchanged#:#Unchanged entries only
 administration#:#language_scope_unchanged_info#:#Export all default language entries that are not changed in the database. This is the opposite to ‘Local changes only’. Both together are a complete backup of the current language in the database.
 administration#:#language_settings#:#Language Settings
 administration#:#language_statistics#:#Statistics
+administration#:#language_translation#:#Page translation
 administration#:#language_translation_enabled#:#Page translation enabled
 administration#:#language_variables_saved#:#The changes to the language variables were saved successfully.
 administration#:#log_scan#:#Log scan results

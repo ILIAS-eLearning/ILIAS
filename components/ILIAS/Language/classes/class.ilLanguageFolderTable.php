@@ -43,6 +43,7 @@ class ilLanguageFolderTable implements DataTableInterface\DataRetrieval
     protected ilLanguage $lng;
     protected ilObjLanguageFolder $folder;
     protected ilCtrlInterface $ctrl;
+    protected ilSetting $ilSetting;
 
     public function __construct(
         ilObjLanguageFolder $a_folder,
@@ -58,6 +59,7 @@ class ilLanguageFolderTable implements DataTableInterface\DataRetrieval
         $this->action_token = $action_token;
         $this->row_id_token = $row_id_token;
         $this->ctrl = $DIC->ctrl();
+        $this->ilSetting = $DIC->settings();
     }
 
     public function getTable(): DataTable\Data
@@ -72,10 +74,21 @@ class ilLanguageFolderTable implements DataTableInterface\DataRetrieval
     protected function getColums(): array
     {
         $f = $this->ui_factory;
+        $icon_yes = $f->symbol()->icon()->custom(
+            'assets/images/standard/icon_checked.svg',
+            $this->lng->txt('yes'),
+            'small'
+        );
+        $icon_no = $f->symbol()->icon()->custom(
+            'assets/images/standard/icon_unchecked.svg',
+            $this->lng->txt('no'),
+            'small'
+        );
         return [
             'language' => $f->table()->column()->link($this->lng->txt("language"))->withIsSortable(false),
             'status' => $f->table()->column()->text($this->lng->txt("status"))->withIsSortable(false),
             'users' => $f->table()->column()->text($this->lng->txt("users"))->withIsSortable(false),
+            'page_translation' => $f->table()->column()->boolean($this->lng->txt("language_translation"), $icon_yes, $icon_no)->withIsSortable(false),
             'last_refresh' => $f->table()->column()->text($this->lng->txt("last_refresh"))->withIsSortable(false),
             'last_change' => $f->table()->column()->text($this->lng->txt("last_change"))->withIsSortable(false)
         ];
@@ -159,6 +172,12 @@ class ilLanguageFolderTable implements DataTableInterface\DataRetrieval
             $record['language'] = $this->ui_factory->link()->standard($language, $to_language)->withDisabled();
 
             $record['status'] = $this->lng->txt($record['desc']);
+
+            $record['page_translation'] = false;
+            if ($this->ilSetting->get("lang_translate_" . $record["key"])) {
+                $record['page_translation'] = true;
+            }
+
             $record['users'] = ilObjLanguage::countUsers($record["key"]);
             if ($record["desc"] !== "not_installed") {
                 $record['language'] = $record['language']->withDisabled(false);

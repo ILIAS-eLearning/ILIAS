@@ -259,6 +259,7 @@ administration#:#language_scope_unchanged#:#Unveränderte Einträge
 administration#:#language_scope_unchanged_info#:#Exportiert alle Datenbank-Einträge, die gegenüber den Standardwerten nicht verändert wurden. Dies ist das Gegenteil zu "Nur lokale Änderungen". Beide Dateien zusammen ergeben ein Gesamt-Backup der Sprache in der Datenbank.
 administration#:#language_settings#:#Spracheinstellungen
 administration#:#language_statistics#:#Statistik
+administration#:#language_translation#:#Seitenübersetzung
 administration#:#language_translation_enabled#:#Seitenübersetzung aktiviert
 administration#:#language_variables_saved#:#Die Änderungen an den Sprachvariablen wurden erfolgreich gespeichert.
 administration#:#log_scan#:#Untersuchungsergebnisse festhalten
