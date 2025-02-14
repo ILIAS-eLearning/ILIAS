@@ -148,8 +148,7 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
                         }
                     }
                 }
-                // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-                // $this->ctrl->setCmd("export");
+
                 ilUtil::redirect("ilias.php?baseClass=ilSAHSEditGUI&cmd=export&ref_id=" . $this->refId);
                 break;
 

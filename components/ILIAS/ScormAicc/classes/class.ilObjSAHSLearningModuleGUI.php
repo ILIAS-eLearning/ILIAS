@@ -180,9 +180,10 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
     protected function infoScreen(): void
     {
-        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-        // $this->ctrl->setCmd("showSummary");
-        // $this->ctrl->setCmdClass("ilinfoscreengui");
+        if (strtolower($this->ctrl->getCmd() ?? '') === 'infoscreen') {
+            $this->ctrl->redirectByClass(ilInfoScreenGUI::class, 'showSummary');
+        }
+
         $this->infoScreenForward();
     }
 

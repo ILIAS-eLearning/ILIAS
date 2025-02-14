@@ -174,9 +174,10 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
      */
     public function infoScreen(): void
     {
-        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-        // $this->ctrl->setCmd("showSummary");
-        // $this->ctrl->setCmdClass("ilinfoscreengui");
+        if (strtolower($this->ctrl->getCmd() ?? '') === 'infoscreen') {
+            $this->ctrl->redirectByClass(ilInfoScreenGUI::class, 'showSummary');
+        }
+
         $this->outputInfoScreen();
     }
 
@@ -250,20 +251,14 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
     {
         global $DIC;
         $ilAccess = $DIC->access();
-        $refId = $this->refId;//$this->slm_gui->object->getRefId();
-
-        //$this->tpl->setHeaderPageTitle("PAGETITLE", " - ".$this->lm->getTitle());
-
-        // set style sheets
-        //        $this->tpl->setStyleSheetLocation(ilUtil::getStyleSheetLocation());
-
+        $refId = $this->refId;
+        
         $this->setInfoTabs("info_short");
 
         $this->lng->loadLanguageModule("meta");
 
         $info = new ilInfoScreenGUI($this->slm_gui);
         $info->enablePrivateNotes();
-        //$info->enableLearningProgress();
 
         $info->enableNews();
         if ($ilAccess->checkAccess("write", "", $refId)) {
@@ -288,7 +283,6 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
             $this->slm_gui->getObject()->getType()
         );
 
-        // forward the command
         $this->ctrl->forwardCommand($info);
         $this->tpl->printToStdout();
     }
