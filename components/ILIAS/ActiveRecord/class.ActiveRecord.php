@@ -17,12 +17,11 @@
  *********************************************************************/
 
 /**
- * Class ActiveRecord
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @author  Oskar Truffer <ot@studer-raimann.ch>
- * @experimental
- * @description
- * @version 2.0.7
+ * @depracated This service is now deprecated and will be removed with ILIAS 12 or 13 (depending on how quickly users
+ * can replace their implementations). The ActiveRecord was a simple way of handling database operations and object
+ * mapping in its day. However, the pattern is not very lightweight and has a very large overhead. It also leads to
+ * many database queries and high memory consumption. For several releases now, the “Repository Pattern” has been
+ * propagated as a better alternative.
  */
 #[\AllowDynamicProperties]
 abstract class ActiveRecord
