@@ -764,14 +764,13 @@ class Renderer extends AbstractComponentRenderer
         return $this->wrapInFormContext($component, $component->getLabel(), $tpl->get(), $label_id);
     }
 
-    protected function renderFileField(FI\File $input, RendererInterface $default_renderer): string
+    protected function renderFileField(F\File $input, RendererInterface $default_renderer): string
     {
         $template = $this->getTemplate('tpl.file.html', true, true);
         foreach ($input->getDynamicInputs() as $metadata_input) {
             $file_info = null;
             if (null !== ($data = $metadata_input->getValue())) {
-                $file_id = (!$input->hasMetadataInputs()) ?
-                    $data : $data[$input->getUploadHandler()->getFileIdentifierParameterName()] ?? null;
+                $file_id = (!$input->hasMetadataInputs()) ? $data : $data[0] ?? null;
 
                 if (null !== $file_id) {
                     $file_info = $input->getUploadHandler()->getInfoResult($file_id);

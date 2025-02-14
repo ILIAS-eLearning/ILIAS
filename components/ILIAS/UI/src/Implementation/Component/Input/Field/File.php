@@ -55,6 +55,7 @@ class File extends HasDynamicInputsBase implements C\Input\Field\File
         DataFactory $data_factory,
         Refinery $refinery,
         UploadLimitResolver $upload_limit_resolver,
+        Factory $field_factory,
         C\Input\Field\UploadHandler $handler,
         string $label,
         ?FormInput $metadata_input,
@@ -73,7 +74,7 @@ class File extends HasDynamicInputsBase implements C\Input\Field\File
             $data_factory,
             $refinery,
             $label,
-            $this->createDynamicInputsTemplate($metadata_input),
+            $this->createDynamicInputsTemplate($field_factory, $metadata_input),
             $byline
         );
     }
@@ -142,9 +143,8 @@ class File extends HasDynamicInputsBase implements C\Input\Field\File
         $this->checkArg("value", $this->isClientSideValueOk($value), "Display value does not match input type.");
 
         $clone = clone $this;
-        $identifier_key = $clone->upload_handler->getFileIdentifierParameterName();
         foreach ($value as $data) {
-            $file_id = ($clone->hasMetadataInputs()) ? $data[$identifier_key] : $data;
+            $file_id = ($clone->hasMetadataInputs()) ? $data[0] : $data;
 
             // that was not implicitly intended, but mapping dynamic inputs
             // to the file-id is also a duplicate protection.
@@ -210,53 +210,26 @@ class File extends HasDynamicInputsBase implements C\Input\Field\File
             if (!is_string($data) && !$this->hasMetadataInputs()) {
                 return false;
             }
-
-            if ($this->hasMetadataInputs()) {
-                // if a dynamic input template was provided, the values
-                // must all contain the file-id as an array entry.
-                if (!array_key_exists($this->upload_handler->getFileIdentifierParameterName(), $data)) {
-                    return false;
-                }
-
-                // if a dynamic input template was provided, the values
-                // must be valid for the template input.
-                if (!$this->dynamic_input_template->isClientSideValueOk($data)) {
-                    return false;
-                }
+            // if a dynamic input template was provided, the values
+            // must be valid for the template input.
+            if ($this->hasMetadataInputs() && !$this->dynamic_input_template->isClientSideValueOk($data)) {
+                return false;
             }
         }
 
         return true;
     }
 
-    protected function createDynamicInputsTemplate(?FormInput $metadata_input): FormInput
+    protected function createDynamicInputsTemplate(Factory $field_factory, ?FormInput $metadata_input): FormInput
     {
-        $default_metadata_input = new Hidden(
-            $this->data_factory,
-            $this->refinery
-        );
+        $file_id_input = $field_factory->hidden();
 
         if (null === $metadata_input) {
-            return $default_metadata_input;
+            return $file_id_input;
         }
 
-        $inputs = ($metadata_input instanceof C\Input\Field\Group) ?
-            $metadata_input->getInputs() : [
-                $metadata_input,
-            ];
-
-        // map the file-id input to the UploadHandlers identifier key.
-        $inputs[$this->upload_handler->getFileIdentifierParameterName()] = $default_metadata_input;
-
-        // tell the input that it contains actual metadata inputs.
         $this->has_metadata_inputs = true;
 
-        return new Group(
-            $this->data_factory,
-            $this->refinery,
-            $this->language,
-            $inputs,
-            ''
-        );
+        return $field_factory->group([$file_id_input, $metadata_input]);
     }
 }
