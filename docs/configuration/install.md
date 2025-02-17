@@ -686,29 +686,29 @@ We strongly recommend using MariaDB instead of MySQL due to performance, licensi
 <a name="configurate-cron"></a>
 ## Configure Cron Jobs
 
-This step configures the execution of the cron job, which can be set to perform tasks, such as sending
-notifications.
-You can manage these tasks in the ILIAS Administration under "Administration > General Settings > Cron Jobs".
+This step configures the execution of the ILIAS Cron Jobs, which can be set to perform tasks, such as sending notifications.
+You can manage these jobs in the ILIAS Administration under "Administration > General Settings > Cron Jobs".
 
-To test the execution of the cron job manager, the following command MUST be used:
+To test the execution of the Cron Jobs Executable `./cli/cron.php`, the following command can be used:
 
 ```shell
 php /var/www/ilias/cli/cron.php run-jobs <user> <client_id> run-jobs
 ```
 
-The `<user>` MUST be a valid, arbitrary user account within the ILIAS installation.
-The `<client_id>` MUST correspond to the client ID of the ILIAS installation.
+The `<user>` is a valid, arbitrary user account within the ILIAS installation.
+The `<client_id>` corresponds to the client ID of the ILIAS installation.
 
-To configure an automated cron job in your system, you need to create a user in ILIAS for example named `cron`.
-Then add a new file in the Linux cron configuration for ILIAS at `/etc/cron.d/ilias`, including a line to execute the ILIAS cron manager every 5 minutes. 
+To configure automated Cron Jobs in your system, you need to create an user in ILIAS, for example named `cron`.
+Then create a new file in the Linux Cron configuration for ILIAS at `/etc/cron.d/ilias`, 
+including a line to execute `./cli/cron.php` every 5 minutes. 
 Other methods for executing Linux cron tasks, such as using the user crontab, can also be utilized.
 
 ```cron
 */5 * * * * www-data /usr/bin/php /var/www/ilias/cli/cron.php run-jobs cron myilias run-jobs > /dev/null 2>&1
 ```
 
-You can verify the proper automatic execution of the cron manager in the ILIAS Administration section
-by checking the timestamp displayed after `Last Start of the Cron Job`.
+You can verify the proper automatic execution in the ILIAS Administration section by checking the timestamp 
+displayed at `Last Start of the Cron Job` after some time.
 
 
 <a name="webdav-configuration"></a>
