@@ -8754,7 +8754,7 @@ dcl#:#dcl_no_entries#:#Keine Einträge
 dcl#:#dcl_no_entry#:#Kein Eintrag
 dcl#:#dcl_no_export_content_available#:#Keine Daten für den Export verfügbar.
 dcl#:#dcl_no_export_data_available#:#Keine Daten oder Felder für den Export verfügbar.
-dcl#:#dcl_no_export_fields_available#:#Keine Felder für den Export aktiviert. Markieren Sie mindestens ein Feld als „Exportierbar“ in den <a href=„%s“>Tabelleneinstellungen</a>.
+dcl#:#dcl_no_export_fields_available#:#Keine Felder für den Export aktiviert. Markieren Sie mindestens ein Feld als „Exportierbar“ in den <a href="%s">Tabelleneinstellungen</a>.
 dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstellt. Daher können noch keine Einträge eingefügt werden. Klicken Sie im Reiter "Tabellen" auf eine Tabelle und erstellen Sie mithilfe des Buttons "Feld hinzufügen" neue Felder.
 dcl#:#dcl_no_read_access_on_any_standard_view#:#Sie haben auf keine Standard-Tabellenansicht Lesezugriff.
 dcl#:#dcl_no_search_results_found_for#:#Es wurden keine Module gefunden mit:
@@ -11651,7 +11651,7 @@ mail#:#mail_serial_letter_placeholders#:#Platzhalter für Serienbrief
 mail#:#mail_settings_external_frm_head#:#Externe E-Mails
 mail#:#mail_settings_external_tab#:#Extern
 mail#:#mail_settings_general_tab#:#Allgemein
-mail#:#mail_settings_incoming_type_see_also#:#Eine weitere Möglichkeit, die Empfangsart für die Benutzer zu ändern, haben Sie <a href=„%s“>hier</a>.
+mail#:#mail_settings_incoming_type_see_also#:#Eine weitere Möglichkeit, die Empfangsart für die Benutzer zu ändern, haben Sie <a href="%s">hier</a>.
 mail#:#mail_settings_system_frm_head#:#System E-Mails
 mail#:#mail_settings_user_frm_head#:#Benutzer E-Mails
 mail#:#mail_smtp_encryption#:#Verschlüsselung
