@@ -686,7 +686,7 @@ We strongly recommend using MariaDB instead of MySQL due to performance, licensi
 <a name="configurate-cron"></a>
 ## Configure Cron Jobs
 
-This step configures the execution of the cron job, which can be set to perform tasks such as sending
+This step configures the execution of the cron job, which can be set to perform tasks, such as sending
 notifications.
 You can manage these tasks in the ILIAS Administration under "Administration > General Settings > Cron Jobs".
 
