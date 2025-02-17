@@ -4768,7 +4768,7 @@ common#:#msg_input_char_limit_max#:#Sie müssen die festgelegte Höchstzahl von 
 common#:#msg_input_char_limit_min#:#Sie müssen die festgelegte Mindestanzahl an Zeichen eingeben. Ihr Beitrag ist zu kurz.
 common#:#msg_input_does_not_match_regexp#:#Bitte geben Sie einen gültigen Wert ein.
 common#:#msg_input_is_required#:#Dieses Feld muss ausgefüllt werden. Bitte geben Sie etwas ein.
-common#:#msg_invalid_value#:#Der eingegebene Wert ist fehlerhaft, da nur Zahlen ohne Vorzeichen erlaubt sind. Bitte überprüfen Sie ihre Eingabe.
+common#:#msg_invalid_value_css_rect_input#:#Der eingegebene Wert ist fehlerhaft, da nur Zahlen ohne Vorzeichen erlaubt sind. Bitte überprüfen Sie ihre Eingabe.
 common#:#msg_is_last_role#:#Sie haben den folgenden Benutzern ihre letzte Zuweisung zu einer globalen Rolle genommen
 common#:#msg_last_role_for_registration#:#Es muss mindestens eine Rolle im Registrierformular für neue Benutzer verfügbar sein. Diese Rolle ist momentan als einzige Rolle verfügbar.
 common#:#msg_link_clipboard_p#:#Wählen Sie nun den gewünschten Ort, in den die ausgewählten Objekte verknüpft werden sollen. Klicken Sie abschließend auf den Einfügen-Button.
