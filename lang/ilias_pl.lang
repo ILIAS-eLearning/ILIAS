@@ -2985,7 +2985,7 @@ chatroom#:#chat_osc_accepts_messages_yes#:#Odbiera wiadomości na czacie.
 chatroom#:#chat_osc_add_user#:#Dodaj do czatu kolejnych użytkowników
 chatroom#:#chat_osc_conversations#:#Rozmowy
 chatroom#:#chat_osc_doesnt_accept_msg#:#Rozmowy nie są możliwe
-chatroom#:#chat_osc_dont_accept_msg#:#Aktualnie inne osoby nie mogą zapraszać Ciebie do rozmów. Możesz to zmienić w <a href=”%s”>Osobistych ustawieniach'</a>.
+chatroom#:#chat_osc_dont_accept_msg#:#Aktualnie inne osoby nie mogą zapraszać Ciebie do rozmów. Możesz to zmienić w <a href="%s">Osobistych ustawieniach'</a>.
 chatroom#:#chat_osc_dont_accept_msg_link_txt#:#'Personal Settings'###07 02 2020 new variable
 chatroom#:#chat_osc_head_grp_x_persons#:#%s Users
 chatroom#:#chat_osc_invite_to_conversation#:#Dodaj do rozmowy
@@ -8749,7 +8749,7 @@ dcl#:#dcl_no_content_warning#:#Uwaga, zbiór danych jest już w trybie online, n
 dcl#:#dcl_no_entry#:#No entry###07 02 2020 new variable
 dcl#:#dcl_no_export_content_available#:#Brak danych dostępnych dla eksportu.
 dcl#:#dcl_no_export_data_available#:#Brak danych lub pól dostępnych dla eksportu.
-dcl#:#dcl_no_export_fields_available#:#Brak pól dostępnych dla eksportu. Zaznacz co najmniej jedno pole jako "Eksportowalne" w <a href=”%s”>ustawieniach tabeli</a>.
+dcl#:#dcl_no_export_fields_available#:#Brak pól dostępnych dla eksportu. Zaznacz co najmniej jedno pole jako "Eksportowalne" w <a href="%s">ustawieniach tabeli</a>.
 dcl#:#dcl_no_fields_yet#:#Brak pola zdefiniowanego dla tej tabeli, w związku z czym nie można tworzyć żadnych wpisów.
 dcl#:#dcl_no_read_access_on_any_standard_view#:#Nie masz prawa czytania dla standardowych widoków tabel.
 dcl#:#dcl_no_search_results_found_for#:#Nie znaleziono żadnych modułów z:
@@ -11615,7 +11615,7 @@ mail#:#mail_serial_letter_placeholders#:#Pole do wypełnienia dla korespondencji
 mail#:#mail_settings_external_frm_head#:#Zewnętrzne wiadomości mailowe
 mail#:#mail_settings_external_tab#:#Zewnętrzne wiadomości
 mail#:#mail_settings_general_tab#:#Ogólne informacje
-mail#:#mail_settings_incoming_type_see_also#:#Kolejną możliwością zmiany rodzaju otrzymywania wiadomości użytkowników dostępna jest <a href=”%s”>tutaj</a>.
+mail#:#mail_settings_incoming_type_see_also#:#Kolejną możliwością zmiany rodzaju otrzymywania wiadomości użytkowników dostępna jest <a href="%s">tutaj</a>.
 mail#:#mail_settings_system_frm_head#:#System wiadomości mailowych
 mail#:#mail_settings_user_frm_head#:#Wiadomości mailowe użytkowników
 mail#:#mail_smtp_encryption#:#Zakodowanie
