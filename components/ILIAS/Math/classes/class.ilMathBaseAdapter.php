@@ -126,7 +126,9 @@ abstract class ilMathBaseAdapter implements ilMathAdapter
             if ((($exp_sign = $exp[0]) === '+') || ($exp_sign === '-')) {
                 $exp = substr($exp, 1);
             } else {
-                trigger_error("Could not convert exponential notation to decimal notation: invalid float string '$float_str'", E_USER_ERROR);
+                throw new DomainException(
+                    "Could not convert exponential notation to decimal notation: invalid float string '$float_str'"
+                );
             }
 
             // get the number of decimal places to the right of the decimal point (or 0 if there is no dec point), e.g., 1.6 => 1
