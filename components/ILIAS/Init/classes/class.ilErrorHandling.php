@@ -187,8 +187,7 @@ class ilErrorHandling
             $log->write($message);
         }
         if ($code === $this->FATAL) {
-            trigger_error(stripslashes($message), E_USER_ERROR);
-            exit();
+            throw new RuntimeException(stripslashes($message));
         }
 
         if ($code === $this->WARNING) {
