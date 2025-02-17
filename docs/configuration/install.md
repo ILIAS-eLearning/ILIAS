@@ -113,7 +113,7 @@ Other web servers capable of processing PHP, such as Nginx or Apache2 with FCGI 
 
 **Required PHP Extensions:**
 ```
-gd, dom, xsl, pdo_mysql, curl, json, simplexml, libxml, xml, zip, imagick, intl, mbstring
+gd, dom, xsl, pdo, pdo_mysql, curl, json, simplexml, libxml, xml, zip, imagick, mbstring
 ```
 
 **Optional PHP Extensions:**
