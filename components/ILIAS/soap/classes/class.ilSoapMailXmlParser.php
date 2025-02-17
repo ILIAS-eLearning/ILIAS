@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -52,9 +53,8 @@ class ilSoapMailXmlParser extends ilSaxParser
      */
     public function setHandlers($a_xml_parser): void
     {
-        xml_set_object($a_xml_parser, $this);
-        xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
-        xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
+        xml_set_element_handler($a_xml_parser, $this->handlerBeginTag(...), $this->handlerEndTag(...));
+        xml_set_character_data_handler($a_xml_parser, $this->handlerCharacterData(...));
     }
 
     /**

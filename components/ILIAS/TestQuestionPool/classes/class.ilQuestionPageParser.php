@@ -119,9 +119,8 @@ class ilQuestionPageParser extends ilMDSaxParser
      */
     public function setHandlers($xml_parser): void
     {
-        xml_set_object($xml_parser, $this);
-        xml_set_element_handler($xml_parser, 'handlerBeginTag', 'handlerEndTag');
-        xml_set_character_data_handler($xml_parser, 'handlerCharacterData');
+        xml_set_element_handler($xml_parser, $this->handlerBeginTag(...), $this->handlerEndTag(...));
+        xml_set_character_data_handler($xml_parser, $this->handlerCharacterData(...));
     }
 
     public function setImportMapping(?ilImportMapping $mapping = null): void

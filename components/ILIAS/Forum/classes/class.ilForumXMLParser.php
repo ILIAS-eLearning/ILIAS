@@ -99,7 +99,6 @@ class ilForumXMLParser extends ilSaxParser
 
     public function setHandlers($a_xml_parser): void
     {
-        xml_set_object($a_xml_parser, $this);
         xml_set_element_handler(
             $a_xml_parser,
             function (XMLParser $a_xml_parser, string $a_name, array $a_attribs): void {
