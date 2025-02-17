@@ -161,7 +161,7 @@ class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
             $value = $val[$this->getPostVar() . '_' . $side];
 
             if (($this->getRequired() || $value !== "") && !preg_match('/^(([1-9]+|([1-9]+[0]*[\.,]{0,1}[\d]+))|(0[\.,](0*[1-9]+[\d]*))|0).*?$/si', $value)) {
-                $this->setAlert($lng->txt("msg_invalid_value"));
+                $this->setAlert($lng->txt('msg_invalid_value_css_rect_input'));
                 return false;
             }
         }
