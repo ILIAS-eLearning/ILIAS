@@ -494,6 +494,9 @@ final class ilSamlSettingsGUI
         $this->tpl->setContent($form->getHTML());
     }
 
+    /**
+     * @param array<string, mixed> $values
+     */
     private function getSettingsForm(array $values = []): StandardForm
     {
         $access = $this->rbac->system()->checkAccess(self::PERMISSION_WRITE, $this->ref_id);
