@@ -2985,7 +2985,7 @@ chatroom#:#chat_osc_accepts_messages_yes#:#Приема съобщения в ч
 chatroom#:#chat_osc_add_user#:#Добавяне на допълнителни потребители
 chatroom#:#chat_osc_conversations#:#Разговори###22 06 2022 new variable
 chatroom#:#chat_osc_doesnt_accept_msg#:#Конверсиите не са възможни
-chatroom#:#chat_osc_dont_accept_msg#:#Понастоящем не можете да бъдете поканени в разговори. Ако желаете, можете да промените това във вашите <a href=&quot;%s&quot;>&quot;Лични настройки&quot;</a>.
+chatroom#:#chat_osc_dont_accept_msg#:#Понастоящем не можете да бъдете поканени в разговори. Ако желаете, можете да промените това във вашите <a href="%s">&quot;Лични настройки&quot;</a>.
 chatroom#:#chat_osc_dont_accept_msg_link_txt#:#'Персонални настройки'###22 06 2022 new variable
 chatroom#:#chat_osc_head_grp_x_persons#:#%s Потребители
 chatroom#:#chat_osc_invite_to_conversation#:#Добавяне към разговора###22 06 2022 new variable
