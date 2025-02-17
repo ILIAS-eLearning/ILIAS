@@ -29,8 +29,8 @@ for a fully functional ILIAS environment.
 - [Connect and Contribute](#connect-and-contribute)
 - [Appendix](#appendix)
   * [Upgrading Dependencies](#upgrading-dependencies)
-  * [Cron Job Configuration](#cron-job-configuration)
-  * [Configure WebDAV (optional)](#configure-webdav-optional)
+  * [Configure Cron Jobs](#configure-cron-jobs)
+  * [Configure WebDAV](#configure-webdav)
   * [Hardening and Security Guidance](#hardening-and-security-guidance)
   * [MySQL Strict Mode (5.7+)](#mysql-strict-mode-57)
 
@@ -414,7 +414,7 @@ Optionally you can continue with the installation of further components to get t
 
 1. **ILIAS Cron Job**
 A cron job can be automatically executed to perform recurring tasks, such as sending notifications or deleting inactive user accounts. 
-For details on how to configure the automatic execution of cron jobs, see [Cron Job Configuration](#cron-job-configuration).
+For details on how to configure the automatic execution of cron jobs, see [Configure Cron Jobs](#configure-cron-jobs).
 2. **ILIAS Java RPC server**
 It is used for certain optional functions such as Lucene Search
 or generating PDF Certificates. See [Lucene RPC-Server](../../components/ILIAS/WebServices/RPC/lib/README.md) for details
@@ -684,7 +684,7 @@ We strongly recommend using MariaDB instead of MySQL due to performance, licensi
 | 6.0 - 6.x     | 5.6.x, 5.7.x, 8.0.x | 10.0, 10.1, 10.2, 10.3 |
 
 <a name="configurate-cron"></a>
-## Cron Job Configuration
+## Configure Cron Jobs
 
 This step configures the execution of the cron job, which can be set to perform tasks such as sending
 notifications.
@@ -699,19 +699,20 @@ php /var/www/ilias/cli/cron.php run-jobs <user> <client_id> run-jobs
 The `<user>` MUST be a valid, arbitrary user account within the ILIAS installation.
 The `<client_id>` MUST correspond to the client ID of the ILIAS installation.
 
-To configure an automated cron job in your system, you need to create a user in ILIAS for example named `cron`
-and add a new file in the Linux cron configuration for ILIAS at `/etc/cron.d/ilias`,
-specifying a job to execute the ILIAS cron manager every 5 minutes.
+To configure an automated cron job in your system, you need to create a user in ILIAS for example named `cron`.
+Then add a new file in the Linux cron configuration for ILIAS at `/etc/cron.d/ilias`, including a line to execute the ILIAS cron manager every 5 minutes. 
+Other methods for executing Linux cron tasks, such as using the user crontab, can also be utilized.
 
-```crontab
+```cron
 */5 * * * * www-data /usr/bin/php /var/www/ilias/cli/cron.php run-jobs cron myilias run-jobs > /dev/null 2>&1
 ```
+
 You can verify the proper automatic execution of the cron manager in the ILIAS Administration section
 by checking the timestamp displayed after `Last Start of the Cron Job`.
 
 
 <a name="webdav-configuration"></a>
-## Configure WebDAV (optional)
+## Configure WebDAV
 
 The recommended webserver configuration is either **Apache with mod_php** or
 **Nginx with PHP-FPM (> 1.3.8)**. Do NOT use **Apache with PHP-FPM** if you
