@@ -1953,7 +1953,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
             }
         }
 
-        return (float)$points;
+        return (float) $points;
     }
 
     public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $preview_session)
