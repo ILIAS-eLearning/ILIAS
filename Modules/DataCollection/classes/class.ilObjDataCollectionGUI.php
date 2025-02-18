@@ -285,6 +285,9 @@ class ilObjDataCollectionGUI extends ilObject2GUI
             $table_obj = ilDclCache::getTableCache($this->table_id);
             $tableview_id = $table_obj->getFirstTableViewId($this->getRefId());
         }
+        if ($tableview_id === null) {
+            throw new InvalidArgumentException('No visible tableview configured!');
+        }
         return $tableview_id;
     }
 

@@ -377,6 +377,7 @@ class ilDclTableView extends ActiveRecord
                 $new_default_value->create();
             }
         }
+        $this->createFieldSetting('comments');
 
         //clone pageobject
         if (ilDclDetailedViewDefinition::exists($orig->getId())) {
@@ -403,10 +404,9 @@ class ilDclTableView extends ActiveRecord
 
     /**
      * @param      $table_id
-     * @param bool $create_default_settings
      * @return ilDclTableView|ActiveRecord
      */
-    public static function createOrGetStandardView(int $table_id, bool $create_default_settings = true): ActiveRecord
+    public static function createOrGetStandardView(int $table_id): ActiveRecord
     {
         if ($standardview = self::where(['table_id' => $table_id])->orderBy('tableview_order')->first()) {
             return $standardview;
@@ -445,7 +445,7 @@ class ilDclTableView extends ActiveRecord
         $lng = $DIC['lng'];
         $view->setTitle($lng->txt('dcl_title_standardview'));
         $view->setTableviewOrder(10);
-        $view->create($create_default_settings);
+        $view->create();
 
         return $view;
     }

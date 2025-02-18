@@ -448,7 +448,6 @@ class ilDclBaseFieldModel
 
     public function getViewSetting(int $tableview_id): ilDclTableViewFieldSetting
     {
-        ilDclTableViewFieldSetting::getTableViewFieldSetting($this->getId(), $tableview_id);
         return ilDclTableViewFieldSetting::getTableViewFieldSetting($this->getId(), $tableview_id);
     }
 

@@ -29,7 +29,12 @@ class ilDataCollectionSetupAgent implements Setup\Agent
 {
     public function getUpdateObjective(Config $config = null): Objective
     {
-        return new ilDataCollectionObjective(new ilDataCollectionDBUpdateSteps9());
+        return new Setup\ObjectiveCollection(
+            'DataCollection Update',
+            true,
+            new ilDataCollectionObjective(new ilDataCollectionDBUpdateSteps9()),
+            new ilDataCollectionObjective(new ilDataCollection9HotfixDBUpdateSteps()),
+        );
     }
 
     public function getMigrations(): array
