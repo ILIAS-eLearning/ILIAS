@@ -287,7 +287,7 @@ class ilTestCorrectionsGUI
     }
 
     /**
-     * @param null|array<int, ilTestEvaluationUserData> $participant_results
+     * @param null|list<ilTestEvaluationUserData> $participant_results
      */
     protected function showAnswerStatistic(?array $participant_results = null)
     {
@@ -534,7 +534,7 @@ class ilTestCorrectionsGUI
     }
 
     /**
-     * @param array<int, ilTestEvaluationUserData> $participant_results
+     * @param list<ilTestEvaluationUserData> $participant_results
      */
     protected function getSolutionsByParticipantResults(assQuestion $question, array $participant_results): array
     {

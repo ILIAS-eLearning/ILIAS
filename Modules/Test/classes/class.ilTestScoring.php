@@ -51,7 +51,7 @@ class ilTestScoring
     protected array $question_cache = [];
 
     /**
-     * @var ilTestEvaluationUserData[] $participants
+     * @var array<int, ilTestEvaluationUserData> $participants
      */
     protected array $participants = [];
 
@@ -89,7 +89,7 @@ class ilTestScoring
     }
 
     /**
-     * @return ilTestEvaluationUserData[]
+     * @return array<int, ilTestEvaluationUserData>
      */
     public function recalculateSolutions(): array
     {
@@ -103,6 +103,18 @@ class ilTestScoring
         }
 
         return $this->participants;
+    }
+
+    public function recalculateSolution(int $active_id, int $pass): void
+    {
+        $user_data = $this
+            ->test
+            ->getCompleteEvaluationData(false)
+            ->getParticipant($active_id)
+            ->getPass($pass);
+
+        $this->recalculatePass($user_data, $active_id, $pass);
+        $this->test->updateTestResultCache($active_id);
     }
 
     public function recalculatePasses(ilTestEvaluationUserData $userdata, int $active_id): void
@@ -123,17 +135,14 @@ class ilTestScoring
         int $pass
     ) {
         $questions = $passdata->getAnsweredQuestions();
-        if (is_array($questions)) {
-            foreach ($questions as $question_data) {
-                $q_id = $question_data['id'];
-                if (!$this->getQuestionId() || $this->getQuestionId() == $q_id) {
-                    $this->recalculateQuestionScore($q_id, $active_id, $pass, $question_data);
-                }
+        foreach ($questions as $question_data) {
+            if (!$this->getQuestionId() || $this->getQuestionId() === $question_data['id']) {
+                $this->recalculateQuestionScore($question_data['id'], $active_id, $pass, $question_data);
             }
         }
     }
 
-    public function recalculateQuestionScore(int $q_id, $active_id, $pass, $questiondata)
+    public function recalculateQuestionScore(int $q_id, int $active_id, int $pass, array $questiondata): void
     {
         if (!isset($this->question_cache[$q_id])) {
             $this->question_cache[$q_id] = $this->test->createQuestionGUI("", $q_id)->object;
@@ -141,22 +150,24 @@ class ilTestScoring
         $question = $this->question_cache[$q_id];
 
         $old_points = $question->getReachedPoints($active_id, $pass);
-        $reached = $question->calculateReachedPoints($active_id, $pass);
-        $actual_reached = $question->adjustReachedPointsByScoringOptions($reached, $active_id, $pass);
+        $reached = $question->adjustReachedPointsByScoringOptions(
+            $question->calculateReachedPoints($active_id, $pass),
+            $active_id,
+            $pass
+        );
 
-        if ($this->preserve_manual_scores == true && $questiondata['manual'] == '1') {
-            // Do we need processing here?
-        } else {
-            $this->updateReachedPoints(
-                $active_id,
-                $questiondata['id'],
-                $old_points,
-                $actual_reached,
-                $question->getMaximumPoints(),
-                $pass,
-            );
+        if ($this->preserve_manual_scores && $questiondata['manual'] == '1') {
+            return;
         }
 
+        $this->updateReachedPoints(
+            $active_id,
+            $questiondata['id'],
+            $old_points,
+            $reached,
+            $question->getMaximumPoints(),
+            $pass,
+        );
     }
 
     /**
@@ -166,13 +177,13 @@ class ilTestScoring
      *
      * @see assQuestion::_setReachedPoints
      */
-    public function updateReachedPoints(int $active_id, int $question_id, float $old_points, float $points, float $max_points, int $pass)
+    public function updateReachedPoints(int $active_id, int $question_id, float $old_points, float $points, float $max_points, int $pass): void
     {
         // Only update the test results if necessary
-        $has_changed = $old_points != $points;
+        $has_changed = $old_points !== $points;
         if ($has_changed && $points <= $max_points) {
             $this->db->update(
-                "tst_test_result",
+                'tst_test_result',
                 [
                     'points' => ['float', $points],
                     'tstamp' => ['integer', time()],
@@ -194,11 +205,11 @@ class ilTestScoring
 
         if ($has_changed) {
             $result = $this->db->queryF(
-                "SELECT SUM(points) reachedpoints FROM tst_test_result WHERE active_fi = %s AND pass = %s",
+                'SELECT SUM(points) reachedpoints FROM tst_test_result WHERE active_fi = %s AND pass = %s',
                 ['integer', 'integer'],
                 [$active_id, $pass]
             );
-            $values['points'] = ['float', (float) $result->fetchAssoc()['reachedpoints'] ?? 0.0];
+            $values['points'] = ['float', $result->fetchAssoc()['reachedpoints'] ?? 0.0];
         }
 
         $this->db->update(
