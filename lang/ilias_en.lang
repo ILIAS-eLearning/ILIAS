@@ -4770,7 +4770,7 @@ common#:#msg_input_char_limit_max#:#You have entered more characters than allowe
 common#:#msg_input_char_limit_min#:#You have to enter the minimum of characters specified.
 common#:#msg_input_does_not_match_regexp#:#Please provide a valid value.
 common#:#msg_input_is_required#:#This input is required. Please enter a value.
-common#:#msg_invalid_value_css_rect_input#:#The entered value is incorrect, only unsigned numbers are allowed. Please check your input.
+common#:#msg_invalid_value_css_rect_input#:#The entered value is incorrect, do not use any plus or minus symbols in combination with the entered integer. Please check your input.
 common#:#msg_is_last_role#:#You removed the last global role from the following users
 common#:#msg_last_role_for_registration#:#At least one role must be available in the registration form for new users. This role is currently the only one available.
 common#:#msg_link_clipboard_p#:#Now, please select the desired location, where the selected objects should be linked to and click the button Paste.
