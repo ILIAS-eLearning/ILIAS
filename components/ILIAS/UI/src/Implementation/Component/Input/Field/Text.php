@@ -21,10 +21,10 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
-use ILIAS\UI\Component\Input\InputData;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Constraint;
 use Closure;
+use Generator;
 
 /**
  * This implements the text input.
@@ -118,12 +118,12 @@ class Text extends FormInput implements C\Input\Field\Text
     /**
      * @inheritdoc
      */
-    public function withInput(InputData $input): self
+    public function getOperations(): Generator
     {
         if ($this->strip_tags_from_input) {
-            $this->setAdditionalTransformation($this->refinery->custom()->transformation(fn($v) => strip_tags($v)));
+            yield $this->refinery->custom()->transformation(fn($v) => strip_tags($v));
         }
-        return parent::withInput($input);
+        yield from parent::getOperations();
     }
 
     /**
