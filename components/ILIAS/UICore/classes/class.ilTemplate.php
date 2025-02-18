@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once __DIR__ . '/../lib/html-it/IT.php';
 require_once __DIR__ . '/../lib/html-it/ITX.php';
@@ -320,6 +320,11 @@ class ilTemplate extends HTML_Template_ITX
      */
     protected function getTemplatePath(string $a_tplname, string $a_in_module = null): string
     {
+        $ilias_root = realpath(__DIR__ . '/../../../../') . '/';
+        if (str_starts_with($a_in_module, $ilias_root)) {
+            $a_in_module = str_replace($ilias_root, '', $a_in_module);
+        }
+
         $fname = "";
         if (strpos($a_tplname, "/") === false) {
             $module_path = "";
@@ -343,8 +348,9 @@ class ilTemplate extends HTML_Template_ITX
             }
 
             if ($fname === "" || !file_exists($fname)) {
-                $fname = "./" . $module_path . "templates/default/" . basename($a_tplname);
+                $fname = $module_path . "templates/default/" . basename($a_tplname);
             }
+
         } elseif (strpos($a_tplname, "components/ILIAS/UI") === 0) {
             if (class_exists("ilStyleDefinition") // for testing
                 && ilStyleDefinition::getCurrentSkin() != "default") {
@@ -365,7 +371,7 @@ class ilTemplate extends HTML_Template_ITX
         } else {
             $fname = $a_tplname;
         }
-        return __DIR__ . '/../../../../' . $fname;
+        return $ilias_root . $fname;
     }
 
     /**
