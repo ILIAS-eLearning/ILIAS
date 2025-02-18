@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
+use ILIAS\UI\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Constraint;
@@ -36,6 +37,8 @@ class Textarea extends FormInput implements C\Input\Field\Textarea
     protected ?int $max_limit = null;
 
     protected ?int $min_limit = null;
+
+    private bool $strip_tags_from_input = true;
 
     /**
      * @inheritdoc
@@ -137,5 +140,26 @@ class Textarea extends FormInput implements C\Input\Field\Textarea
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());";
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function withInput(InputData $input): self
+    {
+        if ($this->strip_tags_from_input) {
+            $this->setAdditionalTransformation($this->refinery->custom()->transformation(fn($v) => strip_tags($v)));
+        }
+        return parent::withInput($input);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function withoutStripTags(): C\Input\Field\Textarea
+    {
+        $clone = clone $this;
+        $clone->strip_tags_from_input = false;
+        return $clone;
     }
 }
