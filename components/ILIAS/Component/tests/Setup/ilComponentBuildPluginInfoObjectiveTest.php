@@ -172,7 +172,7 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
 
         $expected = [
             "tstplg" => [
-                "components/ILIAS",
+                "Type1",
                 "Module1",
                 "Slot1",
                 "Plugin1",

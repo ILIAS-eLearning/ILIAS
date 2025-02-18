@@ -88,8 +88,8 @@ class ilTemplateTest extends TestCase
                 'skin' => 'default', 'style' => 'delos', 'file_exists' => true,
                 'tpl_filename' => 'tpl.test.html',
                  //ilPlugin::getDirectory() will return something like this:
-                'component' => $il_root . '/components/ILIAS/Component/classes/../../../../public/Customizing/plugins/UIComponent/UserInterfaceHook/EditorAsMode',
-                'expected' => $il_root . '/components/ILIAS/Component/classes/../../../../public/Customizing/plugins/UIComponent/UserInterfaceHook/EditorAsMode/templates/default/tpl.test.html',
+                'component' => $il_root . '/components/ILIAS/Component/classes/../../../../public/Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/EditorAsMode',
+                'expected' => $il_root . '/components/ILIAS/Component/classes/../../../../public/Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/EditorAsMode/templates/default/tpl.test.html',
             ],
             'custom skin' => [
                 'skin' => 'mySkin', 'style' => 'myStyle', 'file_exists' => true,

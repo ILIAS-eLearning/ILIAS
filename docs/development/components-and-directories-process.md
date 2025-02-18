@@ -237,11 +237,13 @@ The following new structure won't implemented in the first PR / process step:
 
 -----------
 
-## 4. ./public/Customizing/plugins
+## 4. ./public/Customizing/global/plugins
 
-The plugin directory stays at `public/Customizing/plugins` for now and will later on moved to
-`components/{SERVICE_PROVIDER}`.
+The plugin directory is at `public/Customizing/global/plugins/(Services|Modules)` for now
+and will later on be removed; plugins will then be components in `components/{SERVICE_PROVIDER}`.
 The name {SERVICE_PROVIDER} will be a placeholder for unique provider, who will create their own plugins.
+For 10, you may move your (adjusted!) plugins from /Customizing/global/plugins
+to /public/Customizing/global/plugins
 
 -----------
 

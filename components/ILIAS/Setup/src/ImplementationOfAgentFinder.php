@@ -160,7 +160,7 @@ class ImplementationOfAgentFinder implements AgentFinder
     {
         $directories =
             new \RecursiveIteratorIterator(
-                new \RecursiveDirectoryIterator(__DIR__ . "/../../../../public/Customizing/global/plugins/Services")
+                new \RecursiveDirectoryIterator(__DIR__ . "/../../../../public/Customizing/global/plugins")
             );
         $names = [];
         foreach ($directories as $dir) {

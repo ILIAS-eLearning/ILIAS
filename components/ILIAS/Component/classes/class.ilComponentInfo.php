@@ -25,8 +25,8 @@ class ilComponentInfo
 {
     // TODO: to be replaced with an enum for PHP 8.1...
     public const TYPES = ["components/ILIAS"];
-    public const TYPE_MODULES = "components/ILIAS";
-    public const TYPE_SERVICES = "components/ILIAS";
+    public const TYPE_MODULES = "Modules";
+    public const TYPE_SERVICES = "Services";
 
     protected string $id;
     protected string $type;

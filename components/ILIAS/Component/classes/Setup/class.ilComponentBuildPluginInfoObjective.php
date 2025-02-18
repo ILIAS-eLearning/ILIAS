@@ -102,7 +102,7 @@ class ilComponentBuildPluginInfoObjective extends Setup\Artifact\BuildArtifactOb
         }
 
         $data[$id] = [
-            \ilComponentInfo::TYPES[0],
+            $type,
             $component,
             $slot,
             $plugin,

@@ -39,7 +39,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
 
     public static array $plugin_data = [
         "plg1" => [
-            "components/ILIAS",
+            "Type1",
             "Module1",
             "Slot1",
             "Plugin1",
@@ -53,7 +53,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
             null
         ],
         "plg2" => [
-            "components/ILIAS",
+            "Type2",
             "Service2",
             "Slot4",
             "Plugin2",
@@ -67,7 +67,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
             false
         ],
         "plg3" => [
-            "components/ILIAS",
+            "Type3",
             "Service2",
             "Slot4",
             "Plugin3",
@@ -164,6 +164,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
             $this->slt1,
             "plg1",
             "Plugin1",
+            "Type1",
             false,
             $this->data_factory->version("0.9.1"),
             13,
@@ -232,6 +233,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
             $this->slt4,
             "plg2",
             "Plugin2",
+            "Type2",
             false,
             $this->data_factory->version("0.9.1"),
             13,
@@ -251,6 +253,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
             $this->slt4,
             "plg3",
             "Plugin3",
+            "Type3",
             true,
             $this->data_factory->version("0.9.1"),
             13,
