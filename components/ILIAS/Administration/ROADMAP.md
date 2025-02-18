@@ -2,7 +2,7 @@
 
 In Mai 2024 [fneumann (Databay AG)](https://docu.ilias.de/goto_docu_usr_1560.html) and [lscharmer (Databay AG)](https://docu.ilias.de/go/usr/87863) got the authorities for the administration component.
 
-BWe want to continue refactoring the administration to create a modern component integration and further resolve historical dependencies. We also see the potential for extensions to make configuration easier for ILIAS operators.
+We want to continue refactoring the administration to create a modern component integration and further resolve historical dependencies. We also see the potential for extensions to make configuration easier for ILIAS operators.
 
 ## Current Status (ILIAS 10)
 
