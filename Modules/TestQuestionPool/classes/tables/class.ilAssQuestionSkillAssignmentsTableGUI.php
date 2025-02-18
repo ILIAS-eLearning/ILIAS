@@ -42,7 +42,7 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
     /**
      * @var array<int, bool> Question ID => Manipulation allowed
      */
-    private array $manipulationsAllowedList;
+    private array $manipulations_allowed_list;
 
     public function setSkillQuestionAssignmentList(ilAssQuestionSkillAssignmentList $assignmentList): void
     {
@@ -50,26 +50,21 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param array<int, bool> $manipulationsAllowedList
+     * @param array<int, bool> $manipulations_allowed_list
      */
-    public function setManipulationAllowedList(array $manipulationsAllowedList): void
+    public function setManipulationAllowedList(array $manipulations_allowed_list): void
     {
-        $this->manipulationsAllowedList = $manipulationsAllowedList;
+        $this->manipulations_allowed_list = $manipulations_allowed_list;
     }
 
-    public function areManipulationsEnabled(): bool
+    private function areManipulationsPossible(): bool
     {
-        return $this->manipulationsEnabled;
+        return $this->manipulationsEnabled && array_filter($this->manipulations_allowed_list) !== [];
     }
 
-    public function areManipulationsPossible(): bool
+    private function isManipulationAllowedForQuestion(int $q_id): bool
     {
-        return $this->areManipulationsEnabled() && array_filter($this->manipulationsAllowedList) !== [];
-    }
-
-    public function isManipulationAllowedForQuestion(int $q_id): bool
-    {
-        return $this->areManipulationsEnabled() && $this->manipulationsAllowedList[$q_id];
+        return $this->manipulationsEnabled && $this->manipulations_allowed_list[$q_id];
     }
 
     public function setManipulationsEnabled(bool $manipulationsEnabled): void
