@@ -78,7 +78,7 @@ abstract class BaseCheck implements Check
     protected function baseClass(Context $context): string
     {
         if ($context->getContext() === Context::CONTEXT_WORKSPACDE) {
-            return \ilPersonalWorkspaceGUI::class;
+            return \ilSharedResourceGUI::class;
         }
         return \ilRepositoryGUI::class;
     }
