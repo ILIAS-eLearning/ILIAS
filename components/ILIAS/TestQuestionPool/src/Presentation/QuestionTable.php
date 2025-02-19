@@ -390,7 +390,7 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
                 $aspect_b = $b[$aspect];
             }
 
-            return strcmp($aspect_a, $aspect_b);
+            return strcoll($aspect_a, $aspect_b);
         });
 
         if ($direction === $order::DESC) {
