@@ -20,25 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Legacy;
 
-use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Component as C;
 
-class Factory implements C\Legacy\Factory
+class LatexContent extends Content implements C\Legacy\LatexContent
 {
-    protected SignalGeneratorInterface $signal_generator;
 
-    public function __construct(SignalGeneratorInterface $signal_generator)
-    {
-        $this->signal_generator = $signal_generator;
-    }
-
-    public function content(string $content): Content
-    {
-        return new Content($content, $this->signal_generator);
-    }
-
-    public function latexContent(string $content): LatexContent
-    {
-        return new LatexContent($content, $this->signal_generator);
-    }
 }
