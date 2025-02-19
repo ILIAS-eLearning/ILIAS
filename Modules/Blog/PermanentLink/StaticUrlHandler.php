@@ -46,7 +46,7 @@ class StaticURLHandler extends BaseHandler implements Handler
         $additional_params = $request->getAdditionalParameters() ?? [];
 
         $wsp = count($additional_params) > 0 &&
-            $additional_params[count($additional_params) - 1] === "wsp";
+            $additional_params[count($additional_params) - 1] === "_wsp";
         $posting_id = 0;
         if (is_numeric($additional_params[0] ?? "")) {
             $posting_id = (int) $additional_params[0];
