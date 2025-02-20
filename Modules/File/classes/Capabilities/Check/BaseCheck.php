@@ -38,17 +38,19 @@ abstract class BaseCheck implements Check
         Context $context,
         Permissions ...$permission
     ): bool {
-        $permission_string = implode(
-            ',',
-            array_map(static fn(Permissions $permission) => $permission->value, $permission)
-        );
-        if ($context->getContext() === Context::CONTEXT_WORKSPACDE) {
-            return $helpers->workspace_access_handler->checkAccess(
-                $permission_string,
-                '',
-                $context->getCallingId(),
-                'file'
-            );
+        if ($context->getContext() === Context::CONTEXT_WORKSPACE) {
+            foreach ($permission as $p) {
+                if ($helpers->workspace_access_handler->checkAccess(
+                    $p->value,
+                    '',
+                    $context->getCallingId(),
+                    'file'
+                )) {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         foreach ($permission as $p) {
@@ -77,7 +79,7 @@ abstract class BaseCheck implements Check
 
     protected function baseClass(Context $context): string
     {
-        if ($context->getContext() === Context::CONTEXT_WORKSPACDE) {
+        if ($context->getContext() === Context::CONTEXT_WORKSPACE) {
             return \ilSharedResourceGUI::class;
         }
         return \ilRepositoryGUI::class;

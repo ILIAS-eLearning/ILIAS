@@ -26,7 +26,7 @@ namespace ILIAS\File\Capabilities;
 class Context implements \Stringable
 {
     public const CONTEXT_REPO = 1;
-    public const CONTEXT_WORKSPACDE = 2;
+    public const CONTEXT_WORKSPACE = 2;
 
     public function __construct(
         private int $object_id,
@@ -34,7 +34,7 @@ class Context implements \Stringable
         private int $context
     ) {
         // $context mut be one of the constants
-        if ($context !== self::CONTEXT_REPO && $context !== self::CONTEXT_WORKSPACDE) {
+        if ($context !== self::CONTEXT_REPO && $context !== self::CONTEXT_WORKSPACE) {
             throw new \InvalidArgumentException('Invalid context');
         }
     }
