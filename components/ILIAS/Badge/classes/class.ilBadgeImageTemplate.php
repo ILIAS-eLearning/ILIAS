@@ -20,6 +20,7 @@ use ILIAS\FileUpload\Exception\IllegalStateException;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\Badge\ilBadgeImage;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 class ilBadgeImageTemplate
 {
@@ -178,6 +179,7 @@ class ilBadgeImageTemplate
                 $array_result = $this->upload_service->getResults();
                 $array_result = array_pop($array_result);
                 if ($array_result->getName() !== '') {
+                    $this->resource_storage->manage()->remove(new ResourceIdentification($badge->getImageRid()), new ilBadgeFileStakeholder());
                     $stakeholder = new ilBadgeFileStakeholder();
                     $identification = $this->resource_storage->manage()->upload($array_result, $stakeholder);
                     $this->resource_storage->flavours()->ensure($identification, new \ilBadgePictureDefinition());
