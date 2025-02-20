@@ -20,7 +20,6 @@ use ILIAS\ResourceStorage\Services;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\DI\Container;
 use ILIAS\Services\Badge\BadgeException;
-use ILIAS\Badge\ilBadgeImage;
 
 class ilBadge
 {
@@ -132,7 +131,7 @@ class ilBadge
                 $this->setImageRid($new_collection_id);
                 $this->create();
             } else {
-                $this->log->warning('You have to run the Badge files migration.');
+                $this->log->warning('Please run the "Migration of files of badges to the resource storage service" job, before working with badges.');
             }
         }
     }
@@ -495,7 +494,7 @@ class ilBadge
             return;
         }
 
-        if ($this->getImageRid() !== null) {
+        if ($this->getImageRid()) {
             try {
                 $this->resource_storage->manage()->remove(new ResourceIdentification($this->getImageRid()), new ilBadgeFileStakeholder());
             } catch (Exception $e) {
