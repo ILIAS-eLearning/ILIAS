@@ -628,6 +628,33 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         $this->ctrl->forwardCommand($info);
     }
 
+    protected function importFile(string $file_to_import, string $path_to_uploaded_file_in_temp_dir): void
+    {
+        try {
+            $tpl = $this->tpl;
+
+            $newObj = new ilObjSurveyQuestionPool();
+            $newObj->setTitle("dummy");
+            $newObj->create(true);
+            $this->putObjectInTree($newObj);
+
+            // import qti data
+            $newObj->importObject($file_to_import);
+
+            if ($path_to_uploaded_file_in_temp_dir !== ''
+                && $this->temp_file_system->hasDir($path_to_uploaded_file_in_temp_dir)) {
+                $this->temp_file_system->deleteDir($path_to_uploaded_file_in_temp_dir);
+            }
+
+            $this->deleteUploadedImportFile($path_to_uploaded_file_in_temp_dir);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_imported"), true);
+            ilUtil::redirect("ilias.php?ref_id=" . $newObj->getRefId() .
+                "&baseClass=ilObjSurveyQuestionPoolGUI");
+        } catch (Exception $e) {
+            parent::importFile($file_to_import, $path_to_uploaded_file_in_temp_dir);
+        }
+    }
+
     protected function addLocatorItems(): void
     {
         $ilLocator = $this->locator;
