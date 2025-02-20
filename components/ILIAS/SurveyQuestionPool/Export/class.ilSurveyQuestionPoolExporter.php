@@ -51,21 +51,6 @@ class ilSurveyQuestionPoolExporter extends ilXmlExporter
             "ids" => $a_ids
         ];
 
-        $advmd_ids = [];
-        foreach ($a_ids as $id) {
-            $rec_ids = $this->getActiveAdvMDRecords($id);
-            foreach ($rec_ids as $rec_id) {
-                $advmd_ids[] = $id . ":" . $rec_id;
-            }
-        }
-
-        if ($advmd_ids !== []) {
-            $dependencies[] = [
-                "component" => "components/ILIAS/AdvancedMetaData",
-                "entity" => "advmd",
-                "ids" => $advmd_ids
-            ];
-        }
 
         $md_ids = [];
         foreach ($a_ids as $spl_id) {
@@ -91,27 +76,5 @@ class ilSurveyQuestionPoolExporter extends ilXmlExporter
                 "min" => "4.1.0",
                 "max" => "")
         );
-    }
-
-    protected function getActiveAdvMDRecords(int $a_id): array
-    {
-        $active = [];
-        $component = 'spl';
-        foreach (ilAdvancedMDRecord::_getActivatedRecordsByObjectType($component) as $record_obj) {
-            foreach ($record_obj->getAssignedObjectTypes() as $obj_info) {
-                if ($obj_info['obj_type'] == $component && $obj_info['optional'] == 0) {
-                    $active[] = $record_obj->getRecordId();
-                }
-                // local activation
-                if (
-                    $obj_info['obj_type'] == $component &&
-                    $obj_info['optional'] == 1 &&
-                    $a_id == $record_obj->getParentObject()
-                ) {
-                    $active[] = $record_obj->getRecordId();
-                }
-            }
-        }
-        return $active;
     }
 }
