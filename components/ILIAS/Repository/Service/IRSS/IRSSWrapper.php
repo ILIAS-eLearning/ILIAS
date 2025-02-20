@@ -269,7 +269,8 @@ class IRSSWrapper
     {
         $id = $this->getResourceIdForIdString($rid);
         if ($id) {
-            $this->irss->consume()->download($id)->run();
+            $revision = $this->irss->manage()->getCurrentRevision($id);
+            $this->irss->consume()->download($id)->overrideFileName($revision->getTitle())->run();
         }
     }
 
@@ -291,7 +292,7 @@ class IRSSWrapper
         return "";
     }
 
-    public function getResource(string $rid) : ?StorableResource
+    public function getResource(string $rid): ?StorableResource
     {
         $id = $this->getResourceIdForIdString($rid);
         if ($id) {

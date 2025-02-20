@@ -121,7 +121,7 @@ class Handler implements ilExportHandlerFileInfoInterface
             $file_name = $this->splFileInfo->getFilename();
         }
         if (isset($this->resource)) {
-            $file_name = $this->resource->getCurrentRevision()->getInformation()->getTitle();
+            $file_name = $this->resource->getCurrentRevision()->getTitle();
         }
         return $file_name;
     }
