@@ -23,7 +23,7 @@ use ILIAS\Services\Badge\BadgeException;
 
 class ilBadge
 {
-    private ?ilLogger $log = null;
+    private ilLogger $log;
     protected ilDBInterface $db;
     protected int $id = 0;
     protected int $parent_id = 0;

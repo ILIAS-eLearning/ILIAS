@@ -990,9 +990,6 @@ class ilBadgeManagementGUI
     }
 
     /**
-     * @param ilBadge                     $badge
-     * @param ResourceIdentification|null $rid
-     * @return void
      * @throws Exception
      */
     protected function cloneBadgeTemplate(ilBadge $badge, ?ResourceIdentification $rid): void
@@ -1004,10 +1001,6 @@ class ilBadgeManagementGUI
         }
     }
 
-    /**
-     * @param ilBadge $badge
-     * @return void
-     */
     protected function removeResourceStorageImage(ilBadge $badge): void
     {
         if ($badge->getImageRid() !== '') {
