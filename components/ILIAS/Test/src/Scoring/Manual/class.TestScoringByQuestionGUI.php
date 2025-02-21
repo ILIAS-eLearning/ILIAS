@@ -299,7 +299,7 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
         ];
 
         if ($this->object->getAutosave()
-            && $autosave_content = $this->buildAutosavedSolutionPanel($question_gui, $question_id, $attempt)
+            && $autosave_content = $this->buildAutosavedSolutionPanel($question_gui, $active_id, $attempt)
         ) {
             $content[] = $autosave_content;
         }

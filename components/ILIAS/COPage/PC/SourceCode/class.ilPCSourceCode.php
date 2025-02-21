@@ -93,6 +93,9 @@ class ilPCSourceCode extends ilPCParagraph
                 $plain_content
             );
             //$content = utf8_encode($this->highlightText($plain_content, $subchar));
+            if ($subchar === "") {
+                $subchar = "other";
+            }
             $content = $this->highlightText($plain_content, $subchar);
 
             $content = str_replace("&amp;lt;", "&lt;", $content);

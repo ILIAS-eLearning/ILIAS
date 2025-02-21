@@ -48,11 +48,6 @@ class ilQuestionBrowserTableGUITest extends assBaseTestCase
                     {
                         return 0;
                     }
-
-                    public function getShowTaxonomies(): bool
-                    {
-                        return false;
-                    }
                 };
             }
 

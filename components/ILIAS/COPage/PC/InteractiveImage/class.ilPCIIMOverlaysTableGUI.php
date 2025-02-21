@@ -61,7 +61,7 @@ class ilPCIIMOverlaysTableGUI extends ilTable2GUI
     public function getOverlays(): array
     {
         $ov = array();
-        $files = $this->mob->getFilesOfDirectory("overlays");
+        $files = $this->mob->getFilesOfDirectory("/overlays");
         foreach ($files as $f) {
             $ov[] = array("filename" => $f);
         }

@@ -48,22 +48,7 @@ const termElementClass = 'c-test__term';
  */
 const placeholderClass = 'c-test__dropzone';
 
-/**
- * @type {String}
- */
-let matchingType;
-
-/**
- * @type {DOMElement}
- */
-let parentElement;
-
-/**
- * @type {DOMElement}
- */
-let placeholderElement;
-
-function setup() {
+function setup(parentElement) {
   const answers = parentElement.querySelectorAll(`.${termElementClass}`);
   let elementHeight = 0;
   answers.forEach(
@@ -78,10 +63,10 @@ function setup() {
       elem.style.height = `${answers.item(0).offsetHeight}px`;
     },
   );
-  placeholderElement = parentElement.querySelector(`.${placeholderClass}`);
+  return parentElement.querySelector(`.${placeholderClass}`);
 }
 
-function updatePlaceholderElementsOneToOne(targetArea) {
+function updatePlaceholderElementsOneToOne(targetArea, placeholderElement) {
   const firstChild = targetArea.firstElementChild;
   if (firstChild === null) {
     targetArea.prepend(placeholderElement.cloneNode());
@@ -93,7 +78,7 @@ function updatePlaceholderElementsOneToOne(targetArea) {
   }
 }
 
-function updatePlaceholderElementsManyToMany(targetArea) {
+function updatePlaceholderElementsManyToMany(targetArea, placeholderElement) {
   if (targetArea.firstElementChild === null
     || !targetArea.lastElementChild.classList.contains(placeholderClass)) {
     targetArea.append(placeholderElement.cloneNode());
@@ -109,20 +94,20 @@ function updateAnswerElementsManyToMany(droppedElement, target, draggedElement) 
   }
 }
 
-function updateTerms(droppedElement, target, draggedElement) {
+function updateTerms(droppedElement, target, draggedElement, matchingType) {
   if (matchingType === matchingTypeManyToMany) {
     updateAnswerElementsManyToMany(droppedElement, target, draggedElement);
   }
 }
 
-function updatePlaceholders() {
+function updatePlaceholders(parentElement, matchingType, placeholderElement) {
   parentElement.querySelectorAll(`.${targetAreasClass}`).forEach(
     (elem) => {
       if (matchingType === matchingTypeOneToOne) {
-        updatePlaceholderElementsOneToOne(elem);
+        updatePlaceholderElementsOneToOne(elem, placeholderElement);
         return;
       }
-      updatePlaceholderElementsManyToMany(elem);
+      updatePlaceholderElementsManyToMany(elem, placeholderElement);
     },
   );
 }
@@ -146,13 +131,13 @@ function updateValues(droppedElement, target, source) {
   }
 }
 
-function changeHandler(droppedElement, target, draggedElement, source) {
+function changeHandler(droppedElement, target, draggedElement, source, matchingType) {
   updateValues(droppedElement, target, source);
-  updateTerms(droppedElement, target, draggedElement);
+  updateTerms(droppedElement, target, draggedElement, matchingType);
 }
 
-function onStartPrepareHandler(draggedElement) {
-  updatePlaceholders();
+function onStartPrepareHandler(draggedElement, parentElement, matchingType, placeholderElement) {
+  updatePlaceholders(parentElement, matchingType, placeholderElement);
   const sourceArea = parentElement.querySelector(`.${sourceAreaClass}`);
   if (sourceArea.firstElementChild === null
     || !sourceArea.firstElementChild.classList.contains(placeholderClass)) {
@@ -179,19 +164,21 @@ function onStartPrepareHandler(draggedElement) {
 }
 
 export default function matchingHandler(
-  parentElementParam,
+  parentElement,
   makeDraggable,
-  matchingTypeParam,
+  matchingType,
 ) {
-  parentElement = parentElementParam;
-  matchingType = matchingTypeParam;
-  setup();
+  const placeholderElement = setup(parentElement);
   makeDraggable(
     matchingType === matchingTypeOneToOne ? 'move' : 'copy',
     parentElement,
     termElementClass,
     placeholderClass,
-    changeHandler,
-    onStartPrepareHandler,
+    (droppedElement, target, draggedElement, source) => {
+      changeHandler(droppedElement, target, draggedElement, source, matchingType);
+    },
+    (draggedElement) => {
+      onStartPrepareHandler(draggedElement, parentElement, matchingType, placeholderElement);
+    },
   );
 }

@@ -300,6 +300,21 @@ class SubmissionManager
         return $success;
     }
 
+    protected function remainingFilesAllowed(int $user_id): int
+    {
+        $submission = new \ilExSubmission(
+            $this->assignment,
+            $user_id
+        );
+        $max_file = $submission->getAssignment()->getMaxFile();
+        if ($max_file === 0) {
+            return -1;
+        }
+        $cnt_sub = $this->countSubmissionsOfUser($user_id);
+        $max_file -= $cnt_sub;
+        return max($max_file, 0);
+    }
+
     public function addZipUploads(
         int $user_id,
         UploadResult $result
@@ -327,7 +342,8 @@ class SubmissionManager
             $team_id,
             $result,
             $submission->isLate(),
-            $this->stakeholder
+            $this->stakeholder,
+            $this->remainingFilesAllowed($user_id)
         );
         $this->log->debug("99");
         if ($team_id > 0) {

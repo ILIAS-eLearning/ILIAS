@@ -1231,7 +1231,7 @@ class ilObjSAHSLearningModule extends ilObject
 
 
             // set/copy stylesheet
-            /*		include_once("./components/ILIAS/Style/Content/classes/class.ilObjStyleSheet.php");
+            /*		include_once("../components/ILIAS/Style/Content/classes/class.ilObjStyleSheet.php");
                     $style_id = $this->getStyleSheetId();
                     if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
                     {

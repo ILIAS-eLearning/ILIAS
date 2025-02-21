@@ -8,6 +8,10 @@
 
 $cursor-disabled: not-allowed;
 $form-group-margin-bottom: $il-margin-xlarge-vertical;
+$il-form-autocomplete-bg: $il-main-bg;
+$il-form-autocomplete-bg-hover: $il-highlight-bg;
+$il-form-autocomplete-border: $il-main-border;
+$il-form-autocomplete-padding: $il-padding-xs-horizontal;
 
 // section based on bootstrap 3 - see /templates/default/Guidelines_SCSS-Coding.md
 
@@ -720,4 +724,21 @@ input:invalid {
 /* provisory fix for #0021322  */
 div[id$="color-picker-menu"] {
 	z-index: 3;
+}
+
+.c-form__autocomplete {
+    position: absolute;
+    background-color: $il-form-autocomplete-bg;
+    border-left: $il-form-autocomplete-border;
+    border-right: $il-form-autocomplete-border;
+    border-bottom: $il-form-autocomplete-border;
+    margin: 0;
+    padding: $il-form-autocomplete-padding;
+    list-style: none;
+    z-index: 1;
+    cursor: default;
+
+    & li:hover {
+        background-color: $il-form-autocomplete-bg-hover;
+    }
 }

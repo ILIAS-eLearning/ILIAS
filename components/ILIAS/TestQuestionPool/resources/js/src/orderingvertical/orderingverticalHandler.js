@@ -33,12 +33,7 @@ const answerElementClass = 'dd-item';
  */
 const placeholderClass = 'c-test__dropzone';
 
-/**
- * @type {DOMElement}
- */
-let parentElement;
-
-function setup() {
+function setup(parentElement) {
   const answers = parentElement.querySelectorAll(`.${answerElementClass}`);
   let elementHeight = 0;
   answers.forEach(
@@ -55,7 +50,7 @@ function setup() {
   );
 }
 
-function updatePlaceholders() {
+function updatePlaceholders(parentElement) {
   const placeholderElement = parentElement.querySelector(`.${placeholderClass}`);
   parentElement.querySelectorAll(`.${answerElementClass}`).forEach(
     (elem) => {
@@ -76,7 +71,7 @@ function updatePlaceholders() {
   );
 }
 
-function updateIndentationInputs(draggedElement, target) {
+function updateIndentationInputs(draggedElement, target, parentElement) {
   let i = 0;
   let root = target.parentElement.parentElement;
   while (root !== parentElement) {
@@ -93,7 +88,7 @@ function updateIndentationInputs(draggedElement, target) {
   );
 }
 
-function updatePositionInputs() {
+function updatePositionInputs(parentElement) {
   let p = 0;
   parentElement.querySelectorAll(`.${answerElementClass}`).forEach(
     (elem) => {
@@ -103,13 +98,13 @@ function updatePositionInputs() {
   );
 }
 
-function changeHandler(draggedElement, target) {
-  updateIndentationInputs(draggedElement, target);
-  updatePositionInputs();
+function changeHandler(draggedElement, target, parentElement) {
+  updateIndentationInputs(draggedElement, target, parentElement);
+  updatePositionInputs(parentElement);
 }
 
-function onStartPrepareHandler(draggedElement) {
-  updatePlaceholders();
+function onStartPrepareHandler(draggedElement, parentElement) {
+  updatePlaceholders(parentElement);
   if (draggedElement.previousElementSibling?.classList.contains(placeholderClass)) {
     draggedElement.previousElementSibling.remove();
   }
@@ -119,15 +114,14 @@ function onStartPrepareHandler(draggedElement) {
   }
 }
 
-export default function orderingVerticalHandler(parentElementParam, makeDraggable) {
-  parentElement = parentElementParam;
-  setup();
+export default function orderingVerticalHandler(parentElement, makeDraggable) {
+  setup(parentElement);
   makeDraggable(
     'move',
     parentElement,
     answerElementClass,
     placeholderClass,
-    changeHandler,
-    onStartPrepareHandler,
+    (draggedElement, target) => { changeHandler(draggedElement, target, parentElement); },
+    (draggedElement) => { onStartPrepareHandler(draggedElement, parentElement); },
   );
 }

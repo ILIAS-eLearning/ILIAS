@@ -110,7 +110,8 @@ class ilTestHTMLGenerator
             }
 
             if (stripos($src, ILIAS_HTTP_PATH) !== false
-                && stripos($src, 'assets') === false) {
+                && stripos($src, 'assets') === false
+                && file_exists($src)) {
                 $src = ILIAS_HTTP_PATH . substr(ilWACSignedPath::signFile($src), 1);
             }
 

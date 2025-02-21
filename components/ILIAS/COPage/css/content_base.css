@@ -185,3 +185,6 @@ button.copg-add.dropdown-toggle.btn:focus-visible {
 	display: block;
 	opacity: 1;
 }
+.copg-src-form.c-form [data-il-ui-component=textarea-field-input] .c-input__field textarea {
+	height: 50vh;
+}

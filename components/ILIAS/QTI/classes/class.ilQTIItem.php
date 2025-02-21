@@ -45,6 +45,24 @@ class ilQTIItem
     public const QT_FORMULA = "assFormulaQuestion";
     public const QT_TEXTSUBSET = "assTextSubset";
 
+    private const VALID_QUESTION_TYPES = [
+        self::QT_KPRIM_CHOICE,
+        self::QT_LONG_MENU,
+        self::QT_MULTIPLE_CHOICE_SR,
+        self::QT_MULTIPLE_CHOICE_MR,
+        self::QT_CLOZE,
+        self::QT_ERRORTEXT,
+        self::QT_MATCHING,
+        self::QT_ORDERING,
+        self::QT_ORDERING_HORIZONTAL,
+        self::QT_IMAGEMAP,
+        self::QT_TEXT,
+        self::QT_FILEUPLOAD,
+        self::QT_NUMERIC,
+        self::QT_FORMULA,
+        self::QT_TEXTSUBSET
+    ];
+
     public ?string $ident = null;
     public string $title = '';
     public string $maxattempts = '';
@@ -219,6 +237,10 @@ class ilQTIItem
 
     public function determineQuestionType(): ?string
     {
+        if (in_array($this->questiontype, self::VALID_QUESTION_TYPES)) {
+            return $this->questiontype;
+        }
+
         switch ($this->questiontype) {
             case "ORDERING QUESTION":
                 return self::QT_ORDERING;
@@ -247,14 +269,15 @@ class ilQTIItem
             return self::QT_UNKNOWN;
         }
         foreach ($this->presentation->order as $entry) {
-            if ('response' === $entry["type"]) {
-                $result = $this->typeFromResponse($this->presentation->response[$entry["index"]]);
-                if (null !== $result) {
-                    return $result;
-                }
+            if ('response' !== $entry["type"]) {
+                continue;
+            }
+            $result = $this->typeFromResponse($this->presentation->response[$entry["index"]]);
+            if ($result !== null) {
+                return $result;
             }
         }
-        if (strlen($this->questiontype) == 0) {
+        if ($this->questiontype === '') {
             return self::QT_UNKNOWN;
         }
 

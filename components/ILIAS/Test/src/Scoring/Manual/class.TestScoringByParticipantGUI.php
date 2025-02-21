@@ -329,7 +329,7 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
 
         $scorer = new TestScoring($this->object, $this->user, $this->db, $this->lng);
         $scorer->setPreserveManualScores(true);
-        $scorer->recalculateSolution($activeId, $pass);
+        $scorer->recalculateSolution($active_id, $pass);
 
         if ($this->object->getAnonymity() == 0) {
             $user_name = \ilObjUser::_lookupName(\ilObjTestAccess::_getParticipantId($active_id));
@@ -510,24 +510,23 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
         return $man_scoring_question_gui_list;
     }
 
-    private function buildManScoringParticipantsTable(bool $withData = false): TestScoringByParticipantTableGUI
+    private function buildManScoringParticipantsTable(bool $with_data = false): TestScoringByParticipantTableGUI
     {
         $table = new TestScoringByParticipantTableGUI($this);
 
-        if ($withData) {
-            $participantStatusFilterValue = $table->getFilterItemByPostVar('participant_status')->getValue();
-
+        if ($with_data) {
             $participant_list = new \ilTestParticipantList($this->object, $this->user, $this->lng, $this->db);
-
             $participant_list->initializeFromDbRows(
-                $this->object->getTestParticipantsForManualScoring($participantStatusFilterValue)
+                $this->object->getTestParticipantsForManualScoring(
+                    $table->getFilterItemByPostVar('participant_status')->getValue()
+                )
             );
 
-            $filtered_participant_list = $participant_list->getAccessFilteredList(
-                $this->participant_access_filter->getScoreParticipantsUserFilter($this->ref_id)
+            $table->setData(
+                $participant_list->getAccessFilteredList(
+                    $this->participant_access_filter->getScoreParticipantsUserFilter($this->ref_id)
+                )->getScoringTableRows()
             );
-
-            $table->setData($filtered_participant_list->getScoringTableRows());
         }
 
         return $table;

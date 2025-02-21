@@ -90,6 +90,7 @@ abstract class ilContainerContentGUI
         $this->container_obj = $obj;
 
         $tpl->addJavaScript("assets/js/Container.js");
+        $tpl->addJavaScript("assets/js/repository.js");
 
         $this->log = ilLoggerFactory::getLogger('cont');
 

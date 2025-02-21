@@ -173,7 +173,8 @@ class TabsManager
 
     protected function isHistoryAccessGranted(): bool
     {
-        return $this->access->checkAccess('tst_history_read', '', $this->test_object->getRefId());
+        return $this->test_object->getTestLogger()->isLoggingEnabled()
+            && $this->access->checkAccess('tst_history_read', '', $this->test_object->getRefId());
     }
 
     protected function isPermissionsAccessGranted(): bool

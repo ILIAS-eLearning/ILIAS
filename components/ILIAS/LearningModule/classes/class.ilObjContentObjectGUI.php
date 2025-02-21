@@ -319,6 +319,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
                 // infoscreen
             case 'ilinfoscreengui':
+                if (!$this->object->isInfoEnabled()) {
+                    return;
+                }
                 $this->addHeaderAction();
                 $this->addLocations(true);
                 $this->setTabs("info");
@@ -1023,6 +1026,114 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->ctrl->setParameterByClass(ilObjLearningModuleGUI::class, "ref_id", $new_object->getRefId());
         $this->ctrl->redirectByClass([ilLMEditorGUI::class, ilObjLearningModuleGUI::class], "");
     }
+
+    /**
+     * confirm deletion screen for free pages (other usages do not apply anymore)
+     */
+    public function delete(int $a_parent_subobj_id = 0): void
+    {
+        $ids = $this->edit_request->getIds();
+
+        if (count($ids) == 0) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
+            $this->cancelDelete();
+        }
+
+        if (count($ids) == 1 && $ids[0] == ilTree::POS_FIRST_NODE) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("cont_select_item"), true);
+            $this->cancelDelete();
+        }
+
+        if ($a_parent_subobj_id == 0) {
+            $this->setTabs("content");
+        }
+
+        if ($a_parent_subobj_id != 0) {
+            $this->ctrl->setParameterByClass("ilStructureObjectGUI", "backcmd", $this->requested_backcmd);
+            $this->ctrl->setParameterByClass("ilStructureObjectGUI", "obj_id", $a_parent_subobj_id);
+            $form_action = $this->ctrl->getFormActionByClass("ilStructureObjectGUI");
+        } else {
+            $this->ctrl->setParameter($this, "backcmd", $this->requested_backcmd);
+            $form_action = $this->ctrl->getFormAction($this);
+        }
+
+        // display confirmation message
+        $cgui = new ilConfirmationGUI();
+        $cgui->setFormAction($form_action);
+        $cgui->setHeaderText($this->lng->txt("info_delete_sure"));
+        $cgui->setCancel($this->lng->txt("cancel"), "cancelDelete");
+        $cgui->setConfirm($this->lng->txt("confirm"), "confirmedDelete");
+
+        foreach ($ids as $id) {
+            if ($id != ilTree::POS_FIRST_NODE) {
+                $obj = new ilLMObject($this->lm, $id);
+                $caption = $obj->getTitle();
+
+                $cgui->addItem("id[]", $id, $caption);
+            }
+        }
+
+        $this->tpl->setContent($cgui->getHTML());
+    }
+
+    public function cancelDelete(): void
+    {
+        $this->ctrl->redirect($this, $this->requested_backcmd);
+    }
+
+    /**
+     * delete page object or structure objects
+     *
+     * @param	int		$a_parent_subobj_id		id of parent object (structure object)
+     *											of the objects, that should be deleted
+     *											(or no parent object id for top level)
+     */
+    public function confirmedDelete(int $a_parent_subobj_id = 0): void
+    {
+        $tree = new ilLMTree($this->lm->getId());
+
+        $ids = $this->edit_request->getIds();
+
+        // check number of objects
+        if (count($ids) == 0) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
+            $this->ctrl->redirect($this, "cancelDelete");
+        }
+
+        // delete all selected objects
+        foreach ($ids as $id) {
+            if ($id != ilTree::POS_FIRST_NODE) {
+                $obj = ilLMObjectFactory::getInstance($this->lm, $id, false);
+                $node_data = $tree->getNodeData($id);
+                if (is_object($obj)) {
+                    $obj->setLMId($this->lm->getId());
+
+                    ilHistory::_createEntry(
+                        $this->lm->getId(),
+                        "delete_" . $obj->getType(),
+                        array(ilLMObject::_lookupTitle($id), $id),
+                        $this->lm->getType()
+                    );
+
+                    $obj->delete();
+                }
+                if ($tree->isInTree($id)) {
+                    $tree->deleteTree($node_data);
+                }
+            }
+        }
+
+        // check the tree
+        $this->lm->checkTree();
+
+        // feedback
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("info_deleted"), true);
+
+        if ($a_parent_subobj_id == 0) {
+            $this->ctrl->redirect($this, $this->requested_backcmd);
+        }
+    }
+
 
     /**
      * show chapters

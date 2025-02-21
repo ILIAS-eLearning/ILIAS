@@ -291,6 +291,7 @@ class ilExportGUI
             $tree_nodes,
             $post_export_options
         );
+        $eo->read();
         $ref_ids_export = [$this->parent_gui->getObject()->getRefId()];
         $ref_ids_all = [$this->parent_gui->getObject()->getRefId()];
         $tree_ref_ids = array_map(function ($node) { return (int) $node['ref_id']; }, $tree_nodes);

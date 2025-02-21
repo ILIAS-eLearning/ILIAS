@@ -51,7 +51,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
      * @var array
      */
     protected $gap_combinations = [];
-    protected bool $gap_combinations_exists = false;
+    protected bool $gap_combinations_exist = false;
     private string $start_tag = '[gap]';
     private string $end_tag = '[/gap]';
 
@@ -235,8 +235,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                 }
             }
         }
-        $assClozeGapCombinationObj = new assClozeGapCombination();
-        $check_for_gap_combinations = $assClozeGapCombinationObj->loadFromDb($question_id);
+        $check_for_gap_combinations = (new assClozeGapCombination())->loadFromDb($question_id);
         if (count($check_for_gap_combinations) != 0) {
             $this->setGapCombinationsExists(true);
             $this->setGapCombinations($check_for_gap_combinations);
@@ -782,11 +781,16 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         return $points;
     }
 
-    public function copyGapCombination($orgID, $newID): void
-    {
-        $assClozeGapCombinationObj = new assClozeGapCombination();
-        $array = $assClozeGapCombinationObj->loadFromDb($orgID);
-        $assClozeGapCombinationObj->importGapCombinationToDb($newID, $array);
+    public function cloneQuestionTypeSpecificProperties(
+        \assQuestion $target
+    ): \assQuestion {
+        if ($this->gap_combinations_exist) {
+            (new assClozeGapCombination())->importGapCombinationToDb(
+                $target->getId(),
+                $this->gap_combinations
+            );
+        }
+        return $target;
     }
 
     /**
@@ -1228,7 +1232,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     }
     public function getGapCombinationsExists(): bool
     {
-        return $this->gap_combinations_exists;
+        return $this->gap_combinations_exist;
     }
 
     public function getGapCombinations(): array
@@ -1238,7 +1242,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 
     public function setGapCombinationsExists($value): void
     {
-        $this->gap_combinations_exists = $value;
+        $this->gap_combinations_exist = $value;
     }
 
     public function setGapCombinations($value): void

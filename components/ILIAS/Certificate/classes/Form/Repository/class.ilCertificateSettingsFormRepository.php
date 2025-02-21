@@ -28,7 +28,7 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\UI\Factory as UiFactory;
 use ILIAS\UI\Renderer as UiRenderer;
-use ILIAS\ResourceStorage\Flavour\Definition\CropToSquare;
+use ILIAS\ResourceStorage\Flavour\Definition\FitToSquare;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -45,7 +45,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
     private IRSS $irss;
     private Filesystem $filesystem;
     private readonly ilGlobalTemplateInterface $page_template;
-    private readonly CropToSquare $card_thumbnail_definition;
+    private readonly FitToSquare $card_thumbnail_definition;
 
     public function __construct(
         private readonly int $objectId,
@@ -89,7 +89,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
             $DIC->database(),
             $logger ?? $DIC->logger()->cert()
         );
-        $this->card_thumbnail_definition = new CropToSquare(
+        $this->card_thumbnail_definition = new FitToSquare(
             true,
             100
         );

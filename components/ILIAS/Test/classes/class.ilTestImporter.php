@@ -55,13 +55,14 @@ class ilTestImporter extends ilXmlImporter
         string $a_xml,
         ilImportMapping $a_mapping
     ): void {
+        $results_file_path = null;
         if ($new_id = (int) $a_mapping->getMapping('components/ILIAS/Container', 'objs', $a_id)) {
             // container content
             $new_obj = ilObjectFactory::getInstanceByObjId((int) $new_id, false);
             $new_obj->saveToDb();
 
             ilSession::set('path_to_container_import_file', $this->getImportDirectory());
-            list($importdir, $xmlfile, $qtifile) = $this->buildImportDirectoriesFromContainerImport(
+            [$importdir, $xmlfile, $qtifile] = $this->buildImportDirectoriesFromContainerImport(
                 $this->getImportDirectory()
             );
             $selected_questions = [];
@@ -71,9 +72,10 @@ class ilTestImporter extends ilXmlImporter
             $new_obj = ilObjectFactory::getInstanceByObjId($new_id, false);
 
             $selected_questions = ilSession::get('tst_import_selected_questions') ?? [];
-            list($subdir, $importdir, $xmlfile, $qtifile) = $this->buildImportDirectoriesFromImportFile(
+            [$subdir, $importdir, $xmlfile, $qtifile] = $this->buildImportDirectoriesFromImportFile(
                 ilSession::get('path_to_import_file')
             );
+            $results_file_path = $this->buildResultsFilePath($importdir, $subdir);
             ilSession::clear('tst_import_selected_questions');
         }
 
@@ -115,8 +117,7 @@ class ilTestImporter extends ilXmlImporter
             $this->importRandomQuestionSetConfig($new_obj, $xmlfile, $a_mapping);
         }
 
-        $results_file_path = $this->buildResultsFilePath($importdir, $subdir);
-        if (file_exists($results_file_path)) {
+        if ($results_file_path !== null && file_exists($results_file_path)) {
             $results = new ilTestResultsImportParser($results_file_path, $new_obj, $this->db, $this->logger);
             $results->setQuestionIdMapping($a_mapping->getMappingsOfEntity('components/ILIAS/Test', 'quest'));
             $results->setSrcPoolDefIdMapping($a_mapping->getMappingsOfEntity('components/ILIAS/Test', 'rnd_src_pool_def'));

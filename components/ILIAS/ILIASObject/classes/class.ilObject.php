@@ -718,7 +718,7 @@ class ilObject
             $paths = $this->lom_services->paths();
 
             $manipulator = $this->lom_services->manipulate($this->getId(), 0, $this->getType())
-                                              ->prepareCreateOrUpdate($paths->title(), $this->getTitle());
+                ->prepareCreateOrUpdate($paths->title(), $this->getTitle());
 
             if ($this->getDescription() !== '') {
                 $manipulator = $manipulator->prepareCreateOrUpdate(

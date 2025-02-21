@@ -230,7 +230,13 @@ final class ilContainerResourceGUI implements UploadHandler
         }
         $modal = $this->standard_action_provider->getAddDirectoryModal()->withRequest($this->http->request());
 
-        $directory_name = $this->view_request->getPath() . $modal->getData()[0] ?? '';
+        $directory_name = $modal->getData()[0] ?? '';
+        if (empty($directory_name)) {
+            $this->main_tpl->setOnScreenMessage('failure', $this->language->txt('msg_error_adding_directory'), true);
+            $this->ctrl->redirect($this, self::CMD_INDEX);
+            return;
+        }
+        $directory_name = $this->view_request->getPath() . $directory_name;
 
         $success = $this->irss->manageContainer()->createDirectoryInsideContainer(
             $this->view_configuration->getContainer()->getIdentification(),
@@ -290,7 +296,12 @@ final class ilContainerResourceGUI implements UploadHandler
             $this->abortWithPermissionDenied();
             return;
         }
-        $this->main_tpl->setOnScreenMessage('success', $this->language->txt('rids_appended'), true);
+        if ($this->http->request()->getParsedBody() === []) { // nothing uploaded
+            $this->main_tpl->setOnScreenMessage('failure', $this->language->txt('rids_appended_failed'), true);
+        } else {
+            $this->main_tpl->setOnScreenMessage('success', $this->language->txt('rids_appended'), true);
+        }
+
         $this->ctrl->redirect($this, self::CMD_INDEX);
     }
 

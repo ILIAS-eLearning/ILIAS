@@ -93,7 +93,6 @@ class ilLMNavigationStatus
         // determine object id
         if ($requested_obj_id == 0) {
             $obj_id = $this->lm_tree->getRootId();
-
             if ($this->cmd == "resume") {
                 if ($user->getId() != ANONYMOUS_USER_ID && ($this->focus_id == 0)) {
                     $last_accessed_page = ilObjLearningModuleAccess::_getLastAccessedPage($this->lm->getRefId(), $user->getId());
@@ -122,15 +121,12 @@ class ilLMNavigationStatus
             $this->current_page_id = $obj_id;
             return;
         }
-
         $curr_node = $this->lm_tree->getNodeData($obj_id);
-
         $active = ilLMPage::_lookupActive(
             $obj_id,
             $this->lm->getType(),
             (bool) $this->lm_set->get("time_scheduled_page_activation")
         );
-
         $show = $active;
 
         // look, whether activation data should be shown
@@ -155,6 +151,16 @@ class ilLMNavigationStatus
                         $this->lm->getType(),
                         $this->lm_set->get("time_scheduled_page_activation")
                     );
+                    if (!$active) {
+                        // look, whether activation data should be shown
+                        $act_data = ilLMPage::_lookupActivationData((int) $page_id, $this->lm->getType());
+                        if ($act_data["show_activation_info"] ?? false) {
+                            $active = true;
+                            if (ilLMPageObject::_lookupType($page_id) == "pg") {
+                                $this->deactivated_page = true;
+                            }
+                        }
+                    }
                 }
             }
 

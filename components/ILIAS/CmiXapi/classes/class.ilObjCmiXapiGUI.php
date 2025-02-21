@@ -832,10 +832,10 @@ class ilObjCmiXapiGUI extends ilObject2GUI
     protected function handleAvailablityMessage(): void
     {
         global $DIC;
-        /* @var \ILIAS\DI\Container $DIC */
 
         if ($this->object->getLrsType()->getAvailability() == ilCmiXapiLrsType::AVAILABILITY_NONE) {
-            $this->tpl->setOnScreenMessage('failure', $DIC->language()->txt('cmix_lrstype_not_avail_msg'));
+            $DIC->language()->loadLanguageModule('cmix');
+            $this->tpl->setOnScreenMessage('failure', $DIC->language()->txt('lrs_type_not_avail_msg'));
         }
     }
 

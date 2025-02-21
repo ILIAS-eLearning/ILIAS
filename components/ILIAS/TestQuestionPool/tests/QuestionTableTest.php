@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\TestQuestionPool\Presentation\QuestionTable;
+use ILIAS\TestQuestionPool\Questions\Presentation\QuestionTable;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Data\Factory as DataFactory;

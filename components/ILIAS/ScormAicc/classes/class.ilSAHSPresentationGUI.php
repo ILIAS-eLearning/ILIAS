@@ -91,24 +91,41 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
 
         $this->slm_gui = new ilObjSCORMLearningModuleGUI("", $this->refId, true, false);
 
+        # AXH: DEBUGGING!
+        $DIC->logger()->root()->info( '===== $next_class: ' . $next_class . ' =====' );
+        $DIC->logger()->root()->info( '===== $cmd: ' . $cmd . ' =====' );
+
         if ($next_class !== "ilinfoscreengui" &&
             $cmd !== "infoScreen" &&
             $next_class !== "ilobjscorm2004learningmodulegui" &&
             $next_class !== "ilobjscormlearningmodulegui" &&
+            $next_class !== "ilscorm13playergui" &&
+            $next_class !== "ilscormpresentationgui" &&
             $next_class !== "illearningprogressgui") {
             switch ($type) {
                 case "scorm2004":
                     // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
                     // $this->ctrl->setCmdClass("ilscorm13playergui");
+
+                    $this->ctrl->saveParameterByClass(ilSCORM13PlayerGUI::class, "ref_id");
+                    $this->ctrl->redirectByClass(ilSCORM13PlayerGUI::class, $this->ctrl->getCmd());
+
+                    # AXH: Verwendung unklar!
                     $this->slm_gui = new ilObjSCORMLearningModuleGUI("", $this->refId, true, false);
                     break;
 
                 case "scorm":
                     // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
                     // $this->ctrl->setCmdClass("ilscormpresentationgui");
+
+                    $this->ctrl->saveParameterByClass(ilSCORMPresentationGUI::class, "ref_id");
+                    $this->ctrl->redirectByClass(ilSCORMPresentationGUI::class, $this->ctrl->getCmd());
+
+                    # AXH: Verwendung unklar!
                     $this->slm_gui = new ilObjSCORMLearningModuleGUI("", $this->refId, true, false);
                     break;
             }
+            # AXH: Verwendung unklar!
             $next_class = $this->ctrl->getNextClass($this);
         }
 

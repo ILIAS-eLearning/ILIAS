@@ -47,13 +47,15 @@ class InternalDomainService
     public function subObjectRetrieval(
         int $lm_id,
         string $type,
-        int $current_node
+        int $current_node,
+        string $lang
     ): SubObjectRetrieval {
         return self::$instance["sub_obj_retrieval"][$lm_id][$type][$current_node] ??=
             new SubObjectRetrieval(
                 $this->lmTree($lm_id),
                 $type,
-                $current_node
+                $current_node,
+                $lang
             );
     }
 

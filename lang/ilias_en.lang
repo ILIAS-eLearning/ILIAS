@@ -259,6 +259,7 @@ administration#:#language_scope_unchanged#:#Unchanged entries only
 administration#:#language_scope_unchanged_info#:#Export all default language entries that are not changed in the database. This is the opposite to ‘Local changes only’. Both together are a complete backup of the current language in the database.
 administration#:#language_settings#:#Language Settings
 administration#:#language_statistics#:#Statistics
+administration#:#language_translation#:#Page translation
 administration#:#language_translation_enabled#:#Page translation enabled
 administration#:#language_variables_saved#:#The changes to the language variables were saved successfully.
 administration#:#log_scan#:#Log scan results
@@ -769,6 +770,7 @@ assessment#:#fq_precision_info#:#Enter the number of desired decimal places.
 assessment#:#fq_question_desc#:#You can define variables by inserting $v1, $v2 ... $vn, results by inserting $r1, $r2 .... $rn at the desired position in the question text. Click on the button ‘Parse Question’ to create editing forms for variables and results.
 assessment#:#gap#:#Gap
 assessment#:#gap_combination#:#Gap Combination
+assessment#:#gaps#:#Gaps
 assessment#:#glossary_term#:#Glossary Term
 assessment#:#grading_mark_msg#:#Your mark is: &quot;[mark]&quot;
 assessment#:#grading_status_failed_msg#:#Sorry, you have <b>failed</b> the test.
@@ -1837,6 +1839,7 @@ assessment#:#tst_res_jump_to_participant_hint_opt#:#Jump to Participant
 assessment#:#tst_res_lo_objectives_header#:#Relevant Learning Objectives
 assessment#:#tst_res_lo_try_header#:#Attempt
 assessment#:#tst_res_lo_try_n#:#Attempt %s
+assessment#:#tst_res_tab_msg_no_lp_access#:#You are currently not allowed to access your Learning Progress, as you are not allowed to see your test results.
 assessment#:#tst_res_tab_msg_res_after_date#:#Your test results will be shown here after: %s
 assessment#:#tst_res_tab_msg_res_after_date_no_res#:#Once you have taken the test your results will be shown here after: %s
 assessment#:#tst_res_tab_msg_res_after_finish_test#:#After finishing the test your results will be shown here.
@@ -3323,6 +3326,7 @@ cmix#:#launch_url#:#URL of the resource
 cmix#:#launch_url_info#:#Insert here the Internet address by adding http:// or https:// . Options for data security are also relevant for remote resources.
 cmix#:#log_options#:#Options for the display of transmitted data
 cmix#:#lrs_authentication#:#Authentication
+cmix#:#lrs_type_not_avail_msg#:#This LRS Type is not available.
 cmix#:#no_substatements_info#:#With this option - which is only available for the ILIAS LRS proxy - the storage of subordinate statements can be suppressed. This can for example affect the answering of single tasks in a test. The content is informed that the statements would have been saved.
 cmix#:#no_substatements_label#:#Do not store substatements
 cmix#:#online_info#:#This makes the object visible and usable for the users.
@@ -5169,6 +5173,7 @@ common#:#object_copy_in_progress#:#Started Copying.
 common#:#object_duplicated#:#Object copied
 common#:#object_id#:#Object-ID
 common#:#object_imported#:#Object imported
+common#:#object_list#:#List of Objects
 common#:#objects#:#Objects
 common#:#objf#:#Object definitions
 common#:#objs_bibl#:#Bibliographies
@@ -7086,8 +7091,8 @@ content#:#cont_select_media_pool#:#Select Media Pool
 content#:#cont_select_none#:#Clear Selection
 content#:#cont_select_other_qpool#:#Select Other Pool
 content#:#cont_select_par_or_section#:#Please select at least one paragraph or section.
-content#:#cont_selected_items_have_been_copied#:#Selected items have been copied to the clipboard. Click target placeholders to paste them into the learning module.
-content#:#cont_selected_items_have_been_cut#:#Selected items have been cut to the clipboard. Click target placeholders to paste them into the learning module.
+content#:#cont_selected_items_have_been_copied#:#Selected items have been copied to the clipboard. You can now add them before or after other elements by using their action menus.
+content#:#cont_selected_items_have_been_cut#:#Selected items have been cut to the clipboard. You can now add them before or after other elements by using their action menus.
 content#:#cont_selected_pg_chap#:#Selected Pages/Chapters
 content#:#cont_selected_terms#:#Selected Terms
 content#:#cont_selected_topic#:#Selected Topic
@@ -9289,6 +9294,7 @@ exc#:#exc_assignments_deleted#:#The assignments have been deleted.
 exc#:#exc_blog_created#:#Blog successfully created.
 exc#:#exc_blog_returned#:#Assignment Blog
 exc#:#exc_blog_selected#:#The blog has been assigned.
+exc#:#exc_cannot_submit_any_files#:#You cannot submit any files anymore.
 exc#:#exc_chars_remaining#:#Characters remaining:
 exc#:#exc_comment_for_learner_edit#:#Enter in Text Field as Comment
 exc#:#exc_comment_for_learner_info#:#A notification is sent to the user and the feedback will be listed in the user's assignment view.
@@ -9717,6 +9723,7 @@ exc#:#exc_template#:#Template
 exc#:#exc_text_assignment_edit#:#Edit Text
 exc#:#exc_text_assignment_show#:#Show Text
 exc#:#exc_text_saved#:#Text has been saved.
+exc#:#exc_too_many_files#:#The upload contains too many files.
 exc#:#exc_total_exc#:#Total Exercise
 exc#:#exc_total_members#:#Total Exercise Participants
 exc#:#exc_type#:#Type
@@ -10651,6 +10658,7 @@ irss#:#revision_status_20#:#Draft
 irss#:#revisions#:#Available Revisions
 irss#:#rid_deleted#:#File removed
 irss#:#rids_appended#:#Resource(s) added
+irss#:#rids_appended_failed#:#No Resource(s) added
 irss#:#rids_deleted#:#Resource(s) deleted
 irss#:#rids_updated#:#Ressource(n) updated
 irss#:#sorting#:#Default Ordering
@@ -10968,6 +10976,9 @@ lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estima
 lm#:#lm_insert_chapter#:#Insert chapter
 lm#:#lm_insert_chapter_after#:#Insert chapter after
 lm#:#lm_insert_chapter_before#:#Insert chapter before
+lm#:#lm_insert_chapter_clip#:#Insert chapter from clipboard
+lm#:#lm_insert_chapter_clip_after#:#Insert chapter from clipboard after
+lm#:#lm_insert_chapter_clip_before#:#Insert chapter from clipboard before
 lm#:#lm_insert_layout_after#:#Insert template after
 lm#:#lm_insert_layout_before#:#Insert template before
 lm#:#lm_insert_page#:#Insert page
@@ -12091,7 +12102,7 @@ meta#:#meta_advmd_select_option_position#:#Position
 meta#:#meta_advmd_select_option_value#:#Value
 meta#:#meta_advmd_select_options#:#Entries
 meta#:#meta_advmd_select_options_edit#:#Edit Entries
-meta#:#meta_advmd_select_position_identifier#:#After %s
+meta#:#meta_advmd_select_position_identifier#:#After ‘%s’
 meta#:#meta_aggregation_level#:#Aggregation Level
 meta#:#meta_amaya#:#Amaya
 meta#:#meta_annotation#:#Annotation
@@ -12864,7 +12875,7 @@ news#:#lso_news_online_txt#:#A new object for your learning sequence was just pu
 news#:#new_test_online#:#The test was set online.
 news#:#news_1_file_created#:#One file has been added.
 news#:#news_1_file_updated#:#One file has been updated.
-news#:#news_1_posts#:#One post has been added.
+news#:#news_1_postings#:#One post has been added.
 news#:#news_add_news#:#Add News
 news#:#news_all_items#:#News for all favourite items
 news#:#news_allow_longer_periods#:#Allow Longer Periods
@@ -14293,6 +14304,10 @@ rbac#:#il_lti_global_role#:#LTI User
 rbac#:#il_sess_participant#:#Session Participant
 rbac#:#il_sess_status_closed#:#Non-Participant Closed Session
 rbac#:#ilias_id#:#ILIAS-ID
+rbac#:#impr_edit_permission#:#User can change permission settings of Legal Notice administration
+rbac#:#impr_read#:#User can read in Legal Notice administration
+rbac#:#impr_visible#:#Administration of Legal Notice is visible
+rbac#:#impr_write#:#User can edit content and settings of Legal Notice
 rbac#:#info_user_view_changed#:#User view changed
 rbac#:#internal_mail#:#Internal Mail
 rbac#:#invite#:#Inviting to survey
@@ -15966,6 +15981,7 @@ style#:#sty_caption#:#Caption
 style#:#sty_caption_class#:#Caption
 style#:#sty_carousel_templates#:#Carousel Templates
 style#:#sty_cat_assignments#:#Style/Category Assignments
+style#:#sty_change_user_assignment#:#Change User Assignment
 style#:#sty_characteristic_already_exists#:#A style class with this title already exists within this style.
 style#:#sty_class#:#Style Class
 style#:#sty_class_name#:#Class Name
@@ -16064,6 +16080,7 @@ style#:#sty_min_height#:#Minimum Height
 style#:#sty_move_lm_styles#:#Change Style of Learning Modules
 style#:#sty_move_style#:#Change Style
 style#:#sty_move_user_styles#:#Change Style of Users
+style#:#sty_move_user_styles_saved#:#The assignment of the users assigned to skind-id %s has been changed to skin-id %s.
 style#:#sty_msg_characteristic_must_only_include#:#The title of style classes must start with a letter, does not use spaces and only include the following characters:
 style#:#sty_msg_color_must_only_include#:#The color name may only include the following characters:
 style#:#sty_msg_input_must_be_numeric#:#Input must be numeric.
@@ -17389,7 +17406,7 @@ user#:#confirm_logout_for_email_change#:#You changed your email. To finalize thi
 user#:#confirm_logout_for_email_change_with_confirmation#:#Additionally, a confirmation that you control the new email address will be required. After you have logged in again, an email will be sent to you. Please click on the link in the email to confirm that you contoll the address. The change of the email address will only take effect once this second step is also finalized.
 user#:#create_starting_point#:#Create Rule
 user#:#criteria#:#Criteria
-user#:#del_mail_body#:#Hello %1$s, %2$s You have not logged in to %3$s for a long time. Therefore, your ILIAS account is expected to be deleted on %4$s. In order to keep your ILIAS account, you must log in again before the aforementioned date.
+user#:#del_mail_body#:#Hello %1$s, %2$s You have not logged in to %3$s for a long time. Therefore, your ILIAS account %5$s is expected to be deleted on %4$s. In order to keep your ILIAS account, you must log in again before the aforementioned date.
 user#:#del_mail_subject#:#Your ILIAS account will be deleted soon
 user#:#delete_inactive_user_accounts_frequency#:#Frequency
 user#:#delete_inactive_user_accounts_frequency_desc#:#Frequency, in which the deletion and e-mail distribution will be tested.

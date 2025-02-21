@@ -404,4 +404,25 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
             $this->db->dropTableColumn('tst_tests', 'author');
         }
     }
+
+    public function step_11(): void
+    {
+        if ($this->db->tableColumnExists('tst_tests', 'enable_processing_time')) {
+            $this->db->manipulateF(
+                'UPDATE tst_tests SET enable_processing_time = %s WHERE enable_processing_time IS NULL',
+                [\ilDBConstants::T_INTEGER],
+                [0]
+            );
+            $this->db->modifyTableColumn(
+                'tst_tests',
+                'enable_processing_time',
+                [
+                    'type' => \ilDBConstants::T_INTEGER,
+                    'length' => 1,
+                    'notnull' => true,
+                    'default' => 0
+                ]
+            );
+        }
+    }
 }

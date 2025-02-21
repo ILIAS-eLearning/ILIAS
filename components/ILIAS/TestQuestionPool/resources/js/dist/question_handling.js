@@ -1093,7 +1093,7 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 						mouseclick(null,document.getElementById(a_id+"_"+questions[a_id].answers[i].order));
 					}
 					// disbale answer options
-					document.querySelectorAll('area').forEach(function(area) {
+					document.querySelectorAll(`#container${a_id} area`).forEach(function(area) {
 						area.addEventListener('mouseover', function(event) {
 							event.stopImmediatePropagation();
 						}, true);

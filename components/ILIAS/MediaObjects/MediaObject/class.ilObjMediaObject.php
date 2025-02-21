@@ -625,6 +625,12 @@ class ilObjMediaObject extends ilObject
                         $xml .= "<PreviewPic File=\"" . $this->getVideoPreviewPic(true) .
                             "\" />";
                     }
+                    if ($item->getLocationType() == "LocalFile") {
+                        $lpos = strrpos($location, "/");
+                        $base_url = substr($location, 0, $lpos);
+                        $xml .= "<Url Base=\"" . $base_url .
+                            "\" />";
+                    }
                     $xml .= "</MediaItem>";
                 }
                 break;
@@ -1623,11 +1629,10 @@ class ilObjMediaObject extends ilObject
     public function removeAdditionalFile(
         string $a_file
     ): void {
-        $file = str_replace("..", "", $a_file);
-        $file = ilObjMediaObject::_getDirectory($this->getId()) . "/" . $file;
-        if (is_file($file)) {
-            unlink($file);
-        }
+        $this->manager->removeLocation(
+            $this->getId(),
+            $a_file
+        );
     }
 
 

@@ -102,20 +102,19 @@ class ilObjQuestionPoolSettingsGeneralGUI
 
     private function saveFormCmd(): void
     {
-        $form = $this->buildForm();
-        $form = $form->withRequest($this->http_request);
-
+        $form = $this->buildForm()->withRequest($this->http_request);
         $result = $form->getInputGroup()->getContent();
 
-        if ($result->isOK()) {
-            $values = $result->value();
-            $this->performSaveForm($values);
-            $this->tpl->setOnScreenMessage(MessageBox::SUCCESS, $this->lng->txt("msg_obj_modified"), true);
-            $this->ctrl->redirect($this, self::CMD_SHOW_GENERAL_FORM);
-        } else {
+        if (!$result->isOK()) {
             $this->tpl->setOnScreenMessage(MessageBox::FAILURE, $this->lng->txt('form_input_not_valid'));
             $this->showFormCmd($form);
+            return;
         }
+
+        $this->performSaveForm($result->value());
+        $this->tpl->setOnScreenMessage(MessageBox::SUCCESS, $this->lng->txt("msg_obj_modified"), true);
+        $this->ctrl->redirect($this, self::CMD_SHOW_GENERAL_FORM);
+
     }
 
     private function performSaveForm($data): void
@@ -127,9 +126,8 @@ class ilObjQuestionPoolSettingsGeneralGUI
             );
         }
 
-        $online = $data['availability']['online'] ?? null;
         $this->poolOBJ->getObjectProperties()->storePropertyIsOnline(
-            $online ?? $this->poolOBJ->getObjectProperties()->getPropertyIsOnline()->withOffline()
+            $data['availability']['online'] ?? $this->poolOBJ->getObjectProperties()->getPropertyIsOnline()->withOffline()
         );
 
         $display_settings = $data['display_settings'] ?? [];
@@ -137,10 +135,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
             $this->poolOBJ->getObjectProperties()->storePropertyTileImage($display_settings['tile_image']);
         }
 
-
-        $additional_features = $data['additional_features'] ?? [];
-        $this->poolOBJ->setSkillServiceEnabled($additional_features['skill_service'] ?? false);
-        $this->poolOBJ->setShowTaxonomies($additional_features['show_tax'] ?? false);
+        $this->poolOBJ->setSkillServiceEnabled($data['additional_features']['skill_service'] ?? false);
 
         $this->poolOBJ->saveToDb();
     }
@@ -190,10 +185,6 @@ class ilObjQuestionPoolSettingsGeneralGUI
                 $this->lng->txt('tst_activate_skill_service')
             )->withValue($this->poolOBJ->isSkillServiceEnabled());
         }
-
-        $additional_features_inputs['show_tax'] = $this->ui_factory->input()->field()->checkbox(
-            $this->lng->txt('qpl_settings_general_form_property_show_taxonomies')
-        )->withValue($this->poolOBJ->getShowTaxonomies());
 
         $items['additional_features'] = $this->ui_factory->input()->field()->section(
             $additional_features_inputs,

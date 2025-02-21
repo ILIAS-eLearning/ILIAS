@@ -1283,7 +1283,7 @@
 			<!-- determine location -->
 			<xsl:variable name="data">
 				<xsl:if test="$curType = 'LocalFile'">
-					<xsl:value-of select="$webspace_path"/>mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/>
+					<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/>
 				</xsl:if>
 				<xsl:if test="$curType = 'Reference'">
 					<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/>
@@ -2935,8 +2935,9 @@
 <xsl:template match="Trigger">
 	<xsl:if test="@Overlay != ''">
 		<xsl:variable name="cur_nr" select="@Nr" />
+		<xsl:variable name="mobid" select="../MediaAlias/@OriginId" />
 		<img style="display:none;">
-		<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>mobs/mm_<xsl:value-of select="substring-after(../MediaAlias[1]/@OriginId,'mob_')"/>/overlays/<xsl:value-of select="@Overlay"/></xsl:attribute>
+		<xsl:attribute name="src"><xsl:value-of select="//MediaObject[@Id=$mobid]/MediaItem[@Purpose = 'Standard']/Url/@Base"/>/overlays/<xsl:value-of select="@Overlay"/></xsl:attribute>
 		<xsl:attribute name="id">iim_ov_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
 		<xsl:if test="$mode != 'edit'">
 			<xsl:attribute name="usemap">#iim_ov_map_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
@@ -3576,11 +3577,11 @@
 	<xsl:variable name="container_edit_class"><xsl:if test="$mode = 'edit'"> copg-edit-container</xsl:if></xsl:variable>
 	<div>
 		<xsl:attribute name="class">
-			<xsl:if test="@WIDTH_S != ''"> col-xs-<xsl:value-of select="@WIDTH_S"/></xsl:if>
-			<xsl:if test="@WIDTH_M != ''"> col-sm-<xsl:value-of select="@WIDTH_M"/></xsl:if>
-			<xsl:if test="@WIDTH_L != ''"> col-md-<xsl:value-of select="@WIDTH_L"/></xsl:if>
-			<xsl:if test="@WIDTH_XL != ''"> col-lg-<xsl:value-of select="@WIDTH_XL"/></xsl:if>
-			<xsl:if test="@WIDTH_S = '' and @WIDTH_M = '' and @WIDTH_L = '' and @WIDTH_XL = ''">col-xs-12</xsl:if>
+			<xsl:if test="@WIDTH_S != ''"> col-sm-<xsl:value-of select="@WIDTH_S"/></xsl:if>
+			<xsl:if test="@WIDTH_M != ''"> col-md-<xsl:value-of select="@WIDTH_M"/></xsl:if>
+			<xsl:if test="@WIDTH_L != ''"> col-lg-<xsl:value-of select="@WIDTH_L"/></xsl:if>
+			<xsl:if test="@WIDTH_XL != ''"> col-xl-<xsl:value-of select="@WIDTH_XL"/></xsl:if>
+			<xsl:if test="@WIDTH_S = '' and @WIDTH_M = '' and @WIDTH_L = '' and @WIDTH_XL = ''">col-sm-12</xsl:if>
 			<xsl:value-of select="$container_edit_class"/>
 		</xsl:attribute>
 		<div style="height:100%">	<!-- this div enforces margin collapsing, see bug 31536, for height see 32067 -->

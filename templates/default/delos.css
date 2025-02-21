@@ -4624,8 +4624,9 @@ hr.il-divider-with-label {
 .c-form .c-input[data-il-ui-component=section-field-input].c-input > label {
   order: 1;
   width: 100%;
-  margin-bottom: 9px;
-  font-size: 1.5rem;
+}
+.c-form .c-input[data-il-ui-component=section-field-input].c-input > label h2, .c-form .c-input[data-il-ui-component=section-field-input].c-input > label h3, .c-form .c-input[data-il-ui-component=section-field-input].c-input > label h4, .c-form .c-input[data-il-ui-component=section-field-input].c-input > label h5, .c-form .c-input[data-il-ui-component=section-field-input].c-input > label h6 {
+  display: inline-block;
 }
 .c-form .c-input[data-il-ui-component=section-field-input].c-input > .c-input__help-byline {
   width: 100%;
@@ -17228,6 +17229,22 @@ input:invalid {
 /* provisory fix for #0021322  */
 div[id$=color-picker-menu] {
   z-index: 3;
+}
+
+.c-form__autocomplete {
+  position: absolute;
+  background-color: white;
+  border-left: 1px solid #dddddd;
+  border-right: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
+  margin: 0;
+  padding: 3px;
+  list-style: none;
+  z-index: 1;
+  cursor: default;
+}
+.c-form__autocomplete li:hover {
+  background-color: #e2e8ef;
 }
 
 /* Services/Help */

@@ -79,6 +79,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
         $form = $this->initPropertyForm($this->lng->txt("cont_edit_src"), "update", "cancelCreate");
 
         $this->displayValidationError();
+        $this->tpl->addCss(ilObjStyleSheet::getBaseContentStylePath());
 
         $this->initEditor();
         $this->tabs->setBackTarget("", "");
@@ -115,6 +116,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
         $t = str_replace("<textarea", "<textarea name='code' rows='20' form='copg-src-form' ", $t);
         $t = str_replace("[curlybegin ", "&#123;", $t);
         $t = str_replace(" curlyend]", "&#125;", $t);
+        $t = "<div class='c-form copg-src-form'>$t</div>";
         $this->tpl->setContent($t . $this->getEditorScriptTag($this->pc_id, "SourceCode"));
     }
 

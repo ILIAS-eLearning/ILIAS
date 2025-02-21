@@ -224,7 +224,7 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
         $this->logger->info('Test (' . $test_id . ') has processing time (' . $this->test_ending_times[$test_id]['processing_time'] . ')');
         $obj_id = $this->test_ending_times[$test_id]['obj_fi'];
 
-        if (ilObject::_exists($obj_id)) {
+        if (!ilObject::_exists($obj_id)) {
             $this->logger->info('Test object with id (' . $obj_id . ') does not exist.');
             return false;
         }

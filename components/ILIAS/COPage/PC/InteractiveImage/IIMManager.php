@@ -94,7 +94,7 @@ class IIMManager
         );
         $mob->makeThumbnail(
             "overlays/" . $result->getName(),
-            $this->getOverlayThumbnailName($result->getName())
+            "thumb/" . $this->getOverlayThumbnailName($result->getName())
         );
         return new BasicHandlerResult(
             "mob_id",
@@ -122,16 +122,16 @@ class IIMManager
 
     public function getOverlays(\ilObjMediaObject $mob): array
     {
-        return array_map(
-            function ($file) use ($mob) {
-                return [
-                    "name" => $file,
-                    "thumbpath" => $this->getOverlayThumbnailPath($mob, $file),
-                    "webpath" => $this->getOverlayWebPath($mob, $file)
-                ];
-            },
-            $mob->getFilesOfDirectory("overlays")
-        );
+        $overlays = [];
+        foreach ($mob->getFilesOfDirectory("/overlays") as $file) {
+            $file = $file["basename"];
+            $overlays[] = [
+                "name" => $file,
+                "thumbpath" => $this->getOverlayThumbnailPath($mob, $file),
+                "webpath" => $this->getOverlayWebPath($mob, $file)
+            ];
+        }
+        return $overlays;
     }
 
     /**

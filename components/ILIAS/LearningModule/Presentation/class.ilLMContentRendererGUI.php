@@ -138,7 +138,6 @@ class ilLMContentRendererGUI
         if ($this->current_page == 0) {
             $status = self::STATUS_NO_PAGE_FOUND;
         }
-
         return $status;
     }
 
@@ -464,7 +463,7 @@ class ilLMContentRendererGUI
             "components/ILIAS/LearningModule"
         );
         $m = $this->lng->txt("cont_page_currently_deactivated");
-        $act_data = ilLMPage::_lookupActivationData($this->requested_obj_id, $this->lm->getType());
+        $act_data = ilLMPage::_lookupActivationData($this->current_page, $this->lm->getType());
         if ($act_data["show_activation_info"] &&
             (ilUtil::now() < $act_data["activation_start"])) {
             $m .= "<p>" . sprintf(
@@ -478,7 +477,7 @@ class ilLMContentRendererGUI
         $mtpl->setVariable("MESSAGE", $m);
         $mtpl->setVariable(
             "ITEM_TITLE",
-            ilLMObject::_lookupTitle($this->requested_obj_id)
+            ilLMObject::_lookupTitle($this->current_page)
         );
         return $mtpl->get();
     }

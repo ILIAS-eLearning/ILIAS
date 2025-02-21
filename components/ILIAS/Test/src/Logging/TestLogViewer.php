@@ -21,9 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Logging;
 
 use ILIAS\Test\Utilities\TitleColumnsBuilder;
-
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
@@ -68,6 +66,7 @@ class TestLogViewer
             $this->logger,
             $this->title_builder,
             $this->question_repository,
+            $this->ui_service,
             $this->ui_factory,
             $this->ui_renderer,
             $this->data_factory,
@@ -82,7 +81,7 @@ class TestLogViewer
         );
 
         return [
-            $log_table->getFilter($this->ui_service),
+            $log_table->getFilter(),
             $log_table->getTable()->withRequest($this->request)
         ];
     }
@@ -98,6 +97,7 @@ class TestLogViewer
             $this->logger,
             $this->title_builder,
             $this->question_repository,
+            $this->ui_service,
             $this->ui_factory,
             $this->ui_renderer,
             $this->data_factory,
@@ -159,16 +159,6 @@ class TestLogViewer
             if (!array_key_exists($log['user_fi'], $users)) {
                 $users[$log['user_fi']] = \ilObjUser::_lookupName((int) $log['user_fi']);
             }
-            $title = '';
-            if ($log['question_fi']) {
-                $title = $this->lng->txt('question') . ': '
-                    . $this->question_repository->getForQuestionId((int) $log['question_fi'])->getTitle();
-            }
-
-            if ($title === '' && $log['original_fi']) {
-                $title = $this->lng->txt('question') . ': '
-                    . $this->question_repository->getForQuestionId((int) $log['original_fi'])->getTitle();
-            }
 
             $content_row = [];
             $date = new \ilDateTime((int) $log['tstamp'], IL_CAL_UNIX);
@@ -176,7 +166,7 @@ class TestLogViewer
             $content_row[] = trim($users[$log['user_fi']]['title'] . ' '
                 . $users[$log['user_fi']]['firstname'] . ' ' . $users[$log['user_fi']]['lastname']);
             $content_row[] = trim($log['logtext']);
-            $content_row[] = $title;
+            $content_row[] = $this->buildQuestionTitleForLegacyLog($log);
             $csv[] = $this->processCSVRow($content_row);
         }
         $csvoutput = '';
@@ -184,6 +174,27 @@ class TestLogViewer
             $csvoutput .= implode($separator, $row) . "\n";
         }
         return $csvoutput;
+    }
+
+    private function buildQuestionTitleForLegacyLog(array $log): string
+    {
+        if (!$log['question_fi'] && !$log['original_fi']) {
+            return '';
+        }
+        $title = '';
+        if ($log['question_fi']) {
+            $title = $this->question_repository->getForQuestionId((int) $log['question_fi'])?->getTitle();
+        }
+
+        if ($title === null && $log['original_fi']) {
+            $title = $this->question_repository->getForQuestionId((int) $log['original_fi'])?->getTitle();
+        }
+
+        if ($title === null) {
+            return '';
+        }
+
+        return $this->lng->txt('question') . ': ' . $title;
     }
 
     private function processCSVRow(

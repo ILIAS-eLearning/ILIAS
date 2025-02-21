@@ -74,7 +74,7 @@ class AddNewItemGUI
         if ($this->elements === []) {
             return;
         }
-        $content = $this->ui_factory->menu()->drilldown($this->lng->txt('cntr_add_new_item'), $this->buildAddNewItemsMenu($this->elements));
+        $content = $this->ui_factory->menu()->drilldown($this->lng->txt('object_list'), $this->buildAddNewItemsMenu($this->elements));
         $modal = $this->ui_factory->modal()->roundtrip($this->lng->txt('cntr_add_new_item'), $content);
         $button = $this->ui_factory->button()->primary($this->lng->txt('cntr_add_new_item'), $modal->getShowSignal());
 

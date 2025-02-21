@@ -90,4 +90,23 @@ class SectionInputTest extends ILIAS_UI_TestBase
         $this->testWithDisabled($section);
         $this->testWithAdditionalOnloadCodeRendersId($section);
     }
+
+    public function testNestedSectionRendering(): void
+    {
+        $f = $this->getFieldFactory();
+        $inputs_level4 = [$f->text("input3", "input3 byline")];
+        $section_level4 = $f->section($inputs_level4, "Inner Section");
+
+        $inputs_level3 = [$f->text("input2", "input2 byline"), $section_level4];
+        $section_level3 = $f->section($inputs_level3, "Middle Section");
+
+        $inputs_level2 = [$f->text("input1", "input1 byline"), $section_level3];
+        $section_level2 = $f->section($inputs_level2, "Outermost Section");
+
+        $nested_sections_html = $this->render($section_level2);
+
+        $this->assertStringContainsString('<h2>Outermost Section</h2>', $nested_sections_html);
+        $this->assertStringContainsString('<h3>Middle Section</h3>', $nested_sections_html);
+        $this->assertStringContainsString('<h4>Inner Section</h4>', $nested_sections_html);
+    }
 }

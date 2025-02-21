@@ -9,8 +9,9 @@
   > label {
     order: 1;
     width: 100%;
-    margin-bottom: l.$il-margin-xlarge-vertical;
-    font-size: s.$il-font-size-xxlarge;
+    h2, h3, h4, h5, h6 {
+      display: inline-block;
+    }
   }
 
   > .c-input__help-byline {
@@ -28,5 +29,7 @@
     width: 100%;
     order: 4;
   }
+
+
 }
 

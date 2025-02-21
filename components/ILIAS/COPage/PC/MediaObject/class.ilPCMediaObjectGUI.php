@@ -89,6 +89,16 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         $this->setCharacteristics(self::_getStandardCharacteristics());
     }
 
+    protected function insert_applyFilter() : void
+    {
+        $this->insert();
+    }
+
+    protected function insert_resetFilter() : void
+    {
+        $this->insert();
+    }
+
     /**
      * Set table sub command
      */
