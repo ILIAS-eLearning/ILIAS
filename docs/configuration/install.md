@@ -76,6 +76,7 @@ current configuration of the [ILIAS test server](https://test10.ilias.de), which
 
 Package names may vary depending on the Linux distribution.
 
+> [!NOTE]
 > Please note that other platforms and configurations may be possible, but it
 > might be difficult to find someone who can help in case of issues. We strongly recommend **not**
 > using a different configuration unless you are an experienced system administrator.
@@ -248,6 +249,7 @@ On Debian/Ubuntu execute:
 apt install mariadb-server
 ```
 
+> [!NOTE]
 > Please note that installing ILIAS in utf8mb4-collations is currently not supported!
 > ILIAS supports utf8-collations with 3 bytes per character, such as `utf8_general_ci`, only.
 
@@ -308,7 +310,8 @@ sudo -uwww-data git clone https://github.com/ILIAS-eLearning/ILIAS.git . --singl
 
 <details>
 <summary>If you use the tar.gz provided in the release</summary>
-Download the file in [download](https://docu.ilias.de/go/lm/35).
+
+Download the file from the [Download & Releases](https://docu.ilias.de/go/lm/35) page.
 
 ```shell
 sudo -uwww-data wget https://github.com/ILIAS-eLearning/ILIAS/releases/download/v10.X/ILIAS-10.X.tar.gz
@@ -323,9 +326,10 @@ sudo -uwww-data npm clean-install --omit=dev --ignore-scripts
 sudo -uwww-data composer install --no-dev
 ```
 
-We recommend restricting the rights of the ILIAS code in the production system so that the web server only has 
-read access to the code. For this and other important security considerations, please refer to the security
-instructions in the [Security Guide](./secure.md).
+> [!IMPORTANT]
+> We recommend restricting the rights of the ILIAS code in the production system so that the web server only has 
+> read access to the code. For this and other important security considerations, please refer to the security
+> instructions in the [Security Guide](./secure.md).
 
 <a name="install-ilias"></a>
 ## Install ILIAS
@@ -498,7 +502,7 @@ sudo -uwww-data composer install --no-dev
 <details>
 <summary>If you use the tar.gz provided in the release</summary>
 
-Download the archive of the newest ILIAS minor version in [download](https://docu.ilias.de/go/lm/35).
+Download the archive of the newest ILIAS minor version on the [Download & Releases](https://docu.ilias.de/go/lm/35) page.
 
 ```shell
 sudo -uwww-data wget https://github.com/ILIAS-eLearning/ILIAS/releases/download/v10.X/ILIAS-10.X.tar.gz
@@ -519,7 +523,7 @@ In case of merge conflicts, refer to [the ILIAS Development Guide](http://www.il
 You should only encounter these if you changed the code of your installation
 locally.
 
-Then complete the update by [updating the database](#database-the-update).
+Then complete the update by [updating the database](#update-the-database).
 
 <a name="major-upgrade"></a>
 ## Major Upgrade
@@ -547,7 +551,7 @@ sudo -uwww-data git checkout v10.X
 <details>
 <summary>If you use the tar.gz provided in the release</summary>
 
-Download the archive of the newest ILIAS minor version in [download](https://docu.ilias.de/go/lm/35).
+Download the archive of the newest ILIAS minor version from the [Download & Releases](https://docu.ilias.de/go/lm/35) page.
 
 ```shell
 sudo -uwww-data wget https://github.com/ILIAS-eLearning/ILIAS/releases/download/v10.X/ILIAS-10.X.tar.gz
@@ -576,7 +580,7 @@ sudo -uwww-data npm clean-install --omit-dev --ignore-scripts
 sudo -uwww-data composer install --no-dev
 ```
 
-Complete the update of the base system by [updating the database](#database-the-update).
+Complete the update of the base system by [updating the database](#update-the-database).
 
 As a last step, you should log in with a User using your custom skin. If everything
 works fine, change back from Delos to your custom system style. If not, you probably
