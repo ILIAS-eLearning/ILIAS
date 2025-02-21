@@ -200,6 +200,7 @@ class assSingleChoiceImport extends assQuestionImport
         $this->object->setQuestion($this->QTIMaterialToString($item->getQuestiontext()));
         $this->object->setObjId($questionpool_id);
         $this->object->setShuffle($shuffle);
+        $this->object->setIsSingleline(false);
         $this->object->setThumbSize(
             $this->deduceThumbSizeFromImportValue((int) $item->getMetadataEntry('thumb_size'))
         );

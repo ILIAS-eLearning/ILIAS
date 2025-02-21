@@ -2514,13 +2514,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $confirmDialog->addItem('', '0', $tpl->get());
 
         foreach ($post['chb'] as $postVar => $value) {
-            $confirmDialog->addHiddenItem('chb[$postVar]', $value);
+            $confirmDialog->addHiddenItem("chb[{$postVar}]", $value);
         }
         foreach ($post['select'] as $postVar => $value) {
-            $confirmDialog->addHiddenItem('select[$postVar]', $value);
+            $confirmDialog->addHiddenItem("select[{$postVar}]", $value);
         }
         foreach ($post['current'] as $postVar => $value) {
-            $confirmDialog->addHiddenItem('current[$postVar]', $value);
+            $confirmDialog->addHiddenItem("current[{$postVar}]", $value);
         }
         $this->tpl->setContent($confirmDialog->getHTML());
     }

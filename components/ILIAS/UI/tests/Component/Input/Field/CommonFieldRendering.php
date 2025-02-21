@@ -125,10 +125,17 @@ trait CommonFieldRendering
         $label_id = $label_id ? " for=\"$label_id\"" : '';
         $tab = $label_id ? '' : ' tabindex="0"';
         $js_id = $js_id ? " id=\"$js_id\"" : '';
+        if ($type === 'section-field-input') {
+            $headline_tag_open = "<h2>";
+            $headline_tag_close = "</h2>";
+        } else {
+            $headline_tag_open = "";
+            $headline_tag_close = "";
+        }
 
         $html = '
         <fieldset class="c-input" data-il-ui-component="' . $type . '" data-il-ui-input-name="' . $name . '"' . $js_id . $tab . '>
-            <label' . $label_id . '>' . $label . '</label>
+            <label' . $label_id . '>' . $headline_tag_open . $label . $headline_tag_close . '</label>
             <div class="c-input__field">';
         $html .= $payload_field;
         $html .= '

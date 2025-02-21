@@ -25,6 +25,7 @@ use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\Exercise\InternalDataService;
+use ilExcTooManyFilesSubmittedException;
 
 class SubmissionRepository implements SubmissionRepositoryInterface
 {
@@ -438,6 +439,9 @@ class SubmissionRepository implements SubmissionRepositoryInterface
         return false;
     }
 
+    /**
+     * @throws ilExcTooManyFilesSubmittedException
+     */
     public function addZipUpload(
         int $obj_id,
         int $ass_id,
@@ -445,7 +449,8 @@ class SubmissionRepository implements SubmissionRepositoryInterface
         int $team_id,
         UploadResult $result,
         bool $is_late,
-        ResourceStakeholder $stakeholder
+        ResourceStakeholder $stakeholder,
+        int $remaining_allowed
     ): array {
         global $DIC;
 
@@ -458,6 +463,11 @@ class SubmissionRepository implements SubmissionRepositoryInterface
         );
         $this->log->debug("6");
         $stream = $this->irss->stream($rid);
+
+        if ($remaining_allowed !== -1 &&
+            $remaining_allowed < $DIC->archives()->unzip($stream)->getAmountOfFiles()) {
+            throw new ilExcTooManyFilesSubmittedException("Too many files submitted.");
+        }
 
         foreach ($DIC->archives()->unzip($stream)->getFileStreams() as $stream) {
             $this->log->debug("7");

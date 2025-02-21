@@ -28,12 +28,7 @@ const answerElementClass = 'answers';
  */
 const placeholderClass = 'c-test__dropzone';
 
-/**
- * @type {DOMElement}
- */
-let parentElement;
-
-function setup() {
+function setup(parentElement) {
   const answers = parentElement.querySelectorAll(`.${answerElementClass}`);
   let elementWidth = 0;
   answers.forEach((elem) => { elementWidth += elem.offsetWidth; });
@@ -45,7 +40,7 @@ function setup() {
   );
 }
 
-function updatePlaceholders() {
+function updatePlaceholders(parentElement) {
   const placeholderElement = parentElement.querySelector(`.${placeholderClass}`);
 
   parentElement.querySelectorAll(`.${answerElementClass}`).forEach(
@@ -67,7 +62,7 @@ function updatePlaceholders() {
   );
 }
 
-function changeHandler() {
+function changeHandler(parentElement) {
   const currentAnswer = [];
   parentElement.querySelectorAll(`.${answerElementClass} > div > span`).forEach(
     (elem) => { currentAnswer.push(elem.textContent); },
@@ -75,8 +70,8 @@ function changeHandler() {
   parentElement.nextElementSibling.value = currentAnswer.join(answerSeparator);
 }
 
-function onStartPrepareHandler(draggedElement) {
-  updatePlaceholders();
+function onStartPrepareHandler(draggedElement, parentElement) {
+  updatePlaceholders(parentElement);
   if (draggedElement.previousElementSibling?.classList.contains(placeholderClass)) {
     draggedElement.previousElementSibling.remove();
   }
@@ -86,15 +81,14 @@ function onStartPrepareHandler(draggedElement) {
   }
 }
 
-export default function orderingHorizontalHandler(parentElementParam, makeDraggable) {
-  parentElement = parentElementParam;
-  setup();
+export default function orderingHorizontalHandler(parentElement, makeDraggable) {
+  setup(parentElement);
   makeDraggable(
     'move',
     parentElement,
     answerElementClass,
     placeholderClass,
-    changeHandler,
-    onStartPrepareHandler,
+    () => { changeHandler(parentElement); },
+    (draggedElement) => { onStartPrepareHandler(draggedElement, parentElement); },
   );
 }

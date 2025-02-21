@@ -32,6 +32,11 @@ class Agent extends Setup\Agent\NullAgent
         return new \ilDatabaseUpdateStepsExecutedObjective(new ilMediaCastDBUpdateSteps());
     }
 
+    public function getMigrations(): array
+    {
+        return [new InitLOMForMediaCastMigration()];
+    }
+
     public function getStatusObjective(Metrics\Storage $storage): Objective
     {
         return new \ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilMediaCastDBUpdateSteps());

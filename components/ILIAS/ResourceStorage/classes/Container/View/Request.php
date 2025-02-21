@@ -43,6 +43,8 @@ final class Request
     public const BY_TITLE_ASC = 'by_title_asc';
     public const BY_SIZE_DESC = 'by_size_desc';
     public const BY_SIZE_ASC = 'by_size_asc';
+    public const BY_TYPE_DESC = 'by_type_desc';
+    public const BY_TYPE_ASC = 'by_type_asc';
     public const P_MODE = 'mode';
     public const P_PATH = 'path';
     private const BASE = './';
@@ -88,7 +90,7 @@ final class Request
         $this->ctrl->saveParameter($container_resource_gui, self::P_PATH);
     }
 
-    public function buildURI(string $cmd,)
+    public function buildURI(string $cmd)
     {
     }
 

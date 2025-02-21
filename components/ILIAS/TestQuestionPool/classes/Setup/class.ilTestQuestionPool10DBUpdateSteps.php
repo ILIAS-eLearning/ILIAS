@@ -40,4 +40,11 @@ class ilTestQuestionPool10DBUpdateSteps implements ilDatabaseUpdateSteps
         $this->db->modifyTableColumn('qpl_questions', 'lifecycle', ['notnull' => 1, 'default' => 'draft']);
         $this->db->modifyTableColumn('qpl_questions', 'complete', ['notnull' => 1, 'default' => '1']);
     }
+
+    public function step_2(): void
+    {
+        if ($this->db->tableColumnExists('qpl_questionpool', 'show_taxonomies')) {
+            $this->db->dropTableColumn('qpl_questionpool', 'show_taxonomies');
+        }
+    }
 }

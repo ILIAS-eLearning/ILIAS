@@ -198,10 +198,9 @@ il.Explorer2 = {
   },
 
   insertModalIntoDocument(renderedModal) {
-    const modal = $.parseHTML(renderedModal)[0];
-    $(modal).find('.modal-header').remove();
-    $(modal).find('.modal-footer').remove();
-    $('body').append(modal);
+    $('body').append(JSON.parse(renderedModal));
+    document.querySelector('body > dialog:last-of-type .modal-header').remove();
+    document.querySelector('body > dialog:last-of-type .modal-footer').remove();
   },
 
   triggerSignal(triggerer, signal, event) {

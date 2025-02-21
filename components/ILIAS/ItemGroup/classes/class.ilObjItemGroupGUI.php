@@ -97,8 +97,10 @@ class ilObjItemGroupGUI extends ilObject2GUI
                 break;
 
             case 'ildidactictemplategui':
+                $this->checkPermissionBool("write");
+                $this->prepareOutput();
                 $this->ctrl->setReturn($this, 'edit');
-                $did = new ilDidacticTemplateGUI($this);
+                $did = new ilDidacticTemplateGUI($this, $this->ig_request->getDidactivTemplateId());
                 $this->ctrl->forwardCommand($did);
                 break;
 
@@ -202,9 +204,8 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $new_tpl_id = $this->getDidacticTemplateVar('dtpl');
 
         if ($new_tpl_id !== $current_tpl_id) {
-            // redirect to didactic template confirmation
-            $dtpl_gui = new ilDidacticTemplateGUI($this, $new_tpl_id);
-            $this->ctrl->redirect($dtpl_gui, 'confirmTemplateSwitch');
+            $this->ctrl->setParameterByClass(ilDidacticTemplateGUI::class, "didactic_type", $new_tpl_id);
+            $this->ctrl->redirectByClass(ilDidacticTemplateGUI::class, "confirmTemplateSwitch");
             return;
         }
         parent::afterUpdate();

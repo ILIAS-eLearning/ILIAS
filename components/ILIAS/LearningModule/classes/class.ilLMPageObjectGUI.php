@@ -267,6 +267,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
                         $obj_type = ilObject::_lookupType((int) $target_id, true);
                         $obj_id = ilObject::_lookupObjId((int) $target_id);
                         $href = "./goto.php?target=" . $obj_type . "_" . $target_id;
+                        $t_frame = ilFrameTargetInfo::_getFrame("MainContent");
                         $ltarget = $t_frame;
                         break;
 

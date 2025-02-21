@@ -46,5 +46,7 @@ class Form implements Component\Component
             new Component\Resource\ComponentJS($this, "ServiceFormMulti.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "textwizard.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "autocomplete/dist/legacyAutocomplete.js");
     }
 }

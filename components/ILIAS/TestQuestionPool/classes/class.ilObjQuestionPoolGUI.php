@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\RequestDataCollector;
-use ILIAS\TestQuestionPool\Presentation\QuestionTable;
+use ILIAS\TestQuestionPool\Questions\Presentation\QuestionTable;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\Settings\GlobalSettings\GlobalTestSettings;
 use ILIAS\Taxonomy\Service;
@@ -1711,13 +1711,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $this->lng->txt('qpl_settings_subtab_general'),
             $this->ctrl->getLinkTargetByClass(ilObjQuestionPoolSettingsGeneralGUI::class),
         );
-        if ($this->object->getShowTaxonomies()) {
-            $tabs->addSubTab(
-                'tax_settings',
-                $this->lng->txt('qpl_settings_subtab_taxonomies'),
-                $this->ctrl->getLinkTargetByClass(ilTaxonomySettingsGUI::class, ''),
-            );
-        }
+
+        $tabs->addSubTab(
+            'tax_settings',
+            $this->lng->txt('qpl_settings_subtab_taxonomies'),
+            $this->ctrl->getLinkTargetByClass(ilTaxonomySettingsGUI::class, ''),
+        );
     }
 
     public function infoScreenObject(): void
@@ -1804,7 +1803,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $this->component_repository,
             $this->rbac_system,
             $this->user,
-            $this->object->getShowTaxonomies() ? $this->taxonomy->domain() : null,
+            $this->taxonomy->domain(),
             $this->notes_service,
             $this->object->getId(),
             $this->request_data_collector->getRefId()

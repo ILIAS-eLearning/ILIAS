@@ -14,8 +14,8 @@
  */
 
 import il from 'ilias';
-import orderingHandler from './orderinghorizontalHandler';
-import makeDraggable from '../makeDraggable';
+import orderingHandler from './orderinghorizontalHandler.js';
+import makeDraggable from '../makeDraggable.js';
 
 il.test = il.test || {};
 il.test.orderinghorizontal = il.test.orderinghorizontal || {};

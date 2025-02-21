@@ -24,6 +24,7 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\MetaBarModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\TitleModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ShortTitleModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ViewTitleModification;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\LogoModification;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationProvider;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
@@ -31,6 +32,7 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\Footer;
+use ILIAS\UI\Component\Image\Image;
 
 /**
  * Class TestPlayerLayoutProvider
@@ -184,5 +186,17 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
                     return $title;
                 }
             )->withPriority(self::MODIFICATION_PRIORITY);
+    }
+
+    public function getLogoModification(CalledContexts $called_contexts): ?LogoModification
+    {
+        if (!$this->isKioskModeEnabled($called_contexts)) {
+            return null;
+        }
+        return $this->globalScreen()->layout()->factory()->logo()->withModification(
+            static function (?Image $logo): ?Image {
+                return $logo->withAction('');
+            }
+        )->withPriority(self::MODIFICATION_PRIORITY);
     }
 }

@@ -99,6 +99,16 @@ class TableAdapterGUI
         return $this;
     }
 
+    public function iconColumn(
+        string $key,
+        string $title,
+        bool $sortable = false
+    ): self {
+        $column = $this->ui->factory()->table()->column()->statusIcon($title);
+        $this->addColumn($key, $column);
+        return $this;
+    }
+
     public function singleAction(
         string $action,
         string $title,

@@ -73,13 +73,15 @@ class LogTable implements Table\DataRetrieval
     /**
      * @var array<string, string|array>
      */
-    private array $filter_data;
+    private ?array $filter_data = null;
+    private ?Filter $filter = null;
 
     public function __construct(
         private readonly TestLoggingRepository $logging_repository,
         private readonly TestLogger $logger,
         private readonly TitleColumnsBuilder $title_builder,
         private readonly GeneralQuestionPropertiesRepository $question_repo,
+        private readonly \ilUIService $ui_service,
         private readonly UIFactory $ui_factory,
         private readonly UIRenderer $ui_renderer,
         private readonly DataFactory $data_factory,
@@ -104,7 +106,24 @@ class LogTable implements Table\DataRetrieval
         )->withActions($this->getActions());
     }
 
-    public function getFilter(\ilUIService $ui_service): Filter
+    public function getFilter(): Filter
+    {
+        $this->initializeFilterAndData();
+        return $this->filter;
+    }
+
+    private function initializeFilterAndData(): void
+    {
+        if ($this->filter === null) {
+            $this->initializeFilter();
+        }
+
+        if ($this->filter_data === null) {
+            $this->filter_data = $this->ui_service->filter()->getData($this->filter) ?? [];
+        }
+    }
+
+    private function initializeFilter(): void
     {
         $field_factory = $this->ui_factory->input()->field();
         $filter_inputs = [
@@ -133,7 +152,7 @@ class LogTable implements Table\DataRetrieval
 
         $active = array_fill(0, count($filter_inputs), true);
 
-        $filter = $ui_service->filter()->standard(
+        $this->filter = $this->ui_service->filter()->standard(
             'log_table_filter_id',
             $this->unmaskCmdNodesFromBuilder($this->url_builder->buildURI()->__toString()),
             $filter_inputs,
@@ -141,8 +160,6 @@ class LogTable implements Table\DataRetrieval
             true,
             true
         );
-        $this->filter_data = $ui_service->filter()->getData($filter) ?? [];
-        return $filter;
     }
 
 
@@ -176,7 +193,7 @@ class LogTable implements Table\DataRetrieval
         ?array $filter_data,
         ?array $additional_parameters
     ): \Generator {
-        list(
+        [
             $from_filter,
             $to_filter,
             $test_filter,
@@ -186,7 +203,7 @@ class LogTable implements Table\DataRetrieval
             $ip_filter,
             $log_entry_type_filter,
             $interaction_type_filter
-        ) = $this->prepareFilterData($this->filter_data);
+        ] = $this->prepareFilterData($this->filter_data);
 
         $environment = [
             'timezone' => new \DateTimeZone($this->current_user->getTimeZone()),
@@ -220,7 +237,7 @@ class LogTable implements Table\DataRetrieval
         ?array $filter_data,
         ?array $additional_parameters
     ): ?int {
-        list(
+        [
             $from_filter,
             $to_filter,
             $test_filter,
@@ -230,7 +247,7 @@ class LogTable implements Table\DataRetrieval
             $ip_filter,
             $log_entry_type_filter,
             $interaction_type_filter
-        ) = $this->prepareFilterData($this->filter_data);
+        ] = $this->prepareFilterData($this->filter_data);
 
         return $this->logging_repository->getLogsCount(
             $this->logger->getInteractionTypes(),
@@ -319,15 +336,38 @@ class LogTable implements Table\DataRetrieval
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('no_checkbox'));
             return;
         }
+
         $environment = [
             'timezone' => new \DateTimeZone($this->current_user->getTimeZone()),
             'date_format' => $this->buildUserDateTimeFormat()->toString()
         ];
 
         if ($affected_items[0] === 'ALL_OBJECTS') {
+            $this->initializeFilterAndData();
+            [
+                $from_filter,
+                $to_filter,
+                $test_filter,
+                $admin_filter,
+                $pax_filter,
+                $question_filter,
+                $ip_filter,
+                $log_entry_type_filter,
+                $interaction_type_filter
+            ] = $this->prepareFilterData($this->filter_data);
             $interactions = $this->logging_repository->getLogs(
                 $this->logger->getInteractionTypes(),
-                $this->ref_id !== null ? [$this->ref_id] : null
+                $this->ref_id !== null ? [$this->ref_id] : null,
+                null,
+                null,
+                $from_filter,
+                $to_filter,
+                $admin_filter,
+                $pax_filter,
+                $question_filter,
+                $ip_filter,
+                $log_entry_type_filter,
+                $interaction_type_filter
             );
         } else {
             $interactions = $this->logging_repository->getLogsByUniqueIdentifiers($affected_items);

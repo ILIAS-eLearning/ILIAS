@@ -41,6 +41,15 @@ abstract class ilAssHtmlPurifier extends ilHtmlPurifierAbstractLibWrapper
         $config->set('HTML.Doctype', 'XHTML 1.0 Strict');
         $config->set('HTML.AllowedElements', $this->getAllowedElements());
         $config->set('HTML.ForbiddenAttributes', 'div@style');
+        $config->autoFinalize = false;
+        $config->set(
+            'URI.AllowedSchemes',
+            array_merge(
+                $config->get('URI.AllowedSchemes'),
+                ['data' => true]
+            )
+        );
+        $config->autoFinalize = true;
         if ($def = $config->maybeGetRawHTMLDefinition()) {
             $def->addAttribute('img', 'data-id', 'Number');
             $def->addAttribute('a', 'target', 'Enum#_blank,_self,_target,_top');

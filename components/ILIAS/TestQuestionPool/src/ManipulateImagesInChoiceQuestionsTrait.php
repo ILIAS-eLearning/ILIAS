@@ -79,7 +79,7 @@ trait ManipulateImagesInChoiceQuestionsTrait
         }
 
         foreach ($answers as $answer) {
-            if ($answer->getImage() === '') {
+            if ($answer->getImage() === null || $answer->getImage() === '') {
                 continue;
             }
 

@@ -108,11 +108,17 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
                 case "scorm2004":
                     // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
                     // $this->ctrl->setCmdClass("ilobjscorm2004learningmodulegui");
+
+                    $this->ctrl->redirectByClass(ilObjSCORM2004LearningModuleGUI::class, $this->ctrl->getCmd());	
+
                     break;
 
                 case "scorm":
                     // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
                     // $this->ctrl->setCmdClass("ilobjscormlearningmodulegui");
+
+                    $this->ctrl->redirectByClass(ilObjSCORMLearningModuleGUI::class, $this->ctrl->getCmd());
+
                     break;
             }
             $next_class = $this->ctrl->getNextClass($this);

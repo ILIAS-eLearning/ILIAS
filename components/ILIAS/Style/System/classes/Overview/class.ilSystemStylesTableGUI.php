@@ -194,7 +194,7 @@ class ilSystemStylesTableGUI extends ilTable2GUI
 
             /** @noinspection PhpIfWithCommonPartsInspection */
 
-            if ($this->isManagementEnabled() && $a_set['skin_id'] != 'other') {
+            if ($this->isManagementEnabled()) {
                 $this->ctrl->setParameterByClass(ilSystemStyleConfigGUI::class, 'skin_id', $a_set['skin_id']);
                 $this->ctrl->setParameterByClass(ilSystemStyleConfigGUI::class, 'style_id', $a_set['style_id']);
 
@@ -207,7 +207,7 @@ class ilSystemStylesTableGUI extends ilTable2GUI
                         $this->ctrl->getLinkTargetByClass('ilsystemstyleconfiggui', 'assignStyle')
                     );
                 } else {
-                    if ($a_set['skin_id'] != 'default') {
+                    if ($a_set['skin_id'] != 'default' && $a_set['skin_id'] != 'other') {
                         $action_items[] = $this->ui->factory()->link()->standard(
                             $this->lng->txt('export'),
                             $this->ctrl->getLinkTargetByClass(ilSystemStyleOverviewGUI::class, 'export')
@@ -223,7 +223,7 @@ class ilSystemStylesTableGUI extends ilTable2GUI
                         $this->modals[] = $assignment_modal;
 
                         $action_items[] = $this->ui->factory()->button()->shy(
-                            $this->lng->txt('user_assignment'),
+                            $this->lng->txt('sty_change_user_assignment'),
                             "#"
                         )->withOnClick($assignment_modal->getShowSignal());
                     }

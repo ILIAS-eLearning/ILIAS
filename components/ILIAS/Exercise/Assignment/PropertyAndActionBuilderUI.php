@@ -620,16 +620,17 @@ class PropertyAndActionBuilderUI
 
                 if ($this->media_type->isImage($mime)) {
                     $image = $ui_factory->image()->responsive($file['fullpath'], $output_filename);
-                    $image_lens = $ui_factory->image()->responsive(
-                        \ilUtil::getImagePath("media/enlarge.svg"),
-                        $lng->txt("exc_fullscreen")
-                    );
+                    $glyph_lens = $ui_factory->symbol()->glyph()->enlarge();
+                    $button_lens = $ui_factory->button()->standard(
+                        $lng->txt("exc_fullscreen"),
+                        '#'
+                    )->withSymbol($glyph_lens);
 
                     $modal_page = $ui_factory->modal()->lightboxImagePage($image, $output_filename);
                     $modal = $ui_factory->modal()->lightbox($modal_page);
 
                     $image = $image->withAction($modal->getShowSignal());
-                    $image_lens = $image_lens->withAction($modal->getShowSignal());
+                    $image_lens = $button_lens->withOnClick($modal->getShowSignal());
 
                     $img_tpl = new \ilTemplate("tpl.image_file.html", true, true, "components/ILIAS/Exercise");
                     $img_tpl->setCurrentBlock("image_content");

@@ -206,6 +206,7 @@ class assMultipleChoiceImport extends assQuestionImport
         $this->object->setObjId($questionpool_id);
         $this->object->setShuffle($shuffle);
         $this->object->setSelectionLimit($selectionLimit);
+        $this->object->setIsSingleline(false);
         $this->object->setThumbSize(
             $this->deduceThumbSizeFromImportValue((int) $item->getMetadataEntry('thumb_size'))
         );

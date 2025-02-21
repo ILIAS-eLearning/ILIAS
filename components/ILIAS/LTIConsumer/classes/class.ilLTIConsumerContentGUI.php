@@ -165,7 +165,7 @@ class ilLTIConsumerContentGUI
         $ilLTIConsumerLaunch = new ilLTIConsumerLaunch($this->object->getRefId());
         $context = $ilLTIConsumerLaunch->getContext();
         $contextType = $ilLTIConsumerLaunch::getLTIContextType($context["type"]);
-        $contextId = $context["id"];
+        $contextId = (string) $context["id"];
         $contextTitle = $context["title"];
 
         $token = ilCmiXapiAuthToken::fillToken(
@@ -307,8 +307,8 @@ class ilLTIConsumerContentGUI
             }
 
             $v = DEVMODE ? '?vers=' . time() : '?vers=' . ILIAS_VERSION_NUMERIC;
-            $tpl->setVariable("DELOS_CSS_HREF", 'templates/default/delos.css' . $v);
-            $tpl->setVariable("JQUERY_SRC", 'public/node_modules/jquery/dist/jquery.js' . $v);
+            $tpl->setVariable("DELOS_CSS_HREF", 'assets/css/delos.css' . $v);
+            $tpl->setVariable("JQUERY_SRC", 'assets/js/jquery.js' . $v);
 
             $tpl->setVariable("LOADER_ICON_SRC", ilUtil::getImagePath("media/loader.svg"));
             $tpl->setVariable('LAUNCH_URL', $this->object->getProvider()->getProviderUrl());
@@ -332,7 +332,7 @@ class ilLTIConsumerContentGUI
         $launchContext = $ilLTIConsumerLaunch->getContext();
 
         $launchContextType = ilLTIConsumerLaunch::getLTIContextType($launchContext["type"]);
-        $launchContextId = $launchContext["id"];
+        $launchContextId = (string) $launchContext["id"];
         $launchContextTitle = $launchContext["title"];
 
         $token = ilCmiXapiAuthToken::fillToken(
@@ -356,7 +356,7 @@ class ilLTIConsumerContentGUI
         $launchContext = $ilLTIConsumerLaunch->getContext();
 
         $launchContextType = ilLTIConsumerLaunch::getLTIContextType($launchContext["type"]);
-        $launchContextId = $launchContext["id"];
+        $launchContextId = (string) $launchContext["id"];
         $launchContextTitle = $launchContext["title"];
 
         $cmixUser = $this->cmixUser;

@@ -22,6 +22,9 @@ use ILIAS\FileUpload\Exception\IllegalStateException;
 use ILIAS\Badge\ilBadgeTableGUI;
 use ILIAS\Badge\ilBadgeUserTableGUI;
 use ILIAS\Refinery\Factory;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\ResourceStorage\Collection\ResourceCollection;
+use ILIAS\Setup\ArrayEnvironment;
 
 /**
  * @ilCtrl_Calls ilBadgeManagementGUI: ilPropertyFormGUI
@@ -483,10 +486,7 @@ class ilBadgeManagementGUI
                 $this->badge_image_service->processImageUpload($badge);
             } else {
                 $tmpl = new ilBadgeImageTemplate($form->getInput('tmpl'));
-                if ($tmpl->getImageRid() !== null) {
-                    $badge->setImageRid($tmpl->getImageRid());
-                    $badge->update();
-                }
+                $this->cloneBadgeTemplate($badge, new ResourceIdentification($tmpl->getImageRid()));
             }
 
             $this->tpl->setOnScreenMessage('success', $lng->txt('settings_saved'), true);
@@ -584,26 +584,24 @@ class ilBadgeManagementGUI
             $badge->setDescription($form->getInput('desc'));
             $badge->setCriteria($form->getInput('crit'));
             $badge->setValid($form->getInput('valid'));
+
             $image = $form->getInput('img');
             if (isset($image['name']) && $image['name'] !== '') {
+                $this->removeResourceStorageImage($badge);
                 $this->badge_image_service->processImageUpload($badge);
             }
 
             if ($custom) {
                 $badge->setConfiguration($custom->getConfigFromForm($form));
             }
-            $badge->update();
-
             $tmpl_id = $form->getInput('tmpl');
             if ($tmpl_id !== '') {
+                $this->removeResourceStorageImage($badge);
                 $tmpl = new ilBadgeImageTemplate($tmpl_id);
-                if ($tmpl->getImageRid() !== '') {
-                    $badge->setImageRid($tmpl->getImageRid());
-                    $this->badge_image_service->processImageUpload($badge);
-                    $badge->update();
-                }
+                $this->cloneBadgeTemplate($badge, new ResourceIdentification($tmpl->getImageRid()));
             }
 
+            $badge->update();
             $this->tpl->setOnScreenMessage('success', $lng->txt('settings_saved'), true);
             $ilCtrl->redirect($this, 'listBadges');
         }
@@ -989,5 +987,27 @@ class ilBadgeManagementGUI
 
         $this->tpl->setOnScreenMessage('success', $lng->txt('settings_saved'), true);
         $ilCtrl->redirect($this, 'listUsers');
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function cloneBadgeTemplate(ilBadge $badge, ?ResourceIdentification $rid): void
+    {
+        if ($rid !== null) {
+            $new_rid = $this->badge_image_service->cloneBadgeImageByRid($rid);
+            $badge->setImageRid($new_rid);
+            $badge->update();
+        }
+    }
+
+    protected function removeResourceStorageImage(ilBadge $badge): void
+    {
+        if ($badge->getImageRid() !== '') {
+            $this->resource_storage->manage()->remove(
+                new ResourceIdentification($badge->getImageRid()),
+                new ilBadgeFileStakeholder()
+            );
+        }
     }
 }

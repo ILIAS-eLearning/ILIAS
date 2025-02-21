@@ -350,41 +350,27 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 
         // use autocomplete feature?
         if ($this->getDataSource()) {
-            iljQueryUtil::initjQuery();
-            iljQueryUtil::initjQueryUI();
+            $tpl->setVariable('AUTOCOMPLETE', 'autocomplete="off"');
+            $this->global_tpl->addJavaScript('assets/js/legacyAutocomplete.js', true, 3);
+            $config = json_encode([
+                'delimiter' => $this->ajax_datasource_delimiter,
+                'dataSource' => $this->ajax_datasource,
+                'submitOnSelection' => $this->ajax_datasource_commit,
+                'submitUrl' => $this->ajax_datasource_commit_url,
+                'autocompleteLength' => 3,
+                'moreText' => $this->lng->txt('autocomplete_more')
+            ]);
 
-            $jstpl = new ilTemplate("tpl.prop_text_autocomplete.js", true, true, "components/ILIAS/Form");
-
-            if ($this->getMulti()) {
-                $jstpl->setCurrentBlock("ac_multi");
-                $jstpl->setVariable('MURL_AUTOCOMPLETE', $this->getDataSource());
-                $jstpl->setVariable('ID_AUTOCOMPLETE', $this->getFieldId());
-                $jstpl->parseCurrentBlock();
-
-                // set to fields that start with autocomplete selector
+            if ($this->multi) {
                 $sel_auto = '[id^="' . $this->getFieldId() . '"]';
             } else {
                 // use id for autocomplete selector
                 $sel_auto = "#" . $this->getFieldId();
             }
 
-            $jstpl->setCurrentBlock("autocomplete_bl");
-            if (!$this->ajax_datasource_delimiter and !$this->getDataSourceSubmitOnSelection()) {
-                $jstpl->setVariable('SEL_AUTOCOMPLETE', $sel_auto);
-                $jstpl->setVariable('URL_AUTOCOMPLETE', $this->getDataSource());
-            } elseif ($this->getDataSourceSubmitOnSelection()) {
-                $jstpl->setVariable('SEL_AUTOCOMPLETE_AUTOSUBMIT', $sel_auto);
-                $jstpl->setVariable('URL_AUTOCOMPLETE_AUTOSUBMIT_REQ', $this->getDataSource());
-                $jstpl->setVariable('URL_AUTOCOMPLETE_AUTOSUBMIT_RESP', $this->getDataSourceSubmitUrl());
-            } else {
-                $jstpl->setVariable('AUTOCOMPLETE_DELIMITER', $this->ajax_datasource_delimiter);
-                $jstpl->setVariable('SEL_AUTOCOMPLETE_DELIMITER', $sel_auto);
-                $jstpl->setVariable('URL_AUTOCOMPLETE_DELIMITER', $this->getDataSource());
-            }
-            $jstpl->parseCurrentBlock();
-
-            $jstpl->setVariable('MORE_TXT', $lng->txt('autocomplete_more'));
-            $this->global_tpl->addOnloadCode($jstpl->get());
+            $this->global_tpl->addOnLoadCode(
+                "il.LegacyForm.autocomplete.init(document.querySelector(`{$sel_auto}`), {$config});"
+            );
         }
 
         if ($a_mode == "toolbar") {

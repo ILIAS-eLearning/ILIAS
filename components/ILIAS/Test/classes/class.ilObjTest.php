@@ -4158,6 +4158,17 @@ class ilObjTest extends ilObject
         $obj_settings = new ilLPObjSettings($this->getId());
         $obj_settings->cloneSettings($new_obj->getId());
 
+        if ($new_obj->getTestLogger()->isLoggingEnabled()) {
+            $new_obj->getTestLogger()->logTestAdministrationInteraction(
+                $new_obj->getTestLogger()->getInteractionFactory()->buildTestAdministrationInteraction(
+                    $new_obj->getRefId(),
+                    $this->user->getId(),
+                    TestAdministrationInteractionTypes::NEW_TEST_CREATED,
+                    []
+                )
+            );
+        }
+
         return $new_obj;
     }
 
@@ -4405,7 +4416,7 @@ class ilObjTest extends ilObject
         return $result_array;
     }
 
-    public function &getTestParticipants(): array
+    public function getTestParticipants(): array
     {
         if ($this->getMainSettings()->getGeneralSettings()->getAnonymity()) {
             $query = "
@@ -4474,33 +4485,10 @@ class ilObjTest extends ilObject
             return [];
         }
 
-        $participants = &$this->getTestParticipants();
         $filtered_participants = [];
-        foreach ($participants as $active_id => $participant) {
-            $queryString = '
-				SELECT		tst_test_result.manual
-
-				FROM		tst_test_result
-
-				INNER JOIN	qpl_questions
-				ON			tst_test_result.question_fi = qpl_questions.question_id
-
-				WHERE		tst_test_result.active_fi = %s
-			';
-
-            $result = $this->db->queryF(
-                $queryString,
-                ['integer'],
-                [$active_id]
-            );
-
-            $count = $result->numRows();
-
-            if ($count > 0) {
+        foreach ($this->getTestParticipants() as $active_id => $participant) {
+            if ($participant['tries'] > 0) {
                 switch ($filter) {
-                    case 3: // all users
-                        $filtered_participants[$active_id] = $participant;
-                        break;
                     case 4:
                         if ($this->test_man_scoring_done_helper->isDone((int) $active_id)) {
                             $filtered_participants[$active_id] = $participant;
@@ -4511,21 +4499,8 @@ class ilObjTest extends ilObject
                             $filtered_participants[$active_id] = $participant;
                         }
                         break;
-                    case 6:
-                        // partially scored participants
-                        $found = 0;
-                        while ($row = $this->db->fetchAssoc($result)) {
-                            if ($row['manual']) {
-                                $found++;
-                            }
-                        }
-                        if (($found > 0) && ($found < $count)) {
-                            $filtered_participants[$active_id] = $participant;
-                        }
-                        break;
                     default:
                         $filtered_participants[$active_id] = $participant;
-                        break;
                 }
             }
         }
@@ -4977,6 +4952,12 @@ class ilObjTest extends ilObject
             "executable" => true,
             "errormessage" => ""
         ];
+
+        if (!$this->getObjectProperties()->getPropertyIsOnline()->getIsOnline()) {
+            $result["executable"] = false;
+            $result["errormessage"] = $this->lng->txt('autosave_failed') . ': ' . $this->lng->txt('offline');
+            return $result;
+        }
 
         if (!$this->startingTimeReached()) {
             $result["executable"] = false;
@@ -7343,8 +7324,11 @@ class ilObjTest extends ilObject
 
         if ($pass !== null) {
             $query = '
-                SELECT		tst_pass_result.*
+                SELECT		tst_pass_result.*,
+                            tst_active.last_finished_pass
                 FROM		tst_pass_result
+                INNER JOIN  tst_active
+                on          tst_pass_result.active_fi = tst_active.active_id
                 WHERE		active_fi = %s
                 AND			pass = %s
             ';
@@ -7365,7 +7349,7 @@ class ilObjTest extends ilObject
             $percentage = ($max <= 0.0 || $reached <= 0.0) ? 0 : ($reached / $max) * 100.0;
 
             $mark = $this->getMarkSchema()->getMatchingMark($percentage);
-            $is_passed = (bool) $mark->getPassed();
+            $is_passed = $pass <= $test_pass_result_row['last_finished_pass'] && $mark->getPassed();
 
             $hint_count = $test_pass_result_row['hint_count'] ?? 0;
             $hint_points = $test_pass_result_row['hint_points'] ?? 0.0;

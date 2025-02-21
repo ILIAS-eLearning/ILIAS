@@ -41,9 +41,6 @@ abstract class assQuestionGUI
      */
     public const ALLOWED_PLAIN_TEXT_TAGS = "<em>, <strong>";
 
-    private const RETURN_AFTER_EXISTING_WITH_ORIGINAL_SAVE = -1;
-    private const RETURN_AFTER_EXISTING_SAVE = 0;
-
     public const SESSION_PREVIEW_DATA_BASE_INDEX = 'ilAssQuestionPreviewAnswers';
 
     public const FORM_MODE_EDIT = 'edit';
@@ -1278,7 +1275,7 @@ abstract class assQuestionGUI
             }
             $changeoutput = $formchange->getHTML();
         }
-
+        $this->tabs_gui->activateTab('suggested_solution');
         $this->tpl->setVariable('ADM_CONTENT', $changeoutput . $output);
     }
 
@@ -1681,7 +1678,7 @@ abstract class assQuestionGUI
         $this->object->setComment($this->request_data_collector->string('comment'));
 
         $nr_of_tries = $this->request_data_collector->int('nr_of_tries');
-        if ($nr_of_tries !== 0 && $this->object->getSelfAssessmentEditingMode()) {
+        if ($this->object->getSelfAssessmentEditingMode()) {
             $this->object->setNrOfTries($nr_of_tries);
         }
 

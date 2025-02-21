@@ -62,6 +62,10 @@ class SettingsGUI
         $random_manager = $this->domain->assignment()->randomAssignments(new \ilObjExercise($this->obj_id, false));
         $lng = $this->domain->lng();
 
+        $mand = \ilExAssignment::countMandatory($this->obj_id);
+        $pass_nr_min = max($mand, 1);
+        $pass_nr_max = \ilExAssignment::count($this->obj_id);
+
         $form = $this->gui
             ->form(self::class, "save")
             ->section("general", $lng->txt('exc_edit_exercise'))
@@ -96,7 +100,9 @@ class SettingsGUI
                 "pass_nr",
                 $lng->txt("exc_min_nr"),
                 $lng->txt("exc_min_nr_info"),
-                $settings->getPassNr()
+                $settings->getPassNr(),
+                $pass_nr_min,
+                $pass_nr_max
             )->required()
             ->group(
                 \ilObjExercise::PASS_MODE_RANDOM,

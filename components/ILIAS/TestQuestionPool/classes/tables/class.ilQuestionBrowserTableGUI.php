@@ -327,15 +327,13 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         $si->readFromSession();
         $this->filter["type"] = $si->getValue();
 
-        if ($this->parent_obj->getObject()->getShowTaxonomies()) {
-            foreach ($this->taxIds as $taxId) {
-                $postvar = "tax_$taxId";
+        foreach ($this->taxIds as $taxId) {
+            $postvar = "tax_$taxId";
 
-                $inp = new ilTaxSelectInputGUI($taxId, $postvar, true);
-                $this->addFilterItem($inp);
-                $inp->readFromSession();
-                $this->filter[$postvar] = $inp->getValue();
-            }
+            $inp = new ilTaxSelectInputGUI($taxId, $postvar, true);
+            $this->addFilterItem($inp);
+            $inp->readFromSession();
+            $this->filter[$postvar] = $inp->getValue();
         }
 
         // comments

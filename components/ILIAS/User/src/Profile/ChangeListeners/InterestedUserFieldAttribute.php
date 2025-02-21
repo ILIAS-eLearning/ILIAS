@@ -64,7 +64,7 @@ class InterestedUserFieldAttribute
     {
         $translation_key = str_replace("_{$field_name}", '', $attribute_name);
         if (isset(\ilObjUserFolderGUI::USER_FIELD_TRANSLATION_MAPPING[$translation_key])) {
-            return $this->lng->txt(ilObjUserFolderGUI::USER_FIELD_TRANSLATION_MAPPING[$translation_key]);
+            return $this->lng->txt(\ilObjUserFolderGUI::USER_FIELD_TRANSLATION_MAPPING[$translation_key]);
         }
 
         return 'INVALID TRANSLATION KEY';

@@ -25,13 +25,28 @@ use ILIAS\Data\Order;
 
 class SubObjectRetrieval implements RetrievalInterface
 {
+    protected \ilLanguage $lng;
+    protected \ILIAS\UI\Factory $f;
     protected ?array $childs = null;
 
     public function __construct(
         protected \ilLMTree $lm_tree,
         protected $type = "",
-        protected $current_node = 0
+        protected $current_node = 0,
+        protected $transl = ""
     ) {
+        global $DIC;
+        $this->f = $DIC->ui()->factory();
+        $this->lng = $DIC->language();
+    }
+
+    public function getChildTitle(array $child): string
+    {
+        if (!in_array($this->transl, ["-", ""])) {
+            $lmobjtrans = new \ilLMObjTranslation($child["child"], $this->transl);
+            return $lmobjtrans->getTitle();
+        }
+        return $child["title"];
     }
 
     protected function getChilds(): array
@@ -53,9 +68,49 @@ class SubObjectRetrieval implements RetrievalInterface
         array $parameters = []
     ): \Generator {
         foreach ($this->getChilds() as $child) {
+            if ($child["type"] === "pg") {
+                // check activation
+                $lm_set = new \ilSetting("lm");
+                $active = \ilLMPage::_lookupActive(
+                    $child["obj_id"],
+                    "lm",
+                    (bool) $lm_set->get("time_scheduled_page_activation")
+                );
+
+                // is page scheduled?
+                $img_sc = ((bool) $lm_set->get("time_scheduled_page_activation") &&
+                    \ilLMPage::_isScheduledActivation($child["obj_id"], "lm"))
+                    ? "_sc"
+                    : "";
+
+                if (!$active) {
+                    $img = "standard/icon_pg_d" . $img_sc . ".svg";
+                    $alt = $this->lng->txt("cont_page_deactivated");
+                } else {
+                    if (\ilLMPage::_lookupContainsDeactivatedElements(
+                        $child["obj_id"],
+                        "lm"
+                    )) {
+                        $img = "standard/icon_pg_del" . $img_sc . ".svg";
+                        $alt = $this->lng->txt("cont_page_deactivated_elements");
+                    } else {
+                        $img = "standard/icon_pg" . $img_sc . ".svg";
+                        $alt = $this->lng->txt("pg");
+                    }
+                }
+            } else {
+                $img = "standard/icon_st.svg";
+                $alt = $this->lng->txt("st");
+            }
+            $trans_title = "";
+            if (!in_array($this->transl, ["-", ""])) {
+                $trans_title = $this->getChildTitle($child);
+            }
             yield [
                 "id" => $child["child"],
-                "title" => $child["title"]
+                "type" => $this->f->symbol()->icon()->custom(\ilUtil::getImagePath($img), $alt),
+                "title" => $child["title"],
+                "trans_title" => $trans_title
             ];
         }
     }

@@ -167,6 +167,16 @@ class ilObjLinkResource extends ilObject
             );
             $new_web_link_repo->updateItem($item, $draft);
         }
+
+        // make the new object a list if needed
+        if ($this->getWebLinkRepo()->doesListExist()) {
+            $draft_list = new ilWebLinkDraftList(
+                $new_obj->getTitle(),
+                $new_obj->getDescription()
+            );
+            $new_web_link_repo->createList($draft_list);
+        }
+
         return $new_obj;
     }
 

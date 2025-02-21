@@ -136,12 +136,15 @@ class ParticipantTableIpRangeAction implements TableAction
                         $this->lng->txt('ip_range_byline')
                     )->withAdditionalTransformation($valid_ip_constraint),
                 ])->withValue(
-                    $this->isUniqueClientIp($selected_participants) ?
-                        [
+                    $this->isUniqueClientIp($selected_participants)
+                        ? [
                             'from' => $selected_participants[0]->getClientIpFrom() ?? '',
                             'to' => $selected_participants[0]->getClientIpTo() ?? ''
-                        ] :
-                        null
+                        ]
+                        : [
+                            'from' => '',
+                            'to' => ''
+                        ]
                 )
                     ->withAdditionalTransformation($ip_range_group_trafo)
                     ->withAdditionalTransformation($validate_order)

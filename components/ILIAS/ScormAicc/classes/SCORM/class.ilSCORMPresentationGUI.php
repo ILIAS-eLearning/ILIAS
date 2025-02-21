@@ -259,7 +259,7 @@ class ilSCORMPresentationGUI
     // ));
     // }
 
-    // include_once("./components/ILIAS/Tracking/classes/class.ilLPStatusWrapper.php");
+    // include_once("../components/ILIAS/Tracking/classes/class.ilLPStatusWrapper.php");
     // ilLPStatusWrapper::_updateStatus($this->slm->getId(), $ilUser->getId());
 
     // }
@@ -346,7 +346,7 @@ class ilSCORMPresentationGUI
     // ));
     // }
 
-    // include_once("./components/ILIAS/Tracking/classes/class.ilLPStatusWrapper.php");
+    // include_once("../components/ILIAS/Tracking/classes/class.ilLPStatusWrapper.php");
     // ilLPStatusWrapper::_updateStatus($this->slm->getId(), $ilUser->getId());
 
     // }
@@ -459,9 +459,9 @@ class ilSCORMPresentationGUI
 
         header('Content-Type: text/javascript; charset=UTF-8');
         print("function iliasApi() {\r\n");
-        $js_data = file_get_contents("./components/ILIAS/ScormAicc/scripts/basisAPI.js");
+        $js_data = file_get_contents("../components/ILIAS/ScormAicc/scripts/basisAPI.js");
         echo $js_data;
-        $js_data = file_get_contents("./components/ILIAS/ScormAicc/scripts/SCORM1_2standard.js");//want to give opportunities to different files (Uwe Kohnle)
+        $js_data = file_get_contents("../components/ILIAS/ScormAicc/scripts/SCORM1_2standard.js");//want to give opportunities to different files (Uwe Kohnle)
         echo $js_data;
         print("}\r\n");
 

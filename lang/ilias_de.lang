@@ -259,6 +259,7 @@ administration#:#language_scope_unchanged#:#Unveränderte Einträge
 administration#:#language_scope_unchanged_info#:#Exportiert alle Datenbank-Einträge, die gegenüber den Standardwerten nicht verändert wurden. Dies ist das Gegenteil zu "Nur lokale Änderungen". Beide Dateien zusammen ergeben ein Gesamt-Backup der Sprache in der Datenbank.
 administration#:#language_settings#:#Spracheinstellungen
 administration#:#language_statistics#:#Statistik
+administration#:#language_translation#:#Seitenübersetzung
 administration#:#language_translation_enabled#:#Seitenübersetzung aktiviert
 administration#:#language_variables_saved#:#Die Änderungen an den Sprachvariablen wurden erfolgreich gespeichert.
 administration#:#log_scan#:#Untersuchungsergebnisse festhalten
@@ -769,6 +770,7 @@ assessment#:#fq_precision_info#:#Geben Sie hier die Anzahl der gewünschten Nach
 assessment#:#fq_question_desc#:#Sie definieren Variablen durch die Angabe von $v1, $v2 ... $vn, Ergebnisfelder mit $r1, $r2 .... $rn an den gewünschten Positionen im Text. Klicken Sie dann auf die Schaltfläche „Frage analysieren“, um Bearbeitungsformulare für alle Variablen und Ergebnisse zu erzeugen.
 assessment#:#gap#:#Lücke
 assessment#:#gap_combination#:#Lückentext-Kombination
+assessment#:#gaps#:#Lücken
 assessment#:#glossary_term#:#Glossarbegriff
 assessment#:#grading_mark_msg#:#Sie haben die Note &quot;[mark]&quot; erzielt.
 assessment#:#grading_status_failed_msg#:#Schade, leider haben Sie den Test <b>nicht bestanden</b>.
@@ -1836,6 +1838,7 @@ assessment#:#tst_res_jump_to_participant_hint_opt#:#Zu Teilnehmer springen
 assessment#:#tst_res_lo_objectives_header#:#Relevante Lernziele
 assessment#:#tst_res_lo_try_header#:#Versuch
 assessment#:#tst_res_lo_try_n#:#%s. Versuch
+assessment#:#tst_res_tab_msg_no_lp_access#:#Sie dürfen aktuell nicht auf Ihren Lernfortschritt zugreifen, da der Zugriff auf die Testresultate nicht freigegeben ist.
 assessment#:#tst_res_tab_msg_res_after_date#:#Die Testergebnisse werden Ihnen hier zu folgendem Datum präsentiert: %s
 assessment#:#tst_res_tab_msg_res_after_date_no_res#:#Wenn Sie den Test durchführen werden Ihnen hier zu folgendem Datum die Testergebnisse präsentiert: %s
 assessment#:#tst_res_tab_msg_res_after_finish_test#:#Wenn Sie den Test abgeschlossen haben werden Ihnen hier die Testergebnisse präsentiert.
@@ -2173,7 +2176,7 @@ auth#:#auth_saml_idp_settings#:#IDP Einstellungen
 auth#:#auth_saml_idps#:#SAML IDP Liste
 auth#:#auth_saml_idps_info#:#Bitte kontrollieren Sie vor dem Hinzufügen eines Identity-Providers die SimpleSAMLphp Konfiguration in den Dateien '<strong>%s</strong>' und '<strong>%s</strong>' (externes Datenverzeichnis) und passen Sie diese an. Bitte denken Sie vor allem daran, die Serverpfade für Ihren privaten Schlüssel und das Zertifikat in der Datei authsources.php zu konfigurieren. Lesen Sie dazu auch die folgende Dokumentation: %s.<br />Federation Metadata URL: %s
 auth#:#auth_saml_login_form#:#Anzeige im Anmeldeformular
-auth#:#auth_saml_login_form_info#:#Falls aktiviert und es mindestens einen aktiven IDP gibt, wird auf der Anmeldeseite von ILIAS ein Button angezeigt, der bei Klick einen SAML-Request initiert.
+auth#:#auth_saml_login_form_info#:#Falls aktiviert und es mindestens einen aktiven IDP gibt, wird auf der Anmeldeseite von ILIAS ein Button angezeigt, der bei Klick einen SAML-Request initiiert.
 auth#:#auth_saml_migration#:#Account-Migration:
 auth#:#auth_saml_migration_info#:#Aktivieren Sie diese Einstellung, um neuen Benutzern die Möglichkeit zu bieten, eventuell vorhandene ILIAS Anmeldekonten auf SAML-Authentifizierung umzustellen.
 auth#:#auth_saml_role_select#:#Rolle:
@@ -3321,6 +3324,7 @@ cmix#:#launch_url#:#URL der Ressource
 cmix#:#launch_url_info#:#Geben Sie hier die Internetadresse ein und fügen Sie http:// oder https:// hinzu. Optionen zum Datenschutz sind auch für externe Ressourcen relevant.
 cmix#:#log_options#:#Optionen zur Anzeige der übertragenen Daten
 cmix#:#lrs_authentication#:#Authentifizierung
+cmix#:#lrs_type_not_avail_msg#:#Dieser LRS-Typ ist nicht verfügbar.
 cmix#:#no_substatements_info#:#Mit dieser Option, die nur für den ILIAS LRS-Proxy zur Verfügung steht, kann die Speicherung von untergeordneten Statements unterdrückt werden. Dies kann z.B. die Beantwortung einzelner Aufgaben in einem Test beeinflussen. Dem Content wird mitgeteilt, dass die Statements gespeichert worden wären.
 cmix#:#no_substatements_label#:#Substatements nicht speichern
 cmix#:#online_info#:#Dadurch wird das Objekt für die Benutzer sichtbar und nutzbar.
@@ -5138,8 +5142,8 @@ common#:#obj_tool_setting_custom_metadata#:#Benutzerdefinierte Metadaten
 common#:#obj_tool_setting_custom_metadata_info#:#Im Reiter „Metadaten“ können Datensätze verwaltet werden. Damit können weitere Informationen zu dem Objekt eingegeben und dieses genauer beschrieben werden.
 common#:#obj_tool_setting_news#:#Neuigkeiten
 common#:#obj_tool_setting_news_info#:#Der Block „Neuigkeiten“ wird im Reiter „Inhalt“ angezeigt.
-common#:#obj_tos#:#Nutzungsvereinbarungen
-common#:#obj_tos_desc#:#Nutzungsvereinbarungen verwalten
+common#:#obj_tos#:#Nutzungsvereinbarung
+common#:#obj_tos_desc#:#Nutzungsvereinbarung verwalten
 common#:#obj_trac#:#Zugriffsstatistiken und Lernfortschritt
 common#:#obj_trac_desc#:#Statistik- und Lernfortschrittseinstellungen und Übersicht
 common#:#obj_tst#:#Test
@@ -5167,6 +5171,7 @@ common#:#object_copy_in_progress#:#Der Kopiervorgang wurde gestartet.
 common#:#object_duplicated#:#Objekt kopiert
 common#:#object_id#:#Objekt-ID
 common#:#object_imported#:#Objekt importiert
+common#:#object_list#:#Objektliste
 common#:#objects#:#Objekte
 common#:#objf#:#Objektdefinitionen
 common#:#objs_bibl#:#Literaturlisten
@@ -5800,11 +5805,11 @@ common#:#tos_no_agreement_description#:#Aktuell wird in dieser Installation kein
 common#:#tos_refuse_acceptance#:#Akzeptanz der Nutzungsvereinbarung ablehnen
 common#:#tos_usr_agreement#:#Nutzungsvereinbarung
 common#:#tos_usr_agreement_footer_intro#:#Zu dieser Nutzungsvereinbarung haben Sie ihr Einverständnis erklärt.
-common#:#tos_withdraw_consent_description#:#Widerrufen Sie hier die Zustimmung zu den Nutzungsvereinbarungen.
+common#:#tos_withdraw_consent_description#:#Widerrufen Sie hier die Zustimmung zur Nutzungsvereinbarung.
 common#:#tos_withdraw_consent_description_external#:#Bitte kehren Sie zu Ihrer Herkunftsinstallation zurück, und loggen Sie sich erneut ein, um den Widerrufsvorgang abzuschließen.
 common#:#tos_withdraw_consent_description_internal#:#Bitte loggen Sie sich wieder ein, um den Widerrufsvorgang abzuschließen.
 common#:#tos_withdraw_consent_header#:#Einverständnis zur Nutzungsvereinbarung widerrufen
-common#:#tos_withdraw_consent_info#:#Widerrufen der Zustimmung zu den Nutzungsvereinbarungen
+common#:#tos_withdraw_consent_info#:#Zustimmung zur Nutzungsvereinbarung widerrufen
 common#:#tos_withdraw_consent_info_external#:#Bitte benachrichtigen Sie den zuständigen Administrator Ihres Autorisierungssystems, und teilen Sie Ihre Absicht mit.
 common#:#total#:#Gesamt
 common#:#tracking_settings#:#Einstellungen
@@ -6044,12 +6049,12 @@ common#:#withdrawal_complete#:#Widerrufsvorgang abgeschlossen.
 common#:#withdrawal_complete_deleted#:#Widerrufsvorgang ist abgeschlossen. Der ILIAS-Konto wurde gelöscht.
 common#:#withdrawal_complete_redirect#:#Widerrufsvorgang ist abgeschlossen. Zur Löschung des ILIAS-Kontos nehmen Sie bitte Kontakt zu Ihrer Organisation auf.
 common#:#withdrawal_mail_info#:#Die folgende Nachricht wird in Ihrem Auftrag versandt, wenn Sie bestätigen:[BR][BR]
-common#:#withdrawal_mail_subject#:#Widerruf Einverständnis zu Nutzungsvereinbarungen
+common#:#withdrawal_mail_subject#:#Einverständnis zur Nutzungsvereinbarung widerrufen
 common#:#withdrawal_mail_text#:#Guten Tag,[BR][BR]hiermit widerrufe ich mein Einverständnis zur Nutzungsvereinbarung Ihrer ILIAS-Installation. Bitte leiten Sie die entsprechenden Maßnahmen ein.[BR][BR]Name: %1$s[BR]Anmeldename: %2$s[BR]Externes Konto: %3$s[BR][BR]Mit freundlichen Grüßen[BR]%1$s
-common#:#withdrawal_sure_account#:#Are you sure you want to confirm the withdrawal of your consent?###26 08 2024 new variable
-common#:#withdrawal_sure_account_deletion#:#Are you sure you want to confirm the withdrawal of your consent? This will result in your user account being irrevocably deleted.###26 08 2024 new variable
-common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen nicht erteilen möchten? Ihr ILIAS-Konto wird in Folge dessen unwiderruflich gelöscht.
-common#:#withdrawal_sure_account_no_consent_yet#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen nicht erteilen möchten?
+common#:#withdrawal_sure_account#:#Sind Sie sicher, dass Sie Ihr Einverständnis zur Nutzungsvereinbarung widerrufen wollen?
+common#:#withdrawal_sure_account_deletion#:#Sind Sie sicher, dass Sie Ihr Einverständnis zur Nutzungsvereinbarung widerrufen wollen? Ihr Benutzerkonto und der damit verbundene Inhalt wird dann unwiderruflich gelöscht.
+common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Sind Sie sicher, dass Sie Ihr Einverständnis zur Nutzungsvereinbarung nicht erteilen möchten? Ihr ILIAS-Konto wird in Folge dessen unwiderruflich gelöscht.
+common#:#withdrawal_sure_account_no_consent_yet#:#Sind Sie sicher, dass Sie Ihr Einverständnis zur Nutzungsvereinbarung nicht erteilen möchten?
 common#:#wizard_search_list#:#Ihre Suche ergab folgende Ergebnisse. Bitte wählen Sie eines aus.
 common#:#wizard_title_info#:#Geben Sie bitte den Titel ein, um das Objekt zu suchen, das Sie kopieren wollen. Auch Teile des Titels reichen aus. Klicken Sie auf „Suchen“, um die Treffer angezeigt zu bekommen.
 common#:#write#:#Schreiben
@@ -7084,8 +7089,8 @@ content#:#cont_select_media_pool#:#Medienpool auswählen
 content#:#cont_select_none#:#Auswahl aufheben
 content#:#cont_select_other_qpool#:#Anderen Fragenpool auswählen
 content#:#cont_select_par_or_section#:#Bitte wählen Sie mindestens ein Text- oder Blockelement aus.
-content#:#cont_selected_items_have_been_copied#:#Die ausgewählten Elemente wurden in die Zwischenablage kopiert. Klicken Sie jetzt auf den entsprechenden Platzhalter, um diese in das Lernmodul einzufügen
-content#:#cont_selected_items_have_been_cut#:#Die ausgewählten Elemente wurden in die Zwischenablage verschoben. Klicken Sie jetzt auf den entsprechenden Platzhalter, um diese in das Lernmodul einzufügen.
+content#:#cont_selected_items_have_been_copied#:#Die ausgewählten Elemente wurden in die Zwischenablage kopiert. Sie können das Element nun über die Aktionenmenüs vor oder hinter anderen Elementen einfügen.
+content#:#cont_selected_items_have_been_cut#:#Die ausgewählten Elemente wurden in die Zwischenablage verschoben. Sie können das Element nun über die Aktionenmenüs vor oder hinter anderen Elementen einfügen.
 content#:#cont_selected_pg_chap#:#Ausgewählte Seiten/Kapitel
 content#:#cont_selected_terms#:#Ausgewählte Begriffe
 content#:#cont_selected_topic#:#Ausgewähltes Thema
@@ -8751,7 +8756,7 @@ dcl#:#dcl_no_entries#:#Keine Einträge
 dcl#:#dcl_no_entry#:#Kein Eintrag
 dcl#:#dcl_no_export_content_available#:#Keine Daten für den Export verfügbar.
 dcl#:#dcl_no_export_data_available#:#Keine Daten oder Felder für den Export verfügbar.
-dcl#:#dcl_no_export_fields_available#:#Keine Felder für den Export aktiviert. Markieren Sie mindestens ein Feld als „Exportierbar“ in den <a href=„%s“>Tabelleneinstellungen</a>.
+dcl#:#dcl_no_export_fields_available#:#Keine Felder für den Export aktiviert. Markieren Sie mindestens ein Feld als „Exportierbar“ in den <a href="%s">Tabelleneinstellungen</a>.
 dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstellt. Daher können noch keine Einträge eingefügt werden. Klicken Sie im Reiter "Tabellen" auf eine Tabelle und erstellen Sie mithilfe des Buttons "Feld hinzufügen" neue Felder.
 dcl#:#dcl_no_read_access_on_any_standard_view#:#Sie haben auf keine Standard-Tabellenansicht Lesezugriff.
 dcl#:#dcl_no_search_results_found_for#:#Es wurden keine Module gefunden mit:
@@ -9287,6 +9292,7 @@ exc#:#exc_assignments_deleted#:#Die Übungseinheiten wurden gelöscht.
 exc#:#exc_blog_created#:#Blog wurde erstellt.
 exc#:#exc_blog_returned#:#Blog zur Übungseinheit
 exc#:#exc_blog_selected#:#Das Blog wurde verknüpft.
+exc#:#exc_cannot_submit_any_files#:#Sie können keine Dateien mehr einreichen.
 exc#:#exc_chars_remaining#:#Verbleibende Zeichen
 exc#:#exc_comment_for_learner_edit#:#Als Kommentar in Textfeld eingeben
 exc#:#exc_comment_for_learner_info#:#Es wird eine Benachrichtigung an den Teilnehmer gesendet. <br /><br />Die Rückmeldung wird in seiner persönlichen Übungseinheiten-Übersicht angezeigt.
@@ -9715,6 +9721,7 @@ exc#:#exc_template#:#Vorlage
 exc#:#exc_text_assignment_edit#:#Text bearbeiten
 exc#:#exc_text_assignment_show#:#Text anzeigen
 exc#:#exc_text_saved#:#Der Text wurde gespeichert.
+exc#:#exc_too_many_files#:#Der Upload beinhaltet zu viele Dateien.
 exc#:#exc_total_exc#:#Gesamte Übung
 exc#:#exc_total_members#:#Gesamtanzahl an Teilnehmern
 exc#:#exc_type#:#Type
@@ -10651,6 +10658,7 @@ irss#:#revision_status_20#:#Entwurf
 irss#:#revisions#:#Verfügbare Revisionen
 irss#:#rid_deleted#:#Datei entfernt
 irss#:#rids_appended#:#Ressource(n) hinzugefügt
+irss#:#rids_appended_failed#:#Keine Ressource(n) hinzugefügt
 irss#:#rids_deleted#:#Ressource(n) gelöscht
 irss#:#rids_updated#:#Ressource(n) aktualisiert
 irss#:#sorting#:#Sortierung
@@ -10968,6 +10976,9 @@ lm#:#lm_est_reading_time_info#:#In Lernmodulen kann eine geschätzte Lesezeit er
 lm#:#lm_insert_chapter#:#Kapitel einfügen
 lm#:#lm_insert_chapter_after#:#Kapitel danach einfügen
 lm#:#lm_insert_chapter_before#:#Kapitel davor einfügen
+lm#:#lm_insert_chapter_clip#:#Kapitel aus Zwischenablage einfügen
+lm#:#lm_insert_chapter_clip_after#:#Kapitel aus Zwischenablage danach einfügen
+lm#:#lm_insert_chapter_clip_before#:#Kapitel aus Zwischenablage davor einfügen
 lm#:#lm_insert_layout_after#:#Vorlage danach einfügen
 lm#:#lm_insert_layout_before#:#Vorlage davor einfügen
 lm#:#lm_insert_page#:#Seite einfügen
@@ -11233,9 +11244,9 @@ lti#:#lti_13_deployment_id#:#Deployment-ID
 lti#:#lti_13_keyset_url#:#URL für den öffentlichen Schlüsselsatz
 lti#:#lti_13_platform_id#:#Plattform-ID
 lti#:#lti_13_step1#:#Schritt 1
-lti#:#lti_13_step1_info#:#Tragen Sie bei der initierenden Plattform (Consumer) die folgende Adresse für Launch URL, Initiate Login URL, Redirection URI und Registration URL ein:
+lti#:#lti_13_step1_info#:#Tragen Sie bei der initiierenden Plattform (Consumer) die folgende Adresse für Launch URL, Initiate Login URL, Redirection URI und Registration URL ein:
 lti#:#lti_13_step2#:#Schritt 2
-lti#:#lti_13_step2_info#:#Von der initierenden Plattform (Consumer) erhalten Sie Angaben, die Sie in den folgenden Feldern eintragen müssen. Nach dem Speichern stehen die LTI 1.3-Funktionalitäten zur Verfügung.
+lti#:#lti_13_step2_info#:#Von der initiierenden Plattform (Consumer) erhalten Sie Angaben, die Sie in den folgenden Feldern eintragen müssen. Nach dem Speichern stehen die LTI 1.3-Funktionalitäten zur Verfügung.
 lti#:#lti_13_token_url#:#URL für den Zugriffstoken
 lti#:#lti_action_accept_provider_as_global#:#Den Provider als globalen Provider für alle Benutzer übernehmen.
 lti#:#lti_action_accept_providers_as_global#:#Provider als globalen Provider übernehmen
@@ -11646,7 +11657,7 @@ mail#:#mail_serial_letter_placeholders#:#Platzhalter für Serienbrief
 mail#:#mail_settings_external_frm_head#:#Externe E-Mails
 mail#:#mail_settings_external_tab#:#Extern
 mail#:#mail_settings_general_tab#:#Allgemein
-mail#:#mail_settings_incoming_type_see_also#:#Eine weitere Möglichkeit, die Empfangsart für die Benutzer zu ändern, haben Sie <a href=„%s“>hier</a>.
+mail#:#mail_settings_incoming_type_see_also#:#Eine weitere Möglichkeit, die Empfangsart für die Benutzer zu ändern, haben Sie <a href="%s">hier</a>.
 mail#:#mail_settings_system_frm_head#:#System E-Mails
 mail#:#mail_settings_user_frm_head#:#Benutzer E-Mails
 mail#:#mail_smtp_encryption#:#Verschlüsselung
@@ -12091,7 +12102,7 @@ meta#:#meta_advmd_select_option_position#:#Position
 meta#:#meta_advmd_select_option_value#:#Wert
 meta#:#meta_advmd_select_options#:#Einträge
 meta#:#meta_advmd_select_options_edit#:#Einträge bearbeiten
-meta#:#meta_advmd_select_position_identifier#:#Nach %s
+meta#:#meta_advmd_select_position_identifier#:#Nach „%s“
 meta#:#meta_aggregation_level#:#Aggregationsstufe
 meta#:#meta_amaya#:#Amaya
 meta#:#meta_annotation#:#Anmerkung
@@ -12864,7 +12875,7 @@ news#:#lso_news_online_txt#:#Soeben wurde ein neues Objekt für Ihre Lernsequenz
 news#:#new_test_online#:#Der Test wurde online geschaltet.
 news#:#news_1_file_created#:#Es wurde eine Datei hinzugefügt.
 news#:#news_1_file_updated#:#Es wurde eine Datei aktualisiert.
-news#:#news_1_posts#:#One post has been added.###26 08 2024 new variable
+news#:#news_1_postings#:#One post has been added.
 news#:#news_add_news#:#Beitrag hinzufügen
 news#:#news_all_items#:#Neuigkeiten zu allen Favoriten
 news#:#news_allow_longer_periods#:#Längere Zeiträume zulassen
@@ -13832,7 +13843,7 @@ ps#:#ps_cdf_required#:#Pflichtfeld
 ps#:#ps_cdf_select_one#:#Bitte treffen Sie eine Auswahl.
 ps#:#ps_cdf_type#:#Typ
 ps#:#ps_cdf_value#:#Wert
-ps#:#ps_cdf_warning_modify#:#Achtung: mindestens ein Benutzer hat der Nutzungsvereinbarung bereits zugestimmt. Das Ändern von Datenfeldern bewirkt, dass diese Nutzungsvereinbarungen zurückgesetzt wird.
+ps#:#ps_cdf_warning_modify#:#Achtung: mindestens ein Benutzer hat der Nutzungsvereinbarung bereits zugestimmt. Das Ändern von Datenfeldern bewirkt, dass diese Nutzungsvereinbarung zurückgesetzt wird.
 ps#:#ps_crs_user_fields#:#Persönliche Angaben zu diesem Kurs
 ps#:#ps_error_message_https_header_missing#:#Die automatische HTTPS-Erkennung erfordert einen Header-Namen und einen Header-Wert.
 ps#:#ps_error_message_invalid_login_max_attempts#:#Maximale Anzahl von Anmeldeversuchen darf nicht kleiner als 0 sein.
@@ -13896,7 +13907,7 @@ ps#:#ps_type_select_long#:#Auswahlliste (feste Werte)
 ps#:#ps_type_text#:#Textfeld
 ps#:#ps_type_txt_long#:#Textfeld (beliebige Werte)
 ps#:#ps_user_selection#:#Benutzerauswahl
-ps#:#ps_warning_modify#:#Achtung: mindestens ein Benutzer hat der Nutzungsvereinbarung bereits zugestimmt. Das Ändern der Einstellungen bewirkt, dass diese Nutzungsvereinbarungen zurückgesetzt werden.
+ps#:#ps_warning_modify#:#Achtung: mindestens ein Benutzer hat der Nutzungsvereinbarung bereits zugestimmt. Das Ändern der Einstellungen bewirkt, dass die Nutzungsvereinbarung zurückgesetzt wird.
 ps#:#rbac_log#:#Rechteeinstellungs-Log
 ps#:#rbac_log_age#:#Log-Einträge vorhalten
 ps#:#rbac_log_age_info#:#Maximales Alter der Log-Einträge in Monaten
@@ -14293,6 +14304,10 @@ rbac#:#il_lti_global_role#:#LTI User
 rbac#:#il_sess_participant#:#Sitzungsteilnahme
 rbac#:#il_sess_status_closed#:#Keine Teilnahme an geschlossener Sitzung
 rbac#:#ilias_id#:#ILIAS-ID
+rbac#:#impr_edit_permission#:#Rechteeinstellungen der Impressumsverwaltung ändern
+rbac#:#impr_read#:#Lesezugriff auf Impressumsverwaltung
+rbac#:#impr_visible#:#Impressumsverwaltung ist sichtbar
+rbac#:#impr_write#:#Inhalt und Einstellungen des Impressums bearbeiten
 rbac#:#info_user_view_changed#:#Benutzersicht gewechselt
 rbac#:#internal_mail#:#Internes Mail-System
 rbac#:#invite#:#Zu Umfrage einladen
@@ -15966,6 +15981,7 @@ style#:#sty_caption#:#Legende
 style#:#sty_caption_class#:#Legende
 style#:#sty_carousel_templates#:#Karussell Templates
 style#:#sty_cat_assignments#:#Zuordnungen Style-Kategorie
+style#:#sty_change_user_assignment#:#Style Zuordnung ändern
 style#:#sty_characteristic_already_exists#:#Eine Klasse für einen Style dieses Namens existiert bereits in diesem Stylesheet.
 style#:#sty_class#:#Style-Klasse
 style#:#sty_class_name#:#Klassenname
@@ -16064,6 +16080,7 @@ style#:#sty_min_height#:#Minimale Höhe
 style#:#sty_move_lm_styles#:#Stylesheets der Lernmodule ändern
 style#:#sty_move_style#:#Stylesheet ändern
 style#:#sty_move_user_styles#:#Stylesheet der Benutzer ändern
+style#:#sty_move_user_styles_saved#:#Die Zuordnung der für Zuordnung zu Skin-ID %s hat geändert zu Skin-ID %s.
 style#:#sty_msg_characteristic_must_only_include#:#Der Titel des Styles muss mit einem Buchstaben beginnen und darf keine Leerzeichen sondern nur die folgenden Zeichen enthalten:
 style#:#sty_msg_color_must_only_include#:#Der Farbname darf nur folgende Buchstaben/Zeichen enthalten
 style#:#sty_msg_input_must_be_numeric#:#Numerische Eingabe erforderlich.
@@ -17035,20 +17052,20 @@ tbl#:#tbl_template_delete#:#Gespeicherte Ansicht löschen
 tbl#:#tbl_template_deleted#:#Die gespeicherte Ansicht wurde gelöscht.
 tbl#:#tbl_templates#:#Ansicht
 tos#:#tos_accept_usr_agreement_anonymous#:#Nutzungsvereinbarung
-tos#:#tos_accept_usr_agreement_anonymous_intro#:#Bevor Sie zu ILIAS wechseln, akzeptieren Sie die folgenden Nutzungsvereinbarungen.
+tos#:#tos_accept_usr_agreement_anonymous_intro#:#Bevor Sie zu ILIAS wechseln, akzeptieren Sie die folgende Nutzungsvereinbarung.
 tos#:#tos_account_reg_not_possible#:#Eine Selbstregistrierung ist aktuell nicht möglich, da keine Nutzungsvereinbarung angeboten wird. Bitte kontaktieren Sie Ihre <a href="%1$s">ILIAS-Administration</a> für weitere Informationen.
-tos#:#tos_agree_date#:#Nutzungsvereinbarungen zugestimmt am
-tos#:#tos_agreement#:#Nutzungsvereinbarungen
-tos#:#tos_disabled_no_docs_left#:#Die Nutzungsvereinbarungen wurden deaktiviert, da alle Dokumente gelöscht wurden. Erstellen Sie mindestens ein Dokument, bevor Sie die Nutzungsvereinbarungen wieder aktivieren.
-tos#:#tos_last_reset_date#:#Die Nutzungsvereinbarungen wurden zuletzt am %s zurückgesetzt. Setzen Sie die Nutzungsvereinbarungen nur zurück, wenn sich diese in der Zwischenzeit geändert haben und eine Zustimmung zu dieser geänderten Vereinbarung gewünscht ist.
-tos#:#tos_never_reset#:#Die Nutzungsvereinbarungen wurden bisher noch nicht zurückgesetzt. Setzen Sie die Nutzungsvereinbarungen nur zurück, wenn sich diese in der Zwischenzeit geändert haben und eine Zustimmung zu dieser geänderten Vereinbarung gewünscht ist.
-tos#:#tos_no_documents_exist#:#Aktuell liegen keine Nutzungsvereinbarungsdokumente vor.
-tos#:#tos_no_documents_exist_cant_save#:#Aktuell liegen keine Nutzungsvereinbarungen vor. Bitte erstellen Sie mindestens ein Dokument um den Service zu aktivieren.
-tos#:#tos_reset_for_all_users#:#Nutzungsvereinbarungen zurücksetzen
-tos#:#tos_reset_successful#:#Die Nutzungsvereinbarungen wurden erfolgreich zurückgesetzt.
+tos#:#tos_agree_date#:#Nutzungsvereinbarung zugestimmt am
+tos#:#tos_agreement#:#Nutzungsvereinbarung
+tos#:#tos_disabled_no_docs_left#:#Die Nutzungsvereinbarung wurde deaktiviert, da alle Dokumente gelöscht wurden. Erstellen Sie mindestens ein Dokument, bevor Sie die Nutzungsvereinbarung wieder aktivieren.
+tos#:#tos_last_reset_date#:#Die Nutzungsvereinbarung wurden zuletzt am %s zurückgesetzt. Setzen Sie die Nutzungsvereinbarung nur zurück, wenn sich diese in der Zwischenzeit geändert haben und eine Zustimmung zu dieser geänderten Vereinbarung gewünscht ist.
+tos#:#tos_never_reset#:#Die Nutzungsvereinbarung wurden bisher noch nicht zurückgesetzt. Setzen Sie die Nutzungsvereinbarung nur zurück, wenn sich diese in der Zwischenzeit geändert haben und eine Zustimmung zu dieser geänderten Vereinbarung gewünscht ist.
+tos#:#tos_no_documents_exist#:#Aktuell liegen keine Dokumente für die Nutzungsvereinbarung vor.
+tos#:#tos_no_documents_exist_cant_save#:#Aktuell liegt keine Nutzungsvereinbarung vor. Bitte erstellen Sie mindestens ein Dokument um den Service zu aktivieren.
+tos#:#tos_reset_for_all_users#:#Nutzungsvereinbarung zurücksetzen
+tos#:#tos_reset_successful#:#Die Nutzungsvereinbarung wurde erfolgreich zurückgesetzt.
 tos#:#tos_status_desc#:#Benutzer werden zum Unterzeichnen der Nutzungsvereinbarung aufgefordert, bevor sie ILIAS nutzen können.
-tos#:#tos_status_enable#:#Nutzungsvereinbarungen aktivieren
-tos#:#tos_sure_reset_tos#:#Sind Sie sicher, dass die Nutzungsvereinbarungen für alle Benutzer im System zurückgesetzt werden sollen? Dies betrifft auch jene Anmeldekonten, die z.B. für die SOAP Web-Services genutzt werden.
+tos#:#tos_status_enable#:#Nutzungsvereinbarung aktivieren
+tos#:#tos_sure_reset_tos#:#Sind Sie sicher, dass die Nutzungsvereinbarung für alle Benutzer im System zurückgesetzt werden soll? Dies betrifft auch jene Anmeldekonten, die z.B. für die SOAP-Web-Services genutzt werden.
 tos#:#tos_withdrawal_usr_deletion#:#Löschung des ILIAS-Kontos beim Widerruf der Nutzungsvereinbarung
 tos#:#tos_withdrawal_usr_deletion_desc#:#Wird die Zustimmung zur Nutzungsvereinbarung widerrufen, erfolgt automatisch die Löschung des ILIAS-Kontos.
 trac#:#cmix_lp_mode_deactivated#:#Lernfortschritt wird deaktiviert
@@ -17389,7 +17406,7 @@ user#:#confirm_logout_for_email_change#:#Sie haben Ihre E-Mail-Adresse geändert
 user#:#confirm_logout_for_email_change_with_confirmation#:#Im Anschluss wird Ihnen eine E-Mail auf die neue E-Mail gesendet, um zu bestätigen, dass diese Adresse Ihnen gehört. Erst nachdem Sie den Link in der E-Mail angeklickt haben, wird die Adresse in Ihrem Profil geändert.
 user#:#create_starting_point#:#Regel erstellen
 user#:#criteria#:#Kriterium
-user#:#del_mail_body#:#Hallo %1$s, %2$s Sie haben sich seit längerer Zeit nicht mehr auf %3$s angemeldet. Daher wird ihr ILIAS-Konto voraussichtlich am %4$s gelöscht. Um Ihr ILIAS-Konto zu behalten, müssen Sie sich vor dem genannten Tag erneut einloggen.
+user#:#del_mail_body#:#Hallo %1$s, %2$s Sie haben sich seit längerer Zeit nicht mehr auf %3$s angemeldet. Daher wird ihr ILIAS-Konto %5$s voraussichtlich am %4$s gelöscht. Um Ihr ILIAS-Konto zu behalten, müssen Sie sich vor dem genannten Tag erneut einloggen.
 user#:#del_mail_subject#:#Ihr ILIAS-Konto wird bald gelöscht
 user#:#delete_inactive_user_accounts_frequency#:#Intervall
 user#:#delete_inactive_user_accounts_frequency_desc#:#Intervall, mit welchem auf Löschung sowie auf E-Mail-Versand getestet wird.

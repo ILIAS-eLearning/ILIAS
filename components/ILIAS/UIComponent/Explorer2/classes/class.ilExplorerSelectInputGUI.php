@@ -278,10 +278,10 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
         $rendered_modal = str_replace(
             ["\r\n", "\n", "\r"],
             ' ',
-            $this->ui->renderer()->render($modal)
+            addslashes(json_encode($this->ui->renderer()->renderAsync($modal)))
         );
-        return $this->on_load_code = 'il.Explorer2.initSelect(\'' . $this->getFieldId() . '\',\'' .
-            $rendered_modal . '\',\'' .
+        return $this->on_load_code = 'il.Explorer2.initSelect(\'' . $this->getFieldId() . '\',"' .
+            $rendered_modal . '",\'' .
             $modal->getShowSignal() . '\',\'' .
             $modal->getCloseSignal() . '\');';
     }

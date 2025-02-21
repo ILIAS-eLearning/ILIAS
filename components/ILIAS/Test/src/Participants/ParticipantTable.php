@@ -97,6 +97,7 @@ class ParticipantTable implements DataRetrieval
 
         $current_user_timezone = new \DateTimeZone($this->current_user->getTimeZone());
 
+        /** @var \ILIAS\Test\Participants\Participant $record */
         foreach ($this->getViewControlledRecords($filter_data, $range, $order) as $record) {
             $total_duration = $record->getTotalDuration($processing_time);
             $status_of_attempt = $record->getAttemptOverviewInformation()?->getStatusOfAttempt() ?? StatusOfAttempt::NOT_YET_STARTED;
@@ -110,7 +111,7 @@ class ParticipantTable implements DataRetrieval
                 'ip_range' => $record->getClientIpTo() !== '' || $record->getClientIpFrom() !== ''
                     ? sprintf('%s - %s', $record->getClientIpFrom(), $record->getClientIpTo())
                     : '',
-                'total_attempts' => $record->getAttempts(),
+                'total_attempts' => $record->getAttemptOverviewInformation()?->getNrOfAttempts() ?? 0,
                 'extra_time' => $record->getExtraTime() > 0 ? sprintf('%d min', $record->getExtraTime()) : '',
                 'total_duration' => $total_duration > 0 ? sprintf('%d min', $total_duration / 60) : '',
                 'remaining_duration' => sprintf('%d min', $record->getRemainingDuration($processing_time, $reset_time_on_new_attempt) / 60),
@@ -141,6 +142,9 @@ class ParticipantTable implements DataRetrieval
                     $record->getAttemptOverviewInformation()?->getNrOfTotalQuestions()
                 );
                 $row['percent_of_available_points'] = $record->getAttemptOverviewInformation()?->getReachedPointsInPercent();
+            }
+
+            if ($status_of_attempt->isFinished()) {
                 $row['test_passed'] = $record->getAttemptOverviewInformation()?->hasPassingMark() ?? false;
                 $row['mark'] = $record->getAttemptOverviewInformation()?->getMark();
             }
@@ -198,7 +202,7 @@ class ParticipantTable implements DataRetrieval
                 Participant $b
             ) => $a->getRemainingDuration($processing_time, $reset_time_on_new_attempt)
                 <=> $b->getRemainingDuration($processing_time, $reset_time_on_new_attempt),
-            'last_access' => static fn(Participant $a, Participant $b) => $a->getTestEndDate() <=> $b->getTestEndDate(),
+            'last_access' => static fn(Participant $a, Participant $b) => $a->getLastAccess() <=> $b->getLastAccess(),
             'status_of_attempt' => static fn(
                 Participant $a,
                 Participant $b

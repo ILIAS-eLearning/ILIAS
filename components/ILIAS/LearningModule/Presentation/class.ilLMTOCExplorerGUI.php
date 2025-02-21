@@ -279,7 +279,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
                     // faster, but needs pages to be in explorer
                     $a_node = $this->getSuccessorNode($a_node["child"], "pg");
                 }
-                if ($a_node["child"] == 0) {
+                if (($a_node["child"] ?? 0) == 0) {
                     return false;
                 }
             } else {

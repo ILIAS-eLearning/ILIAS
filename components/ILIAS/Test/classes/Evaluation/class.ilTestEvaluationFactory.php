@@ -39,8 +39,7 @@ class ilTestEvaluationFactory
         if (($participants_list = $this->test_obj->getAccessFilteredParticipantList()) !== null) {
             return $participants_list->getAllActiveIds();
         }
-        $participants = $this->test_obj->getTestParticipants();
-        return array_keys($participants);
+        return array_keys($this->test_obj->getTestParticipants());
     }
 
     /**

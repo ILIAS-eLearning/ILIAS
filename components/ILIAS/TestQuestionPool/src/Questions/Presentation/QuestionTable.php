@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\TestQuestionPool\Presentation;
+namespace ILIAS\TestQuestionPool\Questions\Presentation;
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
@@ -48,16 +48,14 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
         protected \ilComponentRepository $component_repository,
         protected \ilRbacSystem $rbac,
         protected \ilObjUser $current_user,
-        protected ?TaxonomyService $taxonomy,
+        protected TaxonomyService $taxonomy,
         protected NotesService $notes_service,
         protected int $parent_obj_id,
         protected int $request_ref_id
     ) {
         $lng->loadLanguageModule('qpl');
         parent::__construct($db, $lng, $refinery, $component_repository, $notes_service);
-        if ($this->taxonomy) {
-            $this->setAvailableTaxonomyIds($taxonomy->getUsageOfObject($parent_obj_id));
-        }
+        $this->setAvailableTaxonomyIds($taxonomy->getUsageOfObject($parent_obj_id));
     }
 
     public function getTable(): Table\Data
@@ -105,34 +103,32 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
             )
         ];
 
-        if ($this->taxonomy) {
-            $taxs = $this->taxonomy->getUsageOfObject($this->parent_obj_id, true);
-            $tax_filter_options = [
-                'null' => '<b>' . $this->lng->txt('tax_filter_notax') . '</b>'
-            ];
+        $taxs = $this->taxonomy->getUsageOfObject($this->parent_obj_id, true);
+        $tax_filter_options = [
+            'null' => '<b>' . $this->lng->txt('tax_filter_notax') . '</b>'
+        ];
 
-            foreach ($taxs as $tax_entry) {
-                $tax = new \ilObjTaxonomy($tax_entry['tax_id']);
-                $tax_tree = $tax->getTree();
-                $sortfield = $tax->getSortingMode() === \ilObjTaxonomy::SORT_ALPHABETICAL ? 'title' : 'order_nr';
-                $children = $this->taxNodeReader($tax_tree, $sortfield, $tax_tree->readRootId());
-                $nodes = implode('-', array_map(fn($node) => $node['obj_id'], $children));
+        foreach ($taxs as $tax_entry) {
+            $tax = new \ilObjTaxonomy($tax_entry['tax_id']);
+            $tax_tree = $tax->getTree();
+            $sortfield = $tax->getSortingMode() === \ilObjTaxonomy::SORT_ALPHABETICAL ? 'title' : 'order_nr';
+            $children = $this->taxNodeReader($tax_tree, $sortfield, $tax_tree->readRootId());
+            $nodes = implode('-', array_map(fn($node) => $node['obj_id'], $children));
 
-                $tax_id = $tax_entry['tax_id'] . '-0-' . $nodes;
-                $tax_title = '<b>' . $tax_entry['title'] . '</b>';
-                $tax_filter_options[$tax_id] = $tax_title;
+            $tax_id = $tax_entry['tax_id'] . '-0-' . $nodes;
+            $tax_title = '<b>' . $tax_entry['title'] . '</b>';
+            $tax_filter_options[$tax_id] = $tax_title;
 
-                foreach ($children as $subtax) {
-                    $stax_id = $subtax['tax_id'] . '-' . $subtax['obj_id'];
-                    $stax_title = str_repeat('&nbsp; ', ($subtax['depth'] - 2) * 2)
-                        . ' &boxur;&HorizontalLine; '
-                        . $subtax['title'];
+            foreach ($children as $subtax) {
+                $stax_id = $subtax['tax_id'] . '-' . $subtax['obj_id'];
+                $stax_title = str_repeat('&nbsp; ', ($subtax['depth'] - 2) * 2)
+                    . ' &boxur;&HorizontalLine; '
+                    . $subtax['title'];
 
-                    $tax_filter_options[$stax_id] = $stax_title;
-                }
+                $tax_filter_options[$stax_id] = $stax_title;
             }
-            $filter_inputs['taxonomies'] = $field_factory->multiSelect($this->lng->txt("tax_filter"), $tax_filter_options);
         }
+        $filter_inputs['taxonomies'] = $field_factory->multiSelect($this->lng->txt("tax_filter"), $tax_filter_options);
 
         $active = array_fill(0, count($filter_inputs), true);
 
@@ -155,18 +151,14 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
         $icon_yes = $this->ui_factory->symbol()->icon()->custom(\ilUtil::getImagePath('standard/icon_checked.svg'), 'yes');
         $icon_no = $this->ui_factory->symbol()->icon()->custom(\ilUtil::getImagePath('standard/icon_unchecked.svg'), 'no');
 
-        $cols = [
+        return [
             'title' => $f->link($this->lng->txt('title')),
             'description' => $f->text($this->lng->txt('description'))->withIsOptional(true, true),
             'ttype' => $f->text($this->lng->txt('question_type'))->withIsOptional(true, true),
-            'points' => $f->number($this->lng->txt('points'))->withIsOptional(true, true),
+            'points' => $f->number($this->lng->txt('points'))->withDecimals(2)->withIsOptional(true, true),
             'author' => $f->text($this->lng->txt('author'))->withIsOptional(true, true),
             'lifecycle' => $f->text($this->lng->txt('qst_lifecycle'))->withIsOptional(true, true),
-        ];
-        if ($this->taxonomy) {
-            $cols['taxonomies'] = $f->text($this->lng->txt('qpl_settings_subtab_taxonomies'))->withIsOptional(true, true);
-        }
-        $cols = array_merge($cols, [
+            'taxonomies' => $f->text($this->lng->txt('qpl_settings_subtab_taxonomies'))->withIsOptional(true, true),
             'feedback' => $f->boolean($this->lng->txt('feedback'), $icon_yes, $icon_no)->withIsOptional(true, true),
             'hints' => $f->boolean($this->lng->txt('hints'), $icon_yes, $icon_no)->withIsOptional(true, true),
             'created' => $f->date(
@@ -178,8 +170,7 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
                 $this->current_user->getDateTimeFormat()
             )->withIsOptional(true, true),
             'comments' => $f->number($this->lng->txt('comments'))->withIsOptional(true, false),
-        ]);
-        return $cols;
+        ];
     }
 
     private function treeify(&$pointer, $stack)
@@ -307,9 +298,7 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
                 $title .= ' (' . $this->lng->txt('warning_question_not_complete') . ')';
             }
             $record['title'] = $this->ui_factory->link()->standard($title, $to_question);
-            if ($this->taxonomy) {
-                $record['taxonomies'] = $this->taxonomyRepresentation($record['taxonomies']);
-            }
+            $record['taxonomies'] = $this->taxonomyRepresentation($record['taxonomies']);
 
             yield $row_builder->buildDataRow($row_id, $record)
                 ->withDisabledAction('move', $no_write_access)
@@ -397,7 +386,7 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
                 $aspect_b = $b[$aspect];
             }
 
-            return strcmp($aspect_a, $aspect_b);
+            return strcoll($aspect_a, $aspect_b);
         });
 
         if ($direction === $order::DESC) {

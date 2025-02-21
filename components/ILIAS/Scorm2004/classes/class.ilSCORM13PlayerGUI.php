@@ -286,7 +286,7 @@ class ilSCORM13PlayerGUI
 
     public function getRTEjs(): void
     {
-        $js_data = file_get_contents("./components/ILIAS/Scorm2004/scripts/buildrte/rte.js");
+        $js_data = file_get_contents("../components/ILIAS/Scorm2004/scripts/buildrte/rte.js");
         if (self::ENABLE_GZIP == 1) {
             ob_start("ob_gzhandler");
         }
@@ -454,10 +454,10 @@ class ilSCORM13PlayerGUI
 
 
         $this->tpl->setVariable('JSON_LANGSTRINGS', json_encode($langstrings));
-        // include_once("./components/ILIAS/YUI/classes/class.ilYuiUtil.php");
+        // include_once("../components/ILIAS/YUI/classes/class.ilYuiUtil.php");
         // $this->tpl->setVariable('YUI_PATH', ilYuiUtil::getLocalPath());
-        // $this->tpl->setVariable('TREE_JS', "./components/ILIAS/UIComponent/NestedList/js/ilNestedList.js");
-        $this->tpl->setVariable('TREE_JS', "./components/ILIAS/Scorm2004/scripts/ilNestedList.js");
+        // $this->tpl->setVariable('TREE_JS', "../components/ILIAS/UIComponent/NestedList/js/ilNestedList.js");
+        $this->tpl->setVariable('TREE_JS', "../components/ILIAS/Scorm2004/scripts/ilNestedList.js");
         foreach ($langstrings as $key => $value) {
             $this->tpl->setVariable($key, $value);
         }
@@ -470,7 +470,7 @@ class ilSCORM13PlayerGUI
         $this->tpl->setVariable('JS_DATA', json_encode($config));
         list($tsfrac, $tsint) = explode(' ', microtime());
         $this->tpl->setVariable('TIMESTAMP', sprintf('%d%03d', $tsint, 1000 * (float) $tsfrac));
-        $this->tpl->setVariable('BASE_DIR', './components/ILIAS/Scorm2004/');
+        $this->tpl->setVariable('BASE_DIR', '../components/ILIAS/Scorm2004/');
         $this->tpl->setVariable('TXT_COLLAPSE', $lng->txt('scplayer_collapsetree'));
         if ($this->slm->getDebug()) {
             $this->tpl->setVariable('TXT_DEBUGGER', $lng->txt('scplayer_debugger'));
@@ -487,7 +487,7 @@ class ilSCORM13PlayerGUI
         if ($this->slm->getCacheDeactivated()) {
             $this->tpl->setVariable('JS_SCRIPTS', 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=getRTEjs&ref_id=' . $this->ref_id);
         } else {
-            $this->tpl->setVariable('JS_SCRIPTS', './components/ILIAS/Scorm2004/scripts/buildrte/rte-min.js');
+            $this->tpl->setVariable('JS_SCRIPTS', '../components/ILIAS/Scorm2004/scripts/buildrte/rte-min.js');
         }
 
         //disable top menu
@@ -553,7 +553,7 @@ class ilSCORM13PlayerGUI
         );
         $packageData = $ilDB->fetchAssoc($res);
 
-        $jsdata = $packageData['jsdata'];
+        $jsdata = $packageData['jsdata'] ?? false;
         if (!$jsdata) {
             $jsdata = 'null';
         }
@@ -574,7 +574,7 @@ class ilSCORM13PlayerGUI
         );
         $data = $ilDB->fetchAssoc($res);
 
-        $activitytree = $data['activitytree'];
+        $activitytree = $data['activitytree'] ?? false;
 
         if (!$activitytree) {
             $activitytree = 'null';
@@ -616,7 +616,7 @@ class ilSCORM13PlayerGUI
         );
         $data = $ilDB->fetchAssoc($res);
 
-        $gystem = $data['global_to_system'];
+        $gystem = $data['global_to_system'] ?? 1;
         if ($gystem == 1) {
             $gsystem = 'null';
         } else {
@@ -1214,7 +1214,7 @@ class ilSCORM13PlayerGUI
     //     */
     //    public function getMimetype($filename)
     //    {
-    //        include_once("./components/ILIAS/MediaObjects/classes/class.ilObjMediaObject.php");
+    //        include_once("../components/ILIAS/MediaObjects/classes/class.ilObjMediaObject.php");
     //        return ilObjMediaObject::getMimeType($filename);
     //    }
 
@@ -1224,7 +1224,7 @@ class ilSCORM13PlayerGUI
     //    */
     //    public function get_max_attempts()
     //    {
-    //        include_once "./components/ILIAS/ScormAicc/classes/SCORM/class.ilObjSCORMInitData.php";
+    //        include_once "../components/ILIAS/ScormAicc/classes/SCORM/class.ilObjSCORMInitData.php";
     //        return ilObjSCORMInitData::get_max_attempts($this->packageId);
     //    }
 
@@ -1310,7 +1310,7 @@ class ilSCORM13PlayerGUI
             array($this->packageId)
         );
 
-        $shared_global_to_sys = $ilDB->fetchObject($res)->shared_data_global_to_system;
+        $shared_global_to_sys = $ilDB->fetchObject($res)->shared_data_global_to_system ?? 0;
 
         $res = $ilDB->queryF(
             'SELECT data FROM cp_suspend WHERE obj_id = %s AND user_id = %s',
@@ -1657,13 +1657,13 @@ class ilSCORM13PlayerGUI
                     $_SESSION["debug_pw"] = $this->slm->getDebugPw();
                 }
                 if ($_SESSION["debug_pw"]!=$this->slm->getDebugPw()) {
-                    $this->tpl = new ilTemplate("tpl.scorm2004.debug_pw.html", false, false, "./components/ILIAS/Scorm2004");
+                    $this->tpl = new ilTemplate("tpl.scorm2004.debug_pw.html", false, false, "../components/ILIAS/Scorm2004");
                     $this->tpl->setVariable('SUBMIT', $lng->txt("debugwindow_submit"));
                     $this->tpl->setVariable('CANCEL', $lng->txt("debugwindow_cancel"));
                     $this->tpl->setVariable('PASSWORD_ENTER', $lng->txt("debugwindow_password_enter"));
                     $this->tpl->setVariable('DEBUG_URL','ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=debugGUI&ref_id='.$this->ref_id);
                 } else {*/
-        $this->tpl = new ilGlobalTemplate("tpl.scorm2004.debug.html", false, false, "./components/ILIAS/Scorm2004");
+        $this->tpl = new ilGlobalTemplate("tpl.scorm2004.debug.html", false, false, "../components/ILIAS/Scorm2004");
         $this->tpl->setVariable('CONSOLE', $lng->txt("debugwindow_console"));
         $this->tpl->setVariable('LOGS', $lng->txt("debugwindow_logs"));
         $this->tpl->setVariable('COMMENT', $lng->txt("debugwindow_comment"));
@@ -1677,9 +1677,9 @@ class ilSCORM13PlayerGUI
         $this->tpl->setVariable('FILENAME', $lng->txt("debugwindow_filename"));
         $this->tpl->setVariable('DATE', $lng->txt("debugwindow_date"));
         $this->tpl->setVariable('ACTION', $lng->txt("debugwindow_action"));
-        $this->tpl->setVariable('RECORD_IMG', ilUtil::getImagePath("record.png", "./components/ILIAS/Scorm2004"));
-        $this->tpl->setVariable('STOP_IMG', ilUtil::getImagePath("stop.png", "./components/ILIAS/Scorm2004"));
-        $this->tpl->setVariable('COMMENT_IMG', ilUtil::getImagePath("comment.png", "./components/ILIAS/Scorm2004"));
+        $this->tpl->setVariable('RECORD_IMG', ilUtil::getImagePath("record.png", "../components/ILIAS/Scorm2004"));
+        $this->tpl->setVariable('STOP_IMG', ilUtil::getImagePath("stop.png", "../components/ILIAS/Scorm2004"));
+        $this->tpl->setVariable('COMMENT_IMG', ilUtil::getImagePath("comment.png", "../components/ILIAS/Scorm2004"));
         $logfile = $this->logFileName() . ".html";
         $this->tpl->setVariable('LOGFILE', $this->logFileName() . ".html");
         $this->tpl->setVariable('FILES_DATA', json_encode($this->getLogFileList($lng->txt("debugwindow_delete"), $lng->txt("debugwindow_download"), $lng->txt("debugwindow_open"))));
@@ -1714,7 +1714,7 @@ class ilSCORM13PlayerGUI
                 $row = $ilDB->fetchAssoc($res);
                 $debug_fields = $row['debug_fields'];
                 if ($debug_fields == null) {*/
-        $debug_fields = parse_ini_file("./components/ILIAS/Scorm2004/scripts/rtemain/debug_default.ini", true);
+        $debug_fields = parse_ini_file("../components/ILIAS/Scorm2004/scripts/rtemain/debug_default.ini", true);
         //		}
         if ($test_sco) {
             $ini_array = $debug_fields['test_sco'];

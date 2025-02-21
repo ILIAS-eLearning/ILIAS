@@ -35,7 +35,8 @@ class ilDataCollectionSetupAgent implements Setup\Agent
     public function getMigrations(): array
     {
         return [
-            new ilDataCollectionStorageMigration()
+            new ilDataCollectionStorageMigration(),
+            new ilDataCollectionInitLOMMigration()
         ];
     }
 

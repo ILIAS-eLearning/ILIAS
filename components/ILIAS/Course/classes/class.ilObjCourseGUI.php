@@ -100,8 +100,6 @@ class ilObjCourseGUI extends ilContainerGUI
 
     public function renderObject(): void
     {
-        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-        // $this->ctrl->setCmd("view");
         $this->viewObject();
     }
 
@@ -131,13 +129,7 @@ class ilObjCourseGUI extends ilContainerGUI
         }
 
         if (!$this->checkAgreement()) {
-            $this->tabs_gui->clearTargets();
-            $this->ctrl->setReturn($this, 'view_content');
-            $agreement = new ilMemberAgreementGUI($this->object->getRefId());
-            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-            // $this->ctrl->setCmdClass(get_class($agreement));
-            $this->ctrl->forwardCommand($agreement);
-            return;
+            $this->ctrl->redirectByClass(ilMemberAgreementGUI::class);
         }
 
         if (!$this->__checkStartObjects()) {
@@ -157,11 +149,6 @@ class ilObjCourseGUI extends ilContainerGUI
             $this->object->getViewMode() == ilContainer::VIEW_OBJECTIVE
         ) {
             parent::renderObject();
-        } else {
-            $course_content_obj = new ilCourseContentGUI($this);
-            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-            // $this->ctrl->setCmdClass(get_class($course_content_obj));
-            $this->ctrl->forwardCommand($course_content_obj);
         }
 
         if ($this->isActiveAdministrationPanel()) {

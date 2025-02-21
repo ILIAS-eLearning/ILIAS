@@ -48,8 +48,6 @@ class Info extends BaseCheck implements Check
         if (!$capability->isUnlocked()) {
             return $capability;
         }
-        $helpers->ctrl->setParameterByClass(\ilObjFileInfoGUI::class, 'ref_id', $context);
-        $helpers->ctrl->setParameterByClass(\ilObjFileInfoGUI::class, 'wsp_id', $context);
         $helpers->ctrl->setParameterByClass(\ilInfoScreenGUI::class, 'ref_id', $context);
 
         return $capability->withURI(

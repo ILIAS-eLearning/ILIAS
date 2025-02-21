@@ -78,7 +78,6 @@ class ilObjQuestionPoolXMLParser extends ilSaxParser
                 $this->inSettingsTag = true;
                 break;
 
-            case 'ShowTaxonomies':
             case 'NavTaxonomy':
             case 'SkillService':
                 if ($this->inSettingsTag) {
@@ -119,11 +118,6 @@ class ilObjQuestionPoolXMLParser extends ilSaxParser
 
             case 'Settings':
                 $this->inSettingsTag = false;
-                break;
-
-            case 'ShowTaxonomies':
-                $this->poolOBJ->setShowTaxonomies((bool) $this->cdata);
-                $this->cdata = '';
                 break;
 
             case 'SkillService':

@@ -550,6 +550,7 @@ export default class PageUI {
       }
     }
 
+    let dragClone;
 
     document.querySelectorAll(draggableSelector).forEach((draggableElement) => {
       if (pageUI.isProtectedElement(draggableElement)) {
@@ -560,9 +561,10 @@ export default class PageUI {
 
       draggableElement.addEventListener('dragstart', (event) => {
         event.dataTransfer.setData('text/plain', event.target.id);
-
+        event.dataTransfer.effectAllowed = 'move';
+        event.stopPropagation();
         // Create a transparent clone for the drag image
-        const dragClone = draggableElement.cloneNode(true);
+        dragClone = draggableElement.cloneNode(true);
         dragClone.style.position = 'absolute';
         dragClone.style.top = '-9999px'; // Move it offscreen
         document.body.appendChild(dragClone);
@@ -574,21 +576,35 @@ export default class PageUI {
         mainElement.addEventListener('dragover', autoScroll);
       });
 
-      draggableElement.addEventListener('dragend', () => {
+      draggableElement.addEventListener('dragend', (event) => {
         // event.target.classList.remove('copg-dragging');
         dispatch.dispatch(action.page().editor().dndStopped());
         mainElement.removeEventListener('dragover', autoScroll);
+
+        // remove clone
+        if (dragClone) {
+          dragClone.remove();
+        }
       });
     });
 
     document.querySelectorAll(droppableSelector).forEach((droppableElement) => {
       droppableElement.addEventListener('dragover', (event) => {
         event.preventDefault(); // Necessary to allow a drop
+        event.dataTransfer.dropEffect = "move";
+      });
+
+      droppableElement.addEventListener('dragenter', (event) => {
+        droppableElement.classList.add('il_editarea_selected');
+      });
+
+      droppableElement.addEventListener('dragleave', (event) => {
+        droppableElement.classList.remove('il_editarea_selected');
       });
 
       droppableElement.addEventListener('drop', (event) => {
         event.preventDefault();
-
+        droppableElement.classList.remove('il_editarea_selected');
         const sourceId = event.dataTransfer.getData('text/plain');
         const targetId = event.target.id.substr(6); // Remove 'TARGET' prefix
 
