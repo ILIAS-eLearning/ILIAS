@@ -1935,7 +1935,7 @@ class ilTree
      */
     public function __isMainTree(): bool
     {
-        return $this->table_tree === 'tree';
+        return $this->isRepositoryTree();
     }
 
     /**
