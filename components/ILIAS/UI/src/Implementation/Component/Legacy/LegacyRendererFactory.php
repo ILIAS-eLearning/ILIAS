@@ -38,7 +38,7 @@ class LegacyRendererFactory extends Render\DefaultRendererFactory
 
     public function getRendererInContext(Component\Component $component, array $contexts): Render\AbstractComponentRenderer
     {
-        if (in_array('LatexContent', $contexts)) {
+        if ($component instanceof Component\Legacy\LatexContent) {
             return (new LatexRenderer(
                 $this->ui_factory,
                 $this->tpl_factory,

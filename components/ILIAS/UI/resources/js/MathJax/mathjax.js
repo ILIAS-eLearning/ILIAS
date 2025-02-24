@@ -34,11 +34,11 @@ window.MathJax = {
   tex: {
     inlineMath: [
       ['[tex]', '[/tex]'],
-      // ['\\(', '\\)']                                      // prevent native mathjax delimiter
+      // ['\\(', '\\)']   // prevent native mathjax delimiter
     ],
 
     displayMath: [
-      // ['\\[', '\\]']                                     // prevent native mathjax delimiter
+      // ['\\[', '\\]']   // prevent native mathjax delimiter
     ],
   },
   svg: {

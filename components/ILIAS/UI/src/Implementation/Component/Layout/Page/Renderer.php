@@ -54,7 +54,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.standardpage.html", true, true);
 
         $tpl->setVariable('FAVICON_PATH', $component->getFaviconPath());
-        $tpl->setVariable('MATHJAX_GLOBAL_DISABLING_CLASS', self::MATHJAX_DISABLING_CLASS);
+        $tpl->setVariable('MATHJAX_DISABLING_CLASS', self::MATHJAX_DISABLING_CLASS);
 
         $id = $this->bindJavaScript($component);
         $tpl->setVariable("ID", $id);

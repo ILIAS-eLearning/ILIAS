@@ -30,8 +30,8 @@ interface LatexResources
 
     /**
      * These resources must be provided for Latex to be rendered
-     * - includes the resources which are registered on the page
-     * - includes resources that MathJax dynamically loads when needed
+     * - resources which are registered on the page
+     * - resources that MathJax dynamically loads when needed
      *
      * This function returns a key/value list
      * - key is the source path relative to the ILIAS directory

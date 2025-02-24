@@ -635,9 +635,9 @@ class UI implements Component\Component
             new Component\Resource\NodeModule("webui-popover/dist/jquery.webui-popover.min.js");
         */
 
-        // This is included via anonymous classes as a testament to the fact, that
-        // MathJax resources come from the component and node_modules and may be directories
-        foreach ($use[UI\Implementation\Render\LatexResources::class] as $source => $target) {
+        // This is included via anonymous classes
+        // because MathJax resources are taken from the component and from node_modules and they may be directories
+        foreach ($internal[UI\Implementation\Render\DefaultLatexResources::class] as $source => $target) {
             $contribute[Component\Resource\PublicAsset::class] = static fn() => new readonly class ($source, $target)
                 implements Component\Resource\PublicAsset {
 
