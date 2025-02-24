@@ -11,7 +11,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 import document from 'document';
 import ResizeObserver from 'ResizeObserver';
