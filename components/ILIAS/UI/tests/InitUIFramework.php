@@ -66,13 +66,13 @@ class InitUIFramework
         };
         $c["ui.upload_limit_resolver"] = function ($c) {
             return new \ILIAS\UI\Implementation\Component\Input\UploadLimitResolver(
-                new class() implements ILIAS\UI\Component\Input\Field\PhpUploadLimit {
+                new class () implements ILIAS\UI\Component\Input\Field\PhpUploadLimit {
                     public function getPhpUploadLimitInBytes(): int
                     {
                         return 0;
                     }
                 },
-                new class() implements ILIAS\UI\Component\Input\Field\GlobalUploadLimit {
+                new class () implements ILIAS\UI\Component\Input\Field\GlobalUploadLimit {
                     public function getGlobalUploadLimitInBytes(): ?int
                     {
                         return null;
@@ -118,20 +118,20 @@ class InitUIFramework
                 $c["ui.factory.input.field"],
             );
         };
-        $c["ui.factory.progress.refresh_interval"] = static fn (\ILIAS\DI\Container $c) =>
-        new class() implements \ILIAS\UI\Component\Progress\AsyncRefreshInterval {
+        $c["ui.factory.progress.refresh_interval"] = static fn(\ILIAS\DI\Container $c) =>
+        new class () implements \ILIAS\UI\Component\Progress\AsyncRefreshInterval {
             public function getRefreshIntervalInMs(): int
             {
                 return 1_000;
             }
         };
-        $c["ui.factory.progress"] = static fn (\ILIAS\DI\Container $c) =>
+        $c["ui.factory.progress"] = static fn(\ILIAS\DI\Container $c) =>
         new \ILIAS\UI\Implementation\Component\Progress\Factory(
             $c["ui.factory.progress.refresh_interval"],
             $c["ui.signal_generator"],
             $c["ui.factory.progress.state"],
         );
-        $c["ui.factory.progress.state"] = static fn (\ILIAS\DI\Container $c) =>
+        $c["ui.factory.progress.state"] = static fn(\ILIAS\DI\Container $c) =>
         new \ILIAS\UI\Implementation\Component\Progress\State\Factory(
             new \ILIAS\UI\Implementation\Component\Progress\State\Bar\Factory(),
         );
@@ -364,6 +364,16 @@ class InitUIFramework
                             $c["help.text_retriever"],
                             $c["ui.upload_limit_resolver"]
                         ),
+                        new ILIAS\UI\Implementation\Component\Legacy\LegacyRendererFactory(
+                            $c["ui.factory"],
+                            $c["ui.template_factory"],
+                            $c["lng"],
+                            $c["ui.javascript_binding"],
+                            $c["ui.pathresolver"],
+                            $c["ui.data_factory"],
+                            $c["help.text_retriever"],
+                            $c["ui.upload_limit_resolver"]
+                        ),
                     )
                 )
             );
@@ -409,7 +419,7 @@ class InitUIFramework
         // currently this is will be a session storage because we cannot store
         // data on the client, see https://mantis.ilias.de/view.php?id=38503.
         $c["ui.storage"] = function ($c): ArrayAccess {
-            return new class() implements ArrayAccess {
+            return new class () implements ArrayAccess {
                 public function offsetExists(mixed $offset): bool
                 {
                     return ilSession::has($offset);

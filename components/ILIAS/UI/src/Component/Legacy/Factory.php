@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 
-
 namespace ILIAS\UI\Component\Legacy;
 
 interface Factory
@@ -58,6 +57,7 @@ interface Factory
      *     content that is not yet implement in the centralized UI components.
      *   composition: >
      *     The LatexContent component contains html or any other content as string.
+     *     LaTeX content within must be wrapped by the delimiters [tex] and [/tex]
      *
      * rules:
      *   usage:

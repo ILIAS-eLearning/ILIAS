@@ -519,7 +519,7 @@ class UI implements Component\Component
                             $use[UI\HelpTextRetriever::class],
                             $internal[UI\Implementation\Component\Input\UploadLimitResolver::class],
                         ),
-                        new UI\Implementation\Component\Legacy\LegacyRendererFactory(
+                        (new UI\Implementation\Component\Legacy\LegacyRendererFactory(
                             $use[UI\Implementation\FactoryInternal::class],
                             $internal[UI\Implementation\Render\TemplateFactory::class],
                             $use[Language\Language::class],
@@ -528,7 +528,7 @@ class UI implements Component\Component
                             $pull[Data\Factory::class],
                             $use[UI\HelpTextRetriever::class],
                             $internal[UI\Implementation\Component\Input\UploadLimitResolver::class],
-                        )
+                        ))->withLatexResources($internal[UI\Implementation\Render\DefaultLatexResources::class])
                     )
                 )
             );
@@ -637,10 +637,8 @@ class UI implements Component\Component
 
         // This is included via anonymous classes
         // because MathJax resources are taken from the component and from node_modules and they may be directories
-        foreach ($internal[UI\Implementation\Render\DefaultLatexResources::class] as $source => $target) {
-            $contribute[Component\Resource\PublicAsset::class] = static fn() => new readonly class ($source, $target)
-                implements Component\Resource\PublicAsset {
-
+        foreach ($internal[UI\Implementation\Render\DefaultLatexResources::class]->toProvide() as $source => $target) {
+            $contribute[Component\Resource\PublicAsset::class] = static fn() => new readonly class ($source, $target) implements Component\Resource\PublicAsset {
                 public function __construct(private string $source, private string $target)
                 {
                 }

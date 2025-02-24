@@ -30,11 +30,11 @@ class DefaultLatexResources implements LatexResources
     public function toProvide(): array
     {
         $resources = [
-            'js/MathJax/mathjax.js' => 'assets/js/mathjax.js'
+            'components/ILIAS/UI/resources/js/MathJax/mathjax.js' => 'assets/js/mathjax.js'
         ];
 
         foreach (['tex-chtml-full.js', 'a11y', 'adaptors', 'input', 'output', 'sre', 'ui',] as $asset) {
-            $resources['node_modules/mathjax/es5/' . $asset] = 'node_modules/mathjax/es5/' .  $asset;
+            $resources['node_modules/mathjax/es5/' . $asset] = 'node_modules/mathjax/es5/' . $asset;
         }
 
         return $resources;

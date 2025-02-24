@@ -23,10 +23,10 @@ namespace ILIAS\UI\examples\Legacy\Content;
 /**
  * ---
  * description: >
- *   Example for rendering legacy latex content an inside panel.
+ *   Example for rendering a legacy box with an inside panel.
  *
  * expected output: >
- *   ILIAS shows a latex formula inside the panel
+ *   ILIAS shows a box including the text "Legacy Content".
  * ---
  */
 function base()
@@ -37,7 +37,7 @@ function base()
     $renderer = $DIC->ui()->renderer();
 
     //Init Component
-    $legacy = $f->legacy()->latexContent('[tex]f(x)=\int_{-\infty}^x e^{-t^2}dt[/tex]');
+    $legacy = $f->legacy()->content("Legacy\Content");
 
     //Render
     return $renderer->render($legacy);
