@@ -294,6 +294,7 @@ class ilTestCorrectionsGUI
             $this->language
         );
         $scoring->setPreserveManualScores(true);
+        $scoring->setQuestionId($question_index);
         $scoring->recalculateSolutions();
 
         if ($this->logger->isLoggingEnabled()) {
