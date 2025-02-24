@@ -39,7 +39,7 @@ class Language implements DataRetrieval
     }
     public function getRows(DataRowBuilder $row_builder, array $visible_column_ids, Range $range, Order $order, ?array $filter_data, ?array $additional_parameters): Generator
     {
-        foreach ($this->lng->getInstalledLanguages() as $key) {
+        foreach (array_slice($this->lng->getInstalledLanguages(), $range->getStart(), $range->getLength()) as $key) {
             $title = $this->lng->txt('meta_l_' . $key);
             if ($key === $this->lng->getDefaultLanguage()) {
                 $title .= ' (' . $this->lng->txt('system_language') . ')';
