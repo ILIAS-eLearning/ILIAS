@@ -13926,6 +13926,10 @@ rbac#:#dcl_write#:#Datensammlung bearbeiten
 rbac#:#delete_files#:#Dateien löschen
 rbac#:#delete_folders#:#Ordner löschen
 rbac#:#delete_wiki_pages#:#Seite löschen
+rbac#:#dpro_edit_permission#:#Rechteeinstellungen für die Datenschutzerklärungs-Verwaltung ändern
+rbac#:#dpro_read#:#Lesezugriff auf die Datenschutzerklärungs-Verwaltung
+rbac#:#dpro_visible#:#Datenschutzerklärungs-Verwaltung ist sichtbar
+rbac#:#dpro_write#:#Einstellungen in der Datenschutzerklärungs-Verwaltung bearbeiten
 rbac#:#dshs_change_presentation#:#Darstellung des Dashboards ändern
 rbac#:#dshs_edit_permission#:#Rechteeinstellung in der Administration des Dashboards ändern
 rbac#:#dshs_read#:#Lesezugriff auf Administration des Dashboards
