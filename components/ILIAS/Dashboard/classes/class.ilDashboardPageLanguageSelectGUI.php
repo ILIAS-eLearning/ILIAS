@@ -67,16 +67,6 @@ class ilDashboardPageLanguageSelectGUI
             $token
         );
 
-        $url_builder = $url_builder->withURI(new URI(
-            ILIAS_HTTP_PATH . '/' . $this->dic->ctrl()->getLinkTargetByClass(ilDashboardPageGUI::class, 'delete')
-        ));
-        list($builder, $token) = $url_builder->acquireParameters([$this->page->getParentType()], 'lang');
-        $actions[] = $this->dic->ui()->factory()->table()->action()->single(
-            $this->dic->language()->txt('dash_co_delete'),
-            $builder,
-            $token
-        );
-
         $table = $this->dic->ui()->factory()->table()->data(
             $this->dic->language()->txt('dash_co_lang'),
             [

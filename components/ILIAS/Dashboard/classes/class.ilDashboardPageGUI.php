@@ -74,6 +74,6 @@ class ilDashboardPageGUI extends ilPageObjectGUI
     public static function isLanguageAvailable(string $lang): bool
     {
         $page = new ilDashboardPage();
-        return ilPageObject::_exists($page->getParentType(), $page->getParentId(), $lang);
+        return ilPageObject::_existsAndNotEmpty($page->getParentType(), $page->getParentId(), $lang);
     }
 }
