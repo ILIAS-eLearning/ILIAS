@@ -6703,21 +6703,31 @@ class ilObjTest extends ilObject
         }
 
         $item = new ilObjectActivation();
-        if (!$settings['is_activation_limited']) {
+
+        $is_activation_limited = (bool) ($settings['is_activation_limited'] ?? false);
+        $activation_starting_time = isset($settings['activation_starting_time']) && is_numeric($settings['activation_starting_time'])
+            ? (int) $settings['activation_starting_time']
+            : null;
+        $activation_ending_time = isset($settings['activation_ending_time']) && is_numeric($settings['activation_ending_time'])
+            ? (int) $settings['activation_ending_time']
+            : null;
+        $activation_visibility = (bool) ($settings['activation_visibility'] ?? false);
+
+        if (!$is_activation_limited) {
             $item->setTimingType(ilObjectActivation::TIMINGS_DEACTIVATED);
         } else {
             $item->setTimingType(ilObjectActivation::TIMINGS_ACTIVATION);
-            $item->setTimingStart($settings['activation_starting_time']);
-            $item->setTimingEnd($settings['activation_ending_time']);
-            $item->toggleVisible($settings['activation_visibility']);
+            $item->setTimingStart($activation_starting_time);
+            $item->setTimingEnd($activation_ending_time);
+            $item->toggleVisible($activation_visibility);
         }
 
         $item->update($this->ref_id);
 
-        $this->setActivationLimited($settings['is_activation_limited']);
-        $this->setActivationStartingTime($settings['activation_starting_time']);
-        $this->setActivationStartingTime($settings['activation_ending_time']);
-        $this->setActivationVisibility($settings['activation_visibility']);
+        $this->setActivationLimited($is_activation_limited);
+        $this->setActivationStartingTime($activation_starting_time);
+        $this->setActivationStartingTime($activation_ending_time);
+        $this->setActivationVisibility($activation_visibility);
     }
 
     public function getIntroductionPageId(): int
