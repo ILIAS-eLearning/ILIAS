@@ -7800,6 +7800,7 @@ button .minimize, button .close {
   .c-drilldown:not(.c-drilldown--filtered) .c-drilldown__menulevel--engagedparent.c-drilldown__menulevel--engaged > .c-drilldown__branch > ul > li > .btn-bulky:hover,
   .c-drilldown:not(.c-drilldown--filtered) .c-drilldown__menulevel--engagedparent.c-drilldown__menulevel--engaged > .c-drilldown__branch > ul > li > .link-bulky:hover {
     background-color: #a1b3ca;
+    border-color: #a1b3ca;
   }
   .c-drilldown:not(.c-drilldown--filtered) .c-drilldown__menulevel--engagedparent.c-drilldown__menulevel--engaged > .c-drilldown__branch ~ .c-drilldown__branch > .c-drilldown__menulevel--trigger {
     background-color: transparent;
@@ -7807,6 +7808,7 @@ button .minimize, button .close {
   }
   .c-drilldown:not(.c-drilldown--filtered) .c-drilldown__menulevel--engagedparent.c-drilldown__menulevel--engaged > .c-drilldown__branch ~ .c-drilldown__branch > .c-drilldown__menulevel--trigger:hover {
     background-color: #a1b3ca;
+    border-color: #a1b3ca;
   }
   .c-drilldown:not(.c-drilldown--filtered) .c-drilldown__menulevel--engagedparent.c-drilldown__menulevel--engaged > .c-drilldown__branch ~ .c-drilldown__branch > ul > li > .c-drilldown__menulevel--trigger,
   .c-drilldown:not(.c-drilldown--filtered) .c-drilldown__menulevel--engagedparent.c-drilldown__menulevel--engaged > .c-drilldown__branch ~ .c-drilldown__branch > ul > li > .btn-bulky,
@@ -7826,11 +7828,12 @@ button .minimize, button .close {
     display: flex;
     flex-direction: row;
     max-height: 50.4px;
-    width: 100%;
+    flex: 0 1 50%;
+    margin-bottom: 2px;
   }
   .c-drilldown:not(.c-drilldown--filtered) .c-drilldown__menulevel--engagedparent > li:not(.c-drilldown__menuitem--filtered) > ul {
     position: relative;
-    width: 100%;
+    flex: 1 0 50%;
   }
   .c-drilldown:not(.c-drilldown--filtered) .c-drilldown__menulevel--engagedparent > .c-drilldown__leaf > .btn-bulky, .c-drilldown:not(.c-drilldown--filtered) .c-drilldown__menulevel--engagedparent > .c-drilldown__leaf > .c-drilldown__menulevel--trigger,
   .c-drilldown:not(.c-drilldown--filtered) .c-drilldown__menulevel--engagedparent > .c-drilldown__leaf > .link-bulky {
@@ -7858,6 +7861,7 @@ button .minimize, button .close {
   .c-drilldown:not(.c-drilldown--filtered) .c-drilldown__menulevel--engagedparent .c-drilldown__menulevel--engaged > li > .c-drilldown__menulevel--trigger:hover,
   .c-drilldown:not(.c-drilldown--filtered) .c-drilldown__menulevel--engagedparent .c-drilldown__menulevel--engaged > li > .link-bulky:hover {
     background-color: #a1b3ca;
+    border-color: #a1b3ca;
   }
 }
 .c-drilldown hr {
@@ -7873,6 +7877,7 @@ button .minimize, button .close {
 .c-drilldown .link-bulky:hover,
 .c-drilldown .c-drilldown__menulevel--trigger:hover {
   background-color: #a1b3ca;
+  border-color: #a1b3ca;
   color: inherit;
 }
 .c-drilldown .c-drilldown__menu--no-items,

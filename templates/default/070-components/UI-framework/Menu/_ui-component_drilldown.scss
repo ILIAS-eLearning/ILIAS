@@ -206,6 +206,7 @@ $c-drilldown-menulevel-trigger-bg: transparent;
                             z-index: 40;
                             &:hover {
                                 background-color: $c-drilldown-item-hover-bg;
+                                border-color: $c-drilldown-item-hover-bg;
                             }
                         }
                     }
@@ -215,6 +216,7 @@ $c-drilldown-menulevel-trigger-bg: transparent;
                             border-color: $c-drilldown-menulevel-trigger-bg;
                             &:hover {
                                 background-color: $c-drilldown-item-hover-bg;
+                                border-color: $c-drilldown-item-hover-bg;
                             }
                         }
                         > ul > li {
@@ -241,11 +243,12 @@ $c-drilldown-menulevel-trigger-bg: transparent;
                 display: flex;
                 flex-direction: row;
                 max-height: $c-drilldown-element-max-height;
-                width: 100%;
+                flex: 0 1 50%;
+                margin-bottom: 2px;
 
                 > ul {
                     position: relative;
-                    width: 100%;
+                    flex: 1 0 50%;
                 }
             }
             > .c-drilldown__leaf {
@@ -272,6 +275,7 @@ $c-drilldown-menulevel-trigger-bg: transparent;
                         z-index: 40;
                         &:hover {
                             background-color: $c-drilldown-engaged-bg;
+                            border-color: $c-drilldown-item-hover-bg;
                         }
                     }
                 }
@@ -290,6 +294,7 @@ $c-drilldown-menulevel-trigger-bg: transparent;
         border-color: $c-drilldown-menulevel-trigger-bg;
         &:hover {
             background-color: $c-drilldown-item-hover-bg;
+            border-color: $c-drilldown-item-hover-bg;
             // has to be a color with transparency so h2 can be seen underneath backnav
             color: inherit;
         }
