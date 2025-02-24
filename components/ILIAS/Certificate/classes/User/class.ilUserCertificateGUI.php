@@ -55,7 +55,6 @@ class ilUserCertificateGUI
         'date_DESC' => 'cert_sortable_by_issue_date_desc',
     ];
     protected string $defaultSorting = 'date_DESC';
-    private readonly Filesystem $filesystem;
 
     public function __construct(
         ?ilGlobalTemplateInterface $template = null,
@@ -69,7 +68,6 @@ class ilUserCertificateGUI
         ?Factory $uiFactory = null,
         ?Renderer $uiRenderer = null,
         ?ilAccessHandler $access = null,
-        ?Filesystem $filesystem = null,
         ?ilHelpGUI $help = null,
         ?ilDBInterface $db = null,
         private ?IRSS $irss = null
@@ -85,7 +83,6 @@ class ilUserCertificateGUI
         $this->uiFactory = $uiFactory ?? $DIC->ui()->factory();
         $this->uiRenderer = $uiRenderer ?? $DIC->ui()->renderer();
         $this->access = $access ?? $DIC->access();
-        $this->filesystem = $filesystem ?? $DIC->filesystem()->web();
         $this->userCertificateRepository = $userCertificateRepository ?? new ilUserCertificateRepository(null, $this->certificateLogger);
         $this->help = $help ?? $DIC->help();
         $this->db = $db ?? $DIC->database();
@@ -167,18 +164,9 @@ class ilUserCertificateGUI
             foreach ($data['items'] as $certificateData) {
                 $tile_image_identification = $certificateData['tile_image_ident'] ?? '';
                 $imagePath = '';
-                if ($tile_image_identification === '' || $tile_image_identification === '-') {
-                    $tile_image_identification = $certificateData['tile_image_path'] ?? '';
-                    if ($tile_image_identification !== '' && $this->filesystem->has($tile_image_identification)) {
-                        $imagePath = ilWACSignedPath::signFile(
-                            ilFileUtils::getWebspaceDir() . $tile_image_identification
-                        );
-                    }
-                } else {
-                    $tile_image_rid = $this->irss->manage()->find($tile_image_identification);
-                    if ($tile_image_rid instanceof ResourceIdentification) {
-                        $imagePath = $this->irss->consume()->src($tile_image_rid)->getSrc(true);
-                    }
+                $tile_image_rid = $this->irss->manage()->find($tile_image_identification);
+                if ($tile_image_rid instanceof ResourceIdentification) {
+                    $imagePath = $this->irss->consume()->src($tile_image_rid)->getSrc(true);
                 }
 
                 if ($imagePath === '') {

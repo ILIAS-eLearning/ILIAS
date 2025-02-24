@@ -45,18 +45,9 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'version' => ['integer', 1],
                 'ilias_version' => ['text', 'v5.4.0'],
                 'currently_active' => ['integer', true],
-                'background_image_path' => ['text', '/some/where/background.jpg'],
-                'tile_image_path' => ['text', '/some/where/tile_image.svg'],
                 'background_image_ident' => ['text', '-'],
                 'tile_image_ident' => ['text', '-'],
                 'certificate_id' => ['text', '11111111-2222-3333-4444-555555555555'],
-            ]
-        );
-
-        $database->method('tableColumnExists')->willReturnMap(
-            [
-                ['il_cert_user_cert', 'background_image_path', true],
-                ['il_cert_user_cert', 'tile_image_path', true],
             ]
         );
 
@@ -87,8 +78,6 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             'v5.4.0',
             true,
             new CertificateId('11111111-2222-3333-4444-555555555555'),
-            '/some/where/background.jpg',
-            '/some/where/tile_image.svg',
             '-',
             '-',
             null
@@ -119,8 +108,6 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'version' => 1,
                 'ilias_version' => 'v5.4.0',
                 'currently_active' => true,
-                'background_image_path' => '/some/where/background.jpg',
-                'tile_image_path' => '/some/where/tile_image.svg',
                 'background_image_ident' => '-',
                 'tile_image_ident' => '-',
                 'title' => 'Some Title',
@@ -140,8 +127,6 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'version' => 1,
                 'ilias_version' => 'v5.3.0',
                 'currently_active' => true,
-                'background_image_path' => '/some/where/else/background.jpg',
-                'tile_image_path' => '/some/where/tile_image.svg',
                 'background_image_ident' => '-',
                 'tile_image_ident' => '-',
                 'title' => 'Someother Title',
@@ -191,8 +176,6 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'version' => 1,
                 'ilias_version' => 'v5.4.0',
                 'currently_active' => true,
-                'background_image_path' => '/some/where/background.jpg',
-                'tile_image_path' => '/some/where/tile_image.svg',
                 'background_image_ident' => '-',
                 'tile_image_ident' => '-',
                 'certificate_id' => '11111111-2222-3333-4444-555555555555'
@@ -211,8 +194,6 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'version' => 1,
                 'ilias_version' => 'v5.3.0',
                 'currently_active' => true,
-                'background_image_path' => '/some/where/else/background.jpg',
-                'tile_image_path' => '/some/where/tile_image.svg',
                 'background_image_ident' => '-',
                 'tile_image_ident' => '-',
                 'certificate_id' => '11111111-2222-3333-4444-555555555555'
@@ -284,8 +265,6 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'version' => 1,
                 'ilias_version' => 'v5.4.0',
                 'currently_active' => true,
-                'background_image_path' => '/some/where/background.jpg',
-                'tile_image_path' => '/some/where/else/tile_image.svg',
                 'background_image_ident' => '-',
                 'tile_image_ident' => '-',
                 'title' => 'SomeTitle',
@@ -306,8 +285,6 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'version' => 1,
                 'ilias_version' => 'v5.3.0',
                 'currently_active' => true,
-                'background_image_path' => '/some/where/else/background.jpg',
-                'tile_image_path' => '/some/where/else/tile_image.svg',
                 'background_image_ident' => '-',
                 'tile_image_ident' => '-',
                 'title' => 'SomeTitle',
@@ -354,8 +331,6 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'version' => 1,
                 'ilias_version' => 'v5.4.0',
                 'currently_active' => true,
-                'background_image_path' => '/some/where/background.jpg',
-                'tile_image_path' => '/some/where/else/tile_image.svg',
                 'background_image_ident' => '-',
                 'tile_image_ident' => '-',
                 'title' => 'SomeTitle',

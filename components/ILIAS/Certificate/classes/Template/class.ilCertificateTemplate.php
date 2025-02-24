@@ -35,8 +35,6 @@ class ilCertificateTemplate
         private readonly string $iliasVersion,
         private readonly int $createdTimestamp,
         private readonly bool $currentlyActive,
-        private readonly string $backgroundImagePath = '',
-        private readonly string $tile_image_path = '',
         private readonly string $backgroundIdentification = '',
         private readonly string $tile_image_identification = '',
         private readonly ?int $id = null,
@@ -89,22 +87,9 @@ class ilCertificateTemplate
         return $this->id;
     }
 
-    public function getCurrentBackgroundImageUsed(): string
-    {
-        if ($this->getBackgroundImageIdentification() === '' || $this->getBackgroundImageIdentification() === '-') {
-            return $this->getBackgroundImagePath();
-        }
-        return $this->getBackgroundImageIdentification();
-    }
-
     public function getBackgroundImageIdentification(): string
     {
         return $this->backgroundIdentification;
-    }
-
-    public function getBackgroundImagePath(): string
-    {
-        return $this->backgroundImagePath;
     }
 
     public function getObjType(): string
@@ -117,21 +102,8 @@ class ilCertificateTemplate
         return $this->deleted;
     }
 
-    public function getCurrentTileImageUsed(): string
-    {
-        if ($this->getTileImageIdentification() === '' || $this->getTileImageIdentification() === '-') {
-            return $this->getTileImagePath();
-        }
-        return $this->getTileImageIdentification();
-    }
-
     public function getTileImageIdentification(): string
     {
         return $this->tile_image_identification;
-    }
-
-    public function getTileImagePath(): string
-    {
-        return $this->tile_image_path;
     }
 }

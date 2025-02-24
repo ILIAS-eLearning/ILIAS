@@ -183,8 +183,6 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
             $rid = $this->object->getBackgroundImageIdentification();
             if ($rid instanceof ResourceIdentification) {
                 $bgimage->setImage($this->irss->consume()->src($rid)->getSrc(true));
-            } elseif (is_string($rid)) {
-                $bgimage->setImage($rid);
             }
         }
         $bgimage->setInfo($this->lng->txt('default_background_info'));
