@@ -28,7 +28,7 @@ class ilDashboardSortationTableGUI extends ilTable2GUI
     private ilPDSelectedItemsBlockViewSettings $viewSettings;
     private ilDashboardSidePanelSettingsRepository $side_panel_settings;
 
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct($a_parent_obj, $a_parent_cmd, bool $disable = false)
     {
         global $DIC;
         $this->uiFactory = $DIC->ui()->factory();
@@ -39,13 +39,15 @@ class ilDashboardSortationTableGUI extends ilTable2GUI
         $this->lng->loadLanguageModule('mme');
         $this->initColumns();
         $this->setFormAction($this->ctrl->getFormAction($this->parent_obj));
-        $this->addCommandButton('saveSettings', $this->lng->txt('save'));
+        if (!$disable) {
+            $this->addCommandButton('saveSettings', $this->lng->txt('save'));
+        }
         $this->setRowTemplate(
             'tpl.dashboard_sortation_row.html',
             'Services/Dashboard'
         );
         $this->setEnableNumInfo(false);
-        $this->initData();
+        $this->initData($disable);
     }
 
     public function initColumns(): void
@@ -55,7 +57,7 @@ class ilDashboardSortationTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('topitem_active'));
     }
 
-    public function initData(): void
+    public function initData(bool $disable = false): void
     {
         $data[] = [
             'position' => $this->uiRenderer->render(
@@ -71,12 +73,13 @@ class ilDashboardSortationTableGUI extends ilTable2GUI
             $presentation_cb->setChecked($this->viewSettings->isViewEnabled($presentation_view));
             $presentation_cb->setValue('1');
             $presentation_cb->setDisabled(
-                $presentation_view === ilPDSelectedItemsBlockConstants::VIEW_RECOMMENDED_CONTENT
+                $disable ?: ($presentation_view === ilPDSelectedItemsBlockConstants::VIEW_RECOMMENDED_CONTENT)
             );
 
             $position_input = new ilNumberInputGUI('', 'main_panel[position][' . $presentation_view . ']');
             $position_input->setSize(3);
             $position_input->setValue((string) (++$position * 10));
+            $position_input->setDisabled($disable);
 
             $data[] = [
                 'position' => $position_input->render(),
@@ -98,10 +101,12 @@ class ilDashboardSortationTableGUI extends ilTable2GUI
         foreach ($this->side_panel_settings->getPositions() as $mod) {
             $side_panel_module_cb = new ilCheckboxInputGUI('', 'side_panel[enable][' . $mod . ']');
             $side_panel_module_cb->setChecked($this->side_panel_settings->isEnabled($mod));
+            $side_panel_module_cb->setDisabled($disable);
 
             $position_input = new ilNumberInputGUI('', 'side_panel[position][' . $mod . ']');
             $position_input->setSize(3);
             $position_input->setValue((string) (++$position * 10));
+            $position_input->setDisabled($disable);
 
             $data[] = [
                 'position' => $position_input->render(),

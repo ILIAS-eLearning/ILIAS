@@ -129,7 +129,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             $content[] = $this->ui_factory->messageBox()->info($this->lng->txt('memberships_disabled_info'));
         }
         $this->setSettingsSubTabs('general');
-        $table = new ilDashboardSortationTableGUI($this, 'editSettings');
+        $table = new ilDashboardSortationTableGUI($this, 'editSettings', !$this->canWrite());
         $this->tpl->setContent($table->getHTML());
     }
 
@@ -159,7 +159,9 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
     public function getViewSectionSorting(int $view, string $title): Section
     {
-        $this->tpl->addJavaScript('Services/Dashboard/Administration/js/SortationUserInputHandler.js');
+        if ($this->canWrite()) {
+            $this->tpl->addJavaScript('Services/Dashboard/Administration/js/SortationUserInputHandler.js');
+        }
         $lng = $this->lng;
         $availabe_sort_options = $this->viewSettings->getAvailableSortOptionsByView($view);
         $options = array_reduce(
@@ -243,19 +245,11 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             asort($positions);
             $this->side_panel_settings->setPositions(array_keys($positions));
 
-            $this->tpl->setOnScreenMessage(
-                $this->tpl::MESSAGE_TYPE_SUCCESS,
-                $this->lng->txt('settings_saved'),
-                true
-            );
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('settings_saved'), true);
         } else {
-            $this->tpl->setOnScreenMessage(
-                $this->tpl::MESSAGE_TYPE_FAILURE,
-                $this->lng->txt('no_permission'),
-                true
-            );
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_FAILURE, $this->lng->txt('no_permission'), true);
         }
-        $this->ctrl->redirect($this, 'editSettings');
+        $this->editSettings();
     }
 
     public function setSettingsSubTabs(string $a_active): void
@@ -327,57 +321,44 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
     protected function savePresentation(): void
     {
-        $form = $this->getViewForm(self::VIEW_MODE_PRESENTATION);
+        if ($this->canWrite()) {
+            $data = $this->getViewForm(self::VIEW_MODE_PRESENTATION)->withRequest($this->request)->getData();
 
-        if (!$form || !$this->canWrite()) {
-            $this->tpl->setOnScreenMessage(
-                $this->tpl::MESSAGE_TYPE_FAILURE,
-                $this->lng->txt('no_permission'),
-                true
-            );
-            $this->editPresentation();
-            return;
+            foreach ($data as $view => $view_data) {
+                $this->viewSettings->storeViewPresentation(
+                    $view,
+                    $view_data['default_pres'],
+                    $view_data['avail_pres'] ?? []
+                );
+            }
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('msg_obj_modified'), true);
+        } else {
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_FAILURE, $this->lng->txt('no_permission'), true);
         }
-
-        $form = $form->withRequest($this->request);
-        $form_data = $form->getData();
-
-        foreach ($form_data as $view => $view_data) {
-            $this->viewSettings->storeViewPresentation(
-                $view,
-                $view_data['default_pres'],
-                $view_data['avail_pres'] ?? []
-            );
-        }
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
         $this->editPresentation();
     }
 
     public function saveSorting(): void
     {
-        $form = $this->getViewForm(self::VIEW_MODE_SORTING);
+        if ($this->canWrite()) {
+            $data = $this->getViewForm(self::VIEW_MODE_SORTING)->withRequest($this->request)->getData();
 
-        if (!$form || !$this->canWrite()) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'), true);
-            $this->editSorting();
-        }
-
-        $form = $form->withRequest($this->request);
-        $form_data = $form->getData();
-
-        foreach ($form_data as $view => $view_data) {
-            if (isset($view_data['default_sorting'])) {
-                if (!is_array($view_data['avail_sorting'] ?? null)) {
-                    $view_data['avail_sorting'] = [$view_data['default_sorting']];
+            foreach ($data as $view => $view_data) {
+                if (isset($view_data['default_sorting'])) {
+                    if (!is_array($view_data['avail_sorting'] ?? null)) {
+                        $view_data['avail_sorting'] = [$view_data['default_sorting']];
+                    }
+                    $this->viewSettings->storeViewSorting(
+                        $view,
+                        $view_data['default_sorting'],
+                        $view_data['avail_sorting']
+                    );
                 }
-                $this->viewSettings->storeViewSorting(
-                    $view,
-                    $view_data['default_sorting'],
-                    $view_data['avail_sorting']
-                );
             }
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('msg_obj_modified'), true);
+        } else {
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_FAILURE, $this->lng->txt('no_permission'), true);
         }
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
         $this->editSorting();
     }
 
