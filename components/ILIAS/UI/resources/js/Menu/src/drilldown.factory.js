@@ -13,10 +13,10 @@
 * https://github.com/ILIAS-eLearning
 */
 
-import Drilldown from './drilldown.main';
-import DrilldownPersistence from './drilldown.persistence';
-import DrilldownModel from './drilldown.model';
-import DrilldownMapping from './drilldown.mapping';
+import Drilldown from './drilldown.main.js';
+import DrilldownPersistence from './drilldown.persistence.js';
+import DrilldownModel from './drilldown.model.js';
+import DrilldownMapping from './drilldown.mapping.js';
 
 export default class DrilldownFactory {
   /**

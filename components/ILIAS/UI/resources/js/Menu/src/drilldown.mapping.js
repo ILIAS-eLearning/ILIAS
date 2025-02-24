@@ -13,7 +13,7 @@
 * https://github.com/ILIAS-eLearning
 */
 
-export default class DropdownMapping {
+export default class DrilldownMapping {
   /**
      * @type {object}
      */
@@ -59,12 +59,12 @@ export default class DropdownMapping {
   /**
    * @param {DOMDocument} document
    * @param {ResizeObserver} resizeObserver
-   * @param {string} dropdownId
+   * @param {string} drilldownId
    */
-  constructor(document, resizeObserver, dropdownId) {
+  constructor(document, resizeObserver, drilldownId) {
     this.#document = document;
     this.#resizeObserver = resizeObserver;
-    this.#elements.dd = document.getElementById(dropdownId);
+    this.#elements.dd = document.getElementById(drilldownId);
     [this.#elements.header] = this.#elements.dd.getElementsByTagName(this.#classes.HEADER_TAG);
   }
 
@@ -84,6 +84,14 @@ export default class DropdownMapping {
   }
 
   /**
+   * @param {function} filterHandler
+   * @return {void}
+   */
+  setResizeHandler(resizeHandler) {
+    this.#document.defaultView.addEventListener('resize', resizeHandler);
+  }
+
+  /**
      * @param {function} filterHandler
      * @return {void}
      */
@@ -97,7 +105,7 @@ export default class DropdownMapping {
           this.#getLeavesOfList(sublist, leafBuilder),
         );
         this.#addLevelId(sublist, level.id);
-        DropdownMapping.registerHandler(sublist, clickHandler, level.id);
+        DrilldownMapping.registerClickHandler(sublist, clickHandler, level.id);
         this.#elements.levels[level.id] = sublist;
       },
     );
@@ -163,7 +171,7 @@ export default class DropdownMapping {
      * @param {string} elementId
      * @returns {void}
      */
-  static registerHandler(list, handler, elementId) {
+  static registerClickHandler(list, handler, elementId) {
     const headerElement = list.previousElementSibling;
     if (headerElement === null) {
       return;

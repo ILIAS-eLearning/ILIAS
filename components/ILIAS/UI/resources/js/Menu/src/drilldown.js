@@ -17,7 +17,7 @@ import document from 'document';
 import ResizeObserver from 'ResizeObserver';
 import $ from 'jquery';
 import il from 'ilias';
-import DrilldownFactory from './drilldown.factory';
+import DrilldownFactory from './drilldown.factory.js';
 
 il.UI = il.UI || {};
 il.UI.menu = il.UI.menu || {};

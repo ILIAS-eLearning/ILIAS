@@ -50,6 +50,7 @@ export default class Drilldown {
         }
       },
     );
+    this.#mapping.setResizeHandler(() => { this.#apply(); });
     this.#mapping.parseLevel(
       (headerDisplayElement, parent, leaves) => this.#model
         .addLevel(headerDisplayElement, parent, leaves),
