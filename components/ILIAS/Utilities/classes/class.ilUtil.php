@@ -1318,20 +1318,66 @@ class ilUtil
 
     /**
      * @deprecated
+     * Returns the determined HTTP path based on the current request URI, or the configured HTTP path
+     * in case the HTTP path is not globally set/could not be determined in the current script context
+     * @see ilInitialisation::buildHTTPPath()
      */
     public static function _getHttpPath(): string
     {
         global $DIC;
 
-        $ilIliasIniFile = $DIC["ilIliasIniFile"];
-
-        if ((isset($_SERVER['SHELL']) && $_SERVER['SHELL']) || PHP_SAPI === 'cli' ||
+        if (!defined('ILIAS_HTTP_PATH') ||
+            PHP_SAPI === 'cli' ||
+            (isset($_SERVER['SHELL']) && $_SERVER['SHELL']) ||
             // fallback for windows systems, useful in crons
-            (class_exists("ilContext") && !ilContext::usesHTTP())) {
-            return $ilIliasIniFile->readVariable('server', 'http_path');
-        } else {
-            return ILIAS_HTTP_PATH;
+            (class_exists('ilContext') && !ilContext::usesHTTP())) {
+            /** @var ilIniFile $ilias_ini */
+            $ilias_ini = $DIC['ilIliasIniFile'];
+
+            return $ilias_ini->readVariable('server', 'http_path');
         }
+
+        return ILIAS_HTTP_PATH;
+    }
+
+    /**
+     * @deprecated
+     * Determines and returns the HTTP path pointing to the public ILIAS directory
+     */
+    public static function getPublicHttpPath(): string
+    {
+        global $DIC;
+
+        if (!defined('ILIAS_HTTP_PATH') ||
+            PHP_SAPI === 'cli' ||
+            (isset($_SERVER['SHELL']) && $_SERVER['SHELL']) ||
+            // fallback for windows systems, useful in crons
+            (class_exists('ilContext') && !ilContext::usesHTTP())) {
+            /** @var ilIniFile $ilias_ini */
+            $ilias_ini = $DIC['ilIliasIniFile'];
+
+            return $ilias_ini->readVariable('server', 'http_path');
+        }
+
+        $ilias_public_path = ILIAS_HTTP_PATH;
+
+        if (!isset($_SERVER['SCRIPT_FILENAME'])) {
+            return $ilias_public_path;
+        }
+
+        $script_path = dirname($_SERVER['SCRIPT_FILENAME']);
+        $i = 0;
+        $max_iterations = 20; // Safety limit
+        while (!is_file($script_path . '/ilias.php') && $i < $max_iterations) {
+            $script_path = dirname($script_path);
+            $i++;
+        }
+
+        if ($i > 0 && is_file($script_path . '/ilias.php')) {
+            $ilias_public_path = dirname($ilias_public_path, $i);
+        }
+
+        return $ilias_public_path;
     }
 
     /**
