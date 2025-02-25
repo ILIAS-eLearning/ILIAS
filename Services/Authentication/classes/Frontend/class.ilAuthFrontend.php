@@ -357,6 +357,7 @@ class ilAuthFrontend
                 'username' => $user->getLogin())
         );
 
+        $this->getStatus()->setReason('');
         return true;
     }
 
