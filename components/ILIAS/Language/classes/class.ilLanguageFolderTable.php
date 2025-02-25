@@ -44,6 +44,7 @@ class ilLanguageFolderTable implements DataTableInterface\DataRetrieval
     protected ilObjLanguageFolder $folder;
     protected ilCtrlInterface $ctrl;
     protected ilSetting $ilSetting;
+    protected ilAccessHandler $access;
 
     public function __construct(
         ilObjLanguageFolder $a_folder,
@@ -60,15 +61,20 @@ class ilLanguageFolderTable implements DataTableInterface\DataRetrieval
         $this->row_id_token = $row_id_token;
         $this->ctrl = $DIC->ctrl();
         $this->ilSetting = $DIC->settings();
+        $this->access = $DIC->access();
     }
 
     public function getTable(): DataTable\Data
     {
-        return $this->ui_factory->table()->data(
+        $table = $this->ui_factory->table()->data(
             '',
             $this->getColums(),
             $this
-        )->withActions($this->getActions());
+        );
+        if ($this->access->checkAccess('write', '', $this->folder->getId())) {
+            $table = $table->withActions($this->getActions());
+        }
+        return $table;
     }
 
     protected function getColums(): array
@@ -180,7 +186,9 @@ class ilLanguageFolderTable implements DataTableInterface\DataRetrieval
 
             $record['users'] = ilObjLanguage::countUsers($record["key"]);
             if ($record["desc"] !== "not_installed") {
-                $record['language'] = $record['language']->withDisabled(false);
+                if ($this->access->checkAccess('write', '', $this->folder->getId())) {
+                    $record['language'] = $record['language']->withDisabled(false);
+                }
                 $record['last_refresh'] = ilDatePresentation::formatDate(new ilDateTime($record["last_update"], IL_CAL_DATETIME));
 
                 $last_change = ilObjLanguage::_getLastLocalChange($record["key"]);
