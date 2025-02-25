@@ -56,7 +56,7 @@ class ilObjCertificateSettings extends ilObject
         );
     }
 
-    public function getBackgroundImageIdentification(): ResourceIdentification|string|null
+    public function getBackgroundImageIdentification(): ?ResourceIdentification
     {
         $id = $this->certificate_settings->get('cert_bg_image', '');
 
