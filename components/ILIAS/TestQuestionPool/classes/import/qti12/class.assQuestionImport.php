@@ -374,6 +374,10 @@ class assQuestionImport
             return $this->object->getThumbSize();
         }
 
+        if ($size < $this->object->getMinimumThumbSize()) {
+            return $this->object->getMinimumThumbSize();
+        }
+
         if ($size > $this->object->getMaximumThumbSize()) {
             return $this->object->getMaximumThumbSize();
         }
