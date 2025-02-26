@@ -213,7 +213,7 @@ class SurveyImportParser extends ilSaxParser
                         case "online":
                             if ($this->spl_id > 0) {
                                 $spl = new ilObjSurveyQuestionPool($this->spl_id, false);
-                                $spl->setOnline($value);
+                                $spl->setOfflineStatus(!$value);
                                 $spl->saveToDb();
                             }
                             break;
