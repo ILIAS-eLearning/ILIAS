@@ -226,7 +226,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
             return false;
         }
         foreach ($points as $point) {
-            if ($point < 0) {
+            if ($point <= 0) {
                 $this->setAlert($this->lng->txt('positive_numbers_required'));
                 return false;
             }
