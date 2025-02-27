@@ -240,7 +240,6 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
             case strtolower(ilObjectContentStyleSettingsGUI::class):
                 $this->checkPermission('write');
                 $this->prepareOutput();
-                $this->setLocator();
 
                 if ($this->in_page_editor_style_context) {
                     $this->tabs_gui->setBackTarget(

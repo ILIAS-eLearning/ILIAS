@@ -115,7 +115,9 @@ class Standard implements WriterInterface
                 continue;
             }
 
-            $child_xml = $xml->addChild($sub_name, $sub_value);
+            $child_xml = $xml->addChild($sub_name);
+            /** @noinspection PhpVariableVariableInspection */
+            $xml->$sub_name = $sub_value;
             $this->addSubElementsToXML($sub_element, $sub_tag, $child_xml, $depth + 1);
         }
     }
@@ -141,10 +143,8 @@ class Standard implements WriterInterface
                 $this->getTagForElement($string_element)
             );
         }
-        $string_xml = $xml->addChild(
-            'string',
-            $string_value
-        );
+        $string_xml = $xml->addChild('string');
+        $xml->string = $string_value;
 
         if (is_null($language_element)) {
             return;

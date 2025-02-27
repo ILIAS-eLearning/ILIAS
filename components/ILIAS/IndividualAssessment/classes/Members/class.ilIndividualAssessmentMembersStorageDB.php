@@ -27,7 +27,6 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
 {
     public const MEMBERS_TABLE = "iass_members";
 
-
     public function __construct(
         protected ilDBInterface $db,
         protected IRSS $irss,
@@ -71,7 +70,7 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
         }
         $res = $this->db->query($sql);
         while ($rec = $this->db->fetchAssoc($res)) {
-            $usr = new ilObjUser((int)$rec["usr_id"]);
+            $usr = new ilObjUser((int) $rec["usr_id"]);
             $members[] = $this->createAssessmentMember($obj, $usr, $rec);
         }
         return $members;
@@ -191,8 +190,8 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
      */
     public function deleteMembers(ilObjIndividualAssessment $obj): void
     {
-        foreach($this->loadMembers($obj) as $member) {
-            if($identifier = $member[ilIndividualAssessmentMembers::FIELD_FILE_NAME]) {
+        foreach ($this->loadMembers($obj) as $member) {
+            if ($identifier = $member[ilIndividualAssessmentMembers::FIELD_FILE_NAME]) {
                 $resource_id = $this->irss->manage()->find($identifier);
                 $this->irss->manage()->remove($resource_id, $this->stakeholder);
             }
@@ -353,10 +352,12 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
     public function removeMembersRecord(ilObjIndividualAssessment $iass, array $record): void
     {
 
-        if(array_key_exists(ilIndividualAssessmentMembers::FIELD_FILE_NAME, $record)
+        if (array_key_exists(ilIndividualAssessmentMembers::FIELD_FILE_NAME, $record)
             && $identifier = $record[ilIndividualAssessmentMembers::FIELD_FILE_NAME]) {
             $resource_id = $this->irss->manage()->find($identifier);
-            $this->irss->manage()->remove($resource_id, $this->stakeholder);
+            if (!is_null($resource_id)) {
+                $this->irss->manage()->remove($resource_id, $this->stakeholder);
+            }
         }
 
         $sql =

@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\TestQuestionPool\Presentation;
+namespace ILIAS\TestQuestionPool\Questions\Presentation;
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
@@ -155,7 +155,7 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
             'title' => $f->link($this->lng->txt('title')),
             'description' => $f->text($this->lng->txt('description'))->withIsOptional(true, true),
             'ttype' => $f->text($this->lng->txt('question_type'))->withIsOptional(true, true),
-            'points' => $f->number($this->lng->txt('points'))->withIsOptional(true, true),
+            'points' => $f->number($this->lng->txt('points'))->withDecimals(2)->withIsOptional(true, true),
             'author' => $f->text($this->lng->txt('author'))->withIsOptional(true, true),
             'lifecycle' => $f->text($this->lng->txt('qst_lifecycle'))->withIsOptional(true, true),
             'taxonomies' => $f->text($this->lng->txt('qpl_settings_subtab_taxonomies'))->withIsOptional(true, true),
@@ -386,7 +386,7 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
                 $aspect_b = $b[$aspect];
             }
 
-            return strcmp($aspect_a, $aspect_b);
+            return strcoll($aspect_a, $aspect_b);
         });
 
         if ($direction === $order::DESC) {

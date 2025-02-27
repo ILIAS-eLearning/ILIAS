@@ -14,8 +14,11 @@
  */
 
 import il from 'ilias';
-import autocompleteHandler from './autocompleteHandler';
+import autocompleteHandler from './autocompleteHandler.js';
 
 il.LegacyForm = il.LegacyForm || {};
 il.LegacyForm.autocomplete = il.LegacyForm.autocomplete || {};
-il.LegacyForm.autocomplete.init = (autocompleteInput, config) => autocompleteHandler(autocompleteInput, config);
+il.LegacyForm.autocomplete.init = (autocompleteInput, config) => autocompleteHandler(
+  autocompleteInput,
+  config,
+);

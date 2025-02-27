@@ -592,7 +592,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $ilDB = $this->db;
 
-        if ($active_fi === 0 || $pass === 0) {
+        if ($active_fi === 0 || !$this->testrequest->isset('pass')) {
             $this->ctrl->redirect($this, 'outUserResultsOverview');
         }
 

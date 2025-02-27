@@ -507,17 +507,18 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->redirectAfterMissingRead();
                 }
 
+                $this->prepareOutput();
+                $this->addHeaderAction();
+
                 $test_session = $this->test_session_factory->getSessionByUserId($this->user->getId());
-                if (!$this->getTestObject()->canShowTestResults($test_session)) {
+                if (!$this->checkPermissionBool('write')
+                    && !$this->getTestObject()->canShowTestResults($test_session)) {
                     $this->tpl->setOnScreenMessage(
                         'info',
                         $this->lng->txt('tst_res_tab_msg_no_lp_access'),
                     );
                     break;
                 }
-
-                $this->prepareOutput();
-                $this->addHeaderAction();
 
                 $this->tabs_manager->activateTab(TabsManager::TAB_ID_LEARNING_PROGRESS);
                 $new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY, $this->getTestObject()->getRefId());
@@ -846,6 +847,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $question_gui->setObject($question);
                 $question_gui->setQuestionTabs();
 
+                $this->addQuestionTitleToObjectTitle($question->getTitle());
+
                 $gui = new ilAssQuestionHintsGUI($question_gui);
 
                 $gui->setEditingEnabled(
@@ -868,6 +871,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $question->setObjId($this->getTestObject()->getId());
                 $question_gui->setObject($question);
                 $question_gui->setQuestionTabs();
+
+                $this->addQuestionTitleToObjectTitle($question->getTitle());
 
                 if ($this->getTestObject()->evalTotalPersons() !== 0) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt('question_is_part_of_running_test'), true);
@@ -990,7 +995,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
         $nr_of_participants_with_results = $this->getTestObject()->evalTotalPersons();
 
-        $this->ctrl->saveParameter($this, 'q_id');
+        $this->ctrl->saveParameterByClass(self::class, 'q_id');
         $gui = new ilAssQuestionPreviewGUI(
             $this->ctrl,
             $this->rbac_system,
@@ -1020,6 +1025,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
         $question_gui ??= assQuestion::instantiateQuestionGUI($this->fetchAuthoringQuestionIdParameter());
 
+        $this->addQuestionTitleToObjectTitle($question_gui->getObject()->getTitle());
+
         if (!$this->getTestObject()->isRandomTest() && $nr_of_participants_with_results === 0) {
             $gui->setPrimaryCmd(
                 $this->lng->txt('edit_question'),
@@ -1042,9 +1049,23 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $gui->initPreviewSession($this->user->getId(), $this->testrequest->getQuestionId());
         $gui->initHintTracking();
         $gui->initStyleSheets();
-        $this->tabs_gui->setBackTarget($this->lng->txt('backtocallingtest'), $this->ctrl->getLinkTargetByClass(self::class, self::SHOW_QUESTIONS_CMD));
 
+        $this->ctrl->clearParameterByClass(self::class, 'q_id');
+        $this->tabs_gui->setBackTarget(
+            $this->lng->txt('backtocallingtest'),
+            $this->ctrl->getLinkTargetByClass(self::class, self::SHOW_QUESTIONS_CMD)
+        );
+        $this->ctrl->saveParameterByClass(self::class, 'q_id');
         $gui->{$cmd . 'Cmd'}();
+    }
+
+    private function addQuestionTitleToObjectTitle(string $question_title): void
+    {
+        $this->tpl->setTitle(
+            $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
+                "{$this->getTestObject()->getTitle()}: {$question_title}"
+            )
+        );
     }
 
     protected function forwardCommandToQuestion(string $cmd): void
@@ -1068,6 +1089,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $question_gui->setObject($question);
             $question_gui->setContextAllowsSyncToPool(true);
             $question_gui->setQuestionTabs();
+
+            $this->addQuestionTitleToObjectTitle($question->getTitle());
 
             $target = strpos($cmd, 'Return') === false ? 'stay' : 'return';
 
@@ -2389,14 +2412,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         }
 
         $this->tabs_manager->perform();
-    }
-
-    protected function setTitleAndDescription(): void
-    {
-        parent::setTitleAndDescription();
-
-        $icon = ilObject::_getIcon($this->object->getId(), 'big', $this->object->getType());
-        $this->tpl->setTitleIcon($icon, $this->lng->txt('obj_' . $this->object->getType()));
     }
 
     public static function accessViolationRedirect()

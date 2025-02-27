@@ -572,13 +572,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN ECSInterface)
 
 * **ECS Interface**
-    * Authority to Sign off on Conceptual Changes: [PerPascalSeeland](https://docu.ilias.de/go/usr/31492)
-    * Authority to Sign off on Code Changes: [PerPascalSeeland](https://docu.ilias.de/go/usr/31492)
-    * Authority to Curate Test Cases: [SIG CampusConnect und ECS(A)](https://docu.ilias.de/go/grp/7893)
-    * Authority to (De-)Assign Authorities: [PerPascalSeeland](https://docu.ilias.de/go/usr/31492)
-	* Tester: [SIG CampusConnect und ECS(A)](https://docu.ilias.de/go/grp/7893)
-    * Assignee for Security Reports: [PerPascalSeeland](https://docu.ilias.de/go/usr/31492)
-    * Assignee for Security Issues: [PerPascalSeeland](https://docu.ilias.de/go/usr/31492)
+    * Authority to Sign off on Conceptual Changes: [bogen](https://docu.ilias.de/go/usr/13815), [mglaubitz](https://docu.ilias.de/go/usr/28309)
+    * Authority to Sign off on Code Changes: [sdyhr](https://docu.ilias.de/go/usr/102107)
+    * Authority to Curate Test Cases: [jheim](https://docu.ilias.de/go/usr/40167), [SIG CampusConnect und ECS(A)](https://docu.ilias.de/go/grp/7893)
+    * Authority to (De-)Assign Authorities: [bogen](https://docu.ilias.de/go/usr/13815), [mglaubitz](https://docu.ilias.de/go/usr/28309)
+	* Tester: [jheim](https://docu.ilias.de/go/usr/40167), [SIG CampusConnect und ECS(A)](https://docu.ilias.de/go/grp/7893)
+    * Assignee for Security Reports: [sdyhr](https://docu.ilias.de/go/usr/102107)
+    * Assignee for Security Issues: [sdyhr](https://docu.ilias.de/go/usr/102107)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END ECSInterface)

@@ -237,17 +237,18 @@ class ilWACPath
         $path = rawurldecode($path);
 
         // cut everything before "data/" (for installations using a subdirectory)
-        $path = strstr($path, '/' . self::DIR_DATA . '/');
+        $path = strstr($path, '/' . self::DIR_DATA . '/') ?: $path;
+        $path = ltrim($path, '/');
 
         $original_path = parse_url($path, PHP_URL_PATH);
         $query = parse_url($path, PHP_URL_QUERY);
 
         $real_data_dir = realpath("./" . self::DIR_DATA);
-        $realpath = realpath("." . $original_path);
+        $realpath = realpath("./" . $original_path);
 
-//        if (!str_starts_with($realpath, $real_data_dir)) {
-//            throw new ilWACException(ilWACException::NOT_FOUND, "Path is not in data directory");
-//        }
+        if (!str_starts_with($realpath, $real_data_dir)) {
+            throw new ilWACException(ilWACException::NOT_FOUND, "Path is not in data directory");
+        }
 
         $normalized_path = ltrim(
             str_replace(

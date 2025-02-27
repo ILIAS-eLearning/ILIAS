@@ -135,7 +135,7 @@ class ilObjFileGUI extends ilObject2GUI
         $capability_context = new Context(
             $this->object_id,
             $this->ref_id,
-            ($a_id_type === self::WORKSPACE_NODE_ID) ? Context::CONTEXT_WORKSPACDE : Context::CONTEXT_REPO
+            ($a_id_type === self::WORKSPACE_NODE_ID) ? Context::CONTEXT_WORKSPACE : Context::CONTEXT_REPO
         );
 
         $this->capabilities = $capability_builder->get($capability_context);
@@ -333,7 +333,12 @@ class ilObjFileGUI extends ilObject2GUI
                     $this->addHeaderAction();
                     $ilTabs->clearTargets();
 
-                    parent::executeCommand();
+                    if (empty($cmd) || $cmd === 'render') {
+                        $cmd = Capabilities::INFO_PAGE->value;
+                        $this->$cmd();
+                    } else {
+                        parent::executeCommand();
+                    }
                     break; // otherwise subtabs are duplicated
                 }
 

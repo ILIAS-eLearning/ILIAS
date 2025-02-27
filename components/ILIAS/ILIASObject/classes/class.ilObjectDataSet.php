@@ -382,7 +382,7 @@ class ilObjectDataSet extends ilDataSet
         }
         if (!$new_id) {
             foreach ($mapping->getAllMappings() as $k => $m) {
-                if (substr($k, 0, 8) == 'components/ILIAS/') {
+                if (substr($k, 0, 17) == 'components/ILIAS/') {
                     foreach ($m as $type => $map) {
                         if (!$new_id) {
                             if ($objDefinition->isRBACObject($type)) {

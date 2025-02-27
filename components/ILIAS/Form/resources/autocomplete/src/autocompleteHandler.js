@@ -28,6 +28,10 @@ let controller;
  */
 let timeoutId;
 
+/**
+ * @param {HTMLElement} container
+ * @returns {void}
+ */
 function setAccessibilityAttributesToContainer(container) {
   const ariaLive = document.createAttribute('role');
   ariaLive.value = 'status';
@@ -37,6 +41,10 @@ function setAccessibilityAttributesToContainer(container) {
   container.setAttributeNode(ariaRelevant);
 }
 
+/**
+ * @param {Object} values
+ * @returns {Array}
+ */
 function buildItems(values) {
   if (typeof values.items === 'undefined') {
     return values;
@@ -51,6 +59,13 @@ function buildItems(values) {
   return valueArray;
 }
 
+/**
+ *
+ * @param {String} label
+ * @param {String} value
+ * @param {Integer} id
+ * @returns {HTMLElement}
+ */
 function buildListElement(label, value, id) {
   const listElement = document.createElement('li');
   listElement.tabIndex = 0;
@@ -62,6 +77,10 @@ function buildListElement(label, value, id) {
   return listElement;
 }
 
+/**
+ * @param {HTMLElement} inputField
+ * @returns {void}
+ */
 function removeList(inputField) {
   if (inputField.nextElementSibling?.nodeName === 'UL') {
     inputField.nextElementSibling.remove();
@@ -75,6 +94,12 @@ function clearTimeout() {
   }
 }
 
+/**
+ * @param {String} fullUrl
+ * @param {HTMLElement} inputField
+ * @param {Object} config
+ * @returns {void}
+ */
 async function fetchListItemsAndBuildSelector(fullUrl, inputField, config) {
   try {
     const { signal } = controller;
@@ -120,6 +145,11 @@ async function fetchListItemsAndBuildSelector(fullUrl, inputField, config) {
   }
 }
 
+/**
+ * @param {Event} e
+ * @param {Object} config
+ * @returns {void}
+ */
 function keyHandler(e, config) {
   if (e.key === 'Enter' && e.target.nodeName === 'LI') {
     e.preventDefault();
@@ -149,6 +179,11 @@ function keyHandler(e, config) {
   }
 }
 
+/**
+ * @param {Event} e
+ * @param {Object} config
+ * @returns {void}
+ */
 function onChangeHandler(e, config) {
   if (typeof e.key === 'undefined' || e.key === 'Tab'
     || e.key === 'ArrowDown' || e.key === 'ArrowUp') {
@@ -161,10 +196,7 @@ function onChangeHandler(e, config) {
     return;
   }
 
-  let term = e.target.value.trim();
-  if (config.delimiter !== null) {
-    term = term.split(config.delimiter).at(-1).trim();
-  }
+  const term = getTermFromSelectedValue(e.target.value, config.delimiter);
 
   clearTimeout();
   timeoutId = window.setTimeout(
@@ -175,16 +207,40 @@ function onChangeHandler(e, config) {
         config,
       );
     },
-    triggerTimeout
+    triggerTimeout,
   );
 }
 
+/**
+ *
+ * @param {String} value
+ * @param {String} delimiter
+ * @returns {String}
+ */
+function getTermFromSelectedValue(value, delimiter) {
+  if (delimiter === null) {
+    return value.trim();
+  }
+
+  return value.split(delimiter).at(-1).trim();
+}
+
+/**
+ * @param {Event} e
+ * @param {Object} config
+ * @returns {void}
+ */
 function onSelectHandler(e, config) {
   controller.abort();
+  controller = new AbortController();
   let { value } = e.target.dataset;
   if (value === moreValue) {
+    const term = getTermFromSelectedValue(
+      e.target.parentNode.previousElementSibling.value,
+      config.delimiter,
+    );
     fetchListItemsAndBuildSelector(
-      `${config.dataSource}&fetchall=1`,
+      `${config.dataSource}&term=${encodeURIComponent(term)}&fetchall=1`,
       e.target.parentNode.previousElementSibling,
       config,
     );
@@ -195,14 +251,13 @@ function onSelectHandler(e, config) {
       .split(config.delimiter);
     let currentValue = '';
     if (currentValueArray.length > 1) {
-      currentValue = currentValueArray.slice(0, -1).join(config.delimiter + ' ') + config.delimiter + ' ';
+      currentValue = `${currentValueArray.slice(0, -1).join(`${config.delimiter} `)}${config.delimiter} `;
     }
-    value = currentValue + value + config.delimiter + ' ';
+    value = `${currentValue}${value}${config.delimiter} `;
   }
   e.target.parentNode.previousElementSibling.value = value;
   e.target.parentNode.previousElementSibling.focus();
   e.target.parentNode.remove();
-  controller = new AbortController();
 
   if (config.submitOnSelection && 'id' in e.target.dataset) {
     window.location.href = `${config.submitUrl}&selected_id=${encodeURIComponent(e.target.dataset.id)}`;

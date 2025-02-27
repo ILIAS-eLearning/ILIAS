@@ -18,13 +18,14 @@ $c-drilldown-min-height: button.$input-min-height-large * 6;
 $c-drilldown-menulevel-bg: $il-bulky-bg-color;
 $c-drilldown-max-width: $il-column-standard-width * 2;
 $c-drilldown-bulky-bg: transparent;
-$c-drilldown-item-hover-bg: $il-bulky-bg-color-engaged;
+$c-drilldown-engaged-bg: darken($il-bulky-bg-color-engaged, 20%);
+$c-drilldown-item-hover-bg: $c-drilldown-engaged-bg;
 $c-drilldown-item-font-size: $il-bulky-label-size;
 $c-drilldown-item-spacing: l-spage.$il-slate-content-spacing;
 $c-drilldown-item-font-line-height: $il-bulky-label-size * 1.133333333333333; // line-height of slate bulky btn/link
 $c-drilldown-left-indent: l.$il-padding-large-horizontal + s-symbol.$il-icon-size-small + math.div(l.$il-padding-large-horizontal, 2);
-$c-drilldown-selected-bg: $il-main-dark-bg;
-
+$c-drilldown-selected-bg: $il-bulky-bg-color-engaged;
+$c-drilldown-menulevel-trigger-bg: transparent;
 
 .c-drilldown {
     container-type: inline-size;
@@ -52,6 +53,7 @@ $c-drilldown-selected-bg: $il-main-dark-bg;
         // content is centered by flex-box, not through padding
         margin-bottom: $c-drilldown-item-spacing;
         padding: l.$il-padding-xlarge-vertical l.$il-padding-xlarge-horizontal l.$il-padding-xlarge-vertical $c-drilldown-left-indent;
+        box-shadow: none;
         z-index: initial;
         // so slate can cover up this specific header
         h2 {
@@ -183,68 +185,13 @@ $c-drilldown-selected-bg: $il-main-dark-bg;
             }
         }
 
-        .c-drilldown__menulevel--engagedparent {
-            > li:not(.c-drilldown__menuitem--filtered) {
-                display: flex;
-                flex-direction: row;
-                max-height: $c-drilldown-element-max-height;
-                width: 100%;
-
-                > ul {
-                    position: relative;
-                    width: 100%;
-                }
-            }
-            > .c-drilldown__leaf {
-                > .btn-bulky,
-                > .link-bulky {
-                    width: 50%;
-                }
-            }
-            > .c-drilldown__menuitem--engaged > .c-drilldown__menulevel--trigger {
-                background: $c-drilldown-selected-bg;
-            }
-        }
-
-        .c-drilldown__menulevel--engaged {
-            overflow: auto;
-
-            ~ .c-drilldown__menulevel--trigger {
-                background: $c-drilldown-selected-bg;
-            }
-            > li {
-                > .c-drilldown__branch,
-                > .btn-bulky,
-                > .link-bulky  {
-                    background-color: $c-drilldown-selected-bg;
-                    position: relative;
-                    z-index: 40;
-                }
-            }
-        }
-
-        &.c-drilldown--filtered .c-drilldown__menulevel--engagedparent > li {
-            max-height: initial;
-        }
-
         &:not(.c-drilldown--filtered) .c-drilldown__menulevel--engagedparent {
-            > li {
-                > .c-drilldown__branch,
-                > .btn-bulky,
-                > .link-bulky {
-                    display: flex;
-                }
-                > hr {
-                    display: block;
-                }
-            }
-
             &.c-drilldown__menulevel--engaged {
                 overflow: visible;
 
                 > .c-drilldown__branch {
                     > .c-drilldown__menulevel--trigger {
-                        background-color: $c-drilldown-selected-bg;
+                        background-color: $c-drilldown-engaged-bg;
                     }
                     > ul {
                         overflow: auto;
@@ -257,11 +204,20 @@ $c-drilldown-selected-bg: $il-main-dark-bg;
                             background-color: $c-drilldown-selected-bg;
                             position: relative;
                             z-index: 40;
+                            &:hover {
+                                background-color: $c-drilldown-item-hover-bg;
+                                border-color: $c-drilldown-item-hover-bg;
+                            }
                         }
                     }
                     ~ .c-drilldown__branch {
                         > .c-drilldown__menulevel--trigger {
-                            background-color: transparent;
+                            background-color: $c-drilldown-menulevel-trigger-bg;
+                            border-color: $c-drilldown-menulevel-trigger-bg;
+                            &:hover {
+                                background-color: $c-drilldown-item-hover-bg;
+                                border-color: $c-drilldown-item-hover-bg;
+                            }
                         }
                         > ul > li {
                             > .c-drilldown__menulevel--trigger,
@@ -269,6 +225,57 @@ $c-drilldown-selected-bg: $il-main-dark-bg;
                             > .link-bulky {
                                 display: none;
                             }
+                        }
+                    }
+                }
+            }
+            > li {
+                > .c-drilldown__branch,
+                > .btn-bulky,
+                > .link-bulky {
+                    display: flex;
+                }
+                > hr {
+                    display: block;
+                }
+            }
+            > li:not(.c-drilldown__menuitem--filtered) {
+                display: flex;
+                flex-direction: row;
+                max-height: $c-drilldown-element-max-height;
+                flex: 0 1 50%;
+                margin-bottom: 2px;
+
+                > ul {
+                    position: relative;
+                    flex: 1 0 50%;
+                }
+            }
+            > .c-drilldown__leaf {
+                > .btn-bulky,
+                > .link-bulky {
+                    width: 50%;
+                }
+            }
+            > .c-drilldown__menuitem--engaged > .c-drilldown__menulevel--trigger {
+                background: $c-drilldown-engaged-bg;
+            }
+            .c-drilldown__menulevel--engaged {
+                overflow: auto;
+
+                ~ .c-drilldown__menulevel--trigger {
+                    background: $c-drilldown-selected-bg;
+                }
+                > li {
+                    > .c-drilldown__branch,
+                    > .btn-bulky,
+                    > .link-bulky  {
+                        background-color: $c-drilldown-selected-bg;
+                        position: relative;
+                        z-index: 40;
+                        &:hover {
+                            background-color: $c-drilldown-engaged-bg;
+                            border-color: $c-drilldown-item-hover-bg;
                         }
                     }
                 }
@@ -283,15 +290,13 @@ $c-drilldown-selected-bg: $il-main-dark-bg;
     .btn-bulky,
     .link-bulky,
     .c-drilldown__menulevel--trigger {
-        background-color: $c-drilldown-bulky-bg;
-        border-color: $c-drilldown-bulky-bg;
+        background-color: $c-drilldown-menulevel-trigger-bg;
+        border-color: $c-drilldown-menulevel-trigger-bg;
         &:hover {
             background-color: $c-drilldown-item-hover-bg;
+            border-color: $c-drilldown-item-hover-bg;
             // has to be a color with transparency so h2 can be seen underneath backnav
             color: inherit;
-        }
-        .icon {
-            filter: invert(50%);
         }
     }
     .c-drilldown__menu--no-items,

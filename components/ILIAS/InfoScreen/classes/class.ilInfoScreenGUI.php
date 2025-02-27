@@ -368,25 +368,25 @@ class ilInfoScreenGUI
         if ($langs != "") {	// language
             $this->addProperty(
                 $lng->txt("language"),
-                $langs
+                $this->html->escape($langs)
             );
         }
         if ($keywords != "") {	// keywords
             $this->addProperty(
                 $lng->txt("keywords"),
-                $keywords
+                $this->html->escape($keywords)
             );
         }
         if ($author != "") {		// author
             $this->addProperty(
                 $lng->txt("author"),
-                $author
+                $this->html->escape($author)
             );
         }
         if ($learning_time != "") {		// typical learning time
             $this->addProperty(
                 $lng->txt("meta_typical_learning_time"),
-                $learning_time
+                $this->html->escape($learning_time)
             );
         }
 

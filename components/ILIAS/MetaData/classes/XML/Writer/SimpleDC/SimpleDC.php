@@ -125,6 +125,14 @@ class SimpleDC implements SimpleDCInterface
             ->withNextStep('entity')
             ->get();
 
+        $path_from_entity_to_role = $this->path_factory
+            ->custom()
+            ->withRelative(true)
+            ->withNextStepToSuperElement()
+            ->withNextStep('role')
+            ->withNextStep('value')
+            ->get();
+
         $creators = [];
         $creator_navigator = $this->navigator_factory->navigator($creator_path, $set->getRoot());
         foreach ($creator_navigator->elementsAtFinalStep() as $creator) {
@@ -156,10 +164,17 @@ class SimpleDC implements SimpleDCInterface
                 continue;
             }
 
+            $role = $this->navigator_factory
+                ->navigator($path_from_entity_to_role, $any_contributor)
+                ->lastElementAtFinalStep()?->getData()?->value() ?? '';
+            $contributor = $any_contributor->getData()->value();
+            if ($role !== '') {
+                $contributor .= ' (' . $role . ')';
+            }
             $this->addNamespacedChildToXML(
                 $xml,
                 'contributor',
-                $any_contributor->getData()->value()
+                $contributor
             );
         }
     }
@@ -436,6 +451,9 @@ class SimpleDC implements SimpleDCInterface
         if ($value === '') {
             return null;
         }
-        return $xml->addChild($name, $value, "http://purl.org/dc/elements/1.1/");
+        $child_xml = $xml->addChild($name, null, "http://purl.org/dc/elements/1.1/");
+        /** @noinspection PhpVariableVariableInspection */
+        $xml->$name = $value;
+        return $child_xml;
     }
 }

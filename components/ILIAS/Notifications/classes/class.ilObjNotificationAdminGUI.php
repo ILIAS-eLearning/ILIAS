@@ -50,7 +50,7 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
         }
 
         $this->prepareOutput();
-        $this->tabs_gui->activateTab('view');
+        $this->tabs_gui->activateTab('settings');
 
         switch (strtolower($this->ctrl->getNextClass())) {
             case strtolower(ilPermissionGUI::class):
@@ -63,6 +63,25 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
                     // no break
                     default => $this->showOSDSettings(),
                 };
+        }
+    }
+
+    public function getAdminTabs(): void
+    {
+        if ($this->checkPermissionBool('visible,read')) {
+            $this->tabs_gui->addTab(
+                'settings',
+                $this->lng->txt('settings'),
+                $this->ctrl->getLinkTarget($this, 'editSettings')
+            );
+        }
+
+        if ($this->checkPermissionBool('edit_permission')) {
+            $this->tabs_gui->addTab(
+                'perm_settings',
+                $this->lng->txt('perm_settings'),
+                $this->ctrl->getLinkTargetByClass([$this::class, ilPermissionGUI::class], 'perm')
+            );
         }
     }
 

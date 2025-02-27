@@ -12833,7 +12833,7 @@ news#:#lso_news_online_txt#:#A tanulási sorban egy új objektumot tettek elérh
 news#:#new_test_online#:#A teszt online lett.
 news#:#news_1_file_created#:#Egy fájlt sikeresen létrehozott.
 news#:#news_1_file_updated#:#Egy fájlt sikeresen frissített.
-news#:#news_1_posts#:#One post has been added.###26 08 2024 new variable
+news#:#news_1_postings#:#One post has been added.###26 08 2024 new variable
 news#:#news_add_news#:#Hír létrehozása
 news#:#news_all_items#:#Hírek az összes kedvenc elemhez
 news#:#news_allow_longer_periods#:#Hosszabb időszak engedélyezése

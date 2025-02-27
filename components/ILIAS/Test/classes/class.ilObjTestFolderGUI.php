@@ -22,9 +22,7 @@ use ILIAS\Test\TestDIC;
 use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\Logging\TestLogViewer;
 use ILIAS\Test\Logging\LogTable;
-
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\Component\Input\Container\Form\Form;
@@ -143,7 +141,9 @@ class ilObjTestFolderGUI extends ilObjectGUI
     public function saveGlobalSettingsObject(): void
     {
         if (!$this->access->checkAccess('write', '', $this->getTestFolder()->getRefId())) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'));
             $this->showGlobalSettingsObject();
+            return;
         }
 
         $form = $this->buildGlobalSettingsForm()->withRequest($this->request);
@@ -183,7 +183,9 @@ class ilObjTestFolderGUI extends ilObjectGUI
     protected function saveLogSettingsObject(): void
     {
         if (!$this->access->checkAccess('write', '', $this->getTestFolder()->getRefId())) {
-            $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->WARNING);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'));
+            $this->showLogSettingsObject();
+            return;
         }
 
         $form = $this->buildLogSettingsForm()->withRequest($this->request);

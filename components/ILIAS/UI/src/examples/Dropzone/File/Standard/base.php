@@ -29,7 +29,7 @@ namespace ILIAS\UI\examples\Dropzone\File\Standard;
  *   ILIAS shows a white box with a dashed border. You can see a text "Upload files" (displayed as a link) on the left
  *   side and on the right side the text "Drag files in here to upload them". Clicking onto the link or dragging a file
  *   into the box opens a small window with the buttons "Save" and "Cancel". If you dragged a file into the box you can
- *   see the file in said small window, too. You can upload any number of files. The window will be closed if you click
+ *   see the file in said small window, too. You can upload only one of file. The window will be closed if you click
  *   onto the "Save" button. An upload doesn't happen in this example. If a file got listed after saving your selection
  *   you can remove the file by clicking the "X" on the right side.
  * ---

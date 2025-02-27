@@ -83,6 +83,14 @@ final class Request
     /**
      * @var string
      */
+    public const BY_TYPE_DESC = 'by_type_desc';
+    /**
+     * @var string
+     */
+    public const BY_TYPE_ASC = 'by_type_asc';
+    /**
+     * @var string
+     */
     public const P_MODE = 'mode';
     /**
      * @var string

@@ -27,8 +27,8 @@ use ILIAS\FileUpload\FileUpload;
 use ILIAS\FileUpload\Exception\IllegalStateException;
 use ilGlobalTemplateInterface;
 use ilWACSignedPath;
-use ilFSStorageBadgeImageTemplate;
-use ILIAS\Badge;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use Exception;
 
 class ilBadgeImage
 {
@@ -94,5 +94,13 @@ class ilBadgeImage
         } catch (IllegalStateException $e) {
             $this->main_template->setOnScreenMessage('failure', $e->getMessage(), true);
         }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function cloneBadgeImageByRid(ResourceIdentification $identification): string
+    {
+        return $this->resource_storage->manage()->clone($identification)->serialize();
     }
 }

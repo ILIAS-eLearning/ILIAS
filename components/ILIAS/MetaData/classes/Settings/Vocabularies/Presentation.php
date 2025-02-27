@@ -156,7 +156,7 @@ class Presentation
                 $vocabulary->type() === VocabType::STANDARD ||
                 $vocabulary->type() === VocabType::COPYRIGHT
             ) {
-                $presentable_values[] = $labelled_value->label();
+                $presentable_values[] = $this->presentation_utils->sanitizeForHTML($labelled_value->label());
                 continue;
             }
 
@@ -164,7 +164,7 @@ class Presentation
             if ($labelled_value->label() !== '') {
                 $presentable_value = $labelled_value->label() . ' (' . $presentable_value . ')';
             }
-            $presentable_values[] = $presentable_value;
+            $presentable_values[] = $this->presentation_utils->sanitizeForHTML($presentable_value);
         }
 
         return $presentable_values;

@@ -234,6 +234,7 @@ class ilAuthFrontend
     {
         $user = ilObjectFactory::getInstanceByObjId($this->getStatus()->getAuthenticatedUserId(), false);
 
+        $this->getStatus()->setReason('auth_err_invalid_user_account');
         // reset expired status
         $this->getAuthSession()->setExpired(false);
 
@@ -241,7 +242,6 @@ class ilAuthFrontend
             $this->logger->error('Cannot instantiate user account with id: ' . $this->getStatus()->getAuthenticatedUserId());
             $this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             $this->getStatus()->setAuthenticatedUserId(ANONYMOUS_USER_ID);
-            $this->getStatus()->setReason('auth_err_invalid_user_account');
             return false;
         }
 
@@ -249,7 +249,6 @@ class ilAuthFrontend
             $this->logger->info('Authentication failed for inactive user with id and too may login attempts: ' . $this->getStatus()->getAuthenticatedUserId());
             $this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             $this->getStatus()->setAuthenticatedUserId(ANONYMOUS_USER_ID);
-            $this->getStatus()->setReason('auth_err_login_attempts_deactivation');
             return false;
         }
 
@@ -257,7 +256,6 @@ class ilAuthFrontend
             $this->logger->info('Authentication failed for inactive user with id: ' . $this->getStatus()->getAuthenticatedUserId());
             $this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             $this->getStatus()->setAuthenticatedUserId(ANONYMOUS_USER_ID);
-            $this->getStatus()->setReason('err_inactive');
             return false;
         }
 
@@ -273,7 +271,6 @@ class ilAuthFrontend
                 $this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
                 $this->getStatus()->setAuthenticatedUserId(ANONYMOUS_USER_ID);
             }
-            $this->getStatus()->setReason('time_limit_reached');
             return false;
         }
 
@@ -282,13 +279,6 @@ class ilAuthFrontend
             $this->logger->info('Authentication failed (wrong ip) for user with id: ' . $this->getStatus()->getAuthenticatedUserId());
             $this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             $this->getStatus()->setAuthenticatedUserId(ANONYMOUS_USER_ID);
-
-            $this->getStatus()->setTranslatedReason(
-                sprintf(
-                    $this->lng->txt('wrong_ip_detected'),
-                    $_SERVER['REMOTE_ADDR']
-                )
-            );
             return false;
         }
 
@@ -298,7 +288,6 @@ class ilAuthFrontend
             $this->logger->info('Authentication failed: simultaneous logins forbidden for user: ' . $this->getStatus()->getAuthenticatedUserId());
             $this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             $this->getStatus()->setAuthenticatedUserId(ANONYMOUS_USER_ID);
-            $this->getStatus()->setReason('simultaneous_login_detected');
             return false;
         }
 
@@ -368,6 +357,7 @@ class ilAuthFrontend
                 'username' => $user->getLogin())
         );
 
+        $this->getStatus()->setReason('');
         return true;
     }
 

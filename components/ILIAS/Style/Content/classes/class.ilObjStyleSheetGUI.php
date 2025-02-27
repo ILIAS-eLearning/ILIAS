@@ -192,8 +192,47 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $forms[] = $this->getImportForm();
         $forms[] = $this->getCloneForm();
 
-        $tpl->setContent($this->getCreationFormsHTML($this->getCreateForm()));
+        $tpl->setContent($this->getRenderedCreationFormsHTML($forms));
     }
+
+    protected function getRenderedCreationFormsHTML(array $forms): string
+    {
+        // #13168- sanity check
+        foreach ($forms as $id => $form) {
+            if (!$form instanceof ilPropertyFormGUI) {
+                unset($forms[$id]);
+            }
+        }
+
+        $acc = new ilAccordionGUI();
+        $acc->setBehaviour(ilAccordionGUI::FIRST_OPEN);
+        $cnt = 1;
+        foreach ($forms as $form_type => $cf) {
+            $htpl = new ilTemplate("tpl.creation_acc_head.html", true, true, "components/ILIAS/ILIASObject");
+
+            // using custom form titles (used for repository plugins)
+            $form_title = "";
+            if (method_exists($this, "getCreationFormTitle")) {
+                //$form_title = $this->getCreationFormTitle($form_type);
+            }
+            if (!$form_title) {
+                $form_title = $cf->getTitle();
+            }
+
+            // move title from form to accordion
+            $htpl->setVariable("TITLE", $this->lng->txt("option") . " " . $cnt . ": " . $form_title);
+            $cf->setTitle('');
+            $cf->setTitleIcon('');
+            $cf->setTableWidth("100%");
+
+            $acc->addItem($htpl->get(), $cf->getHTML());
+
+            $cnt++;
+        }
+
+        return "<div class='ilCreationFormSection'>" . $acc->getHTML() . "</div>";
+    }
+
 
     protected function getCreationFormTitle(): string
     {

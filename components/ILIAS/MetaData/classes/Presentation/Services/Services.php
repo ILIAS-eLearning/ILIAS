@@ -57,7 +57,8 @@ class Services
         }
         return $this->utilities = new Utilities(
             $this->dic->language(),
-            $this->dic->user()
+            $this->dic->user(),
+            $this->dic->refinery()
         );
     }
 

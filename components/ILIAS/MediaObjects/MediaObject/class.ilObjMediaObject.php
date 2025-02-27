@@ -625,6 +625,12 @@ class ilObjMediaObject extends ilObject
                         $xml .= "<PreviewPic File=\"" . $this->getVideoPreviewPic(true) .
                             "\" />";
                     }
+                    if ($item->getLocationType() == "LocalFile") {
+                        $lpos = strrpos($location, "/");
+                        $base_url = substr($location, 0, $lpos);
+                        $xml .= "<Url Base=\"" . $base_url .
+                            "\" />";
+                    }
                     $xml .= "</MediaItem>";
                 }
                 break;

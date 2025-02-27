@@ -133,7 +133,7 @@ class ilAssQuestionPreviewGUI
         $this->tabs->clearTargets();
         $this->tabs->addTarget(
             self::TAB_ID_QUESTION,
-            $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', self::CMD_SHOW),
+            $this->ctrl->getLinkTargetByClass(self::class, self::CMD_SHOW),
             '',
             [strtolower(__CLASS__)]
         );
@@ -141,11 +141,11 @@ class ilAssQuestionPreviewGUI
         $q_type = $this->question_obj->getQuestionType();
         $classname = $q_type . 'GUI';
         $this->tabs->addTarget(
-            "statistics",
-            $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', "assessment"),
-            ["assessment"],
+            'statistics',
+            $this->ctrl->getLinkTargetByClass(self::class, 'assessment'),
+            ['assessment'],
             $classname,
-            ""
+            ''
         );
 
         $this->question_gui->populateJavascriptFilesRequiredForWorkForm($this->tpl);
@@ -175,12 +175,12 @@ class ilAssQuestionPreviewGUI
 
     public function initStyleSheets(): void
     {
-        $this->tpl->setCurrentBlock("ContentStyle");
-        $this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));
+        $this->tpl->setCurrentBlock('ContentStyle');
+        $this->tpl->setVariable('LOCATION_CONTENT_STYLESHEET', ilObjStyleSheet::getContentStylePath(0));
         $this->tpl->parseCurrentBlock();
 
-        $this->tpl->setCurrentBlock("SyntaxStyle");
-        $this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET", ilObjStyleSheet::getSyntaxStylePath());
+        $this->tpl->setCurrentBlock('SyntaxStyle');
+        $this->tpl->setVariable('LOCATION_SYNTAX_STYLESHEET', ilObjStyleSheet::getSyntaxStylePath());
         $this->tpl->parseCurrentBlock();
     }
 

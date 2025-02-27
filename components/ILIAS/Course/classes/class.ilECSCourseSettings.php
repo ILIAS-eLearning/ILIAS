@@ -35,6 +35,7 @@ class ilECSCourseSettings extends ilECSObjectSettings
         global $DIC;
 
         $this->logger = $DIC->logger()->crs();
+        $this->lom_services = $DIC->learningObjectMetadata();
         parent::__construct($a_content_object);
     }
 

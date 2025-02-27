@@ -157,7 +157,7 @@ class ilPCMapGUI extends ilPageContentGUI
             $this->form->addCommandButton("create", $lng->txt("save"));
             $this->form->addCommandButton("cancelCreate", $lng->txt("cancel"));
         } else {
-            $this->form->addCommandButton("update_map", $lng->txt("save"));
+            $this->form->addCommandButton("update", $lng->txt("save"));
             $this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
         }
     }

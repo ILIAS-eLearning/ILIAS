@@ -322,37 +322,23 @@ class ilUserXMLWriter extends ilXmlWriter
      */
     private function getPictureValue(int $usr_id): ?array
     {
-        // personal picture
-        $q = sprintf(
-            'SELECT value FROM usr_pref WHERE usr_id = %s AND keyword = %s',
-            $this->db->quote($usr_id, 'integer'),
-            $this->db->quote('profile_image', 'text')
-        );
-        $r = $this->db->query($q);
-        if ($this->db->numRows($r) == 1) {
-            $personal_picture_data = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
-            $personal_picture = $personal_picture_data['value'];
-            $webspace_dir = ilFileUtils::getWebspaceDir();
-            $image_file = $webspace_dir . '/usr_images/' . $personal_picture;
-            if (is_file($image_file)) {
-                $fh = fopen($image_file, 'rb');
-                if ($fh) {
-                    $image_data = fread($fh, filesize($image_file));
-                    fclose($fh);
-                    $base64 = base64_encode($image_data);
-                    $imagetype = 'image/jpeg';
-                    if (preg_match('/.*\.(png|gif)$/', $personal_picture, $matches)) {
-                        $imagetype = 'image/' . $matches[1];
-                    }
-                    return [
-                        'value' => $base64,
-                        'encoding' => 'Base64',
-                        'imagetype' => $imagetype
-                    ];
-                }
-            }
+        $avatar_resolver = new ilUserAvatarResolver($usr_id);
+        $avatar_resolver->setForcePicture(true);
+        if (!$avatar_resolver->hasProfilePicture()) {
+            return null;
         }
-        return null;
+
+        [$image_data, $image_type] = $avatar_resolver->getUserPictureForVCard();
+
+        if ($image_data === null || $image_type === null) {
+            return null;
+        }
+
+        return [
+            'value' => base64_encode($image_data),
+            'encoding' => 'Base64',
+            'imagetype' => $image_type
+        ];
     }
 
 

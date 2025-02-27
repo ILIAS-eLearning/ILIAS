@@ -242,18 +242,26 @@ il.repository.core = (function() {
   }
 
   function fetchUrl(url = '', params = {}, args = {}, success_cb = null) {
-    _fetchHtml(url, params)
-    .then(response => {
+    let fetch_url = getFetchUrl(url);
+    let config = {
+      method: 'GET',
+      mode: 'same-origin',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      redirect: 'follow',
+      referrerPolicy: 'same-origin',
+    };
+    fetch(fetch_url.href, config).then(response => {
       if (response.ok) {
         //const statusText = response.statusText;
         response.text().then(text => {
-            if (success_cb) {
-              success_cb({
-                text: text,
-                args: args
-              });
-            }
+          if (success_cb) {
+            success_cb({
+              text: text,
+              args: args,
+            });
           }
+        },
         ).catch();
       }
     }).catch();
@@ -263,6 +271,7 @@ il.repository.core = (function() {
     setInnerHTML: setInnerHTML,
     setOuterHTML: setOuterHTML,
     fetchHtml: fetchHtml,
+    fetchUrl: fetchUrl,
     fetchReplace: fetchReplace,
     fetchReplaceInner: fetchReplaceInner,
     trigger: trigger,

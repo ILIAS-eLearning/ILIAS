@@ -58,4 +58,9 @@ class Utilities implements UtilitiesInterface
     {
         return $this->utilities->txtFill($key, ...$values);
     }
+
+    public function sanitizeForHTML(string $string): string
+    {
+        return $this->utilities->sanitizeForHTML($string);
+    }
 }

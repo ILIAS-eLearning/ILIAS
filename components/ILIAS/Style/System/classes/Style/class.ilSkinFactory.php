@@ -95,7 +95,7 @@ class ilSkinFactory
             throw new ilSystemStyleException(ilSystemStyleException::NO_SKIN_ID);
         }
 
-        if ($skin_id != 'default') {
+        if ($skin_id != 'default' && $skin_id != 'other') {
             return new ilSkinStyleContainer(
                 $this->lng,
                 $this->skinFromXML($this->config->getCustomizingSkinPath() . $skin_id . '/template.xml'),

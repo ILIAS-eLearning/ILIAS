@@ -157,6 +157,15 @@ class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
             return false;
         }
 
+        foreach (['top', 'right', 'bottom', 'left'] as $side) {
+            $value = $val[$this->getPostVar() . '_' . $side];
+
+            if (($this->getRequired() || $value !== "") && !preg_match('/^(([1-9]+|([1-9]+[0]*[\.,]{0,1}[\d]+))|(0[\.,](0*[1-9]+[\d]*))|0).*?$/si', $value)) {
+                $this->setAlert($lng->txt('msg_invalid_value_css_rect_input'));
+                return false;
+            }
+        }
+
         if ($this->useUnits()) {
             if ((!preg_match('/^(([1-9]+|([1-9]+[0]*[\.,]{0,1}[\d]+))|(0[\.,](0*[1-9]+[\d]*))|0)(cm|mm|in|pt|pc|px|em)$/is', $val[$this->getPostVar() . '_top'])) ||
                 (!preg_match('/^(([1-9]+|([1-9]+[0]*[\.,]{0,1}[\d]+))|(0[\.,](0*[1-9]+[\d]*))|0)(cm|mm|in|pt|pc|px|em)$/is', $val[$this->getPostVar() . '_right'])) ||

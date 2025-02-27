@@ -57,11 +57,54 @@ class BasicPersistence implements Persistence
 
     protected function gc(): void
     {
-        $this->db->manipulateF(
-            "DELETE FROM il_bt_bucket WHERE user_id = %s AND (state = %s OR state = %s)",
-            ['integer', 'integer', 'integer'],
-            [defined('ANONYMOUS_USER_ID') ? \ANONYMOUS_USER_ID : 13, State::FINISHED, State::USER_INTERACTION]
-        );
+        $atom = $this->db->buildAtomQuery();
+
+        $atom->addTableLock('il_bt_bucket');
+        $atom->addTableLock('il_bt_task');
+        $atom->addTableLock('il_bt_value');
+        $atom->addTableLock('il_bt_value_to_task');
+        $atom->addQueryCallable(function (\ilDBInterface $db): void {
+            $this->db->manipulateF(
+                "DELETE FROM il_bt_bucket WHERE user_id = %s AND (state = %s OR state = %s)",
+                ['integer', 'integer', 'integer'],
+                [defined('ANONYMOUS_USER_ID') ? \ANONYMOUS_USER_ID : 13, State::FINISHED, State::USER_INTERACTION]
+            );
+
+            // remove old finished buckets
+            $this->db->manipulateF(
+                "DELETE FROM il_bt_bucket WHERE state = %s AND last_heartbeat < %s",
+                ['integer', 'integer'],
+                [State::FINISHED, time() - 60 * 60 * 24 * 30] // older than 30 days
+            );
+
+            // remove old buckets with other states
+            $this->db->manipulateF(
+                "DELETE FROM il_bt_bucket WHERE state != %s AND last_heartbeat < %s",
+                ['integer', 'integer'],
+                [State::FINISHED, time() - 60 * 60 * 24 * 180] // older than 180 days
+            );
+
+            // remove tasks without a bucket
+            $this->db->manipulate(
+                "DELETE il_bt_task FROM il_bt_task LEFT JOIN il_bt_bucket ON il_bt_bucket.id = il_bt_task.bucket_id WHERE il_bt_bucket.id IS NULL;"
+            );
+
+            // remove value to bucket links without a bucket
+            $this->db->manipulate(
+                "DELETE il_bt_value_to_task FROM il_bt_value_to_task LEFT JOIN il_bt_bucket ON il_bt_bucket.id = il_bt_value_to_task.bucket_id WHERE il_bt_bucket.id IS NULL;"
+            );
+
+            // remove value to bucket links without a task
+            $this->db->manipulate(
+                "DELETE il_bt_value_to_task FROM il_bt_value_to_task LEFT JOIN il_bt_task ON il_bt_task.id = il_bt_value_to_task.task_id WHERE il_bt_task.id IS NULL;"
+            );
+
+            // remove values without a task
+            $this->db->manipulate(
+                "DELETE il_bt_value FROM il_bt_value LEFT JOIN il_bt_value_to_task ON il_bt_value_to_task.task_id = il_bt_value.id WHERE il_bt_value_to_task.id IS NULL;"
+            );
+        });
+        $atom->run();
     }
 
     public function setConnector(\arConnector $c): void
@@ -108,7 +151,11 @@ class BasicPersistence implements Persistence
     public function getBucketIdsOfUser(int $user_id, string $order_by = "id", string $order_direction = "ASC"): array
     {
         // Garbage Collection
-        $this->gc();
+        $random = new \Random\Randomizer();
+
+        if($random->getInt(1, 100) === 1) {
+            $this->gc();
+        }
 
         return BucketContainer::where(['user_id' => $user_id])
                               ->orderBy($order_by, $order_direction)

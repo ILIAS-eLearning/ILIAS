@@ -14,8 +14,8 @@
  */
 
 import il from 'ilias';
-import matchingHandler from './matchingHandler';
-import makeDraggable from '../makeDraggable';
+import matchingHandler from './matchingHandler.js';
+import makeDraggable from '../makeDraggable.js';
 
 il.test = il.test || {};
 il.test.matching = il.test.matching || {};

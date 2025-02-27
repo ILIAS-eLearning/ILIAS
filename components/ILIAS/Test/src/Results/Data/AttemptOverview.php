@@ -118,6 +118,11 @@ class AttemptOverview
         return $this->status_of_attempt;
     }
 
+    public function getNrOfAttempts(): int
+    {
+        return $this->nr_of_attempts;
+    }
+
     public function getAsDescriptiveListing(
         Language $lng,
         UIFactory $ui_factory,

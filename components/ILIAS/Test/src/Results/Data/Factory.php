@@ -144,26 +144,21 @@ class Factory
                     return $v;
                 }
 
-                $last_attempt = $this->getAttemptOverviewFor(
+                $scored_attempt = $this->getAttemptOverviewFor(
                     $settings,
                     $test_obj,
                     $v->getActiveId(),
-                    $v->getLastStartedAttempt()
+                    null
                 );
 
-                if ($last_attempt !== null
-                    && $last_attempt->getStatusOfAttempt() === StatusOfAttempt::RUNNING
-                    && $last_attempt->getStartedDate() !== null) {
-                    $v = $v->withRunningAttemptStart($last_attempt->getStartedDate());
+                if ($scored_attempt !== null
+                    && $scored_attempt->getStatusOfAttempt() === StatusOfAttempt::RUNNING
+                    && $scored_attempt->getStartedDate() !== null) {
+                    $v = $v->withRunningAttemptStart($scored_attempt->getStartedDate());
                 }
 
                 return $v->withAttemptOverviewInformation(
-                    $this->getAttemptOverviewFor(
-                        $settings,
-                        $test_obj,
-                        $v->getActiveId(),
-                        null
-                    )
+                    $scored_attempt
                 );
             },
             $participants

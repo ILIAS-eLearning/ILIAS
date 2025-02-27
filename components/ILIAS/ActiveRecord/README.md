@@ -262,7 +262,13 @@ proper persistent layer access.
 | con_length     | Length of the field in the persistent layer                                                               | determines from the fieldtype. See 'Databse Access and Database Schema' for further information. |
 
 All this information is parsed from the PHPDoc once per ActiveRecord-Class and request and are cached for all other
-instances of this type. So there should not be a remarkable performance-drop. This is an Example for a primary key $id:
+instances of this type. So there should not be a remarkable performance-drop. 
+In order to work properly
+-  there may be any number and combination of blanks and tabs before the '*' (including zero characters)
+-  the '*' must be followed by exactky one space character
+-  there may be any number or combination of blanks and tabs between field name and value, but at least one separator character is required
+  
+This is an Example for a primary key $id:
 
 ```php
 /**

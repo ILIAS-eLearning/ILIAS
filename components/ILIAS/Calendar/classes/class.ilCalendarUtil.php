@@ -279,7 +279,7 @@ class ilCalendarUtil
         }
         $timezone_filename = str_replace('/', '_', $a_tz);
         $timezone_filename .= '.ics';
-        return './components/ILIAS/Calendar/zoneinfo/' . $timezone_filename;
+        return '../components/ILIAS/Calendar/zoneinfo/' . $timezone_filename;
     }
 
     /**

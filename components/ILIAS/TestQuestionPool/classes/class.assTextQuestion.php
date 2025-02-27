@@ -154,14 +154,14 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         }
 
         $result = $this->db->queryF(
-            "SELECT * FROM qpl_a_essay WHERE question_fi = %s",
+            'SELECT * FROM qpl_a_essay WHERE question_fi = %s',
             ['integer'],
             [$this->getId()]
         );
 
         $this->flushAnswers();
         while ($row = $this->db->fetchAssoc($result)) {
-            $this->addAnswer($row['answertext'], $row['points']);
+            $this->addAnswer($row['answertext'] ?? '', $row['points'] ?? 0.0);
         }
 
         parent::loadFromDb($question_id);

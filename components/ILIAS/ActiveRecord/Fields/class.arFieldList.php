@@ -165,25 +165,25 @@ class arFieldList
         return $this->getPrimaryField()->getFieldType();
     }
 
-    protected function initRawFields(ActiveRecord $activeRecord): void
+    protected function initRawFields(ActiveRecord $ar): void
     {
-        $regex = "/[ ]*\\* @(" . implode('|', self::$prefixes) . ")_([a-zA-Z0-9_]*)[ ]*([a-zA-Z0-9_]*)/u";
-        $reflectionClass = new ReflectionClass($activeRecord);
+        $regex = "/[\t ]*\\* @(" . implode('|', self::$prefixes) . ")_([a-zA-Z0-9_]+)[\t ]+([a-zA-Z0-9_]+)/u";
+        $reflection = new ReflectionClass($ar);
         $raw_fields = [];
-        foreach ($reflectionClass->getProperties() as $reflectionProperty) {
-            if (in_array($reflectionProperty->getName(), self::$protected_names)) {
+        foreach ($reflection->getProperties() as $property) {
+            if (in_array($property->getName(), self::$protected_names)) {
                 continue;
             }
             $properties_array = [];
             $has_property = false;
-            foreach (explode("\n", $reflectionProperty->getDocComment()) as $line) {
+            foreach (explode("\n", $property->getDocComment()) as $line) {
                 if (preg_match($regex, $line, $matches)) {
                     $has_property = true;
                     $properties_array[$matches[2]] = $matches[3];
                 }
             }
             if ($has_property) {
-                $raw_fields[$reflectionProperty->getName()] = $properties_array;
+                $raw_fields[$property->getName()] = $properties_array;
             }
         }
 

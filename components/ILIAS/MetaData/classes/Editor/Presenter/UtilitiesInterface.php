@@ -34,4 +34,6 @@ interface UtilitiesInterface
     public function txt(string $key): string;
 
     public function txtFill(string $key, string ...$values): string;
+
+    public function sanitizeForHTML(string $string): string;
 }

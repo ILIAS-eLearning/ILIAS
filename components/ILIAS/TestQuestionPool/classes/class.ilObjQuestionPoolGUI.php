@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\RequestDataCollector;
-use ILIAS\TestQuestionPool\Presentation\QuestionTable;
+use ILIAS\TestQuestionPool\Questions\Presentation\QuestionTable;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\Settings\GlobalSettings\GlobalTestSettings;
 use ILIAS\Taxonomy\Service;

@@ -27,6 +27,7 @@ use ILIAS\MetaData\Presentation\DataInterface as DataPresentation;
 use ILIAS\MetaData\Vocabularies\Slots\Identifier as SlotIdentifier;
 use ILIAS\MetaData\Vocabularies\Dispatch\Presentation\PresentationInterface as VocabulariesPresentation;
 use ILIAS\MetaData\Vocabularies\Dispatch\Presentation\LabelledValueInterface;
+use ILIAS\MetaData\Vocabularies\Dispatch\Presentation\LabelledValue;
 
 class Data implements DataInterface
 {
@@ -46,35 +47,49 @@ class Data implements DataInterface
 
     public function dataValue(ElementsDataInterface $data): string
     {
-        return $this->data_presentation->dataValue($data);
+        return $this->utilities->sanitizeForHTML(
+            $this->data_presentation->dataValue($data)
+        );
     }
 
     /**
-     * @return string[] with values as keys
+     * @return LabelledValueInterface[]
      */
     public function vocabularyValues(SlotIdentifier $slot, string ...$values): \Generator
     {
-        yield from $this->vocabularies_presentation->presentableLabels(
+        $labels = $this->vocabularies_presentation->presentableLabels(
             $this->utilities,
             $slot,
             true,
             ...$values
         );
+        foreach ($labels as $label) {
+            yield new LabelledValue(
+                $label->value(),
+                $this->utilities->sanitizeForHTML($label->label())
+            );
+        }
     }
 
     public function language(string $language): string
     {
-        return $this->data_presentation->language($language);
+        return $this->utilities->sanitizeForHTML(
+            $this->data_presentation->language($language)
+        );
     }
 
     public function datetime(string $datetime): string
     {
-        return $this->data_presentation->datetime($datetime);
+        return $this->utilities->sanitizeForHTML(
+            $this->data_presentation->datetime($datetime)
+        );
     }
 
     public function duration(string $duration): string
     {
-        return $this->data_presentation->duration($duration);
+        return $this->utilities->sanitizeForHTML(
+            $this->data_presentation->duration($duration)
+        );
     }
 
     /**

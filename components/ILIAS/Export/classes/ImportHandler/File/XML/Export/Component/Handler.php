@@ -78,9 +78,7 @@ class Handler extends XMLExportFile implements XMLExportComponentFileInterface
             $sets = $this->set->collection();
             $export_schema_handler = $this->schema->collectionFrom($this, $this->pathToExportNode())
                 ->current();
-            $major_version_str = is_null($export_schema_handler->getVersion())
-                ? ((int) ILIAS_VERSION_NUMERIC) . ".0.0"
-                : $export_schema_handler->getMajorVersionString();
+            $major_version_str = $export_schema_handler->getMajorVersionString();
             $major_structure_schema_version = new Version($major_version_str);
             $structure_schema_handler = $this->schema->handler()
                 ->withType('exp')

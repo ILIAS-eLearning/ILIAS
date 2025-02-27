@@ -837,25 +837,32 @@ class ilLMObject
         }
         if (is_array($a_titles)) {
             foreach ($a_titles as $id => $title) {
-                // see #20375
-                $title = ilFormPropertyGUI::removeProhibitedCharacters($title);
-                if ($a_lang == "-") {
-                    $lmobj = ilLMObjectFactory::getInstance($a_lm, $id, false);
-                    if (is_object($lmobj)) {
-                        // Update Title and description
-                        $lom_services->manipulate($a_lm->getId(), $id, $lmobj->getType())
-                                     ->prepareCreateOrUpdate(
-                                         $lom_services->paths()->title(),
-                                         $title
-                                     )->execute();
-                        ilLMObject::_writeTitle($id, $title);
-                    }
-                } else {
-                    $lmobjtrans = new ilLMObjTranslation($id, $a_lang);
-                    $lmobjtrans->setTitle($title);
-                    $lmobjtrans->save();
-                }
+                self::saveTitle($id, $title, $a_lang);
             }
+        }
+    }
+
+    public static function saveTitle(int $id, string $title, string $lang = "-"): void
+    {
+        global $DIC;
+
+        $lom_services = $DIC->learningObjectMetadata();
+        $title = ilFormPropertyGUI::removeProhibitedCharacters($title);
+        if (in_array($lang, ["-", ""])) {
+            $lm_id = self::_lookupContObjID($id);
+            $type = self::_lookupType($id);
+            if ($type !== "" && $lm_id > 0) {
+                $lom_services->manipulate($lm_id, $id, $type)
+                             ->prepareCreateOrUpdate(
+                                 $lom_services->paths()->title(),
+                                 $title
+                             )->execute();
+                self::_writeTitle($id, $title);
+            }
+        } else {
+            $lmobjtrans = new ilLMObjTranslation($id, $lang);
+            $lmobjtrans->setTitle($title);
+            $lmobjtrans->save();
         }
     }
 

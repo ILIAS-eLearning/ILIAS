@@ -20,6 +20,17 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Modal\LightboxImagePage;
 
+/**
+ * ---
+ * description: >
+ *   Example for rendering a lightbox image page modal with a single image.
+ *
+ * expected output: >
+ *   ILIAS shows a button titled "Show Image".
+ *   A click onto the button greys out ILIAS, opens a modal titled "Mountains",
+ *   an image and a Copyright note above the image. The modal's background is dark with a light font color.
+ * ---
+ */
 function show_a_single_image()
 {
     global $DIC;

@@ -4953,6 +4953,12 @@ class ilObjTest extends ilObject
             "errormessage" => ""
         ];
 
+        if (!$this->getObjectProperties()->getPropertyIsOnline()->getIsOnline()) {
+            $result["executable"] = false;
+            $result["errormessage"] = $this->lng->txt('autosave_failed') . ': ' . $this->lng->txt('offline');
+            return $result;
+        }
+
         if (!$this->startingTimeReached()) {
             $result["executable"] = false;
             $result["errormessage"] = sprintf($this->lng->txt("detail_starting_time_not_reached"), ilDatePresentation::formatDate(new ilDateTime($this->getStartingTime(), IL_CAL_UNIX)));
@@ -7318,8 +7324,11 @@ class ilObjTest extends ilObject
 
         if ($pass !== null) {
             $query = '
-                SELECT		tst_pass_result.*
+                SELECT		tst_pass_result.*,
+                            tst_active.last_finished_pass
                 FROM		tst_pass_result
+                INNER JOIN  tst_active
+                on          tst_pass_result.active_fi = tst_active.active_id
                 WHERE		active_fi = %s
                 AND			pass = %s
             ';
@@ -7340,7 +7349,7 @@ class ilObjTest extends ilObject
             $percentage = ($max <= 0.0 || $reached <= 0.0) ? 0 : ($reached / $max) * 100.0;
 
             $mark = $this->getMarkSchema()->getMatchingMark($percentage);
-            $is_passed = (bool) $mark->getPassed();
+            $is_passed = $pass <= $test_pass_result_row['last_finished_pass'] && $mark->getPassed();
 
             $hint_count = $test_pass_result_row['hint_count'] ?? 0;
             $hint_points = $test_pass_result_row['hint_points'] ?? 0.0;

@@ -1384,6 +1384,10 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     {
         $ilAccess = $this->access;
 
+        if (!$this->lm->isInfoEnabled()) {
+            return "";
+        }
+
         $this->initScreenHead();
 
         $this->lng->loadLanguageModule("meta");

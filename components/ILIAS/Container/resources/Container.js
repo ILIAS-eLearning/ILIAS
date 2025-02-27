@@ -35,7 +35,8 @@ il.Container = il.Container || {};
 
 		function saveAction(url, act) {
 			if (url) {
-				il.Util.sendAjaxGetRequestToUrl(url + "&act="+ act, {}, {}, null);
+				//il.Util.sendAjaxGetRequestToUrl(url + "&act="+ act, {}, {}, null);
+				il.repository.core.fetchUrl(url + "&act="+ act);
 			}
 		}
 

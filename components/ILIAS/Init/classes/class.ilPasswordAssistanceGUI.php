@@ -225,6 +225,7 @@ class ilPasswordAssistanceGUI implements ilCtrlSecurityInterface
                     ),
                 ]
             )
+            ->withSubmitLabel($this->lng->txt('submit'))
             ->withAdditionalTransformation($this->mergeValuesTrafo())
             ->withAdditionalTransformation($this->saniziteArrayElementsTrafo());
     }
@@ -502,6 +503,7 @@ class ilPasswordAssistanceGUI implements ilCtrlSecurityInterface
                     ),
                 ]
             )
+            ->withSubmitLabel($this->lng->txt('submit'))
             ->withAdditionalTransformation($this->mergeValuesTrafo())
             ->withAdditionalTransformation($this->saniziteArrayElementsTrafo());
     }
@@ -705,6 +707,7 @@ class ilPasswordAssistanceGUI implements ilCtrlSecurityInterface
                     ),
                 ]
             )
+            ->withSubmitLabel($this->lng->txt('submit'))
             ->withAdditionalTransformation($this->mergeValuesTrafo())
             ->withAdditionalTransformation($this->saniziteArrayElementsTrafo());
     }

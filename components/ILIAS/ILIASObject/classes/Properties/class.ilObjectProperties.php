@@ -198,13 +198,13 @@ class ilObjectProperties
          * infrastructure to make that distinction should be added.
          */
         $title_data = $this->lom_services->read($obj_id, 0, $type, $paths->title())
-                                         ->firstData($paths->title());
+            ->firstData($paths->title());
         if ($title_data->type() === LOMType::NULL) {
             return;
         }
 
         $manipulator = $this->lom_services->manipulate($obj_id, 0, $type)
-                                          ->prepareCreateOrUpdate($paths->title(), $title);
+            ->prepareCreateOrUpdate($paths->title(), $title);
         if ($description !== '') {
             $manipulator = $manipulator->prepareCreateOrUpdate($paths->firstDescription(), $description);
         } else {

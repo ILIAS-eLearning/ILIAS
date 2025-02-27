@@ -2095,7 +2095,6 @@ auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessio
 auth#:#auth_err_expired#:#Your session has been deactivated due to inactivity.
 auth#:#auth_err_invalid_user_account#:#Authentication failed due to an internal failure.
 auth#:#auth_err_ldap_exception#:#Authentication failed due to an internal authentication failure (LDAP).
-auth#:#auth_err_login_attempts_deactivation#:#This user account has been deactivated due to too many incorrect login attempts.
 auth#:#auth_info_add#:#Choose this option if you have never registered to ILIAS. A new account will be created.
 auth#:#auth_info_migrate#:#If you have already an ILIAS account, enter username and password to migrate your personal data (mail, test results...).
 auth#:#auth_ldap_server_ds#:#LDAP-Server
@@ -2976,8 +2975,6 @@ chatroom#:#chat_osc_accepts_messages_yes#:#Receives Chat Messages
 chatroom#:#chat_osc_add_user#:#Add Further Users
 chatroom#:#chat_osc_conversations#:#Conversations
 chatroom#:#chat_osc_doesnt_accept_msg#:#Conversations not possible
-chatroom#:#chat_osc_dont_accept_msg#:#You currently cannot be invited to conversations. If desired you can change this in your %s.
-chatroom#:#chat_osc_dont_accept_msg_link_txt#:#'Personal Settings'
 chatroom#:#chat_osc_head_grp_x_persons#:#%s Users
 chatroom#:#chat_osc_invite_to_conversation#:#Add to Conversation
 chatroom#:#chat_osc_leave_grp_conv#:#Leave Conversation
@@ -4773,6 +4770,7 @@ common#:#msg_input_char_limit_max#:#You have entered more characters than allowe
 common#:#msg_input_char_limit_min#:#You have to enter the minimum of characters specified.
 common#:#msg_input_does_not_match_regexp#:#Please provide a valid value.
 common#:#msg_input_is_required#:#This input is required. Please enter a value.
+common#:#msg_invalid_value_css_rect_input#:#The entered value is incorrect, do not use any plus or minus symbols in combination with the entered integer. Please check your input.
 common#:#msg_is_last_role#:#You removed the last global role from the following users
 common#:#msg_last_role_for_registration#:#At least one role must be available in the registration form for new users. This role is currently the only one available.
 common#:#msg_link_clipboard_p#:#Now, please select the desired location, where the selected objects should be linked to and click the button Paste.
@@ -5679,7 +5677,6 @@ common#:#show_users_online#:#Show active users
 common#:#show_who_is_online#:#Show who is online
 common#:#side_frame#:#Side Frame
 common#:#signature#:#Signature
-common#:#simultaneous_login_detected#:#Your access is denied because of a simultaneous login with the same account.
 common#:#size#:#Size
 common#:#skills#:#Competences
 common#:#skin_style#:#Default Skin / Style
@@ -6057,7 +6054,6 @@ common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure that you do not w
 common#:#wizard_search_list#:#Your search produced the following hits. Please select one of them.
 common#:#wizard_title_info#:#Search for the object you want to duplicate. Please enter the object's title or a part of it and click on 'Continue' to get matching search results.
 common#:#write#:#Write
-common#:#wrong_ip_detected#:#Your access is denied because of a wrong client ip.<br>You are currently using this IP address: %s<br>Please contact the system administrator.
 common#:#year#:#Year
 common#:#yearly#:#yearly
 common#:#years#:#Years
@@ -7088,8 +7084,8 @@ content#:#cont_select_media_pool#:#Select Media Pool
 content#:#cont_select_none#:#Clear Selection
 content#:#cont_select_other_qpool#:#Select Other Pool
 content#:#cont_select_par_or_section#:#Please select at least one paragraph or section.
-content#:#cont_selected_items_have_been_copied#:#Selected items have been copied to the clipboard. Click target placeholders to paste them into the learning module.
-content#:#cont_selected_items_have_been_cut#:#Selected items have been cut to the clipboard. Click target placeholders to paste them into the learning module.
+content#:#cont_selected_items_have_been_copied#:#Selected items have been copied to the clipboard. You can now add them before or after other elements by using their action menus.
+content#:#cont_selected_items_have_been_cut#:#Selected items have been cut to the clipboard. You can now add them before or after other elements by using their action menus.
 content#:#cont_selected_pg_chap#:#Selected Pages/Chapters
 content#:#cont_selected_terms#:#Selected Terms
 content#:#cont_selected_topic#:#Selected Topic
@@ -7247,7 +7243,6 @@ content#:#cont_update_section#:#Update Section
 content#:#cont_update_skills#:#Edit Competence
 content#:#cont_update_verification#:#Edit Certificate
 content#:#cont_upload_dir#:#Upload directory
-content#:#cont_upload_dir_info#:#Server directory from which large SCORM and HTML packages can be copied instead of being uploaded. Only ILIAS administrators will see a selection of files from this directory. Please enter a full server path without trailing slash.
 content#:#cont_upload_file#:#Upload File
 content#:#cont_upload_multi_srt_howto#:#This feature allows you to upload multiple subtitle (srt) files in a zip file for all media objects. Your .zip file should contain all .srt files on the top level (no subdirectories). The file names should end with '_&lt;lang code&gt;.srt' where lang code is e.g. 'en', 'it', 'de'. The rest of the filename should correspond to the name of the video file, e.g. 'my_video.mp4' ➜ 'my_video_en.srt'.
 content#:#cont_uploaded_file#:#Existing File
@@ -7328,8 +7323,6 @@ content#:#lm_only_one_download_per_type#:#Only one file per type (XML, HTML) can
 content#:#lm_rate_page#:#Rate page
 content#:#lm_rating#:#Rate Learning Module
 content#:#mep_folder_created#:#Added new folder.
-content#:#mob_upload_dir#:#Upload Directory
-content#:#mob_upload_dir_info#:#Server directory from which multiple files can be used to create media objects in media pools. Only ILIAS administrators will see a selection of files from this directory. Please enter a full server path without trailing slash.
 content#:#msg_entry_added#:#Menu entry added
 content#:#msg_entry_removed#:#Menu entry removed
 content#:#msg_entry_updated#:#Menu entry updated
@@ -10647,6 +10640,7 @@ irss#:#revision_status_20#:#Draft
 irss#:#revisions#:#Available Revisions
 irss#:#rid_deleted#:#File removed
 irss#:#rids_appended#:#Resource(s) added
+irss#:#rids_appended_failed#:#No Resource(s) added
 irss#:#rids_deleted#:#Resource(s) deleted
 irss#:#rids_updated#:#Ressource(n) updated
 irss#:#sorting#:#Default Ordering
@@ -10963,6 +10957,9 @@ lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estima
 lm#:#lm_insert_chapter#:#Insert chapter
 lm#:#lm_insert_chapter_after#:#Insert chapter after
 lm#:#lm_insert_chapter_before#:#Insert chapter before
+lm#:#lm_insert_chapter_clip#:#Insert chapter from clipboard
+lm#:#lm_insert_chapter_clip_after#:#Insert chapter from clipboard after
+lm#:#lm_insert_chapter_clip_before#:#Insert chapter from clipboard before
 lm#:#lm_insert_layout_after#:#Insert template after
 lm#:#lm_insert_layout_before#:#Insert template before
 lm#:#lm_insert_page#:#Insert page
@@ -12069,7 +12066,7 @@ meta#:#meta_advmd_select_option_position#:#Position
 meta#:#meta_advmd_select_option_value#:#Value
 meta#:#meta_advmd_select_options#:#Entries
 meta#:#meta_advmd_select_options_edit#:#Edit Entries
-meta#:#meta_advmd_select_position_identifier#:#After %s
+meta#:#meta_advmd_select_position_identifier#:#After ‘%s’
 meta#:#meta_aggregation_level#:#Aggregation Level
 meta#:#meta_amaya#:#Amaya
 meta#:#meta_annotation#:#Annotation
@@ -12842,7 +12839,7 @@ news#:#lso_news_online_txt#:#A new object for your learning sequence was just pu
 news#:#new_test_online#:#The test was set online.
 news#:#news_1_file_created#:#One file has been added.
 news#:#news_1_file_updated#:#One file has been updated.
-news#:#news_1_posts#:#One post has been added.
+news#:#news_1_postings#:#One post has been added.
 news#:#news_add_news#:#Add News
 news#:#news_all_items#:#News for all favourite items
 news#:#news_allow_longer_periods#:#Allow Longer Periods
@@ -13236,8 +13233,6 @@ pd#:#pd_enable_user_publish_info#:#If enabled, users can publish their profiles,
 pd#:#pd_ended#:#Ended
 pd#:#pd_export_profile#:#Export Personal Data
 pd#:#pd_import_personal_data#:#Import Personal Data
-pd#:#pd_my_memberships_intro#:#Welcome to Your Memberships
-pd#:#pd_my_memberships_intro2#:#This is your personal space for all courses and groups you participate in. Currently, there aren't any memberships assigned to you. To become a member of a course or group, there are two ways:<br /><ol><li>You can join courses or groups provided that joining them has been allowed by their administrators.</li><li>An administratrator of a course or group can assign a membership to you.</li></ol><br />In any case, the respective objects will appear automatically in this place.
 pd#:#pd_my_memberships_sort_default#:#Default of Sort Option
 pd#:#pd_no_items_to_manage#:#No items available for removal.
 pd#:#pd_not_dated#:#Not Dated
@@ -14049,7 +14044,7 @@ rbac#:#chtr_moderate#:#User can moderate discussion in chat room
 rbac#:#chtr_read#:#User can join and participate at chat room
 rbac#:#chtr_visible#:#Chat Room is visible
 rbac#:#chtr_write#:#User can edit settings of chat room and ban users
-rbac#:#cmis_edit_permissions#:#User can change permission settings of xAPI/cmi5 administration.
+rbac#:#cmis_edit_permission#:#User can change permission settings of xAPI/cmi5 administration.
 rbac#:#cmis_read#:#User has read access to xAPI/cmi5 administration.
 rbac#:#cmis_visible#:#Administration of xAPI/cmi5 is visible.
 rbac#:#cmis_write#:#User can edit settings of xAPI/cmi5 administration.
@@ -14122,6 +14117,10 @@ rbac#:#dcl_write#:#User can edit settings and content of data collection
 rbac#:#delete_files#:#Delete Files
 rbac#:#delete_folders#:#Delete Folders
 rbac#:#delete_wiki_pages#:#Delete Pages
+rbac#:#dpro_edit_permission#:#User can change permission settings in the Declaration of Data Protected administration
+rbac#:#dpro_read#:#User has read access to the Declaration of Data Protection administration
+rbac#:#dpro_visible#:#Declaration of Data Protection administration is visible
+rbac#:#dpro_write#:#Edit settings in the Declaration of Data Protection
 rbac#:#dshs_change_presentation#:#Change presentation of dashboard view
 rbac#:#dshs_edit_permission#:#User can change permission settings of Dashboard administration
 rbac#:#dshs_read#:#User has read access to Dashboard administration
@@ -14271,6 +14270,10 @@ rbac#:#il_lti_global_role#:#LTI User
 rbac#:#il_sess_participant#:#Session Participant
 rbac#:#il_sess_status_closed#:#Non-Participant Closed Session
 rbac#:#ilias_id#:#ILIAS-ID
+rbac#:#impr_edit_permission#:#User can change permission settings of Legal Notice administration
+rbac#:#impr_read#:#User can read in Legal Notice administration
+rbac#:#impr_visible#:#Administration of Legal Notice is visible
+rbac#:#impr_write#:#User can edit content and settings of Legal Notice
 rbac#:#info_user_view_changed#:#User view changed
 rbac#:#internal_mail#:#Internal Mail
 rbac#:#invite#:#Inviting to survey
@@ -14318,7 +14321,7 @@ rbac#:#lso_read_learning_progress#:#User can view learning progress of other use
 rbac#:#lso_unparticipate#:#User can unsubscribe from a Learning Sequence
 rbac#:#lso_visible#:#Learning Sequence is visible
 rbac#:#lso_write#:#User can edit settings of Learning Sequence
-rbac#:#lsos_edit_permissions#:#User can change permission settings of Learning Sequences administration.
+rbac#:#lsos_edit_permission#:#User can change permission settings of Learning Sequences administration.
 rbac#:#lsos_read#:#User has read access to Learning Sequences administration.
 rbac#:#lsos_visible#:#Administration of Learning Sequences is visible.
 rbac#:#lsos_write#:#User can edit settings of Learning Sequences administration.
@@ -14386,7 +14389,7 @@ rbac#:#msg_anonymous_cannot_be_assigned#:#Anonymous cannot be assigned to a role
 rbac#:#msg_no_roles_of_type#:#No Roles available with selected filter setting
 rbac#:#news_add_news#:#Add News
 rbac#:#no_corresponding_roles#:#No corresponding roles could be found.
-rbac#:#nots_edit_permissions#:#User can change permission settings of Notes administration.
+rbac#:#nots_edit_permission#:#User can change permission settings of Notes administration.
 rbac#:#nots_read#:#User has read access to Notes administration.
 rbac#:#nots_visible#:#Administration of Notes is visible.
 rbac#:#nots_write#:#User can edit settings of Notes administration.
@@ -14466,7 +14469,7 @@ rbac#:#prgs_edit_permission#:#Change permission settings in Study Programme admi
 rbac#:#prgs_read#:#User has read access to Study Programme administration
 rbac#:#prgs_visible#:#Study Programme administration is visible
 rbac#:#prgs_write#:#Edit settings in Study Programme administration
-rbac#:#prss_edit_permissions#:#User can change permission settings of Personal Resources administration.
+rbac#:#prss_edit_permission#:#User can change permission settings of Personal Resources administration.
 rbac#:#prss_read#:#User has read access to Personal Resources administration.
 rbac#:#prss_visible#:#Administration of Personal Resources is visible.
 rbac#:#prss_write#:#User can edit settings of Personal Resources administration.
@@ -14815,7 +14818,7 @@ rbac#:#usrf_read#:#User has read access to User administration
 rbac#:#usrf_read_users#:#User has read access to local user accounts (local administrators)
 rbac#:#usrf_visible#:#User administration is visible
 rbac#:#usrf_write#:#Edit settings in User administration
-rbac#:#wbdv_edit_permissions#:#User can change permission settings of WebDAV administration.
+rbac#:#wbdv_edit_permission#:#User can change permission settings of WebDAV administration.
 rbac#:#wbdv_read#:#User has read access to WebDAV administration.
 rbac#:#wbdv_visible#:#Administration of WebDAV is visible.
 rbac#:#wbdv_write#:#User can edit settings of WebDAV administration.
@@ -15943,6 +15946,7 @@ style#:#sty_caption#:#Caption
 style#:#sty_caption_class#:#Caption
 style#:#sty_carousel_templates#:#Carousel Templates
 style#:#sty_cat_assignments#:#Style/Category Assignments
+style#:#sty_change_user_assignment#:#Change User Assignment
 style#:#sty_characteristic_already_exists#:#A style class with this title already exists within this style.
 style#:#sty_class#:#Style Class
 style#:#sty_class_name#:#Class Name
@@ -16041,6 +16045,7 @@ style#:#sty_min_height#:#Minimum Height
 style#:#sty_move_lm_styles#:#Change Style of Learning Modules
 style#:#sty_move_style#:#Change Style
 style#:#sty_move_user_styles#:#Change Style of Users
+style#:#sty_move_user_styles_saved#:#The assignment of the users assigned to skind-id %s has been changed to skin-id %s.
 style#:#sty_msg_characteristic_must_only_include#:#The title of style classes must start with a letter, does not use spaces and only include the following characters:
 style#:#sty_msg_color_must_only_include#:#The color name may only include the following characters:
 style#:#sty_msg_input_must_be_numeric#:#Input must be numeric.

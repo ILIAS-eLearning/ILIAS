@@ -1283,7 +1283,7 @@
 			<!-- determine location -->
 			<xsl:variable name="data">
 				<xsl:if test="$curType = 'LocalFile'">
-					<xsl:value-of select="$webspace_path"/>mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/>
+					<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/>
 				</xsl:if>
 				<xsl:if test="$curType = 'Reference'">
 					<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/>
@@ -2935,8 +2935,9 @@
 <xsl:template match="Trigger">
 	<xsl:if test="@Overlay != ''">
 		<xsl:variable name="cur_nr" select="@Nr" />
+		<xsl:variable name="mobid" select="../MediaAlias/@OriginId" />
 		<img style="display:none;">
-		<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>mobs/mm_<xsl:value-of select="substring-after(../MediaAlias[1]/@OriginId,'mob_')"/>/overlays/<xsl:value-of select="@Overlay"/></xsl:attribute>
+		<xsl:attribute name="src"><xsl:value-of select="//MediaObject[@Id=$mobid]/MediaItem[@Purpose = 'Standard']/Url/@Base"/>/overlays/<xsl:value-of select="@Overlay"/></xsl:attribute>
 		<xsl:attribute name="id">iim_ov_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
 		<xsl:if test="$mode != 'edit'">
 			<xsl:attribute name="usemap">#iim_ov_map_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>

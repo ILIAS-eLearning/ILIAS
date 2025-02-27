@@ -172,8 +172,8 @@ class Handler implements ilExportHandlerTableInterface
         }
         echo($this->ui_services->renderer()->renderAsync([
             $this->ui_services->factory()->modal()->interruptive(
-                'Deletion',
-                'You are about to delete items!',
+                $this->lng->txt('confirm'),
+                $this->lng->txt('exp_really_delete'),
                 (string) $this->url_builder
                     ->withParameter(
                         $this->action_parameter_token,

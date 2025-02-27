@@ -64,8 +64,8 @@
                 <xs:element minOccurs="1" maxOccurs="1" name="CancellationEnd" type="NullOrInteger"/>
                 <xs:element minOccurs="1" maxOccurs="1" name="MinMembers" type="xs:integer"/>
                 <xs:element minOccurs="1" maxOccurs="1" name="ViewMode" type="xs:integer"/>
-                <xs:element minOccurs="1" maxOccurs="1" ref="TutorialSupportBlock"/>
                 <xs:element minOccurs="0" maxOccurs="1" name="TimingMode" type="xs:integer"/>
+                <xs:element minOccurs="1" maxOccurs="1" ref="TutorialSupportBlock"/>
                 <xs:element minOccurs="1" maxOccurs="1" ref="SessionLimit"/>
                 <xs:element minOccurs="1" maxOccurs="1" ref="WelcomeMail"/>
                 <xs:element minOccurs="1" maxOccurs="1" name="StatusDetermination" type="xs:integer"/>

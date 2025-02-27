@@ -144,11 +144,11 @@ class ilSystemStyleOverviewGUI
         }
 
         $default = "default:delos";
-        if($style_name == "Delos") {
+        if ($style_name == "Delos") {
             $default = key($options);
         }
 
-        if(count($options) == 0) {
+        if (count($options) == 0) {
             return null;
         }
 
@@ -243,8 +243,10 @@ class ilSystemStyleOverviewGUI
         } else {
             ilObjUser::_moveUsersToStyle($old_skin, $old_style, $new_skin, $new_style);
         }
+        $message = sprintf($this->lng->txt('sty_move_user_styles_saved'), $old_skin, $new_skin);
 
-        $this->message_stack->addMessage(new ilSystemStyleMessage($this->lng->txt('msg_obj_modified')));
+        $this->message_stack->addMessage(new ilSystemStyleMessage($message, ilSystemStyleMessage::TYPE_SUCCESS));
+        $this->message_stack->sendMessages();
         $this->ctrl->redirect($this, 'edit');
     }
 

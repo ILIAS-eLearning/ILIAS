@@ -708,4 +708,80 @@ XML;
 
         $this->assertXmlStringEqualsXmlString($expected_xml, $xml->asXML());
     }
+
+    public function testWriteWithDataContainingSpecialCharacters(): void
+    {
+        $set_array = [
+            'name' => 'el1',
+            'type' => Type::NULL,
+            'value' => '',
+            'subs' => [
+                [
+                    'name' => 'el1.1',
+                    'type' => Type::VOCAB_VALUE,
+                    'value' => 'This contains !@#$%^&*(){}[]<>?=+\/|"\' a bunch of special characters.',
+                    'subs' => []
+                ]
+            ]
+        ];
+
+        $expected_xml = <<<XML
+<?xml version="1.0"?>
+<el1>
+    <el1.1>This contains !@#$%^&amp;*(){}[]&lt;&gt;?=+\/|"' a bunch of special characters.</el1.1>
+</el1>
+XML;
+
+        $writer = $this->getStandardWriter();
+        $set = $this->getSet($set_array);
+        $xml = $writer->write($set);
+
+        $this->assertXmlStringEqualsXmlString($expected_xml, $xml->asXML());
+    }
+
+    public function testWriteWithLangStringContainingSpecialCharacters(): void
+    {
+        $set_array = [
+            'name' => 'el1',
+            'type' => Type::NULL,
+            'value' => '',
+            'subs' => [
+                [
+                    'name' => 'el1.1',
+                    'type' => Type::NULL,
+                    'value' => '',
+                    'specials' => [SpecialCase::LANGSTRING],
+                    'subs' => [
+                        [
+                            'name' => 'string',
+                            'type' => Type::STRING,
+                            'value' => 'This contains !@#$%^&*(){}[]<>?=+\/|"\' a bunch of special characters.',
+                            'subs' => []
+                        ],
+                        [
+                            'name' => 'language',
+                            'type' => Type::LANG,
+                            'value' => 'br',
+                            'subs' => []
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        $expected_xml = <<<XML
+<?xml version="1.0"?>
+<el1>
+    <el1.1>
+        <string language="br">This contains !@#$%^&amp;*(){}[]&lt;&gt;?=+\/|"' a bunch of special characters.</string>
+    </el1.1>
+</el1>
+XML;
+
+        $writer = $this->getStandardWriter();
+        $set = $this->getSet($set_array);
+        $xml = $writer->write($set);
+
+        $this->assertXmlStringEqualsXmlString($expected_xml, $xml->asXML());
+    }
 }
