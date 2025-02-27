@@ -18,14 +18,12 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\Results;
-
-use ILIAS\Test\Scoring\Marks\Mark;
+namespace ILIAS\Test\Results\Data;
 
 /**
- * Class TestResult is a model representation of an entry in the test_result_cache table.
+ * Class TestPassResult is a model representation of an entry in the tst_pass_result table.
  */
-class TestResult
+class TestPassResult
 {
     /**
      * Constructor ensures that the provided values are semantically correct (e.G. reached points are never negative).
@@ -35,37 +33,44 @@ class TestResult
         protected int $pass,
         protected float $max_points,
         protected float $reached_points,
-        protected string $mark_short,
-        protected string $mark_official,
-        protected bool $passed,
-        protected bool $failed,
+        protected int $question_count,
+        protected int $answered_questions,
+        protected int $working_time,
         protected int $timestamp,
         protected int $hint_count,
         protected float $hint_points,
-        protected bool $passed_once,
+        protected string $exam_id,
+        protected string $finalized_by,
     ) {
         $this->reached_points = max(0.0, $this->reached_points);
-        $this->failed = !$this->passed;
     }
 
-    public function withMark(Mark $mark): self
+    public function withMaxPoints(float $max_points): self
     {
         $clone = clone $this;
-        $clone->mark_short = $mark->getShortName() ?? ' ';
-        $clone->mark_official = $mark->getOfficialName() ?? ' ';
+        $clone->max_points = $max_points;
         return $clone;
     }
 
-    public function withPassedOnce(bool $passed_once): self
+    public function withQuestionCount(int $question_count): self
     {
         $clone = clone $this;
-        $clone->passed_once = $passed_once;
+        $clone->question_count = $question_count;
         return $clone;
     }
 
-    public function getPercentage(): float
+    public function withWorkingTime(int $working_time): self
     {
-        return $this->max_points > 0 ? $this->reached_points / $this->max_points * 100 : 0.0;
+        $clone = clone $this;
+        $clone->working_time = $working_time;
+        return $clone;
+    }
+
+    public function withExamId(string $exam_id): self
+    {
+        $clone = clone $this;
+        $clone->exam_id = $exam_id;
+        return $clone;
     }
 
     public function getActiveId(): int
@@ -88,24 +93,19 @@ class TestResult
         return $this->reached_points;
     }
 
-    public function getMarkShort(): string
+    public function getQuestionCount(): int
     {
-        return $this->mark_short;
+        return $this->question_count;
     }
 
-    public function getMarkOfficial(): string
+    public function getAnsweredQuestions(): int
     {
-        return $this->mark_official;
+        return $this->answered_questions;
     }
 
-    public function isPassed(): bool
+    public function getWorkingTime(): int
     {
-        return $this->passed;
-    }
-
-    public function isFailed(): bool
-    {
-        return $this->failed;
+        return $this->working_time;
     }
 
     public function getTimestamp(): int
@@ -123,8 +123,13 @@ class TestResult
         return $this->hint_points;
     }
 
-    public function isPassedOnce(): bool
+    public function getExamId(): string
     {
-        return $this->passed_once;
+        return $this->exam_id;
+    }
+
+    public function getFinalizedBy(): string
+    {
+        return $this->finalized_by;
     }
 }

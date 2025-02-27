@@ -18,12 +18,14 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\Results;
+namespace ILIAS\Test\Results\Data;
+
+use ILIAS\Test\Scoring\Marks\Mark;
 
 /**
- * Class TestPassResult is a model representation of an entry in the tst_pass_result table.
+ * Class TestResult is a model representation of an entry in the test_result_cache table.
  */
-class TestPassResult
+class TestResult
 {
     /**
      * Constructor ensures that the provided values are semantically correct (e.G. reached points are never negative).
@@ -33,16 +35,37 @@ class TestPassResult
         protected int $pass,
         protected float $max_points,
         protected float $reached_points,
-        protected int $question_count,
-        protected int $answered_questions,
-        protected int $working_time,
+        protected string $mark_short,
+        protected string $mark_official,
+        protected bool $passed,
+        protected bool $failed,
         protected int $timestamp,
         protected int $hint_count,
         protected float $hint_points,
-        protected string $exam_id,
-        protected bool $finalized_by,
+        protected bool $passed_once,
     ) {
         $this->reached_points = max(0.0, $this->reached_points);
+        $this->failed = !$this->passed;
+    }
+
+    public function withMark(Mark $mark): self
+    {
+        $clone = clone $this;
+        $clone->mark_short = $mark->getShortName() ?? ' ';
+        $clone->mark_official = $mark->getOfficialName() ?? ' ';
+        return $clone;
+    }
+
+    public function withPassedOnce(bool $passed_once): self
+    {
+        $clone = clone $this;
+        $clone->passed_once = $passed_once;
+        return $clone;
+    }
+
+    public function getPercentage(): float
+    {
+        return $this->max_points > 0 ? $this->reached_points / $this->max_points * 100 : 0.0;
     }
 
     public function getActiveId(): int
@@ -65,19 +88,24 @@ class TestPassResult
         return $this->reached_points;
     }
 
-    public function getQuestionCount(): int
+    public function getMarkShort(): string
     {
-        return $this->question_count;
+        return $this->mark_short;
     }
 
-    public function getAnsweredQuestions(): int
+    public function getMarkOfficial(): string
     {
-        return $this->answered_questions;
+        return $this->mark_official;
     }
 
-    public function getWorkingTime(): int
+    public function isPassed(): bool
     {
-        return $this->working_time;
+        return $this->passed;
+    }
+
+    public function isFailed(): bool
+    {
+        return $this->failed;
     }
 
     public function getTimestamp(): int
@@ -95,13 +123,8 @@ class TestPassResult
         return $this->hint_points;
     }
 
-    public function getExamId(): string
+    public function isPassedOnce(): bool
     {
-        return $this->exam_id;
-    }
-
-    public function isFinalizedBy(): bool
-    {
-        return $this->finalized_by;
+        return $this->passed_once;
     }
 }
