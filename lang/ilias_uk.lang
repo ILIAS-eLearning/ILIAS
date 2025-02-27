@@ -214,7 +214,7 @@ administration#:#language_former_file_equal#:#The file <b>%s</b> is identical to
 administration#:#language_former_file_missing#:#The file <b>%s</b> is missing.###19 09 2008 new variable
 administration#:#language_import_file#:#Import Language File###23 08 2007 new variable
 administration#:#language_load_local_changes#:#Load local language file into the database###23 08 2007 new variable
-administration#:#language_load_local_changes_info#:#Load the file Customizing/global/lang/ilias_%s_lang.local to the database. New entries of this file are added to the database and existing entries are overwritten.###07 11 2014 new variable
+administration#:#language_load_local_changes_info#:#Load the file lang/customizing/ilias_%s_lang.local to the database. New entries of this file are added to the database and existing entries are overwritten.###07 11 2014 new variable
 administration#:#language_loaded_local#:#The local language file was loaded into the database.###23 08 2007 new variable
 administration#:#language_local_file_deleted#:#The local language file was deleted.###10 09 2010 new variable
 administration#:#language_maintain#:#Maintain###23 08 2007 new variable
@@ -235,12 +235,12 @@ administration#:#language_mode_existing_replace_info#:#Import new entries and re
 administration#:#language_note_translation#:#Page translation mode is activated for each language separately. Additionally the user needs visible and read permission on the language folder.###23 08 2007 new variable
 administration#:#language_process_maintenance#:#Process Maintenance###23 08 2007 new variable
 administration#:#language_remove_local_file#:#Delete the local language file###10 09 2010 new variable
-administration#:#language_remove_local_file_info#:#Remove the file Customizing/global/lang/ilias_%s_lang.local and change the language status from "Installed With Local" to "Installed". The changes in the database are not touched.###07 11 2014 new variable
+administration#:#language_remove_local_file_info#:#Remove the file lang/customizing/ilias_%s_lang.local and change the language status from "Installed With Local" to "Installed". The changes in the database are not touched.###07 11 2014 new variable
 administration#:#language_save_dist#:#Backup the standard language file###25 10 2016 new variable
 administration#:#language_save_dist_failed#:#The backup of the standard ILIAS language file could not be written.###25 10 2016 new variable
 administration#:#language_save_dist_info#:#Create a backup of the standard ILIAS language file in the ILIAS data directory. This helps after an ILIAS update to find conflicst of own changes with updated language variables.###25 10 2016 new variable
 administration#:#language_save_local_changes#:#Save all changes to the local language file###23 08 2007 new variable
-administration#:#language_save_local_changes_info#:#Save all locally added or changed database entries to the file Customizing/global/lang/ilias_%s_lang.local and set the language status to "Installed With Local". The web server must have write permission in this folder. Please note that this file is the same for all clients of this installation.###07 11 2014 new variable
+administration#:#language_save_local_changes_info#:#Save all locally added or changed database entries to the file lang/customizing/ilias_%s_lang.local and set the language status to "Installed With Local". The web server must have write permission in this folder. Please note that this file is the same for all clients of this installation.###07 11 2014 new variable
 administration#:#language_saved_dist#:#The backup of the standard ILIAS language file is created.###25 10 2016 new variable
 administration#:#language_scope_added#:#Local additions only###10 09 2010 new variable
 administration#:#language_scope_added_info#:#Export all entries that are locally added in the database. This can be used to backup additional development entries before local changes are deleted on the tab "Maintain".###07 11 2014 new variable

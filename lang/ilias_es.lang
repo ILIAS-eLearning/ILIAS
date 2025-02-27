@@ -216,7 +216,7 @@ administration#:#language_former_file_equal#:#El Archivo <b>%s</b> es idéntico 
 administration#:#language_former_file_missing#:#El archivo <b>%s</b> no se encuentra.
 administration#:#language_import_file#:#Importar Archivo de idioma
 administration#:#language_load_local_changes#:#Cargar Archivo de idioma local en la base de datos
-administration#:#language_load_local_changes_info#:#Carga el archvio Customizing/global/lang/ilias_%s_lang.local en la base de datos. Las nuevas entradas de este archivo se añaden a la base de datos y las entradas que existan se sobreescriben.
+administration#:#language_load_local_changes_info#:#Carga el archvio lang/customizing/ilias_%s_lang.local en la base de datos. Las nuevas entradas de este archivo se añaden a la base de datos y las entradas que existan se sobreescriben.
 administration#:#language_loaded_local#:#El Archivo de idioma local fue cargado en la base de datos
 administration#:#language_local_file_deleted#:#El Archivo local de idioma ha sido eliminado.
 administration#:#language_maintain#:#Mantener
@@ -237,12 +237,12 @@ administration#:#language_mode_existing_replace_info#:#Importa las nuevas entrad
 administration#:#language_note_translation#:#El modo de traducción de página se activa para cada idioma por separado. Además el usuario necesita permisos de lectura y visibilidad en la carpeta de idioma.
 administration#:#language_process_maintenance#:#Mantenimiento de proceso
 administration#:#language_remove_local_file#:#Eliminar el Archivo local de idioma
-administration#:#language_remove_local_file_info#:#Borra el archivo Customizing/global/lang/ilias_%s_lang.local y cambia el estado del idioma de "Instalado En Local" a "Instalado". Los cambios en la base de datos no se tocan.
+administration#:#language_remove_local_file_info#:#Borra el archivo lang/customizing/ilias_%s_lang.local y cambia el estado del idioma de "Instalado En Local" a "Instalado". Los cambios en la base de datos no se tocan.
 administration#:#language_save_dist#:#Copia de seguridad del archivo de lenguaje estándar
 administration#:#language_save_dist_failed#:#No se ha podido escribir la copia de seguridad del archivo de lenguaje ILIAS estándar.
 administration#:#language_save_dist_info#:#Cree una copia de seguridad del archivo de lenguaje ILIAS en el directorio de datos ILIAS. Esto es útil después de una actualización de ILIAS para buscar conflictos entre los propios cambios y las variables del lenguaje actualizadas.
 administration#:#language_save_local_changes#:#Guardar todos los cambios al Archivo de idioma local
-administration#:#language_save_local_changes_info#:#Guarda todas las entradas añadidas o cambiadas en la base de datos en el fichero Customizing/global/lang/ilias_%s_lang.local y establece el estado del idioma a "Instalado En Local". El servidor web debe tener permiso de escritura en esta carpeta. Tenga en cuenta que este fichero es el mismo para todos los clientes de la instalación.
+administration#:#language_save_local_changes_info#:#Guarda todas las entradas añadidas o cambiadas en la base de datos en el fichero lang/customizing/ilias_%s_lang.local y establece el estado del idioma a "Instalado En Local". El servidor web debe tener permiso de escritura en esta carpeta. Tenga en cuenta que este fichero es el mismo para todos los clientes de la instalación.
 administration#:#language_saved_dist#:#Se ha creado la copia de seguridad del archivo de lenguaje ILIAS estándar.
 administration#:#language_scope_added#:#Solamente cambios locales
 administration#:#language_scope_added_info#:#Exportar todas las entradas que se han añadido localmente. Esto se puede usar para hacer un backup adicional de las entradas en desarrollo antes de borrar los cambios locales con la pestaña "Mantener".

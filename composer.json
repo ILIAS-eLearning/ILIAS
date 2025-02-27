@@ -19,7 +19,7 @@
 			"@php cli/setup.php build --yes"
 		],
 		"pre-install-cmd": [
-			"mkdir -p public/Customizing/global/plugins"
+			"mkdir -p public/Customizing/global/plugins",
 			"mkdir -p public/Customizing/skin"
 		],
 		"post-install-cmd": [

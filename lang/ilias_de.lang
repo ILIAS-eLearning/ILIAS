@@ -214,7 +214,7 @@ administration#:#language_former_file_equal#:#Die Datei <b>%s</b> stimmt mit der
 administration#:#language_former_file_missing#:#Die Datei <b>%s</b> existiert nicht.
 administration#:#language_import_file#:#Sprachdatei importieren
 administration#:#language_load_local_changes#:#Custom-Sprachdatei in die Datenbank laden
-administration#:#language_load_local_changes_info#:#Lädt die Datei Customizing/global/lang/ilias_%s.lang.local in die Datenbank. Neue Einträge aus der Datei werden hinzugefügt und vorhandene Einträge in der Datenbank werden überschrieben.
+administration#:#language_load_local_changes_info#:#Lädt die Datei lang/customizing/ilias_%s.lang.local in die Datenbank. Neue Einträge aus der Datei werden hinzugefügt und vorhandene Einträge in der Datenbank werden überschrieben.
 administration#:#language_loaded_local#:#Die Custom-Sprachdatei wurde in die Datenbank geladen.
 administration#:#language_local_file_deleted#:#Die Custom-Sprachdatei wurde gelöscht.
 administration#:#language_maintain#:#Wartung
@@ -235,12 +235,12 @@ administration#:#language_mode_existing_replace_info#:#Importiert neue Einträge
 administration#:#language_note_translation#:#Die Seitenübersetzung wird für jede Sprache separat aktiviert. Zusätzlich muss ein Benutzer die Rechte "Lesen" und "Schreiben" im Sprachordner haben.
 administration#:#language_process_maintenance#:#Wartung durchführen
 administration#:#language_remove_local_file#:#Custom-Sprachdatei löschen
-administration#:#language_remove_local_file_info#:#Entfernt die Datei Customizing/global/lang/ilias_%s.lang.local und setzt den Status der Sprache von "Mit lokaler Version installiert" auf "Installiert". Die Einträge in der Datenbank sind davon nicht betroffen.
+administration#:#language_remove_local_file_info#:#Entfernt die Datei lang/customizing/ilias_%s.lang.local und setzt den Status der Sprache von "Mit lokaler Version installiert" auf "Installiert". Die Einträge in der Datenbank sind davon nicht betroffen.
 administration#:#language_save_dist#:#Backup der Standard-Sprachdatei erzeugen
 administration#:#language_save_dist_failed#:#Das Backup der Standard-Sprachdatei konnte nicht geschrieben werden.
 administration#:#language_save_dist_info#:#Erzeugt ein Backup der Standard-Sprachdatei im externen ILIAS-Datenverzeichnis. Dies hilft nach einem ILIAS-Update, Konflikte von eigenen Änderungen mit aktualisierten Sprachvariablen zu finden.
 administration#:#language_save_local_changes#:#Alle Änderungen in der Custom-Sprachdatei speichern
-administration#:#language_save_local_changes_info#:#Speichert alle lokalen Änderungen oder Ergänzungen in der Datei Customizing/global/lang/ilias_%s.lang.local und setzt den Status der Sprache auf "Mit lokaler Version installiert". Der Web-Server muss Schreibrecht in dem Verzeichnis besitzen. Beachten Sie, dass diese Datei für alle Mandanten der Installation dieselbe ist.
+administration#:#language_save_local_changes_info#:#Speichert alle lokalen Änderungen oder Ergänzungen in der Datei lang/customizing/ilias_%s.lang.local und setzt den Status der Sprache auf "Mit lokaler Version installiert". Der Web-Server muss Schreibrecht in dem Verzeichnis besitzen. Beachten Sie, dass diese Datei für alle Mandanten der Installation dieselbe ist.
 administration#:#language_saved_dist#:#Das Backup der Standard-Sprachdatei wurde erzeugt und im externen ILIAS-Datenverzeichnis abgelegt.
 administration#:#language_scope_added#:#Nur lokale Ergänzungen
 administration#:#language_scope_added_info#:#Exportiert alle Einträge, die in der Datenbank lokal hinzugefügt wurden. Dies kann genutzt werden, um zusätzliche Entwicklungs-Einträge zu sichern, bevor die lokalen Änderungen auf dem Reiter "Wartung" zurückgesetzt werden.

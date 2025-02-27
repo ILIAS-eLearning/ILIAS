@@ -214,7 +214,7 @@ administration#:#language_former_file_equal#:#Het bestand <b>%s</b> is identiek 
 administration#:#language_former_file_missing#:#het bestand <b>%s</b> is niet aanwezig.
 administration#:#language_import_file#:#Taalbestand importeren
 administration#:#language_load_local_changes#:#Bestand met lokale taal in de database laden
-administration#:#language_load_local_changes_info#:#Laad het bestand Customizing/global/lang/ilias_%s_lang.local in de database. Nieuwe termen worden toegevoegd en bestaande termen worden overschreven.
+administration#:#language_load_local_changes_info#:#Laad het bestand lang/customizing/ilias_%s_lang.local in de database. Nieuwe termen worden toegevoegd en bestaande termen worden overschreven.
 administration#:#language_loaded_local#:#Het lokale taalbestand werd geladen in de database.
 administration#:#language_local_file_deleted#:#Het lokale taalbestand werd verwijderd.
 administration#:#language_maintain#:#Onderhoud
@@ -235,12 +235,12 @@ administration#:#language_mode_existing_replace_info#:#Importeer nieuwe termen e
 administration#:#language_note_translation#:#Vertaling per pagina wordt voor elke taal afzonderlijk ingeschakeld. Daarnaast heeft de gebruiker lees- en schrijfrechten nodig in de talen map.
 administration#:#language_process_maintenance#:#Beheer uitvoeren
 administration#:#language_remove_local_file#:#Verwijderen lokaal taalbestand
-administration#:#language_remove_local_file_info#:#Verwijder het bestand Customizing/global/lang/ilias_%s_lang.local en verander de taalstatus van "Geïnstalleerd met Lokaal" naar "Geïnstalleerd". De wijzigingen in de database blijven hetzelfde.
+administration#:#language_remove_local_file_info#:#Verwijder het bestand lang/customizing/ilias_%s_lang.local en verander de taalstatus van "Geïnstalleerd met Lokaal" naar "Geïnstalleerd". De wijzigingen in de database blijven hetzelfde.
 administration#:#language_save_dist#:#Backup the standard language file###25 10 2016 new variable
 administration#:#language_save_dist_failed#:#The backup of the standard ILIAS language file could not be written.###25 10 2016 new variable
 administration#:#language_save_dist_info#:#Create a backup of the standard ILIAS language file in the ILIAS data directory. This helps after an ILIAS update to find conflicst of own changes with updated language variables.###25 10 2016 new variable
 administration#:#language_save_local_changes#:#Alle wijzigingen van het lokale taalbestand opslaan.
-administration#:#language_save_local_changes_info#:#Opslaan van alle lokaal toegevoegde of gewijzigde taaltermen naar bestand Customizing/global/lang/ilias_%s_lang.local en zet status op "Geïnstalleerd met Lokaal". De web server moet schrijftoegang hebben tot deze folder. Let erop dat ditzelfde bestand wordt gebruikt voor alle clients van deze installatie.
+administration#:#language_save_local_changes_info#:#Opslaan van alle lokaal toegevoegde of gewijzigde taaltermen naar bestand lang/customizing/ilias_%s_lang.local en zet status op "Geïnstalleerd met Lokaal". De web server moet schrijftoegang hebben tot deze folder. Let erop dat ditzelfde bestand wordt gebruikt voor alle clients van deze installatie.
 administration#:#language_saved_dist#:#The backup of the standard ILIAS language file is created.###25 10 2016 new variable
 administration#:#language_scope_added#:#Alleen lokale versies
 administration#:#language_scope_added_info#:#Exporteer alle termen die lokaal zijn toegevoegd in de database. Dit kan worden gebruikt als backup voordat lokale wijzingen worden verwijderd vanaf tabblad "Onderhoud".
