@@ -35,6 +35,15 @@ class ilSurveyQuestionPoolImporter extends ilXmlImporter
             $newObj = new ilObjSurveyQuestionPool();
             $new_id = $newObj->create();
         }
+
+        # Try legacy import
+        $xml_file = $this->getXmlFileName();
+        if (file_exists($xml_file)) {
+            $GLOBALS['ilLog']->write(__METHOD__ . ': Cannot find xml definition: ' . $xml_file);
+            // import qti data
+            $newObj->importObject($xml_file);
+        }
+
         $import = new SurveyImportParser($new_id, "", true);
         $import->setXMLContent($a_xml);
         $import->startParsing();
@@ -50,5 +59,11 @@ class ilSurveyQuestionPoolImporter extends ilXmlImporter
             $a_id . ':0:spl',
             $newObj->getId() . ':0:spl'
         );
+    }
+
+    protected function getXmlFileName(): string
+    {
+        $basename = basename($this->getImportDirectory());
+        return $this->getImportDirectory() . '/' . $basename . '.xml';
     }
 }
