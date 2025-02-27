@@ -12,7 +12,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ ******************************************************************** */
 
 // Configure MathJax on the page
 // see https://docs.mathjax.org/en/latest/options/index.html
@@ -28,8 +28,8 @@ window.MathJax = {
     load: ['ui/safe'],
   },
   options: {
-    ignoreHtmlClass: 'tex2jax_ignore,tex2jax_ignore_default',   //  class that marks tags not to search
-    processHtmlClass: 'tex2jax_process',                        //  class that marks tags that should be searched
+    ignoreHtmlClass: 'tex2jax_ignore|tex2jax_default_ignore', // class that marks tags not to search
+    processHtmlClass: 'tex2jax_process', //  class that marks tags that should be searched
   },
   tex: {
     inlineMath: [
