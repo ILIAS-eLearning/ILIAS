@@ -18,20 +18,20 @@ Your feedback and change requests are welcome. Please send them to toedt@leifos.
 
 To extend or add the privacy documentation, base your Pull Request on the following template:
 
-### [Name of the Component] Privacy
+### [Name of the component] Privacy
 
 > **Disclaimer: This documentation does not guarantee completeness or accuracy. Please report any missing or incorrect information via the [ILIAS issue tracker](https://mantis.ilias.de) or submit a fix via [Pull Request](docs/development/contributing.md#pull-request-to-the-repositories).**
 
-### General Information
+### General information
 
 - Indicate any special conditions, such as:
   - If the pool appears like a separate component but is deeply entangled with another component (e.g., a test).
   - If the learning progress continues tracking data even when disabled.
 - If the component is straightforward, this section may be omitted.
 
-### Integrated Services
+### Integrated components
 
-- List all services this component employs.
+- List all components this component employs.
     - Provide a brief description of their functionalities.
     - Link to their respective PRIVACY.md files (if available).
 - To organize these references:
