@@ -33,7 +33,7 @@ use LogicException;
 class Renderer extends AbstractComponentRenderer
 {
     public const string COOKIE_NAME_SLATES_ENGAGED = 'il_mb_slates';
-    public const string MATHJAX_DISABLING_CLASS = 'tex2jax_ignore';
+    public const string MATHJAX_DISABLING_CLASS = 'tex2jax_ignore_default';
 
     /**
      * @inheritdoc
