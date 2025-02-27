@@ -432,11 +432,12 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
             )->submit()->toToolbar();
 
             $ilToolbar->addSeparator();
-
+            /*
             $this->gui->button(
                 $this->lng->txt("import"),
                 "importQuestions"
             )->submit()->toToolbar();
+            */
         }
 
         $table_gui = new ilSurveyQuestionsTableGUI($this, 'questions', $this->checkPermissionBool('write'));

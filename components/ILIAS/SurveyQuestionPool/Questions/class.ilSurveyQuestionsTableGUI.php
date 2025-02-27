@@ -94,7 +94,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
 
             $this->addMultiCommand('copy', $this->lng->txt('copy'));
             $this->addMultiCommand('move', $this->lng->txt('move'));
-            $this->addMultiCommand('exportQuestion', $this->lng->txt('export'));
+            #$this->addMultiCommand('exportQuestion', $this->lng->txt('export'));
             $this->addMultiCommand('deleteQuestions', $this->lng->txt('delete'));
 
             if (count($clip_questions) > 0) {
