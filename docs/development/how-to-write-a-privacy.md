@@ -39,7 +39,7 @@ To extend or add the privacy documentation, base your Pull Request on the follow
   - Ensure that references are listed in the same order as the tabs.
 -	The PRIVACY.md files do **not** cover issues arising from **user-generated content**.
 -	If your component makes use of another component that does not yet have a PRIVACY.md file,  list it anyway to help identify gaps.
-- **Example**: The HTML Learning Module component employs the following components (please refer to their respective PRIVACY.md files):
+- **Example**: The HTML Learning Module employs the following components (please refer to their respective PRIVACY.md files):
   - Learning Progress
   - Metadata
   - Object
@@ -77,7 +77,7 @@ To extend or add the privacy documentation, base your Pull Request on the follow
 
 ## 4 Next steps » Submitting PRIVACY.md for review
 
-Once you have outlined the necessary details using this template, you may choose to submit your PRIVACY.md for review by technical editors or the SIG Law & E-Learning. The can assist with:
+Once you have outlined the necessary details using this template, you may choose to submit your PRIVACY.md for review by technical editors or the SIG Law & E-Learning. They can assist with:
   -	Polishing the English for clarity and consistency.
   -	Ensuring alignment with other PRIVACY.md files.
   -	Improving overall intelligibility.
