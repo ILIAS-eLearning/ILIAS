@@ -388,7 +388,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         foreach ($presentations as $presentation) {
             $this->ctrl->setParameter($this, 'presentation', $presentation);
             $this->addPresentation(
-                $this->lng->txt('pd_presentation_mode_' . $presentation),
+                $this->ui->renderer()->render($this->ui->factory()->symbol()->glyph()->{$presentation . 'View'}()),
                 $this->ctrl->getLinkTarget($this, 'changePDItemPresentation'),
                 $presentation === $this->viewSettings->getEffectivePresentationMode()
             );
