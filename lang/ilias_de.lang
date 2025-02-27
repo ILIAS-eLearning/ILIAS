@@ -16701,8 +16701,6 @@ survey#:#survey_previous#:#← Zurück
 survey#:#survey_question_editor#:#Listenansicht
 survey#:#survey_question_obligatory#:#(Diese Frage ist eine Pflichtfrage. Sie muss beantwortet werden!)
 survey#:#survey_question_pool#:#Fragenpool
-survey#:#survey_question_pool_export_legacy_export_label#:#als Fragen-XML
-survey#:#survey_question_pool_export_legacy_export_type#:#Fragen-XML
 survey#:#survey_question_pool_title#:#Pool-Titel
 survey#:#survey_question_pool_usage#:#Fragenpool verwenden
 survey#:#survey_question_pool_usage_active#:#Fragen optional aus Pool hinzufügen

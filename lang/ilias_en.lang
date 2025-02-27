@@ -16701,8 +16701,6 @@ survey#:#survey_previous#:#<< Previous
 survey#:#survey_question_editor#:#List View
 survey#:#survey_question_obligatory#:#This question is compulsory. You must answer the question!
 survey#:#survey_question_pool#:#Question Pool
-survey#:#survey_question_pool_export_legacy_export_label#:#as Question XML
-survey#:#survey_question_pool_export_legacy_export_type#:#Question XML
 survey#:#survey_question_pool_title#:#Pool Title
 survey#:#survey_question_pool_usage#:#Use Question Pool
 survey#:#survey_question_pool_usage_active#:#Questions created in survey or re-used from pool
