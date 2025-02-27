@@ -315,57 +315,61 @@ class ilTemplate extends HTML_Template_ITX
             );
     }
 
+
+    protected function getCurrentSkin(): ?string
+    {
+        // use ilStyleDefinition instead of account to get the current skin
+        return ilStyleDefinition::getCurrentSkin();
+    }
+
+    protected function getCurrentStyle(): ?string
+    {
+        return ilStyleDefinition::getCurrentStyle();
+    }
+
+    protected function fileExistsInSkin(string $path): bool
+    {
+        return file_exists($path);
+    }
+
     /**
      * @throws ilSystemStyleException
      */
     protected function getTemplatePath(string $a_tplname, string $a_in_module = null): string
     {
-        $fname = "";
-        if (strpos($a_tplname, "/") === false) {
-            $module_path = "";
+        $ilias_root = realpath(__DIR__ . '/../../../../') . '/';
 
-            if ($a_in_module !== "") {
-                $module_path = $a_in_module . "/";
-            }
-
-            // use ilStyleDefinition instead of account to get the current skin
-            if (ilStyleDefinition::getCurrentSkin() !== "default") {
-                $style = ilStyleDefinition::getCurrentStyle();
-
-                $fname = "./Customizing/global/skin/" .
-                    ilStyleDefinition::getCurrentSkin() . "/" . $style . "/" . $module_path
-                    . basename($a_tplname);
-
-                if ($fname === "" || !file_exists($fname)) {
-                    $fname = "./Customizing/global/skin/" .
-                        ilStyleDefinition::getCurrentSkin() . "/" . $module_path . basename($a_tplname);
-                }
-            }
-
-            if ($fname === "" || !file_exists($fname)) {
-                $fname = "./" . $module_path . "templates/default/" . basename($a_tplname);
-            }
-        } elseif (strpos($a_tplname, "components/ILIAS/UI") === 0) {
-            if (class_exists("ilStyleDefinition") // for testing
-                && ilStyleDefinition::getCurrentSkin() != "default") {
-                $style = ilStyleDefinition::getCurrentStyle();
-                $skin = ilStyleDefinition::getCurrentSkin();
-                $base_path = "./Customizing/global/skin/";
-                $ui_path = "/" . str_replace("components/ILIAS/UI/src/templates/default", "UI", $a_tplname);
-                $fname = $base_path . ilStyleDefinition::getCurrentSkin() . "/" . $style . "/" . $ui_path;
-
-                if (!file_exists($fname)) {
-                    $fname = $base_path . $skin . "/" . $ui_path;
-                }
-            }
-
-            if ($fname == "" || !file_exists($fname)) {
-                $fname = $a_tplname;
-            }
-        } else {
-            $fname = $a_tplname;
+        if (str_starts_with($a_in_module, $ilias_root)) {
+            $a_in_module = str_replace($ilias_root, '', $a_in_module);
         }
-        return __DIR__ . '/../../../../' . $fname;
+
+        if (str_ends_with($a_in_module, '/')) {
+            $a_in_module = rtrim($a_in_module, '/');
+        }
+
+        if (str_starts_with($a_tplname, 'components/ILIAS/UI/')) {
+            $a_in_module = 'components/ILIAS/UI/src';
+            $a_tplname = str_replace('components/ILIAS/UI/src/templates/default/', '', $a_tplname);
+        }
+
+        $base_path = $ilias_root;
+        $default = $base_path . $a_in_module . '/templates/default/' . $a_tplname;
+
+        $skin = $this->getCurrentSkin();
+        if ($skin === 'default') {
+            return $default;
+        }
+
+        $style = $this->getCurrentStyle();
+        $base_path .= 'public/Customizing/skin/' . $skin . '/' . $style;
+
+        if ($a_in_module === 'components/ILIAS/UI/src') {
+            $a_in_module = 'UI';
+        }
+
+        $from_skin = $base_path . '/' . $a_in_module . '/' . $a_tplname;
+
+        return $this->fileExistsInSkin($from_skin) ? $from_skin : $default;
     }
 
     /**
