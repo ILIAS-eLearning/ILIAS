@@ -349,6 +349,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         // fau: testNav - always use edit mode, except for fixed answer
         if ($this->isParticipantsAnswerFixed($questionId)) {
             $presentationMode = ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW;
+            $s = $this->object->getMainSettings()->getQuestionBehaviourSettings();
             if ($s->getInstantFeedbackGenericEnabled()
                 || $s->getInstantFeedbackPointsEnabled()
                 || $s->getInstantFeedbackSolutionEnabled()
