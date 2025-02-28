@@ -196,4 +196,41 @@ class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
             'value' => [ilDBConstants::T_TEXT, $defaultImageFileName],
         ]);
     }
+
+    public function step_10(): void
+    {
+        if ($this->db->tableExists('il_cert_user_cert') &&
+            $this->db->tableColumnExists('il_cert_user_cert', 'thumbnail_image_path')) {
+            $this->db->renameTableColumn(
+                'il_cert_user_cert',
+                'thumbnail_image_path',
+                'tile_image_path'
+            );
+        }
+        if ($this->db->tableExists('il_cert_template') &&
+            $this->db->tableColumnExists('il_cert_template', 'thumbnail_image_path')) {
+            $this->db->renameTableColumn(
+                'il_cert_template',
+                'thumbnail_image_path',
+                'tile_image_path'
+            );
+        }
+
+        if ($this->db->tableExists('il_cert_user_cert') &&
+            $this->db->tableColumnExists('il_cert_user_cert', 'thumbnail_image_ident')) {
+            $this->db->renameTableColumn(
+                'il_cert_user_cert',
+                'thumbnail_image_ident',
+                'tile_image_ident'
+            );
+        }
+        if ($this->db->tableExists('il_cert_template') &&
+            $this->db->tableColumnExists('il_cert_template', 'thumbnail_image_ident')) {
+            $this->db->renameTableColumn(
+                'il_cert_template',
+                'thumbnail_image_ident',
+                'tile_image_ident'
+            );
+        }
+    }
 }

@@ -86,9 +86,9 @@ class ilCertificateCloneAction
                 time(),
                 $template->isCurrentlyActive(),
                 $template->getBackgroundImagePath(),
-                $template->getThumbnailImagePath(),
+                $template->getTileImagePath(),
                 $template->getBackgroundImageIdentification(),
-                $template->getThumbnailImageIdentification()
+                $template->getTileImageIdentification()
             );
 
             $this->templateRepository->save($newTemplate);

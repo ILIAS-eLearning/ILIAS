@@ -59,7 +59,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
                         123_456_789,
                         true,
                         '/some/where/background.jpg',
-                        '/some/where/thumbnail.svg',
+                        '/some/where/tile_image.svg',
                         '-',
                         '-',
                         1
@@ -75,7 +75,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
                         123_456_789,
                         true,
                         '/some/where/background.jpg',
-                        '/some/where/thumbnail.svg',
+                        '/some/where/tile_image.svg',
                         '-',
                         '-',
                         5
@@ -171,7 +171,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
                         123_456_789,
                         true,
                         '/some/where/background.jpg',
-                        '/some/where/thumbnail.svg',
+                        '/some/where/tile_image.svg',
                         '-',
                         '-',
                         1
@@ -187,7 +187,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
                         123_456_789,
                         true,
                         '/some/where/background.jpg',
-                        '/some/where/thumbnail.svg',
+                        '/some/where/tile_image.svg',
                         '-',
                         '-',
                         5
@@ -294,7 +294,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
                         123_456_789,
                         true,
                         '/some/where/background.jpg',
-                        '/some/where/thumbnail.svg',
+                        '/some/where/tile_image.svg',
                         '-',
                         '-',
                         1
@@ -310,7 +310,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
                         123_456_789,
                         true,
                         '/some/where/background.jpg',
-                        '/some/where/thumbnail.svg',
+                        '/some/where/tile_image.svg',
                         '-',
                         '-',
                         5
@@ -377,9 +377,9 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
                     'created_timestamp' => 123_456_789,
                     'currently_active' => true,
                     'background_image_path' => '/some/where/background.jpg',
-                    'thumbnail_image_path' => 'some/path/test.svg',
+                    'tile_image_path' => 'some/path/test.svg',
                     'background_image_ident' => '-',
-                    'thumbnail_image_ident' => '-'
+                    'tile_image_ident' => '-'
                 ],
                 [
                     'id' => 30,
@@ -393,9 +393,9 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
                     'created_timestamp' => 123_456_789,
                     'currently_active' => false,
                     'background_image_path' => '/some/where/else/background.jpg',
-                    'thumbnail_image_path' => 'some/path/test.svg',
+                    'tile_image_path' => 'some/path/test.svg',
                     'background_image_ident' => '-',
-                    'thumbnail_image_ident' => '-'
+                    'tile_image_ident' => '-'
                 ]
             ]],
         ];
@@ -479,7 +479,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
                         123_456_789,
                         true,
                         '/some/where/background.jpg',
-                        '/some/where/thumbnail.svg',
+                        '/some/where/tile_image.svg',
                         '-',
                         '-',
                         1
@@ -495,7 +495,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
                         123_456_789,
                         true,
                         '/some/where/background.jpg',
-                        '/some/where/thumbnail.svg',
+                        '/some/where/tile_image.svg',
                         '-',
                         '-',
                         5

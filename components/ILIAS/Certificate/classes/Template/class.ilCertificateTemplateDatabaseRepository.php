@@ -70,15 +70,15 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
             'currently_active' => ['integer', (int) $certificateTemplate->isCurrentlyActive()],
             'deleted' => ['integer', (int) $certificateTemplate->isDeleted()],
             'background_image_ident' => [ilDBConstants::T_TEXT, $certificateTemplate->getBackgroundImageIdentification()],
-            'thumbnail_image_ident' => [ilDBConstants::T_TEXT, $certificateTemplate->getThumbnailImageIdentification()]
+            'tile_image_ident' => [ilDBConstants::T_TEXT, $certificateTemplate->getTileImageIdentification()]
         ];
 
         if (
             $this->database->tableColumnExists('il_cert_user_cert', 'background_image_path') &&
-            $this->database->tableColumnExists('il_cert_user_cert', 'thumbnail_image_path')
+            $this->database->tableColumnExists('il_cert_user_cert', 'tile_image_path')
         ) {
             $columns['background_image_path'] = [ilDBConstants::T_TEXT, $certificateTemplate->getBackgroundImagePath()];
-            $columns['thumbnail_image_path'] = [ilDBConstants::T_TEXT, $certificateTemplate->getThumbnailImagePath()];
+            $columns['tile_image_path'] = [ilDBConstants::T_TEXT, $certificateTemplate->getTileImagePath()];
         }
 
         $this->database->insert(self::TABLE_NAME, $columns);
@@ -453,7 +453,7 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
 
         $result = $this->database->queryF(
             'SELECT EXISTS(SELECT 1 FROM ' . self::TABLE_NAME . ' WHERE 
-            (background_image_ident = %s OR thumbnail_image_ident = %s)
+            (background_image_ident = %s OR tile_image_ident = %s)
              AND currently_active = 1) AS does_exist',
             [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
             [$relative_image_identification, $relative_image_identification]
@@ -487,9 +487,9 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
             (int) $row['created_timestamp'],
             (bool) $row['currently_active'],
             (string) ($row['background_image_path'] ?? ''),
-            (string) ($row['thumbnail_image_path'] ?? ''),
+            (string) ($row['tile_image_path'] ?? ''),
             (string) ($row['background_image_ident'] ?? ''),
-            (string) ($row['thumbnail_image_ident'] ?? ''),
+            (string) ($row['tile_image_ident'] ?? ''),
             isset($row['id']) ? (int) $row['id'] : null
         );
     }

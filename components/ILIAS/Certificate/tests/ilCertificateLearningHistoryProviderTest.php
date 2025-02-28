@@ -138,7 +138,7 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
                             true,
                             new CertificateId('11111111-2222-3333-4444-555555555555'),
                             '/some/where/background_1.jpg',
-                            '/some/where/else/thumbnail_1.jpg',
+                            '/some/where/else/tile_image_1.jpg',
                             '',
                             '',
                             40
@@ -166,7 +166,7 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
                             '',
                             '',
                             '/some/where/background_1.jpg',
-                            '/some/where/else/thumbnail_1.jpg',
+                            '/some/where/else/tile_image_1.jpg',
                             50
                         ),
                         'Test Title',

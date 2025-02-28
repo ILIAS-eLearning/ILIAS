@@ -163,19 +163,19 @@ class ilUserCertificateGUI
             $uiComponents[] = $sortViewControl;
 
             foreach ($data['items'] as $certificateData) {
-                $thumbnail_image_identification = $certificateData['thumbnail_image_ident'] ?? '';
+                $tile_image_identification = $certificateData['tile_image_ident'] ?? '';
                 $imagePath = '';
-                if ($thumbnail_image_identification === '' || $thumbnail_image_identification === '-') {
-                    $thumbnail_image_identification = $certificateData['thumbnail_image_path'] ?? '';
-                    if ($thumbnail_image_identification !== '' && $this->filesystem->has($thumbnail_image_identification)) {
+                if ($tile_image_identification === '' || $tile_image_identification === '-') {
+                    $tile_image_identification = $certificateData['tile_image_path'] ?? '';
+                    if ($tile_image_identification !== '' && $this->filesystem->has($tile_image_identification)) {
                         $imagePath = ilWACSignedPath::signFile(
-                            ilFileUtils::getWebspaceDir() . $thumbnail_image_identification
+                            ilFileUtils::getWebspaceDir() . $tile_image_identification
                         );
                     }
                 } else {
-                    $thumb_rid = $this->irss->manage()->find($thumbnail_image_identification);
-                    if ($thumb_rid instanceof ResourceIdentification) {
-                        $imagePath = $this->irss->consume()->src($thumb_rid)->getSrc(true);
+                    $tile_image_rid = $this->irss->manage()->find($tile_image_identification);
+                    if ($tile_image_rid instanceof ResourceIdentification) {
+                        $imagePath = $this->irss->consume()->src($tile_image_rid)->getSrc(true);
                     }
                 }
 

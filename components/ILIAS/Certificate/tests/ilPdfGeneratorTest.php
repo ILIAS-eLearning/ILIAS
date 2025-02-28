@@ -50,7 +50,7 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
             true,
             new CertificateId('11111111-2222-3333-4444-555555555555'),
             '/some/where/background.jpg',
-            '/some/where/thumbnail.jpg',
+            '/some/where/tile_image.jpg',
             '',
             '',
             300
@@ -129,7 +129,7 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
             true,
             new CertificateId('11111111-2222-3333-4444-555555555555'),
             '/some/where/background.jpg',
-            '/some/where/thumbnail.jpg',
+            '/some/where/tile_image.jpg',
             '',
             '',
             300

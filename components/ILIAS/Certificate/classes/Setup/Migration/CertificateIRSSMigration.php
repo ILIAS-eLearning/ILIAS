@@ -76,6 +76,25 @@ class CertificateIRSSMigration implements Migration
      */
     public function step(Environment $environment): void
     {
+        if (
+            $this->db->tableColumnExists(self::TABLE_USER_CERTIFICATES, 'thumbnail_image_path') ||
+            $this->db->tableColumnExists(self::TABLE_USER_CERTIFICATES, 'thumbnail_image_ident') ||
+            $this->db->tableColumnExists(self::TABLE_TEMPLATE_CERTIFICATES, 'thumbnail_image_path') ||
+            $this->db->tableColumnExists(self::TABLE_TEMPLATE_CERTIFICATES, 'thumbnail_image_ident') ||
+            !$this->db->tableColumnExists(self::TABLE_USER_CERTIFICATES, 'tile_image_path') ||
+            !$this->db->tableColumnExists(self::TABLE_USER_CERTIFICATES, 'tile_image_ident') ||
+            !$this->db->tableColumnExists(self::TABLE_TEMPLATE_CERTIFICATES, 'tile_image_path') ||
+            !$this->db->tableColumnExists(self::TABLE_TEMPLATE_CERTIFICATES, 'tile_image_ident')
+        ) {
+            $this->error(
+                'The columns thumbnail_image_path and thumbnail_image_ident have to be changed to tile_image_path ' .
+                'and tile_image_ident in the tables il_cert_user_cert and il_cert_template.' . PHP_EOL .
+                'Please run Setup to update your database schema.' . PHP_EOL .
+                'This migration will not be executed.'
+            );
+            return;
+        }
+
         $this->migrateGlobalCertificateBackgroundImage(true);
         $remaining_paths = $this->stepCertificates(self::NUMBER_OF_PATHS_PER_STEP, self::TABLE_TEMPLATE_CERTIFICATES);
         if ($remaining_paths > 0) {
@@ -92,8 +111,8 @@ class CertificateIRSSMigration implements Migration
                      SELECT id, background_image_path AS path FROM ' . $this->db->quoteIdentifier($table) . '
                             WHERE background_image_ident IS NULL OR background_image_ident = \'\'
                      UNION ALL
-                     SELECT id, thumbnail_image_path AS path FROM ' . $this->db->quoteIdentifier($table) . '
-                            WHERE thumbnail_image_ident IS NULL OR thumbnail_image_ident = \'\'
+                     SELECT id, tile_image_path AS path FROM ' . $this->db->quoteIdentifier($table) . '
+                            WHERE tile_image_ident IS NULL OR tile_image_ident = \'\'
                  ) AS t
             GROUP BY path
             HAVING path IS NOT NULL AND path != \'\'
@@ -219,7 +238,7 @@ class CertificateIRSSMigration implements Migration
         );
         $query = "
                 UPDATE {$this->db->quoteIdentifier($table)}
-                SET thumbnail_image_ident = %s WHERE thumbnail_image_path = %s;";
+                SET tile_image_ident = %s WHERE tile_image_path = %s;";
         $this->db->manipulateF(
             $query,
             [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
@@ -236,7 +255,7 @@ class CertificateIRSSMigration implements Migration
             );
             $query = "
                 UPDATE {$this->db->quoteIdentifier(self::TABLE_USER_CERTIFICATES)}
-                SET thumbnail_image_ident = %s WHERE thumbnail_image_path = %s;";
+                SET tile_image_ident = %s WHERE tile_image_path = %s;";
             $this->db->manipulateF(
                 $query,
                 [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
@@ -255,7 +274,7 @@ class CertificateIRSSMigration implements Migration
             );
             $query = "
                     UPDATE {$this->db->quoteIdentifier($table)}
-                    SET thumbnail_image_path = NULL WHERE thumbnail_image_path = %s;";
+                    SET tile_image_path = NULL WHERE tile_image_path = %s;";
             $this->db->manipulateF(
                 $query,
                 [ilDBConstants::T_TEXT],
@@ -272,7 +291,7 @@ class CertificateIRSSMigration implements Migration
                 );
                 $query = "
                     UPDATE {$this->db->quoteIdentifier(self::TABLE_USER_CERTIFICATES)}
-                    SET thumbnail_image_path = NULL WHERE thumbnail_image_path = %s;";
+                    SET tile_image_path = NULL WHERE tile_image_path = %s;";
                 $this->db->manipulateF(
                     $query,
                     [ilDBConstants::T_TEXT],
@@ -284,6 +303,7 @@ class CertificateIRSSMigration implements Migration
 
     public function getRemainingAmountOfSteps(): int
     {
+        return 1;
         $paths = $this->migrateGlobalCertificateBackgroundImage(false);
 
         $result = $this->db->query(
@@ -295,14 +315,14 @@ class CertificateIRSSMigration implements Migration
                             SELECT background_image_path AS path FROM il_cert_user_cert
                             WHERE background_image_ident IS NULL OR background_image_ident = \'\'
                             UNION ALL
-                            SELECT thumbnail_image_path AS path FROM il_cert_user_cert
-                            WHERE thumbnail_image_ident IS NULL OR thumbnail_image_ident = \'\'
+                            SELECT tile_image_path AS path FROM il_cert_user_cert
+                            WHERE tile_image_ident IS NULL OR tile_image_ident = \'\'
                             UNION ALL
                             SELECT background_image_path AS path FROM il_cert_template
                             WHERE background_image_ident IS NULL OR background_image_ident = \'\'
                             UNION ALL
-                            SELECT thumbnail_image_path AS path FROM il_cert_template
-                            WHERE thumbnail_image_ident IS NULL OR thumbnail_image_ident = \'\'
+                            SELECT tile_image_path AS path FROM il_cert_template
+                            WHERE tile_image_ident IS NULL OR tile_image_ident = \'\'
                         ) AS t
                         GROUP BY path
                         HAVING path IS NOT NULL AND path != \'\'
