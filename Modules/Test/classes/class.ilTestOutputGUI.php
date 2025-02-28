@@ -347,6 +347,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         );
 
         // fau: testNav - always use edit mode, except for fixed answer
+        $instant_response = false;
         if ($this->isParticipantsAnswerFixed($questionId)) {
             $presentationMode = ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW;
             $s = $this->object->getMainSettings()->getQuestionBehaviourSettings();
@@ -354,15 +355,13 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
                 || $s->getInstantFeedbackPointsEnabled()
                 || $s->getInstantFeedbackSolutionEnabled()
                 || $s->getInstantFeedbackSpecificEnabled()) {
-                $instantResponse = true;
+                $instant_response = true;
             }
         } else {
             $presentationMode = ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT;
             // #37025 don't show instant response if a request for it should fix the answer and answer is not yet fixed
-            if ($this->object->isInstantFeedbackAnswerFixationEnabled()) {
-                $instantResponse = false;
-            } else {
-                $instantResponse = $this->getInstantResponseParameter();
+            if (!$this->object->isInstantFeedbackAnswerFixationEnabled()) {
+                $instant_response = $this->getInstantResponseParameter();
             }
         }
         // fau.
@@ -413,7 +412,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
                 // fau: testNav - enable navigation toolbar in edit mode
                 $navigationToolbarGUI->setDisabledStateEnabled(false);
                 // fau.
-                $this->showQuestionEditable($questionGui, $formAction, $isQuestionWorkedThrough, $instantResponse);
+                $this->showQuestionEditable($questionGui, $formAction, $isQuestionWorkedThrough, $instant_response);
 
                 break;
 
@@ -423,7 +422,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
                     $this->populateQuestionOptionalMessage();
                 }
 
-                $this->showQuestionViewable($questionGui, $formAction, $isQuestionWorkedThrough, $instantResponse);
+                $this->showQuestionViewable($questionGui, $formAction, $isQuestionWorkedThrough, $instant_response);
 
                 break;
 
@@ -438,7 +437,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         $this->populateQuestionNavigation($sequence_element, $isNextPrimary);
         // fau.
 
-        if ($instantResponse) {
+        if ($instant_response) {
             // fau: testNav - always use authorized solution for instant feedback
             $this->populateInstantResponseBlocks(
                 $questionGui,
