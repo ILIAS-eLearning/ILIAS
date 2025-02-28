@@ -476,7 +476,6 @@ class ilAssQuestionSkillAssignmentsGUI
 
         $form->setManipulationEnabled(
             $this->isAssignmentEditingEnabled()
-            && $question->getOriginalId() === null
         );
 
         $form->build();

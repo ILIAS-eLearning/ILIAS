@@ -217,7 +217,7 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
             ilAssQuestionSkillAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGN_PROPERTIES_FORM
         );
 
-        if ($this->isManipulationAllowedForQuestion($assignment->getQuestionId())) {
+        if ($this->manipulationsEnabled) {
             $label = $this->lng->txt('tst_edit_competence_assign');
         } else {
             $label = $this->lng->txt('tst_view_competence_assign');
