@@ -125,61 +125,19 @@ class ilTestEvaluationFactory
 
     public function getCorrectionsEvaluationData(): ilTestEvaluationData
     {
-        $eval_data_rows = $this->queryEvaluationData($this->getAccessFilteredActiveIds());
-        $scoring_settings = $this->getPassScoringSettings();
-        $participants = [];
-        $current_user = null;
-        $current_attempt = null;
-
-        foreach ($eval_data_rows as $row) {
-            if ($current_user !== $row['active_fi']) {
-                $current_user = $row['active_fi'];
-                $current_attempt = null;
-
-                $user_eval_data = new ilTestEvaluationUserData($scoring_settings);
-
-                $user_eval_data->setName(
-                    $this->buildName($row['usr_id'], $row['firstname'], $row['lastname'], $row['title'])
-                );
-
-                if ($row['login'] !== null) {
-                    $user_eval_data->setLogin($row['login']);
-                }
-                if ($row['usr_id'] !== null) {
-                    $user_eval_data->setUserID($row['usr_id']);
-                }
-                $user_eval_data->setSubmitted((bool) $row['submitted']);
-                $user_eval_data->setLastFinishedPass($row['last_finished_pass']);
-                $user_eval_data->setFirstVisit(-1);
-                $user_eval_data->setLastVisit(-1);
-            }
-
-            if ($current_attempt !== $row['pass']) {
-                $current_attempt = $row['pass'];
-                $attempt = new \ilTestEvaluationPassData();
-                $attempt->setPass($row['pass']);
-                $attempt->setReachedPoints($row['points']);
-            }
-
-            if ($row['question_fi'] !== null) {
-                $attempt->addAnsweredQuestion(
-                    $row["question_fi"],
-                    $row["qpl_maxpoints"],
-                    $row["result_points"],
-                    (bool) $row['answered'],
-                    null,
-                    $row['manual']
-                );
-            }
-
-            $user_eval_data->addPass($row['pass'], $attempt);
-            $participants[$row['active_fi']] = $user_eval_data;
-        }
-
-        return new ilTestEvaluationData($participants);
+        return $this->buildEvaluationData(false);
     }
 
     public function getEvaluationData(): ilTestEvaluationData
+    {
+        return $this->buildEvaluationData(true);
+    }
+
+    /**
+     * @param bool $detailed If detailed is false the evaluation data will not contain the participant's visit times
+     *                          and only the answered questions will be included in the pass data.
+     */
+    private function buildEvaluationData(bool $detailed): ilTestEvaluationData
     {
         $eval_data_rows = $this->queryEvaluationData($this->getAccessFilteredActiveIds());
         $scoring_settings = $this->getPassScoringSettings();
@@ -207,9 +165,11 @@ class ilTestEvaluationFactory
                 $user_eval_data->setSubmitted((bool) $row['submitted']);
                 $user_eval_data->setLastFinishedPass($row['last_finished_pass']);
 
-                $visitingTime = $this->getVisitTimeOfParticipant($row['active_id']);
-                $user_eval_data->setFirstVisit($visitingTime['firstvisit']);
-                $user_eval_data->setLastVisit($visitingTime['lastvisit']);
+                if ($detailed) {
+                    $visitingTime = $this->getVisitTimeOfParticipant($row['active_id']);
+                    $user_eval_data->setFirstVisit($visitingTime['firstvisit']);
+                    $user_eval_data->setLastVisit($visitingTime['lastvisit']);
+                }
             }
 
             if ($current_attempt !== $row['pass']) {
@@ -219,15 +179,17 @@ class ilTestEvaluationFactory
                 $attempt->setReachedPoints($row['points']);
                 $attempt->setObligationsAnswered((bool) $row['obligations_answered']);
 
-                if ($row['questioncount'] == 0) {
-                    list($count, $points) = array_values(
-                        $this->getQuestionCountAndPointsForPassOfParticipant($row['active_id'], $row['pass'])
-                    );
-                    $attempt->setMaxPoints($points);
-                    $attempt->setQuestionCount($count);
-                } else {
-                    $attempt->setMaxPoints($row['maxpoints']);
-                    $attempt->setQuestionCount($row['questioncount']);
+                if ($detailed) {
+                    if ($row['questioncount'] == 0) {
+                        list($count, $points) = array_values(
+                            $this->getQuestionCountAndPointsForPassOfParticipant($row['active_id'], $row['pass'])
+                        );
+                        $attempt->setMaxPoints($points);
+                        $attempt->setQuestionCount($count);
+                    } else {
+                        $attempt->setMaxPoints($row['maxpoints']);
+                        $attempt->setQuestionCount($row['questioncount']);
+                    }
                 }
 
                 $attempt->setNrOfAnsweredQuestions($row['answeredquestions']);
@@ -253,10 +215,14 @@ class ilTestEvaluationFactory
             $participants[$row['active_id']] = $user_eval_data;
         }
 
-        $evaluation_data = $this->addQuestionsToParticipantPasses(
-            new ilTestEvaluationData($participants)
-        );
-        return $this->addMarksToParticipants($evaluation_data);
+        if ($detailed) {
+            $evaluation_data = $this->addQuestionsToParticipantPasses(
+                new ilTestEvaluationData($participants)
+            );
+            return $this->addMarksToParticipants($evaluation_data);
+        } else {
+            return new ilTestEvaluationData($participants);
+        }
     }
 
 
