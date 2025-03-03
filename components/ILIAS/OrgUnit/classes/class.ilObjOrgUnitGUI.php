@@ -25,7 +25,7 @@ use ILIAS\OrgUnit\Provider\OrgUnitToolProvider;
  * @author            : Oskar Truffer <ot@studer-raimann.ch>
  * @author            : Martin Studer <ms@studer-raimann.ch>
  * @author            : Stefan Wanzenried <sw@studer-raimann.ch>
- * @ilCtrl_IsCalledBy ilObjOrgUnitGUI: ilAdministrationGUI, ilObjPluginDispatchGUI
+ * @ilCtrl_IsCalledBy ilObjOrgUnitGUI: ilAdministrationGUI, ilObjPluginDispatchGUI, ilRepositoryGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilPermissionGUI, ilPageObjectGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilObjUserGUI, ilObjUserFolderGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilInfoScreenGUI, ilObjStyleSheetGUI
@@ -288,6 +288,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                     case 'render':
                     case 'cancel':
                     case 'cancelDelete':
+                    case 'return':
                         $this->view();
                         break;
                     case 'performPaste':
@@ -634,7 +635,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
             $this->tabs_gui->addSubTab(
                 "import",
                 $this->lng->txt("import"),
-                $this->ctrl->getLinkTargetByClass("ilOrgUnitSimpleImportGUI", "chooseImport")
+                $this->ctrl->getLinkTargetByClass([self::class, ilOrgUnitSimpleImportGUI::class], "chooseImport")
             );
         }
     }
