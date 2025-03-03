@@ -408,9 +408,12 @@ class ilObjOrgUnitGUI extends ilContainerGUI
         $this->tabs_gui->removeSubTab("ordering"); // Mantis 0014728
     }
 
-    public function showPossibleSubObjects(): void
+    protected function showPossibleSubObjects(): void
     {
         $subtypes = $this->getCreatableObjectTypes();
+        if ($subtypes === []) {
+            return;
+        }
         $gui = new ILIAS\ILIASObject\Creation\AddNewItemGUI(
             [$this->buildGroup(
                 self::class,
