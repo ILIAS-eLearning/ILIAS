@@ -81,6 +81,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
 
         $this->lng = $dic['lng'];
         $this->lng->loadLanguageModule("orgu");
+        $this->lng->loadLanguageModule("content");
 
         $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(
             OrgUnitToolProvider::SHOW_ORGU_TREE,
@@ -354,6 +355,12 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                         break;
                     case 'cancelMoveLink':
                         $this->cancelMoveLinkObject();
+                        break;
+                    case 'copy':
+                    case 'link':
+                    case 'editAvailabilityPeriod':
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("cont_operation_not_allowed"), true);
+                        $this->view();
                         break;
                 }
                 break;
