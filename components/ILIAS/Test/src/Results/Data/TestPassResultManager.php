@@ -125,13 +125,13 @@ class TestPassResultManager
             return null;
         }
 
-        $object = $this->buildTestPassResultObject($test_result, $test_obj_id);
-        $callback = function () use ($object) {
+        $object = $this->buildTestPassResultObject($active_id, $test_result,$test_obj_id);
+        $callback = function () use ($object, $pass) {
             $this->db->replace(
                 'tst_pass_result',
                 [
                     'active_fi' => ['integer', $object->getActiveId()],
-                    'pass' => ['integer', $object->getPass()]
+                    'pass' => ['integer', $pass]
                 ],
                 [
                     'points' => ['float', $object->getReachedPoints()],
@@ -174,7 +174,7 @@ class TestPassResultManager
     private function fetchTestResult(int $active_id, int $pass): ?array
     {
         return $this->db->fetchAssoc($this->db->queryF(
-            "SELECT active_fi, pass, SUM(points) reached_points, SUM(hint_count) AS hint_count, 
+            "SELECT pass, SUM(points) AS points, SUM(hint_count) AS hint_count, 
                     SUM(hint_points) AS hint_points, COUNT(DISTINCT(question_fi)) answeredquestions
                     FROM tst_test_result
                     WHERE active_fi = %s AND pass = %s",
@@ -199,8 +199,9 @@ class TestPassResultManager
         return $object->withPassedOnce($is_passed || $passed_once_before);
     }
 
-    private function buildTestPassResultObject(array $test_result, int $test_obj_id): TestPassResult
+    private function buildTestPassResultObject(int $active_id, array $test_result, ?int $test_obj_id): TestPassResult
     {
+        $test_result['active_fi'] = $active_id;
         $object = $this->toTestPassResult($test_result);
         $additional_data = $this->fetchAdditionalTestData($object->getActiveId(), $object->getPass());
 
@@ -274,18 +275,18 @@ class TestPassResultManager
         }
 
         return new TestResult(
-            $row['active_id'],
+            $row['active_fi'],
             (int) $row['pass'],
-            (float) $row['max_points'] ?? 0.0,
-            (float) $row['reached_points'] ?? 0.0,
+            (float) ($row['max_points'] ?? 0.0),
+            (float) ($row['reached_points'] ?? 0.0),
             $row['mark_short'] ?? '',
             $row['mark_official'] ?? '',
-            (bool) $row['passed'] ?? false,
-            (bool) $row['failed'] ?? true,
-            (int) $row['timestamp'] ?? -1,
-            (int) $row['hint_count'] ?? 0,
-            (float) $row['hint_points'] ?? 0.0,
-            (bool) $row['passed_once'],
+            (bool) ($row['passed'] ?? false),
+            (bool) ($row['failed'] ?? true),
+            (int) ($row['timestamp'] ?? -1),
+            (int) ($row['hint_count'] ?? 0),
+            (float) ($row['hint_points'] ?? 0.0),
+            (bool) ($row['passed_once'] ?? false),
         );
     }
 
@@ -298,14 +299,14 @@ class TestPassResultManager
         return new TestPassResult(
             $row['active_fi'],
             (int) $row['pass'],
-            (float) $row['maxpoints'] ?? 0.0,
-            (float) $row['points'] ?? 0.0,
-            (int) $row['questioncount'] ?? 0,
-            (int) $row['answeredquestions'] ?? 0,
-            (int) $row['workingtime'] ?? 0,
-            (int) $row['tstamp'] ?? -1,
-            (int) $row['hint_count'] ?? 0,
-            (float) $row['hint_points'] ?? 0.0,
+            (float) ($row['maxpoints'] ?? 0.0),
+            (float) ($row['points'] ?? 0.0),
+            (int) ($row['questioncount'] ?? 0),
+            (int) ($row['answeredquestions'] ?? 0),
+            (int) ($row['workingtime'] ?? 0),
+            (int) ($row['tstamp'] ?? -1),
+            (int) ($row['hint_count'] ?? 0),
+            (float) ($row['hint_points'] ?? 0.0),
             $row['exam_id'] ?? '',
             $row['finalized_by'] ?? '',
         );
