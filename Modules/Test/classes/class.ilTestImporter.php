@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\ResourceStorage\Services as ResourceStorage;
+
 /**
  * Importer class for files
  *
@@ -34,12 +36,14 @@ class ilTestImporter extends ilXmlImporter
 
     private ilLogger $log;
     private ilDBInterface $db;
+    private ResourceStorage $irss;
 
     public function __construct()
     {
         global $DIC;
         $this->log = $DIC['ilLog'];
         $this->db = $DIC['ilDB'];
+        $this->irss = $DIC['resource_storage'];
 
         parent::__construct();
     }
@@ -121,7 +125,7 @@ class ilTestImporter extends ilXmlImporter
         $results_file_path = ilSession::get("tst_import_results_file");
         // import test results
         if ($results_file_path !== null && file_exists($results_file_path)) {
-            $results = new ilTestResultsImportParser($results_file_path, $new_obj, $this->db, $this->log);
+            $results = new ilTestResultsImportParser($results_file_path, $new_obj, $this->db, $this->log, $this->irss);
             $results->setQuestionIdMapping($a_mapping->getMappingsOfEntity('Modules/Test', 'quest'));
             $results->setSrcPoolDefIdMapping($a_mapping->getMappingsOfEntity('Modules/Test', 'rnd_src_pool_def'));
             $results->startParsing();

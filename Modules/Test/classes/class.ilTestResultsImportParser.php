@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\Filesystem\Stream\Stream;
+use ILIAS\ResourceStorage\Services as ResourceStorage;
+
 class ilTestResultsImportParser extends ilSaxParser
 {
     private $table;
@@ -27,6 +31,7 @@ class ilTestResultsImportParser extends ilSaxParser
     private bool $user_criteria_checked = false;
 
     protected $src_pool_def_id_mapping;
+    private string $import_directory;
 
     /**
     * Constructor
@@ -35,14 +40,15 @@ class ilTestResultsImportParser extends ilSaxParser
         ?string $a_xml_file,
         private ilObjTest $test_obj,
         private ilDBInterface $db,
-        private ilLogger $log
+        private ilLogger $log,
+        private ResourceStorage $irss
     ) {
         parent::__construct($a_xml_file, true);
         $this->table = '';
         $this->active_id_mapping = [];
         $this->question_id_mapping = [];
-        $this->user_criteria_checked = false;
         $this->src_pool_def_id_mapping = [];
+        $this->import_directory = dirname($a_xml_file);
     }
 
     /**
@@ -226,7 +232,7 @@ class ilTestResultsImportParser extends ilSaxParser
                             "solution_id" => array("integer", $next_id),
                             "active_fi" => array("integer", $this->active_id_mapping[$a_attribs['active_fi']]),
                             "question_fi" => array("integer", $this->question_id_mapping[$a_attribs['question_fi']]),
-                            "value1" => array("clob", (strlen($a_attribs['value1'])) ? $a_attribs['value1'] : null),
+                            "value1" => array("clob", $this->importParticipantsUploadedFiles($a_attribs)),
                             "value2" => array("clob", (strlen($a_attribs['value2'])) ? $a_attribs['value2'] : null),
                             "pass" => array("integer", $a_attribs['pass']),
                             "tstamp" => array("integer", $a_attribs['tstamp'])
@@ -312,5 +318,41 @@ class ilTestResultsImportParser extends ilSaxParser
         }
 
         return null;
+    }
+
+    /**
+     * @param array{value1: string, value2: string} $a_attribs
+     * @return string
+     */
+    private function importParticipantsUploadedFiles(array $a_attribs): ?string
+    {
+        ['value1' => $value1, 'value2' => $value2] = $a_attribs;
+
+        if ($value2 !== 'rid') {
+            return $value1 ?: null;
+        }
+
+        $resource_directory = "$this->import_directory/objects/resources/$value1";
+        $file_name = $this->getFirstFileName($resource_directory);
+        if (!is_string($file_name)) {
+            return $value1 ?: null;
+        }
+
+        $file_path = "$resource_directory/$file_name";
+        $new_rid = $this->irss->manage()->stream(
+            new Stream(fopen($file_path, 'rwb')),
+            new assFileUploadStakeholder(),
+            basename($file_path),
+        );
+        return $new_rid->serialize();
+    }
+
+    private function getFirstFileName(string $resource_directory): mixed
+    {
+        $entries = array_filter(
+            scandir($resource_directory),
+            static fn(string $entry): bool => is_file("$resource_directory/$entry") && !in_array($entry, ['.', '..']),
+        );
+        return array_shift($entries);
     }
 }

@@ -27,6 +27,7 @@ use ILIAS\HTTP\Services;
 use ILIAS\UI\Implementation\Factory;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\Refinery\Random\Group as RandomGroup;
+use ILIAS\ResourceStorage\Services as ResourceStorage;
 
 /**
  * Class ilTestBaseClass
@@ -60,6 +61,7 @@ class ilTestBaseTestCase extends TestCase
         $this->addGlobal_ilComponentFactory();
         $this->addGlobal_uiFactory();
         $this->addGlobal_uiRenderer();
+        $this->addGlobal_resourceStorage();
 
         $this->getMockBuilder(\ILIAS\DI\LoggingServices::class)->disableOriginalConstructor()->getMock();
 
@@ -331,6 +333,11 @@ class ilTestBaseTestCase extends TestCase
         $object_mock = $this->getMockBuilder(\ilObjectService::class)->disableOriginalConstructor()->getMock();
 
         $this->setGlobalVariable("object", $object_mock);
+    }
+
+    protected function addGlobal_resourceStorage(): void
+    {
+        $this->setGlobalVariable("resource_storage", $this->createMock(ResourceStorage::class));
     }
 
     protected function getTestObjMock(): ilObjTest

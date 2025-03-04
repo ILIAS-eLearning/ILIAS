@@ -34,6 +34,8 @@ class ilTestResultsToXMLTest extends ilTestBaseTestCase
         $this->testObj = new ilTestResultsToXML(
             0,
             $DIC['ilDB'],
+            $DIC['resource_storage'],
+            '',
             false
         );
     }

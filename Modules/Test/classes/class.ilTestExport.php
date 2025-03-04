@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\ResourceStorage\Services as ResourceStorage;
+
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
@@ -52,6 +54,7 @@ abstract class ilTestExport
     protected ILIAS $ilias;
 
     protected string $inst_id;
+    private ResourceStorage $irss;
 
     public function __construct(
         public ilObjTest $test_obj,
@@ -63,6 +66,7 @@ abstract class ilTestExport
         $this->db = $DIC['ilDB'];
         $this->lng = $DIC['lng'];
         $this->bench = $DIC['ilBench'];
+        $this->irss = $DIC['resource_storage'];
 
         $this->inst_id = (string) IL_INST_ID;
 
@@ -243,7 +247,13 @@ abstract class ilTestExport
         $this->bench->stop("TestExport", "buildExportFile_dumpToFile");
 
         if ($this->isResultExportingEnabledForTestExport()) {
-            $resultwriter = new ilTestResultsToXML($this->test_obj->getTestId(), $this->db, $this->test_obj->getAnonymity());
+            $resultwriter = new ilTestResultsToXML(
+                $this->test_obj->getTestId(),
+                $this->db,
+                $this->irss,
+                $this->export_dir . "/" . $this->subdir . "/objects",
+                $this->test_obj->getAnonymity()
+            );
             $resultwriter->setIncludeRandomTestQuestionsEnabled($this->test_obj->isRandomTest());
             $this->bench->start("TestExport", "buildExportFile_results");
             $resultwriter->xmlDumpFile($this->export_dir . "/" . $this->subdir . "/" . $this->resultsfile, false);

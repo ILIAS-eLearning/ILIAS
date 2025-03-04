@@ -32,7 +32,7 @@ class ilTestResultsImportParserTest extends ilTestBaseTestCase
         $this->addGlobal_ilLog();
 
         $testObject = $this->createMock(ilObjTest::class);
-        $this->testObj = new ilTestResultsImportParser("", $testObject, $DIC['ilDB'], $DIC['ilLog']);
+        $this->testObj = new ilTestResultsImportParser("", $testObject, $DIC['ilDB'], $DIC['ilLog'], $DIC['resource_storage']);
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
