@@ -554,12 +554,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $target = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::NEXT_QUESTION);
         if ($primaryNext) {
             $button = $this->ui_factory->button()->primary(
-                $this->lng->txt('next_question') . '<span class="glyphicon glyphicon-arrow-right"></span> ',
+                $this->lng->txt('next_question') . '<span class="glyphicon glyphicon-chevron-right"></span> ',
                 ''
             )->withOnLoadCode($this->getOnLoadCodeForNavigationButtons($target, ilTestPlayerCommands::NEXT_QUESTION));
         } else {
             $button = $this->ui_factory->button()->standard(
-                $this->lng->txt('next_question') . '<span class="glyphicon glyphicon-arrow-right"></span> ',
+                $this->lng->txt('next_question') . '<span class="glyphicon glyphicon-chevron-right"></span> ',
                 ''
             )->withOnLoadCode($this->getOnLoadCodeForNavigationButtons($target, ilTestPlayerCommands::NEXT_QUESTION));
         }
@@ -574,7 +574,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     {
         $target = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::PREVIOUS_QUESTION);
         $button = $this->ui_factory->button()->standard(
-            '<span class="glyphicon glyphicon-arrow-left"></span> ' . $this->lng->txt('previous_question'),
+            '<span class="glyphicon glyphicon-chevron-left"></span> ' . $this->lng->txt('previous_question'),
             ''
         )->withOnLoadCode($this->getOnLoadCodeForNavigationButtons($target, ilTestPlayerCommands::PREVIOUS_QUESTION));
         return $button;
