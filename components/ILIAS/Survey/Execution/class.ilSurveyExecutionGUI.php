@@ -698,7 +698,10 @@ class ilSurveyExecutionGUI
         if (is_null($prevpage)) {
             $stpl->setVariable("BTN_PREV", $this->lng->txt("survey_start"));
         } else {
-            $stpl->setVariable("BTN_PREV", $this->lng->txt("survey_previous"));
+            $stpl->setVariable(
+                "BTN_PREV",
+                '<span class="glyphicon glyphicon-chevron-left"></span>' . $this->lng->txt("previous")
+            );
         }
         $stpl->parseCurrentBlock();
         $nextpage = $this->object->getNextPage($page[0]["question_id"], 1);
@@ -706,7 +709,10 @@ class ilSurveyExecutionGUI
         if (is_null($nextpage)) {
             $stpl->setVariable("BTN_NEXT", $this->lng->txt("survey_finish"));
         } else {
-            $stpl->setVariable("BTN_NEXT", $this->lng->txt("survey_next"));
+            $stpl->setVariable(
+                "BTN_NEXT",
+                $this->lng->txt("next") . '<span class="glyphicon glyphicon-chevron-right"></span>'
+            );
         }
         $stpl->parseCurrentBlock();
     }

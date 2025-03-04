@@ -16653,7 +16653,6 @@ survey#:#survey_has_datasets_warning_page_view_link#:#Datensätze anzeigen
 survey#:#survey_introduction_info#:#Dieser Text wird dauerhaft auf dem Reiter „Info“ angezeigt.
 survey#:#survey_is_offline#:#Sie können die Umfrage nicht starten! Die Umfrage ist offline (nicht aktiviert).
 survey#:#survey_new_pool#:#Neuen Fragenpool anlegen
-survey#:#survey_next#:#Weiter →
 survey#:#survey_no_pool#:#Keinen Fragenpool verwenden
 survey#:#survey_not_available#:#n.a.
 survey#:#survey_notification_finished_introduction#:#eine Person hat die Umfrage beendet.
@@ -16672,7 +16671,6 @@ survey#:#survey_notification_tutor_setting#:#Eine E-Mail nachdem alle Befragten 
 survey#:#survey_notification_tutor_subject#:#Alle Befragten haben die Umfrage „%s“ beendet
 survey#:#survey_order#:#Sortierung
 survey#:#survey_pool_selection#:#Poolauswahl
-survey#:#survey_previous#:#← Zurück
 survey#:#survey_question_editor#:#Listenansicht
 survey#:#survey_question_obligatory#:#(Diese Frage ist eine Pflichtfrage. Sie muss beantwortet werden!)
 survey#:#survey_question_pool#:#Fragenpool

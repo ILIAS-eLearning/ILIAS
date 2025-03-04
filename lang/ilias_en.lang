@@ -16652,7 +16652,6 @@ survey#:#survey_has_datasets_warning_page_view_link#:#Edit Participants
 survey#:#survey_introduction_info#:#This message is permanently displayed on the ‘Info’-tab.
 survey#:#survey_is_offline#:#You cannot start the survey! The survey is currently offline.
 survey#:#survey_new_pool#:#Create new question pool
-survey#:#survey_next#:#Next >>
 survey#:#survey_no_pool#:#Do not use question pool
 survey#:#survey_not_available#:#n/a
 survey#:#survey_notification_finished_introduction#:#A participant has finished the survey.
@@ -16671,7 +16670,6 @@ survey#:#survey_notification_tutor_setting#:#One E-Mail after all Participants F
 survey#:#survey_notification_tutor_subject#:#All participants have finished the survey "%s"
 survey#:#survey_order#:#Sort Order
 survey#:#survey_pool_selection#:#Pool Selection
-survey#:#survey_previous#:#<< Previous
 survey#:#survey_question_editor#:#List View
 survey#:#survey_question_obligatory#:#This question is compulsory. You must answer the question!
 survey#:#survey_question_pool#:#Question Pool
