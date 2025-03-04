@@ -306,8 +306,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                         $this->view();
                         break;
                     case "delete":
-                        $this->tabs_gui->clearTargets();
-                        $this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this));
                         parent::deleteObject();
                         break;
                     case 'confirmedDelete':
@@ -581,26 +579,10 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
             case self::TAB_VIEW_CONTENT:
             case self::SUBTAB_VIEW_MANAGE:
             case 'view':
+            case 'delete':
                 $this->addStandardContainerSubTabs(true);
-                ;
                 break;
-            case false:
-                if ($this->checkAccess(ilPRGPermissionsHelper::ROLEPERM_READ)) {
-                    $this->tabs_gui->addSubTab(
-                        self::TAB_VIEW_CONTENT,
-                        $this->lng->txt("view"),
-                        $this->getLinkTarget("view")
-                    );
-                }
 
-                if ($this->checkAccess(ilPRGPermissionsHelper::ROLEPERM_WRITE)) {
-                    $this->tabs_gui->addSubTab(
-                        self::SUBTAB_VIEW_MANAGE,
-                        $this->lng->txt("cntr_manage"),
-                        $this->getLinkTarget(self::SUBTAB_VIEW_MANAGE)
-                    );
-                }
-                break;
             case 'settings':
                 $this->tabs_gui->addSubTab(
                     'settings',
