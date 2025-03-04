@@ -22,7 +22,6 @@ use ILIAS\Setup;
 use ILIAS\Refinery;
 use ILIAS\Setup\ObjectiveCollection;
 use ILIAS\Certificate\Setup\Migration\CertificateIdMigration;
-use ILIAS\Certificate\Setup\Migration\CertificateIRSSMigration;
 
 class ilCertificatSetupAgent implements Setup\Agent
 {
@@ -74,7 +73,6 @@ class ilCertificatSetupAgent implements Setup\Agent
     {
         return [
             new CertificateIdMigration(),
-            new CertificateIRSSMigration()
         ];
     }
 }
