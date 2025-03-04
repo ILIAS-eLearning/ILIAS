@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,6 +16,7 @@
  *
  ********************************************************************
  */
+
 declare(strict_types=1);
 
 use ILIAS\UI\Component\Table;
@@ -346,9 +348,8 @@ class ilOrgUnitUserAssignmentDBRepository implements OrgUnitUserAssignmentReposi
         $recursive_orgu_ids = [];
         $tree = ilObjOrgUnitTree::_getInstance();
         foreach ($orgu_ids as $orgu_id) {
-            $recursive_orgu_ids = $recursive_orgu_ids + $tree->getAllChildren($orgu_id);
+            $recursive_orgu_ids = array_merge($recursive_orgu_ids, $tree->getAllChildren($orgu_id));
         }
-
         return $recursive_orgu_ids;
     }
 
@@ -425,13 +426,13 @@ class ilOrgUnitUserAssignmentDBRepository implements OrgUnitUserAssignmentReposi
         ;
         $res = $this->db->query($query);
 
-        if($count_only) {
+        if ($count_only) {
             return $this->db->numRows($res);
         }
 
         $users = [];
         while ($rec = $this->db->fetchAssoc($res)) {
-            $rec['active'] = (bool)$rec['active'];
+            $rec['active'] = (bool) $rec['active'];
             $users[] = $rec;
         }
         return $users;
@@ -459,7 +460,7 @@ class ilOrgUnitUserAssignmentDBRepository implements OrgUnitUserAssignmentReposi
         $lp_visible = $additional_parameters['lp_visible_ref_ids'];
 
         foreach ($this->getUserDataByOrgUnitsAndPosition($orgu_ids, $position_id, false, $range, $order) as $record) {
-            $row_id = implode('_', [(string)$position_id, (string)$record['usr_id']]);
+            $row_id = implode('_', [(string) $position_id, (string) $record['usr_id']]);
             yield $row_builder->buildDataRow($row_id, $record)
                 ->withDisabledAction(
                     'show_learning_progress',
