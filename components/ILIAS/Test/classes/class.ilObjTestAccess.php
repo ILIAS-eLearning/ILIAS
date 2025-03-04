@@ -72,7 +72,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
             new AccessFileUploadPreview($this->db, $this->access),
         ]);
 
-
         return !$can_it->isOk() || $can_it->value();
     }
 
@@ -97,7 +96,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         }
 
         $is_admin = $this->rbac_system->checkAccessOfUser($user_id, 'write', $ref_id);
-
 
         switch ($permission) {
             case "visible":
@@ -295,7 +293,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
     /**
      * @depracated 11 use TestPassResultManager::updateTestResultCache instead
      */
-    protected static function updateTestResultCache($a_user_id, $a_obj_id): bool
+    protected static function updateTestResultCache(int $a_user_id, int $a_obj_id): bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -373,13 +371,11 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         global $DIC;
         $DIC->language()->loadLanguageModule('assessment');
 
-        $commands = [
+        return [
             ["permission" => "write", "cmd" => "questionsTabGateway", "lang_var" => "tst_edit_questions"],
             ["permission" => "write", "cmd" => "ILIAS\Test\Settings\MainSettings\SettingsMainGUI::showForm", "lang_var" => "settings"],
             ["permission" => "read", "cmd" => "ILIAS\Test\Presentation\TestScreenGUI::testScreen", "lang_var" => "tst_run", "default" => true]
         ];
-
-        return $commands;
     }
 
     //
@@ -391,7 +387,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
      *
      * @depracated
      */
-    public static function _lookupCreationComplete($a_obj_id): bool
+    public static function _lookupCreationComplete(int $a_obj_id): bool
     {
         return self::lookupCreationComplete($a_obj_id);
     }
@@ -413,7 +409,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
      *
      * @var array
      */
-    private static $hasFinishedCache = [];
+    private static array $has_finished_cache = [];
 
     /**
      * Returns (request cached) information if a specific user has finished at least one test pass
@@ -424,7 +420,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
      *
      * @depracated 11 use TestParticipantResultStatus::isFinished instead
      */
-    public static function hasFinished($a_user_id, $a_obj_id): bool
+    public static function hasFinished(int $a_user_id, int $a_obj_id): bool
     {
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
@@ -433,7 +429,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         $lng = $DIC['lng'];
         $ilUser = $DIC['ilUser'];
 
-        if (!isset(self::$hasFinishedCache["{$a_user_id}:{$a_obj_id}"])) {
+        if (!isset(self::$has_finished_cache["{$a_user_id}:{$a_obj_id}"])) {
             $testOBJ = ilObjectFactory::getInstanceByObjId($a_obj_id);
 
             $partData = new ilTestParticipantData($ilDB, $lng);
@@ -450,10 +446,10 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
             $testPassesSelector->setActiveId($activeId);
             $testPassesSelector->setLastFinishedPass($testSession->getLastFinishedPass());
 
-            self::$hasFinishedCache["{$a_user_id}:{$a_obj_id}"] = count($testPassesSelector->getClosedPasses());
+            self::$has_finished_cache["{$a_user_id}:{$a_obj_id}"] = count($testPassesSelector->getClosedPasses());
         }
 
-        return (bool) self::$hasFinishedCache["{$a_user_id}:{$a_obj_id}"];
+        return (bool) self::$has_finished_cache["{$a_user_id}:{$a_obj_id}"];
     }
 
     /**
@@ -463,7 +459,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
      * @return mixed The ILIAS test id or FALSE if the query was not successful
      * @access public
      */
-    public static function _getTestIDFromObjectID($object_id)
+    public static function _getTestIDFromObjectID(int $object_id): int|false
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -487,7 +483,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
      * @return    array    list if test obj ids
      * @access    public
      */
-    public static function _getRandomTestsForQuestionPool($qpl_id): array
+    public static function _getRandomTestsForQuestionPool(int $qpl_id): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -509,7 +505,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 
         return $tests;
     }
-    // fim.
 
     /**
      * Retrieves a participant name from active id
@@ -518,7 +513,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
      * @return string The output name of the user
      * @access public
      */
-    public static function _getParticipantData($active_id): string
+    public static function _getParticipantData(int $active_id): string
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -568,7 +563,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
      * @param int        active ID of the participant
      * @return    int        user id
      */
-    public static function _getParticipantId($active_id): int
+    public static function _getParticipantId(int $active_id): int
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -599,7 +594,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
      *
      * @depracated 11 use TestPassResultManager::getPassedUsers instead
      */
-    public static function _getPassedUsers($a_obj_id): array
+    public static function _getPassedUsers(int $a_obj_id): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -700,7 +695,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
     }
 
 
-    public static function visibleUserResultExists($test_obj_id, $user_id): bool
+    public static function visibleUserResultExists(int $test_obj_id, int $user_id): bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -718,7 +713,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         return $test_obj->canShowTestResults($test_session);
     }
 
-    public static function _preloadData($obj_ids, $ref_ids): void
+    public static function _preloadData(array $obj_ids, array $ref_ids): void
     {
         global $DIC;
         if ((new ilCertificateActiveValidator())->validate()) {
