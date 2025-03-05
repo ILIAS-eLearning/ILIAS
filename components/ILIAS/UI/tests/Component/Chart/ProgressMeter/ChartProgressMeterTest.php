@@ -125,7 +125,7 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
             '<text class="text-comparision" x="25" y="31">80 %</text>' .
             '<text class="text-comparision-info" x="25" y="34"></text>' .
             '</g>' .
-            '<g class="il-chart-progressmeter-needle " style="transform: rotate(82.8deg)">' .
+            '<g class="il-chart-progressmeter-needle " style="transform: rotate(86.5deg)">' .
             '<polygon class="il-chart-progressmeter-needle-border" points="23.5,0.1 25,2.3 26.5,0.1"></polygon>' .
             '<polygon class="il-chart-progressmeter-needle-fill" points="23.5,0 25,2.2 26.5,0"></polygon>' .
             '</g>' .
@@ -153,7 +153,7 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
             '<path class="il-chart-progressmeter-circle-bg" stroke-dasharray="100, 100" ' .
             'd="M10.4646,37.0354 q-5.858,-5.858 -5.858,-14.142 a1,1 0 1,1 40,0 q0,8.284 -5.858,14.142"></path>' .
             '<g class="il-chart-progressmeter-monocircle">' .
-            '<path class="il-chart-progressmeter-circle no-success" stroke-dasharray="75, 100" ' .
+            '<path class="il-chart-progressmeter-circle no-success" stroke-dasharray="71, 100" ' .
             'd="M10.4646,37.0354 q-5.858,-5.858 -5.858,-14.142 a1,1 0 1,1 40,0 q0,8.284 -5.858,14.142"></path>' .
             '</g>' .
             '<g class="il-chart-progressmeter-text">' .
@@ -162,7 +162,7 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
             '<text class="text-comparision" x="25" y="31">80 %</text>' .
             '<text class="text-comparision-info" x="25" y="34"></text>' .
             '</g>' .
-            '<g class="il-chart-progressmeter-needle " style="transform: rotate(82.8deg)">' .
+            '<g class="il-chart-progressmeter-needle " style="transform: rotate(86.5deg)">' .
             '<polygon class="il-chart-progressmeter-needle-border" points="23.5,0.1 25,2.3 26.5,0.1"></polygon>' .
             '<polygon class="il-chart-progressmeter-needle-fill" points="23.5,0 25,2.2 26.5,0"></polygon>' .
             '</g>' .
@@ -192,7 +192,7 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
             '<path class="il-chart-progressmeter-circle no-success" stroke-dasharray="54.495, 100" ' .
             'd="M9,35 q-4.3934,-4.3934 -4.3934,-10.6066 a1,1 0 1,1 40,0 q0,6.2132 -4.3934,10.6066"></path>' .
             '<path class="il-chart-progressmeter-needle " stroke-dasharray="100, 100" d="M25,10 l0,15" ' .
-            'style="transform: rotate(57.5deg)"></path>' .
+            'style="transform: rotate(65.5deg)"></path>' .
             '</svg>' .
             '</div>' .
             '</div>';
