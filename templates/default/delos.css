@@ -7905,14 +7905,9 @@ div.alert div {
 div.alert ul {
   margin-top: 15px;
   background-color: #f9f9f9;
-  padding: 6px 12px;
+  padding: 6px 26px;
   font-size: 0.75rem;
   color: #6f6f6f;
-  list-style-type: none;
-}
-div.alert ul > li:before {
-  content: "» ";
-  /* margin-left: -10px; */
 }
 
 .c-modal,
