@@ -740,9 +740,8 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
-        $id = explode("_", $target);
         $ilCtrl->setTargetScript('ilias.php');
-        $ilCtrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $id[0]);
+        $ilCtrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $target);
         $ilCtrl->redirectByClass(array("ilRepositoryGUI", "ilobjstudyprogrammegui"), "view");
     }
 
