@@ -55,3 +55,4 @@ phpstan-baseline.neon
 # File Delivery
 override.php
 components/ILIAS/FileHandlingDemo
+public/data/
