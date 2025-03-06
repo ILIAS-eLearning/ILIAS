@@ -46,18 +46,26 @@ class TestPassResultManager
         return $this->db->fetchAll($result);
     }
 
-    public function readTestResultCache(int $active_id): ?TestResult
+    public function getTestResult(int $active_id): ?TestResult
     {
+        if($cached_result = $this->readCache($active_id)) {
+            return $cached_result;
+        }
+
         $result = $this->db->queryF(
             "SELECT * FROM tst_result_cache WHERE active_fi = %s",
             ['integer'],
             [$active_id]
         );
-        return self::toTestResult($this->db->fetchAssoc($result));
+
+        $test_result = self::toTestResult($this->db->fetchAssoc($result));
+        $this->updateCache($active_id, $test_result);
+        return $test_result;
     }
 
-    public function readTestResultCacheByParticipant(int $test_id, int $user_id): ?TestResult
+    public function getTestResultByParticipant(int $test_id, int $user_id): ?TestResult
     {
+        // FIXME: How to access cache here?
         $result = $this->db->queryF(
             "SELECT tst_result_cache.*  FROM tst_result_cache
                     INNER JOIN tst_active ON tst_active.active_id = tst_result_cache.active_fi
@@ -101,6 +109,7 @@ class TestPassResultManager
             $callback();
         }
 
+        $this->updateCache($active_id, $pass_result);
         return $result;
     }
 
@@ -266,6 +275,18 @@ class TestPassResultManager
         return is_array($row)
             ? ['question_count' => (int) $row['qcount'], 'max_points' => (float) $row['qsum']]
             : ['question_count' => 0, 'max_points' => 0.0];
+    }
+
+    private function updateCache(int $active_id, mixed $data): void {
+        apcu_store("test_pass_result:$active_id", $data); //TODO: use Cache class instead
+    }
+
+    public function invalidateCache(int $active_id): void {
+        apcu_delete("test_pass_result:$active_id");
+    }
+
+    private function readCache(int $active_id): mixed {
+        return apcu_fetch("test_pass_result:$active_id") ?? null;
     }
 
     private function toTestResult(?array $row): ?TestResult

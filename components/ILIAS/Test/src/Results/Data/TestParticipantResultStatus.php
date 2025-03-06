@@ -72,7 +72,7 @@ class TestParticipantResultStatus
             return self::$status_cache[self::cacheKey($user_id, $test_id)][$param];
         }
 
-        $result = $this->result_manager->readTestResultCacheByParticipant($test_id, $user_id);
+        $result = $this->result_manager->getTestResultByParticipant($test_id, $user_id);
         if ($result === null) {
             return false;
         }
