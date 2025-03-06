@@ -53,8 +53,11 @@ class ilUserTableGUI extends ilTable2GUI
 
         $this->user_folder_id = $a_parent_obj->getObject()->getRefId();
 
-        if ($DIC['rbacsystem']->checkAccess('write', $this->user_folder_id)
-            || $DIC['rbacsystem']->checkAccess('cat_administrate_users', $this->user_folder_id)) {
+        $this->access = $DIC->access();
+
+        if (( $this->user_folder_id == USR_FOLDER_ID && $this->access->checkPositionAccess(\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,USER_FOLDER_ID)) ||
+            $DIC['rbacsystem']->checkAccess('write', $this->user_folder_id) ||
+            $DIC['rbacsystem']->checkAccess('cat_administrate_users', $this->user_folder_id)) {
             $this->with_write_access = true;
         }
 
