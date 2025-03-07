@@ -55,19 +55,19 @@ class TestResultManager
         return $this->db->fetchAll($result);
     }
 
-    public function isPassed(int $user_id, int $test_id): bool
+    public function isPassed(int $user_id, int $test_obj_id): bool
     {
-        return ($status = $this->readOrQueryStatus($user_id, $test_id)) !== null && $status['passed'];
+        return ($status = $this->readOrQueryStatus($user_id, $test_obj_id)) !== null && $status['passed'];
     }
 
-    public function isFailed(int $user_id, int $test_id): bool
+    public function isFailed(int $user_id, int $test_obj_id): bool
     {
-        return ($status = $this->readOrQueryStatus($user_id, $test_id)) !== null && $status['failed'];
+        return ($status = $this->readOrQueryStatus($user_id, $test_obj_id)) !== null && $status['failed'];
     }
 
-    public function hasFinished(int $user_id, int $test_id): bool
+    public function hasFinished(int $user_id, int $test_obj_id): bool
     {
-        return ($status = $this->readOrQueryStatus($user_id, $test_id)) !== null && $status['finished'];
+        return ($status = $this->readOrQueryStatus($user_id, $test_obj_id)) !== null && $status['finished'];
     }
 
 
@@ -127,7 +127,7 @@ class TestResultManager
             $callback();
         }
 
-        $this->updateStatusCache($pass_result['user_id'], $pass_result['test_id'], [
+        $this->updateStatusCache($pass_result['user_id'], $pass_result['test_obj_id'], [
             'passed' => $result->isPassed(),
             'failed' => $result->isFailed(),
             'finished' => $pass_result['last_finished_pass'] !== null
@@ -193,10 +193,11 @@ class TestResultManager
     private function fetchTestPassResult(int $active_id, int $pass): ?array
     {
         return $this->db->fetchAssoc($this->db->queryF(
-            "SELECT tst_pass_result.*, tst_active.last_finished_pass, tst_active.user_fi AS user_id,
-                    tst_pass_result.maxpoints AS max_points, tst_active.test_fi AS test_id, points AS reached_points
+            "SELECT tst_pass_result.*, tst_active.last_finished_pass, tst_active.user_fi AS user_id,  tst_tests.test_id, 
+                    tst_tests.obj_fi AS test_obj_id, tst_pass_result.maxpoints AS max_points, points AS reached_points
                     FROM tst_pass_result
                     INNER JOIN tst_active ON tst_pass_result.active_fi = tst_active.active_id
+                    INNER JOIN tst_tests ON tst_tests.test_id = tst_active.test_fi
                     WHERE active_fi = %s AND pass = %s",
             ['integer','integer'],
             [$active_id, $pass]
@@ -243,21 +244,6 @@ class TestResultManager
             ->withExamId(\ilObjTest::buildExamId($object->getActiveId(), $object->getPass(), $test_obj_id));
     }
 
-    private function fetchWorkingTime(int $active_id, int $pass): int
-    {
-        $result = $this->db->queryF(
-            "SELECT started, finished FROM tst_times WHERE active_fi = %s AND pass = %s ORDER BY started",
-            ['integer','integer'],
-            [$active_id, $pass]
-        );
-
-        $time = 0;
-        while ($row = $this->db->fetchAssoc($result)) {
-            $time += (strtotime($row['finished']) - strtotime($row['started']));
-        }
-        return $time;
-    }
-
     /**
      * @return array{max_points: float, question_count: int}
      */
@@ -298,6 +284,21 @@ class TestResultManager
         return is_array($row)
             ? ['question_count' => (int) $row['qcount'], 'max_points' => (float) $row['qsum']]
             : ['question_count' => 0, 'max_points' => 0.0];
+    }
+
+    public function fetchWorkingTime(int $active_id, int $pass): int
+    {
+        $result = $this->db->queryF(
+            "SELECT started, finished FROM tst_times WHERE active_fi = %s AND pass = %s ORDER BY started",
+            ['integer','integer'],
+            [$active_id, $pass]
+        );
+
+        $time = 0;
+        while ($row = $this->db->fetchAssoc($result)) {
+            $time += (strtotime($row['finished']) - strtotime($row['started']));
+        }
+        return $time;
     }
 
 
@@ -346,41 +347,43 @@ class TestResultManager
     }
 
 
-    public function invalidateStatusCache(int $user_id, int $test_id): void
+    public function invalidateStatusCache(int $user_id, int $test_obj_id): void
     {
-        $this->cache->delete("$user_id:$test_id");
+        $this->cache->delete("$user_id:$test_obj_id");
     }
 
     /**
      * @param array{'passed': bool, 'failed': bool, 'finished': bool} $status
      */
-    private function updateStatusCache(int $user_id, int $test_id, array $status): void
+    private function updateStatusCache(int $user_id, int $test_obj_id, array $status): void
     {
-        $this->cache->set("$user_id:$test_id", $status);
+        $this->cache->set("$user_id:$test_obj_id", $status);
     }
 
     /**
      * @return array{'passed': bool, 'failed': bool, 'finished': bool}|null
      */
-    private function readOrQueryStatus(int $user_id, int $test_id): ?array
+    private function readOrQueryStatus(int $user_id, int $test_obj_id): ?array
     {
-        $cached_status = $this->cache->get("$user_id:$test_id", $this->refinery->identity());
+        $cached_status = $this->cache->get("$user_id:$test_obj_id", $this->refinery->identity());
         if($cached_status !== null) {
             return $cached_status;
         }
 
         $status = $this->db->fetchAssoc($this->db->queryF(
             "SELECT tst_result_cache.passed, tst_result_cache.failed, (tst_active.last_finished_pass IS NOT NULL) AS finished  
-                    FROM tst_result_cache INNER JOIN tst_active ON tst_active.active_id = tst_result_cache.active_fi
-                    WHERE tst_active.user_fi = %s AND tst_active.test_fi = %s",
+                    FROM tst_result_cache 
+                    INNER JOIN tst_active ON tst_active.active_id = tst_result_cache.active_fi
+                    INNER JOIN tst_tests ON tst_tests.test_id = tst_active.test_fi
+                    WHERE tst_active.user_fi = %s AND tst_tests.obj_fi = %s",
             ['integer', 'integer'],
-            [$user_id, $test_id]
+            [$user_id, $test_obj_id]
         ));
         if($status === null) {
             return null;
         }
 
-        $this->updateStatusCache($user_id, $test_id, $status);
+        $this->updateStatusCache($user_id, $test_obj_id, $status);
         return $status;
     }
 }

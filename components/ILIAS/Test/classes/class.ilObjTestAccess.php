@@ -23,10 +23,12 @@ use ILIAS\Test\Access\AccessFileUploadPreview;
 use ILIAS\Test\Access\AccessQuestionImage;
 use ILIAS\Test\Access\SimpleAccess;
 use ILIAS\Test\Access\Readable;
+use ILIAS\Test\Results\Data\TestResultManager;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsDatabaseRepository;
 use ILIAS\Test\Settings\ScoreReporting\ScoreReportingTypes;
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Error;
+use ILIAS\Test\TestDIC;
 
 /**
  * Class ilObjTestAccess
@@ -50,6 +52,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 
     private static ?ilCertificateObjectsForUserPreloader $certificate_preloader = null;
     private static array $settings_result_summaries_by_obj_id = [];
+    private static TestResultManager $test_result_manager;
 
     public function __construct()
     {
@@ -60,6 +63,9 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         $this->lng = $DIC['lng'];
         $this->rbac_system = $DIC['rbacsystem'];
         $this->access = $DIC['ilAccess'];
+
+        $local_dic = TestDIC::dic();
+        self::$test_result_manager = $local_dic['results.data.test_result_manager'];
     }
 
     public function canBeDelivered(ilWACPath $ilWACPath): bool
@@ -127,90 +133,11 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
      * @param int $a_obj_id The object id
      * @return boolean TRUE if the user passed the test, FALSE otherwise
      *
-     * @depracated 11 use TestParticipantResultStatus::isPassed instead
+     * @depracated 11, will be removed in 12, use TestResultManager::isPassed instead
      */
-    public static function _isPassed($user_id, $a_obj_id): bool
+    public static function _isPassed(int $user_id, int $a_obj_id): bool
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $test = new ilObjTest($a_obj_id, false);
-
-        $result = $ilDB->queryF(
-            "SELECT tst_result_cache.* FROM tst_result_cache, tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s AND tst_result_cache.active_fi = tst_active.active_id",
-            ['integer', 'integer'],
-            [$user_id, $a_obj_id]
-        );
-        if (!$result->numRows()) {
-            $result = $ilDB->queryF(
-                "SELECT tst_active.active_id FROM tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s",
-                ['integer', 'integer'],
-                [$user_id, $a_obj_id]
-            );
-            $row = $ilDB->fetchAssoc($result);
-            if ($row !== null && $row['active_id'] > 0) {
-                $test->updateTestResultCache($row['active_id']);
-            } else {
-                return false;
-            }
-        }
-        $result = $ilDB->queryF(
-            "SELECT tst_result_cache.* FROM tst_result_cache, tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s AND tst_result_cache.active_fi = tst_active.active_id",
-            ['integer', 'integer'],
-            [$user_id, $a_obj_id]
-        );
-        if (!$result->numRows()) {
-            $result = $ilDB->queryF(
-                "SELECT tst_pass_result.*, tst_tests.pass_scoring, tst_tests.test_id FROM tst_pass_result, tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s AND tst_pass_result.active_fi = tst_active.active_id ORDER BY tst_pass_result.pass",
-                ['integer', 'integer'],
-                [$user_id, $a_obj_id]
-            );
-
-            if (!$result->numRows()) {
-                return false;
-            }
-
-            $points = [];
-            while ($row = $ilDB->fetchAssoc($result)) {
-                array_push($points, $row);
-            }
-            $reached = 0;
-            $max = 0;
-            if ($points[0]["pass_scoring"] == 0) {
-                $reached = $points[count($points) - 1]["points"];
-                $max = $points[count($points) - 1]["maxpoints"];
-                if (!$max) {
-                    $active_id = $points[count($points) - 1]["active_fi"];
-                    $pass = $points[count($points) - 1]["pass"];
-                    if (strlen($active_id) && strlen($pass)) {
-                        $res = $test->updateTestPassResults($active_id, $pass, false, null, $a_obj_id);
-                        $max = $res['maxpoints'];
-                        $reached = $res['points'];
-                    }
-                }
-            } else {
-                foreach ($points as $row) {
-                    if ($row["points"] > $reached) {
-                        $reached = $row["points"];
-                        $max = $row["maxpoints"];
-                        if (!$max) {
-                            $active_id = $row["active_fi"];
-                            $pass = $row["pass"];
-                            if (strlen($active_id) && strlen($pass)) {
-                                $res = $test->updateTestPassResults($active_id, $pass, false, null, $a_obj_id);
-                                $max = $res['maxpoints'];
-                                $reached = $res['points'];
-                            }
-                        }
-                    }
-                }
-            }
-            $percentage = (!$max) ? 0 : ($reached / $max) * 100.0;
-            return $test->getMarkSchema()->getMatchingMark($percentage)->getPassed() === 1;
-        } else {
-            $row = $ilDB->fetchAssoc($result);
-            return ($row['passed']) ? true : false;
-        }
+        return self::$test_result_manager->isPassed($user_id, $a_obj_id);
     }
 
     /**
@@ -220,78 +147,15 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
      * @param int $a_obj_id The object id
      * @return boolean TRUE if the user failed the test, FALSE otherwise
      *
-     * @depracated 11 use TestParticipantResultStatus::isFailed instead
+     * @depracated 11, will be removed in 12, use TestResultManager::isFailed instead
      */
-    public static function isFailed($user_id, $a_obj_id): bool
+    public static function isFailed(int $user_id, int $a_obj_id): bool
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $ret = self::updateTestResultCache($user_id, $a_obj_id);
-
-        if (!$ret) {
-            return false;
-        }
-
-        $test = new ilObjTest($a_obj_id, false);
-
-        $result = $ilDB->queryF(
-            "SELECT tst_result_cache.* FROM tst_result_cache, tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s AND tst_result_cache.active_fi = tst_active.active_id",
-            ['integer', 'integer'],
-            [$user_id, $a_obj_id]
-        );
-
-        if (!$result->numRows()) {
-            $result = $ilDB->queryF(
-                "SELECT tst_pass_result.*, tst_tests.pass_scoring FROM tst_pass_result, tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s AND tst_pass_result.active_fi = tst_active.active_id ORDER BY tst_pass_result.pass",
-                ['integer', 'integer'],
-                [$user_id, $a_obj_id]
-            );
-
-            while ($row = $ilDB->fetchAssoc($result)) {
-                array_push($points, $row);
-            }
-            $reached = 0;
-            $max = 0;
-            if ($points[0]["pass_scoring"] == 0) {
-                $reached = $points[count($points) - 1]["points"];
-                $max = $points[count($points) - 1]["maxpoints"];
-                if (!$max) {
-                    $active_id = $points[count($points) - 1]["active_fi"];
-                    $pass = $points[count($points) - 1]["pass"];
-                    if (strlen($active_id) && strlen($pass)) {
-                        $res = $test->updateTestPassResults($active_id, $pass, false, null, $a_obj_id);
-                        $max = $res['maxpoints'];
-                        $reached = $res['points'];
-                    }
-                }
-            } else {
-                foreach ($points as $row) {
-                    if ($row["points"] > $reached) {
-                        $reached = $row["points"];
-                        $max = $row["maxpoints"];
-                        if (!$max) {
-                            $active_id = $row["active_fi"];
-                            $pass = $row["pass"];
-                            if (strlen($active_id) && strlen($pass)) {
-                                $res = $test->updateTestPassResults($active_id, $pass, false, null, $a_obj_id);
-                                $max = $res['maxpoints'];
-                                $reached = $res['points'];
-                            }
-                        }
-                    }
-                }
-            }
-            $percentage = (!$max) ? 0 : ($reached / $max) * 100.0;
-            return $test->getMarkSchema()->getMatchingMark($percentage)->getPassed() === 0;
-        } else {
-            $row = $ilDB->fetchAssoc($result);
-            return ($row['failed']) ? true : false;
-        }
+        return self::$test_result_manager->isFailed($user_id, $a_obj_id);
     }
 
     /**
-     * @depracated 11 use TestPassResultManager::updateTestResultCache instead
+     * @depracated 11, will be removed in 12, use TestResultManager::updateTestResultCache instead
      */
     protected static function updateTestResultCache(int $a_user_id, int $a_obj_id): bool
     {
@@ -418,38 +282,11 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
      * @param integer $a_obj_id obj_id of the test
      * @return bool
      *
-     * @depracated 11 use TestParticipantResultStatus::isFinished instead
+     * @depracated 11, will be removed in 12, use TestResultManager::hasFinished instead
      */
     public static function hasFinished(int $a_user_id, int $a_obj_id): bool
     {
-        /** @var ILIAS\DI\Container $DIC */
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        $lng = $DIC['lng'];
-        $ilUser = $DIC['ilUser'];
-
-        if (!isset(self::$has_finished_cache["{$a_user_id}:{$a_obj_id}"])) {
-            $testOBJ = ilObjectFactory::getInstanceByObjId($a_obj_id);
-
-            $partData = new ilTestParticipantData($ilDB, $lng);
-            $partData->setUserIdsFilter([$a_user_id]);
-            $partData->load($testOBJ->getTestId());
-
-            $activeId = $partData->getActiveIdByUserId($a_user_id);
-
-            /** @noinspection PhpParamsInspection */
-            $testSessionFactory = new ilTestSessionFactory($testOBJ, $ilDB, $ilUser);
-            $testSession = $testSessionFactory->getSession($activeId);
-            /** @noinspection PhpParamsInspection */
-            $testPassesSelector = new ilTestPassesSelector($ilDB, $testOBJ);
-            $testPassesSelector->setActiveId($activeId);
-            $testPassesSelector->setLastFinishedPass($testSession->getLastFinishedPass());
-
-            self::$has_finished_cache["{$a_user_id}:{$a_obj_id}"] = count($testPassesSelector->getClosedPasses());
-        }
-
-        return (bool) self::$has_finished_cache["{$a_user_id}:{$a_obj_id}"];
+        return self::$test_result_manager->hasFinished($a_user_id, $a_obj_id);
     }
 
     /**
@@ -592,75 +429,11 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
      *           ]
      * @access public
      *
-     * @depracated 11 use TestPassResultManager::getPassedUsers instead
+     * @depracated 11, will be removed in 12, use TestResultManager::getPassedParticipants instead
      */
     public static function _getPassedUsers(int $a_obj_id): array
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $passed_users = [];
-        // Maybe SELECT DISTINCT(tst_active.user_fi)... ?
-        $userresult = $ilDB->queryF(
-            "
-			SELECT tst_active.active_id, COUNT(tst_sequence.active_fi) sequences, tst_active.last_finished_pass,
-				CASE WHEN
-					(tst_tests.nr_of_tries - 1) = tst_active.last_finished_pass
-				THEN '1'
-				ELSE '0'
-				END is_last_pass
-			FROM tst_tests
-			INNER JOIN tst_active
-			ON tst_active.test_fi = tst_tests.test_id
-			LEFT JOIN tst_sequence
-			ON tst_sequence.active_fi = tst_active.active_id
-			WHERE tst_tests.obj_fi = %s
-			GROUP BY tst_active.active_id
-			",
-            ['integer'],
-            [$a_obj_id]
-        );
-        $all_participants = [];
-        $notAttempted = [];
-        $lastPassUsers = [];
-        while ($row = $ilDB->fetchAssoc($userresult)) {
-            if ($row['sequences'] == 0) {
-                $notAttempted[$row['active_id']] = $row['active_id'];
-            }
-            if ($row['is_last_pass']) {
-                $lastPassUsers[$row['active_id']] = $row['active_id'];
-            }
-
-            $all_participants[$row['active_id']] = $row['active_id'];
-        }
-
-        $result = $ilDB->query("SELECT tst_result_cache.*, tst_active.user_fi FROM tst_result_cache, tst_active WHERE tst_active.active_id = tst_result_cache.active_fi AND " . $ilDB->in('active_fi', $all_participants, false, 'integer'));
-        $found_all = ($result->numRows() == count($all_participants)) ? true : false;
-        if (!$found_all) {
-            $test = new ilObjTest($a_obj_id, false);
-            // if the result cache entries do not exist, create them
-            $found_participants = [];
-            while ($data = $ilDB->fetchAssoc($result)) {
-                array_push($found_participants, $data['active_fi']);
-            }
-            foreach ($all_participants as $active_id) {
-                if (!in_array($active_id, $found_participants)) {
-                    $test->updateTestResultCache($active_id);
-                }
-            }
-            $result = $ilDB->query("SELECT tst_result_cache.*, tst_active.user_fi FROM tst_result_cache, tst_active WHERE tst_active.active_id = tst_result_cache.active_fi AND " . $ilDB->in('active_fi', $all_participants, false, 'integer'));
-        }
-        while ($data = $ilDB->fetchAssoc($result)) {
-            if (isset($notAttempted[$data['active_fi']])) {
-                $data['failed'] = 0;
-                $data['passed'] = 0;
-                $data['not_attempted'] = 1;
-            }
-
-            $data['user_id'] = $data['user_fi'];
-            array_push($passed_users, $data);
-        }
-        return $passed_users;
+        return self::$test_result_manager->getPassedParticipants($a_obj_id);
     }
 
     /**
