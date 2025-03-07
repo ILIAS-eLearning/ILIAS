@@ -20,14 +20,23 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Results\Data;
 
+use ILIAS\Cache\Container\BaseRequest;
+use ILIAS\Cache\Container\Container;
+use ILIAS\Cache\Services;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Test\Scoring\Marks\MarksRepository;
 
 class TestPassResultManager
 {
+    protected Container $cache;
+
     public function __construct(
         protected readonly \ilDBInterface $db,
-        protected readonly MarksRepository $marks_repository
+        protected readonly Refinery $refinery,
+        protected readonly MarksRepository $marks_repository,
+        Services $global_cache
     ) {
+        $this->cache = $global_cache->get(new BaseRequest('test_pass_result'));
     }
 
     /**
@@ -65,7 +74,7 @@ class TestPassResultManager
 
     public function getTestResultByParticipant(int $test_id, int $user_id): ?TestResult
     {
-        // FIXME: How to access cache here?
+        // FIXME: How access cache here?
         $result = $this->db->queryF(
             "SELECT tst_result_cache.*  FROM tst_result_cache
                     INNER JOIN tst_active ON tst_active.active_id = tst_result_cache.active_fi
@@ -109,7 +118,7 @@ class TestPassResultManager
             $callback();
         }
 
-        $this->updateCache($active_id, $pass_result);
+        $this->updateCache($active_id, $result);
         return $result;
     }
 
@@ -277,16 +286,17 @@ class TestPassResultManager
             : ['question_count' => 0, 'max_points' => 0.0];
     }
 
-    private function updateCache(int $active_id, mixed $data): void {
-        apcu_store("test_pass_result:$active_id", $data); //TODO: use Cache class instead
-    }
-
     public function invalidateCache(int $active_id): void {
-        apcu_delete("test_pass_result:$active_id");
+        $this->cache->delete("$active_id");
     }
 
-    private function readCache(int $active_id): mixed {
-        return apcu_fetch("test_pass_result:$active_id") ?? null;
+    private function updateCache(int $active_id, TestResult $result): void {
+        $this->cache->set("$active_id", serialize($result));
+    }
+
+    private function readCache(int $active_id): ?TestResult {
+        $value = $this->cache->get("$active_id", $this->refinery->identity());
+        return $value !== null ? unserialize($value) : null;
     }
 
     private function toTestResult(?array $row): ?TestResult
