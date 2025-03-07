@@ -347,9 +347,14 @@ class TestResultManager
     }
 
 
-    public function invalidateStatusCache(int $user_id, int $test_obj_id): void
+    public function invalidateStatusCache(array $active_ids, int $test_obj_id): void
     {
-        $this->cache->delete("$user_id:$test_obj_id");
+        $condition = $this->db->in('active_id', $active_ids, false, \ilDBConstants::T_INTEGER);
+        $result = $this->db->fetchAll($this->db->query("SELECT user_fi FROM tst_active WHERE $condition"));
+
+        foreach ($result as $row) {
+            $this->cache->delete($row['user_fi'] . ":" . $test_obj_id);
+        }
     }
 
     /**
@@ -366,7 +371,7 @@ class TestResultManager
     private function readOrQueryStatus(int $user_id, int $test_obj_id): ?array
     {
         $cached_status = $this->cache->get("$user_id:$test_obj_id", $this->refinery->identity());
-        if($cached_status !== null) {
+        if ($cached_status !== null) {
             return $cached_status;
         }
 
@@ -379,7 +384,7 @@ class TestResultManager
             [\ilDBConstants::T_INTEGER, \ilDBConstants::T_INTEGER],
             [$user_id, $test_obj_id]
         ));
-        if($status === null) {
+        if ($status === null) {
             return null;
         }
 
