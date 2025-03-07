@@ -39,9 +39,10 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $this->refinery = $DIC->refinery();
         $this->locator = $DIC['ilLocator'];
 
-        if (!ilPageObject::_exists('dclf', $tableview_id)) {
-            $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+        $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+        $this->setStyleId($DIC->contentStyle()->domain()->styleForRefId($ref_id)->getEffectiveStyleId());
 
+        if (!ilPageObject::_exists('dclf', $tableview_id)) {
             $viewdef = new ilDclDetailedViewDefinition();
             $viewdef->setId($tableview_id);
             $viewdef->setParentId(ilObject2::_lookupObjectId($ref_id));
