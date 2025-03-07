@@ -26,7 +26,7 @@ use ILIAS\Cache\Services;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Test\Scoring\Marks\MarksRepository;
 
-class TestPassResultManager
+class TestResultManager
 {
     protected Container $cache;
 
@@ -36,7 +36,7 @@ class TestPassResultManager
         protected readonly MarksRepository $marks_repository,
         Services $global_cache
     ) {
-        $this->cache = $global_cache->get(new BaseRequest('test_pass_result'));
+        $this->cache = $global_cache->get(new BaseRequest('test_result'));
     }
 
     /**
@@ -55,26 +55,35 @@ class TestPassResultManager
         return $this->db->fetchAll($result);
     }
 
+    public function isPassed(int $user_id, int $test_id): bool
+    {
+        return ($status = $this->readOrQueryStatus($user_id, $test_id)) !== null && $status['passed'];
+    }
+
+    public function isFailed(int $user_id, int $test_id): bool
+    {
+        return ($status = $this->readOrQueryStatus($user_id, $test_id)) !== null && $status['failed'];
+    }
+
+    public function hasFinished(int $user_id, int $test_id): bool
+    {
+        return ($status = $this->readOrQueryStatus($user_id, $test_id)) !== null && $status['finished'];
+    }
+
+
     public function getTestResult(int $active_id): ?TestResult
     {
-        if($cached_result = $this->readCache($active_id)) {
-            return $cached_result;
-        }
-
         $result = $this->db->queryF(
             "SELECT * FROM tst_result_cache WHERE active_fi = %s",
             ['integer'],
             [$active_id]
         );
 
-        $test_result = self::toTestResult($this->db->fetchAssoc($result));
-        $this->updateCache($active_id, $test_result);
-        return $test_result;
+        return self::toTestResult($this->db->fetchAssoc($result));
     }
 
-    public function getTestResultByParticipant(int $test_id, int $user_id): ?TestResult
+    public function getTestResultByParticipant(int $user_id, int $test_id): ?TestResult
     {
-        // FIXME: How access cache here?
         $result = $this->db->queryF(
             "SELECT tst_result_cache.*  FROM tst_result_cache
                     INNER JOIN tst_active ON tst_active.active_id = tst_result_cache.active_fi
@@ -118,7 +127,12 @@ class TestPassResultManager
             $callback();
         }
 
-        $this->updateCache($active_id, $result);
+        $this->updateStatusCache($pass_result['user_id'], $pass_result['test_id'], [
+            'passed' => $result->isPassed(),
+            'failed' => $result->isFailed(),
+            'finished' => $pass_result['last_finished_pass'] !== null
+        ]);
+
         return $result;
     }
 
@@ -143,7 +157,7 @@ class TestPassResultManager
             return null;
         }
 
-        $object = $this->buildTestPassResultObject($active_id, $test_result,$test_obj_id);
+        $object = $this->buildTestPassResultObject($active_id, $test_result, $test_obj_id);
         $callback = function () use ($object, $pass) {
             $this->db->replace(
                 'tst_pass_result',
@@ -179,22 +193,10 @@ class TestPassResultManager
     private function fetchTestPassResult(int $active_id, int $pass): ?array
     {
         return $this->db->fetchAssoc($this->db->queryF(
-            "SELECT tst_pass_result.*, tst_active.last_finished_pass, 
+            "SELECT tst_pass_result.*, tst_active.last_finished_pass, tst_active.user_fi AS user_id,
                     tst_pass_result.maxpoints AS max_points, tst_active.test_fi AS test_id, points AS reached_points
                     FROM tst_pass_result
                     INNER JOIN tst_active ON tst_pass_result.active_fi = tst_active.active_id
-                    WHERE active_fi = %s AND pass = %s",
-            ['integer','integer'],
-            [$active_id, $pass]
-        ));
-    }
-
-    private function fetchTestResult(int $active_id, int $pass): ?array
-    {
-        return $this->db->fetchAssoc($this->db->queryF(
-            "SELECT pass, SUM(points) AS points, SUM(hint_count) AS hint_count, 
-                    SUM(hint_points) AS hint_points, COUNT(DISTINCT(question_fi)) answeredquestions
-                    FROM tst_test_result
                     WHERE active_fi = %s AND pass = %s",
             ['integer','integer'],
             [$active_id, $pass]
@@ -215,6 +217,18 @@ class TestPassResultManager
             [$test_pass_result['active_fi']]
         )->fetchAssoc()['passed_once'] ?? false;
         return $object->withPassedOnce($is_passed || $passed_once_before);
+    }
+
+    private function fetchTestResult(int $active_id, int $pass): ?array
+    {
+        return $this->db->fetchAssoc($this->db->queryF(
+            "SELECT pass, SUM(points) AS points, SUM(hint_count) AS hint_count, 
+                    SUM(hint_points) AS hint_points, COUNT(DISTINCT(question_fi)) answeredquestions
+                    FROM tst_test_result
+                    WHERE active_fi = %s AND pass = %s",
+            ['integer','integer'],
+            [$active_id, $pass]
+        ));
     }
 
     private function buildTestPassResultObject(int $active_id, array $test_result, ?int $test_obj_id): TestPassResult
@@ -286,18 +300,6 @@ class TestPassResultManager
             : ['question_count' => 0, 'max_points' => 0.0];
     }
 
-    public function invalidateCache(int $active_id): void {
-        $this->cache->delete("$active_id");
-    }
-
-    private function updateCache(int $active_id, TestResult $result): void {
-        $this->cache->set("$active_id", serialize($result));
-    }
-
-    private function readCache(int $active_id): ?TestResult {
-        $value = $this->cache->get("$active_id", $this->refinery->identity());
-        return $value !== null ? unserialize($value) : null;
-    }
 
     private function toTestResult(?array $row): ?TestResult
     {
@@ -341,5 +343,44 @@ class TestPassResultManager
             $row['exam_id'] ?? '',
             $row['finalized_by'] ?? '',
         );
+    }
+
+
+    public function invalidateStatusCache(int $user_id, int $test_id): void
+    {
+        $this->cache->delete("$user_id:$test_id");
+    }
+
+    /**
+     * @param array{'passed': bool, 'failed': bool, 'finished': bool} $status
+     */
+    private function updateStatusCache(int $user_id, int $test_id, array $status): void
+    {
+        $this->cache->set("$user_id:$test_id", $status);
+    }
+
+    /**
+     * @return array{'passed': bool, 'failed': bool, 'finished': bool}|null
+     */
+    private function readOrQueryStatus(int $user_id, int $test_id): ?array
+    {
+        $cached_status = $this->cache->get("$user_id:$test_id", $this->refinery->identity());
+        if($cached_status !== null) {
+            return $cached_status;
+        }
+
+        $status = $this->db->fetchAssoc($this->db->queryF(
+            "SELECT tst_result_cache.passed, tst_result_cache.failed, (tst_active.last_finished_pass IS NOT NULL) AS finished  
+                    FROM tst_result_cache INNER JOIN tst_active ON tst_active.active_id = tst_result_cache.active_fi
+                    WHERE tst_active.user_fi = %s AND tst_active.test_fi = %s",
+            ['integer', 'integer'],
+            [$user_id, $test_id]
+        ));
+        if($status === null) {
+            return null;
+        }
+
+        $this->updateStatusCache($user_id, $test_id, $status);
+        return $status;
     }
 }
