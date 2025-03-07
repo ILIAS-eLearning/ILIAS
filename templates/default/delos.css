@@ -2610,6 +2610,7 @@ code {
   content: " \e606";
   color: #737373;
   padding: 8px 10px;
+  font-weight: 400;
   font-family: "il-icons";
 }
 
