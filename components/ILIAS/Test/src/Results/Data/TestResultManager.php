@@ -49,7 +49,7 @@ class TestResultManager
                     INNER JOIN tst_active ON tst_active.active_id = tst_result_cache.active_fi
                     INNER JOIN tst_tests ON tst_tests.test_id = tst_active.test_fi
                     WHERE tst_tests.obj_fi = %s AND tst_result_cache.passed_once = 1",
-            ['integer'],
+            [\ilDBConstants::T_INTEGER],
             [$test_obj_id]
         );
         return $this->db->fetchAll($result);
@@ -75,7 +75,7 @@ class TestResultManager
     {
         $result = $this->db->queryF(
             "SELECT * FROM tst_result_cache WHERE active_fi = %s",
-            ['integer'],
+            [\ilDBConstants::T_INTEGER],
             [$active_id]
         );
 
@@ -88,7 +88,7 @@ class TestResultManager
             "SELECT tst_result_cache.*  FROM tst_result_cache
                     INNER JOIN tst_active ON tst_active.active_id = tst_result_cache.active_fi
                     WHERE tst_active.user_fi = %s AND tst_active.test_fi = %s",
-            ['integer', 'integer'],
+            [\ilDBConstants::T_INTEGER, \ilDBConstants::T_INTEGER],
             [$user_id, $test_id]
         );
         return self::toTestResult($this->db->fetchAssoc($result));
@@ -105,18 +105,18 @@ class TestResultManager
         $result = $this->buildTestResultObject($pass_result);
         $callback = function () use ($result) {
             $values = [
-                'active_fi' => ['integer', $result->getActiveId()],
-                'pass' => ['integer', $result->getPass()],
-                'max_points' => ['float', $result->getMaxPoints()],
-                'reached_points' => ['float', $result->getReachedPoints()],
-                'mark_short' => ['text', $result->getMarkShort()],
-                'mark_official' => ['text', $result->getMarkOfficial()],
-                'passed_once' => ['integer', $result->isPassedOnce()],
-                'passed' => ['integer', (int) $result->isPassed()],
-                'failed' => ['integer', (int) $result->isFailed()],
-                'tstamp' => ['integer', time()],
-                'hint_count' => ['integer', $result->getHintCount()],
-                'hint_points' => ['float', $result->getHintPoints()]
+                'active_fi' => [\ilDBConstants::T_INTEGER, $result->getActiveId()],
+                'pass' => [\ilDBConstants::T_INTEGER, $result->getPass()],
+                'max_points' => [\ilDBConstants::T_FLOAT, $result->getMaxPoints()],
+                'reached_points' => [\ilDBConstants::T_FLOAT, $result->getReachedPoints()],
+                'mark_short' => [\ilDBConstants::T_TEXT, $result->getMarkShort()],
+                'mark_official' => [\ilDBConstants::T_TEXT, $result->getMarkOfficial()],
+                'passed_once' => [\ilDBConstants::T_INTEGER, $result->isPassedOnce()],
+                'passed' => [\ilDBConstants::T_INTEGER, (int) $result->isPassed()],
+                'failed' => [\ilDBConstants::T_INTEGER, (int) $result->isFailed()],
+                'tstamp' => [\ilDBConstants::T_INTEGER, time()],
+                'hint_count' => [\ilDBConstants::T_INTEGER, $result->getHintCount()],
+                'hint_points' => [\ilDBConstants::T_FLOAT, $result->getHintPoints()]
             ];
             $this->db->replace('tst_result_cache', ['active_fi' => $result->getActiveId()], $values);
         };
@@ -140,7 +140,7 @@ class TestResultManager
     {
         $result = $this->db->queryF(
             "SELECT * FROM tst_pass_result WHERE active_fi = %s",
-            ['integer'],
+            [\ilDBConstants::T_INTEGER],
             [$active_id]
         );
         return self::toTestPassResult($this->db->fetchAssoc($result));
@@ -162,19 +162,19 @@ class TestResultManager
             $this->db->replace(
                 'tst_pass_result',
                 [
-                    'active_fi' => ['integer', $object->getActiveId()],
-                    'pass' => ['integer', $pass]
+                    'active_fi' => [\ilDBConstants::T_INTEGER, $object->getActiveId()],
+                    'pass' => [\ilDBConstants::T_INTEGER, $pass]
                 ],
                 [
-                    'points' => ['float', $object->getReachedPoints()],
-                    'maxpoints' => ['float', $object->getMaxPoints()],
-                    'questioncount' => ['integer', $object->getQuestionCount()],
-                    'answeredquestions' => ['integer', $object->getAnsweredQuestions()],
-                    'workingtime' => ['integer', $object->getWorkingTime()],
-                    'tstamp' => ['integer', time()],
-                    'hint_count' => ['integer', $object->getHintCount()],
-                    'hint_points' => ['float', $object->getHintPoints()],
-                    'exam_id' => ['text', $object->getExamId()],
+                    'points' => [\ilDBConstants::T_FLOAT, $object->getReachedPoints()],
+                    'maxpoints' => [\ilDBConstants::T_FLOAT, $object->getMaxPoints()],
+                    'questioncount' => [\ilDBConstants::T_INTEGER, $object->getQuestionCount()],
+                    'answeredquestions' => [\ilDBConstants::T_INTEGER, $object->getAnsweredQuestions()],
+                    'workingtime' => [\ilDBConstants::T_INTEGER, $object->getWorkingTime()],
+                    'tstamp' => [\ilDBConstants::T_INTEGER, time()],
+                    'hint_count' => [\ilDBConstants::T_INTEGER, $object->getHintCount()],
+                    'hint_points' => [\ilDBConstants::T_FLOAT, $object->getHintPoints()],
+                    'exam_id' => [\ilDBConstants::T_TEXT, $object->getExamId()],
                 ]
             );
         };
@@ -199,7 +199,7 @@ class TestResultManager
                     INNER JOIN tst_active ON tst_pass_result.active_fi = tst_active.active_id
                     INNER JOIN tst_tests ON tst_tests.test_id = tst_active.test_fi
                     WHERE active_fi = %s AND pass = %s",
-            ['integer','integer'],
+            [\ilDBConstants::T_INTEGER,\ilDBConstants::T_INTEGER],
             [$active_id, $pass]
         ));
     }
@@ -214,7 +214,7 @@ class TestResultManager
         $is_passed = $object->getPass() <= $test_pass_result['last_finished_pass'] && $mark->getPassed();
         $passed_once_before = $this->db->queryF(
             "SELECT passed_once FROM tst_result_cache WHERE active_fi = %s",
-            ['integer'],
+            [\ilDBConstants::T_INTEGER],
             [$test_pass_result['active_fi']]
         )->fetchAssoc()['passed_once'] ?? false;
         return $object->withPassedOnce($is_passed || $passed_once_before);
@@ -227,7 +227,7 @@ class TestResultManager
                     SUM(hint_points) AS hint_points, COUNT(DISTINCT(question_fi)) answeredquestions
                     FROM tst_test_result
                     WHERE active_fi = %s AND pass = %s",
-            ['integer','integer'],
+            [\ilDBConstants::T_INTEGER,\ilDBConstants::T_INTEGER],
             [$active_id, $pass]
         ));
     }
@@ -253,7 +253,7 @@ class TestResultManager
             "SELECT tst_tests.question_set_type FROM tst_active
                     INNER JOIN tst_tests ON tst_active.test_fi = tst_tests.test_id
                     WHERE tst_active.active_id = %s",
-            ['integer'],
+            [\ilDBConstants::T_INTEGER],
             [$active_id]
         );
         $question_set_type = $result->numRows() > 0 ? $result->fetchAssoc()['question_set_type'] : '';
@@ -265,7 +265,7 @@ class TestResultManager
 						WHERE tst_test_rnd_qst.question_fi = qpl_questions.question_id 
 						    AND tst_test_rnd_qst.active_fi = %s AND	pass = %s
 						GROUP BY tst_test_rnd_qst.active_fi, tst_test_rnd_qst.pass",
-                ['integer', 'integer'],
+                [\ilDBConstants::T_INTEGER, \ilDBConstants::T_INTEGER],
                 [$active_id, $pass]
             ),
             \ilObjTest::QUESTION_SET_TYPE_FIXED => $this->db->queryF(
@@ -274,7 +274,7 @@ class TestResultManager
 						WHERE tst_test_question.question_fi = qpl_questions.question_id
 						    AND	tst_test_question.test_fi = tst_active.test_fi AND tst_active.active_id = %s
 						GROUP BY	tst_test_question.test_fi",
-                ['integer'],
+                [\ilDBConstants::T_INTEGER],
                 [$active_id]
             ),
             default => throw new \ilTestException("not supported question set type: $question_set_type"),
@@ -290,7 +290,7 @@ class TestResultManager
     {
         $result = $this->db->queryF(
             "SELECT started, finished FROM tst_times WHERE active_fi = %s AND pass = %s ORDER BY started",
-            ['integer','integer'],
+            [\ilDBConstants::T_INTEGER,\ilDBConstants::T_INTEGER],
             [$active_id, $pass]
         );
 
@@ -376,7 +376,7 @@ class TestResultManager
                     INNER JOIN tst_active ON tst_active.active_id = tst_result_cache.active_fi
                     INNER JOIN tst_tests ON tst_tests.test_id = tst_active.test_fi
                     WHERE tst_active.user_fi = %s AND tst_tests.obj_fi = %s",
-            ['integer', 'integer'],
+            [\ilDBConstants::T_INTEGER, \ilDBConstants::T_INTEGER],
             [$user_id, $test_obj_id]
         ));
         if($status === null) {
