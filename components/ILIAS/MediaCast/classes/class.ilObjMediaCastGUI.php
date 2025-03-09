@@ -35,6 +35,7 @@ use ILIAS\MediaCast\Settings\SettingsGUI;
  */
 class ilObjMediaCastGUI extends ilObjectGUI
 {
+    protected \ILIAS\MediaObjects\Player\GUIService $mob_player_gui;
     protected \ILIAS\MediaObjects\MediaType\MediaTypeManager $media_type;
     protected \ILIAS\MediaCast\InternalGUIService $gui;
     protected $video_gui;
@@ -94,6 +95,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
         $this->gui = $DIC->mediaCast()->internal()->gui();
         $this->media_type = $DIC->mediaObjects()->internal()->domain()->mediaType();
         $this->video_gui = $DIC->mediaObjects()->internal()->gui()->video();
+        $this->mob_player_gui = $DIC->mediaObjects()->internal()->gui()->player();
     }
 
     public function executeCommand(): void
@@ -252,7 +254,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
         $ilAccess = $this->access;
         $ilToolbar = $this->toolbar;
 
-        $this->checkPermission("read");
+        $this->checkPermission("write");
 
         if ($a_presentation_mode) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("mcst_view_abandoned"));
@@ -849,20 +851,7 @@ EOT;
         $med = $mob->getMediaItem("Standard");
         $comp = null;
         if ($med) {
-            if ($med->getLocationType() === "Reference") {
-                $file = $med->getLocation();
-                if (in_array($med->getFormat(), ["video/vimeo", "video/youtube"])) {
-                    if (!is_int(strpos($file, "?"))) {
-                        $file .= "?controls=0";
-                    } else {
-                        $file .= "&controls=0";
-                    }
-                }
-            } else {
-                $file = ilWACSignedPath::signFile(
-                    ilObjMediaObject::_getURL($mob->getId()) . "/" . $med->getLocation()
-                );
-            }
+            $file = $mob->getStandardSrc();
             if ($this->media_type->isAudio($med->getFormat())) {
                 $comp = $f->player()->audio($file, "");
             } elseif ($this->media_type->isVideo($med->getFormat())) {
@@ -976,7 +965,7 @@ EOT;
             "Standard",
             $this->mc_request->getPresentation()
         )) {
-            $ilCtrl->redirect($this, "listItems");
+            $ilCtrl->redirect($this, "showContent");
         }
         exit;
     }
@@ -1178,7 +1167,7 @@ EOT;
         $ilLocator = $this->locator;
 
         if (is_object($this->object)) {
-            $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "listItems"), "", $this->requested_ref_id);
+            $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "showContent"), "", $this->requested_ref_id);
         }
     }
 
@@ -1193,6 +1182,7 @@ EOT;
 
         if ($ilAccess->checkAccess("read", "", $a_target)) {
             $ctrl->setParameterByClass("ilobjmediacastgui", "ref_id", $a_target);
+            //exit;
             $ctrl->redirectByClass(["ilmediacasthandlergui", "ilobjmediacastgui"], "showContent");
         } elseif ($ilAccess->checkAccess("visible", "", $a_target)) {
             ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
@@ -1474,5 +1464,12 @@ EOT;
     {
         echo $this->getCommentGUI()->getListHTML() . "<script>ilNotes.init(null);</script>";
         exit;
+    }
+
+    protected function renderVideoObject(): void
+    {
+        $mob_id = $this->mc_request->getMobId();
+        $html = $this->mob_player_gui->wrapper()->renderComponent(new ilObjMediaObject($mob_id));
+        $this->gui->httpUtil()->sendString($html);
     }
 }

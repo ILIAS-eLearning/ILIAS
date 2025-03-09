@@ -326,13 +326,13 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
     public static function _lookupFinished(
         int $a_obj_id,
         int $a_user_id = 0
-    ): int {
+    ): ?int {
         global $DIC;
 
         $ilDB = $DIC->database();
         $ilUser = $DIC->user();
 
-        $finished = 0;
+        $finished = null;
         if ($a_user_id === 0) {
             $a_user_id = $ilUser->getId();
         }

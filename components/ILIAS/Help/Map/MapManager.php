@@ -58,7 +58,8 @@ class MapManager
         string $screen_id,
         string $screen_sub_id,
         string $perm,
-        int $module_id = 0
+        int $module_id = 0,
+        string $full_id = ""
     ): void {
         $this->repo->saveMappingEntry(
             $chap,
@@ -66,7 +67,8 @@ class MapManager
             $screen_id,
             $screen_sub_id,
             $perm,
-            $module_id
+            $module_id,
+            $full_id
         );
     }
 

@@ -175,7 +175,11 @@ class ilPCMediaObjectQuickEdit
         $std_alias = $this->pcmedia->getStandardMediaAliasItem();
         $std_item = $this->mob->getMediaItem("Standard");
         if ($this->pcmedia->checkInstanceEditing()) {
-            $std_alias->setCaption($caption);
+            if ($caption !== $std_item->getCaption()) {     // in quick edit we derive if the value is equal to the item caption
+                $std_alias->setCaption($caption);
+            } else {
+                $std_alias->deriveCaption();
+            }
         } else {
             $std_alias->deriveCaption();
             $std_item->setCaption($caption);
@@ -206,7 +210,11 @@ class ilPCMediaObjectQuickEdit
         $std_alias = $this->pcmedia->getStandardMediaAliasItem();
         $std_item = $this->mob->getMediaItem("Standard");
         if ($this->pcmedia->checkInstanceEditing()) {
-            $std_alias->setTextRepresentation($alt_text);
+            if ($alt_text !== $std_item->getTextRepresentation()) {     // in quick edit we derive if the value is equal to the item caption
+                $std_alias->setTextRepresentation($alt_text);
+            } else {
+                $std_alias->deriveTextRepresentation();
+            }
         } else {
             $std_alias->deriveTextRepresentation();
             $std_item->setTextRepresentation($alt_text);

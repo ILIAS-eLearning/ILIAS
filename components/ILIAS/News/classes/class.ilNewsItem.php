@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\MediaObjects\MediaObjectManager;
+
 const NEWS_NOTICE = 0;
 const NEWS_MESSAGE = 1;
 const NEWS_WARNING = 2;
@@ -40,6 +42,7 @@ const NEWS_PUBLIC = "public";
 class ilNewsItem
 {
     private int $mob_cnt_download = 0;
+    protected MediaObjectManager $media_manager;
     protected int $mob_cnt_play = 0;
     protected ilDBInterface $db;
     protected ilTree $tree;
@@ -91,6 +94,7 @@ class ilNewsItem
         }
         $this->limitation = true;
         $this->log = $DIC->logger()->news();
+        $this->media_manager = $DIC->mediaObjects()->internal()->domain()->mediaObject();
     }
 
     public function setId(int $a_id): void
@@ -1920,15 +1924,10 @@ class ilNewsItem
 
         $m_item = $mob->getMediaItem($a_purpose);
         if ($m_item->getLocationType() !== "Reference") {
-            $file = $mob_dir . "/" . $m_item->getLocation();
-            if (file_exists($file) && is_file($file)) {
-                if ($a_increase_download_cnt) {
-                    $this->increaseDownloadCounter();
-                }
-                ilFileDelivery::deliverFileLegacy($file, $m_item->getLocation(), "", false, false, false);
-                return true;
+            $this->media_manager->deliverEntry($mob->getId(), "/" . $m_item->getLocation());
+            if ($a_increase_download_cnt) {
+                $this->increaseDownloadCounter();
             }
-
             $this->main_tpl->setOnScreenMessage('failure', "File not found!", true);
             return false;
         }

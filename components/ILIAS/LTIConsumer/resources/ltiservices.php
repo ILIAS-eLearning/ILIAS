@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 /** @noRector */
 
-chdir("../../../");
+require_once("../vendor/composer/vendor/autoload.php");
 
 ilContext::init(ilContext::CONTEXT_SCORM);
 ilInitialisation::initILIAS();
@@ -30,13 +30,14 @@ global $DIC;
 $path = $_SERVER['PATH_INFO'] ?? '';
 
 if (empty($path)) {
+    ilObjLTIConsumer::getLogger()->info("ERROR_NO_PATH_INFO");
     ilObjLTIConsumer::sendResponseError(500, json_encode(array('error' => "ERROR_NO_PATH_INFO")));
 }
 
 $serviceName = getService($path);
 
-ilObjLTIConsumer::getLogger()->debug("lti service call $serviceName");
-ilObjLTIConsumer::getLogger()->debug("lti service path $path");
+ilObjLTIConsumer::getLogger()->info("lti service call $serviceName");
+ilObjLTIConsumer::getLogger()->info("lti service path $path");
 
 $service = null;
 switch ($serviceName) {
@@ -45,6 +46,7 @@ switch ($serviceName) {
         $service->setResourcePath($path);
         break;
     default:
+        ilObjLTIConsumer::getLogger()->info("invalid_request");
         ilObjLTIConsumer::sendResponseError(400, json_encode(array('error' => 'invalid_request')));
 }
 

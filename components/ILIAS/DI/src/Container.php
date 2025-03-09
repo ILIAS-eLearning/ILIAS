@@ -468,6 +468,12 @@ class Container extends \Pimple\Container
         return $this['learning_object_metadata'] ?? new \ILIAS\MetaData\Services\Services($this);
     }
 
+    public function like(): \ILIAS\Like\Service
+    {
+        return new \ILIAS\Like\Service($this);
+    }
+
+
     /**
      * Note: Only use isDependencyAvailable if strictly required. The need for this,
      * mostly points to some underlying problem needing to be solved instead of using this.

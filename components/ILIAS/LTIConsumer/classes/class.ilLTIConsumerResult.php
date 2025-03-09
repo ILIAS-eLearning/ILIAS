@@ -76,6 +76,9 @@ class ilLTIConsumerResult
     {
         global $DIC;
 
+        $logger = $DIC->logger()->root();
+        $logger->info('getByKeys: ' . $a_obj_id . ' ' . $a_usr_id);
+
         $query = 'SELECT * FROM lti_consumer_results'
             . ' WHERE obj_id = ' . $DIC->database()->quote($a_obj_id, 'integer')
             . ' AND usr_id = ' . $DIC->database()->quote($a_usr_id, 'integer');
@@ -116,12 +119,21 @@ class ilLTIConsumerResult
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
+        $logger = $DIC->logger()->root();
+
+        $logger->info('save: ' . $this->obj_id . ' ' . $this->usr_id);
+
         if (!isset($this->usr_id) || !isset($this->obj_id)) {
             return false;
         }
         if (!isset($this->id)) {
             $this->id = $DIC->database()->nextId('lti_consumer_results');
         }
+
+        $logger = $DIC->logger()->root();
+
+        $logger->info('save 2: ' . $this->obj_id . ' ' . $this->usr_id);
+
         $DIC->database()->replace(
             'lti_consumer_results',
             array(

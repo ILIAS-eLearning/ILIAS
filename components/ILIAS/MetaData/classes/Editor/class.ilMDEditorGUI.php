@@ -112,14 +112,14 @@ class ilMDEditorGUI
 
     public function debug(): bool
     {
-        $button = $this->renderButtonToFullEditor();
-
         $xml = $this->xml_writer->write($this->repository->getMD($this->obj_id, $this->sub_id, $this->type));
         $dom = new DOMDocument('1.0');
         $dom->formatOutput = true;
         $dom->preserveWhiteSpace = false;
         $dom->loadXML($xml->asXML());
-        $this->tpl->setContent($button . '<pre>' . htmlentities($dom->saveXML()) . '</pre>');
+
+        $this->addButtonToFullEditor();
+        $this->tpl->setContent('<pre>' . htmlentities($dom->saveXML()) . '</pre>');
         return true;
     }
 
@@ -195,10 +195,8 @@ class ilMDEditorGUI
                     break;
             }
         }
-        $this->tpl->setContent(
-            $this->renderButtonToFullEditor() .
-            $this->ui_renderer->render($template_content)
-        );
+        $this->addButtonToFullEditor();
+        $this->tpl->setContent($this->ui_renderer->render($template_content));
     }
 
     protected function fullEditorCreate(): void
@@ -386,29 +384,20 @@ class ilMDEditorGUI
         );
     }
 
-    protected function renderButtonToFullEditor(): string
+    protected function addButtonToFullEditor(): void
     {
-        $bulky = $this->ui_factory->button()->bulky(
-            $this->ui_factory->symbol()->icon()->standard(
-                'mds',
-                $this->presenter->utilities()->txt('meta_button_to_full_editor_label'),
-                'medium'
-            ),
+        $editor = $this->ui_factory->button()->standard(
             $this->presenter->utilities()->txt('meta_button_to_full_editor_label'),
             $this->ctrl->getLinkTarget($this, 'fullEditor')
         );
+        $this->toolbar->addComponent($editor);
         if (DEVMODE) {
-            $debug = $this->ui_factory->button()->bulky(
-                $this->ui_factory->symbol()->icon()->standard(
-                    'adm',
-                    'Debug'
-                ),
+            $debug = $this->ui_factory->button()->standard(
                 'Debug',
                 $this->ctrl->getLinkTarget($this, 'debug')
             );
+            $this->toolbar->addComponent($debug);
         }
-        return  $this->ui_renderer->render($bulky) .
-            (isset($debug) ? '</p>' . $this->ui_renderer->render($debug) : '');
     }
 
     protected function checkAccess(): void

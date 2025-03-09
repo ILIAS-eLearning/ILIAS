@@ -110,13 +110,13 @@ class ilTestSkillEvaluation
     }
 
     /**
-     * @param array $testResults An array containing the test results for a given user
+     * @param array $test_results An array containing the test results for a given user
      */
-    public function evaluate(array $testResults): void
+    public function evaluate(array $test_results): void
     {
         $this->reset();
 
-        $this->initTestResultData($testResults);
+        $this->initTestResultData($test_results);
 
         $this->drawUpSkillPointAccounts();
         $this->evaluateSkillPointAccounts();
@@ -159,23 +159,23 @@ class ilTestSkillEvaluation
 
     private function drawUpSkillPointAccounts()
     {
-        foreach ($this->questions as $questionId) {
-            if (!$this->isAnsweredQuestion($questionId)) {
+        foreach ($this->questions as $question_id) {
+            if (!$this->isAnsweredQuestion($question_id)) {
                 continue;
             }
 
-            $assignments = $this->skillQuestionAssignmentList->getAssignmentsByQuestionId($questionId);
+            $assignments = $this->skillQuestionAssignmentList->getAssignmentsByQuestionId($question_id);
 
             foreach ($assignments as $assignment) {
                 if ($assignment->hasEvalModeBySolution()) {
-                    $reachedSkillPoints = $this->determineReachedSkillPointsWithSolutionCompare(
+                    $reached_skill_points = $this->determineReachedSkillPointsWithSolutionCompare(
                         $assignment->getSolutionComparisonExpressionList()
                     );
                 } else {
-                    $maxTestPoints = $this->maxPointsByQuestion[$questionId];
-                    $reachedTestPoints = $this->reachedPointsByQuestion[$questionId];
+                    $maxTestPoints = $this->maxPointsByQuestion[$question_id];
+                    $reachedTestPoints = $this->reachedPointsByQuestion[$question_id];
 
-                    $reachedSkillPoints = $this->calculateReachedSkillPointsFromTestPoints(
+                    $reached_skill_points = $this->calculateReachedSkillPointsFromTestPoints(
                         $assignment->getSkillPoints(),
                         $maxTestPoints,
                         $reachedTestPoints
@@ -186,7 +186,7 @@ class ilTestSkillEvaluation
                     $assignment->getSkillBaseId(),
                     $assignment->getSkillTrefId(),
                     $assignment->getMaxSkillPoints(),
-                    $reachedSkillPoints
+                    $reached_skill_points
                 );
             }
         }
@@ -197,23 +197,23 @@ class ilTestSkillEvaluation
         return isset($this->reachedPointsByQuestion[$questionId]);
     }
 
-    private function determineReachedSkillPointsWithSolutionCompare(ilAssQuestionSolutionComparisonExpressionList $expressionList): ?int
-    {
-        $questionProvider = new ilAssLacQuestionProvider();
-        $questionProvider->setQuestionId($expressionList->getQuestionId());
+    private function determineReachedSkillPointsWithSolutionCompare(
+        ilAssQuestionSolutionComparisonExpressionList $expression_list
+    ): ?int {
+        $question_provider = new ilAssLacQuestionProvider();
+        $question_provider->setQuestionId($expression_list->getQuestionId());
 
-        foreach ($expressionList->get() as $expression) {
-            /* @var ilAssQuestionSolutionComparisonExpression $expression */
+        foreach ($expression_list->get() as $expression) {
+            $condition_composite = (new ilAssLacConditionParser())->parse(
+                $expression->getExpression()
+            );
 
-            $conditionParser = new ilAssLacConditionParser();
-            $conditionComposite = $conditionParser->parse($expression->getExpression());
-
-            $compositeEvaluator = new ilAssLacCompositeEvaluator(
-                $questionProvider,
+            $composite_evaluator = new ilAssLacCompositeEvaluator(
+                $question_provider,
                 $this->getActiveId(),
                 $this->getPass()
             );
-            if ($compositeEvaluator->evaluate($conditionComposite)) {
+            if ($composite_evaluator->evaluate($condition_composite)) {
                 return $expression->getPoints();
             }
         }
@@ -221,65 +221,62 @@ class ilTestSkillEvaluation
         return 0;
     }
 
-    private function calculateReachedSkillPointsFromTestPoints($skillPoints, $maxTestPoints, $reachedTestPoints)
+    private function calculateReachedSkillPointsFromTestPoints($skill_points, $max_test_points, $reached_test_points): float
     {
-        if ($reachedTestPoints < 0) {
-            $reachedTestPoints = 0;
+        if ($reached_test_points < 0) {
+            $reached_test_points = 0;
         }
 
         $factor = 0;
 
-        if ($maxTestPoints > 0) {
-            $factor = $reachedTestPoints / $maxTestPoints;
+        if ($max_test_points > 0) {
+            $factor = $reached_test_points / $max_test_points;
         }
 
-        return ($skillPoints * $factor);
+        return ($skill_points * $factor);
     }
 
-    private function bookToSkillPointAccount($skillBaseId, $skillTrefId, $maxSkillPoints, $reachedSkillPoints)
+    private function bookToSkillPointAccount($skill_base_id, $skill_tref_id, $max_skill_points, $reached_skill_points): void
     {
-        $skillKey = $skillBaseId . ':' . $skillTrefId;
+        $skill_key = $skill_base_id . ':' . $skill_tref_id;
 
-        if (!isset($this->skillPointAccounts[$skillKey])) {
-            $this->skillPointAccounts[$skillKey] = new ilTestSkillPointAccount();
+        if (!isset($this->skillPointAccounts[$skill_key])) {
+            $this->skillPointAccounts[$skill_key] = new ilTestSkillPointAccount();
         }
 
-        $this->skillPointAccounts[$skillKey]->addBooking($maxSkillPoints, $reachedSkillPoints);
+        $this->skillPointAccounts[$skill_key]->addBooking($max_skill_points, $reached_skill_points);
     }
 
     private function evaluateSkillPointAccounts()
     {
-        foreach ($this->skillPointAccounts as $skillKey => $skillPointAccount) {
-            if (!$this->doesNumBookingsExceedRequiredBookingsBarrier($skillPointAccount)) {
+        foreach ($this->skillPointAccounts as $skill_key => $skill_point_account) {
+            if (!$this->doesNumBookingsExceedRequiredBookingsBarrier($skill_point_account)) {
                 continue;
             }
 
-            list($skillBaseId, $skillTrefId) = explode(':', $skillKey);
+            list($skill_base_id, $skill_tref_id) = explode(':', $skill_key);
 
-            $skill = new ilBasicSkill((int) $skillBaseId);
+            $skill = new ilBasicSkill((int) $skill_base_id);
             $levels = $skill->getLevelData();
 
-            $reachedLevelId = null;
-
+            $reached_level_id = null;
             foreach ($levels as $level) {
-                $threshold = $this->skillLevelThresholdList->getThreshold($skillBaseId, $skillTrefId, $level['id']);
+                $threshold = $this->skillLevelThresholdList->getThreshold($skill_base_id, $skill_tref_id, $level['id']);
 
                 if (!($threshold instanceof ilTestSkillLevelThreshold) || !$threshold->getThreshold()) {
                     continue;
                 }
 
-                if ($skillPointAccount->getTotalReachedSkillPercent() < $threshold->getThreshold()) {
+                if ($skill_point_account->getTotalReachedSkillPercent() < $threshold->getThreshold()) {
                     break;
                 }
 
-                $reachedLevelId = $level['id'];
+                $reached_level_id = $level['id'];
             }
 
-            if ($reachedLevelId) {
-                $this->reachedSkillLevels[] = [
-                    'sklBaseId' => $skillBaseId, 'sklTrefId' => $skillTrefId, 'sklLevelId' => $reachedLevelId
-                ];
-            }
+            $this->reachedSkillLevels[] = [
+                'sklBaseId' => $skill_base_id, 'sklTrefId' => $skill_tref_id, 'sklLevelId' => $reached_level_id
+            ];
         }
     }
 

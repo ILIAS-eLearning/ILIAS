@@ -532,12 +532,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
     protected function handleLocalRoleAssignments(int $user_id, ilLTIPlatform $consumer): bool
     {
         global $DIC;
-        //        if (empty($this->messageParameters)) {
-        //            $status->setReason('empty_lti_message_parameters');
-        //            $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
-        //            return false;
-        //        }
-        //$target_ref_id = $_SESSION['lti_current_context_id'];
+
         $target_ref_id = $this->ref_id;
         $this->getLogger()->info('$target_ref_id: ' . $target_ref_id);
         if (!$target_ref_id) {
@@ -547,64 +542,176 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 
         $obj_settings = new ilLTIProviderObjectSetting($target_ref_id, $consumer->getExtConsumerId());
 
-        // @todo read from lti data
-        //$roles = $DIC->http()->wrapper()->post()->retrieve('roles', $DIC->refinery()->kindlyTo()->string());
-        $roles = $this->messageParameters['roles'];
+        $roles = $this->messageParameters['roles'] ?? '';
 
-        if (!strlen($roles)) {
-            $this->getLogger()->warning('No role information given');
+        if (!is_string($roles) || empty($roles)) {
+            $this->getLogger()->warning('No role information given or invalid role format.');
             return false;
         }
-        $role_arr = explode(',', $roles);
-        foreach ($role_arr as $role_name) {
-            $role_name = trim($role_name);
-            $role_name = str_replace('http://purl.imsglobal.org/vocab/lis/v2/membership#', '', $role_name);
-            $role_name = str_replace('http://purl.imsglobal.org/vocab/lis/v2/person#', '', $role_name);
-            $role_name = str_replace('http://purl.imsglobal.org/vocab/lis/v2/institution/person#', '', $role_name);
-            $role_name = str_replace('http://purl.imsglobal.org/vocab/lis/v2/system/person#', '', $role_name);
 
-            switch ($role_name) {
-                case 'Administrator':
-                    $this->getLogger()->info('Administrator role handling');
-                    if ($obj_settings->getAdminRole()) {
-                        $GLOBALS['DIC']->rbac()->admin()->assignUser(
-                            $obj_settings->getAdminRole(),
-                            $user_id
-                        );
-                    }
-                    break;
+        $this->getLogger()->info("Deassigning all roles for user: " . $user_id);
+        $DIC->rbac()->admin()->deassignUser($obj_settings->getTutorRole(), $user_id);
+        $DIC->rbac()->admin()->deassignUser($obj_settings->getMemberRole(), $user_id);
+        $DIC->rbac()->admin()->deassignUser($obj_settings->getAdminRole(), $user_id);
 
-                case 'Instructor':
-                    $this->getLogger()->info('Instructor role handling');
-                    $this->getLogger()->info('Tutor role for request: ' . $obj_settings->getTutorRole());
-                    if ($obj_settings->getTutorRole()) {
-                        $GLOBALS['DIC']->rbac()->admin()->assignUser(
-                            $obj_settings->getTutorRole(),
-                            $user_id
-                        );
-                    }
-                    break;
+        $role_arr = is_array($roles) ? $roles : explode(',', $roles);
 
-                case 'Member':
-                case 'Learner':
-                    $this->getLogger()->info('Member role handling');
-                    if ($obj_settings->getMemberRole()) {
-                        $GLOBALS['DIC']->rbac()->admin()->assignUser(
-                            $obj_settings->getMemberRole(),
-                            $user_id
-                        );
-                    }
-                    break;
-                default: // ToDo: correct parsing of lti1.3 roles
-                    $this->getLogger()->info('default role handling');
-                    if ($obj_settings->getMemberRole()) {
-                        $GLOBALS['DIC']->rbac()->admin()->assignUser(
-                            $obj_settings->getMemberRole(),
-                            $user_id
-                        );
-                    }
+        $this->getLogger()->info('Recieved roles: ' . implode(', ', $role_arr));
+
+
+        foreach ($role_arr as $role) {
+            $role = trim($role);
+            $local_role_id = $this->mapLTIRoleToLocalRole($role, $obj_settings);
+
+            if ($local_role_id) {
+                $this->getLogger()->info('Assigning local role ID: ' . $local_role_id . ' for LTI role: ' . $role);
+                $DIC->rbac()->admin()->assignUser($local_role_id, $user_id);
+            } else {
+                $this->getLogger()->info('No local role mapping found for LTI role: ' . $role);
             }
         }
+
         return true;
     }
+
+    /**
+     * Maps an LTI role (URI or simple name) to a local ILIAS role ID.
+     *
+     * @param string $lti_role
+     * @param ilLTIProviderObjectSetting $settings
+     * @return int|null The ILIAS role ID, or null if no mapping is found.
+     */
+    protected function mapLTIRoleToLocalRole(string $lti_role, ilLTIProviderObjectSetting $settings): ?int
+    {
+        // Prioritize more specific roles (sub-roles)
+        $role_map = [
+            // System Roles
+            'http://purl.imsglobal.org/vocab/lti/system/person#TestUser' => null, // Example: No mapping for TestUser
+            'http://purl.imsglobal.org/vocab/lis/v2/system/person#Administrator' => $settings->getAdminRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/system/person#None' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/system/person#AccountAdmin' => null, // No direct mapping
+            'http://purl.imsglobal.org/vocab/lis/v2/system/person#Creator' => null, // No direct mapping
+            'http://purl.imsglobal.org/vocab/lis/v2/system/person#SysAdmin' => null,  // No direct mapping
+            'http://purl.imsglobal.org/vocab/lis/v2/system/person#SysSupport' => null, // No direct mapping
+            'http://purl.imsglobal.org/vocab/lis/v2/system/person#User' => null, // No direct mapping
+
+            // Institution Roles
+            'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Administrator' => $settings->getAdminRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Faculty' => $settings->getTutorRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Guest' => null, // No direct mapping
+            'http://purl.imsglobal.org/vocab/lis/v2/institution/person#None' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Other' => null, // No direct mapping
+            'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Staff' => null,  // No direct mapping
+            'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Student' => $settings->getMemberRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Alumni' => null, // No direct mapping
+            'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Instructor' => $settings->getTutorRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Learner' => $settings->getMemberRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Member' => $settings->getMemberRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Mentor' => null, // No direct mapping
+            'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Observer' => null, // No direct mapping
+            'http://purl.imsglobal.org/vocab/lis/v2/institution/person#ProspectiveStudent' => null, // No direct mapping
+
+            // Context Roles (Main)
+            'http://purl.imsglobal.org/vocab/lis/v2/membership#Administrator' => $settings->getAdminRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership#ContentDeveloper' => null, // No direct mapping
+            'http://purl.imsglobal.org/vocab/lis/v2/membership#Instructor' => $settings->getTutorRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership#Learner' => $settings->getMemberRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership#Mentor' => null, // No direct mapping
+            'http://purl.imsglobal.org/vocab/lis/v2/membership#Manager' => $settings->getAdminRole(), // Potentially map to admin
+            'http://purl.imsglobal.org/vocab/lis/v2/membership#Member' => $settings->getMemberRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership#Officer' => null, // No direct mapping
+
+            // Context Sub-Roles (TeachingAssistant)
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Instructor#TeachingAssistant' => $settings->getTutorRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Instructor#TeachingAssistantGroup' => $settings->getTutorRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Instructor#TeachingAssistantOffering' => $settings->getTutorRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Instructor#TeachingAssistantSection' => $settings->getTutorRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Instructor#TeachingAssistantSectionAssociation' => $settings->getTutorRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Instructor#TeachingAssistantTemplate' => $settings->getTutorRole(),
+            // Context Sub-Roles (Grader)
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Instructor#Grader' => $settings->getTutorRole(), // Map Grader to Tutor
+            // Context Sub-Roles (GuestInstructor, Lecturer, PrimaryInstructor, SecondaryInstructor)
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Instructor#GuestInstructor' => $settings->getTutorRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Instructor#Lecturer' => $settings->getTutorRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Instructor#PrimaryInstructor' => $settings->getTutorRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Instructor#SecondaryInstructor' => $settings->getTutorRole(),
+            // Context Sub-Roles (ExternalInstructor)
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Instructor#ExternalInstructor' => $settings->getTutorRole(),
+
+            // Context Sub-Roles (ExternalLearner, GuestLearner, Learner, NonCreditLearner)
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Learner#ExternalLearner' => $settings->getMemberRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Learner#GuestLearner' => $settings->getMemberRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Learner#Learner' => $settings->getMemberRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Learner#NonCreditLearner' => $settings->getMemberRole(),
+
+            // Context Sub-Roles (AreaManager, CourseCoordinator, ExternalObserver, Manager, Observer)
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Manager#AreaManager' => $settings->getAdminRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Manager#CourseCoordinator' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Manager#ExternalObserver' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Manager#Manager' => $settings->getAdminRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Manager#Observer' => null,
+
+            // Context Sub-Roles (Advisor, Auditor, ExternalAdvisor, ExternalAuditor, ExternalLearningFacilitator, ExternalMentor, ExternalReviewer, ExternalTutor, LearningFacilitator, Mentor, Reviewer, Tutor)
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Mentor#Advisor' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Mentor#Auditor' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Mentor#ExternalAdvisor' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Mentor#ExternalAuditor' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Mentor#ExternalLearningFacilitator' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Mentor#ExternalMentor' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Mentor#ExternalReviewer' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Mentor#ExternalTutor' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Mentor#LearningFacilitator' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Mentor#Mentor' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Mentor#Reviewer' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Mentor#Tutor' => $settings->getTutorRole(), // Map Tutor to Tutor
+
+            // Context Sub-Roles (Chair, Communications, Secretary, Treasurer, Vice-Chair)
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Officer#Chair' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Officer#Communications' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Officer#Secretary' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Officer#Treasurer' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Officer#Vice-Chair' => null,
+
+            // Context Sub-Roles (ContentDeveloper, ContentExpert, ExternalContentExpert, Librarian)
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/ContentDeveloper#ContentDeveloper' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/ContentDeveloper#ContentExpert' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/ContentDeveloper#ExternalContentExpert' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/ContentDeveloper#Librarian' => null,
+
+            // Context Sub-Roles (Member)
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Member#Member' => $settings->getMemberRole(),
+
+            // Context Sub-Roles (Administrator, Developer, ExternalDeveloper, ExternalSupport, ExternalSystemAdministrator, Support, SystemAdministrator)
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Administrator#Administrator' => $settings->getAdminRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Administrator#Developer' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Administrator#ExternalDeveloper' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Administrator#ExternalSupport' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Administrator#ExternalSystemAdministrator' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Administrator#Support' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Administrator#SystemAdministrator' => null,
+        ];
+
+        // LTI 1.0/1.1 simple names (supported for backward compatibility)
+        $simple_name_map = [
+            'Instructor' => $settings->getTutorRole(),
+            'Learner' => $settings->getMemberRole(),
+            'ContentDeveloper' => null,
+            'Administrator' => $settings->getAdminRole(),
+            'Mentor' => null,
+            'Manager' => $settings->getAdminRole(),
+            'Member' => $settings->getMemberRole(),
+            'Officer' => null,
+        ];
+
+
+        if (isset($role_map[$lti_role])) {
+            return $role_map[$lti_role];
+        } elseif (isset($simple_name_map[$lti_role])) {
+            // Check for simple names
+            return $simple_name_map[$lti_role];
+        }
+
+        return null;
+    }
+
 }

@@ -40,10 +40,10 @@ class ilTestSkillPointAccount
         $this->numBookings = 0;
     }
 
-    public function addBooking($maxSkillPoints, $reachedSkillPoints)
+    public function addBooking($max_skill_points, $reached_skill_points): void
     {
-        $this->totalMaxSkillPoints += $maxSkillPoints;
-        $this->totalReachedSkillPoints += $reachedSkillPoints;
+        $this->totalMaxSkillPoints += $max_skill_points;
+        $this->totalReachedSkillPoints += $reached_skill_points;
 
         $this->numBookings++;
     }

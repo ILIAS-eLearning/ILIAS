@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Filesystem\Stream\ZIPStream;
+
 /**
  * Class ilMediaItem
  * Media Item, component of a media object (file or reference)
@@ -1033,9 +1035,7 @@ class ilMediaItem
                 $this->setDuration((int) $meta["duration"]);
             }
         } else {
-            $file = ($this->getLocationType() == "Reference")
-                ? $this->getLocation()
-                : ilObjMediaObject::_getDirectory($this->getMobId()) . "/" . $this->getLocation();
+            $file = $this->getLocationSrc();
 
             $remote = false;
 
@@ -1066,6 +1066,43 @@ class ilMediaItem
             } catch (Exception $e) {
             }
         }
+    }
+
+    public function getLocationSrc(bool $autoplay = false): string
+    {
+        if (strcasecmp("Reference", $this->getLocationType()) === 0) {
+            $src = $this->getLocation();
+            if ($this->getFormat() === "video/vimeo") {
+                $params = "";
+                if ($autoplay) {
+                    $params = "&autoplay=1&muted=1";
+                }
+                $par = ilExternalMediaAnalyzer::extractVimeoParameters($src);
+                $src = "//player.vimeo.com/video/" . $par["id"] . "?api=1" . $params;
+            }
+            if ($this->getFormat() === "video/youtube") {
+                $params = "";
+                if ($autoplay) {
+                    $params = "&autoplay=1&muted=1";
+                }
+                $par = ilExternalMediaAnalyzer::extractYouTubeParameters($src);
+                $src = "//www.youtube.com/embed/" . $par["v"] . "?enablejsapi=1" . $params;
+            }
+        } else {
+            $src = $this->mob_manager->getLocalSrc(
+                $this->getMobId(),
+                $this->getLocation()
+            );
+        }
+        return $src;
+    }
+
+    public function getLocationStream() : ZIPStream
+    {
+        return $this->mob_manager->getLocationStream(
+            $this->getMobId(),
+            $this->getLocation()
+        );
     }
 
     /**

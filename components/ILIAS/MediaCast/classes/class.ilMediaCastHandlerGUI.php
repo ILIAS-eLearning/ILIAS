@@ -64,6 +64,7 @@ class ilMediaCastHandlerGUI implements ilCtrlBaseClassInterface
         $next_class = $this->ctrl->getNextClass($this);
         if ((string) $next_class === "") {
             $this->ctrl->setParameterByClass(ilObjMediaCastGUI::class, "ref_id", $this->request->getRefId());
+            //exit;
             $this->ctrl->redirectByClass(ilObjMediaCastGUI::class, "showContent");
         }
 

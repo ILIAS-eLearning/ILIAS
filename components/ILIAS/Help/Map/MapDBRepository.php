@@ -72,7 +72,8 @@ class MapDBRepository
         string $a_screen_id,
         string $a_screen_sub_id,
         string $a_perm,
-        int $a_module_id = 0
+        int $a_module_id = 0,
+        string $full_id = ""
     ): void {
         $this->db->replace(
             "help_map",
@@ -81,7 +82,8 @@ class MapDBRepository
                   "screen_id" => array("text", $a_screen_id),
                   "screen_sub_id" => array("text", $a_screen_sub_id),
                   "perm" => array("text", $a_perm),
-                  "module_id" => array("integer", $a_module_id)
+                  "module_id" => array("integer", $a_module_id),
+                  "full_id" => array("text", $full_id)
             ),
             array()
         );

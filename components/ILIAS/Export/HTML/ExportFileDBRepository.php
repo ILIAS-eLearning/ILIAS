@@ -38,8 +38,8 @@ class ExportFileDBRepository
 
     public function create(
         int $object_id,
-        string $type = "",
-        string $title = ""
+        string $type,
+        string $title
     ): string
     {
         $rid = $this->irss->createContainer(
@@ -187,6 +187,7 @@ class ExportFileDBRepository
         $this->irss->deliverFile($rid);
     }
 
+    // currently broken, see https://mantis.ilias.de/view.php?id=44135
     public function rename(
         string $rid,
         string $title

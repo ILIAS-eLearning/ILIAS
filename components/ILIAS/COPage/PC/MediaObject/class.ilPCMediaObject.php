@@ -501,9 +501,7 @@ class ilPCMediaObject extends ilPageContent
     public function getCssFiles(
         string $a_mode
     ): array {
-        $js_files = ilPlayerUtil::getCssFilePaths();
-
-        return $js_files;
+        return [];
     }
 
     public function getStandardMediaAliasItem(): ilMediaAliasItem

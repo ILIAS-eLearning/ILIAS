@@ -12435,7 +12435,7 @@ meta#:#meta_idea#:#Idee
 meta#:#meta_identifier#:#Kennung
 meta#:#meta_identifier_plural#:#Kennungen
 meta#:#meta_index#:#Index
-meta#:#meta_info_licence_section#:#Lizenz und Nachbenutzung
+meta#:#meta_info_licence_section#:#Lizenz und Nachnutzung
 meta#:#meta_info_only_repository_objects#:#Nachfolgend werden nur Magazinobjekte angezeigt, nicht aber Medienobjekte oder Lernmodulseiten.
 meta#:#meta_initiator#:#Initiator
 meta#:#meta_installation_remarks#:#Installationsanmerkungen
@@ -13112,6 +13112,7 @@ obj#:#obj_tool_setting_use_news_open_settings#:#Einstellungen für Block und Tim
 obj#:#obj_user_decides_notification#:#Mitglieder müssen Benachrichtigungen selbst aktivieren
 obj#:#obj_user_not_disable_not#:#Mitglieder können die Benachrichtigung nicht deaktiveren
 obj#:#online_input_byline#:#Objekt ist veröffentlicht und kann von allen Personen mit dem Recht „Lesezugriff“ genutzt werden. Die Verfügbarkeit kann aber noch durch Vorbedingungen oder zeitliche Zugriffsbeschränkungen eingeschränkt sein. Diese Einstellungen wirkt sich auf alle Referenzen des Objektes aus.
+obj#:#select_import_type_info#:#Der Typ des zu importierenden Objekts konnte nicht automatisch ermittelt werden. Vermutlich wurde die Datei umbenannt. Bitte wählen Sie den Objekt-Typen aus, den Sie importieren möchten.
 obj#:#select_object_type#:#Objekttyp wählen
 obj#:#svy_results#:#Ergebnisse
 obj#:#unequal_items_for_availability_period_message#:#Es wurden Objekte ausgewählt, deren zeitliche Verfügbarkeit nicht übereinstimmt. Vorgenommene Änderungen überschreiben die zeitliche Verfügbarkeit aller ausgewählten Objekte. Bitte wählen sie "Abbrechen", wenn dies nicht Ihrer Intention entspricht.
@@ -15031,6 +15032,7 @@ rep#:#rep_fav_intro2#:#Klicken Sie auf „%s“ und wählen Sie aus dem verfügb
 rep#:#rep_fav_intro3#:#Wenn Sie etwas gefunden haben, das Sie interessiert, können Sie es ganz einfach zu Ihren Favoriten hinzufügen. Wählen Sie beim gewünschten Objekt im <i>Aktionen</i>-Menü die Option "<i>Zu Favoriten hinzufügen</i>".
 rep#:#rep_favourites#:#Favoriten
 rep#:#rep_favourites_info#:#Benutzer können einzelne Magazinobjekte als Favorit markieren. Favoritenlisten können in der Dashboard- und Hauptmenükonfiguration aktiviert werden.
+rep#:#rep_input_not_empty#:#Dieses Feld erfordert eine Angabe.
 rep#:#rep_intro#:#Willkommen im Magazin!
 rep#:#rep_intro1#:#In diesem Bereich können Sie Lern- und Arbeitsmaterialien erstellen und verfügbar machen. Alle Inhalte werden in Kategorien organisiert. Diese Kategorien können z. B. die Organisation Ihrer Institution (z. B. Abteilungen oder Klassen) abbilden. Kategorien können aber auch verwendet werden, um die Inhalte thematisch zu strukturieren.
 rep#:#rep_intro2#:#Mit drei Schritten können Sie eine erste Struktur aufbauen:
@@ -16047,6 +16049,7 @@ style#:#sty_images#:#Bilder
 style#:#sty_import_page_layout#:#Seitenlayout importieren
 style#:#sty_import_stylesheet#:#Stylesheet importieren
 style#:#sty_import_system_style#:#System-Style importieren
+style#:#sty_imported_layout#:#Seitenlayout wurde importiert.
 style#:#sty_individual_styles#:#Lokale Stylesheets
 style#:#sty_keep_existing#:#Bestehende Klasse erhalten
 style#:#sty_left#:#Links

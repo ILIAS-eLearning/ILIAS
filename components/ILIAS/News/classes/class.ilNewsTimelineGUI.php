@@ -238,19 +238,18 @@ class ilNewsTimelineGUI
         if (count($this->news_data) > 0) {
             $ttpl = new ilTemplate("tpl.news_timeline.html", true, true, "components/ILIAS/News");
             $ttpl->setVariable("NEWS", $timeline->render());
-            $edit_modal = $this->getEditModal($form);
-            $ttpl->setVariable("EDIT_MODAL", $this->ui->renderer()->render($edit_modal));
-            //$ttpl->setVariable("DELETE_MODAL", $this->getDeleteModal());
             $this->renderDeleteModal($ttpl);
+            $this->renderEditModal($form, $ttpl);
             $ttpl->setVariable("LOADER", ilUtil::getImagePath("media/loader.svg"));
             $this->tpl->setContent($ttpl->get());
             $html = $ttpl->get();
         } else {
             if ($this->getEnableAddNews()) {
+                $ttpl = new ilTemplate("tpl.news_timeline.html", true, true, "components/ILIAS/News");
                 $this->tpl->setOnScreenMessage('info', $this->lng->txt("news_timline_add_entries_info"));
-                $edit_modal = $this->getEditModal();
-                $this->tpl->setContent($this->ui->renderer()->render($edit_modal));
-                $html = $this->ui->renderer()->render($edit_modal);
+                $this->renderEditModal($form, $ttpl);
+                $this->tpl->setContent($ttpl->get());
+                $html = $ttpl->get();
             } else {
                 $mess = $this->ui->factory()->messageBox()->info(
                     $this->lng->txt("news_timline_no_entries")
@@ -264,7 +263,12 @@ class ilNewsTimelineGUI
         $this->lng->toJS("update");
         $this->lng->toJS("save");
 
-        $this->tpl->addJavaScript("assets/js/News.js");
+        $debug = false;
+        if ($debug) {
+            $this->tpl->addJavaScript("../components/ILIAS/News/resources/News.js");
+        } else {
+            $this->tpl->addJavaScript("assets/js/News.js");
+        }
         $this->notes->gui()->initJavascript();
         return $html;
     }
@@ -475,6 +479,16 @@ class ilNewsTimelineGUI
         $c = $modal->getTriggerButtonComponents("");
         $tpl->setVariable("DELETE_MODAL", $this->gui->ui()->renderer()->render($c["modal"]));
         $tpl->setVariable("SIGNAL_ID", $c["signal"]);
+    }
+
+    protected function renderEditModal(?ilPropertyFormGUI $form, ilTemplate $tpl) : void
+    {
+        $edit_modal = $this->getEditModal($form);
+        $signal = $edit_modal->getShowSignal()->getId();
+        $close_signal = $edit_modal->getCloseSignal()->getId();
+        $tpl->setVariable("SHOW_EDIT_SIGNAL", $signal);
+        $tpl->setVariable("CLOSE_EDIT_SIGNAL", $close_signal);
+        $tpl->setVariable("EDIT_MODAL", $this->ui->renderer()->render($edit_modal));
     }
 
     protected function downloadMob(): void

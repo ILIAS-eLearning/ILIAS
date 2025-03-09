@@ -85,6 +85,12 @@ trait GlobalDICGUIServices
         return $this->DIC->ui()->mainTemplate();
     }
 
+    public function initFetch() : void
+    {
+        $main_tpl = $this->mainTemplate();
+        $main_tpl->addJavaScript("assets/js/repository.js");
+    }
+
     public function upload(): FileUpload
     {
         return $this->DIC->upload();

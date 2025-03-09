@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Dataset\IRSSContainerExportConfig;
+
 /**
  * Media Pool Data set class
  *
@@ -29,6 +31,7 @@
  */
 class ilMediaObjectDataSet extends ilDataSet
 {
+    protected \ILIAS\MediaObjects\MediaObjectManager $media_manager;
     protected ilMediaItem $current_media_item;
     protected ilObjMediaObject $current_mob;
     protected ilLogger $mob_log;
@@ -36,8 +39,11 @@ class ilMediaObjectDataSet extends ilDataSet
 
     public function __construct()
     {
+        global $DIC;
+
         parent::__construct();
         $this->mob_log = ilLoggerFactory::getLogger('mob');
+        $this->media_manager = $DIC->mediaObjects()->internal()->domain()->mediaObject();
     }
 
     /**
@@ -60,7 +66,7 @@ class ilMediaObjectDataSet extends ilDataSet
      */
     public function getSupportedVersions(): array
     {
-        return array("5.1.0", "4.3.0", "4.1.0");
+        return array("10.0", "5.1.0", "4.3.0", "4.1.0");
     }
 
     protected function getXmlNamespace(string $a_entity, string $a_schema_version): string
@@ -81,7 +87,6 @@ class ilMediaObjectDataSet extends ilDataSet
                         "Description" => "text",
                         "Dir" => "directory"
                     );
-
                 case "5.1.0":
                     return array(
                         "Id" => "integer",
@@ -90,12 +95,21 @@ class ilMediaObjectDataSet extends ilDataSet
                         "Dir" => "directory",
                         "ImportId" => "text"
                     );
+                case "10.0":
+                    return array(
+                        "Id" => "integer",
+                        "Title" => "text",
+                        "Description" => "text",
+                        "MediaContainer" => "rscontainer",
+                        "ImportId" => "text"
+                    );
             }
         }
 
         // media item
         if ($a_entity == "mob_media_item") {
             switch ($a_version) {
+                case "10.0":
                 case "5.1.0":
                 case "4.3.0":
                 case "4.1.0":
@@ -122,6 +136,7 @@ class ilMediaObjectDataSet extends ilDataSet
                 case "4.1.0":
                 case "4.3.0":
                 case "5.1.0":
+                case "10.0":
                     return array(
                         "MiId" => "integer",
                         "Nr" => "integer",
@@ -145,6 +160,7 @@ class ilMediaObjectDataSet extends ilDataSet
                 case "4.1.0":
                 case "4.3.0":
                 case "5.1.0":
+                case "10.0":
                     return array(
                         "MiId" => "integer",
                         "Name" => "text",
@@ -182,8 +198,8 @@ class ilMediaObjectDataSet extends ilDataSet
                         }
                     }
                     break;
-
                 case "5.1.0":
+                case "10.0":
                     foreach ($a_ids as $mob_id) {
                         if (ilObject::_lookupType($mob_id) == "mob") {
                             $this->data[] = array("Id" => $mob_id,
@@ -203,6 +219,7 @@ class ilMediaObjectDataSet extends ilDataSet
                 case "5.1.0":
                 case "4.3.0":
                 case "4.1.0":
+                case "10.0":
                     $this->getDirectDataFromQuery("SELECT id, mob_id, width, height, halign," .
                         "caption, nr, purpose, location, location_type, format, text_representation" .
                         " FROM media_item WHERE " .
@@ -218,6 +235,7 @@ class ilMediaObjectDataSet extends ilDataSet
                 case "4.1.0":
                 case "4.3.0":
                 case "5.1.0":
+                case "10.0":
                     foreach ($this->getDirectDataFromQuery("SELECT item_id mi_id, nr" .
                         " ,shape, coords, link_type, title, href, target, type, target_frame, " .
                         " highlight_mode, highlight_class" .
@@ -252,6 +270,7 @@ class ilMediaObjectDataSet extends ilDataSet
                 case "4.1.0":
                 case "4.3.0":
                 case "5.1.0":
+                case "10.0":
                     $this->getDirectDataFromQuery("SELECT med_item_id mi_id, name, value" .
                         " FROM mob_parameter " .
                         " WHERE " .
@@ -290,16 +309,35 @@ class ilMediaObjectDataSet extends ilDataSet
         string $a_version,
         array $a_set
     ): array {
-        if ($a_entity == "mob") {
-            $dir = ilObjMediaObject::_getDirectory($a_set["Id"]);
-            if (!is_dir($dir)) {
-                ilFileUtils::makeDirParents($dir);
-            }
-            $a_set["Dir"] = $dir;
+
+        if ($a_entity === "mob") {
+            $a_set["MediaContainer"] = serialize($this->media_manager->getContainerResourceId((int) $a_set["Id"]));
         }
 
         return $a_set;
     }
+
+    public function getContainerExportConfig(
+        array $record,
+        string $entity,
+        string $schema_version,
+        string $field,
+        string $value
+    ): ?IRSSContainerExportConfig {
+        if ($entity === "mob" && $field === "MediaContainer") {
+            $rid = $this->media_manager->getContainerResourceId((int) $record["Id"]);
+            if ($rid) {
+                $container = $this->irss->manageContainer()->getResource($rid);
+                return
+                    $this->getIRSSContainerExportConfig(
+                        $container,
+                        ""
+                    );
+            }
+        }
+        return null;
+    }
+
 
     public function importRecord(
         string $a_entity,
@@ -323,17 +361,22 @@ class ilMediaObjectDataSet extends ilDataSet
                     $newObj->setImportId("il_" . $this->getCurrentInstallationId() . "_mob_" . $a_rec["Id"]);
                 }
                 $newObj->create();
-                $newObj->createDirectory();
                 $this->current_mob = $newObj;
 
-                $dir = str_replace("..", "", $a_rec["Dir"]);
+                // up to 9
+                $dir = str_replace("..", "", ($a_rec["Dir"] ?? ""));
                 if ($dir != "" && $this->getImportDirectory() != "") {
                     $source_dir = $this->getImportDirectory() . "/" . $dir;
-                    $target_dir = $dir = ilObjMediaObject::_getDirectory($newObj->getId());
-                    $this->mob_log->debug("s:-$source_dir-,t:-$target_dir-");
-                    ilFileUtils::rCopy($source_dir, $target_dir);
-                    ilObjMediaObject::renameExecutables($target_dir);
-                    ilMediaSvgSanitizer::sanitizeDir($target_dir);	// see #20339
+                    $this->media_manager->addLocalDirectory($newObj->getId(), $source_dir);
+                }
+
+                // from 10
+                $dir = str_replace("..", "", ($a_rec["MediaContainer"] ?? ""));
+                if ($dir != "" && $this->getImportDirectory() != "") {
+                    $source_dir = $this->getImportDirectory() . "/" . $dir;
+                    if (is_dir($source_dir)) {
+                        $this->media_manager->addLocalDirectory($newObj->getId(), $source_dir);
+                    }
                 }
 
                 $a_mapping->addMapping("components/ILIAS/MediaObjects", "mob", $a_rec["Id"], $newObj->getId());

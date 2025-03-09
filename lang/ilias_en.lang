@@ -13112,6 +13112,7 @@ obj#:#obj_tool_setting_use_news_open_settings#:#Open Settings of News Block and 
 obj#:#obj_user_decides_notification#:#Members have to manually activate notifications
 obj#:#obj_user_not_disable_not#:#Member are not allowed to deactivate notifications
 obj#:#online_input_byline#:#The object has been published and can be accessed by anyone with read access. Other access prerequisites or time-based access restrictions may still apply. This settings applies to the object wherever it is used in the repository.
+obj#:#select_import_type_info#:#The type of the object in the file to be imported cannot be determined automatically. The file was probably renamed. Please select the type of object in the file.
 obj#:#select_object_type#:#Select Object Type
 obj#:#svy_results#:#Results
 obj#:#unequal_items_for_availability_period_message#:#You have selected items with different availability periods. Overwrite existing settings below or cancel action to keep current availability periods.
@@ -15031,6 +15032,7 @@ rep#:#rep_fav_intro2#:#Click on '%s' and select a learning object from the avail
 rep#:#rep_fav_intro3#:#When you have found something that interests you, you can easily add it to your favourites. Select the desired item in the <i>Actions</i> menu and choose "<i>Add to favourites</i>".
 rep#:#rep_favourites#:#Favourites
 rep#:#rep_favourites_info#:#Users can mark single repository items as favourites. Favourites lists can be activated and configured in the dashboard and menu settings.
+rep#:#rep_input_not_empty#:#This field must not be empty, please provide a value.
 rep#:#rep_intro#:#Welcome to the Repository!
 rep#:#rep_intro1#:#In this area you can create learning and working resources for all users. All resources are organised in categories. Categories can reflect the structure of your organisation (e.g. departments), a hierarchy of disciplines, or classes of a school.
 rep#:#rep_intro2#:#Three steps are needed to build an initial structure:
@@ -16047,6 +16049,7 @@ style#:#sty_images#:#Images
 style#:#sty_import_page_layout#:#Import Page Layout
 style#:#sty_import_stylesheet#:#Import Style
 style#:#sty_import_system_style#:#Import System Style
+style#:#sty_imported_layout#:#Imported Page Layout
 style#:#sty_individual_styles#:#Individual Styles
 style#:#sty_keep_existing#:#Keep Existing
 style#:#sty_left#:#Left

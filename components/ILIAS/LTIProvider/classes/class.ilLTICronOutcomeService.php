@@ -74,6 +74,9 @@ class ilLTICronOutcomeService extends ilCronJob
         return $this->lng->txt('lti_cron_title_desc');
     }
 
+    /**
+     * @throws ilDateTimeException
+     */
     public function run(): ilCronJobResult
     {
         $status = \ilCronJobResult::STATUS_NO_ACTION;

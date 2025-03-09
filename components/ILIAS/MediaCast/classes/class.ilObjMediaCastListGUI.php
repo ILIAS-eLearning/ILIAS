@@ -37,7 +37,7 @@ class ilObjMediaCastListGUI extends ilObjectListGUI
 
     public function getCommandLink(string $cmd): string
     {
-        $this->ctrl->setParameterByClass(ilMediaCastHandlerGUI::class, "ref_id", $this->ref_id);
+        $this->ctrl->setParameterByClass(ilObjMediaCastGUI::class, "ref_id", $this->ref_id);
         $cmd_link = $this->ctrl->getLinkTargetByClass([ilMediaCastHandlerGUI::class, ilObjMediaCastGUI::class], $cmd);
         return $cmd_link;
     }

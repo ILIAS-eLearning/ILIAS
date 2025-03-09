@@ -39,7 +39,8 @@ class ShortFilePayload extends StructuredPayload
 
         parent::__construct([
             'p' => $uri,
-            'n' => $file_name
+            'n' => $file_name,
+            'd' => filemtime($this->uri)
         ]);
     }
 
@@ -47,7 +48,8 @@ class ShortFilePayload extends StructuredPayload
     {
         return new self(
             $raw_payload['p'],
-            $raw_payload['n']
+            $raw_payload['n'],
+            $raw_payload['d']
         );
     }
 

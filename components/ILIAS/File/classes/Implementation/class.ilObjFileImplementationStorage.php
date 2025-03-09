@@ -170,10 +170,14 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
 
     public function getVersion(bool $inclduing_drafts = false): int
     {
-        if ($inclduing_drafts) {
-            return $this->resource->getCurrentRevisionIncludingDraft()->getVersionNumber();
+        try {
+            if ($inclduing_drafts) {
+                return $this->resource->getCurrentRevisionIncludingDraft()->getVersionNumber();
+            }
+            return $this->resource->getCurrentRevision()->getVersionNumber();
+        } catch (Throwable) {
+            return 0;
         }
-        return $this->resource->getCurrentRevision()->getVersionNumber();
     }
 
     public function getMaxVersion(): int

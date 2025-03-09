@@ -120,6 +120,20 @@ class ilWebDAVRepositoryHelper
             'intval',
             $this->tree->getChildIds($ref_id)
         );
+        // Alternative:
+        $children = $this->tree->getChilds($ref_id);
+        $return = [];
+        $children = array_filter(
+            $children,
+            static function (array $child) {
+                return ($child['deleted'] ?? null) === null;
+            }
+        );
+        foreach ($children as $child) {
+            $return[] = (int) $child['ref_id'];
+        }
+
+        return $return;
     }
 
     public function updateLocksAfterResettingObject(int $old_obj_id, int $new_obj_id): void

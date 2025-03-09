@@ -16,7 +16,11 @@
  *
  *********************************************************************/
 
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\Filesystem\Util\Archive\Archives as ILIASArchives;
 use ILIAS\SurveyQuestionPool\Editing\EditingGUIRequest;
+use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\HTTP\Services as HTTPServices;
 
 /**
  * Class ilObjSurveyQuestionPoolGUI
@@ -29,6 +33,7 @@ use ILIAS\SurveyQuestionPool\Editing\EditingGUIRequest;
  * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilObjectMetaDataGUI, ilPermissionGUI, ilObjectCopyGUI
  * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ILIAS\SurveyQuestionPool\Settings\SettingsGUI
+ * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilExportGUI
  */
 class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 {
@@ -39,6 +44,9 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
     protected ilNavigationHistory $nav_history;
     protected ilHelpGUI $help;
     protected ilLogger $log;
+    protected RefineryFactory $refinery;
+    protected HTTPServices $http;
+    protected ILIASArchives $archives;
     public string $defaultscript;
 
     public function __construct()
@@ -48,7 +56,9 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         $this->nav_history = $DIC["ilNavigationHistory"];
         $this->toolbar = $DIC->toolbar();
         $this->help = $DIC["ilHelp"];
-
+        $this->refinery = $DIC->refinery();
+        $this->http = $DIC->http();
+        $this->archives = $DIC->archives();
         $this->edit_request = $DIC->surveyQuestionPool()
             ->internal()
             ->gui()
@@ -143,6 +153,11 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
                 $this->ctrl->forwardCommand($gui);
                 break;
 
+            case strtolower(ilExportGUI::class):
+                $export = new ilExportGUI($this, $this->object);
+                $this->ctrl->forwardCommand($export);
+                break;
+
             case "":
                 $cmd .= "Object";
                 $this->$cmd();
@@ -224,6 +239,18 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("qpl_export_select_none"));
             $this->questionsObject();
         }
+    }
+
+    public function exportQuestionExportTabObject(): void
+    {
+        $qids = $this->http->wrapper()->query()->retrieve(
+            "qid",
+            $this->refinery->custom()->transformation(function (string $value) {
+                $value = urldecode($value);
+                return explode(',', $value);
+            })
+        );
+        $this->createExportFileObject($qids);
     }
 
     /**
@@ -405,11 +432,12 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
             )->submit()->toToolbar();
 
             $ilToolbar->addSeparator();
-
+            /*
             $this->gui->button(
                 $this->lng->txt("import"),
                 "importQuestions"
             )->submit()->toToolbar();
+            */
         }
 
         $table_gui = new ilSurveyQuestionsTableGUI($this, 'questions', $this->checkPermissionBool('write'));
@@ -444,27 +472,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
      */
     public function exportObject(): void
     {
-        $ilToolbar = $this->toolbar;
-
-        $this->tabs_gui->activateTab("export");
-        $ilToolbar->addButton(
-            $this->lng->txt('create_export_file'),
-            $this->ctrl->getLinkTarget($this, 'createExportFile')
-        );
-
-        $table_gui = new ilSurveyQuestionPoolExportTableGUI($this, 'export');
-        $export_dir = $this->object->getExportDirectory();
-        $export_files = $this->object->getExportFiles($export_dir);
-        $data = array();
-        foreach ($export_files as $exp_file) {
-            $file_arr = explode("__", $exp_file);
-            $data[] = array('file' => $exp_file,
-                            'date' => ilDatePresentation::formatDate(new ilDateTime($file_arr[0], IL_CAL_UNIX)),
-                            'size' => filesize($export_dir . "/" . $exp_file)
-            );
-        }
-        $table_gui->setData($data);
-        $this->tpl->setContent($table_gui->getHTML());
+        $export = new ilExportGUI($this, $this->object);
+        $export->listExportFiles();
     }
 
     /**
@@ -556,29 +565,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         $this->ctrl->redirect($this, "export");
     }
 
-    protected function importFile(string $file_to_import, string $path_to_uploaded_file_in_temp_dir): void
-    {
-        $tpl = $this->tpl;
-
-        $newObj = new ilObjSurveyQuestionPool();
-        $newObj->setTitle("dummy");
-        $newObj->create(true);
-        $this->putObjectInTree($newObj);
-
-        // import qti data
-        $newObj->importObject($file_to_import);
-
-        if ($path_to_uploaded_file_in_temp_dir !== ''
-            && $this->temp_file_system->hasDir($path_to_uploaded_file_in_temp_dir)) {
-            $this->temp_file_system->deleteDir($path_to_uploaded_file_in_temp_dir);
-        }
-
-        $this->deleteUploadedImportFile($path_to_uploaded_file_in_temp_dir);
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_imported"), true);
-        ilUtil::redirect("ilias.php?ref_id=" . $newObj->getRefId() .
-                "&baseClass=ilObjSurveyQuestionPoolGUI");
-    }
-
     /**
      * create new question
      */
@@ -644,6 +630,35 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         $info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
 
         $this->ctrl->forwardCommand($info);
+    }
+
+    protected function importFile(string $file_to_import, string $path_to_uploaded_file_in_temp_dir): void
+    {
+        $unzip = $this->archives->unzip(Streams::ofResource(fopen($file_to_import, 'r')));
+        # If export contains a manifest xml use standard import
+        if (in_array(basename($file_to_import, ".zip") . DIRECTORY_SEPARATOR . "manifest.xml", iterator_to_array($unzip->getFiles()))) {
+            parent::importFile($file_to_import, $path_to_uploaded_file_in_temp_dir);
+            return;
+        }
+        $tpl = $this->tpl;
+
+        $newObj = new ilObjSurveyQuestionPool();
+        $newObj->setTitle("dummy");
+        $newObj->create(true);
+        $this->putObjectInTree($newObj);
+
+        // import qti data
+        $newObj->importObject($file_to_import);
+
+        if ($path_to_uploaded_file_in_temp_dir !== ''
+            && $this->temp_file_system->hasDir($path_to_uploaded_file_in_temp_dir)) {
+            $this->temp_file_system->deleteDir($path_to_uploaded_file_in_temp_dir);
+        }
+
+        $this->deleteUploadedImportFile($path_to_uploaded_file_in_temp_dir);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_imported"), true);
+        ilUtil::redirect("ilias.php?ref_id=" . $newObj->getRefId() .
+            "&baseClass=ilObjSurveyQuestionPoolGUI");
     }
 
     protected function addLocatorItems(): void

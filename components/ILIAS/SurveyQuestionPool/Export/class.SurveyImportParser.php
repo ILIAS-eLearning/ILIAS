@@ -86,6 +86,7 @@ class SurveyImportParser extends ilSaxParser
         global $DIC;
 
         parent::__construct($a_xml_file);
+        $this->activequestion = null;
         $this->spl_id = $a_spl_id;
         $this->has_error = false;
         $this->characterbuffer = "";
@@ -212,9 +213,14 @@ class SurveyImportParser extends ilSaxParser
                         case "online":
                             if ($this->spl_id > 0) {
                                 $spl = new ilObjSurveyQuestionPool($this->spl_id, false);
-                                $spl->setOnline($value);
+                                $spl->setOfflineStatus(!$value);
                                 $spl->saveToDb();
                             }
+                            break;
+                        case "label":
+                            $spl = new ilObjSurveyQuestionPool($this->spl_id, false);
+                            $spl->setTitle($value);
+                            $spl->saveToDb();
                             break;
                     }
                 }
@@ -285,17 +291,13 @@ class SurveyImportParser extends ilSaxParser
                         break;
                 }
                 if (strlen($type ?? "")) {
-                    if (SurveyQuestion::_includeClass($type)) {
-                        $this->activequestion = new $type();
-
-                        // if no pool is given, question will reference survey
-                        $q_obj_id = $this->spl_id;
-                        if ($this->spl_id < 0) {
-                            $q_obj_id = $this->survey->getId();
-                        }
-
-                        $this->activequestion->setObjId($q_obj_id);
+                    $this->activequestion = new $type();
+                    // if no pool is given, question will reference survey
+                    $q_obj_id = $this->spl_id;
+                    if ($this->spl_id < 0) {
+                        $q_obj_id = $this->survey->getId();
                     }
+                    $this->activequestion->setObjId($q_obj_id);
                 } else {
                     $this->activequestion = null;
                 }

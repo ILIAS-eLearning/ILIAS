@@ -291,6 +291,43 @@ XML;
         $this->assertXmlStringEqualsXmlString($expected_xml, $xml->asXML());
     }
 
+    public function testWriteWithDuplicateElementNames(): void
+    {
+        $set_array = [
+            'name' => 'el1',
+            'type' => Type::NULL,
+            'value' => '',
+            'subs' => [
+                [
+                    'name' => 'name',
+                    'type' => Type::STRING,
+                    'value' => 'value1',
+                    'subs' => []
+                ],
+                [
+                    'name' => 'name',
+                    'type' => Type::STRING,
+                    'value' => 'value2',
+                    'subs' => []
+                ]
+            ]
+        ];
+
+        $expected_xml = <<<XML
+<?xml version="1.0"?>
+<el1>
+    <name>value1</name>
+    <name>value2</name>
+</el1>
+XML;
+
+        $writer = $this->getStandardWriter();
+        $set = $this->getSet($set_array);
+        $xml = $writer->write($set);
+
+        $this->assertXmlStringEqualsXmlString($expected_xml, $xml->asXML());
+    }
+
     public function testWriteWithLanguageNone(): void
     {
         $set_array = [

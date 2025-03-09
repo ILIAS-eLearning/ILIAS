@@ -97,16 +97,25 @@ class ilLTIConsumerResultService
     public function handleRequest(): void
     {
         try {
+
+            global $DIC;
+            $logger = $DIC->logger()->root();
+            $logger->info('LTI Consumer Result Service: Incoming request');
             // get the request as xml
             $xml = simplexml_load_file('php://input');
+            $logger->info('LTI Consumer Result Service: xml loaded');
             $this->message_ref_id = (string) $xml->imsx_POXHeader->imsx_POXRequestHeaderInfo->imsx_messageIdentifier;
             $request = current($xml->imsx_POXBody->children());
+            $logger->info('LTI Consumer Result Service: request loaded');
             $this->operation = str_replace('Request', '', $request->getName());
+            $logger->info("LTI Consumer Result Service: operation loaded ($this->operation)");
 
             $token = ilCmiXapiAuthToken::getInstanceByToken((string) $request->resultRecord->sourcedGUID->sourcedId);
 
+            $logger->info("LTI Consumer Result Service: token loaded");
             $this->result = ilLTIConsumerResult::getByKeys($token->getObjId(), $token->getUsrId(), false);
             if (empty($this->result)) {
+                $logger->error('LTI Consumer Result Service: Incoming request');
                 $this->respondUnauthorized("lti_consumer_results_id not found!");
                 return;
             }
@@ -124,9 +133,12 @@ class ilLTIConsumerResultService
             $this->readFields($this->result->obj_id);
             $result = $this->checkSignature($this->fields['KEY'], $this->fields['SECRET']);
             if ($result instanceof Exception) {
+                $logger->error('LTI Consumer Result Service: Incoming request');
                 $this->respondUnauthorized($result->getMessage());
                 return;
             }
+
+            $logger->info("LTI Consumer Result Service: Request signature verified, this->operation: $this->operation");
 
             // Dispatch the operation
             switch ($this->operation) {
@@ -173,6 +185,10 @@ class ilLTIConsumerResultService
      */
     protected function replaceResult(\SimpleXMLElement $request): void
     {
+        global $DIC;
+        $logger = $DIC->logger()->root();
+
+        $logger->info('LTI Consumer Result Service: Replace result');
         $result = (string) $request->resultRecord->result->resultScore->textString;
         if (!is_numeric($result)) {
             $code = "failure";

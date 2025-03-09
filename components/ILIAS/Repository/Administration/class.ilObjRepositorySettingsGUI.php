@@ -313,7 +313,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $fav = $f->checkbox(
             $this->lng->txt("rep_favourites"),
             $this->lng->txt("rep_favourites_info")
-        )->withValue((bool) $ilSetting->get("rep_favourites"));
+        )->withValue($ilSetting->get("rep_favourites", "0") === "1");
 
         //TODO split this up into two sections
         $settings = $f->section(
@@ -415,7 +415,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 
             $ilSetting->set(
                 "rep_favourites",
-                (string) $data["rep_favourites"]
+                $data["rep_favourites"] ? "1" : "0"
             );
 
             if ($data["rep_export_limitation"][0] === 'rep_export_unlimited') {

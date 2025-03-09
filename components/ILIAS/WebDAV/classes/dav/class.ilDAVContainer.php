@@ -115,11 +115,13 @@ class ilDAVContainer implements ICollection
             throw new Forbidden('Permission denied');
         }
 
-        $size = (int) ($this->request->getHeader("Content-Length")[0] ?? 0);
-        if ($size === 0 && $this->request->hasHeader('X-Expected-Entity-Length')) {
-            $size = (int) ($this->request->getHeader('X-Expected-Entity-Length')[0] ?? 0);
+        $size = 0;
+        if ($this->request->hasHeader("Content-Length")) {
+            $size = (int) $this->request->getHeader("Content-Length")[0];
         }
-
+        if ($size === 0 && $this->request->hasHeader('X-Expected-Entity-Length')) {
+            $size = (int) $this->request->getHeader('X-Expected-Entity-Length')[0];
+        }
         if ($size > ilFileUtils::getPhpUploadSizeLimitInBytes()) {
             throw new Forbidden('File is too big');
         }
@@ -141,6 +143,8 @@ class ilDAVContainer implements ICollection
 
         try {
             return $file_dav->put($data, $name);
+        } catch (Forbidden $f) {
+            throw $f;
         } catch (Throwable) {
             return null;
         }

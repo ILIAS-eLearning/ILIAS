@@ -16,28 +16,26 @@
  *
  *********************************************************************/
 
-/**
- * Image utility class
- *
- * @author Alexander Killing <killing@leifos.de>
- */
-class ilMediaImageUtil
-{
-    /**
-     * Get image size from location
-     * @throws ilCurlConnectionException
-     */
-    public static function getImageSize(string $a_location): ?array
-    {
-        try {
-            $size = getimagesizefromstring(file_get_contents($a_location));
-        } catch (Exception $e) {
-            $size = false;
-        }
+declare(strict_types=1);
 
-        if (!isset($size) || $size === false) {
-            $size = [0,0];
-        }
-        return $size;
+namespace ILIAS\Like;
+
+use ILIAS\DI\Container;
+use ILIAS\Repository\GlobalDICDomainServices;
+
+class InternalDomainService
+{
+    use GlobalDICDomainServices;
+
+    protected static array $instance = [];
+    protected Container $dic;
+
+    public function __construct(
+        Container $DIC,
+        protected InternalRepoService $repo,
+        protected InternalDataService $data
+    ) {
+        $this->initDomainServices($DIC);
+        $this->dic = $DIC;
     }
 }

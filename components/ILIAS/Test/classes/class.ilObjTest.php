@@ -1813,7 +1813,7 @@ class ilObjTest extends ilObject
             $sequence = $test_sequence->getUserSequenceQuestions();
         }
 
-        $arrResults = [];
+        $arr_results = [];
 
         $query = "
             SELECT
@@ -1845,10 +1845,10 @@ class ilObjTest extends ilObject
         );
 
         while ($row = $this->db->fetchAssoc($solutionresult)) {
-            $arrResults[ $row['question_fi'] ] = $row;
+            $arr_results[ $row['question_fi'] ] = $row;
         }
 
-        $numWorkedThrough = count($arrResults);
+        $num_worked_through = count($arr_results);
 
         $IN_question_ids = $this->db->in('qpl_questions.question_id', $sequence, false, 'integer');
 
@@ -1871,11 +1871,11 @@ class ilObjTest extends ilObject
         $unordered = [];
         $key = 1;
         while ($row = $this->db->fetchAssoc($result)) {
-            if (!isset($arrResults[ $row['question_id'] ])) {
+            if (!isset($arr_results[ $row['question_id'] ])) {
                 $percentvalue = 0.0;
             } else {
                 $percentvalue = (
-                    $row['points'] ? $arrResults[$row['question_id']]['reached'] / $row['points'] : 0
+                    $row['points'] ? $arr_results[$row['question_id']]['reached'] / $row['points'] : 0
                 );
             }
             if ($percentvalue < 0) {
@@ -1886,17 +1886,17 @@ class ilObjTest extends ilObject
                 "nr" => "$key",
                 "title" => ilLegacyFormElementsUtil::prepareFormOutput($row['title']),
                 "max" => round($row['points'], 2),
-                "reached" => round($arrResults[$row['question_id']]['reached'] ?? 0, 2),
-                'requested_hints' => $arrResults[$row['question_id']]['requested_hints'] ?? 0,
-                'hint_points' => $arrResults[$row['question_id']]['hint_points'] ?? 0,
+                "reached" => round($arr_results[$row['question_id']]['reached'] ?? 0, 2),
+                'requested_hints' => $arr_results[$row['question_id']]['requested_hints'] ?? 0,
+                'hint_points' => $arr_results[$row['question_id']]['hint_points'] ?? 0,
                 "percent" => sprintf("%2.2f ", ($percentvalue) * 100) . "%",
                 "solution" => ($row['has_sug_sol']) ? assQuestion::_getSuggestedSolutionOutput($row['question_id']) : '',
                 "type" => $row["type_tag"],
                 "qid" => $row['question_id'],
                 "original_id" => $row["original_id"],
-                "workedthrough" => isset($arrResults[$row['question_id']]) ? 1 : 0,
-                'answered' => $arrResults[$row['question_id']]['answered'] ?? 0,
-                'finalized_evaluation' => $arrResults[$row['question_id']]['finalized_evaluation'] ?? 0,
+                "workedthrough" => isset($arr_results[$row['question_id']]) ? 1 : 0,
+                'answered' => $arr_results[$row['question_id']]['answered'] ?? 0,
+                'finalized_evaluation' => $arr_results[$row['question_id']]['finalized_evaluation'] ?? 0,
             ];
 
             $unordered[ $row['question_id'] ] = $data;
@@ -1939,7 +1939,7 @@ class ilObjTest extends ilObject
         $found['pass']['total_requested_hints'] = $pass_requested_hints;
         $found['pass']['total_hint_points'] = $pass_hint_points;
         $found['pass']['percent'] = ($pass_max > 0) ? $pass_reached / $pass_max : 0;
-        $found['pass']['num_workedthrough'] = $numWorkedThrough;
+        $found['pass']['num_workedthrough'] = $num_worked_through;
         $found['pass']['num_questions_total'] = $numQuestionsTotal;
 
         $found["test"]["total_max_points"] = $results['max_points'];

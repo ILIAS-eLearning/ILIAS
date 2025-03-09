@@ -18,16 +18,11 @@
 
 declare(strict_types=1);
 
-use ILIAS\Setup\Agent\NullAgent;
-use ILIAS\Setup;
-use ILIAS\Refinery\Transformation;
+namespace ILIAS\Like;
 
-class ilWorkflowEngineSetupAgent extends NullAgent
+class InternalDataService
 {
-    use Setup\Agent\HasNoNamedObjective;
-
-    public function getArrayToConfigTransformation(): Transformation
+    public function __construct()
     {
-        throw new \LogicException("Agent has no config.");
     }
 }

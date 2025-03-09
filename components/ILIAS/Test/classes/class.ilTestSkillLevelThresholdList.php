@@ -123,32 +123,37 @@ class ilTestSkillLevelThresholdList
         return $threshold;
     }
 
-    /**
-     * @param $skillBaseId
-     * @param $skillTrefId
-     * @param $skillLevelId
-     * @return ilTestSkillLevelThreshold
-     */
-    public function getThreshold($skillBaseId, $skillTrefId, $skillLevelId, $forceObject = false): ?ilTestSkillLevelThreshold
-    {
-        $skillKey = $skillBaseId . ':' . $skillTrefId;
+    public function getThreshold(
+        $skill_base_id,
+        $skill_tref_id,
+        $skill_level_id,
+        $force_object = false
+    ): ?ilTestSkillLevelThreshold {
+        $skillKey = $skill_base_id . ':' . $skill_tref_id;
 
-        if (isset($this->thresholds[$skillKey]) && isset($this->thresholds[$skillKey][$skillLevelId])) {
-            return $this->thresholds[$skillKey][$skillLevelId];
+        if (isset($this->thresholds[$skillKey]) && isset($this->thresholds[$skillKey][$skill_level_id])) {
+            return $this->thresholds[$skillKey][$skill_level_id];
         }
 
-        if ($forceObject) {
+        if ($force_object) {
             $threshold = new ilTestSkillLevelThreshold($this->db);
 
             $threshold->setTestId($this->getTestId());
-            $threshold->setSkillBaseId($skillBaseId);
-            $threshold->setSkillTrefId($skillTrefId);
-            $threshold->setSkillLevelId($skillLevelId);
+            $threshold->setSkillBaseId($skill_base_id);
+            $threshold->setSkillTrefId($skill_tref_id);
+            $threshold->setSkillLevelId($skill_level_id);
 
             return $threshold;
         }
 
         return null;
+    }
+
+    public function getThesholdsOfBaseAndTrefId(
+        int $skill_base_id,
+        int $skill_tref_id
+    ): array {
+        return $this->thresholds["{$skill_base_id}:{$skill_tref_id}"] ?? [];
     }
 
     public function cloneListForTest($testId)

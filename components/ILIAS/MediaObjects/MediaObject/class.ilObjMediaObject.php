@@ -23,6 +23,8 @@ use ILIAS\FileUpload\FileUpload;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\Location;
 use ILIAS\MediaObjects\InternalDomainService;
+use ILIAS\MediaObjects\Thumbs\ThumbsManager;
+use ILIAS\MediaObjects\MediaObjectManager;
 
 define("IL_MODE_ALIAS", 1);
 define("IL_MODE_OUTPUT", 2);
@@ -34,7 +36,8 @@ define("IL_MODE_FULL", 3);
 class ilObjMediaObject extends ilObject
 {
     public const DEFAULT_PREVIEW_SIZE = 80;
-    protected \ILIAS\MediaObjects\MediaObjectManager $manager;
+    protected ThumbsManager $thumbs;
+    protected MediaObjectManager $manager;
     protected InternalDomainService $domain;
     protected ilObjUser $user;
     public bool $is_alias;
@@ -59,6 +62,7 @@ class ilObjMediaObject extends ilObject
         $this->image_converter = $DIC->fileConverters()->legacyImages();
         $this->domain = $DIC->mediaObjects()->internal()->domain();
         $this->manager = $this->domain->mediaObject();
+        $this->thumbs = $this->domain->thumbs();
     }
 
     public static function _exists(
@@ -278,7 +282,11 @@ class ilObjMediaObject extends ilObject
         return $this->origin_id;
     }
 
-    public function create(bool $a_create_meta_data = false, bool $a_save_media_items = true): int
+    public function create(
+        bool $a_create_meta_data = false,
+        bool $a_save_media_items = true,
+        int $from_mob_id = 0
+    ): int
     {
         $id = parent::create();
 
@@ -287,7 +295,8 @@ class ilObjMediaObject extends ilObject
         }
         $this->manager->create(
             $id,
-            $this->getTitle()
+            $this->getTitle(),
+            $from_mob_id
         );
 
         if ($a_save_media_items) {
@@ -1666,10 +1675,12 @@ class ilObjMediaObject extends ilObject
             $new_obj->addMediaItem($val);
         }
 
-        $new_obj->create(false, true);
+        $new_obj->create(
+            false,
+            true,
+            $this->getId()              // "from" id
+        );
 
-        // files
-        $new_obj->createDirectory();
 
         // meta data
         $this->domain->metadata()->learningObjectMetadata()
@@ -1725,7 +1736,7 @@ class ilObjMediaObject extends ilObject
     ): string {
 
         if (!$a_filename_only) {
-            $src = $this->manager->getLocalSrc($this->getId(), "mob_vpreview.png");
+            $src = $this->thumbs->getPreviewSrc($this->getId());
             if ($src !== "") {
                 return $src;
             }
@@ -1861,10 +1872,10 @@ class ilObjMediaObject extends ilObject
                 if ($ext == "") {
                     $ext = "jpg";
                 }
-                copy(
+                $this->manager->addPreviewFromUrl(
+                    $this->getId(),
                     $meta["thumbnail_url"],
-                    ilObjMediaObject::_getDirectory($this->getId()) . "/mob_vpreview." .
-                    $ext
+                    "/mob_vpreview." . $ext
                 );
             }
             if (ilExternalMediaAnalyzer::isYoutube($st_item->getLocation())) {
@@ -1886,9 +1897,10 @@ class ilObjMediaObject extends ilObject
                 $url = parse_url($thumbnail_url);
                 if ($thumbnail_url !== "") {
                     $file = basename($url["path"]);
-                    copy(
+                    $this->manager->addPreviewFromUrl(
+                        $this->getId(),
                         $meta["thumbnail_url"],
-                        ilObjMediaObject::_getDirectory($this->getId()) . "/mob_vpreview." .
+                        "/mob_vpreview." .
                         pathinfo($file, PATHINFO_EXTENSION)
                     );
                 }
@@ -1908,15 +1920,6 @@ class ilObjMediaObject extends ilObject
 
     protected function getLocationSrc(string $purpose): string
     {
-        $med = $this->getMediaItem($purpose);
-        if (strcasecmp("Reference", $med?->getLocationType()) === 0) {
-            $src = $med?->getLocation();
-        } else {
-            $src = $this->manager->getLocalSrc(
-                $this->getId(),
-                $med?->getLocation()
-            );
-        }
-        return $src;
+        return (string) $this->getMediaItem($purpose)?->getLocationSrc();
     }
 }

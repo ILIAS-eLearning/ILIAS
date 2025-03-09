@@ -39,11 +39,18 @@ class MediaObjectRepository
     public function create(
         int $id,
         string $title,
-        \ilMobStakeholder $stakeholder
+        \ilMobStakeholder $stakeholder,
+        int $from_mob_id = 0
     ) : void {
-        $rid = $this->irss->createContainer(
-            $stakeholder
-        );
+        if ($from_mob_id > 0) {
+            $from_rid = $this->getRidForMobId($from_mob_id);
+            $rid = $this->irss->cloneContainer($from_rid);
+        } else {
+            $rid = $this->irss->createContainer(
+                $stakeholder,
+                "mob.zip"
+            );
+        }
         $this->db->insert('mob_data', [
             'id' => ['integer', $id],
             'rid' => ['text', $rid]
@@ -128,6 +135,16 @@ class MediaObjectRepository
         }
     }
 
+    public function addLocalDirectory(int $mob_id, string $dir) : void
+    {
+        if ($rid = $this->getRidForMobId($mob_id)) {
+            $this->irss->addDirectoryToContainer(
+                $rid,
+                $dir
+            );
+        }
+    }
+
     public function getLocalSrc(int $mob_id, string $location) : string
     {
         return $this->irss->getContainerUri($this->getRidForMobId($mob_id), $location);
@@ -145,6 +162,28 @@ class MediaObjectRepository
         return $this->irss->getStreamOfContainerEntry(
             $this->getRidForMobId($mob_id),
             $location
+        );
+    }
+
+    public function getInfoOfEntry(
+        int $mob_id,
+        string $path
+    )
+    {
+        return $this->irss->getContainerEntryInfo(
+            $this->getRidForMobId($mob_id),
+            $path
+        );
+    }
+
+    public function deliverEntry(
+        int $mob_id,
+        string $path
+    ) : void
+    {
+        $this->irss->deliverContainerEntry(
+            $this->getRidForMobId($mob_id),
+            $path
         );
     }
 

@@ -1377,6 +1377,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
         $lng = $DIC->language();
         $lom_services = $DIC->learningObjectMetadata();
+        $media_manager = $DIC->mediaObjects()->internal()->domain()->mediaObject();
 
         $tpl = new ilTemplate("tpl.media_info.html", true, true, "components/ILIAS/MediaObjects");
         $types = array("Standard", "Fullscreen");
@@ -1399,12 +1400,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             $tpl->setVariable("TXT_TYPE", $lng->txt("cont_" . strtolower($med->getLocationType())));
             $tpl->setVariable("VAL_LOCATION", $med->getLocation());
             if ($med->getLocationType() == "LocalFile") {
-                $file = ilObjMediaObject::_getDirectory($med->getMobId()) . "/" . $med->getLocation();
-                if (is_file($file)) {
-                    $size = filesize($file);
-                } else {
-                    $size = 0;
-                }
+
+                $info = $media_manager->getInfoOfEntry($med->getMobId(), "/" . $med->getLocation());
+
+                $size = $info["size"] ?? 0;
                 $tpl->setVariable("VAL_FILE_SIZE", " ($size " . $lng->txt("bytes") . ")");
             }
             $tpl->setVariable("TXT_FORMAT", $lng->txt("cont_format"));

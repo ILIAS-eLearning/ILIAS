@@ -18,9 +18,11 @@
 
 declare(strict_types=1);
 
-chdir("../../../");
+require_once("../vendor/composer/vendor/autoload.php");
 
 if (!isset($_GET['client_id']) || !strlen($_GET['client_id'])) {
+    $log = ilLoggerFactory::getLogger('lti');
+    $log->error("HTTP/1.1 401 Authorization Required");
     header('HTTP/1.1 401 Authorization Required');
     exit;
 }
@@ -30,6 +32,6 @@ if (!isset($_GET['client_id']) || !strlen($_GET['client_id'])) {
 
 $dic = $GLOBALS['DIC'];
 $log = ilLoggerFactory::getLogger('lti');
-$log->debug("LTI result init successful");
+$log->info("LTI result init successful");
 $service = new ilLTIConsumerResultService();
 $service->handleRequest();

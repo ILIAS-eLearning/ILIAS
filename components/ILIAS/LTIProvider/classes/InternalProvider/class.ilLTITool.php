@@ -93,6 +93,11 @@ class ilLTITool extends Tool
 
         $_POST = $this->parsePostBody($DIC->http()->wrapper()->post());
         $_GET = $DIC->http()->request()->getQueryParams();
+
+        if (isset($_POST['lti_version']) && $_POST['lti_version'] === 'LTI-1p0') {
+            $_SERVER['REQUEST_URI'] = rtrim(preg_replace('/([?&])client_id=[^&]+(&|$)/', '$1', $_SERVER['REQUEST_URI']), '?&');
+        }
+
         parent::handleRequest($strictMode, $disableCookieCheck, $generateWarnings);
     }
 }

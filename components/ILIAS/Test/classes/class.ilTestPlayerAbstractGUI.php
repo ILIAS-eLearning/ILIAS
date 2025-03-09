@@ -2383,14 +2383,9 @@ JS;
     /**
      * @param ilTestSession $test_session
      */
-    protected function handleSkillTriggering(ilTestSession $test_session)
+    protected function handleSkillTriggering(ilTestSession $test_session): void
     {
-        $questionList = $this->buildTestPassQuestionList();
-        $questionList->load();
-
-        $testResults = $this->object->getTestResult($test_session->getActiveId(), $test_session->getPass(), true);
-
-        $skillEvaluation = new ilTestSkillEvaluation(
+        $skill_evaluation = new ilTestSkillEvaluation(
             $this->db,
             $this->logger,
             $this->object->getTestId(),
@@ -2399,19 +2394,26 @@ JS;
             $this->skills_service->personal()
         );
 
-        $skillEvaluation->setUserId($test_session->getUserId());
-        $skillEvaluation->setActiveId($test_session->getActiveId());
-        $skillEvaluation->setPass($test_session->getPass());
+        $skill_evaluation->setUserId($test_session->getUserId());
+        $skill_evaluation->setActiveId($test_session->getActiveId());
+        $skill_evaluation->setPass($test_session->getPass());
 
-        $skillEvaluation->setNumRequiredBookingsForSkillTriggering(
+        $skill_evaluation->setNumRequiredBookingsForSkillTriggering(
             $this->object->getGlobalSettings()->getSkillTriggeringNumberOfAnswers()
         );
 
+        $question_list = $this->buildTestPassQuestionList();
+        $question_list->load();
+        $skill_evaluation->init($question_list);
+        $skill_evaluation->evaluate(
+            $this->object->getTestResult(
+                $test_session->getActiveId(),
+                $test_session->getPass(),
+                true
+            )
+        );
 
-        $skillEvaluation->init($questionList);
-        $skillEvaluation->evaluate($testResults);
-
-        $skillEvaluation->handleSkillTriggering();
+        $skill_evaluation->handleSkillTriggering();
     }
 
     protected function showAnswerOptionalQuestionsConfirmation()

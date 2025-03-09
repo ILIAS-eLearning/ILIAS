@@ -2642,8 +2642,7 @@
 
 		<!-- mp3 (mediaelement.js) -->
 		<xsl:when test = "$type='audio/mpeg' and (substring-before($data,'.mp3') != '' or substring-before($data,'.MP3') != '')">
-			<audio class="ilPageAudio" preload="metadata">
-				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
+			<div class="il-audio-container">
 				<xsl:if test="$width != ''">
 					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 					<xsl:attribute name="height">40</xsl:attribute>
@@ -2651,6 +2650,8 @@
 				<xsl:if test="$width = '' and $height = ''">
 					<xsl:attribute name="style">max-width: 100%; width: 100%; max-height: 100%;</xsl:attribute>
 				</xsl:if>
+			<audio controls="controls" class="il-audio-player" id="" preload="metadata">
+				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
 				<xsl:if test="$mode != 'edit' and
 					(../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
 					( not(../MediaAliasItem[@Purpose = $curPurpose]/Parameter) and
@@ -2658,6 +2659,7 @@
 					<!-- <xsl:attribute name="autoplay">true</xsl:attribute> -->
 				</xsl:if>
 			</audio>
+			</div>
 		</xsl:when>
 
 		<!-- flv, mp4 (mediaelement.js) -->

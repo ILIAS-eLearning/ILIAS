@@ -109,7 +109,6 @@ class ilCOPageDataSet extends ilDataSet
                 $pt = new ilPageLayout();
                 $pt->setTitle($a_rec["Title"]);
                 $pt->setDescription($a_rec["Description"]);
-                $pt->setSpecialPage($a_rec["SpecialPage"]);
                 $pt->update();
 
                 $this->current_obj = $pt;

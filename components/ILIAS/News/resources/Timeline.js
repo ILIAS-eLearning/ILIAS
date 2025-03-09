@@ -84,7 +84,7 @@ $(function () {
 });
 
 $(window).on("load", function() {
-	$('.dynamic-max-height').dynamicMaxHeight();
+	//$('.dynamic-max-height').dynamicMaxHeight();
 	il.Timeline.compressEntries();
 	$(window).resize(il.Timeline.compressEntries);
 });

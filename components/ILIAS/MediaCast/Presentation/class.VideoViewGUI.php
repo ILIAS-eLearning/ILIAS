@@ -232,6 +232,11 @@ class VideoViewGUI
                     "$(\"#$id\").click(function() { il.VideoPlaylist.toggleItem('mcst_playlist', '" . $video->getId() . "'); return false;});";
             });
 
+            $this->ctrl->setParameterByClass(
+                \ilObjMediaCastGUI::class,
+                "mob_id",
+                $video->getId()
+            );
             $items[] = [
                 "id" => $video->getId(),
                 "resource" => $video->getResource(),
@@ -243,7 +248,11 @@ class VideoViewGUI
                 "poster" => $video->getPreviewPic(),
                 "description" => nl2br($video->getDescription()),
                 "completed" => $completed,
-                "duration" => $video->getDuration()
+                "duration" => $video->getDuration(),
+                "renderUrl" => $this->ctrl->getLinkTargetByClass(
+                    \ilObjMediaCastGUI::class,
+                    "renderVideo"
+                )
             ];
         }
 
@@ -299,7 +308,6 @@ class VideoViewGUI
             $init_videos = $this->media_cast->getNumberInitialVideos() > 0
                 ? $this->media_cast->getNumberInitialVideos()
                 : 1;
-
             $this->tpl->addOnLoadCode(
                 "il.VideoPlaylist.init('mcst_playlist', 'mcst_video', " . json_encode(
                     $items

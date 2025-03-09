@@ -536,6 +536,36 @@ class ilObjSurveyQuestionPool extends ilObject
         return $xml;
     }
 
+    public function toXmlForExport(): string
+    {
+        $questions = $this->getQuestions();
+        $a_xml_writer = new ilXmlWriter();
+        $attrs = array(
+            "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
+            "xsi:noNamespaceSchemaLocation" => "https://www.ilias.de/download/xsd/ilias_survey_4_2.xsd"
+        );
+        $a_xml_writer->xmlStartTag("surveyobject", $attrs);
+        $attrs = array(
+            "id" => "qpl_" . $this->getId(),
+            "label" => $this->getTitle()
+        );
+        $a_xml_writer->xmlStartTag("surveyquestions", $attrs);
+        $a_xml_writer->xmlElement("dummy", null, "dummy");
+        $a_xml_writer->xmlEndTag("surveyquestions");
+        $a_xml_writer->xmlEndTag("surveyobject");
+        $xml = $a_xml_writer->xmlDumpMem(false);
+        $questionxml = "";
+        foreach ($questions as $key => $value) {
+            $questiontype = $this->getQuestiontype($value);
+            SurveyQuestion::_includeClass($questiontype);
+            $question = new $questiontype();
+            $question->loadFromDb($value);
+            $questionxml .= $question->toXML(false);
+        }
+        $xml = str_replace("<dummy>dummy</dummy>", $questionxml, $xml);
+        return $xml;
+    }
+
     public function getQuestions(): array
     {
         $ilDB = $this->db;

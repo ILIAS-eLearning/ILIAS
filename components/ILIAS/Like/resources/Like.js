@@ -12,7 +12,11 @@ il.Like = il.Like || {};
 				$("#" + glyph_id).addClass("highlighted");
 				val = 1;
 			}
-			il.Util.ajaxReplace(url + "&cmd=saveExpression&exp=" + exp_id + "&val=" + val + "&dom_id=" + widget_id, widget_id + "_ec");
+			//il.Util.ajaxReplace(url + "&cmd=saveExpression&exp=" + exp_id + "&val=" + val + "&dom_id=" + widget_id, widget_id + "_ec");
+			il.repository.core.fetchReplace(
+				widget_id + "_ec",
+				url + "&cmd=saveExpression&exp=" + exp_id + "&val=" + val + "&dom_id=" + widget_id
+			);
 		};
 
 		return {

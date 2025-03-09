@@ -72,6 +72,12 @@ class ilHelpExporter extends ilXmlExporter
     public function getValidSchemaVersions(string $a_entity): array
     {
         return array(
+            "10.0" => array(
+                "namespace" => "https://www.ilias.de/Services/Help/help/10_0",
+                "xsd_file" => "ilias_help_10.xsd",
+                "uses_dataset" => true,
+                "min" => "10.0",
+                "max" => ""),
             "4.3.0" => array(
                 "namespace" => "https://www.ilias.de/Services/Help/help/4_3",
                 "xsd_file" => "ilias_help_4_3.xsd",

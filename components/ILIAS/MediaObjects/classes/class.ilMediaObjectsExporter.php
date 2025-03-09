@@ -66,6 +66,12 @@ class ilMediaObjectsExporter extends ilXmlExporter
         string $a_entity
     ): array {
         return array(
+            "10.0" => array(
+                "namespace" => "https://www.ilias.de/Services/MediaObjects/mob/10",
+                "xsd_file" => "ilias_mob_10.xsd",
+                "uses_dataset" => true,
+                "min" => "10.0",
+                "max" => ""),
             "5.1.0" => array(
                 "namespace" => "https://www.ilias.de/Services/MediaObjects/mob/5_1",
                 "xsd_file" => "ilias_mob_5_1.xsd",

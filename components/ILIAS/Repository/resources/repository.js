@@ -227,11 +227,14 @@ il.repository.core = (function() {
     });
   }
 
-  function fetchReplaceInner(el, url = '', params = {}) {
+  function fetchReplaceInner(el, url = '', params = {}, cb = null) {
     fetchHtml(url, params)
-      .then(html => {
-          setInnerHTML(el, html)
-    }).catch();
+      .then((html) => {
+        setInnerHTML(el, html);
+        if (cb) {
+          cb();
+        }
+      }).catch();
   }
 
   function fetchReplace(el_id, url = '', params = {}) {

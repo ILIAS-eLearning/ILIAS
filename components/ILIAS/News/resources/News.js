@@ -16,13 +16,13 @@ il.News = {
 		$("#news_btn_cancel_update").on("click", function (e) {
 			e.preventDefault();
 			$(".ilAdminRow .alert").remove();
-			$('#form_news_edit_form').closest('.il-modal-roundtrip').modal('hide');
+			t.closeEditModal();
 		});
 		$("#news_btn_update").on("click", function (e) {
 			var t = il.News;
 			//e.preventDefault();
 			t.save();
-			$('#form_news_edit_form').closest('.il-modal-roundtrip').modal('hide');
+			t.closeEditModal();
 		});
 		t.moreOnScroll();
 	},
@@ -118,7 +118,7 @@ il.News = {
 		$('.dynamic-height-active').removeClass("dynamic-height-active");
 		$('.js-dynamic-show-hide').css("display", "").off("click");
 		$('.dynamic-height-wrap').css('max-height', "");
-		$('.dynamic-max-height').dynamicMaxHeight();
+		//$('.dynamic-max-height').dynamicMaxHeight();
 
 		il.Timeline.compressEntries();
 		il.MediaObjects.autoInitPlayers();
@@ -155,9 +155,39 @@ il.News = {
 		}
 		$('#form_news_edit_form').closest('.il-modal-roundtrip').find('input[name="media_delete"]').css("display", "none");
 		$('#form_news_edit_form').closest('.il-modal-roundtrip').find('label[for="media_delete"]').css("display", "none");
-		$('#form_news_edit_form').closest('.il-modal-roundtrip').modal('show');
+		t.showEditModal();
 
 		return false;
+	},
+
+	showEditModal: function() {
+		const newsData = document.querySelector("[data-news-type='init']");
+		if (newsData) {
+			const signalId = newsData.dataset.newsEditModalSignal;
+			$(document).trigger(
+				signalId,
+				{
+					id: signalId,
+					triggerer: $(this),
+					options: JSON.parse('[]'),
+				},
+			);
+		}
+	},
+
+	closeEditModal: function() {
+		const newsData = document.querySelector("[data-news-type='init']");
+		if (newsData) {
+			const signalId = newsData.dataset.newsEditCloseSignal;
+			$(document).trigger(
+				signalId,
+				{
+					id: signalId,
+					triggerer: $(this),
+					options: JSON.parse('[]'),
+				},
+			);
+		}
 	},
 
 	edit: function(id, keep_values) {
@@ -187,7 +217,7 @@ il.News = {
 		}
 
 
-		$('#form_news_edit_form').closest('.il-modal-roundtrip').modal('show');
+		t.showEditModal();
 
 		return false;
 	},

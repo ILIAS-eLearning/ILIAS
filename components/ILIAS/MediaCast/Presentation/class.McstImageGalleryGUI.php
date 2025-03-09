@@ -130,7 +130,9 @@ class McstImageGalleryGUI
         }
 
         $cnt = 0;
-        foreach ($this->media_cast->getSortedItemsArray() as $item) {
+        $items = $this->media_cast->getSortedItemsArray();
+        $total = count($items);
+        foreach ($items as $item) {
             $mob = new \ilObjMediaObject($item["mob_id"]);
             $med = $mob->getMediaItem("Standard");
 
@@ -142,10 +144,7 @@ class McstImageGalleryGUI
 
             $preview_resource = $resource;
             if ($mob->getVideoPreviewPic() != "") {
-                try {
-                    $preview_resource = ilWACSignedPath::signFile($mob->getVideoPreviewPic());
-                } catch (Exception $e) {
-                }
+//                $preview_resource = $mob->getVideoPreviewPic();
             }
 
 
@@ -169,7 +168,9 @@ class McstImageGalleryGUI
             $slide_to = "";
             $completed_cb = "";
             if (!$lp_collection_mode) {
-                $slide_to = "document.querySelector('.modal-body .carousel [data-slide-to=\"" . $cnt . "\"]').click();";
+                if ($total > 1) {
+                    $slide_to = "document.querySelector('.modal-body .carousel [data-slide-to=\"" . $cnt . "\"]').click();";
+                }
             } else {
                 $completed_cb = $this->completed_callback . '&mob_id=' . $mob->getId();
                 $completed_cb = "$.ajax({type:'GET', url: '$completed_cb'});";
@@ -211,6 +212,7 @@ class McstImageGalleryGUI
             )->withSections(
                 $sections
             )->withTitleAction($modal->getShowSignal());
+
 
             $cards[] = $card;
             $modals[] = $modal;

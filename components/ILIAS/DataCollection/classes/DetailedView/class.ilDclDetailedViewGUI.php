@@ -25,7 +25,6 @@ class ilDclDetailedViewGUI
 {
     protected \ILIAS\UI\Factory $ui_factory;
     protected \ILIAS\UI\Renderer $renderer;
-    protected ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
     protected ilObjDataCollectionGUI $dcl_gui_object;
     protected ilDclTable $table;
     protected int $tableview_id;
@@ -121,11 +120,6 @@ class ilDclDetailedViewGUI
             && $this->http->wrapper()->query()->retrieve('disable_paging', $this->refinery->kindlyTo()->bool())) {
             $this->is_enabled_paging = false;
         }
-        $this->content_style_domain = $DIC->contentStyle()
-                                          ->domain()
-                                          ->styleForRefId(
-                                              $this->dcl_gui_object->getDataCollectionObject()->getRefId()
-                                          );
     }
 
     public function executeCommand(): void
@@ -175,9 +169,6 @@ class ilDclDetailedViewGUI
         // see ilObjDataCollectionGUI->executeCommand about instantiation
         $pageObj = new ilDclDetailedViewDefinitionGUI($this->tableview_id);
         $pageObj->setOutputMode($pageObj::OFFLINE);
-        $pageObj->setStyleId(
-            $this->content_style_domain->getEffectiveStyleId()
-        );
 
         $html = $pageObj->getHTML();
         $rctpl->addCss("./assets/css/content.css");

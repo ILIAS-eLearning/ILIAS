@@ -25,7 +25,7 @@ use ILIAS\OrgUnit\Provider\OrgUnitToolProvider;
  * @author            : Oskar Truffer <ot@studer-raimann.ch>
  * @author            : Martin Studer <ms@studer-raimann.ch>
  * @author            : Stefan Wanzenried <sw@studer-raimann.ch>
- * @ilCtrl_IsCalledBy ilObjOrgUnitGUI: ilAdministrationGUI, ilObjPluginDispatchGUI
+ * @ilCtrl_IsCalledBy ilObjOrgUnitGUI: ilAdministrationGUI, ilObjPluginDispatchGUI, ilRepositoryGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilPermissionGUI, ilPageObjectGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilObjUserGUI, ilObjUserFolderGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilInfoScreenGUI, ilObjStyleSheetGUI
@@ -81,6 +81,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
 
         $this->lng = $dic['lng'];
         $this->lng->loadLanguageModule("orgu");
+        $this->lng->loadLanguageModule("content");
 
         $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(
             OrgUnitToolProvider::SHOW_ORGU_TREE,
@@ -288,6 +289,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                     case 'render':
                     case 'cancel':
                     case 'cancelDelete':
+                    case 'return':
                         $this->view();
                         break;
                     case 'performPaste':
@@ -354,6 +356,12 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                     case 'cancelMoveLink':
                         $this->cancelMoveLinkObject();
                         break;
+                    case 'copy':
+                    case 'link':
+                    case 'editAvailabilityPeriod':
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("cont_operation_not_allowed"), true);
+                        $this->view();
+                        break;
                 }
                 break;
         }
@@ -408,9 +416,12 @@ class ilObjOrgUnitGUI extends ilContainerGUI
         $this->tabs_gui->removeSubTab("ordering"); // Mantis 0014728
     }
 
-    public function showPossibleSubObjects(): void
+    protected function showPossibleSubObjects(): void
     {
         $subtypes = $this->getCreatableObjectTypes();
+        if ($subtypes === []) {
+            return;
+        }
         $gui = new ILIAS\ILIASObject\Creation\AddNewItemGUI(
             [$this->buildGroup(
                 self::class,
@@ -634,7 +645,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
             $this->tabs_gui->addSubTab(
                 "import",
                 $this->lng->txt("import"),
-                $this->ctrl->getLinkTargetByClass("ilOrgUnitSimpleImportGUI", "chooseImport")
+                $this->ctrl->getLinkTargetByClass([self::class, ilOrgUnitSimpleImportGUI::class], "chooseImport")
             );
         }
     }

@@ -5293,28 +5293,24 @@ main {
   width: 100%;
 }
 
+#il_center_col .panel-viewcontrols {
+  container-name: wide-content;
+  container-type: inline-size;
+}
+@container wide-content (width <= 600px) {
+  #il_center_col .panel-viewcontrols .il-viewcontrol-sortation .label {
+    display: none;
+  }
+}
+
 /*
 **************************************************************
        mobile Layout
 **************************************************************
 */
-@media (min-width: 768px) {
-  #il_right_col {
-    padding-left: 0;
-  }
-}
-
 @media only screen and (max-width: 1199px) {
-  .il-layout-page.with-mainbar-slates-engaged #il_right_col {
-    padding-left: 15px;
-  }
-}
-@media only screen and (max-width: 1199px) {
-  .il-layout-page.with-mainbar-slates-engaged #il_center_col.col-sm-9 {
-    padding-right: 15px;
-  }
-  .il-layout-page.with-mainbar-slates-engaged #il_center_col.col-sm-9,
-  .il-layout-page.with-mainbar-slates-engaged #il_right_col.col-sm-3 {
+  #il_center_col.col-sm-9,
+  #il_right_col.col-sm-3 {
     float: none !important;
     width: 100% !important;
   }
@@ -8293,7 +8289,6 @@ div.alert ul > li:before {
   gap: 9px;
 }
 .panel-flex .panel-title {
-  flex-shrink: 0;
   order: 1;
 }
 .panel-flex .panel-controls {
@@ -10929,13 +10924,6 @@ td.c-table-data__cell--highlighted {
 
 .panel-viewcontrols {
   z-index: 994;
-  container-name: toolbar;
-  container-type: inline-size;
-}
-@container toolbar (width <= 600px) {
-  .panel-viewcontrols .il-viewcontrol-sortation .label {
-    display: none;
-  }
 }
 
 /* Component parts from old delos.scss */
