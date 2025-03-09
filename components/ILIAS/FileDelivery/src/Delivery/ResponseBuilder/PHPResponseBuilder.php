@@ -89,7 +89,7 @@ class PHPResponseBuilder implements ResponseBuilder
         $server_params = $request->getServerParams();
 
         $byte_offset = 0;
-        $byte_length = $content_length = $stream->getSize();
+        $content_length = $stream->getSize();
 
         if (isset($server_params['HTTP_RANGE']) && preg_match(
             '%bytes=(\d+)-(\d+)?%i',
@@ -110,19 +110,24 @@ class PHPResponseBuilder implements ResponseBuilder
             );
         }
 
-        $byte_range = $byte_length - $byte_offset;
+        $byte_range = $finish_bytes - $byte_offset + 1;
 
-        $response = $response->withHeader(ResponseHeader::CONTENT_LENGTH, $byte_length);
+        $response = $response->withHeader(ResponseHeader::CONTENT_LENGTH, $byte_range);
 
         $buffer_size = 512 * 16;
         $bite_pool = $byte_range;
 
         $fh = $stream->detach();
 
+        if ($byte_offset > 0 ) {
+            $buffer = stream_get_contents($fh, $byte_offset);
+        }
+        $buffer = '';
+
         while ($bite_pool > 0) {
-            $chunk_size_requested = min($buffer_size, $bite_pool);
-            $buffer = fread($fh, $chunk_size_requested);
-            $chunk_actual_size = strlen($buffer);
+           $chunk_size_requested = min($buffer_size, $bite_pool);
+           $buffer = stream_get_contents($fh, $chunk_size_requested);
+           $chunk_actual_size = strlen($buffer);
 
             if ($chunk_actual_size === 0) {
                 throw new \RuntimeException("Chunksize became 0");
