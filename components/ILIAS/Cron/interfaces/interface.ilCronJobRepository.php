@@ -41,6 +41,8 @@ interface ilCronJobRepository
 
     public function unregisterJob(string $a_component, array $a_xml_job_ids): void;
 
+    public function unregisterAllJobs(): void;
+
     public function createDefaultEntry(ilCronJob $job, string $component, string $class, ?string $path): void;
 
     /**
@@ -67,4 +69,5 @@ interface ilCronJobRepository
     public function deactivateJob(ilCronJob $job, DateTimeImmutable $when, ilObjUser $actor, bool $wasManuallyExecuted = false): void;
 
     public function findAll(): ilCronJobCollection;
+
 }

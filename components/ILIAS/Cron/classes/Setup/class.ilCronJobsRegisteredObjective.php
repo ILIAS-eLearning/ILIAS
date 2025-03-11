@@ -23,37 +23,25 @@ use ILIAS\Setup;
 class ilCronjobsRegisteredObjective implements Setup\Objective
 {
     public function __construct(
-        private array $cronjobs
+        private readonly array $cronjobs
     ) {
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getHash(): string
     {
         return hash("sha256", self::class);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getLabel(): string
     {
         return "CronJobs are registered.";
     }
 
-    /**
-     * @inheritdoc
-     */
     public function isNotable(): bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getPreconditions(Setup\Environment $environment): array
     {
         return [
@@ -63,9 +51,6 @@ class ilCronjobsRegisteredObjective implements Setup\Objective
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function achieve(Setup\Environment $environment): Setup\Environment
     {
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
@@ -107,9 +92,6 @@ class ilCronjobsRegisteredObjective implements Setup\Objective
         return $environment;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function isApplicable(Setup\Environment $environment): bool
     {
         return true;

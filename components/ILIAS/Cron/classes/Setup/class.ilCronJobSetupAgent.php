@@ -24,7 +24,7 @@ use ILIAS\Refinery;
 class ilCronJobSetupAgent implements Setup\Agent
 {
     public function __construct(
-        private array $cronjobs
+        private readonly array $cronjobs
     ) {
     }
 

@@ -123,7 +123,7 @@ class ilCronJobRepositoryImpl implements ilCronJobRepository
 
     public function unregisterAllJobs(): void
     {
-        $query = 'TRUNCATE cron_job;';
+        $query = 'DELETE FROM cron_job';
         $res = $this->db->manipulate($query);
     }
 

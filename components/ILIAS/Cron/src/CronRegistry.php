@@ -26,7 +26,7 @@ class CronRegistry implements Registry
      * @param ilCronJob[] $jobs
      */
     public function __construct(
-        private array $jobs
+        private readonly array $jobs
     ) {
     }
 
