@@ -371,6 +371,11 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
             $this->global_tpl->addOnLoadCode(
                 "il.LegacyForm.autocomplete.init(document.querySelector(`{$sel_auto}`), {$config});"
             );
+            if ($this->multi) {
+                $this->global_tpl->addOnLoadCode(
+                    "ilMultiFormValues.addAutocomplete(`" . $this->getFieldId() . "`, " . $config . ");"
+                );
+            }
         }
 
         if ($a_mode == "toolbar") {
