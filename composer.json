@@ -69,7 +69,7 @@
 		"dflydev/fig-cookies": "^3.0",
 		"symfony/yaml": "^6.4",
 		"symfony/console": "^6.4",
-		"simplesamlphp/simplesamlphp": "^2.2.0",
+		"simplesamlphp/simplesamlphp": "^2.3.7",
 		"phpunit/phpunit": "^10.5",
 		"monolog/monolog": "^2.9.3",
 		"phpoffice/phpspreadsheet": "^2.2",
