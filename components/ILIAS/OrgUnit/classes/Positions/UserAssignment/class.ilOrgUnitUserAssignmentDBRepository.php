@@ -425,13 +425,13 @@ class ilOrgUnitUserAssignmentDBRepository implements OrgUnitUserAssignmentReposi
         ;
         $res = $this->db->query($query);
 
-        if($count_only) {
+        if ($count_only) {
             return $this->db->numRows($res);
         }
 
         $users = [];
         while ($rec = $this->db->fetchAssoc($res)) {
-            $rec['active'] = (bool)$rec['active'];
+            $rec['active'] = (bool) $rec['active'];
             $users[] = $rec;
         }
         return $users;
@@ -457,9 +457,10 @@ class ilOrgUnitUserAssignmentDBRepository implements OrgUnitUserAssignmentReposi
         $orgu_ids = $additional_parameters['orgu_ids'];
         $position_id = $additional_parameters['position_id'];
         $lp_visible = $additional_parameters['lp_visible_ref_ids'];
+        $write_access = $additional_parameters['write_access'];
 
         foreach ($this->getUserDataByOrgUnitsAndPosition($orgu_ids, $position_id, false, $range, $order) as $record) {
-            $row_id = implode('_', [(string)$position_id, (string)$record['usr_id']]);
+            $row_id = implode('_', [(string) $position_id, (string) $record['usr_id']]);
             yield $row_builder->buildDataRow($row_id, $record)
                 ->withDisabledAction(
                     'show_learning_progress',
@@ -468,7 +469,12 @@ class ilOrgUnitUserAssignmentDBRepository implements OrgUnitUserAssignmentReposi
                         && ilObjUserTracking::_enabledLearningProgress()
                         && ilObjUserTracking::_enabledUserRelatedData()
                     )
+                )
+                ->withDisabledAction(
+                    'remove',
+                    !$write_access
                 );
+
         }
     }
 }
