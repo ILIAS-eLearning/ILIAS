@@ -142,6 +142,7 @@ class ilTestEvaluationFactory
                 $attempt = $this->buildBasicAttemptEvaluationDataFromDB($row);
             }
 
+            $attempt = $this->addQuestionToAttempt($attempt, $row);
             $user_eval_data->addPass($row['pass'], $attempt);
             $participants[$row['active_id']] = $user_eval_data;
         }
@@ -173,6 +174,7 @@ class ilTestEvaluationFactory
                 );
             }
 
+            $attempt = $this->addQuestionToAttempt($attempt, $row);
             $user_eval_data->addPass($row['pass'], $attempt);
             $participants[$row['active_id']] = $user_eval_data;
         }
@@ -213,7 +215,7 @@ class ilTestEvaluationFactory
         $attempt->setExamId((string) $row['exam_id']);
         $attempt->setRequestedHintsCount($row['hint_count']);
         $attempt->setDeductedHintPoints($row['hint_points']);
-        return $this->addQuestionToAttempt($attempt, $row);
+        return $attempt;
     }
 
     private function addVisitingTimeToUserEvalData(
