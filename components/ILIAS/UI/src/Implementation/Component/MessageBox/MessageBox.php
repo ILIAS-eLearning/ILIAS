@@ -22,8 +22,9 @@ namespace ILIAS\UI\Implementation\Component\MessageBox;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Implementation\Component\Prompt\IsPromptContentInternal;
 
-class MessageBox implements C\MessageBox\MessageBox
+class MessageBox implements C\MessageBox\MessageBox, IsPromptContentInternal
 {
     use ComponentHelper;
 
