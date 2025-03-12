@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Component\Resource\ComponentCSS;
+
 class Mail implements Component\Component
 {
     public function init(
@@ -38,6 +40,8 @@ class Mail implements Component\Component
             );
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "ilMailComposeFunctions.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new ComponentCSS($this, '/../../../../templates/default/mail.css');
         $contribute[User\Settings\UserSettings::class] = fn() =>
             new Mail\UserSettings\Settings();
         $contribute[User\Profile\ChangeListeners\UserFieldAttributesChangeListener::class] = fn() =>
