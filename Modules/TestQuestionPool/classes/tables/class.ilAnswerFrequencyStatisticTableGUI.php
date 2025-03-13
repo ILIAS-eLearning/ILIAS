@@ -132,7 +132,7 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
         foreach ($this->getData() as $row) {
             if (isset($row['addable'])) {
                 $this->setActionsColumnEnabled(true);
-                $this->addColumn('', '', '1%');
+                $this->addColumn('', '', '');
                 break;
             }
         }
