@@ -10460,7 +10460,7 @@ div.alert ul > li:before {
   border: 1px solid #dddddd;
 }
 .c-table-data__cell--multiaction {
-  padding-bottom: 9px;
+  padding-bottom: 6px;
 }
 
 @media screen and (min-width: 769px) {
