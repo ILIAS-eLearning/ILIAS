@@ -9,8 +9,13 @@
   > label {
     order: 1;
     width: 100%;
-    h2, h3, h4, h5, h6 {
+    h3, h4, h5, h6 {
       display: inline-block;
+    }
+    h2 {
+      display: inline-block;
+      font-size: s.$il-font-size-xlarge;
+      font-weight: s.$il-font-weight-bold;
     }
   }
 

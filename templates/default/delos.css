@@ -4626,8 +4626,13 @@ hr.il-divider-with-label {
   order: 1;
   width: 100%;
 }
-.c-form .c-input[data-il-ui-component=section-field-input].c-input > label h2, .c-form .c-input[data-il-ui-component=section-field-input].c-input > label h3, .c-form .c-input[data-il-ui-component=section-field-input].c-input > label h4, .c-form .c-input[data-il-ui-component=section-field-input].c-input > label h5, .c-form .c-input[data-il-ui-component=section-field-input].c-input > label h6 {
+.c-form .c-input[data-il-ui-component=section-field-input].c-input > label h3, .c-form .c-input[data-il-ui-component=section-field-input].c-input > label h4, .c-form .c-input[data-il-ui-component=section-field-input].c-input > label h5, .c-form .c-input[data-il-ui-component=section-field-input].c-input > label h6 {
   display: inline-block;
+}
+.c-form .c-input[data-il-ui-component=section-field-input].c-input > label h2 {
+  display: inline-block;
+  font-size: 1.115rem;
+  font-weight: 600;
 }
 .c-form .c-input[data-il-ui-component=section-field-input].c-input > .c-input__help-byline {
   width: 100%;
