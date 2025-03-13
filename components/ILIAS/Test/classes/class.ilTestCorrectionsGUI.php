@@ -235,17 +235,21 @@ class ilTestCorrectionsGUI
         $this->main_tpl->parseCurrentBlock();
     }
 
-    protected function showAnswerStatistic()
+    /**
+     * @param null|list<ilTestEvaluationUserData> $participant_results
+     */
+    protected function showAnswerStatistic(?array $participant_results = null): void
     {
-        $question_gui = $this->question_gui;
-        $solutions = $this->getSolutions($question_gui->getObject());
+        $solutions = $participant_results
+            ? $this->getSolutionsByParticipantResults($this->question_gui->getObject(), $participant_results)
+            : $this->getSolutions($this->question_gui->getObject());
 
-        $this->setCorrectionTabsContext($question_gui, 'answers');
+        $this->setCorrectionTabsContext($this->question_gui, 'answers');
 
         $tablesHtml = '';
 
-        foreach ($question_gui->getSubQuestionsIndex() as $subQuestionIndex) {
-            $table = $question_gui->getAnswerFrequencyTableGUI(
+        foreach ($this->question_gui->getSubQuestionsIndex() as $subQuestionIndex) {
+            $table = $this->question_gui->getAnswerFrequencyTableGUI(
                 $this,
                 'showAnswerStatistic',
                 $solutions,
@@ -255,7 +259,7 @@ class ilTestCorrectionsGUI
             $tablesHtml .= $table->getHTML() . $table->getAdditionalHtml();
         }
 
-        $this->populatePageTitleAndDescription($question_gui);
+        $this->populatePageTitleAndDescription($this->question_gui);
         $this->main_tpl->setContent($tablesHtml);
     }
 
@@ -295,7 +299,7 @@ class ilTestCorrectionsGUI
         );
         $scoring->setPreserveManualScores(true);
         $scoring->setQuestionId($question_index);
-        $scoring->recalculateSolutions();
+        $participant_results = $scoring->recalculateSolutions();
 
         if ($this->logger->isLoggingEnabled()) {
             $this->logger->logQuestionAdministrationInteraction(
@@ -308,7 +312,7 @@ class ilTestCorrectionsGUI
         }
 
         $this->main_tpl->setOnScreenMessage('success', $this->language->txt('saved_successfully'));
-        $this->showAnswerStatistic();
+        $this->showAnswerStatistic($participant_results);
     }
 
     protected function addHiddenItemsFromArray(ilConfirmationGUI $gui, $array, $curPath = [])
@@ -422,6 +426,24 @@ class ilTestCorrectionsGUI
         }
 
         return $solution_rows;
+    }
+
+    /**
+     * @param list<ilTestEvaluationUserData> $participant_results
+     */
+    protected function getSolutionsByParticipantResults(assQuestion $question, array $participant_results): array
+    {
+        $solutions = [];
+
+        foreach ($participant_results as $active_id => $result) {
+            foreach ($result->getPasses() as $pass) {
+                foreach ($question->getSolutionValues($active_id, $pass->getPass()) as $row) {
+                    $solutions[] = $row;
+                }
+            }
+        }
+
+        return $solutions;
     }
 
     protected function getQuestions(): array

@@ -113,6 +113,7 @@ class ilTestEvaluationFactory
                 $attempt = $this->buildBasicAttemptEvaluationDataFromDB($row);
             }
 
+            $attempt = $this->addQuestionToAttempt($attempt, $row);
             $user_eval_data->addPass($row['pass'], $attempt);
             $participants[$row['active_id']] = $user_eval_data;
         }
@@ -152,7 +153,7 @@ class ilTestEvaluationFactory
                 );
             }
 
-            $user_eval_data->addPass($row['pass'], $attempt);
+            $user_eval_data->addPass($row['pass'], $this->addQuestionToAttempt($attempt, $row));
             $participants[$row['active_id']] = $user_eval_data;
         }
 
@@ -191,16 +192,16 @@ class ilTestEvaluationFactory
         $attempt->setExamId((string) $row['exam_id']);
         $attempt->setRequestedHintsCount($row['hint_count']);
         $attempt->setDeductedHintPoints($row['hint_points']);
-        return $this->addQuestionToAttempt($attempt, $row);
+        return $attempt;
     }
 
     private function addVisitingTimeToUserEvalData(
         ilTestEvaluationUserData $user_data,
         int $active_id
     ): ilTestEvaluationUserData {
-        $visitingTime = $this->test_obj->getVisitingTimeOfParticipant($active_id);
-        $user_data->setFirstVisit($visitingTime['firstvisit']);
-        $user_data->setLastVisit($visitingTime['lastvisit']);
+        $visiting_time = $this->test_obj->getVisitingTimeOfParticipant($active_id);
+        $user_data->setFirstVisit($visiting_time['first_access']);
+        $user_data->setLastVisit($visiting_time['last_access']);
         return $user_data;
     }
 
