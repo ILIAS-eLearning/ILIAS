@@ -235,8 +235,12 @@ class ilObjectActivation
 
         $item['timing_type'] = $item_array['timing_type'] ?? 0;
 
-        if (($item_array['changeable'] ?? false) &&
-            $item_array['timing_type'] == self::TIMINGS_PRESETTING) {
+        if ($item_array['timing_type'] == self::TIMINGS_PRESETTING &&
+            (
+                ($item_array['changeable'] ?? false) ||
+                ilObjCourse::lookupTimingMode(ilObject::_lookupObjId($item['parent'])) === ilCourseConstants::IL_CRS_VIEW_TIMING_RELATIVE
+            )
+        ) {
             // cognos-blu-patch: begin
             $user_data = new ilTimingUser((int) $item['ref_id'], $ilUser->getId());
             if ($user_data->isScheduled()) {
