@@ -5421,7 +5421,7 @@ main {
   .il-header-locator .dropdown {
     position: static;
   }
-  .il-header-locator .open > .dropdown-menu {
+  .il-header-locator .dropdown-menu {
     top: 44px;
     width: 100%;
   }

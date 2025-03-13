@@ -323,7 +323,7 @@ main {
 		.dropdown {
 			position: static;
 		}
-		.open>.dropdown-menu {
+		.dropdown-menu {
 			top: $il-standard-page-small-header-height - 1;
 			width: 100%;
 		}
