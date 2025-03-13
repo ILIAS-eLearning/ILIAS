@@ -131,6 +131,14 @@ $il-slate-tree-padding: $il-padding-small-vertical 0;
 	li.il-workflow-step {
 		padding: 0 $il-slate-content-spacing*2;
 	}
+
+	.il-slate-content {
+		> .c-form,
+		> #copg-editor-slate-content
+		> .c-form {
+			padding: $il-padding-xlarge-vertical $il-padding-base-horizontal;
+		}
+	}
 }
 
 .il-maincontrols-slate-close,
