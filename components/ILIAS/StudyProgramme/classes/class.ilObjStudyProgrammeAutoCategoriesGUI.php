@@ -329,6 +329,13 @@ class ilObjStudyProgrammeAutoCategoriesGUI
                 function ($id) use ($form) {
                     $selector_post_var = self::F_CATEGORY_REF;
                     $js = $form->getItemByPostVar($selector_post_var)->getOnloadCode();
+                    $js[] = "
+                        document.getElementById('$id').onclose = ()=> {
+                            let smodal = document.querySelectorAll('body dialog')
+                              .item(document.querySelectorAll('body dialog').length-1);
+                            smodal?.remove();
+                        }
+                    ";
                     return implode(';', $js);
                 }
             );
