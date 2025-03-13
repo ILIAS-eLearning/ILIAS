@@ -2432,6 +2432,7 @@ JS;
         $state = $question_gui->object->lookupForExistingSolutions($this->test_session->getActiveId(), $this->test_session->getPass());
         $config['isAnswered'] = $state['authorized'];
         $config['isAnswerChanged'] = $state['intermediate'] || $this->getAnswerChangedParameter();
+        $config['isAnswerFixed'] = $this->isParticipantsAnswerFixed($question_gui->object->getId());
         $config['saveOnTimeReachedUrl'] = str_replace('&amp;', '&', $this->ctrl->getFormAction($this, ilTestPlayerCommands::AUTO_SAVE_ON_TIME_LIMIT));
 
         $config['autosaveUrl'] = '';

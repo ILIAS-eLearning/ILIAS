@@ -57,6 +57,7 @@ il.TestPlayerQuestionEditControl = new function() {
     var config = {
         isAnswered: false,                      // question is already answered
         isAnswerChanged: false,                 // question is already changed, e.g. after marking
+        isAnswerFixed: false,                   // question is already fixed, e.g. because instant feedback has been requested
         saveOnTimeReachedUrl: '',               // url for save at nd of working time
         autosaveUrl: '',                        // url for saving of intermediate solutions
         autosaveInterval: 0,                    // interval for saving of intermediate solutions
@@ -144,6 +145,11 @@ il.TestPlayerQuestionEditControl = new function() {
         if (config.isAnswerChanged) {
             answerChanged = true;
             stickyChanged = true;
+        }
+
+        if (config.isAnswered && config.isAnswerChanged && config.isAnswerFixed) {
+            answerChanged = false;
+            stickyChanged = false;
         }
 
         // adjust the display of status dependent elements
