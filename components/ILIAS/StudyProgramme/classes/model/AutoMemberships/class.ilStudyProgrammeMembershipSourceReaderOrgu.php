@@ -27,7 +27,7 @@ class ilStudyProgrammeMembershipSourceReaderOrgu implements ilStudyProgrammeMemb
         protected OrgUnitUserAssignmentRepository $orgu_assignment_repo,
         protected int $src_id,
         protected bool $search_recursive,
-        protected int $exclude_id
+        protected ?int $exclude_id
     ) {
     }
 
