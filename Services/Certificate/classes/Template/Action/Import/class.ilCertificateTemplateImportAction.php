@@ -242,7 +242,7 @@ class ilCertificateTemplateImportAction
         if ($this->filesystem->hasDir($dir)) {
             $this->filesystem->deleteDir($dir);
         }
-        $this->filesystem->createDir($dir);
+        ilFileUtils::makeDirParents(CLIENT_WEB_DIR . $dir);
 
         return $dir;
     }
