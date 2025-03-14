@@ -29,6 +29,8 @@ use ILIAS\components\Authentication\Pages\AuthPageEditorContext;
  */
 class ilObjAuthSettingsGUI extends ilObjectGUI
 {
+    private const string CMD_SHOW_APACHE_SETTINGS = 'apacheAuthSettings';
+    private const string CMD_SAVE_APACHE_SETTINGS = 'saveApacheSettings';
     private const PROP_AUTH_MODE_KIND = 'kind';
     private const PROP_AUTH_MODE_SEQUENCE = 'sequence';
 
@@ -993,7 +995,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
             $this->tabs_gui->addTarget(
                 'apache_auth_settings',
-                $this->ctrl->getLinkTarget($this, 'apacheAuthSettings'),
+                $this->ctrl->getLinkTarget($this, self::CMD_SHOW_APACHE_SETTINGS),
                 '',
                 '',
                 ''
@@ -1131,7 +1133,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             file_put_contents(ILIAS_DATA_DIR . '/' . CLIENT_ID . '/apache_auth_allowed_domains.txt', $allowedDomains);
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('apache_settings_changed_success'), true);
-            $this->ctrl->redirect($this, 'apacheAuthSettings');
+            $this->ctrl->redirect($this, self::CMD_SHOW_APACHE_SETTINGS);
         } else {
             $this->apacheAuthSettingsObject($form);
         }
@@ -1259,7 +1261,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         $form->addItem($txt);
 
         if ($this->access->checkAccess('write', '', $this->ref_id)) {
-            $form->addCommandButton('saveApacheSettings', $this->lng->txt('save'));
+            $form->addCommandButton(self::CMD_SAVE_APACHE_SETTINGS, $this->lng->txt('save'));
         }
         $form->addCommandButton('cancel', $this->lng->txt('cancel'));
 
