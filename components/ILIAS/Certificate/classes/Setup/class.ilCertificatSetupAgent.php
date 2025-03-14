@@ -21,7 +21,6 @@ declare(strict_types=1);
 use ILIAS\Setup;
 use ILIAS\Refinery;
 use ILIAS\Setup\ObjectiveCollection;
-use ILIAS\Certificate\Setup\Migration\CertificateIdMigration;
 
 class ilCertificatSetupAgent implements Setup\Agent
 {
@@ -71,8 +70,6 @@ class ilCertificatSetupAgent implements Setup\Agent
 
     public function getMigrations(): array
     {
-        return [
-            new CertificateIdMigration(),
-        ];
+        return [];
     }
 }
