@@ -6894,7 +6894,7 @@ div.alert ul > li:before {
   gap: 9px;
 }
 .panel-flex .panel-title {
-  flex-shrink: 0;
+  flex-shrink: 1;
   order: 1;
 }
 .panel-flex .panel-controls {
@@ -10371,6 +10371,7 @@ tbody.collapse.in {
 .carousel-inner > .item .item-content > a > img {
   display: block;
   max-width: 100%;
+  max-height: 100%;
   height: auto;
   line-height: 1;
 }
