@@ -70,31 +70,15 @@ class ilObjTestSettingsAccess extends TestSettings
         array $environment = null
     ): Group {
         $constraint = $refinery->custom()->constraint(
-            static function (array $vs): bool {
-                if ($vs['start_time'] === null
-                    || $vs['end_time'] === null) {
-                    return true;
-                }
-                return $vs['start_time'] < $vs['end_time'];
-            },
+            static fn (array $vs) =>
+                $vs['start_time'] === null || $vs['end_time'] === null || $vs['start_time'] < $vs['end_time'],
             $lng->txt('duration_end_must_not_be_earlier_than_start')
         );
 
         $trafo = $refinery->custom()->transformation(
             static function (array $vs): array {
-                if ($vs['start_time'] === null) {
-                    $vs['start_time_enabled'] = false;
-                } else {
-                    $vs['start_time_enabled'] = true;
-                    $vs['start_time'] = $vs['start_time'];
-                }
-
-                if ($vs['end_time'] === null) {
-                    $vs['end_time_enabled'] = false;
-                    return $vs;
-                }
-
-                $vs['end_time_enabled'] = true;
+                $vs['start_time_enabled'] = $vs['start_time'] !== null;
+                $vs['end_time_enabled'] = $vs['end_time'] !== null;
                 return $vs;
             }
         );
