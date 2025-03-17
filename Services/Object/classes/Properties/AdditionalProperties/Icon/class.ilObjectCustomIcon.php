@@ -114,6 +114,7 @@ class ilObjectCustomIcon
         }
 
         rename(ilFileUtils::getDataDir() . '/temp/' . $tempfile_name, $this->getFullPath());
+        $this->filesystem->setVisibility($relative_path, 'public');
 
 
         foreach ($this->config->getUploadPostProcessors() as $processor) {
