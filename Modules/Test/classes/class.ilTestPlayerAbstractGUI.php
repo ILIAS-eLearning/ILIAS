@@ -711,12 +711,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     protected function performTestPassFinishedTasks(): void
     {
-        $finishTasks = new ilTestPassFinishTasks(
-            $this->test_session,
-            $this->object->getId()
-        );
-        $finishTasks->performFinishTasks($this->processLocker);
-        $this->object->updateTestResultCache($this->test_session->getActiveId(), null);
+        (new ilTestPassFinishTasks($this->test_session, $this->object))->performFinishTasks($this->processLocker);
 
         $this->sendNewPassFinishedNotificationEmailIfActivated(
             $this->test_session->getActiveId(),
