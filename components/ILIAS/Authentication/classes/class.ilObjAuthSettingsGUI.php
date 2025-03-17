@@ -18,8 +18,11 @@
 
 declare(strict_types=1);
 
+use ILIAS\Authentication\Form\ApacheAuthSettingsForm;
 use ILIAS\Style\Content\GUIService;
 use ILIAS\components\Authentication\Pages\AuthPageEditorContext;
+use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
+use ILIAS\UICore\GlobalTemplate;
 
 /**
  * @ilCtrl_Calls ilObjAuthSettingsGUI: ilPermissionGUI, ilRegistrationSettingsGUI, ilLDAPSettingsGUI
@@ -1071,13 +1074,11 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function apacheAuthSettingsObject(?ilPropertyFormGUI $form = null): void
+    public function apacheAuthSettingsObject(?StandardForm $form = null): void
     {
         $this->tabs_gui->setTabActive('apache_auth_settings');
 
-        if ($form === null) {
-            $form = $this->getApacheAuthSettingsForm();
-
+        if (!$form) {
             $settings = new ilSetting('apache_auth');
             $settingsMap = $settings->getAll();
 
@@ -1086,17 +1087,39 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 $settingsMap['apache_auth_domains'] = file_get_contents($path);
             }
 
-            $form->setValuesByArray($settingsMap);
+            //$form->setValuesByArray($settingsMap);
+
+            $form = (new ApacheAuthSettingsForm(
+                $this->ref_id,
+                $this,
+                self::CMD_SHOW_APACHE_SETTINGS,
+                self::CMD_SAVE_APACHE_SETTINGS,
+                $settingsMap
+            ))->buildForm();
+
         }
-        $this->tpl->setVariable('ADM_CONTENT', $form->getHtml());
+
+        $this->tpl->setContent($this->ui_renderer->render([
+            $this->ui_factory->item()->standard($this->lng->txt('apache_settings')),
+            $form
+        ]));
+
+        //$this->tpl->setVariable('ADM_CONTENT', $form->getHtml());
     }
 
     public function saveApacheSettingsObject(): void
     {
-        $form = $this->getApacheAuthSettingsForm();
-        $form->setValuesByPost();
-        if ($form->checkInput()) {
+        $form = (new ApacheAuthSettingsForm(
+            $this->ref_id,
+            $this,
+            self::CMD_SHOW_APACHE_SETTINGS,
+            self::CMD_SAVE_APACHE_SETTINGS
+        ))->buildForm()->withRequest($this->http->request());
+        if (!$form->getError()) {
+            $data = $form->getData();
+
             $settings = new ilSetting('apache_auth');
+
             $fields = [
                 'apache_auth_indicator_name',
                 'apache_auth_indicator_value',
@@ -1114,10 +1137,25 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             ];
 
             foreach ($fields as $field) {
-                $settings->set($field, (string) $form->getInput($field));
+                $value = match ($field) {
+                    'apache_enable_auth',
+                    'apache_auth_enable_override_login_page',
+                    'apache_auth_username_config',
+                    'apache_auth_security',
+                    'apache_enable_ldap' => (bool) ($data[$field] ?? false),
+                    'apache_auth_username_config_type' => $data['apache_auth_username_config'][$field][0] ?? 1,
+                    'apache_auth_target_override_login_page' => $data['apache_auth_enable_override_login_page'][$field] ?? '',
+                    'apache_auth_username_direct_mapping_fieldname' => $data['apache_auth_username_config']['apache_auth_username_config_type'][1][$field] ?? '',
+                    'apache_auth_domains' => $data['apache_auth_security'][$field] ?? '',
+                    'apache_local_autocreate' => (bool) ($data['apache_enable_auth'][$field] ?? false),
+                    'apache_default_role' => $data['apache_enable_auth']['apache_local_autocreate'][$field] ?? 4,
+                    'apache_ldap_sid' => $data['apache_enable_ldap'][$field] ?? '',
+                    default => $data[$field],
+                };
+                $settings->set($field, (string) ($value === false ? "0" : $value));
             }
 
-            if ($form->getInput('apache_enable_auth')) {
+            if ($data[$field] ?? false) {
                 $this->ilias->setSetting('apache_active', '1');
             } else {
                 $this->ilias->setSetting('apache_active', '0');
@@ -1129,143 +1167,14 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 }
             }
 
-            $allowedDomains = $this->validateApacheAuthAllowedDomains((string) $form->getInput('apache_auth_domains'));
+            $allowedDomains = $this->validateApacheAuthAllowedDomains($data['apache_auth_security']['apache_auth_domains'] ?? '');
             file_put_contents(ILIAS_DATA_DIR . '/' . CLIENT_ID . '/apache_auth_allowed_domains.txt', $allowedDomains);
 
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('apache_settings_changed_success'), true);
+            $this->tpl->setOnScreenMessage(GlobalTemplate::MESSAGE_TYPE_SUCCESS, $this->lng->txt('apache_settings_changed_success'), true);
             $this->ctrl->redirect($this, self::CMD_SHOW_APACHE_SETTINGS);
-        } else {
-            $this->apacheAuthSettingsObject($form);
         }
-    }
 
-    public function getApacheAuthSettingsForm(): ilPropertyFormGUI
-    {
-        $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this));
-        $form->setTitle($this->lng->txt('apache_settings'));
-
-        $chb_enabled = new ilCheckboxInputGUI($this->lng->txt('apache_enable_auth'), 'apache_enable_auth');
-        $chb_enabled->setValue('1');
-        $form->addItem($chb_enabled);
-
-        $chb_local_create_account = new ilCheckboxInputGUI(
-            $this->lng->txt('apache_autocreate'),
-            'apache_local_autocreate'
-        );
-        $chb_local_create_account->setValue('1');
-        $chb_enabled->addSubitem($chb_local_create_account);
-
-        $roles = $this->rbac_review->getGlobalRolesArray();
-        $select = new ilSelectInputGUI($this->lng->txt('apache_default_role'), 'apache_default_role');
-        $roleOptions = [];
-        foreach ($roles as $role) {
-            $roleOptions[$role['obj_id']] = ilObject::_lookupTitle($role['obj_id']);
-        }
-        $select->setOptions($roleOptions);
-        $select->setValue(4);
-
-        $chb_local_create_account->addSubitem($select);
-
-        $chb_local = new ilCheckboxInputGUI($this->lng->txt('apache_enable_local'), 'apache_enable_local');
-        $chb_local->setValue('1');
-        $form->addItem($chb_local);
-
-        $chb_ldap = new ilCheckboxInputGUI($this->lng->txt('apache_enable_ldap'), 'apache_enable_ldap');
-        $chb_local->setValue('1');
-
-        $chb_ldap->setInfo($this->lng->txt('apache_ldap_hint_ldap_must_be_configured'));
-
-        $this->lng->loadLanguageModule('auth');
-
-        $servers = ilLDAPServer::getServerIds();
-        if (count($servers)) {
-            $ldap_server_select = new ilSelectInputGUI($this->lng->txt('auth_ldap_server_ds'), 'apache_ldap_sid');
-            $options[0] = $this->lng->txt('select_one');
-            foreach ($servers as $server_id) {
-                $ldap_server = new ilLDAPServer($server_id);
-                $options[$server_id] = $ldap_server->getName();
-            }
-            $ldap_server_select->setOptions($options);
-            $ldap_server_select->setRequired(true);
-
-            $ds = ilLDAPServer::getDataSource(ilAuthUtils::AUTH_APACHE);
-            $ldap_server_select->setValue($ds);
-
-            $chb_ldap->addSubItem($ldap_server_select);
-        }
-        $form->addItem($chb_ldap);
-
-        $txt = new ilTextInputGUI($this->lng->txt('apache_auth_indicator_name'), 'apache_auth_indicator_name');
-        $txt->setRequired(true);
-        $form->addItem($txt);
-
-        $txt = new ilTextInputGUI($this->lng->txt('apache_auth_indicator_value'), 'apache_auth_indicator_value');
-        $txt->setRequired(true);
-        $form->addItem($txt);
-
-        $chb = new ilCheckboxInputGUI(
-            $this->lng->txt('apache_auth_enable_override_login'),
-            'apache_auth_enable_override_login_page'
-        );
-        $chb->setValue('1');
-        $form->addItem($chb);
-
-        $txt = new ilTextInputGUI(
-            $this->lng->txt('apache_auth_target_override_login'),
-            'apache_auth_target_override_login_page'
-        );
-        $txt->setRequired(true);
-        $chb->addSubItem($txt);
-
-        $chb = new ilCheckboxInputGUI(
-            $this->lng->txt('apache_auth_authenticate_on_login_page'),
-            'apache_auth_authenticate_on_login_page'
-        );
-        $chb->setValue('1');
-        $form->addItem($chb);
-
-        $sec = new ilFormSectionHeaderGUI();
-        $sec->setTitle($this->lng->txt('apache_auth_username_config'));
-        $form->addItem($sec);
-
-        $rag = new ilRadioGroupInputGUI(
-            $this->lng->txt('apache_auth_username_config_type'),
-            'apache_auth_username_config_type'
-        );
-        $form->addItem($rag);
-
-        $rao = new ilRadioOption($this->lng->txt('apache_auth_username_direct_mapping'), '1');
-        $rag->addOption($rao);
-
-        $txt = new ilTextInputGUI(
-            $this->lng->txt('apache_auth_username_direct_mapping_fieldname'),
-            'apache_auth_username_direct_mapping_fieldname'
-        );
-        $rao->addSubItem($txt);
-
-        $rao = new ilRadioOption($this->lng->txt('apache_auth_username_extended_mapping'), '2');
-        $rao->setDisabled(true);
-        $rag->addOption($rao);
-
-        $rao = new ilRadioOption($this->lng->txt('apache_auth_username_by_function'), '3');
-        $rag->addOption($rao);
-
-        $sec = new ilFormSectionHeaderGUI();
-        $sec->setTitle($this->lng->txt('apache_auth_security'));
-        $form->addItem($sec);
-
-        $txt = new ilTextAreaInputGUI($this->lng->txt('apache_auth_domains'), 'apache_auth_domains');
-        $txt->setInfo($this->lng->txt('apache_auth_domains_description'));
-
-        $form->addItem($txt);
-
-        if ($this->access->checkAccess('write', '', $this->ref_id)) {
-            $form->addCommandButton(self::CMD_SAVE_APACHE_SETTINGS, $this->lng->txt('save'));
-        }
-        $form->addCommandButton('cancel', $this->lng->txt('cancel'));
-
-        return $form;
+        $this->ctrl->redirect($this, self::CMD_SHOW_APACHE_SETTINGS);
     }
 
     private function validateApacheAuthAllowedDomains(string $text): string
