@@ -431,7 +431,7 @@ class ilTestCorrectionsGUI
     /**
      * @param list<ilTestEvaluationUserData> $participant_results
      */
-    protected function getSolutionsByParticipantResults(assQuestion $question, array $participant_results): array
+    private function getSolutionsByParticipantResults(assQuestion $question, array $participant_results): array
     {
         $solutions = [];
 

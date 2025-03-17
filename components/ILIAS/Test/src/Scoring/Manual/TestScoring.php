@@ -136,7 +136,7 @@ class TestScoring
         }
     }
 
-    public function recalculateQuestionScore(
+    private function recalculateQuestionScore(
         int $user_id,
         int $active_id,
         int $pass,
@@ -148,7 +148,7 @@ class TestScoring
 
         $q_id = $questiondata['id'];
         if (!isset($this->question_cache[$q_id])) {
-            $this->question_cache[$q_id] = $this->test->createQuestionGUI("", $q_id)->getObject();
+            $this->question_cache[$q_id] = $this->test->createQuestionGUI('', $q_id)->getObject();
         }
         $question = $this->question_cache[$q_id];
 
@@ -190,13 +190,13 @@ class TestScoring
             $this->db->update(
                 'tst_test_result',
                 [
-                    'points' => ['float', $points],
-                    'tstamp' => ['integer', time()],
+                    'points' => [\ilDBConstants::T_FLOAT, $points],
+                    'tstamp' => [\ilDBConstants::T_INTEGER, time()],
                 ],
                 [
-                    'active_fi' => ['integer', $active_id],
-                    'question_fi' => ['integer', $question_id],
-                    'pass' => ['integer', $pass]
+                    'active_fi' => [\ilDBConstants::T_INTEGER, $active_id],
+                    'question_fi' => [\ilDBConstants::T_INTEGER, $question_id],
+                    'pass' => [\ilDBConstants::T_INTEGER, $pass]
                 ]
             );
         }
@@ -204,23 +204,23 @@ class TestScoring
         // Always update the pass result as the maximum points might have changed
         $data = $this->test->getQuestionCountAndPointsForPassOfParticipant($active_id, $pass);
         $values = [
-            'maxpoints' => ['float', $data['points']],
-            'tstamp' => ['integer', time()],
+            'maxpoints' => [\ilDBConstants::T_FLOAT, $data['points']],
+            'tstamp' => [\ilDBConstants::T_INTEGER, time()],
         ];
 
         if ($has_changed) {
             $result = $this->db->queryF(
                 'SELECT SUM(points) reachedpoints FROM tst_test_result WHERE active_fi = %s AND pass = %s',
-                ['integer', 'integer'],
+                [\ilDBConstants::T_INTEGER, \ilDBConstants::T_INTEGER],
                 [$active_id, $pass]
             );
-            $values['points'] = ['float', $result->fetchAssoc()['reachedpoints'] ?? 0.0];
+            $values['points'] = [\ilDBConstants::T_FLOAT, $result->fetchAssoc()['reachedpoints'] ?? 0.0];
         }
 
         $this->db->update(
             'tst_pass_result',
             $values,
-            ['active_fi' => ['integer', $active_id], 'pass' => ['integer', $pass]]
+            ['active_fi' => [\ilDBConstants::T_INTEGER, $active_id], 'pass' => [\ilDBConstants::T_INTEGER, $pass]]
         );
 
         \ilCourseObjectiveResult::_updateObjectiveResult($user_id, $active_id, $question_id);

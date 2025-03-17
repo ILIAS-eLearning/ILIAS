@@ -96,26 +96,28 @@ class ilTestEvaluationFactory
 
     public function getCorrectionsEvaluationData(): ilTestEvaluationData
     {
-        $eval_data_rows = $this->retrieveEvaluationData($this->getAccessFilteredActiveIds());
         $participants = [];
         $current_user = null;
         $current_attempt = null;
 
-        foreach ($eval_data_rows as $row) {
-            if ($current_user !== $row['active_id']) {
-                $current_user = $row['active_id'];
+        foreach ($this->retrieveEvaluationData($this->getAccessFilteredActiveIds()) as $row) {
+            $active_id = $row['active_id'];
+            $pass = $row['pass'];
+
+            if ($current_user !== $active_id) {
+                $current_user = $active_id;
                 $current_attempt = null;
                 $user_eval_data = $this->buildBasicUserEvaluationDataFromDB($row);
             }
 
-            if ($current_attempt !== $row['pass']) {
-                $current_attempt = $row['pass'];
+            if ($current_attempt !== $pass) {
+                $current_attempt = $pass;
                 $attempt = $this->buildBasicAttemptEvaluationDataFromDB($row);
             }
 
             $attempt = $this->addQuestionToAttempt($attempt, $row);
-            $user_eval_data->addPass($row['pass'], $attempt);
-            $participants[$row['active_id']] = $user_eval_data;
+            $user_eval_data->addPass($pass, $attempt);
+            $participants[$active_id] = $user_eval_data;
         }
         return new ilTestEvaluationData($participants);
     }
@@ -144,7 +146,7 @@ class ilTestEvaluationFactory
                     $row
                 );
 
-                $start_time = $this->getFirstVisitForActiveIdAndAttempt($row['active_id'], $row['pass']);
+                $start_time = $this->getFirstVisitForActiveIdAndAttempt($row['active_id'], $current_attempt);
                 if ($start_time !== null) {
                     $attempt->setStartTime($start_time);
                 }
