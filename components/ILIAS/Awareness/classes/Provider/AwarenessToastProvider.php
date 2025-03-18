@@ -85,9 +85,7 @@ class AwarenessToastProvider extends AbstractToastProvider
                     $this->if->identifier(self::PROVIDER_KEY . '_' . $this->dic->user()->getId()),
                     $this->dic->language()->txt('awareness_now_online')
                 )
-                ->withIcon($this->dic->ui()->factory()->symbol()->icon()->standard(Standard::USR, ''))
-                ->withVanishTime((int) $setting->get('osd_vanish', (string) Toast::DEFAULT_VANISH_TIME))
-                ->withDelayTime((int) $setting->get('osd_delay', (string) Toast::DEFAULT_DELAY_TIME));
+                ->withIcon($this->dic->ui()->factory()->symbol()->icon()->standard(Standard::USR, ''));
             $links = [];
             foreach ($new_users as $user) {
                 $uname = "[" . $user['login'] . "]";

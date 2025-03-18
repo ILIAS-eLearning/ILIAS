@@ -65,8 +65,6 @@ class ToastClientHtmlTest extends ILIAS_UI_TestBase
                 'Title',
                 $this->getIconFactory()->standard('mail', 'Test')
             )
-                                    ->withVanishTime(5000)
-                                    ->withDelayTime(500)
                                     ->withDescription('Description')
                                     ->withAction('https://www.ilias.de')
         );
