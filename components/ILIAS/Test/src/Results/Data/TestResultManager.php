@@ -150,7 +150,8 @@ class TestResultManager
         int $active_id,
         int $pass,
         ?\ilAssQuestionProcessLocker $process_locker = null,
-        ?int $test_obj_id = null
+        ?int $test_obj_id = null,
+        bool $update_cache = true
     ): ?TestPassResult {
         $test_result = $this->fetchTestResult($active_id, $pass);
         if (!$test_result) {
@@ -185,7 +186,9 @@ class TestResultManager
             $callback();
         }
 
-        $this->updateTestResultCache($active_id, $process_locker);
+        if($update_cache) {
+            $this->updateTestResultCache($active_id, $process_locker);
+        }
 
         return $object;
     }
@@ -212,11 +215,13 @@ class TestResultManager
         $object = $object->withMark($mark);
 
         $is_passed = $object->getPass() <= $test_pass_result['last_finished_pass'] && $mark->getPassed();
-        $passed_once_before = $this->db->queryF(
-            "SELECT passed_once FROM tst_result_cache WHERE active_fi = %s",
-            [\ilDBConstants::T_INTEGER],
-            [$test_pass_result['active_fi']]
-        )->fetchAssoc()['passed_once'] ?? false;
+        $passed_once_before = $this->db->fetchAssoc(
+            $this->db->queryF(
+                "SELECT passed_once FROM tst_result_cache WHERE active_fi = %s",
+                [\ilDBConstants::T_INTEGER],
+                [$test_pass_result['active_fi']]
+            )
+        )['passed_once'] ?? false;
         return $object->withPassedOnce($is_passed || $passed_once_before);
     }
 
@@ -241,7 +246,8 @@ class TestResultManager
         return $object->withMaxPoints($additional_data['max_points'])
             ->withQuestionCount($additional_data['question_count'])
             ->withWorkingTime($this->fetchWorkingTime($object->getActiveId(), $object->getPass()))
-            ->withExamId(\ilObjTest::buildExamId($object->getActiveId(), $object->getPass(), $test_obj_id));
+            ->withExamId(\ilObjTest::buildExamId($object->getActiveId(), $object->getPass(), $test_obj_id))
+            ->withTimestamp();
     }
 
     /**
@@ -256,7 +262,7 @@ class TestResultManager
             [\ilDBConstants::T_INTEGER],
             [$active_id]
         );
-        $question_set_type = $result->numRows() > 0 ? $result->fetchAssoc()['question_set_type'] : '';
+        $question_set_type = $result->numRows() > 0 ? $this->db->fetchAssoc($result)['question_set_type'] : '';
 
         $result = match ($question_set_type) {
             \ilObjTest::QUESTION_SET_TYPE_RANDOM => $this->db->queryF(
@@ -290,7 +296,7 @@ class TestResultManager
     {
         $result = $this->db->queryF(
             "SELECT started, finished FROM tst_times WHERE active_fi = %s AND pass = %s ORDER BY started",
-            [\ilDBConstants::T_INTEGER,\ilDBConstants::T_INTEGER],
+            [\ilDBConstants::T_INTEGER, \ilDBConstants::T_INTEGER],
             [$active_id, $pass]
         );
 
@@ -317,7 +323,7 @@ class TestResultManager
             $row['mark_official'] ?? '',
             (bool) ($row['passed'] ?? false),
             (bool) ($row['failed'] ?? true),
-            (int) ($row['timestamp'] ?? -1),
+            (int) ($row['tstamp'] ?? -1),
             (int) ($row['hint_count'] ?? 0),
             (float) ($row['hint_points'] ?? 0.0),
             (bool) ($row['passed_once'] ?? false),

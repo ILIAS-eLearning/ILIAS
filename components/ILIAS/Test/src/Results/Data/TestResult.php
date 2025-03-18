@@ -53,6 +53,8 @@ class TestResult
         $clone = clone $this;
         $clone->mark_short = $mark->getShortName() ?? ' ';
         $clone->mark_official = $mark->getOfficialName() ?? ' ';
+        $clone->passed = $mark->getPassed();
+        $clone->failed = !$mark->getPassed();
         return $clone;
     }
 

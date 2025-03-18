@@ -73,6 +73,12 @@ class TestPassResult
         return $clone;
     }
 
+    public function withTimestamp(int $timestamp = -1): self {
+        $clone = clone $this;
+        $clone->timestamp = $timestamp > 0 ? $timestamp : time();
+        return $clone;
+    }
+
     public function getActiveId(): int
     {
         return $this->active_id;
