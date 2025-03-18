@@ -1770,7 +1770,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 (string) ilSessionControl::DEFAULT_MAX_IDLE_AFTER_FIRST_REQUEST
             ),
 
-            'login_max_attempts' => $security->getLoginMaxAttempts(),
+            'login_max_attempts' => $security->getLoginMaxAttempts() > 0 ? $security->getLoginMaxAttempts() : '',
             'ps_prevent_simultaneous_logins' => (int) $security->isPreventionOfSimultaneousLoginsEnabled(),
             'password_assistance' => (bool) $this->settings->get('password_assistance'),
             'letter_avatars' => (int) $this->settings->get('letter_avatars'),
