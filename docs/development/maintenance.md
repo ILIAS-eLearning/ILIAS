@@ -886,13 +886,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN LearningModuleHTML)
 
 * **Learning Module HTML**
-    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149)
-    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149)
-    * Authority to Curate Test Cases: [akill](https://docu.ilias.de/go/usr/149)
-    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Sign off on Conceptual Changes: [mbecker](https://docu.ilias.de/go/usr/27266)
+    * Authority to Sign off on Code Changes: [mbecker](https://docu.ilias.de/go/usr/27266)
+    * Authority to Curate Test Cases: [mbecker](https://docu.ilias.de/go/usr/27266)
+    * Authority to (De-)Assign Authorities: [mbecker](https://docu.ilias.de/go/usr/27266)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
-    * Assignee for Security Reports: [akill](https://docu.ilias.de/go/usr/149)
-    * Assignee for Security Issues: [akill](https://docu.ilias.de/go/usr/149)
+    * Assignee for Security Reports: [mbecker](https://docu.ilias.de/go/usr/27266)
+    * Assignee for Security Issues: [mbecker](https://docu.ilias.de/go/usr/27266)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END LearningModuleHTML)
