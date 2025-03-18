@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Contact\MailingLists\MailingListsTable;
 use ILIAS\Contact\MailingLists\MailingListsMembersTable;
+use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
@@ -39,7 +40,7 @@ class ilMailingListsGUI
     private readonly ilRbacSystem $rbacsystem;
     private readonly ilFormatMail $umail;
     private readonly ilMailingLists $mlists;
-    private ilPropertyFormGUI $form_gui;
+    private StandardForm $form;
     private readonly \ILIAS\UI\Factory $ui_factory;
     private readonly \ILIAS\UI\Renderer $ui_renderer;
     private readonly ilTabsGUI $tabs;
@@ -360,17 +361,18 @@ class ilMailingListsGUI
             }
 
             $this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
-            $this->initForm();
-        } else {
-            $this->initForm();
         }
+        $this->initForm();
 
-        if ($this->form_gui->checkInput()) {
+        $form = $this->form->withRequest($this->http->request());
+
+        if (!$form->getError()) {
+            $data = $form->getData();
             $this->mlists->getCurrentMailingList()->setTitle(
-                $this->form_gui->getInput('title')
+                $data['title']
             );
             $this->mlists->getCurrentMailingList()->setDescription(
-                $this->form_gui->getInput('description')
+                $data['description']
             );
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
@@ -395,42 +397,34 @@ class ilMailingListsGUI
             'components/ILIAS/Contact'
         );
 
-        $this->form_gui->setValuesByPost();
-
-        $this->tpl->setVariable('FORM', $this->form_gui->getHTML());
+        $this->tpl->setVariable('FORM', $this->ui_renderer->render([
+            'mailing_lists' => $form
+        ]));
         $this->tpl->printToStdout();
     }
 
     private function initForm(): void
     {
-        $this->form_gui = new ilPropertyFormGUI();
-        $this->form_gui->setFormAction($this->ctrl->getFormAction($this, 'saveForm'));
-        $this->form_gui->setTitle($this->lng->txt('mail_mailing_list'));
-        $titleGui = new ilTextInputGUI($this->lng->txt('title'), 'title');
-        $titleGui->setRequired(true);
-        $this->form_gui->addItem($titleGui);
-        $descriptionGui = new ilTextAreaInputGUI($this->lng->txt('description'), 'description');
-        $descriptionGui->setCols(40);
-        $descriptionGui->setRows(8);
-        $this->form_gui->addItem($descriptionGui);
-        $this->form_gui->addCommandButton('saveForm', $this->lng->txt('save'));
-        $this->form_gui->addCommandButton('showMailingLists', $this->lng->txt('cancel'));
-    }
+        $title = $this->ui_factory->input()->field()->text(
+            $this->lng->txt('title')
+        )
+        ->withRequired(true)
+        ->withValue($this->mlists->getCurrentMailingList() ? $this->mlists->getCurrentMailingList()->getTitle() : '');
 
-    private function setValuesByObject(): void
-    {
-        $this->form_gui->setValuesByArray([
-            'title' => $this->mlists->getCurrentMailingList()->getTitle(),
-            'description' => $this->mlists->getCurrentMailingList()->getDescription() ?? ''
-        ]);
-    }
+        $description = $this->ui_factory->input()->field()->textarea(
+            $this->lng->txt('description')
+        )
+        ->withValue(
+            $this->mlists->getCurrentMailingList() ? $this->mlists->getCurrentMailingList()->getDescription() : ''
+        );
 
-    private function setDefaultValues(): void
-    {
-        $this->form_gui->setValuesByArray([
-            'title' => '',
-            'description' => ''
-        ]);
+        $this->form = $this->ui_factory->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, 'saveForm'),
+            [
+                'title' => $title,
+                'description' => $description
+            ]
+        );
     }
 
     public function showForm(): void
@@ -449,20 +443,18 @@ class ilMailingListsGUI
             }
 
             $this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
-            $this->initForm();
-            $this->setValuesByObject();
-        } else {
-            $this->initForm();
-            $this->setDefaultValues();
         }
+        $this->initForm();
 
-        $this->tpl->setVariable('FORM', $this->form_gui->getHTML());
+        $this->tpl->setVariable('FORM', $this->ui_renderer->render([
+            'mailing_lists' => $this->form
+        ]));
         $this->tpl->printToStdout();
     }
 
     public function showMembersList(): bool
     {
-        if ($this->mlists->getCurrentMailingList()->getId() === 0) {
+        if (!$this->mlists->getCurrentMailingList() || $this->mlists->getCurrentMailingList()->getId() === 0) {
             $this->showMailingLists();
 
             return true;
@@ -484,7 +476,7 @@ class ilMailingListsGUI
             'components/ILIAS/Contact'
         );
 
-        $availale_usr_ids = array_diff(
+        $available_usr_ids = array_diff(
             array_map(
                 static function (ilBuddySystemRelation $relation): int {
                     return $relation->getBuddyUsrId();
@@ -499,7 +491,7 @@ class ilMailingListsGUI
             ),
         );
 
-        if ($availale_usr_ids !== []) {
+        if ($available_usr_ids !== []) {
             $this->toolbar->addComponent(
                 $this->ui_factory->button()->standard(
                     $this->lng->txt('add'),
@@ -608,18 +600,8 @@ class ilMailingListsGUI
         return true;
     }
 
-    protected function getAssignmentForm(): ilPropertyFormGUI
+    protected function getAssignmentForm(): ?StandardForm
     {
-        $form = new ilPropertyFormGUI();
-        $this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
-        $form->setFormAction($this->ctrl->getFormAction($this, 'saveAssignmentForm'));
-        $form->setTitle(
-            sprintf(
-                $this->lng->txt('mail_assign_entry_to_mailing_list'),
-                $this->mlists->getCurrentMailingList()->getTitle()
-            )
-        );
-
         $options = [];
         $options[''] = $this->lng->txt('please_select');
 
@@ -646,13 +628,21 @@ class ilMailingListsGUI
         }
 
         if (count($options) > 1) {
-            $formItem = new ilSelectInputGUI($this->lng->txt('mail_entry_of_contacts'), 'usr_id');
-            $formItem->setRequired(true);
-            $formItem->setOptions($options);
-            $form->addItem($formItem);
+            $user_select = $this->ui_factory->input()->field()->select(
+                $this->lng->txt('mail_entry_of_contacts'),
+                $options
+            );
 
-            $form->addCommandButton('saveAssignmentForm', $this->lng->txt('mail_assign_to_mailing_list'));
-        } elseif (count($options) === 1 && count($relations) > 0) {
+
+            $this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
+            $form = $this->ui_factory->input()->container()->form()->standard(
+                $this->ctrl->getFormAction($this, 'saveAssignmentForm'),
+                ['usr_id' => $user_select]
+            );
+            return $form;
+        }
+
+        if (count($options) === 1 && count($relations) > 0) {
             $this->tpl->setOnScreenMessage(
                 'info',
                 $this->lng->txt('mail_mailing_lists_all_contact_entries_assigned'),
@@ -663,9 +653,7 @@ class ilMailingListsGUI
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_mailing_lists_no_contact_entries'), true);
             $this->ctrl->redirect($this, 'showMembersList');
         }
-        $form->addCommandButton('showMembersList', $this->lng->txt('cancel'));
-
-        return $form;
+        return null;
     }
 
     public function saveAssignmentForm(): bool
@@ -675,20 +663,27 @@ class ilMailingListsGUI
         }
 
         $form = $this->getAssignmentForm();
-        if (!$form->checkInput()) {
-            $form->setValuesByPost();
+        if (!$form) {
             $this->showAssignmentForm($form);
 
             return true;
         }
 
+        $form = $form->withRequest($this->http->request());
+        if ($form->getError()) {
+            $this->showAssignmentForm($form);
+
+            return true;
+        }
+        $data = $form->getData();
+
         if (
             ilBuddyList::getInstanceByGlobalUser()->getRelationByUserId(
-                $this->http->wrapper()->post()->retrieve('usr_id', $this->refinery->kindlyTo()->int())
+                $this->refinery->kindlyTo()->int()->transform($data['usr_id'])
             )->isLinked()
         ) {
             $this->mlists->getCurrentMailingList()->assignUser(
-                $this->http->wrapper()->post()->retrieve('usr_id', $this->refinery->kindlyTo()->int())
+                $this->refinery->kindlyTo()->int()->transform($data['usr_id'])
             );
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
             $this->showMembersList();
@@ -701,9 +696,9 @@ class ilMailingListsGUI
         return true;
     }
 
-    public function showAssignmentForm(?ilPropertyFormGUI $form = null): bool
+    public function showAssignmentForm(?StandardForm $form = null): bool
     {
-        if ($this->mlists->getCurrentMailingList()->getId() === 0) {
+        if (!$this->mlists->getCurrentMailingList() || $this->mlists->getCurrentMailingList()->getId() === 0) {
             $this->showMembersList();
 
             return true;
@@ -721,11 +716,11 @@ class ilMailingListsGUI
             'components/ILIAS/Contact'
         );
 
-        if (!($form instanceof ilPropertyFormGUI)) {
-            $form = $this->getAssignmentForm();
+        if (!$form instanceof StandardForm) {
+            $this->ctrl->redirect($this, 'showMembersList');
         }
 
-        $this->tpl->setVariable('FORM', $form->getHTML());
+        $this->tpl->setVariable('FORM', $this->ui_renderer->render($form));
         $this->tpl->printToStdout();
 
         return true;
