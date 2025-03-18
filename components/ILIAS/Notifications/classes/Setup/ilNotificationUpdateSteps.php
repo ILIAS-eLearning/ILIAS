@@ -127,16 +127,6 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
 
     public function step_6(): void
     {
-        $this->db->insert('settings', [
-            'module' => [ilDBConstants::T_TEXT, 'notifications'],
-            'keyword' => [ilDBConstants::T_TEXT, 'osd_vanish'],
-            'value' => [ilDBConstants::T_INTEGER, 5]
-        ]);
-        $this->db->insert('settings', [
-            'module' => [ilDBConstants::T_TEXT, 'notifications'],
-            'keyword' => [ilDBConstants::T_TEXT, 'osd_delay'],
-            'value' => [ilDBConstants::T_INTEGER, 500]
-        ]);
     }
 
     public function step_7(): void
@@ -159,11 +149,6 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
             "UPDATE settings SET value = CONCAT(value , '000') WHERE keyword = %s",
             [ilDBConstants::T_TEXT],
             ['osd_interval']
-        );
-        $this->db->manipulateF(
-            "UPDATE settings SET value = CONCAT(value , '000') WHERE keyword = %s",
-            [ilDBConstants::T_TEXT],
-            ['osd_vanish']
         );
         $this->db->manipulateF(
             'UPDATE usr_pref SET keyword = %s WHERE keyword = %s',

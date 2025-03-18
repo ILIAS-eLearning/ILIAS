@@ -58,9 +58,6 @@ class StandardToastItem implements isStandardItem
      */
     private ?ToastAction $handle_vanished = null;
 
-    protected ?int $vanish_time = null;
-    protected ?int $delay_time = null;
-
     public function __construct(protected IdentificationInterface $provider_identification, protected ToastRenderer $renderer, protected string $title, protected ?Icon $icon = null)
     {
     }
@@ -217,30 +214,6 @@ class StandardToastItem implements isStandardItem
     public function hasVanishedAction(): bool
     {
         return $this->handle_vanished !== null;
-    }
-
-    public function withVanishTime(int $miliseconds): isStandardItem
-    {
-        $clone = clone $this;
-        $clone->vanish_time = $miliseconds;
-        return $clone;
-    }
-
-    public function getVanishTime(): ?int
-    {
-        return $this->vanish_time;
-    }
-
-    public function withDelayTime(int $miliseconds): isStandardItem
-    {
-        $clone = clone $this;
-        $clone->delay_time = $miliseconds;
-        return $clone;
-    }
-
-    public function getDelayTime(): ?int
-    {
-        return $this->delay_time;
     }
 
     final public function getRenderer(): ToastRenderer

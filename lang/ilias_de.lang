@@ -12997,18 +12997,12 @@ noti#:#noti_notification_deactivated#:#Benachrichtigungen sind deaktiviert
 notifications_adm#:#enable_osd#:#Pop-up-Benachrichtigungen aktivieren
 notifications_adm#:#enable_osd_desc#:#Wenn aktiviert, werden Benutzer durch ein Pop-up über neue Benachrichtigungen informiert.
 notifications_adm#:#notification_settings#:#Benachrichtigungseinstellungen
-notifications_adm#:#osd_delay#:#Anzeigeverzögerung
-notifications_adm#:#osd_delay_desc#:#Verzögerung der Anzeige der Benachrichtigungen in Millisekunden
-notifications_adm#:#osd_error_presentation_time_too_small#:#Die Anzeigedauer muss mindestens 1000 Millisekunden betragen.
-notifications_adm#:#osd_error_refresh_interval_smaller_than_delay_and_vanish_combined#:#Das Abfrageintervall muss größer sein als die Summe der Anzeigedauer und der Anzeigeverzögerung.
 notifications_adm#:#osd_error_refresh_interval_too_small#:#Das Abfrageintervall muss mindestens 3000 Millisekunden betragen.
 notifications_adm#:#osd_interval#:#Abfrageintervall
 notifications_adm#:#osd_interval_desc#:#Abfrageintervall für Nachrichten in Millisekunden.Eine geringere Zeit ermöglicht zeitnähere Benachrichtigungen, erhöht aber die Serverlast.
 notifications_adm#:#osd_play_sound#:#Ton abspielen
 notifications_adm#:#osd_play_sound_desc#:#Ton abspielen bei Erhalt einer neuen Benachrichtigung.
 notifications_adm#:#osd_settings#:#Pop-up-Benachrichtigungen
-notifications_adm#:#osd_vanish#:#Anzeigedauer
-notifications_adm#:#osd_vanish_desc#:#Dauer der Anzeige von Benachrichtigungen in Millisekunden
 obj#:#activation_visible_when_disabled#:#Sichtbarkeit
 obj#:#activation_visible_when_disabled_info#:#Die gewählten Objekte sind auch außerhalb des gewählten Zeitraums sichtbar, können aber nicht geöffnet werden.
 obj#:#availability_period_changed#:#Die zeitliche Verfügbarkeit wurde für die ausgewählten Objekte erfolgreich angepasst.

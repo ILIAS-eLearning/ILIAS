@@ -57,8 +57,6 @@ class Renderer extends AbstractComponentRenderer
         }
         $tpl->setVariable("TITLE", $title);
 
-        $tpl->setVariable("TOAST_DELAY", $component->getDelayTime());
-        $tpl->setVariable("TOAST_VANISH", $component->getVanishTime());
         $tpl->setVariable("VANISH_ASYNC", $component->getAction());
 
         $desc = htmlentities($component->getDescription());
@@ -80,10 +78,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("ICON", $default_renderer->render($component->getIcon()));
         $tpl->setVariable("CLOSE", $default_renderer->render($this->getUIFactory()->button()->close()));
 
-        $component = $component->withAdditionalOnLoadCode(fn($id) => "
-                il.UI.toast.setToastSettings($id);
-                il.UI.toast.showToast($id);
-            ");
+        $component = $component->withAdditionalOnLoadCode(fn($id) => "il.UI.toast.showToast($id);");
 
         $tpl->setCurrentBlock("id");
         $tpl->setVariable('ID', $this->bindJavaScript($component));
