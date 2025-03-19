@@ -114,11 +114,12 @@ class ilErrorHandling
      */
     public function getHandler(): HandlerInterface
     {
-        if (ilContext::getType() === ilContext::CONTEXT_SOAP) {
+        if (ilContext::getType() === ilContext::CONTEXT_SOAP &&
+            strcasecmp($_SERVER['REQUEST_METHOD'] ?? '', 'post') === 0) {
             return new ilSoapExceptionHandler();
         }
 
-        // TODO: There might be more specific execution contexts (WebDAV, REST, etc.) that need specific error handling. 
+        // TODO: There might be more specific execution contexts (WebDAV, REST, etc.) that need specific error handling.
 
         if ($this->isDevmodeActive()) {
             return $this->devmodeHandler();
@@ -393,7 +394,7 @@ class ilErrorHandling
     protected function loggingHandler(): HandlerInterface
     {
         /**
-         * @var 
+         * @var
          */
         return new CallbackHandler(function ($exception, Inspector $inspector, Run $run) {
             /**
@@ -409,15 +410,15 @@ class ilErrorHandling
                 $previous = $exception->getPrevious();
                 while ($previous) {
                     $message .= "\n\nCaused by\n" . sprintf(
-                            '%s: %s in file %s on line %d',
-                            get_class($previous),
-                            $previous->getMessage(),
-                            $previous->getFile(),
-                            $previous->getLine()
-                        );
+                        '%s: %s in file %s on line %d',
+                        get_class($previous),
+                        $previous->getMessage(),
+                        $previous->getFile(),
+                        $previous->getLine()
+                    );
                     $previous = $previous->getPrevious();
                 }
-                
+
                 $ilLog->error($exception->getCode() . ' ' . $message);
             }
 

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Locks\Backend\AbstractBackend;
 use Sabre\DAV\Exception;
@@ -28,29 +29,18 @@ use Sabre\DAV\Locks\LockInfo;
  */
 class ilWebDAVLocksBackend extends AbstractBackend
 {
-    protected ilWebDAVLocksRepository $wedav_locks_repository;
-    protected ilWebDAVRepositoryHelper $webdav_repository_helper;
-    protected ilWebDAVObjFactory $webdav_object_factory;
-    protected ilWebDAVLockUriPathResolver $webdav_path_resolver;
-    protected ilObjUser $user;
-
     public function __construct(
-        ilWebDAVLocksRepository $wedav_locks_repository,
-        ilWebDAVRepositoryHelper $webdav_repository_helper,
-        ilWebDAVObjFactory $webdav_object_factory,
-        ilWebDAVLockUriPathResolver $webdav_path_resolver,
-        ilObjUser $user
+        protected ilWebDAVLocksRepository $wedav_locks_repository,
+        protected ilWebDAVRepositoryHelper $webdav_repository_helper,
+        protected ilWebDAVObjFactory $webdav_object_factory,
+        protected ilWebDAVLockUriPathResolver $webdav_path_resolver,
+        protected ilObjUser $user
     ) {
-        $this->wedav_locks_repository = $wedav_locks_repository;
-        $this->webdav_repository_helper = $webdav_repository_helper;
-        $this->webdav_object_factory = $webdav_object_factory;
-        $this->webdav_path_resolver = $webdav_path_resolver;
-        $this->user = $user;
     }
 
     /**
      * @param string $uri
-     * @param bool $returnChildLocks
+     * @param bool   $returnChildLocks
      * @return LockInfo[]
      */
     public function getLocks($uri, $returnChildLocks): array
@@ -70,7 +60,8 @@ class ilWebDAVLocksBackend extends AbstractBackend
             if ($returnChildLocks) {
                 $sabre_locks = $this->getLocksRecursive($sabre_locks, $ref_id, $uri);
             }
-        } catch (Exception\NotFound $e) {
+        } catch (NotFound) {
+            return [];
         }
 
         return $sabre_locks;
@@ -93,7 +84,7 @@ class ilWebDAVLocksBackend extends AbstractBackend
                 }
 
                 $sabre_locks = $this->getLocksRecursive($sabre_locks, $child_ref, $uri . $child_obj->getName() . '/');
-            } catch (ilWebDAVNotDavableException | NotFound | RuntimeException $e) {
+            } catch (ilWebDAVNotDavableException|NotFound|RuntimeException) {
             }
         }
 
@@ -108,12 +99,13 @@ class ilWebDAVLocksBackend extends AbstractBackend
     {
         $ilias_lock = $this->wedav_locks_repository->getLockObjectWithTokenFromDB($lockInfo->token);
 
-        if (!is_null($ilias_lock) && $ilias_lock->getIliasOwner() == $this->user->getId()) {
+        if (!is_null($ilias_lock) && $ilias_lock->getIliasOwner() === $this->user->getId()) {
             $this->wedav_locks_repository->removeLockWithTokenFromDB($lockInfo->token);
             return true;
-        } else {
-            throw new Exception\Forbidden();
         }
+        return false;
+
+        throw new Forbidden();
     }
 
     /**
@@ -140,23 +132,26 @@ class ilWebDAVLocksBackend extends AbstractBackend
                 );
                 $this->wedav_locks_repository->saveLockToDB($ilias_lock);
                 return true;
-            } else {
-                throw new Exception\Forbidden();
             }
-        } catch (Exception\NotFound $e) {
+
+            return false;
+            // throw new Exception\Forbidden();
+        } catch (NotFound $e) {
             if ($e->getCode() == -1) {
                 return false;
-            } else {
-                throw $e;
             }
+
+            throw $e;
         }
+        return false;
     }
 
     public function getLocksOnObjectId(int $obj_id): ?ilWebDAVLockObject
     {
+        //        return null;
         try {
             return $this->wedav_locks_repository->getLockObjectWithObjIdFromDB($obj_id);
-        } catch (Exception $e) {
+        } catch (Exception) {
         }
     }
 }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,21 +16,19 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 trait ilWebDAVCheckValidTitleTrait
 {
     protected function isDAVableObjTitle(string $title): bool
     {
-        if ($this->hasTitleForbiddenChars($title) || $this->isHiddenFile($title)) {
-            return false;
-        }
-
-        return true;
+        return !$this->hasTitleForbiddenChars($title) && !$this->isHiddenFile($title);
     }
 
     protected function hasTitleForbiddenChars(string $title): bool
     {
         foreach (str_split('\\<>/:*?"|#') as $forbidden_character) {
-            if (strpos($title, $forbidden_character) !== false) {
+            if (str_contains($title, $forbidden_character)) {
                 return true;
             }
         }

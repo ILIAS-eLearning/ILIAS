@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,8 +16,10 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
- * @author Stephan Winiker <stephan.winiker@hslu.ch>
+ * @author  Stephan Winiker <stephan.winiker@hslu.ch>
  * @version 1.0.0
  */
 class ilWebDAVTestHelper

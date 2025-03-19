@@ -234,9 +234,8 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
                 // the sequence number in the course ressource
                 $sequence_number = (int) $pgroup->num;
                 // find parallel group with by sequence number
-                $tmp_pgroup = $course->groups[$sequence_number];
                 if (property_exists($course, 'groups')) {
-                    $tmp_pgroup = $course->groups[$sequence_number];
+                    $tmp_pgroup = $course->groups[$sequence_number] ?? null;
 
                     if (is_object($tmp_pgroup) && $tmp_pgroup->id !== '') {
                         $this->log->debug('Found parallel group with id: ' . $tmp_pgroup->id . ': for sequence number: ' . $sequence_number);

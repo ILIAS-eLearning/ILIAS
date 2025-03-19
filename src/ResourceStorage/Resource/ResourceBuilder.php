@@ -364,7 +364,7 @@ class ResourceBuilder
                 $this->resource_repository->store($resource);
 
                 foreach ($resource->getAllRevisionsIncludingDraft() as $revision) {
-                    $this->storeRevision($revision);
+                    $this->storeRevision($revision, $resource);
                 }
 
                 foreach ($resource->getStakeholders() as $stakeholder) {
@@ -417,7 +417,7 @@ class ResourceBuilder
      * @description  Store one Revision
      * @throws \ILIAS\ResourceStorage\Policy\FileNamePolicyException
      */
-    public function storeRevision(Revision $revision): void
+    public function storeRevision(Revision $revision, ?StorableResource $resource = null): void
     {
         $storage_handler = empty($revision->getStorageID())
             ? $this->primary_storage_handler
@@ -439,6 +439,19 @@ class ResourceBuilder
         }
         $this->revision_repository->store($revision);
         $this->information_repository->store($revision->getInformation(), $revision);
+
+        // we replace the revision with the populated one
+        if ($resource !== null) {
+            $replace_revision = new FileRevision($revision->getIdentification());
+            $replace_revision->setVersionNumber($revision->getVersionNumber());
+            $replace_revision->setOwnerId($revision->getOwnerId());
+            $replace_revision->setTitle($revision->getTitle());
+            $replace_revision->setStatus($revision->getStatus());
+            $replace_revision->setInformation($revision->getInformation());
+            $replace_revision->setStorageID($revision->getStorageID());
+
+            $resource->replaceRevision($replace_revision);
+        }
     }
 
     /**
@@ -493,9 +506,9 @@ class ResourceBuilder
     {
         switch (true) {
             case $revision instanceof FileStreamRevision:
-                return $revision->getStream();
+                return Streams::ofReattachableResource($revision->getStream()->detach());
             case $revision instanceof UploadedFileRevision:
-                return Streams::ofResource(fopen($revision->getUpload()->getPath(), 'rb'));
+                return Streams::ofReattachableResource(fopen($revision->getUpload()->getPath(), 'rb'));
             case $revision instanceof CloneRevision:
                 return $revision->getRevisionToClone()->getStream();
             case $revision instanceof FileRevision:

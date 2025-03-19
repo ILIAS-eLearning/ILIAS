@@ -891,7 +891,7 @@ class ilObjLTIConsumer extends ilObject2
 
             // ! Moodle as tool provider requires a custom_lineitems_url even though this should be optional in launch request, especially if only posting score scope is permitted by platform
             // http://www.imsglobal.org/spec/lti-ags/v2p0#example-link-has-a-single-line-item-tool-can-only-post-score
-            $launch_vars['custom_lineitems_url'] = self::getIliasHttpPath() . "/Modules/LTIConsumer/ltiservices.php/gradeservice/" . $contextId . "/linetitems/";
+            $launch_vars['custom_lineitems_url'] = self::getIliasHttpPath() . "/Modules/LTIConsumer/ltiservices.php/gradeservice/" . $contextId . "/lineitems/";
 
             $launch_vars['custom_ags_scopes'] = implode(",", $gradeservice->getPermittedScopes());
         }

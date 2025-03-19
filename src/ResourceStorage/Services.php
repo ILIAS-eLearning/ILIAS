@@ -39,7 +39,6 @@ use ILIAS\ResourceStorage\Policy\FileNamePolicyStack;
 use ILIAS\ResourceStorage\Preloader\RepositoryPreloader;
 use ILIAS\ResourceStorage\Preloader\StandardRepositoryPreloader;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
-use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 use ILIAS\ResourceStorage\Events\Subject;
 use ILIAS\ResourceStorage\Manager\ContainerManager;
@@ -123,7 +122,8 @@ class Services
             $machine_factory,
             $resource_builder,
             $storage_handler_factory,
-            $stream_access
+            $stream_access,
+            $this->events
         );
 
         $this->flavours = new Flavours(

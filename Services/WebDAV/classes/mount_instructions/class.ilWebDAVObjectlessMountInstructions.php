@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,13 +16,15 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 class ilWebDAVObjectlessMountInstructions extends ilWebDAVBaseMountInstructions
 {
     public function __construct(
         ilWebDAVMountInstructionsRepository $a_repo,
         ilWebDAVUriBuilder $a_uri_builder,
         ilSetting $a_settings,
-        String $language
+        string $language
     ) {
         parent::__construct($a_repo, $a_uri_builder, $a_settings, $language);
     }

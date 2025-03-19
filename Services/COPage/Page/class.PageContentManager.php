@@ -678,7 +678,7 @@ class PageContentManager
         $clone_node = $source_node?->cloneNode(true);
 
         // delete source node
-        $this->deleteContent($page, $a_source, $a_spcid, false);
+        $this->deleteContent($page, $a_source, $a_spcid, true);
 
         // insert cloned node at target
         if ($content) {

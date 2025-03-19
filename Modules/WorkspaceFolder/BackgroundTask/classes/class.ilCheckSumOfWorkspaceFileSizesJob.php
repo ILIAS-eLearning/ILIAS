@@ -21,6 +21,7 @@ use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\BooleanValue;
 use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
+use ILIAS\Modules\File\Settings\General;
 
 /**
  * Description of class class
@@ -71,13 +72,14 @@ class ilCheckSumOfWorkspaceFileSizesJob extends AbstractJob
         $object_wps_ids = $definition->getObjectWspIds();
 
         // get global limit (max sum of individual file-sizes) from file settings
-        $size_limit = (int) $this->settings->get("bgtask_download_limit", '0');
+        $general = new General();
+        $size_limit = $general->getDownloadLimitinMB();
         $size_limit_bytes = $size_limit * 1024 * 1024;
         $this->logger->debug('Global limit (max sum of all file-sizes) in file-settings: ' . $size_limit_bytes . ' bytes');
         // get sum of individual file-sizes
         $total_bytes = 0;
         $this->calculateRecursive($object_wps_ids, $total_bytes);
-        $this->logger->debug('Calculated sum of all file-sizes: ' . $total_bytes . 'MB');
+        $this->logger->debug('Calculated sum of all file-sizes: ' . $total_bytes . ' B');
         // check if calculated total size adheres top global limit
         $adheres_to_limit = new BooleanValue();
         $adheres_to_limit->setValue(true);

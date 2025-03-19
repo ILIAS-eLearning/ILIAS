@@ -259,14 +259,16 @@ class ilForumNotificationTest extends TestCase
 
     public function testCheckForumsExistsInsert(): void
     {
-        $nodeData = [];
         $userId = 927;
         $refId = 847;
+        $nodeData = [
+            'child' => $refId
+        ];
         $subTree = [['child' => 3719, 'ref_id' => 3738, 'obj_id' => 182]];
         $pathNode = [['child' => $refId, 'type' => 'aa']];
 
-        $this->tree->expects(self::once())->method('getNodePath')->with($subTree[0]['child'], $refId)->willReturn($pathNode);
         $this->tree->expects(self::once())->method('getNodeData')->with($refId)->willReturn($nodeData);
+        $this->tree->expects(self::once())->method('getNodePath')->with($subTree[0]['child'], $refId)->willReturn($pathNode);
         $this->tree->expects(self::once())->method('getSubTree')->with(
             $nodeData,
             true,

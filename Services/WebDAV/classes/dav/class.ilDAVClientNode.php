@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ICollection;
@@ -31,20 +31,13 @@ class ilDAVClientNode implements ICollection
     use ilWebDAVReadOnlyNodeWriteFunctionsTrait;
     use ilWebDAVAccessChildrenFunctionsTrait;
 
-    protected ilWebDAVObjFactory $dav_factory;
-    protected ilWebDAVRepositoryHelper $repository_helper;
-    protected string $client_name;
-    protected string $name_of_repository_root;
+    protected string $name_of_repository_root = 'ILIAS';
 
     public function __construct(
-        string $client_name,
-        ilWebDAVObjFactory $dav_factory,
-        ilWebDAVRepositoryHelper $repository_helper
+        protected string $client_name,
+        protected ilWebDAVObjFactory $dav_factory,
+        protected ilWebDAVRepositoryHelper $repository_helper
     ) {
-        $this->dav_factory = $dav_factory;
-        $this->repository_helper = $repository_helper;
-        $this->client_name = $client_name;
-        $this->name_of_repository_root = 'ILIAS';
     }
 
     public function getName(): string
@@ -58,7 +51,7 @@ class ilDAVClientNode implements ICollection
             $ref_id = $this->getRefIdFromName($name);
 
             return $this->dav_factory->retrieveDAVObjectByRefID($ref_id);
-        } catch (NotFound $e) {
+        } catch (NotFound) {
         }
 
         return $this->getChildByParentRefId($this->repository_helper, $this->dav_factory, ROOT_FOLDER_ID, $name);
@@ -76,11 +69,19 @@ class ilDAVClientNode implements ICollection
     {
         try {
             $ref_id = $this->getRefIdFromName($name);
-            return $this->repository_helper->objectWithRefIdExists($ref_id) && $this->repository_helper->checkAccess('read', $ref_id);
-        } catch (BadRequest $e) {
+            return $this->repository_helper->objectWithRefIdExists($ref_id) && $this->repository_helper->checkAccess(
+                'read',
+                $ref_id
+            );
+        } catch (BadRequest) {
         }
 
-        return $this->checkIfChildExistsByParentRefId($this->repository_helper, $this->dav_factory, ROOT_FOLDER_ID, $name);
+        return $this->checkIfChildExistsByParentRefId(
+            $this->repository_helper,
+            $this->dav_factory,
+            ROOT_FOLDER_ID,
+            $name
+        );
     }
 
     public function getLastModified(): int

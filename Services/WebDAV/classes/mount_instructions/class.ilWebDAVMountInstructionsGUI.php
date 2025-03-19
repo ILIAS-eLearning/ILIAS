@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\DI\UIServices;
 use ILIAS\HTTP\Services;
 
@@ -28,17 +28,15 @@ use ILIAS\HTTP\Services;
 class ilWebDAVMountInstructionsGUI
 {
     protected ilWebDAVUriBuilder $uri_builder;
-    protected ilWebDAVBaseMountInstructions $mount_instruction;
-    protected ilLanguage$lang;
-    protected UIServices $ui;
     protected Services $http;
 
-    public function __construct(ilWebDAVBaseMountInstructions $mount_instruction, ilLanguage $lang, UIServices $ui, Services $http)
-    {
+    public function __construct(
+        protected ilWebDAVBaseMountInstructions $mount_instruction,
+        protected ilLanguage $lang,
+        protected UIServices $ui,
+        Services $http
+    ) {
         $this->uri_builder = new ilWebDAVUriBuilder($http->request());
-        $this->mount_instruction = $mount_instruction;
-        $this->lang = $lang;
-        $this->ui = $ui;
         $this->http = $http;
     }
 
@@ -54,14 +52,16 @@ class ilWebDAVMountInstructionsGUI
 
         $components = [];
 
-        $js_function_legacy = $f->legacy('<script>'
+        $js_function_legacy = $f->legacy(
+            '<script>'
             . 'il.UI.showMountInstructions = function (e, id){'
             . "obj = $(e['target']);"
             . "obj.siblings().removeClass('engaged disabled ilSubmitInactive').attr('aria-pressed', 'false');"
             . "obj.siblings().removeAttr('disabled');"
             . "obj.addClass('engaged ilSubmitInactive').attr('aria-pressed', 'true');"
             . '$(".instructions").hide();'
-            . '$("#"+id).show();}</script>');
+            . '$("#"+id).show();}</script>'
+        );
 
         if (count($mount_instructions) === 1) {
             $content = $f->legacy("<div class='instructions'>" . array_shift($mount_instructions) . "</div>");
@@ -75,7 +75,7 @@ class ilWebDAVMountInstructionsGUI
 
         foreach ($mount_instructions as $title => $text) {
             foreach ($os as $os_string) {
-                if (stristr($title, $os_string) !== false) {
+                if (stristr($title, (string) $os_string) !== false) {
                     $selected = $title;
                     break 2;
                 }
@@ -83,28 +83,27 @@ class ilWebDAVMountInstructionsGUI
         }
 
         foreach ($mount_instructions as $title => $text) {
-            if ($title == $selected) {
-                $hidden = '';
-            } else {
-                $hidden = 'style="display: none;"';
-            }
+            $hidden = $title == $selected ? '' : 'style="display: none;"';
 
             $legacy = $f->legacy("<div id='$title' class='instructions' $hidden>$text</div>")
-                ->withCustomSignal($title, "il.UI.showMountInstructions(event, '$title');");
+                        ->withCustomSignal($title, "il.UI.showMountInstructions(event, '$title');");
 
             $view_control_actions[$title] = $legacy->getCustomSignal($title);
 
             $components[] = $legacy;
         }
 
-        $view_control = $f->viewControl()->mode($view_control_actions, "mount-instruction-buttons")->withActive($selected);
+        $view_control = $f->viewControl()->mode($view_control_actions, "mount-instruction-buttons")->withActive(
+            $selected
+        );
 
         // Add view control and legacy add the beginning of the array (so they will be rendered first)
         $header_components = [
             $f->legacy("<div class='webdav-view-control'>"),
             $view_control,
             $f->legacy("</div>"),
-            $js_function_legacy];
+            $js_function_legacy
+        ];
 
         $components = array_merge($header_components, $components);
 
@@ -115,12 +114,20 @@ class ilWebDAVMountInstructionsGUI
     {
         try {
             $instructions = $this->mount_instruction->getMountInstructionsAsArray();
-        } catch (InvalidArgumentException $e) {
-            $document_processor = new ilWebDAVMountInstructionsHtmlDocumentProcessor(new ilWebDAVMountInstructionsDocumentPurifier());
-            $instructions = $document_processor->processMountInstructions($this->lang->txt('webfolder_instructions_text'));
+        } catch (InvalidArgumentException) {
+            $document_processor = new ilWebDAVMountInstructionsHtmlDocumentProcessor(
+                new ilWebDAVMountInstructionsDocumentPurifier()
+            );
+            $instructions = $document_processor->processMountInstructions(
+                $this->lang->txt('webfolder_instructions_text')
+            );
             $instructions = $this->mount_instruction->getMountInstructionsAsArray($instructions);
             if ($instructions == '' || $instructions == '-webfolder_instructions_text-') {
-                $instructions = ["<div class='alert alert-danger'>" . $this->lang->txt('error') . ": " . $this->lang->txt('webdav_missing_lang') . "</div>"];
+                $instructions = [
+                    "<div class='alert alert-danger'>" . $this->lang->txt(
+                        'error'
+                    ) . ": " . $this->lang->txt('webdav_missing_lang') . "</div>"
+                ];
             }
         }
 
@@ -133,7 +140,7 @@ class ilWebDAVMountInstructionsGUI
         $ua = $this->http->request()->getHeader('User-Agent')[0];
 
         if (stristr($ua, 'windows') !== false
-            || strpos($ua, 'microsoft') !== false) {
+            || str_contains($ua, 'microsoft')) {
             return ['win'];
         }
 

@@ -6,7 +6,27 @@
 //##
 $il-divider-bg: $il-main-bg;
 $il-divider-color: $il-text-color;
-$il-divider-color: $il-text-color;
+$il-divider-color-invert: $il-text-color-invert;
+
+h4.il-divider {
+	display: flex;
+	flex-direction: row;
+}
+
+h4.il-divider:before,
+h4.il-divider:after {
+	content: "";
+	flex: 1 1;
+	border-bottom: 2px solid $il-divider-color-invert;
+	margin: auto;
+}
+
+h4.il-divider:before {
+	margin-right: 0.5em;
+}
+h4.il-divider:after {
+	margin-left: 0.5em;
+}
 
 .engaged ~ ul > li > h4.il-divider {
 	padding: $il-padding-small-vertical $il-padding-small-horizontal;

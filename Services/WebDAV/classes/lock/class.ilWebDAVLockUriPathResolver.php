@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\NotFound;
 
@@ -26,11 +26,8 @@ use Sabre\DAV\Exception\NotFound;
  */
 class ilWebDAVLockUriPathResolver
 {
-    protected ilWebDAVRepositoryHelper $webdav_repository_helper;
-
-    public function __construct(ilWebDAVRepositoryHelper $webdav_repository_helper)
+    public function __construct(protected ilWebDAVRepositoryHelper $webdav_repository_helper)
     {
-        $this->webdav_repository_helper = $webdav_repository_helper;
     }
 
     public function getRefIdForWebDAVPath(string $uri): int
@@ -49,7 +46,7 @@ class ilWebDAVLockUriPathResolver
         $mountpoint = '';
 
         if ($path_inside_of_mountpoint !== ''
-            && substr($path_inside_of_mountpoint, 0, 4) === 'ref_') {
+            && str_starts_with($path_inside_of_mountpoint, 'ref_')) {
             $split_path = explode('/', $path_inside_of_mountpoint, 2);
             $mountpoint = $split_path[0];
             $path_inside_of_mountpoint = isset($split_path[1]) ? $split_path[1] : '';
@@ -83,7 +80,10 @@ class ilWebDAVLockUriPathResolver
             return $relative_mountpoint_ref_id;
         }
 
-        return $this->getRefIdFromGivenParentRefAndTitlePath($relative_mountpoint_ref_id, explode('/', $path_inside_of_mountpoint));
+        return $this->getRefIdFromGivenParentRefAndTitlePath(
+            $relative_mountpoint_ref_id,
+            explode('/', $path_inside_of_mountpoint)
+        );
     }
 
     /**
@@ -97,8 +97,8 @@ class ilWebDAVLockUriPathResolver
             if ($next_searched_title !== '') {
                 try {
                     $current_ref_id = $this->getChildRefIdByGivenTitle($current_ref_id, $next_searched_title);
-                } catch (NotFound $e) {
-                    if (count($current_path_array) === 0) {
+                } catch (NotFound) {
+                    if ($current_path_array === []) {
                         /* This is a really special case. It occurs, if the lock is meant for an object that does not
                            exist yet (so called NullRessources) since we can't and won't lock non existing objects, we
                            set the Exception code to -1. The receiving class SHOULD handle what to do with this value */

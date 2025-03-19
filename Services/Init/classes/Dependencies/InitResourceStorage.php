@@ -40,6 +40,9 @@ use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 use ILIAS\ResourceStorage\Flavour\FlavourBuilder;
 use ILIAS\ResourceStorage\Flavour\Machine\Factory;
 use ILIAS\ResourceStorage\StorageHandler\Migrator;
+use ILIAS\ResourceStorage\Events\Subject;
+use ILIAS\ResourceStorage\IRSSEventLogObserver;
+use ILIAS\ResourceStorage\Events\Event;
 
 /**
  * Responsible for loading the Resource Storage into the dependency injection container of ILIAS
@@ -95,6 +98,7 @@ class InitResourceStorage
                 $c[self::D_RESOURCE_BUILDER],
                 $c[self::D_STORAGE_HANDLERS],
                 $c[self::D_STREAM_ACCESS],
+                new Subject(),
             );
         };
         return $c[self::D_FLAVOUR_BUILDER];
@@ -188,7 +192,7 @@ class InitResourceStorage
         // IRSS
         //
         $c[self::D_SERVICE] = static function (Container $c): \ILIAS\ResourceStorage\Services {
-            return new \ILIAS\ResourceStorage\Services(
+            $services = new \ILIAS\ResourceStorage\Services(
                 $c[self::D_STORAGE_HANDLERS],
                 $c[self::D_REPOSITORIES],
                 $c[self::D_ARTIFACTS],
@@ -199,6 +203,11 @@ class InitResourceStorage
                 $c[self::D_SOURCE_BUILDER],
                 $c[self::D_REPOSITORY_PRELOADER],
             );
+
+            // attach general observers
+            $services->events()->attach(new IRSSEventLogObserver($c->logger()->irss()), Event::ALL);
+
+            return $services;
         };
 
         $c[self::D_MIGRATOR] = function (Container $c) use ($base_dir): Migrator {

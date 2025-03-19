@@ -1,0 +1,85 @@
+<div class="c-table-ordering" id="{ID}">
+
+
+	<!-- BEGIN header_title -->
+	<h3 class="ilHeader" id="{ID}_label">{TITLE}</h3>
+	<!-- END header_title -->
+
+	<div class="viewcontrols">{VIEW_CONTROLS}</div>
+
+	<form method="post" class="c-table-ordering__form" action="{TARGET_URL}">
+		<table class="c-table-data__table" role="grid" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}">
+
+			<thead>
+				<tr class="c-table-data__header c-table-data__row" role="rowgroup">
+
+					<!-- BEGIN header_rowselection_cell -->
+					<th class="c-table-data__header c-table-data__cell c-table-data__header__rowselection" role="columnheader" tabindex="-1">
+						<div class="c-table-data__selection_all">{SELECTION_CONTROL_SELECT}</div>
+						<div class="c-table-data__selection_none">{SELECTION_CONTROL_DESELECT}</div>
+					</th>
+					<!-- END header_rowselection_cell -->
+
+					<!-- BEGIN header_pos_input -->
+					<th class="c-table-data__header c-table-data__cell c-table-data__header__rowselection" role="columnheader" tabindex="-1">
+						{POS_INPUT_TITLE}
+					</th>
+					<!-- END header_pos_input -->
+
+					<!-- BEGIN header_cell -->
+					<th class="c-table-data__header c-table-data__cell c-table-data__cell--{COL_TYPE}" role="columnheader" tabindex="-1" aria-colindex="{COL_INDEX}">
+						<div class="c-table-data__header__resize-wrapper">
+							{COL_TITLE}
+						</div>
+					</th>
+					<!-- END header_cell -->
+
+					<!-- BEGIN header_action_cell -->
+					<th class="c-table-data__header c-table-data__cell c-table-data__header__rowaction" role="columnheader" aria-colindex="{COL_INDEX_ACTION}">{COL_TITLE_ACTION}</th>
+					<!-- END header_action_cell -->
+				</tr>
+			</thead>
+
+			<tbody class="c-table-data__body" role="rowgroup">
+				<!-- BEGIN row -->
+				<tr class="c-table-data__row {ALTERNATION}" role="row">
+					{CELLS}
+				</tr>
+				<!-- END row -->
+				
+				<tr>
+					<td class="c-table-data__cell c-table-data__cell--multiaction" colspan="{COLUMN_COUNT}">
+						<div class="l-bar__space-keeper">
+							<!-- BEGIN multi_action -->
+							<div class="l-bar__element">
+								<div class="c-table-data__multiaction-triggerer">{MULTI_ACTION_TRIGGERER}</div>
+								<!-- END multi_action -->
+							</div>
+							<div class="l-bar__element">
+							{FORM_BUTTONS}
+							</div>
+						</div>
+					</td>
+				</tr>
+
+			</tbody>
+
+		</table>
+	</form>
+
+	{MULTI_ACTION_ALL_MODAL}
+
+	<div class="c-table-data__async_modal_container"></div>
+
+	<div class="c-table-data__async_message modal" role="dialog" id="{ID}_msgmodal">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
+				</div>
+				<div class="c-table-data__async_messageresponse modal-body"></div>
+			</div>
+		</div>
+	</div>
+
+</div>

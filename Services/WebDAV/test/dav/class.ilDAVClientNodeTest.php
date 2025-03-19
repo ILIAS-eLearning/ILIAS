@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use Sabre\DAV\Exception\Forbidden;
@@ -371,9 +371,13 @@ class ilDAVClientNodeTest extends TestCase
         }
     }
 
-    protected function getDAVClientNodeWithExpectationForFunctions(
-    ): ilDAVClientNode {
+    protected function getDAVClientNodeWithExpectationForFunctions(): ilDAVClientNode
+    {
         $webdav_test_helper = new ilWebDAVTestHelper();
-        return new ilDAVClientNode($webdav_test_helper->getClientId(), $this->createStub(ilWebDAVObjFactory::class), $this->createStub(ilWebDAVRepositoryHelper::class));
+        return new ilDAVClientNode(
+            $webdav_test_helper->getClientId(),
+            $this->createStub(ilWebDAVObjFactory::class),
+            $this->createStub(ilWebDAVRepositoryHelper::class)
+        );
     }
 }

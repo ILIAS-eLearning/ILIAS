@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author Raphael Heer <raphael.heer@hslu.ch>
@@ -100,7 +100,9 @@ class ilWebDAVAuthentication
 
         switch ($status->getStatus()) {
             case ilAuthStatus::STATUS_AUTHENTICATED:
-                $this->logger->debug('User authenticated through basic authentication. UserId = ' . $this->user->getId());
+                $this->logger->debug(
+                    'User authenticated through basic authentication. UserId = ' . $this->user->getId()
+                );
                 return true;
 
             case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:

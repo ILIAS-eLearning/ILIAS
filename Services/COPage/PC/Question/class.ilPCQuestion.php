@@ -471,7 +471,8 @@ class ilPCQuestion extends ilPageContent
             $path = "//Question";
             $nodes = $dom_util->path($a_domdoc, $path);
             foreach ($nodes as $node) {
-                $node->parentNode->removeChild($node);
+                $parent = $node->parentNode;
+                $parent->parentNode->removeChild($parent);
             }
         }
     }

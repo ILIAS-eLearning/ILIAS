@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,10 +16,13 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use Sabre\DAV\IFile;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 
-class ilDAVProblemInfoFile implements Sabre\DAV\IFile
+class ilDAVProblemInfoFile implements IFile
 {
     public const PROBLEM_INFO_FILE_NAME = '#!_WEBDAV_INFORMATION.txt';
 
@@ -29,21 +30,12 @@ class ilDAVProblemInfoFile implements Sabre\DAV\IFile
     public const PROBLEM_FORBIDDEN_CHARACTERS = 'forbidden_characters';
     public const PROBLEM_INFO_NAME_DUPLICATE = 'info_name_duplicate';
 
-    protected int $container_ref_id;
-    protected ilWebDAVRepositoryHelper $repo_helper;
-    protected ilWebDAVObjFactory $dav_object_factory;
-    protected ilLanguage $language;
-
     public function __construct(
-        int $container_ref_id,
-        ilWebDAVRepositoryHelper $repo_helper,
-        ilWebDAVObjFactory $dav_object_factory,
-        ilLanguage $language
+        protected int $container_ref_id,
+        protected ilWebDAVRepositoryHelper $repo_helper,
+        protected ilWebDAVObjFactory $dav_object_factory,
+        protected ilLanguage $language
     ) {
-        $this->container_ref_id = $container_ref_id;
-        $this->repo_helper = $repo_helper;
-        $this->dav_object_factory = $dav_object_factory;
-        $this->language = $language;
     }
 
     public function put($data)
@@ -87,13 +79,13 @@ class ilDAVProblemInfoFile implements Sabre\DAV\IFile
      */
     protected function analyseObjectsOfDAVContainer(): array
     {
-        $already_seen_titles = array();
+        $already_seen_titles = [];
 
-        $problem_infos = array(
-            self::PROBLEM_DUPLICATE_OBJECTNAME => array(),
-            self::PROBLEM_FORBIDDEN_CHARACTERS => array(),
+        $problem_infos = [
+            self::PROBLEM_DUPLICATE_OBJECTNAME => [],
+            self::PROBLEM_FORBIDDEN_CHARACTERS => [],
             self::PROBLEM_INFO_NAME_DUPLICATE => false
-        );
+        ];
 
         foreach ($this->repo_helper->getChildrenOfRefId($this->container_ref_id) as $ref_id) {
             try {
@@ -113,7 +105,7 @@ class ilDAVProblemInfoFile implements Sabre\DAV\IFile
                     $title = $this->repo_helper->getObjectTitleFromRefId($ref_id);
                     $problem_infos[self::PROBLEM_FORBIDDEN_CHARACTERS][] = $title;
                 }
-            } catch (Forbidden | NotFound | RuntimeException $e) {
+            } catch (Forbidden|NotFound|RuntimeException) {
             }
         }
 
@@ -149,8 +141,8 @@ class ilDAVProblemInfoFile implements Sabre\DAV\IFile
             $message_string .= "\n";
         }
 
-        if (strlen($message_string) === 0) {
-            $message_string = $this->language->txt('webdav_problem_free_container');
+        if ($message_string === '') {
+            return $this->language->txt('webdav_problem_free_container');
         }
 
         return $message_string;

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,8 +16,10 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
- * @author Lukas Zehnder <lz@studer-raimann.ch>
+ * @author  Lukas Zehnder <lz@studer-raimann.ch>
  * @package WebDAV
  */
 class ilObjWebDAV extends ilObject
@@ -106,7 +106,7 @@ class ilObjWebDAV extends ilObject
 
         $status = ilAuthUtils::supportsLocalPasswordValidation($ilUser->getAuthMode(true));
         $cmd = 'mount_webfolder';
-        if ($status === ilAuthUtils::LOCAL_PWV_USER && strlen($ilUser->getPasswd()) === 0) {
+        if ($status === ilAuthUtils::LOCAL_PWV_USER && (string) $ilUser->getPasswd() === '') {
             $cmd = 'showPasswordInstruction';
         }
 

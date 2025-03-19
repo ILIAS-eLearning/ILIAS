@@ -39,35 +39,23 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
      */
     private $manipulationsEnabled;
 
-    /**
-     * @var array<int, bool> Question ID => Manipulation allowed
-     */
-    private array $manipulations_allowed_list;
-
     public function setSkillQuestionAssignmentList(ilAssQuestionSkillAssignmentList $assignmentList): void
     {
         $this->skillQuestionAssignmentList = $assignmentList;
     }
 
     /**
-     * @param array<int, bool> $manipulations_allowed_list
+     * @return boolean
      */
-    public function setManipulationAllowedList(array $manipulations_allowed_list): void
+    public function areManipulationsEnabled(): bool
     {
-        $this->manipulations_allowed_list = $manipulations_allowed_list;
+        return $this->manipulationsEnabled;
     }
 
-    private function areManipulationsPossible(): bool
-    {
-        return $this->manipulationsEnabled && array_filter($this->manipulations_allowed_list) !== [];
-    }
-
-    private function isManipulationAllowedForQuestion(int $q_id): bool
-    {
-        return $this->manipulationsEnabled && $this->manipulations_allowed_list[$q_id];
-    }
-
-    public function setManipulationsEnabled(bool $manipulationsEnabled): void
+    /**
+     * @param boolean $manipulationsEnabled
+     */
+    public function setManipulationsEnabled($manipulationsEnabled): void
     {
         $this->manipulationsEnabled = $manipulationsEnabled;
     }
@@ -94,15 +82,6 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
     public function init(): void
     {
         $this->initColumns();
-
-        if ($this->areManipulationsPossible()) {
-            $this->setFormAction($this->ctrl->getFormAction($this->parent_obj));
-
-            $this->addCommandButton(
-                ilAssQuestionSkillAssignmentsGUI::CMD_SAVE_SKILL_POINTS,
-                $this->lng->txt('tst_save_comp_points')
-            );
-        }
     }
 
     /**
@@ -124,10 +103,9 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
 
     public function fillRow(array $a_set): void
     {
-        $question_id = (int) $a_set['question_id'];
-        $assignments = $this->skillQuestionAssignmentList->getAssignmentsByQuestionId($question_id);
+        $assignments = $this->skillQuestionAssignmentList->getAssignmentsByQuestionId($a_set['question_id']);
 
-        $this->ctrl->setParameter($this->parent_obj, 'question_id', $question_id);
+        $this->ctrl->setParameter($this->parent_obj, 'question_id', $a_set['question_id']);
 
         $this->tpl->setCurrentBlock('question_title');
         $this->tpl->setVariable('ROWSPAN', $this->getRowspan($assignments));
@@ -150,14 +128,9 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
             $this->tpl->setVariable('COMPETENCE', $assignment->getSkillTitle());
             $this->tpl->setVariable('COMPETENCE_PATH', $assignment->getSkillPath());
             $this->tpl->setVariable('EVAL_MODE', $this->getEvalModeLabel($assignment));
+            $this->tpl->setVariable('SKILL_POINTS', $assignment->getMaxSkillPoints());
 
-            if ($this->isSkillPointInputRequired($assignment)) {
-                $this->tpl->setVariable('SKILL_POINTS', $this->buildSkillPointsInput($assignment));
-            } else {
-                $this->tpl->setVariable('SKILL_POINTS', $assignment->getMaxSkillPoints());
-            }
-
-            if ($this->isManipulationAllowedForQuestion($question_id) || ($i + 1) < $numAssigns) {
+            if ($this->areManipulationsEnabled() || ($i + 1) < $numAssigns) {
                 $this->tpl->parseCurrentBlock();
 
                 $this->tpl->setCurrentBlock('tbl_content');
@@ -165,7 +138,7 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
             }
         }
 
-        if ($this->isManipulationAllowedForQuestion($question_id)) {
+        if ($this->areManipulationsEnabled()) {
             $this->tpl->setCurrentBlock('actions_col');
             $this->tpl->setVariable('ACTION', $this->getManageCompetenceAssignsActionLink());
             $this->tpl->parseCurrentBlock();
@@ -188,7 +161,7 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
             return 1;
         }
 
-        if ($this->areManipulationsPossible()) {
+        if ($this->areManipulationsEnabled()) {
             $cnt++;
         }
 
@@ -217,7 +190,7 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
             ilAssQuestionSkillAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGN_PROPERTIES_FORM
         );
 
-        if ($this->isManipulationAllowedForQuestion($assignment->getQuestionId())) {
+        if ($this->areManipulationsEnabled()) {
             $label = $this->lng->txt('tst_edit_competence_assign');
         } else {
             $label = $this->lng->txt('tst_view_competence_assign');
@@ -274,33 +247,5 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
         }
 
         return $this->lng->txt('qpl_skill_point_eval_mode_quest_result');
-    }
-
-    private function buildSkillPointsInput(ilAssQuestionSkillAssignment $assignment): string
-    {
-        $assignmentKey = implode(':', array(
-            $assignment->getSkillBaseId(), $assignment->getSkillTrefId(), $assignment->getQuestionId()
-        ));
-
-        if ($this->loadSkillPointsFromRequest) {
-            $points = isset($_POST['skill_points'][$assignmentKey]) ? ilUtil::stripSlashes($_POST['skill_points'][$assignmentKey]) : '';
-        } else {
-            $points = $assignment->getSkillPoints();
-        }
-
-        return "<input type\"text\" size=\"2\" name=\"skill_points[{$assignmentKey}]\" value=\"{$points}\" />";
-    }
-
-    private function isSkillPointInputRequired(ilAssQuestionSkillAssignment $assignment): bool
-    {
-        if (!$this->isManipulationAllowedForQuestion($assignment->getQuestionId())) {
-            return false;
-        }
-
-        if ($assignment->hasEvalModeBySolution()) {
-            return false;
-        }
-
-        return true;
     }
 }

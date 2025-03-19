@@ -925,8 +925,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
      */
     public function showPHPInfoObject(): void
     {
-        phpinfo();
-        exit;
+        $rbacsystem = $this->rbacsystem;
+        if ($rbacsystem->checkAccess("read", $this->object->getRefId())) {
+            phpinfo();
+            exit;
+        }
     }
 
     //
@@ -945,9 +948,12 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $ilCtrl = $this->ctrl;
         $rbacsystem = $this->rbacsystem;
 
-        $ilTabs->addSubTabTarget("installation_status", $ilCtrl->getLinkTarget($this, "showServerInstallationStatus"));
+        if ($rbacsystem->checkAccess("read", $this->object->getRefId())) {
+            $ilTabs->addSubTabTarget("installation_status", $ilCtrl->getLinkTarget($this, "showServerInstallationStatus"));
 
-        $ilTabs->addSubTabTarget("server_data", $ilCtrl->getLinkTarget($this, "showServerInfo"));
+            $ilTabs->addSubTabTarget("server_data", $ilCtrl->getLinkTarget($this, "showServerInfo"));
+        }
+
 
         if ($rbacsystem->checkAccess("write", $this->object->getRefId())) {
             $ilTabs->addSubTabTarget("java_server", $ilCtrl->getLinkTarget($this, "showJavaServer"));
@@ -972,20 +978,24 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $ilCtrl = $this->ctrl;
         $ilToolbar = $this->toolbar;
 
-        $this->gui->link(
-            $this->lng->txt("vc_information"),
-            $this->ctrl->getLinkTarget($this, 'showVcsInformation')
-        )->toToolbar();
+        $rbacsystem = $this->rbacsystem;
+        if ($rbacsystem->checkAccess("read", $this->object->getRefId())) {
 
-        $this->initServerInfoForm();
-        // TODO: remove sub tabs
-        //        $this->tabs->setTabActive("server");
-        $this->setServerInfoSubTabs("server_data");
+            $this->gui->link(
+                $this->lng->txt("vc_information"),
+                $this->ctrl->getLinkTarget($this, 'showVcsInformation')
+            )->toToolbar();
 
-        $btpl = new ilTemplate("tpl.server_data.html", true, true, "Modules/SystemFolder");
-        $btpl->setVariable("FORM", $this->form->getHTML());
-        $btpl->setVariable("PHP_INFO_TARGET", $ilCtrl->getLinkTarget($this, "showPHPInfo"));
-        $tpl->setContent($btpl->get());
+            $this->initServerInfoForm();
+            // TODO: remove sub tabs
+            //        $this->tabs->setTabActive("server");
+            $this->setServerInfoSubTabs("server_data");
+
+            $btpl = new ilTemplate("tpl.server_data.html", true, true, "Modules/SystemFolder");
+            $btpl->setVariable("FORM", $this->form->getHTML());
+            $btpl->setVariable("PHP_INFO_TARGET", $ilCtrl->getLinkTarget($this, "showPHPInfo"));
+            $tpl->setContent($btpl->get());
+        }
     }
 
     /**
@@ -1092,8 +1102,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
     protected function showServerInstallationStatusObject(): void
     {
-        $this->setServerInfoSubTabs("installation_status");
-        $this->renderServerStatus();
+        $rbacsystem = $this->rbacsystem;
+        if ($rbacsystem->checkAccess("read", $this->object->getRefId())) {
+            $this->setServerInfoSubTabs("installation_status");
+            $this->renderServerStatus();
+        }
     }
 
     protected function renderServerStatus(): void
@@ -1772,20 +1785,22 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     protected function showVcsInformationObject(): void
     {
         $vcInfo = [];
-
-        foreach ([new ilGitInformation()] as $vc) {
-            $html = $vc->getInformationAsHtml();
-            if ($html) {
-                $vcInfo[] = $html;
+        $rbacsystem = $this->rbacsystem;
+        if ($rbacsystem->checkAccess("read", $this->object->getRefId())) {
+            foreach ([new ilGitInformation()] as $vc) {
+                $html = $vc->getInformationAsHtml();
+                if ($html) {
+                    $vcInfo[] = $html;
+                }
             }
-        }
 
-        if ($vcInfo !== []) {
-            $this->tpl->setOnScreenMessage('info', implode("<br />", $vcInfo));
-        } else {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('vc_information_not_determined'));
-        }
+            if ($vcInfo !== []) {
+                $this->tpl->setOnScreenMessage('info', implode("<br />", $vcInfo));
+            } else {
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt('vc_information_not_determined'));
+            }
 
-        $this->showServerInfoObject();
+            $this->showServerInfoObject();
+        }
     }
 }

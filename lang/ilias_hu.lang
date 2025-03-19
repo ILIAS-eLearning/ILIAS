@@ -17193,6 +17193,7 @@ ui#:#order_option_numerical_ascending#:#0 → 9
 ui#:#order_option_numerical_descending#:#9 → 0
 ui#:#presentation_table_collapse#:#becsukás
 ui#:#presentation_table_expand#:#kinyitás
+ui#:#table_posinput_col_title#:#Pozíció
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Fennmaradó karakterek száma:

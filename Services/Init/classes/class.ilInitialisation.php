@@ -706,13 +706,13 @@ class ilInitialisation
      */
     protected static function setCookieConstants(): void
     {
-        if (ilAuthFactory::getContext() == ilAuthFactory::CONTEXT_HTTP) {
+        if (\ilAuthFactory::getContext() === \ilAuthFactory::CONTEXT_HTTP) {
             $cookie_path = '/';
         } elseif (isset($GLOBALS['COOKIE_PATH'])) {
             // use a predefined cookie path from WebAccessChecker
             $cookie_path = $GLOBALS['COOKIE_PATH'];
         } else {
-            $cookie_path = dirname($_SERVER['PHP_SELF']);
+            $cookie_path = dirname($_SERVER['SCRIPT_NAME']);
         }
 
         /* if ilias is called directly within the docroot $cookie_path

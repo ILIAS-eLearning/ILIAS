@@ -22,6 +22,7 @@ namespace ILIAS\Repository\Form;
 
 use ILIAS\UI\Component\Input\Container\Form;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
+use ILIAS\Data\Factory;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -206,7 +207,14 @@ class FormAdapterGUI
     public function required(): self
     {
         if ($field = $this->getLastField()) {
-            $field = $field->withRequired(true);
+            if ($field instanceof \ILIAS\UI\Component\Input\Field\Text) {
+                $field = $field->withRequired(true, new NotEmpty(
+                    new Factory(),
+                    $this->lng
+                ));
+            } else {
+                $field = $field->withRequired(true);
+            }
             $this->replaceLastField($field);
         }
         return $this;
@@ -425,6 +433,13 @@ class FormAdapterGUI
             $logger_id,
             $ctrl_path
         );
+
+        foreach (["application/x-compressed", "application/x-zip-compressed"] as $zipmime) {
+            if (in_array("application/zip", $mime_types) &&
+                !in_array($zipmime, $mime_types)) {
+                $mime_types[] = $zipmime;
+            }
+        }
 
         if (count($mime_types) > 0) {
             $description .= $this->lng->txt("rep_allowed_types") . ": " .

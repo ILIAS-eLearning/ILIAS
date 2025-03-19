@@ -1,3 +1,19 @@
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 import {expect} from "chai";
 import {JSDOM} from 'jsdom';
 
@@ -41,28 +57,12 @@ describe('component available', () => {
 describe('showToast', () => {
     it ('before timeout', () => {
         il.UI.toast.showToast(element);
-        expect(last_timeout_time).to.be.equal(parseInt(element.dataset.delay));
         expect(toast.classList.contains('active')).to.be.false;
     })
     it ('after timeout', () => {
         il.UI.toast.showToast(element);
         last_timeout();
         expect(toast.classList.contains('active')).to.be.true;
-    })
-})
-
-describe('setToastSettings', () => {
-    it ('set delay time', () => {
-        element.dataset.delay = 123;
-        il.UI.toast.setToastSettings(element);
-        il.UI.toast.showToast(element);
-        expect(last_timeout_time).to.be.equal(123);
-    })
-    it ('set vanish time', () => {
-        element.dataset.vanish = 1111;
-        il.UI.toast.setToastSettings(element);
-        il.UI.toast.appearToast(element);
-        expect(last_timeout_time).to.be.equal(1111);
     })
 })
 

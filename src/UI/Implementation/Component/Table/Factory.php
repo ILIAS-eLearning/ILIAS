@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Table;
 
+use ILIAS\Data\URI;
 use ILIAS\UI\Component\Table as T;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Component\Input\ViewControl\Factory as ViewControlFactory;
@@ -41,6 +42,7 @@ class Factory implements T\Factory
         protected T\Action\Factory $action_factory,
         protected DataRowBuilder $data_row_builder,
         protected \ArrayAccess $storage,
+        protected OrderingRowBuilder $ordering_row_builder
     ) {
     }
 
@@ -87,5 +89,27 @@ class Factory implements T\Factory
     public function action(): T\Action\Factory
     {
         return $this->action_factory;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function ordering(
+        string $title,
+        array $columns,
+        T\OrderingBinding $retrieval,
+        URI $target_url
+    ): T\Ordering {
+        return new Ordering(
+            $this->signal_generator,
+            $this->view_control_factory,
+            $this->view_control_container_factory,
+            $this->ordering_row_builder,
+            $title,
+            $columns,
+            $retrieval,
+            $target_url,
+            $this->storage
+        );
     }
 }

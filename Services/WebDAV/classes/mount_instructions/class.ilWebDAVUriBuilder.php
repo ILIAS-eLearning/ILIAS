@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\UriInterface;
 
@@ -26,29 +26,23 @@ class ilWebDAVUriBuilder
     /**
      * @var string[]
      */
-    protected array $schemas = array(
-            'default' => 'http',
-            'konqueror' => 'webdav',
-            'nautilus' => 'dav'
-        );
+    protected array $schemas = [
+        'default' => 'http',
+        'konqueror' => 'webdav',
+        'nautilus' => 'dav'
+    ];
 
     protected string $mount_instructions_query = 'mount-instructions';
     protected string $webdav_script_name = 'webdav.php';
-
-    protected RequestInterface $request;
     protected UriInterface $uri;
     protected string $host;
-    protected string $client_id;
+    protected string $client_id = CLIENT_ID;
     protected string $web_path_to_script;
 
-    public function __construct(RequestInterface $request)
+    public function __construct(protected RequestInterface $request)
     {
-        $this->request = $request;
-
-        $this->uri = $request->getUri();
+        $this->uri = $this->request->getUri();
         $this->host = $this->uri->getHost();
-
-        $this->client_id = CLIENT_ID;
         $this->web_path_to_script = $this->changePathToWebDavScript($this->uri->getPath());
     }
 

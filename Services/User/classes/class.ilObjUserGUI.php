@@ -1967,7 +1967,7 @@ class ilObjUserGUI extends ilObjectGUI
 
     private function checkUserWriteRight(): void
     {
-        if ($this->usrf_ref_id == USER_FOLDER_ID
+        if ($this->usrf_ref_id === USER_FOLDER_ID
             && (
                 !$this->rbac_system->checkAccess('visible,read', $this->usrf_ref_id)
                 || !$this->rbac_system->checkAccess('write', $this->usrf_ref_id)

@@ -388,7 +388,7 @@ class ilStyleCharacteristicGUI
 
         $form->setTitle($lng->txt("sty_add_characteristic"));
         $form->addCommandButton("saveCharacteristic", $lng->txt("save"));
-        $form->addCommandButton("edit", $lng->txt("cancel"));
+        $form->addCommandButton("listCharacteristics", $lng->txt("cancel"));
         $form->setFormAction($ilCtrl->getFormAction($this));
 
         return $form;

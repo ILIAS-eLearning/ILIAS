@@ -133,10 +133,6 @@ class ilCmiXapiDataSet extends ilDataSet
         global $DIC;
         /** @var \ILIAS\DI\Container $DIC */
 
-        //        $this->_main_object_id = $a_id;
-        //        $this->_dataSetMapping = ilObjCmiXapi::getInstance($a_id, $a_reference)->getDataSetMapping();
-
-        //var_dump($this->_dataSetMapping); exit;
         parent::__construct();
 
         foreach ($this->_cmixSettingsProperties as $key => $value) {
@@ -173,15 +169,12 @@ class ilCmiXapiDataSet extends ilDataSet
 
         $this->readData($a_entity, $a_schema_version, $a_ids);
 
-        //var_dump($this->data); exit;
         $id = (int) $this->data["Id"];
 
         // prepare archive skeleton
         $objTypeAndId = "cmix_" . $id;
         $this->_archive['directories'] = [
             "exportDir" => ilExport::_getExportDirectory($id)
-            ,
-            "tempDir" => ilExport::_getExportDirectory($id) . "/temp"
             ,
             "archiveDir" => time() . "__" . IL_INST_ID . "__" . $objTypeAndId
             ,
@@ -197,93 +190,34 @@ class ilCmiXapiDataSet extends ilDataSet
             $this->_archive['files']['content'] = "content.zip";
         }
 
-        //var_dump([$this->_archive, $this->buildManifest()]); exit;
-
-        // Prepare temp storage on the local filesystem
-        if (!file_exists($this->_archive['directories']['exportDir'])) {
-            mkdir($this->_archive['directories']['exportDir'], 0755, true);
-            //$DIC->filesystem()->storage()->createDir($this->_archive['directories']['tempDir']);
-        }
-        if (!file_exists($this->_archive['directories']['tempDir'])) {
-            mkdir($this->_archive['directories']['tempDir'], 0755, true);
-            //$DIC->filesystem()->storage()->createDir($this->_archive['directories']['tempDir']);
-        }
+        $exportArchiveDir = ilExport::_getExportDirectory($id) . "/" . $this->_archive['directories']['archiveDir'] . "/";
 
         // build metadata xml file
         file_put_contents(
-            $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['metadata'],
+            $exportArchiveDir . $this->_archive['files']['metadata'],
             $this->buildMetaData($id)
         );
 
-        // build manifest xml file
-        file_put_contents(
-            $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['manifest'],
-            $this->buildManifest()
-        );
 
         // build content zip file
         if (isset($this->_archive['files']['content'])) {
-            $lmDir = ilFileUtils::getWebspaceDir("filesystem") . "/lm_data/lm_" . $id;
-            ilFileUtils::zip(
+            $lmDir = './' . ILIAS_WEB_DIR . "/" . CLIENT_ID . "/lm_data/lm_" . $id;
+            $DIC->legacyArchives()->zip(
                 $lmDir,
-                $this->_archive['directories']['tempDir'] . "/" . substr($this->_archive['files']['content'], 0, -4),
-                true
+                $exportArchiveDir . $this->_archive['files']['content'],
+                false
             );
         }
 
         // build property xml file
+
         file_put_contents(
-            $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['properties'],
+            $exportArchiveDir . $this->_archive['files']['properties'],
             $this->buildProperties($a_entity, $a_omit_header)
         );
 
-        // zip tempDir and append to export folder
 
         $fileName = $this->_archive['directories']['exportDir'] . "/" . $this->_archive['directories']['archiveDir'] . ".zip";
-        $zArchive = new ZipArchive();
-        if ($zArchive->open($fileName, ZipArchive::CREATE) !== true) {
-            exit("cannot open <$fileName>\n");
-        }
-        $zArchive->addFile(
-            $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['properties'],
-            $this->_archive['directories']['archiveDir'] . '/properties.xml'
-        );
-        $zArchive->addFile(
-            $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['manifest'],
-            $this->_archive['directories']['archiveDir'] . '/' . "manifest.xml"
-        );
-        $zArchive->addFile(
-            $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['metadata'],
-            $this->_archive['directories']['archiveDir'] . '/' . "metadata.xml"
-        );
-        if (isset($this->_archive['files']['content'])) {
-            $zArchive->addFile(
-                $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['content'],
-                $this->_archive['directories']['archiveDir'] . '/content.zip'
-            );
-        }
-        //var_dump($zArchive); exit;
-        $zArchive->close();
-
-        /*
-        ilUtil::zip(
-           $this->_archive['directories']['tempDir'],
-           $this->_archive['directories']['archiveDir'] . ".zip"
-        );
-        */
-
-        // unlink tempDir and its content
-        unlink($this->_archive['directories']['tempDir'] . "/metadata.xml");
-        unlink($this->_archive['directories']['tempDir'] . "/manifest.xml");
-        unlink($this->_archive['directories']['tempDir'] . "/properties.xml");
-        if (isset($this->_archive['files']['content'])) {
-            unlink($this->_archive['directories']['tempDir'] . "/content.zip");
-        }
-        //unlink($this->_archive['directories']['tempDir']);
-        //$DIC->filesystem()->storage()->readAndDelete($this->_archive['directories']['tempDir']);
-        //$DIC->filesystem()->storage()->deleteDir($this->_archive['directories']['tempDir']);
-
-        //var_dump($this->_archive); exit;
 
         return $fileName;
     }
@@ -300,8 +234,6 @@ class ilCmiXapiDataSet extends ilDataSet
         foreach ($this->_cmixSettingsProperties as $key => $value) {
             $types[$key] = $value["db_type"];
         }
-        //var_dump($types); exit;
-        //return $types;
 
         if ($a_entity == "cmix") {
             switch ($a_version) {
@@ -320,9 +252,7 @@ class ilCmiXapiDataSet extends ilDataSet
     public function readData(string $a_entity, string $a_version, array $a_ids): void
     {
         global $DIC;
-        /** @var $DIC \ILIAS\DI\Container */
 
-        //$a_ids = [];
         if (!is_array($a_ids)) {
             $a_ids = array($a_ids);
         }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use Sabre\DAV\INode;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\ICollection;
 
@@ -34,20 +35,14 @@ class ilDAVMountPoint implements ICollection
 {
     use ilWebDAVReadOnlyNodeWriteFunctionsTrait;
 
-    protected string $client_id;
     protected int $user_id;
-    protected ilWebDAVObjFactory $web_dav_object_factory;
-    protected ilWebDAVRepositoryHelper $repo_helper;
 
     public function __construct(
-        string $client_id,
-        ilWebDAVObjFactory $web_dav_object_factory,
-        ilWebDAVRepositoryHelper $repo_helper,
+        protected string $client_id,
+        protected ilWebDAVObjFactory $web_dav_object_factory,
+        protected ilWebDAVRepositoryHelper $repo_helper,
         ilObjUser $user
     ) {
-        $this->client_id = $client_id;
-        $this->web_dav_object_factory = $web_dav_object_factory;
-        $this->repo_helper = $repo_helper;
         $this->user_id = $user->getId();
     }
 
@@ -57,14 +52,14 @@ class ilDAVMountPoint implements ICollection
     }
 
     /**
-     * @return \Sabre\DAV\INode[]
+     * @return INode[]
      */
     public function getChildren(): array
     {
         if ($this->user_id === ANONYMOUS_USER_ID) {
             throw new Forbidden('Only for logged in users');
         }
-        return array($this->web_dav_object_factory->getClientNode($this->client_id));
+        return [$this->web_dav_object_factory->getClientNode($this->client_id)];
     }
 
     public function getChild($name): ilDAVClientNode
@@ -74,10 +69,7 @@ class ilDAVMountPoint implements ICollection
 
     public function childExists($name): bool
     {
-        if ($name === $this->client_id) {
-            return true;
-        }
-        return false;
+        return $name === $this->client_id;
     }
 
     public function getLastModified(): int

@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Table;
 
+use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Renderer as RendererInterface;
@@ -28,7 +29,6 @@ use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\Data\Order;
 use ILIAS\Data\URI;
 use ILIAS\UI\Implementation\Component\Table\Action\Action;
-use ILIAS\UI\Implementation\Component\Input\ViewControl\Pagination;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -43,6 +43,12 @@ class Renderer extends AbstractComponentRenderer
         }
         if ($component instanceof Component\Table\PresentationRow) {
             return $this->renderPresentationRow($component, $default_renderer);
+        }
+        if ($component instanceof Component\Table\Ordering) {
+            return $this->renderOrderingTable($component, $default_renderer);
+        }
+        if ($component instanceof Component\Table\OrderingRow) {
+            return $this->renderOrderingRow($component, $default_renderer);
         }
         if ($component instanceof Component\Table\Data) {
             return $this->renderDataTable($component, $default_renderer);
@@ -270,7 +276,7 @@ class Renderer extends AbstractComponentRenderer
                 $view_controls->getInputs(),
                 static fn($i): bool => $i instanceof Component\Input\ViewControl\Sortation
             );
-            if($sortation_view_control) {
+            if ($sortation_view_control) {
                 $sortation_signal = array_shift($sortation_view_control)->getInternalSignal();
                 $sortation_signal->addOption('parent_container', $id);
             }
@@ -367,9 +373,67 @@ class Renderer extends AbstractComponentRenderer
         $tpl->parseCurrentBlock();
     }
 
+    protected function registerActions(Component\Table\Table $component): Component\Table\Table
+    {
+        $opt_action_id = Action::OPT_ACTIONID;
+        $opt_row_id = Action::OPT_ROWID;
+
+        $component = $component
+            ->withAdditionalOnLoadCode(
+                static fn($id): string =>
+                "il.UI.table.data.init('{$id}','{$opt_action_id}','{$opt_row_id}');"
+            )
+            ->withAdditionalOnLoadCode($this->getAsyncActionHandler($component->getAsyncActionSignal()))
+            ->withAdditionalOnLoadCode($this->getMultiActionHandler($component->getMultiActionSignal()))
+            ->withAdditionalOnLoadCode($this->getSelectionHandler($component->getSelectionSignal()));
+
+        $actions = [];
+        foreach ($component->getAllActions() as $action_id => $action) {
+            $component = $component->withAdditionalOnLoadCode($this->getActionRegistration((string) $action_id, $action));
+            if ($action->isAsync()) {
+                $signal = clone $component->getAsyncActionSignal();
+                $signal->addOption(Action::OPT_ACTIONID, $action_id);
+                $action = $action->withSignalTarget($signal);
+            }
+            $actions[$action_id] = $action;
+        }
+        $component = $component->withActions($actions);
+
+        if ($component->hasMultiActions()) {
+            $component = $component->withAdditionalOnLoadCode(
+                static fn($id): string => "il.UI.table.data.get('{$id}').selectAll(false);"
+            );
+        }
+
+        return $component;
+    }
+
+    protected function renderActionsHeader(
+        RendererInterface $default_renderer,
+        Component\Table\Table $component,
+        Template $tpl
+    ): void {
+        if ($component->hasSingleActions()) {
+            $tpl->setVariable('COL_INDEX_ACTION', (string) count($component->getColumns()));
+            $tpl->setVariable('COL_TITLE_ACTION', $this->txt('actions'));
+        }
+
+        if ($component->hasMultiActions()) {
+            $glyph_factory = $this->getUIFactory()->symbol()->glyph();
+            $signal = $component->getSelectionSignal();
+            $sig_all = clone $signal;
+            $sig_all->addOption('select', true);
+            $select_all = $glyph_factory->add()->withOnClick($sig_all);
+            $signal->addOption('select', false);
+            $select_none = $glyph_factory->close()->withOnClick($signal);
+            $tpl->setVariable('SELECTION_CONTROL_SELECT', $default_renderer->render($select_all));
+            $tpl->setVariable('SELECTION_CONTROL_DESELECT', $default_renderer->render($select_none));
+        }
+    }
+
     protected function appendTableRows(
         Template $tpl,
-        \Generator $rows,
+        \Generator|array $rows,
         RendererInterface $default_renderer
     ): void {
         $alternate = 'even';
@@ -529,6 +593,69 @@ class Renderer extends AbstractComponentRenderer
         return $cell_tpl->get();
     }
 
+    public function renderOrderingRow(Component\Table\OrderingRow $component, RendererInterface $default_renderer): string
+    {
+        $cell_tpl = $this->getTemplate("tpl.orderingcell.html", true, true);
+        $this->fillCells($component, $cell_tpl, $default_renderer);
+
+        if ($component->isOrderingDisabled()) {
+            return $cell_tpl->get();
+        }
+
+        $namesource = new class () implements NameSource {
+            public function getNewName(): string
+            {
+                return '';
+            }
+            public function getNewDedicatedName(string $dedicated_name): string
+            {
+                return $dedicated_name;
+            }
+        };
+
+        $input = $this->getUIFactory()->input()->field()->numeric('order')
+            ->withDedicatedName($component->getId())
+            ->withNameFrom($namesource)
+            ->withValue($component->getPosition() * 10);
+        $cell_tpl->setVariable('ORDER_INPUT', $default_renderer->render($input));
+
+        return $cell_tpl->get();
+    }
+
+    protected function fillCells(
+        Component\Table\DataRow $row,
+        Template $cell_tpl,
+        RendererInterface $default_renderer
+    ) {
+        $cols = $row->getColumns();
+        foreach ($cols as $col_id => $column) {
+            if ($column->isHighlighted()) {
+                $cell_tpl->touchBlock('highlighted');
+            }
+            $cell_tpl->setCurrentBlock('cell');
+            $cell_tpl->setVariable('COL_TYPE', strtolower($column->getType()));
+            $cell_tpl->setVariable('COL_INDEX', $column->getIndex());
+            $cell_content = $row->getCellContent($col_id);
+            if ($cell_content instanceof Component\Component) {
+                $cell_content = $default_renderer->render($cell_content);
+            }
+            $cell_tpl->setVariable('CELL_CONTENT', $cell_content);
+            $cell_tpl->setVariable('CELL_COL_TITLE', $row->getColumns()[$col_id]->getTitle());
+            $cell_tpl->parseCurrentBlock();
+        }
+
+        if ($row->tableHasMultiActions()) {
+            $cell_tpl->setVariable('ROW_ID', $row->getId());
+        }
+        if ($row->tableHasSingleActions()) {
+            $row_actions_dropdown = $this->getSingleActionsForRow(
+                $row->getId(),
+                $row->getActions()
+            );
+            $cell_tpl->setVariable('ACTION_CONTENT', $default_renderer->render($row_actions_dropdown));
+        }
+    }
+
     /**
      * @param array<string, Action> $actions
      */
@@ -546,6 +673,83 @@ class Renderer extends AbstractComponentRenderer
         }
         return $f->dropdown()->standard($buttons);
     }
+
+    public function renderOrderingTable(Component\Table\Ordering $component, RendererInterface $default_renderer): string
+    {
+        $tpl = $this->getTemplate("tpl.orderingtable.html", true, true);
+        $component = $this->registerActions($component);
+
+        [$component, $view_controls] = $component->applyViewControls();
+
+        $rows = $component->getDataBinding()->getRows(
+            $component->getRowBuilder(),
+            array_keys($component->getVisibleColumns()),
+        );
+
+
+        if (!$component->isOrderingDisabled()) {
+            $component = $component->withAdditionalOnLoadCode(
+                static fn($id): string => "il.UI.table.ordering.init('{$id}');"
+            );
+        }
+
+        $tableid = $this->bindJavaScript($component) ?? $this->createId();
+        $total_number_of_cols = count($component->getVisibleColumns());
+
+        if (!$component->isOrderingDisabled()) {
+            $total_number_of_cols = $total_number_of_cols + 1;
+            $submit = $this->getUIFactory()->button()->standard($this->txt('sorting_save'), "")
+                ->withOnLoadCode(static fn($id) => "document.getElementById('$id').addEventListener('click',
+                    function() {document.querySelector('#$tableid form.c-table-ordering__form').submit();return false;});");
+
+            $tpl->setVariable('FORM_BUTTONS', $default_renderer->render($submit));
+            $tpl->setVariable('POS_INPUT_TITLE', $this->txt('table_posinput_col_title'));
+        }
+
+        $tpl->setVariable('ID', $tableid);
+        $tpl->setVariable('TARGET_URL', $component->getTargetURL() ? $component->getTargetURL()->__toString() : '#');
+        $tpl->setVariable('TITLE', $component->getTitle());
+        $tpl->setVariable('COL_COUNT', (string) $component->getColumnCount());
+        $tpl->setVariable('VIEW_CONTROLS', $default_renderer->render($view_controls));
+
+        $columns = $component->getVisibleColumns();
+        foreach ($columns as $col_id => $col) {
+            $col_title = $col->getTitle();
+            $tpl->setCurrentBlock('header_cell');
+            $tpl->setVariable('COL_INDEX', (string) $col->getIndex());
+            $tpl->setVariable('COL_TITLE', $col_title);
+            $tpl->setVariable('COL_TYPE', strtolower($col->getType()));
+            $tpl->parseCurrentBlock();
+        }
+
+        $rows = iterator_to_array($rows);
+        $r = [];
+        foreach ($rows as $idx => $row) {
+            $r[] = $row
+                ->withPosition($idx + 1)
+                ->withOrderingDisabled($component->isOrderingDisabled());
+        }
+
+        $this->renderActionsHeader($default_renderer, $component, $tpl);
+        $this->appendTableRows($tpl, $r, $default_renderer);
+
+        if ($component->hasMultiActions()) {
+            $total_number_of_cols = $total_number_of_cols + 2;
+            $multi_actions = $component->getMultiActions();
+            $modal = $this->buildMultiActionsAllObjectsModal($multi_actions, $tableid);
+            $multi_actions_dropdown = $this->buildMultiActionsDropdown(
+                $multi_actions,
+                $component->getMultiActionSignal(),
+                $modal->getShowSignal()
+            );
+            $tpl->setVariable('MULTI_ACTION_TRIGGERER', $default_renderer->render($multi_actions_dropdown));
+            $tpl->setVariable('MULTI_ACTION_ALL_MODAL', $default_renderer->render($modal));
+        }
+
+        $tpl->setVariable('COLUMN_COUNT', (string) $total_number_of_cols);
+        return $tpl->get();
+    }
+
 
     /**
      * @inheritdoc
@@ -580,7 +784,9 @@ class Renderer extends AbstractComponentRenderer
             Component\Table\PresentationRow::class,
             Component\Table\Presentation::class,
             Component\Table\Data::class,
-            Component\Table\DataRow::class
+            Component\Table\DataRow::class,
+            Component\Table\OrderingRow::class,
+            Component\Table\Ordering::class
         ];
     }
 }

@@ -81,6 +81,7 @@ class ilAuthProviderSoap extends ilAuthProvider
             $this->handleSoapAuth($status);
         } catch (Exception $e) {
             $this->getLogger()->error($e->getMessage());
+            $this->getLogger()->error($e->getTraceAsString());
             $status->setTranslatedReason($e->getMessage());
         }
 

@@ -17,7 +17,6 @@
  *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
 class ilWebDAVMountInstructionsDocumentProcessorBaseTest extends TestCase
 {
@@ -153,8 +152,8 @@ class ilWebDAVMountInstructionsDocumentProcessorBaseTest extends TestCase
      * @test
      * @small
      */
-    public function parseInstructionsToAssocArray_beforeStartTagAndAfterEndTagIsText_returnArrayOnlyWithStringBetweenTags(): void
-    {
+    public function parseInstructionsToAssocArray_beforeStartTagAndAfterEndTagIsText_returnArrayOnlyWithStringBetweenTags(
+    ): void {
         // Arrange
         $instruction_text = 'This are the mount Instructions';
         $tag_title = 'tag';

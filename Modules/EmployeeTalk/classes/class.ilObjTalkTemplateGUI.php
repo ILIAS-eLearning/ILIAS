@@ -56,6 +56,7 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
 
         $lng->loadLanguageModule("etal");
         $lng->loadLanguageModule("meta");
+        $lng->loadLanguageModule("rep");
 
         $this->md_handler = new MetadataHandler();
     }

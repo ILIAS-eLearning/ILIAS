@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\INode;
 use Sabre\DAV\ICollection;
@@ -31,25 +31,15 @@ class ilDAVContainer implements ICollection
     use ilWebDAVCheckValidTitleTrait;
     use ilWebDAVAccessChildrenFunctionsTrait;
     use ilWebDAVCommonINodeFunctionsTrait;
-
-    protected ilObjUser $current_user;
-    protected ilObject $obj;
-    protected RequestInterface $request;
-    protected ilWebDAVObjFactory $dav_factory;
-    protected ilWebDAVRepositoryHelper $repository_helper;
+    use ilObjFileSecureString;
 
     public function __construct(
-        ilContainer $obj,
-        ilObjUser $current_user,
-        RequestInterface $request,
-        ilWebDAVObjFactory $dav_factory,
-        ilWebDAVRepositoryHelper $repository_helper
+        protected ilObject $obj,
+        protected ilObjUser $current_user,
+        protected RequestInterface $request,
+        protected ilWebDAVObjFactory $dav_factory,
+        protected ilWebDAVRepositoryHelper $repository_helper
     ) {
-        $this->obj = $obj;
-        $this->current_user = $current_user;
-        $this->request = $request;
-        $this->dav_factory = $dav_factory;
-        $this->repository_helper = $repository_helper;
     }
 
     public function getName(): string
@@ -125,33 +115,35 @@ class ilDAVContainer implements ICollection
             throw new Forbidden('Permission denied');
         }
 
-        $size = $this->request->getHeader("Content-Length")[0] ?? 0;
+        $size = (int) ($this->request->getHeader("Content-Length")[0] ?? 0);
         if ($size === 0 && $this->request->hasHeader('X-Expected-Entity-Length')) {
-            $size = $this->request->getHeader('X-Expected-Entity-Length')[0];
+            $size = (int) ($this->request->getHeader('X-Expected-Entity-Length')[0] ?? 0);
         }
 
         if ($size > ilFileUtils::getPhpUploadSizeLimitInBytes()) {
             throw new Forbidden('File is too big');
         }
 
+        $name = $this->ensureSuffix($name, $this->extractSuffixFromFilename($name));
+
         if ($this->childExists($name)) {
             $file_dav = $this->getChild($name);
         } else {
             try {
                 $file_obj = new ilObjFile();
-                $title = mb_substr($name, 0, strrpos($name, '.'));
-                if ($title === '') {
-                    $title = $name;
-                }
-                $file_obj->setTitle($title);
+                $file_obj->setTitle($name);
 
                 $file_dav = $this->dav_factory->createDAVObject($file_obj, $this->obj->getRefId());
-            } catch (ilWebDAVNotDavableException $e) {
+            } catch (ilWebDAVNotDavableException) {
                 throw new Forbidden('Forbidden characters in title');
             }
         }
 
-        return $file_dav->put($data, $name);
+        try {
+            return $file_dav->put($data, $name);
+        } catch (Throwable) {
+            return null;
+        }
     }
 
     /**
@@ -170,7 +162,7 @@ class ilDAVContainer implements ICollection
             $new_obj->setOwner($this->current_user->getId());
             $new_obj->setTitle($name);
             $this->dav_factory->createDAVObject($new_obj, $this->obj->getRefId());
-        } catch (ilWebDAVNotDavableException $e) {
+        } catch (ilWebDAVNotDavableException) {
             throw new Forbidden('Forbidden characters in title');
         }
     }
@@ -187,7 +179,7 @@ class ilDAVContainer implements ICollection
 
     protected function getChildCollection(): ilContainer
     {
-        if (get_class($this->obj) === 'ilObjCategory') {
+        if ($this->obj::class === 'ilObjCategory') {
             return new ilObjCategory();
         }
 

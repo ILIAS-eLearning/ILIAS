@@ -816,11 +816,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             ilTestPlayerLayoutProvider::TEST_PLAYER_VIEW_TITLE,
             $this->object->getTitle() . ' - ' . $this->lng->txt('final_statement')
         );
-
+        $this->content_style->gui()->addCss($this->tpl, $this->ref_id);
         $template = new ilTemplate("tpl.il_as_tst_final_statement.html", true, true, "Modules/Test");
         $this->ctrl->setParameter($this, "skipfinalstatement", 1);
         $template->setVariable("FORMACTION", $this->ctrl->getFormAction($this, ilTestPlayerCommands::AFTER_TEST_PASS_FINISHED));
-        $template->setVariable("FINALSTATEMENT", $this->object->prepareTextareaOutput($this->object->getFinalStatement(), true));
+        $template->setVariable("FINALSTATEMENT", $this->object->getFinalStatement());
         $template->setVariable("BUTTON_CONTINUE", $this->lng->txt("btn_next"));
         $this->tpl->setVariable($this->getContentBlockName(), $template->get());
     }

@@ -153,7 +153,12 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
      */
     public function appendStream(FileStream $stream, string $title): int
     {
-        $title = $this->ensureSuffix($title, pathinfo($stream->getMetadata('uri'))['extension'] ?? null);
+        $title = $this->ensureSuffix(
+            $title,
+            $this->extractSuffixFromFilename($title)
+            ?? pathinfo($stream->getMetadata('uri'))['extension']
+            ?? null
+        );
         if ($this->getResourceId() && $i = $this->manager->find($this->getResourceId())) {
             $revision = $this->manager->appendNewRevisionFromStream($i, $stream, $this->stakeholder, $title);
         } else {
@@ -510,7 +515,11 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 
     protected function beforeUpdate(): bool
     {
-        $this->setTitle($this->ensureSuffix($this->getTitle(), $this->file_info->getSuffix()));
+        $suffix = $this->file_info->getSuffix();
+        if (empty($suffix)) {
+            $suffix = $this->extractSuffixFromFilename($this->getTitle());
+        }
+        $this->setTitle($this->ensureSuffix($this->getTitle(), $suffix));
 
         // no meta data handling for file list files
         if ($this->getMode() !== self::MODE_FILELIST) {

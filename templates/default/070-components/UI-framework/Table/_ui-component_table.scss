@@ -152,6 +152,10 @@ $il-table-presentation-details-viewcontrols-btn-bg: white;
     }
 }
 
+.c-table-data__selection_none {
+    display: none;
+}
+
 //
 // Table Header
 //
@@ -261,6 +265,19 @@ th.c-table-data__cell:after {
     position: sticky;
     left: -1px; // so text doesn't glitch through on left edge
     z-index: 2;
+}
+
+.c-table-data__positioninput {
+    .c-input[data-il-ui-component] {
+        grid-template-columns: 0% 100%;
+        > label {
+            display:none;
+        }
+        input {
+            width : 65px;
+        }
+    }
+
 }
 
 //
@@ -398,7 +415,7 @@ td.c-table-data__cell--highlighted {
         td.c-table-data__cell--number {
             text-align: inherit;
         }
-        
+
         // Highlighted Columns
         td.c-table-data__cell--highlighted {
             font-size: $il-font-size-xxlarge;

@@ -3839,6 +3839,27 @@ button .minimize, button .close {
   display: flex;
 }
 
+h4.il-divider {
+  display: flex;
+  flex-direction: row;
+}
+
+h4.il-divider:before,
+h4.il-divider:after {
+  content: "";
+  flex: 1 1;
+  border-bottom: 2px solid white;
+  margin: auto;
+}
+
+h4.il-divider:before {
+  margin-right: 0.5em;
+}
+
+h4.il-divider:after {
+  margin-left: 0.5em;
+}
+
 .engaged ~ ul > li > h4.il-divider {
   padding: 3px 6px;
   margin-bottom: 0px;
@@ -6894,7 +6915,7 @@ div.alert ul > li:before {
   gap: 9px;
 }
 .panel-flex .panel-title {
-  flex-shrink: 0;
+  flex-shrink: 1;
   order: 1;
 }
 .panel-flex .panel-controls {
@@ -8956,6 +8977,10 @@ div.alert ul > li:before {
   }
 }
 
+.c-table-data__selection_none {
+  display: none;
+}
+
 th.c-table-data__cell {
   padding: 0;
 }
@@ -9044,6 +9069,16 @@ th.c-table-data__cell {
   position: sticky;
   left: -1px;
   z-index: 2;
+}
+
+.c-table-data__positioninput .c-input[data-il-ui-component] {
+  grid-template-columns: 0% 100%;
+}
+.c-table-data__positioninput .c-input[data-il-ui-component] > label {
+  display: none;
+}
+.c-table-data__positioninput .c-input[data-il-ui-component] input {
+  width: 65px;
 }
 
 .c-table-data__multiaction-triggerer {
@@ -10357,6 +10392,7 @@ tbody.collapse.in {
 .carousel-inner > .item .item-content > a > img {
   display: block;
   max-width: 100%;
+  max-height: 100%;
   height: auto;
   line-height: 1;
 }
@@ -17838,6 +17874,11 @@ a.ilMediaLightboxClose:hover {
 }
 .modal-content .form-horizontal .col-sm-8, .modal-content .form-horizontal .col-md-9, .modal-content .form-horizontal .col-lg-10 {
   width: 66.67%;
+}
+
+.svy-progress-bar {
+  width: 50%;
+  margin: auto;
 }
 
 .progress {

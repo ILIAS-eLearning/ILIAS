@@ -23,7 +23,6 @@ use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Field\Radio;
 use ILIAS\UI\Component\Input\Field\OptionalGroup;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Transformation;
 
 class ilObjTestSettingsQuestionBehaviour extends TestSettings
@@ -132,7 +131,11 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
         $sub_inputs_autosave['autosave_interval'] = $f->numeric($lng->txt('autosave_ival'), $lng->txt('seconds'))
             ->withRequired(true)
             ->withAdditionalTransformation($refinery->int()->isGreaterThan(0))
-            ->withValue($this->getAutosaveInterval() / 1000);
+            ->withValue(
+                $this->getAutosaveInterval() !== 0
+                ? $this->getAutosaveInterval() / 1000
+                : 30
+            );
 
         $autosave_input = $f->optionalGroup(
             $sub_inputs_autosave,

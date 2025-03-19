@@ -284,7 +284,7 @@ class ilCalendarAppointmentGUI
             );
             $notu->setMulti(true, true);
             $notu->setInfo($this->lng->txt('cal_user_notification_info'));
-            $notu->setDataSource($ajax_url, ',');
+            $notu->setDataSource($ajax_url);
 
             $values = [];
             foreach ($this->notification->getRecipients() as $rcp) {
@@ -364,8 +364,16 @@ class ilCalendarAppointmentGUI
                 $this->refinery->kindlyTo()->string()
             );
         }
+        if ($query === '') {
+            if ($this->http->wrapper()->query()->has('term')) {
+                $query = $this->http->wrapper()->query()->retrieve(
+                    'term',
+                    $this->refinery->kindlyTo()->string()
+                );
+            }
+        }
         echo $auto->getList($query);
-        return null;
+        exit;
     }
 
     /**

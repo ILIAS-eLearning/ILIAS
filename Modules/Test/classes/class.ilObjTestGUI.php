@@ -27,6 +27,7 @@ use ILIAS\DI\LoggingServices;
 use ILIAS\Skill\Service\SkillService;
 use ILIAS\Test\InternalRequestService;
 use ILIAS\GlobalScreen\Services as GlobalScreen;
+use ILIAS\Style\Content\Service as ContentStyle;
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
@@ -90,6 +91,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     protected ilComponentFactory $component_factory;
     protected ilDBInterface $db;
     protected LoggingServices $logging_services;
+    protected ContentStyle $content_style;
     protected UIFactory $ui_factory;
     protected UIRenderer $ui_renderer;
     protected HTTPServices $http;
@@ -130,6 +132,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->type = 'tst';
         $this->testrequest = $DIC->test()->internal()->request();
         $this->archives = $DIC->legacyArchives();
+        $this->content_style = $DIC->contentStyle();
 
         $ref_id = 0;
         if ($this->testrequest->hasRefId() && is_numeric($this->testrequest->getRefId())) {
@@ -1116,6 +1119,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->ctrl->saveParameterByClass(ilTestPageGUI::class, 'page_type');
 
         $gui = new ilTestPageGUI('tst', $page_id);
+        $this->content_style->gui()->addCss($this->tpl, $this->testrequest->getRefId());
         $this->tpl->setContent($this->ctrl->forwardCommand($gui));
 
         $this->tabs_manager->activateTab(ilTestTabsManager::TAB_ID_SETTINGS);
@@ -3451,6 +3455,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->refinery,
             $this->ctrl,
             $this->tpl,
+            $this->content_style,
             $this->http,
             $this->tabs_gui,
             $this->access,

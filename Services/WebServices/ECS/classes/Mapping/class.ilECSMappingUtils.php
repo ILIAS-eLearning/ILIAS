@@ -108,7 +108,10 @@ class ilECSMappingUtils
                 return array((string) $course->organisation);
 
             case 'term':
-                return array((string) $course->term);
+                if (property_exists($course, "term")) {
+                    return array((string) $course->term);
+                }
+                return [];
 
             case 'title':
                 return array((string) $course->title);

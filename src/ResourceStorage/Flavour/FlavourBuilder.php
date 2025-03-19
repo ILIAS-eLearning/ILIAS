@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -33,6 +34,9 @@ use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 use ILIAS\ResourceStorage\Resource\ResourceNotFoundException;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
+use ILIAS\ResourceStorage\Events\Subject;
+use ILIAS\ResourceStorage\Events\Event;
+use ILIAS\ResourceStorage\Events\FlavourData;
 
 /**
  * @author   Fabian Schmid <fabian@sr.solutions>
@@ -49,7 +53,8 @@ class FlavourBuilder
         private readonly Factory $flavour_machine_factory,
         private readonly ResourceBuilder $resource_builder,
         private readonly StorageHandlerFactory $storage_handler_factory,
-        private readonly StreamAccess $stream_access
+        private readonly StreamAccess $stream_access,
+        private readonly Subject $events
     ) {
     }
 
@@ -248,6 +253,7 @@ class FlavourBuilder
             $stream->rewind();
         } catch (\Throwable $t) {
             // error while reading file stream, cannot process
+            $this->events->notify(Event::FLAVOUR_BUILD_FAILED, new FlavourData($rid, $definition, $flavour, $t));
             return $flavour;
         }
 
@@ -279,8 +285,9 @@ class FlavourBuilder
                     $result->getIndex()
                 );
             }
-        } catch (\Throwable) {
+        } catch (\Throwable $t) {
             // error while processing stream, cannot process
+            $this->events->notify(Event::FLAVOUR_BUILD_FAILED, new FlavourData($rid, $definition, $flavour, $t));
             return $flavour;
         }
 
@@ -288,6 +295,8 @@ class FlavourBuilder
         if ($definition->persist()) {
             $this->storeFlavourStreams($flavour, $storable_streams);
         }
+
+        $this->events->notify(Event::FLAVOUR_BUILD_SUCCESS, new FlavourData($rid, $definition, $flavour));
 
         return $flavour;
     }

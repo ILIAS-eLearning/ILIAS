@@ -386,7 +386,7 @@ class ilAuthProviderECS extends ilAuthProvider
 
         // Create user in DB
         $userObj->setOwner(6);
-        $tmp_date = new ilDateTime($this->cdata, IL_CAL_UNIX);
+        $tmp_date = new ilDateTime(time(), IL_CAL_UNIX);
         $userObj->setAgreeDate($tmp_date->get(IL_CAL_DATETIME));
         $userObj->create();
         $userObj->setActive(true);

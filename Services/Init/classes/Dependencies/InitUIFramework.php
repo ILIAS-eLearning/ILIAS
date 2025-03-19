@@ -138,6 +138,7 @@ class InitUIFramework
         };
         $c["ui.factory.table"] = function ($c) {
             $row_builder = new ILIAS\UI\Implementation\Component\Table\DataRowBuilder();
+            $ordering_row_builder = new ILIAS\UI\Implementation\Component\Table\OrderingRowBuilder();
 
             return new ILIAS\UI\Implementation\Component\Table\Factory(
                 $c["ui.signal_generator"],
@@ -147,7 +148,8 @@ class InitUIFramework
                 $c["ui.factory.table.column"],
                 $c["ui.factory.table.action"],
                 $row_builder,
-                $c["ui.storage"]
+                $c["ui.storage"],
+                $ordering_row_builder
             );
         };
         $c["ui.factory.table.column"] = function ($c) {

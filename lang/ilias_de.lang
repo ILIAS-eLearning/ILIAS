@@ -10725,7 +10725,7 @@ ldap#:#ldap_user_sync_cron#:#LDAP-Benutzersynchronisierung
 ldap#:#ldap_user_sync_cron_info#:#Wenn aktiviert, werden Anmeldekonten aus dem LDAP-Verzeichnis importiert und optional laufend synchronisiert.
 ldap#:#ldap_user_sync_info#:#Legt fest, ob noch nicht in ILIAS vorhandene Benutzer automatisch beim ersten Login oder aber regelmäßig per Cron-Job angelegt werden.
 ldap#:#ldap_username_filter#:#Anmeldenamen-Filter
-ldap#:#ldap_username_filter_info#:#Benutzen Sie * als Wildcard.
+ldap#:#ldap_username_filter_info#:#Der Anmeldenamen-Filter kann optional verwendet werden, um diese LDAP-Serverkonfiguration anhand des auf der Anmeldeseite eingegebenen Anmeldenamen automatisch zu bestimmen. Das Zeichen „*“ kann als Platzhalter verwendet werden. Zum Beispiel entspricht „*example\.com“ allen Anmeldenamen, die mit „example.com“ enden. Wenn der konfigurierte Filter mit dem eingegebenen Anmeldenamen übereinstimmt, wird diese LDAP-Serverkonfiguration bevorzugt, falls eine feste Authentifizierungsreihenfolge festgelegt ist.
 ldoc#:#deleteDocument#:#Löschen
 ldoc#:#detachCriterionAssignment#:#Löschen
 ldoc#:#ldoc_acceptance_history#:#Zustimmungshistorie
@@ -12792,18 +12792,12 @@ noti#:#noti_notification_deactivated#:#Benachrichtigungen sind deaktiviert
 notifications_adm#:#enable_osd#:#Pop-up-Benachrichtigungen aktivieren
 notifications_adm#:#enable_osd_desc#:#Wenn aktiviert, werden Benutzer durch ein Pop-up über neue Benachrichtigungen informiert.
 notifications_adm#:#notification_settings#:#Benachrichtigungseinstellungen
-notifications_adm#:#osd_delay#:#Anzeigeverzögerung
-notifications_adm#:#osd_delay_desc#:#Verzögerung der Anzeige der Benachrichtigungen in Millisekunden
-notifications_adm#:#osd_error_presentation_time_too_small#:#Die Anzeigedauer muss mindestens 1000 Millisekunden betragen.
-notifications_adm#:#osd_error_refresh_interval_smaller_than_delay_and_vanish_combined#:#Das Abfrageintervall muss größer sein als die Summe der Anzeigedauer und der Anzeigeverzögerung.
 notifications_adm#:#osd_error_refresh_interval_too_small#:#Das Abfrageintervall muss mindestens 3000 Millisekunden betragen.
 notifications_adm#:#osd_interval#:#Abfrageintervall
 notifications_adm#:#osd_interval_desc#:#Abfrageintervall für Nachrichten in Millisekunden.Eine geringere Zeit ermöglicht zeitnähere Benachrichtigungen, erhöht aber die Serverlast.
 notifications_adm#:#osd_play_sound#:#Ton abspielen
 notifications_adm#:#osd_play_sound_desc#:#Ton abspielen bei Erhalt einer neuen Benachrichtigung.
 notifications_adm#:#osd_settings#:#Pop-up-Benachrichtigungen
-notifications_adm#:#osd_vanish#:#Anzeigedauer
-notifications_adm#:#osd_vanish_desc#:#Dauer der Anzeige von Benachrichtigungen in Millisekunden
 obj#:#activation_visible_when_disabled#:#Sichtbarkeit
 obj#:#activation_visible_when_disabled_info#:#Die gewählten Objekte sind auch außerhalb des gewählten Zeitraums sichtbar, können aber nicht geöffnet werden.
 obj#:#availability_period_changed#:#Die zeitliche Verfügbarkeit wurde für die ausgewählten Objekte erfolgreich angepasst.
@@ -14800,6 +14794,7 @@ rep#:#rep_fav_intro2#:#Klicken Sie auf „%s“ und wählen Sie aus dem verfügb
 rep#:#rep_fav_intro3#:#Wenn Sie etwas gefunden haben, das Sie interessiert, können Sie es ganz einfach zu Ihren Favoriten hinzufügen. Wählen Sie beim gewünschten Objekt im <i>Aktionen</i>-Menü die Option "<i>Zu Favoriten hinzufügen</i>".
 rep#:#rep_favourites#:#Favoriten
 rep#:#rep_favourites_info#:#Benutzer können einzelne Magazinobjekte als Favorit markieren. Favoritenlisten können in der Dashboard- und Hauptmenükonfiguration aktiviert werden.
+rep#:#rep_input_not_empty#:#Dieses Feld erfordert eine Angabe.
 rep#:#rep_intro#:#Willkommen im Magazin!
 rep#:#rep_intro1#:#In diesem Bereich können Sie Lern- und Arbeitsmaterialien erstellen und verfügbar machen. Alle Inhalte werden in Kategorien organisiert. Diese Kategorien können z. B. die Organisation Ihrer Institution (z. B. Abteilungen oder Klassen) abbilden. Kategorien können aber auch verwendet werden, um die Inhalte thematisch zu strukturieren.
 rep#:#rep_intro2#:#Mit drei Schritten können Sie eine erste Struktur aufbauen:
@@ -17202,6 +17197,7 @@ ui#:#order_option_numerical_ascending#:#0 bis 9
 ui#:#order_option_numerical_descending#:#9 bis 0
 ui#:#presentation_table_collapse#:#alle minimieren
 ui#:#presentation_table_expand#:#alle zeigen
+ui#:#table_posinput_col_title#:#Position
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Verbleibende Buchstaben

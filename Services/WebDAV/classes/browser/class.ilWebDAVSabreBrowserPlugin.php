@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use Psr\Http\Message\UriInterface;
 use Sabre\DAV\Browser\Plugin;
 
@@ -26,16 +26,14 @@ use Sabre\DAV\Browser\Plugin;
  */
 class ilWebDAVSabreBrowserPlugin extends Plugin
 {
-    protected ilCtrlInterface $ctrl;
     private string $mount_instruction_path;
 
-    public function __construct(ilCtrlInterface $ctrl, UriInterface $uri)
+    public function __construct(protected ilCtrlInterface $ctrl, UriInterface $uri)
     {
         $this->mount_instruction_path = $uri->getScheme() . '://';
         $this->mount_instruction_path .= $uri->getHost();
         $this->mount_instruction_path .= $uri->getPath();
         $this->mount_instruction_path .= "?mount-instructions";
-        $this->ctrl = $ctrl;
         parent::__construct(false);
     }
 
@@ -44,6 +42,7 @@ class ilWebDAVSabreBrowserPlugin extends Plugin
      */
     public function generateDirectoryIndex($path)
     {
+        //        return parent::generateDirectoryIndex($path);
         $this->ctrl->redirectToURL($this->mount_instruction_path);
         return '';
     }

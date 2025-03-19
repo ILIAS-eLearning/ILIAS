@@ -310,15 +310,20 @@ class ilForumNotification
         global $DIC;
 
         if (!array_key_exists($ref_id, self::$node_data_cache)) {
+            $container_node = $DIC->repositoryTree()->getNodeData($ref_id);
+            if (!isset($container_node['child'])) {
+                return [];
+            }
+
             $node_data = $DIC->repositoryTree()->getSubTree(
-                $DIC->repositoryTree()->getNodeData($ref_id),
+                $container_node,
                 true,
                 ['frm']
             );
             $node_data = array_filter($node_data, static function (array $forum_node) use ($DIC, $ref_id): bool {
                 // filter out forum if a grp lies in the path (#0027702)
                 foreach ($DIC->repositoryTree()->getNodePath((int) $forum_node['child'], $ref_id) as $path_node) {
-                    $notRootNode = (int) $path_node['child'] !== (int) $ref_id;
+                    $notRootNode = (int) $path_node['child'] !== $ref_id;
                     $isGroup = $path_node['type'] === 'grp';
                     if ($notRootNode && $isGroup) {
                         return false;

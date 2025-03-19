@@ -196,7 +196,7 @@ class ilSoapAdministration
             case self::NUSOAP:
                 return new soap_fault($a_code, '', $a_message);
             case self::PHP5:
-                return new SoapFault($a_code, $a_message);
+                return new SoapFault((string) $a_code, $a_message);
         }
         return null;
     }

@@ -294,7 +294,7 @@ class ilDclTableViewEditGUI
 
     protected function checkAccess(string $cmd): bool
     {
-        if (in_array($cmd, ['add', 'create'])) {
+        if (in_array($cmd, ['add', 'create', 'cancel'])) {
             return ilObjDataCollectionAccess::hasAccessToEditTable(
                 $this->parent_obj->getParentObj()->getDataCollectionObject()->getRefId(),
                 $this->table->getId()
