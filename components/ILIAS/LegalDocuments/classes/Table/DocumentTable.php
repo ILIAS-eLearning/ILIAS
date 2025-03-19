@@ -33,7 +33,7 @@ use ILIAS\LegalDocuments\Value\Criterion;
 use ILIAS\LegalDocuments\Value\Document;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Table\Action\Single;
-use ILIAS\UI\Component\Table\OrderingBinding;
+use ILIAS\UI\Component\Table\OrderingRetrieval;
 use ILIAS\UI\Component\Table\OrderingRow;
 use ILIAS\UI\Component\Table\OrderingRowBuilder;
 use ILIAS\UI\Component\Table\Action\Multi;
@@ -45,7 +45,7 @@ use ilObjUser;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class DocumentTable implements OrderingBinding
+class DocumentTable implements OrderingRetrieval
 {
     public const CMD_EDIT_DOCUMENT = 'editDocument';
     public const CMD_DELETE_DOCUMENT = 'deleteDocument';
@@ -95,6 +95,8 @@ class DocumentTable implements OrderingBinding
         }
 
         $table = $uiTable->ordering(
+            $this,
+            (new URI((string) $this->request->getUri()))->withParameter('cmd', 'saveOrder'),
             $this->ui->txt('tbl_docs_title'),
             [
                 'title' => $uiTable->column()->text($this->ui->txt('tbl_docs_head_title')),
@@ -102,8 +104,6 @@ class DocumentTable implements OrderingBinding
                 'change' => $uiTable->column()->date($this->ui->txt('tbl_docs_head_last_change'), $date_format),
                 'criteria' => $uiTable->column()->text($this->ui->txt('tbl_docs_head_criteria')),
             ],
-            $this,
-            (new URI((string) $this->request->getUri()))->withParameter('cmd', 'saveOrder')
         )
             ->withId('legalDocsTable')
             ->withRequest($this->request);

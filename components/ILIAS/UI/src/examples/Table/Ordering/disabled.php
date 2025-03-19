@@ -56,7 +56,7 @@ function disabled()
             ->withHighlight(true)
     ];
 
-    $data_retrieval = new class ($f, $r) implements I\OrderingBinding {
+    $data_retrieval = new class ($f, $r) implements I\OrderingRetrieval {
         protected array $records;
 
         public function __construct(
@@ -87,7 +87,7 @@ function disabled()
      * Disable the ordering (e.g. due to missing permissions)
      */
     $target = (new URI((string) $request->getUri()));
-    $table = $f->table()->ordering('ordering table with disabled ordering', $columns, $data_retrieval, $target)
+    $table = $f->table()->ordering($data_retrieval, $target, 'ordering table with disabled ordering', $columns)
         ->withOrderingDisabled(true)
         ->withRequest($request);
 

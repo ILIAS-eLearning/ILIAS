@@ -42,9 +42,9 @@ class ilLanguageStatisticsTable implements DataTableInterface\DataRetrieval
     public function getTable(): DataTable\Data
     {
         return $this->ui_factory->table()->data(
+            $this,
             '',
             $this->getColums(),
-            $this
         );
     }
 

@@ -268,12 +268,12 @@ class Handler implements ilExportHandlerTableInterface
             return;
         }
         $this->table = $this->ui_services->factory()->table()->data(
-            $this->lng->txt("exp_export_files"),
-            $this->getColumns(),
             $this->export_handler->table()->dataRetrieval()
                 ->withExportOptions($this->export_options)
                 ->withExportObject($this->context->exportObject())
-                ->withExportGUI($this->context->exportGUIObject())
+                ->withExportGUI($this->context->exportGUIObject()),
+            $this->lng->txt("exp_export_files"),
+            $this->getColumns(),
         )
             ->withId(self::TABLE_ID)
             ->withActions($this->getActions())

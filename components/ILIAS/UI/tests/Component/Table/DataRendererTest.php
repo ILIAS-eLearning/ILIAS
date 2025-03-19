@@ -261,7 +261,7 @@ class DataRendererTest extends TableTestBase
         ];
         $sortation_signal = new I\Signal('sort_header_signal_id');
         $sortation_signal->addOption('value', 'f1:ASC');
-        $table = $this->getUIFactory()->table()->data('', $columns, $data)
+        $table = $this->getUIFactory()->table()->data($data, '', $columns)
             ->withRequest($this->getDummyRequest());
         $renderer->p_renderTableHeader($this->getDefaultRenderer(), $table, $tpl, $sortation_signal);
 
@@ -343,7 +343,7 @@ EOT;
 
         $sortation_signal = null;
 
-        $table = $this->getUIFactory()->table()->data('', $columns, $data)
+        $table = $this->getUIFactory()->table()->data($data, '', $columns)
             ->withRequest($this->getDummyRequest());
         $renderer->p_renderTableHeader($this->getDefaultRenderer(), $table, $tpl, $sortation_signal);
         $actual = $this->brutallyTrimHTML($tpl->get());
@@ -423,7 +423,7 @@ EOT;
 
         $sortation_signal = null;
 
-        $table = $this->getUIFactory()->table()->data('', $columns, $data)
+        $table = $this->getUIFactory()->table()->data($data, '', $columns)
             ->withActions($actions)
             ->withRequest($this->getDummyRequest());
         $renderer->p_renderActionsHeader($this->getDefaultRenderer(), $table, $tpl);
@@ -551,7 +551,7 @@ EOT;
             'f5' => $this->getUIFactory()->table()->column()->text('f5'),
         ];
 
-        $table = $this->getTableFactory()->data('', $columns, $data)
+        $table = $this->getTableFactory()->data($data, '', $columns)
             ->withRequest($this->getDummyRequest());
 
         $html = $this->getDefaultRenderer()->render($table);

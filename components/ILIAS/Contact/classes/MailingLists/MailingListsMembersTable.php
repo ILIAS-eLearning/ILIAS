@@ -55,12 +55,12 @@ class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
         return $this->ui_factory
             ->table()
             ->data(
+                $this,
                 \sprintf(
                     $this->lng->txt('mail_members_of_mailing_list'),
                     $this->mailing_list->getTitle()
                 ),
                 $columns,
-                $this
             )
             ->withId(self::class . '_' . $this->mailing_list->getId())
             ->withOrder(new \ILIAS\Data\Order('login', \ILIAS\Data\Order::ASC))

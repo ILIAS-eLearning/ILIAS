@@ -598,9 +598,9 @@ class ilTestArchiver
         );
 
         $table = $this->ui_factory->table()->data(
+            $this->getDataRetrievalForAttemptOverviewTable($result_array),
             $test_result_title_builder->getPassDetailsHeaderLabel($attempt + 1),
             $this->getColumnsForAttemptOverviewTable($test_obj->isOfferingQuestionHintsEnabled()),
-            $this->getDataRetrievalForAttemptOverviewTable($result_array)
         )->withRequest($this->request);
         $template->setVariable(
             'PASS_DETAILS',

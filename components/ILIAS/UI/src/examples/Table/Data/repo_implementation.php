@@ -72,9 +72,9 @@ class DataTableDemoRepo implements I\DataRetrieval
     public function getTableForRepresentation(): \ILIAS\UI\Implementation\Component\Table\Data
     {
         return $this->ui_factory->table()->data(
+            $this,
             'a data table from a repository',
             $this->getColumsForRepresentation(),
-            $this
         );
     }
 

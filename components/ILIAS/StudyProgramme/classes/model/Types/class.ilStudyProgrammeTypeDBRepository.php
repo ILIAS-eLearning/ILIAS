@@ -709,9 +709,9 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     public function getTable(): DataTable\Data
     {
         return $this->ui_factory->table()->data(
+            $this,
             $this->lng->txt('prg_subtypes'),
             $this->getColums(),
-            $this
         );
     }
 

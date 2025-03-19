@@ -273,12 +273,12 @@ class TableAdapterGUI
                     ILIAS_HTTP_PATH . '/' .
                     $this->ctrl->getLinkTarget($this->parent_gui, $this->order_cmd)
                 );
-                $table_retrieval = new OrderingBinding($this->retrieval);
+                $table_retrieval = new OrderingRetrieval($this->retrieval);
                 $this->table = $this
                     ->ui
                     ->factory()
                     ->table()
-                    ->ordering($this->title, $columns, $table_retrieval, $uri)
+                    ->ordering($table_retrieval, $uri, $this->title, $columns)
                     ->withId($this->id)
                     ->withActions($actions)
                     ->withRequest($this->http->request());
@@ -288,7 +288,7 @@ class TableAdapterGUI
                     ->ui
                     ->factory()
                     ->table()
-                    ->data($this->title, $columns, $table_retrieval)
+                    ->data($table_retrieval, $this->title, $columns)
                     ->withId($this->id)
                     ->withActions($actions)
                     ->withRequest($this->http->request());

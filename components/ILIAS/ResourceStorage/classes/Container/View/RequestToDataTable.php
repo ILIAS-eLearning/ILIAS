@@ -165,6 +165,7 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
     protected function buildTable(): Data
     {
         return $this->ui_factory->table()->data(
+            $this,
             $this->request->getTitle(), // we already have the title in the panel
             [
                 self::F_TITLE => $this->ui_factory->table()->column()->text(
@@ -181,7 +182,6 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
                     $this->language->txt(self::F_TYPE)
                 )->withIsSortable(true),
             ],
-            $this
         )->withRequest(
             $this->http->request()
         )->withActions(

@@ -90,7 +90,7 @@ function base()
         }
     };
 
-    $table = $f->table()->data('Boolean Columns', $columns, $data_retrieval)
+    $table = $f->table()->data($data_retrieval, 'Boolean Columns', $columns)
         ->withRequest($DIC->http()->request());
     return $r->render($table);
 }

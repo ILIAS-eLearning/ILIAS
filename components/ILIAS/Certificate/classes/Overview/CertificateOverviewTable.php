@@ -208,6 +208,7 @@ class CertificateOverviewTable implements DataRetrieval
             $date_format = $this->data_factory->dateFormat()->withTime24($this->user->getDateFormat());
         }
         return $ui_table->data(
+            $this,
             $this->lng->txt('certificates'),
             [
                 'certificate_id' => $ui_table->column()->text($this->lng->txt('certificate_id')),
@@ -216,7 +217,6 @@ class CertificateOverviewTable implements DataRetrieval
                 'obj_id' => $ui_table->column()->text($this->lng->txt('object_id')),
                 'owner' => $ui_table->column()->text($this->lng->txt('owner'))
             ],
-            $this
         )
             ->withOrder(new Order('issue_date', Order::DESC))
             ->withId('certificateOverviewTable')

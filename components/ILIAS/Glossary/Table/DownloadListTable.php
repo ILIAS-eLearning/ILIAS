@@ -58,7 +58,7 @@ class DownloadListTable
         $data_retrieval = $this->getDataRetrieval();
 
         $table = $this->ui_fac->table()
-                              ->data($this->lng->txt("download"), $columns, $data_retrieval)
+                              ->data($data_retrieval, $this->lng->txt("download"), $columns)
                               ->withId(
                                   self::class . "_" .
                                   $this->glossary->getRefId()

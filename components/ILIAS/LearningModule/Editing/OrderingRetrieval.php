@@ -25,7 +25,7 @@ use ILIAS\Data\Range;
 use ILIAS\Data\Order;
 use ILIAS\UI\Component\Table\OrderingRowBuilder;
 
-class OrderingBinding implements Table\OrderingBinding
+class OrderingRetrieval implements Table\OrderingRetrieval
 {
     public function __construct(
         protected RetrievalInterface $retrieval

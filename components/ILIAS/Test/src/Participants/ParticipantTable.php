@@ -319,9 +319,9 @@ class ParticipantTable implements DataRetrieval
         return $this->ui_factory
             ->table()
             ->data(
+                $this,
                 $this->lng->txt('list_of_participants'),
                 $this->getColumns(),
-                $this
             )
             ->withId(self::ID)
             ->withRequest($request)

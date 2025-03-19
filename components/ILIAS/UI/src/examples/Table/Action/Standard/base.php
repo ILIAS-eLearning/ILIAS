@@ -133,5 +133,5 @@ function getExampleTable($f)
             return 6;
         }
     };
-    return $f->table()->data('a data table with actions', $columns, $data_retrieval);
+    return $f->table()->data($data_retrieval, 'a data table with actions', $columns);
 }

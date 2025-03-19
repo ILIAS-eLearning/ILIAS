@@ -55,7 +55,7 @@ class TermUsagesTable
 
         $glo_id = \ilGlossaryTerm::_lookGlossaryID($this->term_id);
         $table = $this->ui_fac->table()
-                              ->data($this->lng->txt("cont_usage"), $columns, $data_retrieval)
+                              ->data($data_retrieval, $this->lng->txt("cont_usage"), $columns)
                               ->withId(
                                   self::class . "_" .
                                   $glo_id . "_" .

@@ -214,9 +214,9 @@ readonly class ServerTable implements \ILIAS\UI\Component\Table\DataRetrieval
         return $this->ui_factory
             ->table()
             ->data(
+                $this,
                 $this->lng->txt('ldap_servers'),
                 $this->getColumnDefinition(),
-                $this
             )
             ->withId(self::class)
             ->withOrder(new \ILIAS\Data\Order('title', \ILIAS\Data\Order::ASC))

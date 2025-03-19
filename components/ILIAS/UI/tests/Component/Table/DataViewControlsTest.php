@@ -63,7 +63,7 @@ class DataViewControlsTest extends TableTestBase
     protected function getTable(int $total_count, array $columns): array
     {
         $factory = $this->getTableFactory();
-        $table = $factory->data('Table', $columns, $this->getDataRetrieval($total_count));
+        $table = $factory->data($this->getDataRetrieval($total_count), 'Table', $columns);
         return $table->applyViewControls([], []);
     }
 

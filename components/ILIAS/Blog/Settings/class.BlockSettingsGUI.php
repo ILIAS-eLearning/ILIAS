@@ -25,7 +25,7 @@ use ILIAS\Blog\InternalGUIService;
 use ILIAS\Repository\Form\FormAdapterGUI;
 use ILIAS\Blog\InternalDataService;
 use ILIAS\UI\URLBuilder;
-use ILIAS\UI\Component\Table\OrderingBinding;
+use ILIAS\UI\Component\Table\OrderingRetrieval;
 use ILIAS\UI\Component\Table\OrderingRowBuilder;
 use ILIAS\Data\URI;
 use ILIAS\UI\Component\Table\Ordering;
@@ -85,7 +85,7 @@ class BlockSettingsGUI
             $settings,
             $this->obj_id,
             $this->in_repository
-        ) implements OrderingBinding {
+        ) implements OrderingRetrieval {
             protected array $records;
 
             public function __construct(
@@ -115,7 +115,7 @@ class BlockSettingsGUI
 
         $target = $ctrl->getLinkTargetByClass([self::class], "saveOrder");
         $target = (new URI(ILIAS_HTTP_PATH . "/" . $target));
-        $table = $f->table()->ordering($lng->txt("blog_nav_sortorder"), $columns, $data_retrieval, $target)
+        $table = $f->table()->ordering($data_retrieval, $target, $lng->txt("blog_nav_sortorder"), $columns)
                    ->withActions($actions)
                    ->withRequest($request);
 

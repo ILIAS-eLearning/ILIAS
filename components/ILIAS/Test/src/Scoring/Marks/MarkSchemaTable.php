@@ -50,6 +50,7 @@ class MarkSchemaTable implements DataRetrieval
         $f = $this->ui_factory->table();
 
         $table = $f->data(
+            $this,
             $this->lng->txt('mark_schema'),
             [
                 'name' => $f->column()->text($this->lng->txt('tst_mark_short_form')),
@@ -69,7 +70,6 @@ class MarkSchemaTable implements DataRetrieval
                     )
                 )
             ],
-            $this
         );
 
         if (!$this->marks_editable) {

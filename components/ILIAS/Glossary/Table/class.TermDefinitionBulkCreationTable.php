@@ -53,7 +53,7 @@ class TermDefinitionBulkCreationTable
         $data_retrieval = $this->getDataRetrieval();
 
         $table = $this->ui_fac->table()
-                              ->data($this->lng->txt("glo_term_definition_pairs"), $columns, $data_retrieval)
+                              ->data($data_retrieval, $this->lng->txt("glo_term_definition_pairs"), $columns)
                               ->withId(
                                   self::class . "_" .
                                   $this->glossary->getRefId()

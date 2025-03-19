@@ -58,7 +58,7 @@ class ForumModeratorsTable implements UI\Component\Table\DataRetrieval
 
         return $this->ui_factory
             ->table()
-            ->data($this->lng->txt('frm_moderators'), $columns, $this)
+            ->data($this, $this->lng->txt('frm_moderators'), $columns)
             ->withId(self::class . '_' . $this->forum_moderators->getRefId())
             ->withOrder(new \ILIAS\Data\Order('login', \ILIAS\Data\Order::ASC))
             ->withActions($actions)

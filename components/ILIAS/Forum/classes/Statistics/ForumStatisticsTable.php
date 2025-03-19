@@ -81,9 +81,9 @@ class ForumStatisticsTable implements DataRetrieval
         return $this->ui_factory
             ->table()
             ->data(
+                $this,
                 $this->lng->txt('frm_moderators'),
                 $this->getColumns(),
-                $this
             )
             ->withId(self::class . '_' . $this->forum->getId())
             ->withRequest($this->request);

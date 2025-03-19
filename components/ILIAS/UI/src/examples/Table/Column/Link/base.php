@@ -77,7 +77,7 @@ function base(): string
         }
     };
 
-    $table = $f->table()->data('Link Columns', $columns, $data_retrieval)
+    $table = $f->table()->data($data_retrieval, 'Link Columns', $columns)
         ->withRequest($DIC->http()->request());
     return $r->render($table);
 }

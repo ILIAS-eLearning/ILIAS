@@ -377,7 +377,7 @@ class ilOrgUnitPositionGUI extends BaseCommands
         ];
 
         return $this->ui_factory->table()
-            ->data('', $columns, $this->positionRepo)
+            ->data($this->positionRepo, '', $columns)
             ->withId('orgu_positions')
             ->withActions($actions);
     }

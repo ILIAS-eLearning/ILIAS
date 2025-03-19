@@ -134,7 +134,7 @@ class TermListTable
         }
 
         $table = $this->ui_fac->table()
-                              ->data($this->lng->txt("cont_terms"), $columns, $data_retrieval)
+                              ->data($data_retrieval, $this->lng->txt("cont_terms"), $columns)
                               ->withId(
                                   self::class . "_" .
                                   $this->glossary->getRefId()

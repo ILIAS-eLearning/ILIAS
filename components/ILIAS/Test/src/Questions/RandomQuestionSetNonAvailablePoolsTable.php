@@ -84,7 +84,7 @@ class RandomQuestionSetNonAvailablePoolsTable implements DataRetrieval
     public function getComponent(): DataTable
     {
         return $this->ui_factory->table()
-            ->data($this->lng->txt('tst_non_avail_pools_table'), $this->getColumns(), $this)
+            ->data($this, $this->lng->txt('tst_non_avail_pools_table'), $this->getColumns())
             ->withRequest($this->request)
             ->withActions($this->getActions())
             ->withId('tst_non_avail_pools_table');

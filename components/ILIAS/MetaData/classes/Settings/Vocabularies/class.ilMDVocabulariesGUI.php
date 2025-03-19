@@ -404,13 +404,13 @@ class ilMDVocabulariesGUI
         )->withAsync(true);
 
         return $this->ui_factory->table()->data(
-            $this->lng->txt('md_vocab_table_title'),
-            $columns,
             new DataRetrieval(
                 $this->vocab_manager,
                 $this->presentation,
                 $this->ui_factory
-            )
+            ),
+            $this->lng->txt('md_vocab_table_title'),
+            $columns,
         )->withActions($actions)->withRequest($this->http->request());
     }
 

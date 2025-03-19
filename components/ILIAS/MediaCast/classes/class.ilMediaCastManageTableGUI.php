@@ -239,7 +239,7 @@ class ilMediaCastManageTableGUI implements Table\DataRetrieval
         )->withAsync();
 
         $table = $f->table()
-                   ->data($this->lng->txt("mcst_items"), $this->getColumns(), $this)
+                   ->data($this, $this->lng->txt("mcst_items"), $this->getColumns())
                    ->withActions($actions)
                    ->withRequest($this->http->request());
         return $table;

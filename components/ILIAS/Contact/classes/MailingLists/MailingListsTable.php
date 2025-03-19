@@ -66,9 +66,9 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
         return $this->ui_factory
             ->table()
             ->data(
+                $this,
                 $this->lng->txt('mail_mailing_lists'),
                 $columns,
-                $this
             )
             ->withOrder(new \ILIAS\Data\Order('title', \ILIAS\Data\Order::ASC))
             ->withId(self::class)

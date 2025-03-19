@@ -61,9 +61,9 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
     public function getTable(): Table\Data
     {
         return $this->ui_factory->table()->data(
+            $this,
             $this->lng->txt('questions'),
             $this->getColums(),
-            $this
         )
         ->withActions($this->getActions())
         ->withId('qpt' . $this->parent_obj_id . '_' . $this->request_ref_id);

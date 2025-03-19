@@ -272,7 +272,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         );
 
         return $this->ui_factory->table()
-            ->data($position->getTitle(), $columns, $this->assignmentRepo)
+            ->data($this->assignmentRepo, $position->getTitle(), $columns)
             ->withId(implode('.', ['orgustaff',$this->getParentRefId(),$position->getId()]))
             ->withActions($actions)
             ->withAdditionalParameters([

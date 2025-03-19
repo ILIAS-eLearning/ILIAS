@@ -76,7 +76,7 @@ function base()
         }
     };
 
-    $table = $f->table()->data('Text Columns', $columns, $data_retrieval)
+    $table = $f->table()->data($data_retrieval, 'Text Columns', $columns)
         ->withRequest($DIC->http()->request());
     return $r->render($table);
 }

@@ -287,9 +287,9 @@ class ilBadgePersonalTableGUI implements DataRetrieval
         $table = $this->factory
             ->table()
             ->data(
+                $this,
                 $this->lng->txt('badge_personal_badges'),
                 $this->getColumns($date_format),
-                $this
             )
             ->withId(self::class)
             ->withOrder(new Order('title', Order::ASC))

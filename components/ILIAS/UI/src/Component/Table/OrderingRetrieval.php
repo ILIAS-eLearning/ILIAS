@@ -22,7 +22,7 @@ namespace ILIAS\UI\Component\Table;
 
 use Generator;
 
-interface OrderingBinding
+interface OrderingRetrieval
 {
     /**
      * This is called by the (ordering-)table to retrieve rows;

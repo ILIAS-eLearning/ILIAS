@@ -60,9 +60,9 @@ final class ilSamlIdpTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
         return $this->ui_factory
             ->table()
             ->data(
+                $this,
                 $this->lng->txt('auth_saml_idps'),
                 $this->getColumnDefinition(),
-                $this
             )
             ->withId(self::class)
             ->withOrder(new \ILIAS\Data\Order('title', \ILIAS\Data\Order::ASC))

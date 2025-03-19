@@ -137,9 +137,9 @@ class ilDidacticTemplateSettingsTableGUI
         }
 
         return $this->ui_factory->table()->data(
+            $data_retrieval,
             $this->lng->txt('didactic_available_templates'),
             $columns,
-            $data_retrieval
         )
             ->withActions($actions)
             ->withRequest($this->http->request());

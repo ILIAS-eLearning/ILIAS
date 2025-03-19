@@ -68,12 +68,12 @@ class ilDashboardPageLanguageSelectGUI
         );
 
         $table = $this->dic->ui()->factory()->table()->data(
+            new Language(),
             $this->dic->language()->txt('dash_co_lang'),
             [
                 'name' => $this->dic->ui()->factory()->table()->column()->text($this->dic->language()->txt('language'))->withIsSortable(false),
                 'user_count' => $this->dic->ui()->factory()->table()->column()->text($this->dic->language()->txt('users'))->withIsSortable(false)
             ],
-            new Language()
         )->withActions($actions);
 
         $this->dic->ui()->mainTemplate()->setContent(

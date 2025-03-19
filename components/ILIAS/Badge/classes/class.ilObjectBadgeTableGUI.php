@@ -350,7 +350,7 @@ class ilObjectBadgeTableGUI implements DataRetrieval
 
         $table = $this->factory
             ->table()
-            ->data($this->lng->txt('badge_object_badges'), $this->getColumns(), $this)
+            ->data($this, $this->lng->txt('badge_object_badges'), $this->getColumns())
             ->withId(self::class)
             ->withOrder(new Order('title', Order::ASC))
             ->withActions($this->getActions($url_builder, $action_parameter_token, $row_id_token))

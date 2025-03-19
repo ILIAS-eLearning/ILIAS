@@ -448,7 +448,7 @@ class JobTable implements \ILIAS\UI\Component\Table\DataRetrieval
     {
         return $this->ui_factory
             ->table()
-            ->data($this->lng->txt('cron_jobs'), $this->getColumns(), $this)
+            ->data($this, $this->lng->txt('cron_jobs'), $this->getColumns())
             ->withActions($this->getActions())
             ->withId(self::class)
             ->withRequest($this->request)

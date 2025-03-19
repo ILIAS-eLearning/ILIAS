@@ -72,7 +72,7 @@ function base()
         }
     };
 
-    $table = $f->table()->data('Status Columns', $columns, $data_retrieval)
+    $table = $f->table()->data($data_retrieval, 'Status Columns', $columns)
         ->withRequest($DIC->http()->request());
     return $r->render($table);
 }

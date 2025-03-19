@@ -25,12 +25,12 @@ use ILIAS\Test\Questions\Properties\Repository as TestQuestionsRepository;
 use ILIAS\Test\Questions\Properties\Properties as TestQuestionProperties;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Table\Ordering;
-use ILIAS\UI\Component\Table\OrderingBinding;
+use ILIAS\UI\Component\Table\OrderingRetrieval;
 use ILIAS\UI\Component\Table\OrderingRowBuilder;
 use ILIAS\Language\Language;
 use Psr\Http\Message\ServerRequestInterface;
 
-class QuestionsTable implements OrderingBinding
+class QuestionsTable implements OrderingRetrieval
 {
     /**
      * @param array $data <string, mixed>
@@ -49,10 +49,10 @@ class QuestionsTable implements OrderingBinding
     public function getTableComponent(): Ordering
     {
         $table = $this->ui_factory->table()->ordering(
+            $this,
+            $this->table_actions->getOrderActionUrl(),
             $this->lng->txt('list_of_questions'),
             $this->getColumns(),
-            $this,
-            $this->table_actions->getOrderActionUrl()
         )
         ->withId((string) $this->test_obj->getId())
         ->withActions($this->table_actions->getActions())

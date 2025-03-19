@@ -425,7 +425,7 @@ class ilOrgUnitTypeGUI
         ];
 
         return $this->ui_factory->table()
-            ->data('', $columns, $this->getTableDataRetrieval())
+            ->data($this->getTableDataRetrieval(), '', $columns)
             ->withId('orgu_types')
             ->withActions($actions);
     }

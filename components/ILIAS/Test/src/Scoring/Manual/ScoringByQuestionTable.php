@@ -64,6 +64,7 @@ class ScoringByQuestionTable
 
         $f = $this->ui_factory->table();
         $table = $f->data(
+            $data_retrieval->withFilterData($ui_service->filter()->getData($filter) ?? []),
             $title,
             [
                 self::COLUMN_NAME => $f->column()->text($this->lng->txt('name'))->withIsSortable(true),
@@ -87,7 +88,6 @@ class ScoringByQuestionTable
                 self::COLUMN_FINALIZED_BY => $f->column()->text($this->lng->txt('finalized_by'))->withIsSortable(true),
                 self::COLUMN_FINALIZED_ON => $f->column()->date($this->lng->txt('finalized_on'), $date_format)->withIsSortable(true)
             ],
-            $data_retrieval->withFilterData($ui_service->filter()->getData($filter) ?? [])
         )->withActions(
             [
                 self::ACTION_SCORING => $f->action()->single(

@@ -26,13 +26,13 @@ use ILIAS\UI\Component\Table\Ordering;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
-use ILIAS\UI\Component\Table\OrderingBinding;
+use ILIAS\UI\Component\Table\OrderingRetrieval;
 use ILIAS\UI\Component\Table\OrderingRowBuilder;
 use ILIAS\GlobalScreen\UI\Footer\Groups\Group;
 use ILIAS\GlobalScreen_\UI\UIHelper;
 use ILIAS\GlobalScreen\UI\Footer\Translation\TranslationsRepository;
 
-class EntriesTable implements OrderingBinding
+class EntriesTable implements OrderingRetrieval
 {
     use Hasher;
     use UIHelper   ;
@@ -90,6 +90,8 @@ class EntriesTable implements OrderingBinding
         return $this->ui_factory
             ->table()
             ->ordering(
+                $this,
+                $here_uri,
                 $this->group->getTitle(),
                 [
                     self::COLUMN_TITLE => $this->ui_factory->table()->column()->text(
@@ -99,8 +101,6 @@ class EntriesTable implements OrderingBinding
                         $this->translator->translate('active', 'entry')
                     )
                 ],
-                $this,
-                $here_uri
             )
             ->withRequest($this->request)
             ->withActions(

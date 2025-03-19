@@ -68,7 +68,7 @@ class AssignedObjectsTable
         $data_retrieval = $this->getDataRetrieval();
 
         $table = $this->ui_fac->table()
-                              ->data($this->lng->txt("skmg_assigned_objects"), $columns, $data_retrieval)
+                              ->data($data_retrieval, $this->lng->txt("skmg_assigned_objects"), $columns)
                               ->withId(
                                   self::class . "_" .
                                   $this->parent_obj::class . "_" .

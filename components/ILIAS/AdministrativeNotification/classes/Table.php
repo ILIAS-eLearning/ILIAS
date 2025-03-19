@@ -54,9 +54,9 @@ class Table
         $data_retrieval = new DataRetrieval();
 
         $this->components[] = $this->ui_factory->table()->data(
+            $data_retrieval,
             $this->lng->txt('notifications'),
             $columns,
-            $data_retrieval
         )->withActions($actions)->withRequest(
             $DIC->http()->request()
         );
