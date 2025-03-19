@@ -120,6 +120,8 @@ il.TestPlayerQuestionEditControl = new function() {
     var navUrl = '';
 
 
+  this.ready = false;
+
     /**
 	 * Initialize the Control
      * @public
@@ -194,11 +196,13 @@ il.TestPlayerQuestionEditControl = new function() {
             $('#ilQuestionForceFormDiffInput').hide();
         }
 
+        this.ready = true;
+
         // Delayed start of timer functions
         // This gives question scripts some time to initialize
         setTimeout(startTimers, START_TIMERS_DELAY);
-
     };
+
 
     /**
      * Set the answer being changed and stick this
