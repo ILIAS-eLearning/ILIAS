@@ -379,15 +379,15 @@ class ilDclBaseRecordModel
     {
         $this->loadRecordFields();
         if (ilDclStandardField::_isStandardField($field_id)) {
-            if ($field_id == 'owner') {
+            if ($field_id === 'owner') {
                 $worksheet->setCell($row, $col, ilObjUser::_lookupLogin($this->getOwner()));
                 $col++;
                 $name_array = ilObjUser::_lookupName($this->getOwner());
                 $worksheet->setCell($row, $col, $name_array['lastname'] . ', ' . $name_array['firstname']);
-            } elseif ('last_update') {
+            } elseif ($field_id === 'last_update') {
                 $date_time = $this->getLastUpdate()->get(IL_CAL_DATETIME, '', $this->user->getTimeZone());
                 $worksheet->setCell($row, $col, $date_time);
-            } elseif ('create_date') {
+            } elseif ($field_id === 'create_date') {
                 $date_time = $this->getCreateDate()->get(IL_CAL_DATETIME, '', $this->user->getTimeZone());
                 $worksheet->setCell($row, $col, $date_time);
             } else {
