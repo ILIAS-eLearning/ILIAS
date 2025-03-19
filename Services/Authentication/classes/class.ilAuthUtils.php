@@ -86,6 +86,8 @@ class ilAuthUtils
     private const AUTH_USER_TIME_LIMIT_EXCEEDED = -602;
     private const AUTH_USER_SIMULTANEOUS_LOGIN = -603;
 
+    public const REGEX_DELIMITERS = ['/', '~', '@', ';', '%', '`', '#'];
+
     /**
      * Check if authentication is should be forced.
      */
