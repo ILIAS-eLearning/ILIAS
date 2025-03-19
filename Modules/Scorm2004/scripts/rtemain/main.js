@@ -1355,6 +1355,12 @@ function sendAndLoad(url, data, callback, user, password, headers)
 function sendJSONRequest (url, data, callback, user, password, headers) 
 {
 	function unloadChrome() {
+		
+		//CPKN Patch for Safari page unload in Courses.
+		if (navigator.userAgent.indexOf("Safari") > -1) {
+			return true;
+		}
+
 		if (navigator.userAgent.indexOf("Chrom") > -1) {
 			if (
                    (

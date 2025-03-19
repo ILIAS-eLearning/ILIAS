@@ -92,6 +92,11 @@ function sendRequest (url, data, callback, user, password, headers) {
                 return true;
             }
 		}
+		//CPKN Patch for Safari page unload in Courses.
+		if (navigator.userAgent.indexOf("Safari") > -1) {
+			return true;
+		}
+
 		return false;
 	}
 
