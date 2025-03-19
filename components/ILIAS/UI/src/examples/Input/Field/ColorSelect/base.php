@@ -1,29 +1,13 @@
 <?php
 
-/**
- * This file is part of ILIAS, a powerful learning management system
- * published by ILIAS open source e-Learning e.V.
- *
- * ILIAS is licensed with the GPL-3.0,
- * see https://www.gnu.org/licenses/gpl-3.0.en.html
- * You should have received a copy of said license along with the
- * source code, too.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- *
- *********************************************************************/
-
 declare(strict_types=1);
 
-namespace ILIAS\UI\examples\Input\Field\ColorPicker;
+namespace ILIAS\UI\examples\Input\Field\ColorSelect;
 
 /**
  * ---
  * description: >
- *   Base example showing how to plug a colorpicker into a form
+ *   Base example showing how to plug a Colour Select Field into a form.
  *
  * expected output: >
  *   ILIAS shows the rendered Component.
@@ -38,7 +22,7 @@ function base()
     $request = $DIC->http()->request();
 
     //Step 1: Define the input field
-    $color_input = $ui->input()->field()->colorpicker("Color", "click to select a color");
+    $color_input = $ui->input()->field()->colorSelect("Color", "click to select a color");
 
     //Step 2: Define the form and attach the field.
     $form = $ui->input()->container()->form()->standard('#', ['color' => $color_input]);

@@ -29,7 +29,7 @@ use ILIAS\Data;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 
-class ColorPickerInputTest extends ILIAS_UI_TestBase
+class ColorSelectTest extends ILIAS_UI_TestBase
 {
     use CommonFieldRendering;
 
@@ -43,9 +43,9 @@ class ColorPickerInputTest extends ILIAS_UI_TestBase
     public function testImplementsFactoryInterface(): void
     {
         $f = $this->getFieldFactory();
-        $cp = $f->colorpicker("label", "byline");
+        $cp = $f->colorSelect("label", "byline");
         $this->assertInstanceOf(\ILIAS\UI\Component\Input\Container\Form\FormInput::class, $cp);
-        $this->assertInstanceOf(Field\ColorPicker::class, $cp);
+        $this->assertInstanceOf(Field\ColorSelect::class, $cp);
     }
 
     public function testRender(): void
@@ -53,12 +53,12 @@ class ColorPickerInputTest extends ILIAS_UI_TestBase
         $f = $this->getFieldFactory();
         $label = "label";
         $byline = "byline";
-        $cp = $f->colorpicker($label, $byline)->withNameFrom($this->name_source);
+        $cp = $f->colorSelect($label, $byline)->withNameFrom($this->name_source);
 
         $expected = $this->getFormWrappedHtml(
-            'color-picker-field-input',
+            'color-select-field-input',
             $label,
-            '<input id="id_1" type="color" name="name_0" value="" class="c-field-color-picker"/>',
+            '<input id="id_1" type="color" name="name_0" value="" class="c-field-color-select"/>',
             $byline,
             'id_1'
         );
@@ -69,13 +69,13 @@ class ColorPickerInputTest extends ILIAS_UI_TestBase
     {
         $f = $this->getFieldFactory();
         $label = "label";
-        $colorpicker = $f->colorpicker($label, null)->withNameFrom($this->name_source);
+        $color_select = $f->colorSelect($label, null)->withNameFrom($this->name_source);
 
-        $this->testWithError($colorpicker);
-        $this->testWithNoByline($colorpicker);
-        $this->testWithRequired($colorpicker);
-        $this->testWithDisabled($colorpicker);
-        $this->testWithAdditionalOnloadCodeRendersId($colorpicker);
+        $this->testWithError($color_select);
+        $this->testWithNoByline($color_select);
+        $this->testWithRequired($color_select);
+        $this->testWithDisabled($color_select);
+        $this->testWithAdditionalOnloadCodeRendersId($color_select);
     }
 
     public function testRenderValue(): void
@@ -84,14 +84,14 @@ class ColorPickerInputTest extends ILIAS_UI_TestBase
         $label = "label";
         $byline = "byline";
         $value = "value_0";
-        $cp = $f->colorpicker($label, $byline)
+        $cp = $f->colorSelect($label, $byline)
                 ->withValue($value)
                 ->withNameFrom($this->name_source);
 
         $expected = $this->getFormWrappedHtml(
-            'color-picker-field-input',
+            'color-select-field-input',
             $label,
-            '<input id="id_1" type="color" name="name_0" value="value_0" class="c-field-color-picker"/>',
+            '<input id="id_1" type="color" name="name_0" value="value_0" class="c-field-color-select"/>',
             $byline,
             'id_1'
         );
@@ -104,7 +104,7 @@ class ColorPickerInputTest extends ILIAS_UI_TestBase
         $label = "label";
         $byline = "byline";
         $name = "name_0";
-        $cp = $f->colorpicker($label, $byline)
+        $cp = $f->colorSelect($label, $byline)
                 ->withNameFrom($this->name_source)
                 ->withRequired(true);
 
@@ -124,8 +124,8 @@ class ColorPickerInputTest extends ILIAS_UI_TestBase
     public function testNullValue(): void
     {
         $f = $this->getFieldFactory();
-        $colorpicker = $f->colorpicker("label", "byline");
+        $color_select = $f->colorSelect("label", "byline");
         $this->expectException(\InvalidArgumentException::class);
-        $colorpicker->withValue(null);
+        $color_select->withValue(null);
     }
 }

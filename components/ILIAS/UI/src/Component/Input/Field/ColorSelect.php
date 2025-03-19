@@ -25,6 +25,6 @@ use ILIAS\UI\Component\Input\Container\Form\FormInput;
 /**
  * @author Patrick Bechtold <patrick.bechtold@kroepelin-projekte.de>
  */
-interface ColorPicker extends FormInput
+interface ColorSelect extends FormInput
 {
 }

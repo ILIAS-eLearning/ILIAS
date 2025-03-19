@@ -244,7 +244,7 @@ class GlobalTestSettings
                     $lng->txt('ass_process_lock')
                 )->withByline($lng->txt('ass_process_lock_desc'))
                 ->withValue($this->process_lock_mode === ProcessLockModes::ASS_PROC_LOCK_MODE_NONE ? null : [$this->process_lock_mode->value]),
-                'image_map_line_color' => $ff->colorPicker($lng->txt('imap_line_color'))
+                'image_map_line_color' => $ff->colorSelect($lng->txt('imap_line_color'))
                     ->withValue('#' . $this->image_map_line_color),
                 'user_identifier' => $ff->select(
                     $lng->txt('user_criteria'),

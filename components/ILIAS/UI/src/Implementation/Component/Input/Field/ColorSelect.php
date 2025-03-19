@@ -29,7 +29,7 @@ use Closure;
 /**
  * @author Patrick Bechtold <patrick.bechtold@kroepelin-projekte.de>
  */
-class ColorPicker extends FormInput implements C\Input\Field\ColorPicker
+class ColorSelect extends FormInput implements C\Input\Field\ColorSelect
 {
     /**
      * Input constructor.

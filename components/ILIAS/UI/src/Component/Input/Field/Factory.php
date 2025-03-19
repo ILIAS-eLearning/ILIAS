@@ -711,9 +711,9 @@ interface Factory
      * ---
      * @param string      $label
      * @param string|null $byline
-     * @return \ILIAS\UI\Component\Input\Field\ColorPicker
+     * @return \ILIAS\UI\Component\Input\Field\ColorSelect
      */
-    public function colorPicker(string $label, ?string $byline = null): ColorPicker;
+    public function colorSelect(string $label, ?string $byline = null): ColorSelect;
 
     /**
      * ---
