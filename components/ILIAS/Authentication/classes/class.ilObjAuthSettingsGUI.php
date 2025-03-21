@@ -1152,7 +1152,11 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                     'apache_ldap_sid' => $data['apache_enable_ldap'][$field] ?? '',
                     default => $data[$field],
                 };
-                $settings->set($field, (string) ($value === false ? "0" : $value));
+
+                $settings->set(
+                    $field,
+                    ilUtil::stripSlashes(trim((string) ($value === false ? "0" : $value)))
+                );
             }
 
             if ($data[$field] ?? false) {
