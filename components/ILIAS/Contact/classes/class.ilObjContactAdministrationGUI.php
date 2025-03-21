@@ -113,6 +113,8 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
             [
                 'enable' => $checkbox,
             ]
+        )->withSubmitLabel(
+            $this->checkPermissionBool('write') ? $this->lng->txt('save') : $this->lng->txt('refresh')
         );
     }
 
