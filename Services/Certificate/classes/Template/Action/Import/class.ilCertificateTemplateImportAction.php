@@ -92,7 +92,7 @@ class ilCertificateTemplateImportAction
 
         $clean_up_import_dir = function () use (&$importPath) {
             if ($this->filesystem->hasDir($importPath)) {
-                $this->filesystem->deleteDir($importPath);
+                ilFileUtils::delDir($importPath);
             }
         };
 
@@ -110,6 +110,7 @@ class ilCertificateTemplateImportAction
         );
 
         $unzipped = $unzip->extract();
+        $unzip->close();
         if (!$unzipped) {
             $clean_up_import_dir();
             return false;
