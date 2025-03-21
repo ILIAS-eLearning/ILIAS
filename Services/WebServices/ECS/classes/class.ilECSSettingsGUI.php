@@ -518,7 +518,7 @@ class ilECSSettingsGUI
      */
     protected function loadFromPost(): void
     {
-        $this->settings->setEnabledStatus((bool) $_POST['active']);
+        $this->settings->setEnabledStatus((bool) ($_POST['active'] ?? false));
         $this->settings->setTitle(ilUtil::stripSlashes($_POST['title']));
         $this->settings->setServer(ilUtil::stripSlashes($_POST['server']));
         $this->settings->setPort((int) ilUtil::stripSlashes($_POST['port']));
