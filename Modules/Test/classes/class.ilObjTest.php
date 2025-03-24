@@ -3653,7 +3653,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $a_xml_writer->xmlElement(
                 "fieldentry",
                 null,
-                $this->buildIso8601PeriodFromUnixTimeForExportCompatibility(
+                $this->buildIso8601PeriodForExportCompatibility(
                     $this->getScoreSettings()->getResultSummarySettings()->getReportingDate(),
                 ),
             );
@@ -3909,7 +3909,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $a_xml_writer->xmlElement(
                 "fieldentry",
                 null,
-                $this->buildIso8601PeriodFromUnixTimeForExportCompatibility(
+                $this->buildIso8601PeriodForExportCompatibility(
                     (new DateTimeImmutable())->setTimestamp($this->getStartingTime()),
                 ),
             );
@@ -3922,7 +3922,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $a_xml_writer->xmlElement(
                 "fieldentry",
                 null,
-                $this->buildIso8601PeriodFromUnixTimeForExportCompatibility(
+                $this->buildIso8601PeriodForExportCompatibility(
                     (new DateTimeImmutable())->setTimestamp($this->getEndingTime()),
                 ),
             );
@@ -4055,7 +4055,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         return $xml;
     }
 
-    protected function buildIso8601PeriodFromUnixTimeForExportCompatibility(DateTimeImmutable $date_time): string
+    protected function buildIso8601PeriodForExportCompatibility(DateTimeImmutable $date_time): string
     {
         return $date_time->setTimezone(new DateTimeZone('UTC'))->format('\PY\Yn\Mj\D\TG\Hi\Ms\S');
     }
