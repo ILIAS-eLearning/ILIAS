@@ -261,28 +261,11 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
             }
         }
 
-        $orderByDate = static function (BlockDTO $left, BlockDTO $right, bool $asc = true): int {
-            if ($left->getStartDate() && $right->getStartDate() && $left->getStartDate()->get(
-                IL_CAL_UNIX
-            ) < $right->getStartDate()->get(IL_CAL_UNIX)) {
-                return $asc ? -1 : 1;
-            }
-
-            if ($left->getStartDate() && $right->getStartDate() && $left->getStartDate()->get(
-                IL_CAL_UNIX
-            ) > $right->getStartDate()->get(IL_CAL_UNIX)) {
-                return $asc ? 1 : -1;
-            }
-
-            return strcmp($left->getTitle(), $right->getTitle());
-        };
-
-        uasort($groups['upcoming'], $orderByDate);
-        uasort($groups['ongoing'], static fn(BlockDTO $left, BlockDTO $right): int => $orderByDate($left, $right, false));
-        uasort($groups['ended'], $orderByDate);
-        $groups['not_dated'] = $this->sortByTitle($groups['not_dated']);
-
         foreach ($groups as $key => $group) {
+            $group = $this->sortByTitle($group);
+            if ($key !== 'not_dated') {
+                $group = $this->sortByDate($group, $key === 'upcoming');
+            }
             $groups[$this->lng->txt('pd_' . $key)] = $group;
             unset($groups[$key]);
         }
@@ -596,9 +579,23 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
     /**
      * @param BlockDTO[] $data
      */
+    private function sortByDate(array $data, bool $asc = true): array
+    {
+        usort(
+            $data,
+            static fn(BlockDTO $left, BlockDTO $right): int =>
+            ($asc ? -1 : 1) *
+            (($right->getStartDate()?->get(IL_CAL_UNIX) ?? 0) - ($left->getStartDate()?->get(IL_CAL_UNIX) ?? 0))
+        );
+        return $data;
+    }
+
+    /**
+     * @param BlockDTO[] $data
+     */
     private function sortByTitle(array $data): array
     {
-        uasort(
+        usort(
             $data,
             static fn(BlockDTO $left, BlockDTO $right): int => strcmp($left->getTitle(), $right->getTitle())
         );
