@@ -1258,6 +1258,7 @@ assessment#:#toplist_col_percentage#:#Prozentwert
 assessment#:#toplist_col_rank#:#Platz
 assessment#:#toplist_col_score#:#Punktzahl
 assessment#:#toplist_col_wtime#:#Bearbeitungszeit
+assessment#:#total_max_points_cannot_be_negative#:#Die maximale Anzahl von erreichbaren Punkten kann nich negativ sein.
 assessment#:#true#:#Wahr
 assessment#:#tst_access_code_created#:#Damit Sie dauerhaften Zugriff auf Ihre Testergebnisse haben und einen unterbrochenen Test wieder aufnehmen können, wurde für Sie ein persönlicher Zugangsschlüssel erzeugt. Bitte notieren Sie sich den nachfolgenden Code, um später den Test fortführen zu können.
 assessment#:#tst_activate_skill_service#:#Kompetenzen

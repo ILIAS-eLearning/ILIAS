@@ -1258,6 +1258,7 @@ assessment#:#toplist_col_percentage#:#Percentage
 assessment#:#toplist_col_rank#:#Rank
 assessment#:#toplist_col_score#:#Score
 assessment#:#toplist_col_wtime#:#Working Time
+assessment#:#total_max_points_cannot_be_negative#:#The maximum amount of reachable points cannot be negative.
 assessment#:#true#:#True
 assessment#:#tst_access_code_created#:#To provide you with permanent access to your test results and to offer you a possibility to resume this test, a unique test access code was created. Please make a note of this code so that you can continue the test later.
 assessment#:#tst_activate_skill_service#:#Competence Service
