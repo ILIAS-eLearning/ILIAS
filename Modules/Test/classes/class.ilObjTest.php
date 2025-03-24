@@ -3654,7 +3654,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 "fieldentry",
                 null,
                 $this->buildIso8601PeriodFromUnixTimeForExportCompatibility(
-                    $this->getScoreSettings()->getResultSummarySettings()->getReportingDate()->getTimestamp(),
+                    $this->getScoreSettings()->getResultSummarySettings()->getReportingDate(),
                 ),
             );
             $a_xml_writer->xmlEndTag("qtimetadatafield");
@@ -3909,7 +3909,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $a_xml_writer->xmlElement(
                 "fieldentry",
                 null,
-                $this->buildIso8601PeriodFromUnixTimeForExportCompatibility($this->getStartingTime()),
+                $this->buildIso8601PeriodFromUnixTimeForExportCompatibility(
+                    (new DateTimeImmutable())->setTimestamp($this->getStartingTime()),
+                ),
             );
             $a_xml_writer->xmlEndTag("qtimetadatafield");
         }
@@ -3920,7 +3922,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $a_xml_writer->xmlElement(
                 "fieldentry",
                 null,
-                $this->buildIso8601PeriodFromUnixTimeForExportCompatibility($this->getEndingTime()),
+                $this->buildIso8601PeriodFromUnixTimeForExportCompatibility(
+                    (new DateTimeImmutable())->setTimestamp($this->getEndingTime()),
+                ),
             );
             $a_xml_writer->xmlEndTag("qtimetadatafield");
         }
@@ -4051,12 +4055,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         return $xml;
     }
 
-    protected function buildIso8601PeriodFromUnixTimeForExportCompatibility(int $unix_timestamp): string
+    protected function buildIso8601PeriodFromUnixTimeForExportCompatibility(DateTimeImmutable $date_time): string
     {
-        $date_time = (new DateTime('now', new DateTimeZone('UTC')))->setTimestamp($unix_timestamp);
-        $minutes_without_leading_zeros = (int) $date_time->format('i');
-        $seconds_without_leading_zeros = (int) $date_time->format('s');
-        return "{$date_time->format('\PY\Yn\Mj\D\TG\H')}{$minutes_without_leading_zeros}M{$seconds_without_leading_zeros}S";
+        return $date_time->setTimezone(new DateTimeZone('UTC'))->format('\PY\Yn\Mj\D\TG\Hi\Ms\S');
     }
 
     protected function buildDateTimeImmutableFromPeriod(?string $period): ?DateTimeImmutable
