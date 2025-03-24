@@ -70,7 +70,6 @@ class TestResultManager
         return ($status = $this->readOrQueryStatus($user_id, $test_obj_id)) !== null && $status['finished'];
     }
 
-
     public function getTestResult(int $active_id): ?TestResult
     {
         $result = $this->db->queryF(
@@ -79,18 +78,6 @@ class TestResultManager
             [$active_id]
         );
 
-        return self::toTestResult($this->db->fetchAssoc($result));
-    }
-
-    public function getTestResultByParticipant(int $user_id, int $test_id): ?TestResult
-    {
-        $result = $this->db->queryF(
-            "SELECT tst_result_cache.*  FROM tst_result_cache
-                    INNER JOIN tst_active ON tst_active.active_id = tst_result_cache.active_fi
-                    WHERE tst_active.user_fi = %s AND tst_active.test_fi = %s",
-            [\ilDBConstants::T_INTEGER, \ilDBConstants::T_INTEGER],
-            [$user_id, $test_id]
-        );
         return self::toTestResult($this->db->fetchAssoc($result));
     }
 
