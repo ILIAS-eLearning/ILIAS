@@ -247,7 +247,8 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         }
         $actions = $this->getPossibleActions(
             $row->isRootProgress(),
-            $row->getStatusRaw()
+            $row->getStatusRaw(),
+            $row->getNodeLifecycleStatus()
         );
 
         $this->tpl->setVariable(
@@ -406,7 +407,8 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
      */
     protected function getPossibleActions(
         bool $is_root,
-        int $status
+        int $status,
+        int $node_lifecyle_status
     ): array {
         $actions = [];
 
@@ -432,7 +434,9 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         ) {
             $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_UNMARK_RELEVANT;
         }
-        if ($status == ilPRGProgress::STATUS_NOT_RELEVANT) {
+        if ($status == ilPRGProgress::STATUS_NOT_RELEVANT
+            && $node_lifecyle_status == ilStudyProgrammeAssessmentSettings::STATUS_ACTIVE
+        ) {
             $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_MARK_RELEVANT;
         }
         if ($status == ilPRGProgress::STATUS_COMPLETED ||

@@ -199,6 +199,8 @@ class ilStudyProgrammeUserTable
             $points_reachable = (string) $pgs->getAmountOfPoints();
         }
 
+        $prg_lifecycle_status = $prg_node->getStatus();
+
         $row = $row
             ->withUserActiveRaw($ass->getUserInformation()->isActive())
             ->withUserActive($this->activeToRepresent($ass->getUserInformation()->isActive()))
@@ -238,6 +240,7 @@ class ilStudyProgrammeUserTable
             )
             ->withValidity($show_lp ? $this->validToRepresent($pgs) : '')
             ->withRestartDate($ass->getRestartDate() ? $ass->getRestartDate()->format($this->getUserDateFormat()) : '')
+            ->withNodeLifecycleStatus($prg_lifecycle_status)
         ;
         return $row;
     }
