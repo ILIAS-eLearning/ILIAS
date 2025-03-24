@@ -37,7 +37,7 @@ class ilCertificateTemplateImportAction
         private readonly int $objectId,
         private readonly string $certificatePath,
         private readonly ilCertificatePlaceholderDescription $placeholderDescriptionObject,
-        ilLogger $logger,
+        private readonly ilLogger $logger,
         private readonly Filesystem $filesystem,
         ?ilCertificateTemplateRepository $templateRepository = null,
         ?ilCertificateObjectHelper $objectHelper = null,
@@ -92,7 +92,7 @@ class ilCertificateTemplateImportAction
 
         $clean_up_import_dir = function () use (&$importPath) {
             if ($this->filesystem->hasDir($importPath)) {
-                ilFileUtils::delDir($importPath);
+                $this->filesystem->deleteDir($importPath);
             }
         };
 
@@ -110,15 +110,11 @@ class ilCertificateTemplateImportAction
         );
 
         $unzipped = $unzip->extract();
-        $unzip->close();
         if (!$unzipped) {
             $clean_up_import_dir();
             return false;
         }
 
-        if ($this->filesystem->has($importPath . $filename)) {
-            $this->filesystem->delete($importPath . $filename);
-        }
 
         $xmlFiles = 0;
         $contents = $this->filesystem->listContents($importPath);
