@@ -121,7 +121,7 @@ class CachedRepository implements Repository
             'description' => [\ilDBConstants::T_TEXT, $properties->getPropertyTitleAndDescription()->getDescription()],
             'owner' => [\ilDBConstants::T_INTEGER, $properties->getOwner()],
             'create_date' => [\ilDBConstants::T_DATETIME, $properties->getCreateDate()?->format('Y-m-d H:i:s')],
-            'last_update' => [\ilDBConstants::T_DATETIME, (new DateTimeImmutable('now', new DateTimeZone('UTC')))->format('Y-m-d H:i:s')],
+            'last_update' => [\ilDBConstants::T_DATETIME, (new \DateTimeImmutable('now', new \DateTimeZone('UTC')))->format('Y-m-d H:i:s')],
             'import_id' => [\ilDBConstants::T_TEXT, $properties->getImportId()],
             'offline' => [\ilDBConstants::T_INTEGER, (int) !$properties->getPropertyIsOnline()->getIsOnline()],
             'tile_image_rid' => [\ilDBConstants::T_TEXT, $properties->getPropertyTileImage()->getTileImage()->getRid()]
@@ -217,8 +217,8 @@ class CachedRepository implements Repository
                 'type' => $row['type'],
                 'owner' => $row['owner'],
                 'import_id' => $row['import_id'],
-                'create_date' => $row['create_date'] !== null ? new DateTimeImmutable($row['create_date']) : null,
-                'update_date' => $row['last_update'] !== null ? new DateTimeImmutable($row['last_update']) : null
+                'create_date' => $row['create_date'] !== null ? new \DateTimeImmutable($row['create_date']) : null,
+                'update_date' => $row['last_update'] !== null ? new \DateTimeImmutable($row['last_update']) : null
             ];
         }
 

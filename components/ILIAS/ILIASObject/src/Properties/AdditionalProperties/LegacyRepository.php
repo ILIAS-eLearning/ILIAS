@@ -163,7 +163,7 @@ class LegacyRepository implements Repository
         return (bool) \ilSetting::_lookupValue('common', 'custom_icons');
     }
 
-    private function storeIcon(\ilObjectPropertyIcon $property_icon): void
+    private function storeIcon(Icon $property_icon): void
     {
         if ($property_icon->getDeletedFlag()) {
             $property_icon->getCustomIcon()->remove();

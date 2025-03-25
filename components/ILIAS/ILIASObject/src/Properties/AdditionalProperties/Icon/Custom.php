@@ -33,7 +33,7 @@ class Custom
     public function __construct(
         protected Filesystem $filesystem,
         protected FileUpload $upload,
-        protected \ilObjectCustomIconConfiguration $config,
+        protected Configuration $config,
         protected int $objId
     ) {
     }

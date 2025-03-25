@@ -407,9 +407,9 @@ class ilObjectGUI implements ImplementsCreationCallback
             $dispatcher->setSubObject($sub_type, $sub_id);
 
             ilObjectListGUI::prepareJsLinks(
-                $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
+                $this->ctrl->getLinkTarget($this, 'redrawHeaderAction', '', true),
                 "",
-                $this->ctrl->getLinkTargetByClass(["ilcommonactiondispatchergui", "iltagginggui"], "", "", true)
+                $this->ctrl->getLinkTargetByClass([ilCommonActionDispatcherGUI::class, ilTaggingGUI::class], '', '', true)
             );
 
             $lg = $dispatcher->initHeaderAction();

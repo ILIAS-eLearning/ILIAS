@@ -38,8 +38,8 @@ class CoreProperties
     private ?int $object_id = null;
     private ?string $type = null;
     private ?int $owner = null;
-    private ?DateTimeImmutable $create_date = null;
-    private ?DateTimeImmutable $update_date = null;
+    private ?\DateTimeImmutable $create_date = null;
+    private ?\DateTimeImmutable $update_date = null;
     private ?string $import_id = '';
 
     /**
@@ -86,12 +86,12 @@ class CoreProperties
         return $clone;
     }
 
-    public function getCreateDate(): ?DateTimeImmutable
+    public function getCreateDate(): ?\DateTimeImmutable
     {
         return $this->create_date;
     }
 
-    public function getLastUpdateDate(): ?DateTimeImmutable
+    public function getLastUpdateDate(): ?\DateTimeImmutable
     {
         return $this->update_date;
     }
@@ -197,7 +197,7 @@ class CoreProperties
             if ($value === 'bool' && !is_bool($data[$key])) {
                 return false;
             }
-            if ($value === 'DateTimeImmutable' && !$data[$key] instanceof DateTimeImmutable) {
+            if ($value === 'DateTimeImmutable' && !$data[$key] instanceof \DateTimeImmutable) {
                 return false;
             }
         }

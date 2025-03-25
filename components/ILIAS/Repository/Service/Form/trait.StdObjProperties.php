@@ -22,12 +22,11 @@ namespace ILIAS\Repository\Form;
 
 use ILIAS\Object\ilObjectDIC;
 use ILIAS\DI\Container;
-use ILIAS\ILIASObject\Properties\Agregator;
 use ILIAS\ILIASObject\Properties\CoreProperties\TitleAndDescription;
 
 trait StdObjProperties
 {
-    protected Agregator $object_prop;
+    protected \ilObjectPropertiesAgregator $object_prop;
 
     protected function initStdObjProperties(Container $DIC)
     {

@@ -97,7 +97,7 @@ class Icon implements Property
             return null;
         }
         $trafo = $refinery->custom()->transformation(
-            function ($v): ?ilObjectProperty {
+            function ($v): ?Property {
                 $property_icon = new self(
                     $this->custom_icons_enabled,
                     $this->custom_icon

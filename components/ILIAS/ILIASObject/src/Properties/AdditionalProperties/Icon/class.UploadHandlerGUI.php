@@ -72,7 +72,7 @@ class UploadHandlerGUI extends AbstractCtrlAwareUploadHandler implements \ilCtrl
         if ($this->has_access === false) {
             return $this->getAccessFailureResult(
                 $this->getFileIdentifierParameterName(),
-                $file_name,
+                $tempfile,
                 $this->language
             );
         }
