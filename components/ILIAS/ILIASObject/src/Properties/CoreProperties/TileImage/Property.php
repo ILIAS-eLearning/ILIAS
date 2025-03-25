@@ -90,7 +90,7 @@ class Property implements PropertyInterface
         );
 
         $tile_image = $field_factory
-            ->file(new UploadHandlerGUI($this->tile_image), $language->txt(self::INPUT_LABEL), $language->txt(self::INPUT_BYLINE))
+            ->file(new \TileImageUploadHandlerGUI($this->tile_image), $language->txt(self::INPUT_LABEL), $language->txt(self::INPUT_BYLINE))
             ->withAcceptedMimeTypes(self::SUPPORTED_MIME_TYPES)
             ->withAdditionalTransformation($trafo);
 

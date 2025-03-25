@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\ILIASObject\Properties\AdditionalProperties\Icon;
-
 use ILIAS\ILIASObject\Properties\UploadSecurityFunctionsTrait;
+use ILIAS\ILIASObject\Properties\AdditionalProperties\Icon\Custom;
+use ILIAS\ILIASObject\Properties\AdditionalProperties\Icon\Icon;
 use ILIAS\FileUpload\Handler\AbstractCtrlAwareUploadHandler;
 use ILIAS\FileUpload\Handler\BasicFileInfoResult;
 use ILIAS\FileUpload\Handler\BasicHandlerResult;
@@ -33,7 +33,7 @@ use ILIAS\FileUpload\MimeType;
  *
  * @author Stephan Kergomard <webmaster@kergomard.ch>
  */
-class UploadHandlerGUI extends AbstractCtrlAwareUploadHandler implements \ilCtrlBaseClassInterface
+class CustomIconUploadHandlerGUI extends AbstractCtrlAwareUploadHandler implements \ilCtrlBaseClassInterface
 {
     use UploadSecurityFunctionsTrait;
 

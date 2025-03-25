@@ -18,9 +18,10 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\ILIASObject\Properties\CoreProperties\TileImage;
-
 use ILIAS\ILIASObject\Properties\UploadSecurityFunctionsTrait;
+use ILIAS\ILIASObject\Properties\CoreProperties\TileImage\TileImage;
+use ILIAS\ILIASObject\Properties\CoreProperties\TileImage\Stakeholder;
+use ILIAS\ILIASObject\Properties\CoreProperties\TileImage\FlavourDefinition;
 use ILIAS\ResourceStorage\Services as ResourceStorageServices;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\FileUpload\Handler\AbstractCtrlAwareUploadHandler;
@@ -34,7 +35,7 @@ use ILIAS\FileUpload\DTO\UploadResult;
  *
  * @author Stephan Kergomard <webmaster@kergomard.ch>
  */
-class UploadHandlerGUI extends AbstractCtrlAwareUploadHandler implements \ilCtrlBaseClassInterface
+class TileImageUploadHandlerGUI extends AbstractCtrlAwareUploadHandler implements \ilCtrlBaseClassInterface
 {
     use UploadSecurityFunctionsTrait;
 

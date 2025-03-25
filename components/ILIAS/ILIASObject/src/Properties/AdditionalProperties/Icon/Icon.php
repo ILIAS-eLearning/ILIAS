@@ -117,7 +117,7 @@ class Icon implements Property
             }
         );
         $custom_icon = $field_factory
-            ->file(new UploadHandlerGUI($this->custom_icon), $language->txt(self::INPUT_LABEL))
+            ->file(new \CustomIconUploadHandlerGUI($this->custom_icon), $language->txt(self::INPUT_LABEL))
             ->withAcceptedMimeTypes(self::SUPPORTED_MIME_TYPES)
             ->withAdditionalTransformation($trafo);
 
