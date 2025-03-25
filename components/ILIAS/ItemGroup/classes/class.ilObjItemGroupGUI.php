@@ -17,14 +17,14 @@
  *********************************************************************/
 
 use ILIAS\ItemGroup\StandardGUIRequest;
-use ILIAS\ILIASObject\Translations\TranslationGUI;
+use ILIAS\ILIASObject\Properties\Translations\TranslationsGUI;
 
 /**
  * User Interface class for item groups
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilObjItemGroupGUI: ilPermissionGUI, ilDidacticTemplateGUI
  * @ilCtrl_Calls ilObjItemGroupGUI: ilCommonActionDispatcherGUI, ilObjectCopyGUI,
- * @ilCtrl_Calls ilObjItemGroupGUI: ILIAS\ILIASObject\Translations\TranslationGUI,
+ * @ilCtrl_Calls ilObjItemGroupGUI: ILIAS\ILIASObject\Properties\Translations\TranslationsGUI,
  * @ilCtrl_isCalledBy ilObjItemGroupGUI: ilRepositoryGUI, ilAdministrationGUI
  */
 class ilObjItemGroupGUI extends ilObject2GUI

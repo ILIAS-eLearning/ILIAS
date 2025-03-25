@@ -22,7 +22,7 @@ use ILIAS\ContentPage\PageMetrics\Command\StorePageMetricsCommand;
 use ILIAS\ContentPage\PageMetrics\PageMetricsRepositoryImp;
 use ILIAS\ContentPage\PageMetrics\PageMetricsService;
 use ILIAS\Style\Content\DomainService;
-use ILIAS\ILIASObject\Translations\Translation;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
 {

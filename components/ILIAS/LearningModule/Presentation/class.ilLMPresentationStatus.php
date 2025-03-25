@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\ILIASObject\Translations\Translation;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 /**
  * Contains info on offline mode, focus, translation, etc.
@@ -34,7 +34,7 @@ class ilLMPresentationStatus
     protected string $requested_focus_return;
     protected string $requested_focus_id;
     protected string $requested_transl;
-    protected Translation $ot;
+    protected Translations $ot;
     protected ilObjLearningModule $lm;
     protected string $lang;
     protected int $focus_id = 0;
@@ -45,7 +45,7 @@ class ilLMPresentationStatus
         ilObjUser $user,
         ilObjLearningModule $lm,
         ilLMTree $lm_tree,
-        Translation $ot,
+        Translations $ot,
         string $requested_transl = "",
         string $requested_focus_id = "",
         string $requested_focus_return = "",

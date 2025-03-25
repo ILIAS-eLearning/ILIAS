@@ -25,7 +25,7 @@ use ILIAS\Export\ExportHandler\I\Consumer\Context\HandlerInterface as ilExportHa
 use ILIAS\Export\ExportHandler\I\Consumer\File\Identifier\CollectionInterface as ilExportHandlerConsumerFileIdentifierCollectionInterface;
 use ILIAS\Export\ExportHandler\I\Consumer\File\Identifier\HandlerInterface as ilExportHandlerConsumerFileIdentifierInterface;
 use ILIAS\Export\ExportHandler\I\Info\File\CollectionInterface as ilExportHandlerFileInfoCollectionInterface;
-use ILIAS\ILIASObject\Translations\Translation;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 use ILIAS\DI\Container;
 
 class ilMediaPoolExportOptionXMLMaster extends ilBasicLegacyExportOption

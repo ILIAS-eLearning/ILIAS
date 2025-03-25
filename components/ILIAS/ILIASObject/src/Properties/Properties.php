@@ -26,10 +26,13 @@ use ILIAS\ILIASObject\Properties\AdditionalProperties\Simple\TitleAndIconVisibil
 use ILIAS\ILIASObject\Properties\AdditionalProperties\AdditionalProperties;
 use ILIAS\ILIASObject\Properties\AdditionalProperties\Repository as AdditionalPropertiesRepository;
 use ILIAS\ILIASObject\Properties\AdditionalProperties\Icon\Icon;
-use ILIAS\ILIASObject\Properties\CoreProperties\CoreProperties\Online;
+use ILIAS\ILIASObject\Properties\CoreProperties\CoreProperties;
+use ILIAS\ILIASObject\Properties\CoreProperties\Online;
 use ILIAS\ILIASObject\Properties\CoreProperties\TitleAndDescription;
 use ILIAS\ILIASObject\Properties\CoreProperties\Repository as CorePropertiesRepository;
 use ILIAS\ILIASObject\Properties\CoreProperties\TileImage\Property as PropertyTileImage;
+use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRepository;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 use ILIAS\MetaData\Elements\Data\Type as LOMType;
 
@@ -40,6 +43,8 @@ class Properties
         private CorePropertiesRepository $core_properties_repository,
         private AdditionalProperties $additional_properties,
         private AdditionalPropertiesRepository $additional_properties_repository,
+        private ?Translations $translations,
+        private TranslationsRepository $translations_repository,
         private LOMServices $lom_services
     ) {
     }
@@ -192,6 +197,29 @@ class Properties
         $this->additional_properties = $this->additional_properties_repository->store(
             $this->additional_properties
             ->withPropertyIcon($property_icon)
+        );
+    }
+
+    public function getPropertyTranslations(): Translations
+    {
+        return $this->translations;
+    }
+
+    public function storePropertyTranslations(
+        Translations $translations
+    ): void {
+        $this->translations = $this->translations_repository->store($translations);
+    }
+
+    public function deletePropertyTranslations(): void
+    {
+        $this->translations_repository->delete($this->translations->getObjId());
+    }
+
+    public function clonePropertyTranslations(int $new_obj_id): Translations
+    {
+        return $this->translations_repository->store(
+            $this->translations->copy($new_obj_id)
         );
     }
 

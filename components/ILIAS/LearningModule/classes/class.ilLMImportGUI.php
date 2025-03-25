@@ -17,7 +17,7 @@
  *********************************************************************/
 
 use ILIAS\LearningModule\Editing\EditingGUIRequest;
-use ILIAS\ILIASObject\Translations\Translation;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 /**
  * Import related features for learning modules
@@ -30,7 +30,7 @@ class ilLMImportGUI
     protected ilGlobalTemplateInterface $tpl;
     protected ilObjLearningModule $lm;
     protected EditingGUIRequest $request;
-    protected Translation $ot;
+    protected Translations $ot;
     public function __construct(ilObjLearningModule $a_lm)
     {
         global $DIC;
@@ -47,7 +47,7 @@ class ilLMImportGUI
         $this->lng = $DIC->language();
         $this->tpl = $DIC["tpl"];
         $this->lm = $a_lm;
-        $this->ot = new Translation($DIC->database(), $this->lm->getId());
+        $this->ot = $this->lm->getObjectProperties()->getPropertyTranslations();
     }
 
     public function executeCommand(): void

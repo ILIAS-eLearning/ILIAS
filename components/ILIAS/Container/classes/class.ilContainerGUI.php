@@ -22,7 +22,7 @@ use ILIAS\DI\UIServices;
 use ILIAS\Repository\Clipboard\ClipboardManager;
 use ILIAS\Container\StandardGUIRequest;
 use ILIAS\Container\Content\ModeManager;
-use ILIAS\ILIASObject\Translations\TranslationGUI;
+use ILIAS\ILIASObject\Properties\Translations\TranslationsGUI;
 
 /**
  * Class ilContainerGUI
@@ -2224,7 +2224,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     {
         $trans = null;
         if ($this->getCreationMode() === false) {
-            /** @var ILIAS\ILIASObject\Translations\Translation $trans */
+            /** @var ILIAS\ILIASObject\Properties\Translations\Translations $trans */
             $trans = $this->object->getObjectTranslation();
         }
         $title = new ilTextInputGUI($this->lng->txt("title"), "title");

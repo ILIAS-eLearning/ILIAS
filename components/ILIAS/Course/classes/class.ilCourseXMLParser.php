@@ -18,7 +18,7 @@
 
 declare(strict_types=0);
 
-use ILIAS\ILIASObject\Translations\Translation;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 /**
  * Course XML Parser
@@ -61,7 +61,7 @@ class ilCourseXMLParser extends ilSaxParser implements ilSaxSubsetParser
         $this->log = $DIC->logger()->crs();
         $this->setting = $DIC->settings();
         $this->course_obj = $a_course_obj;
-        $this->translation = new Translation($DIC->database(), $this->course_obj->getId());
+        $this->translation = $this->course_obj->getObjectProperties()->getPropertyTranslations();
         $this->course_members = ilCourseParticipants::_getInstanceByObjId($this->course_obj->getId());
         $this->course_waiting_list = new ilCourseWaitingList($this->course_obj->getId());
         // flip the array so we can use array_key_exists

@@ -19,7 +19,7 @@
 namespace ILIAS\Container\Page;
 
 use ILIAS\Container\InternalDomainService;
-use ILIAS\ILIASObject\Translations\Translation;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -43,7 +43,7 @@ class PageManager
         $this->container = $container;
         $user = $this->domain_service->user();
         if (is_null($lang)) {
-            $ot = new Translation($db, $this->container->getId());
+            $ot = $this->container->getObjectProperties()->getPropertyTranslations();
             $this->lang = $ot->getEffectiveCOPageLang($user->getCurrentLanguage(), "cont");
         } else {
             $this->lang = $lang;

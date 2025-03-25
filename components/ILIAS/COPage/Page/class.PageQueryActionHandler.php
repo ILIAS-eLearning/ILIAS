@@ -23,7 +23,7 @@ use ILIAS\COPage\Editor\Server;
 use ParagraphStyleSelector;
 use SectionStyleSelector;
 use MediaObjectStyleSelector;
-use ILIAS\ILIASObject\Translations\Translation;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -40,7 +40,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     protected Server\UIWrapper $ui_wrapper;
     protected \ilCtrl $ctrl;
     protected \ilComponentFactory $component_factory;
-    protected Translation $translation;
+    protected Translations $translation;
 
     public function __construct(\ilPageObjectGUI $page_gui, string $pc_id = "")
     {

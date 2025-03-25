@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\ILIASObject\Translations\Translation;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 /**
  * Class ilObjItemGroup
@@ -122,7 +122,7 @@ class ilObjItemGroup extends ilObject2
         $lng = $DIC->language();
 
         // add default translation
-        $obj_trans = new Translation($this->db, $this->getId());
+        $obj_trans = $this->getObjectProperties()->getPropertyTranslations();
         $obj_trans->addLanguage(
             $lng->getDefaultLanguage(),
             $this->getTitle(),
@@ -130,7 +130,7 @@ class ilObjItemGroup extends ilObject2
             true,
             true
         );
-        $obj_trans->save();
+        $this->getObjectProperties()->storePropertyTranslations($obj_trans);
     }
 
     protected function doUpdate(): void
@@ -138,11 +138,10 @@ class ilObjItemGroup extends ilObject2
         if ($this->getId()) {
             $this->item_data_ar->update();
 
-            $trans = new Translation($this->db, $this->getId());
-            ;
+            $trans = $this->getObjectProperties()->getPropertyTranslations();
             $trans->setDefaultTitle($this->getTitle());
             $trans->setDefaultDescription($this->getLongDescription());
-            $trans->save();
+            $this->getObjectProperties()->storePropertyTranslations($obj_trans);
         }
     }
 
@@ -163,15 +162,12 @@ class ilObjItemGroup extends ilObject2
 
 
         // translations
-        $ot = new Translation($this->db, $this->getId());
-        $ot->copy($new_obj->getId());
-        $ot2 = new Translation($this->db, $new_obj->getId());
-        $ot2->read();
-        if ($ot2->getDefaultTitle() !== "") {
-            $new_obj->setTitle($ot2->getDefaultTitle());
+        $ot = $this->getObjectProperties()->clonePropertyTranslations($new_obj->getId());
+        if ($ot->getDefaultTitle() !== "") {
+            $new_obj->setTitle($ot->getDefaultTitle());
         }
-        if ($ot2->getDefaultDescription() !== "") {
-            $new_obj->setDescription($ot2->getDefaultDescription());
+        if ($ot->getDefaultDescription() !== "") {
+            $new_obj->setDescription($ot->getDefaultDescription());
         }
 
         $new_obj->update();

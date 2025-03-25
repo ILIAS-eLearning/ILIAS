@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\OrgUnit\Provider\OrgUnitToolProvider;
-use ILIAS\ILIASObject\Translations\TranslationGUI;
+use ILIAS\ILIASObject\Properties\Translations\TranslationsGUI;
 
 /**
  * Class ilObjOrgUnit GUI class
@@ -33,7 +33,7 @@ use ILIAS\ILIASObject\Translations\TranslationGUI;
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilDidacticTemplateGUI, illearningprogressgui
- * @ilCtrl_Calls      ilObjOrgUnitGUI: ILIAS\ILIASObject\Translations\TranslationGUI, ilLocalUserGUI, ilOrgUnitExportGUI
+ * @ilCtrl_Calls      ilObjOrgUnitGUI: ILIAS\ILIASObject\Properties\Translations\TranslationsGUI, ilLocalUserGUI, ilOrgUnitExportGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilExtIdGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitSimpleImportGUI, ilOrgUnitSimpleUserImportGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitTypeGUI, ilOrgUnitPositionGUI

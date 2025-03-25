@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\ILIASObject\Translations\Translation;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 /**
  * TableGUI class for wiki page templates
@@ -26,7 +26,7 @@ use ILIAS\ILIASObject\Translations\Translation;
 class ilWikiPageTemplatesTableGUI extends ilTable2GUI
 {
     protected \ILIAS\Wiki\Page\PageManager $pm;
-    protected Translation $ot;
+    protected Translations $ot;
     protected ilAccessHandler $access;
 
     public function __construct(

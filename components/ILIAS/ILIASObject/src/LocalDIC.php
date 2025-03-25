@@ -32,7 +32,7 @@ use ILIAS\ILIASObject\Properties\ObjectReferenceProperties\CachedRepository as O
 use ILIAS\ILIASObject\Properties\ObjectReferenceProperties\AvailabilityPeriod\CachedRepository as AvailabilityPeriodRepository;
 use ILIAS\ILIASObject\Properties\Agregator;
 use ILIAS\ILIASObject\Properties\MultiPropertiesManipulator;
-use ILIAS\ILIASObject\Translations\DatabaseRepository;
+use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRepository;
 use Pimple\Container as PimpleContainer;
 use ILIAS\DI\Container as ILIASContainer;
 
@@ -65,6 +65,7 @@ class LocalDIC extends PimpleContainer
         $this['properties.agregator'] = fn($c): Agregator => new Agregator(
             $c['properties.core.repository'],
             $c['properties.additional.repository'],
+            $c['properties.translations.repository'],
             $c['properties.object_type_specific.factory'],
             $DIC['learning_object_metadata']
         );
@@ -122,8 +123,8 @@ class LocalDIC extends PimpleContainer
                 $DIC['ilDB'],
                 $DIC['tree']
             );
-        $this['translations.repository'] = fn($c): DatabaseRepository
-            => new DatabaseRepository(
+        $this['properties.translations.repository'] = fn($c): TranslationsRepository
+            => new TranslationsRepository(
                 $DIC['ilDB']
             );
     }

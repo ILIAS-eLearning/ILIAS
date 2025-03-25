@@ -20,9 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\ILIASObject\Properties;
 
-use ILIAS\ILIASObject\Properties\AdditionalProperties\Repository as AdditonalPropertiesRepository;
+use ILIAS\ILIASObject\Properties\AdditionalProperties\Repository as AdditionalPropertiesRepository;
 use ILIAS\ILIASObject\Properties\CoreProperties\Repository as CorePropertiesRepository;
 use ILIAS\ILIASObject\Properties\ObjectTypeSpecificProperties\Factory as ObjectTypeSpecificPropertiesFactory;
+use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRepository;
 use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 
 /**
@@ -33,10 +34,11 @@ use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 class Agregator
 {
     public function __construct(
-        private CorePropertiesRepository $core_properties_repository,
-        private AdditionalPropertiesRepository $additional_properties_repository,
-        private ObjectTypeSpecificPropertiesFactory $object_type_specific_properties_factory,
-        private LOMServices $lom_services
+        private readonly CorePropertiesRepository $core_properties_repository,
+        private readonly AdditionalPropertiesRepository $additional_properties_repository,
+        private readonly TranslationsRepository $translations_repository,
+        private readonly ObjectTypeSpecificPropertiesFactory $object_type_specific_properties_factory,
+        private readonly LOMServices $lom_services
     ) {
     }
 
@@ -49,6 +51,8 @@ class Agregator
             $this->core_properties_repository,
             $this->additional_properties_repository->getFor($object_id),
             $this->additional_properties_repository,
+            $this->translations_repository->getFor($object_id),
+            $this->translations_repository,
             $this->lom_services
         );
     }

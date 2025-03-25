@@ -18,7 +18,12 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\ILIASObject\Translations;
+namespace ILIAS\ILIASObject\Properties\Translations;
+
+use ILIAS\ILIASObject\Properties\Property;
+use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * Class handles translation mode for an object.
@@ -44,7 +49,7 @@ namespace ILIAS\ILIASObject\Translations;
  *   otherwise the fallback language, if content is available, otherwise the
  *   master language
  */
-class Translation
+class Translations implements Property
 {
     /**
      *
@@ -80,6 +85,14 @@ class Translation
     public function getLanguages(): array
     {
         return $this->languages;
+    }
+
+    public function toForm(
+        \ilLanguage $language,
+        FieldFactory $field_factory,
+        Refinery $refinery
+    ): ?FormInput {
+        return null;
     }
 
     public function addLanguage(

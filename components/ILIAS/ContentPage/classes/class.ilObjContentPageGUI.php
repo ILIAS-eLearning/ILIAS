@@ -25,8 +25,8 @@ use ILIAS\ContentPage\PageMetrics\Event\PageUpdatedEvent;
 use ILIAS\DI\Container;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
-use ILIAS\ILIASObject\Translations\Translation;
-use ILIAS\ILIASObject\Translations\TranslationGUI;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
+use ILIAS\ILIASObject\Properties\Translations\TranslationsGUI;
 
 /**
  * @ilCtrl_isCalledBy ilObjContentPageGUI: ilRepositoryGUI
@@ -39,7 +39,7 @@ use ILIAS\ILIASObject\Translations\TranslationGUI;
  * @ilCtrl_Calls      ilObjContentPageGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilContentPagePageGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilObjectContentStyleSettingsGUI
- * @ilCtrl_Calls      ilObjContentPageGUI: ILIAS\ILIASObject\Translations\TranslationGUI
+ * @ilCtrl_Calls      ilObjContentPageGUI: ILIAS\ILIASObject\Properties\Translations\TranslationsGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilPageMultiLangGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilMDEditorGUI
  */
@@ -56,7 +56,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
     private readonly \ILIAS\DI\UIServices $uiServices;
     private readonly bool $in_page_editor_style_context;
     private readonly LOMServices $lom_services;
-    private readonly Translation $translation;
+    private readonly Translations $translation;
 
     public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
@@ -93,7 +93,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $this->content_style_gui = $cs->gui();
         if (is_object($this->object)) {
             $this->content_style_domain = $cs->domain()->styleForRefId($this->object->getRefId());
-            $this->translation = new Translation($DIC->database(), $this->object->getId());
+            $this->translation = $this->object->getObjectProperties()->getPropertyTranslations();
         }
 
         $this->in_page_editor_style_context = $this->http->wrapper()->query()->has(

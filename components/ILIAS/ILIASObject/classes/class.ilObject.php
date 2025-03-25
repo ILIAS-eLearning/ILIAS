@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ILIAS\ILIASObject\LocalDIC;
 use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 use ILIAS\ILIASObject\Properties\Properties;
-use ILIAS\ILIASObject\Translations\Translation;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 /**
  * Class ilObject
@@ -1668,7 +1668,7 @@ class ilObject
             return $this->getTitle();
         }
 
-        $obj_translations = new Translation($this->db, $this->getId());
+        $obj_translations = $this->getObjectProperties()->getPropertyTranslations();
 
         $other_children_of_same_type = $this->tree->getChildsByType($target_id, $this->type);
 
@@ -1690,11 +1690,11 @@ class ilObject
     }
 
     private function appendCopyInfoToTranslations(
-        Translation $obj_translations,
+        Translations $obj_translations,
         array $other_children_of_same_type
     ): string {
         $nodes_translations = array_map(
-            fn(array $child): Translation =>
+            fn(array $child): Translations =>
                 new Translation($this->db, $child['obj_id']),
             $other_children_of_same_type
         );
@@ -1730,7 +1730,7 @@ class ilObject
 
     private function getCallbackForTitlesPerLanguageTransformation(): callable
     {
-        return function (array $npl, ?Translation $nt): array {
+        return function (array $npl, ?Translations $nt): array {
             $langs = $nt->getLanguages();
             foreach ($langs as $lang) {
                 if (!array_key_exists($lang->getLanguageCode(), $npl)) {

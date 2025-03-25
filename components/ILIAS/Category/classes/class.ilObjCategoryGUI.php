@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Category\StandardGUIRequest;
-use ILIAS\ILIASObject\Translations\TranslationGUI;
+use ILIAS\ILIASObject\Properties\Translations\TranslationsGUI;
 
 /**
  * Class ilObjCategoryGUI
@@ -29,7 +29,7 @@ use ILIAS\ILIASObject\Translations\TranslationGUI;
  *
  * @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilContainerPageGUI, ilObjUserGUI, ilObjUserFolderGUI
  * @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI, ilObjStyleSheetGUI, ilCommonActionDispatcherGUI,
- * @ilCtrl_Calls ilObjCategoryGUI: ILIAS\ILIASObject\Translations\TranslationGUI, ilObjectContentStyleSettingsGUI
+ * @ilCtrl_Calls ilObjCategoryGUI: ILIAS\ILIASObject\Properties\Translations\TranslationsGUI, ilObjectContentStyleSettingsGUI
  * @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI, ilDidacticTemplateGUI, ilExportGUI
  * @ilCtrl_Calls ilObjCategoryGUI: ilTaxonomySettingsGUI, ilObjectMetaDataGUI, ilContainerNewsSettingsGUI, ilContainerFilterAdminGUI
  * @ilCtrl_Calls ilObjCategoryGUI: ilRepositoryTrashGUI
@@ -738,7 +738,7 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
         $this->tabs_gui->addSubTab(
             "settings_trans",
             $this->lng->txt("obj_multilinguality"),
-            $this->ctrl->getLinkTargetByClass(TranslationGUI::class, "")
+            $this->ctrl->getLinkTargetByClass(TranslationsGUI::class, "")
         );
 
         //news tab

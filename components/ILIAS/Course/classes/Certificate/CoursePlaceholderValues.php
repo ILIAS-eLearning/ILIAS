@@ -25,7 +25,7 @@ use ilLanguage;
 use ilException;
 use ilDatabaseException;
 use ilDateTimeException;
-use ILIAS\ILIASObject\Translations\Translation as ilObjectTranslation;
+use ILIAS\ILIASObject\Properties\Translations\Translations as ilObjectTranslation;
 use ilCertificateDateHelper;
 use ilLegacyFormElementsUtil;
 use ilCertificateObjectHelper;

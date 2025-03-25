@@ -32,7 +32,7 @@ use ilCertificateObjectHelper;
 use ilDefaultPlaceholderValues;
 use PHPUnit\Framework\TestCase;
 use ILIAS\ILIASObject\Translations\Language as ilObjectTranslationLanguage;
-use ILIAS\ILIASObject\Translations\Translation;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 use ilObjectCustomUserFieldsPlaceholderValues;
 
 /**

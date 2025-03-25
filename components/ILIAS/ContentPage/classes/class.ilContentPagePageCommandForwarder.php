@@ -22,7 +22,7 @@ use ILIAS\ContentPage\PageMetrics\Event\PageUpdatedEvent;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Style\Content\Object\ObjectFacade;
-use ILIAS\ILIASObject\Translations\Translation;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
 {
@@ -54,7 +54,7 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
         protected ilTabsGUI $tabs,
         protected ilLanguage $lng,
         protected ilObjContentPage $parentObject,
-        protected Translation $translation,
+        protected Translations $translation,
         protected ilObjUser $actor,
         protected Refinery $refinery,
         protected ObjectFacade $content_style_domain

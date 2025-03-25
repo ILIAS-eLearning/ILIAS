@@ -21,8 +21,8 @@ use ILIAS\GlobalScreen\ScreenContext\ContextServices;
 use ILIAS\Wiki\WikiGUIRequest;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\Wiki\Settings\SettingsGUI;
-use ILIAS\ILIASObject\Translations\Translation;
-use ILIAS\ILIASObject\Translations\TranslationGUI;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
+use ILIAS\ILIASObject\Properties\Translations\TranslationsGUI;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -35,7 +35,7 @@ use ILIAS\ILIASObject\Translations\TranslationGUI;
  * @ilCtrl_Calls ilObjWikiGUI: ilObjectMetaDataGUI
  * @ilCtrl_Calls ilObjWikiGUI: ilSettingsPermissionGUI
  * @ilCtrl_Calls ilObjWikiGUI: ilRepositoryObjectSearchGUI, ilObjectCopyGUI, ilObjNotificationSettingsGUI
- * @ilCtrl_Calls ilObjWikiGUI: ilLTIProviderObjectSettingGUI, ILIAS\ILIASObject\Translations\TranslationGUI
+ * @ilCtrl_Calls ilObjWikiGUI: ilLTIProviderObjectSettingGUI, ILIAS\ILIASObject\Properties\Translations\TranslationsGUI
  * @ilCtrl_Calls ilObjWikiGUI: ILIAS\Wiki\Settings\SettingsGUI
  */
 class ilObjWikiGUI extends ilObjectGUI
@@ -45,7 +45,7 @@ class ilObjWikiGUI extends ilObjectGUI
     protected \ILIAS\Wiki\Content\GUIService $content_gui;
     protected \ILIAS\Wiki\Navigation\ImportantPageManager $imp_pages;
     protected \ILIAS\Wiki\Page\PageManager $pm;
-    protected Translation $ot;
+    protected Translations $ot;
     protected \ILIAS\HTTP\Services $http;
     protected string $requested_page;
     protected ilPropertyFormGUI $form_gui;

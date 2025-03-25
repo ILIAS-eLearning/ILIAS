@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\ILIASObject\Translations\Translation;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 /**
  * TableGUI class for recent changes in wiki
@@ -27,7 +27,7 @@ class ilWikiRecentChangesTableGUI extends ilTable2GUI
 {
     protected int $requested_ref_id;
     protected int $wiki_id = 0;
-    protected Translation $ot;
+    protected Translations $ot;
     protected \ILIAS\Wiki\Page\PageManager $pm;
 
     public function __construct(

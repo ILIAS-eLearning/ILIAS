@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ILIAS\Container\Content\ViewManager;
 use ILIAS\Refinery;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
-use ILIAS\ILIASObject\Translations\TranslationGUI;
+use ILIAS\ILIASObject\Properties\Translations\TranslationsGUI;
 
 /**
  * Class ilObjStudyProgrammeGUI class
@@ -33,7 +33,7 @@ use ILIAS\ILIASObject\Translations\TranslationGUI;
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeMembersGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeAutoMembershipsGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjectCopyGUI
- * @ilCtrl_Calls ilObjStudyProgrammeGUI: ILIAS\ILIASObject\Translations\TranslationGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeGUI: ILIAS\ILIASObject\Properties\Translations\TranslationsGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilCertificateGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeAutoCategoriesGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilContainerGUI

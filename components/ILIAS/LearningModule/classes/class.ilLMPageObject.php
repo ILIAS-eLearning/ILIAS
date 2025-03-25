@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\ILIASObject\Translations\Translation;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 /**
  * Handles Page Objects of ILIAS Learning Modules
@@ -265,7 +265,6 @@ class ilLMPageObject extends ilLMObject
             $title = ilLMObject::_lookupTitle($a_pg_id);
         }
 
-        // sk 24.01.2025: This is not optimized anymore
         $ot = new Translation($ilDB, $a_lm_id);
 
         if ($a_lang != "-" && $ot->getCOPageTranslationActivated()) {

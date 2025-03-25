@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\ILIASObject\Translations;
+namespace ILIAS\ILIASObject\Properties\Translations;
 
 use ILIAS\ILIASObject\LocalDIC;
 use ILIAS\UI\Factory as UIFactory;
@@ -60,7 +60,7 @@ class TranslationGUI
 
     protected \ilObjectGUI $obj_gui;
     protected \ilObject $obj;
-    protected Translation $obj_trans;
+    protected Translations $obj_trans;
 
     protected bool $title_descr_only = true;
     protected bool $hide_description = false;
@@ -87,7 +87,7 @@ class TranslationGUI
         $this->obj_gui = $obj_gui;
         $this->obj = $obj_gui->getObject();
 
-        $this->obj_trans = LocalDIC::dic()['translations.repository']->getFor($this->obj->getId());
+        $this->obj_trans = $this->obj->getObjectProperties()->getPropertyTranslations();
     }
 
     public function hideDescription(bool $hide): void

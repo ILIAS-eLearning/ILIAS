@@ -17,7 +17,7 @@
  *********************************************************************/
 
 use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
-use ILIAS\ILIASObject\Translations\Translation;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 /**
  * Class ilLMPresentationGUI
@@ -90,7 +90,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     protected int $requested_mob_id = 0;
     protected int $requested_notification_switch = 0;
     protected bool $abstract = false;
-    protected Translation $ot;
+    protected Translations $ot;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
     protected ?\ILIAS\Style\Content\Service $cs = null;
@@ -266,7 +266,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
         $this->lm_tree = $this->service->getLMTree();
         $this->focus_id = $this->service->getPresentationStatus()->getFocusId();
-        $this->ot = new Translation($DIC['ilDB'], $this->lm->getId());
+        $this->ot = $this->lm->getObjectProperties()->getPropertyTranslations();
         $this->content_style_gui = $this->cs->gui();
         $this->content_style_domain = $this->cs->domain()->styleForRefId($this->lm->getRefId());
     }

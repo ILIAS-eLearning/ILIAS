@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\ILIASObject\Translations\Translation;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 /**
  * Page multilinguality GUI class.
@@ -26,7 +26,7 @@ use ILIAS\ILIASObject\Translations\Translation;
  */
 class ilPageMultiLangGUI
 {
-    protected Translation $ot;
+    protected Translations $ot;
     protected \ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected bool $single_page_mode = false;

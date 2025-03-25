@@ -25,8 +25,8 @@ use ILIAS\Repository\Form\FormAdapterGUI;
 use ILIAS\MediaPool\InternalGUIService;
 use ILIAS\FileUpload\Handler\HandlerResult;
 use ILIAS\MediaPool\Settings\SettingsGUI;
-use ILIAS\ILIASObject\Translations\Translation;
-use ILIAS\ILIASObject\Translations\TranslationGUI;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
+use ILIAS\ILIASObject\Properties\Translations\TranslationsGUI;
 
 /**
  * User Interface class for media pool objects
@@ -35,7 +35,7 @@ use ILIAS\ILIASObject\Translations\TranslationGUI;
  *
  * @ilCtrl_Calls ilObjMediaPoolGUI: ilObjMediaObjectGUI, ilObjFolderGUI, ilEditClipboardGUI, ilPermissionGUI
  * @ilCtrl_Calls ilObjMediaPoolGUI: ilInfoScreenGUI, ilMediaPoolPageGUI, ilExportGUI
- * @ilCtrl_Calls ilObjMediaPoolGUI: ilCommonActionDispatcherGUI, ilObjectCopyGUI, ILIAS\ILIASObject\Translations\TranslationGUI, ilMediaPoolImportGUI
+ * @ilCtrl_Calls ilObjMediaPoolGUI: ilCommonActionDispatcherGUI, ilObjectCopyGUI, ILIAS\ILIASObject\Properties\Translations\TranslationsGUI, ilMediaPoolImportGUI
  * @ilCtrl_Calls ilObjMediaPoolGUI: ilObjectMetaDataGUI
  * @ilCtrl_Calls ilObjMediaPoolGUI: ilMobMultiSrtUploadGUI, ilObjectMetaDataGUI, ilRepoStandardUploadHandlerGUI, ilMediaCreationGUI
  * @ilCtrl_Calls ilObjMediaPoolGUI: ILIAS\MediaPool\Settings\SettingsGUI
@@ -1418,7 +1418,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
     public function export(): void
     {
-        $ot = new Translation($this->db, $this->object->getId());
+        $ot = $this->object->getObjectProperties()->getPropertyTranslations();
         $opt = "";
         if ($ot->getCOPageTranslationActivated()) {
             $format = explode("_", $this->mep_request->getExportFormat());

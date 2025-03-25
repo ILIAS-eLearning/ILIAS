@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 use ILIAS\News\Service as News;
-use ILIAS\ILIASObject\Translations\TranslationGUI;
+use ILIAS\ILIASObject\Properties\Translations\TranslationsGUI;
 
 /**
  * Class ilObjGroupGUI
@@ -37,7 +37,7 @@ use ILIAS\ILIASObject\Translations\TranslationGUI;
  * @ilCtrl_Calls ilObjGroupGUI: ilGroupMembershipGUI, ilBadgeManagementGUI, ilMailMemberSearchGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
  * @ilCtrl_Calls ilObjGroupGUI: ilContainerSkillGUI, ilCalendarPresentationGUI
  * @ilCtrl_Calls ilObjGroupGUI: ilLTIProviderObjectSettingGUI
- * @ilCtrl_Calls ilObjGroupGUI: ilObjectMetaDataGUI, ILIAS\ILIASObject\Translations\TranslationGUI, ilPropertyFormGUI
+ * @ilCtrl_Calls ilObjGroupGUI: ilObjectMetaDataGUI, ILIAS\ILIASObject\Properties\Translations\TranslationsGUI, ilPropertyFormGUI
  *
  *
  *

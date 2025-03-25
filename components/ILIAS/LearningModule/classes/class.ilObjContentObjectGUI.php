@@ -18,8 +18,8 @@
 
 use ILIAS\LearningModule\Editing\EditingGUIRequest;
 use ILIAS\LearningModule\Editing\EditSubObjectsGUI;
-use ILIAS\ILIASObject\Translations\Translation;
-use ILIAS\ILIASObject\Translations\TranslationGUI;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
+use ILIAS\ILIASObject\Properties\Translations\TranslationsGUI;
 
 /**
  * Class ilObjContentObjectGUI
@@ -29,7 +29,7 @@ use ILIAS\ILIASObject\Translations\TranslationGUI;
  * @author Sascha Hofmann <saschahofmann@gmx.de>
  * @ilCtrl_Calls ilObjContentObjectGUI: ilLMPageObjectGUI, ilStructureObjectGUI, ilObjectContentStyleSettingsGUI, ilObjectMetaDataGUI
  * @ilCtrl_Calls ilObjContentObjectGUI: ilLearningProgressGUI, ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
- * @ilCtrl_Calls ilObjContentObjectGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilPageMultiLangGUI, ILIAS\ILIASObject\Translations\TranslationGUI
+ * @ilCtrl_Calls ilObjContentObjectGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilPageMultiLangGUI, ILIAS\ILIASObject\Properties\Translations\TranslationsGUI
  * @ilCtrl_Calls ilObjContentObjectGUI: ilMobMultiSrtUploadGUI, ilLMImportGUI, ilLMEditShortTitlesGUI, ilLTIProviderObjectSettingGUI
  * @ilCtrl_IsCalledBy ilObjContentObjectGUI: ilExportGUI
  */
@@ -75,7 +75,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
     protected \ILIAS\Style\Content\Service $content_style_service;
 
     protected ilLMTree $lm_tree;
-    protected Translation $ot;
+    protected Translations $ot;
 
     /**
      * @param mixed $a_data
@@ -151,7 +151,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->reading_time_gui = new \ILIAS\LearningModule\ReadingTime\SettingsGUI($id);
         $this->domain = $DIC->learningModule()->internal()->domain();
         $this->gui = $DIC->learningModule()->internal()->gui();
-        $this->ot = new Translation($this->db, $this->lm->getId());
+        $this->ot = $this->lm->getObjectProperties()->getPropertyTranslations();
     }
 
     protected function checkCtrlPath(): void

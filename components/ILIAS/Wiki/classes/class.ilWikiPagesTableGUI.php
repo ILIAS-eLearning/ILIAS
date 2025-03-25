@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\ILIASObject\Translations\Translation;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 const IL_WIKI_ALL_PAGES = "all";
 const IL_WIKI_NEW_PAGES = "new";
@@ -34,7 +34,7 @@ class ilWikiPagesTableGUI extends ilTable2GUI
     protected \ILIAS\Wiki\Links\LinkManager $link_manager;
     protected string $requested_lang;
     protected string $lang;
-    protected Translation $ot;
+    protected Translations $ot;
     protected \ILIAS\Wiki\Page\PageManager $pm;
     protected int $requested_ref_id;
     protected int $page_id = 0;

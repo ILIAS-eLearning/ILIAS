@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ILIAS\ILIASObject\LocalDIC;
 use ILIAS\ResourceStorage\Services as ResourceStorage;
 use ILIAS\ILIASObject\Properties\Agregator;
-use ILIAS\ILIASObject\Translations\Translation;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 /**
  * Object data set class

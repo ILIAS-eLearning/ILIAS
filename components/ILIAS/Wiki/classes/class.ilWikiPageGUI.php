@@ -17,7 +17,7 @@
  *********************************************************************/
 
 use ILIAS\UICore\PageContentProvider;
-use ILIAS\ILIASObject\Translations\Translation;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 /**
  * Class ilWikiPage GUI class
@@ -34,7 +34,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
     protected \ILIAS\Exercise\InternalDomainService $exc_domain;
     protected \ILIAS\Wiki\InternalDomainService $domain;
     protected \ILIAS\Wiki\Page\PageManager $wiki_pm;
-    protected Translation $ot;
+    protected Translations $ot;
     protected \ILIAS\Wiki\InternalGUIService $wiki_gui;
     protected \ILIAS\Notes\Service $notes;
     protected \ILIAS\HTTP\Services $http;

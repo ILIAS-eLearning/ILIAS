@@ -27,7 +27,7 @@ use ILIAS\ContentPage\PageMetrics\Command\GetPageMetricsCommand;
 class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageObjectConstants
 {
     private readonly PageMetricsService $pageMetricsService;
-    private readonly Translation $translation;
+    private readonly Translations $translation;
 
     public function __construct(int $a_context = self::CONTEXT_REPOSITORY)
     {
@@ -38,7 +38,7 @@ class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageOb
             new PageMetricsRepositoryImp($DIC->database()),
             $DIC->refinery()
         );
-        $this->translation = new Translation($DIC->database(), $this->obj_id);
+        $this->translation = $this->object_properties->getPropertyTranslations();
     }
 
     public function init(): void

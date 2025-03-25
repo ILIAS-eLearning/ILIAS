@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\ILIASObject\Translations\Translation;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 /**
  * Import related features for media pools (currently used for translation imports)
@@ -30,7 +30,7 @@ class ilMediaPoolImportGUI
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected ilGlobalTemplateInterface $tpl;
-    protected Translation $ot;
+    protected Translations $ot;
 
     public function __construct(ilObjMediaPool $a_mep)
     {
@@ -44,7 +44,7 @@ class ilMediaPoolImportGUI
             ->internal()
             ->gui()
             ->standardRequest();
-        $this->ot = new Translation($DIC->database(), $a_mep->getId());
+        $this->ot = $a_mep->getObjectProperties()->getPropertyTranslations();
     }
 
     public function executeCommand(): void

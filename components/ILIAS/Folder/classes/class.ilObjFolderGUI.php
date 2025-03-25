@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Folder\StandardGUIRequest;
-use ILIAS\ILIASObject\Translations\TranslationGUI;
+use ILIAS\ILIASObject\Properties\Translations\TranslationsGUI;
 
 /**
  * Class ilObjFolderGUI
@@ -31,7 +31,7 @@ use ILIAS\ILIASObject\Translations\TranslationGUI;
  * @ilCtrl_Calls ilObjFolderGUI: ilInfoScreenGUI, ilContainerPageGUI, ilColumnGUI
  * @ilCtrl_Calls ilObjFolderGUI: ilObjectCopyGUI, ilObjectContentStyleSettingsGUI
  * @ilCtrl_Calls ilObjFolderGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilDidacticTemplateGUI
- * @ilCtrl_Calls ilObjFolderGUI: ilBackgroundTaskHub, ILIAS\ILIASObject\Translations\TranslationGUI, ilRepositoryTrashGUI
+ * @ilCtrl_Calls ilObjFolderGUI: ilBackgroundTaskHub, ILIAS\ILIASObject\Properties\Translations\TranslationsGUI, ilRepositoryTrashGUI
  */
 class ilObjFolderGUI extends ilContainerGUI
 {

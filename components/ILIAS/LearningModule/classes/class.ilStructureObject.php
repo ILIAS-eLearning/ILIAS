@@ -17,7 +17,7 @@
  *********************************************************************/
 
 use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
-use ILIAS\ILIASObject\Translations\Translation;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 /**
  * Handles StructureObjects of ILIAS Learning Modules (see ILIAS DTD)
@@ -186,7 +186,6 @@ class ilStructureObject extends ilLMObject
             $title = ilLMObject::_lookupTitle($a_st_id);
         }
 
-        // sk 24.01.2025: This is not optimized anymore
         $ot = new Translation($ilDB, $a_lm_id);
 
         if ($a_lang != "-" && $ot->getCOPageTranslationActivated()) {

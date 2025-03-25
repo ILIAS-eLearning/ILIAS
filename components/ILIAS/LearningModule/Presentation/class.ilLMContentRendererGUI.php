@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\ILIASObject\Translations\Translation;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -54,14 +54,14 @@ class ilLMContentRendererGUI
     protected string $lang;
     protected ilLMPresentationLinker $linker;
     protected string $requested_frame;
-    protected Translation $ot;
+    protected Translations $ot;
     protected string $concrete_lang = "";
 
     public function __construct(
         ilLMPresentationService $service,
         ilLMPresentationGUI $parent_gui,
         ilLanguage $lng,
-        Translation $translation,
+        Translations $translation,
         ilCtrl $ctrl,
         ilAccessHandler $access,
         ilObjUser $user,

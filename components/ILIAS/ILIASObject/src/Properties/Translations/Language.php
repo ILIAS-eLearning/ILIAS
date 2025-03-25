@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\ILIASObject\Translations;
+namespace ILIAS\ILIASObject\Properties\Translations;
 
 class Language
 {
