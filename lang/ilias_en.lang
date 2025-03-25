@@ -6389,12 +6389,7 @@ content#:#cont_dir_renamed#:#Directory has been renamed.
 content#:#cont_disable_def_feedback#:#Disable Default Question Feedback
 content#:#cont_disable_def_feedback_info#:#The standard feedback for a question is not displayed after answering a question.
 content#:#cont_download#:#Download
-content#:#cont_download_no_download#:#Download will not be available to users, since the download feature is not activated.
-content#:#cont_download_no_menu#:#Download will not be available to users since the learning module menu is not activated.
 content#:#cont_download_title#:#Download Title
-content#:#cont_downloads#:#Enable Download
-content#:#cont_downloads_desc#:#Offers all public export files for download (e.g. for offline use or import).
-content#:#cont_downloads_public_desc#:#Allow download even for anonymous users (in public area)
 content#:#cont_drag_and_drop_elements#:#To <b>move</b> a page element, <b>drag</b> it with the mouse to the intended location and <b/>drop<b> it.
 content#:#cont_drag_element_click_save#:#Drag and drop the element to the desired position. Then hit ‘Save’.
 content#:#cont_ed_align_center#:#Align: Center
@@ -6810,7 +6805,6 @@ content#:#cont_nlist#:#Numbered List
 content#:#cont_no_access#:#No Access
 content#:#cont_no_block#:#No Section
 content#:#cont_no_caption#:#No Caption
-content#:#cont_no_download_file_available#:#There is currently no public download file available.
 content#:#cont_no_glossary#:#No glossary assigned.
 content#:#cont_no_manifest#:#No imsmanifest.xml file found in main directory.
 content#:#cont_no_page#:#No Page found.

@@ -2133,68 +2133,6 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     }
 
     /**
-     * show download list
-     */
-    public function showDownloadList(): void
-    {
-        if (!$this->lm->isActiveDownloads() || !$this->lm->isActiveLMMenu()) {
-            return;
-        }
-        $tpl = new ilTemplate("tpl.lm_download_list.html", true, true, "components/ILIAS/LearningModule");
-
-        // output copyright information
-        $lom_cp_helper = $this->lom_services->copyrightHelper();
-        $lom_reader = $this->lom_services->read($this->lm->getId(), 0, $this->lm->getType());
-        if ($lom_cp_helper->hasPresetCopyright($lom_reader)) {
-            $copyright = $this->ui->renderer()->render(
-                $lom_cp_helper->readPresetCopyright($lom_reader)->presentAsUIComponents()
-            );
-        } else {
-            $copyright = $lom_cp_helper->readCustomCopyright($lom_reader);
-        }
-        if ($copyright != "") {
-            $this->lng->loadLanguageModule("meta");
-            $tpl->setCurrentBlock("copyright");
-            $tpl->setVariable("TXT_COPYRIGHT", $this->lng->txt("meta_copyright"));
-            $tpl->setVariable("LM_COPYRIGHT", $copyright);
-            $tpl->parseCurrentBlock();
-        }
-
-        $download_table = new ilLMDownloadTableGUI($this, "showDownloadList", $this->lm);
-        $tpl->setVariable("DOWNLOAD_TABLE", $download_table->getHTML());
-        //$this->tpl->printToStdout();
-
-        $modal = $this->ui->factory()->modal()->roundtrip(
-            $this->lng->txt("download"),
-            $this->ui->factory()->legacy($tpl->get())
-        );
-        echo $this->ui->renderer()->render($modal);
-        exit();
-    }
-
-    /**
-     * send download file (xml/html)
-     */
-    public function downloadExportFile(): void
-    {
-        if (!$this->lm->isActiveDownloads() || !$this->lm->isActiveLMMenu()) {
-            return;
-        }
-
-        $type = $this->requested_type;
-        $base_type = explode("_", $type);
-        $base_type = $base_type[0];
-        $file = $this->lm->getPublicExportFile($base_type);
-        if ($this->lm->getPublicExportFile($base_type) != "") {
-            $dir = $this->lm->getExportDirectory($type);
-            if (is_file($dir . "/" . $file)) {
-                ilFileDelivery::deliverFileLegacy($dir . "/" . $file, $file);
-                exit;
-            }
-        }
-    }
-
-    /**
      * Get focused link (used in learning objectives courses)
      * @param int $a_ref_id        reference id of learning module
      * @param int $a_obj_id        chapter or page id

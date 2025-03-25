@@ -9,6 +9,15 @@
     - Presentation centralises most of request access in `ilLMPresentationRequest`
     - Editing missing (and view remaining cases in presentation)
 
+### Remove Public Access Exports From DB
+
+In the table `content_object`, the following columns can be removed:
+
+- `downloads_public_active`
+- `downloads_active`
+- `public_xml_file`
+- `public_html_file`
+
 ## Mid Term
 
 ### Legacy Templates > KS elements
