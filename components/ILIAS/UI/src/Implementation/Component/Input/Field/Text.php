@@ -24,6 +24,7 @@ use ILIAS\UI\Component as C;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Constraint;
 use Closure;
+use Generator;
 
 /**
  * This implements the text input.
@@ -31,6 +32,7 @@ use Closure;
 class Text extends FormInput implements C\Input\Field\Text
 {
     private ?int $max_length = null;
+    private bool $strip_tags_from_input = true;
 
     /**
      * @inheritdoc
@@ -42,7 +44,6 @@ class Text extends FormInput implements C\Input\Field\Text
         ?string $byline
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
-        $this->setAdditionalTransformation($refinery->custom()->transformation(fn($v) => strip_tags($v)));
     }
 
     /**
@@ -112,5 +113,26 @@ class Text extends FormInput implements C\Input\Field\Text
     public function isComplex(): bool
     {
         return false;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getOperations(): Generator
+    {
+        if ($this->strip_tags_from_input) {
+            yield $this->refinery->custom()->transformation(fn($v) => strip_tags($v));
+        }
+        yield from parent::getOperations();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function withoutStripTags(): Text
+    {
+        $clone = clone $this;
+        $clone->strip_tags_from_input = false;
+        return $clone;
     }
 }
