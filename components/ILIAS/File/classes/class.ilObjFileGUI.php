@@ -37,6 +37,7 @@ use ILIAS\File\Capabilities\Capabilities;
 use ILIAS\File\Capabilities\CapabilityBuilder;
 use ILIAS\File\Capabilities\CapabilityCollection;
 use ILIAS\File\Capabilities\Context;
+use ILIAS\ILIASObject\Properties\CoreProperties\TitleAndDescription;
 
 /**
  * GUI class for file objects.
@@ -552,7 +553,7 @@ class ilObjFileGUI extends ilObject2GUI
         $inputs = $form->getData();
 
         /**
-         * @var $title_and_description ilObjectPropertyTitleAndDescription
+         * @var ILIAS\ILIASObject\Properties\CoreProperties\TitleAndDescription $title_and_description
          */
         $title_and_description = $inputs['file_info']['title_and_description'];
 
@@ -569,7 +570,7 @@ class ilObjFileGUI extends ilObject2GUI
         $description = $title_and_description->getLongDescription();
         $this->object->setDescription($description);
 
-        $updated_title_and_description = new ilObjectPropertyTitleAndDescription($title, $description);
+        $updated_title_and_description = new TitleAndDescription($title, $description);
         $this->object->getObjectProperties()->storePropertyTitleAndDescription($updated_title_and_description);
 
         $this->object->setImportantInfo($inputs['file_info']['important_info']);

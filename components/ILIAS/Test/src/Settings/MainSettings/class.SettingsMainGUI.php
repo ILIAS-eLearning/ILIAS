@@ -21,13 +21,14 @@ declare(strict_types=1);
 namespace ILIAS\Test\Settings\MainSettings;
 
 use ILIAS\Test\Settings\TestSettingsGUI;
+use ILIAS\Test\Settings\MainSettings\MainSettingsRepository;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\Test\Settings\MainSettings\MainSettingsRepository;
+use ILIAS\ILIASObject\Properties\Properties as ObjectProperties;
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Input\Field\Checkbox;
@@ -65,7 +66,7 @@ class SettingsMainGUI extends TestSettingsGUI
     private const ECS_FUNCTIONALITY_SETTINGS_LABEL = 'ecs_settings';
     private const ADDITIONAL_FUNCTIONALITY_SETTINGS_LABEL = 'additional_functionality_settings';
 
-    protected \ilObjectProperties $object_properties;
+    protected ObjectProperties $object_properties;
     protected MainSettings $main_settings;
     protected MainSettingsRepository $main_settings_repository;
 

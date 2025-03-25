@@ -29,9 +29,10 @@ use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\UI\Component\Input\Field\Radio;
 use ILIAS\UI\Component\Modal\RoundTrip;
 use ILIAS\Object\ImplementsCreationCallback;
-use ILIAS\Object\CreationCallbackTrait;
+use ILIAS\ILIASObject\Creation\CreationCallbackTrait;
 use ILIAS\ILIASObject\LocalDIC;
-use ILIAS\Object\Properties\MultiObjectPropertiesManipulator;
+use ILIAS\ILIASObject\Properties\AdditionalProperties\Icon\Factory as CustomIconFactory;
+use ILIAS\ILIASObject\Properties\MultiPropertiesManipulator;
 use ILIAS\ILIASObject\Creation\AddNewItemElement;
 use ILIAS\ILIASObject\Creation\AddNewItemElementTypes;
 use ILIAS\Filesystem\Filesystem;
@@ -80,11 +81,11 @@ class ilObjectGUI implements ImplementsCreationCallback
     protected RequestWrapper $request_wrapper;
     protected Refinery $refinery;
     protected ilFavouritesManager $favourites;
-    protected ilObjectCustomIconFactory $custom_icon_factory;
+    protected CustomIconFactory $custom_icon_factory;
     protected UIFactory $ui_factory;
     protected UIRenderer $ui_renderer;
     private ilObjectRequestRetriever $retriever;
-    private MultiObjectPropertiesManipulator $multi_object_manipulator;
+    private MultiPropertiesManipulator $multi_object_manipulator;
     protected Filesystem $temp_file_system;
 
     protected ?ilObject $object = null;
@@ -211,7 +212,7 @@ class ilObjectGUI implements ImplementsCreationCallback
         $this->notes_service = $DIC->notes();
     }
 
-    private function getMultiObjectPropertiesManipulator(): MultiObjectPropertiesManipulator
+    private function getMultiObjectPropertiesManipulator(): MultiPropertiesManipulator
     {
         if (!isset($this->multi_object_manipulator)) {
             $this->multi_object_manipulator = LocalDIC::dic()['properties.multi_manipulator'];

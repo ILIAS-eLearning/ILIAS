@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  *
  * @depricated 11: This interface will be remove with ILIAS 11. Please use the
- * corresponding implementation of `ilObjectProperty` instead.
+ * corresponding implementation of `ILIAS\ILIASObject\Properties\Property` instead.
  *
  * @author killing@leifos.de
  * @ingroup ServicesObject

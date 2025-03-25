@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\ILIASObject\LocalDIC;
+use ILIAS\ILIASObject\Properties\Properties;
 use ILIAS\Repository\Clipboard\ClipboardManager;
 use ILIAS\DI\UIServices;
 use ILIAS\UI\Component\Button\Button;
@@ -30,7 +32,6 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\Notes\Note;
 use ILIAS\Container\Content\ModeSessionRepository;
 use ILIAS\HTTP\Services as HTTPServices;
-use ILIAS\ILIASObject\LocalDIC;
 
 /**
  * Important note:
@@ -77,7 +78,7 @@ class ilObjectListGUI
     protected ilAccessHandler $access;
     protected ilObjUser $user;
     protected LocalDIC $object_dic;
-    protected ilObjectProperties $object_properties;
+    protected Properties $object_properties;
     protected ilObjectDefinition $obj_definition;
     protected ilTree $tree;
     protected ilSetting $settings;

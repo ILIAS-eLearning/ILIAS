@@ -753,7 +753,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
             if ($ilSetting->get('custom_icons')) {
                 global $DIC;
-                /** @var ilObjectCustomIconFactory $customIconFactory */
+                /** @var ILIAS\ILIASObject\Properties\AdditionalProperties\Icon\Factory $customIconFactory */
                 $customIconFactory = $DIC['object.customicons.factory'];
                 $customIcon = $customIconFactory->getPresenterByObjId($a_item_obj_id, $a_image_type);
 

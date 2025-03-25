@@ -18,7 +18,7 @@
 
 namespace ILIAS\Object\Setup;
 
-use ILIAS\Object\Properties\ObjectTypeSpecificProperties\ilObjectTypeSpecificPropertiesArtifactObjective;
+use ILIAS\ILIASObject\Properties\ObjectTypeSpecificProperties\ArtifactObjective;
 use ILIAS\Setup\Agent\NullAgent;
 use ILIAS\Setup\Config;
 use ILIAS\Setup\Objective;
@@ -59,6 +59,6 @@ class ilObjectSetupAgent extends NullAgent
 
     public function getBuildObjective(): Objective
     {
-        return new ilObjectTypeSpecificPropertiesArtifactObjective();
+        return new ArtifactObjective();
     }
 }

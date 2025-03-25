@@ -28,7 +28,7 @@ declare(strict_types=1);
  * @ingroup ServicesObject
  *
  * @deprecated 11: This class will be removed with ILIAS 11. Most of the settings in
- * here don't belong here. Things that belong, are already moved to ilObjectProperties
+ * here don't belong here. Things that belong, are already moved to Properties
  * (see Readme.md of ilObject).
  */
 class ilObjectServiceSettingsGUI

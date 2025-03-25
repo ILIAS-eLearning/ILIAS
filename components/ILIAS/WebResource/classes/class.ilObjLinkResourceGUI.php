@@ -301,7 +301,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
 
         $obj_props = $this->object->getObjectProperties();
 
-        /** @var ilObjectPropertyTitleAndDescription $title_and_description */
+        /** @var ILIAS\ILIASObject\Properties\CoreProperties\TitleAndDescription $title_and_description */
         $title_and_description = $data['general']['title_and_description'] ?? null;
         if ($title_and_description !== null && $this->getWebLinkRepo()->doesListExist()) {
             $obj_props->storePropertyTitleAndDescription($title_and_description);

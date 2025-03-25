@@ -208,7 +208,7 @@ class SettingsGUI
                 ]
             );
 
-            /** @var \ilObjectPropertyIsOnline $online_prop */
+            /** @var ILIAS\ILIASObject\Properties\CoreProperties\Online $online_prop */
             $online_prop = $form->getData("is_online");
 
             $settings = $this->data->settings(

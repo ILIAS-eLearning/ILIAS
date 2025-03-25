@@ -23,6 +23,7 @@ use ILIAS\FileUpload\FileUpload;
 use ILIAS\ResourceStorage\Manager\Manager;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Policy\FileNamePolicyException;
+use ILIAS\ILIASObject\Properties\CoreProperties\Online;
 
 /**
  * Class ilObjFile
@@ -436,7 +437,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     {
         $this->createProperties(true);
         $this->updateCopyright();
-        $this->getObjectProperties()->storePropertyIsOnline(new ilObjectPropertyIsOnline(true));
+        $this->getObjectProperties()->storePropertyIsOnline(new Online(true));
         $this->notifyCreation($this->getId(), $this->getDescription());
     }
 
@@ -485,7 +486,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $new_obj->setPageCount($this->getPageCount());
         $new_obj->update();
 
-        $new_obj->getObjectProperties()->storePropertyIsOnline(new ilObjectPropertyIsOnline(true));
+        $new_obj->getObjectProperties()->storePropertyIsOnline(new Online(true));
 
         // Copy learning progress settings
         $obj_settings = new ilLPObjSettings($this->getId());

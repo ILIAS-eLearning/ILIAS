@@ -18,8 +18,8 @@
 
 declare(strict_types=1);
 
-use ILIAS\Object\Properties\ObjectTypeSpecificProperties\AbstractObjectTypeSpecificProperties;
-use ILIAS\Object\Properties\ObjectTypeSpecificProperties\ilObjectTypeSpecificPropertyProviders;
+use ILIAS\ILIASObject\Properties\ObjectTypeSpecificProperties\AbstractObjectTypeSpecificProperties;
+use ILIAS\ILIASObject\Properties\ObjectTypeSpecificProperties\ObjectTypeSpecificPropertyProviders;
 
 class FileObjectProperties extends AbstractObjectTypeSpecificProperties
 {
@@ -30,7 +30,7 @@ class FileObjectProperties extends AbstractObjectTypeSpecificProperties
         return ilObjFile::OBJECT_TYPE;
     }
 
-    public function getProviders(): ilObjectTypeSpecificPropertyProviders
+    public function getProviders(): ObjectTypeSpecificPropertyProviders
     {
         if ($this->providers === null) {
             $this->providers = new FileObjectPropertyProviders();

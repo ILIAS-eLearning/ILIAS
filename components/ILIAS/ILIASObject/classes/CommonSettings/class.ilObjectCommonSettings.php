@@ -18,16 +18,15 @@
 
 declare(strict_types=1);
 
+use ILIAS\ILIASObject\Properties\AdditionalProperties\Simple\HeaderActionVisibility;
+use ILIAS\ILIASObject\Properties\CoreProperties\TileImage;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\ResourceStorage\Services as ResourceStorageServices;
-use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectPropertyTileImage;
-use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectTileImageStakeholder;
-use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectTileImageFlavourDefinition;
 use ILIAS\HTTP\Services;
 
 /**
  * @deprecated 11 This class will be removed with ILIAS 11. Please use
- * `ilObjectProperties` instead.
+ * `Properties` instead.
  */
 class ilObjectCommonSettings
 {
@@ -38,8 +37,8 @@ class ilObjectCommonSettings
         private FileUpload $upload,
         private ResourceStorageServices $storage,
         private Services $http,
-        private ilObjectTileImageStakeholder $stakeholder,
-        private ilObjectTileImageFlavourDefinition $flavour
+        private TileImage\Stakeholder $stakeholder,
+        private TileImage\FlavourDefinition $flavour
     ) {
     }
 
@@ -55,25 +54,25 @@ class ilObjectCommonSettings
         $this->object?->flushObjectProperties();
     }
 
-    public function getPropertyHeaderActionVisibility(): ?ilObjectPropertyHeaderActionVisibility
+    public function getPropertyHeaderActionVisibility(): ?HeaderActionVisibility
     {
         return $this->object?->getObjectProperties()->getPropertyHeaderActionVisibility();
     }
 
     public function storePropertyHeaderActionVisibility(
-        ilObjectPropertyHeaderActionVisibility $property_header_action_visibility
+        HeaderActionVisibility $property_header_action_visibility
     ): void {
         $this->object?->getObjectProperties()->storePropertyHeaderActionVisibility($property_header_action_visibility);
         $this->object?->flushObjectProperties();
     }
 
-    public function getPropertyTileImage(): ?ilObjectPropertyTileImage
+    public function getPropertyTileImage(): ?TileImage\Property
     {
         return $this->object?->getObjectProperties()->getPropertyTileImage();
     }
 
     public function storePropertyTileImage(
-        ilObjectPropertyTileImage $property_tile_image
+        TileImage\Property $property_tile_image
     ): void {
         $this->object?->getObjectProperties()->storePropertyTileImage($property_tile_image);
         $this->object?->flushObjectProperties();

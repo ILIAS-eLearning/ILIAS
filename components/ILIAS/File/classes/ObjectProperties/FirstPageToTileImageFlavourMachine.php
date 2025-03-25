@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectTileImageFlavourDefinition;
+use ILIAS\ILIASObject\Properties\CoreProperties\TileImage\FlavourDefinition as TileImageFlavourDefinition;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\CropRectangle;
 use ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\ExtractPages;
@@ -44,7 +44,7 @@ class FirstPageToTileImageMachine extends AbstractMachine implements FlavourMach
     private const FULL_QUALITY_SIZE_THRESHOLD = 100;
     private ExtractPages $extract_pages;
     private CropRectangle $crop;
-    private ?ilObjectTileImageFlavourDefinition $definition = null;
+    private ?TileImageFlavourDefinition $definition = null;
     private ?FileInformation $information = null;
 
     public function __construct()
@@ -61,7 +61,7 @@ class FirstPageToTileImageMachine extends AbstractMachine implements FlavourMach
 
     public function canHandleDefinition(FlavourDefinition $definition): bool
     {
-        return $definition instanceof ilObjectTileImageFlavourDefinition;
+        return $definition instanceof TileImageFlavourDefinition;
     }
 
     public function dependsOnEngine(): ?string

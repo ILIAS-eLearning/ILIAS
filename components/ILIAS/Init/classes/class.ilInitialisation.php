@@ -33,6 +33,7 @@ use ILIAS\Data\Result\Error;
 use ILIAS\Refinery\Transformation;
 use ILIAS\FileDelivery\Init;
 use ILIAS\LegalDocuments\Conductor;
+use ILIAS\ILIASObject\Properties\AdditionalProperties\Icon\Factory as CustomIconFactory;
 
 // needed for slow queries, etc.
 if (!isset($GLOBALS['ilGlobalStartTime']) || !$GLOBALS['ilGlobalStartTime']) {
@@ -744,7 +745,7 @@ class ilInitialisation
     protected static function initCustomObjectIcons(\ILIAS\DI\Container $c): void
     {
         $c["object.customicons.factory"] = function ($c) {
-            return new ilObjectCustomIconFactory(
+            return new CustomIconFactory(
                 $c->filesystem()->web(),
                 $c->upload(),
                 $c['ilObjDataCache']

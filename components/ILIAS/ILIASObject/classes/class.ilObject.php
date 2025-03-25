@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\ILIASObject\LocalDIC;
 use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+use ILIAS\ILIASObject\Properties\Properties;
 use ILIAS\ILIASObject\Translations\Translation;
 
 /**
@@ -37,7 +38,7 @@ class ilObject
     public const LONG_DESC_LENGTH = 4000; // long description column max length in db
     public const TABLE_OBJECT_DATA = "object_data";
 
-    private ?ilObjectProperties $object_properties = null;
+    private ?Properties $object_properties = null;
 
     protected ilLogger $obj_log;
     protected ?ILIAS $ilias;
@@ -137,7 +138,7 @@ class ilObject
         }
     }
 
-    public function getObjectProperties(): ilObjectProperties
+    public function getObjectProperties(): Properties
     {
         if ($this->object_properties === null) {
             $this->object_properties = $this->object_dic['properties.agregator']->getFor($this->id, $this->type);
@@ -1863,7 +1864,7 @@ class ilObject
         }
 
         if ($obj_id) {
-            /** @var ilObjectPropertyIcon $property_icon */
+            /** @var ILIAS\ILIASObject\Properties\AdditionalProperties\Icon\Icon $property_icon */
             $property_icon = LocalDIC::dic()['properties.additional.repository']->getFor($obj_id)->getPropertyIcon();
             $custom_icon = $property_icon->getCustomIcon();
             if ($custom_icon?->exists()) {

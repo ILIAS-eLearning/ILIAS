@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectTileImageFlavourDefinition;
+use ILIAS\ILIASObject\Properties\CoreProperties\TileImage\FlavourDefinition;
 
-class FirstPageToTileImageFlavourDefinition extends ilObjectTileImageFlavourDefinition
+class FirstPageToFlavourDefinition extends FlavourDefinition
 {
     private const ID = 'b9b2f16325492412304989a9b3e32479e612957582f60ed667af31e7b36e50ed';
 

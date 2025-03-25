@@ -18,8 +18,8 @@
 
 declare(strict_types=1);
 
-use ILIAS\Object\Properties\ObjectTypeSpecificProperties\ilObjectTypeSpecificPropertyProviders;
-use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectTileImageFlavourDefinition;
+use ILIAS\ILIASObject\Properties\ObjectTypeSpecificProperties\ObjectTypeSpecificPropertyProviders;
+use ILIAS\ILIASObject\Properties\CoreProperties\TileImage\FlavourDefinition as TileImageFlavourDefinition;
 use ILIAS\UI\Component\Symbol\Icon\Custom as CustomIcon;
 use ILIAS\UI\Component\Symbol\Icon\Factory as IconFactory;
 use ILIAS\UI\Component\Image\Image;
@@ -31,7 +31,7 @@ use ILIAS\components\File\Preview\Settings;
 use ILIAS\Modules\File\Preview\SettingsFactory;
 use ILIAS\File\Icon\IconDatabaseRepository;
 
-class FileObjectPropertyProviders implements ilObjectTypeSpecificPropertyProviders
+class FileObjectPropertyProviders implements ObjectTypeSpecificPropertyProviders
 {
     private FlavourDefinition $crop_definition;
     private FlavourDefinition $extract_definition;
@@ -41,7 +41,7 @@ class FileObjectPropertyProviders implements ilObjectTypeSpecificPropertyProvide
 
     public function __construct()
     {
-        $this->crop_definition = new ilObjectTileImageFlavourDefinition();
+        $this->crop_definition = new TileImageFlavourDefinition();
         $this->extract_definition = new FirstPageToTileImageFlavourDefinition();
         $this->settings = (new SettingsFactory())->getSettings();
         $this->info = new ilObjFileInfoRepository();

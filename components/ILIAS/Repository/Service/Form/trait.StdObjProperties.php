@@ -22,11 +22,12 @@ namespace ILIAS\Repository\Form;
 
 use ILIAS\Object\ilObjectDIC;
 use ILIAS\DI\Container;
-use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectPropertyTileImage;
+use ILIAS\ILIASObject\Properties\Agregator;
+use ILIAS\ILIASObject\Properties\CoreProperties\TitleAndDescription;
 
 trait StdObjProperties
 {
-    protected \ilObjectPropertiesAgregator $object_prop;
+    protected Agregator $object_prop;
 
     protected function initStdObjProperties(Container $DIC)
     {
@@ -64,7 +65,7 @@ trait StdObjProperties
     ): void {
         $obj_prop = $this->object_prop->getFor($obj_id, $type);
         $obj_prop->storePropertyTitleAndDescription(
-            new \ilObjectPropertyTitleAndDescription(
+            new TitleAndDescription(
                 $this->getData("title"),
                 $this->getData("description")
             )
@@ -77,7 +78,7 @@ trait StdObjProperties
     ): void {
         $obj_prop = $this->object_prop->getFor($obj_id, $type);
         $obj_prop->storePropertyTitleAndDescription(
-            new \ilObjectPropertyTitleAndDescription(
+            new TitleAndDescription(
                 $this->getData("title"),
                 ""
             )

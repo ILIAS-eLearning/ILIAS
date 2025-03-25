@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectPropertyTileImage;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 
 /**

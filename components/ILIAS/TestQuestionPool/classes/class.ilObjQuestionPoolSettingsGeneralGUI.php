@@ -24,6 +24,7 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Renderer as UIRenderer;
 use Psr\Http\Message\ServerRequestInterface as HttpRequest;
 use ILIAS\UI\Component\MessageBox\MessageBox;
+use ILIAS\ILIASObject\Properties\CoreProperties\TitleAndDescription;
 
 /**
  * GUI class that manages the editing of general test question pool settings/properties
@@ -120,7 +121,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
     private function performSaveForm($data): void
     {
         $title_and_description = $data['general_settings']['title_and_description'] ?? null;
-        if ($title_and_description instanceof ilObjectPropertyTitleAndDescription) {
+        if ($title_and_description instanceof TitleAndDescription) {
             $this->poolOBJ->getObjectProperties()->storePropertyTitleAndDescription(
                 $title_and_description
             );

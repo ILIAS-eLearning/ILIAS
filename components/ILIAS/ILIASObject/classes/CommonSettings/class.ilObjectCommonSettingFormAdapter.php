@@ -18,11 +18,12 @@
 
 declare(strict_types=1);
 
+use ILIAS\ILIASObject\Properties\AdditionalProperties\Simple\HeaderActionVisibility;
+use ILIAS\ILIASObject\Properties\CoreProperties\TileImage\Stakeholder;
+use ILIAS\ILIASObject\Properties\CoreProperties\TileImage\FlavourDefinition;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\ResourceStorage\Services as ResourceStorageServices;
-use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectTileImageStakeholder;
-use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectTileImageFlavourDefinition;
 use ILIAS\HTTP\Services;
 use GuzzleHttp\Psr7\UploadedFile;
 
@@ -37,8 +38,8 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
         private ilLanguage $language,
         private FileUpload $upload,
         private ResourceStorageServices $storage,
-        private ilObjectTileImageStakeholder $stakeholder,
-        private ilObjectTileImageFlavourDefinition $flavour,
+        private Stakeholder $stakeholder,
+        private FlavourDefinition $flavour,
         private ilObjectCommonSettings $common_settings,
         private Services $http,
         private ?ilPropertyFormGUI $legacy_form = null
@@ -188,7 +189,7 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
         }
 
         $this->common_settings->storePropertyHeaderActionVisibility(
-            new ilObjectPropertyHeaderActionVisibility((bool) $this->legacy_form->getInput('show_top_actions'))
+            new HeaderActionVisibility((bool) $this->legacy_form->getInput('show_top_actions'))
         );
     }
 }

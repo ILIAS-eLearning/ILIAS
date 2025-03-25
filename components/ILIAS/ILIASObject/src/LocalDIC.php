@@ -20,13 +20,18 @@ declare(strict_types=1);
 
 namespace ILIAS\ILIASObject;
 
-use ILIAS\Object\Properties\ObjectTypeSpecificProperties\Factory as ObjectTypeSpecificPropertiesFactory;
-use ILIAS\Object\Properties\ObjectTypeSpecificProperties\ilObjectTypeSpecificPropertiesArtifactObjective;
-use ILIAS\Object\Properties\MultiObjectPropertiesManipulator;
-use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectTileImageStakeholder;
-use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectTileImageFlavourDefinition;
-use ILIAS\Object\Properties\ObjectReferenceProperties\ObjectReferencePropertiesCachedRepository;
-use ILIAS\Object\Properties\ObjectReferenceProperties\ObjectAvailabilityPeriodPropertiesCachedRepository;
+use ILIAS\ILIASObject\Properties\ObjectTypeSpecificProperties\Factory as ObjectTypeSpecificPropertiesFactory;
+use ILIAS\ILIASObject\Properties\ObjectTypeSpecificProperties\ArtifactObjective;
+use ILIAS\ILIASObject\Properties\AdditionalProperties\Repository as AdditionalPropertiesRepository;
+use ILIAS\ILIASObject\Properties\AdditionalProperties\LegacyRepository as AdditionalPropertiesLegacyRepository;
+use ILIAS\ILIASObject\Properties\CoreProperties\Repository as CorePropertiesRepository;
+use ILIAS\ILIASObject\Properties\CoreProperties\CachedRepository as CorePropertiesCachedRepository;
+use ILIAS\ILIASObject\Properties\CoreProperties\TileImage\Stakeholder;
+use ILIAS\ILIASObject\Properties\CoreProperties\TileImage\FlavourDefinition;
+use ILIAS\ILIASObject\Properties\ObjectReferenceProperties\CachedRepository as ObjectReferencePropertiesRepository;
+use ILIAS\ILIASObject\Properties\ObjectReferenceProperties\AvailabilityPeriod\CachedRepository as AvailabilityPeriodRepository;
+use ILIAS\ILIASObject\Properties\Agregator;
+use ILIAS\ILIASObject\Properties\MultiPropertiesManipulator;
 use ILIAS\ILIASObject\Translations\DatabaseRepository;
 use Pimple\Container as PimpleContainer;
 use ILIAS\DI\Container as ILIASContainer;
@@ -57,25 +62,25 @@ class LocalDIC extends PimpleContainer
             $c['properties.additional.tile_image.flavour']
         );
 
-        $this['properties.agregator'] = fn($c): \ilObjectPropertiesAgregator => new \ilObjectPropertiesAgregator(
+        $this['properties.agregator'] = fn($c): Agregator => new Agregator(
             $c['properties.core.repository'],
             $c['properties.additional.repository'],
             $c['properties.object_type_specific.factory'],
             $DIC['learning_object_metadata']
         );
 
-        $this['properties.core.repository'] = fn($c): \ilObjectCorePropertiesRepository
-            => new \ilObjectCorePropertiesCachedRepository(
+        $this['properties.core.repository'] = fn($c): CorePropertiesRepository
+            => new CorePropertiesCachedRepository(
                 $DIC['ilDB'],
                 $DIC['objDefinition'],
                 $DIC['resource_storage'],
                 $c['properties.additional.tile_image.stackholder'],
-                new ilObjectTileImageFlavourDefinition(),
+                new FlavourDefinition(),
                 $c['properties.object_type_specific.factory']
             );
 
-        $this['properties.multi_manipulator'] = fn($c): MultiObjectPropertiesManipulator
-            => new MultiObjectPropertiesManipulator(
+        $this['properties.multi_manipulator'] = fn($c): MultiPropertiesManipulator
+            => new MultiPropertiesManipulator(
                 $c['properties.object_reference.repositoy'],
                 $c['properties.agregator'],
                 $DIC['lng'],
@@ -86,34 +91,34 @@ class LocalDIC extends PimpleContainer
                 $DIC['refinery']
             );
 
-        $this['properties.additional.repository'] = fn($c): \ilObjectAdditionalPropertiesRepository
-            => new \ilObjectAdditionalPropertiesLegacyRepository(
+        $this['properties.additional.repository'] = fn($c): AdditionalPropertiesRepository
+            => new AdditionalPropertiesLegacyRepository(
                 $DIC['object.customicons.factory'],
                 $c['properties.object_type_specific.factory']
             );
 
-        $this['properties.additional.tile_image.stackholder'] = static fn($c): ilObjectTileImageStakeholder
-            => new ilObjectTileImageStakeholder();
+        $this['properties.additional.tile_image.stackholder'] = static fn($c): Stakeholder
+            => new Stakeholder();
 
-        $this['properties.additional.tile_image.flavour'] = static fn($c): ilObjectTileImageFlavourDefinition
-            => new ilObjectTileImageFlavourDefinition();
+        $this['properties.additional.tile_image.flavour'] = static fn($c): FlavourDefinition
+            => new FlavourDefinition();
 
         $this['properties.object_type_specific.factory'] = fn($c): ObjectTypeSpecificPropertiesFactory
             => new ObjectTypeSpecificPropertiesFactory(
-                is_readable(ilObjectTypeSpecificPropertiesArtifactObjective::PATH()) ?
-                    include ilObjectTypeSpecificPropertiesArtifactObjective::PATH()
+                is_readable(ArtifactObjective::PATH()) ?
+                    include ArtifactObjective::PATH()
                     : [],
                 $DIC['ilDB']
             );
 
-        $this['properties.object_reference.repositoy'] = fn($c): ObjectReferencePropertiesCachedRepository
-            => new ObjectReferencePropertiesCachedRepository(
+        $this['properties.object_reference.repositoy'] = fn($c): ObjectReferencePropertiesRepository
+            => new ObjectReferencePropertiesRepository(
                 $c['properties.object_reference.availability_period.repository'],
                 $DIC['ilDB']
             );
 
-        $this['properties.object_reference.availability_period.repository'] = fn($c): ObjectAvailabilityPeriodPropertiesCachedRepository
-            => new ObjectAvailabilityPeriodPropertiesCachedRepository(
+        $this['properties.object_reference.availability_period.repository'] = fn($c): AvailabilityPeriodRepository
+            => new AvailabilityPeriodRepository(
                 $DIC['ilDB'],
                 $DIC['tree']
             );
