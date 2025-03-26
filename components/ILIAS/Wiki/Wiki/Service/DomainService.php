@@ -66,7 +66,7 @@ class DomainService
 
     public function translation(int $obj_id): Translation
     {
-        return new Translation($this->domain_service->database(), $obj_id);
+        return $this->object()->getObjectProperties()->getPropertyTranslations();
     }
 
     public function getStartingPageId(int $wiki_ref_id): ?int

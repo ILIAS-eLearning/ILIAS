@@ -51,6 +51,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
         int $a_wiki_ref_id = 0,
         string $lang = "-"
     ) {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         $service = $DIC->wiki()->internal();

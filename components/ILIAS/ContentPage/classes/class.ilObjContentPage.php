@@ -27,7 +27,7 @@ use ILIAS\ILIASObject\Properties\Translations\Translations;
 class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
 {
     protected int $styleId = 0;
-    protected ?ilObjectTranslation $objTrans = null;
+    protected ?Translations $objTrans = null;
     private PageMetricsService $pageMetricsService;
     protected DomainService $content_style_domain;
 
@@ -45,7 +45,7 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
     private function initTranslationService(): void
     {
         if (null === $this->objTrans && $this->getId() > 0) {
-            $this->objTrans = new Translation($this->db, $this->getId());
+            $this->objTrans = $this->getObjectProperties()->getPropertyTranslations();
         }
     }
 

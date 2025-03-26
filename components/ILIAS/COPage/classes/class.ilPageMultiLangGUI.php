@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\ILIASObject\Properties\Translations\Translations;
+use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRepository;
 
 /**
  * Page multilinguality GUI class.
@@ -50,7 +50,7 @@ class ilPageMultiLangGUI
         //$this->ml = new ilPageMultiLang($a_parent_type, $a_parent_id);
 
         // object translation
-        $this->ot = new Translation($DIC->database(), $a_parent_id);
+        $this->ot = (new TranslationsRepository($DIC->database()))->getFor($a_parent_id);
     }
 
     /**

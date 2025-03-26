@@ -410,14 +410,12 @@ class ilContainer extends ilObject
         $log = ilLoggerFactory::getLogger("cont");
 
         // translations
-        $ot = new Translation($this->db, $this->getId());
-        $ot->setDefaultTitle($new_obj->getTitle());     // get possible "- COPY" extension
-        $ot->copy($new_obj->getId());
-        $ot2 = Translation($this->db, $new_obj->getId());
-        $ot2->read();
-        $new_obj->setObjectTranslation($ot2);
-        if ($ot2->getDefaultDescription() !== "") {
-            $new_obj->setDescription($ot2->getDefaultDescription());
+        $ot = $this->getObjectProperties()->clonePropertyTranslations($new_obj->getId());
+        $ot->setDefaultTitle($new_obj->getTitle());
+        $new_obj->getObjectProperties()->storePropertyTranslations($ot);
+        $new_obj->setObjectTranslation($ot);
+        if ($ot->getDefaultDescription() !== "") {
+            $new_obj->setDescription($ot->getDefaultDescription());
         }
         $log->debug("**1**" . count($new_obj->getObjectTranslation()->getLanguages()));
         $log->debug("ilContainer: cloning translations from " . $this->getId() . " to " .

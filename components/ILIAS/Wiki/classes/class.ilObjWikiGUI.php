@@ -78,7 +78,7 @@ class ilObjWikiGUI extends ilObjectGUI
         $this->help = $gui->help();
         $this->locator = $gui->locator();
         $this->http = $gui->http();
-        $this->ot = $gui->wiki()->translation();
+        $this->ot = $this->object->getObjectProperties()->getPropertyTranslations();
 
         $this->type = "wiki";
 
