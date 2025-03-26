@@ -27,8 +27,6 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
 
 class ComponentDummy implements C\Component
 {
-    use I\Component\ComponentHelper;
-
     protected string $id;
 
     public function __construct($id = "")

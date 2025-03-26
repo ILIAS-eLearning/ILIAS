@@ -23,7 +23,6 @@ namespace ILIAS\UI\Implementation\Component;
 use ILIAS\UI\Component\Signal;
 use InvalidArgumentException;
 use Closure;
-use ILIAS\UI\Component\Component;
 
 /**
  * Provides common functionality for component implementations.
@@ -239,52 +238,5 @@ trait ComponentHelper
             }
             return "expected $expected, got $type";
         }
-    }
-
-    // Implementation for foldWith
-
-    private ?array $sub_structure = null;
-
-    public function foldWith(callable $f): mixed
-    {
-        $clone = clone $this;
-
-        $sub_components = $clone->getSubComponents();
-        if ($sub_components !== null) {
-            $clone->sub_structure = array_map(
-                fn($c) => $c->foldWith($f),
-                $sub_components
-            );
-        }
-
-        try {
-            return $f($clone);
-        } finally {
-            // Reset substructure afterwards, so transient components will have
-            // expected component sub structure afterwards.
-            $clone->sub_structure = null;
-        }
-    }
-
-    /**
-     * Get all components that are contained within this component. Sub components
-     * could either be contained by construction (like a bulky button gets a glyph
-     * when it is created) or by internal composition (like a launcher uses a bulky
-     * button internally).
-     *
-     * Defaults to empty array, as many components do not contain any substructure.
-     */
-    protected function getSubComponents(): ?array
-    {
-        return null;
-    }
-
-
-    public function getSubStructure(): ?array
-    {
-        if ($this->sub_structure === null) {
-            return $this->getSubComponents();
-        }
-        return $this->sub_structure;
     }
 }

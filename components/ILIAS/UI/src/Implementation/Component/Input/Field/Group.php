@@ -157,9 +157,4 @@ class Group extends FormInput implements C\Input\Field\Group, GroupInternal
     {
         return $this->_isClientSideValueOk($value);
     }
-
-    protected function getSubComponents(): ?array
-    {
-        return $this->getInputs();
-    }
 }
