@@ -37,7 +37,7 @@ use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
  * @ilCtrl_Calls ilObjCmiXapiGUI: ilCmiXapiSettingsGUI
  * @ilCtrl_Calls ilObjCmiXapiGUI: ilCmiXapiStatementsGUI
  * @ilCtrl_Calls ilObjCmiXapiGUI: ilCmiXapiScoringGUI
- * @ilCtrl_Calls ilObjCmiXapiGUI: ilCmiXapiExportGUI
+ * @ilCtrl_Calls ilObjCmiXapiGUI: ilExportGUI
  */
 class ilObjCmiXapiGUI extends ilObject2GUI
 {
@@ -446,11 +446,11 @@ class ilObjCmiXapiGUI extends ilObject2GUI
 
                 break;
 
-            case strtolower(ilCmiXapiExportGUI::class):
+            case strtolower(ilExportGUI::class):
 
                 $DIC->tabs()->activateTab(self::TAB_ID_EXPORT);
 
-                $gui = new ilCmiXapiExportGUI($this);
+                $gui = new ilExportGUI($this);
                 $DIC->ctrl()->forwardCommand($gui);
 
                 break;
@@ -538,7 +538,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
             $DIC->tabs()->addTab(
                 self::TAB_ID_EXPORT,
                 $DIC->language()->txt(self::TAB_ID_EXPORT),
-                $DIC->ctrl()->getLinkTargetByClass(ilCmiXapiExportGUI::class)
+                $DIC->ctrl()->getLinkTargetByClass(ilExportGUI::class)
             );
         }
 
