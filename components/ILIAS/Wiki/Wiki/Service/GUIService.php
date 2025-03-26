@@ -22,7 +22,6 @@ namespace ILIAS\Wiki\Wiki;
 
 use ILIAS\Wiki\InternalGUIService;
 use ILIAS\Wiki\InternalDomainService;
-use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 /**
  * @author Alexander Killing <killing@leifos.de>

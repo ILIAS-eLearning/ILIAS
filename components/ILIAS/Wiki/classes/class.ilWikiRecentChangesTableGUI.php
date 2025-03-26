@@ -53,7 +53,7 @@ class ilWikiRecentChangesTableGUI extends ilTable2GUI
 
         $this->addColumn($this->lng->txt("wiki_last_changed"));
         $this->addColumn($this->lng->txt("wiki_page"));
-        if ($this->ot->getCOPageTranslationActivated()) {
+        if ($this->ot->getContentTranslationActivated()) {
             $this->addColumn($this->lng->txt("language"));
         }
         $this->addColumn($this->lng->txt("wiki_last_changed_by"));
@@ -92,7 +92,7 @@ class ilWikiRecentChangesTableGUI extends ilTable2GUI
     {
         $ilCtrl = $this->ctrl;
 
-        if ($this->ot->getCOPageTranslationActivated()) {
+        if ($this->ot->getContentTranslationActivated()) {
             $l = $a_set["lang"];
             if ($l === "-") {
                 $l = $this->ot->getMasterLanguage();

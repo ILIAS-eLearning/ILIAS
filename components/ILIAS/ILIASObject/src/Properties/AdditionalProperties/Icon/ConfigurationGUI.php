@@ -52,7 +52,7 @@ class ConfigurationGUI
         }
     }
 
-    protected function showForm(?ilPropertyFormGUI $form = null): void
+    protected function showForm(?\ilPropertyFormGUI $form = null): void
     {
         if (null === $form) {
             $form = $this->getForm();

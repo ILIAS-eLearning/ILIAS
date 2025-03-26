@@ -25,8 +25,7 @@ use ILIAS\Repository\Form\FormAdapterGUI;
 use ILIAS\MediaPool\InternalGUIService;
 use ILIAS\FileUpload\Handler\HandlerResult;
 use ILIAS\MediaPool\Settings\SettingsGUI;
-use ILIAS\ILIASObject\Properties\Translations\Translations;
-use ILIAS\ILIASObject\Properties\Translations\TranslationsGUI;
+use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
 
 /**
  * User Interface class for media pool objects
@@ -35,7 +34,7 @@ use ILIAS\ILIASObject\Properties\Translations\TranslationsGUI;
  *
  * @ilCtrl_Calls ilObjMediaPoolGUI: ilObjMediaObjectGUI, ilObjFolderGUI, ilEditClipboardGUI, ilPermissionGUI
  * @ilCtrl_Calls ilObjMediaPoolGUI: ilInfoScreenGUI, ilMediaPoolPageGUI, ilExportGUI
- * @ilCtrl_Calls ilObjMediaPoolGUI: ilCommonActionDispatcherGUI, ilObjectCopyGUI, ILIAS\ILIASObject\Properties\Translations\TranslationsGUI, ilMediaPoolImportGUI
+ * @ilCtrl_Calls ilObjMediaPoolGUI: ilCommonActionDispatcherGUI, ilObjectCopyGUI, ILIAS\ILIASObject\Properties\Translations\TranslationGUI, ilMediaPoolImportGUI
  * @ilCtrl_Calls ilObjMediaPoolGUI: ilObjectMetaDataGUI
  * @ilCtrl_Calls ilObjMediaPoolGUI: ilMobMultiSrtUploadGUI, ilObjectMetaDataGUI, ilRepoStandardUploadHandlerGUI, ilMediaCreationGUI
  * @ilCtrl_Calls ilObjMediaPoolGUI: ILIAS\MediaPool\Settings\SettingsGUI
@@ -402,8 +401,21 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 //$this->setTabs("settings");
                 $ilTabs->activateTab("settings");
                 $this->setSettingsSubTabs("obj_multilinguality");
-                $transgui = new TranslationGUI($this);
-                $transgui->setTitleDescrOnlyMode(false);
+                $transgui = new TranslationGUI(
+                    $this->getObject()->getType(),
+                    $this->getObject()->getObjectProperties(),
+                    $this->lng,
+                    $this->user,
+                    $this->ctrl,
+                    $this->tpl,
+                    $this->ui_factory,
+                    $this->ui_renderer,
+                    $this->post_wrapper,
+                    $this->request,
+                    $this->refinery,
+                    $this->toolbar
+                );
+                $transgui->forceContentTranslation();
                 $this->ctrl->forwardCommand($transgui);
                 $this->tpl->printToStdout();
                 break;
@@ -1420,7 +1432,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
     {
         $ot = $this->object->getObjectProperties()->getPropertyTranslations();
         $opt = "";
-        if ($ot->getCOPageTranslationActivated()) {
+        if ($ot->getContentTranslationActivated()) {
             $format = explode("_", $this->mep_request->getExportFormat());
             $opt = ilUtil::stripSlashes($format[1]);
         }

@@ -130,7 +130,7 @@ class Icon implements Property
 
     public function toLegacyForm(
         \ilLanguage $language
-    ): ?ilImageFileInputGUI {
+    ): ?\ilImageFileInputGUI {
         if (!$this->custom_icons_enabled) {
             return null;
         }

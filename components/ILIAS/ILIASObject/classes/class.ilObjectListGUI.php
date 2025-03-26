@@ -724,7 +724,7 @@ class ilObjectListGUI
         $this->access_cache = [];
         $this->ref_id = $ref_id;
         $this->obj_id = $obj_id;
-        $this->object_properties = $this->object_dic['properties.agregator']->getFor($obj_id);
+        $this->object_properties = $this->object_dic['properties.aggregator']->getFor($obj_id);
         $this->setTitle($title);
         $this->setDescription($description);
 

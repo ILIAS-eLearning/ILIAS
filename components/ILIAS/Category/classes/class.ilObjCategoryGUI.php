@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Category\StandardGUIRequest;
-use ILIAS\ILIASObject\Properties\Translations\TranslationsGUI;
+use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
 
 /**
  * Class ilObjCategoryGUI
@@ -29,7 +29,7 @@ use ILIAS\ILIASObject\Properties\Translations\TranslationsGUI;
  *
  * @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilContainerPageGUI, ilObjUserGUI, ilObjUserFolderGUI
  * @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI, ilObjStyleSheetGUI, ilCommonActionDispatcherGUI,
- * @ilCtrl_Calls ilObjCategoryGUI: ILIAS\ILIASObject\Properties\Translations\TranslationsGUI, ilObjectContentStyleSettingsGUI
+ * @ilCtrl_Calls ilObjCategoryGUI: ILIAS\ILIASObject\Properties\Translations\TranslationGUI, ilObjectContentStyleSettingsGUI
  * @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI, ilDidacticTemplateGUI, ilExportGUI
  * @ilCtrl_Calls ilObjCategoryGUI: ilTaxonomySettingsGUI, ilObjectMetaDataGUI, ilContainerNewsSettingsGUI, ilContainerFilterAdminGUI
  * @ilCtrl_Calls ilObjCategoryGUI: ilRepositoryTrashGUI
@@ -244,7 +244,20 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
                 $this->prepareOutput();
                 //$this->tabs_gui->setTabActive('export');
                 $this->setEditTabs("settings_trans");
-                $transgui = new TranslationGUI($this);
+                $transgui = new TranslationGUI(
+                    $this->getObject(),
+                    $this->lng,
+                    $this->access,
+                    $this->user,
+                    $this->ctrl,
+                    $this->tpl,
+                    $this->ui_factory,
+                    $this->ui_renderer,
+                    $this->post_wrapper,
+                    $this->request,
+                    $this->refinery,
+                    $this->toolbar
+                );
                 $this->ctrl->forwardCommand($transgui);
                 break;
 
@@ -738,7 +751,7 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
         $this->tabs_gui->addSubTab(
             "settings_trans",
             $this->lng->txt("obj_multilinguality"),
-            $this->ctrl->getLinkTargetByClass(TranslationsGUI::class, "")
+            $this->ctrl->getLinkTargetByClass(TranslationGUI::class, "")
         );
 
         //news tab

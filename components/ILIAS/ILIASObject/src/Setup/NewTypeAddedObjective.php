@@ -18,10 +18,12 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\ILIASObject\Setup;
+
 use ILIAS\Setup;
 use ILIAS\Setup\Environment;
 
-class ilObjectNewTypeAddedObjective implements Setup\Objective
+class NewTypeAddedObjective implements Setup\Objective
 {
     protected string $type;
     protected string $type_title;

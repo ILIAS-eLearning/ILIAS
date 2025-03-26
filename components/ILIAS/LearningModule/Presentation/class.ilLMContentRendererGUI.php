@@ -293,8 +293,8 @@ class ilLMContentRendererGUI
         if ($this->lang != "-" && ilPageObject::_exists("lm", $a_id, $this->lang)) {
             $page_gui = new ilLMPageGUI($a_id, 0, false, $this->lang, $this->concrete_lang);
         } else {
-            if ($this->lang != "-" && ilPageObject::_exists("lm", $a_id, $this->ot->getFallbackLanguage())) {
-                $page_gui = new ilLMPageGUI($a_id, 0, false, $this->ot->getFallbackLanguage(), $this->concrete_lang);
+            if ($this->lang != "-" && ilPageObject::_exists("lm", $a_id, $this->ot->getDefaultLanguage())) {
+                $page_gui = new ilLMPageGUI($a_id, 0, false, $this->ot->getDefaultLanguage(), $this->concrete_lang);
             } else {
                 $page_gui = new ilLMPageGUI($a_id, 0, false, "", $this->concrete_lang);
             }

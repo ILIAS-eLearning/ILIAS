@@ -401,7 +401,7 @@ class EditSubObjectsGUI
         $this->gui->ctrl()->setParameterByClass(self::class, "edit_id", $id);
         $ot = \ilObjectTranslation::getInstance($this->lm->getId());
         $ml = "";
-        if ($ot->getCOPageTranslationActivated()) {
+        if ($ot->getContentTranslationActivated()) {
             $ml = " (" . $lng->txt("meta_l_" . $ot->getMasterLanguage()) . ")";
         }
 
@@ -409,7 +409,7 @@ class EditSubObjectsGUI
             ->gui
             ->form(self::class, "saveTitle")
             ->text("title", $lng->txt('title') . $ml, "", ilLMObject::_lookupTitle($id));
-        if ($ot->getCOPageTranslationActivated()) {
+        if ($ot->getContentTranslationActivated()) {
             foreach ($ot->getLanguages() as $lang) {
                 $code = $lang->getLanguageCode();
                 if ($code === $ot->getMasterLanguage()) {
@@ -443,7 +443,7 @@ class EditSubObjectsGUI
             \ilLMObject::saveTitle($this->request->getEditId(), $form->getData("title"));
 
             $ot = \ilObjectTranslation::getInstance($this->lm->getId());
-            if ($ot->getCOPageTranslationActivated()) {
+            if ($ot->getContentTranslationActivated()) {
                 foreach ($ot->getLanguages() as $lang) {
                     $code = $lang->getLanguageCode();
                     if ($code === $ot->getMasterLanguage()) {

@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ILIAS\Container\Content\ViewManager;
 use ILIAS\Refinery;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
-use ILIAS\ILIASObject\Properties\Translations\TranslationsGUI;
+use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
 
 /**
  * Class ilObjStudyProgrammeGUI class
@@ -33,7 +33,7 @@ use ILIAS\ILIASObject\Properties\Translations\TranslationsGUI;
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeMembersGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeAutoMembershipsGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjectCopyGUI
- * @ilCtrl_Calls ilObjStudyProgrammeGUI: ILIAS\ILIASObject\Properties\Translations\TranslationsGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeGUI: ILIAS\ILIASObject\Properties\Translations\TranslationGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilCertificateGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStudyProgrammeAutoCategoriesGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilContainerGUI
@@ -227,7 +227,20 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 $this->getSubTabs('settings');
                 $this->tabs_gui->activateTab(self::TAB_SETTINGS);
                 $this->tabs_gui->activateSubTab('settings_trans');
-                $transgui = new TranslationGUI($this);
+                $transgui = new TranslationGUI(
+                    $this->getObject()->getType(),
+                    $this->getObject()->getObjectProperties(),
+                    $this->lng,
+                    $this->user,
+                    $this->ctrl,
+                    $this->tpl,
+                    $this->ui_factory,
+                    $this->ui_renderer,
+                    $this->post_wrapper,
+                    $this->request,
+                    $this->refinery,
+                    $this->toolbar
+                );
                 $this->ctrl->forwardCommand($transgui);
                 break;
             case "ilcertificategui":

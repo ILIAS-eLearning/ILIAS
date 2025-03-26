@@ -867,12 +867,13 @@ class ilContainer extends ilObject
         $ret = parent::update();
 
         $log = ilLoggerFactory::getLogger("cont");
-        $log->debug("**5**" . count($this->getObjectTranslation()->getLanguages()));
+        $log->debug("**5**" . count($this->$this->getObjectProperties()->getPropertyTranslations()->getLanguages()));
 
-        $trans = $this->getObjectTranslation();
-        $trans->setDefaultTitle($this->getTitle());
-        $trans->setDefaultDescription($this->getLongDescription());
-        $trans->save();
+        $this->getObjectProperties()->storePropertyTranslations(
+            $this->getObjectProperties()->getPropertyTranslations()
+                ->withDefaultTitle($this->getTitle())
+                ->withDefaultDescription($this->getLongDescription())
+        );
 
         $log = ilLoggerFactory::getLogger("cont");
         $log->debug(":::::::::::::::::::::::::::");
@@ -1025,7 +1026,7 @@ class ilContainer extends ilObject
 
     public function deleteTranslation(string $a_lang): void
     {
-        $this->obj_trans->removeLanguage($a_lang);
+        $this->obj_trans = $this->obj_trans->withoutLanguage($a_lang);
         $this->getObjectProperties()->storePropertyTranslations($this->obj_trans);
     }
 
@@ -1039,7 +1040,13 @@ class ilContainer extends ilObject
             $a_title = "NO TITLE";
         }
 
-        $this->obj_trans->addLanguage($a_lang, $a_title, $a_desc, (bool) $a_lang_default, true);
+        $this->obj_trans = $this->obj_trans->withAdditionalLanguage(
+            $a_lang,
+            $a_title,
+            $a_desc,
+            (bool) $a_lang_default,
+            true
+        );
         $this->getObjectProperties()->storePropertyTranslations($this->obj_trans);
     }
 

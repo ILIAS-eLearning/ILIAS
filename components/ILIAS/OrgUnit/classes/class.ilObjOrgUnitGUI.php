@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\OrgUnit\Provider\OrgUnitToolProvider;
-use ILIAS\ILIASObject\Properties\Translations\TranslationsGUI;
+use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
 
 /**
  * Class ilObjOrgUnit GUI class
@@ -33,7 +33,7 @@ use ILIAS\ILIASObject\Properties\Translations\TranslationsGUI;
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilDidacticTemplateGUI, illearningprogressgui
- * @ilCtrl_Calls      ilObjOrgUnitGUI: ILIAS\ILIASObject\Properties\Translations\TranslationsGUI, ilLocalUserGUI, ilOrgUnitExportGUI
+ * @ilCtrl_Calls      ilObjOrgUnitGUI: ILIAS\ILIASObject\Properties\Translations\TranslationGUI, ilLocalUserGUI, ilOrgUnitExportGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilExtIdGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitSimpleImportGUI, ilOrgUnitSimpleUserImportGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilOrgUnitTypeGUI, ilOrgUnitPositionGUI
@@ -250,7 +250,20 @@ class ilObjOrgUnitGUI extends ilContainerGUI
             case strtolower(TranslationGUI::class):
                 $this->tabs_gui->activateTab(self::TAB_SETTINGS);
                 $this->setSubTabsSettings('edit_translations');
-                $translations_gui = new TranslationGUI($this);
+                $translations_gui = new TranslationGUI(
+                    $this->getObject(),
+                    $this->lng,
+                    $this->access,
+                    $this->user,
+                    $this->ctrl,
+                    $this->tpl,
+                    $this->ui_factory,
+                    $this->ui_renderer,
+                    $this->post_wrapper,
+                    $this->request,
+                    $this->refinery,
+                    $this->toolbar
+                );
                 $translations_gui->supportContentTranslation(false);
                 $this->ctrl->forwardCommand($translations_gui);
                 break;
@@ -609,7 +622,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
 
         $this->tabs_gui->setSubTabActive($active_tab_id);
         switch ($next_class) {
-            case 'iltranslationgui':
+            case strtolower(TranslationGUI::class):
                 $this->tabs_gui->setSubTabActive("edit_translations");
                 break;
             case '':

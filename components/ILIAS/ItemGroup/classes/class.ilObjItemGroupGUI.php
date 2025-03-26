@@ -17,14 +17,14 @@
  *********************************************************************/
 
 use ILIAS\ItemGroup\StandardGUIRequest;
-use ILIAS\ILIASObject\Properties\Translations\TranslationsGUI;
+use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
 
 /**
  * User Interface class for item groups
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilObjItemGroupGUI: ilPermissionGUI, ilDidacticTemplateGUI
  * @ilCtrl_Calls ilObjItemGroupGUI: ilCommonActionDispatcherGUI, ilObjectCopyGUI,
- * @ilCtrl_Calls ilObjItemGroupGUI: ILIAS\ILIASObject\Properties\Translations\TranslationsGUI,
+ * @ilCtrl_Calls ilObjItemGroupGUI: ILIAS\ILIASObject\Properties\Translations\TranslationGUI,
  * @ilCtrl_isCalledBy ilObjItemGroupGUI: ilRepositoryGUI, ilAdministrationGUI
  */
 class ilObjItemGroupGUI extends ilObject2GUI
@@ -91,8 +91,19 @@ class ilObjItemGroupGUI extends ilObject2GUI
                 $this->checkPermissionBool("write");
                 $this->prepareOutput();
                 $this->setSettingsSubTabs("settings_trans");
-                $transgui = new TranslationGUI($this);
-                $transgui->setEnableFallbackLanguage(false);
+                $transgui = new TranslationGUI(
+                    $this->getObject(),
+                    $this->lng,
+                    $this->user,
+                    $this->ctrl,
+                    $this->tpl,
+                    $this->ui_factory,
+                    $this->ui_renderer,
+                    $this->post_wrapper,
+                    $this->request,
+                    $this->refinery,
+                    $this->toolbar
+                );
                 $transgui->supportContentTranslation(false);
                 $transgui->hideDescription(true);
                 $this->ctrl->forwardCommand($transgui);

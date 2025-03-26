@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Setup;
 use ILIAS\DI;
 use ILIAS\COPage\Setup\ilCOPageDBUpdateSteps;
+use ILIAS\ILIASObject\Setup\ObjectDefinitionProcessor;
 
 class ilComponentDefinitionsStoredObjective implements Setup\Objective
 {
@@ -150,7 +151,7 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
                 $component_factory
             ),
             new \ilMailTemplateContextDefinitionProcessor($db),
-            new \ilObjectDefinitionProcessor($db),
+            new ObjectDefinitionProcessor($db),
             new \ilSystemCheckDefinitionProcessor($db),
             new \ilSecurePathDefinitionProcessor($db),
         );

@@ -22,7 +22,7 @@ namespace ILIAS\ILIASObject\Properties\AdditionalProperties\Icon;
 
 class ObjectReferenceCustomIconPresenter implements Presenter
 {
-    private ?ilObjectCustomIcon $icon = null;
+    private ?Custom $icon = null;
 
     public function __construct(
         private readonly int $obj_id,

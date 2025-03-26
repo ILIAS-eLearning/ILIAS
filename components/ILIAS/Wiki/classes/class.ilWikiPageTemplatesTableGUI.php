@@ -51,7 +51,7 @@ class ilWikiPageTemplatesTableGUI extends ilTable2GUI
 
         $this->addColumn($this->lng->txt(""), "", "1");
         $this->addColumn($this->lng->txt("title"), "title");
-        if ($this->ot->getCOPageTranslationActivated()) {
+        if ($this->ot->getContentTranslationActivated()) {
             $this->addColumn($this->lng->txt("wiki_translations"));
         }
         $this->addColumn($this->lng->txt("wiki_templ_new_pages"), "");
@@ -72,7 +72,7 @@ class ilWikiPageTemplatesTableGUI extends ilTable2GUI
 
     protected function fillRow(array $a_set): void
     {
-        if ($this->ot->getCOPageTranslationActivated()) {
+        if ($this->ot->getContentTranslationActivated()) {
             $this->tpl->setCurrentBlock("trans");
             $this->tpl->setVariable("TRANSLATIONS", implode(", ", $this->pm->getLanguages($a_set["wpage_id"])));
             $this->tpl->parseCurrentBlock();

@@ -25,7 +25,7 @@ use ILIAS\Export\ExportHandler\I\Consumer\Context\HandlerInterface as ilExportHa
 use ILIAS\Export\ExportHandler\I\Consumer\File\Identifier\CollectionInterface as ilExportHandlerConsumerFileIdentifierCollectionInterface;
 use ILIAS\Export\ExportHandler\I\Consumer\File\Identifier\HandlerInterface as ilExportHandlerConsumerFileIdentifierInterface;
 use ILIAS\Export\ExportHandler\I\Info\File\CollectionInterface as ilExportHandlerFileInfoCollectionInterface;
-use ILIAS\ILIASObject\Properties\Translations\Translations;
+use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRepository;
 use ILIAS\DI\Container;
 
 class ilMediaPoolExportOptionXMLMasterNoMedia extends ilBasicLegacyExportOption
@@ -138,8 +138,8 @@ class ilMediaPoolExportOptionXMLMasterNoMedia extends ilBasicLegacyExportOption
 
     public function isObjectSupported(ObjectId $object_id): bool
     {
-        $ot = new Translation($this->db, $object_id->toInt());
-        return $ot->getCOPageTranslationActivated();
+        $ot = (new TranslationsRepository($this->db))->getFor($object_id->toInt());
+        return $ot->getContentTranslationActivated();
     }
 
     public function onExportOptionSelected(ilExportHandlerConsumerContextInterface $context): void

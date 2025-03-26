@@ -20,14 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\ILIASObject\Properties\Translations;
 
-use ILIAS\ILIASObject\LocalDIC;
 use ILIAS\UI\Factory as UIFactory;
-use ILIAS\UI\Renderer;
+use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use Psr\Http\Message\RequestInterface;
+use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Input\Input;
 use ILIAS\UI\Component\Modal\Modal;
+use ILIAS\Data\Factory as DataFactory;
 
 /**
  * GUI class for object translation handling.
@@ -36,58 +37,35 @@ use ILIAS\UI\Component\Modal\Modal;
  */
 class TranslationGUI
 {
-    protected const CMD_LIST_TRANSLATIONS = 'listTranslations';
-    protected const CMD_SAVE_TRANSLATIONS = 'saveTranslations';
-    protected const CMD_ADD_TRANSLATION = 'addTranslation';
-    protected const CMD_DELETE_TRANSLATIONS = 'deleteTranslations';
-    protected const CMD_SAVE_LANGUAGES = 'saveLanguages';
-    protected const CMD_CONFIRM_REMOVE_LANGUAGES = 'confirmDeleteTranslations';
-    protected const CMD_SET_FALLBACK = 'setFallback';
-    protected const CMD_DEACTIVATE_CONTENT_MULTILANG = 'deactivateContentMultiLang';
-    protected const CMD_SAVE_CONTENT_TRANSLATION_ACTIVATION = 'saveContentTranslationActivation';
+    private const CMD_LIST_TRANSLATIONS = 'listTranslations';
+    private const CMD_ADD_TRANSLATION = 'addTranslation';
+    private const CMD_DELETE_TRANSLATIONS = 'deleteTranslations';
+    private const CMD_SAVE_LANGUAGES = 'saveLanguages';
+    private const CMD_CONFIRM_REMOVE_LANGUAGES = 'confirmDeleteTranslations';
+    private const CMD_DEACTIVATE_CONTENT_MULTILANG = 'deactivateContentTranslation';
+    private const CMD_SAVE_CONTENT_TRANSLATION_ACTIVATION = 'activateContentTranslation';
 
-    protected \ilToolbarGUI $toolbar;
-    protected \ilObjUser $user;
-    protected \ilLanguage $lng;
-    protected \ilAccess $access;
-    protected \ilCtrl $ctrl;
-    protected \ilGlobalTemplateInterface $tpl;
-    protected UIFactory $ui_factory;
-    protected Renderer $ui_renderer;
-    protected ArrayBasedRequestWrapper $post_wrapper;
-    protected RequestInterface $request;
-    protected Refinery $refinery;
+    private Translations $translations;
 
-    protected \ilObjectGUI $obj_gui;
-    protected \ilObject $obj;
-    protected Translations $obj_trans;
+    private bool $force_content_translation = false;
+    private bool $hide_description = false;
+    private bool $support_content_translation = true;
 
-    protected bool $title_descr_only = true;
-    protected bool $hide_description = false;
-    protected bool $fallback_lang_mode = true;
-    protected bool $support_content_translation = true;
-
-    public function __construct(\ilObjectGUI $obj_gui)
-    {
-        /** @var ILIAS\DI\Container $DIC */
-        global $DIC;
-
-        $this->toolbar = $DIC['ilToolbar'];
-        $this->user = $DIC['ilUser'];
-        $this->access = $DIC['ilAccess'];
-        $this->lng = $DIC['lng'];
-        $this->ctrl = $DIC['ilCtrl'];
-        $this->tpl = $DIC['tpl'];
-        $this->ui_factory = $DIC['ui.factory'];
-        $this->ui_renderer = $DIC['ui.renderer'];
-        $this->post_wrapper = $DIC->http()->wrapper()->post();
-        $this->request = $DIC->http()->request();
-        $this->refinery = $DIC['refinery'];
-
-        $this->obj_gui = $obj_gui;
-        $this->obj = $obj_gui->getObject();
-
-        $this->obj_trans = $this->obj->getObjectProperties()->getPropertyTranslations();
+    public function __construct(
+        private readonly \ilObject $object,
+        private readonly Language $lng,
+        private readonly \ilAccess $access,
+        private readonly \ilObjUser $user,
+        private readonly \ilCtrl $ctrl,
+        private readonly \ilGlobalTemplateInterface $tpl,
+        private readonly UIFactory $ui_factory,
+        private readonly UIRenderer $ui_renderer,
+        private readonly ArrayBasedRequestWrapper $post_wrapper,
+        private readonly RequestInterface $request,
+        private readonly Refinery $refinery,
+        private readonly \ilToolbarGUI $toolbar
+    ) {
+        $this->translations = $this->object->getObjectProperties()->getPropertyTranslations();
     }
 
     public function hideDescription(bool $hide): void
@@ -100,61 +78,6 @@ class TranslationGUI
         $this->support_content_translation = $content_translation;
     }
 
-    private function getTableValuesByObjects(): array
-    {
-        $data = [];
-        foreach ($this->obj_trans->getLanguages() as $k => $v) {
-            $data[$k]['default'] = (int) $v->isDefault();
-            $data[$k]['title'] = $v->getTitle();
-            $data[$k]['desc'] = $v->getDescription();
-            $data[$k]['lang'] = $v->getLanguageCode();
-        }
-        return $data;
-    }
-
-    private function getTableValuesByRequest(): array
-    {
-        $vals = [];
-
-        $titles = $this->post_wrapper->has('title')
-            ? $this->post_wrapper->retrieve(
-                'title',
-                $this->refinery->to()->listOf($this->refinery->kindlyTo()->string())
-            )
-            : [];
-
-        $descriptions = $this->post_wrapper->has('desc')
-            ? $this->post_wrapper->retrieve(
-                'desc',
-                $this->refinery->to()->listOf($this->refinery->kindlyTo()->string())
-            )
-            : [];
-
-        $languages = $this->post_wrapper->has('lang')
-            ? $this->post_wrapper->retrieve(
-                'lang',
-                $this->refinery->to()->listOf($this->refinery->kindlyTo()->string())
-            )
-            : [];
-
-        $default = $this->post_wrapper->has('default')
-            ? $this->post_wrapper->retrieve(
-                'default',
-                $this->refinery->kindlyTo()->int()
-            )
-            : '';
-
-        foreach ($titles as $k => $v) {
-            $vals[] = [
-                'title' => $v,
-                'desc' => $descriptions[$k],
-                'lang' => $languages[$k],
-                'default' => ($default == $k)
-            ];
-        }
-        return $vals;
-    }
-
     /**
      * Some objects like learning modules do not support to translate only the title
      * and the description. If they acticate multilinguasm, they translate always
@@ -162,38 +85,20 @@ class TranslationGUI
      * to indicate this. Other contexts, e.g. categories allow to only translate
      * title and description and activate the content multilinguasm separately.
      */
-    public function setTitleDescrOnlyMode(bool $val): void
+    public function forceContentTranslation(): void
     {
-        $this->title_descr_only = $val;
-    }
-
-    public function getTitleDescrOnlyMode(): bool
-    {
-        return $this->title_descr_only;
-    }
-
-    public function setEnableFallbackLanguage(bool $val): void
-    {
-        $this->fallback_lang_mode = $val;
-    }
-
-    public function getEnableFallbackLanguage(): bool
-    {
-        return $this->fallback_lang_mode;
+        $this->force_content_translation = true;
     }
 
     public function executeCommand(): void
     {
         $commands = [
             self::CMD_LIST_TRANSLATIONS,
-            self::CMD_SAVE_TRANSLATIONS,
             self::CMD_ADD_TRANSLATION,
             self::CMD_DELETE_TRANSLATIONS,
             self::CMD_CONFIRM_REMOVE_LANGUAGES,
-            self::CMD_SAVE_LANGUAGES,
             self::CMD_SAVE_CONTENT_TRANSLATION_ACTIVATION,
-            self::CMD_DEACTIVATE_CONTENT_MULTILANG,
-            self::CMD_SET_FALLBACK
+            self::CMD_DEACTIVATE_CONTENT_MULTILANG
         ];
 
         $this->ctrl->getNextClass($this);
@@ -202,6 +107,10 @@ class TranslationGUI
             $this->ctrl->redirect($this->obj_gui);
         }
         $cmd = $this->ctrl->getCmd(self::CMD_LIST_TRANSLATIONS);
+        if (!$this->access->checkAccess('write', '', $this->object->getRefId())) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'));
+            $this->ctrl->redirectByClass(get_class($this->object) . 'GUI');
+        }
         if (in_array($cmd, $commands)) {
             $this->$cmd();
         }
@@ -209,42 +118,44 @@ class TranslationGUI
 
     public function listTranslations(bool $get_post_values = false, bool $add = false): void
     {
-        $this->lng->loadLanguageModule(\ilObject::_lookupType($this->obj->getId()));
+        $this->lng->loadLanguageModule($this->object->getType());
 
-        $add_langs_modal = $this->getAddLanguagesModal();
-        if ($this->getTitleDescrOnlyMode() || $this->obj_trans->getCOPageTranslationActivated()) {
+        $content = [
+            'table' => (new TranslationsTable(
+                $this->ui_factory,
+                $this->lng,
+                $this->request,
+                $this->translations,
+                (new DataFactory())->uri(
+                    ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(
+                        self::class,
+                        self::CMD_LIST_TRANSLATIONS
+                    )
+                )
+            ))->getTable()
+        ];
+
+        if ($this->translations->migrationMissing()) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('missing_migration'));
+            $this->tpl->setContent($this->ui_renderer->render($content));
+            return;
+        }
+
+        $content['lang_modal'] = $this->getAddLanguagesModal();
+        if (!$this->force_content_translation || $this->translations->getContentTranslationActivated()) {
             $this->toolbar->addComponent(
                 $this->ui_factory->button()->standard(
                     $this->lng->txt('obj_add_languages'),
-                    $add_langs_modal->getShowSignal()
+                    $content['lang_modal']->getShowSignal()
                 )
             );
         }
 
         if ($this->support_content_translation) {
-            $content_translation_modal = $this->addContentTranslationToolbarActionAndRetrieveCorrespondingModal();
+            $content['content_trans_modal'] = $this->addContentTranslationToolbarActionAndRetrieveCorrespondingModal();
         }
 
-        $table = new \ilObjectTranslation2TableGUI(
-            $this,
-            self::CMD_LIST_TRANSLATIONS,
-            !$this->hide_description,
-            $this->obj_trans->getMasterLanguage(),
-            $this->fallback_lang_mode,
-            $this->obj_trans->getFallbackLanguage()
-        );
-        if ($get_post_values) {
-            $table->setData($this->getTableValuesByRequest());
-        } else {
-            $table->setData($this->getTableValuesByObjects());
-        }
-        $page_content = $table->getHTML() . $this->ui_renderer->render($add_langs_modal);
-
-        if (isset($content_translation_modal)) {
-            $page_content .= $this->ui_renderer->render($content_translation_modal);
-        }
-
-        $this->tpl->setContent($page_content);
+        $this->tpl->setContent($this->ui_renderer->render($content));
     }
 
     private function getAddLanguagesModal(): Modal
@@ -263,17 +174,17 @@ class TranslationGUI
     {
         $lang_var_postfix = '_multilang';
         $deactivation_modal_text_tag = 'obj_deactivate_multilang_conf';
-        if ($this->getTitleDescrOnlyMode()) {
+        if (!$this->force_content_translation) {
             $lang_var_postfix = '_content_lang';
             $deactivation_modal_text_tag = 'obj_deactivate_content_transl_conf';
         }
 
-        if ($this->getTitleDescrOnlyMode() && !$this->obj_trans->getCOPageTranslationActivated()) {
+        if (!$this->force_content_translation && !$this->translations->getContentTranslationActivated()) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('obj_multilang_title_descr_only'));
         }
 
-        $activate_modal = $this->getActivateMultilingualityModal();
-        if (!$this->obj_trans->getCOPageTranslationActivated()) {
+        if (!$this->translations->getContentTranslationActivated()) {
+            $activate_modal = $this->getActivateMultilingualityModal();
             $this->toolbar->addComponent(
                 $this->ui_factory->button()->standard(
                     $this->lng->txt('obj_activate' . $lang_var_postfix),
@@ -314,112 +225,9 @@ class TranslationGUI
         );
     }
 
-    public function saveTranslations(): void
-    {
-        // default language set?
-        if (!$this->post_wrapper->has('default') && $this->obj_trans->getMasterLanguage() === '') {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_default_language'));
-            $this->listTranslations(true);
-            return;
-        }
-
-        // all languages set?
-        $languages = $this->post_wrapper->has('lang')
-            ? $this->post_wrapper->retrieve(
-                'lang',
-                $this->refinery->kindlyTo()->dictOf(
-                    $this->refinery->kindlyTo()->string()
-                )
-            )
-            : [];
-        if (array_key_exists('', $languages)) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_language_selected'));
-            $this->listTranslations(true);
-            return;
-        }
-
-        // no single language is selected more than once?
-        if (count(array_unique($languages)) < count($languages)) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_multi_language_selected'));
-            $this->listTranslations(true);
-            return;
-        }
-
-        // save the stuff
-        $this->obj_trans->setLanguages([]);
-
-        $titles = $this->post_wrapper->has('title')
-            ? $this->post_wrapper->retrieve(
-                'title',
-                $this->refinery->kindlyTo()->dictOf(
-                    $this->refinery->kindlyTo()->string()
-                )
-            )
-            : [];
-        $descriptions = $this->post_wrapper->has('desc')
-            ? $this->post_wrapper->retrieve(
-                'desc',
-                $this->refinery->kindlyTo()->dictOf(
-                    $this->refinery->kindlyTo()->string()
-                )
-            )
-            : [];
-
-        $post_default = $this->post_wrapper->has('default')
-            ? $this->post_wrapper->retrieve(
-                'default',
-                $this->refinery->kindlyTo()->int()
-            )
-            : null;
-
-        $check = $this->post_wrapper->has('check')
-            ? $this->post_wrapper->retrieve(
-                'check',
-                $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string())
-            )
-            : [];
-
-        if ($this->obj_trans->getFallbackLanguage() !== '') {
-            $obj_store_lang = $this->obj_trans->getFallbackLanguage();
-        } else {
-            $obj_store_lang = ($this->obj_trans->getMasterLanguage() != '')
-                ? $this->obj_trans->getMasterLanguage()
-                : $languages[$post_default];
-        }
-
-        foreach ($titles as $k => $v) {
-            // update object data if default
-            $is_default = ($post_default === $k);
-
-            // ensure master language is set as default
-            if ($this->obj_trans->getMasterLanguage() != '') {
-                $is_default = ($this->obj_trans->getMasterLanguage() === $languages[$k]);
-            }
-            if ($languages[$k] === $obj_store_lang) {
-                $this->obj->setTitle(\ilUtil::stripSlashes($v));
-                $this->obj->setDescription(\ilUtil::stripSlashes($descriptions[$k] ?? ''));
-            }
-
-            $this->obj_trans->addLanguage(
-                \ilUtil::stripSlashes($languages[$k]),
-                \ilUtil::stripSlashes($v),
-                \ilUtil::stripSlashes($descriptions[$k] ?? ''),
-                $is_default
-            );
-        }
-        $this->obj_trans->save();
-        if (method_exists($this->obj, 'setObjectTranslation')) {
-            $this->obj->setObjectTranslation($this->obj_trans);
-        }
-        $this->obj->update();
-
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
-        $this->ctrl->redirect($this, self::CMD_LIST_TRANSLATIONS);
-    }
-
     public function getMultiLangSelectionInput(bool $add = false): Input
     {
-        $enabled_langs = $this->obj_trans->getLanguages();
+        $enabled_langs = $this->translations->getLanguages();
         $options = array_reduce(
             $this->lng->getInstalledLanguages(),
             function (array $c, string $v) use ($enabled_langs): array {
@@ -431,7 +239,7 @@ class TranslationGUI
             []
         );
 
-        $master_lang = $this->obj_trans->getMasterLanguage();
+        $master_lang = $this->translations->getMasterLanguage();
         $trafo = $this->refinery->custom()->transformation(
             function (array $vs) use ($master_lang) {
                 $langs = [];
@@ -471,59 +279,35 @@ class TranslationGUI
             ->withValue($this->user->getLanguage());
     }
 
-    public function saveContentTranslationActivation(): void
+    public function activateContentTranslation(): void
     {
         $data = $this->getActivateMultilingualityModal()
             ->withRequest($this->request)
             ->getData();
-        $this->obj_trans->setMasterLanguage($data['lang']);
-        if (!in_array($data['lang'], $this->obj_trans->getLanguages())) {
-            $this->obj_trans->addLanguage(
+        $obj_trans = $this->translations->withMasterLanguage($data['lang']);
+        if (!in_array($data['lang'], $obj_trans->getLanguages())) {
+            $obj_trans = $obj_trans->withAdditionalLanguage(
                 $data['lang'],
-                $this->obj->getTitle(),
-                $this->obj->getDescription(),
+                $this->object->getTitle(),
+                $this->object->getDescription(),
                 true
             );
         }
-        $this->obj_trans->save();
 
-        $this->ctrl->redirect($this, self::CMD_LIST_TRANSLATIONS);
+        $this->object->getObjectProperties()->storePropertyTranslations(
+            $obj_trans->withContentTranslationActivated(true)
+        );
+        $this->ctrl->redirectByClass(self::class, self::CMD_LIST_TRANSLATIONS);
     }
 
-    public function deactivateContentMultiLang(): void
+    public function deactivateContentTranslation(): void
     {
-        if (!$this->getTitleDescrOnlyMode()) {
-            $this->obj_trans->setMasterLanguage('');
-            $this->obj_trans->setLanguages([]);
-            $this->obj_trans->save();
-        }
-        $this->obj_trans->deactivateContentTranslation();
-        if ($this->getTitleDescrOnlyMode()) {
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('obj_cont_transl_deactivated'), true);
-        } else {
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('obj_multilang_deactivated'), true);
-        }
+        $this->object->getObjectProperties()->storePropertyTranslations(
+            $this->translations->withContentTranslationActivated(false)
+        );
 
-        $this->ctrl->redirect($this, self::CMD_LIST_TRANSLATIONS);
-    }
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('obj_cont_transl_deactivated'), true);
 
-    public function saveLanguages(): void
-    {
-        $data = $this->getAddLanguagesModal()
-            ->withRequest($this->request)
-            ->getData();
-
-        if ($data['langs'] === null || $data['langs'] === []) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'), true);
-            $this->ctrl->redirect($this, self::CMD_LIST_TRANSLATIONS);
-        }
-
-        foreach ($data['langs'] as $lang) {
-            $this->obj_trans->addLanguage($lang, '', '', false);
-        }
-
-        $this->obj_trans->save();
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
         $this->ctrl->redirect($this, self::CMD_LIST_TRANSLATIONS);
     }
 
@@ -577,17 +361,20 @@ class TranslationGUI
             )
             : [];
 
-        foreach ($langs_to_be_deleted as $lang) {
-            $this->obj_trans->removeLanguage($lang);
-        }
-        $this->obj_trans->save();
+        $this->object->getObjectProperties()->storePropertyTranslations(
+            array_reduce(
+                $langs_to_be_deleted,
+                static fn(Translations $c, Language $v): Translations => $v->withoutLanguage($v),
+                $this->translations
+            )
+        );
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
         $this->ctrl->redirect($this, self::CMD_LIST_TRANSLATIONS);
     }
 
     private function retrieveTrafoToRemoveDefaultLang(): callable
     {
-        $default_lang = $this->obj_trans->getDefaultLanguage();
+        $default_lang = $this->translations->getDefaultLanguage();
         return $this->refinery->custom()->transformation(
             function (?array $vs) use ($default_lang) {
                 if ($vs === null) {
@@ -603,42 +390,5 @@ class TranslationGUI
                 return $langs;
             }
         );
-    }
-
-    public function setFallback(): void
-    {
-        // default language set?
-        $checkboxes = $this->post_wrapper->has('check')
-            ? $this->post_wrapper->retrieve(
-                'check',
-                $this->refinery->kindlyTo()->dictOf(
-                    $this->refinery->kindlyTo()->int()
-                )
-            )
-            : [];
-
-        if ($checkboxes === []) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('obj_select_one_language'));
-            $this->listTranslations(true);
-            return;
-        }
-        $checked = key($checkboxes);
-
-        $languages = $this->post_wrapper->has('lang')
-            ? $this->post_wrapper->retrieve(
-                'lang',
-                $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string())
-            )
-            : [];
-
-        $fallback_lang = $languages[$checked];
-        if ($fallback_lang !== $this->obj_trans->getFallbackLanguage()) {
-            $this->obj_trans->setFallbackLanguage($fallback_lang);
-        } else {
-            $this->obj_trans->setFallbackLanguage('');
-        }
-        $this->obj_trans->save();
-        $this->tpl->setOnScreenMessage('info', $this->lng->txt('msg_obj_modified'), true);
-        $this->ctrl->redirect($this, self::CMD_LIST_TRANSLATIONS);
     }
 }

@@ -75,7 +75,7 @@ class ilLMPresentationStatus
         // determine language
         $this->lang = "-";
         $this->concrete_lang = "-";
-        if ($this->ot->getCOPageTranslationActivated()) {
+        if ($this->ot->getContentTranslationActivated()) {
             $langs = $this->ot->getLanguages();
             if (isset($langs[$this->requested_transl]) || $this->requested_transl == $this->ot->getMasterLanguage()) {
                 $this->lang = $this->requested_transl;
@@ -155,7 +155,7 @@ class ilLMPresentationStatus
             if ($ltitle !== "") {
                 return $ltitle;
             }
-            $fb = $ot->getFallbackLanguage();
+            $fb = $ot->getDefaultLanguage();
             if (isset($data[$fb])) {
                 $ltitle = $data[$fb]->getTitle();
             }

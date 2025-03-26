@@ -28,7 +28,7 @@ use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
  *
  * @ilCtrl_Calls ilObjRootFolderGUI: ilPermissionGUI, ilContainerPageGUI
  * @ilCtrl_Calls ilObjRootFolderGUI: ilColumnGUI, ilObjectCopyGUI, ilObjectContentStyleSettingsGUI
- * @ilCtrl_Calls ilObjRootFolderGUI: ilCommonActionDispatcherGUI, ILIAS\ILIASObject\Properties\Translations\TranslationsGUI
+ * @ilCtrl_Calls ilObjRootFolderGUI: ilCommonActionDispatcherGUI, ILIAS\ILIASObject\Properties\Translations\TranslationGUI
  * @ilCtrl_Calls ilObjRootFolderGUI: ilRepositoryTrashGUI
  */
 class ilObjRootFolderGUI extends ilContainerGUI
@@ -161,7 +161,20 @@ class ilObjRootFolderGUI extends ilContainerGUI
                 $this->checkPermissionBool("write");
                 $this->prepareOutput();
                 $this->setEditTabs("settings_trans");
-                $transgui = new TranslationGUI($this);
+                $transgui = new TranslationGUI(
+                    $this->getObject(),
+                    $this->lng,
+                    $this->access,
+                    $this->user,
+                    $this->ctrl,
+                    $this->tpl,
+                    $this->ui_factory,
+                    $this->ui_renderer,
+                    $this->post_wrapper,
+                    $this->request,
+                    $this->refinery,
+                    $this->toolbar
+                );
                 $this->ctrl->forwardCommand($transgui);
                 break;
 

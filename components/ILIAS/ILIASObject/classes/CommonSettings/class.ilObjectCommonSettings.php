@@ -18,7 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\ILIASObject\Properties\AdditionalProperties\Icon\Icon;
 use ILIAS\ILIASObject\Properties\AdditionalProperties\Simple\HeaderActionVisibility;
+use ILIAS\ILIASObject\Properties\AdditionalProperties\Simple\TitleAndIconVisibility;
 use ILIAS\ILIASObject\Properties\CoreProperties\TileImage;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\ResourceStorage\Services as ResourceStorageServices;
@@ -42,7 +44,7 @@ class ilObjectCommonSettings
     ) {
     }
 
-    public function getPropertyTitleAndIconVisibility(): ?ilObjectPropertyTitleAndIconVisibility
+    public function getPropertyTitleAndIconVisibility(): ?TitleAndIconVisibility
     {
         return $this->object?->getObjectProperties()->getPropertyTitleAndIconVisibility();
     }
@@ -78,13 +80,13 @@ class ilObjectCommonSettings
         $this->object?->flushObjectProperties();
     }
 
-    public function getPropertyIcon(): ?ilObjectPropertyIcon
+    public function getPropertyIcon(): ?Icon
     {
         return $this->object?->getObjectProperties()->getPropertyIcon();
     }
 
     public function storePropertyIcon(
-        ilObjectPropertyIcon $property_icon
+        Icon $property_icon
     ): void {
         $this->object?->getObjectProperties()->storePropertyIcon($property_icon);
         $this->object?->flushObjectProperties();

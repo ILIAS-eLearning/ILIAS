@@ -21,7 +21,7 @@ declare(strict_types=0);
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 use ILIAS\News\Service as News;
-use ILIAS\ILIASObject\Properties\Translations\TranslationsGUI;
+use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
 
 /**
  * Class ilObjCourseGUI
@@ -41,7 +41,7 @@ use ILIAS\ILIASObject\Properties\Translations\TranslationsGUI;
  * @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI, ilObjectMetaDataGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilCourseMembershipGUI, ilPropertyFormGUI, ilContainerSkillGUI, ilCalendarPresentationGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilMemberExportSettingsGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilLTIProviderObjectSettingGUI, ILIAS\ILIASObject\Properties\Translations\TranslationsGUI, ilBookingGatewayGUI, ilRepositoryTrashGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilLTIProviderObjectSettingGUI, ILIAS\ILIASObject\Properties\Translations\TranslationGUI, ilBookingGatewayGUI, ilRepositoryTrashGUI
  * @extends      ilContainerGUI
  */
 class ilObjCourseGUI extends ilContainerGUI
@@ -2427,7 +2427,20 @@ class ilObjCourseGUI extends ilContainerGUI
                 $this->setSubTabs("properties");
                 $this->tabs_gui->activateTab("settings");
                 $this->tabs_gui->activateSubTab("obj_multilinguality");
-                $transgui = new TranslationGUI($this);
+                $transgui = new TranslationGUI(
+                    $this->getObject()->getType(),
+                    $this->getObject()->getObjectProperties(),
+                    $this->lng,
+                    $this->user,
+                    $this->ctrl,
+                    $this->tpl,
+                    $this->ui_factory,
+                    $this->ui_renderer,
+                    $this->post_wrapper,
+                    $this->request,
+                    $this->refinery,
+                    $this->toolbar
+                );
                 $this->ctrl->forwardCommand($transgui);
                 break;
 

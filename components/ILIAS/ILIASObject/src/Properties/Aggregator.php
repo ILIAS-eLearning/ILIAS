@@ -31,7 +31,7 @@ use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
  *
  * @author Stephan Kergomard
  */
-class Agregator
+class Aggregator
 {
     public function __construct(
         private readonly CorePropertiesRepository $core_properties_repository,

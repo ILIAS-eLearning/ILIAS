@@ -19,7 +19,6 @@
 namespace ILIAS\Container\Page;
 
 use ILIAS\Container\InternalDomainService;
-use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 /**
  * @author Alexander Killing <killing@leifos.de>

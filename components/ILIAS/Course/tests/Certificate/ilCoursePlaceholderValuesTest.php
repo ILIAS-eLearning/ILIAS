@@ -25,14 +25,12 @@ use ilLanguage;
 use ilObjCourse;
 use ilDBInterface;
 use ILIAS\DI\Container;
-use ilObjectTranslation;
 use ilCertificateDateHelper;
 use ilCertificateUtilHelper;
 use ilCertificateObjectHelper;
 use ilDefaultPlaceholderValues;
 use PHPUnit\Framework\TestCase;
 use ILIAS\ILIASObject\Translations\Language as ilObjectTranslationLanguage;
-use ILIAS\ILIASObject\Properties\Translations\Translations;
 use ilObjectCustomUserFieldsPlaceholderValues;
 
 /**

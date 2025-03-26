@@ -426,7 +426,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         if ($config->getMultiLangSupport()) {
             $ot = $this->translation;
 
-            if ($ot->getCOPageTranslationActivated()) {
+            if ($ot->getContentTranslationActivated()) {
                 $lng->loadLanguageModule("meta");
 
                 if ($page->getLanguage() != "-") {
@@ -469,7 +469,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         if ($config->getMultiLangSupport()) {
             $ot = $this->translation;
 
-            if ($ot->getCOPageTranslationActivated()) {
+            if ($ot->getContentTranslationActivated()) {
                 $lng->loadLanguageModule("meta");
 
                 $ml_gui = new \ilPageMultiLangGUI(

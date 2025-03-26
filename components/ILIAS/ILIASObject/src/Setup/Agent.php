@@ -16,49 +16,40 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Object\Setup;
+namespace ILIAS\ILIASObject\Setup;
 
 use ILIAS\ILIASObject\Properties\ObjectTypeSpecificProperties\ArtifactObjective;
 use ILIAS\Setup\Agent\NullAgent;
 use ILIAS\Setup\Config;
 use ILIAS\Setup\Objective;
-use ILIAS\Setup\ObjectiveCollection;
 use ILIAS\Setup\Metrics;
 
-class ilObjectSetupAgent extends NullAgent
+class Agent extends NullAgent
 {
     public function getUpdateObjective(?Config $config = null): Objective
     {
-        return new ObjectiveCollection(
-            'Database is updated for ILIASObject',
-            false,
-            new \ilDatabaseUpdateStepsExecutedObjective(
-                new ilObjectDBUpdateSteps()
-            ),
-            new \ilDatabaseUpdateStepsExecutedObjective(
-                new ilObject9DBUpdateSteps()
-            )
+        return new \ilDatabaseUpdateStepsExecutedObjective(
+            new DBUpdateSteps11()
         );
     }
 
     public function getStatusObjective(Metrics\Storage $storage): Objective
     {
-        return new ObjectiveCollection(
-            'components/ILIAS/ILIASObject',
-            true,
-            new \ilDatabaseUpdateStepsMetricsCollectedObjective(
-                $storage,
-                new ilObjectDBUpdateSteps()
-            ),
-            new \ilDatabaseUpdateStepsMetricsCollectedObjective(
-                $storage,
-                new ilObject9DBUpdateSteps()
-            )
+        return new \ilDatabaseUpdateStepsMetricsCollectedObjective(
+            $storage,
+            new ilObjectDBUpdateSteps()
         );
     }
 
     public function getBuildObjective(): Objective
     {
         return new ArtifactObjective();
+    }
+
+    public function getMigrations(): array
+    {
+        return [
+            new MigrateTranslations()
+        ];
     }
 }

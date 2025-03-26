@@ -33,7 +33,7 @@ class MultiPropertiesManipulator
 {
     public function __construct(
         private readonly ObjectReferencePropertiesRepository $object_reference_properties_repo,
-        private readonly Agregator $properties_agregator,
+        private readonly Aggregator $properties_agregator,
         private readonly \ilLanguage $language,
         private readonly \ilCtrlInterface $ctrl,
         private readonly \ilObjUser $user,

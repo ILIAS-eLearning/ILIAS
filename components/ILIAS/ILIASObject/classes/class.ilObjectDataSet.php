@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 use ILIAS\ILIASObject\LocalDIC;
 use ILIAS\ResourceStorage\Services as ResourceStorage;
-use ILIAS\ILIASObject\Properties\Agregator;
-use ILIAS\ILIASObject\Properties\Translations\Translations;
+use ILIAS\ILIASObject\Properties\Aggregator;
+use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRepository;
 
 /**
  * Object data set class
@@ -36,7 +36,8 @@ class ilObjectDataSet extends ilDataSet
 {
     protected LocalDIC $obj_dic;
     protected ResourceStorage $storage;
-    protected Agregator $properties_agregator;
+    protected Aggregator $properties_aggregator;
+    protected TranslationsRepository $translations_repository;
 
     public function __construct()
     {
@@ -44,8 +45,9 @@ class ilObjectDataSet extends ilDataSet
         global $DIC;
         $this->storage = $DIC->resourceStorage();
 
-        $obj_dic = LocalDIC::dic();
-        $this->properties_agregator = $obj_dic['properties.agregator'];
+        $object_dic = LocalDIC::dic();
+        $this->properties_aggregator = $object_dic['properties.aggregator'];
+        $this->translations_repository = $object_dic['properties.translations.repository'];
 
         parent::__construct();
     }
@@ -157,9 +159,10 @@ class ilObjectDataSet extends ilDataSet
                 case '5.2.0':
                 case '5.4.0':
                     $this->getDirectDataFromQuery(
-                        'SELECT obj_id, master_lang' . PHP_EOL
-                        . 'FROM obj_content_master_lng' . PHP_EOL
+                        'SELECT obj_id, lang_code' . PHP_EOL
+                        . 'FROM object_translation' . PHP_EOL
                         . 'WHERE ' . $this->db->in('obj_id', $ids, false, 'integer') . PHP_EOL
+                        . 'AND master_lang = 1'
                     );
                     break;
             }
@@ -212,7 +215,7 @@ class ilObjectDataSet extends ilDataSet
         if ($entity == "tile") {
             $this->data = [];
             foreach ($ids as $id) {
-                $rid = $this->properties_agregator->getFor((int) $id)
+                $rid = $this->properties_aggregator->getFor((int) $id)
                     ->getPropertyTileImage()->getTileImage()->getRid();
                 if ($rid === null) {
                     continue;
@@ -299,24 +302,26 @@ class ilObjectDataSet extends ilDataSet
             case 'transl_entry':
                 $new_id = $this->getNewObjId($mapping, $rec['ObjId']);
                 if ($new_id > 0) {
-                    $transl = new Translation($this->db, $new_id);
-                    $transl->addLanguage(
-                        $rec['LangCode'],
-                        $rec['Title'],
-                        $rec['Description'],
-                        (bool) $rec['LangDefault'],
-                        true
+                    $transl = $this->translations_repository->getFor($new_id);
+                    $this->translations_repository->store(
+                        $transl->withAdditionalLanguage(
+                            $rec['LangCode'],
+                            $rec['Title'],
+                            $rec['Description'],
+                            (bool) $rec['LangDefault'],
+                            true
+                        )
                     );
-                    $transl->save();
                 }
                 break;
 
             case 'transl':
                 $new_id = $this->getNewObjId($mapping, $rec['ObjId']);
                 if ($new_id > 0) {
-                    $transl = new Translation($this->db, $new_id);
-                    $transl->setMasterLanguage($rec['MasterLang']);
-                    $transl->save();
+                    $transl = $this->translations_repository->getFor($new_id);
+                    $this->translations_repository->store(
+                        $transl->withMasterLanguage($rec['MasterLang'])
+                    );
                 }
                 break;
 
@@ -357,7 +362,7 @@ class ilObjectDataSet extends ilDataSet
                 $dir = str_replace('..', '', $rec['Dir']);
                 if ($new_id > 0 && $dir != '' && $this->getImportDirectory() != '') {
                     $source_dir = $this->getImportDirectory() . '/' . $dir;
-                    $object_properties = $this->properties_agregator->getFor($new_id);
+                    $object_properties = $this->properties_aggregator->getFor($new_id);
                     $ti = $object_properties->getPropertyTileImage()->getTileImage();
                     $ti->createFromImportDir($source_dir);
                     $object_properties->storePropertyTileImage(

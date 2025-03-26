@@ -2296,8 +2296,8 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         if ($this->lang != "-" && ilPageObject::_exists("lm", $a_id, $this->lang)) {
             return new ilLMPageGUI($a_id, 0, false, $this->lang, $concrete_lang);
         }
-        if ($this->lang != "-" && ilPageObject::_exists("lm", $a_id, $this->ot->getFallbackLanguage())) {
-            return new ilLMPageGUI($a_id, 0, false, $this->ot->getFallbackLanguage(), $concrete_lang);
+        if ($this->lang != "-" && ilPageObject::_exists("lm", $a_id, $this->ot->getDefaultLanguage())) {
+            return new ilLMPageGUI($a_id, 0, false, $this->ot->getDefaultLanguage(), $concrete_lang);
         }
         return new ilLMPageGUI($a_id, 0, false, "", $concrete_lang);
     }
@@ -2313,8 +2313,8 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $lang = $this->lang;
         if (!ilPageObject::_exists($type, $a_id, $lang)) {
             $lang = "-";
-            if ($this->lang != "-" && ilPageObject::_exists($type, $a_id, $this->ot->getFallbackLanguage())) {
-                $lang = $this->ot->getFallbackLanguage();
+            if ($this->lang != "-" && ilPageObject::_exists($type, $a_id, $this->ot->getDefaultLanguage())) {
+                $lang = $this->ot->getDefaultLanguage();
             }
         }
 

@@ -49,7 +49,7 @@ use ILIAS\Refinery\Factory as Refinery;
  *   otherwise the fallback language, if content is available, otherwise the
  *   master language
  */
-class Translations implements Property
+class Translations
 {
     /**
      *
@@ -60,10 +60,18 @@ class Translations implements Property
         private bool $copage_translation_activated,
         private array $languages,
         private string $default_language,
-        private ?string $master_language
+        private ?string $master_language,
+        private readonly bool $migration_missing = false
     ) {
     }
 
+    /**
+     * @todo: Remove with ILIAS 12
+     */
+    public function migrationMissing(): bool
+    {
+        return $this->migration_missing;
+    }
     public function getObjId(): int
     {
         return $this->obj_id;
@@ -74,9 +82,18 @@ class Translations implements Property
         return $this->default_language;
     }
 
-    public function getMasterLanguage(): ?string
+    public function getMasterLanguage(): string
     {
-        return $this->master_language;
+        return $this->master_language ?? '';
+    }
+
+    public function withMasterLanguage(string $master_language): self
+    {
+        $clone = clone $this;
+        $clone->master_language = $master_language;
+        $clone->languages[$clone->master_language] = $clone->languages[$clone->master_language]->withMaster(false);
+        $clone->languages[$master_language] = $clone->languages[$master_language]->withMaster(true);
+        return $clone;
     }
 
     /**
@@ -87,37 +104,38 @@ class Translations implements Property
         return $this->languages;
     }
 
-    public function toForm(
-        \ilLanguage $language,
-        FieldFactory $field_factory,
-        Refinery $refinery
-    ): ?FormInput {
-        return null;
-    }
-
-    public function addLanguage(
+    public function withAdditionalLanguage(
         string $lang_code,
         string $title,
         string $description,
         bool $default,
         bool $force = false
-    ): void {
+    ): self {
         if ($lang_code === ''
             || isset($this->languages[$lang_code]) && !$force) {
-            return;
+            return $this;
         }
 
-        if ($default) {
-            $this->languages[$this->default_language] = $this->languages[$this->default_language]->withDefault(false);
-            $this->default_language = $lang_code;
+        $clone = clone $this;
+        if ($default && isset($clone->languages[$clone->default_language])) {
+            $clone->languages[$clone->default_language] = $clone->languages[$clone->default_language]->withDefault(false);
+            $clone->default_language = $lang_code;
         }
 
-        $this->languages[$lang_code] = new Language(
+        $clone->languages[$lang_code] = new Language(
             $lang_code,
             $title,
             $description,
             $default
         );
+        return $clone;
+    }
+
+    public function withResetLanguages(): self
+    {
+        $clone = clone $this;
+        $clone->languages = [];
+        return $clone;
     }
 
     public function getDefaultTitle(): string
@@ -133,14 +151,16 @@ class Translations implements Property
         return '';
     }
 
-    public function setDefaultTitle(string $title): void
+    public function withDefaultTitle(string $title): self
     {
-        if ($this->default_language() === ''
+        if ($this->default_language === ''
             || !isset($this->languages[$this->default_language])) {
-            return;
+            return $this;
         }
 
-        $this->languages[$this->default_language] = $this->languages[$this->default_language]->withTitle($title);
+        $clone = clone $this;
+        $clone->languages[$clone->default_language] = $clone->languages[$clone->default_language]->withTitle($title);
+        return $clone;
     }
 
     public function getDefaultDescription(): string
@@ -156,26 +176,39 @@ class Translations implements Property
         return '';
     }
 
-    public function setDefaultDescription(string $description): void
+    public function withDefaultDescription(string $description): self
     {
-        if ($this->default_language() === ''
+        if ($this->default_language === ''
             || !isset($this->languages[$this->default_language])) {
-            return;
+            return $this;
         }
 
-        $this->languages[$this->default_language] = $this->languages[$this->default_language]->withDescription($description);
+        $clone = clone $this;
+        $clone->languages[$clone->default_language] = $clone->languages[$clone->default_language]->withDescription($description);
+        return $clone;
     }
 
-    public function removeLanguage(string $lang): void
+    public function withoutLanguage(string $lang): self
     {
-        if ($lang !== $this->master_language) {
-            unset($this->languages[$lang]);
+        if ($lang === $this->master_language) {
+            return $this;
         }
+
+        $clone = $this;
+        unset($clone->languages[$lang]);
+        return $clone;
     }
 
-    public function getCOPageTranslationActivated(): bool
+    public function getContentTranslationActivated(): bool
     {
         return $this->copage_translation_activated;
+    }
+
+    public function withContentTranslationActivated(bool $copage_translation_activated): self
+    {
+        $clone = clone $this;
+        $clone->copage_translation_activated = $copage_translation_activated;
+        return $clone;
     }
 
     public function copy(int $obj_id): self

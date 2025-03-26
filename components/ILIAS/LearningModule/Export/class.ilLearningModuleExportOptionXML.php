@@ -22,6 +22,7 @@ use ILIAS\Data\ObjectId;
 use ILIAS\DI\Container;
 use ILIAS\Export\ExportHandler\Consumer\ExportOption\BasicLegacyHandler as ilLegacyExportOption;
 use ILIAS\Export\ExportHandler\I\Consumer\Context\HandlerInterface as ilExportHandlerConsumerContextInterface;
+use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRepository;
 
 class ilLearningModuleExportOptionXML extends ilLegacyExportOption
 {
@@ -53,8 +54,8 @@ class ilLearningModuleExportOptionXML extends ilLegacyExportOption
     public function isObjectSupported(
         ObjectId $object_id
     ): bool {
-        $ot = new Translation($this->db, $object_id->toInt());
-        return $ot->getCOPageTranslationActivated();
+        $ot = (new TranslationsRepository($this->db))->getFor($object_id->toInt());
+        return $ot->getContentTranslationActivated();
     }
 
     public function isPublicAccessPossible(): bool

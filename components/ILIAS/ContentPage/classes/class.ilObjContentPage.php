@@ -153,12 +153,11 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
     {
         parent::doUpdate();
 
-        $this->initTranslationService();
-
-        $trans = $this->getObjectTranslation();
-        $trans->setDefaultTitle($this->getTitle());
-        $trans->setDefaultDescription($this->getLongDescription());
-        $trans->save();
+        $this->getObjectProperties()->storePropertyTranslations(
+            $this->getObjectProperties()->getPropertyTranslations()
+                ->withDefaultTitle($this->getTitle())
+                ->withDefaultDescription($this->getLongDescription())
+        );
 
         $this->updateMetaData();
     }
@@ -171,9 +170,6 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
             $originalPageObject = new ilContentPagePage($this->getId());
             $originalPageObject->delete();
         }
-
-        $this->initTranslationService();
-        $this->objTrans->delete();
 
         $this->db->manipulateF(
             'DELETE FROM content_page_metrics WHERE content_page_id = %s',

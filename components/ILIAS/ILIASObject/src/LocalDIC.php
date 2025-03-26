@@ -30,7 +30,7 @@ use ILIAS\ILIASObject\Properties\CoreProperties\TileImage\Stakeholder;
 use ILIAS\ILIASObject\Properties\CoreProperties\TileImage\FlavourDefinition;
 use ILIAS\ILIASObject\Properties\ObjectReferenceProperties\CachedRepository as ObjectReferencePropertiesRepository;
 use ILIAS\ILIASObject\Properties\ObjectReferenceProperties\AvailabilityPeriod\CachedRepository as AvailabilityPeriodRepository;
-use ILIAS\ILIASObject\Properties\Agregator;
+use ILIAS\ILIASObject\Properties\Aggregator;
 use ILIAS\ILIASObject\Properties\MultiPropertiesManipulator;
 use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRepository;
 use Pimple\Container as PimpleContainer;
@@ -62,7 +62,7 @@ class LocalDIC extends PimpleContainer
             $c['properties.additional.tile_image.flavour']
         );
 
-        $this['properties.agregator'] = fn($c): Agregator => new Agregator(
+        $this['properties.aggregator'] = fn($c): Aggregator => new Aggregator(
             $c['properties.core.repository'],
             $c['properties.additional.repository'],
             $c['properties.translations.repository'],
@@ -83,7 +83,7 @@ class LocalDIC extends PimpleContainer
         $this['properties.multi_manipulator'] = fn($c): MultiPropertiesManipulator
             => new MultiPropertiesManipulator(
                 $c['properties.object_reference.repositoy'],
-                $c['properties.agregator'],
+                $c['properties.aggregator'],
                 $DIC['lng'],
                 $DIC['ilCtrl'],
                 $DIC['ilUser'],

@@ -489,7 +489,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
         $this->ctrl->setParameterByClass(self::class, "wpg_id", $this->getId());
         $this->ctrl->setParameterByClass(self::class, "page", null);
-        if ($this->ot->getCOPageTranslationActivated()) {
+        if ($this->ot->getContentTranslationActivated()) {
             $actions = [];
             foreach ($this->ot->getLanguages() as $language) {
                 $lang_code = ($language->getLanguageCode() === $this->ot->getMasterLanguage())

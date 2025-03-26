@@ -139,14 +139,14 @@ class ilWikiPagesTableGUI extends ilTable2GUI
 
     protected function addLanguageColumn(): void
     {
-        if ($this->ot->getCOPageTranslationActivated()) {
+        if ($this->ot->getContentTranslationActivated()) {
             $this->addColumn($this->lng->txt("language"));
         }
     }
 
     protected function addTranslationsColumn(): void
     {
-        if ($this->ot->getCOPageTranslationActivated()) {
+        if ($this->ot->getContentTranslationActivated()) {
             $this->addColumn($this->lng->txt("wiki_translations"));
         }
     }
@@ -245,7 +245,7 @@ class ilWikiPagesTableGUI extends ilTable2GUI
         $ilCtrl = $this->ctrl;
 
         if ($this->pg_list_mode === IL_WIKI_NEW_PAGES) {
-            if ($this->ot->getCOPageTranslationActivated() && $this->pg_list_mode !== IL_WIKI_WHAT_LINKS_HERE) {
+            if ($this->ot->getContentTranslationActivated() && $this->pg_list_mode !== IL_WIKI_WHAT_LINKS_HERE) {
                 $l = $a_set["lang"] === "-"
                     ? $this->ot->getMasterLanguage()
                     : $a_set["lang"];
@@ -259,7 +259,7 @@ class ilWikiPagesTableGUI extends ilTable2GUI
                 ilDatePresentation::formatDate(new ilDateTime($a_set["created"], IL_CAL_DATETIME))
             );
         } elseif ($this->pg_list_mode === IL_WIKI_POPULAR_PAGES) {
-            if ($this->ot->getCOPageTranslationActivated()) {
+            if ($this->ot->getContentTranslationActivated()) {
                 $l = $a_set["lang"] === "-"
                     ? $this->ot->getMasterLanguage()
                     : $a_set["lang"];
@@ -275,7 +275,7 @@ class ilWikiPagesTableGUI extends ilTable2GUI
                 "DATE",
                 ilDatePresentation::formatDate(new ilDateTime($a_set["date"], IL_CAL_DATETIME))
             );
-            if ($this->ot->getCOPageTranslationActivated() && $this->pg_list_mode !== IL_WIKI_WHAT_LINKS_HERE) {
+            if ($this->ot->getContentTranslationActivated() && $this->pg_list_mode !== IL_WIKI_WHAT_LINKS_HERE) {
                 $this->tpl->setCurrentBlock("lang");
                 $this->tpl->setVariable("LANG", implode(", ", $this->pm->getLanguages($a_set["id"])));
                 $this->tpl->parseCurrentBlock();

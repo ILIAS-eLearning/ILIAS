@@ -22,7 +22,7 @@ use ILIAS\DI\UIServices;
 use ILIAS\Repository\Clipboard\ClipboardManager;
 use ILIAS\Container\StandardGUIRequest;
 use ILIAS\Container\Content\ModeManager;
-use ILIAS\ILIASObject\Properties\Translations\TranslationsGUI;
+use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
 
 /**
  * Class ilContainerGUI

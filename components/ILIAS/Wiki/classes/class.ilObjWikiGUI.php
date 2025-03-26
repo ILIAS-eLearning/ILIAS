@@ -22,7 +22,7 @@ use ILIAS\Wiki\WikiGUIRequest;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\Wiki\Settings\SettingsGUI;
 use ILIAS\ILIASObject\Properties\Translations\Translations;
-use ILIAS\ILIASObject\Properties\Translations\TranslationsGUI;
+use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -35,7 +35,7 @@ use ILIAS\ILIASObject\Properties\Translations\TranslationsGUI;
  * @ilCtrl_Calls ilObjWikiGUI: ilObjectMetaDataGUI
  * @ilCtrl_Calls ilObjWikiGUI: ilSettingsPermissionGUI
  * @ilCtrl_Calls ilObjWikiGUI: ilRepositoryObjectSearchGUI, ilObjectCopyGUI, ilObjNotificationSettingsGUI
- * @ilCtrl_Calls ilObjWikiGUI: ilLTIProviderObjectSettingGUI, ILIAS\ILIASObject\Properties\Translations\TranslationsGUI
+ * @ilCtrl_Calls ilObjWikiGUI: ilLTIProviderObjectSettingGUI, ILIAS\ILIASObject\Properties\Translations\TranslationGUI
  * @ilCtrl_Calls ilObjWikiGUI: ILIAS\Wiki\Settings\SettingsGUI
  */
 class ilObjWikiGUI extends ilObjectGUI
@@ -162,8 +162,21 @@ class ilObjWikiGUI extends ilObjectGUI
                 $this->addHeaderAction();
                 $ilTabs->activateTab("settings");
                 $this->setSettingsSubTabs("obj_multilinguality");
-                $transgui = new TranslationGUI($this);
-                $transgui->setTitleDescrOnlyMode(false);
+                $transgui = new TranslationGUI(
+                    $this->getObject(),
+                    $this->lng,
+                    $this->access,
+                    $this->user,
+                    $this->ctrl,
+                    $this->tpl,
+                    $this->ui_factory,
+                    $this->ui_renderer,
+                    $this->post_wrapper,
+                    $this->request,
+                    $this->refinery,
+                    $this->toolbar
+                );
+                $transgui->forceContentTranslation();
                 $this->ctrl->forwardCommand($transgui);
                 break;
 

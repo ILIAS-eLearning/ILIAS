@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 use ILIAS\News\Service as News;
-use ILIAS\ILIASObject\Properties\Translations\TranslationsGUI;
+use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
 
 /**
  * Class ilObjGroupGUI
@@ -37,7 +37,7 @@ use ILIAS\ILIASObject\Properties\Translations\TranslationsGUI;
  * @ilCtrl_Calls ilObjGroupGUI: ilGroupMembershipGUI, ilBadgeManagementGUI, ilMailMemberSearchGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
  * @ilCtrl_Calls ilObjGroupGUI: ilContainerSkillGUI, ilCalendarPresentationGUI
  * @ilCtrl_Calls ilObjGroupGUI: ilLTIProviderObjectSettingGUI
- * @ilCtrl_Calls ilObjGroupGUI: ilObjectMetaDataGUI, ILIAS\ILIASObject\Properties\Translations\TranslationsGUI, ilPropertyFormGUI
+ * @ilCtrl_Calls ilObjGroupGUI: ilObjectMetaDataGUI, ILIAS\ILIASObject\Properties\Translations\TranslationGUI, ilPropertyFormGUI
  *
  *
  *
@@ -375,7 +375,20 @@ class ilObjGroupGUI extends ilContainerGUI
                 $this->checkPermissionBool("write");
                 $this->setSubTabs("settings");
                 $this->tabs->activateTab("settings");
-                $transgui = new TranslationGUI($this);
+                $transgui = new TranslationGUI(
+                    $this->getObject(),
+                    $this->lng,
+                    $this->access,
+                    $this->user,
+                    $this->ctrl,
+                    $this->tpl,
+                    $this->ui_factory,
+                    $this->ui_renderer,
+                    $this->post_wrapper,
+                    $this->request,
+                    $this->refinery,
+                    $this->toolbar
+                );
                 $this->ctrl->forwardCommand($transgui);
                 break;
 

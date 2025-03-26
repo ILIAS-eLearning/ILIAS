@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\ILIASObject\Properties\Translations\Translations;
+use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRepository;
 
 /**
  * Handles Page Objects of ILIAS Learning Modules
@@ -265,9 +265,9 @@ class ilLMPageObject extends ilLMObject
             $title = ilLMObject::_lookupTitle($a_pg_id);
         }
 
-        $ot = new Translation($ilDB, $a_lm_id);
+        $ot = (new TranslationsRepository($ilDB))->getFor($a_lm_id);
 
-        if ($a_lang != "-" && $ot->getCOPageTranslationActivated()) {
+        if ($a_lang != "-" && $ot->getContentTranslationActivated()) {
             $lmobjtrans = new ilLMObjTranslation($a_pg_id, $a_lang);
             $trans_title = "";
             if ($a_include_short) {
@@ -277,7 +277,7 @@ class ilLMPageObject extends ilLMObject
                 $trans_title = $lmobjtrans->getTitle();
             }
             if ($trans_title == "") {
-                $lmobjtrans = new ilLMObjTranslation($a_pg_id, $ot->getFallbackLanguage());
+                $lmobjtrans = new ilLMObjTranslation($a_pg_id, $ot->getDefaultLanguage());
                 $trans_title = $lmobjtrans->getTitle();
             }
             if ($trans_title != "") {

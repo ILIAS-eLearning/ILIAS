@@ -17,7 +17,6 @@
  *********************************************************************/
 
 use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
-use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 /**
  * @author Alex Killing <alex.killing@gmx.de>
@@ -2124,7 +2123,7 @@ class ilObjContentObject extends ilObject
             case 'General':
                 // Update Title and description
                 $ot = $this->getObjectProperties()->getPropertyTranslations();
-                if (!$ot->getCOPageTranslationActivated()) {
+                if (!$ot->getContentTranslationActivated()) {
                     return;
                 }
 
@@ -2136,8 +2135,10 @@ class ilObjContentObject extends ilObject
                     $paths->custom()->withNextStep('general')->get()
                 );
 
-                $ot->setDefaultTitle($reader->firstData($paths->title())->value());
-                $ot->setDefaultDescription($reader->firstData($paths->firstDescription())->value());
+                $this->getObjectProperties()->storePropertyTranslations(
+                    $ot->withDefaultTitle($reader->firstData($paths->title())->value())
+                        ->withDefaultDescription($reader->firstData($paths->firstDescription())->value())
+                );
                 break;
         }
     }
@@ -2153,7 +2154,7 @@ class ilObjContentObject extends ilObject
         $export_files = array();
 
         $ot = $this->getObjectProperties()->getPropertyTranslations();
-        if ($ot->getCOPageTranslationActivated()) {
+        if ($ot->getContentTranslationActivated()) {
             $langs = $ot->getLanguages();
             foreach ($langs as $l => $ldata) {
                 $dirs[] = "html_" . $l;

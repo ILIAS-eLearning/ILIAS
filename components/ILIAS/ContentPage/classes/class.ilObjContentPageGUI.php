@@ -26,7 +26,7 @@ use ILIAS\DI\Container;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 use ILIAS\ILIASObject\Properties\Translations\Translations;
-use ILIAS\ILIASObject\Properties\Translations\TranslationsGUI;
+use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
 
 /**
  * @ilCtrl_isCalledBy ilObjContentPageGUI: ilRepositoryGUI
@@ -39,7 +39,7 @@ use ILIAS\ILIASObject\Properties\Translations\TranslationsGUI;
  * @ilCtrl_Calls      ilObjContentPageGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilContentPagePageGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilObjectContentStyleSettingsGUI
- * @ilCtrl_Calls      ilObjContentPageGUI: ILIAS\ILIASObject\Properties\Translations\TranslationsGUI
+ * @ilCtrl_Calls      ilObjContentPageGUI: ILIAS\ILIASObject\Properties\Translations\TranslationGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilPageMultiLangGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilMDEditorGUI
  */
@@ -237,7 +237,19 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $this->tabs_gui->activateTab(self::UI_TAB_ID_SETTINGS);
                 $this->setSettingsSubTabs(self::UI_TAB_ID_I18N);
 
-                $transgui = new TranslationGUI($this);
+                $transgui = new TranslationGUI(
+                    $this->getObject(),
+                    $this->lng,
+                    $this->user,
+                    $this->ctrl,
+                    $this->tpl,
+                    $this->ui_factory,
+                    $this->ui_renderer,
+                    $this->post_wrapper,
+                    $this->request,
+                    $this->refinery,
+                    $this->toolbar
+                );
                 $this->ctrl->forwardCommand($transgui);
                 break;
 
@@ -569,14 +581,15 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
 
     protected function afterSave(ilObject $new_object): void
     {
-        $new_object->getObjectTranslation()->addLanguage(
-            $this->lng->getDefaultLanguage(),
-            $new_object->getTitle(),
-            $new_object->getDescription(),
-            true,
-            true
+        $new_object->getObjectProperties()->storePropertyTranslations(
+            $new_object->getObjectTranslation()->withAdditionalLanguage(
+                $this->lng->getDefaultLanguage(),
+                $new_object->getTitle(),
+                $new_object->getDescription(),
+                true,
+                true
+            )
         );
-        $new_object->getObjectTranslation()->save();
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('object_added'), true);
         $this->ctrl->redirect($this, 'edit');

@@ -18,15 +18,16 @@
 
 declare(strict_types=1);
 
-class ilObjectDefinitionProcessor implements ilComponentDefinitionProcessor
+namespace ILIAS\ILIASObject\Setup;
+
+class ObjectDefinitionProcessor implements \ilComponentDefinitionProcessor
 {
-    protected ilDBInterface $db;
     protected ?string $component;
     protected ?string $current_object;
 
-    public function __construct(ilDBInterface $db)
-    {
-        $this->db = $db;
+    public function __construct(
+        private readonly \ilDBInterface $db
+    ) {
     }
 
     public function purge(): void

@@ -13001,6 +13001,7 @@ notifications_adm#:#osd_settings#:#Pop-up-Benachrichtigungen
 obj#:#activation_visible_when_disabled#:#Sichtbarkeit
 obj#:#activation_visible_when_disabled_info#:#Die gewählten Objekte sind auch außerhalb des gewählten Zeitraums sichtbar, können aber nicht geöffnet werden.
 obj#:#availability_period_changed#:#Die zeitliche Verfügbarkeit wurde für die ausgewählten Objekte erfolgreich angepasst.
+obj#:#available_languages#:#Available Languages
 obj#:#cont_filter_empty#:#Bitte nutzen Sie den Filter zur Anzeige von Objekten.
 obj#:#cont_skll_published#:#Alle Kompetenzzuweisungen wurden veröffentlicht.
 obj#:#cont_skll_published_some_not#:#Alle gegebenen Kompetenzzuweisungen wurden veröffentlicht. Zu einigen Benutzern konnten keine Kompetenzen veröffentlicht werden, da keine Zuweisungen vorlagen.
@@ -13010,6 +13011,8 @@ obj#:#copy_container_page_yes_label#:#Seitengestaltung übernehmen
 obj#:#custom_icon#:#Angepasstes Icon
 obj#:#edit_availability_period#:#Zeitliche Verfügbarkeit
 obj#:#edit_questions#:#Fragen bearbeiten
+obj#:#make_default_language#:#Zur Standardsprache machen
+obj#:#missing_migration#:#Sie können die Informationen auf dieser Seite nicht bearbeiten, da nicht alle Migrationen auf dem System durchgeführt wurden. Bitte kontaktieren Sie Ihre*n Systemadministator*in.
 obj#:#multiple_reference_deletion_info#:#Für die folgenden Objekte existieren weitere Referenzen.
 obj#:#no_objects_selected#:#Es muss mindestens ein Objekt ausgewählt werden.
 obj#:#obj_activate_content_lang#:#Mehrsprachigkeit für die Bearbeitung aktivieren
