@@ -30,6 +30,8 @@ class ilTestImporterTest extends ilTestBaseTestCase
     {
         parent::setUp();
 
+        $this->addGlobal_ilComponentRepository();
+
         $this->testObj = new ilTestImporter();
     }
 
