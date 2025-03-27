@@ -30,6 +30,12 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
      * @var ilObjQuestionPool
      */
     private $poolOBJ;
+    private ilPageComponentPluginExportImportStore $pc_plugin_store;
+
+    public function __construct()
+    {
+        $this->pc_plugin_store = ilPageComponentPluginExportImportStore::getInstance();
+    }
 
     /**
      * Import XML
@@ -125,6 +131,14 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
                     $oldQuestionId,
                     $newQuestionId
                 );
+
+                // needed for the import of page component plugins
+                $a_mapping->addMapping(
+                    "Services/COPage",
+                    "pg",
+                    'qpl:' . $oldQuestionId,
+                    'qpl:' . $newQuestionId
+                );
             }
         }
 
@@ -144,6 +158,15 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
      */
     public function finalProcessing(ilImportMapping $a_mapping): void
     {
+        $page_map = $a_mapping->getMappingsOfEntity("Services/COPage", "pg");
+        foreach ($page_map as $new_page_id) {
+            $parts = explode(":", $new_page_id);
+            $page = ilPageObjectFactory::getInstance($parts[0], (int) $parts[1], 0, '-');
+            if ($this->pc_plugin_store->replacePluginProperties($page)) {
+                $page->update(false, true);
+            }
+        }
+
         $maps = $a_mapping->getMappingsOfEntity("Modules/TestQuestionPool", "qpl");
         foreach ($maps as $old => $new) {
             if ($old != "new_id" && (int) $old > 0) {

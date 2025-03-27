@@ -35,6 +35,7 @@ class ilTestExporter extends ilXmlExporter
     private ilCtrl $ctrl;
     private ilComponentRepository $component_repository;
     private QuestionInfoService $questioninfo;
+    private ilPageComponentPluginExportImportStore $pc_plugin_store;
 
     public function __construct()
     {
@@ -45,6 +46,7 @@ class ilTestExporter extends ilXmlExporter
         $this->ctrl = $DIC['ilCtrl'];
         $this->component_repository = $DIC['component.repository'];
         $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
+        $this->pc_plugin_store = ilPageComponentPluginExportImportStore::getInstance();
 
         parent::__construct();
     }
@@ -143,6 +145,8 @@ class ilTestExporter extends ilXmlExporter
                 'entity' => 'common',
                 'ids' => $a_ids
             ];
+
+            $deps = array_merge($deps, $this->pc_plugin_store->getPluginDependencies());
 
             return $deps;
         }

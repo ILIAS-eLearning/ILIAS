@@ -81,6 +81,7 @@ class ilQuestionPageParser extends ilMDSaxParser
     protected string $cur_qid = "";
     protected string $chr_data = "";
     protected bool $in_media_item = false;
+    protected ilPageComponentPluginExportImportStore $pc_plugin_store;
 
     public function __construct(
         ilObject $a_content_object,
@@ -120,6 +121,7 @@ class ilQuestionPageParser extends ilMDSaxParser
         $this->qst_mapping = [];
         $this->coType = $this->content_object->getType();
         $this->metadata_parsing_disabled = false;
+        $this->pc_plugin_store = ilPageComponentPluginExportImportStore::getInstance();
 
         if (($this->coType != "tst") && ($this->coType != "qpl")) {
             $this->lm_tree = new ilLMTree($this->content_object->getId());
@@ -975,6 +977,7 @@ class ilQuestionPageParser extends ilMDSaxParser
                             if ($this->page_object->needsImportParsing()) {
                                 $this->pages_to_parse["qpl:" . $page->getId()] = "qpl:" . $page->getId();
                             }
+                            $this->pc_plugin_store->extractPluginProperties($page);
                             unset($page);
                         }
                         if ($ids["test"] > 0) {
@@ -990,6 +993,7 @@ class ilQuestionPageParser extends ilMDSaxParser
                             if ($this->page_object->needsImportParsing()) {
                                 $this->pages_to_parse["qpl:" . $page->getId()] = "qpl:" . $page->getId();
                             }
+                            $this->pc_plugin_store->extractPluginProperties($page);
                             unset($page);
                         }
                     }

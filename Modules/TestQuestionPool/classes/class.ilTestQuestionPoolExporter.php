@@ -26,12 +26,14 @@
 class ilTestQuestionPoolExporter extends ilXmlExporter
 {
     private $ds;
+    private ilPageComponentPluginExportImportStore $pc_plugin_store;
 
     /**
      * Initialisation
      */
     public function init(): void
     {
+        $this->pc_plugin_store = ilPageComponentPluginExportImportStore::getInstance();
     }
 
     /**
@@ -90,6 +92,8 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
                     'ids' => $taxIds
                 );
             }
+
+            $deps = array_merge($deps, $this->pc_plugin_store->getPluginDependencies());
 
             return $deps;
         }
