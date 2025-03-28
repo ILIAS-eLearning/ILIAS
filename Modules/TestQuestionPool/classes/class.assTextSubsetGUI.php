@@ -239,7 +239,17 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
                     }
                 }
                 $template->setCurrentBlock("textsubset_row");
-                $template->setVariable("SOLUTION", $this->escapeTemplatePlaceholders(htmlspecialchars($user_solutions[$i]['value1'])));
+                $template->setVariable(
+                    "SOLUTION",
+                    $this->escapeTemplatePlaceholders(
+                        htmlspecialchars(
+                            $user_solutions[$i]['value1'],
+                            ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401,
+                            null,
+                            false
+                        )
+                    )
+                );
                 $template->setVariable("COUNTER", $i + 1);
                 if ($result_output) {
                     $points = $user_solutions[$i]["points"];
