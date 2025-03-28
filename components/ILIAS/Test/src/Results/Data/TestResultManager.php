@@ -89,6 +89,12 @@ class TestResultManager
             return null;
         }
 
+        // Prevent unfinished passes from being entered in the table so that no inconsistencies occur during an attempt
+        $status = StatusOfAttempt::build($pass, $pass_result['last_finished_pass'], $pass_result['finalized_by']);
+        if(!$status->isFinished()) {
+            return null;
+        }
+
         $result = $this->buildTestResultObject($pass_result);
         $callback = function () use ($result) {
             $values = [
@@ -117,7 +123,7 @@ class TestResultManager
         $this->updateStatusCache($pass_result['user_id'], $pass_result['test_obj_id'], [
             'passed' => $result->isPassed(),
             'failed' => $result->isFailed(),
-            'finished' => $pass_result['last_finished_pass'] !== null
+            'finished' => $status->isFinished()
         ]);
 
         return $result;
