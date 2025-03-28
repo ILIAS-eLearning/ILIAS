@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -40,6 +40,6 @@ abstract class BaseAdaptor implements Adaptor
 
     protected function buildContainerPrefix(string $container): string
     {
-        return $container . self::CONTAINER_PREFIX_SEPARATOR;
+        return getcwd() . self::CONTAINER_PREFIX_SEPARATOR . $container . self::CONTAINER_PREFIX_SEPARATOR;
     }
 }
