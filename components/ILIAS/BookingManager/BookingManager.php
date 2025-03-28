@@ -39,5 +39,13 @@ class BookingManager implements Component\Component
 
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "ScheduleInput.js");
+
+        $contribute[\ILIAS\EventHandling\Definition::class] = static fn() =>
+            new \ILIAS\EventHandling\Definition(
+                self::class,
+                'listen',
+                'Services/User'
+            );
+
     }
 }

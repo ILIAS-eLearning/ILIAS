@@ -34,5 +34,12 @@ class Tagging implements Component\Component
     ): void {
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "ilTagging.js");
+
+        $contribute[\ILIAS\EventHandling\Definition::class] = static fn() =>
+            new \ILIAS\EventHandling\Definition(
+                self::class,
+                'listen',
+                'components/ILIAS/ILIASObject'
+            );
     }
 }

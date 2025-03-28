@@ -20,11 +20,15 @@ use ILIAS\Setup;
 
 class ilEventHandlingBuildEventInfoObjective extends Setup\Artifact\BuildArtifactObjective
 {
+    public function __construct(
+        protected array $event_definitions
+    ) {
+    }
+
     public function getArtifactName(): string
     {
         return "event_handling_data";
     }
-
 
     private ?ilComponentRepository $component_repository = null;
 
@@ -44,42 +48,10 @@ class ilEventHandlingBuildEventInfoObjective extends Setup\Artifact\BuildArtifac
 
     public function build(): Setup\Artifact
     {
-        $processor = new \ilEventHandlingDefinitionProcessor();
-
-        // Plugins behave slightly differently from core components: they do not always have a plugin.xml and the
-        // `ilComponentDefinitionReader` does not read them at all. Therefore, we overwrite the reader at this point
-        // and supplement it with the information from the existing plugins.
-
-        $plugin_and_components_reader = new class ($this->component_repository, $processor) extends
-            \ilComponentDefinitionReader {
-            public function __construct(
-                private ilComponentRepository $component_repository,
-                ilComponentDefinitionProcessor ...$processor,
-            ) {
-                parent::__construct(...$processor);
-            }
-
-            protected function getComponents(): \Iterator
-            {
-                yield from parent::getComponents();
-
-                foreach ($this->component_repository->getPlugins() as $plugin) {
-                    $xml_plugin_path = $plugin->getPath() . '/plugin.xml';
-                    if (!file_exists($xml_plugin_path)) {
-                        continue;
-                    }
-                    yield [
-                        'Plugins', // Plugins are generally handled in ilAppEventHandler with the prefix "Plugins".
-                        $plugin->getName(),
-                        $xml_plugin_path,
-                    ];
-                }
-            }
-        };
-
-        $plugin_and_components_reader->purge();
-        $plugin_and_components_reader->readComponentDefinitions();
-
-        return new Setup\Artifact\ArrayArtifact($processor->getData());
+        $defs = array_map(
+            fn($def) => $def->toArray(),
+            $this->event_definitions
+        );
+        return new Setup\Artifact\ArrayArtifact($defs);
     }
 }

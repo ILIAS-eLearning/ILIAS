@@ -32,6 +32,25 @@ class ContainerReference implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $contribute[\ILIAS\EventHandling\Definition::class] = static fn() =>
+            new \ILIAS\EventHandling\Definition(
+                self::class,
+                'listen',
+                'components/ILIAS/Group'
+            );
+        $contribute[\ILIAS\EventHandling\Definition::class] = static fn() =>
+            new \ILIAS\EventHandling\Definition(
+                self::class,
+                'listen',
+                'components/ILIAS/Session'
+            );
+        $contribute[\ILIAS\EventHandling\Definition::class] = static fn() =>
+            new \ILIAS\EventHandling\Definition(
+                self::class,
+                'listen',
+                'components/ILIAS/Course'
+            );
+        $contribute[\ILIAS\EventHandling\Definition::class] = static fn() =>
+            new \ILIAS\EventHandling\Definition(self::class, 'raise', 'deleteReference');
     }
 }

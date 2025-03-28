@@ -15,7 +15,4 @@
 		<pluginslot id="robj" name="RepositoryObject" />
 	</pluginslots>
 	<logging />
-	<events>
-		<event type="listen" id="components/ILIAS/ILIASObject" />
-	</events>
 </service>

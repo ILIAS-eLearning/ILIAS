@@ -26,23 +26,6 @@
 			<pagecontent pc_type="prgactionnote" name="PRGActionNote" directory="classes/PageEditor" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="128"/>
 		</copage>
 	</objects>
-	<events>
-		<event type="listen" id="components/ILIAS/User" />
-		<event type="listen" id="components/ILIAS/Tracking" />
-		<event type="listen" id="components/ILIAS/Tree" />
-		<event type="listen" id="components/ILIAS/ILIASObject" />
-		<event type="listen" id="components/ILIAS/ContainerReference" />
-		<event type="listen" id="components/ILIAS/AccessControl" />
-		<event type="listen" id="components/ILIAS/StudyProgramme" />
-		<event type="listen" id="components/ILIAS/Course" />
-		<event type="listen" id="components/ILIAS/Group" />
-		<event type="listen" id="components/ILIAS/OrgUnit" />
-
-		<event type="raise" id="userAssigned" />
-		<event type="raise" id="userDeassigned" />
-		<event type="raise" id="userReAssigned" />
-		<event type="raise" id="userSuccessful" />
-	</events>
 	<crons>
 		<cron id="prg_invalidate_expired_progresses" class="ilPrgInvalidateExpiredProgressesCronJob" />
 		<cron id="prg_restart_assignments_temporal_progress" class="ilPrgRestartAssignmentsCronJob" />

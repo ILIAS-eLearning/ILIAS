@@ -36,5 +36,12 @@ class Container implements Component\Component
             new Component\Resource\ComponentJS($this, "Container.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "ilClassification.js");
+
+        $contribute[\ILIAS\EventHandling\Definition::class] = static fn() =>
+            new \ILIAS\EventHandling\Definition(
+                self::class,
+                'listen',
+                'components/ILIAS/Skill'
+            );
     }
 }

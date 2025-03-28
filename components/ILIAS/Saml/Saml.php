@@ -38,5 +38,12 @@ class Saml implements Component\Component
             new Component\Resource\Endpoint($this, "metadata.php");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\Endpoint($this, "module.php");
+
+        $contribute[\ILIAS\EventHandling\Definition::class] = static fn() =>
+            new \ILIAS\EventHandling\Definition(
+                self::class,
+                'listen',
+                'components/ILIAS/Authentication'
+            );
     }
 }

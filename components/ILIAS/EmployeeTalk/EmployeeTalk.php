@@ -35,5 +35,12 @@ class EmployeeTalk implements Component\Component
 
         $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
             new \ILIAS\EmployeeTalk\Setup\ilEmployeeTalkSetupAgent();
+
+        $contribute[\ILIAS\EventHandling\Definition::class] = static fn() =>
+            new \ILIAS\EventHandling\Definition(self::class, 'raise', 'create');
+        $contribute[\ILIAS\EventHandling\Definition::class] = static fn() =>
+            new \ILIAS\EventHandling\Definition(self::class, 'raise', 'update');
+        $contribute[\ILIAS\EventHandling\Definition::class] = static fn() =>
+            new \ILIAS\EventHandling\Definition(self::class, 'raise', 'delete');
     }
 }

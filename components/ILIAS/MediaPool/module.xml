@@ -17,9 +17,6 @@
 			<sub_type id="mpg" amet="1" />
 		</object>
 	</objects>
-	<events>		
-		<event type="listen" id="components/ILIAS/ILIASObject" />
-	</events>
 	<copage>
 		<pageobject parent_type="mep" class_name="ilMediaPoolPage" directory="classes"/>
 	</copage>

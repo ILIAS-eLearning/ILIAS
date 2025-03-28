@@ -1,7 +1,4 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <service xmlns="http://www.w3.org" version="$Id$" id="ldoc">
-  <events>
-    <event type="listen" id="components/ILIAS/Authentication" />
-  </events>
   <logging />
 </service>

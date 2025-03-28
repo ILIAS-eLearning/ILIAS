@@ -41,5 +41,41 @@ class WebServices implements Component\Component
             new \ilECSAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+
+        $contribute[\ILIAS\EventHandling\Definition::class] = static fn() =>
+            new \ILIAS\EventHandling\Definition(
+                'Services/WebServices/ECS',
+                'listen',
+                'components/ILIAS/Course'
+            );
+
+        $contribute[\ILIAS\EventHandling\Definition::class] = static fn() =>
+            new \ILIAS\EventHandling\Definition(
+                'Services/WebServices/ECS',
+                'listen',
+                'components/ILIAS/Group'
+            );
+
+        $contribute[\ILIAS\EventHandling\Definition::class] = static fn() =>
+            new \ILIAS\EventHandling\Definition(
+                'Services/WebServices/ECS',
+                'listen',
+                'components/ILIAS/User'
+            );
+
+        $contribute[\ILIAS\EventHandling\Definition::class] = static fn() =>
+            new \ILIAS\EventHandling\Definition(
+                'Services/WebServices/ECS',
+                'listen',
+                'components/ILIAS/Authentication'
+            );
+
+        $contribute[\ILIAS\EventHandling\Definition::class] = static fn() =>
+            new \ILIAS\EventHandling\Definition(
+                self::class,
+                'raise',
+                'newEcsEvent'
+            );
+
     }
 }

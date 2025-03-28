@@ -40,5 +40,12 @@ class OnScreenChat implements Component\Component
             new Component\Resource\ComponentJS($this, "onscreenchat.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "onscreenchat-notifications.js");
+
+        $contribute[\ILIAS\EventHandling\Definition::class] = static fn() =>
+            new \ILIAS\EventHandling\Definition(
+                self::class,
+                'listen',
+                'components/ILIAS/Chatroom'
+            );
     }
 }

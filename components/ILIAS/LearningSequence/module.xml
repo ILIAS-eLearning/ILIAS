@@ -57,20 +57,4 @@
 		<pagecontent pc_type="lsostartbutton" name="Launcher" directory="classes/PageEditor" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="127"/>
 	</copage>
 
-	<events>
-		<event type="listen" id="components/ILIAS/Tracking" />
-		<event type="listen" id="components/ILIAS/ILIASObject" />
-		<event type="listen" id="components/ILIAS/LearningSequence" />
-	<!--
-		<event type="listen" id="components/ILIAS/AccessControl" />
-		<event type="listen" id="components/ILIAS/Tree" />
-	-->
-		<event type="raise" id="create" />
-		<event type="raise" id="update" />
-		<event type="raise" id="delete" />
-		<event type="raise" id="addParticipant" />
-		<event type="raise" id="deleteParticipant" />
-		<event type="raise" id="addToWaitingList" />
-		<event type="raise" id="addSubscriber" />
-	</events>
 </module>

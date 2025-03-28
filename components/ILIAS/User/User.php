@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS;
 
 use ILIAS\User\Setup\Agent;
-
 use ILIAS\Setup\Agent as SetupAgent;
 use ILIAS\Refinery\Factory as Refinery;
 
@@ -40,6 +39,28 @@ class User implements Component\Component
         $contribute[SetupAgent::class] = fn() =>
             new Agent(
                 $pull[Refinery::class]
+            );
+
+        $contribute[\ILIAS\EventHandling\Definition::class] = static fn() =>
+            new \ILIAS\EventHandling\Definition(self::class, 'raise', 'afterUpdate');
+        $contribute[\ILIAS\EventHandling\Definition::class] = static fn() =>
+            new \ILIAS\EventHandling\Definition(self::class, 'raise', 'deleteUser');
+        $contribute[\ILIAS\EventHandling\Definition::class] = static fn() =>
+            new \ILIAS\EventHandling\Definition(self::class, 'raise', 'afterCreate');
+        $contribute[\ILIAS\EventHandling\Definition::class] = static fn() =>
+            new \ILIAS\EventHandling\Definition(self::class, 'raise', 'onUserFieldAttributesChanged');
+
+        $contribute[\ILIAS\EventHandling\Definition::class] = static fn() =>
+            new \ILIAS\EventHandling\Definition(
+                self::class,
+                'listen',
+                'components/ILIAS/Object'
+            );
+        $contribute[\ILIAS\EventHandling\Definition::class] = static fn() =>
+            new \ILIAS\EventHandling\Definition(
+                self::class,
+                'listen',
+                'components/ILIAS/TermsOfService'
             );
     }
 }
