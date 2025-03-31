@@ -399,10 +399,9 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
         return "tpl.prop_answerwizardinput.html";
     }
 
-    public static function prepareFormOutput(float|string $input, bool $strip = false): string
+    protected function prepareFormOutput(float|string $input, bool $strip = false): string
     {
-        global $DIC;
-        $input = $DIC->refinery()->kindlyTo()->string()->transform($input);
+        $input = $this->refinery->kindlyTo()->string()->transform($input);
         $input = $strip ? ilUtil::stripSlashes($input) : $input;
         $input = htmlspecialchars($input, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, null, false);
         return str_replace(['{', '}', '\\'], ['&#123;', '&#125;', '&#92;'], $input);
