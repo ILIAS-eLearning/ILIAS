@@ -49,6 +49,7 @@
 		"ext-xml": "*",
 		"ext-zip": "*",
 		"ext-imagick": "*",
+		"monolog/monolog": "^3.9"
 	},
 	"require-dev": {
 	},
