@@ -480,7 +480,7 @@ class ilObjUserGUI extends ilObjectGUI
         $this->object = $user_object;
 
         if ($this->isSettingChangeable('upload')) {
-            $this->uploadUserPictureObject();
+            $this->uploadUserPicture();
         }
 
         if ($profile_maybe_incomplete
@@ -804,7 +804,7 @@ class ilObjUserGUI extends ilObjectGUI
 
             // same personal image
             if ($this->isSettingChangeable('upload')) {
-                $this->uploadUserPictureObject();
+                $this->uploadUserPicture();
             }
 
             if ($profile_maybe_incomplete) {
@@ -1429,10 +1429,8 @@ class ilObjUserGUI extends ilObjectGUI
      * upload user image
      * (original method by ratana ty)
      */
-    public function uploadUserPictureObject(): void
+    protected function uploadUserPicture(): void
     {
-
-        $this->checkUserWriteRight();
 
         $userfile_input = $this->form_gui->getItemByPostVar('userfile');
 
