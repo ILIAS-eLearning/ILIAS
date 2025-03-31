@@ -25,8 +25,8 @@ declare(strict_types=1);
 class ilTestPassFinishTasks
 {
     public function __construct(
-        private ilTestSession $test_session,
-        private int $obj_id
+        private readonly ilTestSession $test_session,
+        private readonly ilObjTest $obj_test,
     ) {
     }
 
@@ -53,23 +53,26 @@ class ilTestPassFinishTasks
             }
         });
 
+        $this->obj_test->updateTestResultCache($this->test_session->getActiveId(), null);
+
         $this->updateLearningProgressAfterPassFinishedIsWritten();
     }
 
     protected function updateLearningProgressAfterPassFinishedIsWritten()
     {
+        $obj_id = $this->obj_test->getId();
         ilLPStatusWrapper::_updateStatus(
-            $this->obj_id,
+            $obj_id,
             ilObjTestAccess::_getParticipantId($this->test_session->getActiveId())
         );
 
         $caller = $this->getCaller();
-        $lp = ilLPStatus::_lookupStatus($this->obj_id, $this->test_session->getUserId());
+        $lp = ilLPStatus::_lookupStatus($obj_id, $this->test_session->getUserId());
         $debug = "finPass={$this->test_session->getLastFinishedPass()} / Lp={$lp}";
 
         ilObjAssessmentFolder::_addLog(
             $this->test_session->getUserId(),
-            $this->obj_id,
+            $obj_id,
             "updateLearningProgressAfterPassFinishedIsWritten has been called from {$caller} ({$debug})",
             true
         );
@@ -77,12 +80,6 @@ class ilTestPassFinishTasks
 
     protected function getCaller()
     {
-        try {
-            throw new Exception();
-        } catch (Exception $e) {
-            $trace = $e->getTrace();
-        }
-
-        return $trace[3]['class'];
+        return (new Exception())->getTrace()[3]['class'];
     }
 }

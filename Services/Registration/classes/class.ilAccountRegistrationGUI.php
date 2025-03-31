@@ -358,6 +358,9 @@ class ilAccountRegistrationGUI
         }
 
         $this->userObj = new ilObjUser();
+        if ((int) $this->settings->get('auth_mode') !== ilAuthUtils::AUTH_LOCAL) {
+            $this->userObj->setAuthMode('local');
+        }
 
         $this->user_profile->skipGroup("preferences");
         $this->user_profile->skipGroup("settings");

@@ -77,17 +77,8 @@ class ilTestExportGUI extends ilExportGUI
      */
     public function createTestExportWithResults()
     {
-        $export_factory = new ilTestExportFactory(
-            $this->obj,
-            $this->lng,
-            $this->logger,
-            $this->tree,
-            $this->component_repository,
-            $this->questioninfo
-        );
-        $test_exp = $export_factory->getExporter('xml');
-        $test_exp->setResultExportingEnabledForTestExport(true);
-        $test_exp->buildExportFile();
+        $this->ctrl->setParameterByClass(self::class, 'export_results', 1);
+        (new ilExport())->exportObject($this->obj->getType(), $this->obj->getId());
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('exp_file_created'), true);
         $this->ctrl->redirectByClass('iltestexportgui');
     }

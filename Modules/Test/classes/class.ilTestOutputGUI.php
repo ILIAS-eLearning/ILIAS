@@ -189,7 +189,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
                     if (!$testPassesSelector->openPassExists()) {
                         $this->tpl->setOnScreenMessage('info', $this->lng->txt('tst_pass_finished'), true);
-                        $this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+                        $this->ctrl->redirectByClass([ilRepositoryGUI::class, ilObjTestGUI::class, ilTestScreenGUI::class]);
                     }
                 }
 

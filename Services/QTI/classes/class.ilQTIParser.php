@@ -186,13 +186,20 @@ class ilQTIParser extends ilSaxParser
     protected ?string $questionSetType = null;
 
     protected \ILIAS\TestQuestionPool\QuestionFilesService $questionfiles;
+    protected array $mappings;
 
-    public function __construct(?string $a_xml_file, int $a_mode = self::IL_MO_PARSE_QTI, int $a_qpl_id = 0, $a_import_idents = "")
-    {
+    public function __construct(
+        ?string $a_xml_file,
+        int $a_mode = self::IL_MO_PARSE_QTI,
+        int $a_qpl_id = 0,
+        $a_import_idents = '',
+        array $mappings = []
+    ) {
         global $DIC;
 
         $this->parser_mode = $a_mode;
         $this->questionfiles = $DIC->testQuestionPool()->questionFiles();
+        $this->mappings = $mappings;
         parent::__construct($a_xml_file);
 
         $this->qpl_id = $a_qpl_id;
@@ -535,7 +542,7 @@ class ilQTIParser extends ilSaxParser
                 $this->resprocessingBeginTag($a_attribs);
                 break;
             case assQuestionExport::ITEM_SOLUTIONHINT:
-                $this->solutionhint['points'] = (float)$a_attribs['points'];
+                $this->solutionhint['points'] = (float) $a_attribs['points'];
                 break;
         }
     }
@@ -567,7 +574,7 @@ class ilQTIParser extends ilSaxParser
         switch (strtolower($a_name)) {
             case "assessment":
                 if (is_object($this->tst_object)) {
-                    $this->tst_object->fromXML($this->assessment);
+                    $this->tst_object->fromXML($this->assessment, $this->mappings);
                 }
                 $this->in_assessment = false;
                 break;

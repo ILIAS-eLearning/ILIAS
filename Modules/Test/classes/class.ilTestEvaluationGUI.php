@@ -1928,7 +1928,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $this->object->getId()
         );
 
-        $this->finishTestPass($active_id, $this->object->getId());
+        $this->finishTestPass($active_id);
 
         $this->redirectBackToParticipantsScreen();
     }
@@ -2000,18 +2000,21 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 $this->object->getId()
             );
 
-            $this->finishTestPass($participant->getActiveId(), $this->object->getId());
+            $this->finishTestPass($participant->getActiveId());
         }
 
 
         $this->redirectBackToParticipantsScreen();
     }
 
-    protected function finishTestPass(int $active_id, int $obj_id)
+    protected function finishTestPass(int $active_id)
     {
         $process_locker = $this->processLockerFactory->withContextId($active_id)->getLocker();
 
-        $test_pass_finisher = new ilTestPassFinishTasks($this->testSessionFactory->getSession($active_id), $obj_id);
+        $test_pass_finisher = new ilTestPassFinishTasks(
+            $this->testSessionFactory->getSession($active_id),
+            $this->object,
+        );
         $test_pass_finisher->performFinishTasks($process_locker);
     }
 

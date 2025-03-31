@@ -32,6 +32,7 @@ class ilTestExporter extends ilXmlExporter
     private ilLanguage $lng;
     private ilLogger $log;
     private ilTree $tree;
+    private ilCtrl $ctrl;
     private ilComponentRepository $component_repository;
     private QuestionInfoService $questioninfo;
 
@@ -41,6 +42,7 @@ class ilTestExporter extends ilXmlExporter
         $this->lng = $DIC['lng'];
         $this->log = $DIC['ilLog'];
         $this->tree = $DIC['tree'];
+        $this->ctrl = $DIC['ilCtrl'];
         $this->component_repository = $DIC['component.repository'];
         $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
 
@@ -58,12 +60,63 @@ class ilTestExporter extends ilXmlExporter
     {
         $tst = new ilObjTest((int) $id, false);
         $tst->read();
-        $test_export_factory = new ilTestExportFactory($tst, $this->lng, $this->log, $this->tree, $this->component_repository, $this->questioninfo);
+        $test_export_factory = new ilTestExportFactory(
+            $tst,
+            $this->lng,
+            $this->log,
+            $this->tree,
+            $this->component_repository,
+            $this->questioninfo
+        );
         $test_export = $test_export_factory->getExporter('xml');
+
+        $parameters = $this->ctrl->getParameterArrayByClass(ilTestExportGUI::class);
+        if (!empty($parameters['export_results'])) {
+            $test_export->setResultExportingEnabledForTestExport(true);
+            $this->ctrl->clearParameterByClass(ilTestExportGUI::class, 'export_results');
+        }
         $zip = $test_export->buildExportFile();
 
         $this->log->write(__METHOD__ . ': Created zip file ' . $zip);
         return ''; // Sagt mjansen
+    }
+
+    public function getXmlExportHeadDependencies(string $entity, string $target_release, array $ids): array
+    {
+        if ($entity === 'tst') {
+            $mobs = [];
+            $files = [];
+            foreach ($ids as $id) {
+                $tst = new ilObjTest((int) $id, false);
+                $tst->read();
+                $intro_page_id = $tst->getMainSettings()->getIntroductionSettings()->getIntroductionPageId();
+                if ($intro_page_id !== null) {
+                    $mobs = array_merge($mobs, ilObjMediaObject::_getMobsOfObject('tst:pg', $intro_page_id));
+                    $files = array_merge($files, ilObjFile::_getFilesOfObject('tst:pg', $intro_page_id));
+                }
+
+                $concluding_remarks_page_id = $tst->getMainSettings()->getFinishingSettings()->getConcludingRemarksPageId();
+                if ($concluding_remarks_page_id !== null) {
+                    $mobs = array_merge($mobs, ilObjMediaObject::_getMobsOfObject('tst:pg', $concluding_remarks_page_id));
+                    $files = array_merge($files, ilObjFile::_getFilesOfObject('tst:pg', $concluding_remarks_page_id));
+                }
+            }
+
+            return [
+                [
+                    'component' => 'Services/MediaObjects',
+                    'entity' => 'mob',
+                    'ids' => $mobs
+                ],
+                [
+                    'component' => 'Modules/File',
+                    'entity' => 'file',
+                    'ids' => $files
+                ]
+            ];
+        }
+
+        return parent::getXmlExportTailDependencies($entity, $target_release, $ids);
     }
 
     /**

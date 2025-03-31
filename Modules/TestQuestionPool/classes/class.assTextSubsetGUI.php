@@ -239,7 +239,17 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
                     }
                 }
                 $template->setCurrentBlock("textsubset_row");
-                $template->setVariable("SOLUTION", $this->escapeTemplatePlaceholders($user_solutions[$i]['value1']));
+                $template->setVariable(
+                    "SOLUTION",
+                    $this->escapeTemplatePlaceholders(
+                        htmlspecialchars(
+                            $user_solutions[$i]['value1'],
+                            ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401,
+                            null,
+                            false
+                        )
+                    )
+                );
                 $template->setVariable("COUNTER", $i + 1);
                 if ($result_output) {
                     $points = $user_solutions[$i]["points"];
@@ -348,8 +358,7 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         // Delete all existing answers and create new answers from the form data
         $this->object->flushAnswers();
         foreach ($this->answers_from_post as $index => $answertext) {
-            $answertext = assQuestion::extendedTrim($answertext);
-            $this->object->addAnswer(htmlentities($answertext), $_POST['answers']['points'][$index], $index);
+            $this->object->addAnswer(assQuestion::extendedTrim($answertext), $_POST['answers']['points'][$index], $index);
         }
     }
 

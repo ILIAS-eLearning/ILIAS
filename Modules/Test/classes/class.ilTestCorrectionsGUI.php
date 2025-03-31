@@ -132,9 +132,7 @@ class ilTestCorrectionsGUI
 
         $this->setCorrectionTabsContext($questionGUI, 'question');
 
-        if ($form === null) {
-            $form = $this->buildQuestionCorrectionForm($questionGUI);
-        }
+        $form ??= $this->buildQuestionCorrectionForm($questionGUI);
 
         $this->populatePageTitleAndDescription($questionGUI);
         $this->main_tpl->setContent($form->getHTML());
@@ -574,17 +572,11 @@ class ilTestCorrectionsGUI
      */
     protected function allowedInAdjustment(\assQuestionGUI $question_object): bool
     {
-        $setting = new ilSetting('assessment');
-        $types = explode(',', $setting->get('assessment_scoring_adjustment'));
-        $type_def = array();
-        foreach ($types as $type) {
+        $type_def = [];
+        foreach (explode(',', (new ilSetting('assessment'))->get('assessment_scoring_adjustment', '')) as $type) {
             $type_def[$type] = ilObjQuestionPool::getQuestionTypeByTypeId($type);
         }
 
-        $type = $question_object->getQuestionType();
-        if (in_array($type, $type_def)) {
-            return true;
-        }
-        return false;
+        return in_array($question_object->getQuestionType(), $type_def);
     }
 }
