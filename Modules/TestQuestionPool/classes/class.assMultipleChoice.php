@@ -483,7 +483,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
      */
     public function getMaximumPoints(): float
     {
-        $total_max_points = 0;
+        $total_max_points = 0.0;
         foreach ($this->getAnswers() as $answer) {
             $total_max_points += max($answer->getPointsChecked(), $answer->getPointsUnchecked());
         }
