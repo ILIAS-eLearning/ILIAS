@@ -2636,7 +2636,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     */
     public function infoScreen($session_lock = "")
     {
-        if (!$this->access->checkAccess("visible", "", $this->ref_id) && !$this->access->checkAccess("read", "", $_GET["ref_id"])) {
+        if (!$this->access->checkAccess("visible", "", $this->ref_id) &&
+            !$this->access->checkAccess("read", "", $this->ref_id)) {
             $this->redirectAfterMissingRead();
             return '';
         }
@@ -2648,7 +2649,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
         $this->tabs_gui->activateTab(ilTestTabsManager::TAB_ID_INFOSCREEN);
 
-        if ($this->access->checkAccess("read", "", $this->testrequest->getRefId())) {
+        if ($this->access->checkAccess("read", "", $this->ref_id)) {
             $this->trackTestObjectReadEvent();
         }
         $info = new ilInfoScreenGUI($this);
