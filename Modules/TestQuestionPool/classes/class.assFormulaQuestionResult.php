@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Refinery\Factory as Refinery;
+
 /**
  * Formula Question Result
  * @author        Helmut Schottmüller <helmut.schottmueller@mac.com>
@@ -30,6 +32,7 @@ class assFormulaQuestionResult
     public const RESULT_CO_FRAC = 3;
 
     private \ilGlobalTemplateInterface $main_tpl;
+    private Refinery $refinery;
 
     private $available_units = [];
     private ?float $range_min = null;
@@ -52,6 +55,7 @@ class assFormulaQuestionResult
     ) {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
+        $this->refinery = $DIC->refinery();
         $this->setRangeMin($range_min_txt);
         $this->setRangeMax($range_max_txt);
 
@@ -409,16 +413,18 @@ class assFormulaQuestionResult
         }
     }
 
-    public function getReachedPoints($variables, $results, $value, $unit, $units)
-    {
-        global $DIC;
-        $ilLog = $DIC['ilLog'];
+    /**
+     * @param assFormulaQuestionUnit[] $units
+     */
+    public function getReachedPoints(
+        array $variables,
+        array $results,
+        string $value,
+        ?assFormulaQuestionUnit $unit,
+        array $units
+    ) {
         if ($this->getRatingSimple()) {
-            if ($this->isCorrect($variables, $results, $value, $units[$unit] ?? null)) {
-                return $this->getPoints();
-            } else {
-                return 0;
-            }
+            return $this->isCorrect($variables, $results, $value, $unit) ? $this->getPoints() : 0;
         } else {
             $points = 0;
             $formula = $this->substituteFormula($variables, $results);
@@ -502,26 +508,34 @@ class assFormulaQuestionResult
                 }
             }
 
-            if (is_object($unit)) {
-                if (isset($frac_value)) {
-                    $value = ilMath::_mul($frac_value, $unit->getFactor(), 100);
-                }
+            if ($unit instanceof assFormulaQuestionUnit && isset($frac_value)) {
+                $value = ilMath::_mul($frac_value, $unit->getFactor(), 100);
             }
+
+            /** @var ?float $value */
+            $value = $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->float(),
+                $this->refinery->always(null),
+            ])->transform($value);
 
             if ($this->checkSign($result, $value)) {
                 $points += ilMath::_mul($this->getPoints(), ilMath::_div($this->getRatingSign(), 100));
             }
 
-            if ($this->isInTolerance(abs($value), abs($result), $this->getTolerance())) {
+            if (is_numeric($value) && $this->isInTolerance(abs($value), abs($result), $this->getTolerance())) {
                 $points += ilMath::_mul($this->getPoints(), ilMath::_div($this->getRatingValue(), 100));
             }
             if ($this->getUnit() !== null) {
-                $base1 = $units[$unit] ?? null;
-                if (is_object($base1)) {
-                    $base1 = $units[$base1->getBaseUnit()];
+                $base1 = $unit;
+                if ($unit instanceof assFormulaQuestionUnit) {
+                    $base1 = $units[$unit->getBaseUnit()];
                 }
                 $base2 = $units[$this->getUnit()->getBaseUnit()];
-                if (is_object($base1) && is_object($base2) && $base1->getId() == $base2->getId()) {
+                if (
+                    $base1 instanceof assFormulaQuestionUnit
+                    && $base2 instanceof assFormulaQuestionUnit
+                    && $base1->getId() === $base2->getId()
+                ) {
                     $points += ilMath::_mul($this->getPoints(), ilMath::_div($this->getRatingUnit(), 100));
                 }
             }

@@ -165,10 +165,9 @@ class ilAssLacCompositeEvaluator
                 $answer = $question->getAvailableAnswerOptions($index - 1);
 
                 $unit = $solutions->getSolutionForKey($index . "_unit");
-                $key = null;
-                if (is_array($unit)) {
-                    $key = $unit['value'];
-                }
+                $key = isset($unit["value"])
+                    ? (new ilUnitConfigurationRepository(0))->getUnit((int) $unit["value"])
+                    : null;
 
                 $max_points = $answer->getPoints();
                 // @PHP8-CR
@@ -176,7 +175,13 @@ class ilAssLacCompositeEvaluator
                 // to a later date and eventually task this to T&A TechSquad for analysis.
                 // Candidate:
                 //$points = $question->getReachedPoints($question->getVariables(), $question->getResults(), $result["value"], $key, $question->getUnitrepository()->getUnits());
-                $points = $answer->getReachedPoints($question->getVariables(), $question->getResults(), $result["value"], $key, $question->getUnitrepository()->getUnits());
+                $points = $answer->getReachedPoints(
+                    $question->getVariables(),
+                    $question->getResults(),
+                    $result["value"] ?? "",
+                    $key,
+                    $question->getUnitrepository()->getUnits()
+                );
 
                 $percentage = 0;
                 if ($max_points != 0) {
