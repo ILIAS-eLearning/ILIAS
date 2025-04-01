@@ -95,12 +95,12 @@ class TitleAndDescription implements Property
 
         $title_input = $field_factory->text($language->txt(self::TITLE_LABEL))
             ->withoutStripTags()
-            ->withMaxLength(ilObject::TITLE_LENGTH)
+            ->withMaxLength(\ilObject::TITLE_LENGTH)
             ->withRequired(true)
             ->withValue($this->title);
         $description_input = $field_factory->textarea($language->txt(self::DESCRIPTION_LABEL))
             ->withoutStripTags()
-            ->withMaxLimit(ilObject::LONG_DESC_LENGTH)
+            ->withMaxLimit(\ilObject::LONG_DESC_LENGTH)
             ->withValue($this->long_description);
         return $field_factory->group([$title_input, $description_input], self::GROUP_LABEL)
             ->withAdditionalTransformation($trafo);
