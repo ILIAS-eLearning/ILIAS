@@ -123,6 +123,14 @@ class User
         $this->agreeDate()->update($this->clock->now());
     }
 
+    public function acceptAnyDocument(): void
+    {
+        $this->legal_documents->history()->acceptDocument(
+            $this->user,
+            current($this->legal_documents->document()->repository()->all())
+        );
+    }
+
     public function isLDAPUser(): bool
     {
         return $this->authMode() === (string) ilAuthUtils::AUTH_LDAP;
