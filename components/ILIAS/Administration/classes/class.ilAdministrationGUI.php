@@ -149,6 +149,7 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
 
         // check creation mode
         // determined by "new_type" parameter
+        // e.g. creation of a new role, user org unit, talk template
         $new_type = $this->request->getNewType();
         if ($new_type) {
             $this->creation_mode = true;
@@ -158,8 +159,6 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
             $obj_type = $new_type;
             $class_name = $this->objDefinition->getClassName($obj_type);
             $next_class = strtolower("ilObj" . $class_name . "GUI");
-            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-            // $this->ctrl->setCmdClass($next_class);
         }
 
         // set next_class directly for page translations
@@ -177,9 +176,6 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
             $obj_type = ilObject::_lookupType($this->cur_ref_id, true);
             $class_name = $this->objDefinition->getClassName($obj_type);
             $next_class = strtolower("ilObj" . $class_name . "GUI");
-            // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-            // $this->ctrl->setCmdClass($next_class);
-            // $this->ctrl->setCmd("view");
         }
 
         $cmd = $this->ctrl->getCmd("forward");
