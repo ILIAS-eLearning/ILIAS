@@ -1158,8 +1158,9 @@ abstract class assQuestion
     {
         if ($a_q_id > 0) {
             $page = new ilAssQuestionPage($a_q_id);
-
-            $xml = str_replace("il__qst_" . $a_q_id, "il__qst_" . $this->id, $page->getXMLContent());
+            $page->buildDom();
+            ilPCPlugged::handleCopiedPluggedContent($page, $page->getDomDoc());
+            $xml = str_replace("il__qst_" . $a_q_id, "il__qst_" . $this->id, $page->getXMLFromDom());
             $this->page->setXMLContent($xml);
             $this->page->updateFromXML();
         }
