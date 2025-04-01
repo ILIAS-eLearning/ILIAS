@@ -45,7 +45,6 @@ use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
  */
 class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectConstants, ilDesktopItemHandling
 {
-    private readonly GlobalHttpState $http;
     private ?\ILIAS\Style\Content\Object\ObjectFacade $content_style_domain = null;
     private readonly \ILIAS\Style\Content\GUIService $content_style_gui;
     private readonly ilNavigationHistory $navHistory;
@@ -65,7 +64,6 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
         $this->dic = $DIC;
-        $this->http = $this->dic->http();
         $this->settings = $this->dic->settings();
         $this->navHistory = $this->dic['ilNavigationHistory'];
         $this->help = $DIC['ilHelp'];
@@ -240,13 +238,13 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $transgui = new TranslationGUI(
                     $this->getObject(),
                     $this->lng,
+                    $this->access,
                     $this->user,
                     $this->ctrl,
                     $this->tpl,
                     $this->ui_factory,
                     $this->ui_renderer,
-                    $this->post_wrapper,
-                    $this->request,
+                    $this->http,
                     $this->refinery,
                     $this->toolbar
                 );

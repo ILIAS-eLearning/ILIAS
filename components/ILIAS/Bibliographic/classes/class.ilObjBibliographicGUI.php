@@ -78,7 +78,6 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
     protected ilHelpGUI $help;
     protected Services $storage;
     protected \ilObjBibliographicStakeholder $stakeholder;
-    protected \ILIAS\HTTP\Services $http;
     protected Factory $ui_factory;
     protected \ILIAS\Refinery\Factory $refinery;
     protected ?string $cmd = self::CMD_SHOW_CONTENT;
@@ -90,7 +89,6 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         $this->help = $DIC['ilHelp'];
         $this->storage = $DIC['resource_storage'];
         $this->stakeholder = new ilObjBibliographicStakeholder();
-        $this->http = $DIC->http();
         $this->ui_factory = $DIC->ui()->factory();
         $this->refinery = $DIC->refinery();
 

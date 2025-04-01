@@ -39,7 +39,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
     protected int $requested_user_page;
     protected string $requested_back_url = "";
     protected \ILIAS\DI\UIServices $ui;
-    protected \ILIAS\HTTP\Services $http;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
 
@@ -64,8 +63,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             ->internal()
             ->gui()
             ->standardRequest();
-
-        $this->http = $DIC->http();
 
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 

@@ -228,16 +228,15 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 $this->tabs_gui->activateTab(self::TAB_SETTINGS);
                 $this->tabs_gui->activateSubTab('settings_trans');
                 $transgui = new TranslationGUI(
-                    $this->getObject()->getType(),
-                    $this->getObject()->getObjectProperties(),
+                    $this->getObject(),
                     $this->lng,
+                    $this->access,
                     $this->user,
                     $this->ctrl,
                     $this->tpl,
                     $this->ui_factory,
                     $this->ui_renderer,
-                    $this->post_wrapper,
-                    $this->request,
+                    $this->http,
                     $this->refinery,
                     $this->toolbar
                 );

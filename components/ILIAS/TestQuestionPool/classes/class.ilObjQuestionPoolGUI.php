@@ -70,7 +70,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     public const SUPPORTED_IMPORT_MIME_TYPES = [MimeType::APPLICATION__ZIP, MimeType::TEXT__XML];
     public const DEFAULT_CMD = 'questions';
 
-    private HTTPServices $http;
     protected Service $taxonomy;
     protected ilDBInterface $db;
     protected ilComponentLogger $log;
@@ -106,7 +105,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->navigation_history = $DIC['ilNavigationHistory'];
         $this->ui_service = $DIC->uiService();
         $this->taxonomy = $DIC->taxonomy();
-        $this->http = $DIC->http();
         $this->archives = $DIC->archives();
         $this->content_style = $DIC->contentStyle();
 

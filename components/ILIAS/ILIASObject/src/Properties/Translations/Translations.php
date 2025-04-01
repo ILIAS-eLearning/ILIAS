@@ -57,7 +57,6 @@ class Translations
      */
     public function __construct(
         private readonly int $obj_id,
-        private bool $copage_translation_activated,
         private array $languages,
         private string $default_language,
         private ?string $master_language,
@@ -82,6 +81,15 @@ class Translations
         return $this->default_language;
     }
 
+    public function withDefaultLanguage(string $default_language): self
+    {
+        $clone = clone $this;
+        $clone->languages[$clone->default_language] = $clone->languages[$clone->default_language]->withDefault(false);
+        $clone->languages[$default_language] = $clone->languages[$default_language]->withDefault(true);
+        $clone->default_language = $default_language;
+        return $clone;
+    }
+
     public function getMasterLanguage(): string
     {
         return $this->master_language ?? '';
@@ -90,9 +98,11 @@ class Translations
     public function withMasterLanguage(string $master_language): self
     {
         $clone = clone $this;
-        $clone->master_language = $master_language;
-        $clone->languages[$clone->master_language] = $clone->languages[$clone->master_language]->withMaster(false);
+        if ($clone->master_language !== null) {
+            $clone->languages[$clone->master_language] = $clone->languages[$clone->master_language]->withMaster(false);
+        }
         $clone->languages[$master_language] = $clone->languages[$master_language]->withMaster(true);
+        $clone->master_language = $master_language;
         return $clone;
     }
 
@@ -102,6 +112,39 @@ class Translations
     public function getLanguages(): array
     {
         return $this->languages;
+    }
+
+    public function getLaguageForCode(string $lang_code): ?Language
+    {
+        return $this->languages[$lang_code] ?? null;
+    }
+
+    public function withLanguage(Language $lang): self
+    {
+        $clone = $this;
+        $clone->languages[$lang->getLanguageCode()] = $lang;
+        if ($lang->isMaster()) {
+            $clone->languages[$clone->master_language] = $clone->languages[$clone->master_language]->withMaster(false);
+            $clone->master_language = $lang->getLanguageCode();
+        }
+
+        if ($lang->isDefault()) {
+            $clone->languages[$clone->default_language] = $this->languages[$clone->default_language]->withDefault(false);
+            $clone->default_language = $lang->getLanguageCode();
+        }
+
+        return $clone;
+    }
+
+    public function withoutLanguage(string $lang): self
+    {
+        if ($lang === $this->master_language) {
+            return $this;
+        }
+
+        $clone = $this;
+        unset($clone->languages[$lang]);
+        return $clone;
     }
 
     public function withAdditionalLanguage(
@@ -188,26 +231,16 @@ class Translations
         return $clone;
     }
 
-    public function withoutLanguage(string $lang): self
-    {
-        if ($lang === $this->master_language) {
-            return $this;
-        }
-
-        $clone = $this;
-        unset($clone->languages[$lang]);
-        return $clone;
-    }
-
     public function getContentTranslationActivated(): bool
     {
-        return $this->copage_translation_activated;
+        return $this->master_language !== null;
     }
 
-    public function withContentTranslationActivated(bool $copage_translation_activated): self
+    public function withDeactivatedContentTranslation(): self
     {
         $clone = clone $this;
-        $clone->copage_translation_activated = $copage_translation_activated;
+        $clone->languages[$clone->master_language] = $clone->languages[$this->master_language]->withMaster(false);
+        $clone->master_language = null;
         return $clone;
     }
 
@@ -215,7 +248,6 @@ class Translations
     {
         return new self(
             $obj_id,
-            $this->copage_translation_activated,
             $this->languages,
             $this->default_language,
             $this->master_language
@@ -226,7 +258,7 @@ class Translations
         string $lang,
         string $parent_type
     ): string {
-        if (!$this->copage_translation_activated) {
+        if ($this->master_language === null) {
             return '-';
         }
 

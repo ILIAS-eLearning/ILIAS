@@ -45,7 +45,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
     protected ilHelpGUI $help;
     protected ilLogger $log;
     protected RefineryFactory $refinery;
-    protected HTTPServices $http;
     protected ILIASArchives $archives;
     public string $defaultscript;
 
@@ -57,7 +56,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         $this->toolbar = $DIC->toolbar();
         $this->help = $DIC["ilHelp"];
         $this->refinery = $DIC->refinery();
-        $this->http = $DIC->http();
         $this->archives = $DIC->archives();
         $this->edit_request = $DIC->surveyQuestionPool()
             ->internal()

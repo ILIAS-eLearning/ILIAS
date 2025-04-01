@@ -58,7 +58,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     private ?ilPropertyFormGUI $replyEditForm = null;
     private bool $hideToolbar = false;
     private \Psr\Http\Message\ServerRequestInterface $httpRequest;
-    private \ILIAS\HTTP\Services $http;
     private Factory $uiFactory;
     private Renderer $uiRenderer;
     private ?array $forumObjects = null;
@@ -87,7 +86,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         global $DIC;
 
         $this->httpRequest = $DIC->http()->request();
-        $this->http = $DIC->http();
 
         $this->uiFactory = $DIC->ui()->factory();
         $this->uiRenderer = $DIC->ui()->renderer();
@@ -107,7 +105,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $this->lng->loadLanguageModule('forum');
         $this->lng->loadLanguageModule('content');
-        
+
         $ref_id = $this->retrieveIntOrZeroFrom($this->http->wrapper()->query(), 'ref_id');
 
         $this->objProperties = ilForumProperties::getInstance($this->ilObjDataCache->lookupObjId($ref_id));
@@ -2235,10 +2233,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 (function () {
                   const button = document.getElementById('$id');
                   if (!button) return;
-                
+
                   const form = document.getElementById('form_$form_id');
                   if (!form) return;
-                
+
                   button.addEventListener('click', (event) => {
                     event.preventDefault();
                     form.submit();
@@ -3508,12 +3506,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         document.querySelectorAll('.ilFrmPostContent img').forEach((img) => {
           const maxWidth = img.getAttribute('width');
           const maxHeight = img.getAttribute('height');
-        
+
           if (maxWidth) {
             img.style.maxWidth = maxWidth + 'px';
             img.removeAttribute('width');
           }
-        
+
           if (maxHeight) {
             img.style.maxHeight = maxHeight + 'px';
             img.removeAttribute('height');
@@ -4483,7 +4481,7 @@ EOD
                         (function () {
                           const button = document.getElementById('$id');
                           if (!button) return;
-                        
+
                           const modalDialog = button.closest('.modal-dialog');
                           if (!modalDialog) return;
 
@@ -5637,10 +5635,10 @@ EOD
                             (function () {
                               const button = document.getElementById('$id');
                               if (!button) return;
-                            
+
                               const form = document.getElementById('$form_id');
                               if (!form) return;
-                            
+
                               button.addEventListener('click', (event) => {
                                 event.preventDefault();
                                 form.submit();

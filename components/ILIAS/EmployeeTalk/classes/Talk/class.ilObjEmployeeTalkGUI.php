@@ -45,7 +45,6 @@ use ILIAS\EmployeeTalk\Notification\NotificationType;
  */
 final class ilObjEmployeeTalkGUI extends ilObjectGUI
 {
-    protected HttpServices $http;
     protected Refinery $refinery;
     protected UIFactory $ui_factory;
     protected ilPropertyFormGUI $form;
@@ -60,7 +59,6 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
     {
         global $DIC;
 
-        $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
         $refId = $this->http->wrapper()->query()->retrieve(
             "ref_id",

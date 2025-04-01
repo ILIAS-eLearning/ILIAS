@@ -13018,7 +13018,7 @@ obj#:#obj_activate_content_lang#:#Ativar tradução para edição de página
 obj#:#obj_activate_multilang#:#Utilizadores
 obj#:#obj_activation#:#Ativação
 obj#:#obj_activation_list_gui#:#Disponibilidade
-obj#:#obj_add_languages#:#Adicionar idiomas
+obj#:#obj_add_language#:#Adicionar idioma
 obj#:#obj_additional_langs#:#Idiomas adicionais
 obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?###26 08 2024 new variable
 obj#:#obj_cont_transl_deactivated#:#A tradução para edição de página foi desativada.

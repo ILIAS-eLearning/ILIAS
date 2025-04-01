@@ -13020,7 +13020,7 @@ obj#:#obj_activate_content_lang#:#Activar traducción para Edición de Página
 obj#:#obj_activate_multilang#:#Activar soporte para múltiples idiomas
 obj#:#obj_activation#:#Activación
 obj#:#obj_activation_list_gui#:#Disponibilidad
-obj#:#obj_add_languages#:#Añadir Idiomas
+obj#:#obj_add_language#:#Añadir Idioma
 obj#:#obj_additional_langs#:#Idiomas adicionales
 obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?###26 08 2024 new variable
 obj#:#obj_cont_transl_deactivated#:#Se ha desactivado la traducción en la edición de página

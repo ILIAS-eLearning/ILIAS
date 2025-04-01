@@ -41,8 +41,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI
     protected const int LINK_MOD_SET_LIST = 4;
     protected const int LINK_MOD_ASYNC = 6;
 
-    protected HTTPService $http;
-
     private int $view_mode = self::VIEW_MODE_VIEW;
 
     private ?ilPropertyFormGUI $form = null;
@@ -60,7 +58,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         parent::__construct($id, $id_type, $parent_node_id);
 
         $this->lng->loadLanguageModule("webr");
-        $this->http = $DIC->http();
         $this->settings = $DIC->settings();
     }
 

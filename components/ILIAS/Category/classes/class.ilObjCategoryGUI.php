@@ -253,8 +253,7 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
                     $this->tpl,
                     $this->ui_factory,
                     $this->ui_renderer,
-                    $this->post_wrapper,
-                    $this->request,
+                    $this->http,
                     $this->refinery,
                     $this->toolbar
                 );

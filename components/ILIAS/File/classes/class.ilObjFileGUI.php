@@ -84,7 +84,6 @@ class ilObjFileGUI extends ilObject2GUI
     protected ?ilLogger $log = null;
     protected ilObjectService $obj_service;
     protected \ILIAS\Refinery\Factory $refinery;
-    protected WrapperFactory $http;
     protected General $general_settings;
     protected ilFileServicesSettings $file_service_settings;
     protected IconDatabaseRepository $icon_repo;
@@ -101,8 +100,6 @@ class ilObjFileGUI extends ilObject2GUI
     public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
         global $DIC;
-        $this->http = $DIC->http()->wrapper();
-        $this->request = $DIC->http()->request();
         $this->refinery = $DIC->refinery();
         $this->file_service_settings = $DIC->fileServiceSettings();
         $this->user = $DIC->user();
@@ -254,8 +251,8 @@ class ilObjFileGUI extends ilObject2GUI
 
             case "illearningprogressgui":
                 $ilTabs->activateTab('learning_progress');
-                $user_id = $this->http->query()->has('user_id')
-                    ? $this->http->query()->retrieve('user_id', $this->refinery->kindlyTo()->int())
+                $user_id = $this->request_wrapper->has('user_id')
+                    ? $this->request_wrapper->retrieve('user_id', $this->refinery->kindlyTo()->int())
                     : $ilUser->getId();
                 $new_gui = new ilLearningProgressGUI(
                     ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
@@ -456,8 +453,8 @@ class ilObjFileGUI extends ilObject2GUI
      */
     protected function uploadFiles(): void
     {
-        $origin = ($this->http->query()->has(self::PARAM_UPLOAD_ORIGIN)) ?
-            $this->http->query()->retrieve(
+        $origin = ($this->request_wrapper->has(self::PARAM_UPLOAD_ORIGIN)) ?
+            $this->request_wrapper->retrieve(
                 self::PARAM_UPLOAD_ORIGIN,
                 $this->refinery->kindlyTo()->string()
             ) : self::UPLOAD_ORIGIN_STANDARD;
@@ -716,11 +713,11 @@ class ilObjFileGUI extends ilObject2GUI
 
     public function sendFile(): bool
     {
-        $hist_entry_id = $this->http->query()->has('hist_id')
-            ? $this->http->query()->retrieve('hist_id', $this->refinery->kindlyTo()->int())
+        $hist_entry_id = $this->request_wrapper->has('hist_id')
+            ? $this->request_wrapper->retrieve('hist_id', $this->refinery->kindlyTo()->int())
             : null;
         try {
-            if (ANONYMOUS_USER_ID === $this->user->getId() && $this->http->query()->has('transaction')) {
+            if (ANONYMOUS_USER_ID === $this->user->getId() && $this->request_wrapper->has('transaction')) {
                 $this->object->sendFile($hist_entry_id);
             }
 

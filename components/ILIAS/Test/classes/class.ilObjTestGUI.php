@@ -139,11 +139,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     protected ilComponentRepository $component_repository;
     protected ilComponentFactory $component_factory;
     protected ilDBInterface $db;
-    protected UIFactory $ui_factory;
-    protected UIRenderer $ui_renderer;
     protected ilUIService $ui_service;
     private ContentStyle $content_style;
-    protected HTTPServices $http;
     protected ilHelpGUI $help;
     protected GlobalScreen $global_screen;
     protected ilObjectDataCache $obj_data_cache;
@@ -175,10 +172,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->navigation_history = $DIC['ilNavigationHistory'];
         $this->component_repository = $DIC['component.repository'];
         $this->component_factory = $DIC['component.factory'];
-        $this->ui_factory = $DIC['ui.factory'];
-        $this->ui_renderer = $DIC['ui.renderer'];
         $this->ui_service = $DIC->uiService();
-        $this->http = $DIC['http'];
         $this->error = $DIC['ilErr'];
         $this->db = $DIC['ilDB'];
         $this->help = $DIC['ilHelp'];
@@ -189,7 +183,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->archives = $DIC->archives();
         $this->type = 'tst';
         $this->data_factory = new DataFactory();
-        $this->ui_service = $DIC->uiService();
         $this->taxonomy = $DIC->taxonomy()->domain();
         $this->ui_service = $DIC->uiService();
         $this->content_style = $DIC->contentStyle();

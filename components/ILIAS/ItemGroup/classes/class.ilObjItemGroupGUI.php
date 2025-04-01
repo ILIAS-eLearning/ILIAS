@@ -94,18 +94,17 @@ class ilObjItemGroupGUI extends ilObject2GUI
                 $transgui = new TranslationGUI(
                     $this->getObject(),
                     $this->lng,
+                    $this->access,
                     $this->user,
                     $this->ctrl,
                     $this->tpl,
                     $this->ui_factory,
                     $this->ui_renderer,
-                    $this->post_wrapper,
-                    $this->request,
+                    $this->http,
                     $this->refinery,
                     $this->toolbar
                 );
                 $transgui->supportContentTranslation(false);
-                $transgui->hideDescription(true);
                 $this->ctrl->forwardCommand($transgui);
                 break;
 

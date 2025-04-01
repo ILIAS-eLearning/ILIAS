@@ -29,8 +29,6 @@ use ILIAS\DI\UIServices;
 */
 class ilObjSearchSettingsGUI extends ilObjectGUI
 {
-    private GlobalHttpState $http;
-    protected Factory $refinery;
     protected UIServices $ui;
     protected ilLogger $src_logger;
     protected ilObjUser $user;
@@ -41,8 +39,6 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
     {
         global $DIC;
 
-        $this->http = $DIC->http();
-        $this->refinery = $DIC->refinery();
         $this->ui = $DIC->ui();
         $this->src_logger = $DIC->logger()->src();
         $this->user = $DIC->user();

@@ -36,7 +36,6 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
     private const CMD_SAVE = 'save';
     private const F_READING_TIME = 'reading_time';
 
-    private readonly GlobalHttpState $http;
     private readonly Storage $settings_storage;
 
     public function __construct($a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
@@ -47,7 +46,6 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
         $this->lng->loadLanguageModule($this->type);
 
-        $this->http = $DIC->http();
         $this->settings_storage = new StorageImpl($DIC->settings());
     }
 

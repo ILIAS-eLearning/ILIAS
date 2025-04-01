@@ -75,7 +75,6 @@ class CachedRepository
 
         return new Translations(
             $object_id,
-            $master_language !== null,
             $languages,
             $default_language,
             $master_language
@@ -108,7 +107,7 @@ class CachedRepository
                 $row['lang_code'],
                 $row['title'] ?? '',
                 $row['description'] ?? '',
-                $row['lang_code'] === $master_lang['fallback_lang']
+                $row['lang_code'] === ($master_lang['fallback_lang'] ?? '')
                     || $row['lang_default'] === 1 && $this->determineDefaultLanguage($row['lang_code'], $master_lang) === $row['lang_code'],
                 isset($master_lang['master_lang']) && $master_lang['master_lang'] === $row['lang_code']
             );
@@ -119,7 +118,6 @@ class CachedRepository
 
         return new Translations(
             $object_id,
-            $master_lang !== null,
             $languages,
             $this->determineDefaultLanguage($object_translation_default_language, $master_lang),
             $master_lang['master_lang'] ?? null,
@@ -144,15 +142,6 @@ class CachedRepository
     {
         $this->db->manipulate(
             'DELETE FROM ' . self::OBJECT_TRANSLATIONS_TABLE . PHP_EOL
-            . 'WHERE obj_id = ' . $this->db->quote($obj_id, 'integer')
-        );
-    }
-
-    public function deactivateContentTranslationFor(int $obj_id): void
-    {
-        $this->db->manipulate(
-            'UPDATE ' . self::OBJECT_TRANSLATIONS_TABLE . PHP_EOL
-            . 'SET master_lang = NULL' . PHP_EOL
             . 'WHERE obj_id = ' . $this->db->quote($obj_id, 'integer')
         );
     }

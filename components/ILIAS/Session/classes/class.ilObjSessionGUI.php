@@ -35,7 +35,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
     protected ilAppEventHandler $event;
     protected \ILIAS\FileUpload\FileUpload $upload;
     protected ilHelpGUI $help;
-    protected \ILIAS\HTTP\Services $http;
     protected \ILIAS\Refinery\Factory $refinery;
 
     public ilLanguage $lng;
@@ -87,7 +86,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->event = $DIC->event();
         $this->upload = $DIC->upload();
         $this->help = $DIC->help();
-        $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
 
         $this->type = "sess";

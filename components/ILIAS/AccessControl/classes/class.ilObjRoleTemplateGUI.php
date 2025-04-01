@@ -38,24 +38,15 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
     private int $rolf_ref_id;
 
-    protected ilRbacAdmin $rbac_admin;
-
-    private GlobalHttpState $http;
-    protected Factory $refinery;
-
     public function __construct($a_data, int $a_id, bool $a_call_by_reference)
     {
         global $DIC;
-
-        $this->rbac_admin = $DIC->rbac()->admin();
 
         $this->type = "rolt";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
         $this->lng->loadLanguageModule('rbac');
         $this->rolf_ref_id = &$this->ref_id;
         $this->ctrl->saveParameter($this, "obj_id");
-        $this->http = $DIC->http();
-        $this->refinery = $DIC->refinery();
     }
 
     public function executeCommand(): void

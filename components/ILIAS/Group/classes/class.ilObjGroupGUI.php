@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 use ILIAS\News\Service as News;
 use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
@@ -47,7 +46,6 @@ class ilObjGroupGUI extends ilContainerGUI
 {
     protected bool $show_tracking = false;
 
-    private GlobalHttpState $http;
     protected Factory $refinery;
     protected ilRbacSystem $rbacsystem;
     protected News $news;
@@ -64,7 +62,6 @@ class ilObjGroupGUI extends ilContainerGUI
 
         $this->lng->loadLanguageModule('grp');
         $this->lng->loadLanguageModule('obj');
-        $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
         $this->rbacsystem = $DIC->rbac()->system();
         $this->news = $DIC->news();
@@ -384,8 +381,7 @@ class ilObjGroupGUI extends ilContainerGUI
                     $this->tpl,
                     $this->ui_factory,
                     $this->ui_renderer,
-                    $this->post_wrapper,
-                    $this->request,
+                    $this->http,
                     $this->refinery,
                     $this->toolbar
                 );

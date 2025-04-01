@@ -20,47 +20,91 @@ declare(strict_types=1);
 
 namespace ILIAS\ILIASObject\Properties\Translations;
 
+use ILIAS\ILIASObject\Properties\Properties as ObjectProperties;
 use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Table\Table;
 use ILIAS\UI\Component\Table\DataRetrieval;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
+use ILIAS\UI\Component\Component as UIComponent;
+use ILIAS\UI\Component\Modal\RoundTrip as RoundtripModal;
+use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
+use ILIAS\UI\Component\Modal\InterruptiveItem\InterruptiveItem;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
 use ILIAS\Data\URI;
 use ILIAS\Language\Language as SystemLanguage;
-use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\HTTP\Services as HTTPService;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Filesystem\Stream\Streams;
 
 class TranslationsTable implements DataRetrieval
 {
     private const QUERY_PARAMETER_NAME_SPACE = ['obj', 'trans'];
-    private const ACTION_TOKEN_STRING = 'a';
-    private const ROW_ID_TOKEN_STRING = 't';
+    private const TOKEN_STRING_ACTION = 'a';
+    private const TOKEN_STRING_ROW_ID = 't';
+    private const TOKEN_STRING_ACTON_ADDITIONAL = 'aa';
 
     public const ACTION_EDIT = 'e';
     public const ACTION_MAKE_DEFAULT = 'md';
     public const ACTION_DELETE = 'd';
 
+    private const ACTION_ADDITIONAL_CONFIRM = 'c';
+    private const ACTION_ADDITIONAL_SAVE = 's';
+
     private URLBuilder $url_builder;
-    private URLBuilderToken $action_parameter_token;
-    private URLBuilderToken $row_id_token;
+    private URLBuilderToken $token_action;
+    private URLBuilderToken $token_action_additional;
+    private URLBuilderToken $token_row_id;
 
     /**
      * @param array<ILIAS\ILIASObject\Properties\Translations\Language> $languages
      */
     public function __construct(
         private readonly UIFactory $ui_factory,
+        private readonly UIRenderer $ui_renderer,
         private readonly SystemLanguage $lng,
-        private readonly ServerRequestInterface $request,
-        private readonly Translations $translations,
+        private readonly Refinery $refinery,
+        private readonly \ilGlobalTemplateInterface $tpl,
+        private readonly HTTPService $http,
+        private Translations $translations,
+        private readonly ObjectProperties $object_properties,
         URI $here_uri
     ) {
-        list($this->url_builder, $this->action_parameter_token, $this->row_id_token) = (new URLBuilder($here_uri))->acquireParameters(
+        [
+            $this->url_builder,
+            $this->token_action,
+            $this->token_row_id,
+            $this->token_action_additional
+        ] = (new URLBuilder($here_uri))->acquireParameters(
             self::QUERY_PARAMETER_NAME_SPACE,
-            self::ACTION_TOKEN_STRING,
-            self::ROW_ID_TOKEN_STRING
+            self::TOKEN_STRING_ACTION,
+            self::TOKEN_STRING_ROW_ID,
+            self::TOKEN_STRING_ACTON_ADDITIONAL
         );
+    }
+
+    public function runAction(): void
+    {
+        $action = $this->http->wrapper()->query()->retrieve(
+            $this->token_action->getName(),
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->always('')
+            ])
+        );
+
+        if ($action === '') {
+            return;
+        }
+
+        match ($action) {
+            self::ACTION_EDIT => $this->editTranslation(),
+            self::ACTION_MAKE_DEFAULT => $this->makeDefault(),
+            self::ACTION_DELETE => $this->deleteTranslations()
+        };
     }
 
     public function getTable(): Table
@@ -70,7 +114,7 @@ class TranslationsTable implements DataRetrieval
             $this->lng->txt('available_languages'),
             $this->getColumns()
         )->withActions($this->getActions())
-            ->withRequest($this->request);
+            ->withRequest($this->http->request());
     }
 
     public function getRows(
@@ -128,19 +172,187 @@ class TranslationsTable implements DataRetrieval
         return [
             self::ACTION_EDIT => $this->ui_factory->table()->action()->single(
                 $this->lng->txt('edit'),
-                $this->url_builder,
-                $this->row_id_token
-            ),
+                $this->url_builder->withParameter(
+                    $this->token_action,
+                    self::ACTION_EDIT
+                ),
+                $this->token_row_id
+            )->withAsync(),
             self::ACTION_MAKE_DEFAULT => $this->ui_factory->table()->action()->single(
                 $this->lng->txt('make_default_language'),
-                $this->url_builder,
-                $this->row_id_token
+                $this->url_builder->withParameter(
+                    $this->token_action,
+                    self::ACTION_MAKE_DEFAULT
+                ),
+                $this->token_row_id
             ),
             self::ACTION_DELETE => $this->ui_factory->table()->action()->standard(
                 $this->lng->txt('delete'),
-                $this->url_builder,
-                $this->row_id_token
-            )
+                $this->url_builder->withParameter(
+                    $this->token_action,
+                    self::ACTION_DELETE
+                ),
+                $this->token_row_id
+            )->withAsync()
         ];
+    }
+
+    private function editTranslation(): void
+    {
+        if ($this->http->wrapper()->query()->retrieve(
+            $this->token_action_additional->getName(),
+            $this->refinery->kindlyTo()->string()
+        ) !== self::ACTION_ADDITIONAL_SAVE) {
+            $this->sendAsync(
+                $this->buildEditLanguageModal()
+            );
+        }
+
+        $modal = $this->getAddLanguageModal()
+            ->withRequest($this->http->request());
+        $data = $modal->getData();
+        if ($data === null) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_title'));
+            return;
+        }
+
+        $this->translations = $this->translations->withLanguage($data[0]);
+        $this->object->getObjectProperties()->storePropertyTranslations(
+            $this->translations
+        );
+
+        $this->object_properties->storePropertyTranslations(
+            $this->translations->withLanguage($data[0])
+        );
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
+    }
+
+    private function makeDefault(): void
+    {
+        $this->translations = $this->translations->withDefaultLanguage(
+            $this->retrieveAffectedItemsFromQuery()[0]
+        );
+        $this->object_properties->storePropertyTranslations(
+            $this->translations
+        );
+    }
+
+    private function deleteTranslations(): void
+    {
+        if ($this->http->wrapper()->query()->retrieve(
+            $this->token_action_additional->getName(),
+            $this->refinery->kindlyTo()->string()
+        ) !== self::ACTION_ADDITIONAL_CONFIRM) {
+            $this->sendAsync(
+                $this->buildConfirmationModal(
+                    $this->retrieveAffectedItemsFromQueryForDeletion()
+                )
+            );
+        }
+
+        $this->object_properties->storePropertyTranslations(
+            array_reduce(
+                $this->http->wrapper()->post()->retrieve(
+                    'interruptive_items',
+                    $this->refinery->kindlyTo()->listOf(
+                        $this->refinery->kindlyTo()->string()
+                    )
+                ),
+                static fn(Translations $c, string $v): Translations => $c->withoutLanguage($v),
+                $this->translations
+            )
+        );
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
+    }
+
+    private function buildEditLanguageModal(): RoundtripModal
+    {
+        return $this->ui_factory->modal()->roundtrip(
+            $this->lng->txt('edit_language'),
+            null,
+            $this->translations->getLaguageForCode(
+                $this->retrieveAffectedItemsFromQuery()[0]
+            )->toForm(
+                $this->lng,
+                $this->ui_factory->input()->field(),
+                $this->refinery
+            ),
+            $this->url_builder
+                ->withParameter($this->token_action, self::ACTION_DELETE)
+                ->withParameter($this->token_action_additional, self::ACTION_ADDITIONAL_SAVE)
+                ->buildURI()->__toString()
+        );
+    }
+
+    private function buildConfirmationModal(array $languages_to_delete): InterruptiveModal
+    {
+        return $this->ui_factory->modal()->interruptive(
+            $this->lng->txt('confirm'),
+            $this->lng->txt('obj_conf_delete_lang'),
+            $this->url_builder
+                ->withParameter($this->token_action, self::ACTION_DELETE)
+                ->withParameter($this->token_action_additional, self::ACTION_ADDITIONAL_CONFIRM)
+                ->buildURI()->__toString()
+        )->withAffectedItems(
+            array_map(
+                fn(string $v): InterruptiveItem => $this->ui_factory->modal()
+                    ->interruptiveItem()->standard($v, $this->lng->txt("meta_l_{$v}")),
+                $languages_to_delete
+            )
+        );
+    }
+
+    private function retrieveAffectedItemsFromQueryForDeletion(): array
+    {
+        $affected_items = $this->retrieveAffectedItemsFromQuery();
+        if (in_array($this->translations->getDefaultLanguage(), $affected_items)
+            || in_array($this->translations->getMasterLanguage(), $affected_items)) {
+            $this->sendAsync(
+                $this->ui_factory->messageBox()->failure(
+                    $this->lng->txt('default_master_lang_not_deletable')
+                )
+            );
+        }
+        return $affected_items;
+    }
+
+    private function retrieveAffectedItemsFromQuery(): array
+    {
+        $affected_items = [];
+        if ($this->http->wrapper()->query()->has($this->token_row_id->getName())) {
+            $affected_items = $this->http->wrapper()->query()->retrieve(
+                $this->token_row_id->getName(),
+                $this->refinery->byTrying(
+                    [
+                        $this->refinery->container()->mapValues(
+                            $this->refinery->kindlyTo()->string()
+                        ),
+                        $this->refinery->always([])
+                    ]
+                )
+            );
+        }
+        if ($affected_items === []) {
+            $this->sendAsync(
+                $this->ui_factory->messageBox()->failure(
+                    $this->lng->txt('no_checkbox')
+                )
+            );
+        }
+
+        return $affected_items;
+    }
+
+    private function sendAsync(UIComponent $response): void
+    {
+        $this->http->saveResponse(
+            $this->http->response()->withBody(
+                Streams::ofString(
+                    $this->ui_renderer->render($response)
+                )
+            )
+        );
+        $this->http->sendResponse();
+        $this->http->close();
     }
 }

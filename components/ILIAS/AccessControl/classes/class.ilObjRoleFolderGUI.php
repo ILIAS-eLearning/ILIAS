@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 use ILIAS\UI\Factory as UIFactory;
 
@@ -38,8 +37,6 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
     private ilLogger $logger;
     protected ilRbacAdmin $rbacadmin;
-
-    protected GlobalHttpState $http;
     protected Factory $refinery;
     protected UIFactory $ui_factory;
 
@@ -53,7 +50,6 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
         $this->logger = $DIC->logger()->ac();
         $this->rbacadmin = $DIC['rbacadmin'];
-        $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
         $this->ui_factory = $DIC['ui.factory'];
 

@@ -18,7 +18,6 @@
 
 declare(strict_types=0);
 
-use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 use ILIAS\News\Service as News;
 use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
@@ -55,7 +54,6 @@ class ilObjCourseGUI extends ilContainerGUI
     private ?ilContainerStartObjects $start_obj = null;
 
     private ilLogger $logger;
-    protected GlobalHttpState $http;
     protected Factory $refinery;
     protected ilHelpGUI $help;
     protected ilNavigationHistory $navigation_history;
@@ -75,7 +73,6 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->lng->loadLanguageModule('cert');
         $this->lng->loadLanguageModule('obj');
 
-        $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
         $this->news = $DIC->news();
     }
@@ -2428,16 +2425,15 @@ class ilObjCourseGUI extends ilContainerGUI
                 $this->tabs_gui->activateTab("settings");
                 $this->tabs_gui->activateSubTab("obj_multilinguality");
                 $transgui = new TranslationGUI(
-                    $this->getObject()->getType(),
-                    $this->getObject()->getObjectProperties(),
+                    $this->getObject(),
                     $this->lng,
+                    $this->access,
                     $this->user,
                     $this->ctrl,
                     $this->tpl,
                     $this->ui_factory,
                     $this->ui_renderer,
-                    $this->post_wrapper,
-                    $this->request,
+                    $this->http,
                     $this->refinery,
                     $this->toolbar
                 );

@@ -867,7 +867,7 @@ class ilContainer extends ilObject
         $ret = parent::update();
 
         $log = ilLoggerFactory::getLogger("cont");
-        $log->debug("**5**" . count($this->$this->getObjectProperties()->getPropertyTranslations()->getLanguages()));
+        $log->debug("**5**" . count($this->getObjectProperties()->getPropertyTranslations()->getLanguages()));
 
         $this->getObjectProperties()->storePropertyTranslations(
             $this->getObjectProperties()->getPropertyTranslations()

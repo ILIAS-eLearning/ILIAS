@@ -54,29 +54,32 @@ class MigrateTranslations implements Migration
 
     public function step(Environment $environment): void
     {
+        if (!$this->db->tableExists('obj_content_master_lng')) {
+            return;
+        }
         $query_result = $this->db->query(
             'SELECT obj_id, master_lang, fallback_lang FROM obj_content_master_lng LIMIT ' . self::TESTS_PER_STEP
         );
 
-        while (($row = $this->db->fetchObject($query_result)) !== false) {
+        while (($row = $this->db->fetchObject($query_result)) !== null) {
             $this->db->update(
                 'object_translation',
                 [
                     'lang_master' => [\ilDBConstants::T_INTEGER, 1]
                 ],
                 [
-                    'obj_id' => [\ilDBConstants::T_INTEGER, $row['obj_id']],
-                    'lang_code' => [\ilDBConstants::T_TEXT, $row['master_lang']]
+                    'obj_id' => [\ilDBConstants::T_INTEGER, $row->obj_id],
+                    'lang_code' => [\ilDBConstants::T_TEXT, $row->master_lang]
                 ]
             );
-            if ($row['fallback_lang'] !== null && $row['fallback_lang'] !== '') {
+            if ($row->fallback_lang !== null && $row->fallback_lang !== '') {
                 $this->db->update(
                     'object_translation',
                     [
                         'lang_default' => [\ilDBConstants::T_INTEGER, 0]
                     ],
                     [
-                        'obj_id' => [\ilDBConstants::T_INTEGER, $row['obj_id']]
+                        'obj_id' => [\ilDBConstants::T_INTEGER, $row->obj_id]
                     ]
                 );
                 $this->db->update(
@@ -85,13 +88,13 @@ class MigrateTranslations implements Migration
                         'lang_default' => [\ilDBConstants::T_INTEGER, 1]
                     ],
                     [
-                        'obj_id' => [\ilDBConstants::T_INTEGER, $row['obj_id']],
-                        'lang_code' => [\ilDBConstants::T_TEXT, $row['fallback_lang']]
+                        'obj_id' => [\ilDBConstants::T_INTEGER, $row->obj_id],
+                        'lang_code' => [\ilDBConstants::T_TEXT, $row->fallback_lang]
                     ]
                 );
             }
             $this->db->manipulate(
-                "DELETE FROM obj_content_master_lng WHERE obj_id = {$row['obj_id']}"
+                "DELETE FROM obj_content_master_lng WHERE obj_id = {$row->obj_id}"
             );
         }
 
@@ -102,9 +105,13 @@ class MigrateTranslations implements Migration
 
     public function getRemainingAmountOfSteps(): int
     {
-        return (int) ceil($this->db->query('
-            SELECT DISTINCT COUNT(obj_id) as cnt
-            FROM obj_content_master_lng
-        ')->cnt / self::TESTS_PER_STEP);
+        return (int) ceil(
+            $this->db->fetchObject(
+                $this->db->query('
+                SELECT DISTINCT COUNT(obj_id) as cnt
+                FROM obj_content_master_lng
+            ')
+            )->cnt / self::TESTS_PER_STEP
+        );
     }
 }

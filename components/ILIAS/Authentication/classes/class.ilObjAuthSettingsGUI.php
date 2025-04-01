@@ -33,7 +33,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
     private const PROP_AUTH_MODE_SEQUENCE = 'sequence';
 
     private ilLogger $logger;
-    private ILIAS\HTTP\GlobalHttpState $http;
 
     private GUIService $content_style_gui;
 
@@ -44,8 +43,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
         global $DIC;
         $this->logger = $DIC->logger()->auth();
-
-        $this->http = $DIC->http();
 
         $this->lng->loadLanguageModule('registration');
         $this->lng->loadLanguageModule('auth');

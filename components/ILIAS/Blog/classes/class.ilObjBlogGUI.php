@@ -66,7 +66,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     protected string $new_type = "";
     protected bool $disable_notes = false;
     protected ContextServices $tool_context;
-    protected \ILIAS\HTTP\Services $http;
     protected \ILIAS\DI\UIServices $ui;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
@@ -103,7 +102,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $this->toolbar = $gui->toolbar();
         $this->ui = $gui->ui();
         $this->locator = $gui->locator();
-        $this->http = $gui->http();
 
         $this->nav_history = $DIC["ilNavigationHistory"];
         $this->ctrl = $gui->ctrl();

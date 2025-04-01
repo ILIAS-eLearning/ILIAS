@@ -22,12 +22,12 @@ namespace ILIAS\ILIASObject\Properties\Translations;
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
-use Psr\Http\Message\RequestInterface;
-use ILIAS\Language\Language;
+use ILIAS\HTTP\Services as HTTPService;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Input\Input;
+use ILIAS\UI\Component\Input\Field\Select as SelectInput;
 use ILIAS\UI\Component\Modal\Modal;
+use ILIAS\UI\Component\Modal\RoundTrip as RoundtripModal;
 use ILIAS\Data\Factory as DataFactory;
 
 /**
@@ -39,43 +39,33 @@ class TranslationGUI
 {
     private const CMD_LIST_TRANSLATIONS = 'listTranslations';
     private const CMD_ADD_TRANSLATION = 'addTranslation';
-    private const CMD_DELETE_TRANSLATIONS = 'deleteTranslations';
-    private const CMD_SAVE_LANGUAGES = 'saveLanguages';
-    private const CMD_CONFIRM_REMOVE_LANGUAGES = 'confirmDeleteTranslations';
     private const CMD_DEACTIVATE_CONTENT_MULTILANG = 'deactivateContentTranslation';
     private const CMD_SAVE_CONTENT_TRANSLATION_ACTIVATION = 'activateContentTranslation';
 
     private Translations $translations;
 
     private bool $force_content_translation = false;
-    private bool $hide_description = false;
-    private bool $support_content_translation = true;
+    private bool $supports_content_translation = true;
 
     public function __construct(
         private readonly \ilObject $object,
-        private readonly Language $lng,
+        private readonly \ilLanguage $lng,
         private readonly \ilAccess $access,
         private readonly \ilObjUser $user,
         private readonly \ilCtrl $ctrl,
         private readonly \ilGlobalTemplateInterface $tpl,
         private readonly UIFactory $ui_factory,
         private readonly UIRenderer $ui_renderer,
-        private readonly ArrayBasedRequestWrapper $post_wrapper,
-        private readonly RequestInterface $request,
+        private readonly HTTPService $http,
         private readonly Refinery $refinery,
         private readonly \ilToolbarGUI $toolbar
     ) {
         $this->translations = $this->object->getObjectProperties()->getPropertyTranslations();
     }
 
-    public function hideDescription(bool $hide): void
-    {
-        $this->hide_description = $hide;
-    }
-
     public function supportContentTranslation(bool $content_translation): void
     {
-        $this->support_content_translation = $content_translation;
+        $this->supports_content_translation = $content_translation;
     }
 
     /**
@@ -95,8 +85,6 @@ class TranslationGUI
         $commands = [
             self::CMD_LIST_TRANSLATIONS,
             self::CMD_ADD_TRANSLATION,
-            self::CMD_DELETE_TRANSLATIONS,
-            self::CMD_CONFIRM_REMOVE_LANGUAGES,
             self::CMD_SAVE_CONTENT_TRANSLATION_ACTIVATION,
             self::CMD_DEACTIVATE_CONTENT_MULTILANG
         ];
@@ -116,23 +104,30 @@ class TranslationGUI
         }
     }
 
-    public function listTranslations(bool $get_post_values = false, bool $add = false): void
-    {
+    public function listTranslations(
+        ?RoundtripModal $lang_modal = null
+    ): void {
         $this->lng->loadLanguageModule($this->object->getType());
 
-        $content = [
-            'table' => (new TranslationsTable(
-                $this->ui_factory,
-                $this->lng,
-                $this->request,
-                $this->translations,
-                (new DataFactory())->uri(
-                    ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(
-                        self::class,
-                        self::CMD_LIST_TRANSLATIONS
-                    )
+        $table = new TranslationsTable(
+            $this->ui_factory,
+            $this->ui_renderer,
+            $this->lng,
+            $this->refinery,
+            $this->tpl,
+            $this->http,
+            $this->translations,
+            $this->object->getObjectProperties(),
+            (new DataFactory())->uri(
+                ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(
+                    self::class,
+                    self::CMD_LIST_TRANSLATIONS
                 )
-            ))->getTable()
+            )
+        );
+        $table->runAction();
+        $content = [
+            'table' => $table->getTable()
         ];
 
         if ($this->translations->migrationMissing()) {
@@ -141,36 +136,110 @@ class TranslationGUI
             return;
         }
 
-        $content['lang_modal'] = $this->getAddLanguagesModal();
-        if (!$this->force_content_translation || $this->translations->getContentTranslationActivated()) {
-            $this->toolbar->addComponent(
-                $this->ui_factory->button()->standard(
-                    $this->lng->txt('obj_add_languages'),
-                    $content['lang_modal']->getShowSignal()
-                )
-            );
+        if ($this->getArrayWithAddableLanguages() !== []) {
+            $content['lang_modal'] = $this->addAddLanguagesToolbarActionAndRetrieveModal($lang_modal);
         }
 
-        if ($this->support_content_translation) {
-            $content['content_trans_modal'] = $this->addContentTranslationToolbarActionAndRetrieveCorrespondingModal();
+        if ($this->supports_content_translation) {
+            $content['content_trans_modal'] = $this->addContentTranslationToolbarActionAndRetrieveModal();
         }
 
         $this->tpl->setContent($this->ui_renderer->render($content));
     }
 
-    private function getAddLanguagesModal(): Modal
+    public function addTranslation(): void
     {
+        $modal = $this->getAddLanguageModal()
+            ->withRequest($this->http->request());
+        $data = $modal->getData();
+        if ($data === null) {
+            $this->listTranslations($modal->withOnLoad($modal->getShowSignal()));
+            return;
+        }
+
+        $this->translations = $this->translations->withLanguage($data[0]);
+        $this->object->getObjectProperties()->storePropertyTranslations(
+            $this->translations
+        );
+        $this->listTranslations();
+    }
+
+    public function activateContentTranslation(): void
+    {
+        $data = $this->getActivateMultilingualityModal()
+            ->withRequest($this->http->request())
+            ->getData();
+
+        if (!in_array($data['lang'], $this->translations->getLanguages())) {
+            $this->translations = $this->translations->withAdditionalLanguage(
+                $data['lang'],
+                $this->object->getTitle(),
+                $this->object->getDescription(),
+                true
+            );
+        }
+
+        $this->translations = $this->translations->withMasterLanguage($data['lang']);
+
+        $this->object->getObjectProperties()->storePropertyTranslations(
+            $this->translations
+        );
+        $this->listTranslations();
+    }
+
+    public function deactivateContentTranslation(): void
+    {
+        $this->translations = $this->translations->withDeactivatedContentTranslation();
+        $this->object->getObjectProperties()->storePropertyTranslations(
+            $this->translations
+        );
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('obj_cont_transl_deactivated'), true);
+        $this->listTranslations();
+    }
+
+    private function addAddLanguagesToolbarActionAndRetrieveModal(
+        ?RoundtripModal $modal = null
+    ): RoundtripModal {
+        $modal ??= $this->getAddLanguageModal();
+        $this->toolbar->addComponent(
+            $this->ui_factory->button()->standard(
+                $this->lng->txt('obj_add_language'),
+                $modal->getShowSignal()
+            )
+        );
+
+        return $modal;
+    }
+
+    private function getAddLanguageModal(): RoundtripModal
+    {
+        $ff = $this->ui_factory->input()->field();
         return $this->ui_factory->modal()->roundtrip(
-            $this->lng->txt('confirm'),
+            $this->lng->txt('obj_add_language'),
             null,
             [
-                'langs' => $this->getMultiLangSelectionInput()
+                $ff->group([
+                    'language' => $this->buildLangSelectionInput()
+                        ->withRequired(true),
+                    'title' => $ff->text($this->lng->txt('title'))
+                        ->withRequired(true),
+                    'description' => $ff->textarea($this->lng->txt('description'))
+                ])->withAdditionalTransformation(
+                    $this->refinery->custom()->transformation(
+                        static fn(array $vs): self => new Language(
+                            $vs['language'],
+                            $vs['title'],
+                            $vs['description']
+                        )
+                    )
+                )
             ],
-            $this->ctrl->getFormActionByClass(self::class, self::CMD_SAVE_LANGUAGES)
+            $this->ctrl->getFormActionByClass(self::class, self::CMD_ADD_TRANSLATION)
         );
     }
 
-    private function addContentTranslationToolbarActionAndRetrieveCorrespondingModal(): ?Modal
+    private function addContentTranslationToolbarActionAndRetrieveModal(): Modal
     {
         $lang_var_postfix = '_multilang';
         $deactivation_modal_text_tag = 'obj_deactivate_multilang_conf';
@@ -213,7 +282,7 @@ class TranslationGUI
         )->withActionButtonLabel($this->lng->txt('confirm'));
     }
 
-    private function getActivateMultilingualityModal(): Modal
+    private function getActivateMultilingualityModal(): RoundtripModal
     {
         return $this->ui_factory->modal()->roundtrip(
             $this->lng->txt('confirm'),
@@ -225,39 +294,15 @@ class TranslationGUI
         );
     }
 
-    public function getMultiLangSelectionInput(bool $add = false): Input
+    private function buildLangSelectionInput(): SelectInput
     {
-        $enabled_langs = $this->translations->getLanguages();
-        $options = array_reduce(
-            $this->lng->getInstalledLanguages(),
-            function (array $c, string $v) use ($enabled_langs): array {
-                if (!array_key_exists($v, $enabled_langs)) {
-                    $c[$v] = $this->lng->txt("meta_l_{$v}");
-                }
-                return $c;
-            },
-            []
+        return $this->ui_factory->input()->field()->select(
+            $this->lng->txt('language'),
+            $this->getArrayWithAddableLanguages()
         );
-
-        $master_lang = $this->translations->getMasterLanguage();
-        $trafo = $this->refinery->custom()->transformation(
-            function (array $vs) use ($master_lang) {
-                $langs = [];
-                foreach ($vs as $v) {
-                    if ($v !== $master_lang && $v !== '') {
-                        $langs[] = $v;
-                    }
-                }
-                return $langs;
-            }
-        );
-        return $this->ui_factory->input()->field()->multiSelect(
-            $this->lng->txt('obj_additional_langs'),
-            $options
-        )->withAdditionalTransformation($trafo);
     }
 
-    public function getMasterLangSelectionInput(): Input
+    private function getMasterLangSelectionInput(): Input
     {
         $options = array_reduce(
             $this->lng->getInstalledLanguages(),
@@ -268,127 +313,28 @@ class TranslationGUI
             []
         );
 
-        $trafo = $this->refinery->custom()->transformation(
-            fn($v) => in_array($v, array_keys($options)) ? $v : $this->lng->getDefaultLanguage()
-        );
-
         return $this->ui_factory->input()->field()->select(
             $this->lng->txt('obj_master_lang'),
             $options
-        )->withAdditionalTransformation($trafo)
-            ->withValue($this->user->getLanguage());
-    }
-
-    public function activateContentTranslation(): void
-    {
-        $data = $this->getActivateMultilingualityModal()
-            ->withRequest($this->request)
-            ->getData();
-        $obj_trans = $this->translations->withMasterLanguage($data['lang']);
-        if (!in_array($data['lang'], $obj_trans->getLanguages())) {
-            $obj_trans = $obj_trans->withAdditionalLanguage(
-                $data['lang'],
-                $this->object->getTitle(),
-                $this->object->getDescription(),
-                true
-            );
-        }
-
-        $this->object->getObjectProperties()->storePropertyTranslations(
-            $obj_trans->withContentTranslationActivated(true)
-        );
-        $this->ctrl->redirectByClass(self::class, self::CMD_LIST_TRANSLATIONS);
-    }
-
-    public function deactivateContentTranslation(): void
-    {
-        $this->object->getObjectProperties()->storePropertyTranslations(
-            $this->translations->withContentTranslationActivated(false)
-        );
-
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('obj_cont_transl_deactivated'), true);
-
-        $this->ctrl->redirect($this, self::CMD_LIST_TRANSLATIONS);
-    }
-
-    public function confirmDeleteTranslations(): void
-    {
-        $this->lng->loadLanguageModule('meta');
-        $trafo = $this->retrieveTrafoToRemoveDefaultLang();
-
-        $languages = $this->post_wrapper->has('lang')
-            ? $this->post_wrapper->retrieve(
-                'lang',
-                $trafo
+        )->withAdditionalTransformation(
+            $this->refinery->custom()->transformation(
+                fn($v) => in_array($v, array_keys($options)) ? $v : $this->lng->getDefaultLanguage()
             )
-            : [];
-
-        $to_be_deleted = $this->post_wrapper->has('check')
-            ? $this->post_wrapper->retrieve(
-                'check',
-                $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string())
-            )
-            : [];
-
-        if (count($to_be_deleted) === 0) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('no_checkbox'), true);
-            $this->ctrl->redirect($this, self::CMD_LIST_TRANSLATIONS);
-        }
-
-        $cgui = new \ilConfirmationGUI();
-        $cgui->setFormAction($this->ctrl->getFormAction($this));
-        $cgui->setHeaderText($this->lng->txt('obj_conf_delete_lang'));
-        $cgui->setCancel($this->lng->txt('cancel'), self::CMD_LIST_TRANSLATIONS);
-        $cgui->setConfirm($this->lng->txt('remove'), self::CMD_DELETE_TRANSLATIONS);
-
-        foreach (array_keys($to_be_deleted) as $index) {
-            if (!array_key_exists($index, $languages)) {
-                continue;
-            }
-            $cgui->addItem('lang[]', $languages[$index], $this->lng->txt('meta_l_' . $languages[$index]));
-        }
-
-        $this->tpl->setContent($cgui->getHTML());
+        )->withValue($this->user->getLanguage());
     }
 
-    public function deleteTranslations(): void
+    private function getArrayWithAddableLanguages(): array
     {
-        $trafo = $this->retrieveTrafoToRemoveDefaultLang();
-        $langs_to_be_deleted = $this->post_wrapper->has('lang')
-            ? $this->post_wrapper->retrieve(
-                'lang',
-                $trafo
-            )
-            : [];
-
-        $this->object->getObjectProperties()->storePropertyTranslations(
-            array_reduce(
-                $langs_to_be_deleted,
-                static fn(Translations $c, Language $v): Translations => $v->withoutLanguage($v),
-                $this->translations
-            )
-        );
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
-        $this->ctrl->redirect($this, self::CMD_LIST_TRANSLATIONS);
-    }
-
-    private function retrieveTrafoToRemoveDefaultLang(): callable
-    {
-        $default_lang = $this->translations->getDefaultLanguage();
-        return $this->refinery->custom()->transformation(
-            function (?array $vs) use ($default_lang) {
-                if ($vs === null) {
-                    return [];
+        $enabled_langs = $this->translations->getLanguages();
+        return array_reduce(
+            $this->lng->getInstalledLanguages(),
+            function (array $c, string $v) use ($enabled_langs): array {
+                if (!array_key_exists($v, $enabled_langs)) {
+                    $c[$v] = $this->lng->txt("meta_l_{$v}");
                 }
-
-                $langs = [];
-                foreach ($vs as $k => $v) {
-                    if ($v !== $default_lang) {
-                        $langs[$k] = (string) $v;
-                    }
-                }
-                return $langs;
-            }
+                return $c;
+            },
+            []
         );
     }
 }

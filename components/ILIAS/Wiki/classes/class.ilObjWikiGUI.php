@@ -46,7 +46,6 @@ class ilObjWikiGUI extends ilObjectGUI
     protected \ILIAS\Wiki\Navigation\ImportantPageManager $imp_pages;
     protected \ILIAS\Wiki\Page\PageManager $pm;
     protected Translations $ot;
-    protected \ILIAS\HTTP\Services $http;
     protected string $requested_page;
     protected ilPropertyFormGUI $form_gui;
     protected ilTabsGUI $tabs;
@@ -77,7 +76,6 @@ class ilObjWikiGUI extends ilObjectGUI
         $this->tabs = $gui->tabs();
         $this->help = $gui->help();
         $this->locator = $gui->locator();
-        $this->http = $gui->http();
         $this->ot = $this->object->getObjectProperties()->getPropertyTranslations();
 
         $this->type = "wiki";
@@ -171,8 +169,7 @@ class ilObjWikiGUI extends ilObjectGUI
                     $this->tpl,
                     $this->ui_factory,
                     $this->ui_renderer,
-                    $this->post_wrapper,
-                    $this->request,
+                    $this->http,
                     $this->refinery,
                     $this->toolbar
                 );
