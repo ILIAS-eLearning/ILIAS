@@ -59,7 +59,7 @@
 
 	<events>
 		<event type="listen" id="components/ILIAS/Tracking" />
-		<event type="listen" id="components/ILIAS/Object" />
+		<event type="listen" id="components/ILIAS/ILIASObject" />
 		<event type="listen" id="components/ILIAS/LearningSequence" />
 	<!--
 		<event type="listen" id="components/ILIAS/AccessControl" />

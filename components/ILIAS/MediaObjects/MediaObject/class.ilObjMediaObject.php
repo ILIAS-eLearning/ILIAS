@@ -1533,18 +1533,19 @@ class ilObjMediaObject extends ilObject
         string $a_mode = "move_uploaded"
     ): void {
         $a_subdir = str_replace("..", "", $a_subdir);
-        $dir = $mob_dir = ilObjMediaObject::_getDirectory($this->getId());
-        if ($a_subdir != "") {
-            $dir .= "/" . $a_subdir;
-        }
-        ilFileUtils::makeDirParents($dir);
         if ($a_mode == "rename") {
-            ilFileUtils::rename($tmp_name, $dir . "/" . $a_name);
+            $this->manager->addFileFromLocal(
+                $this->getId(),
+                $tmp_name,
+                $a_subdir . "/" . $a_name
+            );
         } else {
-            ilFileUtils::moveUploadedFile($tmp_name, $a_name, $dir . "/" . $a_name, true, $a_mode);
+            $this->manager->addFileFromLegacyUpload(
+                $this->getId(),
+                $tmp_name,
+                $a_subdir . "/" . $a_name
+            );
         }
-        self::renameExecutables($mob_dir);
-        ilMediaSvgSanitizer::sanitizeDir($mob_dir);	// see #20339
     }
 
     public function addAdditionalFileFromUpload(

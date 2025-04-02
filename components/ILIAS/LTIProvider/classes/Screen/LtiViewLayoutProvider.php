@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\LTI\Screen;
 
+use CustomBreadcrumbPagePartProvider;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\PagePartProvider;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationProvider;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
@@ -68,13 +69,12 @@ class LtiViewLayoutProvider extends AbstractModificationProvider implements Modi
                              ->withModification(
                                  function (PagePartProvider $parts): Page {
                                      $p = new StandardPageBuilder();
-                                     $page = $p->build($parts);
-
+                                     $customParts = new CustomBreadcrumbPagePartProvider($parts);
+                                     $page = $p->build($customParts);
                                      $mv_modeinfo = MemberViewLayoutProvider::getMemberViewModeInfo($this->dic);
                                      if ($mv_modeinfo) {
                                          $page = $page->withModeInfo($mv_modeinfo);
                                      }
-
                                      return $page->withNoFooter();
                                  }
                              )

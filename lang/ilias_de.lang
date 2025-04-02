@@ -1333,6 +1333,7 @@ assessment#:#toplist_col_score#:#Punktzahl
 assessment#:#toplist_col_wtime#:#Bearbeitungszeit
 assessment#:#total_attempts#:#Versuche Gesamt
 assessment#:#total_duration#:#Dauer Gesamt
+assessment#:#total_max_points_cannot_be_negative#:#Die maximale Anzahl von erreichbaren Punkten kann nich negativ sein.
 assessment#:#true#:#Wahr
 assessment#:#tst_access_code_created#:#Damit Sie dauerhaften Zugriff auf Ihre Testergebnisse haben und einen unterbrochenen Test wieder aufnehmen können, wurde für Sie ein persönlicher Zugangsschlüssel erzeugt. Bitte notieren Sie sich den nachfolgenden Code, um später den Test fortführen zu können.
 assessment#:#tst_activate_skill_service#:#Kompetenzen
@@ -8243,7 +8244,7 @@ dateplaner#:#cal_ch_assign_participants#:#Für andere buchen
 dateplaner#:#cal_ch_assigned_apps#:#Anzahl Termine
 dateplaner#:#cal_ch_book#:#Sprechstunde buchen
 dateplaner#:#cal_ch_booking#:#Ressourcen-Buchung
-dateplaner#:#cal_ch_booking_col_comments#:#Commentare
+dateplaner#:#cal_ch_booking_col_comments#:#Kommentare
 dateplaner#:#cal_ch_booking_comment#:#Kommentar:
 dateplaner#:#cal_ch_booking_link#:#Link zur Sprechstundenverwaltung:
 dateplaner#:#cal_ch_booking_message_tbl#:#Kommentar zur Anmeldung

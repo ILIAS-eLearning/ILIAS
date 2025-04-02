@@ -184,9 +184,15 @@ class ilFFmpeg
     ): string {
         $zip = self::escapeShellArg($zip);
         $path = self::escapeShellArg("/" . $path);
+        $tfile = ilFileUtils::ilTempnam();
+        $tmp_file = self::escapeShellArg($tfile);
 
-        $command = "unzip -p $zip $path | ffmpeg -i pipe:0 -f image2 -vframes 1 -ss $sec -vcodec png pipe:1";
+        $command1 = "unzip -p $zip $path > $tmp_file";
+        shell_exec($command1);
+        $command2 = "ffmpeg -i $tmp_file -f image2 -vframes 1 -ss $sec -vcodec png pipe:1";
 
-        return (string) shell_exec($command);
+        $ret = (string) shell_exec($command2);
+        unlink($tfile);
+        return $ret;
     }
 }

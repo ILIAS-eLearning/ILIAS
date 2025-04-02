@@ -45,6 +45,7 @@ class ilObjectTranslationGUI
     protected const CMD_SAVE_CONTENT_TRANSLATION_ACTIVATION = 'saveContentTranslationActivation';
     protected ilToolbarGUI $toolbar;
     protected ilObjUser $user;
+    protected ilAccess $access;
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;
@@ -71,6 +72,7 @@ class ilObjectTranslationGUI
 
         $this->toolbar = $DIC['ilToolbar'];
         $this->user = $DIC['ilUser'];
+        $this->access = $DIC['ilAccess'];
         $this->lng = $DIC['lng'];
         $this->ctrl = $DIC['ilCtrl'];
         $this->tpl = $DIC['tpl'];
@@ -195,6 +197,10 @@ class ilObjectTranslationGUI
         ];
 
         $this->ctrl->getNextClass($this);
+        if (!$this->access->checkAccess('write', '', $this->obj_gui->getRefId())) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'));
+            $this->ctrl->redirect($this->obj_gui);
+        }
         $cmd = $this->ctrl->getCmd(self::CMD_LIST_TRANSLATIONS);
         if (in_array($cmd, $commands)) {
             $this->$cmd();

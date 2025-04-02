@@ -30,7 +30,7 @@
 		<event type="listen" id="components/ILIAS/User" />
 		<event type="listen" id="components/ILIAS/Tracking" />
 		<event type="listen" id="components/ILIAS/Tree" />
-		<event type="listen" id="components/ILIAS/Object" />
+		<event type="listen" id="components/ILIAS/ILIASObject" />
 		<event type="listen" id="components/ILIAS/ContainerReference" />
 		<event type="listen" id="components/ILIAS/AccessControl" />
 		<event type="listen" id="components/ILIAS/StudyProgramme" />

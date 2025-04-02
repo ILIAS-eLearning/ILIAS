@@ -53,6 +53,7 @@ class ilStudyProgrammeUserTableRow
     protected string $expiry_date;
     protected string $validity;
     protected string $restart_date;
+    protected int $lifecycle_status;
 
     public function __construct(
         protected int $ass_id,
@@ -354,10 +355,25 @@ class ilStudyProgrammeUserTableRow
         return $this->restart_date;
     }
 
+    public function withNodeLifecycleStatus(int $lifecycle_status): self
+    {
+        if (! in_array($lifecycle_status, \ilStudyProgrammeAssessmentSettings::$STATUS)) {
+            throw new \LogicException('Invalid status: ' . $lifecycle_status);
+        }
+        $clone = clone $this;
+        $clone->lifecycle_status = $lifecycle_status;
+        return $clone;
+    }
+
+    public function getNodeLifecycleStatus(): int
+    {
+        return $this->lifecycle_status;
+    }
+
     public function toArray(): array
     {
         $ret = [
-            'prgrs_id' => (string)$this->getId(),
+            'prgrs_id' => (string) $this->getId(),
             'name' => $this->getName(),
             'active_raw' => $this->isUserActiveRaw(),
             'active' => $this->getUserActive(),

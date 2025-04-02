@@ -378,7 +378,9 @@ class AdditionalInformationGenerator
                 );
             case self::KEY_QUESTION_ID:
                 if (is_int($value)) {
-                    return $this->questions_repo->getForQuestionId($value)?->getTitle() ?? $this->lng->txt('deleted');
+                    return $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
+                        $this->questions_repo->getForQuestionId($value)?->getTitle() ?? $this->lng->txt('deleted')
+                    );
                 }
                 //no break
             default:

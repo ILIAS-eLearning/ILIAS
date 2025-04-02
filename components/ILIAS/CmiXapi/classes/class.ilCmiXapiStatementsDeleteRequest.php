@@ -63,9 +63,6 @@ class ilCmiXapiStatementsDeleteRequest
         ?string $scope = self::DELETE_SCOPE_FILTERED,
         ?ilCmiXapiStatementsReportFilter $filter = null
     ) {
-        if ((int)ILIAS_VERSION_NUMERIC < 6) { // only in plugin
-            require_once __DIR__ . '/../XapiProxy/vendor/autoload.php';
-        }
         $this->objId = $obj_id;
         $this->lrsType = new ilCmiXapiLrsType($type_id);
         $this->activityId = $activity_id;
@@ -215,7 +212,7 @@ class ilCmiXapiStatementsDeleteRequest
             $response = $this->client->sendAsync($request)->wait();
             $cnt = json_decode($response->getBody());
             return (int) $cnt[0]->count;
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new Exception("LRS Connection Problems");
             return 0;
         }
@@ -257,7 +254,7 @@ class ilCmiXapiStatementsDeleteRequest
     {
         $ret = array();
         $states = $this->buildDeleteStates();
-        foreach($states as $i => $v) {
+        foreach ($states as $i => $v) {
             $ret[] = ilUtil::appendUrlParameterString($url, $v);
         }
         return $ret;

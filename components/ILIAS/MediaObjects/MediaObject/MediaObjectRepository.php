@@ -99,13 +99,16 @@ class MediaObjectRepository
         return "";
     }
 
-    public function addFileFromLegacyUpload(int $mob_id, string $tmp_name) : void
+    public function addFileFromLegacyUpload(int $mob_id, string $tmp_name, string $target_path = "") : void
     {
         if ($rid = $this->getRidForMobId($mob_id)) {
+            if ($target_path === "") {
+                $target_path = "/";
+            }
             $this->irss->importFileFromLegacyUploadToContainer(
                 $rid,
                 $tmp_name,
-                "/"
+                $target_path
             );
         }
     }

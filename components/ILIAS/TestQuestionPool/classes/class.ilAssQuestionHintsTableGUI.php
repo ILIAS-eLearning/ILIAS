@@ -89,7 +89,7 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
 
         parent::__construct($parentGUI, $parentCmd);
 
-        $this->setTitle(sprintf($lng->txt('tst_question_hints_table_header'), $questionOBJ->getTitle()));
+        $this->setTitle(sprintf($lng->txt('tst_question_hints_table_header'), $questionOBJ->getTitleForHTMLOutput()));
         $this->setNoEntriesText($lng->txt('tst_question_hints_table_no_items'));
 
         // we don't take care about offset/limit values, so this avoids segmentation in general

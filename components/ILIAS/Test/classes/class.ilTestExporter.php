@@ -140,7 +140,7 @@ class ilTestExporter extends ilXmlExporter
             }
 
             $deps[] = [
-                'component' => 'components/ILIAS/Object',
+                'component' => 'components/ILIAS/ILIASObject',
                 'entity' => 'common',
                 'ids' => $a_ids
             ];

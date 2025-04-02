@@ -600,7 +600,7 @@ class ilAssQuestionSkillAssignmentsGUI
         $pageGUI->setOutputMode("presentation");
         $pageGUI->setRenderPageContainer(true);
 
-        $pageGUI->setPresentationTitle($question_gui->getObject()->getTitle());
+        $pageGUI->setPresentationTitle($question_gui->getObject()->getTitleForHTMLOutput());
 
         $question = $question_gui->getObject();
         $question->setShuffle(false); // dirty, but works ^^

@@ -709,22 +709,18 @@ abstract class assQuestionGUI
         $old_id = $this->request_data_collector->getQuestionId();
         $this->setAdditionalContentEditingModeFromPost();
         $result = $this->writePostData();
-        if ($result == 0) {
-            $this->object->getCurrentUser()->setPref("tst_lastquestiontype", $this->object->getQuestionType());
-            $this->object->getCurrentUser()->writePref("tst_lastquestiontype", $this->object->getQuestionType());
-            $this->object->saveToDb($old_id);
-
-            $this->questionrepository->questionExistsInPool($this->object->getOriginalId());
-
-            if (ilSession::get("info") != null) {
-                $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-            } else {
-                $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-            }
-            $this->ctrl->redirectByClass(ilAssQuestionPreviewGUI::class, ilAssQuestionPreviewGUI::CMD_SHOW);
+        if ($result !== 0) {
+            $this->tabs_gui->setTabActive('edit_question');
+            return;
         }
-        $tabs = $this->tabs_gui;
-        $tabs->setTabActive('edit_question');
+
+        $this->object->getCurrentUser()->setPref('tst_lastquestiontype', $this->object->getQuestionType());
+        $this->object->getCurrentUser()->writePref('tst_lastquestiontype', $this->object->getQuestionType());
+        $this->object->saveToDb($old_id);
+
+        $this->questionrepository->questionExistsInPool($this->object->getOriginalId());
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
+        $this->ctrl->redirectByClass(ilAssQuestionPreviewGUI::class, ilAssQuestionPreviewGUI::CMD_SHOW);
     }
 
     public function saveQuestion(): bool
@@ -2034,7 +2030,7 @@ abstract class assQuestionGUI
         )->withAffectedItems([
             $this->ui->factory()->modal()->interruptiveItem()->standard(
                 (string) $this->object->getOriginalId(),
-                $this->object->getTitle()
+                $this->object->getTitleForHTMLOutput()
             )
         ])->withActionButtonLabel($this->lng->txt('sync_question_to_pool'));
         return $this->ui->renderer()->render(

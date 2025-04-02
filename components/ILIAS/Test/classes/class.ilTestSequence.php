@@ -620,7 +620,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 
                 $result_array[] = [
                     'nr' => $key,
-                    'title' => $question->getTitle(),
+                    'title' => $question->getTitleForHTMLOutput(),
                     'qid' => $question->getId(),
                     'presented' => $this->isQuestionPresented($question->getId()),
                     'visited' => $worked_through,

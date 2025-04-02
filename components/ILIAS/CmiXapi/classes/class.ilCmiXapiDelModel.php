@@ -60,8 +60,8 @@ class ilCmiXapiDelModel
         $data = null;
         $where = $this->db->quote($userId, 'integer');
         $result = $this->db->query("SELECT obj_id FROM " . self::DB_USERS_TABLE_NAME . " WHERE usr_id = " . $where);
-        while($row = $this->db->fetchAssoc($result)) {
-            if(is_null($data)) {
+        while ($row = $this->db->fetchAssoc($result)) {
+            if (is_null($data)) {
                 $data = [];
             }
             $data[] = $row['obj_id'];
@@ -88,12 +88,13 @@ class ilCmiXapiDelModel
         ]);
     }
 
-    public function resetUpdatedXapiUser(int $usrId)
+    public function resetUpdatedXapiUser(int $usrId, int $objId)
     {
         $this->db->update(self::DB_DEL_USERS, [
             'updated' => ['timestamp', null]
         ], [
-            'usr_id' => ['integer', $usrId]
+            'usr_id' => ['integer', $usrId],
+            'obj_id' => ['integer', $objId]
         ]);
     }
 
@@ -108,8 +109,8 @@ class ilCmiXapiDelModel
             self::DB_DEL_USERS . " del " .
             #" INNER JOIN " . self::DB_DEL_USERS . " del ON usr.usr_id = xdel.usr_id" .
             " WHERE usr.usr_id = del.usr_id AND obj.obj_id = usr.obj_id AND del.updated IS NULL");
-        while($row = $this->db->fetchAssoc($result)) {
-            if(is_null($data)) {
+        while ($row = $this->db->fetchAssoc($result)) {
+            if (is_null($data)) {
                 $data = [];
             }
             $data[] = $row;
@@ -125,8 +126,8 @@ class ilCmiXapiDelModel
             self::DB_USERS_TABLE_NAME . " usr" .
             #" INNER JOIN " . self::DB_DEL_USERS . " del ON usr.usr_id = xdel.usr_id" .
             " WHERE usr.usr_id = " . $this->db->quote($userId, 'integer') . " AND obj.obj_id = usr.obj_id");
-        while($row = $this->db->fetchAssoc($result)) {
-            if(is_null($data)) {
+        while ($row = $this->db->fetchAssoc($result)) {
+            if (is_null($data)) {
                 $data = [];
             }
             $data[] = $row;
@@ -139,18 +140,18 @@ class ilCmiXapiDelModel
         $data = array();
 
         $result = $this->db->query("SELECT * FROM " . self::DB_DEL_USERS . " WHERE updated IS NULL");
-        while($row = $this->db->fetchAssoc($result)) {
+        while ($row = $this->db->fetchAssoc($result)) {
             $data[] = $row;
         }
         return $data;
     }
 
-    public function deleteUserEntry($usrId)
+    public function deleteUserEntry($usrId, $objId)
     {
         $this->db->manipulateF(
-            'DELETE FROM ' . self::DB_DEL_USERS . ' WHERE usr_id = %s',
-            ['integer'],
-            [$usrId]
+            'DELETE FROM ' . self::DB_DEL_USERS . ' WHERE usr_id = %s AND obj_id = %s',
+            ['integer', 'integer'],
+            [$usrId, $objId]
         );
     }
 
@@ -161,7 +162,7 @@ class ilCmiXapiDelModel
         $data = null;
         $where = $this->db->quote($objId, 'integer');
         $result = $this->db->query("SELECT lrs_type_id, activity_id, delete_data FROM " . self::DB_TABLE_NAME . " WHERE obj_id = " . $where);
-        while($row = $this->db->fetchAssoc($result)) {
+        while ($row = $this->db->fetchAssoc($result)) {
             $data = $row;
         }
         return $data;
@@ -172,7 +173,7 @@ class ilCmiXapiDelModel
         $data = array();
 
         $result = $this->db->query("SELECT * FROM " . self::DB_DEL_OBJ . " WHERE 1");
-        while($row = $this->db->fetchAssoc($result)) {
+        while ($row = $this->db->fetchAssoc($result)) {
             $data[] = $row;
         }
         return $data;
@@ -183,7 +184,7 @@ class ilCmiXapiDelModel
         $data = array();
 
         $result = $this->db->query("SELECT * FROM " . self::DB_DEL_OBJ . " WHERE updated IS NULL");
-        while($row = $this->db->fetchAssoc($result)) {
+        while ($row = $this->db->fetchAssoc($result)) {
             $data[] = $row;
         }
         return $data;
@@ -200,19 +201,47 @@ class ilCmiXapiDelModel
 
     public function setXapiObjAsDeleted(int $objId, int $typeId, string $actId): void
     {
-        $values = [
-            'obj_id' => ['integer', $objId],
-            'type_id' => ['integer', $typeId],
-            'activity_id' => ['string', $actId],
-            'added' => ['timestamp', date('Y-m-d H:i:s')]
-        ];
-        $this->db->insert(self::DB_DEL_OBJ, $values);
-
-        if(!$this->dic->cron()->manager()->isJobActive('xapi_deletion_cron')) {
+        if (!$this->dic->cron()->manager()->isJobActive('xapi_deletion_cron')) {
             $xapiDelete = new ilCmiXapiStatementsDeleteRequest($objId, $typeId, $actId, null, ilCmiXapiStatementsDeleteRequest::DELETE_SCOPE_ALL);
             $xapiDelete->delete();
+        } else {
+            $values = [
+                'obj_id' => ['integer', $objId],
+                'type_id' => ['integer', $typeId],
+                'activity_id' => ['string', $actId],
+                'added' => ['timestamp', date('Y-m-d H:i:s')]
+            ];
+            $this->db->insert(self::DB_DEL_OBJ, $values);
         }
     }
+
+    public function setXapiObjAsDeletedForUser(int $objId, int $typeId, string $actId, int $usrId): void
+    {
+        if (!$this->dic->cron()->manager()->isJobActive('xapi_deletion_cron')) {
+            $xapiDelete = new ilCmiXapiStatementsDeleteRequest($objId, $typeId, $actId, $usrId, ilCmiXapiStatementsDeleteRequest::DELETE_SCOPE_ALL);
+            $xapiDelete->delete();
+        } else {
+            $counter = 0;
+            $result = $this->db->queryF(
+                'SELECT count(*) as counter FROM ' . self::DB_DEL_USERS . ' WHERE usr_id = %s AND obj_id = %s',
+                ['integer', 'integer'],
+                [$usrId, $objId]
+            );
+            while ($row = $this->db->fetchAssoc($result)) {
+                $counter = $row['counter'];
+            }
+
+            if ($counter == 0) {
+                $values = [
+                    'usr_id' => ['integer', $usrId],
+                    'obj_id' => ['integer', $objId],
+                    'added' => ['timestamp', date('Y-m-d H:i:s')]
+                ];
+                $this->db->insert(self::DB_DEL_USERS, $values);
+            }
+        }
+    }
+
 
     public function setXapiObjAsUpdated(int $objId)
     {
@@ -242,7 +271,16 @@ class ilCmiXapiDelModel
             [$objId]
         );
         $this->log->debug('cmix_users deleted for objId=' . (string) $objId);
+    }
 
+    public function removeCmixUsersForObjectAndUser(int $objId, int $usrId): void
+    {
+        $this->db->manipulateF(
+            'DELETE FROM cmix_users WHERE obj_id = %s AND usr_id = %s',
+            ['integer','integer'],
+            [$objId,$usrId]
+        );
+        $this->log->debug('cmix_user with usrId ' . (string) $usrId . ' deleted for objId=' . (string) $objId);
     }
 
 }

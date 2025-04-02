@@ -393,7 +393,10 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
         $autosave_enabled = $this->object->getAutosave();
         $show_solutions_enabled = $this->object->getShowSolutionFeedback();
         foreach ($question_gui_list as $question_id => $question_gui) {
-            $question_header = sprintf($this->lng->txt('tst_manscoring_question_section_header'), $question_gui->getObject()->getTitle());
+            $question_header = sprintf(
+                $this->lng->txt('tst_manscoring_question_section_header'),
+                $question_gui->getObject()->getTitleForHTMLOutput()
+            );
             $question_solution = $question_gui->getSolutionOutput($active_id, $pass, false, false, true, false, false, true);
             $best_solution = $question_gui->getObject()->getSuggestedSolutionOutput();
             $feedback = \ilObjTest::getSingleManualFeedback($active_id, $question_id, $pass);

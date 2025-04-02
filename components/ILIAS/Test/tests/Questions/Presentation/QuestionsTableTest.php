@@ -85,6 +85,7 @@ class QuestionsTableTest extends \ilTestBaseTestCase
 
         $this->table_gui = new QuestionsTable(
             $DIC['ui.factory'],
+            $DIC['refinery'],
             $DIC['http']->request(),
             $actions,
             $DIC['lng'],

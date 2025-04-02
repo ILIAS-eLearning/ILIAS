@@ -82,7 +82,7 @@ class ilCmiXapiContentUploadImporter
     public function ensureCreatedObjectDirectory(): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
+        die($this->getWebDataDirRelativeObjectDirectory());
         if (!$DIC->filesystem()->web()->has($this->getWebDataDirRelativeObjectDirectory())) {
             $DIC->filesystem()->web()->createDir($this->getWebDataDirRelativeObjectDirectory());
         }

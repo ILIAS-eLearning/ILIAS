@@ -402,7 +402,7 @@ class ilSessionDataSet extends ilDataSet
 
                 $this->current_obj = $newObj;
                 $a_mapping->addMapping("components/ILIAS/Session", "sess", $a_rec["Id"], (string) $newObj->getId());
-                $a_mapping->addMapping('components/ILIAS/Object', 'objs', $a_rec['Id'], (string) $newObj->getId());
+                $a_mapping->addMapping('components/ILIAS/ILIASObject', 'objs', $a_rec['Id'], (string) $newObj->getId());
                 $a_mapping->addMapping('components/ILIAS/AdvancedMetaData', 'parent', $a_rec['Id'], (string) $newObj->getId());
                 $a_mapping->addMapping(
                     "components/ILIAS/MetaData",

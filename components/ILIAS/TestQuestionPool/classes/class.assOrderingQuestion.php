@@ -839,7 +839,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $result = [];
         $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();
-        $result['title'] = $this->getTitle();
+        $result['title'] = $this->getTitleForHTMLOutput();
         $result['question'] = $this->formatSAQuestion($this->getQuestion());
         $result['nr_of_tries'] = $this->getNrOfTries();
         $result['shuffle'] = true;
@@ -1261,7 +1261,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     {
         return [
             AdditionalInformationGenerator::KEY_QUESTION_TYPE => (string) $this->getQuestionType(),
-            AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitle(),
+            AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitleForHTMLOutput(),
             AdditionalInformationGenerator::KEY_QUESTION_TEXT => $this->formatSAQuestion($this->getQuestion()),
             AdditionalInformationGenerator::KEY_QUESTION_ORDERING_NESTING_TYPE => array_reduce(
                 $this->getOrderingTypeLangVars($this->getOrderingType()),

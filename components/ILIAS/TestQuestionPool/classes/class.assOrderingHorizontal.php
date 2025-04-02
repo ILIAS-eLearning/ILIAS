@@ -399,7 +399,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         $result = [];
         $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();
-        $result['title'] = $this->getTitle();
+        $result['title'] = $this->getTitleForHTMLOutput();
         $result['question'] = $this->formatSAQuestion($this->getQuestion());
         $result['nr_of_tries'] = $this->getNrOfTries();
         $result['shuffle'] = true;
@@ -534,7 +534,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     {
         return [
             AdditionalInformationGenerator::KEY_QUESTION_TYPE => (string) $this->getQuestionType(),
-            AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitle(),
+            AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitleForHTMLOutput(),
             AdditionalInformationGenerator::KEY_QUESTION_TEXT => $this->formatSAQuestion($this->getQuestion()),
             AdditionalInformationGenerator::KEY_QUESTION_TEXTSIZE => ((int) $this->getTextSize()) ? (int) $this->getTextSize() : 100,
             AdditionalInformationGenerator::KEY_QUESTION_CORRECT_ANSWER_OPTIONS => $this->getOrderText(),

@@ -43,6 +43,7 @@ class ilSearchAppEventListener implements ilAppEventListener
             return;
         }
 
+
         // only for files in the moment
         if (!isset($a_parameter['obj_type'])) {
             $type = ilObject::_lookupType($a_parameter['obj_id']);
@@ -58,7 +59,7 @@ class ilSearchAppEventListener implements ilAppEventListener
                 break;
 
             case 'components/ILIAS/Help':
-            case 'components/ILIAS/Object':
+            case 'components/ILIAS/ILIASObject':
 
                 switch ($a_event) {
                     case 'undelete':

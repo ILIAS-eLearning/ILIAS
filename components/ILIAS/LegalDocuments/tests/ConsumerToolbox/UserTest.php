@@ -382,6 +382,27 @@ class UserTest extends TestCase
         $this->assertSame($user, $instance->raw());
     }
 
+    public function testAcceptAnyDocument(): void
+    {
+        $user = $this->mock(ilObjUser::class);
+        $history = $this->mock(ProvideHistory::class);
+        $doc = $this->mock(Document::class);
+        $history->expects(self::once())->method('acceptDocument')->with($user, $doc);
+
+        $instance = new User(
+            $user,
+            $this->mock(Settings::class),
+            $this->mock(UserSettings::class),
+            $this->mockTree(Provide::class, [
+                'document' => ['repository' => ['all' => [$doc]]],
+                'history' => $history,
+            ]),
+            $this->mock(Clock::class)
+        );
+
+        $instance->acceptAnyDocument();
+    }
+
     public static function externalAuthModes(): array
     {
         return [

@@ -209,7 +209,7 @@ class ilOrgUnitTypeGUI
             $this->lng->txt('file_allowed_suffixes') . ' .svg'
         );
 
-        if($current_identifier) {
+        if ($current_identifier) {
             $input = $input->withValue([$current_identifier]);
         }
 
@@ -256,10 +256,10 @@ class ilOrgUnitTypeGUI
 
         $data = $form->getData();
 
-        if(!is_null($data)) {
+        if (!is_null($data)) {
             $new_icon_id = current($data) ? current($data) : '';
             $identifier = $type->getIconIdentifier();
-            if($identifier && $new_icon_id == '') {
+            if ($identifier && $new_icon_id == '') {
                 $type->removeIconFromIrss($identifier);
             }
             $type = $type->withIconIdentifier($new_icon_id);
@@ -287,10 +287,10 @@ class ilOrgUnitTypeGUI
 
     protected function getRowIdFromQuery(): int
     {
-        if($this->query->has($this->row_id_token->getName())) {
+        if ($this->query->has($this->row_id_token->getName())) {
             return $this->query->retrieve(
                 $this->row_id_token->getName(),
-                $this->refinery->custom()->transformation(fn($v) => (int)array_shift($v))
+                $this->refinery->custom()->transformation(fn($v) => (int) array_shift($v))
             );
         }
         return 0;
@@ -338,10 +338,10 @@ class ilOrgUnitTypeGUI
                 $record_ids_removed = array_diff($selected_ids, $record_ids);
                 $record_ids_added = array_diff($record_ids, $selected_ids);
                 foreach ($record_ids_added as $record_id) {
-                    $type->assignAdvancedMDRecord((int)$record_id);
+                    $type->assignAdvancedMDRecord((int) $record_id);
                 }
                 foreach ($record_ids_removed as $record_id) {
-                    $type->deassignAdvancedMdRecord((int)$record_id);
+                    $type->deassignAdvancedMdRecord((int) $record_id);
                 }
                 return true;
             }
@@ -373,7 +373,7 @@ class ilOrgUnitTypeGUI
         )
         ->withRequest($this->request);
 
-        if($form->getData()) {
+        if ($form->getData()) {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
             $this->ctrl->redirect($this);
         } else {
@@ -481,7 +481,7 @@ class ilOrgUnitTypeGUI
                     $records = array_slice($records, $range->getStart(), $range->getLength());
                 }
                 foreach ($records as $record) {
-                    $row_id = (string)$record['id'];
+                    $row_id = (string) $record['id'];
                     yield $row_builder->buildDataRow($row_id, $record);
                 }
             }
@@ -499,7 +499,7 @@ class ilOrgUnitTypeGUI
     {
         $title = $this->lng->txt('orgu_type_add');
         $action = $this->getSingleTypeLinkTarget('update');
-        if($type->getId()) {
+        if ($type->getId()) {
             $title = $this->lng->txt('orgu_type_edit');
         }
 
@@ -550,7 +550,7 @@ class ilOrgUnitTypeGUI
                                 $type->setDescription($description, $lang_code);
                             }
                             return $type;
-                        } catch(ilOrgUnitTypePluginException $e) {
+                        } catch (ilOrgUnitTypePluginException $e) {
                             return $e->getMessage();
                         }
                     }
@@ -579,7 +579,7 @@ class ilOrgUnitTypeGUI
             ->withRequest($this->request);
 
         $type = $form->getData();
-        if($type && $type instanceof ilOrgUnitType) {
+        if ($type && $type instanceof ilOrgUnitType) {
             $type->save();
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
             $this->ctrl->redirect($this);

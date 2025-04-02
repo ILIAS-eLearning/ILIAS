@@ -765,10 +765,12 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 if (!$this->access->checkAccess('write', '', $this->getTestObject()->getRefId())) {
                     $this->redirectAfterMissingWrite();
                 }
+                $this->prepareOutput();
                 $this->forwardCommandToQuestionPreview($cmd);
                 break;
             case 'ilassquestionpagegui':
                 if ($cmd === 'finishEditing') {
+                    $this->prepareOutput();
                     $this->forwardCommandToQuestionPreview(ilAssQuestionPreviewGUI::CMD_SHOW);
                     break;
                 }
@@ -840,6 +842,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
                 if ($this->getTestObject()->evalTotalPersons() !== 0) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt('question_is_part_of_running_test'), true);
+                    $this->prepareOutput();
                     $this->forwardCommandToQuestionPreview(ilAssQuestionPreviewGUI::CMD_SHOW);
                     return;
                 }
@@ -851,7 +854,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $question_gui->setObject($question);
                 $question_gui->setQuestionTabs();
 
-                $this->addQuestionTitleToObjectTitle($question->getTitle());
+                $this->addQuestionTitleToObjectTitle($question->getTitleForHTMLOutput());
 
                 $gui = new ilAssQuestionHintsGUI($question_gui);
 
@@ -876,10 +879,11 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $question_gui->setObject($question);
                 $question_gui->setQuestionTabs();
 
-                $this->addQuestionTitleToObjectTitle($question->getTitle());
+                $this->addQuestionTitleToObjectTitle($question->getTitleForHTMLOutput());
 
                 if ($this->getTestObject()->evalTotalPersons() !== 0) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt('question_is_part_of_running_test'), true);
+                    $this->prepareOutput();
                     $this->forwardCommandToQuestionPreview(ilAssQuestionPreviewGUI::CMD_SHOW);
                 }
                 $gui = new ilAssQuestionFeedbackEditingGUI(
@@ -969,6 +973,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 if (in_array($cmd, ['editQuestion', 'save', 'saveReturn', 'suggestedsolution'])
                     && $this->getTestObject()->evalTotalPersons() !== 0) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt('question_is_part_of_running_test'), true);
+                    $this->prepareOutput();
                     $this->forwardCommandToQuestionPreview(ilAssQuestionPreviewGUI::CMD_SHOW);
                     return;
                 }
@@ -1003,8 +1008,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         string $cmd,
         assQuestionGUI $question_gui = null
     ): void {
-        $this->prepareOutput();
-
         $nr_of_participants_with_results = $this->getTestObject()->evalTotalPersons();
 
         $this->ctrl->saveParameterByClass(self::class, 'q_id');
@@ -1037,7 +1040,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
         $question_gui ??= assQuestion::instantiateQuestionGUI($this->fetchAuthoringQuestionIdParameter());
 
-        $this->addQuestionTitleToObjectTitle($question_gui->getObject()->getTitle());
+        $this->addQuestionTitleToObjectTitle($question_gui->getObject()->getTitleForHTMLOutput());
 
         if (!$this->getTestObject()->isRandomTest() && $nr_of_participants_with_results === 0) {
             $gui->setPrimaryCmd(
@@ -1102,7 +1105,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $question_gui->setContextAllowsSyncToPool(true);
             $question_gui->setQuestionTabs();
 
-            $this->addQuestionTitleToObjectTitle($question->getTitle());
+            $this->addQuestionTitleToObjectTitle($question->getTitleForHTMLOutput());
 
             $target = strpos($cmd, 'Return') === false ? 'stay' : 'return';
 
@@ -1509,6 +1512,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     public function importVerifiedFileObject(
         bool $skip_retrieve_selected_questions = false
     ): void {
+        if (!$this->checkPermissionBool('create', '', $this->testrequest->strVal('new_type'))) {
+            $this->redirectAfterMissingWrite();
+        }
         $file_to_import = ilSession::get('path_to_import_file');
         $path_to_uploaded_file_in_temp_dir = ilSession::get('path_to_uploaded_file_in_temp_dir');
         list($subdir, $importdir, $xmlfile, $qtifile) = $this->buildImportDirectoriesFromImportFile($file_to_import);
@@ -1628,6 +1634,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
     public function createQuestionObject(): void
     {
+        $this->protectByWritePermission();
+
         $this->ctrl->setReturnByClass(self::class, self::SHOW_QUESTIONS_CMD);
 
         $form = $this->buildQuestionCreationForm()->withRequest($this->request);
@@ -1679,6 +1687,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
     private function insertQuestionsObject(array $selected_array = null): void
     {
+        $this->protectByWritePermission();
+
         if (($selected_array ?? $this->testrequest->getQuestionIds()) === []) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('tst_insert_missing_question'), true);
             $this->ctrl->redirect($this, 'browseForQuestions');
@@ -1692,6 +1702,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
     public function createQuestionFormObject(Form $form = null): void
     {
+        $this->protectByWritePermission();
+
         $this->tabs_manager->getQuestionsSubTabs();
         $this->tabs_manager->activateSubTab(TabsManager::SUBTAB_ID_QST_LIST_VIEW);
 
@@ -1993,6 +2005,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
     public function exportLegacyLogsObject(): void
     {
+        $this->protectByWritePermission();
+
         $csv_output = $this->getTestObject()->getTestLogViewer()->getLegacyLogExportForObjId($this->getTestObject()->getId());
 
         ilUtil::deliverData(
@@ -2022,10 +2036,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
      */
     public function defaultsObject()
     {
-        if (!$this->access->checkAccess("write", "", $this->ref_id)) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt("cannot_edit_test"), true);
-            $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilInfoScreenGUI::class]);
-        }
+        $this->protectByWritePermission();
 
         $this->tabs_manager->activateTab(TabsManager::TAB_ID_SETTINGS);
 
@@ -2043,6 +2054,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
      */
     public function deleteDefaultsObject()
     {
+        $this->protectByWritePermission();
+
         $defaults_ids = $this->testrequest->retrieveArrayOfIntsFromPost('chb_defaults');
         if ($defaults_ids !== null && $defaults_ids !== []) {
             foreach ($defaults_ids as $test_default_id) {
@@ -2059,6 +2072,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
      */
     public function confirmedApplyDefaultsObject()
     {
+        $this->protectByWritePermission();
+
         $this->applyDefaultsObject(true);
         return;
     }
@@ -2068,6 +2083,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
      */
     public function applyDefaultsObject($confirmed = false): void
     {
+        $this->protectByWritePermission();
+
         $defaults_id = $this->testrequest->retrieveArrayOfIntsFromPost('chb_defaults');
         if ($defaults_id === []) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('tst_defaults_apply_select_one'));
@@ -2158,6 +2175,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     */
     public function addDefaultsObject(): void
     {
+        $this->protectByWritePermission();
+
         $name = $this->testrequest->strVal('name');
         if ($name !== '') {
             $this->getTestObject()->addDefaults($name);
@@ -2186,7 +2205,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     private function forwardToInfoScreen(): void
     {
         if (!$this->access->checkAccess('visible', '', $this->ref_id)
-            && !$this->access->checkAccess('read', '', $this->testrequest->getRefId())) {
+            && !$this->access->checkAccess('read', '', $this->ref_id)) {
             $this->redirectAfterMissingRead();
         }
 
@@ -2196,7 +2215,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
         $this->tabs_manager->activateTab(TabsManager::TAB_ID_INFOSCREEN);
 
-        if ($this->access->checkAccess('read', '', $this->testrequest->getRefId())) {
+        if ($this->access->checkAccess('read', '', $this->ref_id)) {
             $this->trackTestObjectReadEvent();
         }
         $info = new ilInfoScreenGUI($this);
@@ -2566,6 +2585,11 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
     public function createQuestionPoolAndCopyObject()
     {
+        if (!$this->access->checkAccess('write', '', $this->object->getRefId())
+            || !$this->checkPermissionBool('create', '', 'qpl')) {
+            $this->redirectAfterMissingWrite();
+        }
+
         if ($this->testrequest->raw('title')) {
             $title = $this->testrequest->raw('title');
         } else {
@@ -2590,6 +2614,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     */
     public function createQuestionpoolTargetObject(string $cmd): void
     {
+        $this->protectByWritePermission();
+
         $this->tabs_manager->getQuestionsSubTabs();
         $this->tabs_manager->activateSubTab(TabsManager::SUBTAB_ID_QST_LIST_VIEW);
 
@@ -2779,6 +2805,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     {
         return new QuestionsTable(
             $this->ui_factory,
+            $this->refinery,
             $this->http->request(),
             $this->getQuestionsTableActions(),
             $this->lng,

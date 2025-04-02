@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -26,6 +27,17 @@
 */
 class assClozeTestImport extends assQuestionImport
 {
+    private ilDBInterface $db;
+
+    public function __construct($a_object)
+    {
+        /** @var ILIAS\DI\Container $DIC */
+        global $DIC;
+        $this->db = $DIC['ilDB'];
+
+        parent::__construct($a_object);
+    }
+
     /**
     * Creates a question from a QTI file
     *
@@ -283,9 +295,9 @@ class assClozeTestImport extends assQuestionImport
         $this->object->saveToDb();
 
         if (is_array($combinations) && count($combinations) > 0) {
-            assClozeGapCombination::clearGapCombinationsFromDb($this->object->getId());
-            assClozeGapCombination::importGapCombinationToDb($this->object->getId(), $combinations);
-            $gap_combinations = new assClozeGapCombination();
+            $gap_combinations = new assClozeGapCombination($this->db);
+            $gap_combinations->clearGapCombinationsFromDb($this->object->getId());
+            $gap_combinations->importGapCombinationToDb($this->object->getId(), $combinations);
             $gap_combinations->loadFromDb($this->object->getId());
             $this->object->setGapCombinations($gap_combinations);
             $this->object->setGapCombinationsExists(true);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -94,9 +95,9 @@ class OrgUnitToolProvider extends AbstractDynamicToolProvider
         );
         $tree->setTypeWhiteList($this->getTreeWhiteList());
         $tree->setRootId(ilObjOrgUnit::getRootOrgRefId());
-        $ref_id = (int)($_GET['item_ref_id'] ?? $_GET['ref_id'] ?? 0);
+        $ref_id = (int) ($_GET['item_ref_id'] ?? $_GET['ref_id'] ?? 0);
         if ($ref_id !== 0) {
-            $tree->setPathOpen((int)$ref_id);
+            $tree->setPathOpen((int) $ref_id);
         }
         $tree->setOrderField('title');
 

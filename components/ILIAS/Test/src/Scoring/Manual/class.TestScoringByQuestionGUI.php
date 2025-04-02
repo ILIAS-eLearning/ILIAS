@@ -250,7 +250,7 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
             'success',
             sprintf(
                 $this->lng->txt('tst_saved_manscoring_by_question_successfully'),
-                $question_gui->getObject()->getTitle(),
+                $question_gui->getObject()->getTitleForHTMLOutput(),
                 $attempt + 1
             )
         );
@@ -347,7 +347,7 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
         int $attempt
     ): StandardPanel {
         return $this->ui_factory->panel()->standard(
-            $question_gui->getObject()->getTitle(),
+            $question_gui->getObject()->getTitleForHTMLOutput(),
             $this->ui_factory->legacy(
                 $question_gui->getSolutionOutput(
                     $active_id,
@@ -490,8 +490,9 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
     {
         $question_properties = $test_question_properties->getGeneralQuestionProperties();
         $lang_var = $question_properties->getAvailablePoints() === 1.0 ? $this->lng->txt('point') : $this->lng->txt('points');
-        return "{$question_properties->getTitle()} ({$question_properties->getAvailablePoints()} {$lang_var}) "
-                    . "[{$this->lng->txt('question_id_short')}: {$question_properties->getQuestionId()}]";
+        return "{$this->refinery->encode()->htmlSpecialCharsAsEntities()->transform($question_properties->getTitle())} "
+            . "({$question_properties->getAvailablePoints()} {$lang_var}) "
+            . "[{$this->lng->txt('question_id_short')}: {$question_properties->getQuestionId()}]";
     }
 
     private function initJavascript(): void

@@ -126,7 +126,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             $form->getItemByPostVar('selection_limit')->setMaxValue(count($this->request_data_collector->raw('choice')['answer'] ?? []));
 
             $form->setValuesByPost();
-            $errors = !$form->checkInput();
+            $errors = !$this->checkMaxPointsNotNegative($form) || !$form->checkInput();
             if ($errors) {
                 $checkonly = false;
             }
@@ -136,6 +136,28 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             $this->renderEditForm($form);
         }
         return $errors;
+    }
+
+    private function checkMaxPointsNotNegative(ilPropertyFormGUI $form): bool
+    {
+        $choice = $form->getItemByPostVar('choice');
+        if (!$choice instanceof ilMultipleChoiceWizardInputGUI) {
+            return true;
+        }
+
+        $answers = $choice->getValues();
+        $total_max_points = 0;
+        /** @var ASS_AnswerMultipleResponseImage $answer */
+        foreach ($answers as $answer) {
+            $total_max_points += max($answer->getPointsChecked(), $answer->getPointsUnchecked());
+        }
+
+        if ($total_max_points < 0) {
+            $choice->setAlert($this->lng->txt('total_max_points_cannot_be_negative'));
+            return false;
+        }
+
+        return true;
     }
 
     public function addBasicQuestionFormProperties(ilPropertyFormGUI $form): void

@@ -144,14 +144,14 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
 
         //key_type
         $keyType = new ilRadioGroupInputGUI($lng->txt('lti_con_key_type'), 'key_type');
-        $keyType->setRequired(true);
+        $keyType->setRequired(false);
         //RSA
         $keyRsa = new ilRadioOption($lng->txt('lti_con_key_type_rsa'), 'RSA_KEY');
         $keyType->addOption($keyRsa);
         $publicKey = new ilTextAreaInputGUI($lng->txt('lti_con_key_type_rsa_public_key'), 'public_key');
         $publicKey->setRows(6);
         $publicKey->setValue($this->provider->getPublicKey());
-        $publicKey->setRequired(true);
+        $publicKey->setRequired(false);
         $publicKey->setInfo($lng->txt('lti_con_key_type_rsa_public_key_info'));
         $keyRsa->addSubItem($publicKey);
         //JWK
@@ -159,7 +159,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $keyType->addOption($keyJwk);
         $keyset = new ilTextInputGUI($lng->txt('lti_con_key_type_jwk_url'), 'public_keyset');
         $keyset->setValue($this->provider->getPublicKeyset());
-        $keyset->setRequired(true);
+        $keyset->setRequired(false);
         $keyJwk->addSubItem($keyset);
 
         $keyType->setValue($this->provider->getKeyType());

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -174,11 +175,11 @@ class ilOrgUnitOperationDBRepository implements OrgUnitOperationRepository
 
         $ret = [];
         while ($rec = $this->db->fetchAssoc($res)) {
-            $operation = (new ilOrgUnitOperation((int)$rec['operation_id']))
-                ->withOperationString((string)$rec['operation_string'])
-                ->withDescription((string)$rec["description"])
-                ->withListOrder((int)$rec["list_order"])
-                ->withContextId((int)$rec['context_id']);
+            $operation = (new ilOrgUnitOperation((int) $rec['operation_id']))
+                ->withOperationString((string) $rec['operation_string'])
+                ->withDescription((string) $rec["description"])
+                ->withListOrder((int) $rec["list_order"])
+                ->withContextId((int) $rec['context_id']);
             $ret[] = $operation;
         }
 
@@ -199,11 +200,11 @@ class ilOrgUnitOperationDBRepository implements OrgUnitOperationRepository
 
         $ret = [];
         while ($rec = $this->db->fetchAssoc($res)) {
-            $operation = (new ilOrgUnitOperation((int)$rec['operation_id']))
-                ->withOperationString((string)$rec['operation_string'])
-                ->withDescription((string)$rec["description"])
-                ->withListOrder((int)$rec["list_order"])
-                ->withContextId((int)$rec['context_id']);
+            $operation = (new ilOrgUnitOperation((int) $rec['operation_id']))
+                ->withOperationString((string) $rec['operation_string'])
+                ->withDescription((string) $rec["description"])
+                ->withListOrder((int) $rec["list_order"])
+                ->withContextId((int) $rec['context_id']);
             $ret[] = $operation;
         }
 
@@ -224,11 +225,11 @@ class ilOrgUnitOperationDBRepository implements OrgUnitOperationRepository
 
         $ret = [];
         while ($rec = $this->db->fetchAssoc($res)) {
-            $operation = (new ilOrgUnitOperation((int)$rec['operation_id']))
-                ->withOperationString((string)$rec['operation_string'])
-                ->withDescription((string)$rec["description"])
-                ->withListOrder((int)$rec["list_order"])
-                ->withContextId((int)$rec['context_id']);
+            $operation = (new ilOrgUnitOperation((int) $rec['operation_id']))
+                ->withOperationString((string) $rec['operation_string'])
+                ->withDescription((string) $rec["description"])
+                ->withListOrder((int) $rec["list_order"])
+                ->withContextId((int) $rec['context_id']);
             $ret[] = $operation;
         }
 

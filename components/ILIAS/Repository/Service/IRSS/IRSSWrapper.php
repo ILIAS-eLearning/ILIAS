@@ -759,11 +759,23 @@ class IRSSWrapper
             $id = $this->getResourceIdForIdString($rid);
 
             if (!is_null($id)) {
-                $this->irss->manageContainer()->addUploadToContainer(
-                    $id,
-                    $result,
-                    $target_path
-                );
+                // if target path is a directory, addUploadToContainer
+                // can be used, the original filename will be appended
+                if ($target_path === "" || str_ends_with($target_path, "/")) {
+                    $this->irss->manageContainer()->addUploadToContainer(
+                        $id,
+                        $result,
+                        "/"
+                    );
+                } else {
+                    // we have a full path given (renaming the
+                    // original name)
+                    $this->addLocalFileToContainer(
+                        $rid,
+                        $result->getPath(),
+                        $target_path
+                    );
+                }
             }
         }
     }

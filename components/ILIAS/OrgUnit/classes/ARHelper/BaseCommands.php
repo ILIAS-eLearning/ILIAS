@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -218,10 +219,10 @@ abstract class BaseCommands
 
     protected function getRowIdFromQuery(): int
     {
-        if($this->query->has($this->row_id_token->getName())) {
+        if ($this->query->has($this->row_id_token->getName())) {
             return $this->query->retrieve(
                 $this->row_id_token->getName(),
-                $this->refinery->custom()->transformation(fn($v) => (int)array_shift($v))
+                $this->refinery->custom()->transformation(fn($v) => (int) array_shift($v))
             );
         }
         throw new \Exception('no position-id in query');

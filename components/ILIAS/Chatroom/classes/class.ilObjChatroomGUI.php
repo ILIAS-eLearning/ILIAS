@@ -252,6 +252,10 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
 
     protected function infoScreen(): void
     {
+        if (strtolower($this->ctrl->getCmd() ?? '') === 'info') {
+            $this->ctrl->redirectByClass(ilInfoScreenGUI::class, 'showSummary');
+        }
+
         $this->prepareOutput();
 
         $info = new ilInfoScreenGUI($this);

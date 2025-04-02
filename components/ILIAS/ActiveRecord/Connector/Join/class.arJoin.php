@@ -38,23 +38,23 @@ class arJoin extends arStatement
     protected bool $both_external = false;
     protected bool $is_mapped = false;
 
-    protected function asStatementText(ActiveRecord $activeRecord, string $as = ' AS '): string
+    protected function asStatementText(ActiveRecord $activeRecord, ilDBInterface $db, string $as = ' AS '): string
     {
         $return = ' ' . $this->getType() . ' ';
         $return .= ' JOIN ' . $this->getTableName() . $as . $this->getTableNameAs();
         if ($this->getBothExternal()) {
-            $return .= ' ON ' . $this->getOnFirstField() . ' ' . $this->getOperator() . ' ';
+            $return .= ' ON ' . $db->quoteIdentifier($this->getOnFirstField()) . ' ' . $this->getOperator() . ' ';
         } else {
-            $return .= ' ON ' . $activeRecord->getConnectorContainerName() . '.' . $this->getOnFirstField(
+            $return .= ' ON ' . $db->quoteIdentifier($activeRecord->getConnectorContainerName()) . '.' . $this->getOnFirstField(
             ) . ' ' . $this->getOperator() . ' ';
         }
 
-        return $return . ($this->getTableNameAs() . '.' . $this->getOnSecondField());
+        return $return . $db->quoteIdentifier($this->getTableNameAs()) . '.' . $db->quoteIdentifier($this->getOnSecondField());
     }
 
-    public function asSQLStatement(ActiveRecord $activeRecord): string
+    public function asSQLStatement(ActiveRecord $activeRecord, ilDBInterface $db): string
     {
-        return $this->asStatementText($activeRecord, self::AS_TEXT);
+        return $this->asStatementText($activeRecord, $db, self::AS_TEXT);
     }
 
     public function setLeft(): void

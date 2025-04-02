@@ -27,13 +27,13 @@ class arSelect extends arStatement
     protected string $as = '';
     protected string $field_name = '';
 
-    public function asSQLStatement(ActiveRecord $activeRecord): string
+    public function asSQLStatement(ActiveRecord $activeRecord, ilDBInterface $db): string
     {
         $return = '';
         if ($this->getTableName() !== '' && $this->getTableName() !== '0') {
             $return .= $this->getTableName() . '.';
         }
-        $return .= $this->getFieldName();
+        $return .= $this->wrapField($this->getFieldName(), $db);
         if ($this->getAs() && $this->getFieldName() !== '*') {
             $return .= ' AS ' . $this->getAs();
         }

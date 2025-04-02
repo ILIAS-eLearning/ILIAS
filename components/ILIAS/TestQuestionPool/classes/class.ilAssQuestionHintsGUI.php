@@ -586,7 +586,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
         $form->setTitle(sprintf(
             $this->lng->txt('tst_question_hints_form_header_edit'),
             $questionHint->getIndex(),
-            $this->question_obj->getTitle()
+            $this->question_obj->getTitleForHTMLOutput()
         ));
 
         // form input: hint text

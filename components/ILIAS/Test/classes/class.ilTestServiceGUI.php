@@ -403,7 +403,7 @@ class ilTestServiceGUI
                         $template->setVariable("COUNTER_QUESTION", $counter . ". ");
                         $template->setVariable("TXT_QUESTION_ID", $this->lng->txt('question_id_short'));
                         $template->setVariable("QUESTION_ID", $question_gui->getObject()->getId());
-                        $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->getObject()->getTitle()));
+                        $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->getObject()->getTitleForHTMLOutput()));
 
                         if ($objectives_list !== null) {
                             $objectives = $this->lng->txt('tst_res_lo_objectives_header') . ': ';
@@ -630,9 +630,9 @@ class ilTestServiceGUI
         // I set both old and new since the old one is set as well in several places.
         $maxpoints = $question_gui->getObject()->getMaximumPoints();
         if ($maxpoints == 1) {
-            $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->getObject()->getTitle()) . " (" . $maxpoints . " " . $this->lng->txt("point") . ")");
+            $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->getObject()->getTitleForHTMLOutput()) . " (" . $maxpoints . " " . $this->lng->txt("point") . ")");
         } else {
-            $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->getObject()->getTitle()) . " (" . $maxpoints . " " . $this->lng->txt("points") . ")");
+            $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->getObject()->getTitleForHTMLOutput()) . " (" . $maxpoints . " " . $this->lng->txt("points") . ")");
         }
         if ($objectives_list !== null) {
             $objectives = $this->lng->txt('tst_res_lo_objectives_header') . ': ';

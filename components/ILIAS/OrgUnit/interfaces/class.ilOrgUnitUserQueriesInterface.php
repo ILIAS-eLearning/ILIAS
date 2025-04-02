@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Class ilOrgUnitUserQueriesInterface
  * @author: Benjamin Seglias   <bs@studer-raimann.ch>

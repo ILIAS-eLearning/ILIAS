@@ -302,8 +302,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $page_gui->setQuestionHTML([$question_gui->getObject()->getId() => $question_gui->getPreview(true)]);
                 $page_gui->setTemplateTargetVar('ADM_CONTENT');
                 $page_gui->setOutputMode('edit');
-                $page_gui->setHeader($question->getTitle());
-                $page_gui->setPresentationTitle($question->getTitle());
+                $page_gui->setHeader($question->getTitleForHTMLOutput());
+                $page_gui->setPresentationTitle($question->getTitleForHTMLOutput());
                 $ret = $this->ctrl->forwardCommand($page_gui);
                 if ($ret != '') {
                     $this->tpl->setContent($ret);
@@ -665,12 +665,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
                 $this->help->setScreenIdComponent('qpl');
 
-                $question_gui->setQuestionTabs();
-
                 if ($qid === 0 && $question_gui->cmdNeedsExistingQuestion($cmd)) {
                     $question_gui->getObject()->createNewQuestion();
-                    $question_gui->setQuestionTabs();
                 }
+
+                $question_gui->setQuestionTabs();
 
                 if (!in_array($cmd, ['save', 'saveReturn'])) {
                     $question_gui->$cmd();
@@ -752,6 +751,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
     public function importVerifiedFileObject(): void
     {
+        if (!$this->checkPermissionBool('create', '', $this->qplrequest->string('new_type'))) {
+            $this->redirectAfterMissingWrite();
+            return;
+        }
+
         $file_to_import = ilSession::get('path_to_import_file');
         list($subdir, $importdir, $xmlfile, $qtifile) = $this->buildImportDirectoriesFromImportFile($file_to_import);
 
@@ -1433,7 +1437,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $question = $question_gui->getObject();
                 $question->setObjId($this->object->getId());
                 $question_gui->setObject($question);
-                $title = $question_gui->getObject()->getTitle();
+                $title = $question_gui->getObject()->getTitleForHTMLOutput();
                 if (!$title) {
                     $title = $this->lng->txt('new') . ': ' . $this->questionrepository->getForQuestionId(
                         $question_gui->getObject()->getId()
@@ -1463,7 +1467,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $question = $question_gui->getObject();
                 $question->setObjId($this->object->getId());
                 $question_gui->setObject($question);
-                $title = $this->object->getTitle() . ': ' . $question_gui->getObject()->getTitle();
+                $title = $this->object->getTitle() . ': ' . $question_gui->getObject()->getTitleForHTMLOutput();
                 if (!$title) {
                     $title = $this->lng->txt('new') . ': ' . $this->questionrepository->getForQuestionId(
                         $question_gui->getObject()->getId()

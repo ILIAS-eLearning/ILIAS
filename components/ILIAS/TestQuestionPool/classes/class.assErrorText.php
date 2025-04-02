@@ -730,7 +730,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         $result = [];
         $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();
-        $result['title'] = $this->getTitle();
+        $result['title'] = $this->getTitleForHTMLOutput();
         $result['question'] = $this->formatSAQuestion($this->getQuestion());
         $result['text'] = ilRTE::_replaceMediaObjectImageSrc($this->getErrorText(), 0);
         $result['nr_of_tries'] = $this->getNrOfTries();
@@ -939,7 +939,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     {
         $result = [
             AdditionalInformationGenerator::KEY_QUESTION_TYPE => (string) $this->getQuestionType(),
-            AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitle(),
+            AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitleForHTMLOutput(),
             AdditionalInformationGenerator::KEY_QUESTION_TEXT => $this->formatSAQuestion($this->getQuestion()),
             AdditionalInformationGenerator::KEY_QUESTION_ERRORTEXT_ERRORTEXT => ilRTE::_replaceMediaObjectImageSrc($this->getErrorText(), 0),
             AdditionalInformationGenerator::KEY_QUESTION_SHUFFLE_ANSWER_OPTIONS => $additional_info

@@ -23,6 +23,7 @@ namespace ILIAS\Test\Utilities;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\StaticURL\Services as StaticURLServices;
 use ILIAS\Data\ReferenceId;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Link\Standard as StandardLink;
 
@@ -34,7 +35,8 @@ class TitleColumnsBuilder
         private readonly \ilAccessHandler $access,
         private readonly \ilLanguage $lng,
         private readonly StaticURLServices $static_url,
-        private readonly UIFactory $ui_factory
+        private readonly UIFactory $ui_factory,
+        private readonly Refinery $refinery
     ) {
     }
 
@@ -52,7 +54,9 @@ class TitleColumnsBuilder
         }
 
         return $this->ui_factory->link()->standard(
-            $this->properties_repository->getForQuestionId($question_id)?->getTitle(),
+            $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
+                $this->properties_repository->getForQuestionId($question_id)?->getTitle()
+            ),
             $this->static_url->builder()->build(
                 'tst',
                 new ReferenceId($test_ref_id),
@@ -73,7 +77,7 @@ class TitleColumnsBuilder
             return "{$this->lng->txt('deleted')} ({$this->lng->txt('id')}: {$question_id})";
         }
 
-        return $question_title;
+        return $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform($question_title);
     }
 
     public function buildTestTitleAsLink(int $test_ref_id): StandardLink

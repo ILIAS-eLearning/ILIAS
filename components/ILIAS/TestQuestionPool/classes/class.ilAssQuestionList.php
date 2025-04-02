@@ -170,8 +170,8 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 
     private function getParentObjFilterExpression(): ?string
     {
-        if ($this->getParentObjId()) {
-            return "qpl_questions.obj_fi = {$this->db->quote($this->getParentObjId(), ilDBConstants::T_INTEGER)}";
+        if ($this->parentObjId) {
+            return "qpl_questions.obj_fi = {$this->db->quote($this->parentObjId, ilDBConstants::T_INTEGER)}";
         }
 
         if (!empty($this->parentObjIdsFilter)) {
@@ -367,13 +367,6 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return $expressions;
     }
 
-    private function getParentObjectIdFilterExpression(): ?string
-    {
-        return $this->parentObjId
-            ? "qpl_questions.obj_fi = {$this->db->quote($this->parentObjId, ilDBConstants::T_INTEGER)}"
-            : null;
-    }
-
     private function getAnswerStatusFilterExpressions(): array
     {
         return match ($this->answerStatusFilter) {
@@ -434,10 +427,6 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 
         if ($this->getParentObjFilterExpression() !== null) {
             $conditions[] = $this->getParentObjFilterExpression();
-        }
-
-        if ($this->getParentObjectIdFilterExpression() !== null) {
-            $conditions[] = $this->getParentObjectIdFilterExpression();
         }
 
         $conditions = array_merge(
@@ -600,10 +589,9 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
     {
         $this->checkFilters();
 
-        $tags_trafo = $this->refinery->string()->stripTags();
+        $tags_trafo = $this->refinery->encode()->htmlSpecialCharsAsEntities();
 
-        $query = $this->buildQuery();
-        $res = $this->db->query($query);
+        $res = $this->db->query($this->buildQuery());
         while ($row = $this->db->fetchAssoc($res)) {
             $row = ilAssQuestionType::completeMissingPluginName($row);
 

@@ -1412,7 +1412,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         $header_block_builder = new ilTestQuestionHeaderBlockBuilder($this->lng);
         $header_block_builder->setHeaderMode($this->object->getTitleOutput());
-        $header_block_builder->setQuestionTitle($question_gui->getObject()->getTitle());
+        $header_block_builder->setQuestionTitle($question_gui->getObject()->getTitleForHTMLOutput());
         $header_block_builder->setQuestionPoints($question_gui->getObject()->getPoints());
         $header_block_builder->setQuestionPosition($this->test_sequence->getPositionOfSequence($sequence_element));
         $header_block_builder->setQuestionCount($this->test_sequence->getUserQuestionCount());
@@ -2065,7 +2065,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
                 $question_gui = $this->object->createQuestionGUI("", $question);
                 $template = new ilTemplate("tpl.il_as_qpl_question_printview.html", true, true, "components/ILIAS/TestQuestionPool");
                 $template->setVariable("COUNTER_QUESTION", $counter . ". ");
-                $template->setVariable("QUESTION_TITLE", $question_gui->getObject()->getTitle());
+                $template->setVariable("QUESTION_TITLE", $question_gui->getObject()->getTitleForHTMLOutput());
 
                 $show_question_only = ($this->object->getShowSolutionAnswersOnly()) ? true : false;
                 $result_output = $question_gui->getSolutionOutput(

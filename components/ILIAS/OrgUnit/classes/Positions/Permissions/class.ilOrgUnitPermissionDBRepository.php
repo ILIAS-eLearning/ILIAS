@@ -328,7 +328,7 @@ class ilOrgUnitPermissionDBRepository implements OrgUnitPermissionRepository
         $ids = json_decode($operations);
         $ret = [];
         foreach ($ids as $operation_id) {
-            $ret[] = $this->operationRepo->getById((int)$operation_id);
+            $ret[] = $this->operationRepo->getById((int) $operation_id);
         }
         return $ret;
     }

@@ -1277,7 +1277,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
     {
         return [
             AdditionalInformationGenerator::KEY_QUESTION_TYPE => (string) $this->getQuestionType(),
-            AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitle(),
+            AdditionalInformationGenerator::KEY_QUESTION_TITLE => $this->getTitleForHTMLOutput(),
             AdditionalInformationGenerator::KEY_QUESTION_TEXT => $this->formatSAQuestion($this->getQuestion()),
             AdditionalInformationGenerator::KEY_QUESTION_FORMULA_VARIABLES => $this->buildVariablesForLog(
                 $this->getVariables(),

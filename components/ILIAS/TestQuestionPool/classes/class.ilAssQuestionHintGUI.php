@@ -192,7 +192,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
             $form->setTitle(sprintf(
                 $this->lng->txt('tst_question_hints_form_header_edit'),
                 $questionHint->getIndex(),
-                $this->question_obj->getTitle()
+                $this->question_obj->getTitleForHTMLOutput()
             ));
 
             $hiddenInp = new ilHiddenInputGUI('hint_id');
@@ -209,7 +209,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
             // build form title for a new hint
             $form->setTitle(sprintf(
                 $this->lng->txt('tst_question_hints_form_header_create'),
-                $this->question_obj->getTitle()
+                $this->question_obj->getTitleForHTMLOutput()
             ));
         }
 

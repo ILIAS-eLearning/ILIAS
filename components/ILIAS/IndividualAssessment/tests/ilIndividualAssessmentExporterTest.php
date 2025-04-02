@@ -40,7 +40,7 @@ class ilIndividualAssessmentExporterTest extends TestCase
     public function test_getXmlExportTailDependencies_iass(): void
     {
         $expected[] = [
-            "component" => "components/ILIAS/Object",
+            "component" => "components/ILIAS/ILIASObject",
             "entity" => "common",
             "ids" => [12,13]
         ];

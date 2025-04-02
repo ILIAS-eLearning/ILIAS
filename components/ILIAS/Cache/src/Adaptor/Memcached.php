@@ -60,7 +60,7 @@ class Memcached extends BaseAdaptor implements Adaptor
 
     public function set(string $container, string $key, string $value, int $ttl): void
     {
-        $this->server->set($this->buildKey($container, $key), $value);
+        $this->server->set($this->buildKey($container, $key), $value, $ttl);
     }
 
     public function delete(string $container, string $key): void

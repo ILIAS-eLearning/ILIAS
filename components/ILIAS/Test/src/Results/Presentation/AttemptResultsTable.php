@@ -186,7 +186,9 @@ class AttemptResultsTable
 
             $title = sprintf(
                 '%s [ID: %s]',
-                $question->getTitle(),
+                $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
+                    $question->getTitle()
+                ),
                 (string) $question->getId()
             );
 

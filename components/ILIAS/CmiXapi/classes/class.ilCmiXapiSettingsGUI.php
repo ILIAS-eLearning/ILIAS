@@ -121,11 +121,13 @@ class ilCmiXapiSettingsGUI
 
     protected function showCmd(ilPropertyFormGUI $form = null): void
     {
-        $this->dic->tabs()->activateSubTab(self::SUBTAB_ID_SETTINGS);
-
-        $form = $this->buildForm();
-
-        $this->dic->ui()->mainTemplate()->setContent($form->getHTML());
+        if ($this->dic->access()->checkAccess("write", "", $this->object->getRefId())) {
+            $this->dic->tabs()->activateSubTab(self::SUBTAB_ID_SETTINGS);
+            $form = $this->buildForm();
+            $this->dic->ui()->mainTemplate()->setContent($form->getHTML());
+        } else {
+            $this->main_tpl->setOnScreenMessage('failure', $this->dic->language()->txt('permission_denied'), false);
+        }
     }
 
     protected function buildForm(): \ilPropertyFormGUI
@@ -273,111 +275,23 @@ class ilCmiXapiSettingsGUI
         }
 
         if (!$this->object->isSourceTypeExternal()) {
-            if ($this->object->getContentType() != ilObjCmiXapi::CONT_TYPE_CMI5) {
-                $sectionHeader = new ilFormSectionHeaderGUI();
-                $sectionHeader->setTitle($this->language->txt('sect_learning_progress_options'));
-                $form->addItem($sectionHeader);
-                $bypassProxy = new ilRadioGroupInputGUI($this->language->txt('conf_bypass_proxy'), 'bypass_proxy');
-                $bypassProxy->setInfo($this->language->txt('conf_bypass_proxy_info'));
-                $opt1 = new ilRadioOption($this->language->txt('conf_bypass_proxy_disabled'), "0");
-                $bypassProxy->addOption($opt1);
-                $opt2 = new ilRadioOption($this->language->txt('conf_bypass_proxy_enabled'), "1");
-                $bypassProxy->addOption($opt2);
-                $bypassProxy->setValue((string) ((int) $this->object->isBypassProxyEnabled()));
-                //$bypassProxy->setValue((string) ((int) $this->object->getLrsType()->isBypassProxyEnabled()));
-                $form->addItem($bypassProxy);
-                if ($this->object->getLrsType()->isBypassProxyEnabled()) {
-                    $bypassProxy->setDisabled(true);
-                }
+            //            if ($this->object->getContentType() != ilObjCmiXapi::CONT_TYPE_CMI5) {
+            $sectionHeader = new ilFormSectionHeaderGUI();
+            $sectionHeader->setTitle($this->language->txt('privacy_options'));
+            $form->addItem($sectionHeader);
+
+            $useProxy = new ilCheckboxInputGUI($this->language->txt('conf_use_proxy'), 'use_proxy');
+            $useProxy->setInfo($this->language->txt('conf_use_proxy_info_xapi'));
+            if ($this->object->isBypassProxyEnabled() == false) {
+                $useProxy->setChecked(true);
             }
-
-            $item = new ilFormSectionHeaderGUI();
-            $item->setTitle($this->language->txt("privacy_options"));
-            $form->addItem($item);
-
-            $userIdent = new ilRadioGroupInputGUI($this->language->txt('conf_privacy_ident'), 'privacy_ident');
-            $op = new ilRadioOption(
-                $this->language->txt('conf_privacy_ident_il_uuid_user_id'),
-                (string) ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_USER_ID
-            );
-            $op->setInfo($this->language->txt('conf_privacy_ident_il_uuid_user_id_info'));
-            $userIdent->addOption($op);
-            $op = new ilRadioOption(
-                $this->language->txt('conf_privacy_ident_il_uuid_login'),
-                (string) ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_LOGIN
-            );
-            $op->setInfo($this->language->txt('conf_privacy_ident_il_uuid_login_info'));
-            $userIdent->addOption($op);
-            $op = new ilRadioOption(
-                $this->language->txt('conf_privacy_ident_il_uuid_ext_account'),
-                (string) ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_EXT_ACCOUNT
-            );
-            $op->setInfo($this->language->txt('conf_privacy_ident_il_uuid_ext_account_info'));
-            $userIdent->addOption($op);
-            $op = new ilRadioOption(
-                $this->language->txt('conf_privacy_ident_il_uuid_sha256'),
-                (string) ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_SHA256
-            );
-            $op->setInfo($this->language->txt('conf_privacy_ident_il_uuid_sha256_info'));
-            $userIdent->addOption($op);
-            $op = new ilRadioOption(
-                $this->language->txt('conf_privacy_ident_il_uuid_sha256url'),
-                (string) ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_SHA256URL
-            );
-            $op->setInfo($this->language->txt('conf_privacy_ident_il_uuid_sha256url_info'));
-            $userIdent->addOption($op);
-            $op = new ilRadioOption(
-                $this->language->txt('conf_privacy_ident_il_uuid_random'),
-                (string) ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_RANDOM
-            );
-            $op->setInfo($this->language->txt('conf_privacy_ident_il_uuid_random_info'));
-            $userIdent->addOption($op);
-            $op = new ilRadioOption(
-                $this->language->txt('conf_privacy_ident_real_email'),
-                (string) ilCmiXapiLrsType::PRIVACY_IDENT_REAL_EMAIL
-            );
-            $op->setInfo($this->language->txt('conf_privacy_ident_real_email_info'));
-            $userIdent->addOption($op);
-            $userIdent->setValue((string) $this->object->getPrivacyIdent());
-            $userIdent->setInfo(
-                $this->language->txt('conf_privacy_ident_info') . ' ' . ilCmiXapiUser::getIliasUuid()
-            );
-            $userIdent->setRequired(false);
-            $form->addItem($userIdent);
-
-            $userName = new ilRadioGroupInputGUI($this->language->txt('conf_privacy_name'), 'privacy_name');
-            $op = new ilRadioOption(
-                $this->language->txt('conf_privacy_name_none'),
-                (string) ilCmiXapiLrsType::PRIVACY_NAME_NONE
-            );
-            $op->setInfo($this->language->txt('conf_privacy_name_none_info'));
-            $userName->addOption($op);
-            $op = new ilRadioOption(
-                $this->language->txt('conf_privacy_name_firstname'),
-                (string) ilCmiXapiLrsType::PRIVACY_NAME_FIRSTNAME
-            );
-            $op->setInfo($this->language->txt('conf_privacy_name_firstname_info'));
-            $userName->addOption($op);
-            $op = new ilRadioOption(
-                $this->language->txt('conf_privacy_name_lastname'),
-                (string) ilCmiXapiLrsType::PRIVACY_NAME_LASTNAME
-            );
-            $op->setInfo($this->language->txt('conf_privacy_name_lastname_info'));
-            $userName->addOption($op);
-            $op = new ilRadioOption(
-                $this->language->txt('conf_privacy_name_fullname'),
-                (string) ilCmiXapiLrsType::PRIVACY_NAME_FULLNAME
-            );
-            $op->setInfo($this->language->txt('conf_privacy_name_fullname_info'));
-            $userName->addOption($op);
-            $userName->setValue((string) $this->object->getPrivacyName());
-            $userName->setInfo($this->language->txt('conf_privacy_name_info'));
-            $userName->setRequired(false);
-            $form->addItem($userName);
-
-            if ($this->object->getLrsType()->getForcePrivacySettings()) {
-                $userIdent->setDisabled(true);
-                $userName->setDisabled(true);
+            //                if ($this->object->getLrsType()->getForcePrivacySettings()) {
+            //                    $useProxy->setDisabled(true);
+            //                }
+            if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {
+                $useProxy->setChecked(true);
+                $useProxy->setDisabled(true);
+                $useProxy->setInfo($this->language->txt('conf_use_proxy_info_cmi5'));
             }
 
             $item = new ilCheckboxInputGUI($this->language->txt('only_moveon_label'), 'only_moveon');
@@ -459,7 +373,7 @@ class ilCmiXapiSettingsGUI
             if ($this->object->getLrsType()->getForcePrivacySettings()) {
                 $item->setDisabled(true);
             }
-            $form->addItem($item);
+            $useProxy->addSubItem($item);
 
             $item = new ilCheckboxInputGUI($this->language->txt('hide_data_label'), 'hide_data');
             $item->setInfo($this->language->txt('hide_data_info'));
@@ -484,7 +398,8 @@ class ilCmiXapiSettingsGUI
             if ($this->object->getLrsType()->getForcePrivacySettings()) {
                 $item->setDisabled(true);
             }
-            $form->addItem($item);
+            //$form->addItem($item);
+            $useProxy->addSubItem($item);
 
             $item = new ilCheckboxInputGUI($this->language->txt('no_substatements_label'), 'no_substatements');
             $item->setInfo($this->language->txt('no_substatements_info'));
@@ -492,7 +407,93 @@ class ilCmiXapiSettingsGUI
             if ($this->object->getLrsType()->getForcePrivacySettings()) {
                 $item->setDisabled(true);
             }
-            $form->addItem($item);
+            $useProxy->addSubItem($item);
+
+            $form->addItem($useProxy);
+            //            }
+
+            $userIdent = new ilRadioGroupInputGUI($this->language->txt('conf_privacy_ident'), 'privacy_ident');
+            $op = new ilRadioOption(
+                $this->language->txt('conf_privacy_ident_il_uuid_user_id'),
+                (string) ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_USER_ID
+            );
+            $op->setInfo($this->language->txt('conf_privacy_ident_il_uuid_user_id_info'));
+            $userIdent->addOption($op);
+            $op = new ilRadioOption(
+                $this->language->txt('conf_privacy_ident_il_uuid_login'),
+                (string) ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_LOGIN
+            );
+            $op->setInfo($this->language->txt('conf_privacy_ident_il_uuid_login_info'));
+            $userIdent->addOption($op);
+            $op = new ilRadioOption(
+                $this->language->txt('conf_privacy_ident_il_uuid_ext_account'),
+                (string) ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_EXT_ACCOUNT
+            );
+            $op->setInfo($this->language->txt('conf_privacy_ident_il_uuid_ext_account_info'));
+            $userIdent->addOption($op);
+            $op = new ilRadioOption(
+                $this->language->txt('conf_privacy_ident_il_uuid_sha256'),
+                (string) ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_SHA256
+            );
+            $op->setInfo($this->language->txt('conf_privacy_ident_il_uuid_sha256_info'));
+            $userIdent->addOption($op);
+            $op = new ilRadioOption(
+                $this->language->txt('conf_privacy_ident_il_uuid_sha256url'),
+                (string) ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_SHA256URL
+            );
+            $op->setInfo($this->language->txt('conf_privacy_ident_il_uuid_sha256url_info'));
+            $userIdent->addOption($op);
+            $op = new ilRadioOption(
+                $this->language->txt('conf_privacy_ident_il_uuid_random'),
+                (string) ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_RANDOM
+            );
+            $op->setInfo($this->language->txt('conf_privacy_ident_il_uuid_random_info'));
+            $userIdent->addOption($op);
+            $op = new ilRadioOption(
+                $this->language->txt('conf_privacy_ident_real_email'),
+                (string) ilCmiXapiLrsType::PRIVACY_IDENT_REAL_EMAIL
+            );
+            $op->setInfo($this->language->txt('conf_privacy_ident_real_email_info'));
+            $userIdent->addOption($op);
+            $userIdent->setValue((string) $this->object->getPrivacyIdent());
+            $userIdent->setInfo(
+                $this->language->txt('conf_privacy_ident_info') . ' ' . ilCmiXapiUser::getIliasUuid()
+            );
+            $userIdent->setRequired(false);
+            $form->addItem($userIdent);
+
+            $userName = new ilRadioGroupInputGUI($this->language->txt('conf_privacy_name'), 'privacy_name');
+            $op = new ilRadioOption(
+                $this->language->txt('conf_privacy_name_none'),
+                (string) ilCmiXapiLrsType::PRIVACY_NAME_NONE
+            );
+            $op->setInfo($this->language->txt('conf_privacy_name_none_info'));
+            $userName->addOption($op);
+            $op = new ilRadioOption(
+                $this->language->txt('conf_privacy_name_firstname'),
+                (string) ilCmiXapiLrsType::PRIVACY_NAME_FIRSTNAME
+            );
+            $userName->addOption($op);
+            $op = new ilRadioOption(
+                $this->language->txt('conf_privacy_name_lastname'),
+                (string) ilCmiXapiLrsType::PRIVACY_NAME_LASTNAME
+            );
+            $userName->addOption($op);
+            $op = new ilRadioOption(
+                $this->language->txt('conf_privacy_name_fullname'),
+                (string) ilCmiXapiLrsType::PRIVACY_NAME_FULLNAME
+            );
+            $userName->addOption($op);
+            $userName->setValue((string) $this->object->getPrivacyName());
+            $userName->setInfo($this->language->txt('conf_privacy_name_info'));
+            $userName->setRequired(false);
+            $form->addItem($userName);
+
+            if ($this->object->getLrsType()->getForcePrivacySettings()) {
+                $userIdent->setDisabled(true);
+                $userName->setDisabled(true);
+            }
+
         }
 
         $item = new ilRadioGroupInputGUI($this->language->txt('conf_delete_data'), 'delete_data');
@@ -612,11 +613,14 @@ class ilCmiXapiSettingsGUI
                 $this->object->setAuthFetchUrlEnabled((bool) $form->getInput('use_fetch'));
             }
 
-            if (!$this->object->getLrsType()->isBypassProxyEnabled()) {
-                if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {
-                    $this->object->setBypassProxyEnabled(false);
+            if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {
+                $this->object->setBypassProxyEnabled(false);
+            } else {
+                //                    $this->object->setBypassProxyEnabled((bool) $form->getInput('bypass_proxy'));
+                if ((bool) $form->getInput("use_proxy") == false) {
+                    $this->object->setBypassProxyEnabled(true);
                 } else {
-                    $this->object->setBypassProxyEnabled((bool) $form->getInput('bypass_proxy'));
+                    $this->object->setBypassProxyEnabled(false);
                 }
             }
 
@@ -661,7 +665,7 @@ class ilCmiXapiSettingsGUI
             $this->object->setHighscoreMode((int) $form->getInput('highscore_mode'));
             $this->object->setHighscoreTopNum((int) $form->getInput('highscore_top_num'));
         }
-		
+
         // tile image
         $this->dic->object()->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
 

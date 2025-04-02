@@ -272,7 +272,7 @@ class ilAssQuestionSkillAssignment
         $root_node = reset($path);
         array_unshift(
             $nodes,
-            $this->skill_tree_service->getObjSkillTreeById($root_node['skl_tree_id'])->getTitle()
+            $this->skill_tree_service->getObjSkillTreeById($root_node['skl_tree_id'])->getTitleForHTMLOutput()
         );
 
         $this->setSkillPath(implode(' > ', $nodes));

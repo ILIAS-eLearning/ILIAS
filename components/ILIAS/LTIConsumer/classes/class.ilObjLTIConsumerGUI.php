@@ -589,10 +589,16 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         exit;
     }
 
+    /**
+     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
+     * @throws ilCtrlException
+     * @throws \ILIAS\FileUpload\Exception\IllegalStateException
+     * @throws ilLtiConsumerException
+     * @throws \ILIAS\Filesystem\Exception\IOException
+     */
     protected function afterSave(\ilObject $newObject): void
     {
         global $DIC; //check
-
         if ($DIC->http()->wrapper()->query()->has('provider_id')) {
             $newObject->setProviderId((int) $DIC->http()->wrapper()->query()->retrieve('provider_id', $DIC->refinery()->kindlyTo()->int()));
             $newObject->initProvider();
@@ -603,7 +609,6 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             $newObject->update();
 
             $this->initMetadata($newObject);
-
             $DIC->ctrl()->redirectByClass(ilLTIConsumerSettingsGUI::class);
         }
 
@@ -630,10 +635,8 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             $newObject->update();
 
             $this->initMetadata($newObject);
-
-            $DIC->ctrl()->redirectByClass(ilObjLTIConsumerGUI::class);
+            $DIC->ctrl()->redirectByClass([ilLTIConsumerSettingsGUI::class, ilLTIConsumeProviderSettingsGUI::class]);
         }
-
         throw new ilLtiConsumerException(
             'form validation seems to not have worked in ilObjLTIConsumer::saveCustom()!'
         );

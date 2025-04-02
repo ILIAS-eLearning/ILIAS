@@ -23,6 +23,7 @@ namespace ILIAS\Test\Questions\Presentation;
 use ILIAS\Test\Utilities\TitleColumnsBuilder;
 use ILIAS\Test\Questions\Properties\Repository as TestQuestionsRepository;
 use ILIAS\Test\Questions\Properties\Properties as TestQuestionProperties;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Table\Ordering;
 use ILIAS\UI\Component\Table\OrderingBinding;
@@ -37,6 +38,7 @@ class QuestionsTable implements OrderingBinding
      */
     public function __construct(
         private readonly UIFactory $ui_factory,
+        private readonly Refinery $refinery,
         private readonly ServerRequestInterface $request,
         private readonly QuestionsTableActions $table_actions,
         private readonly Language $lng,
@@ -69,6 +71,7 @@ class QuestionsTable implements OrderingBinding
             $row = $record->getAsQuestionsTableRow(
                 $this->lng,
                 $this->ui_factory,
+                $this->refinery,
                 $this->table_actions->getQuestionTargetLinkBuilder(),
                 $row_builder,
                 $this->title_builder

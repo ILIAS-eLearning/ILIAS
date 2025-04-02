@@ -509,7 +509,10 @@ class FormAdapterGUI
                 $this->current_switch["description"]
             );
             if (!is_null($this->current_switch["value"])) {
-                $field = $field->withValue($this->current_switch["value"]);
+                $cvalue = $this->current_switch["value"];
+                if (isset($this->current_switch["groups"][$cvalue])) {
+                    $field = $field->withValue($cvalue);
+                }
             }
             $key = $this->current_switch["key"];
             $this->current_switch = null;

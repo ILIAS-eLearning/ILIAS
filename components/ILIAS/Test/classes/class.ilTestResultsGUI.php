@@ -163,7 +163,6 @@ class ilTestResultsGUI
 
                 $questionList = new ilAssQuestionList($this->db, $this->lng, $this->refinery, $this->component_repository);
                 $questionList->setParentObjId($this->test_object->getId());
-                $questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
                 $questionList->load();
 
                 $testSessionFactory = new ilTestSessionFactory($this->test_object, $this->db, $this->user);

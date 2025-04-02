@@ -1864,6 +1864,9 @@ class ilObjStudyProgramme extends ilContainer
 
     public function canBeCompleted(ilPRGProgress $progress): bool
     {
+        if ($this->getStatus() === ilStudyProgrammeSettings::STATUS_DRAFT) {
+            return false;
+        }
         if ($this->getLPMode() == ilStudyProgrammeSettings::MODE_LP_COMPLETED) {
             return true;
         }

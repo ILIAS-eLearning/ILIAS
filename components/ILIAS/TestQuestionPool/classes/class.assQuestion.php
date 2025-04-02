@@ -367,7 +367,7 @@ abstract class assQuestion implements Question
 
     public function getTitleForHTMLOutput(): string
     {
-        return $this->refinery->string()->stripTags()->transform($this->title);
+        return $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform($this->title);
     }
 
     public function getTitleFilenameCompliant(): string
@@ -1064,8 +1064,9 @@ abstract class assQuestion implements Question
     {
         if ($a_q_id > 0) {
             $page = new ilAssQuestionPage($a_q_id);
-
-            $xml = str_replace("il__qst_" . $a_q_id, "il__qst_" . $this->id, $page->getXMLContent());
+            $page->buildDom();
+            ilPCPlugged::handleCopiedPluggedContent($page, $page->getDomDoc());
+            $xml = str_replace("il__qst_" . $a_q_id, "il__qst_" . $this->id, $page->getXMLFromDom());
             $this->page->setXMLContent($xml);
             $this->page->updateFromXML();
         }

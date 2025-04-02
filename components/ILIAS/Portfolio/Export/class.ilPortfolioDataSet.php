@@ -43,7 +43,7 @@ class ilPortfolioDataSet extends ilDataSet
 
     public function getSupportedVersions(): array
     {
-        return array("4.4.0", "5.0.0");
+        return array("4.4.0", "5.0.0", "10.0");
     }
 
     protected function getXmlNamespace(string $a_entity, string $a_schema_version): string
@@ -68,6 +68,16 @@ class ilPortfolioDataSet extends ilDataSet
                         "Ppic" => "integer",
                         "Dir" => "directory"
                         );
+                case "10.0":
+                    return array(
+                        "Id" => "integer",
+                        "Title" => "text",
+                        "Description" => "text",
+                        "Comments" => "integer",
+                        "BgColor" => "text",
+                        "FontColor" => "text",
+                        "Ppic" => "integer"
+                        );
             }
         }
 
@@ -75,6 +85,7 @@ class ilPortfolioDataSet extends ilDataSet
             switch ($a_version) {
                 case "4.4.0":
                 case "5.0.0":
+                case "10.0":
                     return array(
                         "Id" => "integer",
                         "PortfolioId" => "integer",
@@ -107,8 +118,9 @@ class ilPortfolioDataSet extends ilDataSet
                     break;
 
                 case "5.0.0":
+                case "10.0":
                     $this->getDirectDataFromQuery("SELECT prtf.id,od.title,od.description," .
-                        "prtf.bg_color,prtf.font_color,prtf.img,prtf.ppic" .
+                        "prtf.bg_color,prtf.font_color,prtf.ppic" .
                         " FROM usr_portfolio prtf" .
                         " JOIN object_data od ON (od.obj_id = prtf.id)" .
                         " WHERE " . $ilDB->in("prtf.id", $a_ids, false, "integer") .
@@ -121,6 +133,7 @@ class ilPortfolioDataSet extends ilDataSet
             switch ($a_version) {
                 case "4.4.0":
                 case "5.0.0":
+                case "10.0":
                     $this->getDirectDataFromQuery("SELECT id,portfolio_id,title,order_nr,type" .
                         " FROM usr_portfolio_page" .
                         " WHERE " . $ilDB->in("portfolio_id", $a_ids, false, "integer"));
@@ -149,9 +162,6 @@ class ilPortfolioDataSet extends ilDataSet
         array $a_set
     ): array {
         if ($a_entity === "prtt") {
-            $dir = ilObjPortfolioTemplate::initStorage($a_set["Id"]);
-            $a_set["Dir"] = $dir;
-
             $a_set["Comments"] = $this->notes->domain()->commentsActive((int) $a_set["Id"]);
         }
 
@@ -185,16 +195,6 @@ class ilPortfolioDataSet extends ilDataSet
                 $newObj->setFontColor($a_rec["FontColor"]);
                 $newObj->setProfilePicture($a_rec["Ppic"]);
                 $newObj->update();
-
-                // handle image(s)
-                if ($a_rec["Img"]) {
-                    $dir = str_replace("..", "", $a_rec["Dir"]);
-                    if ($dir !== "" && $this->getImportDirectory() !== "") {
-                        $source_dir = $this->getImportDirectory() . "/" . $dir;
-                        $target_dir = ilObjPortfolioTemplate::initStorage($newObj->getId());
-                        ilFileUtils::rCopy($source_dir, $target_dir);
-                    }
-                }
 
                 $a_mapping->addMapping("components/ILIAS/Portfolio", "prtt", $a_rec["Id"], $newObj->getId());
                 $a_mapping->addMapping("components/ILIAS/ILIASObject", "obj", $a_rec["Id"], $newObj->getId());

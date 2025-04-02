@@ -142,7 +142,7 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
             $this->refinery,
             $this->language,
             $this->ctrl
-        ))->buildAddAnswerModal($this->question->getTitle(), $data);
+        ))->buildAddAnswerModal($this->question->getTitleForHTMLOutput(), $data);
 
         $show_modal_button = $this->ui_factory->button()->standard(
             $this->language->txt('tst_corr_add_as_answer_btn'),

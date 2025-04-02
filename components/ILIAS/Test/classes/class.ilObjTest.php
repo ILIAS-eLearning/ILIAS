@@ -1051,7 +1051,7 @@ class ilObjTest extends ilObject
                     $this->user->getId(),
                     TestAdministrationInteractionTypes::QUESTION_REMOVED_IN_CORRECTIONS,
                     [
-                        AdditionalInformationGenerator::KEY_QUESTION_TITLE => $question->getTitle(),
+                        AdditionalInformationGenerator::KEY_QUESTION_TITLE => $question->getTitleForHTMLOutput(),
                         AdditionalInformationGenerator::KEY_QUESTION_TEXT => $question->getQuestion(),
                         AdditionalInformationGenerator::KEY_QUESTION_ID => $question->getId(),
                         AdditionalInformationGenerator::KEY_QUESTION_TYPE => $question->getQuestionType()
@@ -1105,7 +1105,7 @@ class ilObjTest extends ilObject
     {
         try {
             $question = self::_instanciateQuestion($question_id);
-            $question_title = $question->getTitle();
+            $question_title = $question->getTitleForHTMLOutput();
             $question->delete($question_id);
             if ($this->logger->isLoggingEnabled()) {
                 $this->logger->logTestAdministrationInteraction(
@@ -1719,7 +1719,7 @@ class ilObjTest extends ilObject
                 [$user_id, $this->test_id, $anonymous_id]
             );
         } else {
-            if ($this->user->getId() === ANONYMOUS_USER_ID) {
+            if ((int) $user_id === ANONYMOUS_USER_ID) {
                 return null;
             }
             $result = $this->db->queryF(

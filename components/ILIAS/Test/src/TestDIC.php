@@ -74,7 +74,8 @@ class TestDIC extends PimpleContainer
                 $DIC['ilAccess'],
                 $DIC['lng'],
                 $DIC['static_url'],
-                $DIC['ui.factory']
+                $DIC['ui.factory'],
+                $DIC['refinery']
             );
 
         $dic['results.data.factory'] = static fn($c): ResultsDataFactory =>

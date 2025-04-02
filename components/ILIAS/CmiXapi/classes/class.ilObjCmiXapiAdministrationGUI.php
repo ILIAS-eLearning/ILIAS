@@ -237,7 +237,7 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
 
         $useProxy = new ilCheckboxInputGUI($DIC->language()->txt('conf_use_proxy'), 'use_proxy');
         $useProxy->setInfo($DIC->language()->txt('conf_use_proxy_info'));
-        if($lrsType->isBypassProxyEnabled() == false) {
+        if ($lrsType->isBypassProxyEnabled() == false) {
             $useProxy->setChecked(true);
         }
 

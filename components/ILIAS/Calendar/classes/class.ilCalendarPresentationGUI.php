@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\HTTP\Services as HttpServices;
-use ILIAS\UI\Implementation\Factory as UIImplementationFactory;
+use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 
 /**
@@ -59,7 +59,7 @@ class ilCalendarPresentationGUI
     protected int $cal_period = 0;
 
     private UIRenderer $renderer;
-    private UIImplementationFactory $uiFactory;
+    private UIFactory $ui_factory;
 
     public function __construct($a_ref_id = 0)
     {
@@ -70,7 +70,7 @@ class ilCalendarPresentationGUI
         $this->lng->loadLanguageModule('dateplaner');
 
         $this->renderer = $DIC->ui()->renderer();
-        $this->uiFactory = $DIC->ui()->factory();
+        $this->ui_factory = $DIC->ui()->factory();
 
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
@@ -202,8 +202,6 @@ class ilCalendarPresentationGUI
     public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
-        // now next class is not empty, which breaks old consultation hour implementation
-        $next_class = $this->getNextClass();
 
         if (!ilCalendarSettings::_getInstance()->isEnabled()) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
@@ -221,6 +219,10 @@ class ilCalendarPresentationGUI
                 $this->initAndRedirectToConsultationHours();
                 break;
         }
+
+        // now next class is not empty, which breaks old consultation hour implementation
+        $next_class = $this->getNextClass();
+
         switch ($next_class) {
             case 'ilcalendarinboxgui':
                 $this->tabs_gui->activateTab('cal_agenda');
@@ -424,7 +426,7 @@ class ilCalendarPresentationGUI
             $this->ctrl->getCmdClass() == ''
         ) {
             $cmd_class = $this->readLastClass();
-            $this->ctrl->redirectByClass($cmd_class);
+            $this->redirectWithParameters($cmd_class);
             return $cmd_class;
         }
         return '';
@@ -465,8 +467,14 @@ class ilCalendarPresentationGUI
         // If cmd class == 'ilcalendarpresentationgui' the cmd class is set to the the new forwarded class
         // otherwise e.g ilcalendarmonthgui tries to forward (back) to ilcalendargui.
         if ($this->ctrl->getCmdClass() == strtolower(get_class($this))) {
-            $this->ctrl->redirectByClass($a_class);
+            $this->redirectWithParameters($a_class);
         }
+    }
+
+    protected function redirectWithParameters(string $class): void
+    {
+        $this->ctrl->saveParameter($this, 'seed');
+        $this->ctrl->redirectByClass($class);
     }
 
     protected function forwardToClass(string $a_class): ?ilCalendarViewGUI
@@ -713,7 +721,7 @@ class ilCalendarPresentationGUI
 
             // iCal-Url
             $ctrl->setParameterByClass("ilcalendarsubscriptiongui", "category_id", $this->category_id);
-            $dropDownItems[] = $this->uiFactory->button()->shy(
+            $dropDownItems[] = $this->ui_factory->button()->shy(
                 $this->lng->txt("cal_ical_url"),
                 $ctrl->getLinkTargetByClass("ilcalendarsubscriptiongui", "")
             );
@@ -721,13 +729,13 @@ class ilCalendarPresentationGUI
             // delete action
             if ($this->actions->checkDeleteCal($this->category_id)) {
                 $ctrl->setParameterByClass("ilcalendarcategorygui", "category_id", $this->category_id);
-                $dropDownItems[] = $this->uiFactory->button()->shy(
+                $dropDownItems[] = $this->ui_factory->button()->shy(
                     $this->lng->txt("cal_delete_cal"),
                     $ctrl->getLinkTargetByClass("ilcalendarcategorygui", "confirmDelete")
                 );
             }
-            $dropDown = $this->uiFactory->dropdown()->standard($dropDownItems)
-                    ->withAriaLabel($this->lng->txt('actions'));
+            $dropDown = $this->ui_factory->dropdown()->standard($dropDownItems)
+                                         ->withAriaLabel($this->lng->txt('actions'));
             $tpl->setHeaderActionMenu($this->renderer->render($dropDown));
         }
     }
