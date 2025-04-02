@@ -95,7 +95,7 @@ class ImplementationOfAgentFinder implements AgentFinder
         // TODO: This seems to be something that rather belongs to Services/Component/
         // but we put it here anyway for the moment. This seems to be something that
         // could go away when we unify Services/Modules/Plugins to one common concept.
-        $path = "[/]public/Customizing/plugins/.*/.*/" . $name . "/.*";
+        $path = "[/]public/Customizing/global/plugins/.*/.*/" . $name . "/.*";
         $agent_classes = iterator_to_array($this->interface_finder->getMatchingClassNames(
             Agent::class,
             [],
@@ -160,13 +160,13 @@ class ImplementationOfAgentFinder implements AgentFinder
     {
         $directories =
             new \RecursiveIteratorIterator(
-                new \RecursiveDirectoryIterator(__DIR__ . "/../../../../public/Customizing/plugins/")
+                new \RecursiveDirectoryIterator(__DIR__ . "/../../../../public/Customizing/global/plugins/Services")
             );
         $names = [];
         foreach ($directories as $dir) {
             $groups = [];
-            if (preg_match("%^" . __DIR__ . "/[.][.]/[.][.]/[.][.]/[.][.]/public/Customizing/plugins/((\\w+/){2})([^/\.]+)(/|$)%", (string) $dir, $groups)) {
-                $name = $groups[3];
+            if (preg_match("%^" . __DIR__ . "/[.][.]/[.][.]/[.][.]/[.][.]/public/Customizing/global/plugins/(Services|Modules)/((\\w+/){2})([^/\.]+)(/|$)%", (string) $dir, $groups)) {
+                $name = $groups[4];
                 if (isset($names[$name])) {
                     continue;
                 }
