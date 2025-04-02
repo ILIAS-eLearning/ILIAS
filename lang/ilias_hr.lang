@@ -13020,6 +13020,7 @@ obj#:#obj_activation#:#Aktivacija
 obj#:#obj_activation_list_gui#:#Dostupnost
 obj#:#obj_add_languages#:#Dodaj jezike
 obj#:#obj_additional_langs#:#Dodatni jezici
+obj#:#obj_base_lang#:#Glavni jezik
 obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?###26 08 2024 new variable
 obj#:#obj_cont_transl_deactivated#:#Prijevod za uređivanje stranica je deaktiviran.
 obj#:#obj_copy_progress#:#Kopiraj napredak
@@ -13032,7 +13033,6 @@ obj#:#obj_features#:#Dodatne mogućnosti
 obj#:#obj_import_file_error#:#Nije moguće uvesti ovu datoteku. Molimo provjerite je li ovo važeća ILIAS izvozna datoteka (XML Export), iste vrste kao i objekta. Naziv datoteke ne smije se mijenjati nakon izvoza. Poruka o pogreški:
 obj#:#obj_insert_into_clipboard#:#Umetni u međuspremnik
 obj#:#obj_inserted_clipboard#:#Predmeti su premješteni u međuspremnik.
-obj#:#obj_master_lang#:#Glavni jezik
 obj#:#obj_more_translations#:#Više prijevoda
 obj#:#obj_multilang_deactivated#:#Višejezičnost je deaktivirana.
 obj#:#obj_multilang_title_descr_only#:#Prijevod je aktiviran samo za naslov i opis. Podrška za prijevod za uređivanje stranica ('Prilagodi stranicu') treba dodatnu aktivaciju.
@@ -13041,7 +13041,7 @@ obj#:#obj_orgunit_positions#:#Kontrola pristupa po položajima organizacijske je
 obj#:#obj_orgunit_positions_info#:#Ako je omogućeno, dodatna pravila kontrole pristupa mogu se definirati položajima u organizacijskim jedinicama.
 obj#:#obj_permission_settings#:#Postavke dopuštenja
 obj#:#obj_presentation#:#Prezentacija
-obj#:#obj_select_master_lang#:#Odaberite glavni jezik. Trenutni sadržaj bit će dodijeljen glavnom jeziku. Glavni jezik se nakon toga ne može promijeniti.
+obj#:#obj_select_base_lang#:#Odaberite glavni jezik. Trenutni sadržaj bit će dodijeljen glavnom jeziku. Glavni jezik se nakon toga ne može promijeniti.
 obj#:#obj_select_one_language#:#Please select one language###04 06 2021 new variable
 obj#:#obj_set_fallback_lang#:#Set default language###04 06 2021 new variable
 obj#:#obj_settings_for_all_members#:#Članovi će biti automatski obaviješteni

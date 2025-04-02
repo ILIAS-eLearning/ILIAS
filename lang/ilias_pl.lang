@@ -13020,6 +13020,7 @@ obj#:#obj_activation#:#Aktywacja
 obj#:#obj_activation_list_gui#:#Dostępność
 obj#:#obj_add_languages#:#Dodaj języki
 obj#:#obj_additional_langs#:#Dodatkowe języki
+obj#:#obj_base_lang#:#Język domyślny
 obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?###26 08 2024 new variable
 obj#:#obj_cont_transl_deactivated#:#Wyłączono opcję treści w wielu językach w edytorze stron.
 obj#:#obj_copy_progress#:#Postęp kopiowania
@@ -13032,7 +13033,6 @@ obj#:#obj_features#:#Dodatkowe funkcje
 obj#:#obj_import_file_error#:#Nie udało się zaimportować pliku. Upewnij się, że plik jest plikiem eksportowym ILIAS (eksport XML) tego samego typu obiektu i że nazwa pliku nie została zmieniona. Komunikat błędu:
 obj#:#obj_insert_into_clipboard#:#Wstaw do schowka
 obj#:#obj_inserted_clipboard#:#Obiekty zostały wstawione do schowka
-obj#:#obj_master_lang#:#Język domyślny
 obj#:#obj_more_translations#:#More Translations
 obj#:#obj_multilang_deactivated#:#Wyłączono opcję treści w wielu językach.
 obj#:#obj_multilang_title_descr_only#:#Opcja treści w wielu językach jest aktywna tylko dla tytułu i opisu. Obsługa treści w edytorze stron ("Projektuj stronę") może być aktywowana oddzielnie.
@@ -13041,7 +13041,7 @@ obj#:#obj_orgunit_positions#:#Regulacje dotyczące dostępu wg jednostek organiz
 obj#:#obj_orgunit_positions_info#:#Jeśli ta funkcja jest aktywna, istnieje możliwość nadawania dodatkowych regulacji dotyczących dostępy na podstawie pozycji w jednostkach organizacyjnych.
 obj#:#obj_permission_settings#:#Ustawienia uprawnień dostępu
 obj#:#obj_presentation#:#Prezentacja
-obj#:#obj_select_master_lang#:#Wybierz język domyślny. Istniejące treści zostaną przydzielone do tego języka. Po tej czynności nie będzie można zmienić języka domyślnego.
+obj#:#obj_select_base_lang#:#Wybierz język domyślny. Istniejące treści zostaną przydzielone do tego języka. Po tej czynności nie będzie można zmienić języka domyślnego.
 obj#:#obj_select_one_language#:#Please select one language###29 07 2022 new variable
 obj#:#obj_set_fallback_lang#:#Set default language###29 07 2022 new variable
 obj#:#obj_settings_for_all_members#:#Członkowie są automatycznie powiadamiani

@@ -45,19 +45,18 @@ class TranslationsTable implements DataRetrieval
     private const QUERY_PARAMETER_NAME_SPACE = ['obj', 'trans'];
     private const TOKEN_STRING_ACTION = 'a';
     private const TOKEN_STRING_ROW_ID = 't';
-    private const TOKEN_STRING_ACTON_ADDITIONAL = 'aa';
+    private const TOKEN_STRING_ACTON_AFFECTED_ITEMS = 'ai';
 
     public const ACTION_EDIT = 'e';
     public const ACTION_MAKE_DEFAULT = 'md';
     public const ACTION_DELETE = 'd';
 
-    private const ACTION_ADDITIONAL_CONFIRM = 'c';
-    private const ACTION_ADDITIONAL_SAVE = 's';
-
     private URLBuilder $url_builder;
     private URLBuilderToken $token_action;
-    private URLBuilderToken $token_action_additional;
+    private URLBuilderToken $token_action_affected_items;
     private URLBuilderToken $token_row_id;
+
+    private ?RoundtripModal $modal_with_error = null;
 
     /**
      * @param array<ILIAS\ILIASObject\Properties\Translations\Language> $languages
@@ -77,12 +76,12 @@ class TranslationsTable implements DataRetrieval
             $this->url_builder,
             $this->token_action,
             $this->token_row_id,
-            $this->token_action_additional
+            $this->token_action_affected_items
         ] = (new URLBuilder($here_uri))->acquireParameters(
             self::QUERY_PARAMETER_NAME_SPACE,
             self::TOKEN_STRING_ACTION,
             self::TOKEN_STRING_ROW_ID,
-            self::TOKEN_STRING_ACTON_ADDITIONAL
+            self::TOKEN_STRING_ACTON_AFFECTED_ITEMS
         );
     }
 
@@ -107,14 +106,21 @@ class TranslationsTable implements DataRetrieval
         };
     }
 
-    public function getTable(): Table
+    public function getTable(): array
     {
-        return $this->ui_factory->table()->data(
+        $content = [];
+        if ($this->modal_with_error !== null) {
+            $content[] = $this->modal_with_error;
+        }
+
+        $content[] = $this->ui_factory->table()->data(
             $this,
             $this->lng->txt('available_languages'),
             $this->getColumns()
         )->withActions($this->getActions())
             ->withRequest($this->http->request());
+
+        return $content;
     }
 
     public function getRows(
@@ -146,7 +152,7 @@ class TranslationsTable implements DataRetrieval
         ];
         if ($this->translations->getContentTranslationActivated()) {
             $columns['master'] = $cf->boolean(
-                $this->lng->txt('obj_master_lang'),
+                $this->lng->txt('obj_base_lang'),
                 $this->ui_factory->symbol()->icon()->custom('assets/images/standard/icon_checked.svg', '', 'small'),
                 $this->ui_factory->symbol()->icon()->custom('assets/images/standard/icon_unchecked.svg', '', 'small')
             );
@@ -200,24 +206,30 @@ class TranslationsTable implements DataRetrieval
     private function editTranslation(): void
     {
         if ($this->http->wrapper()->query()->retrieve(
-            $this->token_action_additional->getName(),
+            $this->token_action_affected_items->getName(),
             $this->refinery->kindlyTo()->string()
-        ) !== self::ACTION_ADDITIONAL_SAVE) {
+        ) === '') {
             $this->sendAsync(
-                $this->buildEditLanguageModal()
+                $this->buildEditLanguageModal(
+                    $this->retrieveAffectedItemsFromQuery()[0]
+                )
             );
         }
 
-        $modal = $this->getAddLanguageModal()
-            ->withRequest($this->http->request());
+        $modal = $this->buildEditLanguageModal(
+            $this->http->wrapper()->query()->retrieve(
+                $this->token_action_affected_items->getName(),
+                $this->refinery->kindlyTo()->string()
+            )
+        )->withRequest($this->http->request());
         $data = $modal->getData();
         if ($data === null) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_title'));
+            $this->modal_with_error = $modal->withOnLoad($modal->getShowSignal());
             return;
         }
 
         $this->translations = $this->translations->withLanguage($data[0]);
-        $this->object->getObjectProperties()->storePropertyTranslations(
+        $this->object_properties->storePropertyTranslations(
             $this->translations
         );
 
@@ -240,9 +252,14 @@ class TranslationsTable implements DataRetrieval
     private function deleteTranslations(): void
     {
         if ($this->http->wrapper()->query()->retrieve(
-            $this->token_action_additional->getName(),
-            $this->refinery->kindlyTo()->string()
-        ) !== self::ACTION_ADDITIONAL_CONFIRM) {
+            $this->token_action_affected_items->getName(),
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->string()
+                )
+            ])
+        ) === '') {
             $this->sendAsync(
                 $this->buildConfirmationModal(
                     $this->retrieveAffectedItemsFromQueryForDeletion()
@@ -265,21 +282,21 @@ class TranslationsTable implements DataRetrieval
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
     }
 
-    private function buildEditLanguageModal(): RoundtripModal
+    private function buildEditLanguageModal(string $language_code): RoundtripModal
     {
         return $this->ui_factory->modal()->roundtrip(
             $this->lng->txt('edit_language'),
             null,
             $this->translations->getLaguageForCode(
-                $this->retrieveAffectedItemsFromQuery()[0]
+                $language_code
             )->toForm(
                 $this->lng,
                 $this->ui_factory->input()->field(),
                 $this->refinery
             ),
             $this->url_builder
-                ->withParameter($this->token_action, self::ACTION_DELETE)
-                ->withParameter($this->token_action_additional, self::ACTION_ADDITIONAL_SAVE)
+                ->withParameter($this->token_action, self::ACTION_EDIT)
+                ->withParameter($this->token_action_affected_items, $language_code)
                 ->buildURI()->__toString()
         );
     }
@@ -291,7 +308,7 @@ class TranslationsTable implements DataRetrieval
             $this->lng->txt('obj_conf_delete_lang'),
             $this->url_builder
                 ->withParameter($this->token_action, self::ACTION_DELETE)
-                ->withParameter($this->token_action_additional, self::ACTION_ADDITIONAL_CONFIRM)
+                ->withParameter($this->token_action_affected_items, $languages_to_delete)
                 ->buildURI()->__toString()
         )->withAffectedItems(
             array_map(
@@ -348,7 +365,7 @@ class TranslationsTable implements DataRetrieval
         $this->http->saveResponse(
             $this->http->response()->withBody(
                 Streams::ofString(
-                    $this->ui_renderer->render($response)
+                    $this->ui_renderer->renderAsync($response)
                 )
             )
         );

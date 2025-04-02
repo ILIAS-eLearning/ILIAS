@@ -128,7 +128,7 @@ class Language
                 'title' => $this->getTitle(),
                 'description' => $this->getDescription()
             ]
-        )->withDisabledAction(TranslationsTable::ACTION_DELETE, $this->isMaster())
+        )->withDisabledAction(TranslationsTable::ACTION_DELETE, $this->isMaster() || $this->isDefault())
         ->withDisabledAction(TranslationsTable::ACTION_MAKE_DEFAULT, $this->isDefault());
     }
 

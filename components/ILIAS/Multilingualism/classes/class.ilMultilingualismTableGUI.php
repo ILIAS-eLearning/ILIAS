@@ -103,7 +103,7 @@ class ilMultilingualismTableGUI extends ilTable2GUI
             }
             $this->tpl->parseCurrentBlock();
         } elseif ($a_set["lang"] == $this->master_lang) {
-            $this->tpl->setVariable("MASTER_LANG", $lng->txt("obj_master_lang"));
+            $this->tpl->setVariable("MASTER_LANG", $lng->txt("obj_base_lang"));
         }
 
         if ($this->incl_desc) {

@@ -13020,6 +13020,7 @@ obj#:#obj_activation#:#Activation###31 08 2017 new variable
 obj#:#obj_activation_list_gui#:#Доступность
 obj#:#obj_add_languages#:#Add Languages
 obj#:#obj_additional_langs#:#Additional Languages
+obj#:#obj_base_lang#:#Master Language
 obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?###26 08 2024 new variable
 obj#:#obj_cont_transl_deactivated#:#Translation for page editing has been deactivated.
 obj#:#obj_copy_progress#:#Copy Progress###30 08 2015 new variable
@@ -13032,7 +13033,6 @@ obj#:#obj_features#:#Features
 obj#:#obj_import_file_error#:#This file could not be imported. Please make sure that this is a valid ILIAS export file (XML Export), of the same object type. The filename must not be modified after export. Error Message:###23 12 2015 new variable
 obj#:#obj_insert_into_clipboard#:#Insert into Clipboard
 obj#:#obj_inserted_clipboard#:#Objects have been moved to the clipboard.
-obj#:#obj_master_lang#:#Master Language
 obj#:#obj_more_translations#:#More Translations###10 11 2018 new variable
 obj#:#obj_multilang_deactivated#:#Multilinguality has been deactivated.
 obj#:#obj_multilang_title_descr_only#:#Translation is activated for title and description only. Translation support for Page editing ("Customize Page") needs additional activation.
@@ -13041,7 +13041,7 @@ obj#:#obj_orgunit_positions#:#Access Control by Organisation Unit Positions###31
 obj#:#obj_orgunit_positions_info#:#If enabled, additional access control rules can be defined by positions in organisational units.###31 08 2017 new variable
 obj#:#obj_permission_settings#:#Permission Settings###30 08 2015 new variable
 obj#:#obj_presentation#:#Presentation
-obj#:#obj_select_master_lang#:#Please select the master language. The current content will be assigned to the master language. The master language cannot be changed afterwards.
+obj#:#obj_select_base_lang#:#Please select the master language. The current content will be assigned to the master language. The master language cannot be changed afterwards.
 obj#:#obj_select_one_language#:#Please select one language###29 07 2022 new variable
 obj#:#obj_set_fallback_lang#:#Set default language###29 07 2022 new variable
 obj#:#obj_settings_for_all_members#:#Members will be notified automatically###31 08 2017 new variable

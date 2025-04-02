@@ -13020,6 +13020,7 @@ obj#:#obj_activation#:#Ativação
 obj#:#obj_activation_list_gui#:#Disponibilidade
 obj#:#obj_add_language#:#Adicionar idioma
 obj#:#obj_additional_langs#:#Idiomas adicionais
+obj#:#obj_base_lang#:#Idioma principal
 obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?###26 08 2024 new variable
 obj#:#obj_cont_transl_deactivated#:#A tradução para edição de página foi desativada.
 obj#:#obj_copy_progress#:#Copiar progresso
@@ -13032,7 +13033,6 @@ obj#:#obj_features#:#Os dados nos perfis pessoais dos utilizadores são indexado
 obj#:#obj_import_file_error#:#Não foi possível importar este ficheiro. Certifique-se que este é um ficheiro de exportação ILIAS válido (exportação XML), do mesmo tipo de objeto. O nome do ficheiro não pode ser modificado depois da exportação. Mensagem de erro:
 obj#:#obj_insert_into_clipboard#:#Inserir na área de transferência
 obj#:#obj_inserted_clipboard#:#Os objetos foram movidos para a área de transferência.
-obj#:#obj_master_lang#:#Idioma principal
 obj#:#obj_more_translations#:#Ativa o progresso de aprendizagem para todos os eventos de sessão que serão criados.
 obj#:#obj_multilang_deactivated#:#A participação requer confirmação por parte de um administrador. Será notificado quando a sua aplicação estiver tratada.
 obj#:#obj_multilang_title_descr_only#:#Declarar participação
@@ -13041,7 +13041,7 @@ obj#:#obj_orgunit_positions#:#Controlo de acesso através das posições de unid
 obj#:#obj_orgunit_positions_info#:#Se estiver ativado, as regras adicionais do controlo de acesso podem ser definidas por posições nas unidades organizacionais.
 obj#:#obj_permission_settings#:#Definições de permissões
 obj#:#obj_presentation#:#Apresentação
-obj#:#obj_select_master_lang#:#Selecione o idioma principal. O conteúdo atual será atribuído ao idioma principal. O idioma principal não pode ser mudado posteriormente.
+obj#:#obj_select_base_lang#:#Selecione o idioma principal. O conteúdo atual será atribuído ao idioma principal. O idioma principal não pode ser mudado posteriormente.
 obj#:#obj_select_one_language#:#Please select one language###29 07 2022 new variable
 obj#:#obj_set_fallback_lang#:#Set default language###29 07 2022 new variable
 obj#:#obj_settings_for_all_members#:#Os membros serão notificados automaticamente

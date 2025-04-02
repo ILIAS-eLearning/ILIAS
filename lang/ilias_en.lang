@@ -13008,7 +13008,9 @@ obj#:#copy_container_page_no_label#:#Don't Copy Content Page
 obj#:#copy_container_page_yes_byline#:#The content page and corresponding style settings of the source object will be copied to this object. Pre-existing page elements will be overwritten.
 obj#:#copy_container_page_yes_label#:#Copy Content Page
 obj#:#custom_icon#:#Custom Icon
+obj#:#default_base_lang_not_deletable#:#Neither the base language nor the default language can be deleted.
 obj#:#edit_availability_period#:#Availability Period
+obj#:#edit_language#:#Edit Language
 obj#:#edit_questions#:#Edit Questions
 obj#:#make_default_language#:#Make Default Language
 obj#:#missing_migration#:#You cannot edit information on this page until all migrations have been run. Please contact your system administrator.
@@ -13020,19 +13022,19 @@ obj#:#obj_activation#:#Activation
 obj#:#obj_activation_list_gui#:#Availability
 obj#:#obj_add_language#:#Add Language
 obj#:#obj_additional_langs#:#Additional Languages
+obj#:#obj_base_lang#:#Master Language
 obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?
 obj#:#obj_cont_transl_deactivated#:#Translation for page editing has been deactivated.
 obj#:#obj_copy_progress#:#Copy Progress
 obj#:#obj_deactivate_content_lang#:#Deactivate Translation for Page Editing
-obj#:#obj_deactivate_content_transl_conf#:#Do you really want to deactivate translation for page editing? Only contents of the master language will be kept.
+obj#:#obj_deactivate_content_transl_conf#:#Do you really want to deactivate translation for page editing? Only contents of the base language will be kept.
 obj#:#obj_deactivate_multilang#:#Deactivate Multilingualism
-obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multilingualism? Only contents of the master language will be kept.
+obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multilingualism? Only contents of the base language will be kept.
 obj#:#obj_fallback_lang#:#Default Language
 obj#:#obj_features#:#Additional Features
 obj#:#obj_import_file_error#:#This file could not be imported. Please make sure that this is a valid ILIAS export file (XML Export), of the same object type.
 obj#:#obj_insert_into_clipboard#:#Insert into Clipboard
 obj#:#obj_inserted_clipboard#:#Objects have been moved to the clipboard.
-obj#:#obj_master_lang#:#Master Language
 obj#:#obj_more_translations#:#More Translations
 obj#:#obj_multilang_deactivated#:#Multilingualism has been deactivated.
 obj#:#obj_multilang_title_descr_only#:#Translation is activated for title and description only. Translation support for Page editing (‘Customize Page’) needs additional activation.
@@ -13041,7 +13043,7 @@ obj#:#obj_orgunit_positions#:#Access Control by Organisation Unit Positions
 obj#:#obj_orgunit_positions_info#:#If enabled, additional access control rules can be defined by positions in organisational units.
 obj#:#obj_permission_settings#:#Permission Settings
 obj#:#obj_presentation#:#Presentation
-obj#:#obj_select_master_lang#:#Please select the master language. The current content will be assigned to the master language. The master language cannot be changed afterwards.
+obj#:#obj_select_base_lang#:#Please select the base language. The current content will be assigned to the base language. The base language cannot be changed afterwards.
 obj#:#obj_select_one_language#:#Please select one language
 obj#:#obj_set_fallback_lang#:#Set default language
 obj#:#obj_settings_for_all_members#:#Members will be notified automatically

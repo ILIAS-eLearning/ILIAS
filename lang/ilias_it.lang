@@ -13020,6 +13020,7 @@ obj#:#obj_activation#:#Attivazione
 obj#:#obj_activation_list_gui#:#Disponibilità
 obj#:#obj_add_languages#:#Aggiungi lingue
 obj#:#obj_additional_langs#:#Lingue aggiuntive
+obj#:#obj_base_lang#:#Lingua principale
 obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?###26 08 2024 new variable
 obj#:#obj_cont_transl_deactivated#:#La traduzione per la modifica delle pagine è stata disattivata.
 obj#:#obj_copy_progress#:#Progresso di copia
@@ -13032,7 +13033,6 @@ obj#:#obj_features#:#Features
 obj#:#obj_import_file_error#:#Questo file non può essere importato. Si prega di assicurarsi che questo sia un file valido di esportazione ILIAS (Esporta XML) dello stesso tipo di oggetto. Il nome del file non deve essere modificato dopo l’esportazione. Messaggio di errore:
 obj#:#obj_insert_into_clipboard#:#Inserisci negli Appunti
 obj#:#obj_inserted_clipboard#:#Gli oggetti sono stati spostati negli Appunti.
-obj#:#obj_master_lang#:#Lingua principale
 obj#:#obj_more_translations#:#More Translations
 obj#:#obj_multilang_deactivated#:#Multilinguality has been deactivated.
 obj#:#obj_multilang_title_descr_only#:#Translation is activated for title and description only. Translation support for Page editing ("Customize Page") needs additional activation.
@@ -13041,7 +13041,7 @@ obj#:#obj_orgunit_positions#:#Controllo accessi per posizioni di unità organizz
 obj#:#obj_orgunit_positions_info#:#Se abilitate, le regole di controllo dell'accesso aggiuntive possono essere abilitate da posizioni a unità organizzative.
 obj#:#obj_permission_settings#:#Impostazioni di autorizzazione
 obj#:#obj_presentation#:#Presentazione
-obj#:#obj_select_master_lang#:#Si prega di selezionare la lingua principale. Il contenuto attuale verrà assegnato alla lingua principale. La lingua principale non può essere cambiata successivamente.
+obj#:#obj_select_base_lang#:#Si prega di selezionare la lingua principale. Il contenuto attuale verrà assegnato alla lingua principale. La lingua principale non può essere cambiata successivamente.
 obj#:#obj_select_one_language#:#Please select one language###29 07 2022 new variable
 obj#:#obj_set_fallback_lang#:#Set default language###29 07 2022 new variable
 obj#:#obj_settings_for_all_members#:#I membri riceveranno automaticamente la notifica

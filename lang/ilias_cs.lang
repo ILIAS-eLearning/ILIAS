@@ -13020,6 +13020,7 @@ obj#:#obj_activation#:#Aktivace
 obj#:#obj_activation_list_gui#:#Dostupnost
 obj#:#obj_add_languages#:#Přidat jazyky
 obj#:#obj_additional_langs#:#Další jazyky
+obj#:#obj_base_lang#:#Hlavní jazyk
 obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?###26 08 2024 new variable
 obj#:#obj_cont_transl_deactivated#:#Překlad pro úpravy stránky byl deaktivován.
 obj#:#obj_copy_progress#:#Kopírovat postup
@@ -13032,7 +13033,6 @@ obj#:#obj_features#:#Funkce
 obj#:#obj_import_file_error#:#Tento soubor nelze importovat. Ujistěte se, že se jedná o platný exportní soubor ILIAS (XML Export) stejného typu objektu. Po exportu nesmí být název souboru změněn. Chybové hlášení:
 obj#:#obj_insert_into_clipboard#:#Vložit do schránky
 obj#:#obj_inserted_clipboard#:#Objekty byly přesunuty do schránky.
-obj#:#obj_master_lang#:#Hlavní jazyk
 obj#:#obj_more_translations#:#Více překladů
 obj#:#obj_multilang_deactivated#:#Vícejazyčnost byla deaktivována.
 obj#:#obj_multilang_title_descr_only#:#Překlad je aktivován pouze pro název a popis. Podpora překladu pro úpravu stránky ("Přizpůsobení stránky") vyžaduje další aktivaci.
@@ -13041,7 +13041,7 @@ obj#:#obj_orgunit_positions#:#Řízení přístupu podle pozic v organizační j
 obj#:#obj_orgunit_positions_info#:#Je-li tato volba povolena, lze definovat další pravidla pro řízení přístupu pomocí pozic v organizačních jednotkách.
 obj#:#obj_permission_settings#:#Nastavení oprávnění
 obj#:#obj_presentation#:#Prezentace
-obj#:#obj_select_master_lang#:#Vyberte hlavní jazyk. Aktuální obsah bude přiřazen hlavnímu jazyku. Hlavní jazyk nelze později změnit.
+obj#:#obj_select_base_lang#:#Vyberte hlavní jazyk. Aktuální obsah bude přiřazen hlavnímu jazyku. Hlavní jazyk nelze později změnit.
 obj#:#obj_select_one_language#:#Please select one language###29 07 2022 new variable
 obj#:#obj_set_fallback_lang#:#Set default language###29 07 2022 new variable
 obj#:#obj_settings_for_all_members#:#Členové budou informováni automaticky

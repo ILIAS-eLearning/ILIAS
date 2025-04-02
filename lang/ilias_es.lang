@@ -13022,6 +13022,7 @@ obj#:#obj_activation#:#Activación
 obj#:#obj_activation_list_gui#:#Disponibilidad
 obj#:#obj_add_language#:#Añadir Idioma
 obj#:#obj_additional_langs#:#Idiomas adicionales
+obj#:#obj_base_lang#:#Idioma principal
 obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?###26 08 2024 new variable
 obj#:#obj_cont_transl_deactivated#:#Se ha desactivado la traducción en la edición de página
 obj#:#obj_copy_progress#:#Propreso de copia
@@ -13034,7 +13035,6 @@ obj#:#obj_features#:#Características
 obj#:#obj_import_file_error#:#El fichero no puede importarse. Por favor, compruebe que es un fichero de explortación ILIAS válido (formato de  explortación XML ), del mismo tipo de objeto. El nombre de fichero no debe modificarse después de generarlo. Mensaje de error:
 obj#:#obj_insert_into_clipboard#:#Insertar en el Portapapeles
 obj#:#obj_inserted_clipboard#:#Los objetos se han movido al portapapeles
-obj#:#obj_master_lang#:#Idioma principal
 obj#:#obj_more_translations#:#More Translations
 obj#:#obj_multilang_deactivated#:#El soporte para múltiples idiomas ha sido desactivado.
 obj#:#obj_multilang_title_descr_only#:#La traducción está activada únicamente para el título y la descripción. El soporte de traducción para edición de Página ("Página personalizada") necesita activación adicional
@@ -13043,7 +13043,7 @@ obj#:#obj_orgunit_positions#:#Control de acceso por posiciones de unidad organiz
 obj#:#obj_orgunit_positions_info#:#Si se habilita, se pueden definir reglas de control de acceso adicionales por posiciones en las unidades organizativas.
 obj#:#obj_permission_settings#:#Configuración de permisos
 obj#:#obj_presentation#:#Presentación
-obj#:#obj_select_master_lang#:#Por favor seleccione el idioma principal. El contenido actual será asignado al idioma principal. El idioma principal no se podrá cambiar después.
+obj#:#obj_select_base_lang#:#Por favor seleccione el idioma principal. El contenido actual será asignado al idioma principal. El idioma principal no se podrá cambiar después.
 obj#:#obj_select_one_language#:#Please select one language###29 07 2022 new variable
 obj#:#obj_set_fallback_lang#:#Set default language###29 07 2022 new variable
 obj#:#obj_settings_for_all_members#:#Los miembros recibirán notificaciones automáticamente

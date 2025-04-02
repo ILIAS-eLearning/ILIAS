@@ -13020,6 +13020,7 @@ obj#:#obj_activation#:#Aktiviranje
 obj#:#obj_activation_list_gui#:#Razpoložljivost
 obj#:#obj_add_languages#:#Dodaj jezike
 obj#:#obj_additional_langs#:#Dodatni jeziki
+obj#:#obj_base_lang#:#Privzeti jezik
 obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?###26 08 2024 new variable
 obj#:#obj_cont_transl_deactivated#:#Podpora za večjezične vsebine v urejevalniku strani je bila onemogočena.
 obj#:#obj_copy_progress#:#Napredek kopiranja
@@ -13032,7 +13033,6 @@ obj#:#obj_features#:#Dodatne funkcije
 obj#:#obj_import_file_error#:#Datoteke ni bilo mogoče uvoziti. Preverite, ali gre pri izvozni datoteki ILIAS (izvoz XML) za objekt istega tipa in ali je ime datoteke nespremenjeno. Obvestilo o napaki:
 obj#:#obj_insert_into_clipboard#:#Vstavi v odložišče
 obj#:#obj_inserted_clipboard#:#Objekti so bili vstavljeni v odložišče.
-obj#:#obj_master_lang#:#Privzeti jezik
 obj#:#obj_more_translations#:#Nadaljnji prevodi
 obj#:#obj_multilang_deactivated#:#Podpora za večjezične vsebine je bila onemogočena.
 obj#:#obj_multilang_title_descr_only#:#Večjezičnost je aktivirana samo za naslov in opis. Podpora za vsebino v urejevalniku strani ("Oblikuj stran") se lahko aktivira ločeno.
@@ -13041,7 +13041,7 @@ obj#:#obj_orgunit_positions#:#Pravila dostopa po organizacijskih enotah
 obj#:#obj_orgunit_positions_info#:#Če je aktivirano, se lahko dodatna pravila dostopa določijo po položajih v organizacijskih enotah.
 obj#:#obj_permission_settings#:#Nastavitve pravic
 obj#:#obj_presentation#:#Prikaz
-obj#:#obj_select_master_lang#:#Izberite privzeti jezik. Obstoječe vsebine bodo dodeljene temu jeziku. Po tem privzetega jezika ni mogoče spremeniti.
+obj#:#obj_select_base_lang#:#Izberite privzeti jezik. Obstoječe vsebine bodo dodeljene temu jeziku. Po tem privzetega jezika ni mogoče spremeniti.
 obj#:#obj_select_one_language#:#Please select one language###19 08 2022 new variable
 obj#:#obj_set_fallback_lang#:#Set default language###19 08 2022 new variable
 obj#:#obj_settings_for_all_members#:#Člani bodo samodejno obveščeni

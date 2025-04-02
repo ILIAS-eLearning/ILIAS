@@ -13021,6 +13021,7 @@ obj#:#obj_activation#:#Aktiválás
 obj#:#obj_activation_list_gui#:#Elérhetőség
 obj#:#obj_add_languages#:#Nyelvek hozzáadása
 obj#:#obj_additional_langs#:#További nyelvek
+obj#:#obj_base_lang#:#Elsődleges nyelv
 obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?###26 08 2024 new variable
 obj#:#obj_cont_transl_deactivated#:#Lapszerkesztés fordítása ki van kapcsolva van.
 obj#:#obj_copy_progress#:#Másolási folyamat
@@ -13033,7 +13034,6 @@ obj#:#obj_features#:#További tulajdonságok
 obj#:#obj_import_file_error#:#Ez a fájl nem importálható. Ellenőrizze, hogy ez tényleg egy ugyanolyan objektum ILIAS exportfájlja (XML export). A fájl nevét exportálás után nem szabad módosítani. Hibaüzenet:
 obj#:#obj_insert_into_clipboard#:#Tegyük a vágólapra
 obj#:#obj_inserted_clipboard#:#Objektumok a vágólapra mozgatva.
-obj#:#obj_master_lang#:#Elsődleges nyelv
 obj#:#obj_more_translations#:#További fordítások
 obj#:#obj_multilang_deactivated#:#Többnyelvűség kikapcsolva.
 obj#:#obj_multilang_title_descr_only#:#A fordítás csak a címre és a leírásra van bekapcsolva. A lapszerkesztés ('Tartalom/Oldal testreszabása') fordításához további aktiválásokra van szükség.
@@ -13042,7 +13042,7 @@ obj#:#obj_orgunit_positions#:#Hozzáférés-szabályozás a szervezeti egység p
 obj#:#obj_orgunit_positions_info#:#Ha be van kapcsolva, további hozzáférési szabályok hozhatóak létre a szervezeti egységek pozíciói alapján.
 obj#:#obj_permission_settings#:#Jogosultságok beállítása
 obj#:#obj_presentation#:#Megjelenítés
-obj#:#obj_select_master_lang#:#Válasszon elsődleges nyelvet. A jelenlegi tartalom a elsődleges nyelvhez lesz hozzárendelve.
+obj#:#obj_select_base_lang#:#Válasszon elsődleges nyelvet. A jelenlegi tartalom a elsődleges nyelvhez lesz hozzárendelve.
 obj#:#obj_select_one_language#:#Válasszon egy nyelvet
 obj#:#obj_set_fallback_lang#:#Alapértelmezett nyelv beállítása
 obj#:#obj_settings_for_all_members#:#A tagokat automatikusan értesítjük

@@ -90,10 +90,6 @@ class TranslationGUI
         ];
 
         $this->ctrl->getNextClass($this);
-        if (!$this->access->checkAccess('write', '', $this->obj_gui->getRefId())) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'));
-            $this->ctrl->redirect($this->obj_gui);
-        }
         $cmd = $this->ctrl->getCmd(self::CMD_LIST_TRANSLATIONS);
         if (!$this->access->checkAccess('write', '', $this->object->getRefId())) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'));
@@ -227,7 +223,7 @@ class TranslationGUI
                     'description' => $ff->textarea($this->lng->txt('description'))
                 ])->withAdditionalTransformation(
                     $this->refinery->custom()->transformation(
-                        static fn(array $vs): self => new Language(
+                        static fn(array $vs): Language => new Language(
                             $vs['language'],
                             $vs['title'],
                             $vs['description']
@@ -286,7 +282,7 @@ class TranslationGUI
     {
         return $this->ui_factory->modal()->roundtrip(
             $this->lng->txt('confirm'),
-            $this->ui_factory->legacy()->content($this->lng->txt('obj_select_master_lang')),
+            $this->ui_factory->legacy()->content($this->lng->txt('obj_select_base_lang')),
             [
                 'lang' => $this->getMasterLangSelectionInput()
             ],
@@ -314,7 +310,7 @@ class TranslationGUI
         );
 
         return $this->ui_factory->input()->field()->select(
-            $this->lng->txt('obj_master_lang'),
+            $this->lng->txt('obj_base_lang'),
             $options
         )->withAdditionalTransformation(
             $this->refinery->custom()->transformation(
