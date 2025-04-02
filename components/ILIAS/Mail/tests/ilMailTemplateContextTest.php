@@ -68,7 +68,7 @@ class ilMailTemplateContextTest extends ilMailBaseTestCase
      * @return array<int, ilOrgUnitUser&MockObject>
      * @throws ReflectionException
      */
-    private static function generateOrgUnitUsers(Closure $mock_builder, int $amount): array
+    private function generateOrgUnitUsers(Closure $mock_builder, int $amount): array
     {
         $users = [];
 
@@ -77,7 +77,7 @@ class ilMailTemplateContextTest extends ilMailBaseTestCase
                 ->disableOriginalConstructor()
                 ->onlyMethods(['getUserId',])
                 ->getMock();
-            $user->expects(self::atLeastOnce())->method('getUserId')->willReturn($i);
+            $user->expects($this->atLeastOnce())->method('getUserId')->willReturn($i);
 
             $users[$i] = $user;
         }
@@ -104,7 +104,7 @@ class ilMailTemplateContextTest extends ilMailBaseTestCase
             /**
              * @param Closure(): MockBuilder<ilObjUser> $mock_builder $mock_builder
              */
-            $user_callable = static function (Closure $mock_builder) use ($definition): ilObjUser&MockObject {
+            $user_callable = function (Closure $mock_builder) use ($definition): ilObjUser&MockObject {
                 $user = $mock_builder()
                     ->disableOriginalConstructor()
                     ->onlyMethods([
@@ -118,13 +118,13 @@ class ilMailTemplateContextTest extends ilMailBaseTestCase
                     ])
                     ->getMock();
 
-                $user->expects(self::atLeastOnce())->method('getLanguage')->willReturn('de');
-                $user->expects(self::atLeastOnce())->method('getUTitle')->willReturn('###Dr. Ing###');
-                $user->expects(self::atLeastOnce())->method('getLogin')->willReturn('###phpunit###');
-                $user->expects(self::atLeastOnce())->method('getLastname')->willReturn('###Unit###');
-                $user->expects(self::atLeastOnce())->method('getFirstname')->willReturn('###PHP###');
-                $user->expects(self::atLeastOnce())->method('getGender')->willReturn($definition['gender']);
-                $user->expects(self::atLeastOnce())->method('getId')->willReturn(4711);
+                $user->expects($this->atLeastOnce())->method('getLanguage')->willReturn('de');
+                $user->expects($this->atLeastOnce())->method('getUTitle')->willReturn('###Dr. Ing###');
+                $user->expects($this->atLeastOnce())->method('getLogin')->willReturn('###phpunit###');
+                $user->expects($this->atLeastOnce())->method('getLastname')->willReturn('###Unit###');
+                $user->expects($this->atLeastOnce())->method('getFirstname')->willReturn('###PHP###');
+                $user->expects($this->atLeastOnce())->method('getGender')->willReturn($definition['gender']);
+                $user->expects($this->atLeastOnce())->method('getId')->willReturn(4711);
 
                 return $user;
             };
@@ -134,14 +134,14 @@ class ilMailTemplateContextTest extends ilMailBaseTestCase
              * @return array{0: ilOrgUnitUser&MockObject, 1: list<ilOrgUnitUser&MockObject>}
              * @throws ReflectionException
              */
-            $ou_user_callable = static function (Closure $mock_builder) use ($definition): array {
+            $ou_user_callable = function (Closure $mock_builder) use ($definition): array {
                 $ou_user = $mock_builder()
                     ->disableOriginalConstructor()
                     ->onlyMethods(['getSuperiors',])
                     ->getMock();
 
-                $superiors = self::generateOrgUnitUsers($mock_builder, $definition['num_superiors']);
-                $ou_user->expects(self::atLeastOnce())->method('getSuperiors')->willReturn($superiors);
+                $superiors = $this->generateOrgUnitUsers($mock_builder, $definition['num_superiors']);
+                $ou_user->expects($this->atLeastOnce())->method('getSuperiors')->willReturn($superiors);
 
                 return [$ou_user, $superiors];
             };
@@ -173,8 +173,8 @@ class ilMailTemplateContextTest extends ilMailBaseTestCase
             return $this->getMockBuilder(ilOrgUnitUser::class);
         };
 
-        $user = $user_callable($mock_builder_user_callable);
-        [$ou_user, $ou_superiors] = $ou_user_callable($mock_builder_ou_user_callable);
+        $user = $user_callable->call($this, $mock_builder_user_callable);
+        [$ou_user, $ou_superiors] = $ou_user_callable->call($this, $mock_builder_ou_user_callable);
 
         $ou_service = $this->getMockBuilder(OrgUnitUserService::class)
                            ->disableOriginalConstructor()

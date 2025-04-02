@@ -46,7 +46,7 @@ class ilLDAPServerTest extends TestCase
         );
         $this->setGlobalVariable(
             'ilErr',
-            $this->getMockBuilder(ilErrorHandling::class)->getMock()
+            $this->getMockBuilder(ilErrorHandling::class)->disableOriginalConstructor()->getMock()
         );
         parent::setUp();
     }

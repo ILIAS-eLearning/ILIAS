@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use Monolog\Formatter\LineFormatter as LineFormatter;
+use Monolog\LogRecord;
 
 /**
  * Custom line formatter
@@ -31,14 +32,16 @@ class ilLineFormatter extends LineFormatter
     /**
      * @inheritDoc
      */
-    public function format(array $record): string
+    public function format(LogRecord $record): string
     {
         if (isset($record["extra"]["trace"])) {
-            $record["message"] = $record["extra"]["trace"] . " " . $record["message"];
-            $record["extra"] = array();
+            $record = $record->with(
+                message: $record["extra"]["trace"] . " " . $record["message"],
+                extra: []
+            );
         }
 
-        $record['context'] = [];
+        $record = $record->with(context: []);
 
         return parent::format($record);
     }
