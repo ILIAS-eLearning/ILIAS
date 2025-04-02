@@ -23,7 +23,7 @@ declare(strict_types=1);
  */
 interface ilComponentRepository
 {
-    public const PLUGIN_BASE_PATH = __DIR__ . '/../../../../public/Customizing/plugins';
+    public const PLUGIN_BASE_PATH = __DIR__ . '/../../../../public/Customizing/global/plugins';
 
     /**
      * Check if a component exists.
