@@ -26,6 +26,7 @@ use ILIAS\Repository\Form\FormAdapterGUI;
 use ilLMObject;
 use ILIAS\LearningModule\Table\TableAdapterGUI;
 use ILIAS\UI\Component\Input\Container\Form\Standard;
+use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRepository;
 
 class EditSubObjectsGUI
 {
@@ -399,7 +400,7 @@ class EditSubObjectsGUI
     {
         $lng = $this->domain->lng();
         $this->gui->ctrl()->setParameterByClass(self::class, "edit_id", $id);
-        $ot = \ilObjectTranslation::getInstance($this->lm->getId());
+        $ot = (new TranslationsRepository($this->domain->database()))->getFor($this->lm->getId());
         $ml = "";
         if ($ot->getContentTranslationActivated()) {
             $ml = " (" . $lng->txt("meta_l_" . $ot->getMasterLanguage()) . ")";

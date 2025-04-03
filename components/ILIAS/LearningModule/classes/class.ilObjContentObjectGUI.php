@@ -18,7 +18,6 @@
 
 use ILIAS\LearningModule\Editing\EditingGUIRequest;
 use ILIAS\LearningModule\Editing\EditSubObjectsGUI;
-use ILIAS\ILIASObject\Properties\Translations\Translations;
 use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRepository;
 use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
 
@@ -76,7 +75,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
     protected \ILIAS\Style\Content\Service $content_style_service;
 
     protected ilLMTree $lm_tree;
-    protected Translations $ot;
 
     /**
      * @param mixed $a_data
@@ -152,7 +150,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->reading_time_gui = new \ILIAS\LearningModule\ReadingTime\SettingsGUI($id);
         $this->domain = $DIC->learningModule()->internal()->domain();
         $this->gui = $DIC->learningModule()->internal()->gui();
-        $this->ot = $this->lm->getObjectProperties()->getPropertyTranslations();
     }
 
     protected function checkCtrlPath(): void
@@ -492,7 +489,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
     protected function buildExportOptionsFormHTML(): ILIAS\UI\Component\Input\Container\Form\Standard
     {
         $this->lng->loadLanguageModule('exp');
-        $ot = $this->ot;
+        $ot = $this->lm->getObjectProperties()->getPropertyTranslations();
         $items = [];
         if ($ot->getContentTranslationActivated()) {
             $this->lng->loadLanguageModule("meta");
@@ -520,7 +517,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
     protected function buildExportOptionsFormXML(): ILIAS\UI\Component\Input\Container\Form\Standard
     {
         $this->lng->loadLanguageModule('exp');
-        $ot = $this->ot;
+        $ot = $this->lm->getObjectProperties()->getPropertyTranslations();
         $items = [];
         if ($ot->getContentTranslationActivated()) {
             $items["xml_master"] = $this->lng->txt("cont_master_language_only");
@@ -550,7 +547,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
     protected function showExportOptionsHTML(): void
     {
-        $ot = $this->ot;
+        $ot = $this->lm->getObjectProperties()->getPropertyTranslations();
         if ($ot->getContentTranslationActivated()) {
             $this->addHeaderAction();
             $this->addLocations(true);
@@ -584,7 +581,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
     protected function doExportHTML(): void
     {
-        $ot = $this->ot;
+        $ot = $this->lm->getObjectProperties()->getPropertyTranslations();
         $form = $this->buildExportOptionsFormHTML()->withRequest($this->request);
         $lang = "";
         if ($ot->getContentTranslationActivated() and !is_null($form->getData())) {
@@ -764,7 +761,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         $title = $this->lm->getTitle();
         $description = $this->lm->getLongDescription();
-        $ot = $this->ot;
+        $ot = $this->lm->getObjectProperties()->getPropertyTranslations();
         if ($ot->getContentTranslationActivated()) {
             $title = $ot->getDefaultTitle();
             $description = $ot->getDefaultDescription();
@@ -821,7 +818,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->initPropertiesForm();
         $form = $this->form;
         if ($form->checkInput()) {
-            $ot = $this->ot;
+            $ot = $this->lm->getObjectProperties()->getPropertyTranslations();
             if ($ot->getContentTranslationActivated()) {
                 $this->lm->getObjectProperties()->storePropertyTranslations(
                     $ot->withDefaultTitle($form->getInput('title'))
@@ -1521,7 +1518,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
     public function export(): void
     {
-        $ot = $this->ot;
+        $ot = $this->lm->getObjectProperties()->getPropertyTranslations();
         $opt = "";
         if ($ot->getContentTranslationActivated()) {
             $format = explode("_", $this->edit_request->getFormat());
@@ -1616,7 +1613,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
     public function exportHTML(): void
     {
-        $ot = $this->ot;
+        $ot = $this->lm->getObjectProperties()->getPropertyTranslations();
         $lang = "";
         if ($ot->getContentTranslationActivated()) {
             $format = explode("_", $this->edit_request->getFormat());

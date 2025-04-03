@@ -23,9 +23,9 @@ use ILIAS\ContentPage\PageMetrics\PageMetricsService;
 use ILIAS\ContentPage\PageMetrics\PageMetricsRepositoryImp;
 use ILIAS\ContentPage\PageMetrics\Event\PageUpdatedEvent;
 use ILIAS\DI\Container;
-use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 use ILIAS\ILIASObject\Properties\Translations\Translations;
+use ILIAS\ILIASObject\Properties\Translations\Language;
 use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
 
 /**
@@ -580,12 +580,13 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
     protected function afterSave(ilObject $new_object): void
     {
         $new_object->getObjectProperties()->storePropertyTranslations(
-            $new_object->getObjectTranslation()->withAdditionalLanguage(
-                $this->lng->getDefaultLanguage(),
-                $new_object->getTitle(),
-                $new_object->getDescription(),
-                true,
-                true
+            $new_object->getObjectTranslation()->withLanguage(
+                new Language(
+                    $this->lng->getDefaultLanguage(),
+                    $new_object->getTitle(),
+                    $new_object->getDescription(),
+                    true
+                )
             )
         );
 

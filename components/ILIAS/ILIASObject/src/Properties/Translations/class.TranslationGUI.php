@@ -166,16 +166,19 @@ class TranslationGUI
             ->withRequest($this->http->request())
             ->getData();
 
-        if (!in_array($data['lang'], $this->translations->getLanguages())) {
-            $this->translations = $this->translations->withAdditionalLanguage(
+        if ($data === null) {
+            return;
+        }
+
+        $this->translations = $this->translations->withLanguage(
+            new Language(
                 $data['lang'],
                 $this->object->getTitle(),
                 $this->object->getDescription(),
+                true,
                 true
-            );
-        }
-
-        $this->translations = $this->translations->withMasterLanguage($data['lang']);
+            )
+        );
 
         $this->object->getObjectProperties()->storePropertyTranslations(
             $this->translations

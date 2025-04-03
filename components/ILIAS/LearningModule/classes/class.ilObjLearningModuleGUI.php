@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
-
 /**
  * @ilCtrl_Calls ilObjLearningModuleGUI: ilLMPageObjectGUI, ilStructureObjectGUI, ilObjectContentStyleSettingsGUI, ilObjectMetaDataGUI
  * @ilCtrl_Calls ilObjLearningModuleGUI: ilLearningProgressGUI, ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI

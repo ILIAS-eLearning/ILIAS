@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\ILIASObject\LocalDIC;
 use ILIAS\ResourceStorage\Services as ResourceStorage;
 use ILIAS\ILIASObject\Properties\Aggregator;
+use ILIAS\ILIASObject\Properties\Translations\Language;
 use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRepository;
 
 /**
@@ -304,12 +305,13 @@ class ilObjectDataSet extends ilDataSet
                 if ($new_id > 0) {
                     $transl = $this->translations_repository->getFor($new_id);
                     $this->translations_repository->store(
-                        $transl->withAdditionalLanguage(
-                            $rec['LangCode'],
-                            $rec['Title'],
-                            $rec['Description'],
-                            (bool) $rec['LangDefault'],
-                            true
+                        $transl->withLanguage(
+                            new Language(
+                                $rec['LangCode'],
+                                $rec['Title'],
+                                $rec['Description'],
+                                (bool) $rec['LangDefault']
+                            )
                         )
                     );
                 }

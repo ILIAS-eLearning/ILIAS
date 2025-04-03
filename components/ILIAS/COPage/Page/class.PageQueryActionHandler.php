@@ -24,6 +24,7 @@ use ParagraphStyleSelector;
 use SectionStyleSelector;
 use MediaObjectStyleSelector;
 use ILIAS\ILIASObject\Properties\Translations\Translations;
+use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRepository;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -39,6 +40,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     protected \ilObjUser $user;
     protected Server\UIWrapper $ui_wrapper;
     protected \ilCtrl $ctrl;
+    protected \ilDBInterface $db;
     protected \ilComponentFactory $component_factory;
     protected Translations $translation;
 
@@ -51,6 +53,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $this->page_gui = $page_gui;
         $this->user = $DIC->user();
         $this->ctrl = $DIC->ctrl();
+        $this->db = $DIC->database();
         $this->component_factory = $DIC["component.factory"];
         $this->gui = $DIC->copage()->internal()->gui();
         $this->pc_id = $pc_id;
@@ -62,13 +65,6 @@ class PageQueryActionHandler implements Server\QueryActionHandler
             ->domain()
             ->pc()
             ->definition();
-
-        if ($page_gui->getPageConfig()->getMultiLangSupport()) {
-            $this->translation = $page_gui->getPageObject()->getP(
-                $DIC->database(),
-                $page_gui->getPageObject()->getParentId()
-            );
-        }
     }
 
     /**
@@ -424,7 +420,9 @@ class PageQueryActionHandler implements Server\QueryActionHandler
 
         // general multi lang support and single page mode?
         if ($config->getMultiLangSupport()) {
-            $ot = $this->translation;
+            $ot = (new TranslationsRepository(
+                $this->database()
+            ))->getFor($page->getParentId());
 
             if ($ot->getContentTranslationActivated()) {
                 $lng->loadLanguageModule("meta");

@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\ILIASObject\Properties\Translations\Language;
+
 /**
  * Class ilObjItemGroup
  * @author Alexander Killing <killing@leifos.de>
@@ -122,12 +124,13 @@ class ilObjItemGroup extends ilObject2
         // add default translation
         $obj_trans = $this->getObjectProperties()->getPropertyTranslations();
         $this->getObjectProperties()->storePropertyTranslations(
-            $obj_trans->withAdditionalLanguage(
-                $lng->getDefaultLanguage(),
-                $this->getTitle(),
-                $this->getDescription(),
-                true,
-                true
+            $obj_trans->withLanguage(
+                new Language(
+                    $lng->getDefaultLanguage(),
+                    $this->getTitle(),
+                    $this->getDescription(),
+                    true
+                )
             )
         );
     }

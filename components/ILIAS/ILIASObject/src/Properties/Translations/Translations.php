@@ -147,33 +147,6 @@ class Translations
         return $clone;
     }
 
-    public function withAdditionalLanguage(
-        string $lang_code,
-        string $title,
-        string $description,
-        bool $default,
-        bool $force = false
-    ): self {
-        if ($lang_code === ''
-            || isset($this->languages[$lang_code]) && !$force) {
-            return $this;
-        }
-
-        $clone = clone $this;
-        if ($default && isset($clone->languages[$clone->default_language])) {
-            $clone->languages[$clone->default_language] = $clone->languages[$clone->default_language]->withDefault(false);
-            $clone->default_language = $lang_code;
-        }
-
-        $clone->languages[$lang_code] = new Language(
-            $lang_code,
-            $title,
-            $description,
-            $default
-        );
-        return $clone;
-    }
-
     public function withResetLanguages(): self
     {
         $clone = clone $this;
