@@ -19,7 +19,7 @@
 			"@php cli/setup.php build --yes"
 		],
 		"pre-install-cmd": [
-			"mkdir -p public/Customizing/plugins"
+			"mkdir -p public/Customizing/global/plugins"
 		],
 		"post-install-cmd": [
 			"@php vendor/composer/rmdirs.php"
@@ -82,7 +82,7 @@
 			"ILIAS\\Scripts\\" : "./scripts"
 		},
 		"classmap": [
-			"./public/Customizing/plugins",
+			"./public/Customizing/global/plugins",
 			"./components/ILIAS",
 			"./vendor/ilias",
 			"./components/ILIAS/soap",
