@@ -1,6 +1,23 @@
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 import { expect } from 'chai';
 import {JSDOM} from 'jsdom';
 import fs from 'fs';
+import { createRequire } from 'module';
 
 import ddmodel from '../../../../../src/UI/templates/js/Menu/src/drilldown.model.js';
 import ddmapping from '../../../../../src/UI/templates/js/Menu/src/drilldown.mapping.js';
@@ -8,8 +25,10 @@ import ddpersistence from '../../../../../src/UI/templates/js/Menu/src/drilldown
 import dd from '../../../../../src/UI/templates/js/Menu/src/drilldown.main.js';
 import drilldown from '../../../../../src/UI/templates/js/Menu/src/drilldown.instances.js';
 
+const require = createRequire(import.meta.url);
+
 describe('drilldown', function() {
-   
+
     beforeEach(function(){
         //init test environment
         var dom_string = fs.readFileSync('./tests/UI/Component/Menu/Drilldown/drilldown_test.html').toString(),
@@ -47,7 +66,7 @@ describe('drilldown', function() {
         expect(ddmain.init).to.be.an('function');
         expect(ddmain.engage).to.be.an('function');
     });
-    
+
     it('model creates levels, engages/disengages properly', function() {
         var dd_model = ddmodel();
         var l0 = dd_model.actions.addLevel('root'),
@@ -56,7 +75,7 @@ describe('drilldown', function() {
             l2 = dd_model.actions.addLevel('2', l0.id),
             l21 = dd_model.actions.addLevel('21', l2.id),
             l211 = dd_model.actions.addLevel('211', l21.id);
-    
+
         expect(l0.label).to.eql('root');
         expect(l0.id).to.eql('0');
         expect(l0.parent).to.eql(null);
@@ -64,7 +83,7 @@ describe('drilldown', function() {
         expect(l11.label).to.eql('11');
         expect(l11.id).to.eql('2');
         expect(l11.parent).to.eql('1');
-    
+
         expect(dd_model.actions.getCurrent()).to.eql(l0);
         expect(l1.engaged).to.be.false;
 
@@ -117,11 +136,11 @@ describe('drilldown', function() {
             persistence_id = 'id_2_cookie',
             menu,
             btns = $('.il-drilldown ul li button');
-            
+
             component.init(id, signal, persistence_id);
             menu = component.instances[id];
             expect(menu).to.be.an('object');
-            
+
             expect($('header h2').html()).to.equal('root');
             expect(btns[1].className).to.equal('menulevel');
 
@@ -132,7 +151,7 @@ describe('drilldown', function() {
             btns[3].click();
             expect($('header h2').html()).to.equal('1.2');
             expect(btns[1].className).to.equal('menulevel');
-            expect(btns[3].className).to.equal('menulevel engaged');        
+            expect(btns[3].className).to.equal('menulevel engaged');
     });
 
 });
