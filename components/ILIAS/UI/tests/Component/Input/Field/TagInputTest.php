@@ -24,9 +24,9 @@ require_once(__DIR__ . "/InputTest.php");
 require_once(__DIR__ . "/CommonFieldRendering.php");
 
 use ILIAS\UI\Implementation\Component as I;
-use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\Data;
-use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
 
 /**
  * Class TagInputTest
@@ -230,5 +230,77 @@ class TagInputTest extends ILIAS_UI_TestBase
                 ["name_0" => "lorem,ipsum,dolor"]
             )
         );
+    }
+
+    public static function getUITagSpecialCharValues(): array
+    {
+        return [
+            ['1', '2', '3'],
+            ['++1#*', '[-2]', '{?3}'],
+            ['some\'thing "else"', '&/\\'],
+            ['fünf, sechs', 'sieben, acht'],
+        ];
+    }
+
+    /** @dataProvider getUITagSpecialCharValues */
+    public function testUITagInputSpecialChars(string ...$tags): void
+    {
+        $f = $this->getFieldFactory();
+        $name = "name_0";
+        $tag = $f->tag('', $tags)->withNameFrom($this->name_source);
+
+        $encoded_tags = array_map('rawurlencode', $tags);
+
+        $this->assertEquals(
+            $encoded_tags,
+            array_map(
+                fn($o) => $o['value'],
+                $tag->getConfiguration(fn(string $txt) => $txt)->options
+            )
+        );
+
+        $raw_value = implode(',', $encoded_tags);
+        $tag_with_input = $tag->withInput(new DefInputData([$name => $raw_value]));
+        $content = $tag_with_input->getContent();
+        $this->assertTrue($content->isOk());
+        $this->assertEquals($tags, $content->value());
+    }
+
+    public function testTagWithAutocompleteEndpoint(): void
+    {
+        $url_builder = new URLBuilder(new Data\URI('http://wwww.ilias.de?ref_id=1'));
+        $token = new URLBuilderToken(['t'], 't');
+        $f = $this->getFieldFactory();
+        $tag = $f->tag('my_tag', []);
+
+        $this->assertEquals(null, $tag->getAsyncAutocompleteEndpoint());
+        $this->assertEquals(null, $tag->getAsyncAutocompleteToken());
+
+        $tag = $tag->withAsyncAutocomplete(
+            $url_builder,
+            $token
+        );
+        $this->assertEquals($url_builder, $tag->getAsyncAutocompleteEndpoint());
+        $this->assertEquals($token, $tag->getAsyncAutocompleteToken());
+    }
+
+    public function testTagWithAutocompleteEndpointJSAdded(): void
+    {
+        $token = $this->createMock(URLBuilderToken::class);
+        $token->expects($this->once())
+            ->method('render');
+        $url_builder = $this->createMock(URLBuilder::class);
+        $url_builder->expects($this->once())
+            ->method('renderObject')
+            ->with([$token]);
+
+        $f = $this->getFieldFactory();
+        $tag = $f->tag('my_tag', [])->withAsyncAutocomplete(
+            $url_builder,
+            $token
+        );
+
+        $renderer = $this->getDefaultRenderer();
+        $renderer->render($tag);
     }
 }
