@@ -89,14 +89,25 @@ class IndAssStorageMigration implements Setup\Migration
         $result = $this->db->query($query);
         $row = $this->db->fetchAssoc($result);
 
-        $obj_id = (int)$row['obj_id'];
-        $usr_id = (int)$row['usr_id'];
+        $obj_id = (int) $row['obj_id'];
+        $usr_id = (int) $row['usr_id'];
         $fs_storage = ilIndividualAssessmentFileStorage::getInstance($obj_id);
         $fs_storage->setUserId($usr_id);
-        $filepath = $fs_storage->getAbsolutePath() . '/' . $row['file_name'];
 
-        $resource_id = $this->helper->movePathToStorage($filepath, 6);
-        if(! $resource_id) {
+        $filename = $row['file_name'];
+        $filename_cb = static fn(string $fn) => $filename;
+        $filepath = $fs_storage->getAbsolutePath() . '/' . $filename;
+
+        if (! file_exists($filepath)) {
+            $files = array_diff(scandir($fs_storage->getAbsolutePath()), ['.', '..']);
+            $filepath = $fs_storage->getAbsolutePath() . '/' . current($files);
+            if (file_exists($filepath) === false || count($files) < 1) {
+                throw new \Exception('no file in:' . $filepath);
+            }
+        }
+
+        $resource_id = $this->helper->movePathToStorage($filepath, 6, $filename_cb);
+        if (! $resource_id) {
             throw new \Exception('not stored:' . $filepath);
         }
 
