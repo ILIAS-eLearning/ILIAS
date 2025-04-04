@@ -22,6 +22,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Result\Ok;
+use ILIAS\Data\URI;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Input\InputData;
@@ -54,6 +55,7 @@ class Tag extends FormInput implements C\Input\Field\Tag
     protected bool $extendable = true;
     protected int $suggestion_starts_with = 1;
     protected array $tags = [];
+    protected ?Uri $async_autocomplete = null;
 
     public function __construct(
         DataFactory $data_factory,
@@ -102,6 +104,7 @@ class Tag extends FormInput implements C\Input\Field\Tag
         $configuration->userInput = $this->areUserCreatedTagsAllowed();
         $configuration->dropdownSuggestionsStartAfter = $this->getSuggestionsStartAfter();
         $configuration->suggestionStarts = $this->getSuggestionsStartAfter();
+        $configuration->autocompleteEndpoint = $this->getAsyncAutocomplete()?->__toString();
         $configuration->maxChars = 2000;
         $configuration->suggestionLimit = 50;
         $configuration->debug = false;
@@ -263,6 +266,24 @@ class Tag extends FormInput implements C\Input\Field\Tag
     public function getMaxTags(): int
     {
         return $this->max_tags;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function withAsyncAutocomplete(URI $autocomplete_endpoint): Tag
+    {
+        $clone = clone $this;
+        $clone->async_autocomplete = $autocomplete_endpoint;
+        return $clone;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAsyncAutocomplete(): ?URI
+    {
+        return $this->async_autocomplete;
     }
 
     /**

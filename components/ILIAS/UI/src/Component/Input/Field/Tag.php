@@ -23,6 +23,7 @@ namespace ILIAS\UI\Component\Input\Field;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Signal;
 use InvalidArgumentException;
+use ILIAS\Data\URI;
 
 /**
  * Interface Tag
@@ -86,6 +87,19 @@ interface Tag extends FormInput
      */
     public function getMaxTags(): int;
 
+    /**
+     * Get an input like this, but add an endpoint to get a list of possible options.
+     * The endpoint MUST answer to a query with the provided text as parameter "term".
+     * It MUST answer with a json array containing the options in the form of objects
+     * containing three properties "value", "display", and "searchBy". The property
+     * "value" MUST be save to transmit as url-parameter.
+     */
+    public function withAsyncAutocomplete(URI $autocomplete_endpoint): Tag;
+
+    /**
+     * @see withAsyncAutocomplete
+     */
+    public function getAsyncAutocomplete(): ?URI;
 
     // Events
 
