@@ -69,6 +69,22 @@ interface MessageBox extends Component, IsPromptContent
      * Get a Message Box like this, but with links.
      *
      * @param \ILIAS\UI\Component\Link\Standard[] $links
+     * @throws Exception\LinksAndEntityListConflictException
      */
     public function withLinks(array $links): MessageBox;
+
+    /**
+     * Get a Message Box like this, but with an entity listing.
+     *
+     * @param \ILIAS\UI\Component\Listing\Entity\EntityListing $entity_list
+     * @throws Exception\LinksAndEntityListConflictException
+     */
+    public function withEntityListing(\ILIAS\UI\Component\Listing\Entity\EntityListing $entity_list): MessageBox;
+
+    /**
+     * Get the entity listing of the Message Box.
+     *
+     * @return \ILIAS\UI\Component\Listing\Entity\EntityListing|null
+     */
+    public function getEntityListing(): ?\ILIAS\UI\Component\Listing\Entity\EntityListing;
 }

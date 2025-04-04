@@ -67,6 +67,8 @@ class Renderer extends AbstractComponentRenderer
             );
 
             $tpl->setVariable("LINK_LIST", $default_renderer->render($unordered));
+        } elseif ($component->getEntityListing() !== null) {
+            $tpl->setVariable("LINK_LIST", $default_renderer->render($component->getEntityListing()));
         }
 
         $tpl->touchBlock($component->getType() . "_class");
