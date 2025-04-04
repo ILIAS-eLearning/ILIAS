@@ -36,6 +36,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
 {
     protected HTTPServices $http;
     protected Services $gs;
+    protected ilLoggerFactory $logger_factory;
     protected UIServices $ui;
     protected PageContentGUI $legacy_content_template;
     protected ilLanguage $lng;
@@ -62,6 +63,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->lng = $DIC->language();
         $this->ui = $ui;
         $this->gs = $gs;
+        $this->logger_factory = $DIC['ilLoggerFactory'];
         $this->http = $http;
         $this->legacy_content_template = new PageContentGUI("tpl.page_content.html", true, true);
         $this->il_settings = $DIC->settings();
@@ -105,7 +107,8 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $sessionReminder = new ilSessionReminderGUI(
             ilSessionReminder::byLoggedInUser(),
             $this,
-            $this->lng
+            $this->lng,
+            $this->logger_factory
         );
 
         $sessionReminder->populatePage();

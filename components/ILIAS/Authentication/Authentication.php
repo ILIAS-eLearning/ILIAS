@@ -64,8 +64,8 @@ class Authentication implements Component\Component
             );
 
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\Endpoint($this, "sessioncheck.php");
+            new Component\Resource\Endpoint($this, 'sessioncheck.php');
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "session_reminder.js");
+            new Component\Resource\ComponentJS($this, 'js/dist/SessionReminder.min.js');
     }
 }

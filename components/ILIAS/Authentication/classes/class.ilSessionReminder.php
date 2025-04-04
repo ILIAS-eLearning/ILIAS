@@ -26,9 +26,7 @@ class ilSessionReminder
     public const LEAD_TIME_DISABLED = 0;
     public const MIN_LEAD_TIME = 1;
     public const SUGGESTED_LEAD_TIME = 5;
-    private ClockInterface $clock;
-    private ilObjUser $user;
-    private ilSetting $settings;
+
     private int $lead_time = self::SUGGESTED_LEAD_TIME;
     private int $expiration_time = 0;
     private int $current_time = 0;
@@ -36,14 +34,10 @@ class ilSessionReminder
     private int $seconds_until_reminder = 0;
 
     public function __construct(
-        ilObjUser $user,
-        ClockInterface $clock,
-        ilSetting $settings
+        private ilObjUser $user,
+        private ClockInterface $clock,
+        private ilSetting $settings
     ) {
-        $this->user = $user;
-        $this->clock = $clock;
-        $this->settings = $settings;
-
         $this->init();
     }
 
@@ -79,10 +73,8 @@ class ilSessionReminder
         $min_value = self::MIN_LEAD_TIME;
         $max_value = $this->getMaxPossibleLeadTime();
 
-        if (
-            $lead_time !== self::LEAD_TIME_DISABLED &&
-            ($lead_time < $min_value || $lead_time > $max_value)
-        ) {
+        if ($lead_time !== self::LEAD_TIME_DISABLED &&
+            ($lead_time < $min_value || $lead_time > $max_value)) {
             $lead_time = self::SUGGESTED_LEAD_TIME;
         }
 
