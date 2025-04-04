@@ -40,7 +40,7 @@ class ilTraceProcessor
     /**
      * @todo fix shifting calls
      */
-    public function __invoke(array $record): array
+    public function __invoke($record)
     {
         if ($record['level'] < $this->level) {
             return $record;

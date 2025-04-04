@@ -241,10 +241,10 @@ class ilLoggerFactory
 
 
         // suid log
-        $logger->pushProcessor(function ($record) {
-            $record['suid'] = substr(session_id(), 0, 5);
-            return $record;
-        });
+        //$logger->pushProcessor(function ($record) {
+        //    $record['suid'] = substr(session_id(), 0, 5);
+        //    return $record;
+        //});
 
         // append trace
         $logger->pushProcessor(new ilTraceProcessor(ilLogLevel::DEBUG));
