@@ -45,7 +45,7 @@ class ilObjectPropertyIcon implements ilObjectProperty
     ) {
     }
 
-    public function getObjectTypeSpecificItem(
+    public function getObjectTypeSpecificIcon(
         int $object_id,
         IconFactory $factory,
         StorageService $irss

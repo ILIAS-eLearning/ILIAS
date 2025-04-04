@@ -2698,14 +2698,7 @@ class ilObjectListGUI
             }
 
             $this->tpl->setCurrentBlock('icon');
-            if (!$this->obj_definition->isPlugin($this->getIconImageType())) {
-                $this->tpl->setVariable('ALT_ICON', $this->lng->txt('obj_' . $this->getIconImageType()));
-            } else {
-                $this->tpl->setVariable(
-                    'ALT_ICON',
-                    ilObjectPlugin::lookupTxtById($this->getIconImageType(), 'obj_' . $this->getIconImageType())
-                );
-            }
+            $this->tpl->setVariable('ALT_ICON', $this->buildTranslatedType());
 
             $this->tpl->setVariable(
                 'SRC_ICON',
@@ -3153,13 +3146,6 @@ class ilObjectListGUI
 
         $def_command = $this->getDefaultCommand();
 
-        $icon = $this->ui->factory()
-            ->symbol()
-            ->icon()
-            ->custom(ilObject::_getIcon($obj_id), $this->lng->txt('icon') . ' ' . $this->lng->txt('obj_' . $type))
-            ->withSize('medium');
-
-
         if ($def_command['link'] ?? false) {
             list($def_command['link'], $def_command['frame']) =
                 $this->modifySAHSlaunch($def_command['link'], $def_command['frame']);
@@ -3176,7 +3162,13 @@ class ilObjectListGUI
         if ($description != '') {
             $list_item = $list_item->withDescription($description);
         }
-        $list_item = $list_item->withActions($dropdown)->withLeadIcon($icon);
+        $list_item = $list_item->withActions($dropdown)->withLeadIcon(
+            $this->ui->factory()->symbol()->icon()->custom(
+                $this->getTypeIcon(),
+                $this->buildTranslatedType(),
+                'medium'
+            )
+        );
 
 
         $l = [];
@@ -3209,7 +3201,7 @@ class ilObjectListGUI
     ): ?RepositoryObject {
         $ui = $this->ui;
 
-         $title = htmlspecialchars(addslashes($title));
+        $title = htmlspecialchars(addslashes($title));
         // even b tag produced bugs, see #32304
         $description = strip_tags($description);
 
@@ -3272,8 +3264,6 @@ class ilObjectListGUI
 
         $image = $this->getTileImage();
 
-
-
         if ($def_cmd_link != '') {    // #24256
             if ($def_cmd_frame !== '' && ($modified_link === $def_cmd_link)) {
                 $signal = (new SignalGenerator())->create();
@@ -3309,27 +3299,11 @@ class ilObjectListGUI
             ) . $title;
         }
 
-        $icon = $this->ui
-            ->factory()
-            ->symbol()
-            ->icon()
-            ->standard($type, $this->lng->txt('obj_' . $type))
-        ;
-
-
-
-        if ($this->obj_definition->isActivePluginType($type)) {
-            $class_name = 'il' . $this->obj_definition->getClassName($type) . 'Plugin';
-            if ($class_name !== 'ilPlugin'
-            && method_exists($class_name, '_getIcon')) {
-                $pl = ilObjectPlugin::getPluginObjectByType($type);
-                $icon = $this->ui
-                    ->factory()
-                    ->symbol()
-                    ->icon()
-                    ->custom(call_user_func([$class_name, '_getIcon'], $type, 'small', $obj_id), $pl->txt('obj_' . $type));
-            }
-        }
+        $icon = $this->ui->factory()->symbol()->icon()->custom(
+            $this->getTypeIcon(),
+            $this->buildTranslatedType(),
+            'medium'
+        );
 
         // card title action
         $card_title_action = '';
@@ -3509,5 +3483,14 @@ class ilObjectListGUI
                 $this->lng->txt('listaction_learning_progress_settings')
             );
         }
+    }
+
+    private function buildTranslatedType(): string
+    {
+        if ($this->obj_definition->isPlugin($this->getIconImageType())) {
+            return ilObjectPlugin::lookupTxtById($this->getIconImageType(), 'obj_' . $this->getIconImageType());
+        }
+
+        return $this->lng->txt('obj_' . $this->getIconImageType());
     }
 }
