@@ -761,7 +761,8 @@ interface Factory
      *     Message Boxes inform the user about the state of the system or an ongoing user task. Such as the successful
      *     completion, the need for further input of an actual error or stopping users in their tracks in high-risk tasks.
      *   composition: >
-     *     Message Boxes consist of a mandatory message text, optional Buttons and an optional Unordered List of Links.
+     *     Message Boxes consist of a mandatory message text, optional Buttons and either an optional Unordered List of Links
+     *      OR an optional EntityList (but not both simultaneously).
      *     There are four main types of Message Boxes, each is displayed in the according color:
      *     1. Failure,
      *     2. Success,
