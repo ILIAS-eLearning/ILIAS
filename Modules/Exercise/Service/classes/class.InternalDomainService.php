@@ -28,6 +28,7 @@ use ILIAS\Refinery\Logical\Not;
 use ILIAS\Exercise\InstructionFile\InstructionFileManager;
 use ILIAS\Exercise\Team\TeamManager;
 use ILIAS\Exercise\IndividualDeadline\IndividualDeadlineManager;
+use ILIAS\Exercise\User\UserEvent;
 
 class InternalDomainService
 {
@@ -105,4 +106,13 @@ class InternalDomainService
             $obj_id
         );
     }
+
+    public function userEvent(): UserEvent
+    {
+        return new UserEvent(
+            $this->repo,
+            $this
+        );
+    }
+
 }

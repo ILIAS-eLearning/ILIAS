@@ -1097,6 +1097,14 @@ class ilObjUser extends ilObject
         $rbacadmin = $DIC->rbac()->admin();
         $ilDB = $this->db;
 
+        $ilAppEventHandler = $DIC['ilAppEventHandler'];
+        $ilAppEventHandler->raise(
+            'Services/User',
+            'beforeUserDeletion',
+            ['usr_id' => $this->getId()]
+        );
+
+
         // deassign from ldap groups
         $mapping = ilLDAPRoleGroupMapping::_getInstance();
         $mapping->deleteUser($this->getId());
