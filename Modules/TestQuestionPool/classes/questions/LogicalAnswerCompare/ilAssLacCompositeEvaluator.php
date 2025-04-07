@@ -164,9 +164,10 @@ class ilAssLacCompositeEvaluator
                 $result = $solutions->getSolutionForKey($index);
                 $answer = $question->getAvailableAnswerOptions($index - 1);
 
+                $unit_repository = $question->getUnitrepository();
                 $unit = $solutions->getSolutionForKey($index . "_unit");
                 $key = isset($unit["value"])
-                    ? (new ilUnitConfigurationRepository(0))->getUnit((int) $unit["value"])
+                    ? $unit_repository->getUnit((int) $unit["value"])
                     : null;
 
                 $max_points = $answer->getPoints();
@@ -180,7 +181,7 @@ class ilAssLacCompositeEvaluator
                     $question->getResults(),
                     $result["value"] ?? "",
                     $key,
-                    $question->getUnitrepository()->getUnits()
+                    $unit_repository->getUnits()
                 );
 
                 $percentage = 0;
