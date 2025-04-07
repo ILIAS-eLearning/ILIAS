@@ -223,7 +223,9 @@ class ilTestScoring
             $msg = $this->lng->txtlng('assessment', 'log_answer_changed_points', ilObjAssessmentFolder::_getLogLanguage());
             $msg = sprintf(
                 $msg,
-                $this->participants[$active_id] ? $this->participants[$active_id]->getName() : '',
+                isset($this->participants[$active_id]) && $this->participants[$active_id] instanceof ilTestEvaluationUserData ?
+                    $this->participants[$active_id]->getName() :
+                    '',
                 $old_points,
                 $points,
                 $this->initiator_name
