@@ -102,7 +102,7 @@ class MessageBox implements C\MessageBox\MessageBox, IsPromptContentInternal
     public function withLinks(array $links): C\MessageBox\MessageBox
     {
         if (!empty($this->entity_list)) {
-            throw new C\MessageBox\Exception\LinksAndEntityListConflictException();
+            throw new C\MessageBox\Exception\LinksAndEntitiesMustBeExclusiveException();
         }
 
         $types = array(C\Component::class);
@@ -116,7 +116,7 @@ class MessageBox implements C\MessageBox\MessageBox, IsPromptContentInternal
     public function withEntityListing(C\Listing\Entity\EntityListing $entity_list): C\MessageBox\MessageBox
     {
         if (!empty($this->links)) {
-            throw new C\MessageBox\Exception\LinksAndEntityListConflictException();
+            throw new C\MessageBox\Exception\LinksAndEntitiesMustBeExclusiveException();
         }
 
         $clone = clone $this;

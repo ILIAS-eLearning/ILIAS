@@ -18,10 +18,18 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Implementation\Component\MessageBox;
+namespace ILIAS\UI\Component\MessageBox\Exception;
 
-use ILIAS\UI\Implementation\Render;
+use DomainException;
 
-class EntityListingRendererFactory extends Render\DefaultRendererFactory
+/**
+ * This exception indicates that an UI component was accepted by the JF but is
+ * not backed by a real implementation.
+ */
+class LinksAndEntitiesMustBeExclusiveException extends DomainException
 {
+    public function __construct()
+    {
+        parent::__construct('The Message Box contains both links and entity lists. This is not allowed.');
+    }
 }
