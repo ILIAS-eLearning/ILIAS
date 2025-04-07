@@ -539,23 +539,18 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
 
     private function saveAvailabilitySettingsSection(array $section): void
     {
-        [
-            'is_activation_limited' => $is_activation_limited,
-            'activation_starting_time' => $activation_starting_time,
-            'activation_ending_time' => $activation_ending_time,
-            'activation_visibility' => $activation_visibility
-        ] = $section['timebased_availability'];
+        $time_based_availability = $section['timebased_availability'];
 
         $participant_data_exists = $this->test_object->participantDataExist();
         $this->test_object->storeActivationSettings(
             $participant_data_exists
                 ? $this->test_object->isActivationLimited()
-                : $is_activation_limited,
+                : $time_based_availability['is_activation_limited'],
             $participant_data_exists
                 ? $this->test_object->getActivationStartingTime()
-                : $activation_starting_time,
-            $activation_ending_time,
-            $activation_visibility,
+                : $time_based_availability['activation_starting_time'],
+            $time_based_availability['activation_ending_time'],
+            $time_based_availability['activation_visibility']
         );
         $this->test_object->getObjectProperties()->storePropertyIsOnline($section['is_online']);
     }
