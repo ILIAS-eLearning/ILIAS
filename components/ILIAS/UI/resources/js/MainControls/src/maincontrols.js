@@ -15,17 +15,17 @@
 
 import il from 'il';
 import $ from 'jquery';
-import MetabarFactory from './metabar.factory';
-import Slate from './slate.class';
-import replaceContent from '../../Core/src/core.replaceContent';
-import { counterFactory } from '../../Counter/src/counter.main';
+import MetabarFactory from './metabar.factory.js';
+import Slate from './slate.class.js';
+import replaceContent from '../../Core/src/core.replaceContent.js';
+import { counterFactory } from '../../Counter/src/counter.main.js';
 
 il.UI = il.UI || {};
 il.UI.maincontrols = il.UI.maincontrols || {};
 
 il.UI.maincontrols.metabar = new MetabarFactory(
   $,
-  il.UI.page.isSmallScreen,
+  () => il.UI.page.isSmallScreen(),
   counterFactory($),
   () => il.UI.maincontrols.mainbar.disengageAll(),
   (slate) => il.UI.maincontrols.slate.disengage(slate),
