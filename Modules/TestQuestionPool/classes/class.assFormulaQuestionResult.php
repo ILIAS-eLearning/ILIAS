@@ -423,18 +423,10 @@ class assFormulaQuestionResult
             return $this->isCorrect($variables, $results, $value, $unit) ? $this->getPoints() : 0;
         }
 
-        $result = $this->evaluateResultAsFormula($variables, $results);
+        $result = $this->calculateResult($variables, $results);
 
         if ($unit instanceof assFormulaQuestionUnit) {
-            $value = $this->handleValueByResultType($value, $unit);
-        }
-
-        $result_unit = $this->getUnit();
-        if ($result_unit instanceof assFormulaQuestionUnit) {
-            /** @var float $result */
-            $result = $result_unit->getBaseUnit() !== -1
-                ? ilMath::_div($result, $result_unit->getFactor(), $this->getPrecision())
-                : ilMath::_mul($result, $result_unit->getFactor(), $this->getPrecision());
+            $value = $this->transformResultAccordingToType($value, $unit);
         }
 
         /** @var ?float $value */
@@ -444,11 +436,11 @@ class assFormulaQuestionResult
         ])->transform($value);
         $points = 0.0;
 
-        if (is_float($float_value) && $this->checkSign($result, $float_value)) {
+        if ($float_value !== null && $this->checkSign($result, $float_value)) {
             $points += ilMath::_mul($this->getPoints(), ilMath::_div($this->getRatingSign(), 100));
         }
 
-        if (is_float($float_value) && $this->isInTolerance(abs($float_value), abs($result), $this->getTolerance())) {
+        if ($float_value !== null && $this->isInTolerance(abs($float_value), abs($result), $this->getTolerance())) {
             $points += ilMath::_mul($this->getPoints(), ilMath::_div($this->getRatingValue(), 100));
         }
 
@@ -467,7 +459,7 @@ class assFormulaQuestionResult
         return $points;
     }
 
-    private function evaluateResultAsFormula(array $variables, array $results): float
+    private function calculateResult(array $variables, array $results): float
     {
         $formula = $this->substituteFormula($variables, $results);
 
@@ -487,12 +479,22 @@ class assFormulaQuestionResult
 
         $eval_math = new EvalMath();
         $eval_math->suppress_errors = true;
-        return $eval_math->evaluate($formula);
+        $result = $eval_math->evaluate($formula);
+
+        $result_unit = $this->getUnit();
+        if ($result_unit instanceof assFormulaQuestionUnit) {
+            /** @var float $result */
+            $result = $result_unit->getBaseUnit() !== -1
+                ? ilMath::_div($result, $result_unit->getFactor(), $this->getPrecision())
+                : ilMath::_mul($result, $result_unit->getFactor(), $this->getPrecision());
+        }
+
+        return $result;
     }
 
-    private function handleValueByResultType(string $value, assFormulaQuestionUnit $unit): mixed
+    private function transformResultAccordingToType(string $value, assFormulaQuestionUnit $unit): ?float
     {
-        $frac_value = '';
+        $frac_value = null;
         switch ($this->getResultType()) {
             case self::RESULT_DEC:
                 if (substr_count($value, '.') === 1 || substr_count($value, ',') === 1) {
@@ -520,7 +522,13 @@ class assFormulaQuestionResult
             default:
                 break;
         }
-        return ilMath::_mul($frac_value, $unit->getFactor(), 100);
+
+        /** @var ?float $float_value */
+        $float_value = $this->refinery->byTrying([
+            $this->refinery->kindlyTo()->float(),
+            $this->refinery->always(null),
+        ])->transform($frac_value !== null ? ilMath::_mul($frac_value, $unit->getFactor(), 100) : $value);
+        return $float_value;
     }
 
     public function getResultInfo($variables, $results, $value, $unit, $units): array
