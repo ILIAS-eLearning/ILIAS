@@ -363,14 +363,14 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN CompetenceManagement)
 
 * **Competence Management**
-    * Authority to Sign off on Conceptual Changes: [tfamula](https://docu.ilias.de/go/usr/58959)
-    * Authority to Sign off on Code Changes: [tfamula](https://docu.ilias.de/go/usr/58959)
+    * Authority to Sign off on Conceptual Changes: [cludolf](https://docu.ilias.de/go/usr/97658)
+    * Authority to Sign off on Code Changes: [cludolf](https://docu.ilias.de/go/usr/97658)
         , [akill](https://docu.ilias.de/go/usr/149)
     * Authority to Curate Test Cases: [atoedt](https://docu.ilias.de/go/usr/3139)
-    * Authority to (De-)Assign Authorities: [tfamula](https://docu.ilias.de/go/usr/58959)
+    * Authority to (De-)Assign Authorities: [cludolf](https://docu.ilias.de/go/usr/97658)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
-    * Assignee for Security Reports: [tfamula](https://docu.ilias.de/go/usr/58959)
-    * Assignee for Security Issues: [tfamula](https://docu.ilias.de/go/usr/58959)
+    * Assignee for Security Reports: [cludolf](https://docu.ilias.de/go/usr/97658)
+    * Assignee for Security Issues: [cludolf](https://docu.ilias.de/go/usr/97658)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END CompetenceManagement)
@@ -588,7 +588,6 @@ of ILIAS. The file contains the following fields:
 * **EmployeeTalk**
     * Authority to Sign off on Conceptual Changes: [tschmitz](https://docu.ilias.de/go/usr/92591)
     * Authority to Sign off on Code Changes: [tschmitz](https://docu.ilias.de/go/usr/92591)
-        , [tfamula](https://docu.ilias.de/go/usr/58959)
     * Authority to Curate Test Cases: [tschmitz](https://docu.ilias.de/go/usr/92591)
     * Authority to (De-)Assign Authorities: [tschmitz](https://docu.ilias.de/go/usr/92591)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
@@ -743,7 +742,6 @@ of ILIAS. The file contains the following fields:
 * **Glossary**
     * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149)
     * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149)
-        , [tfamula](https://docu.ilias.de/go/usr/58959)
     * Authority to Curate Test Cases: [ezenzen](https://docu.ilias.de/go/usr/42910)
     * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/go/usr/149)
 	* Tester: [atoedt](https://docu.ilias.de/go/usr/3139)
@@ -1436,14 +1434,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Staff)
 
 * **Staff**
-    * Authority to Sign off on Conceptual Changes: [tfamula](https://docu.ilias.de/go/usr/58959)
-    * Authority to Sign off on Code Changes: [tfamula](https://docu.ilias.de/go/usr/58959)
-        , [tschmitz](https://docu.ilias.de/go/usr/92591)
-    * Authority to Curate Test Cases: [tfamula](https://docu.ilias.de/go/usr/58959)
-    * Authority to (De-)Assign Authorities: [tfamula](https://docu.ilias.de/go/usr/58959)
+    * Authority to Sign off on Conceptual Changes: [tschmitz](https://docu.ilias.de/go/usr/92591)
+    * Authority to Sign off on Code Changes: [tschmitz](https://docu.ilias.de/go/usr/92591)
+    * Authority to Curate Test Cases: [tschmitz](https://docu.ilias.de/go/usr/92591)
+    * Authority to (De-)Assign Authorities: [tschmitz](https://docu.ilias.de/go/usr/92591)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
-    * Assignee for Security Reports: [tfamula](https://docu.ilias.de/go/usr/58959)
-    * Assignee for Security Issues: [tfamula](https://docu.ilias.de/go/usr/58959)
+    * Assignee for Security Reports: [tschmitz](https://docu.ilias.de/go/usr/92591)
+    * Assignee for Security Issues: [tschmitz](https://docu.ilias.de/go/usr/92591)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Staff)
