@@ -24,7 +24,6 @@ use ilAuthUtils;
 use ilDatabaseUpdateSteps;
 use ilDBConstants;
 use ilDBInterface;
-use ilSetting;
 
 class AbandonCASAuthModeUpdateObjective implements ilDatabaseUpdateSteps
 {
@@ -49,6 +48,25 @@ class AbandonCASAuthModeUpdateObjective implements ilDatabaseUpdateSteps
             'UPDATE ' . self::TABLE_NAME . ' SET auth_mode = %s WHERE auth_mode = %s',
             [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
             [$defaultAuthMode === ilAuthUtils::AUTH_LOCAL ? 'default' : 'local', 'cas']
+        );
+    }
+
+    public function step_2(): void
+    {
+        $settings = [
+            "cas_server",
+            "cas_port",
+            "cas_uri",
+            "cas_login_instructions",
+            "cas_active",
+            "cas_create_users",
+            "cas_allow_local",
+            "cas_user_default_role",
+        ];
+
+        $this->db->manipulate(
+            "DELETE FROM settings WHERE module = 'common' AND "
+            . $this->db->in("keyword", $settings, false, ilDBConstants::T_TEXT),
         );
     }
 }
