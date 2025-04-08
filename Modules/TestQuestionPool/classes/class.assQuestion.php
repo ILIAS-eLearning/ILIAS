@@ -701,11 +701,8 @@ abstract class assQuestion
         }
 
         // update test pass results
-        $test = new ilObjTest(
-            $this->getObjId(),
-            false
-        );
-        $test->updateTestPassResults($active_id, $pass, $obligationsEnabled, $this->getProcessLocker());
+        (new ilObjTest(ilObjTest::_lookupTestObjIdForQuestionId($this->getId()), false))
+            ->updateTestPassResults($active_id, $pass, $obligationsEnabled, $this->getProcessLocker());
         ilCourseObjectiveResult::_updateObjectiveResult($this->current_user->getId(), $active_id, $this->getId());
     }
 
