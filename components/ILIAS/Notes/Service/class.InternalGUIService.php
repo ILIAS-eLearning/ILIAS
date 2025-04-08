@@ -84,7 +84,7 @@ class InternalGUIService
         $tpl->addOnLoadCode("ilNotes.setAjaxUrl('" . $ajax_url . "');");
         $tpl->addOnLoadCode('ilNotes.setModalTemplate("' . addslashes(json_encode($modal_template["template"])) . '");');
         $tpl->addOnLoadCode("ilNotes.setShowSignal('" . $modal_template["show"] . "');");
-        $tpl->addOnLoadCode("ilNotes.setCloseSignal('" . $modal_template["close"] . "');");
+        $tpl->addOnLoadCode("ilNotes.setHideSignal('" . $modal_template["close"] . "');");
     }
 
     public function getModalTemplate(): array
