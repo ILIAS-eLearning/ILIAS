@@ -95,7 +95,7 @@ class ilSessionReminderCheck
             return $this->toJsonResponse($response);
         }
 
-        $expiration_time = $data['expires'] ?? null;
+        $expiration_time = $data['expires'];
         if (null === $expiration_time) {
             $response['message'] = 'ILIAS could not determine the expiration time from the session data.';
             return $this->toJsonResponse($response);
