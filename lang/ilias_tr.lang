@@ -1648,7 +1648,7 @@ assessment#:#tst_percent_solved#:#Çözme Yüzdesi
 assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed###21 12 2022 new variable
 assessment#:#tst_please_select_source_pool#:#Please select a question pool.###13 09 2023 new variable
 assessment#:#tst_please_select_target_for_pool_derives#:#Please select a target conatainer.###25 10 2016 new variable
-assessment#:#tst_position#:#% S Soru% s
+assessment#:#tst_position#:#%s Soru %s
 assessment#:#tst_position_without_total#:#Question %s###23 12 2015 new variable
 assessment#:#tst_postpone#:#Soruları Ertele
 assessment#:#tst_postpone_off#:#Not answered questions will not be postponed###30 08 2015 new variable
