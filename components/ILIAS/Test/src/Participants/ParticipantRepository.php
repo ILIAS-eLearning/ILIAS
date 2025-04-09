@@ -289,10 +289,11 @@ class ParticipantRepository
         $order_by = [];
         foreach ($order->get() as $subject => $direction) {
             $order_by[] = match ($subject) {
-                'name' => "lastname $direction, firstname $direction",
-                'ip_range' => "ip_range_from $direction, ip_range_to $direction",
-                'total_attempts' => "tries $direction",
-                'extra_time' => "extra_time $direction",
+                'name' => "lastname {$direction}, firstname {$direction}",
+                'login' => "login {$direction}",
+                'ip_range' => "ip_range_from {$direction}, ip_range_to {$direction}",
+                'total_attempts' => "tries {$direction}",
+                'extra_time' => "extra_time {$direction}",
                 default => null
             };
         }

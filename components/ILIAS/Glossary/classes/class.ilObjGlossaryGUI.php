@@ -500,210 +500,6 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
         $this->ctrl->redirectByClass(SettingsGUI::class);
     }
 
-    public function initSettingsForm(// todo: remove this and all related methods
-        string $a_mode = "edit"
-    ): void {
-        $obj_service = $this->getObjectService();
-
-        $this->form = new ilPropertyFormGUI();
-
-        // title
-        $title = new ilTextInputGUI($this->lng->txt("title"), "title");
-        $title->setRequired(true);
-        $this->form->addItem($title);
-
-        // description
-        $desc = new ilTextAreaInputGUI($this->lng->txt("desc"), "description");
-        $this->form->addItem($desc);
-
-        // glossary mode
-        // for layout of this property see https://mantis.ilias.de/view.php?id=31833
-        $glo_mode = new ilRadioGroupInputGUI($this->lng->txt("glo_content_assembly"), "glo_mode");
-        //$glo_mode->setInfo($this->lng->txt("glo_mode_desc"));
-        $op1 = new ilRadioOption($this->lng->txt("glo_mode_normal"), "none", $this->lng->txt("glo_mode_normal_info"));
-        $op2 = new ilRadioOption($this->lng->txt("glo_collection"), "coll", $this->lng->txt("glo_collection_info"));
-        if (!empty($this->object->getGlossariesForCollection()) && $this->object->isVirtual()) {
-            $op1->setDisabled(true);
-            $op2->setDisabled(true);
-            $glo_mode->setInfo($this->lng->txt("glo_change_to_standard_unavailable_info"));
-        }
-        if (!empty(ilGlossaryTerm::getTermsOfGlossary($this->object->getId())) && !$this->object->isVirtual()) {
-            $op1->setDisabled(true);
-            $op2->setDisabled(true);
-            $glo_mode->setInfo($this->lng->txt("glo_change_to_collection_unavailable_info"));
-        }
-        $glo_mode->addOption($op1);
-        $glo_mode->addOption($op2);
-        $this->form->addItem($glo_mode);
-
-
-        $this->lng->loadLanguageModule("rep");
-        $section = new ilFormSectionHeaderGUI();
-        $section->setTitle($this->lng->txt('rep_activation_availability'));
-        $this->form->addItem($section);
-
-        // online
-        $online = new ilCheckboxInputGUI($this->lng->txt("cont_online"), "cobj_online");
-        $online->setValue("y");
-        $online->setInfo($this->lng->txt("glo_online_info"));
-        $this->form->addItem($online);
-
-        $section = new ilFormSectionHeaderGUI();
-        $section->setTitle($this->lng->txt('cont_presentation'));
-        $this->form->addItem($section);
-
-        // tile image
-        $obj_service->commonSettings()->legacyForm($this->form, $this->object)->addTileImage();
-
-        // presentation mode
-        $pres_mode = new ilRadioGroupInputGUI($this->lng->txt("glo_presentation_mode"), "pres_mode");
-        $pres_mode->setValue("table");
-        $op1 = new ilRadioOption($this->lng->txt("glo_table_form"), "table", $this->lng->txt("glo_table_form_info"));
-
-        // short text length
-        $snl = new ilNumberInputGUI($this->lng->txt("glo_text_snippet_length"), "snippet_length");
-        $snl->setMaxValue(3000);
-        $snl->setMinValue(100);
-        $snl->setMaxLength(4);
-        $snl->setSize(4);
-        $snl->setInfo($this->lng->txt("glo_text_snippet_length_info"));
-        $snl->setValue(200);
-        $snl->setSuffix($this->lng->txt("characters"));
-        $op1->addSubItem($snl);
-
-        $pres_mode->addOption($op1);
-        $op2 = new ilRadioOption($this->lng->txt("glo_full_definitions"), "full_def", $this->lng->txt("glo_full_definitions_info"));
-        $pres_mode->addOption($op2);
-        $this->form->addItem($pres_mode);
-
-        // flashcard training
-        $flash_active = new ilCheckboxInputGUI($this->lng->txt("glo_flashcard_training"), "flash_active");
-        $flash_active->setValue("y");
-        $flash_active->setInfo($this->lng->txt("glo_flashcard_training_info"));
-
-        //flashcard training mode
-        $flash_mode = new ilRadioGroupInputGUI($this->lng->txt("glo_mode"), "flash_mode");
-        $op1 = new ilRadioOption($this->lng->txt("glo_term_vs_def"), "term", $this->lng->txt("glo_term_vs_def_info"));
-        $flash_mode->addOption($op1);
-        $op2 = new ilRadioOption($this->lng->txt("glo_def_vs_term"), "def", $this->lng->txt("glo_def_vs_term_info"));
-        $flash_mode->addOption($op2);
-        $flash_active->addSubItem($flash_mode);
-        $this->form->addItem($flash_active);
-
-        // show taxonomy
-        $show_tax = null;
-        $tax_ids = ilObjTaxonomy::getUsageOfObject($this->object->getId());
-        if (count($tax_ids) > 0) {
-            $show_tax = new ilCheckboxInputGUI($this->lng->txt("glo_show_taxonomy"), "show_tax");
-            $show_tax->setInfo($this->lng->txt("glo_show_taxonomy_info"));
-            $this->form->addItem($show_tax);
-        }
-
-        // downloads
-        $down = new ilCheckboxInputGUI($this->lng->txt("cont_downloads"), "glo_act_downloads");
-        $down->setValue("y");
-        $down->setInfo($this->lng->txt("cont_downloads_desc"));
-        $this->form->addItem($down);
-
-        if ($a_mode == "edit") {
-            $title->setValue($this->object->getTitle());
-            $desc->setValue($this->object->getDescription());
-            $online->setChecked($this->object->getOnline());
-            $mode1 = $this->object->getVirtualMode() === "none"
-                ? "none"
-                : "coll";
-            $glo_mode->setValue($mode1);
-            $pres_mode->setValue($this->object->getPresentationMode());
-            $snl->setValue($this->object->getSnippetLength());
-
-            $down->setChecked($this->object->isActiveDownloads());
-            $flash_active->setChecked($this->object->isActiveFlashcards());
-            $flash_mode->setValue($this->object->getFlashcardsMode());
-
-            // additional features
-            $feat = new ilFormSectionHeaderGUI();
-            $feat->setTitle($this->lng->txt('obj_features'));
-            $this->form->addItem($feat);
-
-            ilObjectServiceSettingsGUI::initServiceSettingsForm(
-                $this->object->getId(),
-                $this->form,
-                array(
-                        ilObjectServiceSettingsGUI::CUSTOM_METADATA,
-                        ilObjectServiceSettingsGUI::TAXONOMIES
-                    )
-            );
-        }
-
-        // sort columns, if adv fields are given
-        $adv_ap = new ilGlossaryAdvMetaDataAdapter($this->object->getRefId());
-        $cols = $adv_ap->getColumnOrder();
-        if (count($cols) > 1) {
-            $ti = new ilGloAdvColSortInputGUI($this->lng->txt("cont_col_ordering"), "field_order");
-            $this->form->addItem($ti);
-            $ti->setValue($cols);
-            $ti->setInfo($this->lng->txt("glo_col_ordering_info"));
-        }
-
-        // save and cancel commands
-        $this->form->addCommandButton("saveProperties", $this->lng->txt("save"));
-
-        $this->form->setTitle($this->lng->txt("cont_glo_properties"));
-        $this->form->setFormAction($this->ctrl->getFormAction($this));
-    }
-
-
-    public function saveProperties(): void
-    {
-        $obj_service = $this->getObjectService();
-
-        $this->initSettingsForm();
-        if ($this->form->checkInput()) {
-            $this->object->setTitle($this->form->getInput("title"));
-            $this->object->setDescription($this->form->getInput("description"));
-            $this->object->setOnline(ilUtil::yn2tf($this->form->getInput("cobj_online")));
-            $glo_mode = $this->form->getInput("glo_mode") ?: $this->object->getVirtualMode();
-            $this->object->setVirtualMode($glo_mode);
-            $this->object->setActiveDownloads(ilUtil::yn2tf($this->form->getInput("glo_act_downloads")));
-            $this->object->setPresentationMode($this->form->getInput("pres_mode"));
-            $this->object->setSnippetLength($this->form->getInput("snippet_length"));
-            $this->object->setActiveFlashcards(ilUtil::yn2tf($this->form->getInput("flash_active")));
-            $this->object->setFlashcardsMode($this->form->getInput("flash_mode"));
-            $this->object->update();
-
-            // tile image
-            $obj_service->commonSettings()->legacyForm($this->form, $this->object)->saveTileImage();
-
-            // field order of advanced metadata
-            $adv_ap = new ilGlossaryAdvMetaDataAdapter($this->object->getRefId());
-            $cols = $adv_ap->getColumnOrder();
-            if (count($cols) > 1) {
-                $adv_ap->saveColumnOrder($this->form->getInput("field_order"));
-            }
-
-            // set definition short texts dirty
-            ilGlossaryTerm::setShortTextsDirty($this->object->getId());
-
-            ilObjectServiceSettingsGUI::updateServiceSettingsForm(
-                $this->object->getId(),
-                $this->form,
-                array(
-                    ilObjectServiceSettingsGUI::CUSTOM_METADATA,
-                    ilObjectServiceSettingsGUI::TAXONOMIES
-                )
-            );
-
-            // Update ecs export settings
-            $ecs = new ilECSGlossarySettings($this->object);
-            if ($ecs->handleSettingsUpdate($this->form)) {
-                $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-                $this->ctrl->redirect($this, "properties");
-            }
-        }
-        $this->form->setValuesByPost();
-        $this->tpl->setContent($this->form->getHTML());
-    }
-
     public function getProperties(
         int $tax_id
     ): array {
@@ -995,34 +791,6 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
         $this->ctrl->redirectByClass("ilexportgui", "");
     }
 
-    /**
-     * download export file
-     */
-    public function publishExportFile(): void
-    {
-        $files = $this->edit_request->getFiles();
-        if (count($files) == 0) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
-            $this->ctrl->redirectByClass("ilexportgui", "");
-        }
-        if (count($files) > 1) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("cont_select_max_one_item"), true);
-            $this->ctrl->redirectByClass("ilexportgui", "");
-        }
-
-        $file = explode(":", $files[0]);
-        $export_dir = $this->object->getExportDirectory($file[0]);
-
-        if ($this->object->getPublicExportFile($file[0]) ==
-            $file[1]) {
-            $this->object->setPublicExportFile($file[0], "");
-        } else {
-            $this->object->setPublicExportFile($file[0], $file[1]);
-        }
-        $this->object->update();
-        $this->ctrl->redirectByClass("ilexportgui", "");
-    }
-
     public function deleteTerms(): void
     {
         if (!empty($this->edit_request->getTermIdsInModal())
@@ -1033,8 +801,7 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
                     $refs->deleteTerm($id);
                     $refs->update();
                 } else {
-                    $term = new ilGlossaryTerm($id);
-                    $term->delete();
+                    $this->term_manager->deleteTerm($id);
                 }
             }
         }
@@ -1215,20 +982,6 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
         }
 
         $this->content_style_gui->addCss($ctpl, $this->object->getRefId());
-    }
-
-    /**
-     * Get public access value for export table
-     */
-    public function getPublicAccessColValue(
-        string $a_type,
-        string $a_file
-    ): string {
-        if ($this->object->getPublicExportFile($a_type) == $a_file) {
-            return $this->lng->txt("yes");
-        }
-
-        return " ";
     }
 
     /**

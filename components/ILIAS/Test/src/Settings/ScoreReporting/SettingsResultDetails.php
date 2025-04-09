@@ -39,7 +39,6 @@ class SettingsResultDetails extends TestSettings
     public const RESULTPRES_BIT_SOLUTION_LISTCOMPARE = 128;
     public const RESULTPRES_BIT_SOLUTION_LISTOWNANSWERS = 256;
 
-    protected bool $print_bs_with_res = true;
     protected bool $examid_in_test_res = true;
     protected int $exportsettings = 0;
     protected int $results_presentation = 0;

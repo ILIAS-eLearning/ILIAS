@@ -1372,8 +1372,11 @@ class ilPCParagraph extends ilPageContent
                 } else {
                     $this->inserted_pc_id = $pc_id[1];
                 }*/
-
-        $par->setLanguage($ilUser->getLanguage());
+        $lang = (string) $ilUser->getLanguage();
+        if ($lang === "") {
+            $lang = "de";
+        }
+        $par->setLanguage($lang);
         $par->setCharacteristic($t["class"]);
 
         $t2 = $par->input2xml($t["text"], true, false);

@@ -432,28 +432,32 @@ class TermListTable
                         $short_str = $term_obj->getShortText();
                     }
 
-                    $page = new \ilGlossaryDefPage($term_id);
+                    try {
+                        $page = new \ilGlossaryDefPage($term_id);
 
-                    // replace tex
-                    // if a tex end tag is missing a tex end tag
-                    $ltexs = strrpos($short_str, "[tex]");
-                    $ltexe = strrpos($short_str, "[/tex]");
-                    if ($ltexs > $ltexe) {
-                        $page->buildDom();
-                        $short_str = $page->getFirstParagraphText();
-                        $short_str = strip_tags($short_str, "<br>");
-                        $ltexe = strpos($short_str, "[/tex]", $ltexs);
-                        $short_str = \ilStr::shortenTextExtended($short_str, $ltexe + 6, true);
+                        // replace tex
+                        // if a tex end tag is missing a tex end tag
+                        $ltexs = strrpos($short_str, "[tex]");
+                        $ltexe = strrpos($short_str, "[/tex]");
+                        if ($ltexs > $ltexe) {
+                            $page->buildDom();
+                            $short_str = $page->getFirstParagraphText();
+                            $short_str = strip_tags($short_str, "<br>");
+                            $ltexe = strpos($short_str, "[/tex]", $ltexs);
+                            $short_str = \ilStr::shortenTextExtended($short_str, $ltexe + 6, true);
+                        }
+
+                        $short_str = \ilMathJax::getInstance()->insertLatexImages($short_str);
+
+                        $short_str = \ilPCParagraph::xml2output(
+                            $short_str,
+                            false,
+                            true,
+                            !$page->getPageConfig()->getPreventHTMLUnmasking()
+                        );
+                    } catch (\Exception $e) {
+                        $short_str = "Error: Page is missing.";
                     }
-
-                    $short_str = \ilMathJax::getInstance()->insertLatexImages($short_str);
-
-                    $short_str = \ilPCParagraph::xml2output(
-                        $short_str,
-                        false,
-                        true,
-                        !$page->getPageConfig()->getPreventHTMLUnmasking()
-                    );
 
                     $records[$i]["definition"] = $short_str;
 

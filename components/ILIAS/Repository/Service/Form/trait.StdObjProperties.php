@@ -100,7 +100,10 @@ trait StdObjProperties
         string $type
     ): void {
         $obj_prop = $this->object_prop->getFor($obj_id, $type);
-        $obj_prop->storePropertyTileImage($this->getData("tile"));
+        $tile = $this->getData("tile");
+        if (!is_null($tile)) {
+            $obj_prop->storePropertyTileImage($this->getData("tile"));
+        }
     }
 
     public function addOnline(

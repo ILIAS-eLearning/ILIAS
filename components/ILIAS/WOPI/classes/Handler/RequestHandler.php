@@ -101,7 +101,7 @@ final class RequestHandler
             $this->checkAuth();
 
             $uri = $this->http->request()->getUri()->getPath();
-            $request = substr($uri, strlen(self::WOPI_BASE_URL));
+            $request = substr($uri, strpos($uri, self::WOPI_BASE_URL) + strlen(self::WOPI_BASE_URL));
             $request = explode('/', $request);
             $method = $this->http->request()->getMethod();
 

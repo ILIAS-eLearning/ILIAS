@@ -818,13 +818,19 @@ class ilUserImportParser extends ilSaxParser
     ): void {
         $this->rbac_admin->deassignUser($a_role_id, $a_user_obj->getId());
 
-        if (substr(ilObject::_lookupTitle($a_role_id), 0, 6) === 'il_crs' ||
-            substr(ilObject::_lookupTitle($a_role_id), 0, 6) === 'il_grp') {
-            $obj = $this->rbac_review->getObjectOfRole($a_role_id);
-            $ref = ilObject::_getAllReferences($obj);
-            $ref_id = end($ref);
-            $this->recommended_content_manager->removeObjectRecommendation($a_user_obj->getId(), $ref_id);
+        if (substr(ilObject::_lookupTitle($a_role_id), 0, 6) !== 'il_crs'
+            && substr(ilObject::_lookupTitle($a_role_id), 0, 6) !== 'il_grp') {
+            return;
         }
+
+        $ref = ilObject::_getAllReferences(
+            $this->rbac_review->getObjectOfRole($a_role_id)
+        );
+        $ref_id = end($ref);
+        if (!$ref_id) {
+            return;
+        }
+        $this->recommended_content_manager->removeObjectRecommendation($a_user_obj->getId(), $ref_id);
     }
 
     protected function tagContained(string $tagname): bool

@@ -24,6 +24,7 @@ use ILIAS\HTTP\Response\ResponseHeader;
 use Psr\Http\Message\ResponseInterface;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Data\Factory as DataFactory;
 
 class ilSessionReminderCheck
 {
@@ -43,6 +44,7 @@ class ilSessionReminderCheck
         ilIniFile $clientIni,
         ilLogger $logger,
         ClockInterface $utcClock,
+        private readonly ilSetting $settings
     ) {
         $this->http = $http;
         $this->refinery = $refinery;
@@ -93,11 +95,12 @@ class ilSessionReminderCheck
             return $this->toJsonResponse($response);
         }
 
-        $expiration_time = (int) $data['expires'];
+        $expiration_time = $data['expires'];
         if (null === $expiration_time) {
             $response['message'] = 'ILIAS could not determine the expiration time from the session data.';
             return $this->toJsonResponse($response);
         }
+        $expiration_time = (int) $expiration_time;
 
         if ($this->isSessionAlreadyExpired($expiration_time)) {
             $response['message'] = 'The session is already expired. The client should have received a remind command before.';
@@ -111,7 +114,11 @@ class ilSessionReminderCheck
             return $this->toJsonResponse($response);
         }
 
-        $session_reminder = ilSessionReminder::byLoggedInUser();
+        $session_reminder = new ilSessionReminder(
+            $ilUser,
+            $this->clock,
+            $this->settings
+        );
         $reminder_time = $expiration_time - ($session_reminder->getEffectiveLeadTime() * 60);
         if ($reminder_time > $this->clock->now()->getTimestamp()) {
             // session will expire in <lead_time> minutes

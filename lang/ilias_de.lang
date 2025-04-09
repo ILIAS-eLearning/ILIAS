@@ -753,7 +753,7 @@ assessment#:#finish_test_single#:#Sind Sie sicher, dass Sie den Testdurchlauf f�
 assessment#:#finish_unfinished_passes#:#Beendet noch offene Testdurchläufe
 assessment#:#finish_unfinished_passes_desc#:#Noch nicht beendete Testdurchläufe werden automatisch beendet – vorausgesetzt, es wurde für diese Tests ein Endzeitpunkt festgelegt oder Teilnehmende haben die maximale Bearbeitungsdauer überschritten.
 assessment#:#finished_by_administrator#:#Beendet durch Administrator
-assessment#:#finished_by_cronjob#:#Beendet durch Cronjob
+assessment#:#finished_by_cronjob#:#Beendet durch Cron-Job
 assessment#:#finished_by_duration#:#Beendet aufgrund Zeitlimit
 assessment#:#finished_by_participant#:#Beendet durch Teilnehmer
 assessment#:#finished_by_unknown#:#Beendet durch Unbekannt
@@ -3176,10 +3176,10 @@ cmix#:#conf_availability_2#:#in neuen und bestehenden Objekten
 cmix#:#conf_availability_2_info#:#Dieser LRS-Typ kann beim Anlegen neuer xAPI/cmi5-Objekten ausgewählt werden.
 cmix#:#conf_bypass_proxy#:#Erkennung des Lernfortschritts
 cmix#:#conf_bypass_proxy_disabled#:#xAPI-Proxy, um sofort Daten zu erhalten.
-cmix#:#conf_bypass_proxy_enabled#:#CronJob zur Abfrage des Learning Record Store
-cmix#:#conf_bypass_proxy_info#:#In den meisten Fällen wird empfohlen, den xAPI-Proxy zu verwenden. Verwenden Sie den CronJob bei Einschränkungen hinsichtlich Ressourcen oder Server.
-cmix#:#conf_cronjob_neccessary#:#CronJob notwendig für den Lernfortschritt
-cmix#:#conf_cronjob_neccessary_info#:#Durch Aktivieren dieser Option können die diesen LRS-Typ nutzenden xAPI-Objekte den xAPI-Proxy nicht nutzen, der zeitlich unmittelbar Daten zur Erkennung des Lernfortschritts liefert. Verwenden Sie nur den CronJob bei Einschränkungen hinsichtlich Ressourcen oder Server.
+cmix#:#conf_bypass_proxy_enabled#:#Cron-Job zur Abfrage des Learning Record Stores
+cmix#:#conf_bypass_proxy_info#:#In den meisten Fällen wird empfohlen, den xAPI-Proxy zu verwenden. Verwenden Sie den Cron-Job bei Einschränkungen hinsichtlich Ressourcen oder Server.
+cmix#:#conf_cronjob_neccessary#:#Cron-Job notwendig für den Lernfortschritt
+cmix#:#conf_cronjob_neccessary_info#:#Durch Aktivieren dieser Option können die diesen LRS-Typ nutzenden xAPI-Objekte den xAPI-Proxy nicht nutzen, der zeitlich unmittelbar Daten zur Erkennung des Lernfortschritts liefert. Verwenden Sie nur den Cron-Job bei Einschränkungen hinsichtlich Ressourcen oder Server.
 cmix#:#conf_delete_data#:#Daten im LRS löschen
 cmix#:#conf_delete_data_info#:#Löschen ist aktuell nur mit dem Learning Record Store (LRS) LearningLocker möglich. Nutzen Sie die Optionen zum Löschen der Benutzeridentifikation nur dann, wenn die Daten im LRS pseudonymisiert wurden.
 cmix#:#conf_delete_data_opt0#:#nie
@@ -3239,9 +3239,9 @@ cmix#:#conf_privacy_setting_info#:#Konfigurationsoptionen für die Datenschutzei
 cmix#:#conf_remarks#:#Interne Kommentare
 cmix#:#conf_title#:#Titel
 cmix#:#conf_use_proxy#:#xAPI-Proxy
-cmix#:#conf_use_proxy_info#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cronjob „xAPI/cmi5 Ergebnisse holen“. Für cmi5-Objekte ist der xAPI-Proxy zwingend erforderlich und wird automatisch aktiviert.
+cmix#:#conf_use_proxy_info#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cron-Job „xAPI/cmi5 Ergebnisse holen“. Für cmi5-Objekte ist der xAPI-Proxy zwingend erforderlich und wird automatisch aktiviert.
 cmix#:#conf_use_proxy_info_cmi5#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Für cmi5-Objekte ist der xAPI-Proxy zwingend erforderlich.
-cmix#:#conf_use_proxy_info_xapi#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cronjob „xAPI/cmi5 Ergebnisse holen“.
+cmix#:#conf_use_proxy_info_xapi#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cron-Job „xAPI/cmi5 Ergebnisse holen“.
 cmix#:#conf_user_ident#:#Schlüssel zur Identifikation einer Person
 cmix#:#conf_user_ident_il_uuid_ext_account#:#ID-externes-Konto@ILIAS-Plattform-ID.ilias
 cmix#:#conf_user_ident_il_uuid_ext_account_info#:#Die E-Mail-Adresse setzt sich zusammen aus der ID eines externen Kontos und einer eigens generierten Plattform-ID. Diese Option ermöglicht Rückschlüsse auf die Person.zulassen.
@@ -3739,7 +3739,7 @@ common#:#check_languages#:#Alle Sprachen überprüfen
 common#:#check_link#:#Externe Links überprüfen
 common#:#check_link_desc#:#Wenn eingeschaltet, werden alle ILIAS-Lernmodule auf ungültige externe Links überprüft.
 common#:#check_user_accounts#:#ILIAS-Konten überprüfen
-common#:#check_user_accounts_desc#:#Personen, deren ILIAS-Konten zeitlich begrenzt sind, werden zwei Wochen vor Fristende per E-Mail informiert, dass ihr Konto abläuft. Außerdem löscht der Cronjob alle ILIAS-Konten, bei denen der E-Mail-Bestätigungslink nicht fristgerecht angeklickt wurde.
+common#:#check_user_accounts_desc#:#Personen, deren ILIAS-Konten zeitlich begrenzt sind, werden zwei Wochen vor Fristende per E-Mail informiert, dass ihr Konto abläuft. Außerdem löscht der Cron-Job alle ILIAS-Konten, bei denen der E-Mail-Bestätigungslink nicht fristgerecht angeklickt wurde.
 common#:#check_web_resources#:#Weblinks überprüfen
 common#:#check_web_resources_desc#:#Wenn eingeschaltet, werden alle Weblinks auf ungültige externe Links überprüft und gegebenenfalls deaktiviert.
 common#:#checked#:#Ausgewählt
@@ -3844,7 +3844,7 @@ common#:#create_stylesheet#:#Style erstellen
 common#:#created#:#Erstellt am
 common#:#cron_forum_notification#:#Foren-Benachrichtigungen via Cron-Job versenden
 common#:#cron_forum_notification_crob_desc#:#Wenn aktiviert, sendet ILIAS täglich Benachrichtigungen an die Benutzer, die bei ausgewählten Foren oder Foren-Themen über neue und geänderte Beiträge benachrichtigt werden wollen. Bitte beachten Sie: Wenn Sie diese Form der Foren-Benachrichtigungen aktivieren, werden keine direkten Benachrichtungen mehr verschickt (Administration / Foren / Foren-Benachrichtigungen versenden).
-common#:#cron_forum_notification_disabled#:#Kann nicht deaktiviert werden wenn der Cron Job aktiv ist.
+common#:#cron_forum_notification_disabled#:#Kann nicht deaktiviert werden, wenn der Cron-Job aktiv ist.
 common#:#cron_jobs#:#Cron-Jobs
 common#:#cron_lucene_index#:#Lucene-Suchindex aktualisieren
 common#:#cron_lucene_index_info#:#Wenn eingeschaltet, wird der Lucene-Suchindex aktualisiert. Bitte konfigurieren Sie vorher den Lucene-Server in der Administration unter „Suchen und finden » Suche“, Reiter „Lucene“.
@@ -3877,7 +3877,7 @@ common#:#crs_list_reg_period#:#Anmeldungszeitraum
 common#:#crs_list_reg_start#:#Anmeldungsbeginn
 common#:#crs_member_not_passed#:#Nicht bestanden
 common#:#crs_member_passed#:#Bestanden
-common#:#crs_members_gallery#:#Mitgliedergalerie
+common#:#crs_members_gallery#:#Galerie
 common#:#crs_new#:#Neuen Kurs anlegen
 common#:#crs_removed_from_waiting_list#:#Sie wurden aus der Warteliste des Kurses „%s“ ausgetragen.
 common#:#crs_status_blocked#:#[Zugang gesperrt]
@@ -4156,7 +4156,7 @@ common#:#file_some_invalid_file_types_removed#:#Einige Dateitypen sind nicht erl
 common#:#file_suffix_repl#:#Ersetzen der Endungen hochgeladener Dateien
 common#:#file_suffix_repl_info#:#Tragen Sie hier komma-separiert alle Dateitypen mit ihrer Dateiendung ein, die beim Upload als Dateiendung ".sec" erhalten sollen, wenn Sie in den Webspace hochgeladen werden. Dadurch wird ihre direkte Ausführung verhindert. Dies geschieht ohnehin automatisch für Dateien mit folgenden Endungen:
 common#:#file_system_clean_temp_dir_cron#:#Temporäres Verzeichnis aufräumen
-common#:#file_system_clean_temp_dir_cron_info#:#Dieser Cronjob räumt das temp-Verzeichnis von ILIAS auf und löscht Dateien, die älter als 10 Tage sind. Damit wird eine Anhäufung ungenutzter Dateien und ein entsprechend erhöhter Speicherplatzverbrauch durch das temp-Verzeichnis verhindert.
+common#:#file_system_clean_temp_dir_cron_info#:#Dieser Cron-Job räumt das temp-Verzeichnis von ILIAS auf und löscht Dateien, die älter als 10 Tage sind. Damit wird eine Anhäufung ungenutzter Dateien und ein entsprechend erhöhter Speicherplatzverbrauch durch das temp-Verzeichnis verhindert.
 common#:#file_updated#:#Die Datei wurde aktualisiert.
 common#:#file_upload_pending#:#Hochgeladene Datei
 common#:#file_valid#:#Datei ist gültig!
@@ -4305,7 +4305,7 @@ common#:#grp_list_reg_start#:#Anmeldungsbeginn
 common#:#grp_list_users#:#Benutzer auflisten
 common#:#grp_mem_change_status#:#Mitgliedsstatus ändern
 common#:#grp_mem_send_mail#:#Mitglied eine Mail senden
-common#:#grp_members_gallery#:#Mitgliedergalerie
+common#:#grp_members_gallery#:#Galerie
 common#:#grp_msg_applicants_assigned#:#Der/die Teilnehmende wurde in die Gruppe aufgenommen.
 common#:#grp_msg_member_assigned#:#Der/die Teilnehmende wurde in die Gruppe aufgenommen.
 common#:#grp_msg_membership_annulled#:#Die Mitgliedschaft wurde aufgehoben.
@@ -6320,7 +6320,6 @@ content#:#cont_click_starting_point#:#Bitte klicken Sie auf den Startpunkt des P
 content#:#cont_click_tl_corner#:#Bitte klicken Sie in die obere linke Ecke des gewünschten Bereichs
 content#:#cont_code_import_file#:#Import
 content#:#cont_code_manual_editing#:#Manual Editing
-content#:#cont_col_ordering#:#Spaltenanordnung
 content#:#cont_colspan#:#Verbund Spalte
 content#:#cont_commented_by#:#Kommentiert von
 content#:#cont_comments#:#Kommentare erlauben
@@ -7288,7 +7287,6 @@ content#:#glo_full_definitions_info#:#Alle Begriffe und Erklärungen werden voll
 content#:#glo_hide_taxonomy#:#Taxonomie ausblenden
 content#:#glo_list_usages#:#Nutzung
 content#:#glo_mode_normal_info#:#Das Glossar beinhaltet alle Begriffe, die im Glossar angelegt wurden.
-content#:#glo_online_info#:#Nur wenn das Glossar online geschaltet ist, können Benutzer das Glossar sehen und benutzen.
 content#:#glo_presentation_mode#:#Ansicht
 content#:#glo_presentation_view#:#Präsentationsansicht
 content#:#glo_quick_navigation#:#Schnellzugriff
@@ -7433,9 +7431,9 @@ cron#:#cron_action_reset#:#Zurücksetzen
 cron#:#cron_action_reset_success#:#Cron-Job zurückgesetzt.
 cron#:#cron_action_reset_sure#:#Wollen Sie wirklich den Cron-Job „%s“ zurücksetzen?
 cron#:#cron_action_reset_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs zurücksetzen?
-cron#:#cron_action_run#:#Cron-Job Ausführen
-cron#:#cron_action_run_fail#:#Ausführung gescheitert.
-cron#:#cron_action_run_success#:#Cron-Job erfolgreich ausgeführt.
+cron#:#cron_action_run#:#Cron-Job ausführen
+cron#:#cron_action_run_fail#:#Ausführung gescheitert
+cron#:#cron_action_run_success#:#Cron-Job erfolgreich ausgeführt
 cron#:#cron_action_run_sure#:#Wollen Sie wirklich den Cron-Job „%s“ ausführen?
 cron#:#cron_changed_by_crontab#:#SYSTEM
 cron#:#cron_component#:#Komponente
@@ -7443,11 +7441,11 @@ cron#:#cron_job_id#:#ID
 cron#:#cron_last_run#:#Letzter Durchlauf
 cron#:#cron_no_executable_job_selected#:#Bitte wählen Sie mindestens einen ausführbaren Cron-Job.
 cron#:#cron_result#:#Ergebnis
-cron#:#cron_result_info#:#Ergebnis-Info
+cron#:#cron_result_info#:#Ergebnisdetails
 cron#:#cron_result_status_crashed#:#Abbruch
 cron#:#cron_result_status_fail#:#Fehler
 cron#:#cron_result_status_invalid_configuration#:#Ungültige Konfiguration
-cron#:#cron_result_status_no_action#:#Ok, keine Bearbeitung
+cron#:#cron_result_status_no_action#:#Ausgeführt. Keine Änderungen
 cron#:#cron_result_status_ok#:#Ok
 cron#:#cron_result_status_reset#:#Zurücksetzen
 cron#:#cron_running_since#:#Läuft seit
@@ -7465,8 +7463,8 @@ cron#:#cron_schedule_yearly#:#Jährlich
 cron#:#cron_status#:#Status
 cron#:#cron_status_active#:#Aktiv
 cron#:#cron_status_inactive#:#Inaktiv
-cron#:#cron_status_info#:#Status-Info
-crs#:#activation_times_not_valid#:#Die Zeitdauer für 'Verfügbarkeit' ist nicht gültig.
+cron#:#cron_status_info#:#Statusänderung
+crs#:#activation_times_not_valid#:#Die Zeitdauer für „Verfügbarkeit“ ist nicht gültig.
 crs#:#assigned#:#Zugeordnet
 crs#:#contact_email_not_valid#:#Die E-Mail-Adresse ist nicht gültig.
 crs#:#crs_accept_subscriber#:#Aufnahme in Kurs „%s“
@@ -7516,8 +7514,8 @@ crs#:#crs_breadcrumb_crs_only#:#Brotkrumenpfad beginnt mit Kurs
 crs#:#crs_breadcrumb_full_path#:#Gesamten Pfad anzeigen
 crs#:#crs_cancel_subscr_request#:#Aufnahmeantrag zurückziehen
 crs#:#crs_cancel_subscription#:#Austritt aus Kurs „%s“
-crs#:#crs_cancel_subscription_body#:#die Teilnehmerin/der Teilnehmer %s ist aus dem Kurs „%s“ ausgetreten.
-crs#:#crs_cancel_subscription_body2#:#Eventuell sind Teilnehmende in die Warteliste dieses Kurses eingetragen. Um die Liste der Teilnehmenden anzuzeigen, rufen Sie bitte folgenden Link auf:
+crs#:#crs_cancel_subscription_body#:#%s ist aus dem Kurs „%s“ ausgetreten.
+crs#:#crs_cancel_subscription_body2#:#Eventuell stehen Personen auf der Warteliste dieses Kurses. Um die Liste anzuzeigen, rufen Sie bitte folgenden Link auf:
 crs#:#crs_cancellation_end#:#Spätester Kursaustritt
 crs#:#crs_cancellation_end_info#:#Mitglieder können nur bis zum gesetzten Datum selbstständig die Kursmitgliedschaft beenden.
 crs#:#crs_cancellation_end_rbac_info#:#Das Stornierungsende wurde am %s erreicht. Ein Austritt aus dem Kurs ist jetzt nicht mehr möglich.
@@ -7636,7 +7634,7 @@ crs#:#crs_loc_objectives_passed_confirmation#:#Sie haben bereits alle Lernziel b
 crs#:#crs_loc_passes_info#:#Maximalanzahl Testdurchläufe:
 crs#:#crs_loc_passes_left#:#Verbleibende Anzahl von Testdurchläufen
 crs#:#crs_loc_passes_reached#:#Keine weiteren Testdurchläufe möglich
-crs#:#crs_loc_perc#:#Benötigte Prozentzahl der Punkte
+crs#:#crs_loc_perc#:#Benötigte Prozentzahl an Punkten
 crs#:#crs_loc_progress_do_qualifying#:#Bitte führen Sie den Abschlusstest durch, um das Lernziel abzuschließen.
 crs#:#crs_loc_progress_do_qualifying_again#:#Bitte bearbeiten Sie das Lernziel erneut.
 crs#:#crs_loc_progress_no_result_do_initial#:#Bearbeiten Sie den Einstiegstest
@@ -7709,7 +7707,7 @@ crs#:#crs_mail_all#:#Für alle Mitglieder
 crs#:#crs_mail_all_info#:#Alle, die am Kurs teilnehmen, können die Funktion „Mail an Mitglieder” im Reiter „Mitglieder” nutzen.
 crs#:#crs_mail_context_member_info#:#Für die Kontakt-E-Mails auf dem Reiter „Info“ eines Kurses
 crs#:#crs_mail_context_member_title#:#Kurs: Reiter „Info“
-crs#:#crs_mail_context_tutor_info#:#Für die Teilnehmer-E-Mails auf den Mitglieds- und Lernfortschrittsansichten eines Kurses
+crs#:#crs_mail_context_tutor_info#:#Mails, die im Reiter „Mitglieder“ und „Lernfortschritt“ eines Kurses versendet werden
 crs#:#crs_mail_context_tutor_title#:#Kurs: Mail an Mitglieder
 crs#:#crs_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Kursinhalt zuzugreifen:
 crs#:#crs_mail_tutors_only#:#Nur für Kursadminstration und Kursbetreuung
@@ -7725,9 +7723,9 @@ crs#:#crs_max_members_reached#:#Die maximale Mitgliederanzahl wurde überschritt
 crs#:#crs_mem_contact#:#Kontaktperson
 crs#:#crs_mem_contacts#:#Kontaktpersonen
 crs#:#crs_mem_send_mail#:#Mail verschicken
-crs#:#crs_mem_tbl_header#:#Kursteilnehmer
+crs#:#crs_mem_tbl_header#:#Mitglieder
 crs#:#crs_member#:#Mitglied
-crs#:#crs_member_administration#:#Teilnehmerverwaltung
+crs#:#crs_member_administration#:#Verwalten
 crs#:#crs_member_passed_status_changed#:#Update-Status
 crs#:#crs_members#:#Mitglieder
 crs#:#crs_members_deleted#:#Die ausgewählten Mitglieder sind aus dem Kurs ausgetragen worden.
@@ -7760,12 +7758,12 @@ crs#:#crs_notification_activated#:#Benachrichtigung aktiviert
 crs#:#crs_notification_deactivated#:#Benachrichtigung deaktiviert
 crs#:#crs_notification_explanation_admin#:#Sie erhalten diese Mail, da für Sie als Kursbetreuung die Benachrichtigungen aktiviert sind.
 crs#:#crs_notification_list_title#:#Benachrichtigung
-crs#:#crs_notification_salutation#:#Liebe Kursteilnehmerin, lieber Kursteilnehmer,
+crs#:#crs_notification_salutation#:#Hallo,
 crs#:#crs_notify#:#Benachrichtigung bei Beitritten
 crs#:#crs_nr#:#Nr.
 crs#:#crs_number_users_added#:#Die folgende Anzahl von Benutzern wurden dem Kurs hinzugefügt:
 crs#:#crs_obj_final_req_info#:#Bitte geben Sie die Prozentzahl der Punkte ein, ab der das Lernziel erfüllt ist.
-crs#:#crs_obj_initial_req_info#:#Kursteilnehmern, die diese Prozentzahl der Punkte erreicht haben, werden keine Kursmaterialien zur weiteren Bearbeitung empfohlen.
+crs#:#crs_obj_initial_req_info#:#Wer diese Prozentzahl erreicht hat, braucht keine weiteren Kursmaterialien mehr zu bearbeiten.
 crs#:#crs_obj_required_points#:#Benötigte Punktzahl
 crs#:#crs_objective_accomplished#:#Erledigt
 crs#:#crs_objective_action_itest#:#Fragen des Einstiegstests festlegen
@@ -7871,11 +7869,11 @@ crs#:#crs_settings#:#Kurseinstellungen
 crs#:#crs_settings_saved#:#Die Einstellungen wurden gespeichert.
 crs#:#crs_shorten_breadcrumb#:#Brotkrumennavigation
 crs#:#crs_show_all_obj#:#Alle zeigen
-crs#:#crs_show_member_export#:#Teilnehmerliste
-crs#:#crs_show_member_export_info#:#Mitglieder haben die Möglichkeit eine Teilnehmerliste zu generieren.
-crs#:#crs_show_member_export_settings#:#Teilnehmerliste
-crs#:#crs_show_members#:#Mitgliedergalerie
-crs#:#crs_show_members_info#:#Alle Mitglieder können in diesem Reiter die Mitgliedergalerie einsehen.
+crs#:#crs_show_member_export#:#Teilnahmeliste
+crs#:#crs_show_member_export_info#:#Mitglieder können eine Liste mit personenbezogenen Daten generieren und drucken. Im neu eingeblendeten Unterreiter „Teilnahmeliste“ kann der Inhalt konfiguriert werden.
+crs#:#crs_show_member_export_settings#:#Teilnahmeliste
+crs#:#crs_show_members#:#Galerie
+crs#:#crs_show_members_info#:#Alle Mitglieder können in diesem Reiter die Galerie einsehen.
 crs#:#crs_size#:#Dateigröße
 crs#:#crs_sort_activation#:#Nach Zeitvorgaben
 crs#:#crs_sort_manual#:#Manuelle Sortierung
@@ -10222,7 +10220,6 @@ glo#:#glo_bulk_creation#:#Aus Excel kopieren
 glo#:#glo_change_to_collection_unavailable_info#:#Um die Zusammenstellung der Inhalte auf "Sammelglossar" zu ändern, müssen Sie zuerst alle bestehenden Begriffe innerhalb dieses Glossars im Reiter "Inhalt" löschen.
 glo#:#glo_change_to_standard_unavailable_info#:#Um die Zusammenstellung der Inhalte auf "Normales Glossar" zu ändern, müssen Sie zuerst die ausgewählten Glossare im Reiter "Inhalt" entfernen.
 glo#:#glo_check#:#Prüfen
-glo#:#glo_col_ordering_info#:#Sortieren Sie die Titel der Metadatenfelder, die in der Präsentationsansicht des Glossars als Spaltenüberschriften angezeigt werden.
 glo#:#glo_collection#:#Sammelglossar
 glo#:#glo_collection_empty_info#:#Dieses Sammelglossar ist aktuell leer. Bitte fügen mindestens ein Glossar hinzu.
 glo#:#glo_collection_info#:#Das Glossar sammelt automatisch alle Begriffe aus den ausgewählten Glossaren.
@@ -10426,8 +10423,8 @@ grp#:#grp_set_on_waiting_list#:#Wenn Sie einen Aufnahmeantrag stellen, werden Si
 grp#:#grp_setting_header_presentation#:#Darstellung
 grp#:#grp_setting_header_registration#:#Selbstständiger Beitritt durch Benutzer
 grp#:#grp_settings#:#Gruppeneinstellungen
-grp#:#grp_show_members#:#Mitgliedergalerie
-grp#:#grp_show_members_info#:#Alle Mitglieder können im Reiter "Mitglieder" die Mitgliedergalerie einsehen.
+grp#:#grp_show_members#:#Galerie
+grp#:#grp_show_members_info#:#Alle Mitglieder können im Reiter "Mitglieder" die Galerie einsehen.
 grp#:#grp_subscription_min_members_info#:#Wird die geforderte Mindestanzahl an Mitgliedern nicht erreicht, kann die Gruppe nicht stattfinden. Wird die Mindestanzahl bis zum Ende des Beitrittszeitraums bzw. dem spätesten Gruppenaustritt nicht erreicht, versendet ILIAS eine Mail an jene Personen der Gruppenadministration, für die im Reiter „Mitglieder“ die Option „Benachrichtigung“ aktiviert ist.
 grp#:#grp_sure_add_user_to_group#:#Wollen Sie den Benutzer wirklich der Gruppe hinzufügen?
 grp#:#grp_sure_create_group_add_user#:#Wollen Sie die Gruppen wirklich erstellen und den Benutzer hinzufügen?
@@ -11083,7 +11080,7 @@ lso#:#lso_mainbar_button_label_toc#:#Inhalte
 lso#:#lso_mem_tbl_header#:#Lernsequenz Teilnehmer
 lso#:#lso_member_administration#:#Teilnehmerverwaltung
 lso#:#lso_members_deleted#:#Die ausgewählten Mitglieder sind aus der Lernsequenz ausgetragen worden.
-lso#:#lso_members_gallery#:#Mitgliedergalerie
+lso#:#lso_members_gallery#:#Galerie
 lso#:#lso_members_print_title#:#Lernsequenzmitglieder
 lso#:#lso_min_one_admin#:#Dieser Lernsequenz muss mindestens ein Konto mit der Rolle „Lernsequenzadministration“ zugeordnet sein.
 lso#:#lso_msg_member_assigned#:#Benutzer wurde(n) in die Lernsequenz aufgenommen
@@ -11112,7 +11109,7 @@ lso#:#lso_settings_extro#:#Abschlussseite bearbeiten
 lso#:#lso_settings_intro#:#Einleitungsseite bearbeiten
 lso#:#lso_settings_old_extro#:#Alte Abschlussseite ansehen
 lso#:#lso_settings_old_intro#:#Alte Einleitungsseite ansehen
-lso#:#lso_show_members_info#:#Mitgliedergalerie für Benutzer sichtbar
+lso#:#lso_show_members_info#:#Galerie für Benutzer sichtbar
 lso#:#lso_start_item#:#%s öffnen
 lso#:#lso_toast_completed_desc#:#Sie haben diese Lernsequenz abgeschlossen. Natürlich können Sie den Inhalt noch weiter durchsehen.
 lso#:#lso_toast_completed_title#:#Herzlichen Glückwunsch
@@ -11120,7 +11117,7 @@ lso#:#lso_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieser Lern
 lso#:#mail_lso_roles#:#alle Personen mit folgenden lokalen Rollen. Label is now generalised for all components that support ‘mail to members‘
 lso#:#manage#:#Verwalten
 lso#:#manage_content_maintab#:#Inhalt
-lso#:#members_gallery#:#Mitgliedergalerie
+lso#:#members_gallery#:#Galerie
 lso#:#no_entries_selected_for_delete#:#Es muss mindestens ein Listeneintrag ausgewählt werden.
 lso#:#not_finished#:#Nicht Abgeschlossen
 lso#:#notification_lso_completed_title#:#Sie haben die Lernsequenz %s abgeschlossen.
@@ -11865,10 +11862,10 @@ mcst#:#mcst_show_description#:#Beschreibung anzeigen
 mcst#:#mcst_standard_settings_info#:#Kommagetrennte Liste von Dateiendungen
 mcst#:#mcst_standard_settings_title#:#Dateiendungen für das Standard Format
 mcst#:#mcst_standard_title#:#Standard-Mediendatei
-mcst#:#mcst_unable_to_determin_playtime#:#Leider konnte die Laufzeit nicht automatisch bestimmt werden. Unter "Bearbeiten" können Sie die Laufzeit manuell einstellen.
+mcst#:#mcst_unable_to_determin_playtime#:#Leider konnte die Laufzeit nicht automatisch bestimmt werden. Unter „Bearbeiten“ können Sie die Laufzeit manuell einstellen.
 mcst#:#mcst_video_cast#:#Videoliste
 mcst#:#mcst_video_completion_threshold#:#"Bearbeitet"-Schwellenwert
-mcst#:#mcst_video_completion_threshold_info#:#Ab diesem Fortschritt wird ein Video als "angesehen" gespeichert. Bitte beachten Sie, dass ILIAS nicht prüft, ob der gesamte Zeitraum auch wirklich angezeigt wurde oder der Benutzer Teile übersprungen hat.
+mcst#:#mcst_video_completion_threshold_info#:#Ab diesem Fortschritt wird ein Video als „angesehen“ gespeichert. Bitte beachten Sie, dass ILIAS nicht prüft, ob der gesamte Zeitraum auch wirklich angezeigt wurde oder der Benutzer Teile übersprungen hat.
 mcst#:#mcst_videoalternative_title#:#Alternatives Videoformat zur Nutzung im Browser
 mcst#:#mcst_videoportable_settings_info#:#Kommagetrennte Liste von Dateiendungen
 mcst#:#mcst_videoportable_settings_title#:#Dateiendungen für das Video-Format
@@ -11884,7 +11881,7 @@ mem#:#mem_period_without_time#:#ohne Uhrzeitangabe
 mem#:#mem_print_view_form#:#Standardeinstellungen für Druckansicht
 mem#:#mem_settings_tab_print_view#:#Einstellungen Druckansicht
 mem#:#mem_settings_tab_settings#:#Allgemeine Einstellungen
-mem#:#mmbr_gallery_user_actions#:#Aktionen in Mitgliedergalerie
+mem#:#mmbr_gallery_user_actions#:#Aktionen in Galerie
 membership#:#mem_error_preconditions#:#Die Aufnahme konnte nicht erfolgen, da mindestens eine Einstellung dies verhindert.
 membership#:#mem_force_notification#:#Benachrichtigung per Mail
 membership#:#mem_force_notification_mode_all#:#Aktiviert für alle Mitglieder (frei änderbar)
@@ -11921,7 +11918,7 @@ mep#:#mep_master_language_only_no_media#:#Basissprache für Übersetzung - ohne 
 mep#:#mep_media_files#:#Mediendateien
 mep#:#mep_media_subtitles#:#Untertitel
 mep#:#mep_mob#:#Medienobjekt
-mep#:#mep_move_select_insert#:#Navigieren Sie zum Zielordner und wählen Sie "Einfügen".
+mep#:#mep_move_select_insert#:#Navigieren Sie zum Zielordner und wählen Sie „Einfügen“.
 mep#:#mep_mpg#:#Inhaltsbaustein
 mep#:#mep_new_content_snippet#:#Neuer Inhaltsbaustein
 mep#:#mep_new_folder#:#Neuer Ordner
@@ -11941,7 +11938,7 @@ mep#:#mobs_always_show_file_manager_info#:#Wenn deaktiviert, wird die Dateistruk
 mep#:#mobs_black_list_file_types#:#Verbotene Dateitypen
 mep#:#mobs_black_list_file_types_and_allowed_info#:#Diese Liste schränkt die Menge der erlaubten Dateitypen ein. Tragen Sie dazu die jeweilige MIME-Typen mit Komma getrennt ein (z.B. text/html, application/pdf). Aktuell erlaubte MIME-Typen:
 mep#:#mobs_restrict_file_types#:#Erlaubte Dateitypen
-mep#:#mobs_restrict_file_types_info#:#Bestimmen Sie alle Dateitypen, die in Medienobjekten hochgeladen werden dürfen. Tragen Sie dazu die jeweilige Dateiendungen mit Komma getrennt ein (z.B. jpg,gif). Wird kein Eintrag vorgenommen, sind alle Typen erlaubt.
+mep#:#mobs_restrict_file_types_info#:#Bestimmen Sie alle Dateitypen, die in Medienobjekten hochgeladen werden dürfen. Tragen Sie dazu die jeweilige Dateiendungen mit Komma getrennt ein (z.B. jpg, gif). Wird kein Eintrag vorgenommen, sind alle Typen erlaubt.
 meta#:#adt_error_max_length#:#Der eingegebene Text ist zu lang. Bitte geben Sie einen kürzeren Text ein.
 meta#:#md_adn_int_error_no_default#:#Bitte wählen Sie eine aktivierte Sprache als "Default-Sprache" aus.
 meta#:#md_adv_active#:#Aktiv
@@ -12011,7 +12008,7 @@ meta#:#md_copyright#:#Copyright
 meta#:#md_copyright_add#:#Neue Vorgabe
 meta#:#md_copyright_admin_tab#:#Copyright & OER
 meta#:#md_copyright_alt_text#:#Alternativtext
-meta#:#md_copyright_alt_text_info#:#Wird für das ‘alt’ Attribut des Bildes verwendet
+meta#:#md_copyright_alt_text_info#:#Wird für das „Alt“-Attribut des Bildes verwendet
 meta#:#md_copyright_default#:#Standard
 meta#:#md_copyright_edit#:#Copyright-Vorgabe bearbeiten
 meta#:#md_copyright_enable_info#:#Im Unterreiter „Lizenzen“ hinterlegte Auswahl wird in Objekten angeboten.
@@ -12031,28 +12028,28 @@ meta#:#md_copyrights_deleted#:#Die ausgewählten Vorgaben wurden entfernt.
 meta#:#md_days#:#Tage:
 meta#:#md_delete_cp_sure#:#Möchten Sie wirklich die ausgewählten Vorgaben entfernen?
 meta#:#md_delimiter#:#Trennzeichen
-meta#:#md_delimiter_info#:#Das Trennzeichen wird in der Schnellbearbeitung der Metadaten verwendet, um mehrere Angaben zu trennen. Standardzeichen ist ','.
+meta#:#md_delimiter_info#:#Das Trennzeichen wird in der Schnellbearbeitung der Metadaten verwendet, um mehrere Angaben zu trennen. Standardzeichen ist „'“.
 meta#:#md_editor_custom_input#:#Eigene Angabe
 meta#:#md_editor_from_vocab_input#:#Aus Vokabular
 meta#:#md_editor_value#:#Begriff
 meta#:#md_fields#:#Felder
 meta#:#md_import_file_vocab#:#Importdatei
-meta#:#md_import_vocab#:#Import
+meta#:#md_import_vocab#:#Vokabular importieren
 meta#:#md_import_vocab_modal#:#Aus Datei importieren
 meta#:#md_months#:#Monate:
 meta#:#md_oai_contact_mail#:#E-Mail-Kontaktadresse
 meta#:#md_oai_identifier_prefix#:#OAI Präfix
-meta#:#md_oai_identifier_prefix_info#:#Dieser Präfix wird als Namespace in den Bezeichnern von abgefragten OER Datensätzen benutzt.
+meta#:#md_oai_identifier_prefix_info#:#Dieser Präfix wird als Namespace in den Bezeichnern von abgefragten OER-Datensätzen benutzt.
 meta#:#md_oai_pmh_enabled#:#Abfragen über OAI-PMH Schnittstelle erlauben
-meta#:#md_oai_pmh_enabled_info#:#Wenn aktiviert, können vom OER Harvester gefundene Resourcen von externen Parteien wie OER Repositorien abgefragt werden.
+meta#:#md_oai_pmh_enabled_info#:#Wenn aktiviert, können vom OER-Harvester gefundene Resourcen von externen Parteien wie OER Repositorien abgefragt werden.
 meta#:#md_oai_repository_name#:#Name des Repositoriums
-meta#:#md_oai_repository_name_info#:#Bei Anfragen über die Schnittstelle wird dies als Name dieser ILIAS Installation angegeben.
+meta#:#md_oai_repository_name_info#:#Bei Anfragen über die Schnittstelle wird dies als Name dieser ILIAS-Installation angegeben.
 meta#:#md_obj_types#:#Zugeordnete Objekte
 meta#:#md_record_export_table#:#Exportdateien
 meta#:#md_record_list_table#:#Benutzerdefinierte Metadatensätze
 meta#:#md_separated_by#:#Getrennt mit %s
 meta#:#md_settings#:#Einstellungen
-meta#:#md_settings_harvester#:#OER Harvester
+meta#:#md_settings_harvester#:#OER-Harvester
 meta#:#md_settings_licence#:#Nutzungsregeln
 meta#:#md_settings_publishing#:#Abfrage durch Repositorien
 meta#:#md_time#:#Zeit:
@@ -12067,24 +12064,24 @@ meta#:#md_vocab_deactivate_action#:#Deaktivieren
 meta#:#md_vocab_delete_action#:#Löschen
 meta#:#md_vocab_delete_confirmation_text#:#Sind Sie sicher, dass sie dass Vokabular %s (%s) mit den folgenden Begriffen löschen wollen?
 meta#:#md_vocab_delete_confirmation_title#:#Vokabular löschen
-meta#:#md_vocab_deletion_successful#:#Vokabular erfolgreich gelöscht.
+meta#:#md_vocab_deletion_successful#:#Vokabular erfolgreich gelöscht
 meta#:#md_vocab_disallow_custom_input_action#:#Keine eigenen Angaben erlauben
 meta#:#md_vocab_element_column#:#Element
 meta#:#md_vocab_element_with_condition#:#%s mit %s %s
 meta#:#md_vocab_import_invalid#:#Die Importdatei ist ungültig:<br/>%s
-meta#:#md_vocab_import_successful#:#Vokabular erfolgreich imported.
+meta#:#md_vocab_import_successful#:#Vokabular erfolgreich importiert
 meta#:#md_vocab_import_upload_failed#:#Das Hochladen der Importdatei ist fehlgeschlagen.
-meta#:#md_vocab_preview_column#:#Vorschau
-meta#:#md_vocab_show_all_action#:#Alle Begriffe anzeigen
+meta#:#md_vocab_preview_column#:#Werte
+meta#:#md_vocab_show_all_action#:#Alle Werte anzeigen
 meta#:#md_vocab_source_column#:#Quelle
-meta#:#md_vocab_table_title#:#Vokabulare
+meta#:#md_vocab_table_title#:#Metadaten-Elemente mit vordefinierten Werten
 meta#:#md_vocab_type_column#:#Typ
 meta#:#md_vocab_type_controlled_string#:#Kontrollierter Text
 meta#:#md_vocab_type_controlled_vocab_value#:#Kontrollierte Auswahl
 meta#:#md_vocab_type_copyright#:#Copyright
 meta#:#md_vocab_type_standard#:#Standard
-meta#:#md_vocab_update_successful#:#Vokabular erfolgreich aktualisiert.
-meta#:#md_vocabularies_config#:#LOM Vokabulare
+meta#:#md_vocab_update_successful#:#Vokabular erfolgreich aktualisiert
+meta#:#md_vocabularies_config#:#LOM-Vokabulare
 meta#:#meta_1#:#1
 meta#:#meta_2#:#2
 meta#:#meta_3#:#3
@@ -12646,8 +12643,8 @@ meta#:#meta_oer_copyright_selection_info#:#Nur Objekte, die unter einer der ausg
 meta#:#meta_oer_exposed_source#:#Veröffentlichung in
 meta#:#meta_oer_harvested_licences#:#Lizenzauswahl
 meta#:#meta_oer_harvested_types#:#Auswahl Objekttypen
-meta#:#meta_oer_harvester#:#OER Harvester
-meta#:#meta_oer_harvester_desc#:#Der OER-Harvester sammelt alle Ressourcen unter ausgewählten CC-Lizenzen, fügt sie einer in den Cron-Job-Einstellungen definierten Kategorie hinzu, und generiert wenn nötig Exportdateien für sie. Für die für Veröffentlichung bereite Ressourcen werden Einträge angelegt, die (wenn aktiviert) über eine OAI-PMH Schnittstelle ausgelesen werden können. Damit dieser Cronjob Ergebnisse liefern kann, muss die Copyright-Auswahl in der Metadaten-Administration aktiviert und konfiguriert sein. Nur Dateiobjekte, Glossare, Inhaltsseiten, Lernmodule (ILIAS, SCORM, und HTML), Fragenpools (für Umfragen und Tests), und Medienpools werden unterstützt.
+meta#:#meta_oer_harvester#:#OER-Harvester
+meta#:#meta_oer_harvester_desc#:#Der OER-Harvester sammelt alle Ressourcen unter ausgewählten CC-Lizenzen, fügt sie einer in den Cron-Job-Einstellungen definierten Kategorie hinzu, und generiert wenn nötig Exportdateien für sie. Für die für Veröffentlichung bereite Ressourcen werden Einträge angelegt, die (wenn aktiviert) über eine OAI-PMH Schnittstelle ausgelesen werden können. Damit dieser Cron-Job Ergebnisse liefern kann, muss die Copyright-Auswahl in der Metadaten-Administration aktiviert und konfiguriert sein. Nur Dateiobjekte, Glossare, Inhaltsseiten, Lernmodule (ILIAS, SCORM, und HTML), Fragenpools (für Umfragen und Tests), und Medienpools werden unterstützt.
 meta#:#meta_oer_object_type_selection#:#Sammlung folgender Objekttypen
 meta#:#meta_oer_target#:#Sammlung in
 meta#:#meta_opera#:#Opera
@@ -13791,6 +13788,7 @@ prtf#:#prtf_sure_delete_portfolio_pages#:#Wollen Sie die folgende Portfolio- bzw
 prtf#:#prtf_sure_delete_portfolios#:#Wollen Sie das folgende Portfolio wirklich löschen?
 prtf#:#prtf_tab_other_users#:#Portfolios anderer Benutzer
 prtf#:#prtf_tab_portfolios#:#Meine Portfolios
+prtf#:#prtf_table_of_contents#:#Inhaltsverzeichnis
 prtf#:#prtf_template_editor_placeholder_info#:#Dieser Platzhalter wird im Portfolio ersetzt.
 prtf#:#prtf_template_import_blog_create#:#Neues Blog erstellen
 prtf#:#prtf_template_import_blog_ignore#:#Blog-Seite entfernen
@@ -13871,7 +13869,7 @@ ps#:#ps_grp_user_fields#:#Persönliche Angaben zu dieser Gruppe
 ps#:#ps_login_max_attempts#:#Maximale Anzahl von Anmeldeversuchen
 ps#:#ps_login_max_attempts_info#:# Bestimmt wie viele Anmeldeversuche eines Benutzer höchstens fehlschlagen dürfen. Schlagen mehr Anmeldeversuche fehl, wird dieser Benutzer auf 'inaktiv' gesetzt und muss im 'Benutzer Management' wieder aktiviert werden, bevor er die Plattform benutzen kann. Wird kein Wert eingetragen, ist die Funktion deaktiviert und ILIAS zählt die fehlgeschlagenen Anmeldeversuche nicht.
 ps#:#ps_not_accepted#:#Nicht zugestimmt
-ps#:#ps_participants_list_courses#:#Aktivierung von Teilnehmerlisten in der Mitgliedergalerie der Kurse erlauben
+ps#:#ps_participants_list_courses#:#Aktivierung von Teilnehmerlisten in der Galerie der Kurse erlauben
 ps#:#ps_passwd_policy_change_force_user_reset_succ#:#Die Aktion wurde erfolgreich durchgeführt.
 ps#:#ps_passwd_policy_changed_force_user_reset#:#Die Änderungen wurden erfolgreich übernommen. Sie haben mindestens eine Änderung bzgl. der Passwortrichtlinie vorgenommen. Möchten Sie, dass lokale Anmeldekonten nach der nächsten erfolgreichen Anmeldung ein neues Passwort vergeben müssen?
 ps#:#ps_password_change_on_first_login_enabled#:#Passwort ändern bei Erstanmeldung
@@ -17436,7 +17434,7 @@ user#:#roles_without_starting_point#:#Rollen ohne definierte Startseite
 user#:#save_order#:#Reihenfolge speichern
 user#:#send_mail_reminder_window_too_small#:#Das Intervall ist zu groß, um den Versand einer E-Mail vor der Löschung des Kontos zu gewährleisten.
 user#:#send_mail_to_inactive_users#:#Benachrichtigungsmail
-user#:#send_mail_to_inactive_users_desc#:#Bevor ILIAS-Konten gelöscht werden, sendet ILIAS eine E-Mail an die betroffenen Personen. Durch ein erneutes Anmelden der jeweiligen Person in ILIAS wird die Löschung um die eingestellte Zeitspanne aufgeschoben. Bitte stellen Sie sicher, dass ein externer E-Mail-Empfang möglich ist. Bei Aktivierung des Cronjobs mit Benachrichtigungsmail, kann es vorkommen, dass zu Beginn die Zeitspanne zwischen Benachrichtigung und Löschung geringer ist als die eingestellte Zeitspanne.
+user#:#send_mail_to_inactive_users_desc#:#Bevor ILIAS-Konten gelöscht werden, sendet ILIAS eine E-Mail an die betroffenen Personen. Durch ein erneutes Anmelden der jeweiligen Person in ILIAS wird die Löschung um die eingestellte Zeitspanne aufgeschoben. Bitte stellen Sie sicher, dass ein externer E-Mail-Empfang möglich ist. Bei Aktivierung des Cron-Jobs mit Benachrichtigungsmail, kann es vorkommen, dass zu Beginn die Zeitspanne zwischen Benachrichtigung und Löschung geringer ist als die eingestellte Zeitspanne.
 user#:#send_mail_to_inactive_users_must_be_smaller_than#:#Dieser Wert muss kleiner sein, als der Wert „Vergangene Tage seit letzter Anmeldung“.
 user#:#send_mail_to_inactive_users_numbers_only#:#Bitte nur ganzzahlige, positive Werte eingeben. Ihre Eingabe wurde gerundet.
 user#:#send_mail_to_inactive_users_suffix#:#Tage bis zur Löschung.
@@ -17806,7 +17804,7 @@ wopi#:#wopi_crawler_cronjob_success#:#WOPI Informationen erfolgreich aktualisier
 wopi#:#wopi_crawler_cronjob_title#:#Update WOPI Discovery
 wopi#:#wopi_settings#:#WOPI
 wopi#:#wopi_url#:#WOPI Discovery URL
-wopi#:#wopi_url_byline#:#Vollständige URL des WOPI-Discovery, diese muss über den ILIAS-Server erreichbar sein. Die XML-Daten des Discover werden von ILIAS eingelesen und gespeichert, die Informationen werden regelmäßig durch den Cronjob "Update WOPI Discovery" aktualisiert. Beispiel: https://example.org/hosting/discovery
+wopi#:#wopi_url_byline#:#Vollständige URL des WOPI-Discovery, diese muss über den ILIAS-Server erreichbar sein. Die XML-Daten des Discovery werden von ILIAS eingelesen und gespeichert. Die Informationen werden regelmäßig durch den Cron-Job „Update WOPI Discovery“ aktualisiert. Beispiel: https://example.org/hosting/discovery
 wsp#:#element_already_shared#:#Die Ressource ist für diese Person bereits freigegeben.
 wsp#:#element_shared#:#Die Ressource wurde freigegeben.
 wsp#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte kontaktieren Sie Ihre technische Betreuung und bitten um die Prüfung des Zertifikatsservers.

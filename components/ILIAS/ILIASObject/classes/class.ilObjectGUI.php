@@ -719,7 +719,7 @@ class ilObjectGUI implements ImplementsCreationCallback
     protected function getTitleForCreationFormPage(): string
     {
         if (!$this->obj_definition->isPlugin($this->requested_new_type)) {
-            return 'obj_' . $this->requested_new_type;
+            return $this->lng->txt('obj_' . $this->requested_new_type);
         }
         return ilObjectPlugin::lookupTxtById($this->requested_new_type, "obj_{$this->requested_new_type}");
     }

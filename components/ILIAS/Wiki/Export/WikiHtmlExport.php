@@ -144,7 +144,11 @@ class WikiHtmlExport
         //$this->log->debug("export directory: " . $this->export_dir);
 
 
-        $this->export_util->exportSystemStyle();
+        $this->export_util->exportSystemStyle(
+            [
+                "icon_wiki.svg"
+            ]
+        );
         $eff_style_id = $this->content_style_domain->getEffectiveStyleId();
         $this->export_util->exportCOPageFiles($eff_style_id, "wiki");
         $this->co_page_html_export->setContentStyleId($eff_style_id);

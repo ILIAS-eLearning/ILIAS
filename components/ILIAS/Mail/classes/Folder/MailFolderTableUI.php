@@ -146,7 +146,7 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
             'attachments' => $this->ui_factory
                 ->table()
                 ->column()
-                ->status($this->ui_renderer->render($this->ui_factory->symbol()->glyph()->attachment()))
+                ->status($this->lng->txt('attachments'))
                 ->withIsSortable(true),
 
             'date' => $this->ui_factory

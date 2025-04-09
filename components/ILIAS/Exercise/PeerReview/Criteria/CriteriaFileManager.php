@@ -48,7 +48,7 @@ class CriteriaFileManager
 
     public function getStream(string $rid): FileStream
     {
-        $this->repo->getStream($rid);
+        return $this->repo->getStream($rid);
     }
 
     public function getFile(

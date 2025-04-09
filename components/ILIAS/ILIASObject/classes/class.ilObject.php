@@ -1869,7 +1869,7 @@ class ilObject
                 return $custom_icon->getFullPath() . '?tmp=' . filemtime($custom_icon->getFullPath());
             }
 
-            $file_type_specific_icon = $property_icon->getObjectTypeSpecificItem($obj_id, $icon_factory, $irss);
+            $file_type_specific_icon = $property_icon->getObjectTypeSpecificIcon($obj_id, $icon_factory, $irss);
             if ($file_type_specific_icon !== null) {
                 return $file_type_specific_icon->getIconPath();
             }

@@ -27,13 +27,25 @@ class arSelect extends arStatement
     protected string $as = '';
     protected string $field_name = '';
 
+    /**
+     * @param bool $disabled_escaping In some special cases, one need to disable the escaping of the field name.
+     *                                In this cases, the consumer is responsible to avoid sqm injection.
+     */
+    public function __construct(private bool $disabled_escaping = false)
+    {
+    }
+
     public function asSQLStatement(ActiveRecord $activeRecord, ilDBInterface $db): string
     {
         $return = '';
         if ($this->getTableName() !== '' && $this->getTableName() !== '0') {
             $return .= $this->getTableName() . '.';
         }
-        $return .= $this->wrapField($this->getFieldName(), $db);
+        if ($this->disabled_escaping) {
+            $return .= $this->getFieldName();
+        } else {
+            $return .= $this->wrapField($this->getFieldName(), $db);
+        }
         if ($this->getAs() && $this->getFieldName() !== '*') {
             $return .= ' AS ' . $this->getAs();
         }

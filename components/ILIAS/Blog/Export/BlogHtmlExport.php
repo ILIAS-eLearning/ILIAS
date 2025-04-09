@@ -117,7 +117,11 @@ class BlogHtmlExport
     {
         $this->initDirectories();
 
-        $this->export_util->exportSystemStyle();
+        $this->export_util->exportSystemStyle(
+            [
+                "icon_blog.svg"
+            ]
+        );
 
         $this->export_util->exportCOPageFiles(
             $this->content_style_domain->getEffectiveStyleId(),

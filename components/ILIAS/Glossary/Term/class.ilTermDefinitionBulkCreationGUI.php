@@ -152,6 +152,7 @@ class ilTermDefinitionBulkCreationGUI
         $ctrl = $this->gui->ctrl();
         $f = $this->gui->ui()->factory();
         $r = $this->gui->ui()->renderer();
+        $html_util = $this->gui->html();
 
         $conf_tpl = new ilTemplate("tpl.bulk_creation_confirmation.html", true, true, "components/ILIAS/Glossary");
 
@@ -174,7 +175,7 @@ EOT;
         $ctrl->setParameter($this, "term_language", $language);
         $table = $this->domain->table()->getTermDefinitionBulkCreationTable($data, $this->glossary)->getComponent();
 
-        $conf_tpl->setVariable("HIDDEN_VALUE", $data);
+        $conf_tpl->setVariable("HIDDEN_VALUE", $html_util->escape($data));
         $conf_tpl->setVariable("ACTION", $ctrl->getFormAction($this, "createTermDefinitionPairs"));
         $conf_tpl->setVariable("MBOX", $r->render($mbox));
         $conf_tpl->setVariable("TABLE", $r->render($table));

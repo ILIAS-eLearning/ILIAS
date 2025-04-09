@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -119,6 +120,26 @@ class ilConsultationHoursGUI
             );
         }
         return $this->search_assignment_to_appointments;
+    }
+
+    protected function initAppointmentIdsFromTableAction(): array
+    {
+        $current_user_id = $this->getUserId();
+        return $this->http->wrapper()->query()->retrieve(
+            BookingTableGUI::ID_TOKEN_NS,
+            $this->refinery->byTrying(
+                [
+                    $this->refinery->custom()->transformation(function ($value) use ($current_user_id) {
+                        if ($value !== ['ALL_OBJECTS']) {
+                            throw new Exception('Invalid token');
+                        }
+                        return ilConsultationHourAppointments::getAppointmentIds($current_user_id);
+                    }),
+                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                    $this->refinery->always([])
+                ]
+            )
+        );
     }
 
     protected function initAppointmentIdsFromQuery(): array
@@ -248,15 +269,7 @@ class ilConsultationHoursGUI
 
     protected function searchUsersForAppointments(): void
     {
-        $apps = $this->http->wrapper()->query()->retrieve(
-            BookingTableGUI::ID_TOKEN_NS,
-            $this->refinery->byTrying(
-                [
-                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
-                    $this->refinery->always([])
-                ]
-            )
-        );
+        $apps = $this->initAppointmentIdsFromTableAction();
         if ($apps === []) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'appointments');
@@ -686,15 +699,7 @@ class ilConsultationHoursGUI
 
     public function edit(): void
     {
-        $apps = $this->http->wrapper()->query()->retrieve(
-            BookingTableGUI::ID_TOKEN_NS,
-            $this->refinery->byTrying(
-                [
-                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
-                    $this->refinery->always([])
-                ]
-            )
-        );
+        $apps = $this->initAppointmentIdsFromTableAction();
         if (!count($apps)) {
             if ($this->initAppointmentIdsFromPostString() !== []) {
                 $apps = $this->initAppointmentIdsFromPostString();
@@ -958,15 +963,7 @@ class ilConsultationHoursGUI
 
     protected function sendMailToSelectedUsers(): void
     {
-        $appointment_ids = $this->http->wrapper()->query()->retrieve(
-            BookingTableGUI::ID_TOKEN_NS,
-            $this->refinery->byTrying(
-                [
-                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
-                    $this->refinery->always([])
-                ]
-            )
-        );
+        $appointment_ids = $this->initAppointmentIdsFromTableAction();
         if ($appointment_ids === []) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->appointments();
@@ -999,15 +996,7 @@ class ilConsultationHoursGUI
 
     protected function confirmCancelBooking(bool $with_notification = true): void
     {
-        $appointment_ids = $this->http->wrapper()->query()->retrieve(
-            BookingTableGUI::ID_TOKEN_NS,
-            $this->refinery->byTrying(
-                [
-                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
-                    $this->refinery->always([])
-                ]
-            )
-        );
+        $appointment_ids = $this->initAppointmentIdsFromTableAction();
         if ($appointment_ids === []) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->appointments();
@@ -1084,41 +1073,29 @@ class ilConsultationHoursGUI
 
     protected function confirmDeleteAppointments(): void
     {
-        $appointment_ids = $this->http->wrapper()->query()->retrieve(
-            BookingTableGUI::ID_TOKEN_NS,
-            $this->refinery->byTrying(
-                [
-                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
-                    $this->refinery->always([])
-                ]
-            )
-        );
+        $appointment_ids = $this->initAppointmentIdsFromTableAction();
         if (!count($appointment_ids)) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
-            $this->appointments();
-            return;
-        }
-        $items = [];
-        foreach ($appointment_ids as $appointment) {
-            $entry = new ilCalendarEntry($appointment);
-            $items[] = $this->ui_factory->modal()->interruptiveItem()->standard(
-                (string) $appointment,
-                ilDatePresentation::formatDate($entry->getStart()) . ', ' . $entry->getTitle()
-            );
+            $output = $this->ui_factory->messageBox()->failure($this->lng->txt('select_one'));
+        } else {
+            $items = [];
+            foreach ($appointment_ids as $appointment) {
+                $entry = new ilCalendarEntry($appointment);
+                $items[] = $this->ui_factory->modal()->interruptiveItem()->standard(
+                    (string) $appointment,
+                    ilDatePresentation::formatDate($entry->getStart()) . ', ' . $entry->getTitle()
+                );
+            }
+
+            $output = $this->ui_factory->modal()->interruptive(
+                $this->lng->txt('confirm'),
+                $this->lng->txt('cal_ch_delete_app_booking_info'),
+                $this->ctrl->getFormAction($this, 'deleteAppointments')
+            )->withAffectedItems($items);
         }
 
-        $output = $this->ui_renderer->renderAsync(
-            [
-                $this->ui_factory->modal()->interruptive(
-                    $this->lng->txt('confirm'),
-                    $this->lng->txt('cal_ch_delete_app_booking_info'),
-                    $this->ctrl->getFormAction($this, 'deleteAppointments')
-                )->withAffectedItems($items)
-            ]
-        );
-
+        $rendered_output = $this->ui_renderer->renderAsync($output);
         $this->http->saveResponse($this->http->response()->withBody(
-            Streams::ofString($output)
+            Streams::ofString($rendered_output)
         ));
         $this->http->sendResponse();
         $this->http->close();

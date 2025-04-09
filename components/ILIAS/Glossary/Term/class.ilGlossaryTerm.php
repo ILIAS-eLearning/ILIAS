@@ -332,6 +332,8 @@ class ilGlossaryTerm
     /**
      * Set all short texts of glossary dirty
      * (e.g. if length is changed in settings)
+     *
+     * TODO: the new SettingsGUI doesn't use this, remove?
      */
     public static function setShortTextsDirty(int $a_glo_id): void
     {

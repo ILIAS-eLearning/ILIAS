@@ -54,7 +54,7 @@ class Zip
                 $options->getZipOutputPath()
             ) . $options->getZipOutputName();
         } else {
-            $this->zip_output_file = is_writable('php://temp') ? 'php://temp' : $this->buildTempPath();
+            $this->zip_output_file = $this->buildTempPath();
             $this->registerShutdownFunction(function (): void {
                 if (file_exists($this->zip_output_file)) {
                     unlink($this->zip_output_file);
@@ -79,7 +79,8 @@ class Zip
 
     private function buildTempPath(): string
     {
-        $tempnam = tempnam(sys_get_temp_dir(), 'zip');
+        $directory = defined('CLIENT_DATA_DIR') ? \CLIENT_DATA_DIR . '/temp' : sys_get_temp_dir();
+        $tempnam = tempnam($directory, 'zip');
         if (is_file($tempnam)) {
             return $tempnam;
         }

@@ -28,7 +28,6 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
     protected \ILIAS\COPage\Xsl\XslManager $xsl;
     protected \ILIAS\GlobalScreen\Services $global_screen;
     protected \ILIAS\Glossary\InternalGUIService $gui;
-    protected \ILIAS\Glossary\InternalDomainService $domain;
     protected array $mobs;
     protected bool $fill_on_load_code;
     protected string $offline_dir;
@@ -56,16 +55,9 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
     protected string $requested_search_str;
     protected string $requested_file_id;
     protected int $requested_mob_id;
-    protected string $requested_table_glossary_download_list_action = "";
-    /**
-     * @var string[]
-     */
-    protected array $requested_table_glossary_download_file_ids = [];
     protected \ILIAS\Style\Content\Service $content_style_service;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
-    protected \ILIAS\UI\Factory $ui_fac;
-    protected \ILIAS\UI\Renderer $ui_ren;
 
     public function __construct(
         string $export_format = "",
@@ -74,8 +66,8 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
         global $DIC;
 
         $service = $DIC->glossary()->internal();
+        $domain = $service->domain();
 
-        $this->domain = $domain = $service->domain();
         $this->gui = $gui = $service->gui();
 
         $this->access = $DIC->access();
@@ -92,9 +84,6 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
 
         $this->export_format = $export_format;
         $this->setOfflineDirectory($export_dir);
-        $this->offline = ($export_format != "");
-        $this->ui_fac = $DIC->ui()->factory();
-        $this->ui_ren = $DIC->ui()->renderer();
         $this->offline = ($export_format !== "");
 
         $this->ctrl->saveParameter($this, array("ref_id", "letter", "tax_node"));
@@ -126,9 +115,6 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
         $this->requested_search_str = $request->getSearchString();
         $this->requested_file_id = $request->getFileId();
         $this->requested_mob_id = $request->getMobId();
-        $this->requested_table_glossary_download_list_action = $request->getTableGlossaryDownloadListAction();
-        $this->requested_table_glossary_download_file_ids = $request->getTableGlossaryDownloadFileIds();
-
 
         // determine term id and check whether it is valid (belongs to
         // current glossary or a virtual (online) sub-glossary)
@@ -614,61 +600,6 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
         return "";
     }
 
-    /**
-     * show download list
-     */
-    public function showDownloadList(): void
-    {
-        $ilAccess = $this->access;
-        $lng = $this->lng;
-        $ilTabs = $this->tabs_gui;
-
-        if (!$ilAccess->checkAccess("read", "", $this->requested_ref_id)) {
-            throw new ilPermissionException($lng->txt("permission_denied"));
-        }
-
-        $this->setTabs();
-        $ilTabs->activateTab("download");
-
-        // set title header
-        $this->tpl->setTitle($this->glossary->getTitle());
-        $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_glo.svg"));
-
-        $table = $this->domain->table()->getDownloadListTable($this->glossary)->getComponent();
-
-        $this->tpl->setContent($this->ui_ren->render($table));
-    }
-
-    /**
-     * send download file (xml/html)
-     */
-    public function downloadExportFile(): void
-    {
-        $ilAccess = $this->access;
-        $lng = $this->lng;
-
-        if (!$ilAccess->checkAccess("read", "", $this->requested_ref_id)) {
-            throw new ilPermissionException($lng->txt("permission_denied"));
-        }
-
-        $file_type = "";
-        if (($this->requested_table_glossary_download_list_action == "downloadExportFile")
-            && !empty($this->requested_table_glossary_download_file_ids)) {
-            $file_id = $this->requested_table_glossary_download_file_ids[0];
-            $file_type = explode(":", $file_id)[0];
-        }
-
-        $file = $this->glossary->getPublicExportFile($file_type);
-        if ($file != "") {
-            $dir = $this->glossary->getExportDirectory($file_type);
-            if (is_file($dir . "/" . $file)) {
-                ilFileDelivery::deliverFileLegacy($dir . "/" . $file, $file);
-                exit;
-            }
-        }
-        throw new ilGlossaryException($lng->txt("file_not_found"));
-    }
-
     public function setLocator(): void
     {
         $gloss_loc = new ilGlossaryLocatorGUI();
@@ -921,16 +852,6 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
                         $lng->txt("cont_print_view"),
                         $ilCtrl->getLinkTarget($this, "printViewSelection")
                     );
-
-                    // download links
-                    if ($this->glossary->isActiveDownloads()) {
-                        $this->tabs_gui->addTab(
-                            "download",
-                            $lng->txt("download"),
-                            $ilCtrl->getLinkTarget($this, "showDownloadList")
-                        );
-                    }
-                    //}
                 }
 
                 if ($ilAccess->checkAccess("write", "", $this->requested_ref_id) ||

@@ -56,19 +56,6 @@ class PresentationGUIRequest
         return $this->str($key);
     }
 
-    public function getTableGlossaryDownloadListAction(): string
-    {
-        return $this->getTableAction("glo_download_list_table_action");
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getTableGlossaryDownloadFileIds(): array
-    {
-        return $this->getTableIds("glo_download_list_table_file_ids");
-    }
-
     public function getFileId(): string
     {
         return $this->str("file_id");

@@ -114,6 +114,8 @@ class ilGlossaryAdvMetaDataAdapter
 
     /**
      * Save column order
+     *
+     * TODO: this is not a setting anymore, remove?
      */
     public function saveColumnOrder(array $a_cols): void
     {

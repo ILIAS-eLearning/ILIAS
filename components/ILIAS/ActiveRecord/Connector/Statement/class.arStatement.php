@@ -18,6 +18,7 @@
 
 /**
  * Class arStatement
+ *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 2.0.7
  */
@@ -42,6 +43,9 @@ abstract class arStatement
         $wrapped_fields = [];
 
         foreach ($fields as $field) {
+            if (empty($field)) {
+                continue;
+            }
             $wrapped_fields[] = $this->wrapField($field, $db);
         }
 

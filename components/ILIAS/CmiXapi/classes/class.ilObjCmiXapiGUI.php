@@ -474,13 +474,19 @@ class ilObjCmiXapiGUI extends ilObject2GUI
 
             default:
 
-                if ($DIC->ctrl()->getCmd() == "settings") {
-                    $DIC->tabs()->activateTab(self::TAB_ID_SETTINGS);
-                    $this->ctrl->redirectByClass(ilCmiXapiSettingsGUI::class, "show");
-                } else {
-                    $this->infoScreen();
-                }
+                $command = $DIC->ctrl()->getCmd(self::DEFAULT_CMD);
+                $this->{$command}();
         }
+    }
+
+    protected function settings(): void
+    {
+        $this->ctrl->redirectByClass(ilCmiXapiSettingsGUI::class, "show");
+    }
+
+    protected function showSummary(): void
+    {
+        $this->infoScreen();
     }
 
     protected function setTabs(): void

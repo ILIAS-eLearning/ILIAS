@@ -12,7 +12,7 @@ namespace ILIAS\UI\examples\Item\Standard;
  * expected output: >
  *   ILIAS shows a box including the following informations: A heading with a dummy text in small writings
  *   ("Lorem ipsum...") below. Beneath those you can see a fine line and more informations about "LMS", "Code Repo"
- *   and "Location". "Code Repo" ("ILIAS") and "LMS" ("GitHub") are rendered as shy buttons and are functioning as links.
+ *   and "Location". Properties of "LMS" ("ILIAS") an "Code Repo" ("GitHub") are rendered as shy buttons and are functioning as links.
  * ---
  */
 function with_shy_properties()

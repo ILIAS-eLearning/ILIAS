@@ -18,6 +18,7 @@
 
 /**
  * Class arJoin
+ *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 2.0.7
  */
@@ -43,13 +44,21 @@ class arJoin extends arStatement
         $return = ' ' . $this->getType() . ' ';
         $return .= ' JOIN ' . $this->getTableName() . $as . $this->getTableNameAs();
         if ($this->getBothExternal()) {
-            $return .= ' ON ' . $db->quoteIdentifier($this->getOnFirstField()) . ' ' . $this->getOperator() . ' ';
+            $return .= ' ON ' . $this->wrapField($this->getOnFirstField(), $db) . ' ' . $this->getOperator() . ' ';
         } else {
-            $return .= ' ON ' . $db->quoteIdentifier($activeRecord->getConnectorContainerName()) . '.' . $this->getOnFirstField(
-            ) . ' ' . $this->getOperator() . ' ';
+            $return .= ' ON '
+                . $this->wrapField(
+                    $activeRecord->getConnectorContainerName() . '.' . $this->getOnFirstField(),
+                    $db
+                )
+                . ' ' . $this->getOperator() . ' ';
         }
 
-        return $return . $db->quoteIdentifier($this->getTableNameAs()) . '.' . $db->quoteIdentifier($this->getOnSecondField());
+        return $return . $this->wrapField(
+            $this->getTableNameAs() . '.' .
+                $this->getOnSecondField(),
+            $db
+        );
     }
 
     public function asSQLStatement(ActiveRecord $activeRecord, ilDBInterface $db): string

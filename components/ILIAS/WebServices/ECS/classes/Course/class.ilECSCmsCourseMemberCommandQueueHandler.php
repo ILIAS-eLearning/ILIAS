@@ -432,7 +432,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
             $query = new ilLDAPQuery($server);
             $query->bind(ilLDAPQuery::LDAP_BIND_DEFAULT);
 
-            $users = $query->fetchUser($a_person_id);
+            $users = $query->fetchUser((string) $a_person_id);
             if ($users) {
                 ilUserCreationContext::getInstance()->addContext(ilUserCreationContext::CONTEXT_LDAP);
 

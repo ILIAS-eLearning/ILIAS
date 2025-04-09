@@ -10,6 +10,14 @@ Up to ILIAS 8, it was possible to define LOM for glossary definitions. Since mul
 from ILIAS 9 onwards, LOM for definitions have also been abandoned (see Jour Fixe decision in FR). Now, there is
 "dead metadata" in the corresponding database tables, which should be deleted.
 
+### Remove Public Access Exports From DB
+
+In the table `glossary`, the following columns can be removed:
+
+- `downloads_active`
+- `public_xml_file`
+- `public_html_file`
+
 ## Mid Term
 
 ### Use central Online/Offline code

@@ -218,7 +218,11 @@ class LMHtmlExport
     {
         $this->initGlobalScreen();
 
-        $this->export_util->exportSystemStyle();
+        $this->export_util->exportSystemStyle(
+            [
+                "icon_lm.svg"
+            ]
+        );
         $this->export_util->exportCOPageFiles($this->content_style_domain->getEffectiveStyleId(), "lm");
 
         $lang_iterator = $this->getLanguageIterator();

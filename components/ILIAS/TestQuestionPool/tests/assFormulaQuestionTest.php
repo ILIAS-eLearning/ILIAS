@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\DI\Container;
+use ILIAS\Refinery\Factory;
 
 /**
 * Unit tests

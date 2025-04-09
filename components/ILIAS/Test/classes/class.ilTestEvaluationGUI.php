@@ -265,11 +265,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $test_result_header_label_builder->initObjectiveOrientedMode();
         }
 
-        $command_solution_details = '';
-        if ($this->object->getShowSolutionListComparison()) {
-            $command_solution_details = 'outCorrectSolution';
-        }
-
         $tpl = new ilTemplate('tpl.il_as_tst_pass_details_overview_participants.html', true, true, 'components/ILIAS/Test');
 
         $this->addPrintButtonToToolbar();
@@ -787,66 +782,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $this->object->updateTestResultCache((int) $active_fi);
 
         $this->redirectToPassDeletionContext($context);
-    }
-
-    protected function getFilteredTestResult(
-        int $active_id,
-        int $pass,
-        bool $consider_hidden_questions,
-        bool $consider_optional_questions = true
-    ): array {
-        $component_repository = $this->component_repository;
-        $ilDB = $this->db;
-
-        $result_data = $this->object->getTestResult($active_id, $pass, false, $consider_hidden_questions);
-        $question_ids = [];
-        foreach ($result_data as $result_item_key => $result_item_value) {
-            if ($result_item_key === 'test' || $result_item_key === 'pass') {
-                continue;
-            }
-
-            $question_ids[] = $result_item_value['qid'];
-        }
-
-        $table_gui = $this->buildPassDetailsOverviewTableGUI($this, 'outUserPassDetails');
-
-        $question_list = new ilAssQuestionList($ilDB, $this->lng, $this->refinery, $component_repository);
-        $question_list->setParentObjId($this->object->getId());
-        $question_list->setParentObjectType($this->object->getType());
-        $question_list->setIncludeQuestionIdsFilter($question_ids);
-
-        foreach ($table_gui->getFilterItems() as $item) {
-            if (substr($item->getPostVar(), 0, strlen('tax_')) == 'tax_') {
-                $v = $item->getValue();
-
-                if (is_array($v) && count($v) && !(int) $v[0]) {
-                    continue;
-                }
-
-                $tax_id = substr($item->getPostVar(), strlen('tax_'));
-                $question_list->addTaxonomyFilter($tax_id, $item->getValue(), $this->object->getId(), 'tst');
-            } elseif ($item->getValue() !== false) {
-                $question_list->addFieldFilter($item->getPostVar(), $item->getValue());
-            }
-        }
-
-        $question_list->load();
-
-        $filtered_test_result = [];
-
-        foreach ($result_data as $result_item_key => $result_item_value) {
-            if ($result_item_key === 'test' || $result_item_key === 'pass') {
-                continue;
-            }
-
-            if (!$question_list->isInList($result_item_value['qid'])) {
-                continue;
-            }
-
-            $filtered_test_result[] = $result_item_value;
-        }
-
-        return $filtered_test_result;
     }
 
     protected function redirectBackToParticipantsScreen()

@@ -59,7 +59,7 @@ class PublicAssetManager
         }
 
         $first_asset = $assets[$key];
-        while(!$first_asset instanceof PublicAsset) {
+        while (!$first_asset instanceof PublicAsset) {
             $first_asset = array_shift($first_asset);
         }
 
@@ -116,7 +116,7 @@ class PublicAssetManager
         } elseif (is_dir($source)) {
             $dir = new \RecursiveDirectoryIterator($source, \FilesystemIterator::SKIP_DOTS);
             $this->makeDir($target);
-            foreach($dir as $d) {
+            foreach ($dir as $d) {
                 $name = $d->getBasename();
                 $this->copy("$source/$name", "$target/$name");
             }
@@ -144,7 +144,7 @@ class PublicAssetManager
 
         if (is_dir($path)) {
             $purged = true;
-            foreach(array_diff(scandir($path), ['.', '..']) as $item) {
+            foreach (array_diff(scandir($path), ['.', '..']) as $item) {
                 $purged = $this->purge($path . "/" . $item, $dont_purge) && $purged;
             }
             if ($purged) {

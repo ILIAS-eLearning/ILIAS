@@ -17,6 +17,7 @@
 import { assert, expect } from 'chai';
 import { JSDOM } from 'jsdom';
 import fs from 'fs';
+import { createRequire } from 'module';
 
 import Drilldown from '../../../../resources/js/Menu/src/drilldown.main';
 import DrilldownFactory from '../../../../resources/js/Menu/src/drilldown.factory';

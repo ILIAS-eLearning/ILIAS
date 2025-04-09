@@ -690,58 +690,6 @@ class ilTestServiceGUI
         return $questionRelatedObjectivesList;
     }
 
-    protected function getFilteredTestResult(
-        int $active_id,
-        int $pass,
-        bool $considerHiddenQuestions,
-        bool $considerOptionalQuestions
-    ): array {
-        $ilDB = $this->db;
-        $component_repository = $this->component_repository;
-
-        $table_gui = $this->buildPassDetailsOverviewTableGUI($this, 'outUserPassDetails');
-
-        $questionList = new ilAssQuestionList($ilDB, $this->lng, $this->refinery, $component_repository);
-
-        $questionList->setParentObjIdsFilter([$this->object->getId()]);
-        $questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
-
-        foreach ($table_gui->getFilterItems() as $item) {
-            if (substr($item->getPostVar(), 0, strlen('tax_')) == 'tax_') {
-                $v = $item->getValue();
-
-                if (is_array($v) && count($v) && !(int) $v[0]) {
-                    continue;
-                }
-
-                $taxId = substr($item->getPostVar(), strlen('tax_'));
-                $questionList->addTaxonomyFilter($taxId, $item->getValue(), $this->object->getId(), 'tst');
-            } elseif ($item->getValue() !== false) {
-                $questionList->addFieldFilter($item->getPostVar(), $item->getValue());
-            }
-        }
-
-        $questionList->load();
-
-        $filteredTestResult = [];
-
-        $resultData = $this->object->getTestResult($active_id, $pass, false, $considerHiddenQuestions, $considerOptionalQuestions);
-
-        foreach ($resultData as $resultItemKey => $resultItemValue) {
-            if ($resultItemKey === 'test' || $resultItemKey === 'pass') {
-                continue;
-            }
-
-            if (!$questionList->isInList($resultItemValue['qid'])) {
-                continue;
-            }
-
-            $filteredTestResult[] = $resultItemValue;
-        }
-
-        return $filteredTestResult;
-    }
-
     protected function populateContent(string $content): void
     {
         $this->tpl->setContent($content);

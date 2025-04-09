@@ -44,13 +44,15 @@ class ilObjBlog extends ilObject2
         global $DIC;
 
         $this->notes_service = $DIC->notes();
+        $this->settings_manager = $DIC->blog()->internal()->domain()->blogSettings();
+        
         parent::__construct($a_id, $a_reference);
         $this->rbac_review = $DIC->rbac()->review();
 
         $this->content_style_domain = $DIC
             ->contentStyle()
             ->domain();
-        $this->settings_manager = $DIC->blog()->internal()->domain()->blogSettings();
+
         if ($this->getId() > 0) {
             $this->blog_settings = $this->settings_manager->getByObjId($this->getId());
         }

@@ -81,7 +81,11 @@ class GlossaryHtmlExport
 
     public function exportHTML(): void
     {
-        $this->export_util->exportSystemStyle();
+        $this->export_util->exportSystemStyle(
+            [
+                "icon_glo.svg"
+            ]
+        );
         $this->export_util->exportCOPageFiles($this->content_style->getEffectiveStyleId(), "glo");
 
         // export terms

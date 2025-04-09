@@ -130,6 +130,10 @@ class ilTestEvaluationFactory
         $current_attempt = null;
 
         foreach ($eval_data_rows as $row) {
+            if($row['pass'] === null) {
+                continue;
+            }
+
             if ($current_user !== $row['active_id']) {
                 $current_user = $row['active_id'];
                 $current_attempt = null;

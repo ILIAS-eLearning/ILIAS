@@ -27,7 +27,6 @@ use ilGlobalPageTemplate;
 use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use iljQueryUtil;
-use ilUIFramework;
 use LogicException;
 
 class Renderer extends AbstractComponentRenderer
@@ -169,7 +168,6 @@ class Renderer extends AbstractComponentRenderer
             $additional_js_files = [
                 iljQueryUtil::getLocaljQueryPath(),
                 'assets/js/Basic.js',
-                ilUIFramework::BOOTSTRAP_JS,
                 './assets/js/jquery.js',
                 './assets/js/jquery-migrate.min.js',
             ];

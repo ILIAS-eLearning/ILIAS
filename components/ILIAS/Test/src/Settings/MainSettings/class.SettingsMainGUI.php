@@ -606,15 +606,16 @@ class SettingsMainGUI extends TestSettingsGUI
     {
         $time_based_availability = $section['timebased_availability'];
 
+        $participant_data_exists = $this->test_object->participantDataExist();
         $this->test_object->storeActivationSettings(
-            $this->test_object->participantDataExist()
+            $participant_data_exists
                 ? $this->test_object->isActivationLimited()
                 : $time_based_availability['is_activation_limited'],
-            $this->test_object->participantDataExist()
+            $participant_data_exists
                 ? $this->test_object->getActivationStartingTime()
                 : $time_based_availability['activation_starting_time'],
-            $this->test_object->getActivationEndingTime(),
-            $this->test_object->getActivationVisibility(),
+            $time_based_availability['activation_ending_time'],
+            $time_based_availability['activation_visibility']
         );
         $this->test_object->getObjectProperties()->storePropertyIsOnline($section['is_online']);
     }

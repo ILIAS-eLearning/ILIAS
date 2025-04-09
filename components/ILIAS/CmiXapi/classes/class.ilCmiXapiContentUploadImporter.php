@@ -22,6 +22,8 @@ use ILIAS\FileUpload\DTO\UploadResult as FileUploadResult;
 use ILIAS\FileUpload\DTO\ProcessingStatus as FileUploadProcessingStatus;
 use ILIAS\FileUpload\Location as FileUploadResultLocation;
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\Filesystem\Util\Archive\Archives;
+use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
 
 /**
  * Class ilCmiXapiContentUploadImporter
@@ -82,7 +84,6 @@ class ilCmiXapiContentUploadImporter
     public function ensureCreatedObjectDirectory(): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        die($this->getWebDataDirRelativeObjectDirectory());
         if (!$DIC->filesystem()->web()->has($this->getWebDataDirRelativeObjectDirectory())) {
             $DIC->filesystem()->web()->createDir($this->getWebDataDirRelativeObjectDirectory());
         }
@@ -284,17 +285,26 @@ class ilCmiXapiContentUploadImporter
     protected function handleZipContentUpload(string $uploadFilePath): void
     {
         $targetPath = $this->getAbsoluteObjectDirectory();
-        $zar = new \ZipArchive();
-        $zar->open($uploadFilePath);
-        $zar->extractTo($targetPath);
-        $zar->close();
+        $archives = new Archives();
+        $unzip = $archives->unzip(
+            Streams::ofResource(fopen($uploadFilePath, 'rb')),
+            $archives->unzipOptions()
+                ->withZipOutputPath($targetPath)
+                ->withOverwrite(true)
+            //                ->withDirectoryHandling(ZipDirectoryHandling::FLAT_STRUCTURE)
+        );
+        $unzip->extract();
+        //        $zar = new \ZipArchive();
+        //        $zar->open($uploadFilePath);
+        //        $zar->extractTo($targetPath);
+        //        $zar->close();
     }
 
     protected function getAbsoluteObjectDirectory(): string
     {
         $dirs = [
             ILIAS_ABSOLUTE_PATH,
-            ilFileUtils::getWebspaceDir(),
+            'public/' . ILIAS_WEB_DIR . "/" . CLIENT_ID,
             $this->getWebDataDirRelativeObjectDirectory()
         ];
 

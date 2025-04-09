@@ -105,7 +105,10 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
         $this->insertAssignmentRowDB($row);
         $this->progresses = [];
 
-        $user_data_fields = array_filter($this->user_data_fields, fn($f) => $f !== 'org_units');
+        $user_data_fields = array_filter(
+            $this->user_data_fields,
+            static fn($field) => !str_starts_with($field, 'udf_') && $field !== 'org_units'
+        );
         $query = 'SELECT ' . implode(',', $user_data_fields) . PHP_EOL
             . 'FROM usr_data WHERE usr_id = ' . $this->db->quote($usr_id, 'integer');
         $res = $this->db->query($query);
