@@ -97,7 +97,7 @@ class HandlerService
             // Perform Redirect
             $uri_path = $response->getURIPath();
             $base_path = $base_uri->getPath();
-            $uri_path = str_replace($base_path, '', $uri_path);
+            $uri_path = str_replace((string) $base_path, '', (string) $uri_path);
             $full_uri = $base_uri . '/' . trim((string) $uri_path, '/');
         }
 
