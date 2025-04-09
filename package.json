@@ -21,7 +21,8 @@
     "@rollup/plugin-terser": "^0.4.4",
     "eslint": "^9.16.0",
     "eslint-plugin-import": "^2.31.0",
-    "rollup": "^4.28.1"
+    "rollup": "^4.28.1",
+    "sass": "^1.86.3"
   },
   "scripts": {
     "test": "mocha --recursive"
@@ -128,6 +129,13 @@
       "developer": null,
       "purpose": "We still use jQuery for many JS-related actions in ILIAS, unfortunately.",
       "last-update-for-ilias": "10.0"
+    },
+    "sass": {
+      "introduction-date": null,
+      "approved-by": "Jour Fix",
+      "developer": "thibsy",
+      "purpose": "CSS Preprocessor",
+      "last-update-for-ilias": "11.0"
     }
   }
 }
