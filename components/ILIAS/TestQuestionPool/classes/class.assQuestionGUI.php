@@ -1554,7 +1554,6 @@ abstract class assQuestionGUI
 
         $this->addTab_Question($tabs_gui);
         $this->addTab_QuestionFeedback($tabs_gui);
-        $this->addTab_QuestionHints($tabs_gui);
         $this->addTab_SuggestedSolution($tabs_gui, static::class);
     }
 
@@ -1604,31 +1603,6 @@ abstract class assQuestionGUI
         $tabLink = $this->ctrl->getLinkTargetByClass(ilAssQuestionFeedbackEditingGUI::class, ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
 
         $tabs->addTarget('feedback', $tabLink, $tabCommands, $this->ctrl->getCmdClass(), '');
-    }
-
-    protected function addTab_QuestionHints(ilTabsGUI $tabs): void
-    {
-        switch (strtolower($this->ctrl->getCmdClass())) {
-            case 'ilassquestionhintsgui':
-                $tab_commands = self::getCommandsFromClassConstants(ilAssQuestionHintsGUI::class);
-                break;
-
-            case 'ilassquestionhintgui':
-                $tab_commands = self::getCommandsFromClassConstants(ilAssQuestionHintGUI::class);
-                break;
-
-            default:
-                $tab_commands = [];
-        }
-
-        $this->ctrl->setParameterByClass(ilAssQuestionHintsGUI::class, 'q_id', $this->object->getId());
-        $tabs->addTarget(
-            'tst_question_hints_tab',
-            $this->ctrl->getLinkTargetByClass(ilAssQuestionHintsGUI::class, ilAssQuestionHintsGUI::CMD_SHOW_LIST),
-            $tab_commands,
-            $this->ctrl->getCmdClass(),
-            ''
-        );
     }
 
     protected function addTab_Question(ilTabsGUI $tabs_gui): void
@@ -1782,11 +1756,6 @@ abstract class assQuestionGUI
         $form->setTableWidth('100%');
         $form->setMultipart(true);
         return $form;
-    }
-
-    public function showHints(): void
-    {
-        $this->ctrl->redirectByClass(ilAssQuestionHintsGUI::class, ilAssQuestionHintsGUI::CMD_SHOW_LIST);
     }
 
     protected function escapeTemplatePlaceholders(string $text): string

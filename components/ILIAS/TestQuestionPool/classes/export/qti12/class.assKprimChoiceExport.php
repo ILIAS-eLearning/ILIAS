@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -279,8 +280,6 @@ class assKprimChoiceExport extends assQuestionExport
             $a_xml_writer->xmlEndTag('flow_mat');
             $a_xml_writer->xmlEndTag('itemfeedback');
         }
-
-        $a_xml_writer = $this->addSolutionHints($a_xml_writer);
 
         $a_xml_writer->xmlEndTag("item");
         $a_xml_writer->xmlEndTag("questestinterop");

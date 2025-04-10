@@ -1250,8 +1250,6 @@ class ilObjTest extends ilObject
                 ilFileUtils::delDir(CLIENT_WEB_DIR . "/assessment/tst_" . $this->getTestId() . "/$active_id");
             }
         }
-
-        ilAssQuestionHintTracking::deleteRequestsByActiveIds($active_ids);
     }
 
     /**
@@ -1819,8 +1817,6 @@ class ilObjTest extends ilObject
             SELECT
                 tst_test_result.question_fi,
                 tst_test_result.points reached,
-                tst_test_result.hint_count requested_hints,
-                tst_test_result.hint_points hint_points,
                 tst_test_result.answered answered,
                 tst_manual_fb.finalized_evaluation finalized_evaluation
 
@@ -1887,8 +1883,6 @@ class ilObjTest extends ilObject
                 "title" => ilLegacyFormElementsUtil::prepareFormOutput($row['title']),
                 "max" => round($row['points'], 2),
                 "reached" => round($arr_results[$row['question_id']]['reached'] ?? 0, 2),
-                'requested_hints' => $arr_results[$row['question_id']]['requested_hints'] ?? 0,
-                'hint_points' => $arr_results[$row['question_id']]['hint_points'] ?? 0,
                 "percent" => sprintf("%2.2f ", ($percentvalue) * 100) . "%",
                 "solution" => ($row['has_sug_sol']) ? assQuestion::_getSuggestedSolutionOutput($row['question_id']) : '',
                 "type" => $row["type_tag"],
@@ -1907,8 +1901,6 @@ class ilObjTest extends ilObject
 
         $pass_max = 0;
         $pass_reached = 0;
-        $pass_requested_hints = 0;
-        $pass_hint_points = 0;
 
         $found = [];
 
@@ -1917,8 +1909,6 @@ class ilObjTest extends ilObject
             // for question that exists in users qst sequence
             $pass_max += round($unordered[$qid]['max'], 2);
             $pass_reached += round($unordered[$qid]['reached'], 2);
-            $pass_requested_hints += $unordered[$qid]['requested_hints'];
-            $pass_hint_points += $unordered[$qid]['hint_points'];
             $found[] = $unordered[$qid];
         }
 
@@ -1936,16 +1926,12 @@ class ilObjTest extends ilObject
 
         $found['pass']['total_max_points'] = $pass_max;
         $found['pass']['total_reached_points'] = $pass_reached;
-        $found['pass']['total_requested_hints'] = $pass_requested_hints;
-        $found['pass']['total_hint_points'] = $pass_hint_points;
         $found['pass']['percent'] = ($pass_max > 0) ? $pass_reached / $pass_max : 0;
         $found['pass']['num_workedthrough'] = $num_worked_through;
         $found['pass']['num_questions_total'] = $numQuestionsTotal;
 
         $found["test"]["total_max_points"] = $results['max_points'];
         $found["test"]["total_reached_points"] = $results['reached_points'];
-        $found["test"]["total_requested_hints"] = $results['hint_count'];
-        $found["test"]["total_hint_points"] = $results['hint_points'];
         $found["test"]["result_pass"] = $results['pass'];
         $found['test']['result_tstamp'] = $results['tstamp'];
 
@@ -2996,10 +2982,6 @@ class ilObjTest extends ilObject
                     $gamification_settings = $gamification_settings->withHighscorePercentage((bool) $metadata["entry"]);
                     break;
 
-                case "highscore_hints":
-                    $gamification_settings = $gamification_settings->withHighscoreHints((bool) $metadata["entry"]);
-                    break;
-
                 case "highscore_wtime":
                     $gamification_settings = $gamification_settings->withHighscoreWTime((bool) $metadata["entry"]);
                     break;
@@ -3187,9 +3169,6 @@ class ilObjTest extends ilObject
                     break;
                 case 'autosave_ival':
                     $question_behaviour_settings = $question_behaviour_settings->withAutosaveInterval((int) $metadata['entry']);
-                    break;
-                case 'offer_question_hints':
-                    $question_behaviour_settings = $question_behaviour_settings->withQuestionHintsEnabled((bool) $metadata['entry']);
                     break;
                 case 'show_summary':
                     $participant_functionality_settings = $participant_functionality_settings->withQuestionListEnabled(($metadata['entry'] & 1) > 0)
@@ -3575,7 +3554,6 @@ class ilObjTest extends ilObject
             'highscore_achieved_ts' => ['value' => $this->getHighscoreAchievedTS()],
             'highscore_score' => ['value' => $this->getHighscoreScore()],
             'highscore_percentage' => ['value' => $this->getHighscorePercentage()],
-            'highscore_hints' => ['value' => $this->getHighscoreHints()],
             'highscore_wtime' => ['value' => $this->getHighscoreWTime()],
             'highscore_own_table' => ['value' => $this->getHighscoreOwnTable()],
             'highscore_top_table' => ['value' => $this->getHighscoreTopTable()],
@@ -3721,11 +3699,6 @@ class ilObjTest extends ilObject
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "autosave_ival");
         $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getQuestionBehaviourSettings()->getAutosaveInterval());
-        $a_xml_writer->xmlEndTag("qtimetadatafield");
-
-        $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "offer_question_hints");
-        $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getQuestionBehaviourSettings()->getQuestionHintsEnabled());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
@@ -5708,7 +5681,6 @@ class ilObjTest extends ilObject
             'autosave' => (int) $main_settings->getQuestionBehaviourSettings()->getAutosaveEnabled(),
             'autosave_ival' => $main_settings->getQuestionBehaviourSettings()->getAutosaveInterval(),
             'Shuffle' => (int) $main_settings->getQuestionBehaviourSettings()->getShuffleQuestions(),
-            'offer_question_hints' => (int) $main_settings->getQuestionBehaviourSettings()->getQuestionHintsEnabled(),
             'AnswerFeedbackPoints' => (int) $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackPointsEnabled(),
             'AnswerFeedback' => (int) $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackGenericEnabled(),
             'SpecificAnswerFeedback' => (int) $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackSpecificEnabled(),
@@ -5751,7 +5723,6 @@ class ilObjTest extends ilObject
             'highscore_achieved_ts' => $score_settings->getGamificationSettings()->getHighscoreAchievedTS(),
             'highscore_score' => $score_settings->getGamificationSettings()->getHighscoreScore(),
             'highscore_percentage' => $score_settings->getGamificationSettings()->getHighscorePercentage(),
-            'highscore_hints' => $score_settings->getGamificationSettings()->getHighscoreHints(),
             'highscore_wtime' => $score_settings->getGamificationSettings()->getHighscoreWTime(),
             'highscore_own_table' => $score_settings->getGamificationSettings()->getHighscoreOwnTable(),
             'highscore_top_table' => $score_settings->getGamificationSettings()->getHighscoreTopTable(),
@@ -5860,7 +5831,6 @@ class ilObjTest extends ilObject
                 ->withAutosaveEnabled((bool) $testsettings['autosave'])
                 ->withAutosaveInterval($testsettings['autosave_ival'])
                 ->withShuffleQuestions((bool) $testsettings['Shuffle'])
-                ->withQuestionHintsEnabled((bool) $testsettings['offer_question_hints'])
                 ->withInstantFeedbackPointsEnabled((bool) $testsettings['AnswerFeedbackPoints'])
                 ->withInstantFeedbackGenericEnabled((bool) $testsettings['AnswerFeedback'])
                 ->withInstantFeedbackSpecificEnabled((bool) $testsettings['SpecificAnswerFeedback'])
@@ -5934,7 +5904,6 @@ class ilObjTest extends ilObject
                 ->withHighscoreAchievedTS($testsettings['highscore_achieved_ts'])
                 ->withHighscoreScore((bool) $testsettings['highscore_score'])
                 ->withHighscorePercentage($testsettings['highscore_percentage'])
-                ->withHighscoreHints((bool) $testsettings['highscore_hints'])
                 ->withHighscoreWTime((bool) $testsettings['highscore_wtime'])
                 ->withHighscoreOwnTable((bool) $testsettings['highscore_own_table'])
                 ->withHighscoreTopTable((bool) $testsettings['highscore_top_table'])
@@ -6686,11 +6655,6 @@ class ilObjTest extends ilObject
         return $this->online;
     }
 
-    public function isOfferingQuestionHintsEnabled(): bool
-    {
-        return $this->getMainSettings()->getQuestionBehaviourSettings()->getQuestionHintsEnabled();
-    }
-
     public function setActivationVisibility($a_value)
     {
         $this->activation_visibility = (bool) $a_value;
@@ -6831,14 +6795,6 @@ class ilObjTest extends ilObject
     public function getHighscorePercentage(): bool
     {
         return $this->getScoreSettings()->getGamificationSettings()->getHighscorePercentage();
-    }
-
-    /**
-     * Gets, if the column with the number of requested hints should be shown.
-     */
-    public function getHighscoreHints(): bool
-    {
-        return $this->getScoreSettings()->getGamificationSettings()->getHighscoreHints();
     }
 
     /**
@@ -7372,10 +7328,7 @@ class ilObjTest extends ilObject
             $mark = $this->getMarkSchema()->getMatchingMark($percentage);
             $is_passed = $pass <= $test_pass_result_row['last_finished_pass'] && $mark->getPassed();
 
-            $hint_count = $test_pass_result_row['hint_count'] ?? 0;
-            $hint_points = $test_pass_result_row['hint_points'] ?? 0.0;
-
-            $user_test_result_update_callback = function () use ($active_id, $pass, $max, $reached, $is_passed, $hint_count, $hint_points, $mark) {
+            $user_test_result_update_callback = function () use ($active_id, $pass, $max, $reached, $is_passed, $mark) {
                 $passed_once_before = 0;
                 $query = 'SELECT passed_once FROM tst_result_cache WHERE active_fi = %s';
                 $res = $this->db->queryF($query, ['integer'], [$active_id]);
@@ -7417,9 +7370,7 @@ class ilObjTest extends ilObject
                         'passed_once' => ['integer', $passed_once],
                         'passed' => ['integer', (int) $is_passed],
                         'failed' => ['integer', (int) !$is_passed],
-                        'tstamp' => ['integer', time()],
-                        'hint_count' => ['integer', $hint_count],
-                        'hint_points' => ['float', $hint_points]
+                        'tstamp' => ['integer', time()]
                     ]
                 );
             };
@@ -7444,8 +7395,6 @@ class ilObjTest extends ilObject
         $result = $this->db->queryF(
             '
 			SELECT		SUM(points) reachedpoints,
-						SUM(hint_count) hint_count,
-						SUM(hint_points) hint_points,
 						COUNT(DISTINCT(question_fi)) answeredquestions
 			FROM		tst_test_result
 			WHERE		active_fi = %s
@@ -7461,12 +7410,6 @@ class ilObjTest extends ilObject
             if ($row['reachedpoints'] === null
                 || $row['reachedpoints'] < 0.0) {
                 $row['reachedpoints'] = 0.0;
-            }
-            if ($row['hint_count'] === null) {
-                $row['hint_count'] = 0;
-            }
-            if ($row['hint_points'] === null) {
-                $row['hint_points'] = 0.0;
             }
 
             $exam_identifier = ilObjTest::buildExamId($active_id, $pass, $test_obj_id);
@@ -7485,8 +7428,6 @@ class ilObjTest extends ilObject
                         'answeredquestions' => ['integer', $row['answeredquestions']],
                         'workingtime' => ['integer', $time],
                         'tstamp' => ['integer', time()],
-                        'hint_count' => ['integer', $row['hint_count']],
-                        'hint_points' => ['float', $row['hint_points']],
                         'exam_id' => ['text', $exam_identifier]
                     ]
                 );
@@ -7510,8 +7451,6 @@ class ilObjTest extends ilObject
             'answeredquestions' => $row['answeredquestions'],
             'workingtime' => $time,
             'tstamp' => time(),
-            'hint_count' => $row['hint_count'],
-            'hint_points' => $row['hint_points'],
             'exam_id' => $exam_identifier
         ];
     }

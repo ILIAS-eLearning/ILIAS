@@ -45,9 +45,6 @@ class ilTestQuestionNavigationGUI
     private string $instant_feedback_command = '';
     private bool $answer_freezing_enabled = false;
     private bool $force_instant_response_enabled = false;
-    private string $request_hint_command = '';
-    private string $show_hints_command = '';
-    private bool $hint_requests_exist = false;
     private string $question_mark_link_target = '';
     private bool $question_marked = false;
     private bool $anything_rendered = false;
@@ -98,21 +95,6 @@ class ilTestQuestionNavigationGUI
     public function setAnswerFreezingEnabled(bool $answer_freezing_enabled): void
     {
         $this->answer_freezing_enabled = $answer_freezing_enabled;
-    }
-
-    public function setRequestHintCommand(string $request_hint_command): void
-    {
-        $this->request_hint_command = $request_hint_command;
-    }
-
-    public function setShowHintsCommand(string $show_hints_command): void
-    {
-        $this->show_hints_command = $show_hints_command;
-    }
-
-    public function setHintRequestsExist(bool $hint_requests_exist): void
-    {
-        $this->hint_requests_exist = $hint_requests_exist;
     }
 
     public function setQuestionMarkLinkTarget(string $question_mark_link_target): void
@@ -216,22 +198,6 @@ class ilTestQuestionNavigationGUI
             );
         }
 
-        if ($this->request_hint_command) {
-            $this->renderSubmitButton(
-                $tpl,
-                $this->request_hint_command,
-                $this->getRequestHintButtonLabel()
-            );
-        }
-
-        if ($this->show_hints_command) {
-            $this->renderSubmitButton(
-                $tpl,
-                $this->show_hints_command,
-                $this->lng->txt('show_requested_question_hints')
-            );
-        }
-
         if ($this->anything_rendered) {
             $this->parseNavigation($tpl);
         }
@@ -255,15 +221,6 @@ class ilTestQuestionNavigationGUI
         }
 
         return $this->lng->txt('check');
-    }
-
-    private function getRequestHintButtonLabel(): string
-    {
-        if ($this->hint_requests_exist) {
-            return $this->lng->txt('button_request_next_question_hint');
-        }
-
-        return $this->lng->txt('button_request_question_hint');
     }
 
     private function getQuestionMarkActionLabel(): string

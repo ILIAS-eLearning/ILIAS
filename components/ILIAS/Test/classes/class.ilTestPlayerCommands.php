@@ -57,9 +57,6 @@ class ilTestPlayerCommands
     public const SKIP_QUESTION = 'skipQuestion';
     public const SHOW_INSTANT_RESPONSE = 'showInstantResponse';
 
-    public const CONFIRM_HINT_REQUEST = 'confirmHintRequest';
-    public const SHOW_REQUESTED_HINTS_LIST = 'showRequestedHintList';
-
     public const QUESTION_SUMMARY = 'outQuestionSummary';
     public const TOGGLE_SIDE_LIST = 'toggleSideList';
 

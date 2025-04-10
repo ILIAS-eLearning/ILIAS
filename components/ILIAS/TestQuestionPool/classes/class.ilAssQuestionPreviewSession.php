@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -27,7 +28,6 @@ class ilAssQuestionPreviewSession
 
     public const SESSION_SUBINDEX_INSTANT_RESPONSE_ACTIVE = 'instantResponseActive';
     public const SESSION_SUBINDEX_PARTICIPANT_SOLUTION = 'participantSolution';
-    public const SESSION_SUBINDEX_REQUESTED_HINTS = 'requestedHints';
     public const SESSION_SUBINDEX_RANDOMIZER_SEED = 'randomizerSeed';
 
     private $userId;
@@ -101,51 +101,6 @@ class ilAssQuestionPreviewSession
     public function hasParticipantSolution(): bool
     {
         return $this->issetSessionValue(self::SESSION_SUBINDEX_PARTICIPANT_SOLUTION);
-    }
-
-    public function getNumRequestedHints(): int
-    {
-        if (!$this->issetSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS)) {
-            return 0;
-        }
-        $hints = $this->readSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS);
-
-        if (!is_array($hints)) {
-            return 0;
-        }
-
-        return count($hints);
-    }
-
-    public function isHintRequested($hintId): bool
-    {
-        if ($this->issetSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS)) {
-            $requestedHints = $this->readSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS);
-            return isset($requestedHints[$hintId]);
-        }
-
-        return false;
-    }
-
-    public function addRequestedHint($hintId): void
-    {
-        $requestedHints = $this->getRequestedHints();
-        $requestedHints[$hintId] = $hintId;
-        $this->saveSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS, $requestedHints);
-    }
-
-    public function getRequestedHints()
-    {
-        if ($this->issetSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS)) {
-            return $this->readSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS);
-        }
-
-        return [];
-    }
-
-    public function resetRequestedHints(): void
-    {
-        $this->saveSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS, []);
     }
 
     public function setRandomizerSeed($seed): void

@@ -557,8 +557,6 @@ assessment#:#broken_test#:#Kaputtes Test-Objekt
 assessment#:#bulkedit_author#:#Autor ändern
 assessment#:#bulkedit_lifecycle#:#Lebenszyklus ändern
 assessment#:#bulkedit_taxonomies#:#Taxonomien ändern
-assessment#:#button_request_next_question_hint#:#Fordere nächsten Lösungshinweis an
-assessment#:#button_request_question_hint#:#Lösungshinweis anfordern
 assessment#:#cancel_test#:#Test unterbrechen
 assessment#:#cannot_edit_marks#:#Mindestens eine Person hat den Test bereits gestartet. Sie können die manuelle Bewertung nur ändern, wenn das Datum für die Ergebnisausgabe noch in der Zukunft liegt.
 assessment#:#cannot_edit_test#:#Sie besitzen keine ausreichenden Rechte, um den Test zu bearbeiten!
@@ -778,7 +776,6 @@ assessment#:#grading_mark_msg#:#Sie haben die Note &quot;[mark]&quot; erzielt.
 assessment#:#grading_status_failed_msg#:#Schade, leider haben Sie den Test <b>nicht bestanden</b>.
 assessment#:#grading_status_passed_msg#:#Herzlichen Glückwunsch! Sie haben den Test <b>bestanden</b>.
 assessment#:#hide_best_solution#:#Beste Antworten ausblenden
-assessment#:#hints#:#Hinweise
 assessment#:#identical_scoring#:#Identische Bewertung
 assessment#:#identical_scoring_desc#:#Wenn ausgewählt, werden Lücken mit identischen Lösungen entsprechend der Vorgaben bewertet, selbst wenn die gleiche Lösung mehrere Male verwendet wurde. Ist das Kontrollkästchen nicht ausgewählt, wird nur die erste verwendete identische Lösung bewertet.
 assessment#:#imagemap#:#Imagemap
@@ -1254,7 +1251,6 @@ assessment#:#show_hide_best_solution#:#Beste Antworten ein- oder ausblenden
 assessment#:#show_old_concluding_remarks#:#Alte Abschliessende Bemerkungen anzeigen
 assessment#:#show_old_introduction#:#Alten Einleitungstext anzeigen
 assessment#:#show_pass_overview#:#Ergebnisübersicht (bewerteter Testdurchlauf)
-assessment#:#show_requested_question_hints#:#Zeige angeforderte Lösungshinweise
 assessment#:#show_results#:#Testergebnisse anzeigen
 assessment#:#show_user_answers#:#Antworten (bewerteter Testdurchlauf)
 assessment#:#shuffle_answers#:#Antworten mischen
@@ -1327,7 +1323,6 @@ assessment#:#too_many_targets_selected_for_move#:#Sie müssen genau eine Zielpos
 assessment#:#toplist_by_score#:#Platzierung nach Punkten
 assessment#:#toplist_by_time#:#Platzierung nach Bearbeitungszeit
 assessment#:#toplist_col_achieved#:#Datum
-assessment#:#toplist_col_hints#:#Hinweise
 assessment#:#toplist_col_participant#:#Teilnehmer
 assessment#:#toplist_col_percentage#:#Prozentwert
 assessment#:#toplist_col_rank#:#Platz
@@ -1755,46 +1750,6 @@ assessment#:#tst_question_answer_status_non_answered#:#Noch nicht beantwortete F
 assessment#:#tst_question_answer_status_wrong_answered#:#Nur falsch beantwortete Fragen
 assessment#:#tst_question_feedback_back_to_feedback_form#:#Zurück zur aufrufenden Frage
 assessment#:#tst_question_feedback_edit_page#:#Inhalt bearbeiten
-assessment#:#tst_question_hints_back_to_hint_list#:#Liste der Lösungshinweise
-assessment#:#tst_question_hints_back_to_question#:#Zurück zur Frage
-assessment#:#tst_question_hints_cancel_request#:#Zurück zur Frage
-assessment#:#tst_question_hints_confirm_request#:#Fordere Lösungshinweis an
-assessment#:#tst_question_hints_cut_hints_missing_selection_msg#:#Es wurde kein Hinweis zum Ausschneiden ausgewählt.
-assessment#:#tst_question_hints_cut_hints_single_selection_msg#:#Es wurde mehr als ein Hinweis zum Ausschneiden ausgewählt.
-assessment#:#tst_question_hints_delete_hints_confirm_cmd#:#Lösungshinweis(e) löschen
-assessment#:#tst_question_hints_delete_hints_confirm_header#:#Möchten Sie den/die folgenden Lösungshinweis(e) wirklich löschen?
-assessment#:#tst_question_hints_delete_hints_confirm_item#:#Lösungshinweis %s: %s
-assessment#:#tst_question_hints_delete_hints_missing_selection_msg#:#Es wurde(n) kein(e) Lösungshinweis(e) zum Löschen ausgewählt.
-assessment#:#tst_question_hints_delete_success_msg#:#Der/die ausgewählte(n) Hinweis(e) wurde(n) erfolgreich gelöscht.
-assessment#:#tst_question_hints_form_cmd_save#:#Lösungshinweis speichern
-assessment#:#tst_question_hints_form_cmd_save_points#:#Speichere Punkte
-assessment#:#tst_question_hints_form_cmd_save_points_and_edit_page#:# Speichere Punkte und bearbeite Seite
-assessment#:#tst_question_hints_form_header_create#:#Neuer Lösungshinweis für Frage: %s
-assessment#:#tst_question_hints_form_header_edit#:#Lösungshinweis %s für Frage: %s
-assessment#:#tst_question_hints_form_invalid_msg#:#Der Lösungshinweis konnte nicht gespeichert werden. Bitte überprüfen Sie Ihre Eingaben.
-assessment#:#tst_question_hints_form_label_hint_points#:#Punkteabzug
-assessment#:#tst_question_hints_form_label_hint_text#:#Lösungshinweis
-assessment#:#tst_question_hints_form_saved_msg#:#Der Lösungshinweis wurde erfolgreich gespeichert.
-assessment#:#tst_question_hints_index_column_label#:#Lösungshinweis %s
-assessment#:#tst_question_hints_item_stored_in_ordering_clipboard#:#Lösungshinweis %s befindet sich in der Sortierungszwischenablage.
-assessment#:#tst_question_hints_ordering_clipboard_resetted#:#Die Sortierungszwischenablage wurde zurückgesetzt.
-assessment#:#tst_question_hints_paste_after_success_msg#:#Der Lösungshinweis %s wurde nach dem Lösungshinweis %s erfolgreich eingefügt.
-assessment#:#tst_question_hints_paste_before_success_msg#:#Der Lösungshinweis %s wurde vor dem Lösungshinweis %s erfolgreich eingefügt.
-assessment#:#tst_question_hints_request_confirmation#:#Wollen Sie den %s. Lösungshinweis wirklich anfordern? Es wird/werden für diesen Lösungshinweis %s Punkt(e) abgezogen.
-assessment#:#tst_question_hints_request_confirmation_no_deduction#:#Für diesen Hinweis gibt es keinen Punktabzug.
-assessment#:#tst_question_hints_requested_hint_count_header#:#Angeforderte Lösungshinweise
-assessment#:#tst_question_hints_save_order_success_msg#:#Die Reihenfolge der Lösungshinweise wurde erfolgreich gespeichert.
-assessment#:#tst_question_hints_tab#:#Lösungshinweise
-assessment#:#tst_question_hints_table_column_hint_index#:#Index
-assessment#:#tst_question_hints_table_column_hint_order#:#Reihenfolge
-assessment#:#tst_question_hints_table_column_hint_points#:#Punkteabzug
-assessment#:#tst_question_hints_table_column_hint_text#:#Lösungshinweis
-assessment#:#tst_question_hints_table_header#:#Lösungshinweise zur Frage: %s
-assessment#:#tst_question_hints_table_link_delete_hint#:#Lösungshinweis löschen
-assessment#:#tst_question_hints_table_link_edit_hint#:#Lösungshinweis bearbeiten
-assessment#:#tst_question_hints_table_link_edit_hint_page#:#Seite bearbeiten
-assessment#:#tst_question_hints_table_link_edit_hint_points#:#Punkte bearbeiten
-assessment#:#tst_question_hints_table_no_items#:#Keine vorhandenen Lösungshinweise
 assessment#:#tst_question_mark#:#Frage markieren
 assessment#:#tst_question_marked#:#Sie haben die Frage markiert
 assessment#:#tst_question_marker#:#Markiert
@@ -1811,13 +1766,6 @@ assessment#:#tst_question_set_type_random#:#Zufällige Fragenauswahl
 assessment#:#tst_question_set_type_random_desc#:#Jedem Teilnehmer werden unterschiedliche Fragen gestellt. Die Auswahl der Fragen erfolgt zufällig aus einem oder mehreren Fragenpools.
 assessment#:#tst_question_title#:#Fragentitel
 assessment#:#tst_question_type#:#Fragetyp
-assessment#:#tst_questions_hints_table_cmd_save_order#:#Reihenfolge speichern
-assessment#:#tst_questions_hints_table_multicmd_cut_hint#:#Lösungshinweis in die Sortierungzwischenablage ausschneiden
-assessment#:#tst_questions_hints_table_multicmd_delete_hint#:#Lösungshinweis(e) löschen
-assessment#:#tst_questions_hints_table_multicmd_paste_hint_after#:#Ausgeschnittenen Lösungshinweis dem gewählten anfügen
-assessment#:#tst_questions_hints_table_multicmd_paste_hint_before#:#Ausgeschnittenen Lösungshinweis dem gewählten voranstellen
-assessment#:#tst_questions_hints_toolbar_cmd_add_hint#:#Lösungshinweis hinzufügen
-assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Zwischenablage für Sortierung der Lösungshinweise zurücksetzen
 assessment#:#tst_questions_inserted#:#Fragen angefügt!
 assessment#:#tst_questions_removed#:#Fragen entfernt!
 assessment#:#tst_random_nr_of_questions#:#Wie viele Fragen?
@@ -1908,8 +1856,6 @@ assessment#:#tst_sequence_postpone#:#Fragen können an das Ende eines Testdurchl
 assessment#:#tst_sequence_properties#:#Durchführung: Funktionen für Teilnehmer
 assessment#:#tst_session_settings#:#Durchführung
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Der Test wurde offline gesetzt, da sich die Einstellung zur Auswahl der Testfragen geändert hat. Weisen Sie dem Test wieder Fragen zu. Anschließend können Sie den Test wieder online setzen.
-assessment#:#tst_setting_offer_hints_info#:#Teilnehmer können Lösungshinweise anfordern, um eine Frage zu beantworten. Pro gegebenem Lösungshinweis verringern sich die Punkte für die richtige Antwort.
-assessment#:#tst_setting_offer_hints_label#:#Lösungshinweise
 assessment#:#tst_settings_conflict_postpone_and_lock#:#„Nicht beantwortete Fragen werden ans Testende geschoben“ kann nicht zusammen mit „Antworten bei Anzeige der Folgefrage festschreiben“ verwendet werden.
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#„Fragen mischen“ kann nicht zusammen mit „Antworten bei Anzeige der Folgefrage festschreiben“ verwendet werden.
 assessment#:#tst_settings_header_additional#:#Zusätzliche Funktionen

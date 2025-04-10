@@ -51,7 +51,10 @@ class TestSetupAgent extends NullAgent
                 7200,
                 ['tst']
             ),
-            new \ilAccessRBACOperationDeletedObjective('tst', 56)
+            new \ilAccessRBACOperationDeletedObjective('tst', 56),
+            new \ilDatabaseUpdateStepsExecutedObjective(
+                new ilTestNoHintsDBUpdateSteps()
+            ),
         );
     }
 
@@ -67,7 +70,11 @@ class TestSetupAgent extends NullAgent
             new \ilDatabaseUpdateStepsMetricsCollectedObjective(
                 $storage,
                 new Test10DBUpdateSteps()
-            )
+            ),
+            new \ilDatabaseUpdateStepsMetricsCollectedObjective(
+                $storage,
+                new ilTestNoHintsDBUpdateSteps()
+            ),
         );
     }
 

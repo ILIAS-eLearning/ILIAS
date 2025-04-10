@@ -39,8 +39,6 @@ class ilTestEvaluationPassData
     private ?Mark $mark = null;
     private int $nrOfAnsweredQuestions;
     private int $pass;
-    private ?int $requestedHintsCount = null;
-    private ?float $deductedHintPoints = null;
     private string $exam_id = '';
     private ?StatusOfAttempt $status_of_attempt = null;
 
@@ -204,26 +202,6 @@ class ilTestEvaluationPassData
     public function getAnsweredQuestionCount(): int
     {
         return count($this->answeredQuestions);
-    }
-
-    public function getRequestedHintsCount(): ?int
-    {
-        return $this->requestedHintsCount;
-    }
-
-    public function setRequestedHintsCount(int $requestedHintsCount): void
-    {
-        $this->requestedHintsCount = $requestedHintsCount;
-    }
-
-    public function getDeductedHintPoints(): ?float
-    {
-        return $this->deductedHintPoints;
-    }
-
-    public function setDeductedHintPoints(float $deductedHintPoints): void
-    {
-        $this->deductedHintPoints = $deductedHintPoints;
     }
 
     public function getExamId(): string

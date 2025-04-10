@@ -557,8 +557,6 @@ assessment#:#broken_test#:#Broken Test
 assessment#:#bulkedit_author#:#Set Author
 assessment#:#bulkedit_lifecycle#:#Set Lifecycle
 assessment#:#bulkedit_taxonomies#:#Set Taxonomies
-assessment#:#button_request_next_question_hint#:#Request Next Hint
-assessment#:#button_request_question_hint#:#Request Hint
 assessment#:#cancel_test#:#Suspend the Test
 assessment#:#cannot_edit_marks#:#The test has already been completed by some participants. You can only change the marks if an ’Access to Test Results’ date has been set and that date is in the future i.e. it has not yet been reached.
 assessment#:#cannot_edit_test#:#You do not possess sufficient permissions to edit the test!
@@ -778,7 +776,6 @@ assessment#:#grading_mark_msg#:#Your mark is: &quot;[mark]&quot;
 assessment#:#grading_status_failed_msg#:#Sorry, you have <b>failed</b> the test.
 assessment#:#grading_status_passed_msg#:#Congratulations, you have <b>passed</b> the test.
 assessment#:#hide_best_solution#:#Hide best solution
-assessment#:#hints#:#Hints
 assessment#:#identical_scoring#:#Identical Scoring
 assessment#:#identical_scoring_desc#:#If selected, gaps with identical solutions will be scored, even if the same solution was used twice or more. If not selected, only the first occurrence of the same solution will be scored.
 assessment#:#imagemap#:#Image Map
@@ -1255,7 +1252,6 @@ assessment#:#show_hide_best_solution#:#Show or hide best solution
 assessment#:#show_old_concluding_remarks#:#Show old conlcuding remarks
 assessment#:#show_old_introduction#:#Show old introduction
 assessment#:#show_pass_overview#:#Show Marked Pass Overview
-assessment#:#show_requested_question_hints#:#Show Requested Hints
 assessment#:#show_results#:#Show Results
 assessment#:#show_user_answers#:#Show User’s Marked Answers
 assessment#:#shuffle_answers#:#Shuffle Answers
@@ -1328,7 +1324,6 @@ assessment#:#too_many_targets_selected_for_move#:#You must select exactly one ta
 assessment#:#toplist_by_score#:#High score by score
 assessment#:#toplist_by_time#:#High score by working time
 assessment#:#toplist_col_achieved#:#Date
-assessment#:#toplist_col_hints#:#Hints
 assessment#:#toplist_col_participant#:#Participant
 assessment#:#toplist_col_percentage#:#Percentage
 assessment#:#toplist_col_rank#:#Rank
@@ -1756,46 +1751,6 @@ assessment#:#tst_question_answer_status_non_answered#:#Non Answered Questions
 assessment#:#tst_question_answer_status_wrong_answered#:#Only wrongly answered questions
 assessment#:#tst_question_feedback_back_to_feedback_form#:#Back To Calling Question
 assessment#:#tst_question_feedback_edit_page#:#Edit Content
-assessment#:#tst_question_hints_back_to_hint_list#:#Question Hint List
-assessment#:#tst_question_hints_back_to_question#:#Back to Question
-assessment#:#tst_question_hints_cancel_request#:#Back to Question
-assessment#:#tst_question_hints_confirm_request#:#Request Hint
-assessment#:#tst_question_hints_cut_hints_missing_selection_msg#:#No hint selected for cutting.
-assessment#:#tst_question_hints_cut_hints_single_selection_msg#:#More than one hint was selected for cutting.
-assessment#:#tst_question_hints_delete_hints_confirm_cmd#:#Delete Hint(s)
-assessment#:#tst_question_hints_delete_hints_confirm_header#:#Do you really want to delete the following hint(s)?
-assessment#:#tst_question_hints_delete_hints_confirm_item#:#Hint %s: %s
-assessment#:#tst_question_hints_delete_hints_missing_selection_msg#:#No hint(s) selected for deletion.
-assessment#:#tst_question_hints_delete_success_msg#:#The selected hint(s) has been deleted successfully.
-assessment#:#tst_question_hints_form_cmd_save#:#Save Hint
-assessment#:#tst_question_hints_form_cmd_save_points#:#Save Points
-assessment#:#tst_question_hints_form_cmd_save_points_and_edit_page#:# Save Points and Edit Page
-assessment#:#tst_question_hints_form_header_create#:#New Hint for Question: %s
-assessment#:#tst_question_hints_form_header_edit#:#Hint %s for Question: %s
-assessment#:#tst_question_hints_form_invalid_msg#:#The hint could not been saved. Please check your inputs.
-assessment#:#tst_question_hints_form_label_hint_points#:#Point Deduction
-assessment#:#tst_question_hints_form_label_hint_text#:#Hint
-assessment#:#tst_question_hints_form_saved_msg#:#The hint has been saved successfully.
-assessment#:#tst_question_hints_index_column_label#:#Hint %s
-assessment#:#tst_question_hints_item_stored_in_ordering_clipboard#:#Hint %s is stored in ordering clipboard.
-assessment#:#tst_question_hints_ordering_clipboard_resetted#:#The ordering clipboard has been reset.
-assessment#:#tst_question_hints_paste_after_success_msg#:#The hint %s has been pasted after hint %s successfully.
-assessment#:#tst_question_hints_paste_before_success_msg#:#The hint %s has been pasted before hint %s successfully.
-assessment#:#tst_question_hints_request_confirmation#:#Do you really want to request hint %s? For this hint %s point(s) will be deducted.
-assessment#:#tst_question_hints_request_confirmation_no_deduction#:#No points will be deducted for this hint.
-assessment#:#tst_question_hints_requested_hint_count_header#:#Requested Hints
-assessment#:#tst_question_hints_save_order_success_msg#:#The order of hint was saved successfully.
-assessment#:#tst_question_hints_tab#:#Hints
-assessment#:#tst_question_hints_table_column_hint_index#:#Index
-assessment#:#tst_question_hints_table_column_hint_order#:#Order
-assessment#:#tst_question_hints_table_column_hint_points#:#Points Deduction
-assessment#:#tst_question_hints_table_column_hint_text#:#Hint
-assessment#:#tst_question_hints_table_header#:#Hints for Question: %s
-assessment#:#tst_question_hints_table_link_delete_hint#:#Delete Hint
-assessment#:#tst_question_hints_table_link_edit_hint#:#Edit Hint
-assessment#:#tst_question_hints_table_link_edit_hint_page#:#Edit Page
-assessment#:#tst_question_hints_table_link_edit_hint_points#:#Edit Points
-assessment#:#tst_question_hints_table_no_items#:#No Existing Hints
 assessment#:#tst_question_mark#:#Flag this question
 assessment#:#tst_question_marked#:#You flagged the question
 assessment#:#tst_question_marker#:#Flagged
@@ -1909,8 +1864,6 @@ assessment#:#tst_sequence_postpone#:#Questions may be postponed to the end of a 
 assessment#:#tst_sequence_properties#:#Administering the Test: Functionality Available to Participants
 assessment#:#tst_session_settings#:#Session Settings
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#The test has been set to offline, because the test mode setting has been changed. You have to set a new test mode relating question config before the test can be set to online again.
-assessment#:#tst_setting_offer_hints_info#:#Participants request hints to answer a question. With every hint presented the maximum number of points to be earned decreases.
-assessment#:#tst_setting_offer_hints_label#:#Hints
 assessment#:#tst_settings_conflict_postpone_and_lock#:#"Unanswered questions will be enqueued" cannot be used together with "Lock Answers After Moving to Next Question".
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#"Shuffle Questions" cannot be used together with "Lock Answers After Moving to Next Question".
 assessment#:#tst_settings_header_additional#:#Additional Features

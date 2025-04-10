@@ -117,11 +117,6 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
                 $a_set['num_workedthrough_questions'],
                 $a_set['num_questions_total']
             ));
-
-            if ($this->getParentObject()->getObject()->isOfferingQuestionHintsEnabled()) {
-                $this->tpl->setVariable('VAL_HINTS', $a_set['hints']);
-            }
-
             $this->tpl->setVariable('VAL_REACHED', $this->buildReachedPointsString(
                 $a_set['reached_points'],
                 $a_set['max_points']
@@ -155,9 +150,6 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 
         if ($this->isResultPresentationEnabled()) {
             $this->addColumn($this->lng->txt('tst_answered_questions'));
-            if ($this->getParentObject()->getObject()->isOfferingQuestionHintsEnabled()) {
-                $this->addColumn($this->lng->txt('tst_question_hints_requested_hint_count_header'));
-            }
             $this->addColumn($this->lng->txt('tst_reached_points'));
             $this->addColumn($this->lng->txt('tst_percent_solved'));
         }

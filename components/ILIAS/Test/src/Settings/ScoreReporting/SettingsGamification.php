@@ -22,7 +22,6 @@ namespace ILIAS\Test\Settings\ScoreReporting;
 
 use ILIAS\Test\Settings\TestSettings;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
-
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
@@ -38,7 +37,6 @@ class SettingsGamification extends TestSettings
     protected bool $highscore_achieved_ts = true;
     protected bool $highscore_score = true;
     protected bool $highscore_percentage = true;
-    protected bool $highscore_hints = true;
     protected bool $highscore_wtime = true;
     protected bool $highscore_own_table = true;
     protected bool $highscore_top_table = true;
@@ -84,10 +82,6 @@ class SettingsGamification extends TestSettings
                     $lng->txt('tst_highscore_percentage'),
                     $lng->txt('tst_highscore_percentage_description')
                 )->withValue($this->getHighscorePercentage()),
-                'highscore_hints' => $f->checkbox(
-                    $lng->txt('tst_highscore_hints'),
-                    $lng->txt('tst_highscore_hints_description')
-                )->withValue($this->getHighscoreHints()),
                 'highscore_wtime' => $f->checkbox(
                     $lng->txt('tst_highscore_wtime'),
                     $lng->txt('tst_highscore_wtime_description')
@@ -128,7 +122,6 @@ class SettingsGamification extends TestSettings
                             ->withHighscoreAchievedTS($v['highscore']['highscore_achieved_ts'])
                             ->withHighscoreScore($v['highscore']['highscore_score'])
                             ->withHighscorePercentage($v['highscore']['highscore_percentage'])
-                            ->withHighscoreHints($v['highscore']['highscore_hints'])
                             ->withHighscoreWTime($v['highscore']['highscore_wtime']);
                     }
                 )
@@ -143,7 +136,6 @@ class SettingsGamification extends TestSettings
             'highscore_achieved_ts' => ['integer', (int) $this->getHighscoreAchievedTS()],
             'highscore_score' => ['integer', (int) $this->getHighscoreScore()],
             'highscore_percentage' => ['integer', (int) $this->getHighscorePercentage()],
-            'highscore_hints' => ['integer', (int) $this->getHighscoreHints()],
             'highscore_wtime' => ['integer', (int) $this->getHighscoreWTime()],
             'highscore_own_table' => ['integer', (int) $this->getHighscoreOwnTable()],
             'highscore_top_table' => ['integer', (int) $this->getHighscoreTopTable()],
@@ -187,8 +179,6 @@ class SettingsGamification extends TestSettings
                 ->getEnabledDisabledTagForBool($this->getHighscoreScore()),
             AdditionalInformationGenerator::KEY_SCORING_HIGHSCORE_SHOW_PERCENTAGE => $additional_info
                 ->getEnabledDisabledTagForBool($this->getHighscorePercentage()),
-            AdditionalInformationGenerator::KEY_SCORING_HIGHSCORE_SHOW_HINTS => $additional_info
-                ->getEnabledDisabledTagForBool($this->getHighscoreHints()),
             AdditionalInformationGenerator::KEY_SCORING_HIGHSCORE_SHOW_WTIME => $additional_info
                 ->getEnabledDisabledTagForBool($this->getHighscoreWTime())
         ];
@@ -295,17 +285,6 @@ class SettingsGamification extends TestSettings
     {
         $clone = clone $this;
         $clone->highscore_percentage = $highscore_percentage;
-        return $clone;
-    }
-
-    public function getHighscoreHints(): bool
-    {
-        return $this->highscore_hints;
-    }
-    public function withHighscoreHints(bool $highscore_hints): self
-    {
-        $clone = clone $this;
-        $clone->highscore_hints = $highscore_hints;
         return $clone;
     }
 

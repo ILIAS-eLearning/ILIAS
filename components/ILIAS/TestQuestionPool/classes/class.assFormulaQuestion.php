@@ -856,10 +856,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
                 $this->unitrepository->getUnits()
             );
         }
-
-        $reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $points);
-
-        return $this->ensureNonNegativePoints($reachedPoints);
+        return $this->ensureNonNegativePoints($points);
     }
 
     protected function isValidSolutionResultValue(string $submittedValue): bool

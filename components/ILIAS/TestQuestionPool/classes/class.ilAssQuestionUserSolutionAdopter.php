@@ -175,7 +175,7 @@ class ilAssQuestionUserSolutionAdopter
 
         $this->db->execute($this->getPreparedInsertResultRecordStatement(), [
             $result_id, $this->getActiveId(), $question_id, $this->getTargetPass(), time(),
-            $row['points'], $row['manual'], $row['hint_count'], $row['hint_points'], $row['answered']
+            $row['points'], $row['manual'], $row['answered']
         ]);
     }
 
@@ -244,7 +244,7 @@ class ilAssQuestionUserSolutionAdopter
     {
         if (self::$prepared_select_result_record_statement === null) {
             $query = "
-				SELECT points, manual, hint_count, hint_points, answered FROM tst_test_result
+				SELECT points, manual, answered FROM tst_test_result
 				WHERE active_fi = ? AND question_fi = ? AND pass = ?
 			";
 
@@ -263,15 +263,15 @@ class ilAssQuestionUserSolutionAdopter
             $query = "
 				INSERT INTO tst_test_result (
 					test_result_id, active_fi, question_fi, pass, tstamp,
-					points, manual, hint_count, hint_points, answered
+					points, manual, answered
 				) VALUES (
-					?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+					?, ?, ?, ?, ?, ?, ?, ?
 				)
 			";
 
             self::$prepared_insert_result_record_statement = $this->db->prepareManip(
                 $query,
-                ['integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer']
+                ['integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer']
             );
         }
 

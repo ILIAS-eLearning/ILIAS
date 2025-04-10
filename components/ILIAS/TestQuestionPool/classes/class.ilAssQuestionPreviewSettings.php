@@ -30,13 +30,8 @@ class ilAssQuestionPreviewSettings
      * @var bool
      */
     protected $reachedPointsEnabled = false;
-
     private $genericFeedbackEnabled = false;
-
     private $specificFeedbackEnabled = false;
-
-    private $hintProvidingEnabled = false;
-
     private $bestSolutionEnabled = false;
 
     public function __construct($contextRefId)
@@ -68,7 +63,6 @@ class ilAssQuestionPreviewSettings
 
         $this->setGenericFeedbackEnabled($testOBJ->getGenericAnswerFeedback());
         $this->setSpecificFeedbackEnabled($testOBJ->getSpecificAnswerFeedback());
-        $this->setHintProvidingEnabled($testOBJ->isOfferingQuestionHintsEnabled());
         $this->setBestSolutionEnabled($testOBJ->getInstantFeedbackSolution());
         $this->setReachedPointsEnabled($testOBJ->getAnswerFeedbackPoints());
     }
@@ -79,7 +73,6 @@ class ilAssQuestionPreviewSettings
 
         $this->setGenericFeedbackEnabled(true);
         $this->setSpecificFeedbackEnabled(true);
-        $this->setHintProvidingEnabled(true);
         $this->setBestSolutionEnabled(true);
         $this->setReachedPointsEnabled(true);
     }
@@ -130,16 +123,6 @@ class ilAssQuestionPreviewSettings
         return $this->specificFeedbackEnabled;
     }
 
-    public function setHintProvidingEnabled(bool $hintProvidingEnabled): void
-    {
-        $this->hintProvidingEnabled = $hintProvidingEnabled;
-    }
-
-    public function isHintProvidingEnabled(): bool
-    {
-        return $this->hintProvidingEnabled;
-    }
-
     public function setBestSolutionEnabled($bestSolutionEnabled): void
     {
         $this->bestSolutionEnabled = $bestSolutionEnabled;
@@ -165,10 +148,5 @@ class ilAssQuestionPreviewSettings
         }
 
         return false;
-    }
-
-    public function isHintProvidingNavigationRequired(): bool
-    {
-        return $this->isHintProvidingEnabled();
     }
 }

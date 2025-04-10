@@ -45,7 +45,6 @@ class SettingsQuestionBehaviour extends TestSettings
         protected bool $autosave_enabled,
         protected int $autosave_interval,
         protected bool $shuffle_questions,
-        protected bool $question_hints_enabled,
         protected bool $instant_feedback_points_enabled,
         protected bool $instant_feedback_generic_enabled,
         protected bool $instant_feedback_specific_enabled,
@@ -83,14 +82,8 @@ class SettingsQuestionBehaviour extends TestSettings
             $lng->txt('tst_shuffle_questions_description')
         )->withValue($this->getShuffleQuestions());
 
-        $inputs['offer_hints'] = $f->checkbox(
-            $lng->txt('tst_setting_offer_hints_label'),
-            $lng->txt('tst_setting_offer_hints_info')
-        )->withValue($this->getQuestionHintsEnabled());
-
         if ($environment['participant_data_exists']) {
             $inputs['shuffle_questions'] = $inputs['shuffle_questions']->withDisabled(true);
-            $inputs['offer_hints'] = $inputs['offer_hints']->withDisabled(true);
         }
 
         $inputs['instant_feedback'] = $this->getInputInstantFeedback($lng, $f, $refinery, $environment);
@@ -348,7 +341,6 @@ class SettingsQuestionBehaviour extends TestSettings
             'autosave' => ['integer', (int) $this->getAutosaveEnabled()],
             'autosave_ival' => ['integer', $this->getAutosaveInterval()],
             'shuffle_questions' => ['integer', (int) $this->getShuffleQuestions()],
-            'offer_question_hints' => ['integer', (int) $this->getQuestionHintsEnabled()],
             'answer_feedback_points' => ['integer', (int) $this->getInstantFeedbackPointsEnabled()],
             'answer_feedback' => ['integer', (int) $this->getInstantFeedbackGenericEnabled()],
             'specific_feedback' => ['integer', (int) $this->getInstantFeedbackSpecificEnabled()],
@@ -384,8 +376,6 @@ class SettingsQuestionBehaviour extends TestSettings
             ? $this->getAutosaveInterval() / 1000 . ' ' . $additional_info->getTagForLangVar('seconds') : $additional_info->getEnabledDisabledTagForBool(false);
         $log_array[AdditionalInformationGenerator::KEY_TEST_SHUFFLE_QUESTIONS] = $additional_info
             ->getEnabledDisabledTagForBool($this->getShuffleQuestions());
-        $log_array[AdditionalInformationGenerator::KEY_TEST_HINTS_ENABLED] = $additional_info
-            ->getEnabledDisabledTagForBool($this->getQuestionHintsEnabled());
 
         $log_array[AdditionalInformationGenerator::KEY_TEST_FEEDBACK_ENABLED] = $additional_info
                     ->getEnabledDisabledTagForBool($this->isAnyInstantFeedbackOptionEnabled());
@@ -462,18 +452,6 @@ class SettingsQuestionBehaviour extends TestSettings
     {
         $clone = clone $this;
         $clone->shuffle_questions = $shuffle_questions;
-        return $clone;
-    }
-
-    public function getQuestionHintsEnabled(): bool
-    {
-        return $this->question_hints_enabled;
-    }
-
-    public function withQuestionHintsEnabled(bool $question_hints_enabled): self
-    {
-        $clone = clone $this;
-        $clone->question_hints_enabled = $question_hints_enabled;
         return $clone;
     }
 

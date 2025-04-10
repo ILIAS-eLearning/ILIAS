@@ -117,7 +117,6 @@ class Factory
             $attempt_data->getMark(),
             $attempt_data->getAnsweredQuestionCount(),
             $attempt_data->getQuestionCount(),
-            $attempt_data->getRequestedHintsCount(),
             $attempt_data->getWorkingTime(),
             $participant_data->getTimeOnTask(),
             $attempt_data->getStartTime(),
@@ -221,8 +220,6 @@ class Factory
             $usr_score = $qresult['reached'];
             $workedthrough = (bool) $qresult['workedthrough'];
             $answered = (bool) $qresult['answered'];
-            $requested_hints = (int) $qresult['requested_hints'];
-
 
             $question_gui = $test_obj->createQuestionGUI('', $qid);
             $shuffle_trafo = $this->shuffler->getAnswerShuffleFor($qid, $active_id, $attempt_id);
@@ -303,7 +300,6 @@ class Factory
                 $feedback,
                 $workedthrough,
                 $answered,
-                $requested_hints,
                 $recapitulation
             );
         }

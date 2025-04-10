@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -95,8 +96,6 @@ class assFileUploadExport extends assQuestionExport
         $a_xml_writer->xmlEndTag("presentation");
 
         $this->exportFeedbackOnly($a_xml_writer);
-
-        $a_xml_writer = $this->addSolutionHints($a_xml_writer);
 
         $a_xml_writer->xmlEndTag("item");
         $a_xml_writer->xmlEndTag("questestinterop");

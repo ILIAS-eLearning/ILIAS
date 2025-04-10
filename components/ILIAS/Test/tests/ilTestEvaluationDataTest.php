@@ -94,8 +94,6 @@ class ilTestEvaluationDataTest extends ilTestBaseTestCase
             "answeredquestions" => 1,
             "workingtime" => 28,
             "tstamp" => 1731941437,
-            "hint_count" => 0,
-            "hint_points" => 0,
             "obligations_answered" => true,
             "exam_id" => "I0_T355_A7_P1",
             "usr_id" => 6,

@@ -83,7 +83,6 @@ class AdditionalInformationGenerator
     public const KEY_TEST_TITLE_PRESENTATION = 'tst_title_output';
     public const KEY_TEST_AUTOSAVE_ENABLED = 'autosave';
     public const KEY_TEST_SHUFFLE_QUESTIONS = 'tst_shuffle_questions';
-    public const KEY_TEST_HINTS_ENABLED = 'tst_setting_offer_hints_label';
     public const KEY_TEST_FEEDBACK_ENABLED = 'tst_instant_feedback';
     public const KEY_TEST_FEEDBACK_SHOW_POINTS = 'tst_instant_feedback_results';
     public const KEY_TEST_FEEDBACK_SHOW_GENERIC = 'tst_instant_feedback_answer_generic';
@@ -131,7 +130,6 @@ class AdditionalInformationGenerator
     public const KEY_SCORING_HIGHSCORE_SHOW_ACHIEVED_TS = 'tst_highscore_achieved_ts';
     public const KEY_SCORING_HIGHSCORE_SHOW_SCORE = 'tst_highscore_score';
     public const KEY_SCORING_HIGHSCORE_SHOW_PERCENTAGE = 'tst_highscore_percentage';
-    public const KEY_SCORING_HIGHSCORE_SHOW_HINTS = 'tst_highscore_hints';
     public const KEY_SCORING_HIGHSCORE_SHOW_WTIME = 'tst_highscore_wtime';
 
     public const KEY_PASS = 'pass';

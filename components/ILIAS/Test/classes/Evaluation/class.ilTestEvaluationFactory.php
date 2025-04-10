@@ -130,7 +130,7 @@ class ilTestEvaluationFactory
         $current_attempt = null;
 
         foreach ($eval_data_rows as $row) {
-            if($row['pass'] === null) {
+            if ($row['pass'] === null) {
                 continue;
             }
 
@@ -196,8 +196,6 @@ class ilTestEvaluationFactory
         $attempt->setNrOfAnsweredQuestions($row['answeredquestions']);
         $attempt->setWorkingTime($row['workingtime']);
         $attempt->setExamId((string) $row['exam_id']);
-        $attempt->setRequestedHintsCount($row['hint_count']);
-        $attempt->setDeductedHintPoints($row['hint_points']);
         return $attempt;
     }
 

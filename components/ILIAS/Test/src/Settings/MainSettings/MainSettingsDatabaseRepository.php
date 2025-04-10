@@ -92,7 +92,6 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
             . 'autosave,' . PHP_EOL
             . 'autosave_ival,' . PHP_EOL
             . 'shuffle_questions,' . PHP_EOL
-            . 'offer_question_hints,' . PHP_EOL
             . 'answer_feedback_points,' . PHP_EOL
             . 'answer_feedback,' . PHP_EOL
             . 'specific_feedback,' . PHP_EOL
@@ -176,7 +175,6 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
                 (bool) $row['autosave'],
                 $row['autosave_ival'],
                 (bool) $row['shuffle_questions'],
-                (bool) $row['offer_question_hints'],
                 (bool) $row['answer_feedback_points'],
                 (bool) $row['answer_feedback'],
                 (bool) $row['specific_feedback'],

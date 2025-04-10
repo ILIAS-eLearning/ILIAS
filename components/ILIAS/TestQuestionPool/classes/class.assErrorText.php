@@ -267,7 +267,6 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $preview_session)
     {
         $reached_points = $this->getPointsForSelectedPositions($preview_session->getParticipantsSolution() ?? []);
-        $reached_points = $this->deductHintPointsFromReachedPoints($preview_session, $reached_points);
         return $this->ensureNonNegativePoints($reached_points);
     }
 

@@ -204,7 +204,6 @@ class AttemptResultsTable
             ];
 
             $stats_fields = $important_fields;
-            $stats_fields[$lng->txt('tst_question_hints_requested_hint_count_header')] = (string) $question->getNumberOfRequestedHints();
             $stats = $ui_factory->listing()->characteristicValue()->text($stats_fields);
 
 

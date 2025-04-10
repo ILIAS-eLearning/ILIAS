@@ -103,11 +103,6 @@ class QuestionsBrowserTable implements DataRetrieval
                 $iconYes,
                 $iconNo
             )->withIsOptional(true, false),
-            'hints' => $column_factory->boolean(
-                $this->lng->txt('hints'),
-                $iconYes,
-                $iconNo
-            )->withIsOptional(true, false),
             'created' => $column_factory->date(
                 $this->lng->txt('created'),
                 $this->current_user->getDateTimeFormat()
