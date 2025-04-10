@@ -99,7 +99,11 @@ class IndAssStorageMigration implements Setup\Migration
         $filepath = $fs_storage->getAbsolutePath() . '/' . $filename;
 
         if (! file_exists($filepath)) {
-            $files = array_diff(scandir($fs_storage->getAbsolutePath()), ['.', '..']);
+            $dir = scandir($fs_storage->getAbsolutePath());
+            if ($dir === false) {
+                throw new \Exception('cannot scan directory:' . $fs_storage->getAbsolutePath());
+            }
+            $files = array_diff($dir, ['.', '..']);
             $filepath = $fs_storage->getAbsolutePath() . '/' . current($files);
             if (file_exists($filepath) === false || count($files) < 1) {
                 throw new \Exception('no file in:' . $filepath);
