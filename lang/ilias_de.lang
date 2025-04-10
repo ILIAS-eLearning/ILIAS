@@ -13747,7 +13747,7 @@ rbac#:#adn_edit_permission#:#Rechteeinstellungen für Administration der Ankünd
 rbac#:#adn_read#:#Lesezugriff auf Administration für Ankündigungen
 rbac#:#adn_visible#:#Administration für Ankündigungen ist sichtbar.
 rbac#:#adn_write#:#Ankündigungen erstellen und verwalten
-rbac#:#adopt_perm_from_template#:#Rechteeinstellungen kopieren
+rbac#:#adopt_perm_from_template#:#Rechteeinstellungen von anderer Rolle übernehmen
 rbac#:#adve_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#adve_read#:#Zugriff auf die Editor-Administration
 rbac#:#adve_visible#:#Editor-Administration ist sichtbar
@@ -14297,10 +14297,13 @@ rbac#:#rbac_choose_copy_targets#:#Bitte geben Sie einen Suchbegriff ein, um die 
 rbac#:#rbac_condition_delete_sure#:#Wollen Sie wirklich die folgenden Vorbedingungen löschen?
 rbac#:#rbac_context_global#:#Global
 rbac#:#rbac_copy_behaviour#:#Einstellungen zum Kopieren der Rechte
+rbac#:#rbac_copy_behaviour_info#:#Übertragen der Rechte von: <strong>%s</strong> nach: <strong>%s</strong>
 rbac#:#rbac_copy_finished#:#Die Rechte wurden auf die ausgewählten Rollen übertragen.
+rbac#:#rbac_copy_multi_targets#:#Rollen ausgewählt
+rbac#:#rbac_copy_no_targets#:#Es muss mindestens eine Rolle als Ziel ausgewählt werden
 rbac#:#rbac_copy_role#:#Rolle kopieren
 rbac#:#rbac_copy_role_add_perm#:#Rechte hinzufügen
-rbac#:#rbac_copy_role_copy#:#Rechte kopieren
+rbac#:#rbac_copy_role_copy#:#Rechte auf andere Rolle(n) übertragen
 rbac#:#rbac_copy_role_remove_perm#:#Rechte entfernen
 rbac#:#rbac_create_bibl#:#Literaturliste anlegen
 rbac#:#rbac_create_blog#:#Blog anlegen
@@ -14412,12 +14415,13 @@ rbac#:#rbac_role_delete_qst#:#Sind Sie sicher, dass Sie diese Rolle löschen mö
 rbac#:#rbac_role_delete_self#:#<strong>Achtung:</strong> Sie selbst sind dieser Rolle zugeordnet. Wenn Sie den Löschvorgang fortführen, kann es sein, dass Sie Zugriffsrechte an diesem oder anderen ILIAS-Materialien verlieren.
 rbac#:#rbac_role_exists_alert#:#Es existiert bereits eine Rolle mit dem gleichen Namen. Bitte wählen Sie einen anderen Rollennamen.
 rbac#:#rbac_role_imported#:#Die Rolle wurde erfolgreich importiert und die gesetzten Rechte in die Rechtevorgaben der neuen Rolle übernommen. Legen Sie jetzt noch unten fest, welche Rechte die importierte Rolle für das vorliegende Objekt haben soll.
-rbac#:#rbac_role_rights_copy#:#Rechte kopieren
+rbac#:#rbac_role_rights_copy#:#Rechte übertragen
 rbac#:#rbac_role_rights_copy_change_existing#:#Vorhandene Objekte ändern
 rbac#:#rbac_role_rights_copy_empty#:#Keine
 rbac#:#rbac_role_selection#:#Rollentyp
 rbac#:#rbac_role_title#:#Rollentitel
-rbac#:#rbac_select_copy_targets#:#Bitte wählen Sie die Rollen aus, auf die die Rechte übertragen werden sollen.
+rbac#:#rbac_select_copy_targets#:#Bitte wählen Sie die Rollen aus, auf die die Rechte von <strong>%s</strong> übertragen werden sollen.
+rbac#:#rbac_select_roles#:#Rollenauswahl
 rbac#:#rbac_ud_global#:#Selbst erstellte globale Rolle
 rbac#:#rbac_ud_local#:#Selbst erstelle lokale Rolle
 rbac#:#rbac_ud_rolt#:#Selbst erstellte Rollenvorlage
