@@ -304,7 +304,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
             case 2:
             case 3:
                 foreach ($targets as $target) {
-                    $targetName .= ', ' . ilObject::lookupTitle($target);
+                    $targetName .= ', ' . ilObject::_lookupTitle($target);
                 }
                 break;
             default:
