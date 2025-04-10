@@ -171,7 +171,7 @@ class ilRoleTableGUI extends ilTable2GUI
                 $this->addColumn($this->lng->txt('search_title_description'), 'title', '30%');
                 $this->addColumn($this->lng->txt('type'), 'rtype', '20%');
                 $this->addColumn($this->lng->txt('context'), '', '50%');
-                $this->setTitle($this->lng->txt('rbac_role_rights_copy'));
+                $this->setTitle($this->lng->txt('rbac_select_roles'));
                 $this->addMultiCommand('chooseCopyBehaviour', $this->lng->txt('btn_next'));
                 $this->addCommandButton('roleSearch', $this->lng->txt('btn_previous'));
                 break;
@@ -184,7 +184,9 @@ class ilRoleTableGUI extends ilTable2GUI
         $this->path_gui = new ilPathGUI();
         $this->getPathGUI()->enableTextOnly(false);
         $this->getPathGUI()->enableHideLeaf(false);
-        $this->initFilter();
+        if ($this->type === self::TYPE_VIEW) {
+            $this->initFilter();
+        }
     }
 
     public function getType(): int
