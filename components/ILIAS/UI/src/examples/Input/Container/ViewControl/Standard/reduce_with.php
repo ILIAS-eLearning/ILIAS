@@ -13,14 +13,20 @@ use ILIAS\UI\Implementation\Component\Input\ViewControl\Pagination;
  *   ILIAS shows a JSON like that:
  *   {
  *       "Standard View Control Container Input": [
- *           "Pagination View Control Input",
- *           "Sortation View Control Input",
- *           "Field Selection View Control Input"
+ *          {
+ *              "Pagination View Control Input": []
+ *          },
+ *          {
+ *              "Sortation View Control Input": []
+ *          },
+ *          {
+ *              "Field Selection View Control Input": []
+ *          }
  *       ]
  *   }
  * ---
  */
-function catamorph()
+function reduce_with()
 {
     global $DIC;
     $f = $DIC->ui()->factory();
@@ -41,16 +47,8 @@ function catamorph()
 
     $vc_container = $f->input()->container()->viewControl()->standard($vcs);
 
-
-    $array = $vc_container->foldWith(
-        function ($c) {
-            $subs = $c->getSubStructure();
-            if ($subs !== null) {
-                return [$c->getCanonicalName() => $subs];
-            } else {
-                return $c->getCanonicalName();
-            }
-        }
+    $array = $vc_container->reduceWith(
+        fn($c, $res) => [$c->getCanonicalName() => $res]
     );
 
     return $r->render([

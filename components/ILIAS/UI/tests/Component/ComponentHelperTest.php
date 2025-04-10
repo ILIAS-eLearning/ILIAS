@@ -291,7 +291,7 @@ class ComponentHelperTest extends TestCase
         });
     }
 
-    public function testFoldWith()
+    public function testReduceWith()
     {
         $a = new ComponentMock();
         $a->random_data = "A";
@@ -301,21 +301,21 @@ class ComponentHelperTest extends TestCase
         $c->random_data = "C";
         $c->sub_components = [$a, $b];
 
-        $f = function ($c) {
-            $subs = $c->getSubStructure();
-            if ($subs !== null) {
-                return [$c->random_data => $subs];
-            }
+        $f = fn($c, $res) => [$c->random_data => $res];
+        $res = $c->reduceWith($f);
 
-            return $c->random_data;
-        };
-
-        $res = $c->foldWith($f);
-
-        $this->assertEquals(["C" => ["A", "B"]], $res);
+        $this->assertEquals(
+            ["C" =>
+                [
+                    ["A" => []],
+                    ["B" => []],
+                ]
+            ],
+            $res
+        );
     }
 
-    public function testFoldWithDoesNotModify()
+    public function testReduceWithDoesNotModify()
     {
         $a = new ComponentMock();
         $a->random_data = "A";
@@ -325,14 +325,15 @@ class ComponentHelperTest extends TestCase
         $c->random_data = "C";
         $c->sub_components = [$a, $b];
 
-        $f = function ($c) {
-            $c->random_data = strtolower($c->random_data);
-            $c->sub_components = $c->getSubStructure();
-            return $c;
+        $f = function ($c, $res) {
+            $clone = clone $c;
+            $clone->random_data = strtolower($c->random_data);
+            $clone->sub_components = $res;
+            return $clone;
         };
+        $c2 = $c->reduceWith($f);
 
-        $c2 = $c->foldWith($f);
-        [$a2, $b2] = $c2->getSubStructure();
+        [$a2, $b2] = $c2->sub_components;
 
         $this->assertNotEquals(spl_object_id($a), spl_object_id($a2));
         $this->assertNotEquals(spl_object_id($b), spl_object_id($b2));
@@ -341,14 +342,14 @@ class ComponentHelperTest extends TestCase
         $this->assertEquals("A", $a->random_data);
         $this->assertEquals("B", $b->random_data);
         $this->assertEquals("C", $c->random_data);
-        $this->assertEquals([$a, $b], $c->getSubStructure());
+        $this->assertEquals([$a, $b], $c->sub_components);
 
         $this->assertEquals("a", $a2->random_data);
         $this->assertEquals("b", $b2->random_data);
         $this->assertEquals("c", $c2->random_data);
     }
 
-    public function testFoldWithSubStructureIsTransient()
+    public function testReduceWithSubStructureIsTransient()
     {
         $a = new ComponentMock();
         $a->random_data = "A";
@@ -358,17 +359,11 @@ class ComponentHelperTest extends TestCase
         $c->random_data = "C";
         $c->sub_components = [$a, $b];
 
-        $f = function ($c) {
-            $subs = $c->getSubStructure();
-            if ($subs !== null) {
-                return [$c, [$c->random_data => $subs]];
-            }
-
+        $f = function ($c, $res) {
             return [$c, $c->random_data];
         };
 
-        [$res, $_] = $c->foldWith($f);
-
-        $this->assertEquals([$a, $b], $res->getSubStructure());
+        [$res, $_] = $c->reduceWith($f);
+        $this->assertEquals([$a, $b], $res->sub_components);
     }
 }

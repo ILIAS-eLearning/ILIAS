@@ -241,29 +241,14 @@ trait ComponentHelper
         }
     }
 
-    // Implementation for foldWith
-
-    private ?array $sub_structure = null;
-
-    public function foldWith(callable $f): mixed
+    public function reduceWith(\Closure $fn): mixed
     {
         $clone = clone $this;
-
-        $sub_components = $clone->getSubComponents();
-        if ($sub_components !== null) {
-            $clone->sub_structure = array_map(
-                fn($c) => $c->foldWith($f),
-                $sub_components
-            );
+        $results = [];
+        foreach ($clone->getSubComponents() ?? [] as $component) {
+            $results[] = $component->reduceWith($fn);
         }
-
-        try {
-            return $f($clone);
-        } finally {
-            // Reset substructure afterwards, so transient components will have
-            // expected component sub structure afterwards.
-            $clone->sub_structure = null;
-        }
+        return $fn($clone, $results);
     }
 
     /**
@@ -279,12 +264,4 @@ trait ComponentHelper
         return null;
     }
 
-
-    public function getSubStructure(): ?array
-    {
-        if ($this->sub_structure === null) {
-            return $this->getSubComponents();
-        }
-        return $this->sub_structure;
-    }
 }

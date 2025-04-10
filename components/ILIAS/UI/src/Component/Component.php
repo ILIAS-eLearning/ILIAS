@@ -32,30 +32,10 @@ interface Component
     public function getCanonicalName(): string;
 
     /**
-     * This implements the catamorphism (https://en.wikipedia.org/wiki/Catamorphism)
-     * for components, which is a clever way to implement a generalized fold over
-     * data structures.
-     *
-     * The scheme starts at the leaves of the structure and applys the function to
-     * each leave and moves up the tree recursively. The return value of the function
-     * is put into the "sub structure" to be consumed when the function is applied
-     * to the upper levels. By using this method, the structure can be broken down
-     * completely or it can be modified.
+     * The scheme starts at the leaves of the structure and applies the function
+     * to each leave and moves up the tree recursively.
+     * @param Closure(Component, array): mixed $fn
      */
-    public function foldWith(callable $f): mixed;
+    public function reduceWith(\Closure $fn): mixed;
 
-    /**
-     * This contains the sub structure of the component to support `foldWith`. For
-     * pristine Components, it shall return all Components that are contained in
-     * the component. When applying `foldWith` it will contain the results of the
-     * function for these sub components. A component might contain no substructure
-     * whatsoever, hence this might return null;
-     *
-     * Implementations of Component shall simply pass back their sub components,
-     * and, most probably, use the implementation of foldWith from the trait
-     * ComponentHelper and overwrite "getSubComponents" according to their requirements.
-     *
-     * @return ?array<mixed>
-     */
-    public function getSubStructure(): ?array;
 }
