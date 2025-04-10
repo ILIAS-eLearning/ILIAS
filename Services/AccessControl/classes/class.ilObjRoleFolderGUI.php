@@ -308,7 +308,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
                 }
                 break;
             default:
-                $targetName = count($targets)+1 . ' ' . $this->lng-Ytxt('rbac_copy_mulit_targets');
+                $targetName = (string) count($targets)+1 . ' ' . $this->lng->txt('rbac_copy_mulit_targets');
                 break;
         }
         $this->tpl->setOnScreenMessage('info', sprintf($this->lng->txt('rbac_copy_behaviour_info'),$sourceName,$targetName),true);
