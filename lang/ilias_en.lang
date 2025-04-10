@@ -176,6 +176,7 @@ administration#:#auth_auth_mode_determination#:#Authentication Method Determinat
 administration#:#auth_automatic#:#Fixed Sequence
 administration#:#auth_by_user#:#By the User
 administration#:#auth_kind_determination#:#Kind of Determination
+administration#:#auth_mode_default_change_info#:#Changing the default authentication method affects all user accounts configured to use the default authentication method. If the selected default method (e.g., Shibboleth, SAML, SOAP, ...) does not support or is not configured to allow fallback to local ILIAS authentication, affected users may no longer be able to log in. To avoid this, please ensure that local fallback authentication is activated in the configuration of the selected method, or that the authentication method stored for affected user accounts is manually changed.
 administration#:#auth_mode_determination_info#:#Choose either if the users have to select their authentication method on the login screen or if this is managed by a fixed sequence of authentication methods.
 administration#:#clean#:#Clean up
 administration#:#clean_desc#:#Remove invalid references and tree entries. Initialize gaps in tree structure.

@@ -176,7 +176,8 @@ administration#:#auth_auth_mode_determination#:#Bestimmung der Authentifizierung
 administration#:#auth_automatic#:#Festgelegte Reihenfolge
 administration#:#auth_by_user#:#Durch den Benutzer
 administration#:#auth_kind_determination#:#Art der Bestimmung
-administration#:#auth_mode_determination_info#:#Hier können Sie festlegen, ob die Authentifizierungsmethode durch die Benutzer beim Login ausgewählt werden muss oder ob die Authentifizierungsdaten anhand einer vorgegebenen Reihenfolge überprüft werden sollen.
+administration#:#auth_mode_default_change_info#:#Die Änderung des Standard-Authentifizierungsverfahrens betrifft alle ILIAS-Konten, bei denen die Authentifizierung auf „Standard“ gesetzt ist. Wenn das gewählte Verfahren (z.B. Shibboleth, SAML, LDAP, ...) keine lokale ILIAS-Authentifizierung unterstützt oder diese Funktion nicht aktiviert ist, können betroffene Personen sich möglicherweise nicht mehr anmelden. Um dies zu vermeiden, stellen Sie bitte sicher, dass die lokale Authentifizierung im konfigurierten Verfahren (sofern unterstützt) aktiviert ist oder dass das Authentifizierungsverfahren in den betroffenen ILIAS-Konten entsprechend angepasst wird.
+administration#:#auth_mode_determination_info#:#Hier kann festgelegt werden, ob die Authentifizierungsmethode beim Login von der jeweiligen Person ausgewählt werden muss oder ob die Authentifizierungsdaten anhand einer vorgegebenen Reihenfolge überprüft werden sollen.
 administration#:#clean#:#Räume auf
 administration#:#clean_desc#:#Entferne ungültige Referenzen und Baumeinträge. Initialisiere Lücken in der Baumstruktur
 administration#:#cleaning#:#Bereinigen...

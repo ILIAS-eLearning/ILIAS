@@ -230,7 +230,11 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             $generalSettingsTpl->parseCurrentBlock();
         }
 
-        $this->tpl->setContent($generalSettingsTpl->get());
+        $default_auth_info = $this->ui_factory->messageBox()->info(
+            $this->lng->txt('auth_mode_default_change_info')
+        );
+
+        $this->tpl->setContent($this->ui_renderer->render($default_auth_info) . $generalSettingsTpl->get());
     }
 
 
