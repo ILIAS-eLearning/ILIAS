@@ -172,12 +172,6 @@ td.chatroom {
 		white-space: nowrap;
 	}
 
-	.dropdown-menu {
-		background-color: $il-main-dark-bg;
-		padding: 10px 0;
-		font-size: $il-font-size-small;
-	}
-
         .ilChatroomDropdown {
             position: relative;
 
@@ -208,10 +202,8 @@ td.chatroom {
 		background-color: $il-highlight-bg;
 	}
 
-	.dropdown-menu {
-		position: static;
-		float: none;
-		@include box-shadow(none);
+	.dropdown-menu > li > button.btn {
+	    padding-left: 10px;
 	}
 
 	.dropdown-backdrop {

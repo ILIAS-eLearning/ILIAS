@@ -12938,11 +12938,6 @@ td.chatroom {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.ilChatroomUser .dropdown-menu {
-  background-color: #f9f9f9;
-  padding: 10px 0;
-  font-size: 0.75rem;
-}
 .ilChatroomUser .ilChatroomDropdown {
   position: relative;
 }
@@ -12967,11 +12962,8 @@ td.chatroom {
 .ilChatroomUser .media:hover {
   background-color: #e2e8ef;
 }
-.ilChatroomUser .dropdown-menu {
-  position: static;
-  float: none;
-  -webkit-box-shadow: none;
-  box-shadow: none;
+.ilChatroomUser .dropdown-menu > li > button.btn {
+  padding-left: 10px;
 }
 .ilChatroomUser .dropdown-backdrop {
   position: static;
