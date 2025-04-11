@@ -2,14 +2,6 @@
 
 ## Short Term
 
-### Get rid of obsolete metadata entries
-
-See FR: https://docu.ilias.de/goto_docu_wiki_wpage_7360_1357.html
-
-Up to ILIAS 8, it was possible to define LOM for glossary definitions. Since multiple definitons per term are abandoned 
-from ILIAS 9 onwards, LOM for definitions have also been abandoned (see Jour Fixe decision in FR). Now, there is
-"dead metadata" in the corresponding database tables, which should be deleted.
-
 ### Remove Public Access Exports From DB
 
 In the table `glossary`, the following columns can be removed:

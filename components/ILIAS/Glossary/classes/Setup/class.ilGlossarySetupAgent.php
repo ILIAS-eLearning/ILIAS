@@ -63,7 +63,8 @@ final class ilGlossarySetupAgent implements Setup\Agent
     {
         return [
             new ilGlossaryDefinitionMigration(),
-            new ilGlossaryCollectionMigration()
+            new ilGlossaryCollectionMigration(),
+            new ilGlossaryDeleteLOMOfDefinitionsMigration()
         ];
     }
 }
