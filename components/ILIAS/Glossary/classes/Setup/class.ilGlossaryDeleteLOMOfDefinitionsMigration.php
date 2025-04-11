@@ -19,9 +19,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\Setup;
-use ILIAS\Setup\Environment;
-use ILIAS\Setup\Migration;
 use ILIAS\MetaData\Setup\DeleteLOMForObjectTypeMigration;
 
 final class ilGlossaryDeleteLOMOfDefinitionsMigration extends DeleteLOMForObjectTypeMigration
