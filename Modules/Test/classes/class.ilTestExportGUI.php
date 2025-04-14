@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\InternalRequestService;
 use ILIAS\TestQuestionPool\QuestionInfoService;
 
 /**
@@ -77,23 +76,24 @@ class ilTestExportGUI extends ilExportGUI
      */
     public function createTestExportWithResults()
     {
-        $export_factory = new ilTestExportFactory(
-            $this->obj,
-            $this->lng,
-            $this->logger,
-            $this->tree,
-            $this->component_repository,
-            $this->questioninfo
-        );
-        $test_exp = $export_factory->getExporter('xml');
-        $test_exp->setResultExportingEnabledForTestExport(true);
-        $test_exp->buildExportFile();
+        if (!$this->access->checkAccess('write', '', $this->obj->getRefId())) {
+            $this->tpl->setOnScreenMessage('info', 'cannot_export_archive', true);
+            $this->ctrl->redirectByClass(self::class);
+        }
+
+        $this->ctrl->setParameterByClass(self::class, 'export_results', 1);
+        (new ilExport())->exportObject($this->obj->getType(), $this->obj->getId());
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('exp_file_created'), true);
         $this->ctrl->redirectByClass('iltestexportgui');
     }
 
     public function createTestResultsExport()
     {
+        if (!$this->access->checkAccess('write', '', $this->obj->getRefId())) {
+            $this->tpl->setOnScreenMessage('info', 'cannot_export_archive', true);
+            $this->ctrl->redirectByClass(self::class);
+        }
+
         $export_factory = new ilTestExportFactory(
             $this->obj,
             $this->lng,

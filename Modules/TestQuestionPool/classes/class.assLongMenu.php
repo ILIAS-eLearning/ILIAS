@@ -879,7 +879,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable,
         $result = array();
         $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();
-        $result['title'] = $this->getTitle();
+        $result['title'] = $this->getTitleForHTMLOutput();
         $replaced_quesiton_text = $this->getLongMenuTextValue();
         $result['question'] = $this->formatSAQuestion($this->getQuestion());
         $result['lmtext'] = $this->formatSAQuestion($replaced_quesiton_text);

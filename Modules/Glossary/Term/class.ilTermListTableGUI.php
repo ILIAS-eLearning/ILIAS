@@ -227,31 +227,36 @@ class ilTermListTableGUI extends ilTable2GUI
             $short_str = $term_obj->getShortText();
         }
 
-        $page = new ilGlossaryDefPage($term_id);
+        try {
+            $page = new ilGlossaryDefPage($term_id);
 
-        // replace tex
-        // if a tex end tag is missing a tex end tag
-        $ltexs = strrpos($short_str, "[tex]");
-        $ltexe = strrpos($short_str, "[/tex]");
-        if ($ltexs > $ltexe) {
-            $page->buildDom();
-            $short_str = $page->getFirstParagraphText();
-            $short_str = strip_tags($short_str, "<br>");
-            $ltexe = strpos($short_str, "[/tex]", $ltexs);
-            $short_str = ilStr::shortenTextExtended($short_str, $ltexe + 6, true);
+            // replace tex
+            // if a tex end tag is missing a tex end tag
+            $ltexs = strrpos($short_str, "[tex]");
+            $ltexe = strrpos($short_str, "[/tex]");
+            if ($ltexs > $ltexe) {
+                $page->buildDom();
+                $short_str = $page->getFirstParagraphText();
+                $short_str = strip_tags($short_str, "<br>");
+                $ltexe = strpos($short_str, "[/tex]", $ltexs);
+                $short_str = ilStr::shortenTextExtended($short_str, $ltexe + 6, true);
+            }
+
+            $short_str = ilMathJax::getInstance()->insertLatexImages($short_str);
+
+            $short_str = ilPCParagraph::xml2output(
+                $short_str,
+                false,
+                true,
+                !$page->getPageConfig()->getPreventHTMLUnmasking()
+            );
+
+            $this->tpl->setVariable("DEF_SHORT", $short_str);
+            $this->tpl->parseCurrentBlock();
+        } catch (Exception $e) {
+            $this->tpl->setVariable("DEF_SHORT", "Error: Page is missing.");
+            $this->tpl->parseCurrentBlock();
         }
-
-        $short_str = ilMathJax::getInstance()->insertLatexImages($short_str);
-
-        $short_str = ilPCParagraph::xml2output(
-            $short_str,
-            false,
-            true,
-            !$page->getPageConfig()->getPreventHTMLUnmasking()
-        );
-
-        $this->tpl->setVariable("DEF_SHORT", $short_str);
-        $this->tpl->parseCurrentBlock();
 
         $this->tpl->setCurrentBlock("definition_row");
         $this->tpl->parseCurrentBlock();

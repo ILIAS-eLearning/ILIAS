@@ -1258,6 +1258,7 @@ assessment#:#toplist_col_percentage#:#Procent
 assessment#:#toplist_col_rank#:#Plats
 assessment#:#toplist_col_score#:#Score
 assessment#:#toplist_col_wtime#:#Bearbetningstid
+assessment#:#total_max_points_cannot_be_negative#:#The maximum amount of reachable points cannot be negative.###01 04 2025 new variable
 assessment#:#true#:#Sant
 assessment#:#tst_access_code_created#:#För att du ska ha permanent tillgång till dina testresultat och kunna återuppta ett avbrutet test har en personlig åtkomstnyckel genererats för dig. Vänligen notera koden nedan för att kunna fortsätta testet senare.
 assessment#:#tst_activate_skill_service#:#Kompetens
@@ -1606,7 +1607,6 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#Den påbörjad
 assessment#:#tst_objective_progress_header#:#Framsteg när det gäller lärandemålet
 assessment#:#tst_objectives_progress_header#:#Framsteg när det gäller lärandemålen
 assessment#:#tst_old_style_rnd_quest_set_broken#:#Detta slumpmässiga test är i ett irreparabelt tillstånd eftersom anslutna frågepooler har raderats. Av denna anledning kan deltagarna inte längre göra detta test.
-assessment#:#tst_optional_questions_confirmation_fixed_test#:#Frågor<b>om inlärningsmål som redan har uppnåtts har besvarats framgångsrikt i tidigare försök.</b><br /><br />Du vill nu växla till en fråga som hör till ett inlärningsmål som redan har uppnåtts.<br />Du kan välja
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#Frågor<b>om inlärningsmål som redan har uppnåtts är frivilliga.</b><br /><br />Du vill nu växla till en fråga som hör till ett inlärningsmål som redan har uppnåtts.<br />Du kan välja
 assessment#:#tst_out_of_time_message#:#You have reached the maximum allowed processing time of the test!###30 04 2024 new variable
 assessment#:#tst_participant#:#Deltagare
@@ -1763,6 +1763,7 @@ assessment#:#tst_res_jump_to_participant_hint_opt#:#-- Hoppa till deltagare--
 assessment#:#tst_res_lo_objectives_header#:#Relevanta lärandemål
 assessment#:#tst_res_lo_try_header#:#Försök
 assessment#:#tst_res_lo_try_n#:#%s. Försök
+assessment#:#tst_res_tab_msg_no_lp_access#:#You are currently not allowed to access your Learning Progress, as you are not allowed to see your test results.###01 04 2025 new variable
 assessment#:#tst_res_tab_msg_res_after_date#:#Testresultaten kommer att presenteras för dig här på följande datum
 assessment#:#tst_res_tab_msg_res_after_date_no_res#:#Om du utför testet kommer testresultaten att presenteras här på följande datum
 assessment#:#tst_res_tab_msg_res_after_finish_test#:#När du har slutfört testet presenteras testresultaten här.
@@ -2017,7 +2018,6 @@ auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessio
 auth#:#auth_err_expired#:#Din session har löpt ut. Logga in igen.
 auth#:#auth_err_invalid_user_account#:#Autentiseringen kunde inte utföras på grund av ett internt fel.
 auth#:#auth_err_ldap_exception#:#Autenticering kunde inte utföras på grund av ett fel i inloggningsproceduren (LDAP).
-auth#:#auth_err_login_attempts_deactivation#:#ILIAS-kontot har avaktiverats på grund av för många felaktiga inloggningsförsök.
 auth#:#auth_info_add#:#Välj den här inställningen om du aldrig har registrerat dig för ILIAS tidigare. I så fall kommer ett nytt ILIAS-konto att skapas.
 auth#:#auth_info_migrate#:#Om du redan har ett ILIAS-konto anger du inloggningsnamn och lösenord för att överföra dina personuppgifter (e-postmeddelanden, testresultat ...).
 auth#:#auth_ldap_server_ds#:#LDAP-server
@@ -2889,8 +2889,6 @@ chatroom#:#chat_osc_accepts_messages_yes#:#Tar emot chattmeddelanden
 chatroom#:#chat_osc_add_user#:#Lägg till fler användare i chatten
 chatroom#:#chat_osc_conversations#:#Chatt
 chatroom#:#chat_osc_doesnt_accept_msg#:#Chatting inte möjligt
-chatroom#:#chat_osc_dont_accept_msg#:#Du kan för närvarande inte bli inbjuden till en chatt av andra personer. Du kan ändra detta i din %s om det behövs.
-chatroom#:#chat_osc_dont_accept_msg_link_txt#:#Personliga inställningar
 chatroom#:#chat_osc_head_grp_x_persons#:#%s användare
 chatroom#:#chat_osc_invite_to_conversation#:#Lägg till i chatten
 chatroom#:#chat_osc_leave_grp_conv#:#Lämna chatten
@@ -3918,6 +3916,7 @@ common#:#download_selected_items#:#Ladda ner
 common#:#downloading_settings#:#Inställningar
 common#:#dpro_accept_usr_agreement#:#Accept Declaration of Data Protection?###30 04 2024 new variable
 common#:#dpro_accept_usr_agreement_intro#:#There is a new Declaration of Data Protection. You need to accept it before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.###30 04 2024 new variable
+common#:#dpro_agreed_on#:#DoDP agreed to on###01 04 2025 new variable
 common#:#dpro_force_accept_usr_agreement#:#You must accept the Declaration of Data Protection!###30 04 2024 new variable
 common#:#dpro_no_agreement_description#:#There is currently no Declaration of Data Protection document available for this installation. Please contact the <a href="%1$s">system administrator</a>.###30 04 2024 new variable
 common#:#dpro_refuse_acceptance#:#Refuse to Accept the Declaration of Data Protection###30 04 2024 new variable
@@ -5633,7 +5632,6 @@ common#:#show_users_online#:#Visa aktiva användare
 common#:#show_who_is_online#:#Visa vem som är online
 common#:#side_frame#:#Frame Trädvy
 common#:#signature#:#Signatur
-common#:#simultaneous_login_detected#:#Åtkomst till systemet nekas eftersom en användare med dessa autentiseringsuppgifter redan befinner sig i en ILIAS-session.
 common#:#size#:#Storlek
 common#:#skills#:#Kompetens
 common#:#skin_style#:#Standard hud/stil
@@ -6010,7 +6008,6 @@ common#:#withdrawal_sure_account_no_consent_yet#:#Är du säker på att du inte 
 common#:#wizard_search_list#:#Din sökning gav följande resultat. Välj ett av dessa.
 common#:#wizard_title_info#:#Ange titeln för att söka efter det objekt du vill kopiera. Delar av titeln är också tillräckligt. Klicka på "Sök" för att få träffarna visade.
 common#:#write#:#Skrivande
-common#:#wrong_ip_detected#:#Åtkomst till systemet nekas på grund av en felaktig klient-IP.<br>Din aktuella IP-adress
 common#:#year#:#År
 common#:#yearly#:#årlig
 common#:#years#:#År
@@ -7255,8 +7252,6 @@ content#:#glo_online_info#:#Endast när ordlistan är online kan användarna se 
 content#:#glo_presentation_mode#:#Visa
 content#:#glo_presentation_view#:#Presentation vy
 content#:#glo_quick_navigation#:#Snabb åtkomst
-content#:#glo_show_taxonomy#:#Taxonomi
-content#:#glo_show_taxonomy_info#:#Taxonomin erbjuds i presentationsvyn för filtrering av ordlistans termer. Den kan skapas i underfliken "Taxonomi".
 content#:#glo_style#:#glossar stil
 content#:#glo_table_form#:#Tabell
 content#:#glo_table_form_info#:#Termer och förkortade definitioner visas i en översiktstabell. Om du klickar på en term visas den med den fullständiga definitionen.
@@ -9783,6 +9778,8 @@ file#:#preview_caption#:#Preview %sof %s###30 04 2024 new variable
 file#:#preview_image_size_info#:#The preview versions of images will be downscaled or upscaled as appropriate, so that their longest side is the length (in px) entered here.###30 04 2024 new variable
 file#:#preview_persisting#:#Persistent Preview Images###30 04 2024 new variable
 file#:#preview_persisting_info#:#Generated preview images will be stored by ILIAS and used from then on each time the preview icon for that file is clicked on. If deactivated, previews will be generated anew each time.###30 04 2024 new variable
+file#:#previews_for_tiles#:#Tiles###01 04 2025 new variable
+file#:#previews_for_tiles_info#:#Use Preview for Tiles where possible.###01 04 2025 new variable
 file#:#publish_before_delete#:#Version(s) could not be deleted because an unpublished draft exists.###30 04 2024 new variable
 file#:#replace_file_info#:#Alla filversioner raderas.
 file#:#resource_id#:#Resurser ID
@@ -12793,18 +12790,12 @@ noti#:#noti_notification_deactivated#:#Notifieringar är inaktiverade
 notifications_adm#:#enable_osd#:#Aktivera popup-aviseringar
 notifications_adm#:#enable_osd_desc#:#När detta är aktiverat meddelas användarna om nya aviseringar via en popup.
 notifications_adm#:#notification_settings#:#Inställningar för meddelanden
-notifications_adm#:#osd_delay#:#Visa fördröjning
-notifications_adm#:#osd_delay_desc#:#Fördröjning av visningen av aviseringarna i millisekunder
-notifications_adm#:#osd_error_presentation_time_too_small#:#Displayens varaktighet måste vara minst 1000 millisekunder.
-notifications_adm#:#osd_error_refresh_interval_smaller_than_delay_and_vanish_combined#:#Avfrågningsintervallet måste vara större än summan av visningstiden och fördröjningen.
 notifications_adm#:#osd_error_refresh_interval_too_small#:#Pollningsintervallet måste vara minst 3000 millisekunder.
 notifications_adm#:#osd_interval#:#Query intervall
 notifications_adm#:#osd_interval_desc#:#Intervall för begäran om meddelanden i millisekunder. En lägre tid ger snabbare meddelanden, men ökar belastningen på servern.
 notifications_adm#:#osd_play_sound#:#Spela upp ljud
 notifications_adm#:#osd_play_sound_desc#:#Spela upp ljud när ett nytt meddelande tas emot.
 notifications_adm#:#osd_settings#:#Popup-aviseringar
-notifications_adm#:#osd_vanish#:#Visa varaktighet
-notifications_adm#:#osd_vanish_desc#:#Duration för visning av aviseringar i millisekunder
 obj#:#activation_visible_when_disabled#:#Visibility###30 04 2024 new variable
 obj#:#activation_visible_when_disabled_info#:#The item is visible outside of the selected availability period, but it cannot be opened.###30 04 2024 new variable
 obj#:#availability_period_changed#:#The availability period for the selected objects has been changed successfully.###30 04 2024 new variable
@@ -12817,6 +12808,7 @@ obj#:#copy_container_page_yes_label#:#Copy Content Page###30 04 2024 new variabl
 obj#:#custom_icon#:#Custom Icon###30 04 2024 new variable
 obj#:#edit_availability_period#:#Availability Period###30 04 2024 new variable
 obj#:#edit_questions#:#Redigera frågor
+obj#:#multiple_reference_deletion_info#:#Further references exist for the following objects.###01 04 2025 new variable
 obj#:#no_objects_selected#:#At least one object needs to be selected.###30 04 2024 new variable
 obj#:#obj_activate_content_lang#:#Aktivera flerspråkighet för sidredigeraren
 obj#:#obj_activate_multilang#:#Möjliggöra flerspråkighet
@@ -13849,7 +13841,7 @@ rbac#:#chtr_moderate#:#Moderat diskussion i chattrum
 rbac#:#chtr_read#:#Delta i diskussionen i chattrummet
 rbac#:#chtr_visible#:#Chatroom är synligt
 rbac#:#chtr_write#:#Redigera inställningar för chattrum och blockera användare
-rbac#:#cmis_edit_permissions#:#Ändra inställningar för administrationsrättigheter för xAPI/cmi5
+rbac#:#cmis_edit_permission#:#User can change permission settings of xAPI/cmi5 administration.###01 04 2025 new variable
 rbac#:#cmis_read#:#Läs tillgång till administration för xAPI/cmi5
 rbac#:#cmis_visible#:#Administrationen för xAPI/cmi5 är synlig.
 rbac#:#cmis_write#:#Ändra inställningar i Administration för xAPI/cmi5
@@ -13921,6 +13913,10 @@ rbac#:#dcl_write#:#Redigera datainsamling
 rbac#:#delete_files#:#Radera filer
 rbac#:#delete_folders#:#Ta bort mapp
 rbac#:#delete_wiki_pages#:#Ta bort sida
+rbac#:#dpro_edit_permission#:#User can change permission settings in the Declaration of Data Protected administration###01 04 2025 new variable
+rbac#:#dpro_read#:#User has read access to the Declaration of Data Protection administration###01 04 2025 new variable
+rbac#:#dpro_visible#:#Declaration of Data Protection administration is visible###01 04 2025 new variable
+rbac#:#dpro_write#:#Edit settings in the Declaration of Data Protection###01 04 2025 new variable
 rbac#:#dshs_change_presentation#:#Ändra utseendet på instrumentpanelen
 rbac#:#dshs_edit_permission#:#Ändra rättighetsinställningar i administrationen av instrumentpanelen
 rbac#:#dshs_read#:#Läsa åtkomst till administration av instrumentpanelen
@@ -14069,6 +14065,10 @@ rbac#:#il_lti_global_role#:#LTI Användare
 rbac#:#il_sess_participant#:#Deltagare i sessionen
 rbac#:#il_sess_status_closed#:#Sluten session med icke-deltagare
 rbac#:#ilias_id#:#ILIAS ID
+rbac#:#impr_edit_permission#:#User can change permission settings of Legal Notice administration###01 04 2025 new variable
+rbac#:#impr_read#:#User can read in Legal Notice administration###01 04 2025 new variable
+rbac#:#impr_visible#:#Administration of Legal Notice is visible###01 04 2025 new variable
+rbac#:#impr_write#:#User can edit content and settings of Legal Notice###01 04 2025 new variable
 rbac#:#info_user_view_changed#:#Användarvy ändrad
 rbac#:#internal_mail#:#Internt postsystem
 rbac#:#invite#:#Inbjudan till undersökning
@@ -14116,7 +14116,7 @@ rbac#:#lso_read_learning_progress#:#Användaren kan se andra användares inlärn
 rbac#:#lso_unparticipate#:#Logga ut från inlärningssekvensen
 rbac#:#lso_visible#:#Lärsekvens synlig
 rbac#:#lso_write#:#Redigera inlärningssekvens
-rbac#:#lsos_edit_permissions#:#Ändra rättighetsinställningar för administrationen för inlärningssekvenser
+rbac#:#lsos_edit_permission#:#User can change permission settings of Learning Sequences administration.###01 04 2025 new variable
 rbac#:#lsos_read#:#Läs tillgång till administration för inlärningssekvenser
 rbac#:#lsos_visible#:#Administrationen för utbildningssekvenser är synlig.
 rbac#:#lsos_write#:#Ändra inställningar i Administration för inlärningssekvenser
@@ -14181,7 +14181,8 @@ rbac#:#moderate_frm#:#Måttlig
 rbac#:#msg_anonymous_cannot_be_assigned#:#Anonymous cannot be assigned to a role.###19 03 2024 new variable
 rbac#:#msg_no_roles_of_type#:#Inga rullar närvarande med den valda filterinställningen
 rbac#:#news_add_news#:#Skapa nyheter
-rbac#:#nots_edit_permissions#:#Ändra administrationens rättighetsinställningar för anteckningar
+rbac#:#no_corresponding_roles#:#No corresponding roles could be found.###01 04 2025 new variable
+rbac#:#nots_edit_permission#:#User can change permission settings of Notes administration.###01 04 2025 new variable
 rbac#:#nots_read#:#Läs tillgång till administration för anteckningar
 rbac#:#nots_visible#:#Administrationen för noter är synlig.
 rbac#:#nots_write#:#Ändra inställningar i Administration för anteckningar
@@ -14258,7 +14259,7 @@ rbac#:#prgs_edit_permission#:#Ändra rättighetsinställningar i studieprogramad
 rbac#:#prgs_read#:#Läs tillgång till administration av studieprogram
 rbac#:#prgs_visible#:#Studieprogramadministration är synlig
 rbac#:#prgs_write#:#Redigera inställningar i Studieprogramadministration
-rbac#:#prss_edit_permissions#:#Ändra rättighetsinställningar för administrationen av personliga resurser
+rbac#:#prss_edit_permission#:#User can change permission settings of Personal Resources administration.###01 04 2025 new variable
 rbac#:#prss_read#:#Läs tillgång till administration för personliga resurser
 rbac#:#prss_visible#:#Administrationen för personliga resurser är synlig.
 rbac#:#prss_write#:#Ändra inställningar i Administration för personliga resurser
@@ -14607,7 +14608,7 @@ rbac#:#usrf_read#:#Läs åtkomst till hantering av inloggningskonton
 rbac#:#usrf_read_users#:#Läsa åtkomst till inloggningskonton för lokala administratörer
 rbac#:#usrf_visible#:#Registreringskontohanteringen är synlig
 rbac#:#usrf_write#:#Redigera inställningar i Hantering av inloggningskonton
-rbac#:#wbdv_edit_permissions#:#Ändra inställningar för administrationsrättigheter för WebDAV
+rbac#:#wbdv_edit_permission#:#User can change permission settings of WebDAV administration.###01 04 2025 new variable
 rbac#:#wbdv_read#:#Läs tillgång till administration för WebDAV
 rbac#:#wbdv_visible#:#Administrationen för WebDAV är synlig.
 rbac#:#wbdv_write#:#Ändra inställningar i Administration för WebDAV
@@ -14791,6 +14792,7 @@ rep#:#rep_fav_intro2#:#Klicka på "%s" och välj ett lärandeobjekt från det ti
 rep#:#rep_fav_intro3#:#Om du har hittat något som intresserar dig kan du enkelt lägga till det i dina favoriter. Välj alternativet<i>"Lägg till i favoriter</i>" i <i>menyn Åtgärder</i> för det önskade objektet.
 rep#:#rep_favourites#:#Favoriter
 rep#:#rep_favourites_info#:#Användare kan markera enskilda tidningsartiklar som favoriter. Favoritlistor kan aktiveras i instrumentpanelen och huvudmenyns konfiguration.
+rep#:#rep_input_not_empty#:#This field must not be empty, please provide a value.###01 04 2025 new variable
 rep#:#rep_intro#:#Välkommen till tidningen!
 rep#:#rep_intro1#:#I det här avsnittet kan du skapa och tillgängliggöra utbildnings- och arbetsmaterial. Allt innehåll är organiserat i kategorier. Dessa kategorier kan till exempel återspegla organisationen på din institution (t.ex. avdelningar eller klasser). Kategorier
 rep#:#rep_intro2#:#Du kan bygga en första struktur med tre steg
@@ -17193,6 +17195,7 @@ ui#:#order_option_numerical_ascending#:#0 to 9###30 04 2024 new variable
 ui#:#order_option_numerical_descending#:#9 to 0###30 04 2024 new variable
 ui#:#presentation_table_collapse#:#collapse all###30 04 2024 new variable
 ui#:#presentation_table_expand#:#expand all###30 04 2024 new variable
+ui#:#table_posinput_col_title#:#Position###01 04 2025 new variable
 ui#:#ui_chars_max#:#Maximum
 ui#:#ui_chars_min#:#Minimum
 ui#:#ui_chars_remaining#:#Resterande bokstäver

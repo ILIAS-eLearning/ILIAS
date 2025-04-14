@@ -448,7 +448,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("HIDDEN", "hidden");
         }
 
-        if(!($value && $component->isRequired())) {
+        if (!($value && $component->isRequired())) {
             $tpl->setVariable("VALUE", null);
             $tpl->setVariable("VALUE_STR", $component->isRequired() ? $this->txt('ui_select_dropdown_label') : '-');
             $tpl->parseCurrentBlock();
@@ -814,7 +814,7 @@ class Renderer extends AbstractComponentRenderer
     {
         $template = $this->getTemplate('tpl.hidden.html', true, true);
         $this->applyName($input, $template);
-        $this->applyValue($input, $template);
+        $this->applyValue($input, $template, $this->escapeSpecialChars());
         $this->maybeDisable($input, $template);
         $this->bindJSandApplyId($input, $template);
         return $template->get();

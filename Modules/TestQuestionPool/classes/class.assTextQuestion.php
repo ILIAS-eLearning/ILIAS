@@ -536,7 +536,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
                 break;
         }
 
-        return (float)$points;
+        return (float) $points;
     }
 
     /**
@@ -572,7 +572,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         // Return points of points are already on the row.
         $row = $ilDB->fetchAssoc($result);
         if ($row["points"] != null) {
-            return (float)$row["points"];
+            return (float) $row["points"];
         }
 
         return $this->calculateReachedPointsForSolution($row['value1']);
@@ -804,7 +804,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         $result = [];
         $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();
-        $result['title'] = $this->getTitle();
+        $result['title'] = $this->getTitleForHTMLOutput();
         $result['question'] = $this->formatSAQuestion($this->getQuestion());
         $result['nr_of_tries'] = $this->getNrOfTries();
         $result['shuffle'] = $this->getShuffle();
@@ -1025,7 +1025,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 
     public function countWords($text): int
     {
-        if($text === '') {
+        if ($text === '') {
             return 0;
         }
         $text = str_replace('&nbsp;', ' ', $text);

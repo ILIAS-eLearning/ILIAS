@@ -23,14 +23,14 @@
  */
 class arOrderCollection extends arStatementCollection
 {
-    public function asSQLStatement(): string
+    public function asSQLStatement(ilDBInterface $db): string
     {
         $return = '';
         if ($this->hasStatements()) {
             $return .= ' ORDER BY ';
             $orders = $this->getOrders();
             foreach ($orders as $order) {
-                $return .= $order->asSQLStatement($this->getAr());
+                $return .= $order->asSQLStatement($this->getAr(), $db);
                 if ($order !== end($orders)) {
                     $return .= ', ';
                 }

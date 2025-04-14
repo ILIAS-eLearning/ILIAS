@@ -440,6 +440,24 @@ class CharacteristicDBRepo
         }
     }
 
+    public function getAllParametersOfCharacteristic(
+        int $style_id,
+        string $type,
+        string $characteristic
+    ): array {
+        $set = $this->db->queryF(
+            "SELECT * FROM style_parameter " .
+            " WHERE style_id = %s AND class = %s AND type = %s",
+            ["integer", "string", "string"],
+            [$style_id, $characteristic, $type]
+        );
+        $data = [];
+        while ($rec = $this->db->fetchAssoc($set)) {
+            $data[] = $rec;
+        }
+        return $data;
+    }
+
     public function deleteParameter(
         int $style_id,
         string $tag,

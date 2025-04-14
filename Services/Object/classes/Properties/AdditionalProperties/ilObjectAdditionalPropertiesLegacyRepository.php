@@ -159,11 +159,11 @@ class ilObjectAdditionalPropertiesLegacyRepository implements ilObjectAdditional
     private function storeIcon(ilObjectPropertyIcon $property_icon): void
     {
         if ($property_icon->getDeletedFlag()) {
-            $property_icon->getIcon()->remove();
+            $property_icon->getCustomIcon()->remove();
         }
 
         if ($property_icon->getTempFileName()) {
-            $property_icon->getIcon()->saveFromTempFileName($property_icon->getTempFileName());
+            $property_icon->getCustomIcon()->saveFromTempFileName($property_icon->getTempFileName());
         }
     }
 }

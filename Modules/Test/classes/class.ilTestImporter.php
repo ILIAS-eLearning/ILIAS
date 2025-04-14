@@ -96,7 +96,13 @@ class ilTestImporter extends ilXmlImporter
         $idents = ilSession::get('tst_import_idents');
 
         // start parsing of QTI files
-        $qtiParser = new ilQTIParser($qti_file, ilQTIParser::IL_MO_PARSE_QTI, $question_parent_obj_id, $idents);
+        $qtiParser = new ilQTIParser(
+            $qti_file,
+            ilQTIParser::IL_MO_PARSE_QTI,
+            $question_parent_obj_id,
+            $idents,
+            $a_mapping->getAllMappings()
+        );
         $qtiParser->setTestObject($new_obj);
         $qtiParser->startParsing();
         $new_obj = $qtiParser->getTestObject();

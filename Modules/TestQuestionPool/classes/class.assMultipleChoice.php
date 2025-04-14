@@ -136,11 +136,11 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     */
     public function isComplete(): bool
     {
-        if (strlen($this->title) and ($this->author) and ($this->question) and (count($this->answers)) and ($this->getMaximumPoints() > 0)) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->title !== ''
+            && $this->author !== ''
+            && $this->question !== ''
+            && $this->getAnswerCount() > 0
+            && $this->getMaximumPoints() >= 0;
     }
 
     /**
@@ -483,16 +483,11 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
      */
     public function getMaximumPoints(): float
     {
-        $points = 0;
-        $allpoints = 0;
-        foreach ($this->answers as $key => $value) {
-            if ($value->getPoints() > $value->getPointsUnchecked()) {
-                $allpoints += $value->getPoints();
-            } else {
-                $allpoints += $value->getPointsUnchecked();
-            }
+        $total_max_points = 0.0;
+        foreach ($this->getAnswers() as $answer) {
+            $total_max_points += max($answer->getPointsChecked(), $answer->getPointsUnchecked());
         }
-        return $allpoints;
+        return $total_max_points;
     }
 
     /**
@@ -1068,7 +1063,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         $result = [];
         $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();
-        $result['title'] = $this->getTitle();
+        $result['title'] = $this->getTitleForHTMLOutput();
         $result['question'] = $this->formatSAQuestion($this->getQuestion());
         $result['nr_of_tries'] = $this->getNrOfTries();
         $result['shuffle'] = $this->getShuffle();

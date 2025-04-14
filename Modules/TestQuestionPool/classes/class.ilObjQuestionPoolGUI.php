@@ -313,8 +313,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $page_gui->setQuestionHTML([$q_gui->object->getId() => $q_gui->getPreview(true)]);
                 $page_gui->setTemplateTargetVar('ADM_CONTENT');
                 $page_gui->setOutputMode('edit');
-                $page_gui->setHeader($question->getTitle());
-                $page_gui->setPresentationTitle($question->getTitle());
+                $page_gui->setHeader($question->getTitleForHTMLOutput());
+                $page_gui->setPresentationTitle($question->getTitleForHTMLOutput());
                 $ret = $this->ctrl->forwardCommand($page_gui);
                 if ($ret != '') {
                     $tpl->setContent($ret);
@@ -920,6 +920,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
     public function importVerifiedFileObject(): void
     {
+        if (!$this->checkPermissionBool('create', '', $this->qplrequest->string('new_type'))) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->redirect($this, 'create');
+            return;
+        }
         $title = '';
         $description = null;
         if ($this->qplrequest->int('questions_only') === 1) {
@@ -1484,7 +1489,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             return;
         }
         if (!$this->checkPermissionBool('create', '', $_REQUEST['new_type'])) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_create_permission'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->redirect($this, 'create');
             return;
         }
@@ -1525,7 +1530,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $q_gui = assQuestionGUI::_getQuestionGUI('', $this->qplrequest->raw('q_id'));
             if ($q_gui !== null && $q_gui->object instanceof assQuestion) {
                 $q_gui->object->setObjId($this->object->getId());
-                $title = $q_gui->object->getTitle();
+                $title = $q_gui->object->getTitleForHTMLOutput();
                 if (!$title) {
                     $title = $this->lng->txt('new') . ': ' . $this->questioninfo->getQuestionTypeName(
                         $q_gui->object->getId()
@@ -1912,8 +1917,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
                 switch ($item) {
                     case 'taxonomies':
-                        foreach($value as $tax_value) {
-                            if($tax_value === 'null') {
+                        foreach ($value as $tax_value) {
+                            if ($tax_value === 'null') {
                                 $table->addTaxonomyFilterNoTaxonomySet(true);
                             } else {
                                 $tax_nodes = explode('-', $tax_value);

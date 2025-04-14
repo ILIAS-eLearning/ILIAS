@@ -593,7 +593,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         }
         $this->object->saveToDb();
         $this->ctrl->setParameter($this, "q_id", $this->object->getId());
-        $this->tpl->setVariable("HEADER", $this->object->getTitle());
+        $this->tpl->setVariable("HEADER", $this->object->getTitleForHTMLOutput());
         $this->getQuestionTemplate();
     }
 

@@ -3332,7 +3332,7 @@ class ilObjUser extends ilObject
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        $query = "SELECT usr_data.*, usr_pref.value AS language FROM usr_data LEFT JOIN usr_pref ON usr_pref.usr_id = usr_data.usr_id and usr_pref.keyword = %s";
+        $query = "SELECT usr_data.*, usr_pref.value AS language FROM usr_data LEFT JOIN usr_pref ON usr_pref.usr_id = usr_data.usr_id and usr_pref.keyword = %s WHERE 1=1";
         $types[] = "text";
         $values[] = "language";
 

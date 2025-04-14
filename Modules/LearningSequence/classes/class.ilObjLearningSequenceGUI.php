@@ -277,9 +277,11 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                 $this->permissions($cmd);
                 break;
             case "ilobjlearningsequencesettingsgui":
+                $this->denyAccessIfNotWritePermission();
                 $this->settings($cmd);
                 break;
             case "ilobjlearningsequencecontentgui":
+                $this->denyAccessIfNotWritePermission();
                 $this->manageContent($cmd);
                 break;
             case "ilobjlearningsequencelearnergui":
@@ -316,13 +318,13 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                 $this->ctrl->forwardCommand($gui);
                 break;
 
-
             case "ilobjlearningsequenceeditintrogui":
                 $which_page = LSOPageType::INTRO;
                 $which_tab = self::TAB_EDIT_INTRO;
                 $gui_class = 'ilObjLearningSequenceEditIntroGUI';
                 // no break
             case "ilobjlearningsequenceeditextrogui":
+                $this->denyAccessIfNotWritePermission();
                 if (!isset($which_page)) {
                     $which_page = LSOPageType::EXTRO;
                     $which_tab = self::TAB_EDIT_EXTRO;
@@ -375,6 +377,13 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                     case self::CMD_SAVE:
                     case self::CMD_CREATE:
                     case self::CMD_UNPARTICIPATE:
+                        if (!$this->checkAccess("read")) {
+                            $this->tpl->setOnScreenMessage('info', sprintf(
+                                $this->lng->txt('msg_no_perm_read_item'),
+                                $this->object->getTitle()
+                            ), true);
+                            break;
+                        }
                         $this->$cmd();
                         break;
                     case self::CMD_CANCEL:
@@ -904,5 +913,16 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
 
     protected function enableDragDropFileUpload(): void
     {
+    }
+
+    private function denyAccessIfNotWritePermission(): void
+    {
+        if (!$this->checkAccess("write")) {
+            $this->tpl->setOnScreenMessage('info', sprintf(
+                $this->lng->txt('msg_no_perm_read_item'),
+                $this->object->getTitle()
+            ), true);
+            $this->ctrl->redirect($this, self::CMD_VIEW);
+       }
     }
 }

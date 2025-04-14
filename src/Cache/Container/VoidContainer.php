@@ -54,7 +54,7 @@ final class VoidContainer implements Container
         return null;
     }
 
-    public function set(string $key, array|bool|int|string|null $value): void
+    public function set(string $key, array|bool|int|string|null $value, ?int $ttl = null): void
     {
         // nothing to do
     }

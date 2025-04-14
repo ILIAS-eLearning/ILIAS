@@ -209,15 +209,15 @@ class ilTermUsagesTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
 
-        if ($item["obj_type_txt"] != "") {
+        if (($item["obj_type_txt"] ?? "") != "") {
             $this->tpl->setCurrentBlock("type");
             $this->tpl->setVariable("TXT_TYPE", $this->lng->txt("type"));
             $this->tpl->setVariable("VAL_TYPE", $item["obj_type_txt"]);
             $this->tpl->parseCurrentBlock();
         }
 
-        if ($usage["type"] != "clip") {
-            if ($item["obj_link"]) {
+        if (($usage["type"] ?? "") != "clip") {
+            if ($item["obj_link"] ?? "") {
                 $this->tpl->setCurrentBlock("linked_item");
                 $this->tpl->setVariable("TXT_OBJECT", $item["obj_title"]);
                 $this->tpl->setVariable("HREF_LINK", $item["obj_link"]);
@@ -226,7 +226,7 @@ class ilTermUsagesTableGUI extends ilTable2GUI
                 $this->tpl->setVariable("TXT_OBJECT_NO_LINK", $item["obj_title"]);
             }
 
-            if ($item["sub_txt"] != "") {
+            if (($item["sub_txt"] ?? "") != "") {
                 $this->tpl->setVariable("SEP", ", ");
                 $this->tpl->setVariable("SUB_TXT", $item["sub_txt"]);
                 if (($item["sub_title"] ?? "") != "") {

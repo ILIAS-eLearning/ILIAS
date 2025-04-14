@@ -35,6 +35,7 @@ class ilBookingBulkCreationTableGUI extends ilTable2GUI
                                ->internal()
                                ->domain()
                                ->objects($pool_id);
+        $html_util = $DIC->bookingManager()->internal()->gui()->html();
 
         $ctrl = $DIC->ctrl();
         $lng = $DIC->language();
@@ -52,7 +53,10 @@ class ilBookingBulkCreationTableGUI extends ilTable2GUI
             "tpl.bulk_creation_row.html",
             "Modules/BookingManager/Objects"
         );
-        $this->addHiddenInput("data", $raw_data);
+        $this->addHiddenInput(
+            "data",
+            $html_util->escape($raw_data)
+        );
     }
 
     protected function fillRow(array $a_set): void

@@ -704,7 +704,7 @@ class ilObjStudyProgrammeMembersGUI
             $completed_crss = $prg->getCompletedCourses($ass->getUserId());
             $nodes = [];
             foreach ($completed_crss as $opt) {
-                $nodes[] = [$opt['prg_obj_id'], $opt['crsr_id']];
+                $nodes[] = [$opt['prg_obj_id'], $opt['crs_id']];
             }
             $prg->acknowledgeCourses(
                 $ass->getId(),

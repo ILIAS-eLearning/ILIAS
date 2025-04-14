@@ -1461,7 +1461,11 @@ class ilObjStudyProgramme extends ilContainer
                     continue;
                 }
 
-                if (!is_null($next_membership_source) && $next_membership_source->isEnabled()) {
+                if (
+                    $next_membership_source !== null
+                    && $next_membership_source?->isEnabled()
+                    && $next_membership_source->getSourceId() !== $src_id
+                ) {
                     $new_src_type = $next_membership_source->getSourceType();
                     $assigned_by = ilStudyProgrammeAutoMembershipSource::SOURCE_MAPPING[$new_src_type];
                     $assignment = $assignment->withLastChange($assigned_by, $now);

@@ -67,21 +67,26 @@ class BasicPersistence implements Persistence
         $atom->addTableLock('il_bt_value_to_task');
         $atom->addQueryCallable(function (\ilDBInterface $db): void {
             $this->db->manipulateF(
-                "DELETE FROM il_bt_bucket WHERE user_id = %s AND (state = %s OR state = %s)",
-                ['integer', 'integer', 'integer'],
-                [defined('ANONYMOUS_USER_ID') ? \ANONYMOUS_USER_ID : 13, State::FINISHED, State::USER_INTERACTION]
+                "DELETE FROM il_bt_bucket WHERE user_id = %s AND (state = %s OR state = %s) AND last_heartbeat < %s AND last_heartbeat > 0",
+                ['integer', 'integer', 'integer', 'integer'],
+                [
+                    defined('ANONYMOUS_USER_ID') ? \ANONYMOUS_USER_ID : 13,
+                    State::FINISHED,
+                    State::USER_INTERACTION,
+                    time() - 1 * 60 * 24 * 30
+                ]
             );
 
             // remove old finished buckets
             $this->db->manipulateF(
-                "DELETE FROM il_bt_bucket WHERE state = %s AND last_heartbeat < %s",
+                "DELETE FROM il_bt_bucket WHERE state = %s AND last_heartbeat < %s AND last_heartbeat > 0",
                 ['integer', 'integer'],
                 [State::FINISHED, time() - 60 * 60 * 24 * 30] // older than 30 days
             );
 
             // remove old buckets with other states
             $this->db->manipulateF(
-                "DELETE FROM il_bt_bucket WHERE state != %s AND last_heartbeat < %s",
+                "DELETE FROM il_bt_bucket WHERE state != %s AND last_heartbeat < %s AND last_heartbeat > 0",
                 ['integer', 'integer'],
                 [State::FINISHED, time() - 60 * 60 * 24 * 180] // older than 180 days
             );
@@ -103,7 +108,7 @@ class BasicPersistence implements Persistence
 
             // remove values without a task
             $this->db->manipulate(
-                "DELETE il_bt_value FROM il_bt_value LEFT JOIN il_bt_value_to_task ON il_bt_value_to_task.task_id = il_bt_value.id WHERE il_bt_value_to_task.id IS NULL;"
+                "DELETE il_bt_value FROM il_bt_value LEFT JOIN il_bt_value_to_task ON il_bt_value_to_task.value_id = il_bt_value.id WHERE il_bt_value_to_task.id IS NULL;"
             );
         });
         $atom->run();

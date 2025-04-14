@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -164,11 +165,11 @@ class ilAssLacCompositeEvaluator
                 $result = $solutions->getSolutionForKey($index);
                 $answer = $question->getAvailableAnswerOptions($index - 1);
 
+                $unit_repository = $question->getUnitrepository();
                 $unit = $solutions->getSolutionForKey($index . "_unit");
-                $key = null;
-                if (is_array($unit)) {
-                    $key = $unit['value'];
-                }
+                $key = isset($unit["value"])
+                    ? $unit_repository->getUnit((int) $unit["value"])
+                    : null;
 
                 $max_points = $answer->getPoints();
                 // @PHP8-CR
@@ -176,7 +177,13 @@ class ilAssLacCompositeEvaluator
                 // to a later date and eventually task this to T&A TechSquad for analysis.
                 // Candidate:
                 //$points = $question->getReachedPoints($question->getVariables(), $question->getResults(), $result["value"], $key, $question->getUnitrepository()->getUnits());
-                $points = $answer->getReachedPoints($question->getVariables(), $question->getResults(), $result["value"], $key, $question->getUnitrepository()->getUnits());
+                $points = $answer->getReachedPoints(
+                    $question->getVariables(),
+                    $question->getResults(),
+                    $result["value"] ?? "",
+                    $key,
+                    $unit_repository->getUnits()
+                );
 
                 $percentage = 0;
                 if ($max_points != 0) {

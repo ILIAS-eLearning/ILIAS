@@ -28,9 +28,15 @@ use ILIAS\Cache\Config;
 abstract class BaseAdaptor implements Adaptor
 {
     protected const LOCK_UNTIL = '_lock_until';
+    private string $instance_prefix;
 
     public function __construct(protected Config $config)
     {
+        // generates a unique prefix for the current instance. this is only to prevent collisions when running multiple
+        // ILIAS Instances on the same server. It uses the md5 hash of the current working directory and takes the first
+        // 6 characters. This is not a secure way to generate a prefix, but it is sufficient for this purpose.
+        // It's highly unlikely that two paths will result in the same prefix.
+        $this->instance_prefix = substr(md5(getcwd()), 0, 6);
     }
 
     protected function buildKey(string $container, string $key): string
@@ -40,6 +46,6 @@ abstract class BaseAdaptor implements Adaptor
 
     protected function buildContainerPrefix(string $container): string
     {
-        return $container . self::CONTAINER_PREFIX_SEPARATOR;
+        return $this->instance_prefix . self::CONTAINER_PREFIX_SEPARATOR . $container . self::CONTAINER_PREFIX_SEPARATOR;
     }
 }

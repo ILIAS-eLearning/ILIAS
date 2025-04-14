@@ -186,7 +186,7 @@ class ilMapArea
             $ilDB->quote($a_item_id, "integer");
         $area_set = $ilDB->query($q);
         while ($area_rec = $ilDB->fetchAssoc($area_set)) {
-            $target = $area_rec["target"];
+            $target = (string) $area_rec["target"];
             $type = $area_rec["type"];
             $item_id = $area_rec["item_id"];
             $nr = $area_rec["nr"];

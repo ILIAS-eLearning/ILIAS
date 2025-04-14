@@ -51,16 +51,26 @@ class ilExcelTestExport extends ilTestExportAbstract
 
         $datarows = $this->getDatarows($this->test_obj);
         foreach ($datarows as $row => $data) {
-            if ($this->scoredonly && $row % 2 === 0) {
-                for ($col = 0, $colMax = count($header_row); $col < $colMax; $col++) {
-                    $data[$col] = "";
-                }
-                foreach ($data as $col => $value) {
-                    if ($value !== "") {
-                        $this->worksheet->setFormattedExcelTitle(
-                            $this->worksheet->getColumnCoord($col) . $row + 1,
-                            $value
-                        );
+            if ($this->test_obj->isRandomTest()) {
+                if ($row % 2 === 0) {
+                    foreach ($data as $col => $value) {
+                        if ($value !== "" && $col >= count($header_row)) {
+                            $this->worksheet->setFormattedExcelTitle(
+                                $this->worksheet->getColumnCoord($col) . $row + 1,
+                                $value
+                            );
+                        } else {
+                            $this->worksheet->setCellByCoordinates($this->worksheet->getColumnCoord($col) . $row + 1, $value);
+                        }
+                    }
+                } elseif ($row % 2 === 1) {
+                    if ($row !== 1) {
+                        for ($col = 0, $colMax = count($header_row); $col < $colMax - 1; $col++) {
+                            $data[$col] = "";
+                        }
+                    }
+                    foreach ($data as $col => $value) {
+                        $this->worksheet->setCellByCoordinates($this->worksheet->getColumnCoord($col) . $row + 1, $value);
                     }
                 }
             } else {

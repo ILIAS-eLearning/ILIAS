@@ -1604,6 +1604,10 @@ class ilInitialisation
      */
     protected static function replaceSuperGlobals(\ILIAS\DI\Container $container): void
     {
+        if (!ilContext::initClient()) {
+            return;
+        }
+
         /** @var ilIniFile $client_ini */
         $client_ini = $container['ilClientIniFile'];
 

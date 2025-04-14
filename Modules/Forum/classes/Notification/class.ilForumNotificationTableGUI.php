@@ -94,9 +94,9 @@ class ilForumNotificationTableGUI extends ilTable2GUI
         return new ilForumNotificationEventsFormGUI(
             $this->ctrl->getFormAction($this->parent_obj, 'saveEventsForUser'),
             [
-                'hidden_value' => htmlspecialchars(json_encode([
+                'hidden_value' => json_encode([
                     'usr_id' => $row['usr_id_events']
-                ], JSON_THROW_ON_ERROR)),
+                ], JSON_THROW_ON_ERROR),
                 'notify_modified' => (bool) ($interested_events & ilForumNotificationEvents::UPDATED),
                 'notify_censored' => (bool) ($interested_events & ilForumNotificationEvents::CENSORED),
                 'notify_uncensored' => (bool) ($interested_events & ilForumNotificationEvents::UNCENSORED),

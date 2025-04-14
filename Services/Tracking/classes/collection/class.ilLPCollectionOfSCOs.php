@@ -166,8 +166,8 @@ class ilLPCollectionOfSCOs extends ilLPCollection
                 return (
                     $res_a
                     && $res_b
-                    && ($res_a['import_id'] == $res_b['import_id'])
-                    && ($res_a['identifierref'] == $res_b['identifierref'])
+                    && ($res_a['id'] == $res_b['id'])
+                    && ($res_a['resourceid'] == $res_b['resourceid'])
                 );
             default:
                 return false;

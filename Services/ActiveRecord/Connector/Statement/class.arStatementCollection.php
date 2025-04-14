@@ -55,7 +55,7 @@ abstract class arStatementCollection
         return $arWhereCollection;
     }
 
-    abstract public function asSQLStatement(): string;
+    abstract public function asSQLStatement(ilDBInterface $db): string;
 
     public function setAr(ActiveRecord $activeRecord): void
     {

@@ -891,7 +891,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         $assClozeGapCombinationObj = new assClozeGapCombination();
         $points = 0;
         $gaps_used_in_combination = [];
-        if ($assClozeGapCombinationObj->combinationExistsForQid($this->getId())) {
+        if ($this->gap_combinations_exists) {
             $points = $assClozeGapCombinationObj->getMaxPointsForCombination($this->getId());
             $gaps_used_in_combination = $assClozeGapCombinationObj->getGapsWhichAreUsedInCombination($this->getId());
         }
@@ -1641,7 +1641,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         $result = [];
         $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();
-        $result['title'] = $this->getTitle();
+        $result['title'] = $this->getTitleForHTMLOutput();
         $result['question'] = $this->formatSAQuestion($this->getQuestion());
         $result['clozetext'] = $this->formatSAQuestion($this->getClozeText());
         $result['nr_of_tries'] = $this->getNrOfTries();
@@ -1869,7 +1869,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 
         $assClozeGapCombinationObj = new assClozeGapCombination();
         $combinations[1] = [];
-        if ($assClozeGapCombinationObj->combinationExistsForQid($this->getId())) {
+        if ($this->gap_combinations_exists) {
             $combinations = $this->calculateCombinationResult($user_result);
             $points = $combinations[0];
         }
@@ -1953,7 +1953,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
             }
         }
 
-        return (float)$points;
+        return (float) $points;
     }
 
     public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $preview_session)

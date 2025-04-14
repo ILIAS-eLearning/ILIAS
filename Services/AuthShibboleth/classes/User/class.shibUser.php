@@ -55,7 +55,7 @@ class shibUser extends ilObjUser
             $this->setGender($this->shibServerData->getGender());
         }
         if ($shibConfig->getUpdateTitle()) {
-            $this->setTitle($this->shibServerData->getTitle());
+            $this->setUTitle($this->shibServerData->getTitle());
         }
         if ($shibConfig->getUpdateInstitution()) {
             $this->setInstitution($this->shibServerData->getInstitution());
@@ -108,7 +108,7 @@ class shibUser extends ilObjUser
         $this->setPasswd(md5(end($array)), ilObjUser::PASSWD_CRYPTED);
         $this->setGender($this->shibServerData->getGender());
         $this->setExternalAccount($this->shibServerData->getLogin());
-        $this->setTitle($this->shibServerData->getTitle());
+        $this->setUTitle($this->shibServerData->getTitle());
         $this->setInstitution($this->shibServerData->getInstitution());
         $this->setDepartment($this->shibServerData->getDepartment());
         $this->setStreet($this->shibServerData->getStreet());
