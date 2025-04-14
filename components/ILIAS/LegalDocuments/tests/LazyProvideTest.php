@@ -23,6 +23,7 @@ namespace ILIAS\LegalDocuments\test;
 use ILIAS\LegalDocuments\Provide;
 use PHPUnit\Framework\TestCase;
 use ILIAS\LegalDocuments\LazyProvide;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 require_once __DIR__ . '/ContainerMock.php';
 
@@ -35,9 +36,7 @@ class LazyProvideTest extends TestCase
         $this->assertInstanceOf(LazyProvide::class, new LazyProvide($this->fail(...)));
     }
 
-    /**
-     * @dataProvider methods
-     */
+    #[DataProvider('methods')]
     public function testMethods(string $method, $return = []): void
     {
         $called = false;

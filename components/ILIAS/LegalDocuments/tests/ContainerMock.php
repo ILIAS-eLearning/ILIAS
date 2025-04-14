@@ -39,7 +39,7 @@ trait ContainerMock
     }
 
     /**
-     * @param class-name|object $class_or_instance
+     * @param class-string|object $class_or_instance
      * @param array<string, mixed> $methods_and_values
      */
     private function assertGetter($class_or_instance, array $methods_and_values): void
