@@ -1,0 +1,17 @@
+@mixin draggable-element {
+    &[draggable=true] {
+        cursor: move;
+    }
+    &.t-draggable--dragging {
+        opacity: 0.5;
+    }
+}
+@mixin draggable-dropzone($hover-color) {
+    &.t-draggable__dropzone--active {
+        display: block;
+    }
+
+    &.t-draggable__dropzone--hover {
+        background-color: $hover-color;
+    }
+}

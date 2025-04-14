@@ -396,7 +396,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.tag_input.html", true, true);
         $this->applyName($component, $tpl);
 
-        $configuration = $component->getConfiguration();
+        $configuration = $component->getConfiguration(fn(string $id): string => $this->txt($id));
         $value = $component->getValue();
 
         if ($value) {

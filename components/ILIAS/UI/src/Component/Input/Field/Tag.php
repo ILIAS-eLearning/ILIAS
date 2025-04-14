@@ -70,6 +70,13 @@ interface Tag extends FormInput
      */
     public function withAsyncAutocomplete(URLBuilder $autocomplete_endpoint, URLBuilderToken $term_token): self;
 
+    /**
+     * Get an input like this, but allow sorting the items. (Default: not orderable)
+     */
+    public function withOrderable(bool $orderable): Tag;
+
+    public function getOrderable(): bool;
+
     // Events
 
     public function withAdditionalOnTagAdded(Signal $signal): self;

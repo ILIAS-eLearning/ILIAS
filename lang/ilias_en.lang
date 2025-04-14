@@ -17247,6 +17247,7 @@ ui#:#drilldown_no_items#:#No Matching Elements
 ui#:#duration_default_label_end#:#end
 ui#:#duration_default_label_start#:#start
 ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.
+ui#:#edit_tag_accessibility_info#:#Press Enter to edit the tag. Press Del to delete the tag.
 ui#:#filter_nodes_in#:#Filter Nodes in %s
 ui#:#footer_icons#:#Footer Icons
 ui#:#footer_link_groups#:#Footer Link-Groups
@@ -17272,12 +17273,16 @@ ui#:#order_option_generic_ascending#:#Ascending
 ui#:#order_option_generic_descending#:#Descending
 ui#:#order_option_numerical_ascending#:#0 to 9
 ui#:#order_option_numerical_descending#:#9 to 0
+ui#:#order_tags_accessibility_info#:#Press Spacebar to reorder.
 ui#:#presentation_table_collapse#:#Collapse All
 ui#:#presentation_table_expand#:#Expand All
 ui#:#rating_average#:#Others rated %s of 5
 ui#:#reset_stars#:#neutral
 ui#:#select_node#:#Add node %s to selection
 ui#:#table_posinput_col_title#:#Position
+ui#:#tag_position_accessibility_info#:#Selected Position: After "%s".
+ui#:#tag_position_first_accessibility_info#:#Selected Position: First.
+ui#:#tag_selected_accessibility_info#:#The tag "%s" has been selected. Use left and right arrow keys to changed its position, Spacebar to drop, or the Escape key to cancel.
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Characters remaining:

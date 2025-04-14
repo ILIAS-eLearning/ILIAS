@@ -17247,6 +17247,7 @@ ui#:#drilldown_no_items#:#Keine passenden Elemente
 ui#:#duration_default_label_end#:#Ende
 ui#:#duration_default_label_start#:#Beginn
 ui#:#duration_end_must_not_be_earlier_than_start#:#Der Beginn muss zeitlich vor dem Ende liegen.
+ui#:#edit_tag_accessibility_info#:#Drücken Sie Enter, um den Tag zu bearbeiten. Drücken sie "Entf", um den Tag zu entfernen.
 ui#:#filter_nodes_in#:#Einträge in %s filtern
 ui#:#footer_icons#:#Footer Icons
 ui#:#footer_link_groups#:#Footer Link-Gruppen
@@ -17272,12 +17273,16 @@ ui#:#order_option_generic_ascending#:#Aufsteigend
 ui#:#order_option_generic_descending#:#Absteigend
 ui#:#order_option_numerical_ascending#:#0 bis 9
 ui#:#order_option_numerical_descending#:#9 bis 0
+ui#:#order_tags_accessibility_info#:#Drücken Sie die Leertaste, um die Tags zu sortieren.
 ui#:#presentation_table_collapse#:#Alle minimieren
 ui#:#presentation_table_expand#:#Alle zeigen
 ui#:#rating_average#:#Andere bewerteten mit %s von 5
 ui#:#reset_stars#:#neutral
 ui#:#select_node#:#Knoten %s zur Auswahl hinzufügen
 ui#:#table_posinput_col_title#:#Position
+ui#:#tag_position_accessibility_info#:#Ausgewählte Position: Nach "%s".
+ui#:#tag_position_first_accessibility_info#:#Ausgewählte Position: Erstes Element.
+ui#:#tag_selected_accessibility_info#:#Der Tag "%s" wurde ausgewählt. Sie können diesen nun mit der linken und rechten Pfeiltaste verschieben. Mit der Leertaste lassen Sie ihn auf die ausgewählte Position fallen. Die Escape-Taste bricht das Verschieben ab.
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Verbleibende Buchstaben

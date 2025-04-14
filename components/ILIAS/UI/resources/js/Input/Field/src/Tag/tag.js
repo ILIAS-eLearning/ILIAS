@@ -31,7 +31,12 @@ let abortController;
  */
 let timeout;
 
-/*
+/**
+ * @type {string}
+ */
+const tagOrderablePlaceholderClass = 'c-field-tag__dropzone';
+
+/**
  * @param {HTMLInput} input
  * @param {Object} config
  * @returns {Object}
@@ -44,6 +49,9 @@ function buildSettings(inputId, config) {
     duplicates: config.allowDuplicates,
     maxTags: config.maxItems,
     delimiters: null,
+    a11y: {
+      focusableTags: true,
+    },
     originalInputValueFormat: (valuesArr) => valuesArr.map((item) => item.value),
     dropdown: {
       enabled: config.dropdownSuggestionsStartAfter,
@@ -74,7 +82,8 @@ function buildSettings(inputId, config) {
       },
       tag(tagData) {
         return `<div contenteditable='false'
-          spellcheck="false" class='tagify__tag'
+          spellcheck="false" class='c-field-tag__tag tagify__tag'
+          aria-describedby="${inputId}-operation"
           value="${tagData.value}"
           tabindex="0">
           <span title='remove tag' class='tagify__tag__removeBtn'></span>
@@ -142,6 +151,93 @@ function retrieveAutocomplete(
   );
 }
 
+/*
+ * @param {Tagify} instance
+ * @returns {void}
+ */
+function removePlaceholders(instance) {
+  instance.DOM.scope.querySelectorAll(`.${tagOrderablePlaceholderClass}`).forEach(
+    (elem) => {
+      instance.DOM.scope.removeChild(elem);
+    },
+  );
+}
+
+/**
+ * @param {Tagify} instance
+ * @param {HTMLElement} draggedElement
+ * @returns {void}
+ */
+function onDragStart(instance, draggedElement) {
+  removePlaceholders(instance);
+
+  const style = draggedElement.ownerDocument.defaultView.getComputedStyle(draggedElement);
+  const dropzone = instance.DOM.scope.ownerDocument.createElement('div');
+  dropzone.classList.add(tagOrderablePlaceholderClass);
+  dropzone.style.height = style.height;
+  dropzone.style.width = style.width;
+  dropzone.style.marginRight = style.marginRight;
+  dropzone.style.marginBottom = style.marginBottom;
+  dropzone.style.marginLeft = style.marginLeft;
+  dropzone.style.marginTop = style.marginTop;
+  instance.DOM.scope.querySelectorAll(`.${instance.settings.classNames.tag}`).forEach(
+    (elem) => {
+      if (elem === draggedElement) {
+        return;
+      }
+      if (elem.previousElementSibling !== draggedElement
+        && !elem.previousElementSibling?.classList.contains(tagOrderablePlaceholderClass)) {
+        elem.parentNode.insertBefore(dropzone.cloneNode(true), elem);
+      }
+
+      if (elem.nextElementSibling === draggedElement) {
+        return;
+      }
+
+      elem.parentNode.insertBefore(dropzone.cloneNode(true), elem.nextElementSibling);
+    },
+  );
+}
+
+/**
+ * @param {Tagify} instance
+ * @param {KeyEvent} event
+ * @returns {void}
+ */
+function deleteTagOnKeypress(instance, event) {
+  if (event.key === 'Delete' && event.target.dataset.selected !== 'true') {
+    instance.removeTags(event.target);
+  }
+}
+
+/**
+ * @param {Tagify} instance
+ * @returns {void}
+ */
+function onChange(instance) {
+  removePlaceholders(instance);
+  instance.updateValueByDOMTags();
+}
+
+/**
+ * @param {Tagify} instance
+ * @returns {void}
+ */
+function addEventListenersForDeletion(instance) {
+  instance.getTagElms().forEach((elem) => {
+    elem.addEventListener(
+      'keydown',
+      (event) => { deleteTagOnKeypress(instance, event); },
+    );
+  });
+  instance.on('add', (e) => {
+    e.detail.tag.addEventListener(
+      'keydown',
+      (event) => { deleteTagOnKeypress(instance, event); },
+    );
+  });
+}
+
 /**
  *
  * @param {string} instanceId
@@ -153,18 +249,29 @@ export function getTagifyInstance(instanceId) {
 
 /**
  * @param {Tagify} Tagify
+ * @param {function} makeDraggable
  * @param {HTMLInput} input
  * @param {Object} config
  * @param {array} value
  * @param {URLBuilder} autocompleteEndpoint
  * @param {URLBuilderToken} autocompleteToken
+ * @returns {void}
  */
-export function init(Tagify, input, config, value, autocompleteEndpoint, autocompleteToken) {
+export function init(
+  Tagify,
+  makeDraggable,
+  input,
+  config,
+  value,
+  autocompleteEndpoint,
+  autocompleteToken,
+) {
   instances[input.id] = new Tagify(
     input,
     buildSettings(input.id, config),
   );
   instances[input.id].addTags(value);
+  addEventListenersForDeletion(instances[input.id]);
   if (typeof autocompleteEndpoint !== 'undefined') {
     instances[input.id].on('input', (event) => {
       retrieveAutocomplete(
@@ -176,5 +283,39 @@ export function init(Tagify, input, config, value, autocompleteEndpoint, autocom
         config.autocompleteTriggerTimeout,
       );
     });
+  }
+  if (config.orderable) {
+    makeDraggable(
+      'move',
+      instances[input.id].DOM.scope,
+      instances[input.id].settings.classNames.tag,
+      tagOrderablePlaceholderClass,
+      {
+        infoContainer: instances[input.id].DOM.scope.previousElementSibling,
+        texts: {
+          default() {
+            return config.accessibilityInfo.default;
+          },
+          tagSelected(selectedTag) {
+            return config.accessibilityInfo.tagSelected.replace(
+              '%s',
+              instances[input.id].getTagTextNode(selectedTag).innerText,
+            );
+          },
+          position(selectedPlaceholder) {
+            if (selectedPlaceholder.previousElementSibling === null) {
+              return config.accessibilityInfo.positionInfoFirst;
+            }
+
+            return config.accessibilityInfo.positionInfo.replace(
+              '%s',
+              instances[input.id].getTagTextNode(selectedPlaceholder.previousSibling).innerText,
+            );
+          },
+        },
+      },
+      (draggedElement) => { onDragStart(instances[input.id], draggedElement); },
+      () => { onChange(instances[input.id]); },
+    );
   }
 }
