@@ -19,14 +19,11 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
-/**
- * Class ilHtmlPurifierCompositeTest
- * @author Michael Jansen <mjansen@databay.de>
- */
 final class ilHtmlPurifierCompositeTest extends TestCase
 {
-    private const TO_PURIFY = [
+    private const array TO_PURIFY = [
         'phpunit1',
         'phpunit2',
         'phpunit3',
@@ -111,9 +108,7 @@ final class ilHtmlPurifierCompositeTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider invalidHtmlDataTypeProvider
-     */
+    #[DataProvider('invalidHtmlDataTypeProvider')]
     public function testExceptionIsRaisedIfNonStringElementsArePassedForHtmlBatchProcessing($element): void
     {
         $this->expectException(InvalidArgumentException::class);
