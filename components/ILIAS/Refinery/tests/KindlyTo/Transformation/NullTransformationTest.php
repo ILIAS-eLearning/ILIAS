@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Refinery\KindlyTo\Transformation\NullTransformation;
 use PHPUnit\Framework\TestCase;
 use ILIAS\Refinery\ConstraintViolationException;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class NullTransformationTest extends TestCase
 {
@@ -48,13 +49,8 @@ class NullTransformationTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider NullTestDataProvider
-     * @param mixed $value
-     * @param bool $valid
-     * @throws Exception
-     */
-    public function testNullTransformation($value, bool $valid): void
+    #[DataProvider('NullTestDataProvider')]
+    public function testNullTransformation(mixed $value, bool $valid): void
     {
         if (!$valid) {
             $this->expectException(ConstraintViolationException::class);

@@ -28,6 +28,7 @@ use ILIAS\Language\Language;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class EstimatedReadingTimeTest extends TestCase
 {
@@ -93,11 +94,8 @@ EOT;
         ]);
     }
 
-    /**
-     * @dataProvider inputProvider
-     * @param mixed $from
-     */
-    public function testExceptionIsRaisedIfInputIsNotAString($from): void
+    #[DataProvider('inputProvider')]
+    public function testExceptionIsRaisedIfInputIsNotAString(mixed $from): void
     {
         $this->expectException(InvalidArgumentException::class);
         $readingTimeTrafo = $this->refinery->string()->estimatedReadingTime(true);
@@ -165,10 +163,7 @@ EOT;
         );
     }
 
-    /**
-     * @dataProvider unsupportedButKnownEntitiesProvider
-     * @param string $text
-     */
+    #[DataProvider('unsupportedButKnownEntitiesProvider')]
     public function testNoExceptionIsRaisedIfHtmlContainsUnsupportedEntities(string $text): void
     {
         $reading_time_trafo = $this->refinery->string()->estimatedReadingTime(true);

@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Refinery\String\Encoding;
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class EncodingTest extends TestCase
 {
@@ -47,9 +48,7 @@ class EncodingTest extends TestCase
         return $strings;
     }
 
-    /**
-     * @dataProvider latin1StringProvider
-     */
+    #[DataProvider('latin1StringProvider')]
     public function testLatin1ToUTF8(
         string $latin_1_string,
         string $expected_utf8
@@ -75,9 +74,7 @@ class EncodingTest extends TestCase
         return $strings;
     }
 
-    /**
-     * @dataProvider asciiStringProvider
-     */
+    #[DataProvider('asciiStringProvider')]
     public function testAsciiToUTF8(
         string $latin_1_string,
         string $expected_utf8

@@ -23,6 +23,7 @@ namespace ILIAS\Tests\Refinery\KindlyTo\Transformation;
 use ILIAS\Refinery\KindlyTo\Transformation\BooleanTransformation;
 use PHPUnit\Framework\TestCase;
 use ILIAS\Refinery\ConstraintViolationException;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class BooleanTransformationTest extends TestCase
 {
@@ -33,23 +34,16 @@ class BooleanTransformationTest extends TestCase
         $this->transformation = new BooleanTransformation();
     }
 
-    /**
-     * @dataProvider BooleanTestDataProvider
-     * @param mixed $originVal
-     * @param bool $expectedVal
-     */
-    public function testBooleanTransformation($originVal, bool $expectedVal): void
+    #[DataProvider('BooleanTestDataProvider')]
+    public function testBooleanTransformation(mixed $originVal, bool $expectedVal): void
     {
         $transformedValue = $this->transformation->transform($originVal);
         $this->assertIsBool($transformedValue);
         $this->assertSame($expectedVal, $transformedValue);
     }
 
-    /**
-     * @dataProvider TransformationFailureDataProvider
-     * @param mixed $failingValue
-     */
-    public function testTransformIsInvalid($failingValue): void
+    #[DataProvider('TransformationFailureDataProvider')]
+    public function testTransformIsInvalid(mixed $failingValue): void
     {
         $this->expectException(ConstraintViolationException::class);
         $this->transformation->transform($failingValue);

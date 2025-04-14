@@ -28,6 +28,7 @@ use ILIAS\Refinery\Parser\ABNF\Brick;
 use ILIAS\Refinery\Parser\ABNF\Intermediate;
 use ILIAS\Refinery\Transformation;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class BrickTest extends TestCase
 {
@@ -154,9 +155,7 @@ class BrickTest extends TestCase
         $this->assertEquals('d', $result->value()['second']);
     }
 
-    /**
-     * @dataProvider repeatProvider
-     */
+    #[DataProvider('repeatProvider')]
     public function testRepeat(int $min, ?int $max, array $succeed, array $fail): void
     {
         $brick = new Brick();
@@ -185,9 +184,7 @@ class BrickTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider characterProvider
-     */
+    #[DataProvider('characterProvider')]
     public function testCharacters(string $method, string $input, bool $isOk): void
     {
         $brick = new Brick();
@@ -239,9 +236,7 @@ class BrickTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider emptyStringProvider
-     */
+    #[DataProvider('emptyStringProvider')]
     public function testEmptyString(string $input, bool $isOk): void
     {
         $brick = new Brick();

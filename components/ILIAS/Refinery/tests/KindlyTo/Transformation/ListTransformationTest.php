@@ -24,15 +24,12 @@ use ILIAS\Refinery\KindlyTo\Transformation\ListTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
 use PHPUnit\Framework\TestCase;
 use UnexpectedValueException;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class ListTransformationTest extends TestCase
 {
-    /**
-     * @dataProvider ArrayToListTransformationDataProvider
-     * @param mixed $originValue
-     * @param mixed $expectedValue
-     */
-    public function testListTransformation($originValue, $expectedValue): void
+    #[DataProvider('ArrayToListTransformationDataProvider')]
+    public function testListTransformation(mixed $originValue, mixed $expectedValue): void
     {
         $transformList = new ListTransformation(new StringTransformation());
         $transformedValue = $transformList->transform($originValue);
@@ -40,11 +37,8 @@ class ListTransformationTest extends TestCase
         $this->assertEquals($expectedValue, $transformedValue);
     }
 
-    /**
-     * @dataProvider ArrayFailureDataProvider
-     * @param mixed $origValue
-     */
-    public function testFailingTransformations($origValue): void
+    #[DataProvider('ArrayFailureDataProvider')]
+    public function testFailingTransformations(mixed $origValue): void
     {
         $this->expectException(UnexpectedValueException::class);
         $transformList = new ListTransformation(new StringTransformation());

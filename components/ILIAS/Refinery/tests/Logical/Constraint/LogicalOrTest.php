@@ -22,28 +22,19 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Logical\LogicalOr;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class LogicalOrTest extends TestCase
 {
-    /**
-     * @dataProvider constraintsProvider
-     * @param LogicalOr $constraint
-     * @param mixed $okValue
-     * @param mixed $errorValue
-     */
-    public function testAccept(LogicalOr $constraint, $okValue, $errorValue): void
+    #[DataProvider('constraintsProvider')]
+    public function testAccept(LogicalOr $constraint, mixed $okValue, mixed $errorValue): void
     {
         $this->assertTrue($constraint->accepts($okValue));
         $this->assertFalse($constraint->accepts($errorValue));
     }
 
-    /**
-     * @dataProvider constraintsProvider
-     * @param LogicalOr $constraint
-     * @param mixed $okValue
-     * @param mixed $errorValue
-     */
-    public function testCheck(LogicalOr $constraint, $okValue, $errorValue): void
+    #[DataProvider('constraintsProvider')]
+    public function testCheck(LogicalOr $constraint, mixed $okValue, mixed $errorValue): void
     {
         $raised = false;
 
@@ -65,25 +56,15 @@ class LogicalOrTest extends TestCase
         $this->assertFalse($raised);
     }
 
-    /**
-     * @dataProvider constraintsProvider
-     * @param LogicalOr $constraint
-     * @param mixed $okValue
-     * @param mixed $errorValue
-     */
-    public function testProblemWith(LogicalOr $constraint, $okValue, $errorValue): void
+    #[DataProvider('constraintsProvider')]
+    public function testProblemWith(LogicalOr $constraint, mixed $okValue, mixed $errorValue): void
     {
         $this->assertNull($constraint->problemWith($okValue));
         $this->assertIsString($constraint->problemWith($errorValue));
     }
 
-    /**
-     * @dataProvider constraintsProvider
-     * @param LogicalOr $constraint
-     * @param mixed $okValue
-     * @param mixed $errorValue
-     */
-    public function testRestrict(LogicalOr $constraint, $okValue, $errorValue): void
+    #[DataProvider('constraintsProvider')]
+    public function testRestrict(LogicalOr $constraint, mixed $okValue, mixed $errorValue): void
     {
         $rf = new DataFactory();
         $ok = $rf->ok($okValue);
@@ -100,13 +81,8 @@ class LogicalOrTest extends TestCase
         $this->assertSame($error, $result);
     }
 
-    /**
-     * @dataProvider constraintsProvider
-     * @param LogicalOr $constraint
-     * @param mixed $okValue
-     * @param mixed $errorValue
-     */
-    public function testWithProblemBuilder(LogicalOr $constraint, $okValue, $errorValue): void
+    #[DataProvider('constraintsProvider')]
+    public function testWithProblemBuilder(LogicalOr $constraint, mixed $okValue, mixed $errorValue): void
     {
         $new_constraint = $constraint->withProblemBuilder(static function (): string {
             return "This was a vault";

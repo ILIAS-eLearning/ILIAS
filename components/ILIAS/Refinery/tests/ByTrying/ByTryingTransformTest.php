@@ -22,6 +22,7 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Tests\Refinery\TestCase;
 use ILIAS\Data\Factory as DataFactory;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 require_once("./components/ILIAS/Refinery/tests/TestCase.php");
 
@@ -55,12 +56,8 @@ class ByTryingTransformTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider NullOrNumericDataProvider
-     * @param mixed $value
-     * @param mixed $expected
-     */
-    public function testNullOrNumeric($value, $expected): void
+    #[DataProvider('NullOrNumericDataProvider')]
+    public function testNullOrNumeric(mixed $value, mixed $expected): void
     {
         $transformation = $this->refinery->byTrying([
             $this->refinery->numeric()->isNumeric(),
@@ -87,12 +84,8 @@ class ByTryingTransformTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider NullOrNumericOrStringDataProvider
-     * @param mixed $value
-     * @param mixed $expected
-     */
-    public function testNullOrNumericOrString($value, $expected): void
+    #[DataProvider('NullOrNumericOrStringDataProvider')]
+    public function testNullOrNumericOrString(mixed $value, mixed $expected): void
     {
         $transformation = $this->refinery->byTrying([
             $this->refinery->kindlyTo()->null(),
@@ -118,12 +111,8 @@ class ByTryingTransformTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider StringOrNullDataProvider
-     * @param mixed $value
-     * @param mixed $expected
-     */
-    public function testStringOrNull($value, $expected): void
+    #[DataProvider('StringOrNullDataProvider')]
+    public function testStringOrNull(mixed $value, mixed $expected): void
     {
         $transformation = $this->refinery->byTrying([
             $this->refinery->to()->string(),

@@ -23,6 +23,7 @@ namespace ILIAS\Tests\Refinery\String;
 use PHPUnit\Framework\TestCase;
 use ILIAS\Refinery\String\MakeClickable;
 use ILIAS\Refinery\ConstraintViolationException;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class MakeClickableTest extends TestCase
 {
@@ -39,18 +40,14 @@ class MakeClickableTest extends TestCase
         $clickable->transform(3);
     }
 
-    /**
-     * @dataProvider provideInputInNewTab
-     */
+    #[DataProvider('provideInputInNewTab')]
     public function testTransformSuccessInNewTab(string $expected, string $input): void
     {
         $clickable = new MakeClickable();
         $this->assertEquals($expected, $clickable->transform($input));
     }
 
-    /**
-     * @dataProvider provideInputWithoutAttributes
-     */
+    #[DataProvider('provideInputWithoutAttributes')]
     public function testTransformSuccess(string $expected, string $input): void
     {
         $clickable = new MakeClickable(false);

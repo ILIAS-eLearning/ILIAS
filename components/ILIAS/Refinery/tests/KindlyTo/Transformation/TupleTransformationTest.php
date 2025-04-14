@@ -24,16 +24,17 @@ use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Refinery\KindlyTo\Transformation\IntegerTransformation;
 use ILIAS\Refinery\KindlyTo\Transformation\TupleTransformation;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class TupleTransformationTest extends TestCase
 {
     private const TUPLE_KEY = 'hello';
 
     /**
-     * @dataProvider TupleTransformationDataProvider
      * @param array $originVal
      * @param array $expectedVal
      */
+    #[DataProvider('TupleTransformationDataProvider')]
     public function testTupleTransformation(array $originVal, array $expectedVal): void
     {
         $transformation = new TupleTransformation(
@@ -48,9 +49,9 @@ class TupleTransformationTest extends TestCase
     }
 
     /**
-     * @dataProvider TupleFailingTransformationDataProvider
      * @param array $failingVal
      */
+    #[DataProvider('TupleFailingTransformationDataProvider')]
     public function testNewTupleIsIncorrect(array $failingVal): void
     {
         $this->expectNotToPerformAssertions();
@@ -70,9 +71,9 @@ class TupleTransformationTest extends TestCase
     }
 
     /**
-     * @dataProvider TupleTooManyValuesDataProvider
      * @param array $tooManyValues
      */
+    #[DataProvider('TupleTooManyValuesDataProvider')]
     public function testTupleTooManyValues(array $tooManyValues): void
     {
         $this->expectNotToPerformAssertions();

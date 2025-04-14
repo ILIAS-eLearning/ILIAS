@@ -25,6 +25,7 @@ use DateTimeInterface;
 use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Refinery\KindlyTo\Transformation\DateTimeTransformation;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class DateTimeTransformationTest extends TestCase
 {
@@ -35,12 +36,8 @@ class DateTimeTransformationTest extends TestCase
         $this->transformation = new DateTimeTransformation();
     }
 
-    /**
-     * @dataProvider DateTimeTransformationDataProvider
-     * @param mixed $originVal
-     * @param DateTimeImmutable $expectedVal
-     */
-    public function testDateTimeISOTransformation($originVal, DateTimeImmutable $expectedVal): void
+    #[DataProvider('DateTimeTransformationDataProvider')]
+    public function testDateTimeISOTransformation(mixed $originVal, DateTimeImmutable $expectedVal): void
     {
         $transformedValue = $this->transformation->transform($originVal);
         $this->assertIsObject($transformedValue);
@@ -48,10 +45,7 @@ class DateTimeTransformationTest extends TestCase
         $this->assertEquals($expectedVal, $transformedValue);
     }
 
-    /**
-     * @dataProvider TransformationFailureDataProvider
-     * @param string$failingValue
-     */
+    #[DataProvider('TransformationFailureDataProvider')]
     public function testTransformIsInvalid(string $failingValue): void
     {
         $this->expectException(ConstraintViolationException::class);

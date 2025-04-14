@@ -24,6 +24,7 @@ use PHPUnit\Framework\TestCase;
 use ILIAS\Refinery\Encode\Transformation\HTMLSpecialCharsAsEntities;
 use ValueError;
 use TypeError;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class HTMLSpecialCharsAsEntitiesTest extends TestCase
 {
@@ -32,9 +33,7 @@ class HTMLSpecialCharsAsEntitiesTest extends TestCase
         $this->assertInstanceOf(HTMLSpecialCharsAsEntities::class, new HTMLSpecialCharsAsEntities());
     }
 
-    /**
-     * @dataProvider provideTransformData
-     */
+    #[DataProvider('provideTransformData')]
     public function testTransform(string $exptected, string $in): void
     {
         $this->assertSame($exptected, (new HTMLSpecialCharsAsEntities())->transform($in));

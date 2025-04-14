@@ -23,6 +23,7 @@ namespace ILIAS\Tests\Refinery\Encode\Transformation;
 use PHPUnit\Framework\TestCase;
 use ILIAS\Refinery\Encode\Transformation\Json;
 use JsonException;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 require_once __DIR__ . '/ProvideUTF8CodepointRange.php';
 
@@ -35,9 +36,7 @@ class JsonTest extends TestCase
         $this->assertInstanceOf(Json::class, new Json());
     }
 
-    /**
-     * @dataProvider provideTransformData
-     */
+    #[DataProvider('provideTransformData')]
     public function testTransform(string $exptected, string $in, string $method): void
     {
         $this->$method($exptected, (new Json())->transform($in));

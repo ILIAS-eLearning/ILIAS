@@ -29,6 +29,7 @@ use ILIAS\Refinery\Parser\ABNF\Intermediate;
 use ILIAS\Refinery\Transformation;
 use Closure;
 use stdClass;
+use PHPUnit\Framework\Attributes\Depends;
 
 class TransformTest extends TestCase
 {
@@ -37,9 +38,7 @@ class TransformTest extends TestCase
         $this->assertInstanceOf(Transform::class, new Transform());
     }
 
-    /**
-     * @depends testConstruct
-     */
+    #[Depends('testConstruct')]
     public function testTo(): void
     {
         $transform = new Transform();
@@ -64,9 +63,7 @@ class TransformTest extends TestCase
         $this->assertEquals($end, $x->value());
     }
 
-    /**
-     * @depends testConstruct
-     */
+    #[Depends('testConstruct')]
     public function testFailedToTransform(): void
     {
         $transform = new Transform();
@@ -90,9 +87,7 @@ class TransformTest extends TestCase
         $this->assertEquals($end, $x->value());
     }
 
-    /**
-     * @depends testConstruct
-     */
+    #[Depends('testConstruct')]
     public function testFailedToParse(): void
     {
         $transform = new Transform();

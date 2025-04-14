@@ -25,14 +25,15 @@ use ILIAS\Refinery\KindlyTo\Transformation\StringTransformation;
 use ILIAS\Refinery\ConstraintViolationException;
 use PHPUnit\Framework\TestCase;
 use stdClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class DictionaryTransformationTest extends TestCase
 {
     /**
-     * @dataProvider DictionaryTransformationDataProvider
      * @param array $originVal
      * @param array $expectedVal
      */
+    #[DataProvider('DictionaryTransformationDataProvider')]
     public function testDictionaryTransformation(array $originVal, array $expectedVal): void
     {
         $transformation = new DictionaryTransformation(new StringTransformation());
@@ -41,11 +42,8 @@ class DictionaryTransformationTest extends TestCase
         $this->assertEquals($expectedVal, $transformedValue);
     }
 
-    /**
-     * @dataProvider TransformationFailingDataProvider
-     * @param mixed $failingVal
-     */
-    public function testTransformationFailures($failingVal): void
+    #[DataProvider('TransformationFailingDataProvider')]
+    public function testTransformationFailures(mixed $failingVal): void
     {
         $this->expectException(ConstraintViolationException::class);
         $transformation = new DictionaryTransformation(new StringTransformation());

@@ -25,6 +25,7 @@ use ILIAS\Refinery\KindlyTo\Transformation\IntegerTransformation;
 use ILIAS\Refinery\KindlyTo\Transformation\RecordTransformation;
 use ILIAS\Refinery\KindlyTo\Transformation\StringTransformation;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class RecordTransformationTest extends TestCase
 {
@@ -33,10 +34,10 @@ class RecordTransformationTest extends TestCase
     private const SECOND_INT_KEY = 'integerKey2';
 
     /**
-     * @dataProvider RecordTransformationDataProvider
      * @param array $originVal
      * @param array $expectedVal
      */
+    #[DataProvider('RecordTransformationDataProvider')]
     public function testRecordTransformationIsValid(array $originVal, array $expectedVal): void
     {
         $recTransform = new RecordTransformation(
@@ -51,9 +52,9 @@ class RecordTransformationTest extends TestCase
     }
 
     /**
-     * @dataProvider RecordFailureDataProvider
      * @param array $origVal
      */
+    #[DataProvider('RecordFailureDataProvider')]
     public function testRecordTransformationFailures(array $origVal): void
     {
         $this->expectNotToPerformAssertions();
@@ -89,9 +90,9 @@ class RecordTransformationTest extends TestCase
     }
 
     /**
-     * @dataProvider RecordValueInvalidDataProvider
      * @param array $originalValue
      */
+    #[DataProvider('RecordValueInvalidDataProvider')]
     public function testInvalidValueDoesNotMatch(array $originalValue): void
     {
         $this->expectNotToPerformAssertions();
