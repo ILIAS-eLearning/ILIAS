@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilPageFormatsTest extends ilCertificateBaseTestCase
 {
     public function testFetchFormats(): void

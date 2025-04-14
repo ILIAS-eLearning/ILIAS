@@ -20,9 +20,6 @@ declare(strict_types=1);
 
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilCertificateCronTest extends ilCertificateBaseTestCase
 {
     public function testGetTitle(): void

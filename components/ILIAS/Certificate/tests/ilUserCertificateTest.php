@@ -20,9 +20,6 @@ declare(strict_types=1);
 
 use ILIAS\Certificate\ValueObject\CertificateId;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilUserCertificateTest extends ilCertificateBaseTestCase
 {
     public function testCreateUserCertificate(): void

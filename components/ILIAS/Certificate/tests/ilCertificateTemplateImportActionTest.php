@@ -23,9 +23,6 @@ use ILIAS\ResourceStorage\Manager\Manager;
 use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
 {
     public function testCertificateCanBeImportedWithBackgroundImage(): void

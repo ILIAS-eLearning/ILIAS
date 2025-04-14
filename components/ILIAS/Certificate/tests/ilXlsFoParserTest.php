@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class ilXlsFoParserTest extends ilCertificateBaseTestCase
 {
     /**
@@ -521,9 +523,9 @@ EOT;
     }
 
     /**
-     * @dataProvider nonBreakingSpaceIsAddedDataProvider
      * @param array{"certificate_text": string, "pageformat": string, "pagewidth"?: string, "pageheight"?: string, "margin_body": array{"top": string, "right": string, "bottom": string, "left": string}} $form_data
      */
+    #[DataProvider('nonBreakingSpaceIsAddedDataProvider')]
     public function testTransformingParagraphsWithNoTextAndNoChildrenResultsInNonBreakingSpaceXslFoBlock(
         array $form_data,
         string $fo
@@ -619,9 +621,9 @@ EOT;
     }
 
     /**
-     * @dataProvider noNonBreakingSpaceIsAddedDataProvider
      * @param array{"certificate_text": string, "pageformat": string, "pagewidth"?: string, "pageheight"?: string, "margin_body": array{"top": string, "right": string, "bottom": string, "left": string}} $form_data
      */
+    #[DataProvider('noNonBreakingSpaceIsAddedDataProvider')]
     public function testTransformingParagraphsWithTextOrChildrenResultsNotInNonBreakingSpaceXslFoBlock(
         array $form_data,
         string $fo

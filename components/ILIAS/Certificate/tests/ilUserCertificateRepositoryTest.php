@@ -20,9 +20,6 @@ declare(strict_types=1);
 
 use ILIAS\Certificate\ValueObject\CertificateId;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 {
     public function testSaveOfUserCertificateToDatabase(): void
@@ -240,9 +237,6 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
         $this->assertSame(141, $result->getId());
     }
 
-    /**
-     *
-     */
     public function testFetchNoActiveCertificateLeadsToException(): never
     {
         $this->expectException(ilException::class);
