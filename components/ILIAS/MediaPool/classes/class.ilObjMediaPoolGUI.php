@@ -1470,6 +1470,15 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $mob->setDescription("");
         $mob->create();
 
+        $media_item = $mob->addMediaItemFromUpload(
+            "Standard",
+            $result,
+            $this->mep_request->getUploadHash()
+        );
+
+        $mob->update();
+
+        /*
         $mob->createDirectory();
         $media_item = new ilMediaItem();
         $mob->addMediaItem($media_item);
@@ -1485,7 +1494,13 @@ class ilObjMediaPoolGUI extends ilObject2GUI
             Location::WEB,
             $file_name,
             true
-        );
+        );*/
+
+        // duration
+        $med_item = $mob->getMediaItem("Standard");
+        $med_item->determineDuration();
+        $med_item->update();
+
 
         $mep_item = new ilMediaPoolItem();
         $mep_item->setTitle($title);
@@ -1498,6 +1513,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $tree->insertNode($mep_item->getId(), $parent);
 
         // get mime type
+        /*
         $format = ilObjMediaObject::getMimeType($file);
         $location = $file_name;
 
@@ -1506,17 +1522,19 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $media_item->setLocation($location);
         $media_item->setLocationType("LocalFile");
         $media_item->setUploadHash($this->mep_request->getUploadHash());
-        $mob->update();
+        $mob->update();*/
 
         $item_ids[] = $mob->getId();
 
+        /*
         $mob = new ilObjMediaObject($mob->getId());
-        $mob->generatePreviewPic(320, 240);
+        $mob->generatePreviewPic(320, 240);*/
 
         // duration
+        /*
         $med_item = $mob->getMediaItem("Standard");
         $med_item->determineDuration();
-        $med_item->update();
+        $med_item->update();*/
 
         return new BasicHandlerResult(
             "mep_id",

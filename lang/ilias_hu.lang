@@ -214,7 +214,7 @@ administration#:#language_former_file_equal#:#<b>%s</b> fájl azonos a jelenlegi
 administration#:#language_former_file_missing#:#<b>%s</b> fájl hiányzik.
 administration#:#language_import_file#:#Nyelvi fájl importálása
 administration#:#language_load_local_changes#:#Egyéni nyelvi fájl betöltése az adatbázisba
-administration#:#language_load_local_changes_info#:#A Customizing/global/lang/ilias_%s.lang.local fájl betöltése az adatbázisba. A már meglévő bejegyezések felülíródnak, az újak hozzáadódnak az adatbázishoz.
+administration#:#language_load_local_changes_info#:#A lang/customizing/ilias_%s.lang.local fájl betöltése az adatbázisba. A már meglévő bejegyezések felülíródnak, az újak hozzáadódnak az adatbázishoz.
 administration#:#language_loaded_local#:#Az egyéni nyelvi fájlt sikeresen betöltötte az adatbázisba.
 administration#:#language_local_file_deleted#:#Az egyéni nyelvi fájlt sikeresen törölte.
 administration#:#language_maintain#:#Karbantartás
@@ -235,12 +235,12 @@ administration#:#language_mode_existing_replace_info#:#Új bejegyzések importá
 administration#:#language_note_translation#:#Az oldalfordító az egyes nyelvekhez külön-külön kapcsolható be. A felhasználónak olvasási és írási jogosultsággal is rendelkeznie kell az egyes nyelvi fájlokhoz.
 administration#:#language_process_maintenance#:#Karbantartás futtatása
 administration#:#language_remove_local_file#:#Egyéni nyelvi fájl törlése
-administration#:#language_remove_local_file_info#:#A Customizing/global/lang/ilias_%s.lang.local fájl törlése és a nyelv 'Helyi nyelvi fájllal telepítve' cseréje 'Telepítve' állapotra. Az adatbázisban nem történik változtatás.
+administration#:#language_remove_local_file_info#:#A lang/customizing/ilias_%s.lang.local fájl törlése és a nyelv 'Helyi nyelvi fájllal telepítve' cseréje 'Telepítve' állapotra. Az adatbázisban nem történik változtatás.
 administration#:#language_save_dist#:#A standard nyelvi fájl biztonsági mentése
 administration#:#language_save_dist_failed#:#A standard nyelvi fájl biztonsági mentése nem sikerült (írási hiba).
 administration#:#language_save_dist_info#:#Az ILIAS adatmappájában lévő standard ILIAS nyelvi fájlról biztonsági másolat készül. Ez segítségére lehet ILIAS frissítés után a saját módosítások és a frissített nyelvi változók közötti ütközések keresésékor.
 administration#:#language_save_local_changes#:#Az összes változtatást egyéni nyelvi fájlba mentése
-administration#:#language_save_local_changes_info#:#Az összes helyileg hozzáadott vagy adatbázisban megváltoztatott bejegyzés mentése a Customizing/global/lang/ilias_%s.lang.local fájlban, és a nyelv átállítása 'Helyi nyelvi fájllal telepítve' állapotúra. A webszerver futtatójának írási jog szükséges a mappába. Figyeljen arra, hogy a telepítés összes kliense ezt a fájlt használja.
+administration#:#language_save_local_changes_info#:#Az összes helyileg hozzáadott vagy adatbázisban megváltoztatott bejegyzés mentése a lang/customizing/ilias_%s.lang.local fájlban, és a nyelv átállítása 'Helyi nyelvi fájllal telepítve' állapotúra. A webszerver futtatójának írási jog szükséges a mappába. Figyeljen arra, hogy a telepítés összes kliense ezt a fájlt használja.
 administration#:#language_saved_dist#:#Sikeresen létrehozta a standard nyelvi fájl biztonsági mentését.
 administration#:#language_scope_added#:#Csak helyi felvétel
 administration#:#language_scope_added_info#:#Az összes, az adatbázisba helyiként hozzáadott bejegyzés exportálása. A fejlesztés alatt lévő változatok biztonsági mentésére lehet felhasználni a 'Karbantartás' lapon történő helyi változatok törlése előtt.

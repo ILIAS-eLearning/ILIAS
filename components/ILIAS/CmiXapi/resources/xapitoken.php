@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,9 +16,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-chdir("../../../");
-require_once 'vendor/composer/vendor/autoload.php';
+declare(strict_types=1);
 
+require_once __DIR__ . '/../vendor/composer/vendor/autoload.php';
 /**
  * see: https://github.com/AICC/CMI-5_Spec_Current/blob/quartz/cmi5_spec.md#fetch_url
  * response should always be a valid json object
@@ -57,7 +55,6 @@ try {
     $objId = $param['obj_id'];
     $refId = $param['ref_id'];
 
-    #\XapiProxy\DataService::initIlias($_COOKIE['ilClientId']);
     ilInitialisation::initILIAS();
     $DIC = $GLOBALS['DIC'];
 } catch (ilCmiXapiException $e) {

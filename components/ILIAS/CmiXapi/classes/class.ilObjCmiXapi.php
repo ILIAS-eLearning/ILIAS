@@ -1391,7 +1391,7 @@ class ilObjCmiXapi extends ilObject2
      * LMS.LaunchData
      * @return array<string, mixed>
      */
-    public function getLaunchData(?ilCmiXapiUser $cmixUser = null, string $lang = 'en'): array
+    public function getLaunchData(string $exitText, ?ilCmiXapiUser $cmixUser = null): array
     {
         if (null === $cmixUser) {
             $cmixUser = $this->getCurrentCmixUser();
@@ -1422,7 +1422,7 @@ class ilObjCmiXapi extends ilObject2
             );
             $ctxTemplate['returnURL'] = $href;
         } else {
-            $ctxTemplate['returnURL'] = ILIAS_HTTP_PATH . "/components/ILIAS/CmiXapi/xapiexit.php?lang={$lang}";
+            $ctxTemplate['returnURL'] = ILIAS_HTTP_PATH . "/xapiexit.php?text=" . rawurlencode($exitText);
         }
         if (!empty($this->getMasteryScore())) {
             $ctxTemplate['masteryScore'] = $this->getMasteryScore();

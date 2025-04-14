@@ -220,7 +220,7 @@ final class LegacyPathHelper
         $webRelativeWithLeadingDot = './' . ILIAS_WEB_DIR . '/' . CLIENT_ID;
         $webRelativeWithoutLeadingDot = ILIAS_WEB_DIR . '/' . CLIENT_ID;
         $storage = CLIENT_DATA_DIR;
-        $customizing = ILIAS_ABSOLUTE_PATH . '/Customizing';
+        $customizing = ILIAS_ABSOLUTE_PATH . '/public/Customizing';
         $customizingRelativeWithLeadingDot = './Customizing';
         $libs = ILIAS_ABSOLUTE_PATH . '/vendor';
         $libsRelativeWithLeadingDot = "./vendor";

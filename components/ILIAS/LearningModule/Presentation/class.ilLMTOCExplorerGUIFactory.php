@@ -46,7 +46,6 @@ class ilLMTOCExplorerGUIFactory
         $lm = $service->getLearningModule();
         $lm_tree = $service->getLMTree();
         $offline = $service->getPresentationStatus()->offline();
-
         $exp = new ilLMTOCExplorerGUI(
             "illmpresentationgui",
             $parent_cmd,
@@ -84,7 +83,6 @@ class ilLMTOCExplorerGUIFactory
         if ($offline) {
             $exp->setOfflineMode(true);
         }
-
         return $exp;
     }
 }

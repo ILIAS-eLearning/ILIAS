@@ -67,6 +67,7 @@ class ilContainerRenderer
     protected ?Closure $block_prefix_closure = null;
     protected ?Closure $block_postfix_closure = null;
     protected ?Closure $item_hidden_closure = null;
+    protected ?Closure $item_modifier_closure = null;
     protected \ILIAS\Container\Content\BlockSessionRepository $block_repo;
 
     public function __construct(
@@ -143,6 +144,12 @@ class ilContainerRenderer
     public function setItemHiddenClosure(Closure $f): void
     {
         $this->item_hidden_closure = $f;
+    }
+
+    public function setItemModifierClosure(Closure $f) : void
+    {
+        $this->item_renderer->setItemModifierClosure($f);
+        $this->item_modifier_closure = $f;
     }
 
     protected function getViewMode(): int

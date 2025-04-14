@@ -44,7 +44,7 @@ class MapDBRepository
                     $id[1] = "-";
                 }
                 $id2 = explode("#", ($id[2] ?? ""));
-                if ($id2[0] == "") {
+                if (($id2[0] ?? "") == "") {
                     $id2[0] = "-";
                 }
                 if (($id2[1] ?? "") == "") {
@@ -134,11 +134,11 @@ class MapDBRepository
         $sc_id = explode("/", $a_screen_id);
         $chaps = array();
         foreach ($module_ids as $module_id) {
-            if ($sc_id[0] != "") {
-                if ($sc_id[1] == "") {
+            if (($sc_id[0] ?? "") != "") {
+                if (($sc_id[1] ?? "") == "") {
                     $sc_id[1] = "-";
                 }
-                if ($sc_id[2] == "") {
+                if (($sc_id[2] ?? "") == "") {
                     $sc_id[2] = "-";
                 }
                 $set = $this->db->query(

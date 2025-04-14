@@ -53,10 +53,9 @@ $zoom-large: math.div($il-avatar-size-large, $il-avatar-size);
 		border-color: $il-avatar-picture-border-color;
 
 		img {
-			height: $il-avatar-size;
-			width: $il-avatar-size;
+			height: $il-avatar-inner-size;
+			width: $il-avatar-inner-size;
 			vertical-align: top;
-			border: $il-avatar-border-radius;
 			overflow: hidden;
 			object-fit: cover;
 		}

@@ -126,7 +126,6 @@ class ilRepositoryGUI implements ilCtrlBaseClassInterface
         $lng = $this->lng;
         $ilHelp = $this->help;
         $ilErr = $this->error;
-
         if (
             ($this->user->isAnonymous() || !($this->user->getId() >= 1)) &&
             !ilPublicSectionSettings::getInstance()->isEnabledForDomain(
@@ -185,6 +184,7 @@ class ilRepositoryGUI implements ilCtrlBaseClassInterface
             }
 
             if ($this->ctrl->getCmd() !== "showRepTree") {
+                $this->ctrl->setParameterByClass($next_class, "item_ref_id", $this->request->getItemRefId());
                 $this->ctrl->redirectByClass($next_class, $this->ctrl->getCmd());
             }
         }

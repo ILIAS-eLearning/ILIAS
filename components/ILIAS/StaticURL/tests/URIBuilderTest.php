@@ -44,7 +44,7 @@ class URIBuilderTest extends Base
             ['http://test9.ilias.de/goto.php', 'http://test9.ilias.de'],
             ['http://test9.ilias.de/go/hello', 'http://test9.ilias.de'],
             ['http://test9.ilias.de/go/hello', 'http://test9.ilias.de'],
-            ['http://test9.ilias.de/Customizing/global/plugins/Services/index.php', 'http://test9.ilias.de'],
+            ['http://test9.ilias.de/Customizing/plugins/Services/index.php', 'http://test9.ilias.de'],
         ];
     }
 

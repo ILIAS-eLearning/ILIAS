@@ -174,6 +174,7 @@ administration#:#auth_auth_mode_determination#:#Authentication Method Determinat
 administration#:#auth_automatic#:#Fixed Sequence
 administration#:#auth_by_user#:#By the User
 administration#:#auth_kind_determination#:#Kind of Determination
+administration#:#auth_mode_default_change_info#:#Changing the default authentication method affects all user accounts configured to use the default authentication method. If the selected default method (e.g., Shibboleth, SAML, SOAP, ...) does not support or is not configured to allow fallback to local ILIAS authentication, affected users may no longer be able to log in. To avoid this, please ensure that local fallback authentication is activated in the configuration of the selected method, or that the authentication method stored for affected user accounts is manually changed.
 administration#:#auth_mode_determination_info#:#Choose either if the users have to select their authentication method on the login screen or if this is managed by a fixed sequence of authentication methods.
 administration#:#clean#:#Clean up
 administration#:#clean_desc#:#Remove invalid references and tree entries. Initialize gaps in tree structure.
@@ -214,7 +215,7 @@ administration#:#language_former_file_equal#:#The file <b>%s</b> is identical to
 administration#:#language_former_file_missing#:#The file <b>%s</b> is missing.
 administration#:#language_import_file#:#Import Language File
 administration#:#language_load_local_changes#:#Load custom language file into the database
-administration#:#language_load_local_changes_info#:#Load the file Customizing/global/lang/ilias_%s.lang.local to the database. New entries of this file are added to the database and existing entries are overwritten.
+administration#:#language_load_local_changes_info#:#Load the file lang/customizing/ilias_%s.lang.local to the database. New entries of this file are added to the database and existing entries are overwritten.
 administration#:#language_loaded_local#:#The custom language file was loaded into the database.
 administration#:#language_local_file_deleted#:#The custom language file was deleted.
 administration#:#language_maintain#:#Maintain
@@ -235,12 +236,12 @@ administration#:#language_mode_existing_replace_info#:#Import new entries and re
 administration#:#language_note_translation#:#Page translation mode is activated for each language separately. Additionally the user needs read and write permission on the language folder.
 administration#:#language_process_maintenance#:#Process Maintenance
 administration#:#language_remove_local_file#:#Delete the custom language file
-administration#:#language_remove_local_file_info#:#Remove the file Customizing/global/lang/ilias_%s.lang.local and change the language status from ‘Installed With Local’ to ‘Installed’. The changes in the database are not touched.
+administration#:#language_remove_local_file_info#:#Remove the file lang/customizing/ilias_%s.lang.local and change the language status from ‘Installed With Local’ to ‘Installed’. The changes in the database are not touched.
 administration#:#language_save_dist#:#Backup the standard language file
 administration#:#language_save_dist_failed#:#The backup of the standard ILIAS language file could not be written.
 administration#:#language_save_dist_info#:#Create a backup of the standard ILIAS language file in the ILIAS data directory. This helps after an ILIAS update to find conflicst of own changes with updated language variables.
 administration#:#language_save_local_changes#:#Save all changes to the custom language file
-administration#:#language_save_local_changes_info#:#Save all locally added or changed database entries to the file Customizing/global/lang/ilias_%s.lang.local and set the language status to ‘Installed With Local’. The web server must have write permission in this folder. Please note that this file is the same for all clients of this installation.
+administration#:#language_save_local_changes_info#:#Save all locally added or changed database entries to the file lang/customizing/ilias_%s.lang.local and set the language status to ‘Installed With Local’. The web server must have write permission in this folder. Please note that this file is the same for all clients of this installation.
 administration#:#language_saved_dist#:#The backup of the standard ILIAS language file is created.
 administration#:#language_scope_added#:#Local additions only
 administration#:#language_scope_added_info#:#Export all entries that are locally added in the database. This can be used to backup additional development entries before local changes are deleted on the tab ‘Maintain’.
@@ -3115,6 +3116,7 @@ cmix#:#btn_change_registration#:#Submit
 cmix#:#btn_create_lrs_type#:#Add LRS Type
 cmix#:#btn_create_registration#:#Submit
 cmix#:#change_registration#:#E-Mail address for Registration
+cmix#:#cmiexit#:#You can now close the window.
 cmix#:#cmix_add#:#Add xAPI/cmi5 Object
 cmix#:#cmix_add_cmi5_lm#:#cmi5 Learning Module
 cmix#:#cmix_add_cmi5_lm_info#:#This option should be used when the content is a cmi5 compliant learning module. Related features like suitable reportings are available without further configurations.
@@ -7402,6 +7404,7 @@ copg#:#copg_more_character_formats#:#More Styles for Characters
 copg#:#copg_obj_types#:#Object Types
 copg#:#copg_page_element_not_found#:#Page element not found.
 copg#:#copg_page_type_stys#:#Layout Page
+copg#:#copg_pages#:#Pages
 copg#:#copg_par_format_selection#:#Paragraph Format Selection
 copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.
 copg#:#copg_plugin_not_avail#:#Plugin %s not available.

@@ -12,7 +12,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- * *******************************************************************
+ *********************************************************************
  *
  * this script is responsible for the dropzone highlighting and
  * file processing.
@@ -126,6 +126,21 @@ il.UI = il.UI || {};
             }
         }
 
+        let hasEventFiles = function (event) {
+            // check if "Files" is in the event.originalEvent.dataTransfer.types
+            if (event.originalEvent.dataTransfer.types.length === 0) {
+                return false;
+            }
+            let is_file = false;
+            for (let i = 0; i < event.originalEvent.dataTransfer.types.length; i++) {
+                if (event.originalEvent.dataTransfer.types[i] === 'Files') {
+                    is_file = true;
+                    break;
+                }
+            }
+            return is_file;
+        }
+
         let removeAllFilesFromQueue = function (dropzone_id) {
             if (typeof dropzones[dropzone_id] === 'undefined') {
                 console.error(`Error: tried accessing unknown dropzone '${dropzone_id}'.`);
@@ -138,6 +153,9 @@ il.UI = il.UI || {};
          * @param {Event} event
          */
         let highlightCurrentDropzoneHook = function (event) {
+            if(!hasEventFiles(event)) {
+                return;
+            }
             event.preventDefault();
             let current_dropzone = $(event.currentTarget);
             current_dropzone.addClass(CSS.highlight_current);
@@ -155,6 +173,10 @@ il.UI = il.UI || {};
          * @param {Event} event
          */
         let highlightPossibleDropzones = function (event) {
+            if(!hasEventFiles(event)) {
+                return;
+            }
+
             disableDefaultEventBehaviour(event);
             drag_enter_counter++;
 

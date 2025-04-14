@@ -214,7 +214,7 @@ administration#:#language_former_file_equal#:#Plik <b>%s</b> jest identyczny z o
 administration#:#language_former_file_missing#:#Plik <b>%s</b> nie istnieje.
 administration#:#language_import_file#:#Importuj plik z wersją językową
 administration#:#language_load_local_changes#:#Wczytaj lokalny plik z wersją językową do bazy danych
-administration#:#language_load_local_changes_info#:#Plik Customizing/global/lang/ilias_%s.lang.local wysyłany jest do bazy danych. Z pliku wstawiane są nowe wpisy, a istniejące wpisy są w bazie nadpisywane.
+administration#:#language_load_local_changes_info#:#Plik lang/customizing/ilias_%s.lang.local wysyłany jest do bazy danych. Z pliku wstawiane są nowe wpisy, a istniejące wpisy są w bazie nadpisywane.
 administration#:#language_loaded_local#:#Plik lokalny z wersją językową został wczytany do bazy danych.
 administration#:#language_local_file_deleted#:#Plik lokalny z wersją językową został usunięty.
 administration#:#language_maintain#:#Zarządzaj
@@ -235,12 +235,12 @@ administration#:#language_mode_existing_replace_info#:#Importowane są nowe i na
 administration#:#language_note_translation#:#Opcja tłumaczenia strony aktywowana jest dla każdego języka oddzielnie. Użytkownik musi ponadto posiadać kompetencje „Czytanie” i „Pisanie” w folderze językowym.
 administration#:#language_process_maintenance#:#Zarządzanie procesem
 administration#:#language_remove_local_file#:#Usuń plik językowy odbiorcy
-administration#:#language_remove_local_file_info#:#Usuwany jest plik Customizing/global/lang/ilias_%s.lang.local, a następnie zmieniany status języka z "Zainstalowano za pomocą wersji lokalnej" na "Zainstalowane". Nie dotyczy to wpisów w bazie danych.
+administration#:#language_remove_local_file_info#:#Usuwany jest plik lang/customizing/ilias_%s.lang.local, a następnie zmieniany status języka z "Zainstalowano za pomocą wersji lokalnej" na "Zainstalowane". Nie dotyczy to wpisów w bazie danych.
 administration#:#language_save_dist#:#Utwórz kopię zapasową domyślnego pliku językowego
 administration#:#language_save_dist_failed#:#Nie udało się zapisać kopii zapasowej domyślnego pliku językowego.
 administration#:#language_save_dist_info#:#Tworzy w zewnętrznym indeksie danych ILIAS kopię zapasową domyślnego pliku językowego. Ta funkcja jest przydatna po aktualizacji ILIAS, gdy należy znaleźć przypadku konfliktu własnych zmian i zaktualizowanych zmiennych języka.
 administration#:#language_save_local_changes#:#Zapisz wszystkie zmiany do lokalnego pliku z wersją językową
-administration#:#language_save_local_changes_info#:#Zapisywane są wszystkie zmiany lokalne lub uzupełnienia w pliku Customizing/global/lang/ilias_%s.lang.local, a następnie aktywowany status języka "Zainstalowano za pomocą wersji lokalnej". Serwer internetowy musi posiadać prawo pisania dla tego indeksu. Pamiętaj, że ten plik jest identyczny dla wszystkich klientów instalacji.
+administration#:#language_save_local_changes_info#:#Zapisywane są wszystkie zmiany lokalne lub uzupełnienia w pliku lang/customizing/ilias_%s.lang.local, a następnie aktywowany status języka "Zainstalowano za pomocą wersji lokalnej". Serwer internetowy musi posiadać prawo pisania dla tego indeksu. Pamiętaj, że ten plik jest identyczny dla wszystkich klientów instalacji.
 administration#:#language_saved_dist#:#Utworzono kopię zapasową domyślnego pliku językowego.
 administration#:#language_scope_added#:#Tylko lokalne zmiany
 administration#:#language_scope_added_info#:#Eksportowane są wszystkie wpisy, które zostały wstawione w bazie danych lokalnie. Tę funkcję można wykorzystać, aby zabezpieczyć dodatkowe wpisy początkowe, zanim zostaną zresetowane lokalne zmiany w zakładce "Konserwacja".

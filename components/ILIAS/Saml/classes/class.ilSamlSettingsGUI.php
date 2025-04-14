@@ -238,7 +238,7 @@ final class ilSamlSettingsGUI
         }
         $ipdId = $this->getIdpIdOrZero();
         if ($ipdId > 0) {
-            $this->ctrl->saveParameter($this, self::REQUEST_PARAM_SAML_IDP_ID);
+            $this->ctrl->setParameter($this, self::REQUEST_PARAM_SAML_IDP_ID, $ipdId);
         }
         if (!in_array(strtolower($cmd), array_map('strtolower', self::GLOBAL_COMMANDS), true)) {
             if (0 === $ipdId) {

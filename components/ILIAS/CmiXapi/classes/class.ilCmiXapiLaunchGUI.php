@@ -139,9 +139,7 @@ class ilCmiXapiLaunchGUI
      */
     protected function getAuthTokenFetchLink(): string
     {
-        $link = implode('/', [
-            ILIAS_HTTP_PATH, 'components/ILIAS', 'CmiXapi', 'xapitoken.php'
-        ]);
+        $link = ILIAS_HTTP_PATH . '/xapitoken.php';
 
         $param = $this->buildAuthTokenFetchParam();
 
@@ -222,6 +220,8 @@ class ilCmiXapiLaunchGUI
      */
     protected function CMI5preLaunch(string $token): array
     {
+        global $DIC;
+        $DIC->language()->loadLanguageModule("cmix");
         $duration = '';
         $lrsType = $this->object->getLrsType();
         $defaultLrs = $lrsType->getLrsEndpoint();
@@ -309,7 +309,7 @@ class ilCmiXapiLaunchGUI
         $defaultStatementsUrl = $defaultLrs . "/statements";
 
         // launchedStatement
-        $launchData = json_encode($this->object->getLaunchData($this->cmixUser, $lang));
+        $launchData = json_encode($this->object->getLaunchData($DIC->language()->txt('cmiexit'), $this->cmixUser));
         $launchedStatement = $this->object->getLaunchedStatement($this->cmixUser);
         $launchedStatementParams = [];
         $launchedStatementParams['statementId'] = $launchedStatement['id'];

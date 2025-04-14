@@ -70,6 +70,7 @@ class ilInternalLinkGUI
 
         $this->lng->loadLanguageModule("link");
         $this->lng->loadLanguageModule("content");
+        $this->lng->loadLanguageModule("copg");
         $this->ctrl->saveParameter($this, array("linkmode", "link_par_ref_id", "link_par_obj_id",
             "link_par_fold_id", "link_type"));
 
@@ -327,7 +328,7 @@ class ilInternalLinkGUI
                 $tpl->setCurrentBlock("chapter_list");
                 $tpl->setVariable("TXT_CONTENT_OBJECT", $this->lng->txt("obj_lm"));
                 $tpl->setVariable("TXT_CONT_TITLE", $cont_obj->getTitle());
-                $tpl->setVariable("THEAD", $this->lng->txt("pages"));
+                $tpl->setVariable("THEAD", $this->lng->txt("copg_pages"));
 
 
                 $tpl->setCurrentBlock("change_cont_obj");
@@ -622,7 +623,7 @@ class ilInternalLinkGUI
                 $tpl->setCurrentBlock("chapter_list");
                 $tpl->setVariable("TXT_CONTENT_OBJECT", $this->lng->txt("obj_" . ilObject::_lookupType($prtf_id)));
                 $tpl->setVariable("TXT_CONT_TITLE", ilObject::_lookupTitle($prtf_id));
-                $tpl->setVariable("THEAD", $this->lng->txt("pages"));
+                $tpl->setVariable("THEAD", $this->lng->txt("copg_pages"));
 
                 foreach ($ppages as $ppage) {
                     $this->renderLink(
@@ -938,7 +939,7 @@ class ilInternalLinkGUI
         $mt = self::getModalTemplate();
         $tpl->addOnLoadCode('il.IntLink.setModalTemplate("' . addslashes(json_encode($mt["template"])) . '");');
 
-        $html = "<div id='ilIntLinkModal' data-show-signal='".$mt["show"]."' data-close-signal='".$mt["close"]."'></div>";
+        $html = "<div id='ilIntLinkModal' data-show-signal='" . $mt["show"] . "' data-close-signal='" . $mt["close"] . "'></div>";
 
         return $html;
     }

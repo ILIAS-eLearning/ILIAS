@@ -62,7 +62,11 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
         $this->lm_set = new ilSetting("lm");
         $this->lang = $a_lang;
         if ($a_focus_id > 0) {
-            $this->setSecondaryHighlightedNodes(array($a_focus_id));
+            $sec_high = [];
+            foreach ($this->tree->getSubTree($this->tree->getNodeData($a_focus_id)) as $node) {
+                $sec_high[] = $node["child"];
+            }
+            $this->setSecondaryHighlightedNodes($sec_high);
         }
         if ($this->lm->getTOCMode() != "pages") {
             $this->setTypeWhiteList(array("st", "du"));
@@ -171,12 +175,8 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
      */
     public function getNodeContent($a_node): string
     {
-        if ($a_node["child"] == $this->getNodeId($this->getRootNode())) {
-            return $this->service->getPresentationStatus()->getLMPresentationTitle();
-        }
-
         if ($a_node["type"] == "st") {
-            return ilStructureObject::_getPresentationTitle(
+            $content = ilStructureObject::_getPresentationTitle(
                 $a_node["child"],
                 ilLMObject::CHAPTER_TITLE,
                 $this->lm->isActiveNumbering(),
@@ -187,7 +187,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
                 true
             );
         } elseif ($a_node["type"] == "pg") {
-            return ilLMPageObject::_getPresentationTitle(
+            $content = ilLMPageObject::_getPresentationTitle(
                 $a_node["child"],
                 $this->lm->getPageHeader(),
                 $this->lm->isActiveNumbering(),
@@ -198,10 +198,22 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
                 true
             );
         } elseif ($a_node["child"] == $this->getNodeId($this->getRootNode())) {
-            return $this->lm->getTitle();
+            $content = $this->service->getPresentationStatus()->getLMPresentationTitle();
         }
 
-        return $a_node["title"];
+        return $this->highlightContent($a_node, $content);
+    }
+
+    protected function highlightContent(array $node, string $content): string
+    {
+        if ($this->isNodeHighlighted($node)) {
+            $content = "<b>" . $content . "</b>";
+        }
+        $sec = $this->getSecondaryHighlightedNodes();
+        if (in_array($node["child"], $sec)) {
+            return "<span class='ilHighlighted'>" . $content . "</span>";
+        }
+        return $content;
     }
 
 
@@ -217,7 +229,6 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
                 return $icon;
             }
         }
-
         // use progress icons (does not depend on lp mode)
         if (!$this->getOfflineMode() && $this->lm->getProgressIcons()) {
             return $this->tracker->getIconForLMObject($a_node, $this->highlight_node);
@@ -258,7 +269,6 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
     public function isNodeClickable($a_node): bool
     {
         $ilUser = $this->user;
-
         $orig_node_id = $a_node["child"];
 
         // if navigation is restricted based on correct answered questions

@@ -415,7 +415,7 @@ class ilCmiXapiAuthToken
      */
     public static function getWacSalt(): string
     {
-        include 'data/wacsalt.php';
+        $salt = ilWACToken::getSALT();
 
         if (isset($salt)) {
             return $salt;

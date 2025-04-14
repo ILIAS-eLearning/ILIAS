@@ -39,5 +39,10 @@ class CmiXapi implements Component\Component
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
         new Component\Resource\Endpoint($this, "xapiproxy.php");
 
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        new Component\Resource\Endpoint($this, "xapitoken.php");
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        new Component\Resource\Endpoint($this, "xapiexit.php");
     }
 }

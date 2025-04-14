@@ -214,7 +214,7 @@ administration#:#language_former_file_equal#:#Il file <b>%s</b> è identico al f
 administration#:#language_former_file_missing#:#Il file <b>%s</b> non esiste.
 administration#:#language_import_file#:#Importazione file lingua
 administration#:#language_load_local_changes#:#Caricare il file lingua locale nel database
-administration#:#language_load_local_changes_info#:#Load the file Customizing/global/lang/ilias_%s_lang.local to the database. New entries of this file are added to the database and existing entries are overwritten.
+administration#:#language_load_local_changes_info#:#Load the file lang/customizing/ilias_%s_lang.local to the database. New entries of this file are added to the database and existing entries are overwritten.
 administration#:#language_loaded_local#:#Il file lingua locale è stato caricato nel database.
 administration#:#language_local_file_deleted#:#The local language file was deleted.
 administration#:#language_maintain#:#Manutenzione
@@ -235,12 +235,12 @@ administration#:#language_mode_existing_replace_info#:#Importa nuove voci e sost
 administration#:#language_note_translation#:#La modalità traduzione pagina si attiva separatamente per ogni lingua. E' necessario che l'utente abbia i permessi di scrittura e lettura nella sezione lingue.
 administration#:#language_process_maintenance#:#Processo di manutenzione
 administration#:#language_remove_local_file#:#Cancella il file di lingua locale
-administration#:#language_remove_local_file_info#:#Remove the file Customizing/global/lang/ilias_%s_lang.local and change the language status from "Installed With Local" to "Installed". The changes in the database are not touched.
+administration#:#language_remove_local_file_info#:#Remove the file lang/customizing/ilias_%s_lang.local and change the language status from "Installed With Local" to "Installed". The changes in the database are not touched.
 administration#:#language_save_dist#:#Backup del file di lingua standard
 administration#:#language_save_dist_failed#:#Il backup del file di lingua ILIAS standard non può essere scritto.
 administration#:#language_save_dist_info#:#Creare un backup del file di lingua ILIAS standard nella directory dei dati ILIAS. Questo aiuta dopo un aggiornamento ILIAS per trovare contrasti di proprie modifiche con variabili linguistiche aggiornate.
 administration#:#language_save_local_changes#:#Salvare tutti i cambiamenti nel file lingua locale
-administration#:#language_save_local_changes_info#:#Save all locally added or changed database entries to the file Customizing/global/lang/ilias_%s_lang.local and set the language status to "Installed With Local". The web server must have write permission in this folder. Please note that this file is the same for all clients of this installation.
+administration#:#language_save_local_changes_info#:#Save all locally added or changed database entries to the file lang/customizing/ilias_%s_lang.local and set the language status to "Installed With Local". The web server must have write permission in this folder. Please note that this file is the same for all clients of this installation.
 administration#:#language_saved_dist#:#Il backup del file di lingua ILIAS standard è stato creato.
 administration#:#language_scope_added#:#Solo integrazioni locali
 administration#:#language_scope_added_info#:#Export all entries that are locally added in the database. This can be used to backup additional development entries before local changes are deleted on the tab "Maintain".
