@@ -685,11 +685,6 @@ class ilObjStudyProgrammeMembersGUI
             fn($ass_id) => $this->assignment_db->get((int) $ass_id),
             $ass_ids
         );
-
-        $assignments = array_filter(
-            $assignments,
-            fn($ass) => $ass->getRootId() === $prg->getId()
-        );
         return $assignments;
     }
 
