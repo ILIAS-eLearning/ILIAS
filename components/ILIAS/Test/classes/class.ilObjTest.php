@@ -6505,8 +6505,6 @@ class ilObjTest extends ilObject
             $this,
             ExportImportTypes::SCORED_ATTEMPT
         )->withFilterByActiveId($active_id)
-            ->withResultsPage()
-            ->withUserPages()
             ->write();
 
         $delivered_file_name = 'result_' . $active_id . '.xlsx';
