@@ -265,29 +265,29 @@ EOT;
         <div class="form-group row">
             <label for="id_8" class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_access_enabled</label>
             <div class="col-sm-8 col-md-9 col-lg-10">
-                <input type="checkbox" id="id_8" value="checked" class="form-control form-control-sm" />
+                <input type="checkbox" id="id_8" value="checked" class="form-control form-control-sm form-has-collapsible-form" />
                 <div class="help-block">tst_results_access_enabled_desc</div>
                 <div class="form-group row">
                     <label class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_access_setting<span class="asterisk">*</span></label>
                     <div class="col-sm-8 col-md-9 col-lg-10">
                         <div id="id_2" class="il-input-radio">
-                            <div class="form-control form-control-sm il-input-radiooption">
+                            <div class="form-control form-control-sm il-input-radiooption form-has-collapsible-form">
                                 <input type="radio" id="id_2_2_opt" value="2" />
                                 <label for="id_2_2_opt">tst_results_access_always</label>
                                 <div class="help-block">tst_results_access_always_desc</div>
                             </div>
-                            <div class="form-control form-control-sm il-input-radiooption">
+                            <div class="form-control form-control-sm il-input-radiooption form-has-collapsible-form">
                                 <input type="radio" id="id_2_1_opt" value="1" />
                                 <label for="id_2_1_opt">tst_results_access_finished</label>
                                 <div class="help-block">tst_results_access_finished_desc</div>
                             </div>
-                            <div class="form-control form-control-sm il-input-radiooption">
+                            <div class="form-control form-control-sm il-input-radiooption form-has-collapsible-form">
                                 <input type="radio" id="id_2_4_opt" value="4" />
                                 <label for="id_2_4_opt">tst_results_access_passed</label>
                                 <div class="help-block">tst_results_access_passed_desc</div>
                             </div>
 
-                            <div class="form-control form-control-sm il-input-radiooption">
+                            <div class="form-control form-control-sm il-input-radiooption form-has-collapsible-form">
                                 <input type="radio" id="id_2_3_opt" value="3" />
                                 <label for="id_2_3_opt">tst_results_access_date</label>
                                 <div class="form-group row">
@@ -432,7 +432,7 @@ EOT;
     <div class="form-group row">
         <label for="id_10" class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_enabled</label>
         <div class="col-sm-8 col-md-9 col-lg-10">
-            <input type="checkbox" id="id_10" value="checked" class="form-control form-control-sm" />
+            <input type="checkbox" id="id_10" value="checked" class="form-control form-control-sm form-has-collapsible-form" />
             <div class="help-block">tst_highscore_description</div>
 
             <div class="form-group row">

@@ -16,6 +16,7 @@
 @use "_ui-component_duration.scss";
 @use "_ui-component_file.scss";
 @use "_ui-component_markdown.scss";
+@use "ui-component_switchable-and-optional-group"; // Only needed in 9. Collapsible groups are fixed for good in 10
 
 
 //== Standard Form
