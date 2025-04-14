@@ -22,18 +22,11 @@ use PHPUnit\Framework\MockObject\Builder\InvocationMocker;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
 
-/**
- * Class ilChatroomAbstractTaskTest
- * @author Thomas Joußen <tjoussen@gmx.de>
- */
 abstract class ilChatroomAbstractTaskTestBase extends ilChatroomAbstractTestBase
 {
-    /** @var MockObject&ilChatroomObjectGUI */
-    protected $gui;
-    /** @var MockObject&ilChatroomServerConnector */
-    protected $ilChatroomServerConnectorMock;
-    /** @var MockObject&ilObjChatroom */
-    protected $object;
+    protected MockObject&ilChatroomObjectGUI $gui;
+    protected MockObject&ilChatroomServerConnector $ilChatroomServerConnectorMock;
+    protected MockObject&ilObjChatroom $object;
 
     protected function setUp(): void
     {

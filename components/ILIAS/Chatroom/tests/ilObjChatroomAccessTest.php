@@ -27,8 +27,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 class ilObjChatroomAccessTest extends ilChatroomAbstractTestBase
 {
     protected ilObjChatroomAccess $access;
-    /** @var ilDBInterface&MockObject */
-    protected ilDBInterface $db;
+    protected ilDBInterface&MockObject $db;
 
     public function testCommandDefitionFullfilsExpectations(): void
     {

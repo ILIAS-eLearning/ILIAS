@@ -19,15 +19,11 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\Attributes\DataProvider;
 
-/**
- * Class ilChatroomUserTest
- * @author Thomas Joußen <tjoussen@gmx.de>
- */
 class ilChatroomUserTest extends ilChatroomAbstractTestBase
 {
-    /** @var ilObjUser&MockObject */
-    protected ilObjUser $ilUserMock;
+    protected ilObjUser&MockObject $ilUserMock;
     protected ilChatroomUser $user;
 
     public function testGetUserIdIfNotAnonymous(): void
@@ -70,9 +66,7 @@ class ilChatroomUserTest extends ilChatroomAbstractTestBase
         $this->assertNotNull($this->user->getUserId());
     }
 
-    /**
-     * @dataProvider usernameDataProvider
-     */
+    #[DataProvider('usernameDataProvider')]
     public function testSetUsername(string $username, string $expected): void
     {
         $this->user->setUsername($username);

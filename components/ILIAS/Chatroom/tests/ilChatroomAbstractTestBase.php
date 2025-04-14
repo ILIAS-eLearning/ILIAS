@@ -22,16 +22,10 @@ use ILIAS\DI\Container;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
-/**
- * Class ilChatroomAbstractTest
- * @author Thomas Joußen <tjoussen@gmx.de>
- */
 abstract class ilChatroomAbstractTestBase extends TestCase
 {
-    /** @var MockObject&ilChatroom */
-    protected $ilChatroomMock;
-    /** @var MockObject&ilChatroomUser */
-    protected $ilChatroomUserMock;
+    protected MockObject&ilChatroom $ilChatroomMock;
+    protected MockObject&ilChatroomUser $ilChatroomUserMock;
     private ?Container $dic = null;
 
     protected function setUp(): void
@@ -59,10 +53,7 @@ abstract class ilChatroomAbstractTestBase extends TestCase
         parent::tearDown();
     }
 
-    /**
-     * @return ilChatroomUser&MockObject
-     */
-    protected function createIlChatroomUserMock(): ilChatroomUser
+    protected function createIlChatroomUserMock(): ilChatroomUser&MockObject
     {
         $this->ilChatroomUserMock = $this->getMockBuilder(ilChatroomUser::class)->disableOriginalConstructor()->onlyMethods(
             ['getUserId', 'getUsername']
@@ -71,10 +62,7 @@ abstract class ilChatroomAbstractTestBase extends TestCase
         return $this->ilChatroomUserMock;
     }
 
-    /**
-     * @return ilDBInterface&MockObject
-     */
-    protected function createGlobalIlDBMock(): ilDBInterface
+    protected function createGlobalIlDBMock(): ilDBInterface&MockObject
     {
         $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
         $db->method('quote')->willReturnCallback(static function ($arg): string {

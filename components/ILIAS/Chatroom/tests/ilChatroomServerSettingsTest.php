@@ -19,11 +19,8 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
-/**
- * Class ilChatroomServerSettingsTest
- * @author Thomas Joußen <tjoussen@gmx.de>
- */
 class ilChatroomServerSettingsTest extends TestCase
 {
     protected ilChatroomServerSettings $settings;
@@ -64,8 +61,8 @@ class ilChatroomServerSettingsTest extends TestCase
     /**
      * @param callable(mixed): void $assertionCallback
      * @param mixed $value
-     * @dataProvider setterAndGettersProvider
      */
+    #[DataProvider('setterAndGettersProvider')]
     public function testSettersAndGetters(string $property, callable $assertionCallback, $value): void
     {
         $setter = 'set' . ucfirst($property);
