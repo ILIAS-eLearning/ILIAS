@@ -25,18 +25,17 @@ use ILIAS\FileUpload\DTO\Metadata;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
 use PHPUnit\Framework\TestCase;
 use ilVirusScannerPreProcessor;
-use Mockery;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\BackupGlobals;
+use PHPUnit\Framework\Attributes\BackupStaticProperties;
 
-/**
- * @runTestsInSeparateProcesses
- * @preserveGlobalState    disabled
- * @backupGlobals          disabled
- * @backupStaticAttributes disabled
- */
+#[RunTestsInSeparateProcesses]
+#[PreserveGlobalState(false)]
+#[BackupGlobals(false)]
+#[BackupStaticProperties(false)]
 class VirusScannerPreProcessorTest extends TestCase
 {
-    use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
-
     public function testVirusDetected(): void
     {
         $stream = Streams::ofString('Awesome stuff');

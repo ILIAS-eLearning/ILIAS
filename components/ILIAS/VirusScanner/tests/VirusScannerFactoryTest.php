@@ -30,13 +30,13 @@ use ilVirusScannerSophos;
 use ilVirusScannerAntiVir;
 use ilLogger;
 use ilVirusScannerICapClient;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
 
 require_once __DIR__ . '/bootstrap.php';
 
-/**
- * @runTestsInSeparateProcesses
- * @preserveGlobalState disabled
- */
+#[RunTestsInSeparateProcesses]
+#[PreserveGlobalState(false)]
 class VirusScannerFactoryTest extends VirusScannerBaseTestCase
 {
     public static ilLogger $logger;
