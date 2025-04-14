@@ -24,11 +24,8 @@ use ILIAS\ContentPage\PageMetrics\ValueObject\PageReadingTime;
 use PHPUnit\Framework\TestCase;
 use TypeError;
 use stdClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 
-/**
- * Class PageReadingTimeTest
- * @author Michael Jansen <mjansen@databay.de>
- */
 class PageReadingTimeTest extends TestCase
 {
     public static function mixedReadingTypesProvider(): array
@@ -44,11 +41,8 @@ class PageReadingTimeTest extends TestCase
         ];
     }
 
-    /**
-     * @param mixed $mixedType
-     * @dataProvider mixedReadingTypesProvider
-     */
-    public function testPageReadingTimeValueThrowsExceptionWhenConstructedWithInvalidTypes($mixedType): void
+    #[DataProvider('mixedReadingTypesProvider')]
+    public function testPageReadingTimeValueThrowsExceptionWhenConstructedWithInvalidTypes(mixed $mixedType): void
     {
         $this->expectException(TypeError::class);
 
