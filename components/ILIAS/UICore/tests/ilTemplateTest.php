@@ -34,7 +34,7 @@ class ilTemplateTest extends TestCase
             public function __construct()
             {
             }
-            public function _getTemplatePath(string $a_tplname, string $a_in_module = null): string
+            public function _getTemplatePath(string $a_tplname, ?string $a_in_module = null): string
             {
                 return $this->getTemplatePath($a_tplname, $a_in_module);
             }
