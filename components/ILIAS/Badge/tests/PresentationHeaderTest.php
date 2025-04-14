@@ -31,6 +31,7 @@ use ILIAS\UI\Component\ViewControl\Mode;
 use ilCtrl;
 use ILIAS\UI\Component\Component;
 use ilLanguage;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class PresentationHeaderTest extends TestCase
 {
@@ -41,16 +42,14 @@ class PresentationHeaderTest extends TestCase
         $this->assertInstanceOf(PresentationHeader::class, $head);
     }
 
-    /**
-     * @dataProvider showProvider
-     */
+    #[DataProvider('showProvider')]
     public function testShow(bool $additional = false): void
     {
         $mode = $this->getMockBuilder(Mode::class)->disableOriginalConstructor()->getMock();
-        $mode->expects(self::once())->method('withActive')->with('tile_view')->willReturn($mode);
+        $mode->expects($this->once())->method('withActive')->with('tile_view')->willReturn($mode);
 
         $view_control = $this->getMockBuilder(ViewControl::class)->disableOriginalConstructor()->getMock();
-        $view_control->expects(self::once())->method('mode')->with([
+        $view_control->expects($this->once())->method('mode')->with([
             'tile_view' => 'list URL',
             'table_view' => 'manage URL',
         ])->willReturn($mode);
@@ -65,7 +64,7 @@ class PresentationHeaderTest extends TestCase
 
         $toolbar = $this->getMockBuilder(ilToolbarGUI::class)->disableOriginalConstructor()->getMock();
         $toolbar
-            ->expects(self::exactly($additional + 1))
+            ->expects($this->exactly($additional + 1))
             ->method('addStickyItem')
             ->willReturnCallback(
                 function ($component) use (&$consecutive_expected) {
@@ -76,7 +75,7 @@ class PresentationHeaderTest extends TestCase
 
 
         $factory = $this->getMockBuilder(UI::class)->disableOriginalConstructor()->getMock();
-        $factory->expects(self::once())->method('viewControl')->willReturn($view_control);
+        $factory->expects($this->once())->method('viewControl')->willReturn($view_control);
 
         $ui = $this->getMockBuilder(UIServices::class)->disableOriginalConstructor()->getMock();
         $ui->method('factory')->willReturn($factory);
@@ -87,7 +86,7 @@ class PresentationHeaderTest extends TestCase
         ];
         $ctrl = $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->getMock();
         $ctrl
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('getLinkTargetByClass')
             ->willReturnCallback(
                 function ($class, $cmd) use (&$consecutive) {
@@ -102,7 +101,7 @@ class PresentationHeaderTest extends TestCase
         $language->method('txt')->willReturnCallback(static fn(string $name): string => $name);
 
         $container = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
-        $container->expects(self::once())->method('toolbar')->willReturn($toolbar);
+        $container->expects($this->once())->method('toolbar')->willReturn($toolbar);
         $container->method('ui')->willReturn($ui);
         $container->method('ctrl')->willReturn($ctrl);
         $container->method('language')->willReturn($language);

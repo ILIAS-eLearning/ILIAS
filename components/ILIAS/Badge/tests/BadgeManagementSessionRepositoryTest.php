@@ -18,9 +18,6 @@
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * @author Alexander Killing <killing@leifos.de>
- */
 class BadgeManagementSessionRepositoryTest extends TestCase
 {
     protected ilBadgeManagementSessionRepository $repo;

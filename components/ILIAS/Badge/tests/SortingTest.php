@@ -24,6 +24,8 @@ use ILIAS\Badge\Sorting;
 use ilBadge;
 use ilBadgeAssignment;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
 
 class SortingTest extends TestCase
 {
@@ -33,10 +35,8 @@ class SortingTest extends TestCase
         $this->assertInstanceOf(Sorting::class, $sort);
     }
 
-    /**
-     * @depends testConstruct
-     * @dataProvider sortProvider
-     */
+    #[DataProvider('sortProvider')]
+    #[Depends('testConstruct')]
     public function testSorting(array $input, string $key, string $label, string $what, string $method, array $equal, array $less, array $greater): void
     {
         $sort = new Sorting(...$input);
@@ -47,9 +47,7 @@ class SortingTest extends TestCase
         $this->assertEquals(1, $this->sign($sort->compare($this->pair($what, $method, $greater[0]), $this->pair($what, $method, $greater[1]))));
     }
 
-    /**
-     * @depends testConstruct
-     */
+    #[Depends('testConstruct')]
     public function testOptions(): void
     {
         $this->assertEquals([
@@ -65,8 +63,8 @@ class SortingTest extends TestCase
         return [
             'Default sort is title_asc' => [[], 'title_asc', 'sort_by_title_asc', 'badge', 'getTitle', ['A', 'a'], ['f', 'G'], ['d', 'c']],
             'Descending title' => [['title_desc'], 'title_desc', 'sort_by_title_desc', 'badge', 'getTitle', ['A', 'a'], ['d', 'c'], ['f', 'G']],
-            'Ascending date' => [['date_asc'], 'date_asc', 'sort_by_date_asc', 'assignment', 'getTimestamp', ['7', '7'], [8, 30], [20, 6]],
-            'Ascending date' => [['date_desc'], 'date_desc', 'sort_by_date_desc', 'assignment', 'getTimestamp', [7, 7], [20, 6], [8, 30]],
+            'Ascending date' => [['date_asc'], 'date_asc', 'sort_by_date_asc', 'assignment', 'getTimestamp', [7, 7], [8, 30], [20, 6]],
+            'Descending date' => [['date_desc'], 'date_desc', 'sort_by_date_desc', 'assignment', 'getTimestamp', [7, 7], [20, 6], [8, 30]],
             'Random input results in title_asc' => [['Lorem ipsum'], 'title_asc', 'sort_by_title_asc', 'badge', 'getTitle', ['A', 'a'], ['f', 'G'], ['d', 'c']]
         ];
     }

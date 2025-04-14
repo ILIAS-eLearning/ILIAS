@@ -34,7 +34,6 @@ use ILIAS\UI\Component\Item\Group;
 use ILIAS\UI\Component\Item\Standard as Item;
 use ILIAS\UI\Component\Listing\Factory as Listing;
 use ILIAS\UI\Factory as UI;
-use ILIAS\UI\Renderer;
 use PHPUnit\Framework\TestCase;
 use ilBadge;
 use ilLanguage;
