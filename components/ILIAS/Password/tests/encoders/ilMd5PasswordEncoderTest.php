@@ -18,11 +18,8 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMd5PasswordEncoderTest
- * @author  Michael Jansen <mjansen@databay.de>
- * @package ServicesPassword
- */
+use PHPUnit\Framework\Attributes\Depends;
+
 final class ilMd5PasswordEncoderTest extends ilPasswordBaseTestCase
 {
     public function testInstanceCanBeCreated(): ilMd5PasswordEncoder
@@ -32,44 +29,31 @@ final class ilMd5PasswordEncoderTest extends ilPasswordBaseTestCase
         return $encoder;
     }
 
-    /**
-     * @depends testInstanceCanBeCreated
-     * @throws ilPasswordException
-     */
+    #[Depends('testInstanceCanBeCreated')]
     public function testPasswordShouldBeCorrectlyEncoded(ilMd5PasswordEncoder $encoder): void
     {
         $this->assertSame(md5('password'), $encoder->encodePassword('password', ''));
     }
 
-    /**
-     * @depends testInstanceCanBeCreated
-     * @throws ilPasswordException
-     */
+    #[Depends('testInstanceCanBeCreated')]
     public function testPasswordCanBeVerified(ilMd5PasswordEncoder $encoder): void
     {
         $this->assertTrue($encoder->isPasswordValid(md5('password'), 'password', ''));
     }
 
-    /**
-     * @depends testInstanceCanBeCreated
-     */
+    #[Depends('testInstanceCanBeCreated')]
     public function testEncoderDoesNotRelyOnSalts(ilMd5PasswordEncoder $encoder): void
     {
         $this->assertFalse($encoder->requiresSalt());
     }
 
-    /**
-     * @depends testInstanceCanBeCreated
-     */
+    #[Depends('testInstanceCanBeCreated')]
     public function testEncoderDoesNotSupportReencoding(ilMd5PasswordEncoder $encoder): void
     {
         $this->assertFalse($encoder->requiresReencoding('hello'));
     }
 
-    /**
-     * @depends testInstanceCanBeCreated
-     * @throws ilPasswordException
-     */
+    #[Depends('testInstanceCanBeCreated')]
     public function testExceptionIsRaisedIfThePasswordExceedsTheSupportedLengthOnEncoding(
         ilMd5PasswordEncoder $encoder
     ): void {
@@ -77,19 +61,14 @@ final class ilMd5PasswordEncoderTest extends ilPasswordBaseTestCase
         $encoder->encodePassword(str_repeat('a', 5000), '');
     }
 
-    /**
-     * @depends testInstanceCanBeCreated
-     * @throws ilPasswordException
-     */
+    #[Depends('testInstanceCanBeCreated')]
     public function testPasswordVerificationShouldFailIfTheRawPasswordExceedsTheSupportedLength(
         ilMd5PasswordEncoder $encoder
     ): void {
         $this->assertFalse($encoder->isPasswordValid('encoded', str_repeat('a', 5000), ''));
     }
 
-    /**
-     * @depends testInstanceCanBeCreated
-     */
+    #[Depends('testInstanceCanBeCreated')]
     public function testNameShouldBeMd5(ilMd5PasswordEncoder $encoder): void
     {
         $this->assertSame('md5', $encoder->getName());

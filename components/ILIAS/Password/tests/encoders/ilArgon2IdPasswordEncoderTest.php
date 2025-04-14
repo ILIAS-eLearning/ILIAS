@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\Attributes\Depends;
+
 class ilArgon2IdPasswordEncoderTest extends ilPasswordBaseTestCase
 {
     private const PASSWORD = 'password';
@@ -35,9 +37,7 @@ class ilArgon2IdPasswordEncoderTest extends ilPasswordBaseTestCase
         return $encoder;
     }
 
-    /**
-     * @depends testInstanceCanBeCreated
-     */
+    #[Depends('testInstanceCanBeCreated')]
     public function testPasswordShouldBeCorrectlyEncodedAndVerified(
         ilArgon2idPasswordEncoder $encoder
     ): ilArgon2idPasswordEncoder {
@@ -47,9 +47,7 @@ class ilArgon2IdPasswordEncoderTest extends ilPasswordBaseTestCase
         return $encoder;
     }
 
-    /**
-     * @depends testInstanceCanBeCreated
-     */
+    #[Depends('testInstanceCanBeCreated')]
     public function testExceptionIsRaisedIfThePasswordExceedsTheSupportedLengthOnEncoding(
         ilArgon2idPasswordEncoder $encoder
     ): void {
@@ -57,34 +55,26 @@ class ilArgon2IdPasswordEncoderTest extends ilPasswordBaseTestCase
         $encoder->encodePassword(str_repeat('a', 5000), '');
     }
 
-    /**
-     * @depends testInstanceCanBeCreated
-     */
+    #[Depends('testInstanceCanBeCreated')]
     public function testPasswordVerificationShouldFailIfTheRawPasswordExceedsTheSupportedLength(
         ilArgon2idPasswordEncoder $encoder
     ): void {
         $this->assertFalse($encoder->isPasswordValid('encoded', str_repeat('a', 5000), ''));
     }
 
-    /**
-     * @depends testInstanceCanBeCreated
-     */
+    #[Depends('testInstanceCanBeCreated')]
     public function testNameShouldBeArgon2id(ilArgon2idPasswordEncoder $encoder): void
     {
         $this->assertSame('argon2id', $encoder->getName());
     }
 
-    /**
-     * @depends testInstanceCanBeCreated
-     */
+    #[Depends('testInstanceCanBeCreated')]
     public function testEncoderDoesNotRelyOnSalts(ilArgon2idPasswordEncoder $encoder): void
     {
         $this->assertFalse($encoder->requiresSalt());
     }
 
-    /**
-     * @depends testInstanceCanBeCreated
-     */
+    #[Depends('testInstanceCanBeCreated')]
     public function testReencodingIsDetectedWhenNecessary(ilArgon2idPasswordEncoder $encoder): void
     {
         $raw = self::PASSWORD;
