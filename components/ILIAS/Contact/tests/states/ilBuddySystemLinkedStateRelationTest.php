@@ -18,10 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilBuddySystemLinkedStateRelationTest
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilBuddySystemLinkedStateRelationTest extends ilBuddySystemBaseStateTestCase
 {
     public function getInitialState(): ilBuddySystemRelationState

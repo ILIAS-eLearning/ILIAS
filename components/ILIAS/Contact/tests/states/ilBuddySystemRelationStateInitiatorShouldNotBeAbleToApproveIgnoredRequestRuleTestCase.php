@@ -34,8 +34,8 @@ class ilBuddySystemRelationStateInitiatorShouldNotBeAbleToApproveIgnoredRequestR
     public function testMatches(): void
     {
         $relation = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
-        $relation->expects(self::once())->method('isIgnored')->willReturn(true);
-        $relation->expects(self::once())->method('isOwnedByActor')->willReturn(true);
+        $relation->expects($this->once())->method('isIgnored')->willReturn(true);
+        $relation->expects($this->once())->method('isOwnedByActor')->willReturn(true);
         $instance = new DontApprove($relation);
 
         $this->assertTrue($instance->matches());
@@ -44,8 +44,8 @@ class ilBuddySystemRelationStateInitiatorShouldNotBeAbleToApproveIgnoredRequestR
     public function testMatchesIgnored(): void
     {
         $relation = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
-        $relation->expects(self::once())->method('isIgnored')->willReturn(false);
-        $relation->expects(self::never())->method('isOwnedByActor');
+        $relation->expects($this->once())->method('isIgnored')->willReturn(false);
+        $relation->expects($this->never())->method('isOwnedByActor');
         $instance = new DontApprove($relation);
 
         $this->assertFalse($instance->matches());
@@ -54,8 +54,8 @@ class ilBuddySystemRelationStateInitiatorShouldNotBeAbleToApproveIgnoredRequestR
     public function testMatchesOwned(): void
     {
         $relation = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
-        $relation->expects(self::once())->method('isIgnored')->willReturn(true);
-        $relation->expects(self::once())->method('isOwnedByActor')->willReturn(false);
+        $relation->expects($this->once())->method('isIgnored')->willReturn(true);
+        $relation->expects($this->once())->method('isOwnedByActor')->willReturn(false);
         $instance = new DontApprove($relation);
 
         $this->assertFalse($instance->matches());

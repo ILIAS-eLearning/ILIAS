@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\DI\Container;
 use ilAwarenessUserProviderApprovedContacts as ApprovedContacts;
+use PHPUnit\Framework\Attributes\Depends;
 
 class ilAwarenessUserProviderApprovedContactsTestCase extends ilBuddySystemBaseTestCase
 {
@@ -28,8 +29,8 @@ class ilAwarenessUserProviderApprovedContactsTestCase extends ilBuddySystemBaseT
         $user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock();
         $language = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
         $container = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
-        $container->expects(self::once())->method('user')->willReturn($user);
-        $container->expects(self::once())->method('language')->willReturn($language);
+        $container->expects($this->once())->method('user')->willReturn($user);
+        $container->expects($this->once())->method('language')->willReturn($language);
 
         $instance = new ApprovedContacts($container);
 
@@ -38,9 +39,7 @@ class ilAwarenessUserProviderApprovedContactsTestCase extends ilBuddySystemBaseT
         return $instance;
     }
 
-    /**
-     * @depends testConstruct
-     */
+    #[Depends('testConstruct')]
     public function testGetProviderId(ApprovedContacts $instance): void
     {
         $this->assertSame('contact_requests', $instance->getProviderId());
@@ -59,20 +58,18 @@ class ilAwarenessUserProviderApprovedContactsTestCase extends ilBuddySystemBaseT
     public function testGetInitialUserSet(): void
     {
         $user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock();
-        $user->expects(self::once())->method('isAnonymous')->willReturn(true);
+        $user->expects($this->once())->method('isAnonymous')->willReturn(true);
         $language = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
         $container = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
-        $container->expects(self::once())->method('user')->willReturn($user);
-        $container->expects(self::once())->method('language')->willReturn($language);
+        $container->expects($this->once())->method('user')->willReturn($user);
+        $container->expects($this->once())->method('language')->willReturn($language);
 
         $instance = new ApprovedContacts($container);
 
         $this->assertEquals([], $instance->getInitialUserSet());
     }
 
-    /**
-     * @depends testConstruct
-     */
+    #[Depends('testConstruct')]
     public function testIsHighlighted(ApprovedContacts $instance): void
     {
         $this->assertFalse($instance->isHighlighted());
@@ -84,12 +81,12 @@ class ilAwarenessUserProviderApprovedContactsTestCase extends ilBuddySystemBaseT
         $user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock();
 
         $language = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
-        $language->expects(self::once())->method('loadLanguageModule')->with('contact');
-        $language->expects(self::once())->method('txt')->with($languageKey)->willReturn($expected);
+        $language->expects($this->once())->method('loadLanguageModule')->with('contact');
+        $language->expects($this->once())->method('txt')->with($languageKey)->willReturn($expected);
 
         $container = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
-        $container->expects(self::once())->method('user')->willReturn($user);
-        $container->expects(self::once())->method('language')->willReturn($language);
+        $container->expects($this->once())->method('user')->willReturn($user);
+        $container->expects($this->once())->method('language')->willReturn($language);
 
         $instance = new ApprovedContacts($container);
         $this->assertSame($expected, $instance->$method());

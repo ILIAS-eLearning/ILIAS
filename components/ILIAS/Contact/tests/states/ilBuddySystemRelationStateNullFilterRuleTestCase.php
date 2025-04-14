@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\Attributes\Depends;
+
 class ilBuddySystemRelationStateNullFilterRuleTestCase extends ilBuddySystemBaseTestCase
 {
     public function testConstruct(): ilBuddySystemRelationStateNullFilterRule
@@ -32,17 +34,13 @@ class ilBuddySystemRelationStateNullFilterRuleTestCase extends ilBuddySystemBase
         return $instance;
     }
 
-    /**
-     * @depends testConstruct
-     */
+    #[Depends('testConstruct')]
     public function testMatches(ilBuddySystemRelationStateNullFilterRule $instance): void
     {
         $this->assertTrue($instance->matches());
     }
 
-    /**
-     * @depends testConstruct
-     */
+    #[Depends('testConstruct')]
     public function testInvoke(ilBuddySystemRelationStateNullFilterRule $instance): void
     {
         $this->assertTrue($instance($this->getMockBuilder(ilBuddySystemRelationState::class)->disableOriginalConstructor()->getMock()));
@@ -57,12 +55,12 @@ class ilBuddySystemRelationStateNullFilterRuleTestCase extends ilBuddySystemBase
         $filtered = $this->getMockBuilder(ilBuddySystemRelationStateCollection::class)->disableOriginalConstructor()->getMock();
 
         $collection = $this->getMockBuilder(ilBuddySystemRelationStateCollection::class)->disableOriginalConstructor()->getMock();
-        $collection->expects(self::once())->method('filter')->with($instance)->willReturn($filtered);
+        $collection->expects($this->once())->method('filter')->with($instance)->willReturn($filtered);
 
         $state = $this->getMockBuilder(ilBuddySystemRelationState::class)->disableOriginalConstructor()->getMock();
-        $state->expects(self::once())->method('getPossibleTargetStates')->willReturn($collection);
+        $state->expects($this->once())->method('getPossibleTargetStates')->willReturn($collection);
 
-        $relation->expects(self::once())->method('getState')->willReturn($state);
+        $relation->expects($this->once())->method('getState')->willReturn($state);
 
         $this->assertEquals($filtered, $instance->getStates());
     }

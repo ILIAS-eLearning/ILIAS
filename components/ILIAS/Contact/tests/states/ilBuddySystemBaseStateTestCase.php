@@ -18,10 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilBuddySystemBaseStateTest
- * @author Michael Jansen <mjansen@databay.de>
- */
 abstract class ilBuddySystemBaseStateTestCase extends ilBuddySystemBaseTestCase
 {
     private const RELATION_OWNER_ID = -1;

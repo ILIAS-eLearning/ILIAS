@@ -34,8 +34,8 @@ class ilBuddySystemRelationStateInitiatorShouldOnlyBeAbleToCancelRequestRuleTest
     public function testMatches(): void
     {
         $relation = $this->mock(ilBuddySystemRelation::class);
-        $relation->expects(self::once())->method('isRequested')->willReturn(true);
-        $relation->expects(self::once())->method('isOwnedByActor')->willReturn(true);
+        $relation->expects($this->once())->method('isRequested')->willReturn(true);
+        $relation->expects($this->once())->method('isOwnedByActor')->willReturn(true);
         $instance = new Cancel($relation);
 
         $this->assertTrue($instance->matches());
@@ -44,8 +44,8 @@ class ilBuddySystemRelationStateInitiatorShouldOnlyBeAbleToCancelRequestRuleTest
     public function testMatchesRequested(): void
     {
         $relation = $this->mock(ilBuddySystemRelation::class);
-        $relation->expects(self::once())->method('isRequested')->willReturn(false);
-        $relation->expects(self::never())->method('isOwnedByActor');
+        $relation->expects($this->once())->method('isRequested')->willReturn(false);
+        $relation->expects($this->never())->method('isOwnedByActor');
         $instance = new Cancel($relation);
 
         $this->assertFalse($instance->matches());
@@ -54,8 +54,8 @@ class ilBuddySystemRelationStateInitiatorShouldOnlyBeAbleToCancelRequestRuleTest
     public function testMatchesOwned(): void
     {
         $relation = $this->mock(ilBuddySystemRelation::class);
-        $relation->expects(self::once())->method('isRequested')->willReturn(true);
-        $relation->expects(self::once())->method('isOwnedByActor')->willReturn(false);
+        $relation->expects($this->once())->method('isRequested')->willReturn(true);
+        $relation->expects($this->once())->method('isOwnedByActor')->willReturn(false);
         $instance = new Cancel($relation);
 
         $this->assertFalse($instance->matches());

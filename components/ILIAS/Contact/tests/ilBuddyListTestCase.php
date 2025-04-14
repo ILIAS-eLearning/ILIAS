@@ -18,10 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilBuddyListTest
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilBuddyListTestCase extends ilBuddySystemBaseTestCase
 {
     private const BUDDY_LIST_OWNER_ID = -1;
@@ -516,7 +512,6 @@ class ilBuddyListTestCase extends ilBuddySystemBaseTestCase
     ): void {
         $object = new ReflectionObject($relation);
         $property = $object->getProperty('priorState');
-        $property->setAccessible(true);
 
         $property->setValue($relation, $state);
     }

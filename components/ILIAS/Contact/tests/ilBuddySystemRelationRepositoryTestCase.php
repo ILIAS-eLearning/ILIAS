@@ -18,10 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilBuddySystemRelationRepositoryTest
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilBuddySystemRelationRepositoryTestCase extends ilBuddySystemBaseTestCase
 {
     public function testSqlRepositoryDelegatesDeletionToDatabaseAbstraction(): void

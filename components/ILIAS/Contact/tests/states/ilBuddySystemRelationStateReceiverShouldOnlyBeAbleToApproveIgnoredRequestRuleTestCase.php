@@ -34,8 +34,8 @@ class ilBuddySystemRelationStateReceiverShouldOnlyBeAbleToApproveIgnoredRequestR
     public function testMatches(): void
     {
         $relation = $this->mock(ilBuddySystemRelation::class);
-        $relation->expects(self::once())->method('isIgnored')->willReturn(true);
-        $relation->expects(self::once())->method('isOwnedByActor')->willReturn(false);
+        $relation->expects($this->once())->method('isIgnored')->willReturn(true);
+        $relation->expects($this->once())->method('isOwnedByActor')->willReturn(false);
         $instance = new Approve($relation);
 
         $this->assertTrue($instance->matches());
@@ -44,8 +44,8 @@ class ilBuddySystemRelationStateReceiverShouldOnlyBeAbleToApproveIgnoredRequestR
     public function testMatchesIgnored(): void
     {
         $relation = $this->mock(ilBuddySystemRelation::class);
-        $relation->expects(self::once())->method('isIgnored')->willReturn(false);
-        $relation->expects(self::never())->method('isOwnedByActor');
+        $relation->expects($this->once())->method('isIgnored')->willReturn(false);
+        $relation->expects($this->never())->method('isOwnedByActor');
         $instance = new Approve($relation);
 
         $this->assertFalse($instance->matches());
@@ -54,8 +54,8 @@ class ilBuddySystemRelationStateReceiverShouldOnlyBeAbleToApproveIgnoredRequestR
     public function testMatchesOwned(): void
     {
         $relation = $this->mock(ilBuddySystemRelation::class);
-        $relation->expects(self::once())->method('isIgnored')->willReturn(true);
-        $relation->expects(self::once())->method('isOwnedByActor')->willReturn(true);
+        $relation->expects($this->once())->method('isIgnored')->willReturn(true);
+        $relation->expects($this->once())->method('isOwnedByActor')->willReturn(true);
         $instance = new Approve($relation);
 
         $this->assertFalse($instance->matches());
