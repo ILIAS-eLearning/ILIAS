@@ -4528,6 +4528,7 @@ common#:#login_information_settings_saved#:#Die Informationen wurden erfolgreich
 common#:#login_invalid#:#Ihr Anmeldename muss mindestens drei Zeichen lang sein und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_to_ilias#:#Bei ILIAS anmelden
 common#:#login_to_ilias_via_cas#:#Bei ILIAS über zentrales Authentifizierungssystem anmelden
+common#:#login_to_ilias_via_login_form#:#Bei ILIAS anmelden
 common#:#login_to_ilias_via_saml#:#Bei ILIAS via SAML-Authentifizierung anmelden
 common#:#login_to_ilias_via_shibboleth#:#Bei ILIAS anmelden über
 common#:#loginname_already_exists#:#Dieser Anmeldename ist bereits vergeben. Bitte wählen Sie einen anderen Anmeldenamen.
