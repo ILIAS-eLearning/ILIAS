@@ -20,10 +20,8 @@ declare(strict_types=1);
 
 use ILIAS\Data\Clock\ClockInterface;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\Attributes\DataProvider;
 
-/**
- * @author Ingmar Szmais <iszmais@databay.de>
- */
 class ilMailOptionsTest extends ilMailBaseTestCase
 {
     protected stdClass $object;
@@ -122,9 +120,7 @@ class ilMailOptionsTest extends ilMailBaseTestCase
         $this->assertSame($this->object->absence_ar_body, $mailOptions->getAbsenceAutoresponderBody());
     }
 
-    /**
-     * @dataProvider provideMailOptionsData
-     */
+    #[DataProvider('provideMailOptionsData')]
     public function testIsAbsent(bool $absence_status, int $absent_from, int $absent_until, bool $result): void
     {
         $userId = 1;

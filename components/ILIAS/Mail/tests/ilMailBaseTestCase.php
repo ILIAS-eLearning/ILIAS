@@ -22,10 +22,6 @@ use ILIAS\DI\Container;
 use PHPUnit\Framework\TestCase;
 use ILIAS\LegalDocuments\Conductor;
 
-/**
- * Class ilMailBaseTest
- * @author Michael Jansen <mjansen@databay.de>
- */
 abstract class ilMailBaseTestCase extends TestCase
 {
     private ?Container $dic = null;

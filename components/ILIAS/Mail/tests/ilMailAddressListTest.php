@@ -18,10 +18,8 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailAddressListTest
- * @author Michael Jansen <mjansen@databay.de>
- */
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class ilMailAddressListTest extends ilMailBaseTestCase
 {
     public static function addressTestProvider(): array
@@ -53,9 +51,7 @@ class ilMailAddressListTest extends ilMailBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider addressTestProvider
-     */
+    #[DataProvider('addressTestProvider')]
     public function testDiffAddressListCanCalculateTheDifferenceOfTwoLists(
         array $leftAddresses,
         array $rightAddresses,
@@ -98,9 +94,7 @@ class ilMailAddressListTest extends ilMailBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider externalAddressTestProvider
-     */
+    #[DataProvider('externalAddressTestProvider')]
     public function testExternalAddressListDecoratorFiltersExternalAddresses(
         ilMailAddress $address,
         int $numberOfExpectedItems

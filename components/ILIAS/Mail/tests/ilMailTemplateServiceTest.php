@@ -18,15 +18,8 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailTemplateServiceTest
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilMailTemplateServiceTest extends ilMailBaseTestCase
 {
-    /**
-     * @throws ReflectionException
-     */
     public function testDefaultTemplateCanBeSetByContext(): void
     {
         $repo = $this->getMockBuilder(ilMailTemplateRepository::class)->disableOriginalConstructor()->getMock();
@@ -62,9 +55,6 @@ class ilMailTemplateServiceTest extends ilMailBaseTestCase
         $this->assertFalse($yetAnotherTemplate->isDefault());
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testDefaultTemplateForContextCanBeUnset(): void
     {
         $repo = $this->getMockBuilder(ilMailTemplateRepository::class)->disableOriginalConstructor()->getMock();

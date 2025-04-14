@@ -22,6 +22,7 @@ use PHPUnit\Framework\MockObject\MockBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
 use OrgUnit\PublicApi\OrgUnitUserService;
 use OrgUnit\User\ilOrgUnitUser;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class ilMailTemplateContextTest extends ilMailBaseTestCase
 {
@@ -66,7 +67,6 @@ class ilMailTemplateContextTest extends ilMailBaseTestCase
     /**
      * @param Closure(): MockBuilder<ilOrgUnitUser> $mock_builder
      * @return array<int, ilOrgUnitUser&MockObject>
-     * @throws ReflectionException
      */
     private function generateOrgUnitUsers(Closure $mock_builder, int $amount): array
     {
@@ -87,7 +87,6 @@ class ilMailTemplateContextTest extends ilMailBaseTestCase
 
     /**
      * @return array<string, array{0: callable, 1: callable}>
-     * @throws ReflectionException
      */
     public static function userProvider(): array
     {
@@ -132,7 +131,6 @@ class ilMailTemplateContextTest extends ilMailBaseTestCase
             /**
              * @param Closure(): MockBuilder<ilOrgUnitUser> $mock_builder
              * @return array{0: ilOrgUnitUser&MockObject, 1: list<ilOrgUnitUser&MockObject>}
-             * @throws ReflectionException
              */
             $ou_user_callable = function (Closure $mock_builder) use ($definition): array {
                 $ou_user = $mock_builder()
@@ -157,11 +155,10 @@ class ilMailTemplateContextTest extends ilMailBaseTestCase
     }
 
     /**
-     * @dataProvider userProvider
      * @param callable(Closure(): MockBuilder<ilObjUser>): ilObjUser                                           $user_callable
      * @param callable(Closure(): MockBuilder<ilOrgUnitUser>): array{0: ilOrgUnitUser, 1: list<ilOrgUnitUser>} $ou_user_callable
-     * @throws ReflectionException
      */
+    #[DataProvider('userProvider')]
     public function testGlobalPlaceholdersCanBeResolvedWithCorrespondingValues(
         callable $user_callable,
         callable $ou_user_callable
@@ -202,7 +199,7 @@ class ilMailTemplateContextTest extends ilMailBaseTestCase
                             ->getMock();
 
         $ou_service->expects($this->atLeastOnce())->method('getUsers')->willReturn([$ou_user,]);
-        $lng->expects($this->atLeastOnce())->method('txt')->will($this->returnArgument(0));
+        $lng->expects($this->atLeastOnce())->method('txt')->willReturnArgument(0);
         $env_helper->expects($this->atLeastOnce())->method('getClientId')->willReturn('###phpunit_client###');
         $env_helper->expects($this->atLeastOnce())->method('getHttpPath')->willReturn('###http_ilias###');
         $lng_helper->expects($this->atLeastOnce())->method('getLanguageByIsoCode')->willReturn($lng);

@@ -18,11 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilGroupNameAsMailValidatorTest
- * @author Niels Theen <ntheen@databay.de>
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilGroupNameAsMailValidatorTest extends ilMailBaseTestCase
 {
     public function testGroupIsDetectedIfGroupNameExists(): void

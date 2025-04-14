@@ -18,10 +18,8 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailAddressParserTest
- * @author Michael Jansen <mjansen@databay.de>
- */
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class ilMailAddressParserTest extends ilMailBaseTestCase
 {
     private const DEFAULT_HOST = 'ilias';
@@ -121,9 +119,7 @@ class ilMailAddressParserTest extends ilMailBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider emailAddressesProvider
-     */
+    #[DataProvider('emailAddressesProvider')]
     public function testBuiltInAddressParser(string $addresses, array $expected): void
     {
         if (!function_exists('imap_rfc822_parse_adrlist')) {
@@ -137,9 +133,7 @@ class ilMailAddressParserTest extends ilMailBaseTestCase
         $this->assertEquals($expected, $parsedAddresses);
     }
 
-    /**
-     * @dataProvider emailAddressesProvider
-     */
+    #[DataProvider('emailAddressesProvider')]
     public function testPearAddressParser(string $addresses, array $expected): void
     {
         $parser = new ilMailPearRfc822WrapperAddressParser($addresses);
@@ -157,9 +151,7 @@ class ilMailAddressParserTest extends ilMailBaseTestCase
         $this->assertCount(0, $parsedAddresses);
     }
 
-    /**
-     * @dataProvider emailInvalidAddressesProvider
-     */
+    #[DataProvider('emailInvalidAddressesProvider')]
     public function testExceptionShouldBeRaisedIfEmailCannotBeParsedWithPearAddressParser(string $addresses): void
     {
         $this->expectException(ilMailException::class);
@@ -168,9 +160,6 @@ class ilMailAddressParserTest extends ilMailBaseTestCase
         $parser->parse();
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testWrappingParserDelegatesParsingToAggregatedParser(): void
     {
         $wrappedParser = $this->getMockBuilder(ilBaseMailRfc822AddressParser::class)

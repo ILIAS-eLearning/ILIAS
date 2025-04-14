@@ -18,9 +18,8 @@
 
 declare(strict_types=1);
 
-/**
- * @author Michael Jansen <mjansen@databay.de>
- */
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class ilMailMimeSubjectBuilderTest extends ilMailBaseTestCase
 {
     private const DEFAULT_PREFIX = 'docu default';
@@ -67,9 +66,7 @@ class ilMailMimeSubjectBuilderTest extends ilMailBaseTestCase
         $this->assertSame($subject, $subjectBuilder->subject($subject, false, 'Course'));
     }
 
-    /**
-     * @dataProvider globalSubjectPrefixOnlyProvider
-     */
+    #[DataProvider('globalSubjectPrefixOnlyProvider')]
     public function testGlobalPrefixMustBePrependedWhenDefinedAndPrefixShouldBeAppended(
         string $globalPrefix,
         string $expectedSubject
@@ -98,9 +95,7 @@ class ilMailMimeSubjectBuilderTest extends ilMailBaseTestCase
         $this->assertSame($expectedSubject, $subjectBuilder->subject($subject, true));
     }
 
-    /**
-     * @dataProvider subjectPrefixesProvider
-     */
+    #[DataProvider('subjectPrefixesProvider')]
     public function testContextPrefixMustBePrependedWhenGivenAndPrefixShouldBeAppended(
         ?string $globalPrefix,
         string $contextPrefix,

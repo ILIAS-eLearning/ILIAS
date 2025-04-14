@@ -25,11 +25,8 @@ use ILIAS\LegalDocuments\Conductor;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Data\Result\Ok;
 use ILIAS\Mail\Service\MailSignatureService;
+use PHPUnit\Framework\Attributes\DataProvider;
 
-/**
- * Class ilMailMimeTest
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilMailTest extends ilMailBaseTestCase
 {
     private MockObject&ilDBInterface $mock_database;
@@ -38,9 +35,6 @@ class ilMailTest extends ilMailBaseTestCase
     private MockObject&ilMailRfc822AddressParserFactory $mock_parser_factory;
     private MockObject&ilLanguage $mock_language;
 
-    /**
-     * @throws ReflectionException
-     */
     public function testExternalMailDeliveryToLocalRecipientsWorksAsExpected(): void
     {
         $refineryMock = $this->getMockBuilder(Factory::class)->disableOriginalConstructor()->getMock();
@@ -236,9 +230,7 @@ class ilMailTest extends ilMailBaseTestCase
         $this->assertSame('', $instance->formatNamesForOutput(','));
     }
 
-    /**
-     * @dataProvider provideGetPreviousMail
-     */
+    #[DataProvider('provideGetPreviousMail')]
     public function testGetPreviousMail(array $rowData): void
     {
         $mailId = 3454;

@@ -18,15 +18,8 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailTransportSettingsTest
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilMailTransportSettingsTest extends ilMailBaseTestCase
 {
-    /**
-     * @throws ReflectionException
-     */
     public function testSystemAsIncomingTypeWontUpdate(): void
     {
         $mailOptions = $this->getMockBuilder(ilMailOptions::class)
@@ -44,9 +37,6 @@ class ilMailTransportSettingsTest extends ilMailBaseTestCase
         $this->assertSame(3, $mailOptions->getEmailAddressMode());
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testOnlyFirstMailWillResultInUpdateProcess(): void
     {
         $mailOptions = $this->getMockBuilder(ilMailOptions::class)
@@ -64,9 +54,6 @@ class ilMailTransportSettingsTest extends ilMailBaseTestCase
         $this->assertSame(3, $mailOptions->getEmailAddressMode());
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testOnlySecondMailWillResultInUpdateProcess(): void
     {
         $mailOptions = $this->getMockBuilder(ilMailOptions::class)
@@ -84,9 +71,6 @@ class ilMailTransportSettingsTest extends ilMailBaseTestCase
         $this->assertSame(4, $mailOptions->getEmailAddressMode());
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testNoMailWillResultInUpdateProcess(): void
     {
         $mailOptions = $this->getMockBuilder(ilMailOptions::class)
@@ -104,9 +88,6 @@ class ilMailTransportSettingsTest extends ilMailBaseTestCase
         $this->assertSame(0, $mailOptions->getIncomingType());
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testNothingWillBeAdjusted(): void
     {
         $mailOptions = $this->getMockBuilder(ilMailOptions::class)

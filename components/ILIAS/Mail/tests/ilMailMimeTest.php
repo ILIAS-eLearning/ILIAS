@@ -20,10 +20,6 @@ declare(strict_types=1);
 
 use ILIAS\Refinery\Factory;
 
-/**
- * Class ilMailMimeTest
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilMailMimeTest extends ilMailBaseTestCase
 {
     private const USER_ID = 6;
@@ -36,9 +32,6 @@ class ilMailMimeTest extends ilMailBaseTestCase
         parent::setUp();
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testMimMailDelegatesEmailDeliveryToThePassedTransporter(): void
     {
         $defaultTransport = $this->getMockBuilder(ilMailMimeTransport::class)->disableOriginalConstructor()->getMock();
@@ -64,9 +57,6 @@ class ilMailMimeTest extends ilMailBaseTestCase
         $mail->Send($transport);
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testMimMailDelegatesEmailDeliveryToDefaultTransport(): void
     {
         $defaultTransport = $this->getMockBuilder(ilMailMimeTransport::class)->getMock();
@@ -89,9 +79,6 @@ class ilMailMimeTest extends ilMailBaseTestCase
         $mail->Send();
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testTransportFactoryWillReturnNullTransportIfExternalEmailDeliveryIsDisabled(): void
     {
         $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods([
@@ -111,9 +98,6 @@ class ilMailMimeTest extends ilMailBaseTestCase
         $this->assertInstanceOf(ilMailMimeTransportNull::class, $factory->getTransport());
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testTransportFactoryWillReturnSmtpTransportIfEnabled(): void
     {
         $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods([
@@ -133,9 +117,6 @@ class ilMailMimeTest extends ilMailBaseTestCase
         $this->assertInstanceOf(ilMailMimeTransportSmtp::class, $factory->getTransport());
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testTransportFactoryWillReturnSendmailTransportIfSmtpTransportIsDisabled(): void
     {
         $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods([
@@ -165,9 +146,6 @@ class ilMailMimeTest extends ilMailBaseTestCase
         $this->assertInstanceOf(ilMailMimeTransportSendmail::class, $factory->getTransport());
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testFactoryWillReturnSystemSenderForAnonymousUserId(): void
     {
         $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods([
@@ -180,9 +158,6 @@ class ilMailMimeTest extends ilMailBaseTestCase
         $this->assertInstanceOf(ilMailMimeSenderSystem::class, $factory->getSenderByUsrId(ANONYMOUS_USER_ID));
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testFactoryWillReturnSystemSenderWhenExplicitlyRequested(): void
     {
         $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods([
@@ -195,9 +170,6 @@ class ilMailMimeTest extends ilMailBaseTestCase
         $this->assertInstanceOf(ilMailMimeSenderSystem::class, $factory->system());
     }
 
-    /**
-     * @throws ReflectionException
-     */
     protected function getUserById(int $usrId): ilObjUser
     {
         $user = $this->getMockBuilder(ilObjUser::class)
@@ -209,9 +181,6 @@ class ilMailMimeTest extends ilMailBaseTestCase
         return $user;
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testFactoryWillReturnUserSenderForExistingUserId(): void
     {
         $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods([
@@ -224,9 +193,6 @@ class ilMailMimeTest extends ilMailBaseTestCase
         $this->assertInstanceOf(ilMailMimeSenderUser::class, $factory->getSenderByUsrId(self::USER_ID));
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testFactoryWillReturnUserSenderWhenExplicitlyRequested(): void
     {
         $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods([

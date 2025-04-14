@@ -22,10 +22,6 @@ use ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager;
 use ILIAS\BackgroundTasks\Task\TaskFactory;
 use ILIAS\DI\Container;
 
-/**
- * Class ilMailTaskProcessorTest
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilMailTaskProcessorTest extends ilMailBaseTestCase
 {
     private ilLanguage $languageMock;
@@ -33,9 +29,6 @@ class ilMailTaskProcessorTest extends ilMailBaseTestCase
     private ilLogger $loggerMock;
     protected const SOME_USER_ID = 113;
 
-    /**
-     * @throws ReflectionException
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -68,10 +61,6 @@ class ilMailTaskProcessorTest extends ilMailBaseTestCase
         );
     }
 
-    /**
-     * @throws ilMailException
-     * @throws ReflectionException
-     */
     public function testOneTask(): void
     {
         $taskManager = $this->getMockBuilder(BasicTaskManager::class)
@@ -137,10 +126,6 @@ class ilMailTaskProcessorTest extends ilMailBaseTestCase
         );
     }
 
-    /**
-     * @throws ilMailException
-     * @throws ReflectionException
-     */
     public function testRunTwoTasks(): void
     {
         $taskManager = $this->getMockBuilder(BasicTaskManager::class)
@@ -214,10 +199,6 @@ class ilMailTaskProcessorTest extends ilMailBaseTestCase
         );
     }
 
-    /**
-     * @throws ilMailException
-     * @throws ReflectionException
-     */
     public function testRunThreeTasksInDifferentBuckets(): void
     {
         $taskManager = $this->getMockBuilder(BasicTaskManager::class)
@@ -302,10 +283,6 @@ class ilMailTaskProcessorTest extends ilMailBaseTestCase
         );
     }
 
-    /**
-     * @throws ReflectionException
-     * @throws ilMailException
-     */
     public function testRunHasWrongTypeAndWillResultInException(): void
     {
         $this->expectException(ilMailException::class);

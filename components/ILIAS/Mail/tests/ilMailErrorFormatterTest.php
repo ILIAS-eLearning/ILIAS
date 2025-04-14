@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class ilMailErrorFormatterTest extends ilMailBaseTestCase
 {
     private ilMailErrorFormatter $errorFormatter;
@@ -69,9 +71,9 @@ class ilMailErrorFormatterTest extends ilMailBaseTestCase
     }
 
     /**
-     * @dataProvider errorCollectionProvider
      * @param ilMailError[] $errors
      */
+    #[DataProvider('errorCollectionProvider')]
     public function testErrorFormatter(array $errors, string $expectedHtml): void
     {
         $this->assertSame($expectedHtml, $this->brutallyTrimHTML($this->errorFormatter->format($errors)));

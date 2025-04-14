@@ -18,12 +18,6 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\MockObject\MockObject;
-
-/**
- * Class ilMailAddressTypesTest
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilMailAddressTypesTest extends ilMailBaseTestCase
 {
     protected function setUp(): void
@@ -32,9 +26,6 @@ class ilMailAddressTypesTest extends ilMailBaseTestCase
         ilMailCachedAddressType::clearCache();
     }
 
-    /**
-     * @return ilGroupNameAsMailValidator&MockObject
-     */
     private function createGroupNameAsValidatorMock(): ilGroupNameAsMailValidator
     {
         return $this->getMockBuilder(ilGroupNameAsMailValidator::class)

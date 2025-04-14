@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class ilMailBodyPurifierTest extends ilMailBaseTestCase
 {
     public static function bodyProvider(): array
@@ -34,9 +36,7 @@ class ilMailBodyPurifierTest extends ilMailBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider bodyProvider
-     */
+    #[DataProvider('bodyProvider')]
     public function testMailBodyPurifier(string $body, string $expectedBody): void
     {
         $purifier = new ilMailBodyPurifier();

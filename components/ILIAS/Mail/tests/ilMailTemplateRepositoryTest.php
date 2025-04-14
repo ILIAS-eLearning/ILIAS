@@ -18,15 +18,10 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailTemplateRepository
- * @author Michael Jansen <mjansen@databay.de>
- */
+use PHPUnit\Framework\Attributes\Depends;
+
 class ilMailTemplateRepositoryTest extends ilMailBaseTestCase
 {
-    /**
-     * @throws ReflectionException
-     */
     public function testEntityCanBeSaved(): ilMailTemplate
     {
         $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
@@ -53,10 +48,7 @@ class ilMailTemplateRepositoryTest extends ilMailBaseTestCase
         return $template;
     }
 
-    /**
-     * @depends testEntityCanBeSaved
-     * @throws ReflectionException
-     */
+    #[Depends('testEntityCanBeSaved')]
     public function testEntityCanBeModified(ilMailTemplate $template): ilMailTemplate
     {
         $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
@@ -70,10 +62,7 @@ class ilMailTemplateRepositoryTest extends ilMailBaseTestCase
         return $template;
     }
 
-    /**
-     * @depends testEntityCanBeModified
-     * @throws ReflectionException
-     */
+    #[Depends('testEntityCanBeModified')]
     public function testEntityCanBeDeleted(ilMailTemplate $template): void
     {
         $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
@@ -85,9 +74,6 @@ class ilMailTemplateRepositoryTest extends ilMailBaseTestCase
         $repository->deleteByIds([$template->getTplId()]);
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testTemplateCanBeFoundById(): void
     {
         $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
@@ -108,9 +94,6 @@ class ilMailTemplateRepositoryTest extends ilMailBaseTestCase
         $this->assertSame($templateId, $template->getTplId());
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testExceptionIsRaisedIfNoTemplateCanBeFoundById(): void
     {
         $this->expectException(OutOfBoundsException::class);

@@ -18,10 +18,8 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailAddressTest
- * @author Michael Jansen <mjansen@databay.de>
- */
+use PHPUnit\Framework\Attributes\Depends;
+
 class ilMailAddressTest extends ilMailBaseTestCase
 {
     private const LOCAL_PART = 'phpunit';
@@ -36,9 +34,7 @@ class ilMailAddressTest extends ilMailBaseTestCase
         return $address;
     }
 
-    /**
-     * @depends testInstanceCanBeCreated
-     */
+    #[Depends('testInstanceCanBeCreated')]
     public function testAddressShouldReturnMailboxAndHost(ilMailAddress $address): void
     {
         $this->assertSame(self::LOCAL_PART, $address->getMailbox());

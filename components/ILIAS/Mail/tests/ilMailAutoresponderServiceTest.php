@@ -23,15 +23,14 @@ use ILIAS\Mail\Autoresponder\AutoresponderServiceImpl;
 use ILIAS\Mail\Autoresponder\AutoresponderDto;
 use ILIAS\Mail\Autoresponder\AutoresponderRepository;
 use ILIAS\Data\Clock\ClockInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class ilMailAutoresponderServiceTest extends ilMailBaseTestCase
 {
     private const MAIL_SENDER_USER_ID = 4711;
     private const MAIL_RECEIVER_USER_ID = 4712;
 
-    /**
-     * @dataProvider autoresponderProvider
-     */
+    #[DataProvider('autoresponderProvider')]
     public function testAutoresponderDeliveryWillBeHandledCorrectlyDependingOnLastSentTime(
         ?DateTimeImmutable $last_auto_responder_time,
         DateTimeImmutable $faked_now,
