@@ -25,10 +25,8 @@ use PHPUnit\Framework\MockObject\Builder\InvocationMocker;
 
 class ilForumTopicTest extends TestCase
 {
-    /** @var MockObject&ilDBInterface */
-    private $mockDatabase;
-    /** @var MockObject&ilObjUser */
-    private $mockUser;
+    private MockObject&ilDBInterface $mockDatabase;
+    private MockObject&ilObjUser $mockUser;
     private ?Container $dic = null;
 
     public function testConstruct(): void

@@ -19,11 +19,8 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
-/**
- * Class ForumNotificationCacheTest
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ForumNotificationCacheTest extends TestCase
 {
     public function testExceptionIsRaisedWhenTryingToRetrieveItemNotCachedYet(): void
@@ -52,11 +49,8 @@ class ForumNotificationCacheTest extends TestCase
         ];
     }
 
-    /**
-     * @param mixed $nonScalarValue
-     * @dataProvider nonScalarValuesProvider
-     */
-    public function testExceptionIsRaisedWhenKeyShouldBeBuiltWithNonScalarValues($nonScalarValue): void
+    #[DataProvider('nonScalarValuesProvider')]
+    public function testExceptionIsRaisedWhenKeyShouldBeBuiltWithNonScalarValues(mixed $nonScalarValue): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -77,8 +71,8 @@ class ForumNotificationCacheTest extends TestCase
 
     /**
      * @param scalar|null $scalarValue
-     * @dataProvider scalarValuesAndNullProvider
      */
+    #[DataProvider('scalarValuesAndNullProvider')]
     public function testCacheKeyCouldBeGeneratedByArray($scalarValue): void
     {
         $cache = new ilForumNotificationCache();
