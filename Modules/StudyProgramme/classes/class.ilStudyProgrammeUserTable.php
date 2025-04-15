@@ -64,30 +64,20 @@ class ilStudyProgrammeUserTable
         'pgs_id' => 'prgrs_id'
     ];
 
-    protected ilDBInterface $db;
-    protected ilExportFieldsInfo $export_fields_info;
-    protected ilLanguage $lng;
-    protected ilPRGPermissionsHelper $permissions;
     protected array $user_ids_viewer_may_read_learning_progress_of;
-    protected ilPRGAssignmentDBRepository $assignment_repo;
 
     public function __construct(
-        ilDBInterface $db,
-        ilExportFieldsInfo $export_fields_info,
-        ilPRGAssignmentDBRepository $assignment_repo,
-        ilLanguage $lng,
-        ilPRGPermissionsHelper $permissions
+        protected ilDBInterface $db,
+        protected ilExportFieldsInfo $export_fields_info,
+        protected ilPRGAssignmentDBRepository $assignment_repo,
+        protected ilLanguage $lng,
+        protected ilPRGPermissionsHelper $permissions,
+        protected ilCertificateDownloadValidator $cert_validator
     ) {
-        $this->db = $db;
-        $this->export_fields_info = $export_fields_info;
-        $this->assignment_repo = $assignment_repo;
-        $this->lng = $lng;
-        $this->permissions = $permissions;
+        $this->lng->loadLanguageModule("prg");
         $this->user_ids_viewer_may_read_learning_progress_of = $this->permissions->getUserIdsSusceptibleTo(
             ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS
         );
-
-        $this->lng->loadLanguageModule("prg");
     }
 
     protected function getUserDataColumns(int $prg_id): array
@@ -107,11 +97,15 @@ class ilStudyProgrammeUserTable
             $k[1] = $this->lng->txt($k[1]);
             $cols[$k[0]] = $k;
         }
+
         return $cols;
     }
 
-    public function getColumns(int $prg_id, bool $add_active_column = false): array
-    {
+    public function getColumns(
+        int $prg_id,
+        bool $add_active_column = false,
+        bool $add_cert_column = false
+    ): array {
         $prg_cols = $this->getPrgColumns();
         $prg_cols_pre = array_slice($prg_cols, 0, 2);
         $prg_cols_post = array_slice($prg_cols, 2);
@@ -124,6 +118,9 @@ class ilStudyProgrammeUserTable
 
         if ($add_active_column) {
             $columns["active"] = ["active", $this->lng->txt("active"), true, true, true];
+        }
+        if ($add_cert_column) {
+            $columns["cert_relevance"] = ["cert_relevance", $this->lng->txt("cert_relevance"), true, true, true];
         }
         return $columns;
     }
@@ -151,7 +148,18 @@ class ilStudyProgrammeUserTable
             $valid_user_ids,
             $custom_filters
         );
-        $rows = array_map(fn($ass) => $this->toRow($ass, $prg_id), $data);
+
+        $root_assignemnts = array_filter(
+            $data,
+            fn($ass) => $ass->getRootId() === $prg_id
+        );
+        $root_usr_ids = array_map(fn($r) => $r->getUserid(), $root_assignemnts);
+        $cert_ass_ids = $this->assignment_repo->getCertificateRelevantAssignmentIds(
+            $prg_id,
+            ...$root_usr_ids
+        );
+
+        $rows = array_map(fn($ass) => $this->toRow($ass, $prg_id, $cert_ass_ids), $data);
         $rows = $this->postOrder($rows, $order);
         if ($limit) {
             $offset = $offset ?? 0;
@@ -163,7 +171,7 @@ class ilStudyProgrammeUserTable
     public function fetchSingleUserRootAssignments(int $usr_id): array
     {
         $data = $this->assignment_repo->getForUser($usr_id);
-        $row = array_map(fn($ass) => $this->toRow($ass, $ass->getRootId()), $data);
+        $row = array_map(fn($ass) => $this->toRow($ass, $ass->getRootId(), []), $data);
         return $row;
     }
 
@@ -180,7 +188,7 @@ class ilStudyProgrammeUserTable
             || in_array($usr_id, $this->user_ids_viewer_may_read_learning_progress_of);
     }
 
-    protected function toRow(ilPRGAssignment $ass, int $node_id): ilStudyProgrammeUserTableRow
+    protected function toRow(ilPRGAssignment $ass, int $node_id, array $cert_ass_ids): ilStudyProgrammeUserTableRow
     {
         $pgs = $ass->getProgressForNode($node_id);
         $row = new ilStudyProgrammeUserTableRow(
@@ -198,6 +206,8 @@ class ilStudyProgrammeUserTable
         if ($prg_node->getLPMode() === ilStudyProgrammeSettings::MODE_LP_COMPLETED) {
             $points_reachable = (string) $pgs->getAmountOfPoints();
         }
+
+        $prg_lifecycle_status = $prg_node->getStatus();
 
         $row = $row
             ->withUserActiveRaw($ass->getUserInformation()->isActive())
@@ -238,6 +248,11 @@ class ilStudyProgrammeUserTable
             )
             ->withValidity($show_lp ? $this->validToRepresent($pgs) : '')
             ->withRestartDate($ass->getRestartDate() ? $ass->getRestartDate()->format($this->getUserDateFormat()) : '')
+            ->withNodeLifecycleStatus($prg_lifecycle_status)
+            ->withCertificateRelevance(
+                in_array($ass->getId(), $cert_ass_ids)
+                && $this->cert_validator->isCertificateDownloadable($ass->getUserId(), $ass->getRootId())
+            )
         ;
         return $row;
     }
@@ -377,6 +392,10 @@ class ilStudyProgrammeUserTable
             if (is_numeric($a[$aspect])) {
                 return $a[$aspect] <=> $b[$aspect];
             }
+            if (is_bool($a[$aspect])) {
+                return (int) $a[$aspect] <=> (int) $b[$aspect];
+            }
+
             return strcmp($a[$aspect], $b[$aspect]);
         });
 

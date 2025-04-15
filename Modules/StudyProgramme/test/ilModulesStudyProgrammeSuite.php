@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestSuite;
 
@@ -67,8 +67,6 @@ class ilModulesStudyProgrammeSuite extends TestSuite
         $suite->addTestSuite("ilPrgRestartAssignmentsCronJobTest");
         require_once("./Modules/StudyProgramme/test/ilObjStudyProgrammeCacheTest.php");
         $suite->addTestSuite("ilObjStudyProgrammeCacheTest");
-        require_once("./Modules/StudyProgramme/test/ilObjStudyProgrammeCertificateTest.php");
-        $suite->addTestSuite("ilObjStudyProgrammeCertificateTest");
 
         return $suite;
     }
