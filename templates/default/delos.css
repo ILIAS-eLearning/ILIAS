@@ -5924,9 +5924,9 @@ a[aria-disabled].il-link.link-bulky:hover {
 .il-maincontrols-slate-content li.il-workflow-step {
   padding: 0 4px;
 }
-.il-maincontrols-slate-content .il-slate-content > .c-form,
-.il-maincontrols-slate-content .il-slate-content > #copg-editor-slate-content > .c-form {
-  padding: 9px 9px;
+.il-maincontrols-slate-content > .c-form,
+.il-maincontrols-slate-content > #copg-editor-slate-content > .c-form {
+  padding: 9px 15px;
 }
 
 .il-maincontrols-slate-close button,
