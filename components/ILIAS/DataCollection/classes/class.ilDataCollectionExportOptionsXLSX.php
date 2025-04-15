@@ -81,7 +81,7 @@ class ilDataCollectionExportOptionsXLSX extends ilBasicLegacyExportOption
     public function onExportOptionSelected(
         ilExportHandlerConsumerContextInterface $context
     ): void {
-        if (!$this->checkForExportableFields($context)) {
+        if (!$this->checkForExportableFields($context) || !$this->checkForAsyncEnabled($context)) {
             return;
         }
         $this->ctrl->redirectByClass(ilObjDataCollectionGUI::class, "handleExportAsync");
@@ -154,6 +154,20 @@ class ilDataCollectionExportOptionsXLSX extends ilBasicLegacyExportOption
         }
 
         $this->tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_no_export_data_available'), true);
+        $this->ctrl->redirect($context->exportGUIObject(), "listExportFiles");
+
+        return false;
+    }
+
+    protected function checkForAsyncEnabled(
+        ilExportHandlerConsumerContextInterface $context
+    ): bool {
+        global $DIC;
+        if ($DIC->settings()->get('soap_user_administration', '0') === '1') {
+            return true;
+        }
+
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_no_export_async_config'), true);
         $this->ctrl->redirect($context->exportGUIObject(), "listExportFiles");
 
         return false;

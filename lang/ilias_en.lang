@@ -8727,9 +8727,8 @@ dcl#:#dcl_next_record#:#Next Entry
 dcl#:#dcl_no_content_warning#:#Attention, the Data Collection is online but does not have content yet!
 dcl#:#dcl_no_entries#:#No entries
 dcl#:#dcl_no_entry#:#No entry
-dcl#:#dcl_no_export_content_available#:#No data available for export.
+dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.
 dcl#:#dcl_no_export_data_available#:#No data or fields available for export.
-dcl#:#dcl_no_export_fields_available#:#No fields activated for export. Mark at least one field as exportable in the <a href="%s">table settings</a>.
 dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.
 dcl#:#dcl_no_read_access_on_any_standard_view#:#You don't have read access on any standard view of a table.
 dcl#:#dcl_no_search_results_found_for#:#No modules have been found for
@@ -8859,7 +8858,7 @@ dcl#:#dcl_width_desc#:#The file will be resized to the given width.
 dcl#:#dcl_wrong_input_type#:#The value you entered does not match the specification (Wrong Type).
 dcl#:#dcl_wrong_length#:#The text you entered is to long.
 dcl#:#dcl_wrong_regex#:#The text you entered does not match the specification for this field (Regular Expression).
-dcl#:#dcl_xls_async_export#:#Asynchronous XLSX-Export
+dcl#:#dcl_xls_async_export#:#as XLSX (asynchronous)
 dcl#:#disable_comments#:#Disable comments
 dcl#:#disable_visible#:#Disable visible
 dcl#:#enable_comments#:#Enable comments

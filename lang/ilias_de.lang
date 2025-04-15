@@ -8726,9 +8726,8 @@ dcl#:#dcl_next_record#:#Nächster Eintrag
 dcl#:#dcl_no_content_warning#:#Achtung: die Datensammlung ist bereits online, hat aber noch keinen Felder
 dcl#:#dcl_no_entries#:#Keine Einträge
 dcl#:#dcl_no_entry#:#Kein Eintrag
-dcl#:#dcl_no_export_content_available#:#Keine Daten für den Export verfügbar.
+dcl#:#dcl_no_export_async_config#:#Keine SOAP Konfiguration für asyncrone Exporte verfügbar.
 dcl#:#dcl_no_export_data_available#:#Keine Daten oder Felder für den Export verfügbar.
-dcl#:#dcl_no_export_fields_available#:#Keine Felder für den Export aktiviert. Markieren Sie mindestens ein Feld als „Exportierbar“ in den <a href=„%s“>Tabelleneinstellungen</a>.
 dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstellt. Daher können noch keine Einträge eingefügt werden. Klicken Sie im Reiter "Tabellen" auf eine Tabelle und erstellen Sie mithilfe des Buttons "Feld hinzufügen" neue Felder.
 dcl#:#dcl_no_read_access_on_any_standard_view#:#Sie haben auf keine Standard-Tabellenansicht Lesezugriff.
 dcl#:#dcl_no_search_results_found_for#:#Es wurden keine Module gefunden mit:
@@ -8858,7 +8857,7 @@ dcl#:#dcl_width_desc#:#Die Datei wird beim Upload auf diese Größe verkleinert.
 dcl#:#dcl_wrong_input_type#:#Der eingegebene Text passt nicht zum Typ dieses Feldes (falscher Typ).
 dcl#:#dcl_wrong_length#:#Der eingegebene Text ist zu lang.
 dcl#:#dcl_wrong_regex#:#Der eingegebene Text passt nicht zur Spezifikation dieses Feldes (regulärer Ausdruck).
-dcl#:#dcl_xls_async_export#:#Asynchroner XLSX-Export
+dcl#:#dcl_xls_async_export#:#als XLSX (asynchron)
 dcl#:#disable_comments#:#Kommentare deaktivieren
 dcl#:#disable_visible#:#Sichtbarkeit deaktivieren
 dcl#:#enable_comments#:#Kommentare aktivieren
