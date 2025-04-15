@@ -52,9 +52,7 @@ class ToastTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Toast\\Container", $f->container());
     }
 
-    /**
-     * @dataProvider getToastProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getToastProvider')]
     public function testToast(string $title, string $description, string $action): void
     {
         $toast = $this->getToastFactory()->standard($title, $this->getIconFactory()->standard('', ''))
@@ -72,9 +70,7 @@ class ToastTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf(Icon::class, $toast->getIcon());
     }
 
-    /**
-     * @dataProvider getToastProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getToastProvider')]
     public function testToastContainer(string $title, string $description): void
     {
         $container = $this->getToastFactory()->container()->withAdditionalToast(

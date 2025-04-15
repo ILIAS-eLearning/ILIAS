@@ -66,9 +66,7 @@ class assOrderingQuestionTest extends assBaseTestCase
         return $list;
     }
 
-    /**
-     * @depends testOrderingElementListDefaults
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testOrderingElementListDefaults')]
     public function testOrderingElementListMutation(ilAssOrderingElementList $list)
     {
         $original = $list;
@@ -84,9 +82,7 @@ class assOrderingQuestionTest extends assBaseTestCase
         return $element;
     }
 
-    /**
-     * @depends testOrderingElementDefaults
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testOrderingElementDefaults')]
     public function testOrderingElementMutation(ilAssOrderingElement $element)
     {
         $original = $element;

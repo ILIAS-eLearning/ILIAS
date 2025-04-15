@@ -33,10 +33,8 @@ use ilVirusScannerICapClient;
 
 require_once __DIR__ . '/bootstrap.php';
 
-/**
- * @runTestsInSeparateProcesses
- * @preserveGlobalState disabled
- */
+#[\PHPUnit\Framework\Attributes\PreserveGlobalState(false)]
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class VirusScannerFactoryTest extends VirusScannerBaseTestCase
 {
     public static ilLogger $logger;

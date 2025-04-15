@@ -36,12 +36,12 @@ class ilAssQuestionSkillAssignmentRegistryTest extends assBaseTestCase
     }
 
     /**
-     * @dataProvider serializedData
      * @param          $value
      * @param          $chunkSize
      * @param callable $preCallback
      * @param callable $postCallback
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('serializedData')]
     public function testSkillAssignmentsCanBetStoredAndFetchedBySerializationStrategy($value, $chunkSize, callable $preCallback, callable $postCallback): void
     {
         $this->markTestSkipped('Data Provider needs to be revisited.');
@@ -79,9 +79,7 @@ class ilAssQuestionSkillAssignmentRegistryTest extends assBaseTestCase
         $this->assertEquals($value, $postCallback($actual));
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testInvalidChunkSizeWillRaiseException(): void
     {
         $settingsMock = $this->getMockBuilder('ilSetting')->disableOriginalConstructor()->onlyMethods(['set', 'get', 'delete'])->getMock();

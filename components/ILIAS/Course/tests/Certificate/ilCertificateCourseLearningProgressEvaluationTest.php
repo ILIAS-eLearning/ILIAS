@@ -402,9 +402,9 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
     }
 
     /**
-     * @dataProvider globalLearningProgressStateProvder
      * @param array[] $template_recods
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('globalLearningProgressStateProvder')]
     public function testRetrievingCertificateTemplatesForCoursesWorksAsExpectedWhenUsingNonCachingRepository(
         bool $isGlobalLpEnabled,
         array $template_recods

@@ -162,9 +162,7 @@ EOT;
         $this->assertHTMLEquals("<div>" . $expected . "</div>", "<div>" . $r->render($button) . "</div>");
     }
 
-    /**
-     * @depends testRenderSetOnOnDefault
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testRenderSetOnOnDefault')]
     public function testAppendUnavailAction(Toggle $button): void
     {
         $r = $this->getDefaultRenderer();

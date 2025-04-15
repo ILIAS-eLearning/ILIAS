@@ -27,9 +27,7 @@ class ilQTISetvarTest extends TestCase
         $this->assertInstanceOf(ilQTISetvar::class, new ilQTISetvar());
     }
 
-    /**
-     * @dataProvider actions
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('actions')]
     public function testSetGetAction(string $input, ?string $expected): void
     {
         $instance = new ilQTISetvar();

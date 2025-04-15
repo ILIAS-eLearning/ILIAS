@@ -55,9 +55,7 @@ class ilQTIMattextTest extends TestCase
         $this->assertEquals('Some input.', $instance->getUri());
     }
 
-    /**
-     * @dataProvider xmlSpaces
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('xmlSpaces')]
     public function testSetGetXmlspace(string $input, ?string $expected): void
     {
         $instance = new ilQTIMattext();

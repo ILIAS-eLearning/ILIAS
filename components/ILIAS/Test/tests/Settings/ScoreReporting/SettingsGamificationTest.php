@@ -29,9 +29,7 @@ class SettingsGamificationTest extends ilTestBaseTestCase
         $this->assertInstanceOf(SettingsGamification::class, $gamificationTest);
     }
 
-    /**
-     * @dataProvider getAndWithHighscoreEnabledDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithHighscoreEnabledDataProvider')]
     public function testGetAndWithHighscoreEnabled(bool $IO): void
     {
         $gamificationTest = new SettingsGamification(0);
@@ -47,9 +45,7 @@ class SettingsGamificationTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithHighscoreOwnTableDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithHighscoreOwnTableDataProvider')]
     public function testGetAndWithHighscoreOwnTable(bool $IO): void
     {
         $gamificationTest = new SettingsGamification(0);
@@ -65,9 +61,7 @@ class SettingsGamificationTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithHighscoreTopTableDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithHighscoreTopTableDataProvider')]
     public function testGetAndWithHighscoreTopTable(bool $IO): void
     {
         $gamificationTest = new SettingsGamification(0);
@@ -83,9 +77,7 @@ class SettingsGamificationTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithHighscoreTopNumDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithHighscoreTopNumDataProvider')]
     public function testGetAndWithHighscoreTopNum(int $IO): void
     {
         $gamificationTest = new SettingsGamification(0);
@@ -102,9 +94,7 @@ class SettingsGamificationTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithHighscoreAnonDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithHighscoreAnonDataProvider')]
     public function testGetAndWithHighscoreAnon(bool $IO): void
     {
         $gamificationTest = new SettingsGamification(0);
@@ -120,9 +110,7 @@ class SettingsGamificationTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithHighscoreAchievedTSDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithHighscoreAchievedTSDataProvider')]
     public function testGetAndWithHighscoreAchievedTS(bool $IO): void
     {
         $gamificationTest = new SettingsGamification(0);
@@ -138,9 +126,7 @@ class SettingsGamificationTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithHighscoreScoreDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithHighscoreScoreDataProvider')]
     public function testGetAndWithHighscoreScore(bool $IO): void
     {
         $gamificationTest = new SettingsGamification(0);
@@ -156,9 +142,7 @@ class SettingsGamificationTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithHighscorePercentageDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithHighscorePercentageDataProvider')]
     public function testGetAndWithHighscorePercentage(bool $IO): void
     {
         $gamificationTest = new SettingsGamification(0);
@@ -174,9 +158,7 @@ class SettingsGamificationTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithHighscoreWTimeDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithHighscoreWTimeDataProvider')]
     public function testGetAndWithHighscoreWTime(bool $IO): void
     {
         $gamificationTest = new SettingsGamification(0);

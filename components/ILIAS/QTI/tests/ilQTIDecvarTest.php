@@ -34,9 +34,7 @@ class ilQTIDecvarTest extends TestCase
         $this->assertEquals('Some input.', $instance->getVarname());
     }
 
-    /**
-     * @dataProvider vartypes
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('vartypes')]
     public function testSetGetVartype(string $input, ?string $expected): void
     {
         $instance = new ilQTIDecvar();

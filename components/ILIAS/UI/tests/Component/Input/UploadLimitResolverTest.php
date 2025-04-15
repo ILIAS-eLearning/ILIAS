@@ -108,9 +108,7 @@ class UploadLimitResolverTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provideUploadLimitResolutionDataSet
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideUploadLimitResolutionDataSet')]
     public function testUploadLimitResolution(
         int $php_ini_value,
         ?int $custom_global_value,

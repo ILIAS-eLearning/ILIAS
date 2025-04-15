@@ -28,9 +28,7 @@ class StateTest extends TestCase
         return $state;
     }
 
-    /**
-     * @depends testGetNullValue
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testGetNullValue')]
     public function testValue(State $state): State
     {
         $key = 'key';
@@ -40,18 +38,14 @@ class StateTest extends TestCase
         return $state;
     }
 
-    /**
-     * @depends testValue
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testValue')]
     public function testSerialize(State $state): void
     {
         $expected = json_encode(['key' => 'value'], JSON_THROW_ON_ERROR);
         $this->assertEquals($expected, $state->serialize());
     }
 
-    /**
-     * @depends testValue
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testValue')]
     public function testRemoveValue(State $state): void
     {
         $state = $state->withValueFor('keep', 'this');

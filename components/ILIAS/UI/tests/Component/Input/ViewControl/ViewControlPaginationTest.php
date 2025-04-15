@@ -124,9 +124,7 @@ class ViewControlPaginationTest extends ViewControlTestBase
         ];
     }
 
-    /**
-     * @dataProvider providePaginationInput
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providePaginationInput')]
     public function testViewControlPaginationWithInput(
         int $offset,
         int $page_size,

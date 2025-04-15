@@ -50,9 +50,7 @@ class ilStudyProgrammeAutoCategoryTest extends TestCase
         return $ac;
     }
 
-    /**
-     * @depends testConstruction
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruction')]
     public function testGetPrgObjId(ilStudyProgrammeAutoCategory $ac): void
     {
         $this->assertEquals(
@@ -61,9 +59,7 @@ class ilStudyProgrammeAutoCategoryTest extends TestCase
         );
     }
 
-    /**
-     * @depends testConstruction
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruction')]
     public function testGetCategoryRefId(ilStudyProgrammeAutoCategory $ac): void
     {
         $this->assertEquals(
@@ -72,9 +68,7 @@ class ilStudyProgrammeAutoCategoryTest extends TestCase
         );
     }
 
-    /**
-     * @depends testConstruction
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruction')]
     public function testGetLastEditorId(ilStudyProgrammeAutoCategory $ac): void
     {
         $this->assertEquals(
@@ -83,9 +77,7 @@ class ilStudyProgrammeAutoCategoryTest extends TestCase
         );
     }
 
-    /**
-     * @depends testConstruction
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruction')]
     public function testGetLastEdited(ilStudyProgrammeAutoCategory $ac): void
     {
         $this->assertEquals(

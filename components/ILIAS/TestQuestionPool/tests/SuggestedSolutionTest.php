@@ -108,9 +108,7 @@ class SuggestedSolutionTest extends TestCase
     }
 
 
-    /**
-     * @depends testSuggestedSolutionFile
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testSuggestedSolutionFile')]
     public function testSuggestedSolutionMutatorsFile(SuggestedSolutionFile $sugsol): void
     {
         $values = [

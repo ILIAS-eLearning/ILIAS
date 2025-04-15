@@ -39,9 +39,7 @@ class RendererTest extends TestCase
         $this->renderer = new Renderer();
     }
 
-    /**
-     * @dataProvider scenarios
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('scenarios')]
     public function testScenario($scenario_file, $result_file, $components)
     {
         require_once(__DIR__ . "/scenarios/$scenario_file");

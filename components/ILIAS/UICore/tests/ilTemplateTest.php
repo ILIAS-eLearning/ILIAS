@@ -131,9 +131,7 @@ class ilTemplateTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider templatePathDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('templatePathDataProvider')]
     public function testGetTemplatePath(
         string $skin,
         string $style,

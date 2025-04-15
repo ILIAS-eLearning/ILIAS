@@ -75,9 +75,7 @@ class EntityTest extends ILIAS_UI_TestBase
         ];
     }
 
-    /**
-     * @dataProvider getEntityAllowedIdentiferTypes
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getEntityAllowedIdentiferTypes')]
     public function testEntityIdentifiers($identifier): void
     {
         $entity = $this->getEntityFactory()->standard($identifier, $identifier);

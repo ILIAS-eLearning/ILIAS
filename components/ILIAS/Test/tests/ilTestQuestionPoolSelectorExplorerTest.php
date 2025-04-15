@@ -49,9 +49,7 @@ class ilTestQuestionPoolSelectorExplorerTest extends ilTestBaseTestCase
         $this->assertInstanceOf(ilRepositorySelectorExplorerGUI::class, $this->testObj);
     }
 
-    /**
-     * @dataProvider getAndSetAvailableQuestionPoolsDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndSetAvailableQuestionPoolsDataProvider')]
     public function testGetAndSetAvailableQuestionPools(array $IO): void
     {
         $this->assertEquals([], $this->testObj->getAvailableQuestionPools());

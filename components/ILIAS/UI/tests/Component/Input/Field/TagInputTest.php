@@ -44,9 +44,7 @@ class TagInputTest extends ILIAS_UI_TestBase
         $this->name_source = new DefNamesource();
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testImplementsFactoryInterface(): void
     {
         $f = $this->getFieldFactory();

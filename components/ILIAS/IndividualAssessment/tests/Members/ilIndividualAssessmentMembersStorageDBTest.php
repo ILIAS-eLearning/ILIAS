@@ -683,9 +683,7 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider dataFor_getWhereFromFilter
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataFor_getWhereFromFilter')]
     public function test_getWhereFromFilter($filter, $result): void
     {
         $db = $this->createMock(ilDBInterface::class);

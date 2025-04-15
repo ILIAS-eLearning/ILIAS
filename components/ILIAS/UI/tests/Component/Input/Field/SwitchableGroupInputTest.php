@@ -468,9 +468,7 @@ EOT;
         return $sg;
     }
 
-    /**
-     * @depends testRender
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testRender')]
     public function testRenderWithValue(SG $sg): void
     {
         $r = $this->getDefaultRenderer();

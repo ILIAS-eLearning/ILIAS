@@ -45,9 +45,7 @@ class CounterTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Counter\\Counter", $f->novelty(0));
     }
 
-    /**
-     * @dataProvider getNumberProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getNumberProvider')]
     public function testStatusCounter(int $number): void
     {
         $f = $this->getCounterFactory();
@@ -59,9 +57,7 @@ class CounterTest extends ILIAS_UI_TestBase
         $this->assertEquals($number, $c->getNumber());
     }
 
-    /**
-     * @dataProvider getNumberProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getNumberProvider')]
     public function testNoveltyCounter(int $number): void
     {
         $f = $this->getCounterFactory();
@@ -79,9 +75,7 @@ class CounterTest extends ILIAS_UI_TestBase
         new Counter("FOO", 1);
     }
 
-    /**
-     * @dataProvider getNoNumberProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getNoNumberProvider')]
     public function testIntNumbersOnly($no_number): void
     {
         $this->expectException(TypeError::class);
@@ -114,9 +108,7 @@ class CounterTest extends ILIAS_UI_TestBase
         "novelty" => "badge badge-notify il-counter-novelty"
     ];
 
-    /**
-     * @dataProvider getCounterTypeAndNumberProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getCounterTypeAndNumberProvider')]
     public function testRenderStatus(string $type, int $number): void
     {
         $f = $this->getCounterFactory();

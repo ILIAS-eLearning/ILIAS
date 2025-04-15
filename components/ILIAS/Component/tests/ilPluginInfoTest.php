@@ -214,9 +214,7 @@ class ilPluginInfoTest extends TestCase
         $this->assertTrue($plugin->isVersionToOld());
     }
 
-    /**
-     * @dataProvider versionCompliance
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('versionCompliance')]
     public function testIsCompliantToILIAS(Data\Version $version, bool $is_compliant): void
     {
         $plugin = new ilPluginInfo(
@@ -274,9 +272,7 @@ class ilPluginInfoTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider isActivationPossibleTruthTable
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('isActivationPossibleTruthTable')]
     public function testIsActivationPossible(
         bool $is_installed,
         bool $supports_current_ilias,
@@ -349,9 +345,7 @@ class ilPluginInfoTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider isActiveTruthTable
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('isActiveTruthTable')]
     public function testIsActive(
         bool $is_installed,
         bool $supports_current_ilias,
@@ -451,9 +445,7 @@ class ilPluginInfoTest extends TestCase
     }
 
 
-    /**
-     * @dataProvider inactivityReasonTable
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('inactivityReasonTable')]
     public function testGetReasonForInactivity(
         bool $is_installed,
         bool $supports_current_ilias,

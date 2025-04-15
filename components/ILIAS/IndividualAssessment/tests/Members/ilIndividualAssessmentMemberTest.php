@@ -308,9 +308,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider fileNamesDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('fileNamesDataProvider')]
     public function test_mayBeFinalized_file_required_filename_empty(?string $filename): void
     {
         $settings = $this->createMock(ilIndividualAssessmentSettings::class);
@@ -350,9 +348,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider positiveLPStatusDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('positiveLPStatusDataProvider')]
     public function test_mayBeFinalized_with_positive_lp_status(int $lp_status): void
     {
         $settings = $this->createMock(ilIndividualAssessmentSettings::class);
@@ -433,9 +429,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider negativeLPStatusDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('negativeLPStatusDataProvider')]
     public function test_mayBeFinalized_with_negative_lp_status(int $lp_status): void
     {
         $settings = $this->createMock(ilIndividualAssessmentSettings::class);

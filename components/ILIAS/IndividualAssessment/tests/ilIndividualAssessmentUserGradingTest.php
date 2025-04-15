@@ -22,9 +22,7 @@ use PHPUnit\Framework\TestCase;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\FileUpload\Handler\AbstractCtrlAwareUploadHandler;
 
-/**
- * @backupGlobals disabled
- */
+#[\PHPUnit\Framework\Attributes\BackupGlobals(false)]
 class ilIndividualAssessmentUserGradingTest extends TestCase
 {
     public function test_create_instance()

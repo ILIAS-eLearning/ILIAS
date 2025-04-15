@@ -27,9 +27,7 @@ class ilQTIRespconditionTest extends TestCase
         $this->assertInstanceOf(ilQTIRespcondition::class, new ilQTIRespcondition());
     }
 
-    /**
-     * @dataProvider continues
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('continues')]
     public function testSetGetContinue(string $input, ?string $expected): void
     {
         $instance = new ilQTIRespcondition();

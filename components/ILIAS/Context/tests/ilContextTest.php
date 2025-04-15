@@ -31,9 +31,7 @@ class ilContextTest extends TestCase
         require_once("components/ILIAS/Context/tests/class.ilContextExtended.php");
     }
 
-    /**
-     * @dataProvider contextProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('contextProvider')]
     public function testInit(string $context, string $className): void
     {
         $context_obj = ilContextExtended::init($context);

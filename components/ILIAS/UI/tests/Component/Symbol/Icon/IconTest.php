@@ -131,9 +131,7 @@ class IconTest extends ILIAS_UI_TestBase
         return $ico;
     }
 
-    /**
-     * @depends testRenderingStandard
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testRenderingStandard')]
     public function testRenderingStandardDisabled(Standard $ico): void
     {
         $ico = $ico->withDisabled(true);
@@ -143,9 +141,7 @@ class IconTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    /**
-     * @depends testRenderingStandard
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testRenderingStandard')]
     public function testRenderingStandardAbbreviation(Standard $ico): void
     {
         $ico = $ico->withAbbreviation('CRS');
@@ -177,9 +173,7 @@ imgtag;
         }
     }
 
-    /**
-     * @depends testRenderingStandard
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testRenderingStandard')]
     public function testRenderingStandardJSBindable($ico): void
     {
         $ico = $ico->withAdditionalOnLoadCode(function ($id) {
@@ -220,9 +214,7 @@ imgtag;
         $this->assertEquals($expected, $html);
     }
 
-    /**
-     * @depends testRenderingStandard
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testRenderingStandard')]
     public function testHTMLInAbbreviation(): void
     {
         $ico = $this->getIconFactory()->standard('name', 'label')->withAbbreviation('<h1>abbreviation</h1>');

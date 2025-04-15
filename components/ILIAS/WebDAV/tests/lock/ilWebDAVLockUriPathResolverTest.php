@@ -22,10 +22,8 @@ use PHPUnit\Framework\TestCase;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\NotFound;
 
-/**
- * @runTestsInSeparateProcesses
- * @preserveGlobalState disabled
- */
+#[\PHPUnit\Framework\Attributes\PreserveGlobalState(false)]
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class ilWebDAVLockUriPathResolverTest extends TestCase
 {
     protected ilWebDAVTestHelper $webdav_test_helper;

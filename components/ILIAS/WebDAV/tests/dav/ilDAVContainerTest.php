@@ -447,10 +447,8 @@ class ilDAVContainerTest extends TestCase
         }
     }
 
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
+    #[\PHPUnit\Framework\Attributes\PreserveGlobalState(false)]
+    #[\PHPUnit\Framework\Attributes\RunInSeparateProcess]
     public function testCreateDirectoryWithNonDavableNameThrowsForbiddenError(): void
     {
         define('ILIAS_LOG_ENABLED', false);

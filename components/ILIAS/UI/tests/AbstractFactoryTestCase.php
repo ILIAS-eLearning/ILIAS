@@ -144,9 +144,8 @@ abstract class AbstractFactoryTestCase extends TestCase
 
     /**
      * Tests whether the YAML Kitchen Sink info can be parsed.
-     *
-     * @dataProvider getMethodsProvider
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getMethodsProvider')]
     final public function testCheckYamlExtraction(ReflectionMethod $method_reflection, string $name): array
     {
         try {
@@ -166,9 +165,8 @@ abstract class AbstractFactoryTestCase extends TestCase
 
     /**
      * Tests whether the method either returns a factory or a component.
-     *
-     * @dataProvider getMethodsProvider
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getMethodsProvider')]
     final public function testReturnType(ReflectionMethod $method_reflection, string $name): void
     {
         $message = "TODO ($name): fix return type, it must be a factory or a component.";
@@ -184,9 +182,8 @@ abstract class AbstractFactoryTestCase extends TestCase
 
     /**
      * Tests whether the method name matches the return doctring?
-     *
-     * @dataProvider getMethodsProvider
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getMethodsProvider')]
     final public function testFactoryMethodNameCompatibleDocstring(
         ReflectionMethod $method_reflection,
         string $name
@@ -228,9 +225,8 @@ abstract class AbstractFactoryTestCase extends TestCase
 
     /**
      * Tests whether methods returning factories have no parameters.
-     *
-     * @dataProvider getMethodsProvider
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getMethodsProvider')]
     final public function testMethodParams(ReflectionMethod $method_reflection, string $name): void
     {
         $docstring_data = $this->testCheckYamlExtraction($method_reflection, $name);
@@ -242,10 +238,7 @@ abstract class AbstractFactoryTestCase extends TestCase
 
     // Common rules for all factory methods, regardless whether they return other
     // factories or components.
-
-    /**
-     * @dataProvider getMethodsProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getMethodsProvider')]
     final public function testKitchensinkInfoDescription(ReflectionMethod $method_reflection, string $name): void
     {
         $docstring_data = $this->testCheckYamlExtraction($method_reflection, $name);
@@ -267,9 +260,7 @@ abstract class AbstractFactoryTestCase extends TestCase
         }
     }
 
-    /**
-     * @dataProvider getMethodsProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getMethodsProvider')]
     final public function testKitchensinkInfoRivals(ReflectionMethod $method_reflection, string $name): void
     {
         $docstring_data = $this->testCheckYamlExtraction($method_reflection, $name);
@@ -281,9 +272,7 @@ abstract class AbstractFactoryTestCase extends TestCase
         $this->assertTrue(true);
     }
 
-    /**
-     * @dataProvider getMethodsProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getMethodsProvider')]
     final public function testKitchensinkInfoBackground(ReflectionMethod $method_reflection, string $name): void
     {
         $docstring_data = $this->testCheckYamlExtraction($method_reflection, $name);
@@ -295,9 +284,7 @@ abstract class AbstractFactoryTestCase extends TestCase
         }
     }
 
-    /**
-     * @dataProvider getMethodsProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getMethodsProvider')]
     final public function testKitchensinkInfoFeatureWiki(ReflectionMethod $method_reflection, string $name): void
     {
         $docstring_data = $this->testCheckYamlExtraction($method_reflection, $name);
@@ -309,9 +296,7 @@ abstract class AbstractFactoryTestCase extends TestCase
         }
     }
 
-    /**
-     * @dataProvider getMethodsProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getMethodsProvider')]
     final public function testKitchensinkInfoJavaScript(ReflectionMethod $method_reflection, string $name): void
     {
         $docstring_data = $this->testCheckYamlExtraction($method_reflection, $name);
@@ -323,9 +308,7 @@ abstract class AbstractFactoryTestCase extends TestCase
         }
     }
 
-    /**
-     * @dataProvider getMethodsProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getMethodsProvider')]
     final public function testKitchensinkInfoRules(ReflectionMethod $method_reflection, string $name): void
     {
         $docstring_data = $this->testCheckYamlExtraction($method_reflection, $name);
@@ -347,9 +330,7 @@ abstract class AbstractFactoryTestCase extends TestCase
         }
     }
 
-    /**
-     * @dataProvider getMethodsProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getMethodsProvider')]
     final public function testKitchensinkInfoContext(ReflectionMethod $method_reflection, string $name): void
     {
         $docstring_data = $this->testCheckYamlExtraction($method_reflection, $name);

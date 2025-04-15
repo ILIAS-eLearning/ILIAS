@@ -202,9 +202,7 @@ class DurationInputTest extends ILIAS_UI_TestBase
         return $duration;
     }
 
-    /**
-     * @depends testRender
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testRender')]
     public function testRenderWithDifferentLabels($duration): void
     {
         $other_start_label = 'other startlabel';

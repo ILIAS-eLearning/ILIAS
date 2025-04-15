@@ -117,9 +117,9 @@ class ilLPStatusIconsTest extends TestCase
     }
 
     /**
-     * @depends testTripleton
      * @param array<string, ilLPStatusIcons> $instances
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testTripleton')]
     public function testSomeExamplesForImagePathsByStatus(array $instances): void
     {
         $path1 = $instances['long']->getImagePathInProgress();
@@ -136,9 +136,9 @@ class ilLPStatusIconsTest extends TestCase
     }
 
     /**
-     * @depends testTripleton
      * @param array<string, ilLPStatusIcons> $instances
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testTripleton')]
     public function testImagePathRunningForLongVariant(array $instances): void
     {
         $this->expectException(ilLPException::class);
@@ -146,9 +146,9 @@ class ilLPStatusIconsTest extends TestCase
     }
 
     /**
-     * @depends testTripleton
      * @param array<string, ilLPStatusIcons> $instances
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testTripleton')]
     public function testImagePathAssetForLongVariant(array $instances): void
     {
         $this->expectException(ilLPException::class);
@@ -156,9 +156,9 @@ class ilLPStatusIconsTest extends TestCase
     }
 
     /**
-     * @depends testTripleton
      * @param array<string, ilLPStatusIcons> $instances
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testTripleton')]
     public function testSomeExamplesForRenderedIcons(array $instances): void
     {
         //try rendering some icons
@@ -178,9 +178,9 @@ class ilLPStatusIconsTest extends TestCase
     }
 
     /**
-     * @depends testTripleton
      * @param array<string, ilLPStatusIcons> $instances
      */
+    #[\PHPUnit\Framework\Attributes\Depends('testTripleton')]
     public function testRenderScormIcons(array $instances): void
     {
         $this->expectException(ilLPException::class);

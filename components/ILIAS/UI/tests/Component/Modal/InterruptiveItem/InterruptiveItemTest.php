@@ -43,9 +43,7 @@ class InterruptiveItemTest extends ILIAS_UI_TestBase
         );
     }
 
-    /**
-     * @depends testConstruction
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruction')]
     public function testGetId(): void
     {
         $id = '1';

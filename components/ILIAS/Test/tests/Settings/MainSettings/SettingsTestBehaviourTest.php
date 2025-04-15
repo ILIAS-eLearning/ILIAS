@@ -22,9 +22,7 @@ use ILIAS\Test\Settings\MainSettings\SettingsTestBehaviour;
 
 class SettingsTestBehaviourTest extends ilTestBaseTestCase
 {
-    /**
-     * @dataProvider getAndWithNumberOfTriesDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithNumberOfTriesDataProvider')]
     public function testGetAndWithNumberOfTries(int $io): void
     {
         $Settings_test_behaviour = (new SettingsTestBehaviour(0))->withNumberOfTries($io);
@@ -42,9 +40,7 @@ class SettingsTestBehaviourTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithBlockAfterPassedEnabledDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithBlockAfterPassedEnabledDataProvider')]
     public function testGetAndWithBlockAfterPassedEnabled(): void
     {
         $Settings_test_behaviour = (new SettingsTestBehaviour(0))->withBlockAfterPassedEnabled(true);
@@ -61,9 +57,7 @@ class SettingsTestBehaviourTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithPassWaitingDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithPassWaitingDataProvider')]
     public function testGetAndWithPassWaiting(?string $io): void
     {
         $Settings_test_behaviour = (new SettingsTestBehaviour(0))->withPassWaiting($io);
@@ -80,9 +74,7 @@ class SettingsTestBehaviourTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithProcessingTimeEnabledDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithProcessingTimeEnabledDataProvider')]
     public function testGetAndWithProcessingTimeEnabled(bool $io): void
     {
         $Settings_test_behaviour = (new SettingsTestBehaviour(0))->withProcessingTimeEnabled($io);
@@ -99,9 +91,7 @@ class SettingsTestBehaviourTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithProcessingTimeDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithProcessingTimeDataProvider')]
     public function testGetAndWithProcessingTime(?string $io): void
     {
         $Settings_test_behaviour = (new SettingsTestBehaviour(0))->withProcessingTime($io);
@@ -119,9 +109,7 @@ class SettingsTestBehaviourTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithResetProcessingTimeDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithResetProcessingTimeDataProvider')]
     public function testGetAndWithResetProcessingTime(bool $io): void
     {
         $Settings_test_behaviour = (new SettingsTestBehaviour(0))->withResetProcessingTime($io);
@@ -138,9 +126,7 @@ class SettingsTestBehaviourTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithKioskModeDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithKioskModeDataProvider')]
     public function testGetAndWithKioskMode(int $io): void
     {
         $Settings_test_behaviour = (new SettingsTestBehaviour(0))->withKioskMode($io);
@@ -159,9 +145,7 @@ class SettingsTestBehaviourTest extends ilTestBaseTestCase
     }
 
     // ExamIdInTestPassEnabled
-    /**
-     * @dataProvider getAndWithExamIdInTestPassEnabledDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithExamIdInTestPassEnabledDataProvider')]
     public function testGetAndWithExamIdInTestPassEnabled(bool $io): void
     {
         $Settings_test_behaviour = (new SettingsTestBehaviour(0))->withExamIdInTestAttemptEnabled($io);

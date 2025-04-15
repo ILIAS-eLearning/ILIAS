@@ -171,7 +171,8 @@ class GlyphTest extends ILIAS_UI_TestBase
         G\Glyph::UNCHECKED => "unchecked",
     );
 
-    #[DataProvider('getGlyphTypeProvider')] public function testImplementsFactoryInterface(string $factory_method): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('getGlyphTypeProvider')]
+    public function testImplementsFactoryInterface(string $factory_method): void
     {
         $f = $this->getGlyphFactory();
 
@@ -179,7 +180,8 @@ class GlyphTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph", $f->$factory_method());
     }
 
-    #[DataProvider('getGlyphTypeProvider')] public function testGlyphTypes(string $factory_method): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('getGlyphTypeProvider')]
+    public function testGlyphTypes(string $factory_method): void
     {
         $f = $this->getGlyphFactory();
         $g = $f->$factory_method();
@@ -188,7 +190,8 @@ class GlyphTest extends ILIAS_UI_TestBase
         $this->assertEquals($factory_method, $g->getType());
     }
 
-    #[DataProvider('getGlyphTypeProvider')] public function testGlyphNoAction(string $factory_method): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('getGlyphTypeProvider')]
+    public function testGlyphNoAction(string $factory_method): void
     {
         $f = $this->getGlyphFactory();
         $g = $f->$factory_method();
@@ -197,7 +200,8 @@ class GlyphTest extends ILIAS_UI_TestBase
         $this->assertEquals(null, $g->getAction());
     }
 
-    #[DataProvider('getGlyphTypeProvider')] public function testWithUnavailableAction(string $factory_method): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('getGlyphTypeProvider')]
+    public function testWithUnavailableAction(string $factory_method): void
     {
         $f = $this->getGlyphFactory();
         $g = $f->$factory_method();
@@ -218,7 +222,8 @@ class GlyphTest extends ILIAS_UI_TestBase
         $this->assertTrue($g2->isHighlighted());
     }
 
-    #[DataProvider('getGlyphTypeProvider')] public function testNoCounter(string $factory_method): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('getGlyphTypeProvider')]
+    public function testNoCounter(string $factory_method): void
     {
         $f = $this->getGlyphFactory();
         $g = $f->$factory_method();
@@ -226,7 +231,8 @@ class GlyphTest extends ILIAS_UI_TestBase
         $this->assertCount(0, $g->getCounters());
     }
 
-    #[DataProvider('getCounterTypeProvider')] public function testOneCounter(string $counter_type): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('getCounterTypeProvider')]
+    public function testOneCounter(string $counter_type): void
     {
         $gf = $this->getGlyphFactory();
         $cf = $this->getCounterFactory();
@@ -337,9 +343,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         ];
     }
 
-    /**
-     * @dataProvider getGlyphTypeProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getGlyphTypeProvider')]
     public function testRenderSimple(string $type): void
     {
         $f = $this->getGlyphFactory();
@@ -355,9 +359,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    /**
-     * @dataProvider getGlyphTypeProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getGlyphTypeProvider')]
     public function testRenderWithUnavailableAction(string $type): void
     {
         $f = $this->getGlyphFactory();
@@ -376,9 +378,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         $this->assertEquals($this->brutallyTrimHTML($expected), $this->brutallyTrimHTML($html));
     }
 
-    /**
-     * @dataProvider getCounterTypeProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getCounterTypeProvider')]
     public function testRenderWithCounter(string $type): void
     {
         $fg = $this->getGlyphFactory();
@@ -440,7 +440,8 @@ class GlyphTest extends ILIAS_UI_TestBase
         $r->render($f->status(0), $this->getDefaultRenderer());
     }
 
-    #[DataProvider('getGlyphTypeProvider')] public function testRenderWithOnLoadCode(string $type): void
+    #[\PHPUnit\Framework\Attributes\DataProvider('getGlyphTypeProvider')]
+    public function testRenderWithOnLoadCode(string $type): void
     {
         $f = $this->getGlyphFactory();
         $r = $this->getDefaultRenderer();

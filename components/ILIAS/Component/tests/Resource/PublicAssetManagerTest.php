@@ -135,9 +135,7 @@ class PublicAssetManagerTest extends TestCase
         $this->manager->buildPublicFolder("/srv/demo10.ilias.de", "/public");
     }
 
-    /**
-     * @dataProvider provideInvalidFolderPathData
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideInvalidFolderPathData')]
     public function testInvalidFolderPaths(string $ilias_base, string $target): void
     {
         $this->expectException(\InvalidArgumentException::class);

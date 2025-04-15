@@ -22,9 +22,7 @@ use ILIAS\Test\Settings\MainSettings\SettingsGeneral;
 
 class SettingsGeneralTest extends ilTestBaseTestCase
 {
-    /**
-     * @dataProvider getAndWithQuestionSetTypeDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithQuestionSetTypeDataProvider')]
     public function testGetAndWithQuestionSetType(string $io): void
     {
         $Settings_general = (new SettingsGeneral(0))->withQuestionSetType($io);
@@ -41,9 +39,7 @@ class SettingsGeneralTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithAnonymityDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithAnonymityDataProvider')]
     public function testGetAndWithAnonymity(bool $io): void
     {
         $Settings_general = (new SettingsGeneral(0))->withAnonymity($io);

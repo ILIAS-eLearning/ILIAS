@@ -158,9 +158,7 @@ class MainBarTest extends ILIAS_UI_TestBase
             ->withAdditionalToolEntry('test', $slate);
     }
 
-    /**
-     * @depends testAddEntry
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testAddEntry')]
     public function testActive(C\MainControls\MainBar $mb): void
     {
         $mb = $mb->withActive('testbtn');

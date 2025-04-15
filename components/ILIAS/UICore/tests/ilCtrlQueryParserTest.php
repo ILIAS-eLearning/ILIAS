@@ -88,9 +88,7 @@ class ilCtrlQueryParserTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider queryStringProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('queryStringProvider')]
     public function testQueryParser(string $query_string, array $expected_queries): void
     {
         $this->markTestSkipped('Failed for some unknown reason.');

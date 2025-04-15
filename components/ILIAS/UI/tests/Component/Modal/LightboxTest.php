@@ -44,9 +44,7 @@ class LightboxTest extends ModalBase
         $this->assertEquals($pages, $lightbox->getPages());
     }
 
-    /**
-     * @dataProvider getPageProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getPageProvider')]
     public function testSimplePageRendering(string $method, array $args, string $expected_html): void
     {
         $lightbox = $this->getModalFactory()->lightbox($this->getModalFactory()->$method(...$args));

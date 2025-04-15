@@ -130,9 +130,7 @@ class ExamplesTest extends ILIAS_UI_TestBase
         }
     }
 
-    /**
-     * @dataProvider getFullFunctionNamesAndPathExample
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getFullFunctionNamesAndPathExample')]
     public function testAllExamplesRenderAString(string $example_function_name, string $example_path): void
     {
         global $DIC;
@@ -146,9 +144,7 @@ class ExamplesTest extends ILIAS_UI_TestBase
         }
     }
 
-    /**
-     * @dataProvider getFullFunctionNamesAndPathExample
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getFullFunctionNamesAndPathExample')]
     public function testAllExamplesHaveExpectedOutcomeInDocs(string $example_function_name, string $example_path)
     {
         $docs = $this->example_parser->parseYamlStringArrayFromFile($example_path);
@@ -178,9 +174,7 @@ class ExamplesTest extends ILIAS_UI_TestBase
         return $function_names;
     }
 
-    /**
-     * @dataProvider getListOfFullscreenExamples
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getListOfFullscreenExamples')]
     public function testFullscreenModeExamples(string $example_function_name, string $example_path): void
     {
         global $DIC;

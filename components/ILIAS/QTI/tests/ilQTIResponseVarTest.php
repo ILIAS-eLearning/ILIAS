@@ -34,9 +34,7 @@ class ilQTIResponseVarTest extends TestCase
         $this->assertEquals('Some input.', $instance->getVartype());
     }
 
-    /**
-     * @dataProvider cases
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('cases')]
     public function testSetGetCase(string $input, ?string $expected): void
     {
         $instance = new ilQTIResponseVar('a');
@@ -58,9 +56,7 @@ class ilQTIResponseVarTest extends TestCase
         $this->assertEquals('Some input.', $instance->getIndex());
     }
 
-    /**
-     * @dataProvider setMatches
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('setMatches')]
     public function testSetGetSetmatch(string $input, ?string $expected): void
     {
         $instance = new ilQTIResponseVar('a');
@@ -68,9 +64,7 @@ class ilQTIResponseVarTest extends TestCase
         $this->assertEquals($expected, $instance->getSetmatch());
     }
 
-    /**
-     * @dataProvider areaTypes
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('areaTypes')]
     public function testSetGetAreatype(string $input, ?string $expected): void
     {
         $instance = new ilQTIResponseVar('a');

@@ -393,9 +393,7 @@ EOT;
         return [$rb, $columns, $actions];
     }
 
-    /**
-     * @depends testDataTableRowBuilder
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testDataTableRowBuilder')]
     public function testDataTableDataRowFromBuilder(array $params): I\Table\DataRow
     {
         list($rb, $columns, $actions) = $params;
@@ -422,9 +420,7 @@ EOT;
         return $row;
     }
 
-    /**
-     * @depends testDataTableDataRowFromBuilder
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testDataTableDataRowFromBuilder')]
     public function testDataTableRenderStandardRow(I\Table\DataRow $row)
     {
         $actual = $this->brutallyTrimHTML($this->getDefaultRenderer()->render($row));

@@ -73,18 +73,14 @@ class SlateTest extends ILIAS_UI_TestBase
         return $slate;
     }
 
-    /**
-     * @depends testConstruction
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruction')]
     public function testWithEngaged(Slate $slate): void
     {
         $slate = $slate->withEngaged(true);
         $this->assertTrue($slate->getEngaged());
     }
 
-    /**
-     * @depends testConstruction
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruction')]
     public function testWithAriaRole(Slate $slate): void
     {
         try {
@@ -95,9 +91,7 @@ class SlateTest extends ILIAS_UI_TestBase
         }
     }
 
-    /**
-     * @depends testConstruction
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruction')]
     public function testWithAriaRoleIncorrect(Slate $slate): void
     {
         try {
@@ -108,9 +102,7 @@ class SlateTest extends ILIAS_UI_TestBase
         }
     }
 
-    /**
-     * @depends testConstruction
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruction')]
     public function testSignals(Slate $slate): array
     {
         $signals = [
@@ -124,9 +116,7 @@ class SlateTest extends ILIAS_UI_TestBase
         return $signals;
     }
 
-    /**
-     * @depends testSignals
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testSignals')]
     public function testDifferentSignals(array $signals): void
     {
         $this->assertEquals(

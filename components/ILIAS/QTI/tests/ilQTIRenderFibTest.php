@@ -41,9 +41,7 @@ class ilQTIRenderFibTest extends TestCase
         $this->assertEquals('Some input.', $instance->getMaxnumber());
     }
 
-    /**
-     * @dataProvider prompts
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('prompts')]
     public function testSetGetPrompt(string $input, ?string $expected): void
     {
         $instance = new ilQTIRenderFib();
@@ -51,9 +49,7 @@ class ilQTIRenderFibTest extends TestCase
         $this->assertEquals($expected, $instance->getPrompt());
     }
 
-    /**
-     * @dataProvider fibtypes
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('fibtypes')]
     public function testSetGetFibtype(string $input, ?string $expected): void
     {
         $instance = new ilQTIRenderFib();

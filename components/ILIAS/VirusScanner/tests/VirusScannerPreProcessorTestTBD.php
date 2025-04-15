@@ -27,12 +27,10 @@ use PHPUnit\Framework\TestCase;
 use ilVirusScannerPreProcessor;
 use Mockery;
 
-/**
- * @runTestsInSeparateProcesses
- * @preserveGlobalState    disabled
- * @backupGlobals          disabled
- * @backupStaticAttributes disabled
- */
+#[\PHPUnit\Framework\Attributes\BackupGlobals(false)]
+#[\PHPUnit\Framework\Attributes\BackupStaticProperties(false)]
+#[\PHPUnit\Framework\Attributes\PreserveGlobalState(false)]
+#[\PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses]
 class VirusScannerPreProcessorTest extends TestCase
 {
     use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;

@@ -23,9 +23,7 @@ use ilTestQuestionPoolNotAvailableAsSourcePoolException;
 
 class ilTestQuestionPoolNotAvailableAsSourcePoolExceptionTest extends ilTestBaseTestCase
 {
-    /**
-     * @dataProvider constructDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('constructDataProvider')]
     public function testConstruct(array $input, array $output): void
     {
         $ilTestQuestionPoolNotAvailableAsSourcePoolException = isset($input['code'])
@@ -50,9 +48,7 @@ class ilTestQuestionPoolNotAvailableAsSourcePoolExceptionTest extends ilTestBase
         ];
     }
 
-    /**
-     * @dataProvider exceptionDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('exceptionDataProvider')]
     public function testException(array $input, array $output): void
     {
         $this->expectException(ilTestQuestionPoolNotAvailableAsSourcePoolException::class);

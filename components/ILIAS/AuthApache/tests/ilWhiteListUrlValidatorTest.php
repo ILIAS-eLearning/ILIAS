@@ -60,9 +60,7 @@ final class ilWhiteListUrlValidatorTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider domainProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('domainProvider')]
     public function testValidator(string $domain, array $whitelist, bool $result): void
     {
         $this->assertSame((new ilWhiteListUrlValidator($domain, $whitelist))->isValid(), $result);

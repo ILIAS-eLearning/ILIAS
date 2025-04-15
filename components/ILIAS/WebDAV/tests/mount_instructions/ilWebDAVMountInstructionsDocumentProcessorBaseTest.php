@@ -35,9 +35,9 @@ class ilWebDAVMountInstructionsDocumentProcessorBaseTest extends TestCase
     }
 
     /**
-     * @test
      * @small
      */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function parseInstructionsToAssocArray_noOpenNoCloseTags_returnArrayOnlyWithInputString(): void
     {
         // Arrange
@@ -52,9 +52,9 @@ class ilWebDAVMountInstructionsDocumentProcessorBaseTest extends TestCase
     }
 
     /**
-     * @test
      * @small
      */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function parseInstructionsToAssocArray_onlyOpenNoCloseTag_returnArrayOnlyWithInputString(): void
     {
         // Arrange
@@ -69,9 +69,9 @@ class ilWebDAVMountInstructionsDocumentProcessorBaseTest extends TestCase
     }
 
     /**
-     * @test
      * @small
      */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function parseInstructionsToAssocArray_noOpenOnlyCloseTag_returnArrayOnlyWithInputString(): void
     {
         // Arrange
@@ -86,9 +86,9 @@ class ilWebDAVMountInstructionsDocumentProcessorBaseTest extends TestCase
     }
 
     /**
-     * @test
      * @small
      */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function parseInstructionsToAssocArray_openTagAtStartCloseTagAtEnd_returnArrayOnlyWithInputString(): void
     {
         // Arrange
@@ -107,9 +107,9 @@ class ilWebDAVMountInstructionsDocumentProcessorBaseTest extends TestCase
     }
 
     /**
-     * @test
      * @small
      */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function parseInstructionsToAssocArray_tagsContainSpaces_returnArrayOnlyWithInputString(): void
     {
         // Arrange
@@ -128,9 +128,9 @@ class ilWebDAVMountInstructionsDocumentProcessorBaseTest extends TestCase
     }
 
     /**
-     * @test
      * @small
      */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function parseInstructionsToAssocArray_tagsContainSpecialChars_returnArrayOnlyWithInputString(): void
     {
         // Arrange
@@ -149,9 +149,9 @@ class ilWebDAVMountInstructionsDocumentProcessorBaseTest extends TestCase
     }
 
     /**
-     * @test
      * @small
      */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function parseInstructionsToAssocArray_beforeStartTagAndAfterEndTagIsText_returnArrayOnlyWithStringBetweenTags(
     ): void {
         // Arrange
@@ -170,9 +170,9 @@ class ilWebDAVMountInstructionsDocumentProcessorBaseTest extends TestCase
     }
 
     /**
-     * @test
      * @small
      */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function parseInstructionsToAssocArray_placeholderBeforeStartTag_returnArrayOnlyWithStringBetweenTags(): void
     {
         // Arrange
@@ -191,9 +191,9 @@ class ilWebDAVMountInstructionsDocumentProcessorBaseTest extends TestCase
     }
 
     /**
-     * @test
      * @small
      */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function parseInstructionsToAssocArray_withTwoOpenAndCloseTags_returnArrayWithBothInstructions(): void
     {
         // Arrange

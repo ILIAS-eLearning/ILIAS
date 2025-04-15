@@ -110,9 +110,7 @@ class ComponentHelperTest extends TestCase
         $this->assertEquals("Test Component Test", $c->getCanonicalName());
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testCheckArgOk(): void
     {
         $this->mock->_checkArg("some_arg", true, "some message");
@@ -125,9 +123,7 @@ class ComponentHelperTest extends TestCase
         $this->mock->_checkArg("some_arg", false, "some message");
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testCheckStringArgOk(): void
     {
         $this->mock->_checkStringArg("some_arg", "bar");
@@ -140,9 +136,7 @@ class ComponentHelperTest extends TestCase
         $this->mock->_checkStringArg("some_arg", 1);
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testCheckBoolArgOk(): void
     {
         $this->mock->_checkBoolArg("some_arg", true);
@@ -155,9 +149,7 @@ class ComponentHelperTest extends TestCase
         $this->mock->_checkBoolArg("some_arg", 1);
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testCheckArgInstanceofOk(): void
     {
         $this->mock->_checkArgInstanceOf("some_arg", $this->mock, ComponentMock::class);
@@ -171,9 +163,7 @@ class ComponentHelperTest extends TestCase
     }
 
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testCheckArgIsElementOk(): void
     {
         $this->mock->_checkArgIsElement("some_arg", "bar", array("foo", "bar"), "foobar");
@@ -201,9 +191,7 @@ class ComponentHelperTest extends TestCase
         $this->assertEquals(array($foo), $res);
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testCheckArgListElementsOk(): void
     {
         $l = array(new Class1(), new Class1(), new Class1());
@@ -218,9 +206,7 @@ class ComponentHelperTest extends TestCase
         $this->mock->_checkArgListElements("some_arg", $l, array("Class1"));
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testCheckArgListElementsMultiClassOk(): void
     {
         $l = array(new Class1(), new Class2(), new Class1());
@@ -235,9 +221,7 @@ class ComponentHelperTest extends TestCase
         $this->mock->_checkArgListElements("some_arg", $l, array("Class1", "Class2"));
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testCheckArgListElementsStringOrIntOk(): void
     {
         $l = array(1, "foo");
@@ -252,9 +236,7 @@ class ComponentHelperTest extends TestCase
         $this->mock->_checkArgListElements("some_arg", $l, array("string", "int"));
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testCheckArgListOk(): void
     {
         $l = array("a" => 1, "b" => 2, "c" => 3);

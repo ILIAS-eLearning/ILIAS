@@ -22,9 +22,7 @@ use ILIAS\Test\Settings\MainSettings\SettingsIntroduction;
 
 class SettingsIntroductionTest extends ilTestBaseTestCase
 {
-    /**
-     * @dataProvider getAndWithIntroductionEnabledDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithIntroductionEnabledDataProvider')]
     public function testGetAndWithIntroductionEnabled(bool $io): void
     {
         $settings_introduction = (new SettingsIntroduction(0))->withIntroductionEnabled($io);
@@ -41,9 +39,7 @@ class SettingsIntroductionTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithIntroductionTextDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithIntroductionTextDataProvider')]
     public function testGetAndWithIntroductionText(string $io): void
     {
         $settings_introduction = (new SettingsIntroduction(0))->withIntroductionText($io);
@@ -60,9 +56,7 @@ class SettingsIntroductionTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithIntroductionPageIdDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithIntroductionPageIdDataProvider')]
     public function testGetAndWithIntroductionPageId(?int $io): void
     {
         $settings_introduction = (new SettingsIntroduction(0))->withIntroductionPageId($io);
@@ -81,9 +75,7 @@ class SettingsIntroductionTest extends ilTestBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider getAndWithExamConditionsCheckboxEnabledDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithExamConditionsCheckboxEnabledDataProvider')]
     public function testGetAndWithExamConditionsCheckboxEnabled(bool $io): void
     {
         $settings_introduction = (new SettingsIntroduction(0))->withExamConditionsCheckboxEnabled($io);
