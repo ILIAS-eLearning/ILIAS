@@ -101,16 +101,23 @@ class LocalUserPasswordTest extends ilUserBaseTestCase
      */
     public function testInstanceCanBeCreated(): void
     {
+        $call_count = 0;
         $factory_mock = $this->getMockBuilder(LocalUserPasswordEncoderFactory::class)->disableOriginalConstructor()->getMock();
-        $factory_mock->expects($this->exactly(2))->method('getSupportedEncoderNames')->will($this->onConsecutiveCalls(
-            [
-                'mockencoder',
-                'second_mockencoder'
-            ],
-            [
-                'mockencoder'
-            ]
-        ));
+        $factory_mock
+            ->expects($this->exactly(2))
+            ->method('getSupportedEncoderNames')
+            ->willReturnCallback(function () use (&$call_count) {
+                $call_count++;
+                if ($call_count === 1) {
+                    return [
+                        'mockencoder',
+                        'second_mockencoder'
+                    ];
+                }
+                return [
+                    'mockencoder'
+                ];
+            });
 
         $password_manager = new LocalUserPasswordManager([
             'password_encoder' => 'md5',
