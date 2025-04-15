@@ -66,18 +66,14 @@ class MarkdownShapeTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider stringToHTMLDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('stringToHTMLDataProvider')]
     public function testToHTML(string $markdown_string, HTML $expected_html): void
     {
         $text = $this->markdown_shape->fromString($markdown_string);
         $this->assertEquals($expected_html, $this->markdown_shape->toHTML($text));
     }
 
-    /**
-     * @dataProvider stringToPlainDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('stringToPlainDataProvider')]
     public function testToPlainText(string $markdown_string, PlainText $expected_text): void
     {
         $text = $this->markdown_shape->fromString($markdown_string);

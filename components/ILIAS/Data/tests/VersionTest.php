@@ -60,9 +60,7 @@ class VersionTest extends TestCase
         $this->assertEquals(3, $v->getPatch());
     }
 
-    /**
-     * @dataProvider greaterThanProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('greaterThanProvider')]
     public function testGreaterThan(Data\Version $l, Data\Version $r): void
     {
         $this->assertTrue($l->isGreaterThan($r));
@@ -91,9 +89,7 @@ class VersionTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider equalsProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('equalsProvider')]
     public function testEquals(Data\Version $l, Data\Version $r): void
     {
         $this->assertFalse($l->isGreaterThan($r));

@@ -44,9 +44,7 @@ class DataLinkTest extends TestCase
         return $link;
     }
 
-    /**
-     * @depends testFactory
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testFactory')]
     public function testValues(Link $link): void
     {
         $this->assertEquals(

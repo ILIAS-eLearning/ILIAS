@@ -71,20 +71,14 @@ class ClientIdTest extends TestCase
         ];
     }
 
-    /**
-     * @param string $value
-     * @dataProvider clientIdProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('clientIdProvider')]
     public function testValidArguments(string $value): void
     {
         $clientId = $this->f->clientId($value);
         $this->assertEquals($value, $clientId->toString());
     }
 
-    /**
-     * @param string $value
-     * @dataProvider invalidClientIdProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('invalidClientIdProvider')]
     public function testInvalidArguments(string $value): void
     {
         try {
