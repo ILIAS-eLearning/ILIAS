@@ -850,4 +850,30 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
         $valid = array_reverse($valid);
         return current($valid);
     }
+
+    public function getCertificateRelevantAssignmentIds(int $prg_obj_id, int ...$usr_id): array
+    {
+        $query = 'SELECT assignment_id FROM (' . PHP_EOL
+            . 'SELECT usr_id, assignment_id, ROW_NUMBER() OVER (' . PHP_EOL
+                . 'PARTITION BY usr_id' . PHP_EOL
+                . 'ORDER BY' . PHP_EOL
+                . 'CASE WHEN vq_date IS NULL THEN 1 ELSE 0 END DESC,' . PHP_EOL
+                . 'vq_date DESC,' . PHP_EOL
+                . 'completion_date DESC' . PHP_EOL
+            . ') AS row_numbers' . PHP_EOL
+        . 'FROM prg_usr_progress' . PHP_EOL
+        . 'WHERE prg_id = ' . $this->db->quote($prg_obj_id, 'integer') . PHP_EOL
+        . 'AND ' . $this->db->in('usr_id', $usr_id, false, 'integer') . PHP_EOL
+        . 'AND ' . $this->db->in('status', [ilPRGProgress::STATUS_COMPLETED, ilPRGProgress::STATUS_ACCREDITED], false, 'integer') . PHP_EOL
+        . ') ranked ' . PHP_EOL
+        . 'WHERE row_numbers = 1';
+
+        $res = $this->db->query($query);
+        $row = array_map(
+            fn($r) => $r['assignment_id'],
+            $this->db->fetchAll($res)
+        );
+
+        return $row;
+    }
 }

@@ -60,14 +60,18 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
     {
         $object = $this->objectHelper->getInstanceByObjId($objId);
         $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValues($userId, $objId);
-        $assignments = $object->getAssignmentsOfSingleProgramForUser($userId);
-        $latest_progress = $this->getRelevantProgressFromAssignments($assignments);
-        $type = $object->getSubType();
 
-        $placeholders['PRG_TITLE'] = ilLegacyFormElementsUtil::prepareFormOutput($object->getTitle());
-        $placeholders['PRG_DESCRIPTION'] = ilLegacyFormElementsUtil::prepareFormOutput($object->getDescription());
-        $placeholders['PRG_TYPE'] = ilLegacyFormElementsUtil::prepareFormOutput($type ? $type->getTitle() : '');
-        $placeholders['PRG_POINTS'] = ilLegacyFormElementsUtil::prepareFormOutput(
+        $latest_progress = false;
+        $ass_id = $object->getCertificateRelevantAssignmentIds($userId);
+        if ($ass_id !== []) {
+            $latest_progress = $object->getSpecificAssignment(current($ass_id))->getProgressTree();
+        }
+
+        $type = $object->getSubType();
+        $placeholders['PRG_TITLE'] = \ilLegacyFormElementsUtil::prepareFormOutput($object->getTitle());
+        $placeholders['PRG_DESCRIPTION'] = \ilLegacyFormElementsUtil::prepareFormOutput($object->getDescription());
+        $placeholders['PRG_TYPE'] = \ilLegacyFormElementsUtil::prepareFormOutput($type ? $type->getTitle() : '');
+        $placeholders['PRG_POINTS'] = \ilLegacyFormElementsUtil::prepareFormOutput(
             $latest_progress ? (string) $latest_progress->getCurrentAmountOfPoints() : ''
         );
         $placeholders['PRG_COMPLETION_DATE'] = ilLegacyFormElementsUtil::prepareFormOutput(
@@ -100,68 +104,5 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
         $placeholders['PRG_COMPLETION_DATE'] = $today;
         $placeholders['PRG_EXPIRES_AT'] = $today;
         return $placeholders;
-    }
-
-    protected function getRelevantProgressFromAssignments(array $assignments): ?ilPRGProgress
-    {
-        if (count($assignments) === 0) {
-            return null;
-        }
-        $latest_progress = null;
-        $latest_successful = $this->getLatestSuccessfulAssignment($assignments);
-        if ($latest_successful) {
-            $latest_progress = $latest_successful->getProgressTree();
-        }
-        return $latest_progress;
-    }
-
-    protected function getLatestSuccessfulAssignment(array $assignments): ?ilPRGAssignment
-    {
-        $successful = array_filter(
-            $assignments,
-            fn($ass) => $ass->getProgressTree()->isSuccessful()
-        );
-        if (count($successful) === 0) {
-            return null;
-        }
-
-        //is there an unlimited validity? if so, take latest.
-        $unlimited = array_filter(
-            $successful,
-            fn($ass) => is_null($ass->getProgressTree()->getValidityOfQualification())
-        );
-        if (count($unlimited) > 0) {
-            $successful = $unlimited;
-            usort($successful, static function (ilPRGAssignment $a, ilPRGAssignment $b): int {
-                $a_dat = $a->getProgressTree()->getCompletionDate();
-                $b_dat = $b->getProgressTree()->getCompletionDate();
-                if ($a_dat > $b_dat) {
-                    return -1;
-                } elseif ($a_dat < $b_dat) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            });
-        } else {
-            //there are (only) limited validities: take the one that lasts the longest.
-            $limited = array_filter(
-                $successful,
-                fn($ass) => !is_null($ass->getProgressTree()->getValidityOfQualification())
-            );
-            $successful = $limited;
-            usort($successful, static function (ilPRGAssignment $a, ilPRGAssignment $b): int {
-                $a_dat = $a->getProgressTree()->getValidityOfQualification();
-                $b_dat = $b->getProgressTree()->getValidityOfQualification();
-                if ($a_dat > $b_dat) {
-                    return -1;
-                } elseif ($a_dat < $b_dat) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            });
-        }
-        return array_shift($successful);
     }
 }

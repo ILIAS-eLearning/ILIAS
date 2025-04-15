@@ -1151,6 +1151,14 @@ class ilObjStudyProgramme extends ilContainer
         return count($this->getAssignmentsOfSingleProgramForUser($usr_id)) > 0;
     }
 
+    public function getCertificateRelevantAssignmentIds(int ...$usr_ids): array
+    {
+        return $this->assignment_repository->getCertificateRelevantAssignmentIds(
+            $this->getId(),
+            ...$usr_ids
+        );
+    }
+
 
     ////////////////////////////////////
     // USER PROGRESS
