@@ -23,6 +23,8 @@ use ILIAS\Data\Clock\ClockFactory;
 
 class ilCronManagerImpl implements ilCronManager
 {
+    private ?DateTimeImmutable $start_of_job_invocation = null;
+
     public function __construct(
         private readonly ilCronJobRepository $cronRepository,
         private readonly ilDBInterface $db,
@@ -39,16 +41,17 @@ class ilCronManagerImpl implements ilCronManager
 
     public function runActiveJobs(ilObjUser $actor): void
     {
+        $this->start_of_job_invocation = $this->clock_factory->system()->now();
+
         $this->logger->info('CRON - batch start');
 
-        $ts = $this->clock_factory->system()->now()->getTimestamp();
-        $this->settings->set('last_cronjob_start_ts', (string) $ts);
+        $this->settings->set('last_cronjob_start_ts', (string) $this->start_of_job_invocation->getTimestamp());
 
         $useRelativeDates = ilDatePresentation::useRelativeDates();
         ilDatePresentation::setUseRelativeDates(false);
         $this->logger->info(sprintf(
             'Set last datetime to: %s',
-            ilDatePresentation::formatDate(new ilDateTime($ts, IL_CAL_UNIX))
+            ilDatePresentation::formatDate(new ilDateTime($this->start_of_job_invocation->getTimestamp(), IL_CAL_UNIX))
         ));
         $this->logger->info(sprintf(
             'Verification of last run datetime (read from database): %s',
@@ -117,9 +120,9 @@ class ilCronManagerImpl implements ilCronManager
             $jobData = array_pop($jobsData);
         }
 
-        $job->setDateTimeProvider(function (): DateTimeImmutable {
-            return $this->clock_factory->system()->now();
-        });
+        $schedule_date_time = $this->start_of_job_invocation ?? $this->clock_factory->system()->now();
+
+        $job->setDateTimeProvider(static fn(): DateTimeImmutable => $schedule_date_time);
 
         // already running?
         if ($jobData['alive_ts']) {
@@ -151,7 +154,7 @@ class ilCronManagerImpl implements ilCronManager
         elseif ($job->isDue(
             $jobData['job_result_ts'] ? (new DateTimeImmutable(
                 '@' . $jobData['job_result_ts']
-            ))->setTimezone($this->clock_factory->system()->now()->getTimezone()) : null,
+            ))->setTimezone($schedule_date_time->getTimezone()) : null,
             is_numeric($jobData['schedule_type']) ? CronJobScheduleType::tryFrom((int) $jobData['schedule_type']) : null,
             $jobData['schedule_value'] ? (int) $jobData['schedule_value'] : null,
             $isManualExecution
