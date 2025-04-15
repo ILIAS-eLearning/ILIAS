@@ -5011,8 +5011,8 @@ common#:#obj_poll_duplicate#:#Abstimmung kopieren
 common#:#obj_prg#:#Studienprogramm
 common#:#obj_prg_duplicate#:#Studienprogramm kopieren
 common#:#obj_prg_select#:#-- Bitte wählen Sie ein Studienprogramm --
-common#:#obj_prgr#:#Link zum Studienprogramm
-common#:#obj_prgrs#:#Links zu Studienprogrammen
+common#:#obj_prgr#:#Studienprogrammlink
+common#:#obj_prgrs#:#Studienprogrammlinks
 common#:#obj_prgs#:#Studienprogramme
 common#:#obj_prgs_desc#:#Studienprogramm Administration
 common#:#obj_prss#:#Persönliche Ressourcen
