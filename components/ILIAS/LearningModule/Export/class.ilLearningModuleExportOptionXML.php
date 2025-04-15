@@ -63,7 +63,7 @@ class ilLearningModuleExportOptionXML extends ilLegacyExportOption
     public function getLabel(): string
     {
         $this->lng->loadLanguageModule('exp');
-        return $this->lng->txt("exp_format_dropdown-xml");
+        return $this->lng->txt("exp_format_dropdown-xml") . " (" . $this->lng->txt('cont_master_language_only_no_media') . ")";
     }
 
     public function onExportOptionSelected(\ILIAS\Export\ExportHandler\I\Consumer\Context\HandlerInterface $context): void
