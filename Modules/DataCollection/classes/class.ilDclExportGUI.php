@@ -66,7 +66,7 @@ class ilDclExportGUI extends ilExportGUI
     protected function checkForAsyncEnabled(): bool
     {
         global $DIC;
-        if (false && $DIC->settings()->get('soap_user_administration', '0') === 1) {
+        if ($DIC->settings()->get('soap_user_administration', '0') === '1') {
             return true;
         }
 
