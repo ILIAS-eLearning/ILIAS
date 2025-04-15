@@ -5011,8 +5011,8 @@ common#:#obj_poll_duplicate#:#Copy Poll
 common#:#obj_prg#:#Study Programme
 common#:#obj_prg_duplicate#:#Copy Study Programme
 common#:#obj_prg_select#:#-- Please select one study programme --
-common#:#obj_prgr#:#Link to Study Programme
-common#:#obj_prgrs#:#Links to Study Programmes
+common#:#obj_prgr#:#Study Programme Link
+common#:#obj_prgrs#:#Study Programme Links
 common#:#obj_prgs#:#Study Programmes
 common#:#obj_prgs_desc#:#Study Programme Administration
 common#:#obj_prss#:#Personal Resources
