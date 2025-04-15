@@ -536,9 +536,9 @@ class ilMediaAliasItem
             $this->getPcId()
         );
         if (is_object($ma_nodes[$a_nr - 1])) {
-            $childs = $ma_nodes[$a_nr - 1]->child_nodes();
+            $childs = $ma_nodes[$a_nr - 1]->childNodes;
             if (is_object($childs[0]) &&
-                ($childs[0]->node_name() == "IntLink" || $childs[0]->node_name() == "ExtLink")) {
+                ($childs[0]->nodeName == "IntLink" || $childs[0]->nodeName == "ExtLink")) {
                 $childs[0]->set_content($a_title);
             }
         }
