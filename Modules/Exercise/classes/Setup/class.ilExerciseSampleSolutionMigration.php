@@ -53,11 +53,14 @@ class ilExerciseSampleSolutionMigration implements Migration
 
     public function step(Environment $environment): void
     {
-        $db = $this->helper->getDatabase();
         $r = $this->helper->getDatabase()->query(
             "SELECT id, exc_id, owner FROM exc_assignment JOIN object_data ON exc_id = obj_id WHERE solution_rid IS NULL LIMIT 1;"
         );
         $d = $this->helper->getDatabase()->fetchObject($r);
+        if (!($d instanceof stdClass)) {
+            return;
+        }
+
         $exec_id = (int)$d->exc_id;
         $assignment_id = (int)$d->id;
         $resource_owner_id = (int)$d->owner;
