@@ -1026,7 +1026,7 @@ class ilSurveyEditorGUI
                 ilUtil::stripSlashes(
                     $form->getInput("heading"),
                     true,
-                    ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey")
+                    ilRTESettings::_getUsedHTMLTagsAsString("survey")
                 ),
                 $form->getInput("insertbefore")
             );

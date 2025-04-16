@@ -2235,10 +2235,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 (function () {
                   const button = document.getElementById('$id');
                   if (!button) return;
-                
+
                   const form = document.getElementById('form_$form_id');
                   if (!form) return;
-                
+
                   button.addEventListener('click', (event) => {
                     event.preventDefault();
                     form.submit();
@@ -2520,7 +2520,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             );
 
             if ($show_rte) {
-                ilObjAdvancedEditing::_setRichTextEditorUserState($show_rte);
+                (new ilRTESettings($this->lng, $this->user))->setRichTextEditorUserState($show_rte);
             }
 
             if ($quotingAllowed) {
@@ -3508,12 +3508,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         document.querySelectorAll('.ilFrmPostContent img').forEach((img) => {
           const maxWidth = img.getAttribute('width');
           const maxHeight = img.getAttribute('height');
-        
+
           if (maxWidth) {
             img.style.maxWidth = maxWidth + 'px';
             img.removeAttribute('width');
           }
-        
+
           if (maxHeight) {
             img.style.maxHeight = maxHeight + 'px';
             img.removeAttribute('height');
@@ -4483,7 +4483,7 @@ EOD
                         (function () {
                           const button = document.getElementById('$id');
                           if (!button) return;
-                        
+
                           const modalDialog = button.closest('.modal-dialog');
                           if (!modalDialog) return;
 
@@ -5637,10 +5637,10 @@ EOD
                             (function () {
                               const button = document.getElementById('$id');
                               if (!button) return;
-                            
+
                               const form = document.getElementById('$form_id');
                               if (!form) return;
-                            
+
                               button.addEventListener('click', (event) => {
                                 event.preventDefault();
                                 form.submit();

@@ -19,6 +19,7 @@
 /**
  * Chart legend
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @deprecated 11 This component will be removed with ILIAS 11
  */
 class ilChartLegend
 {

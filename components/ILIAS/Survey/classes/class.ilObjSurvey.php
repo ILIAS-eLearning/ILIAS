@@ -3430,7 +3430,7 @@ class ilObjSurvey extends ilObject
     ): void {
         foreach ($mapping as $original_id => $new_id) {
             $textblock = $this->getTextblock($original_id);
-            $this->saveHeading(ilUtil::stripSlashes($textblock, true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey")), $new_id);
+            $this->saveHeading(ilUtil::stripSlashes($textblock, true, ilRTESettings::_getUsedHTMLTagsAsString("survey")), $new_id);
         }
     }
 

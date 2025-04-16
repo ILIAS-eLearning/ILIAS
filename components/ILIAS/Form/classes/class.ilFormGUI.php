@@ -21,6 +21,7 @@ declare(strict_types=1);
 /**
  * This class represents a form user interface
  * @author Alexander Killing <killing@leifos.de>
+ * @deprecated 12 This component will be removed with ILIAS 12
  */
 class ilFormGUI
 {

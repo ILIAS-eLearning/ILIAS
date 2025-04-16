@@ -25,6 +25,7 @@ declare(strict_types=1);
  *
  * @ilCtrl_IsCalledBy ilLinkInputGUI: ilFormPropertyDispatchGUI
  * @ilCtrl_Calls ilLinkInputGUI: ilInternalLinkGUI
+ * @deprecated 12 This component will be removed with ILIAS 12
  */
 class ilLinkInputGUI extends ilFormPropertyGUI
 {

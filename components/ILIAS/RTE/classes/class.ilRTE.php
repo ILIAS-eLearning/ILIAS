@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\HTTP\Agent\AgentDetermination;
+use ILIAS\Language\Language;
 
 /**
  * Rich Text Editor base class
@@ -100,6 +101,8 @@ class ilRTE
     }
 
     public function addRTESupport(
+        Language $lng,
+        ilObjUser $user,
         int $obj_id,
         string $obj_type,
         string $a_module = '',
@@ -124,7 +127,8 @@ class ilRTE
 
     public static function _getRTEClassname(): string
     {
-        $editor = ilObjAdvancedEditing::_getRichTextEditor();
+        global $DIC;
+        $editor = (new ilRTESettings($DIC['lng'], $DIC['ilUser']))->getRichTextEditor();
         if (strtolower($editor) === 'tinymce') {
             return ilTinyMCE::class;
         }

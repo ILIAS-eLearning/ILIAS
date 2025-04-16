@@ -162,8 +162,7 @@ class ilObjUserFolder extends ilObject
 
         $separator = ";";
         $file = fopen($filename, 'wb');
-        $formattedrow = &ilCSVUtil::processCSVRow($headerrow, true, $separator);
-        fwrite($file, implode($separator, $formattedrow) . "\n");
+        fwrite($file, $this->processCSVRow($headerrow) . "\n");
         foreach ($data as $row) {
             $csvrow = [];
             foreach ($settings as $header) {	// standard fields
@@ -184,8 +183,7 @@ class ilObjUserFolder extends ilObject
                 }
             }
 
-            $formattedrow = &ilCSVUtil::processCSVRow($csvrow, true, $separator);
-            fwrite($file, implode($separator, $formattedrow) . "\n");
+            fwrite($file, $this->processCSVRow($csvrow) . "\n");
         }
         fclose($file);
     }
@@ -417,6 +415,19 @@ class ilObjUserFolder extends ilObject
                 break;
         }
         return $fullname;
+    }
+
+    private function processCSVRow(array $row): array
+    {
+        $resultarray = [];
+        foreach ($row as $rowindex => $entry) {
+            $resultarray[$rowindex] = iconv(
+                'UTF-8',
+                'ISO-8859-1',
+                '"' . str_replace(chr(13) . chr(10), chr(10), $entry) . '"'
+            );
+        }
+        return implode(';', $resultarray);
     }
 
 

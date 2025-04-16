@@ -19,6 +19,7 @@
 /**
  * Yahoo YUI Library Utility functions
  * @author Alexander Killing <killing@leifos.de>
+ * @deprecated 11 This component will be removed with ILIAS 11
  */
 class ilYuiUtil
 {

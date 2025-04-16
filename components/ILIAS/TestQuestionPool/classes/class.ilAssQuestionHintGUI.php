@@ -170,7 +170,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
                 $areaInp->setUseRte(true);
             }
 
-            $areaInp->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
+            $areaInp->setRteTags(ilRTESettings::_getUsedHTMLTags("assessment"));
 
             $areaInp->setRTESupport($this->question_obj->getId(), 'qpl', 'assessment');
 
