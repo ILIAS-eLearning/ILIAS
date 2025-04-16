@@ -36,11 +36,17 @@ interface HandlerInterface
         ilExportHandlerConsumerExportOptionCollectionInterface $export_options
     ): HandlerInterface;
 
+    public function withContext(
+        ilExportHandlerConsumerContextInterface $context
+    ): HandlerInterface;
+
+    public function withPublicAccessEnabled(
+        bool $public_access_enabled
+    ): HandlerInterface;
+
     public function handleCommands(): void;
 
     public function getHTML(): string;
 
-    public function withContext(
-        ilExportHandlerConsumerContextInterface $context
-    ): HandlerInterface;
+    public function isPublicAccessEnabled(): bool;
 }

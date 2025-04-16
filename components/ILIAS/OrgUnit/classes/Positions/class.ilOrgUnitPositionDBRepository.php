@@ -16,6 +16,7 @@
  *
  ********************************************************************
  */
+
 declare(strict_types=1);
 
 use ILIAS\UI\Component\Table;
@@ -340,7 +341,7 @@ class ilOrgUnitPositionDBRepository implements OrgUnitPositionRepository, Table\
             $row_id = (string) $pos->getId();
             $record = [
                 'title' => $pos->getTitle(),
-                'description' => $pos->getDescription() . 'dd',
+                'description' => $pos->getDescription(),
                 'authorities' => implode("<br>", $this->getAuthorityDescription($pos->getAuthorities())),
                 'is_core_position' => $pos->isCorePosition(),
             ];

@@ -71,6 +71,7 @@ class Handler implements ilExportHandlerTableInterface
     protected ilExportHandlerConsumerExportOptionCollectionInterface $export_options;
     protected ilDataTable $table;
     protected ilExportHandlerConsumerContextInterface $context;
+    protected bool $public_access_enabled;
 
     public function __construct(
         ilUIServices $ui_services,
@@ -91,6 +92,7 @@ class Handler implements ilExportHandlerTableInterface
         $this->ctrl = $ctrl;
         $this->export_handler = $export_handler;
         $this->data_factory = $data_factory;
+        $this->public_access_enabled = true;
     }
 
     protected function getColumns(): array
@@ -100,7 +102,7 @@ class Handler implements ilExportHandlerTableInterface
         } else {
             $format = $this->data_factory->dateFormat()->withTime24($this->user->getDateFormat());
         }
-        return [
+        $columns = [
             self::TABLE_COL_TYPE => $this->ui_services->factory()->table()->column()->text(
                 $this->lng->txt(self::TABLE_COL_LNG_TYPE)
             )->withHighlight(true),
@@ -115,11 +117,14 @@ class Handler implements ilExportHandlerTableInterface
             self::TABLE_COL_TIMESTAMP => $this->ui_services->factory()->table()->column()->date(
                 $this->lng->txt(self::TABLE_COL_LNG_TIMESTAMP),
                 $format
-            ),
-            self::TABLE_COL_PUBLIC_ACCESS => $this->ui_services->factory()->table()->column()->status(
-                $this->lng->txt(self::TABLE_COL_LNG_PUBLIC_ACCESS),
             )
         ];
+        if ($this->isPublicAccessEnabled()) {
+            $columns[self::TABLE_COL_PUBLIC_ACCESS] = $this->ui_services->factory()->table()->column()->status(
+                $this->lng->txt(self::TABLE_COL_LNG_PUBLIC_ACCESS),
+            );
+        }
+        return $columns;
     }
 
     protected function getActions(): array
@@ -131,12 +136,7 @@ class Handler implements ilExportHandlerTableInterface
                 self::TABLE_ACTION_ID,
                 self::ROW_ID
             );
-        return [
-            self::ACTION_PUBLIC_ACCESS => $this->ui_services->factory()->table()->action()->single(
-                $this->lng->txt('exp_toggle_public_access'),
-                $this->url_builder->withParameter($this->action_parameter_token, self::ACTION_PUBLIC_ACCESS),
-                $this->row_id_token
-            ),
+        $actions = [
             self::ACTION_DOWNLOAD => $this->ui_services->factory()->table()->action()->single(
                 $this->lng->txt('download'),
                 $this->url_builder->withParameter($this->action_parameter_token, self::ACTION_DOWNLOAD),
@@ -148,6 +148,14 @@ class Handler implements ilExportHandlerTableInterface
                 $this->row_id_token
             )->withAsync()
         ];
+        if ($this->isPublicAccessEnabled()) {
+            $actions[self::ACTION_PUBLIC_ACCESS] = $this->ui_services->factory()->table()->action()->single(
+                $this->lng->txt('exp_toggle_public_access'),
+                $this->url_builder->withParameter($this->action_parameter_token, self::ACTION_PUBLIC_ACCESS),
+                $this->row_id_token
+            );
+        }
+        return $actions;
     }
 
     /**
@@ -214,6 +222,13 @@ class Handler implements ilExportHandlerTableInterface
      */
     protected function markAsPublicAccess(array $ids_sorted): void
     {
+        if (!$this->isPublicAccessEnabled()) {
+            $this->ctrl->redirect(
+                $this->context->exportGUIObject(),
+                $this->context->exportGUIObject()::CMD_LIST_EXPORT_FILES
+            );
+            return;
+        }
         $pa_repository = $this->export_handler->publicAccess()->repository()->handler();
         $pa_repository_element_factory = $this->export_handler->publicAccess()->repository()->element();
         $pa_repository_key_factory = $this->export_handler->publicAccess()->repository()->key();
@@ -245,7 +260,10 @@ class Handler implements ilExportHandlerTableInterface
                 $pa_repository->storeElement($element);
             }
         }
-        $this->ctrl->redirect($this->context->exportGUIObject(), $this->context->exportGUIObject()::CMD_LIST_EXPORT_FILES);
+        $this->ctrl->redirect(
+            $this->context->exportGUIObject(),
+            $this->context->exportGUIObject()::CMD_LIST_EXPORT_FILES
+        );
     }
 
     /**
@@ -382,10 +400,24 @@ class Handler implements ilExportHandlerTableInterface
         return $clone;
     }
 
-    public function withContext(ilExportHandlerConsumerContextInterface $context): ilExportHandlerTableInterface
-    {
+    public function withContext(
+        ilExportHandlerConsumerContextInterface $context
+    ): ilExportHandlerTableInterface {
         $clone = clone $this;
         $clone->context = $context;
         return $clone;
+    }
+
+    public function withPublicAccessEnabled(
+        bool $public_access_enabled
+    ): ilExportHandlerTableInterface {
+        $clone = clone $this;
+        $clone->public_access_enabled = $public_access_enabled;
+        return $clone;
+    }
+
+    public function isPublicAccessEnabled(): bool
+    {
+        return $this->public_access_enabled;
     }
 }

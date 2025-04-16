@@ -13,9 +13,9 @@
  * https://github.com/ILIAS-eLearning
  */
 
-import { describe, it, beforeEach, afterEach } from 'mocha';
-import { expect } from 'chai';
-import { copyText, showTooltip } from '../../../../src/UI/templates/js/MainControls/src/footer/permalink';
+import { describe, it, beforeEach, afterEach } from 'node:test';
+import { copyText, showTooltip } from '../../../resources/js/MainControls/src/footer/permalink.js';
+import { strict } from 'node:assert/strict';
 
 const expectOneCall = () => {
   const expected = [];
@@ -61,18 +61,18 @@ describe('Test permalink copy to clipboard', () => {
       return response;
     };
     globalThis.window = { navigator: { clipboard: { writeText } } };
-    expect(copyText('foo')).to.be.equal(response);
-    expect(written).to.be.equal('foo');
+    strict.deepEqual(copyText('foo'), response)
+    strict.equal(written, 'foo')
   });
 
   it('Legacy Clipboard API', () => {
     const {callOnce, finish} = expectOneCall();
     const node = { remove: callOnce() };
     const range = {
-      selectNodeContents: callOnce(n => expect(n).to.be.equal(node))
+      selectNodeContents: callOnce(n => strict.deepEqual(n, node)),
     };
     const selection = {
-      addRange: callOnce(x => expect(x).to.be.equal(range)),
+      addRange: callOnce(x => strict.equal(x, range)),
       removeAllRanges: callOnce(),
     };
 
@@ -85,19 +85,19 @@ describe('Test permalink copy to clipboard', () => {
       createRange: callOnce(() => range),
 
       createElement: callOnce(text => {
-        expect(text).to.be.equal('span');
+        strict.equal(text,  'span');
         return node;
       }),
 
       execCommand: callOnce(s => {
-        expect(s).to.be.equal('copy');
+        strict.equal(s,  'copy');
         return true;
       }),
 
       body: {
         appendChild: callOnce(n => {
-          expect(n).to.be.equal(node);
-          expect(n.textContent).to.be.equal('foo');
+          strict.deepEqual(n, node);
+          strict.equal(n.textContent, 'foo');
         }),
       },
     };
@@ -122,7 +122,7 @@ describe('Test permanentlink show tooltip', () => {
     let callTimeout = null;
     globalThis.document = {
       getElementsByTagName: callOnce(tag => {
-        expect(tag).to.be.equal('main');
+        strict.equal(tag, 'main');
         return [
           {getBoundingClientRect: callOnce(() => mainRect)}
         ];
@@ -131,10 +131,10 @@ describe('Test permanentlink show tooltip', () => {
 
     globalThis.setTimeout = callOnce((proc, delay) => {
       callTimeout = proc;
-      expect(delay).to.be.equal(4321);
+      strict.equal(delay, 4321);
     });
 
-    const isTooltipClass = name => expect(name).to.be.equal('c-tooltip--visible');
+    const isTooltipClass = name => strict.equal(name, 'c-tooltip--visible');
     const node = {
       parentNode: {
         classList: {
@@ -147,8 +147,8 @@ describe('Test permanentlink show tooltip', () => {
     };
     showTooltip(node, 4321);
 
-    expect(callTimeout).not.to.be.equal(null);
-    expect(node.style.transform).to.be.equal(expectTransform);
+    strict.notEqual(callTimeout, null);
+    strict.deepEqual(node.style.transform, expectTransform);
 
     callTimeout();
     finish();

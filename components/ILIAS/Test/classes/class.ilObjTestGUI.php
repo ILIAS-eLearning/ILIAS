@@ -989,7 +989,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     protected function redirectAfterMissingWrite()
     {
         $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_permission"), true);
-        $target_class = get_class($this->getTestObject()) . "GUI";
+        $target_class = get_class($this->object) . "GUI";
         $this->ctrl->setParameterByClass($target_class, 'ref_id', $this->ref_id);
         $this->ctrl->redirectByClass($target_class);
     }
@@ -998,7 +998,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     {
         $this->tpl->setOnScreenMessage('failure', sprintf(
             $this->lng->txt("msg_no_perm_read_item"),
-            $this->getTestObject()->getTitle()
+            $this->object->getTitle()
         ), true);
         $this->ctrl->setParameterByClass('ilrepositorygui', 'ref_id', ROOT_FOLDER_ID);
         $this->ctrl->redirectByClass('ilrepositorygui');

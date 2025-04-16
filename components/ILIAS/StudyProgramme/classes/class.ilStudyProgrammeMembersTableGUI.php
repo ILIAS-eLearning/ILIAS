@@ -416,7 +416,6 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_SHOW_INDIVIDUAL_PLAN;
             $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_REMOVE_USER;
             $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_UPDATE_FROM_CURRENT_PLAN;
-            $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_ACKNOWLEDGE_COURSES;
             $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_CHANGE_DEADLINE;
             $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_CHANGE_EXPIRE_DATE;
         }
@@ -426,6 +425,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         }
         if ($status == ilPRGProgress::STATUS_IN_PROGRESS) {
             $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_MARK_ACCREDITED;
+            $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_ACKNOWLEDGE_COURSES;
         }
 
         if (! $is_root &&

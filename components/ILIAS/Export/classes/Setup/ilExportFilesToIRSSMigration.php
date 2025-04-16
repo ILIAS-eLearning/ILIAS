@@ -18,23 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Export\Setup;
-
-use ilDatabaseInitializedObjective;
-use ilDatabaseUpdatedObjective;
-use ilDBConstants;
-use ilDBInterface;
-use ilFileUtils;
-use ILIAS\Setup\Migration;
-use ILIAS\Setup\Environment;
-use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Export\ExportHandler\Repository\Stakeholder\Handler as ResourceStakeholder;
-use ilIniFilesLoadedObjective;
-use ilObject;
-use ilResourceStorageMigrationHelper;
-use InvalidArgumentException;
+use ILIAS\Setup\Environment;
+use ILIAS\Setup\Migration;
 
-class FilesToIRSSMigration implements Migration
+class ilExportFilesToIRSSMigration implements Migration
 {
     protected ilDBInterface $db;
 
@@ -74,11 +62,16 @@ class FilesToIRSSMigration implements Migration
         if (is_null($row_export_file_info)) {
             return;
         }
+        $obj_id = (int) $row_export_file_info['obj_id'];
+        $export_type = $row_export_file_info['export_type'];
+        $filename = $row_export_file_info['filename'];
         $res_object_data = $this->db->query(
             "SELECT type FROM object_data WHERE obj_id = " . $this->db->quote((int) $row_export_file_info['obj_id'], ilDBConstants::T_INTEGER)
         );
         $row_object_data = $res_object_data->fetchAssoc();
+        # Export does not exist anymore, mark as migrated
         if (is_null($row_object_data)) {
+            $this->updateMigrated($obj_id, $export_type, $filename);
             return;
         }
         $res_il_object_def = $this->db->query(
@@ -94,9 +87,6 @@ class FilesToIRSSMigration implements Migration
             $plugin_ids[] = $row_il_plugin['plugin_id'];
         }
         $classname = $row_il_object_def['class_name'];
-        $obj_id = (int) $row_export_file_info['obj_id'];
-        $export_type = $row_export_file_info['export_type'];
-        $filename = $row_export_file_info['filename'];
         $create_date = $row_export_file_info['create_date'];
         $type = $row_object_data['type'];
         $component_for_type = $row_il_object_def['component'];
@@ -112,6 +102,11 @@ class FilesToIRSSMigration implements Migration
             $type
         );
         $file_path = $export_dir . DIRECTORY_SEPARATOR . $filename;
+        # Export file was deleted, mark as migrated
+        if (!file_exists($file_path)) {
+            $this->updateMigrated($obj_id, $export_type, $filename);
+            return;
+        }
         $irss_helper = new ilResourceStorageMigrationHelper(new ResourceStakeholder(), $environment);
         $rid = $irss_helper->movePathToStorage($file_path, 6, null, null, false);
         if (is_null($rid)) {
@@ -124,12 +119,8 @@ class FilesToIRSSMigration implements Migration
             . $this->db->quote(6, ilDBConstants::T_INTEGER) . ", "
             . $this->db->quote($create_date, ilDBConstants::T_DATE) . ")"
         );
-        $this->db->manipulate(
-            "UPDATE export_file_info SET migrated = 1 WHERE"
-            . " obj_id = " . $this->db->quote($obj_id, ilDBConstants::T_INTEGER)
-            . " AND export_type = " . $this->db->quote($export_type, ilDBConstants::T_TEXT)
-            . " AND filename = " . $this->db->quote($filename, ilDBConstants::T_TEXT)
-        );
+        # Export file was moved to irss, mark as migrated
+        $this->updateMigrated($obj_id, $export_type, $filename);
     }
 
     public function getRemainingAmountOfSteps(): int
@@ -141,6 +132,19 @@ class FilesToIRSSMigration implements Migration
             return 0;
         }
         return (int) $row['count'];
+    }
+
+    protected function updateMigrated(
+        int $obj_id,
+        string $export_type,
+        string $filename
+    ): void {
+        $this->db->manipulate(
+            "UPDATE export_file_info SET migrated = 1 WHERE"
+            . " obj_id = " . $this->db->quote($obj_id, ilDBConstants::T_INTEGER)
+            . " AND export_type = " . $this->db->quote($export_type, ilDBConstants::T_TEXT)
+            . " AND filename = " . $this->db->quote($filename, ilDBConstants::T_TEXT)
+        );
     }
 
     protected function getExportDirectory(

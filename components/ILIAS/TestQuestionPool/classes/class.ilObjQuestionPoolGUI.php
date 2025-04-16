@@ -751,7 +751,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
     public function importVerifiedFileObject(): void
     {
-        if (!$this->checkPermissionBool('create', '', $this->qplrequest->string('new_type'))) {
+        if (!$this->checkPermissionBool('create', '', $this->request_data_collector->string('new_type'))) {
             $this->redirectAfterMissingWrite();
             return;
         }

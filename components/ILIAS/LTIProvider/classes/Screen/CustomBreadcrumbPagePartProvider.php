@@ -59,8 +59,9 @@ class CustomBreadcrumbPagePartProvider implements PagePartProvider
         $ref_id = $_SESSION["ref_id"];
 
         foreach ($breadcrumbs->getItems() as $crumb) {
-            if (method_exists($crumb, 'getAction') && str_contains($crumb->getAction(), 'goto.php')) {
-                if (str_contains($crumb->getAction(), $ref_id) && !str_contains($crumb->getAction(), 'root')) {
+            $action = (string) $crumb->getAction();
+            if (method_exists($crumb, 'getAction') && str_contains($action, 'goto.php')) {
+                if (str_contains($action, (string) $ref_id) && !str_contains($action, 'root')) {
                     $goto_crumbs[] = $crumb;
                 }
             } else {

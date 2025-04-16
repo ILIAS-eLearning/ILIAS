@@ -13,7 +13,7 @@
  * https://github.com/ILIAS-eLearning
  */
 
-import Textarea from '../Textarea/textarea.class';
+import Textarea from '../Textarea/textarea.class.js';
 
 /**
  * @type {string}

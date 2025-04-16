@@ -18,20 +18,15 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Export\Setup;
-
-use ilDatabaseUpdateStepsExecutedObjective;
-use ilDatabaseUpdateStepsMetricsCollectedObjective;
+use ILIAS\Export\Setup\BuildExportOptionsMapObjective as ilExportSetupBuildOptionsMapObjective;
+use ILIAS\Export\Setup\DBUpdateSteps10 as ilExportSetupDBUpdateSteps10;
 use ILIAS\Setup\Agent\NullAgent;
-use ILIAS\Setup\ObjectiveCollection;
-use ILIAS\Setup\Objective;
 use ILIAS\Setup\Config;
 use ILIAS\Setup\Metrics\Storage;
-use ILIAS\Export\Setup\DBUpdateSteps10 as ilExportSetupDBUpdateSteps10;
-use ILIAS\Export\Setup\FilesToIRSSMigration as ilExportSetupFilesToIRSSMigration;
-use ILIAS\Export\Setup\BuildExportOptionsMapObjective as ilExportSetupBuildOptionsMapObjective;
+use ILIAS\Setup\Objective;
+use ILIAS\Setup\ObjectiveCollection;
 
-class Agent extends NullAgent
+class ilExportSetupAgent extends NullAgent
 {
     public function getUpdateObjective(Config $config = null): Objective
     {
@@ -53,7 +48,7 @@ class Agent extends NullAgent
 
     public function getMigrations(): array
     {
-        return [new ilExportSetupFilesToIRSSMigration()];
+        return [new ilExportFilesToIRSSMigration()];
     }
 
     public function getBuildObjective(): Objective

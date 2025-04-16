@@ -12,7 +12,7 @@ jobs:
       fail-fast: false
       matrix:
         php: [8.2, 8.3]
-        nodejs: [ 20.x ]
+        nodejs: [ 23.x ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -44,7 +44,7 @@ jobs:
           GHRUN: "yes"
 
       - name: JS Unit Test
-        run: exit 0 # npm test
+        run: npm test
         env:
           GHRUN: "yes"
 

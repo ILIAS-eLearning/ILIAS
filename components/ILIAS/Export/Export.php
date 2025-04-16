@@ -20,11 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
-use ILIAS\MetaData\Elements\Set;
-use ILIAS\Setup\Agent as SetupAgent;
-use ILIAS\Refinery\Factory as RefineryFactory;
-use ILIAS\Export\Setup\Agent as ilExportSetupAgent;
+use ilExportSetupAgent;
 use ILIAS\Export\HTML;
+use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\Setup\Agent as SetupAgent;
 
 class Export implements Component\Component
 {

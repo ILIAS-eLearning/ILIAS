@@ -59,9 +59,13 @@ class ilExportGUI
     protected ilExportHandlerConsumerContextInterface $context;
     protected ilDataFactory $data_factory;
     protected object $parent_gui;
+    protected bool $public_access_enabled;
 
-    public function __construct(object $a_parent_gui, ?ilObject $a_main_obj = null)
-    {
+    public function __construct(
+        object $a_parent_gui,
+        ?ilObject $a_main_obj = null,
+        bool $public_access_enabled = true
+    ) {
         global $DIC;
         $this->ui_services = $DIC->ui();
         $this->http = $DIC->http();
@@ -82,8 +86,14 @@ class ilExportGUI
         $this->context = $this->export_handler->consumer()->context()->handler($this, $this->obj);
         $this->export_options = $this->export_handler->consumer()->exportOption()->collection();
         $this->data_factory = new ilDataFactory();
+        $this->public_access_enabled = $public_access_enabled;
         $this->initExportOptions();
         $this->enableStandardXMLExport();
+    }
+
+    final public function isPublicAccessEnabled(): bool
+    {
+        return $this->public_access_enabled;
     }
 
     public function executeCommand(): void
@@ -191,7 +201,8 @@ class ilExportGUI
         }
         $table = $this->export_handler->table()->handler()
             ->withExportOptions($this->export_options)
-            ->withContext($this->context);
+            ->withContext($this->context)
+            ->withPublicAccessEnabled($this->isPublicAccessEnabled());
         $table->handleCommands();
         $infos = [];
         foreach ($this->export_options as $export_option) {

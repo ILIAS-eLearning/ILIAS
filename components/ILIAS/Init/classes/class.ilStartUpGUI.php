@@ -582,7 +582,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                     ),
         ];
 
-        $sections = [$field_factory->section($fields, $this->lng->txt('login_to_ilias'))];
+        $sections = [$field_factory->section($fields, $this->lng->txt('login_to_ilias_via_login_form'))];
 
         return $this->ui_factory
             ->input()

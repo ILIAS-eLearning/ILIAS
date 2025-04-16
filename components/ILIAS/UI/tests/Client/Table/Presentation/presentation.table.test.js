@@ -14,32 +14,31 @@
  *
  ******************************************************************** */
 
-import { expect } from 'chai';
+import { beforeEach, describe, it } from 'node:test';
+import { strict } from 'node:assert/strict';
 import { JSDOM } from 'jsdom';
-import fs from 'fs';
-import PresentationTableFactory from '../../../../resources/js/Table/src/presentationtable.factory';
-import PresentationTable from '../../../../resources/js/Table/src/presentationtable.class';
+import fs from 'node:fs';
+import PresentationTableFactory from '../../../../resources/js/Table/src/presentationtable.factory.js';
+import PresentationTable from '../../../../resources/js/Table/src/presentationtable.class.js';
 
 describe('Presentation Table', () => {
   beforeEach(() => {
     const domString = fs.readFileSync('./components/ILIAS/UI/tests/Client/Table/Presentation/PresentationTest.html').toString();
     const dom = new JSDOM(domString);
-    /* eslint-env jquery */
     dom.window.document.getElementById = (id) => document.querySelector(`#${id}`);
     global.window = dom.window;
     global.document = dom.window.document;
   });
 
   it('classes exist', () => {
-    /* eslint-disable no-unused-expressions */
-    expect(PresentationTableFactory).to.not.be.undefined;
-    expect(PresentationTable).to.not.be.undefined;
+    strict.notEqual(PresentationTableFactory, undefined);
+    strict.notEqual(PresentationTable, undefined);
   });
 
   it('factory has public methods', () => {
     const f = new PresentationTableFactory();
-    expect(f.init).to.be.an('function');
-    expect(f.get).to.be.an('function');
+    strict.equal(f.init instanceof Function, true);
+    strict.equal(f.get instanceof Function, true);
   });
 
   it('factors a PresentationTable', () => {
@@ -47,10 +46,10 @@ describe('Presentation Table', () => {
     f.init('il_ui_test_table_id');
     const pt = f.get('il_ui_test_table_id');
 
-    expect(pt instanceof PresentationTable);
-    expect(pt.expandRow).to.be.an('function');
-    expect(pt.collapseRow).to.be.an('function');
-    expect(pt.toggleRow).to.be.an('function');
-    expect(pt.expandAll).to.be.an('function');
+    strict.equal(pt instanceof PresentationTable, true);
+    strict.equal(pt.expandRow instanceof Function, true);
+    strict.equal(pt.collapseRow instanceof Function, true);
+    strict.equal(pt.toggleRow instanceof Function, true);
+    strict.equal(pt.expandAll instanceof Function, true);
   });
 });

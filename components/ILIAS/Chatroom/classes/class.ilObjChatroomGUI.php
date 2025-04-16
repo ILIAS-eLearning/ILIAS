@@ -270,11 +270,6 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
             $info->enableNews();
         }
 
-        $info->addMetaDataSections(
-            $this->getObject()->getId(),
-            0,
-            $this->getObject()->getType()
-        );
         $this->ctrl->forwardCommand($info);
     }
 

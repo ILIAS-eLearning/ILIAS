@@ -383,7 +383,7 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
             }
         }
         if ($this->getMulti()) {
-            $output = "<div id='{$this->getFieldId()}' class='multi_line_input'>{$output}</div>";
+            $output = "<div style=\"display:none;\" id='{$this->getFieldId()}' class='multi_line_input'>{$output}</div>";
             $config = json_encode($this->input_options);
             $options = json_encode([
                 'limit' => 999999,
@@ -391,7 +391,10 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
                 'locale' => $this->lng->getLangKey()
             ]);
             global $tpl;
-            $tpl->addOnLoadCode("il.DataCollection.genericMultiLineInit('{$this->getFieldId()}',$config,$options);");
+            $tpl->addOnLoadCode("
+                il.DataCollection.genericMultiLineInit('{$this->getFieldId()}',$config,$options);
+                document.body.querySelector('#{$this->getFieldId()}').removeAttribute('style');
+            ");
         }
 
         $a_tpl->setCurrentBlock("prop_generic");

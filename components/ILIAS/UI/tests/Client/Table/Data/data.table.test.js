@@ -15,11 +15,11 @@
  ********************************************************************
  */
 
-import { expect } from 'chai';
+import { beforeEach, describe, it } from 'node:test';
+import { strict } from 'node:assert/strict';
 import { JSDOM } from 'jsdom';
-
-import DataTableFactory from '../../../../resources/js/Table/src/datatable.factory';
-import DataTable from '../../../../resources/js/Table/src/datatable.class';
+import DataTableFactory from '../../../../resources/js/Table/src/datatable.factory.js';
+import DataTable from '../../../../resources/js/Table/src/datatable.class.js';
 
 function initMockedDom() {
   const dom = new JSDOM(
@@ -79,24 +79,23 @@ describe('Data Table', () => {
   beforeEach(initMockedDom);
 
   it('classes exist', () => {
-    /* eslint  no-unused-expressions:0 */
-    expect(DataTableFactory).to.not.be.undefined;
-    expect(DataTable).to.not.be.undefined;
+    strict.notEqual(DataTableFactory, undefined);
+    strict.notEqual(DataTable, undefined);
   });
   it('factory has public methods', () => {
     const f = new DataTableFactory();
-    expect(f.init).to.be.an('function');
-    expect(f.get).to.be.an('function');
+    strict.equal(f.init instanceof Function, true);
+    strict.equal(f.get instanceof Function, true);
   });
   it('factors a DataTable', () => {
     const f = new DataTableFactory({});
     f.init('tid', 'actId', 'rowId');
     const dt = f.get('tid');
-    expect(dt.registerAction).to.be.an('function');
-    expect(dt.selectAll).to.be.an('function');
-    expect(dt.doSingleAction).to.be.an('function');
-    expect(dt.doMultiAction).to.be.an('function');
-    expect(dt.doActionForAll).to.be.an('function');
-    expect(dt.doAction).to.be.an('function');
+    strict.equal(dt.registerAction instanceof Function, true);
+    strict.equal(dt.selectAll instanceof Function, true);
+    strict.equal(dt.doSingleAction instanceof Function, true);
+    strict.equal(dt.doMultiAction instanceof Function, true);
+    strict.equal(dt.doActionForAll instanceof Function, true);
+    strict.equal(dt.doAction instanceof Function, true);
   });
 });
