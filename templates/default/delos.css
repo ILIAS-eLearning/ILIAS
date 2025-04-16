@@ -2069,13 +2069,6 @@ html, body {
   overflow: hidden;
   margin: 0;
 }
-@media only screen and (max-width: 991px) {
-  html, body {
-    overflow: initial;
-    height: auto;
-    min-height: 100vh;
-  }
-}
 
 html {
   font-size: 100%;
@@ -2092,6 +2085,13 @@ body {
   line-height: 1.428571429;
   color: #161616;
   background-color: white;
+}
+@media only screen and (max-width: 991px) {
+  body {
+    overflow: initial;
+    height: auto;
+    min-height: 100vh;
+  }
 }
 
 /* see bug ILIAS bug #17589 and http://stackoverflow.com/questions/17045132/scrollbar-overlay-in-ie10-how-do-you-stop-that */
