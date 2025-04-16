@@ -87,4 +87,10 @@ class ilTestNoHintsDBUpdateSteps implements \ilDatabaseUpdateSteps
         }
     }
 
+    public function step_7(): void
+    {
+        $query = "DELETE FROM page_object WHERE parent_type = 'qht'";
+        $this->db->manipulate($query);
+    }
+
 }
