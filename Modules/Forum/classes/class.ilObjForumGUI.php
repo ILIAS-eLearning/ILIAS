@@ -4518,7 +4518,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $info = new ilInfoScreenGUI($this);
         $info->enablePrivateNotes();
-        $info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
         $this->ctrl->forwardCommand($info);
     }
 

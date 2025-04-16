@@ -4528,6 +4528,7 @@ common#:#login_information_settings_saved#:#Die Informationen wurden erfolgreich
 common#:#login_invalid#:#Ihr Anmeldename muss mindestens drei Zeichen lang sein und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_to_ilias#:#Bei ILIAS anmelden
 common#:#login_to_ilias_via_cas#:#Bei ILIAS über zentrales Authentifizierungssystem anmelden
+common#:#login_to_ilias_via_login_form#:#Bei ILIAS anmelden
 common#:#login_to_ilias_via_saml#:#Bei ILIAS via SAML-Authentifizierung anmelden
 common#:#login_to_ilias_via_shibboleth#:#Bei ILIAS anmelden über
 common#:#loginname_already_exists#:#Dieser Anmeldename ist bereits vergeben. Bitte wählen Sie einen anderen Anmeldenamen.
@@ -8681,9 +8682,8 @@ dcl#:#dcl_new_table#:#Neue Tabelle
 dcl#:#dcl_next_record#:#Nächster Eintrag
 dcl#:#dcl_no_content_warning#:#Achtung: die Datensammlung ist bereits online, hat aber noch keinen Inhalt!
 dcl#:#dcl_no_entry#:#Kein Eintrag
-dcl#:#dcl_no_export_content_available#:#Keine Daten für den Export verfügbar.
+dcl#:#dcl_no_export_async_config#:#Keine SOAP Konfiguration für asyncrone Exporte verfügbar.
 dcl#:#dcl_no_export_data_available#:#Keine Daten oder Felder für den Export verfügbar.
-dcl#:#dcl_no_export_fields_available#:#Keine Felder für den Export aktiviert. Markieren Sie mindestens ein Feld als „Exportierbar“ in den <a href="%s">Tabelleneinstellungen</a>.
 dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstellt. Daher können noch keine Einträge eingefügt werden.
 dcl#:#dcl_no_read_access_on_any_standard_view#:#Sie haben auf keine Standard-Tabellenansicht Lesezugriff.
 dcl#:#dcl_no_search_results_found_for#:#Es wurden keine Module gefunden mit:
@@ -8812,7 +8812,7 @@ dcl#:#dcl_width#:#Breite
 dcl#:#dcl_wrong_input_type#:#Der eingegebene Text passt nicht zum Typ dieses Feldes (falscher Typ).
 dcl#:#dcl_wrong_length#:#Der eingegebene Text ist zu lang.
 dcl#:#dcl_wrong_regex#:#Der eingegebene Text passt nicht zur Spezifikation dieses Feldes (regulärer Ausdruck).
-dcl#:#dlc_xls_async_export#:#Asynchroner XLSX-Export
+dcl#:#dcl_xls_async_export#:#als XLSX (asynchron)
 dcl#:#fieldtitle_allow_chars#:#Nicht Erlaubte Zeichen: %s
 dcl#:#fileupload_not_migrated#:#Die Datei wurde noch nicht migriert und kann deshalb nicht angezeigt werden. Bitte wenden Sie sich an Ihre Systemadministration.
 didactic#:#activate_exclusive_template#:#Standard ausgrauen
@@ -13864,7 +13864,7 @@ rbac#:#coms_read#:#Lesezugriff auf Administration für Kommentare
 rbac#:#coms_visible#:#Administration für Kommentare ist sichtbar.
 rbac#:#coms_write#:#Einstellungen in Administration für Kommentare ändern
 rbac#:#condition_failed#:#Nicht bestanden
-rbac#:#condition_learning_progress#:#Lernfortschritt-Status: Bearbeitet
+rbac#:#condition_learning_progress#:#Gemäß Lernfortschritt
 rbac#:#contribute#:#Beiträge erstellen
 rbac#:#copa_copy#:#Inhaltsseite kopieren
 rbac#:#copa_delete#:#Inhaltsseite löschen
@@ -15461,7 +15461,7 @@ skmg#:#skmg_create_skill_template_reference#:#Vorlage einfügen
 skmg#:#skmg_create_skll#:#Kompetenz erstellen
 skmg#:#skmg_custom_image_alt#:#Bild für Kompetenzprofil
 skmg#:#skmg_delete_profiles#:#Wollen Sie wirklich die folgenden Profile löschen?
-skmg#:#skmg_delete_warning#:#Sind Sie sicher, dass folgende Objekte gelöscht werden sollen? Wenn Sie die Objekte löschen, löschen Sie ebenfalls alle dazugehörigen Gebräuche, Zuordnungen und Leistungen. Um auf der sicheren Seite zu sein, finden Sie unten eine Liste mit sämtlichen Gebräuchen. Wenn das Objekt in einem Kompetenzprofil benutzt wird, wird es auch dort entfernt. Dies kann zur Erfüllung von Kompetenzprofilen der dort zugewiesenen Personen führen. Falls Sie sich nicht sicher sind, ob ein Objekt wirklich gelöscht werden soll, nutzen Sie die Status in den Einstellungen eines einzelnen Objekts.
+skmg#:#skmg_delete_warning#:#Sind Sie sicher, dass folgende Kompetenzen, Kompetenzkategorien oder Kompetenzbäume gelöscht werden sollen? Sie löschen damit auch Zuordnungen zu Objekten, Benutzern und Profilen. Wird ein Teil eines Kompetenzprofils gelöscht, kann dies zur Erfüllung von Kompetenzprofilen für die zugewiesenen Personen führen. Die folgende Liste zählt auf, wie häufig das, was Sie löschen wollen, genutzt wird. Bitte prüfen Sie die Liste genau vor dem Löschen.
 skmg#:#skmg_description_info#:#Die Beschreibung stammt aus der Vorlage.
 skmg#:#skmg_edit_level#:#Ausprägung editieren
 skmg#:#skmg_edit_profile#:#Profil bearbeiten

@@ -254,7 +254,7 @@ are printed bold**, all other fields might be omitted. A minimal example is
         "max_number_of_concurrent_tasks" : 3
     },
     ``` 
-  * *type* (type: string) might be `async` or `sync`, defaults to `sync`
+  * *type* (type: string) might be `async` or `sync`, defaults to `sync`; async requires SOAP (c.f. webservices) to be enabled
   * *max_number_of_concurrent_tasks* (type: number) that all users can run together, defaults to `1`
 * **database** (type: object) is required to connect to the database, e.g.:
     ```

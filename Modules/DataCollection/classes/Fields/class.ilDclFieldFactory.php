@@ -57,6 +57,8 @@ class ilDclFieldFactory
 
                 return $instance;
             }
+
+            throw new RuntimeException("instance is no base field " . $instance->getField()->getTitle());
         }
 
         throw new RuntimeException("file not found " . $path);
