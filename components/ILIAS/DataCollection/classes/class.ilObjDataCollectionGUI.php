@@ -282,7 +282,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
     {
         $this->tabs->setTabActive(self::TAB_EXPORT);
         $exp_gui = new ilExportGUI($this);
-        $exporter = new ilDclContentExporter($this->object->getRefId(), $this->table_id);
+        $exporter = new ilDclContentExporter($this->object->getRefId(), null);
         $exporter->exportAsync();
         $this->ctrl->redirect($exp_gui);
     }
