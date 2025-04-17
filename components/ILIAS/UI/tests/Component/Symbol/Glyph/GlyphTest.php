@@ -106,6 +106,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         G\Glyph::DRAG_HANDLE => "glyphicon glyphicon-dragHandle",
         G\Glyph::CHECKED => "glyphicon glyphicon-checked",
         G\Glyph::UNCHECKED => "glyphicon glyphicon-unchecked",
+        G\Glyph::UNDERLINE => "glyphicon glyphicon-underline",
     );
 
     public static array $aria_labels = array(
@@ -169,6 +170,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         G\Glyph::DRAG_HANDLE => "drag_handle",
         G\Glyph::CHECKED => "checked",
         G\Glyph::UNCHECKED => "unchecked",
+        G\Glyph::UNDERLINE => "underline_action",
     );
 
     #[\PHPUnit\Framework\Attributes\DataProvider('getGlyphTypeProvider')]

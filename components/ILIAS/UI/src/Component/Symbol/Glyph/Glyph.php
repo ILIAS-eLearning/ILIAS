@@ -89,6 +89,8 @@ interface Glyph extends Symbol, Clickable
     public const CHECKED = "checked";
     public const UNCHECKED = "unchecked";
 
+    public const UNDERLINE = "underline";
+
     /**
      * Get the type of the glyph.
      */

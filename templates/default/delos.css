@@ -8363,6 +8363,11 @@ button .minimize, button .close {
   color: white;
 }
 
+.c-input-markdown__actions .glyphicon-underline:before {
+  font-family: "icomoon";
+  content: "\ea63";
+}
+
 .c-field-markdown__preview {
   min-height: 100px;
   border: 1px solid #dddddd;

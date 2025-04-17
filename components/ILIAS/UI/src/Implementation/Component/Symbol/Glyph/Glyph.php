@@ -94,6 +94,7 @@ class Glyph implements C\Symbol\Glyph\Glyph
         self::DRAG_HANDLE,
         self::CHECKED,
         self::UNCHECKED,
+        self::UNDERLINE
     ];
 
     private string $type;

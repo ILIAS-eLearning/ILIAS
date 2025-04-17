@@ -188,6 +188,9 @@ export default class Markdown extends Textarea {
       case 'insert-italic':
         this.insertCharactersAroundSelection('_', '_');
         break;
+      case 'insert-underline':
+        this.insertCharactersAroundSelection('--', '--');
+        break;
       case 'insert-bullet-points':
         this.applyTransformationToSelection(toggleBulletPoints);
         break;
@@ -223,8 +226,6 @@ export default class Markdown extends Textarea {
         }
       });
     }
-
-    this.maybeUpdatePreviewContent();
   }
 
   /**
