@@ -30,7 +30,7 @@ class ilExerciseAppEventListener
         switch ($a_component) {
             case "Services/User":
                 switch ($a_event) {
-                    case "beforeUserDeletion":
+                    case "deleteUser":
                         $DIC->exercise()->internal()->domain()->userEvent()->handleDeletion((int) $a_parameter["usr_id"]);
                         break;
                 }

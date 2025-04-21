@@ -16,7 +16,6 @@
 	</objects>
 	<events>		
 		<event type="raise" id="afterUpdate" />
-		<event type="raise" id="beforeUserDeletion" />
 		<event type="raise" id="deleteUser" />
 		<event type="raise" id="afterCreate" />
 		<event type="raise" id="onUserFieldAttributesChanged" />

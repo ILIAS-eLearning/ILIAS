@@ -1100,10 +1100,9 @@ class ilObjUser extends ilObject
         $ilAppEventHandler = $DIC['ilAppEventHandler'];
         $ilAppEventHandler->raise(
             'Services/User',
-            'beforeUserDeletion',
+            'deleteUser',
             ['usr_id' => $this->getId()]
         );
-
 
         // deassign from ldap groups
         $mapping = ilLDAPRoleGroupMapping::_getInstance();
@@ -1189,16 +1188,6 @@ class ilObjUser extends ilObject
 
         // Reset owner
         $this->resetOwner();
-
-        // Trigger deleteUser Event
-        global $DIC;
-
-        $ilAppEventHandler = $DIC['ilAppEventHandler'];
-        $ilAppEventHandler->raise(
-            'Services/User',
-            'deleteUser',
-            ['usr_id' => $this->getId()]
-        );
 
         // delete object data
         parent::delete();
