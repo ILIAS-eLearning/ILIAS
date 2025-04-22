@@ -49,6 +49,8 @@ if (IL_SOAPMODE === IL_SOAPMODE_INTERNAL && strcasecmp($_SERVER["REQUEST_METHOD"
     $soapServer->setObject(new ilSoapFunctions());
     $soapServer->handle();
 } else {
+    require_once("Services/Init/classes/class.ilInitialisation.php");
+    ilInitialisation::initILIAS();
     // This is a request to display the available SOAP methods or WSDL...
     include('webservice/soap/nusoapserver.php');
 }
