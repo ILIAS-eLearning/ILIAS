@@ -335,7 +335,7 @@ class ilTemplate extends HTML_Template_ITX
     /**
      * @throws ilSystemStyleException
      */
-    protected function getTemplatePath(string $a_tplname, string $a_in_module = null): string
+    protected function getTemplatePath(string $a_tplname, string $a_in_module = ''): string
     {
         $ilias_root = realpath(__DIR__ . '/../../../../') . '/';
 
