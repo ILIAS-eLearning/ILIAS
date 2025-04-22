@@ -82,12 +82,17 @@ $(document).ready(function () {
       caretPos) + placeholder + expression.substring(caretPos));
   });
 
-  document.querySelector('form div#datatype').closest('form').addEventListener('submit', (event) => {
-    const types = event.target.querySelector('div#datatype');
-    types.querySelectorAll('input[id^="datatype_"]:not(:checked)').forEach((radio) => {
-      if (types.contains(types.querySelector(`div#subform_${radio.id}`))) {
-        types.querySelector(`div#subform_${radio.id}`).remove();
-      }
-    });
-  });
+  const types = document.querySelector('form div#datatype');
+  if (types !== null) {
+    document.querySelector('form div#datatype').closest('form').addEventListener(
+      'submit',
+      () => {
+        types.querySelectorAll('input[id^="datatype_"]:not(:checked)').forEach((radio) => {
+          if (types.contains(types.querySelector(`div#subform_${radio.id}`))) {
+            types.querySelector(`div#subform_${radio.id}`).remove();
+          }
+        });
+      },
+    );
+  }
 });

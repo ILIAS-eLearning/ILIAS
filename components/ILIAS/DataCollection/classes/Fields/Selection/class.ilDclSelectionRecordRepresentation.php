@@ -29,6 +29,6 @@ abstract class ilDclSelectionRecordRepresentation extends ilDclBaseRecordReprese
         $record_field_value = $this->getRecordField()->getValue();
         $values = ilDclSelectionOption::getValues((int) $this->getField()->getId(), $record_field_value);
 
-        return implode('<br>', $values);
+        return implode(' | ', $values);
     }
 }
