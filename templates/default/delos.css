@@ -4183,6 +4183,7 @@ hr.il-divider-with-label {
 }
 
 .c-field-tag {
+  width: 100%;
   background-color: white;
   --tags-focus-border-color: #4c6586;
   --tag-bg: #4c6586;
