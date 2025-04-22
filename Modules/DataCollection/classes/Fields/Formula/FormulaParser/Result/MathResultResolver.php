@@ -147,7 +147,7 @@ class MathResultResolver implements ResultResolver
                     $elem = $stack->pop();
                 }
                 // Get result within brackets recursive and push to stack
-                $stack->push($this->parseMath(array_reverse($_tokens)));
+                $stack->push($this->parseMath(array_reverse($_tokens))[0]);
                 $in_bracket = false;
             } else {
                 throw new \ilException("Unrecognized token '$token'");
