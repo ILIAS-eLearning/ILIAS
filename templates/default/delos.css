@@ -381,6 +381,7 @@
 }
 
 .dropdown-menu {
+  width: 320px;
   position: absolute;
   top: 100%;
   z-index: 1000;
@@ -4247,7 +4248,6 @@ hr.il-divider-with-label {
 }
 .c-form ul.c-field-multiselect > li label {
   display: flex;
-  flex-wrap: wrap;
 }
 .c-form ul.c-field-multiselect > li label > input[type=checkbox] {
   margin-right: 9px;

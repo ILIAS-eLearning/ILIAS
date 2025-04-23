@@ -61,6 +61,7 @@ $cursor-disabled: not-allowed !default;
   
   // The dropdown menu (ul)
   .dropdown-menu {
+	  width: 320px;
 	position: absolute;
 	top: 100%;
 	z-index: $zindex-dropdown;
