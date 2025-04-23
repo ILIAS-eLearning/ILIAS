@@ -276,7 +276,7 @@ class TestResultManagerTest extends \ilTestBaseTestCase
                 return $this->cache[$key] ?? null;
             }
 
-            public function set(string $key, int|bool|array|string|null $value): void
+            public function set(string $key, string|int|array|bool|null $value, ?int $ttl = null): void
             {
                 $this->cache[$key] = $value;
             }
