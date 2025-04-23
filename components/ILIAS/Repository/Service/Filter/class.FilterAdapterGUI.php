@@ -82,7 +82,9 @@ class FilterAdapterGUI
     {
         $field = $this->ui->factory()->input()->field()->select($title, $options);
         if (!is_null($value)) {
-            $field = $field->withValue($value);
+            if (isset($options[$value])) {
+                $field = $field->withValue($value);
+            }
         }
         $this->addField(
             $key,

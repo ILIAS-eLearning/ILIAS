@@ -2650,6 +2650,7 @@ book#:#book_objects_available#:#Items available %s
 book#:#book_open#:#Open Booking Pool
 book#:#book_overall_limit#:#Limit Number of Bookings
 book#:#book_overall_limit_warning#:#You have reached the maximum number of bookings allowed.
+book#:#book_participant#:#Book for Participants
 book#:#book_participant_already_assigned#:#One or more participants have already been added.
 book#:#book_participant_assigned#:#Participant(s) added.
 book#:#book_period#:#Period
@@ -3575,7 +3576,7 @@ common#:#are_you_sure#:#Are you sure?
 common#:#assf_allowed_questiontypes#:#Available Question Types
 common#:#assf_allowed_questiontypes_desc#:#All the checked question types will be available in this ILIAS installation. If you don't want to allow the creation of a certain question type in this installation, you must remove the selection in the associated check box.
 common#:#assf_questiontypes#:#Question Settings
-common#:#assign#:#Accept Request
+common#:#assign#:#Assign
 common#:#assign_global_role#:#Assign to Global Role
 common#:#assign_local_role#:#Assign to Local Role
 common#:#assigned_members#:#Assigned Members
@@ -14203,6 +14204,7 @@ rbac#:#feed_delete#:#User can move or delete web feed
 rbac#:#feed_edit_permission#:#User can change permission settings
 rbac#:#feed_read#:#User can read content of web feed
 rbac#:#feed_write#:#User can edit web feed settings
+rbac#:#file_content#:#Show Content
 rbac#:#file_copy#:#User can copy file
 rbac#:#file_delete#:#User can move or delete file
 rbac#:#file_edit_file#:#Allow to edit the file in an external editor, if available

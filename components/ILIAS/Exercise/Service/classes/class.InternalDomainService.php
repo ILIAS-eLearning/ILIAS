@@ -29,6 +29,7 @@ use ILIAS\Exercise\IndividualDeadline\IndividualDeadlineManager;
 use ILIAS\Exercise\Submission\SubmissionManager;
 use ILIAS\Exercise\PeerReview\DomainService;
 use ILIAS\Exercise\Settings\SettingsManager;
+use ILIAS\Exercise\User\UserEvent;
 
 class InternalDomainService
 {
@@ -122,6 +123,14 @@ class InternalDomainService
     ): SettingsManager {
         return $this->instance["settings"] ??= new SettingsManager(
             $this->data,
+            $this->repo,
+            $this
+        );
+    }
+
+    public function userEvent(): UserEvent
+    {
+        return new UserEvent(
             $this->repo,
             $this
         );

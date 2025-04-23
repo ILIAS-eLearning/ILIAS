@@ -121,7 +121,8 @@ final class ContainerWrapper
         }
 
         // save stream to temporary file
-        $tmp_file = tempnam(sys_get_temp_dir(), 'ilias_zip_');
+        $tmp_directory = defined('CLIENT_DATA_DIR') ? \CLIENT_DATA_DIR . '/temp' : sys_get_temp_dir();
+        $tmp_file = tempnam($tmp_directory, 'ilias_zip_');
 
         /** @var ZIPStream $stream */
         $return = file_put_contents($tmp_file, $stream->detach());

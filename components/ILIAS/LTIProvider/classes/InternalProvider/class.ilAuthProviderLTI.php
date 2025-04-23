@@ -266,7 +266,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         }
 
         $platform = ilLTIPlatform::fromConsumerKey($this->provider->platform->getKey(), $this->provider->platform->getDataConnector());
-
+        ilSession::clear("lti_context_ids");
         $this->ref_id = $platform->getRefId();
 
         $lti_context_ids = ilSession::get('lti_context_ids');
@@ -338,7 +338,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
             $internal_account = $this->createUser($platform);
         }
 
-        $this->handleLocalRoleAssignments($internal_account, $platform);
+        $this->handleLocalRoleAssignments($internal_account, $platform, $this->ref_id);
 
         $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
         $status->setAuthenticatedUserId($internal_account);
@@ -529,11 +529,9 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         return $userObj->getId();
     }
 
-    protected function handleLocalRoleAssignments(int $user_id, ilLTIPlatform $consumer): bool
+    protected function handleLocalRoleAssignments(int $user_id, ilLTIPlatform $consumer, int $target_ref_id, int $default_rol_id = null): bool
     {
         global $DIC;
-
-        $target_ref_id = $this->ref_id;
         $this->getLogger()->info('$target_ref_id: ' . $target_ref_id);
         if (!$target_ref_id) {
             $this->getLogger()->warning('No target id given');
@@ -558,13 +556,16 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 
         $this->getLogger()->info('Recieved roles: ' . implode(', ', $role_arr));
 
-
+        $tree = $DIC->repositoryTree();
+        $parent = $tree->getParentId($target_ref_id);
+        if ($parent != 1) {
+            $this->handleLocalRoleAssignments($user_id, $consumer, $parent, $obj_settings->getMemberRole());
+        }
         foreach ($role_arr as $role) {
             $role = trim($role);
-            $local_role_id = $this->mapLTIRoleToLocalRole($role, $obj_settings);
-
-            if ($local_role_id) {
-                $this->getLogger()->info('Assigning local role ID: ' . $local_role_id . ' for LTI role: ' . $role);
+            $local_role_id = $this->mapLTIRoleToLocalRole($role, $obj_settings) == 0 && $default_rol_id != null ? $default_rol_id : $this->mapLTIRoleToLocalRole($role, $obj_settings);
+            if (isset($local_role_id)) {
+                $this->getLogger()->info('Assigning local role ID: ' . $local_role_id . ' for LTI role: ' . $role . ' to user ID: ' . $user_id);
                 $DIC->rbac()->admin()->assignUser($local_role_id, $user_id);
             } else {
                 $this->getLogger()->info('No local role mapping found for LTI role: ' . $role);

@@ -246,7 +246,7 @@ class ilLTIViewGUI
                 //                $this->dic->ui()->mainTemplate()->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
                 $redirect = $this->link_dir . "goto.php?target=" . $obj_type . "_" . $ref_id . "&lti_context_id=" . $context_id;
                 $this->log->debug("redirect: " . $redirect);
-                ilUtil::redirect($redirect);
+                $DIC->ctrl()->redirectToURL($redirect);
             }
         }
         $lti_context_ids = ilSession::get('lti_context_ids');

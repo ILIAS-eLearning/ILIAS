@@ -143,9 +143,9 @@ class ilLTIProviderObjectSetting
         while ($row = $res->fetchObject()) {
             $this->ref_id = (int) $row->ref_id;
             $this->consumer_id = (int) $row->ext_consumer_id;
-            $this->admin = (int) $row->admin;
-            $this->tutor = (int) $row->tutor;
-            $this->member = (int) $row->member;
+            $this->setAdminRole((int) $row->admin);
+            $this->setAdminRole((int) $row->tutor);
+            $this->setMemberRole((int) $row->member);
         }
         return true;
     }

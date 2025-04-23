@@ -25,12 +25,14 @@ class CustomBreadcrumbPagePartProvider implements PagePartProvider
 {
     private PagePartProvider $original;
     private RefineryFactory $refinery;
+    private ilLogger $logger;
 
     public function __construct(PagePartProvider $original)
     {
         global $DIC;
         $this->refinery = $DIC->refinery();
         $this->original = $original;
+        $this->logger = $DIC->logger()->root();
     }
 
     public function getTitle(): string
@@ -43,6 +45,17 @@ class CustomBreadcrumbPagePartProvider implements PagePartProvider
         return $this->original->getDescription();
     }
 
+    private function getRefId(): string|null
+    {
+        if(isset($_GET["ref_id"])) {
+            return (string) $_GET["ref_id"];
+        }
+        if(isset($_SESSION["lti_context_ids"]) && is_array($_SESSION["lti_context_ids"]) && count($_SESSION["lti_context_ids"]) > 0) {
+            return (string) $_SESSION["lti_context_ids"][0];
+        }
+        return null;
+    }
+
     public function getBreadCrumbs(): ?\ILIAS\UI\Component\Breadcrumbs\Breadcrumbs
     {
         global $DIC;
@@ -50,13 +63,14 @@ class CustomBreadcrumbPagePartProvider implements PagePartProvider
         if ($breadcrumbs === null) {
             return null;
         }
-        if (!isset($_SESSION["ref_id"])) {
+
+        $ref_id = $this->getRefId();
+        if (!isset($ref_id)) {
             return $breadcrumbs;
         }
 
         $goto_crumbs = [];
         $non_goto_crumbs = [];
-        $ref_id = $_SESSION["ref_id"];
 
         foreach ($breadcrumbs->getItems() as $crumb) {
             $action = (string) $crumb->getAction();

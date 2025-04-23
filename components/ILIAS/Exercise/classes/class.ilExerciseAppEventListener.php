@@ -18,17 +18,23 @@
 
 declare(strict_types=1);
 
-abstract class ilDclSelectionRecordRepresentation extends ilDclBaseRecordRepresentation
+class ilExerciseAppEventListener
 {
-    // those should be overwritten by subclasses
-    public const PROP_SELECTION_TYPE = '';
-    public const PROP_SELECTION_OPTIONS = '';
+    public static function handleEvent(
+        string $a_component,
+        string $a_event,
+        array $a_parameter
+    ): void {
+        global $DIC;
 
-    public function getHTML(bool $link = true, array $options = []): string
-    {
-        $record_field_value = $this->getRecordField()->getValue();
-        $values = ilDclSelectionOption::getValues((int) $this->getField()->getId(), $record_field_value);
-
-        return implode(' | ', $values);
+        switch ($a_component) {
+            case "Services/User":
+                switch ($a_event) {
+                    case "deleteUser":
+                        $DIC->exercise()->internal()->domain()->userEvent()->handleDeletion((int) $a_parameter["usr_id"]);
+                        break;
+                }
+                break;
+        }
     }
 }

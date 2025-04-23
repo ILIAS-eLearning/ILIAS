@@ -39,6 +39,8 @@ use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
  * @ilCtrl_Calls ilObjCmiXapiGUI: ilCmiXapiScoringGUI
  * @ilCtrl_Calls ilObjCmiXapiGUI: ilCmiXapiExportGUI
  * @ilCtrl_Calls ilObjCmiXapiGUI: ilCommentGUI
+ * @ilCtrl_Calls ilObjCmiXapiGUI: ilNewsItemGUI
+ * @ilCtrl_Calls ilObjCmiXapiGUI: ilNewsForContextBlockGUI
  */
 class ilObjCmiXapiGUI extends ilObject2GUI
 {

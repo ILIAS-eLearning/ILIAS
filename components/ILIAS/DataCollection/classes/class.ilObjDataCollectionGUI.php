@@ -208,7 +208,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
                 $rgui->setObject($record_id, "dcl_record", $field_id, "dcl_field");
                 $rgui->executeCommand();
-                $this->listRecords();
+                $this->ctrl->redirectToURL($this->http->request()->getServerParams()['HTTP_REFERER']);
                 break;
 
             case strtolower(ilDclDetailedViewGUI::class):
@@ -282,7 +282,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
     {
         $this->tabs->setTabActive(self::TAB_EXPORT);
         $exp_gui = new ilExportGUI($this);
-        $exporter = new ilDclContentExporter($this->object->getRefId(), $this->table_id);
+        $exporter = new ilDclContentExporter($this->object->getRefId(), null);
         $exporter->exportAsync();
         $this->ctrl->redirect($exp_gui);
     }

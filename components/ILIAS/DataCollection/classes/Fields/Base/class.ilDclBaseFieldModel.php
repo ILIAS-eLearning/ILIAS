@@ -547,7 +547,7 @@ class ilDclBaseFieldModel
             $table = ilDclCache::getTableCache($this->getTableId());
             foreach ($table->getRecords() as $record) {
                 if ($record->getId() !== $record_id || $record_id === 0) {
-                    if ($this->normalizeValue($record->getRecordFieldValue($this->getId())) === $this->normalizeValue($value)) {
+                    if ($this->areEqual($record->getRecordFieldValue($this->getId()), $value)) {
                         throw new ilDclInputException(ilDclInputException::UNIQUE_EXCEPTION);
                     }
                 }
@@ -555,6 +555,11 @@ class ilDclBaseFieldModel
         }
 
         return true;
+    }
+
+    protected function areEqual($value_1, $value_2): bool
+    {
+        return $this->normalizeValue($value_1) === $this->normalizeValue($value_2);
     }
 
     protected function normalizeValue(mixed $value)

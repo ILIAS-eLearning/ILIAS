@@ -342,6 +342,7 @@ class ilResourceStorageMigrationHelper
         try {
             $zip_stream = $zip->get();
         } catch (Throwable $e) {
+            $zip->destroy();
             return null; // could not create zip
         }
 
@@ -361,6 +362,9 @@ class ilResourceStorageMigrationHelper
         // add stakeholder and store resource
         $resource->addStakeholder($this->stakeholder);
         $this->resource_builder->store($resource);
+
+        // ZIP archive is not needed anymore
+        $zip->destroy();
 
         return $resource->getIdentification();
     }

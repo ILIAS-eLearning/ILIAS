@@ -636,7 +636,7 @@ class ilObjectLP
 
     public static function supportsMatrixView(string $obj_type): bool
     {
-        $types = ['svy', 'tst', 'htlm', 'exc', 'sess', 'file', 'frm', 'prg', 'copa', 'cmix', 'lti','crsr'];
+        $types = ['svy', 'tst', 'htlm', 'exc', 'sess', 'file', 'frm', 'prg', 'copa', 'cmix', 'lti','crsr', 'iass'];
         return !in_array($obj_type, $types);
     }
 
