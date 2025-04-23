@@ -10404,6 +10404,9 @@ div.alert ul > li:before {
   position: relative;
   white-space: nowrap;
 }
+.il-table-presentation-row.expanded .il-table-presentation-row-controls {
+  width: auto;
+}
 .il-table-presentation-row.expanded .il-table-presentation-row-expanded,
 .il-table-presentation-row.expanded .il-table-presentation-row-controls-collapser {
   display: block;
@@ -10411,6 +10414,9 @@ div.alert ul > li:before {
 .il-table-presentation-row.expanded .il-table-presentation-row-header-fields,
 .il-table-presentation-row.expanded .il-table-presentation-row-controls-expander {
   display: none;
+}
+.il-table-presentation-row.collapsed .il-table-presentation-row-controls {
+  width: auto;
 }
 .il-table-presentation-row.collapsed .il-table-presentation-row-expanded,
 .il-table-presentation-row.collapsed .il-table-presentation-row-controls-collapser {
@@ -10422,6 +10428,7 @@ div.alert ul > li:before {
 }
 .il-table-presentation-row .il-table-presentation-row-contents {
   white-space: normal;
+  width: auto;
 }
 .il-table-presentation-row .il-table-presentation-row-header {
   min-height: 2rem;

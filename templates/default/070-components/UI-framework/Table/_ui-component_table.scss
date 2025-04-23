@@ -36,6 +36,9 @@ $il-table-presentation-details-viewcontrols-btn-bg: white;
     white-space: nowrap;
 
     &.expanded {
+        .il-table-presentation-row-controls {
+            width: auto;
+        }
         .il-table-presentation-row-expanded,
         .il-table-presentation-row-controls-collapser {
             display: block;
@@ -46,6 +49,9 @@ $il-table-presentation-details-viewcontrols-btn-bg: white;
         }
     }
     &.collapsed {
+        .il-table-presentation-row-controls {
+            width: auto;
+        }
         .il-table-presentation-row-expanded,
         .il-table-presentation-row-controls-collapser {
             display: none;
@@ -58,6 +64,7 @@ $il-table-presentation-details-viewcontrols-btn-bg: white;
 
     .il-table-presentation-row-contents {
         white-space: normal;
+        width: auto;
     }
 
     .il-table-presentation-row-header {
