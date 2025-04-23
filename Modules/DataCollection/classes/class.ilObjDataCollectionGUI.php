@@ -349,10 +349,12 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $params = explode("_", $a_target);
         //41821: Handles old permanent links. This is deprecated and removed for ILIAS 10
         if (count($params) > 1) {
-            $goto_string = explode('/', $DIC->http()->request()->getRequestTarget());
-            if (str_contains(end($goto_string), 'dcl_')) {
-                $view = new ilDclTableView((int) $params[1]);
-                $params = [$params[0], $view->getTableId(), $params[1] ?? null, $params[2] ?? null];
+            if (!str_contains($DIC->http()->request()->getServerParams()['HTTP_REFERER'], 'login.php')) {
+                $goto_string = explode('/', $DIC->http()->request()->getRequestTarget());
+                if (str_contains(end($goto_string), 'dcl_')) {
+                    $view = new ilDclTableView((int) $params[1]);
+                    $params = [$params[0], $view->getTableId(), $params[1] ?? null, $params[2] ?? null];
+                }
             }
         }
         $values = [self::GET_REF_ID, self::GET_TABLE_ID, self::GET_VIEW_ID, self::GET_RECORD_ID];
