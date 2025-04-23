@@ -299,7 +299,7 @@ class IRSSWrapper
         return "";
     }
 
-    public function getResource(string $rid) : ?StorableResource
+    public function getResource(string $rid): ?StorableResource
     {
         $id = $this->getResourceIdForIdString($rid);
         if ($id) {
@@ -420,8 +420,7 @@ class IRSSWrapper
     public function getContainerEntryInfo(
         string $container_id,
         string $path
-    ) : array
-    {
+    ): array {
         $reader = new ZipReader(
             $this->irss->consume()->stream($this->getResourceIdForIdString($container_id))->getStream()
         );
@@ -431,8 +430,7 @@ class IRSSWrapper
     public function deliverContainerEntry(
         string $container_id,
         string $path
-    ) : void
-    {
+    ): void {
         $reader = new ZipReader(
             $this->irss->consume()->stream($this->getResourceIdForIdString($container_id))->getStream()
         );
@@ -610,7 +608,10 @@ class IRSSWrapper
         $rid = $this->createContainer($stakeholder, $title);
         if ($recursive) {
             $iterator = new \RecursiveIteratorIterator(
-                new \RecursiveDirectoryIterator($local_dir_path, \RecursiveDirectoryIterator::SKIP_DOTS),
+                new \RecursiveDirectoryIterator(
+                    $local_dir_path,
+                    \RecursiveDirectoryIterator::SKIP_DOTS | \RecursiveDirectoryIterator::CURRENT_AS_SELF
+                ),
                 \RecursiveIteratorIterator::SELF_FIRST
             );
         } else {

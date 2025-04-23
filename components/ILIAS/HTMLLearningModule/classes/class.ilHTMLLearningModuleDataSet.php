@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\Dataset\IRSSContainerExportConfig;
+use ILIAS\Repository\IRSS\IRSSWrapper;
+
 /**
  * HTML learning module data set class
  * @author Alexander Killing <killing@leifos.de>
@@ -23,6 +26,15 @@
 class ilHTMLLearningModuleDataSet extends ilDataSet
 {
     protected ilObjFileBasedLM $current_obj;
+    protected IRSSWrapper $irss_wrapper;
+
+    public function __construct()
+    {
+        global $DIC;
+
+        parent::__construct();
+        $this->irss_wrapper = $DIC->htmlLearningModule()->internal()->repo()->irss();
+    }
 
     public function getSupportedVersions(): array
     {
@@ -44,7 +56,7 @@ class ilHTMLLearningModuleDataSet extends ilDataSet
                         "Title" => "text",
                         "Description" => "text",
                         "StartFile" => "text",
-                        "Dir" => "directory");
+                        "Dir" => "rscontainer");
             }
         }
         return [];
@@ -58,7 +70,7 @@ class ilHTMLLearningModuleDataSet extends ilDataSet
             switch ($a_version) {
                 case "4.1.0":
                     $this->getDirectDataFromQuery("SELECT id, title, description, " .
-                        " startfile start_file " .
+                        " startfile start_file" .
                         " FROM file_based_lm JOIN object_data ON (file_based_lm.id = object_data.obj_id) " .
                         "WHERE " .
                         $ilDB->in("id", $a_ids, false, "integer"));
@@ -70,10 +82,30 @@ class ilHTMLLearningModuleDataSet extends ilDataSet
     public function getXmlRecord(string $a_entity, string $a_version, array $a_set): array
     {
         $lm = new ilObjFileBasedLM($a_set["Id"], false);
-        $dir = $lm->getDataDirectory();
-        $a_set["Dir"] = $dir;
+        $a_set["Dir"] = $lm->getResource()->getIdentification();
 
         return $a_set;
+    }
+
+    public function getContainerExportConfig(
+        array $record,
+        string $entity,
+        string $schema_version,
+        string $field,
+        string $value
+    ): ?IRSSContainerExportConfig {
+        if ($entity === "htlm" && $field === "Dir") {
+            $lm = new ilObjFileBasedLM($record["Id"], false);
+            $container = $lm->getResource();
+            if ($container) {
+                return
+                    $this->getIRSSContainerExportConfig(
+                        $container,
+                        ""
+                    );
+            }
+        }
+        return null;
     }
 
     public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version): void
@@ -94,15 +126,22 @@ class ilHTMLLearningModuleDataSet extends ilDataSet
                 $newObj->setTitle($a_rec["Title"]);
                 $newObj->setDescription($a_rec["Description"]);
                 $newObj->setStartFile($a_rec["StartFile"], true);
-                $newObj->update(true);
-                $this->current_obj = $newObj;
 
                 $dir = str_replace("..", "", $a_rec["Dir"]);
                 if ($dir !== "" && $this->getImportDirectory() !== "") {
                     $source_dir = $this->getImportDirectory() . "/" . $dir;
-                    $target_dir = $newObj->getDataDirectory();
-                    ilFileUtils::rCopy($source_dir, $target_dir);
+                    $rid = $this->irss_wrapper->createContainerFromLocalDir(
+                        $source_dir,
+                        new ilHTLMStakeholder(),
+                        "",
+                        true,
+                        $newObj->getTitle()
+                    );
+                    $newObj->setRID($rid);
                 }
+
+                $newObj->update(true);
+                $this->current_obj = $newObj;
 
                 $a_mapping->addMapping("components/ILIAS/HTMLLearningModule", "htlm", $a_rec["Id"], $newObj->getId());
                 $a_mapping->addMapping(
