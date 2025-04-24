@@ -151,6 +151,7 @@ class ilFileUtils
                     $item->getPath(),
                     strlen($sourceDir)
                 );
+                self::makeDirParents(dirname(ILIAS_WEB_DIR . '/' . CLIENT_NAME .'/' . $itemPath));
                 $stream = $sourceFS->readStream($item->getPath());
                 $targetFS->writeStream($itemPath, $stream);
             } catch (\ILIAS\Filesystem\Exception\FileAlreadyExistsException $e) {
