@@ -30,6 +30,7 @@ class ilTestScoringTest extends ilTestBaseTestCase
     {
         global $DIC;
         parent::setUp();
+        $this->addGlobal_ilUser();
 
         $this->testObj = new ilTestScoring(
             $this->createMock(ilObjTest::class),

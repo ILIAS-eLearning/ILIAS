@@ -106,7 +106,7 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
 
         $this->tax_id = $this->object->getTaxonomyId();
         if ($this->tax_id > 0) {
-            $this->ctrl->saveParameter($this, array("show_tax", "tax_node"));
+            $this->ctrl->saveParameter($this, array("tax_node"));
 
             $this->tax = new ilObjTaxonomy($this->tax_id);
         }
@@ -588,15 +588,6 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
         $flash_active->addSubItem($flash_mode);
         $this->form->addItem($flash_active);
 
-        // show taxonomy
-        $show_tax = null;
-        $tax_ids = ilObjTaxonomy::getUsageOfObject($this->object->getId());
-        if (count($tax_ids) > 0) {
-            $show_tax = new ilCheckboxInputGUI($this->lng->txt("glo_show_taxonomy"), "show_tax");
-            $show_tax->setInfo($this->lng->txt("glo_show_taxonomy_info"));
-            $this->form->addItem($show_tax);
-        }
-
         // downloads
         $down = new ilCheckboxInputGUI($this->lng->txt("cont_downloads"), "glo_act_downloads");
         $down->setValue("y");
@@ -939,22 +930,6 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
         $this->ctrl->redirect($this, "listTerms");
     }
 
-    public function actTaxonomy(): void
-    {
-        $this->ctrl->setParameter($this, "show_tax", 1);
-        $this->ctrl->redirect($this, "listTerms");
-    }
-
-    /**
-     * Hide Taxonomy
-     */
-    public function deactTaxonomy(): void
-    {
-        $this->ctrl->setParameter($this, "show_tax", "");
-        $this->ctrl->redirect($this, "listTerms");
-    }
-
-
     /**
      * add term
      */
@@ -1052,7 +1027,13 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
         $cgui->setConfirm($this->lng->txt("confirm"), "deleteTerms");
 
         foreach ($ids as $id) {
-            $term = new ilGlossaryTerm($id);
+            try {
+                $term = new ilGlossaryTerm($id);
+            } catch (Exception $e) {
+                $cgui->addItem("id[]", $id, "Error: Page is missing.");
+                continue;
+            }
+
 
             $add = "";
             $nr = ilGlossaryTerm::getNumberOfUsages($id);
@@ -1094,8 +1075,7 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
                 $refs->deleteTerm($id);
                 $refs->update();
             } else {
-                $term = new ilGlossaryTerm($id);
-                $term->delete();
+                $this->term_manager->deleteTerm($id);
             }
         }
         $this->ctrl->redirect($this, "listTerms");

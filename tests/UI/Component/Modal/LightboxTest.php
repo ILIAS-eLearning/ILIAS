@@ -121,7 +121,7 @@ class LightboxTest extends ModalBase
 	</div>
 </div>
 <script>
-	window.setTimeout(function() {
+	document.addEventListener('DOMContentLoaded', function() {
 		$('#id_1').on('shown.bs.modal', function() {
 			$('.modal-backdrop.in').css('opacity', '0.9');
 		});
@@ -147,7 +147,7 @@ class LightboxTest extends ModalBase
 			var title = $(this).find('.carousel-inner .item.active').attr('data-title');
 			$('#id_1').find('.modal-title').text(title);
 		});
-	}, 0);
+	});
 </script>
 EOT;
     }
@@ -197,7 +197,7 @@ EOT;
 	</div>
 </div>
 <script>
-	window.setTimeout(function() {
+	document.addEventListener('DOMContentLoaded', function() {
 		$('#id_1').on('shown.bs.modal', function() {
 			$('.modal-backdrop.in').css('opacity', '0.9');
 		});
@@ -223,7 +223,7 @@ EOT;
 			var title = $(this).find('.carousel-inner .item.active').attr('data-title');
 			$('#id_1').find('.modal-title').text(title);
 		});
-	}, 0);
+	});
 </script>
 EOT;
     }
@@ -297,7 +297,7 @@ EOT;
 	</div>
 </div>
 <script>
-	window.setTimeout(function() {
+	document.addEventListener('DOMContentLoaded', function() {
 		$('#id_1').on('shown.bs.modal', function() {
 			$('.modal-backdrop.in').css('opacity', '0.9');
 		});
@@ -323,7 +323,7 @@ EOT;
 			var title = $(this).find('.carousel-inner .item.active').attr('data-title');
 			$('#id_1').find('.modal-title').text(title);
 		});
-	}, 0);
+	});
 </script>
 EOT;
     }
@@ -355,7 +355,7 @@ EOT;
 	</div>
 </div>
 <script>
-window.setTimeout(function() {
+document.addEventListener('DOMContentLoaded', function() {
 	$('#id_1').on('shown.bs.modal', function() {
 		$('.modal-backdrop.in').css('opacity', '0.9');
 	});
@@ -379,7 +379,7 @@ window.setTimeout(function() {
 		var title = $(this).find('.carousel-inner .item.active').attr('data-title');
 		$('#id_1').find('.modal-title').text(title);
 	});
-}, 0);
+});
 </script>
 EOT;
     }

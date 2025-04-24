@@ -607,7 +607,7 @@ class ilAttendanceList
                         if (!$this->has_local_role) {
                             $valid_user_ids = array_merge($valid_user_ids, $members);
                         } else {
-                            $valid_user_ids = array_merge($valid_user_ids, (array) $members[$role_id]);
+                            $valid_user_ids = array_merge($valid_user_ids, (array) ($members[$role_id] ?? []));
                         }
                         break;
                 }

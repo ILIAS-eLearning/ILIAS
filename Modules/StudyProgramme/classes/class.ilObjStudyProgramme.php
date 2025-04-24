@@ -1461,7 +1461,11 @@ class ilObjStudyProgramme extends ilContainer
                     continue;
                 }
 
-                if (!is_null($next_membership_source) && $next_membership_source->isEnabled()) {
+                if (
+                    $next_membership_source !== null
+                    && $next_membership_source?->isEnabled()
+                    && $next_membership_source->getSourceId() !== $src_id
+                ) {
                     $new_src_type = $next_membership_source->getSourceType();
                     $assigned_by = ilStudyProgrammeAutoMembershipSource::SOURCE_MAPPING[$new_src_type];
                     $assignment = $assignment->withLastChange($assigned_by, $now);
@@ -1563,9 +1567,9 @@ class ilObjStudyProgramme extends ilContainer
         $customIcon = $this->custom_icon_factory->getByObjId($this->getId(), $this->getType());
         $subtype = $this->getSubType();
 
-        if ($subtype && $subtype->getIconIdentifier()) {
-            $src = $this->type_repository->getIconPathFS($subtype);
-
+        if ($subtype && $subtype->getIconIdentifier()
+            && $src = $this->type_repository->getIconPathFS($subtype)
+        ) {
             //This is a horrible hack to allow Flysystem/LocalFilesystem to read the file.
             $tmp = 'ico_' . $this->getId();
             copy($src, \ilFileUtils::getDataDir() . '/temp/' . $tmp);

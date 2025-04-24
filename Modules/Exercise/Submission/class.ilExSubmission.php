@@ -425,40 +425,40 @@ class ilExSubmission
 
         $success = true;
 
-        try {
-            $filearray = [];
-            self::processZipFile($newDir, $fileTmp, false);
-            ilFileUtils::recursive_dirscan($newDir, $filearray);
+        //try {
+        $filearray = [];
+        self::processZipFile($newDir, $fileTmp, false);
+        ilFileUtils::recursive_dirscan($newDir, $filearray);
 
-            // #18441 - check number of files in zip
-            $max_num = $this->assignment->getMaxFile();
-            if ($max_num) {
-                $current_num = count($this->getFiles());
-                $zip_num = count($filearray["file"]);
-                if ($current_num + $zip_num > $max_num) {
+        // #18441 - check number of files in zip
+        $max_num = $this->assignment->getMaxFile();
+        if ($max_num) {
+            $current_num = count($this->getFiles());
+            $zip_num = count($filearray["file"]);
+            if ($current_num + $zip_num > $max_num) {
+                $success = false;
+                $this->main_tpl->setOnScreenMessage('failure', $lng->txt("exc_upload_error") . " [Zip1]", true);
+            }
+        }
+
+        if ($success) {
+            foreach ($filearray["file"] as $key => $filename) {
+                $a_http_post_files["name"] = ilFileUtils::utf8_encode($filename);
+                $a_http_post_files["type"] = "other";
+                $a_http_post_files["tmp_name"] = $filearray["path"][$key] . "/" . $filename;
+                $a_http_post_files["error"] = 0;
+                $a_http_post_files["size"] = filesize($filearray["path"][$key] . "/" . $filename);
+
+                if (!$this->uploadFile($a_http_post_files, true)) {
                     $success = false;
-                    $this->main_tpl->setOnScreenMessage('failure', $lng->txt("exc_upload_error") . " [Zip1]", true);
+                    $this->main_tpl->setOnScreenMessage('failure', $lng->txt("exc_upload_error") . " [Zip2]", true);
                 }
             }
-
-            if ($success) {
-                foreach ($filearray["file"] as $key => $filename) {
-                    $a_http_post_files["name"] = ilFileUtils::utf8_encode($filename);
-                    $a_http_post_files["type"] = "other";
-                    $a_http_post_files["tmp_name"] = $filearray["path"][$key] . "/" . $filename;
-                    $a_http_post_files["error"] = 0;
-                    $a_http_post_files["size"] = filesize($filearray["path"][$key] . "/" . $filename);
-
-                    if (!$this->uploadFile($a_http_post_files, true)) {
-                        $success = false;
-                        $this->main_tpl->setOnScreenMessage('failure', $lng->txt("exc_upload_error") . " [Zip2]", true);
-                    }
-                }
-            }
-        } catch (ilFileUtilsException $e) {
+        }
+        /*} catch (ilException $e) {
             $success = false;
             $this->main_tpl->setOnScreenMessage('failure', $e->getMessage());
-        }
+        }*/
 
         ilFileUtils::delDir($newDir);
         return $success;

@@ -189,7 +189,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
                     if (!$testPassesSelector->openPassExists()) {
                         $this->tpl->setOnScreenMessage('info', $this->lng->txt('tst_pass_finished'), true);
-                        $this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+                        $this->ctrl->redirectByClass([ilRepositoryGUI::class, ilObjTestGUI::class, ilTestScreenGUI::class]);
                     }
                 }
 
@@ -377,7 +377,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
         $headerBlockBuilder = new ilTestQuestionHeaderBlockBuilder($this->lng);
         $headerBlockBuilder->setHeaderMode($this->object->getTitleOutput());
-        $headerBlockBuilder->setQuestionTitle($questionGui->object->getTitle());
+        $headerBlockBuilder->setQuestionTitle($questionGui->object->getTitleForHTMLOutput());
         $headerBlockBuilder->setQuestionPoints($questionGui->object->getPoints());
         $headerBlockBuilder->setQuestionPosition($this->testSequence->getPositionOfSequence($sequence_element));
         $headerBlockBuilder->setQuestionCount($this->testSequence->getUserQuestionCount());

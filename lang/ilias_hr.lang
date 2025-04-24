@@ -1258,6 +1258,7 @@ assessment#:#toplist_col_percentage#:#Postotak
 assessment#:#toplist_col_rank#:#Rang
 assessment#:#toplist_col_score#:#Broj bodova
 assessment#:#toplist_col_wtime#:#Vrijeme obrade
+assessment#:#total_max_points_cannot_be_negative#:#The maximum amount of reachable points cannot be negative.###01 04 2025 new variable
 assessment#:#true#:#True###04 06 2021 new variable
 assessment#:#tst_access_code_created#:#Kako bi Vam se osigurao stalni pristup vašim rezultatima testa i ponudila vam se mogućnost da nastavite ovaj test, za Vas je izrađen jedinstveni kod za pristup testu. Molimo zabilježite si ovaj kod kako biste ga mogli koristiti za daljnje akcije.
 assessment#:#tst_activate_skill_service#:#Kompetencije
@@ -1606,7 +1607,6 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#Započeti prol
 assessment#:#tst_objective_progress_header#:#Napredak kod cilja učenja
 assessment#:#tst_objectives_progress_header#:#Napredak u ciljevima učenja
 assessment#:#tst_old_style_rnd_quest_set_broken#:#Ovaj je slučajni test u nepopravljivu stanju, jer su jedan ili više povezanih bazena pitanja izbrisani. Zbog toga sudionici ne mogu dalje ispunjavati test.
-assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Pitanja vezana za već uspješno obrađene ciljeve učenja su već uspješno rješena u prethodnim pokušajima.</b><br /><br /> Vi želite prijeći na pitanje, koje se odnosi na već usvojen cilj učenja.<br /> Možete odabrati:<br /><br /> Ako nastavite, možete ponovno obraditi pitanja vezana za te ciljeve učenja ili ih samo pregledati. Ako promijenite svoje odgovore iz prethodnih pokušaja, možete pogoršati i svoj rezultat cilja učenja.<br /><br /> Ako ne želite ponovno obraditi ili pregledati ova pitanja, možete se vratiti. Pitanja će se u svakom slučaju uzeti u obzir u procjeni.
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Pitanja vezana za već uspješno obrađene ciljeve učenja su opcionalna.</b><br /><br /> Vi želite prijeći na pitanje, koje se odnosi na već usvojen cilj učenja.<br /> Možete odabrati:<br /><br /> Ako nastavite, možete obraditi pitanja vezana za te ciljeve učenja. Vaši odgovori iz prethodnih pokušaja nisu preuzeti, jer su za ovaj pokušaj odabrana nova pitanja. U slučaju ponovne obrade pitanja možete i pogoršati svoj rezultat cilja učenja.<br /><br /> Ako ne želite ponovno obraditi ova pitanja, možete se vratiti. U tom slučaju ta se pitanja neće uzeti u obzir u procjeni.
 assessment#:#tst_out_of_time_message#:#You have reached the maximum allowed processing time of the test!###30 04 2024 new variable
 assessment#:#tst_participant#:#Sudionik
@@ -1763,6 +1763,7 @@ assessment#:#tst_res_jump_to_participant_hint_opt#:#--Skoči na sudionika--
 assessment#:#tst_res_lo_objectives_header#:#Relevantni ciljevi učenja
 assessment#:#tst_res_lo_try_header#:#Pokušaj
 assessment#:#tst_res_lo_try_n#:#Pokušaj %s
+assessment#:#tst_res_tab_msg_no_lp_access#:#You are currently not allowed to access your Learning Progress, as you are not allowed to see your test results.###01 04 2025 new variable
 assessment#:#tst_res_tab_msg_res_after_date#:#Rezultati test bit će ovdje prikazani na sljedeći datum: %s
 assessment#:#tst_res_tab_msg_res_after_date_no_res#:#Kada provodite test, rezultati testa bit će ovdje prikazani na sljedeći datum: %s
 assessment#:#tst_res_tab_msg_res_after_finish_test#:#Nakon završetka testa, vaši rezultati bit će ovdje prikazani.
@@ -2017,7 +2018,6 @@ auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessio
 auth#:#auth_err_expired#:#Your session has been deactivated due to inactivity.
 auth#:#auth_err_invalid_user_account#:#Authentication failed due to an internal failure.
 auth#:#auth_err_ldap_exception#:#Authentication failed due to an internal authentication failure (LDAP).
-auth#:#auth_err_login_attempts_deactivation#:#The user account has been deactivated due wrong login attempts.
 auth#:#auth_info_add#:#Choose this option if you have never registered to ILIAS. A new account will be created.
 auth#:#auth_info_migrate#:#If you have already an ILIAS account, enter username and password to migrate your personal data (mail, test results...).
 auth#:#auth_ldap_server_ds#:#LDAP-Server
@@ -2889,8 +2889,6 @@ chatroom#:#chat_osc_accepts_messages_yes#:#Receives Chat Messages
 chatroom#:#chat_osc_add_user#:#Add Further Users
 chatroom#:#chat_osc_conversations#:#Conversations
 chatroom#:#chat_osc_doesnt_accept_msg#:#Conversations not possible
-chatroom#:#chat_osc_dont_accept_msg#:#You currently cannot be invited to conversations. If desired you can change this in your <a href="%s">'Personal Settings'</a>.
-chatroom#:#chat_osc_dont_accept_msg_link_txt#:#'Personal Settings'###04 06 2021 new variable
 chatroom#:#chat_osc_head_grp_x_persons#:#%s Users
 chatroom#:#chat_osc_invite_to_conversation#:#Add to Conversation
 chatroom#:#chat_osc_leave_grp_conv#:#Leave Conversation
@@ -3918,6 +3916,7 @@ common#:#download_selected_items#:#Preuzimanje datoteka
 common#:#downloading_settings#:#Postavke preuzimanja
 common#:#dpro_accept_usr_agreement#:#Accept Declaration of Data Protection?###30 04 2024 new variable
 common#:#dpro_accept_usr_agreement_intro#:#There is a new Declaration of Data Protection. You need to accept it before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.###30 04 2024 new variable
+common#:#dpro_agreed_on#:#DoDP agreed to on###01 04 2025 new variable
 common#:#dpro_force_accept_usr_agreement#:#You must accept the Declaration of Data Protection!###30 04 2024 new variable
 common#:#dpro_no_agreement_description#:#There is currently no Declaration of Data Protection document available for this installation. Please contact the <a href="%1$s">system administrator</a>.###30 04 2024 new variable
 common#:#dpro_refuse_acceptance#:#Refuse to Accept the Declaration of Data Protection###30 04 2024 new variable
@@ -5633,7 +5632,6 @@ common#:#show_users_online#:#Prikaži aktivne korisnike
 common#:#show_who_is_online#:#Show who is online###04 06 2021 new variable
 common#:#side_frame#:#Bočni okvir
 common#:#signature#:#Potpis
-common#:#simultaneous_login_detected#:#Pristup vam je odbijen zbog istovremene prijave s istim računom.
 common#:#size#:#Veličina
 common#:#skills#:#Kompetencije
 common#:#skin_style#:#Zadani izgled/stil
@@ -6010,7 +6008,6 @@ common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want t
 common#:#wizard_search_list#:#Vaša je pretraga dala sljedeće rezultate. Molimo odaberite jedan od njih.
 common#:#wizard_title_info#:#Potražite objekt koji želite duplicirati. Unesite naziv objekta ili dio naziva i kliknite na 'Nastavi' kako biste dobili odgovarajuće rezultate pretraživanja.
 common#:#write#:#Pisati
-common#:#wrong_ip_detected#:#Pristup vam je odbijen zbog pogrešnog ip-a klijenta.<br>Trenutačno koristite ovu IP adresu: %s<br>Obratite se administratoru sustava.
 common#:#year#:#Godina
 common#:#yearly#:#godišnje
 common#:#years#:#Godine
@@ -7255,8 +7252,6 @@ content#:#glo_online_info#:#Samo ako je rječnik online, korisnici ga mogu koris
 content#:#glo_presentation_mode#:#Način prezentacije
 content#:#glo_presentation_view#:#Prikaz za prezentacije
 content#:#glo_quick_navigation#:#Brza navigacija
-content#:#glo_show_taxonomy#:#Pokaži taksonomiju
-content#:#glo_show_taxonomy_info#:#Taksonomija će biti vidljiva u prikazu za prezentacije pojmovnika i može se koristiti za odabir referenciranih pojmova.
 content#:#glo_style#:#Stil pojmovnika
 content#:#glo_table_form#:#U obliku tablice
 content#:#glo_table_form_info#:#Pojmovi i definicije se prvo prikazuju u pregledu s dva stupca. Klikom na pojam otvara se puni sadržaj pojma na zasebnom zaslonu.
@@ -9783,6 +9778,8 @@ file#:#preview_caption#:#Preview %sof %s###30 04 2024 new variable
 file#:#preview_image_size_info#:#The preview versions of images will be downscaled or upscaled as appropriate, so that their longest side is the length (in px) entered here.###30 04 2024 new variable
 file#:#preview_persisting#:#Persistent Preview Images###30 04 2024 new variable
 file#:#preview_persisting_info#:#Generated preview images will be stored by ILIAS and used from then on each time the preview icon for that file is clicked on. If deactivated, previews will be generated anew each time.###30 04 2024 new variable
+file#:#previews_for_tiles#:#Tiles###01 04 2025 new variable
+file#:#previews_for_tiles_info#:#Use Preview for Tiles where possible.###01 04 2025 new variable
 file#:#publish_before_delete#:#Version(s) could not be deleted because an unpublished draft exists.###30 04 2024 new variable
 file#:#replace_file_info#:#Sve prethodne verzije datoteka bit će izbrisane.
 file#:#resource_id#:#Resource ID###24 09 2021 new variable
@@ -12793,18 +12790,12 @@ noti#:#noti_notification_deactivated#:#Obavijest deaktivirana
 notifications_adm#:#enable_osd#:#Enable On-Screen Notifications###31 03 2023 new variable
 notifications_adm#:#enable_osd_desc#:#If enabled, users are notified by a popup about new notifications.###31 03 2023 new variable
 notifications_adm#:#notification_settings#:#Notification Settings###31 03 2023 new variable
-notifications_adm#:#osd_delay#:#Presentation Delay###31 03 2023 new variable
-notifications_adm#:#osd_delay_desc#:#Delay of the visible presentation in milliseconds.###31 03 2023 new variable
-notifications_adm#:#osd_error_presentation_time_too_small#:#The Presentation Time has to be at least than 1000 miliseconds.###31 03 2023 new variable
-notifications_adm#:#osd_error_refresh_interval_smaller_than_delay_and_vanish_combined#:#The Refresh Interval has to be greater than the Presentation Time and the Presentation Delay combined.###31 03 2023 new variable
 notifications_adm#:#osd_error_refresh_interval_too_small#:#The Refresh Interval has to be at least than 3000 miliseconds.###31 03 2023 new variable
 notifications_adm#:#osd_interval#:#Refreshinterval###31 03 2023 new variable
 notifications_adm#:#osd_interval_desc#:#Polling interval for checking of new notifications in miliseconds. A lower number will notify the user more quickly but increases the number of requests the web server must handle.###31 03 2023 new variable
 notifications_adm#:#osd_play_sound#:#Play a Sound###31 03 2023 new variable
 notifications_adm#:#osd_play_sound_desc#:#Play a sound when receiving a new notficiation.###31 03 2023 new variable
 notifications_adm#:#osd_settings#:#On-Screen Notifications###31 03 2023 new variable
-notifications_adm#:#osd_vanish#:#Presentation Time###31 03 2023 new variable
-notifications_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in miliseconds.###31 03 2023 new variable
 obj#:#activation_visible_when_disabled#:#Visibility###30 04 2024 new variable
 obj#:#activation_visible_when_disabled_info#:#The item is visible outside of the selected availability period, but it cannot be opened.###30 04 2024 new variable
 obj#:#availability_period_changed#:#The availability period for the selected objects has been changed successfully.###30 04 2024 new variable
@@ -12817,6 +12808,7 @@ obj#:#copy_container_page_yes_label#:#Copy Content Page###30 04 2024 new variabl
 obj#:#custom_icon#:#Custom Icon###30 04 2024 new variable
 obj#:#edit_availability_period#:#Availability Period###30 04 2024 new variable
 obj#:#edit_questions#:#Uredi pitanja
+obj#:#multiple_reference_deletion_info#:#Further references exist for the following objects.###01 04 2025 new variable
 obj#:#no_objects_selected#:#At least one object needs to be selected.###30 04 2024 new variable
 obj#:#obj_activate_content_lang#:#Aktiviraj prijevod za uređivanje stranica
 obj#:#obj_activate_multilang#:#Aktiviraj višejezičnost
@@ -13849,7 +13841,7 @@ rbac#:#chtr_moderate#:#Korisnik može moderirati raspravu u sobi za razgovor
 rbac#:#chtr_read#:#Korisnik se može pridružiti i sudjelovati u sobi za razgovor
 rbac#:#chtr_visible#:#Soba za razgovor je vidljiva
 rbac#:#chtr_write#:#Korisnik može uređivati postavke sobe za razgovor i blokirati korisnike
-rbac#:#cmis_edit_permissions#:#User can change permission settings of xAPI/cmi5 administration.###04 06 2021 new variable
+rbac#:#cmis_edit_permission#:#User can change permission settings of xAPI/cmi5 administration.###01 04 2025 new variable
 rbac#:#cmis_read#:#User has read access to xAPI/cmi5 administration.###04 06 2021 new variable
 rbac#:#cmis_visible#:#Administration of xAPI/cmi5 is visible.###04 06 2021 new variable
 rbac#:#cmis_write#:#User can edit settings of xAPI/cmi5 administration.###04 06 2021 new variable
@@ -13921,6 +13913,10 @@ rbac#:#dcl_write#:#Korisnik može uređivati postavke i sadržaj prikupljanja po
 rbac#:#delete_files#:#Izbriši datoteke
 rbac#:#delete_folders#:#Izbriši mape
 rbac#:#delete_wiki_pages#:#Izbriši stranice
+rbac#:#dpro_edit_permission#:#User can change permission settings in the Declaration of Data Protected administration###01 04 2025 new variable
+rbac#:#dpro_read#:#User has read access to the Declaration of Data Protection administration###01 04 2025 new variable
+rbac#:#dpro_visible#:#Declaration of Data Protection administration is visible###01 04 2025 new variable
+rbac#:#dpro_write#:#Edit settings in the Declaration of Data Protection###01 04 2025 new variable
 rbac#:#dshs_change_presentation#:#Change presentation of dashboard view###04 06 2021 new variable
 rbac#:#dshs_edit_permission#:#User can change permission settings of Dashboard administration###04 06 2021 new variable
 rbac#:#dshs_read#:#User has read access to Dashboard administration###04 06 2021 new variable
@@ -14069,6 +14065,10 @@ rbac#:#il_lti_global_role#:#LTI User###24 09 2021 new variable
 rbac#:#il_sess_participant#:#Sudionik sesije
 rbac#:#il_sess_status_closed#:#Zatvorena sesija bez sudionika
 rbac#:#ilias_id#:#ILIAS-ID
+rbac#:#impr_edit_permission#:#User can change permission settings of Legal Notice administration###01 04 2025 new variable
+rbac#:#impr_read#:#User can read in Legal Notice administration###01 04 2025 new variable
+rbac#:#impr_visible#:#Administration of Legal Notice is visible###01 04 2025 new variable
+rbac#:#impr_write#:#User can edit content and settings of Legal Notice###01 04 2025 new variable
 rbac#:#info_user_view_changed#:#Korisnički prikaz promijenjen
 rbac#:#internal_mail#:#Interna pošta
 rbac#:#invite#:#Pozivanje na anketu
@@ -14116,7 +14116,7 @@ rbac#:#lso_read_learning_progress#:#Korisnik može vidjeti napredak u učenju dr
 rbac#:#lso_unparticipate#:#Korisnik se može odjaviti iz sekvence učenja
 rbac#:#lso_visible#:#Sekvenca učenja je vidljiva
 rbac#:#lso_write#:#Korisnik može uređivati postavke sekvence učenja
-rbac#:#lsos_edit_permissions#:#User can change permission settings of Learning Sequences administration.###04 06 2021 new variable
+rbac#:#lsos_edit_permission#:#User can change permission settings of Learning Sequences administration.###01 04 2025 new variable
 rbac#:#lsos_read#:#User has read access to Learning Sequences administration.###04 06 2021 new variable
 rbac#:#lsos_visible#:#Administration of Learning Sequences is visible.###04 06 2021 new variable
 rbac#:#lsos_write#:#User can edit settings of Learning Sequences administration.###04 06 2021 new variable
@@ -14181,7 +14181,8 @@ rbac#:#moderate_frm#:#Moderiraj
 rbac#:#msg_anonymous_cannot_be_assigned#:#Anonymous cannot be assigned to a role.###19 03 2024 new variable
 rbac#:#msg_no_roles_of_type#:#Nema dostupnih uloga s odabranom postavkom filtra
 rbac#:#news_add_news#:#Dodaj vijesti
-rbac#:#nots_edit_permissions#:#User can change permission settings of Notes administration.###04 06 2021 new variable
+rbac#:#no_corresponding_roles#:#No corresponding roles could be found.###01 04 2025 new variable
+rbac#:#nots_edit_permission#:#User can change permission settings of Notes administration.###01 04 2025 new variable
 rbac#:#nots_read#:#User has read access to Notes administration.###04 06 2021 new variable
 rbac#:#nots_visible#:#Administration of Notes is visible.###04 06 2021 new variable
 rbac#:#nots_write#:#User can edit settings of Notes administration.###04 06 2021 new variable
@@ -14258,7 +14259,7 @@ rbac#:#prgs_edit_permission#:#Promijeni postavke dozvola u administraciji studij
 rbac#:#prgs_read#:#Korisnik ima pristup čitanju administracije studijskog programa
 rbac#:#prgs_visible#:#Administracija studijskog programa je vidljiva
 rbac#:#prgs_write#:#Uredi postavke u administraciji studijskog programa
-rbac#:#prss_edit_permissions#:#User can change permission settings of Personal Resources administration.###04 06 2021 new variable
+rbac#:#prss_edit_permission#:#User can change permission settings of Personal Resources administration.###01 04 2025 new variable
 rbac#:#prss_read#:#User has read access to Personal Resources administration.###04 06 2021 new variable
 rbac#:#prss_visible#:#Administration of Personal Resources is visible.###04 06 2021 new variable
 rbac#:#prss_write#:#User can edit settings of Personal Resources administration.###04 06 2021 new variable
@@ -14607,7 +14608,7 @@ rbac#:#usrf_read#:#Korisnik ima pristup za čitanje administraciji korisnika
 rbac#:#usrf_read_users#:#Korisnik ima pristup za čitanje lokalnih korisničkih računa (lokalni administratori)
 rbac#:#usrf_visible#:#Administracija korisnika je vidljiva
 rbac#:#usrf_write#:#Uredi postavke u administracija korisnika
-rbac#:#wbdv_edit_permissions#:#User can change permission settings of WebDAV administration.###04 06 2021 new variable
+rbac#:#wbdv_edit_permission#:#User can change permission settings of WebDAV administration.###01 04 2025 new variable
 rbac#:#wbdv_read#:#User has read access to WebDAV administration.###04 06 2021 new variable
 rbac#:#wbdv_visible#:#Administration of WebDAV is visible.###04 06 2021 new variable
 rbac#:#wbdv_write#:#User can edit settings of WebDAV administration.###04 06 2021 new variable
@@ -14791,6 +14792,7 @@ rep#:#rep_fav_intro2#:#Click on '%s' and select a learning object from the avail
 rep#:#rep_fav_intro3#:#When you have found something that interests you, you can easily add it to your favourites. Select the desired item in the <i>Actions</i> menu and choose "<i>Add to favourites</i>".###04 06 2021 new variable
 rep#:#rep_favourites#:#Favourites###09 03 2022 new variable
 rep#:#rep_favourites_info#:#Users can mark single repository items as favourites. Favourites lists can be activated and configured in the dashboard and menu settings.###09 03 2022 new variable
+rep#:#rep_input_not_empty#:#This field must not be empty, please provide a value.###01 04 2025 new variable
 rep#:#rep_intro#:#Welcome to the Repository!
 rep#:#rep_intro1#:#In this area you can create learning and working resources for all users. All resources are organised in categories. Categories can reflect the structure of your organisation (e.g. departments), a hierarchy of disciplines, or classes of a school.
 rep#:#rep_intro2#:#Three steps are needed to build an initial structure:
@@ -17193,6 +17195,7 @@ ui#:#order_option_numerical_ascending#:#0 to 9###30 04 2024 new variable
 ui#:#order_option_numerical_descending#:#9 to 0###30 04 2024 new variable
 ui#:#presentation_table_collapse#:#collapse all###30 04 2024 new variable
 ui#:#presentation_table_expand#:#expand all###30 04 2024 new variable
+ui#:#table_posinput_col_title#:#Position###01 04 2025 new variable
 ui#:#ui_chars_max#:#Maksimum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Preostali znakovi:

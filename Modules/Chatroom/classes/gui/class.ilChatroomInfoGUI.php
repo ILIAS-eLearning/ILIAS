@@ -47,11 +47,6 @@ class ilChatroomInfoGUI extends ilChatroomGUIHandler
             $info->enableNews();
         }
 
-        $info->addMetaDataSections(
-            $this->gui->getObject()->getId(),
-            0,
-            $this->gui->getObject()->getType()
-        );
         if ($requestedMethod === '') {
             $this->ilCtrl->setCmd('showSummary');
         } else {

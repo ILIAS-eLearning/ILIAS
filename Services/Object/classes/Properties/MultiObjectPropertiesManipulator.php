@@ -90,7 +90,9 @@ class MultiObjectPropertiesManipulator
         if ($data === null) {
             return $availability_period_modal;
         }
-        $ref_ids = $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())->transform($data['affected_items']);
+        $ref_ids = $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())->transform(
+            explode(',', $data['affected_items'])
+        );
 
         if (!$check_access($ref_ids)) {
             return false;

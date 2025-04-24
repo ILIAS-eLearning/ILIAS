@@ -916,7 +916,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         $result = [];
         $result['id'] = $this->getId();
         $result['type'] = $this->getQuestionType();
-        $result['title'] = $this->getTitle();
+        $result['title'] = $this->getTitleForHTMLOutput();
         $result['question'] = $this->formatSAQuestion($this->getQuestion());
         $result['instruction'] = $this->getInstructionTextTranslation(
             $this->lng,

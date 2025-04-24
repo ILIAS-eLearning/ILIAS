@@ -540,7 +540,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 ),
         ];
 
-        $sections = [$field_factory->section($fields, $this->lng->txt('login_to_ilias'))];
+        $sections = [$field_factory->section($fields, $this->lng->txt('login_to_ilias_via_login_form'))];
 
         return $this->ui_factory->input()
                                 ->container()
@@ -806,24 +806,13 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     ): string {
         global $tpl;
 
-        // @todo move this to auth utils.
-        // login via ILIAS (this also includes ldap)
-        // If local authentication is enabled for shibboleth users, we
-        // display the login form for ILIAS here.
-        if ((
-            $this->setting->get('auth_mode') != ilAuthUtils::AUTH_SHIBBOLETH ||
-            $this->setting->get('shib_auth_allow_local')
-        ) && $this->setting->get('auth_mode') != ilAuthUtils::AUTH_CAS) {
-            return $this->substituteLoginPageElements(
-                $tpl,
-                $page_editor_html,
-                $this->ui_renderer->render($form ?? $this->buildStandardLoginForm()),
-                '[list-login-form]',
-                'LOGIN_FORM'
-            );
-        }
-
-        return $page_editor_html;
+        return $this->substituteLoginPageElements(
+            $tpl,
+            $page_editor_html,
+            $this->ui_renderer->render($form ?? $this->buildStandardLoginForm()),
+            '[list-login-form]',
+            'LOGIN_FORM'
+        );
     }
 
     private function showLoginInformation(string $page_editor_html, ilGlobalTemplateInterface $tpl): string
@@ -1287,7 +1276,9 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             'client_id',
             $this->refinery->byTrying([$this->refinery->kindlyTo()->string(), $this->refinery->always('')])
         );
-        if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME'])) {
+
+        if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME']) &&
+            $this->access->checkAccessOfUser(ANONYMOUS_USER_ID, 'read', '', ROOT_FOLDER_ID)) {
             $tpl->setCurrentBlock('homelink');
             $tpl->setVariable('CLIENT_ID', '?client_id=' . $client_id . '&lang=' . $this->lng->getLangKey());
             $tpl->setVariable('TXT_HOME', $this->lng->txt('home'));
@@ -1360,15 +1351,18 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     private function processIndexPHP(): void
     {
         if ($this->authSession->isValid()) {
-            if (!$this->user->isAnonymous() || ilPublicSectionSettings::getInstance()->isEnabledForDomain(
-                $this->httpRequest->getServerParams()['SERVER_NAME']
+            if (!$this->user->isAnonymous() || (
+                ilPublicSectionSettings::getInstance()->isEnabledForDomain(
+                    $this->httpRequest->getServerParams()['SERVER_NAME']
+                ) && $this->access->checkAccessOfUser(ANONYMOUS_USER_ID, 'read', '', ROOT_FOLDER_ID)
             )) {
                 ilInitialisation::redirectToStartingPage();
                 return;
             }
         }
 
-        if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME'])) {
+        if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME']) &&
+            $this->access->checkAccessOfUser(ANONYMOUS_USER_ID, 'read', '', ROOT_FOLDER_ID)) {
             ilInitialisation::goToPublicSection();
         }
 

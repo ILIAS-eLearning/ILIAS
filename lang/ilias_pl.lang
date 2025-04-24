@@ -1258,6 +1258,7 @@ assessment#:#toplist_col_percentage#:#Wartość procentowa
 assessment#:#toplist_col_rank#:#Miejsce
 assessment#:#toplist_col_score#:#Liczba punktów
 assessment#:#toplist_col_wtime#:#Czas przetwarzania
+assessment#:#total_max_points_cannot_be_negative#:#The maximum amount of reachable points cannot be negative.###01 04 2025 new variable
 assessment#:#true#:#WAHR
 assessment#:#tst_access_code_created#:#Dla zapewnienia Ci stałego dostępu do wyników Twojego testu i do umożliwienia jego odzyskania, został utworzony unikalny kod dostępu do testu. Zapisz ten kod i użyj go do dalszych operacji.
 assessment#:#tst_activate_skill_service#:#Kompetencje
@@ -1606,7 +1607,6 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#Uruchomiony pr
 assessment#:#tst_objective_progress_header#:#Postęp w celu dydaktycznym
 assessment#:#tst_objectives_progress_header#:#Postęp w celach dydaktycznych
 assessment#:#tst_old_style_rnd_quest_set_broken#:#Ten test jest w stanie nieodwracalnym, ponieważ usunięto przyporządkowaną pulę pytań. Dlatego uczestnicy nie mogą już przeprowadzić.
-assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Na pytania dotyczące z powodzeniem przetworzonych celów dydaktycznych udzielono odpowiedzi we wcześniejszych próbach.</b><br /><br />Chcesz przejść do innego pytania, które należy do już zaliczonego celu dydaktycznego.<br />Masz następujący wybór:<br /><br />Jeśli będziesz kontynuował, pytanie dotyczące tych celów dydaktycznych możesz ponownie przetworzyć bądź mieć tylko do nich wgląd. Jeśli nie zmienisz odpowiedzi z wcześniejszych prób, nie możesz pogorszyć swoich wyników związanych z celami dydaktycznymi.<br /><br />Jeśli nie chcesz ponownie przetworzyć pytań lub mieć do nich wglądu, możesz się cofnąć. W każdym razie pytania te zostaną uwzględnione przy ocenie.
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Pytania dotyczące z powodzeniem przetworzonych celów dydaktycznych są opcjonalne.</b><br /><br />Chcesz przejść do innego pytania, które należy do już zaliczonego celu dydaktycznego.<br />Masz następujący wybór:<br /><br />Jeśli będziesz kontynuował, możesz przetworzyć pytania dotyczące tych celów dydaktycznych. Ponieważ dla tej próby wybrano nowe pytania, nie pobrano Twoich odpowiedzi z wcześniejszych prób. W przypadku ponownego przetwarzania pytań Twoje wyniki związane z celami dydaktycznymi mogą ulec pogorszeniu.<br /><br />Jeśli nie chcesz ponownie przetworzyć pytań, możesz się cofnąć. W takiej sytuacji pytania te nie będą uwzględnione przy ocenie.
 assessment#:#tst_out_of_time_message#:#You have reached the maximum allowed processing time of the test!###30 04 2024 new variable
 assessment#:#tst_participant#:#Uczestnicy
@@ -1763,6 +1763,7 @@ assessment#:#tst_res_jump_to_participant_hint_opt#:#--Przejdź do uczestników--
 assessment#:#tst_res_lo_objectives_header#:#Istotne cele dydaktyczne
 assessment#:#tst_res_lo_try_header#:#Próba
 assessment#:#tst_res_lo_try_n#:#%s. próba
+assessment#:#tst_res_tab_msg_no_lp_access#:#You are currently not allowed to access your Learning Progress, as you are not allowed to see your test results.###01 04 2025 new variable
 assessment#:#tst_res_tab_msg_res_after_date#:#You test results will be offered here on the following date: %s
 assessment#:#tst_res_tab_msg_res_after_date_no_res#:#When you take the test your results will be offered here on the following date: %s
 assessment#:#tst_res_tab_msg_res_after_finish_test#:#After finishing the test your results will be offered here.
@@ -2017,7 +2018,6 @@ auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessio
 auth#:#auth_err_expired#:#Czas Twojej sesji upłynął. Zaloguj się proszę ponownie.
 auth#:#auth_err_invalid_user_account#:#Z powodu wewnętrznego błędu nie udało się dokonać identyfikacji.
 auth#:#auth_err_ldap_exception#:#Z powodu błędu procedury rejestracji (LDAP) nie udało się dokonać identyfikacji.
-auth#:#auth_err_login_attempts_deactivation#:#Z powodu błędnych prób logowania konto użytkownika zostało dezaktywowane.
 auth#:#auth_info_add#:#Wybierz to ustawienie, jeśli nie rejestrowałeś się jeszcze w ILIAS. W takiej sytuacji zostanie założone nowe konto użytkownika.
 auth#:#auth_info_migrate#:#Jeśli już masz konto użytkownika ILIAS, podaj proszę swoją nazwę użytkownika i hasło, aby pobrać indywidualne dane (maile, wyniki testów itd.).
 auth#:#auth_ldap_server_ds#:#Serwer LDAP
@@ -2889,8 +2889,6 @@ chatroom#:#chat_osc_accepts_messages_yes#:#Odbiera wiadomości na czacie.
 chatroom#:#chat_osc_add_user#:#Dodaj do czatu kolejnych użytkowników
 chatroom#:#chat_osc_conversations#:#Rozmowy
 chatroom#:#chat_osc_doesnt_accept_msg#:#Rozmowy nie są możliwe
-chatroom#:#chat_osc_dont_accept_msg#:#Aktualnie inne osoby nie mogą zapraszać Ciebie do rozmów. Możesz to zmienić w <a href="%s">Osobistych ustawieniach'</a>.
-chatroom#:#chat_osc_dont_accept_msg_link_txt#:#'Personal Settings'###07 02 2020 new variable
 chatroom#:#chat_osc_head_grp_x_persons#:#%s Users
 chatroom#:#chat_osc_invite_to_conversation#:#Dodaj do rozmowy
 chatroom#:#chat_osc_leave_grp_conv#:#Opuść rozmowę
@@ -3918,6 +3916,7 @@ common#:#download_selected_items#:#Pobierz
 common#:#downloading_settings#:#Ustawienia pobierania
 common#:#dpro_accept_usr_agreement#:#Accept Declaration of Data Protection?###30 04 2024 new variable
 common#:#dpro_accept_usr_agreement_intro#:#There is a new Declaration of Data Protection. You need to accept it before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.###30 04 2024 new variable
+common#:#dpro_agreed_on#:#DoDP agreed to on###01 04 2025 new variable
 common#:#dpro_force_accept_usr_agreement#:#You must accept the Declaration of Data Protection!###30 04 2024 new variable
 common#:#dpro_no_agreement_description#:#There is currently no Declaration of Data Protection document available for this installation. Please contact the <a href="%1$s">system administrator</a>.###30 04 2024 new variable
 common#:#dpro_refuse_acceptance#:#Refuse to Accept the Declaration of Data Protection###30 04 2024 new variable
@@ -5633,7 +5632,6 @@ common#:#show_users_online#:#Pokaż pracujących użytkowników
 common#:#show_who_is_online#:#Show who is online###30 04 2021 new variable
 common#:#side_frame#:#Ramka, widok drzewa
 common#:#signature#:#Podpis
-common#:#simultaneous_login_detected#:#Dostęp do systemu jest zablokowany, ponieważ jeden użytkownik zalogował się do sesji ILIAS za pomocą tych danych dostępu.
 common#:#size#:#Rozmiar
 common#:#skills#:#Moje kompetencje
 common#:#skin_style#:#Domyślna skórka / styl
@@ -6010,7 +6008,6 @@ common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want t
 common#:#wizard_search_list#:#Twoje wyszukanie dało następujące wyniki. Wybierz jeden z nich.
 common#:#wizard_title_info#:#Wprowadź tytuł obiektu, który chcesz z duplikować.
 common#:#write#:#Zapisz
-common#:#wrong_ip_detected#:#Dostęp jest zabroniony ze względu na nieprawidłowy numer ip klienta.<br>Skontaktuj się z administratorem systemu.
 common#:#year#:#Rok
 common#:#yearly#:#rocznie
 common#:#years#:#Lata
@@ -7255,8 +7252,6 @@ content#:#glo_online_info#:#Użytkownicy mogą obejrzeć słownik i korzystać z
 content#:#glo_presentation_mode#:#Widok
 content#:#glo_presentation_view#:#Podgląd prezentacji
 content#:#glo_quick_navigation#:#Szybki dostęp
-content#:#glo_show_taxonomy#:#Pokaż klasyfikację
-content#:#glo_show_taxonomy_info#:#Klasyfikacja widoczna jest w widoku prezentacji i może być wykorzystana do wyboru pojęć.
 content#:#glo_style#:#Styl słownika
 content#:#glo_table_form#:#Tabela
 content#:#glo_table_form_info#:#Pojęcia i skrócone definicje wyświetlane są w tabeli podglądowej. Klikając na pojęcie, pojawia się pełna definicja.
@@ -9783,6 +9778,8 @@ file#:#preview_caption#:#Preview %sof %s###30 04 2024 new variable
 file#:#preview_image_size_info#:#The preview versions of images will be downscaled or upscaled as appropriate, so that their longest side is the length (in px) entered here.###30 04 2024 new variable
 file#:#preview_persisting#:#Persistent Preview Images###30 04 2024 new variable
 file#:#preview_persisting_info#:#Generated preview images will be stored by ILIAS and used from then on each time the preview icon for that file is clicked on. If deactivated, previews will be generated anew each time.###30 04 2024 new variable
+file#:#previews_for_tiles#:#Tiles###01 04 2025 new variable
+file#:#previews_for_tiles_info#:#Use Preview for Tiles where possible.###01 04 2025 new variable
 file#:#publish_before_delete#:#Version(s) could not be deleted because an unpublished draft exists.###30 04 2024 new variable
 file#:#replace_file_info#:#Wszystkie wersje plików zostaną usunięte.
 file#:#resource_id#:#Resource ID###24 09 2021 new variable
@@ -12793,18 +12790,12 @@ noti#:#noti_notification_deactivated#:#Notification Deactivated
 notifications_adm#:#enable_osd#:#Enable On-Screen Notifications###31 03 2023 new variable
 notifications_adm#:#enable_osd_desc#:#If enabled, users are notified by a popup about new notifications.###31 03 2023 new variable
 notifications_adm#:#notification_settings#:#Notification Settings###31 03 2023 new variable
-notifications_adm#:#osd_delay#:#Presentation Delay###31 03 2023 new variable
-notifications_adm#:#osd_delay_desc#:#Delay of the visible presentation in milliseconds.###31 03 2023 new variable
-notifications_adm#:#osd_error_presentation_time_too_small#:#The Presentation Time has to be at least than 1000 miliseconds.###31 03 2023 new variable
-notifications_adm#:#osd_error_refresh_interval_smaller_than_delay_and_vanish_combined#:#The Refresh Interval has to be greater than the Presentation Time and the Presentation Delay combined.###31 03 2023 new variable
 notifications_adm#:#osd_error_refresh_interval_too_small#:#The Refresh Interval has to be at least than 3000 miliseconds.###31 03 2023 new variable
 notifications_adm#:#osd_interval#:#Refreshinterval###31 03 2023 new variable
 notifications_adm#:#osd_interval_desc#:#Polling interval for checking of new notifications in miliseconds. A lower number will notify the user more quickly but increases the number of requests the web server must handle.###31 03 2023 new variable
 notifications_adm#:#osd_play_sound#:#Play a Sound###31 03 2023 new variable
 notifications_adm#:#osd_play_sound_desc#:#Play a sound when receiving a new notficiation.###31 03 2023 new variable
 notifications_adm#:#osd_settings#:#On-Screen Notifications###31 03 2023 new variable
-notifications_adm#:#osd_vanish#:#Presentation Time###31 03 2023 new variable
-notifications_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in miliseconds.###31 03 2023 new variable
 obj#:#activation_visible_when_disabled#:#Visibility###30 04 2024 new variable
 obj#:#activation_visible_when_disabled_info#:#The item is visible outside of the selected availability period, but it cannot be opened.###30 04 2024 new variable
 obj#:#availability_period_changed#:#The availability period for the selected objects has been changed successfully.###30 04 2024 new variable
@@ -12817,6 +12808,7 @@ obj#:#copy_container_page_yes_label#:#Copy Content Page###30 04 2024 new variabl
 obj#:#custom_icon#:#Custom Icon###30 04 2024 new variable
 obj#:#edit_availability_period#:#Availability Period###30 04 2024 new variable
 obj#:#edit_questions#:#Edytuj pytania
+obj#:#multiple_reference_deletion_info#:#Further references exist for the following objects.###01 04 2025 new variable
 obj#:#no_objects_selected#:#At least one object needs to be selected.###30 04 2024 new variable
 obj#:#obj_activate_content_lang#:#Aktywuj opcję treści w wielu językach dla edytora stron
 obj#:#obj_activate_multilang#:#Aktywuj opcję treści w wielu językach
@@ -13849,7 +13841,7 @@ rbac#:#chtr_moderate#:#Moderuj dyskusje na forum
 rbac#:#chtr_read#:#Bierz udział w dyskusji na forum
 rbac#:#chtr_visible#:#Forum jest widoczne
 rbac#:#chtr_write#:#Edytuj ustawienia forum i zablokuj użytkowników
-rbac#:#cmis_edit_permissions#:#User can change permission settings of xAPI/cmi5 administration.###30 04 2021 new variable
+rbac#:#cmis_edit_permission#:#User can change permission settings of xAPI/cmi5 administration.###01 04 2025 new variable
 rbac#:#cmis_read#:#User has read access to xAPI/cmi5 administration.###30 04 2021 new variable
 rbac#:#cmis_visible#:#Administration of xAPI/cmi5 is visible.###30 04 2021 new variable
 rbac#:#cmis_write#:#User can edit settings of xAPI/cmi5 administration.###30 04 2021 new variable
@@ -13921,6 +13913,10 @@ rbac#:#dcl_write#:#Edytuj zbiór danych
 rbac#:#delete_files#:#Usuń pliki
 rbac#:#delete_folders#:#Usuń folder
 rbac#:#delete_wiki_pages#:#Usuń stronę
+rbac#:#dpro_edit_permission#:#User can change permission settings in the Declaration of Data Protected administration###01 04 2025 new variable
+rbac#:#dpro_read#:#User has read access to the Declaration of Data Protection administration###01 04 2025 new variable
+rbac#:#dpro_visible#:#Declaration of Data Protection administration is visible###01 04 2025 new variable
+rbac#:#dpro_write#:#Edit settings in the Declaration of Data Protection###01 04 2025 new variable
 rbac#:#dshs_change_presentation#:#Change presentation of dashboard view###07 02 2020 new variable
 rbac#:#dshs_edit_permission#:#User can change permission settings of Dashboard administration###07 02 2020 new variable
 rbac#:#dshs_read#:#User has read access to Dashboard administration###07 02 2020 new variable
@@ -14069,6 +14065,10 @@ rbac#:#il_lti_global_role#:#LTI User###24 09 2021 new variable
 rbac#:#il_sess_participant#:#Uczestnicy sesji
 rbac#:#il_sess_status_closed#:#Sesja dostępna tylko dla członków
 rbac#:#ilias_id#:#ILIAS-ID
+rbac#:#impr_edit_permission#:#User can change permission settings of Legal Notice administration###01 04 2025 new variable
+rbac#:#impr_read#:#User can read in Legal Notice administration###01 04 2025 new variable
+rbac#:#impr_visible#:#Administration of Legal Notice is visible###01 04 2025 new variable
+rbac#:#impr_write#:#User can edit content and settings of Legal Notice###01 04 2025 new variable
 rbac#:#info_user_view_changed#:#Zmieniono widok użytkownika
 rbac#:#internal_mail#:#Wewnętrzny system mailowy
 rbac#:#invite#:#Zaproś do ankiety
@@ -14116,7 +14116,7 @@ rbac#:#lso_read_learning_progress#:#User can view learning progress of other use
 rbac#:#lso_unparticipate#:#User can unsubscribe from a Learning Sequence###07 02 2020 new variable
 rbac#:#lso_visible#:#Learning Sequence is visible
 rbac#:#lso_write#:#User can edit settings of Learning Sequence
-rbac#:#lsos_edit_permissions#:#User can change permission settings of Learning Sequences administration.###30 04 2021 new variable
+rbac#:#lsos_edit_permission#:#User can change permission settings of Learning Sequences administration.###01 04 2025 new variable
 rbac#:#lsos_read#:#User has read access to Learning Sequences administration.###30 04 2021 new variable
 rbac#:#lsos_visible#:#Administration of Learning Sequences is visible.###30 04 2021 new variable
 rbac#:#lsos_write#:#User can edit settings of Learning Sequences administration.###30 04 2021 new variable
@@ -14181,7 +14181,8 @@ rbac#:#moderate_frm#:#Moderuj
 rbac#:#msg_anonymous_cannot_be_assigned#:#Anonymous cannot be assigned to a role.###19 03 2024 new variable
 rbac#:#msg_no_roles_of_type#:#Brak dostępnych roli spełniających ustawienia filtru
 rbac#:#news_add_news#:#Utwórz nowości
-rbac#:#nots_edit_permissions#:#User can change permission settings of Notes administration.###30 04 2021 new variable
+rbac#:#no_corresponding_roles#:#No corresponding roles could be found.###01 04 2025 new variable
+rbac#:#nots_edit_permission#:#User can change permission settings of Notes administration.###01 04 2025 new variable
 rbac#:#nots_read#:#User has read access to Notes administration.###30 04 2021 new variable
 rbac#:#nots_visible#:#Administration of Notes is visible.###30 04 2021 new variable
 rbac#:#nots_write#:#User can edit settings of Notes administration.###30 04 2021 new variable
@@ -14258,7 +14259,7 @@ rbac#:#prgs_edit_permission#:#Zmień prawa dostępu dla ustawień systemowych do
 rbac#:#prgs_read#:#Prawo czytania ustawień systemowych dotyczących programu studiów
 rbac#:#prgs_visible#:#Ustawienia systemowe dotyczące programu studiów są widoczne
 rbac#:#prgs_write#:#Edytuj ustawienia systemowe dotyczące programu studiów
-rbac#:#prss_edit_permissions#:#User can change permission settings of Personal Resources administration.###30 04 2021 new variable
+rbac#:#prss_edit_permission#:#User can change permission settings of Personal Resources administration.###01 04 2025 new variable
 rbac#:#prss_read#:#User has read access to Personal Resources administration.###30 04 2021 new variable
 rbac#:#prss_visible#:#Administration of Personal Resources is visible.###30 04 2021 new variable
 rbac#:#prss_write#:#User can edit settings of Personal Resources administration.###30 04 2021 new variable
@@ -14607,7 +14608,7 @@ rbac#:#usrf_read#:#Prawo czytania kont użytkowników
 rbac#:#usrf_read_users#:#Przydział ról dla lokalnych administratorów
 rbac#:#usrf_visible#:#Konta użytkowników są widoczne
 rbac#:#usrf_write#:#Edycja kont użytkowników
-rbac#:#wbdv_edit_permissions#:#User can change permission settings of WebDAV administration.###30 04 2021 new variable
+rbac#:#wbdv_edit_permission#:#User can change permission settings of WebDAV administration.###01 04 2025 new variable
 rbac#:#wbdv_read#:#User has read access to WebDAV administration.###30 04 2021 new variable
 rbac#:#wbdv_visible#:#Administration of WebDAV is visible.###30 04 2021 new variable
 rbac#:#wbdv_write#:#User can edit settings of WebDAV administration.###30 04 2021 new variable
@@ -14791,6 +14792,7 @@ rep#:#rep_fav_intro2#:#Klicken Sie auf '%s' und wählen Sie aus dem verfügbaren
 rep#:#rep_fav_intro3#:#Wenn Sie etwas gefunden haben, das Sie interessiert, können Sie es ganz einfach zu Ihren Favoriten hinzufügen. Wählen Sie beim gewünschten Objekt im <i>Aktionen</i>-Menü die Option "<i>Zu Favoriten hinzufügen</i>".###07 02 2020 new variable
 rep#:#rep_favourites#:#Favourites###09 03 2022 new variable
 rep#:#rep_favourites_info#:#Users can mark single repository items as favourites. Favourites lists can be activated and configured in the dashboard and menu settings.###09 03 2022 new variable
+rep#:#rep_input_not_empty#:#This field must not be empty, please provide a value.###01 04 2025 new variable
 rep#:#rep_intro#:#Witamy w dostępnych zasobach!
 rep#:#rep_intro1#:#W tym obszarze możesz sporządzać i udostępniać materiały nauczania i robocze. To przestrzeń, na której tworzysz zasoby robocze i nauczania dla wszystkich użytkowników. Wszystkie zasoby są podzielone na kategorie. Kategorie mogą odzwierciedlać strukturę twojej instytucji (np. katedry), hierarchię dyscyplin lub klasy szkolne.
 rep#:#rep_intro2#:#Potrzebne są trzy kroki do stworzenia struktury podstawowej:
@@ -17193,6 +17195,7 @@ ui#:#order_option_numerical_ascending#:#0 to 9###30 04 2024 new variable
 ui#:#order_option_numerical_descending#:#9 to 0###30 04 2024 new variable
 ui#:#presentation_table_collapse#:#collapse all###30 04 2024 new variable
 ui#:#presentation_table_expand#:#expand all###30 04 2024 new variable
+ui#:#table_posinput_col_title#:#Position###01 04 2025 new variable
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Characters remaining:

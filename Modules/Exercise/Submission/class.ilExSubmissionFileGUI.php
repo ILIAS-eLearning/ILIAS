@@ -272,12 +272,21 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 
         $this->submission->addFileUpload($result);
 
-        return new \ILIAS\FileUpload\Handler\BasicHandlerResult(
-            '',
-            \ILIAS\FileUpload\Handler\HandlerResult::STATUS_OK,
-            $title,
-            ''
-        );
+        if ($result->isOK()) {
+            return new \ILIAS\FileUpload\Handler\BasicHandlerResult(
+                '',
+                \ILIAS\FileUpload\Handler\HandlerResult::STATUS_OK,
+                $title,
+                ''
+            );
+        } else {
+            return new \ILIAS\FileUpload\Handler\BasicHandlerResult(
+                '',
+                \ILIAS\FileUpload\Handler\HandlerResult::STATUS_FAILED,
+                $title,
+                $result->getStatus()->getMessage()
+            );
+        }
     }
 
     public function addUploadObject(): void
@@ -375,9 +384,14 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
             }
 
             if (preg_match("/zip/", $_FILES["deliver"]["type"]) == 1) {
-                if ($this->submission->processUploadedZipFile($_FILES["deliver"]["tmp_name"])) {
-                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("file_added"), true);
-                    $this->handleNewUpload();
+                try {
+                    if ($this->submission->processUploadedZipFile($_FILES["deliver"]["tmp_name"])) {
+                        $this->tpl->setOnScreenMessage('success', $this->lng->txt("file_added"), true);
+                        $this->handleNewUpload();
+                    }
+                } catch (ilException $e) {
+                    $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
+                    $ilCtrl->redirect($this, "submissionScreen");
                 }
             }
         }

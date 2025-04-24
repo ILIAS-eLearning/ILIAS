@@ -1258,6 +1258,7 @@ assessment#:#toplist_col_percentage#:#Pourcentage
 assessment#:#toplist_col_rank#:#Classement
 assessment#:#toplist_col_score#:#Note
 assessment#:#toplist_col_wtime#:#Temps Passé
+assessment#:#total_max_points_cannot_be_negative#:#The maximum amount of reachable points cannot be negative.###01 04 2025 new variable
 assessment#:#true#:#Vrai
 assessment#:#tst_access_code_created#:#Pour vous donner un accès permanent aux résultats du test et vous permettre de le refaire, un code d'accès unique a été créé. Veuillez noter et conserver ce code pour consulter les résultats ou refaire ce test ultérieurement.
 assessment#:#tst_activate_skill_service#:#Activer Service de Compétences
@@ -1606,7 +1607,6 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#L’essai comm
 assessment#:#tst_objective_progress_header#:#Progression d'Objectif d'Apprentissage
 assessment#:#tst_objectives_progress_header#:#Progression d'Objectif d'Apprentissage
 assessment#:#tst_old_style_rnd_quest_set_broken#:#Ce test aléatoire se trouve dans un état irréparable car un ou plusieurs pools de questions connectés ont été supprimés. Par conséquent, les participants ne peuvent plus passer le test.
-assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Question related to allready passed learning objectives were answered in previous passes.</b><br /><br />You want to navigate to a question, that relates to an allready passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on or simply review these questions. If you change your answers that were adopted from previous passes, you can also degrade your learning objective result.<br /><br />If you decide to not work on or review these questions, you can go back. The questions will be considered in the evaluation in every case.
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Question related to allready passed learning objectives are optional.</b><br /><br />You want to navigate to a question, that relates to an allready passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on these questions. Your answers from previous attempts were not adopted, since new random questions were selected for this attempt. With working on this questions you can also degrade your learning objective result.<br /><br />If you decide to not work on these questions, you can go back. In this case these questions won't be considered in the evaluation.
 assessment#:#tst_out_of_time_message#:#You have reached the maximum allowed processing time of the test!###30 04 2024 new variable
 assessment#:#tst_participant#:#Participant
@@ -1763,6 +1763,7 @@ assessment#:#tst_res_jump_to_participant_hint_opt#:#--Aller au participant--
 assessment#:#tst_res_lo_objectives_header#:#Objectifs d'apprentissage pertinents
 assessment#:#tst_res_lo_try_header#:#Tentative
 assessment#:#tst_res_lo_try_n#:#Tentative %s
+assessment#:#tst_res_tab_msg_no_lp_access#:#You are currently not allowed to access your Learning Progress, as you are not allowed to see your test results.###01 04 2025 new variable
 assessment#:#tst_res_tab_msg_res_after_date#:#You test results will be offered here on the following date: %s
 assessment#:#tst_res_tab_msg_res_after_date_no_res#:#When you take the test your results will be offered here on the following date: %s
 assessment#:#tst_res_tab_msg_res_after_finish_test#:#After finishing the test your results will be offered here.
@@ -2017,7 +2018,6 @@ auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessio
 auth#:#auth_err_expired#:#Votre session a été désactivée pour cause d’inactivité.
 auth#:#auth_err_invalid_user_account#:#Authentification échouée à cause d’une erreur interne.
 auth#:#auth_err_ldap_exception#:#Authentification échouée à cause d’une erreur d’authentification interne (LDAP).
-auth#:#auth_err_login_attempts_deactivation#:#Le compte utilisateur a été désactivé en raison de tentatives de connexion erronées.
 auth#:#auth_info_add#:#Choisir cette option si vous n'avez jamais été inscrit sur ILIAS. Un nouveau compte sera créé.
 auth#:#auth_info_migrate#:#Si vous avez déjà  un compte ILIAS, saisir nom d'utilisateur et mot de passe pour migrer vos données personnelles (Mail, résultats de test, â€¦).
 auth#:#auth_ldap_server_ds#:#Serveur LDAP
@@ -2889,8 +2889,6 @@ chatroom#:#chat_osc_accepts_messages_yes#:#Reçoit les messages chat
 chatroom#:#chat_osc_add_user#:#Ajouter des utilisateurs
 chatroom#:#chat_osc_conversations#:#Discussions
 chatroom#:#chat_osc_doesnt_accept_msg#:#Conversations impossibles
-chatroom#:#chat_osc_dont_accept_msg#:#Actuellement, vous ne pouvez pas être invité à des discussions. Si vous le souhaitez, vous pouvez modifier cela dans votre %s.
-chatroom#:#chat_osc_dont_accept_msg_link_txt#:#'Paramètres personnels'
 chatroom#:#chat_osc_head_grp_x_persons#:#%s utilisateurs
 chatroom#:#chat_osc_invite_to_conversation#:#Ajouter à la discussion
 chatroom#:#chat_osc_leave_grp_conv#:#Quitter la discussion
@@ -3918,6 +3916,7 @@ common#:#download_selected_items#:#Télécharger
 common#:#downloading_settings#:#Paramètres de téléchargement
 common#:#dpro_accept_usr_agreement#:#Accept Declaration of Data Protection?###30 04 2024 new variable
 common#:#dpro_accept_usr_agreement_intro#:#There is a new Declaration of Data Protection. You need to accept it before proceeding with the use of ILIAS. Read the following document carefully and give your consent or dissent at the bottom of the page.###30 04 2024 new variable
+common#:#dpro_agreed_on#:#DoDP agreed to on###01 04 2025 new variable
 common#:#dpro_force_accept_usr_agreement#:#You must accept the Declaration of Data Protection!###30 04 2024 new variable
 common#:#dpro_no_agreement_description#:#There is currently no Declaration of Data Protection document available for this installation. Please contact the <a href="%1$s">system administrator</a>.###30 04 2024 new variable
 common#:#dpro_refuse_acceptance#:#Refuse to Accept the Declaration of Data Protection###30 04 2024 new variable
@@ -5633,7 +5632,6 @@ common#:#show_users_online#:#Afficher les utilisateurs actifs
 common#:#show_who_is_online#:#Afficher qui est en ligne
 common#:#side_frame#:#Fenêtre latérale
 common#:#signature#:#Signature
-common#:#simultaneous_login_detected#:#Votre accès a été refusé car il existe une autre connexion avec le même compte.
 common#:#size#:#Taille
 common#:#skills#:#Mes compétences
 common#:#skin_style#:#Thème / Style par défaut
@@ -6010,7 +6008,6 @@ common#:#withdrawal_sure_account_no_consent_yet#:#Êtes-vous sûr de ne pas voul
 common#:#wizard_search_list#:#Votre recherche a produit les résultats suivants. Veuillez en sélectionner un.
 common#:#wizard_title_info#:#Veuillez saisir le titre de l'objet que vous voulez dupliquer.
 common#:#write#:#Ecrire
-common#:#wrong_ip_detected#:#L'accès est refusé à cause d'un mauvais numéro IP client.<br>Veuillez prendre contact l'administrateur du système.
 common#:#year#:#Année
 common#:#yearly#:#annuel
 common#:#years#:#Années
@@ -7255,8 +7252,6 @@ content#:#glo_online_info#:#Seulement si le glossaire est en ligne, les utilisat
 content#:#glo_presentation_mode#:#Modèle de présentation
 content#:#glo_presentation_view#:#Vue de présentation
 content#:#glo_quick_navigation#:#Navigation rapide
-content#:#glo_show_taxonomy#:#Afficher Taxinomie
-content#:#glo_show_taxonomy_info#:#La taxonomie sera visible dans la vue de la présentation du glossaire et pourra être utilisée pour sélectionner des termes de référence.
 content#:#glo_style#:#Style du Glossaire
 content#:#glo_table_form#:#Format tableau
 content#:#glo_table_form_info#:#Termes et définitions sont affichés sous forme d'aperçu dans deux colonnes. Cliquer sur un terme affiche dans une autre fenêtre la version complète.
@@ -9783,6 +9778,8 @@ file#:#preview_caption#:#Preview %sof %s###30 04 2024 new variable
 file#:#preview_image_size_info#:#The preview versions of images will be downscaled or upscaled as appropriate, so that their longest side is the length (in px) entered here.###30 04 2024 new variable
 file#:#preview_persisting#:#Persistent Preview Images###30 04 2024 new variable
 file#:#preview_persisting_info#:#Generated preview images will be stored by ILIAS and used from then on each time the preview icon for that file is clicked on. If deactivated, previews will be generated anew each time.###30 04 2024 new variable
+file#:#previews_for_tiles#:#Tiles###01 04 2025 new variable
+file#:#previews_for_tiles_info#:#Use Preview for Tiles where possible.###01 04 2025 new variable
 file#:#publish_before_delete#:#Version(s) could not be deleted because an unpublished draft exists.###30 04 2024 new variable
 file#:#replace_file_info#:#Toutes les versions du fichier seront supprimées.
 file#:#resource_id#:#Resource ID
@@ -12793,18 +12790,12 @@ noti#:#noti_notification_deactivated#:#Notification Deactivated
 notifications_adm#:#enable_osd#:#Enable On-Screen Notifications###31 10 2023 new variable
 notifications_adm#:#enable_osd_desc#:#If enabled, users are notified by a popup about new notifications.###31 10 2023 new variable
 notifications_adm#:#notification_settings#:#Notification Settings###31 10 2023 new variable
-notifications_adm#:#osd_delay#:#Presentation Delay###31 10 2023 new variable
-notifications_adm#:#osd_delay_desc#:#Delay of the visible presentation in milliseconds.###31 10 2023 new variable
-notifications_adm#:#osd_error_presentation_time_too_small#:#The Presentation Time has to be at least than 1000 miliseconds.###31 10 2023 new variable
-notifications_adm#:#osd_error_refresh_interval_smaller_than_delay_and_vanish_combined#:#The Refresh Interval has to be greater than the Presentation Time and the Presentation Delay combined.###31 10 2023 new variable
 notifications_adm#:#osd_error_refresh_interval_too_small#:#The Refresh Interval has to be at least than 3000 miliseconds.###31 10 2023 new variable
 notifications_adm#:#osd_interval#:#Refreshinterval###31 10 2023 new variable
 notifications_adm#:#osd_interval_desc#:#Polling interval for checking of new notifications in miliseconds. A lower number will notify the user more quickly but increases the number of requests the web server must handle.###31 10 2023 new variable
 notifications_adm#:#osd_play_sound#:#Play a Sound###31 10 2023 new variable
 notifications_adm#:#osd_play_sound_desc#:#Play a sound when receiving a new notficiation.###31 10 2023 new variable
 notifications_adm#:#osd_settings#:#On-Screen Notifications###31 10 2023 new variable
-notifications_adm#:#osd_vanish#:#Presentation Time###31 10 2023 new variable
-notifications_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in miliseconds.###31 10 2023 new variable
 obj#:#activation_visible_when_disabled#:#Visibility###30 04 2024 new variable
 obj#:#activation_visible_when_disabled_info#:#The item is visible outside of the selected availability period, but it cannot be opened.###30 04 2024 new variable
 obj#:#availability_period_changed#:#The availability period for the selected objects has been changed successfully.###30 04 2024 new variable
@@ -12817,6 +12808,7 @@ obj#:#copy_container_page_yes_label#:#Copy Content Page###30 04 2024 new variabl
 obj#:#custom_icon#:#Custom Icon###30 04 2024 new variable
 obj#:#edit_availability_period#:#Availability Period###30 04 2024 new variable
 obj#:#edit_questions#:#Editer Questions
+obj#:#multiple_reference_deletion_info#:#Further references exist for the following objects.###01 04 2025 new variable
 obj#:#no_objects_selected#:#At least one object needs to be selected.###30 04 2024 new variable
 obj#:#obj_activate_content_lang#:#Activer la Traduction pour l'Edition des Pages
 obj#:#obj_activate_multilang#:#Activer Multi-Linguisme
@@ -13849,7 +13841,7 @@ rbac#:#chtr_moderate#:#L'utilisateur peut modérer les discussions
 rbac#:#chtr_read#:#L'utilisateur peut rejoindre la discussion et y participer
 rbac#:#chtr_visible#:#L'objet est visible
 rbac#:#chtr_write#:#L'utilisateur peut modifier les paramètres du Chat et bannir des utilisateurs
-rbac#:#cmis_edit_permissions#:#User can change permission settings of xAPI/cmi5 administration.
+rbac#:#cmis_edit_permission#:#User can change permission settings of xAPI/cmi5 administration.###01 04 2025 new variable
 rbac#:#cmis_read#:#User has read access to xAPI/cmi5 administration.
 rbac#:#cmis_visible#:#Administration of xAPI/cmi5 is visible.
 rbac#:#cmis_write#:#User can edit settings of xAPI/cmi5 administration.
@@ -13921,6 +13913,10 @@ rbac#:#dcl_write#:#L'utilisateur peut modifier les paramètres et éditer le con
 rbac#:#delete_files#:#Supprimer Fichiers
 rbac#:#delete_folders#:#Supprimer Dossiers
 rbac#:#delete_wiki_pages#:#Supprimer les pages
+rbac#:#dpro_edit_permission#:#User can change permission settings in the Declaration of Data Protected administration###01 04 2025 new variable
+rbac#:#dpro_read#:#User has read access to the Declaration of Data Protection administration###01 04 2025 new variable
+rbac#:#dpro_visible#:#Declaration of Data Protection administration is visible###01 04 2025 new variable
+rbac#:#dpro_write#:#Edit settings in the Declaration of Data Protection###01 04 2025 new variable
 rbac#:#dshs_change_presentation#:#Change presentation of dashboard view
 rbac#:#dshs_edit_permission#:#User can change permission settings of Dashboard administration
 rbac#:#dshs_read#:#User has read access to Dashboard administration
@@ -14069,6 +14065,10 @@ rbac#:#il_lti_global_role#:#LTI User
 rbac#:#il_sess_participant#:#Participant à la session
 rbac#:#il_sess_status_closed#:#Session fermée pour les non-participants
 rbac#:#ilias_id#:#ID ILIAS
+rbac#:#impr_edit_permission#:#User can change permission settings of Legal Notice administration###01 04 2025 new variable
+rbac#:#impr_read#:#User can read in Legal Notice administration###01 04 2025 new variable
+rbac#:#impr_visible#:#Administration of Legal Notice is visible###01 04 2025 new variable
+rbac#:#impr_write#:#User can edit content and settings of Legal Notice###01 04 2025 new variable
 rbac#:#info_user_view_changed#:#Vue utilisateur modifiée
 rbac#:#internal_mail#:#Messagerie
 rbac#:#invite#:#Inviter Participants
@@ -14116,7 +14116,7 @@ rbac#:#lso_read_learning_progress#:#User can view learning progress of other use
 rbac#:#lso_unparticipate#:#User can unsubscribe from a Learning Sequence
 rbac#:#lso_visible#:#Learning Sequence is visible
 rbac#:#lso_write#:#User can edit settings of Learning Sequence
-rbac#:#lsos_edit_permissions#:#User can change permission settings of Learning Sequences administration.
+rbac#:#lsos_edit_permission#:#User can change permission settings of Learning Sequences administration.###01 04 2025 new variable
 rbac#:#lsos_read#:#User has read access to Learning Sequences administration.
 rbac#:#lsos_visible#:#Administration of Learning Sequences is visible.
 rbac#:#lsos_write#:#User can edit settings of Learning Sequences administration.
@@ -14181,7 +14181,8 @@ rbac#:#moderate_frm#:#Modérer
 rbac#:#msg_anonymous_cannot_be_assigned#:#Anonymous cannot be assigned to a role.###19 03 2024 new variable
 rbac#:#msg_no_roles_of_type#:#Aucun rôle disponible
 rbac#:#news_add_news#:#Ajouter les nouvelles
-rbac#:#nots_edit_permissions#:#User can change permission settings of Notes administration.
+rbac#:#no_corresponding_roles#:#No corresponding roles could be found.###01 04 2025 new variable
+rbac#:#nots_edit_permission#:#User can change permission settings of Notes administration.###01 04 2025 new variable
 rbac#:#nots_read#:#User has read access to Notes administration.
 rbac#:#nots_visible#:#Administration of Notes is visible.
 rbac#:#nots_write#:#User can edit settings of Notes administration.
@@ -14258,7 +14259,7 @@ rbac#:#prgs_edit_permission#:#Modifier les paramètres de permission dans l’ad
 rbac#:#prgs_read#:#L’utilisateur a un accès de lecture pour l’administration du programme d’étude
 rbac#:#prgs_visible#:#L’administration du programme d’étude est visible
 rbac#:#prgs_write#:#Éditer les paramètres dans l’administration du programme d’étude
-rbac#:#prss_edit_permissions#:#User can change permission settings of Personal Resources administration.
+rbac#:#prss_edit_permission#:#User can change permission settings of Personal Resources administration.###01 04 2025 new variable
 rbac#:#prss_read#:#User has read access to Personal Resources administration.
 rbac#:#prss_visible#:#Administration of Personal Resources is visible.
 rbac#:#prss_write#:#User can edit settings of Personal Resources administration.
@@ -14607,7 +14608,7 @@ rbac#:#usrf_read#:#Panneau d'administration accessible
 rbac#:#usrf_read_users#:#Panneau d'administration locale accessible
 rbac#:#usrf_visible#:#Panneau d'administration visible
 rbac#:#usrf_write#:#Administration autorisée
-rbac#:#wbdv_edit_permissions#:#User can change permission settings of WebDAV administration.
+rbac#:#wbdv_edit_permission#:#User can change permission settings of WebDAV administration.###01 04 2025 new variable
 rbac#:#wbdv_read#:#User has read access to WebDAV administration.
 rbac#:#wbdv_visible#:#Administration of WebDAV is visible.
 rbac#:#wbdv_write#:#User can edit settings of WebDAV administration.
@@ -14791,6 +14792,7 @@ rep#:#rep_fav_intro2#:#Cliquez sur '%s' et repérez le sujet qui vous intéresse
 rep#:#rep_fav_intro3#:# 	<br />Cliquez sur le sujet souhaité, puis sur le menu <i>Actions</i>  et choisissez l'option "<i>Ajouter aux favoris</i>".
 rep#:#rep_favourites#:#Favourites
 rep#:#rep_favourites_info#:#Users can mark single repository items as favourites. Favourites lists can be activated and configured in the dashboard and menu settings.
+rep#:#rep_input_not_empty#:#This field must not be empty, please provide a value.###01 04 2025 new variable
 rep#:#rep_intro#:#Bienvenue dans le Catalogue ILIAS !
 rep#:#rep_intro1#:#Dans cette zone, vous pouvez créer des ressources pédagogiques pour tous les utilisateurs. Ces ressources sont organisées en <i>catégories</i>. Les catégories reflètent la structure de votre organisation (ex. départements), une hiérarchie de disciplines ou les classes d'une école.
 rep#:#rep_intro2#:#Trois étapes sont nécessaires pour commencer à structurer votre catalogue :
@@ -17193,6 +17195,7 @@ ui#:#order_option_numerical_ascending#:#0 to 9###30 04 2024 new variable
 ui#:#order_option_numerical_descending#:#9 to 0###30 04 2024 new variable
 ui#:#presentation_table_collapse#:#collapse all###30 04 2024 new variable
 ui#:#presentation_table_expand#:#expand all###30 04 2024 new variable
+ui#:#table_posinput_col_title#:#Position###01 04 2025 new variable
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Characters remaining:

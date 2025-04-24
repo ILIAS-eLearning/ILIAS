@@ -1372,7 +1372,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();
-        $result['title'] = $this->getTitle();
+        $result['title'] = $this->getTitleForHTMLOutput();
         $result['question'] = $this->formatSAQuestion($this->getQuestion());
         $result['nr_of_tries'] = $this->getNrOfTries();
         $result['matching_mode'] = $this->getMatchingMode();

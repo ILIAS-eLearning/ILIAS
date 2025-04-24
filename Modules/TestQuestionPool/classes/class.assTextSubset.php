@@ -796,7 +796,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
         $result = array();
         $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();
-        $result['title'] = $this->getTitle();
+        $result['title'] = $this->getTitleForHTMLOutput();
         $result['question'] = $this->formatSAQuestion($this->getQuestion());
         $result['nr_of_tries'] = $this->getNrOfTries();
         $result['matching_method'] = $this->getTextRating();

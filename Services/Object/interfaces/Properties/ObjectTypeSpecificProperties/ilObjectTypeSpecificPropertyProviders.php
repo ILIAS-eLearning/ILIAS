@@ -20,7 +20,7 @@ namespace ILIAS\Object\Properties\ObjectTypeSpecificProperties;
 
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Image\Factory as ImageFactory;
-use ILIAS\UI\Component\Symbol\Icon\Icon;
+use ILIAS\UI\Component\Symbol\Icon\Custom as CustomIcon;
 use ILIAS\UI\Component\Symbol\Icon\Factory as IconFactory;
 use ILIAS\ResourceStorage\Services as StorageService;
 
@@ -36,9 +36,9 @@ interface ilObjectTypeSpecificPropertyProviders
         ImageFactory $factory,
         StorageService $irss
     ): ?Image;
-    public function getObjectTypeSpecificCustomIcon(
+    public function getObjectTypeSpecificIcon(
         int $object_id,
         IconFactory $factory,
         StorageService $irss
-    ): ?Icon;
+    ): ?CustomIcon;
 }

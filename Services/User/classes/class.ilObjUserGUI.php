@@ -480,7 +480,7 @@ class ilObjUserGUI extends ilObjectGUI
         $this->object = $user_object;
 
         if ($this->isSettingChangeable('upload')) {
-            $this->uploadUserPictureObject();
+            $this->uploadUserPicture();
         }
 
         if ($profile_maybe_incomplete
@@ -804,7 +804,7 @@ class ilObjUserGUI extends ilObjectGUI
 
             // same personal image
             if ($this->isSettingChangeable('upload')) {
-                $this->uploadUserPictureObject();
+                $this->uploadUserPicture();
             }
 
             if ($profile_maybe_incomplete) {
@@ -1429,20 +1429,8 @@ class ilObjUserGUI extends ilObjectGUI
      * upload user image
      * (original method by ratana ty)
      */
-    public function uploadUserPictureObject(): void
+    protected function uploadUserPicture(): void
     {
-        if ($this->usrf_ref_id == USER_FOLDER_ID and
-            !$this->rbac_system->checkAccess('visible,read', $this->usrf_ref_id)) {
-            $this->ilias->raiseError($this->lng->txt('msg_no_perm_modify_user'), $this->ilias->error_obj->MESSAGE);
-        }
-        // if called from local administration $this->usrf_ref_id is category id
-        // Todo: this has to be fixed. Do not mix user folder id and category id
-        if ($this->usrf_ref_id != USER_FOLDER_ID) {
-            // check if user is assigned to category
-            if (!$this->rbac_system->checkAccess('cat_administrate_users', $this->object->getTimeLimitOwner())) {
-                $this->ilias->raiseError($this->lng->txt('msg_no_perm_modify_user'), $this->ilias->error_obj->MESSAGE);
-            }
-        }
 
         $userfile_input = $this->form_gui->getItemByPostVar('userfile');
 
@@ -1969,7 +1957,7 @@ class ilObjUserGUI extends ilObjectGUI
     {
         if ($this->usrf_ref_id === USER_FOLDER_ID
             && (
-                !$this->rbac_system->checkAccess('visible,read', $this->usrf_ref_id)
+                !$this->rbac_system->checkAccess('visible', $this->usrf_ref_id)
                 || !$this->rbac_system->checkAccess('write', $this->usrf_ref_id)
                     && (
                         !$this->access->checkPositionAccess(\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS, $this->usrf_ref_id)

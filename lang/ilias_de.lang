@@ -176,7 +176,8 @@ administration#:#auth_auth_mode_determination#:#Bestimmung der Authentifizierung
 administration#:#auth_automatic#:#Festgelegte Reihenfolge
 administration#:#auth_by_user#:#Durch den Benutzer
 administration#:#auth_kind_determination#:#Art der Bestimmung
-administration#:#auth_mode_determination_info#:#Hier können Sie festlegen, ob die Authentifizierungsmethode durch die Benutzer beim Login ausgewählt werden muss oder ob die Authentifizierungsdaten anhand einer vorgegebenen Reihenfolge überprüft werden sollen.
+administration#:#auth_mode_default_change_info#:#Die Änderung des Standard-Authentifizierungsverfahrens betrifft alle ILIAS-Konten, bei denen die Authentifizierung auf „Standard“ gesetzt ist. Wenn das gewählte Verfahren (z.B. Shibboleth, SAML, LDAP, ...) keine lokale ILIAS-Authentifizierung unterstützt oder diese Funktion nicht aktiviert ist, können betroffene Personen sich möglicherweise nicht mehr anmelden. Um dies zu vermeiden, stellen Sie bitte sicher, dass die lokale Authentifizierung im konfigurierten Verfahren (sofern unterstützt) aktiviert ist oder dass das Authentifizierungsverfahren in den betroffenen ILIAS-Konten entsprechend angepasst wird.
+administration#:#auth_mode_determination_info#:#Hier kann festgelegt werden, ob die Authentifizierungsmethode beim Login von der jeweiligen Person ausgewählt werden muss oder ob die Authentifizierungsdaten anhand einer vorgegebenen Reihenfolge überprüft werden sollen.
 administration#:#clean#:#Räume auf
 administration#:#clean_desc#:#Entferne ungültige Referenzen und Baumeinträge. Initialisiere Lücken in der Baumstruktur
 administration#:#cleaning#:#Bereinigen...
@@ -1258,6 +1259,7 @@ assessment#:#toplist_col_percentage#:#Prozentwert
 assessment#:#toplist_col_rank#:#Platz
 assessment#:#toplist_col_score#:#Punktzahl
 assessment#:#toplist_col_wtime#:#Bearbeitungszeit
+assessment#:#total_max_points_cannot_be_negative#:#Die maximale Anzahl von erreichbaren Punkten kann nich negativ sein.
 assessment#:#true#:#Wahr
 assessment#:#tst_access_code_created#:#Damit Sie dauerhaften Zugriff auf Ihre Testergebnisse haben und einen unterbrochenen Test wieder aufnehmen können, wurde für Sie ein persönlicher Zugangsschlüssel erzeugt. Bitte notieren Sie sich den nachfolgenden Code, um später den Test fortführen zu können.
 assessment#:#tst_activate_skill_service#:#Kompetenzen
@@ -1411,7 +1413,7 @@ assessment#:#tst_filter_taxonomy#:#Taxonomie
 assessment#:#tst_final_information#:#Test abschließen
 assessment#:#tst_finish_confirm_button#:#Ja, ich will den Test beenden
 assessment#:#tst_finish_confirm_cancel_button#:#Nein, ich will zur letzten Antwort zurückgehen
-assessment#:#tst_finish_confirmation_question#:#Sie sind dabei, diesen Test zu beenden. Danach werden Sie nicht mehr in der Lage sein, den Test erneut aufzurufen, um Ihre Antworten zu ändern. Wollen Sie den Test wirklich beenden?
+assessment#:#tst_finish_confirmation_question#:#Sie sind dabei, diesen Test zu beenden. Danach werden Sie nicht mehr in der Lage sein, diesen Testdurchlauf erneut aufzurufen, um Ihre Antworten zu ändern. Wollen Sie den Testdurchlauf wirklich beenden?
 assessment#:#tst_finish_confirmation_question_no_attempts_left#:#Sie sind dabei, diesen Test zu beenden und die maximale Anzahl erlaubter Testdurchläufe zu erreichen. Danach werden Sie nicht mehr in der Lage sein, den Test erneut aufzurufen, um Ihre Antworten zu ändern. Wollen Sie den Test wirklich beenden?
 assessment#:#tst_finish_notification#:#Benachrichtigung
 assessment#:#tst_finish_notification_advanced#:#Komplettes Testergebnis pro Benutzer
@@ -3511,7 +3513,7 @@ common#:#assessment_settings_reporting_language#:#Sprache der Protokollierung
 common#:#assf_allowed_questiontypes#:#Verfügbare Fragetypen
 common#:#assf_allowed_questiontypes_desc#:#Alle ausgewählten Fragetypen werden für diese ILIAS-Installation zur Verfügung stehen. Wenn Sie die Erzeugung von bestimmten Fragetypen verhindern wollen, müssen Sie die Auswahl bei diesen Fragetypen entfernen.
 common#:#assf_questiontypes#:#Frageneinstellungen
-common#:#assign#:#Antrag annehmen
+common#:#assign#:#Zuweisen
 common#:#assign_global_role#:#Einer globalen Rolle zuordnen
 common#:#assign_local_role#:#Lokale Rolle zuweisen
 common#:#assigned_members#:#Zugeordnete Teilnehmer
@@ -4526,6 +4528,7 @@ common#:#login_information_settings_saved#:#Die Informationen wurden erfolgreich
 common#:#login_invalid#:#Ihr Anmeldename muss mindestens drei Zeichen lang sein und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_to_ilias#:#Bei ILIAS anmelden
 common#:#login_to_ilias_via_cas#:#Bei ILIAS über zentrales Authentifizierungssystem anmelden
+common#:#login_to_ilias_via_login_form#:#Bei ILIAS anmelden
 common#:#login_to_ilias_via_saml#:#Bei ILIAS via SAML-Authentifizierung anmelden
 common#:#login_to_ilias_via_shibboleth#:#Bei ILIAS anmelden über
 common#:#loginname_already_exists#:#Dieser Anmeldename ist bereits vergeben. Bitte wählen Sie einen anderen Anmeldenamen.
@@ -7251,8 +7254,6 @@ content#:#glo_online_info#:#Nur wenn das Glossar online geschaltet ist, können 
 content#:#glo_presentation_mode#:#Ansicht
 content#:#glo_presentation_view#:#Präsentationsansicht
 content#:#glo_quick_navigation#:#Schnellzugriff
-content#:#glo_show_taxonomy#:#Taxonomie
-content#:#glo_show_taxonomy_info#:#Die Taxonomie wird in der Präsentationsansicht angezeigt und kann zur Auswahl von Begriffen genutzt werden.
 content#:#glo_style#:#Glossar-Style
 content#:#glo_table_form#:#Tabelle
 content#:#glo_table_form_info#:#Begriffe und gekürzte Definitionen werden in einer Übersichtstabelle dargestellt. Beim Anklicken eines Begriffes wird dieser mit der vollständigen Definition angezeigt.
@@ -8681,9 +8682,8 @@ dcl#:#dcl_new_table#:#Neue Tabelle
 dcl#:#dcl_next_record#:#Nächster Eintrag
 dcl#:#dcl_no_content_warning#:#Achtung: die Datensammlung ist bereits online, hat aber noch keinen Inhalt!
 dcl#:#dcl_no_entry#:#Kein Eintrag
-dcl#:#dcl_no_export_content_available#:#Keine Daten für den Export verfügbar.
+dcl#:#dcl_no_export_async_config#:#Keine SOAP Konfiguration für asyncrone Exporte verfügbar.
 dcl#:#dcl_no_export_data_available#:#Keine Daten oder Felder für den Export verfügbar.
-dcl#:#dcl_no_export_fields_available#:#Keine Felder für den Export aktiviert. Markieren Sie mindestens ein Feld als „Exportierbar“ in den <a href="%s">Tabelleneinstellungen</a>.
 dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstellt. Daher können noch keine Einträge eingefügt werden.
 dcl#:#dcl_no_read_access_on_any_standard_view#:#Sie haben auf keine Standard-Tabellenansicht Lesezugriff.
 dcl#:#dcl_no_search_results_found_for#:#Es wurden keine Module gefunden mit:
@@ -8812,7 +8812,7 @@ dcl#:#dcl_width#:#Breite
 dcl#:#dcl_wrong_input_type#:#Der eingegebene Text passt nicht zum Typ dieses Feldes (falscher Typ).
 dcl#:#dcl_wrong_length#:#Der eingegebene Text ist zu lang.
 dcl#:#dcl_wrong_regex#:#Der eingegebene Text passt nicht zur Spezifikation dieses Feldes (regulärer Ausdruck).
-dcl#:#dlc_xls_async_export#:#Asynchroner XLSX-Export
+dcl#:#dcl_xls_async_export#:#als XLSX (asynchron)
 dcl#:#fieldtitle_allow_chars#:#Nicht Erlaubte Zeichen: %s
 dcl#:#fileupload_not_migrated#:#Die Datei wurde noch nicht migriert und kann deshalb nicht angezeigt werden. Bitte wenden Sie sich an Ihre Systemadministration.
 didactic#:#activate_exclusive_template#:#Standard ausgrauen
@@ -13864,7 +13864,7 @@ rbac#:#coms_read#:#Lesezugriff auf Administration für Kommentare
 rbac#:#coms_visible#:#Administration für Kommentare ist sichtbar.
 rbac#:#coms_write#:#Einstellungen in Administration für Kommentare ändern
 rbac#:#condition_failed#:#Nicht bestanden
-rbac#:#condition_learning_progress#:#Lernfortschritt-Status: Bearbeitet
+rbac#:#condition_learning_progress#:#Gemäß Lernfortschritt
 rbac#:#contribute#:#Beiträge erstellen
 rbac#:#copa_copy#:#Inhaltsseite kopieren
 rbac#:#copa_delete#:#Inhaltsseite löschen
@@ -15461,7 +15461,7 @@ skmg#:#skmg_create_skill_template_reference#:#Vorlage einfügen
 skmg#:#skmg_create_skll#:#Kompetenz erstellen
 skmg#:#skmg_custom_image_alt#:#Bild für Kompetenzprofil
 skmg#:#skmg_delete_profiles#:#Wollen Sie wirklich die folgenden Profile löschen?
-skmg#:#skmg_delete_warning#:#Sind Sie sicher, dass folgende Objekte gelöscht werden sollen? Wenn Sie die Objekte löschen, löschen Sie ebenfalls alle dazugehörigen Gebräuche, Zuordnungen und Leistungen. Um auf der sicheren Seite zu sein, finden Sie unten eine Liste mit sämtlichen Gebräuchen. Wenn das Objekt in einem Kompetenzprofil benutzt wird, wird es auch dort entfernt. Dies kann zur Erfüllung von Kompetenzprofilen der dort zugewiesenen Personen führen. Falls Sie sich nicht sicher sind, ob ein Objekt wirklich gelöscht werden soll, nutzen Sie die Status in den Einstellungen eines einzelnen Objekts.
+skmg#:#skmg_delete_warning#:#Sind Sie sicher, dass folgende Kompetenzen, Kompetenzkategorien oder Kompetenzbäume gelöscht werden sollen? Sie löschen damit auch Zuordnungen zu Objekten, Benutzern und Profilen. Wird ein Teil eines Kompetenzprofils gelöscht, kann dies zur Erfüllung von Kompetenzprofilen für die zugewiesenen Personen führen. Die folgende Liste zählt auf, wie häufig das, was Sie löschen wollen, genutzt wird. Bitte prüfen Sie die Liste genau vor dem Löschen.
 skmg#:#skmg_description_info#:#Die Beschreibung stammt aus der Vorlage.
 skmg#:#skmg_edit_level#:#Ausprägung editieren
 skmg#:#skmg_edit_profile#:#Profil bearbeiten

@@ -1525,7 +1525,8 @@ class ilInitialisation
             self::goToLogin();
             return;
         }
-        if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME'])) {
+        if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME']) &&
+            $DIC->access()->checkAccessOfUser(ANONYMOUS_USER_ID, 'read', '', ROOT_FOLDER_ID)) {
             ilLoggerFactory::getLogger('init')->debug('Redirect to public section.');
             self::goToPublicSection();
             return;
@@ -1604,6 +1605,10 @@ class ilInitialisation
      */
     protected static function replaceSuperGlobals(\ILIAS\DI\Container $container): void
     {
+        if (!ilContext::initClient()) {
+            return;
+        }
+
         /** @var ilIniFile $client_ini */
         $client_ini = $container['ilClientIniFile'];
 

@@ -258,6 +258,7 @@ class Renderer extends AbstractComponentRenderer
 
         list(Pagination::FNAME_OFFSET => $offset, Pagination::FNAME_LIMIT => $limit) = array_map('intval', $component->getValue());
         $limit = $limit > 0 ? $limit : reset($limit_options);
+        $offset = $offset > $total_count ? 0 : $offset;
 
         if (! $total_count) {
             $input = $ui_factory->input()->field()->numeric('offset')->withValue($offset);

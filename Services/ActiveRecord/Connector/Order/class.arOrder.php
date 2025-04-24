@@ -26,9 +26,9 @@ class arOrder extends arStatement
     protected string $fieldname = '';
     protected string $direction = 'ASC';
 
-    public function asSQLStatement(ActiveRecord $activeRecord): string
+    public function asSQLStatement(ActiveRecord $activeRecord, ilDBInterface $db): string
     {
-        return ' ' . $this->getFieldname() . ' ' . strtoupper($this->getDirection());
+        return ' ' . $this->wrapField($this->getFieldname(), $db) . ' ' . $this->getDirection();
     }
 
     public function setDirection(string $direction): void

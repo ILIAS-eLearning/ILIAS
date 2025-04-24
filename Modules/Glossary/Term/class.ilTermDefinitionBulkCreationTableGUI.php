@@ -34,6 +34,7 @@ class ilTermDefinitionBulkCreationTableGUI extends ilTable2GUI
                                ->internal()
                                ->domain()
                                ->term($glossary);
+        $html_util = $DIC->glossary()->internal()->gui()->html();
 
         $ctrl = $DIC->ctrl();
         $lng = $DIC->language();
@@ -51,7 +52,10 @@ class ilTermDefinitionBulkCreationTableGUI extends ilTable2GUI
             "tpl.bulk_creation_row.html",
             "Modules/Glossary"
         );
-        $this->addHiddenInput("bulk_data", $raw_data);
+        $this->addHiddenInput(
+            "bulk_data",
+            $html_util->escape($raw_data)
+        );
     }
 
     protected function fillRow(array $a_set): void

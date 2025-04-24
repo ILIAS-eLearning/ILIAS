@@ -303,6 +303,7 @@ class Renderer extends AbstractComponentRenderer
         if ($component->getValue()) {
             $tpl->touchBlock("value");
         }
+        $tpl->touchBlock("hascollapsible");
         /**
          * @var $component F\OptionalGroup
          */
@@ -334,6 +335,7 @@ class Renderer extends AbstractComponentRenderer
         foreach ($component->getInputs() as $key => $group) {
             $opt_id = $id . '_' . $key . '_opt';
 
+            $tpl->touchBlock('hascollapsible');
             $tpl->setCurrentBlock('optionblock');
             $tpl->setVariable("NAME", $component->getName());
             $tpl->setVariable("OPTIONID", $opt_id);
@@ -448,7 +450,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("HIDDEN", "hidden");
         }
 
-        if(!($value && $component->isRequired())) {
+        if (!($value && $component->isRequired())) {
             $tpl->setVariable("VALUE", null);
             $tpl->setVariable("VALUE_STR", $component->isRequired() ? $this->txt('ui_select_dropdown_label') : '-');
             $tpl->parseCurrentBlock();
@@ -814,7 +816,7 @@ class Renderer extends AbstractComponentRenderer
     {
         $template = $this->getTemplate('tpl.hidden.html', true, true);
         $this->applyName($input, $template);
-        $this->applyValue($input, $template);
+        $this->applyValue($input, $template, $this->escapeSpecialChars());
         $this->maybeDisable($input, $template);
         $this->bindJSandApplyId($input, $template);
         return $template->get();

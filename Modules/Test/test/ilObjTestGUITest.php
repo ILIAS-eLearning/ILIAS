@@ -177,18 +177,4 @@ class ilObjTestGUITest extends ilTestBaseTestCase
 
         $testObj->cancelRemoveQuestionsObject();
     }
-
-    public function testMoveQuestionsObject(): void
-    {
-        $ctrl_mock = $this->createMock(ilCtrl::class);
-        $ctrl_mock
-            ->expects($this->once())
-            ->method("redirect")
-            ->with($this->testObj, "questions");
-        $this->setGlobalVariable("ilCtrl", $ctrl_mock);
-
-        $testObj = new ilObjTestGUI();
-
-        $testObj->moveQuestionsObject();
-    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -37,15 +38,21 @@ class ilComponentBuildPluginInfoObjective extends Setup\Artifact\BuildArtifactOb
             $components = $this->scanDir(static::BASE_PATH . $type);
             foreach ($components as $component) {
                 if ($this->isDotFile($component)
-                    || ! $this->isDir(static::BASE_PATH . "$type/$component")) continue;
+                    || ! $this->isDir(static::BASE_PATH . "$type/$component")) {
+                    continue;
+                }
                 $slots = $this->scanDir(static::BASE_PATH . "$type/$component");
                 foreach ($slots as $slot) {
                     if ($this->isDotFile($slot)
-                        || ! $this->isDir(static::BASE_PATH . "$type/$component/$slot")) continue;
+                        || ! $this->isDir(static::BASE_PATH . "$type/$component/$slot")) {
+                        continue;
+                    }
                     $plugins = $this->scanDir(static::BASE_PATH . "$type/$component/$slot");
                     foreach ($plugins as $plugin) {
                         if ($this->isDotFile($plugin)
-                            || ! $this->isDir(static::BASE_PATH . "$type/$component/$slot/$plugin")) continue;
+                            || ! $this->isDir(static::BASE_PATH . "$type/$component/$slot/$plugin")) {
+                            continue;
+                        }
                         $this->addPlugin($data, $type, $component, $slot, $plugin);
                     }
                 }
@@ -73,16 +80,16 @@ class ilComponentBuildPluginInfoObjective extends Setup\Artifact\BuildArtifactOb
 
         require_once($plugin_php);
         if (!isset($id)) {
-            throw new \InvalidArgumentException("$path does not define \$id");
+            throw new \InvalidArgumentException("$plugin does not define \$id");
         }
         if (!isset($version)) {
-            throw new \InvalidArgumentException("$path does not define \$version");
+            throw new \InvalidArgumentException("$plugin does not define \$version");
         }
         if (!isset($ilias_min_version)) {
-            throw new \InvalidArgumentException("$path does not define \$ilias_min_version");
+            throw new \InvalidArgumentException("$plugin does not define \$ilias_min_version");
         }
         if (!isset($ilias_max_version)) {
-            throw new \InvalidArgumentException("$path does not define \$ilias_max_version");
+            throw new \InvalidArgumentException("$plugin does not define \$ilias_max_version");
         }
 
         if (isset($data[$id])) {
@@ -131,7 +138,7 @@ class ilComponentBuildPluginInfoObjective extends Setup\Artifact\BuildArtifactOb
 
     protected function isDotFile(string $file): bool
     {
-        return ( substr($file, 0, 1) === '.' );
+        return (substr($file, 0, 1) === '.');
     }
 
     protected function buildPluginPath(string $type, string $component, string $slot, string $plugin): string

@@ -63,18 +63,7 @@ class ResultFormatter
 
     protected function formatDateFromString(Result\DateResult $result): string
     {
-        // depending on the function, we need to format the date differently or return nothing
         $calculated_timestamp = (int) $result->getValue();
-        switch ($result->getFromFunction()) {
-            case Functions::MAX:
-            case Functions::MIN:
-            case Functions::AVERAGE:
-                return $this->formatDateFromInt($calculated_timestamp);
-            case Functions::SUM:
-                return '';
-        }
-
-        // depending on the operator, we need to format the date differently or return nothing
         switch ($result->getFromOperator()) {
             case Operators::SUBTRACTION:
                 $presentation = function ($value, $factor, $unit) {
@@ -109,9 +98,17 @@ class ResultFormatter
             case Operators::MULTIPLICATION:
             case Operators::DIVISION:
             case Operators::POWER:
-                return ''; // currently no output for these operators
+                return '';
             default:
-                return $calculated_timestamp;
+                switch ($result->getFromFunction()) {
+                    case Functions::MAX:
+                    case Functions::MIN:
+                    case Functions::AVERAGE:
+                        return $this->formatDateFromInt($calculated_timestamp);
+                    case Functions::SUM:
+                    default:
+                        return '';
+                }
         }
     }
 

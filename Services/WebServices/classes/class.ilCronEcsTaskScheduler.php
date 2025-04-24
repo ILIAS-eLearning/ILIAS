@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Cron\Schedule\CronJobScheduleType;
 
@@ -76,10 +90,13 @@ class ilCronEcsTaskScheduler extends \ilCronJob
                 $this->logger->info('Starting task execution for ecs server: ' . $server->getTitle());
                 $scheduler = \ilECSTaskScheduler::_getInstanceByServerId($server->getServerId());
                 $scheduler->startTaskExecution();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->result->setStatus(\ilCronJobResult::STATUS_CRASHED);
-                $this->result->setMessage($e->getMessage());
-                $this->logger->warning('ECS task execution failed with message: ' . $e->getMessage());
+                $this->result->setMessage(
+                    mb_substr(sprintf('Exc.: %s / %s', $e->getMessage(), $e->getTraceAsString()), 0, 400)
+                );
+                $this->logger->error('ECS task execution failed with message: ' . $e->getMessage());
+                $this->logger->error($e->getTraceAsString());
                 return $this->result;
             }
         }

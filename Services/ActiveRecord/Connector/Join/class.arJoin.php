@@ -18,6 +18,7 @@
 
 /**
  * Class arJoin
+ *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 2.0.7
  */
@@ -38,23 +39,31 @@ class arJoin extends arStatement
     protected bool $both_external = false;
     protected bool $is_mapped = false;
 
-    protected function asStatementText(ActiveRecord $activeRecord, string $as = ' AS '): string
+    protected function asStatementText(ActiveRecord $activeRecord, ilDBInterface $db, string $as = ' AS '): string
     {
         $return = ' ' . $this->getType() . ' ';
         $return .= ' JOIN ' . $this->getTableName() . $as . $this->getTableNameAs();
         if ($this->getBothExternal()) {
-            $return .= ' ON ' . $this->getOnFirstField() . ' ' . $this->getOperator() . ' ';
+            $return .= ' ON ' . $this->wrapField($this->getOnFirstField(), $db) . ' ' . $this->getOperator() . ' ';
         } else {
-            $return .= ' ON ' . $activeRecord->getConnectorContainerName() . '.' . $this->getOnFirstField(
-            ) . ' ' . $this->getOperator() . ' ';
+            $return .= ' ON '
+                . $this->wrapField(
+                    $activeRecord->getConnectorContainerName() . '.' . $this->getOnFirstField(),
+                    $db
+                )
+                . ' ' . $this->getOperator() . ' ';
         }
 
-        return $return . ($this->getTableNameAs() . '.' . $this->getOnSecondField());
+        return $return . $this->wrapField(
+            $this->getTableNameAs() . '.' .
+                $this->getOnSecondField(),
+            $db
+        );
     }
 
-    public function asSQLStatement(ActiveRecord $activeRecord): string
+    public function asSQLStatement(ActiveRecord $activeRecord, ilDBInterface $db): string
     {
-        return $this->asStatementText($activeRecord, self::AS_TEXT);
+        return $this->asStatementText($activeRecord, $db, self::AS_TEXT);
     }
 
     public function setLeft(): void

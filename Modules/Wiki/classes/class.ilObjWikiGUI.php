@@ -283,6 +283,8 @@ class ilObjWikiGUI extends ilObjectGUI
                 $this->setSideBlock();
                 $ilTabs->setTabActive("wiki_search_results");
                 $ilCtrl->setReturn($this, 'view');
+                $ilCtrl->setParameterByClass(ilWikiPageGUI::class, "wpg_id", null);
+                $ilCtrl->setParameterByClass(ilObjWikiGUI::class, "wpg_id", null);
                 $search_gui = new ilRepositoryObjectSearchGUI(
                     $this->object->getRefId(),
                     $this,

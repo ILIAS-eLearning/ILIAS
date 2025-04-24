@@ -47,8 +47,7 @@ class FormFactoryTest extends AbstractFactoryTest
                 $df,
                 new Factory($df, $language),
                 $language
-            ),
-            new DefNamesource()
+            )
         );
     }
 

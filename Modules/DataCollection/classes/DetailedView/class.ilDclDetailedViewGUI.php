@@ -166,7 +166,7 @@ class ilDclDetailedViewGUI
 
         // see ilObjDataCollectionGUI->executeCommand about instantiation
         $pageObj = new ilDclDetailedViewDefinitionGUI($this->tableview_id);
-        $pageObj->setOutputMode($pageObj::OFFLINE);
+        $pageObj->setOutputMode($pageObj::PRESENTATION);
 
         $html = $pageObj->getHTML();
         $rctpl->addCss("./Services/COPage/css/content.css");

@@ -128,13 +128,6 @@ class DefaultResponseSenderStrategy implements ResponseSenderStrategy
                     while (!feof($resource)) {
                         echo $return = fread($resource, $this->chunk_size);
                         $sendStatus = $sendStatus && $return !== false;
-                        file_put_contents(
-                            'php://stderr',
-                            sprintf(
-                                "Memory E: %s\n",
-                                memory_get_peak_usage(true) / 1024 / 1024
-                            )
-                        );
 
                     }
                     break;

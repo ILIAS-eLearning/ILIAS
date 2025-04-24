@@ -1,3 +1,21 @@
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ * this script wraps dropzone.js library for inputs of
+ * ILIAS\UI\Component\Input\Field\File.
+ **/
+
 var filter = function($) {
 
   //Init the Filter
@@ -249,16 +267,18 @@ var filter = function($) {
     //Remove Input Field from Filter
     $el.parents(".il-popover-container").hide();
 
-    //Clear Input Field (Text, Numeric, Select) when it is removed
     var input_element = searchInputElement($el);
-    input_element.val("");
-
-    //Clear Multi Select Input Field when it is removed
-    var checkboxes = searchInputElementMultiSelect($el);
-    checkboxes.each(function () {
-      $(this).prop("checked", false);
-    });
-    checkboxes.parents(".il-popover-container").find(".il-filter-field").html("");
+    if (input_element.length === 1) {
+      //Clear Input Field (Text, Numeric, Select) when it is removed
+      input_element.val("");
+    } else {
+      //Clear Multi Select Input Field when it is removed
+      var checkboxes = searchInputElementMultiSelect($el);
+      checkboxes.each(function () {
+        $(this).prop("checked", false);
+      });
+      checkboxes.parents(".il-popover-container").find(".il-filter-field").html("");
+    }
 
     //Add Input Field to Add-Button
     var label = $el.parents(".input-group").find(".input-group-addon.leftaddon").html();

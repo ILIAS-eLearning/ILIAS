@@ -144,6 +144,12 @@ abstract class ilTestExportAbstract
                 $datarow2[] = $userdata->getLastPass() + 1;
             }
             $shown_pass = 0;
+            if ($counter >= 2 && $test_obj->isRandomTest()) {
+                $datarow = $datarow2;
+                $datarow[] = '';
+                $datarow2 = array_map(static fn($entry) => '', $datarow2);
+            }
+
             for ($pass = 0; $pass <= $userdata->getLastPass(); $pass++) {
                 $finishdate = ilObjTest::lookupPassResultsUpdateTimestamp($active_id, $pass);
 

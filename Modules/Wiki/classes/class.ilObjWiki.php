@@ -519,7 +519,6 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         $new_obj->setIntroduction($this->getIntroduction());
         $new_obj->setPageToc($this->getPageToc());
         $new_obj->update();
-
         $this->content_style_service
             ->styleForRefId($this->getRefId())
             ->cloneTo($new_obj->getId());
