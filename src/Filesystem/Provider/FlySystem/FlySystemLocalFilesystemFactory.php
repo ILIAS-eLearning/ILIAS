@@ -25,6 +25,7 @@ use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Local\LocalFilesystemAdapter;
 use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
+use ILIAS\Filesystem\Visibility;
 
 /**
  * @author                 Nicolas Schäfli <ns@studer-raimann.ch>
@@ -50,7 +51,8 @@ final class FlySystemLocalFilesystemFactory
             $config->getFileAccessPublic(),
             $config->getFileAccessPrivate(),
             $config->getDirectoryAccessPublic(),
-            $config->getDirectoryAccessPrivate()
+            $config->getDirectoryAccessPrivate(),
+            Visibility::PUBLIC_ACCESS
         );
 
         $adapter = new LocalFilesystemAdapter(
