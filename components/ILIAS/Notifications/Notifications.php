@@ -40,7 +40,7 @@ class Notifications implements Component\Component
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "notifications.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "browser_notifications.js");
+            new Component\Resource\ComponentJS($this, "js/dist/BrowserNotifications.min.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentCSS($this, "osd.css");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
