@@ -8864,7 +8864,9 @@ dcl#:#dcl_title_standardview#:#Standard Views
 dcl#:#dcl_unique#:#Unique
 dcl#:#dcl_unique_desc#:#The value in this field needs to be unique among all entires.
 dcl#:#dcl_unique_exception#:#The value you entered is already taken by another Entry.
+dcl#:#dcl_unknown#:#Unkown
 dcl#:#dcl_unknown_exception#:#The value you entered is not valid.
+dcl#:#dcl_unknown_plugin#:#Unknown plugin type
 dcl#:#dcl_update_field#:#Update Field
 dcl#:#dcl_update_record#:#Update Entry
 dcl#:#dcl_url#:#URL or E-Mail
