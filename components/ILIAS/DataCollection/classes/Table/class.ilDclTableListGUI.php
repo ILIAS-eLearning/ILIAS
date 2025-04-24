@@ -307,63 +307,6 @@ class ilDclTableListGUI
         $this->ctrl->redirect($this);
     }
 
-    public function confirmDeleteTables(): void
-    {
-        //at least one table must exist
-        $has_dcl_table_ids = $this->http->wrapper()->post()->has('dcl_table_ids');
-        if (!$has_dcl_table_ids) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_delete_tables_no_selection'), true);
-            $this->ctrl->redirect($this, 'listTables');
-        }
-
-        $tables = $this->http->wrapper()->post()->retrieve(
-            'dcl_table_ids',
-            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
-        );
-        $this->checkTablesLeft(count($tables));
-
-        $this->tabs->clearSubTabs();
-        $conf = new ilConfirmationGUI();
-        $conf->setFormAction($this->ctrl->getFormAction($this));
-        $conf->setHeaderText($this->lng->txt('dcl_tables_confirm_delete'));
-
-        foreach ($tables as $table_id) {
-            $conf->addItem('dcl_table_ids[]', (string) $table_id, ilDclCache::getTableCache($table_id)->getTitle());
-        }
-        $conf->setConfirm($this->lng->txt('delete'), 'deleteTables');
-        $conf->setCancel($this->lng->txt('cancel'), 'listTables');
-        $this->tpl->setContent($conf->getHTML());
-    }
-
-    protected function deleteTables(): void
-    {
-        $has_dcl_table_ids = $this->http->wrapper()->post()->has('dcl_table_ids');
-        if ($has_dcl_table_ids) {
-            $tables = $this->http->wrapper()->post()->retrieve(
-                'dcl_table_ids',
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
-            );
-            foreach ($tables as $table_id) {
-                ilDclCache::getTableCache($table_id)->doDelete();
-            }
-        }
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_tables_deleted'), true);
-        $this->ctrl->clearParameterByClass("ilobjdatacollectiongui", "table_id");
-        $this->ctrl->redirect($this, 'listTables');
-    }
-
-    /**
-     * redirects if there are no tableviews left after deletion of {$delete_count} tableviews
-     * @param $delete_count number of tableviews to delete
-     */
-    public function checkTablesLeft(int $delete_count): void
-    {
-        if ($delete_count >= count($this->getDataCollectionObject()->getTables())) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_msg_tables_delete_all'), true);
-            $this->ctrl->redirect($this, 'listTables');
-        }
-    }
-
     protected function checkAccess(): bool
     {
         $ref_id = $this->parent_obj->getRefId();

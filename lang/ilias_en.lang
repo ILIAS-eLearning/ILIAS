@@ -8638,8 +8638,6 @@ dcl#:#dcl_delete_fields#:#Delete fields
 dcl#:#dcl_delete_fields_no_selection#:#Please select at least one field to delete
 dcl#:#dcl_delete_perm#:#User can delete entries
 dcl#:#dcl_delete_records#:#Delete Entries
-dcl#:#dcl_delete_tables#:#Delete Tables
-dcl#:#dcl_delete_tables_no_selection#:#Please select at least one table to delete
 dcl#:#dcl_delete_views#:#Delete Views
 dcl#:#dcl_delete_views_no_selection#:#Please select at least one view to delete
 dcl#:#dcl_deleted_records#:#Successfully deleted %s Entries
@@ -8732,13 +8730,10 @@ dcl#:#dcl_msg_no_perm_edit#:#No permission given to edit this Entry
 dcl#:#dcl_msg_no_perm_view#:#No permission given to view this Entry
 dcl#:#dcl_msg_table_created#:#Table created
 dcl#:#dcl_msg_table_edited#:#Table Settings saved
-dcl#:#dcl_msg_tables_delete_all#:#Could not delete: At least one Table must exist
-dcl#:#dcl_msg_tables_deleted#:#Tables deleted
 dcl#:#dcl_msg_tableview_created#:#Views created
 dcl#:#dcl_msg_tableview_deleted#:#View deleted
 dcl#:#dcl_msg_tableview_updated#:#View updated
 dcl#:#dcl_msg_tableviews_delete_all#:#Could not delete: At least one View must exist
-dcl#:#dcl_msg_tableviews_deleted#:#Views deleted
 dcl#:#dcl_msg_tableviews_order_updated#:#Order of views updated
 dcl#:#dcl_multiple_selection#:#Multiple Selection
 dcl#:#dcl_new#:#Create New Data Collection
@@ -8832,7 +8827,6 @@ dcl#:#dcl_table_settings_saved#:#Table Settings have been saved.
 dcl#:#dcl_table_title_not_matching#:#The titles of the excel sheet and the Data Collection table do not match. Rename the sheet for a successfull import.
 dcl#:#dcl_table_title_unique#:#There exists already a table with this title. Title must be unique.
 dcl#:#dcl_tables#:#Tables
-dcl#:#dcl_tables_confirm_delete#:#Do you really want to delete the following Tables?
 dcl#:#dcl_tableview#:#View
 dcl#:#dcl_tableview_add#:#Add New View
 dcl#:#dcl_tableview_confirm_delete#:#Do you really want to delete the following View?
