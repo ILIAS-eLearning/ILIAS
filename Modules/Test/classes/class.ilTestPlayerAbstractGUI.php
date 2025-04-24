@@ -314,8 +314,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     {
         return static function (string $id) use ($target, $cmd): string {
             return "document.getElementById('{$id}').addEventListener('click', "
-                . "(e) => {e.preventDefault(); if (il.TestPlayerQuestionEditControl && il.TestPlayerQuestionEditControl.ready) {"
-                . "il.TestPlayerQuestionEditControl.checkNavigation('{$target}', '{$cmd}', e);}}"
+                . "(e) => {il.TestPlayerQuestionEditControl.checkNavigation('{$target}', '{$cmd}', e);}"
                 . "); "
                 . "document.getElementById('{$id}').removeAttribute('disabled');";
         };

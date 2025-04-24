@@ -225,9 +225,9 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
     {
         return static function (string $id) use ($target): string {
             return "document.getElementById('{$id}').addEventListener('click', "
-                . "(e) => {e.preventDefault(); if (il.TestPlayerQuestionEditControl && il.TestPlayerQuestionEditControl.ready) {"
-                . "il.TestPlayerQuestionEditControl.checkNavigation('{$target}', 'show', e);}}"
-                . "); "
+                . '(e) => {'
+                . " il.TestPlayerQuestionEditControl.checkNavigation('{$target}', 'show', e);"
+                . '}); '
                 . "document.getElementById('{$id}').removeAttribute('disabled');";
         };
     }
