@@ -8798,7 +8798,9 @@ dcl#:#dcl_title_standardview#:#Standard-Ansicht
 dcl#:#dcl_unique#:#Gleiche Einträge verhindern
 dcl#:#dcl_unique_desc#:#In dieses Feld kann ein gleichlautender Eintrag nur einmal vorgenommen werden.
 dcl#:#dcl_unique_exception#:#Der eingegebene Wert wird schon von einem anderen Eintrag verwendet.
+dcl#:#dcl_unknown#:#Unbekannt
 dcl#:#dcl_unknown_exception#:#Der eingegebene Wert ist nicht gültig.
+dcl#:#dcl_unknown_plugin#:#Unbekannter Plugintyp
 dcl#:#dcl_update_field#:#Feld aktualisieren
 dcl#:#dcl_update_record#:#Eintrag aktualisieren
 dcl#:#dcl_url#:#URL oder E-Mail

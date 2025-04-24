@@ -292,7 +292,7 @@ class ilDataCollectionDBUpdateSteps9 implements ilDatabaseUpdateSteps
     public function step_17(): void
     {
         $id = false;
-        $stmt = $this->db->queryF('SELECT id FROM il_dcl_datatype WHERE id LIKE %s', [ilDBConstants::T_INTEGER], [17]);
+        $stmt = $this->db->queryF('SELECT id FROM il_dcl_datatype WHERE id LIKE %s', [ilDBConstants::T_INTEGER], [ilDclDatatype::INPUTFORMAT_COPY]);
         if ($row = $this->db->fetchAssoc($stmt)) {
             $id = true;
         }
@@ -301,7 +301,7 @@ class ilDataCollectionDBUpdateSteps9 implements ilDatabaseUpdateSteps
             $this->db->insert(
                 'il_dcl_datatype',
                 [
-                    'id' => [ilDBConstants::T_INTEGER, 17],
+                    'id' => [ilDBConstants::T_INTEGER, ilDclDatatype::INPUTFORMAT_COPY],
                     'title' => [ilDBConstants::T_TEXT, 'copy'],
                     'ildb_type' => [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
                     'storage_location' => [ilDBConstants::T_INTEGER, 1],
