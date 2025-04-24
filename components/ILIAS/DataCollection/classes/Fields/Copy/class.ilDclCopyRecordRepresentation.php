@@ -26,4 +26,13 @@ class ilDclCopyRecordRepresentation extends ilDclBaseRecordRepresentation
 
         return parent::parseFormInput($value);
     }
+
+    public function getHTML(bool $link = true, array $options = []): string
+    {
+        $return = parent::getHTML();
+        if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE)) {
+            $return = str_replace('; ', '<br>', $return);
+        }
+        return $return;
+    }
 }
