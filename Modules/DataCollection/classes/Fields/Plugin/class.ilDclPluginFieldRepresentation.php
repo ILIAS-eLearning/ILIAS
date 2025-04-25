@@ -20,35 +20,4 @@ declare(strict_types=1);
 
 class ilDclPluginFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create'): ?ilRadioOption
-    {
-        $opt = parent::buildFieldCreationInput($dcl, $mode);
-
-        // only show, when element is created
-        if (get_called_class() == 'ilDclPluginFieldRepresentation') {
-            $plugins = $this->component_repository->getPluginSlotById(ilDclFieldTypePlugin::SLOT_ID)->getActivePlugins();
-            $options = [];
-            foreach ($plugins as $plugin) {
-                $plugin_data = $this->component_factory->getPlugin($plugin->getId());
-                $options[$plugin_data->getPluginName()] = $plugin_data->getPluginName();
-            }
-
-            if (count($options) > 0) {
-                $plugin_selection = new ilSelectInputGUI(
-                    $this->lng->txt('dcl_plugin_hooks'),
-                    'prop_' . ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME
-                );
-                $plugin_selection->setOptions($options);
-                $opt->addSubItem($plugin_selection);
-                if ($mode == "edit") {
-                    $plugin_selection->setDisabled(true);
-                } else {
-                }
-            } else {
-                return null;
-            }
-        }
-
-        return $opt;
-    }
 }
