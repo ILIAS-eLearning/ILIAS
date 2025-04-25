@@ -166,13 +166,15 @@ class LegacyImages
         string $path_to_output,
         string $output_format,
         ?int $width = null,
-        ?int $height = null
+        ?int $height = null,
+        ?ImageOutputOptions $output_options = null
     ): string {
         $converter = $this->image_converters->convertToFormat(
             $this->buildStream($path_to_original),
             $output_format,
             $width,
-            $height
+            $height,
+            $output_options
         );
         return $this->storeStream($converter, $path_to_output);
     }
