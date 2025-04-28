@@ -610,16 +610,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 
     public function getMaxFilesizeAsString(): string
     {
-        $size = $this->getMaxFilesizeInBytes();
-        if ($size < 1024) {
-            return sprintf('%d Bytes', $size);
-        }
-
-        if ($size < 1024 * 1024) {
-            return  sprintf('%.1f KB', $size / 1024);
-        }
-
-        return sprintf('%.1f MB', $size / 1024 / 1024);
+        return $this->upload_limit->getUploadSizeInfo($this->getMaxFilesizeInBytes());
     }
 
     protected function getMaxFilesizeInBytes(): int
