@@ -17101,7 +17101,7 @@ textarea .form-control {
 }
 
 select.form-control {
-  width: auto;
+  max-width: 100%;
 }
 
 .form-control.form-control-sm.il-input-tag-container {
