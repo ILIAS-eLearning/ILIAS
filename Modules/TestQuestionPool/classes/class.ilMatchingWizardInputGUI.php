@@ -18,7 +18,6 @@
 
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
-use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 
 /**
  * This class represents a single choice wizard property in a property form.
@@ -42,7 +41,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
 
     protected GlyphFactory $glyph_factory;
     protected Renderer $renderer;
-    protected UploadLimitResolver $upload_limit;
+    protected UploadFileLimits $upload_limit;
 
     public function __construct($a_title = "", $a_postvar = "")
     {
@@ -51,7 +50,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
         global $DIC;
         $this->glyph_factory = $DIC->ui()->factory()->symbol()->glyph();
         $this->renderer = $DIC->ui()->renderer();
-        $this->upload_limit = $DIC['ui.upload_limit_resolver'];
+        $this->upload_limit = $DIC['upload_file_limits'];
 
         $this->setSuffixes(array("jpg", "jpeg", "png", "gif"));
         $this->setSize('40');
@@ -306,7 +305,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
                 $tpl->setVariable("IMAGE_BROWSE", $lng->txt('select_file'));
                 $tpl->setVariable("IMAGE_ID", $this->getPostVar() . "[image][$i]");
                 $tpl->setVariable('MAX_SIZE_WARNING', $this->lng->txt('form_msg_file_size_exceeds'));
-                $tpl->setVariable('MAX_SIZE', $this->upload_limit->getPhpUploadLimitInBytes());
+                $tpl->setVariable('MAX_SIZE', $this->upload_limit->getRoleBasedUploadLimitInBytes());
                 $tpl->setVariable("IMAGE_SUBMIT", $lng->txt("upload"));
                 $tpl->setVariable("IMAGE_ROW_NUMBER", $i);
                 $tpl->setVariable("IMAGE_POST_VAR", $this->getPostVar());

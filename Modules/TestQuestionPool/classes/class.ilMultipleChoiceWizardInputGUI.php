@@ -244,7 +244,7 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                     $tpl->setVariable("IMAGE_BROWSE", $lng->txt('select_file'));
                     $tpl->setVariable("IMAGE_ID", $this->getPostVar() . "[image][$i]");
                     $tpl->setVariable('MAX_SIZE_WARNING', $this->lng->txt('form_msg_file_size_exceeds'));
-                    $tpl->setVariable('MAX_SIZE', $this->upload_limit->getPhpUploadLimitInBytes());
+                    $tpl->setVariable('MAX_SIZE', $this->upload_limit->getRoleBasedUploadLimitInBytes());
                     $tpl->setVariable("IMAGE_SUBMIT", $lng->txt("upload"));
                     $tpl->setVariable("IMAGE_ROW_NUMBER", $i);
                     $tpl->setVariable("IMAGE_POST_VAR", $this->getPostVar());

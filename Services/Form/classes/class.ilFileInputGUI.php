@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 use ILIAS\FileUpload\Exception\IllegalStateException;
 use ILIAS\FileUpload\FileUpload;
-use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 
 /**
  * This class represents a file property in a property form.
@@ -39,7 +38,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
     protected array $suffixes = [];
     protected string $value = "";
     protected FileUpload $upload_service;
-    protected UploadLimitResolver $upload_limit;
+    protected UploadFileLimits $upload_limit;
 
     public function __construct(
         string $a_title = "",
@@ -50,7 +49,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
         $this->lng = $DIC->language();
         $lng = $DIC->language();
         $this->upload_service = $DIC->upload();
-        $this->upload_limit = $DIC['ui.upload_limit_resolver'];
+        $this->upload_limit = $DIC['upload_file_limits'];
 
         parent::__construct($a_title, $a_postvar);
         $this->setType("file");
@@ -343,7 +342,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
         }
 
         $f_tpl->setVariable('MAX_SIZE_WARNING', $this->lng->txt('form_msg_file_size_exceeds'));
-        $f_tpl->setVariable('MAX_SIZE', $this->upload_limit->getPhpUploadLimitInBytes());
+        $f_tpl->setVariable('MAX_SIZE', $this->upload_limit->getRoleBasedUploadLimitInBytes());
         $f_tpl->setVariable("POST_VAR", $this->getPostVar());
         $f_tpl->setVariable("ID", $this->getFieldId());
         $f_tpl->setVariable("SIZE", $this->getSize());
@@ -390,8 +389,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 
     protected function getMaxFileSizeString(): string
     {
-        //format for display in mega-bytes
-        return sprintf("%.1f MB", $this->upload_limit->getPhpUploadLimitInBytes() / 1024 / 1024);
+        return $this->upload_limit->getRoleBasedUploadSizeInfo();
     }
 
     /**
