@@ -376,6 +376,19 @@ class ilInitialisation
         };
     }
 
+    protected static function initUploadLimits(\ILIAS\DI\Container $dic): void
+    {
+        $dic['upload_file_limits'] = static function ($dic): UploadFileLimits {
+            return new UploadFileLimits(
+                $dic->language(),
+                ($dic->offsetExists('upload_policy_resolver')) ?
+                    $dic['upload_policy_resolver']->getUserUploadSizeLimitInBytes() :
+                    null
+                ,
+            );
+        };
+    }
+
     /**
      * builds http path
      */
@@ -1250,6 +1263,7 @@ class ilInitialisation
                 self::initHTML();
             }
         }
+        self::initUploadLimits($GLOBALS["DIC"]);
 
         // this MUST happen after everything else is initialized,
         // because this leads to rather unexpected behaviour which
