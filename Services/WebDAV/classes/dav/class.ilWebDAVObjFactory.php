@@ -50,6 +50,7 @@ class ilWebDAVObjFactory
         protected Services $resource_storage,
         protected RequestInterface $request,
         protected ilLanguage $language,
+        protected UploadFileLimits $upload_limit,
         protected string $client_id,
         protected bool $versioning_enabled
     ) {
@@ -92,6 +93,7 @@ class ilWebDAVObjFactory
                 $this->resource_storage,
                 $this->request,
                 $this,
+                $this->upload_limit,
                 $this->versioning_enabled
             );
         }
@@ -101,7 +103,8 @@ class ilWebDAVObjFactory
             $this->current_user,
             $this->request,
             $this,
-            $this->repository_helper
+            $this->repository_helper,
+            $this->upload_limit
         );
     }
 
@@ -132,6 +135,7 @@ class ilWebDAVObjFactory
                 $this->resource_storage,
                 $this->request,
                 $this,
+                $this->upload_limit,
                 $this->versioning_enabled
             );
         }
@@ -141,7 +145,8 @@ class ilWebDAVObjFactory
             $this->current_user,
             $this->request,
             $this,
-            $this->repository_helper
+            $this->repository_helper,
+            $this->upload_limit
         );
     }
 

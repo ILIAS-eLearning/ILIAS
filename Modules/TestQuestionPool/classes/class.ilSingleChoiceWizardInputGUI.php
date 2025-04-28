@@ -522,7 +522,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
                 }
                 $tpl->setCurrentBlock("image_heading");
                 $tpl->setVariable("ANSWER_IMAGE", $lng->txt('answer_image'));
-                $tpl->setVariable("TXT_MAX_SIZE", ilFileUtils::getFileSizeInfo());
+                $tpl->setVariable("TXT_MAX_SIZE", $this->upload_limit->getRoleBasedUploadSizeInfo());
                 $tpl->parseCurrentBlock();
             }
         }

@@ -376,7 +376,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
             $tpl->parseCurrentBlock();
         }
 
-        $tpl->setVariable("TXT_MAX_SIZE", ilFileUtils::getFileSizeInfo());
+        $tpl->setVariable("TXT_MAX_SIZE", $this->upload_limit->getRoleBasedUploadSizeInfo());
         $tpl->setVariable("ELEMENT_ID", $this->getPostVar());
         $tpl->setVariable("TEXT_YES", $lng->txt('yes'));
         $tpl->setVariable("TEXT_NO", $lng->txt('no'));

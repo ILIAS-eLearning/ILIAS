@@ -49,6 +49,7 @@ class ilDAVFile implements IFile
         Services $resource_storage,
         protected RequestInterface $request,
         protected ilWebDAVObjFactory $dav_factory,
+        protected UploadFileLimits $upload_limit,
         protected bool $versioning_enabled
     ) {
         $this->resource_manager = $resource_storage->manage();
@@ -89,7 +90,7 @@ class ilDAVFile implements IFile
             $size = (int) $this->request->getHeader('X-Expected-Entity-Length')[0];
         }
 
-        if ($size > ilFileUtils::getPhpUploadSizeLimitInBytes()) {
+        if ($size > $this->upload_limit->getRoleBasedUploadLimitInBytes()) {
             // remove already created file?
             throw new Forbidden('File is too big');
         }

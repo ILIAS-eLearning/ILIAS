@@ -38,7 +38,8 @@ class ilDAVContainer implements ICollection
         protected ilObjUser $current_user,
         protected RequestInterface $request,
         protected ilWebDAVObjFactory $dav_factory,
-        protected ilWebDAVRepositoryHelper $repository_helper
+        protected ilWebDAVRepositoryHelper $repository_helper,
+        protected UploadFileLimits $upload_limit
     ) {
     }
 
@@ -120,7 +121,7 @@ class ilDAVContainer implements ICollection
             $size = (int) ($this->request->getHeader('X-Expected-Entity-Length')[0] ?? 0);
         }
 
-        if ($size > ilFileUtils::getPhpUploadSizeLimitInBytes()) {
+        if ($size > $this->upload_limit->getRoleBasedUploadLimitInBytes()) {
             throw new Forbidden('File is too big');
         }
 

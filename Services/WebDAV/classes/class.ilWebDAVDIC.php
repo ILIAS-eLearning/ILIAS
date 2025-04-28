@@ -57,6 +57,7 @@ class ilWebDAVDIC extends Container
             $DIC->resourceStorage(),
             $DIC->http()->request(),
             $DIC->language(),
+            $DIC['upload_file_limits'],
             $DIC['ilias']->getClientId(),
             (bool) $c['dav_settings']->get('webdav_versioning_enabled', 'true')
         );

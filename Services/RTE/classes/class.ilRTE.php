@@ -37,6 +37,7 @@ class ilRTE
     protected AgentDetermination $browser;
     protected ilIniFile $client_init;
     protected ?int $initialWidth = null;
+    protected UploadFileLimits $upload_limit;
 
     /**
      * RTE root block element which surrounds the generated html
@@ -66,6 +67,7 @@ class ilRTE
         $this->browser = $DIC->http()->agent();
         $this->client_init = $DIC['ilClientIniFile'];
         $this->user = $DIC['ilUser'];
+        $this->upload_limit = $DIC['upload_file_limits'];
     }
 
     public function addPlugin(string $a_plugin_name): void
