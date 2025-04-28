@@ -1256,11 +1256,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $active = 0;
 
         foreach ($question_summary_data as $idx => $row) {
-            $title = ilLegacyFormElementsUtil::prepareFormOutput($row['title']);
-            if (strlen($row['description'])) {
-                $description = " title=\"" . htmlspecialchars($row['description']) . "\" ";
-            } else {
-                $description = "";
+            $title = htmlspecialchars($row['title'], ENT_QUOTES, null, false);
+            $description = '';
+            if ($row['description'] !== '') {
+                $description = ' title="' . htmlspecialchars($row['description'], ENT_QUOTES, null, false) . '" ';
             }
 
             if (!$row['disabled']) {
