@@ -357,7 +357,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             if (($source === 'none') || (!$source)) {
                 $ilErr->raiseError($this->lng->txt("msg_no_file"), $ilErr->MESSAGE);
             }
-            // get_cfg_var("upload_max_filesize"); // get the may filesize form t he php.ini
             switch ($_FILES["scormfile"]["error"]) {
                 case UPLOAD_ERR_INI_SIZE:
                 case UPLOAD_ERR_FORM_SIZE:
