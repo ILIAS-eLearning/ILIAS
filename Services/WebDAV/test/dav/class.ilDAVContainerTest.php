@@ -85,8 +85,9 @@ class ilDAVContainerTest extends TestCase
         $request = $this->createStub(RequestInterface::class);
         $dav_factory = $this->createStub(ilWebDAVObjFactory::class);
         $repository_helper = $this->createStub(ilWebDAVRepositoryHelper::class);
+        $upload_lmit = $this->createStub(UploadFileLimits::class);
 
-        $dav_container = new ilDAVContainer($object, $user, $request, $dav_factory, $repository_helper);
+        $dav_container = new ilDAVContainer($object, $user, $request, $dav_factory, $repository_helper, $upload_lmit);
 
         $this->assertEquals('Some random Title', $dav_container->getName());
     }
@@ -557,6 +558,8 @@ class ilDAVContainerTest extends TestCase
                                ) && $tree[$ref_id]['access'] === 'write'
                            );
 
+        $upload_lmit = $this->createStub(UploadFileLimits::class);
+
         if ($for_create) {
             $object_child = new ilObjFolder();
             $object_child->setType('fold');
@@ -571,6 +574,6 @@ class ilDAVContainerTest extends TestCase
             return $dav_container;
         }
 
-        return new ilDAVContainer($object_folder, $user, $request, $mocked_dav_factory, $mocked_repo_helper);
+        return new ilDAVContainer($object_folder, $user, $request, $mocked_dav_factory, $mocked_repo_helper, $upload_lmit);
     }
 }
