@@ -22,6 +22,7 @@ namespace ILIAS\Repository\Form;
 
 use ILIAS\UI\Component\Input\Container\Form;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
+use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 use ILIAS\Data\Factory;
 
 /**
@@ -66,6 +67,8 @@ class FormAdapterGUI
     protected ?array $current_group = null;
     protected static bool $initialised = false;
 
+    private UploadLimitResolver $upload_limit;
+
     /**
      * @param string|array $class_path
      */
@@ -85,6 +88,7 @@ class FormAdapterGUI
         $this->lng = $DIC->language();
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->user = $DIC->user();
+        $this->upload_limit = $DIC['ui.upload_limit_resolver'];
         $this->data = new \ILIAS\Data\Factory();
         $this->submit_caption = $submit_caption;
         self::initJavascript();
@@ -451,7 +455,7 @@ class FormAdapterGUI
             $title,
             $description
         )
-            ->withMaxFileSize((int) \ilFileUtils::getPhpUploadSizeLimitInBytes());
+            ->withMaxFileSize($this->upload_limit->getBestPossibleUploadLimitInBytes($this->upload_handler[$key]));
         if (!is_null($max_files)) {
             $field = $field->withMaxFiles($max_files);
         }
