@@ -19,6 +19,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input;
 
+use ILIAS\Data\DataSize;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
 
 /**
@@ -65,6 +66,17 @@ class UploadLimitResolver
 
         return $this->php_upload_limit_in_bytes;
     }
+
+    public function getBestPossibleUploadLimitInfo(
+        UploadHandler $upload_handler,
+        int $local_limit_in_bytes = null
+    ): string {
+        return (string) new DataSize(
+            $this->getBestPossibleUploadLimitInBytes($upload_handler, $local_limit_in_bytes),
+            DataSize::MB
+        );
+    }
+
 
     public function getPhpUploadLimitInBytes(): int
     {
