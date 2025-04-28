@@ -43,6 +43,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     private \ILIAS\ResourceStorage\Services $irss;
     private \ILIAS\FileDelivery\Services $file_delivery;
     private \ILIAS\FileUpload\FileUpload $file_upload;
+    protected UploadFileLimits $upload_limit;
 
     protected ?int $maxsize = null;
 
@@ -77,6 +78,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
         $this->irss = $DIC->resourceStorage();
+        $this->upload_limit = $DIC['upload_file_limits'];
         $this->file_delivery = $DIC->fileDelivery();
         $this->file_upload = $DIC->upload();
         $this->current_cmd = $DIC['ilCtrl']->getCmd();
@@ -632,41 +634,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 
     public function determineMaxFilesize(): int
     {
-        $upload_max_filesize = ini_get('upload_max_filesize');
-        $post_max_size = ini_get('post_max_size');
-
-        //convert from short-string representation to "real" bytes
-        $multiplier_a = [ "K" => 1024, "M" => 1024 * 1024, "G" => 1024 * 1024 * 1024 ];
-        $umf_parts = preg_split(
-            "/(\d+)([K|G|M])/",
-            $upload_max_filesize,
-            -1,
-            PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
-        );
-        $pms_parts = preg_split(
-            "/(\d+)([K|G|M])/",
-            $post_max_size,
-            -1,
-            PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
-        );
-
-        if (count($umf_parts) === 2) {
-            $upload_max_filesize = $umf_parts[0] * $multiplier_a[$umf_parts[1]];
-        }
-
-        if (count($pms_parts) === 2) {
-            $post_max_size = $pms_parts[0] * $multiplier_a[$pms_parts[1]];
-        }
-
-        // use the smaller one as limit
-        $max_filesize = min($upload_max_filesize, $post_max_size);
-
-        if (!$max_filesize) {
-            $max_filesize = max($upload_max_filesize, $post_max_size);
-            return $max_filesize;
-        }
-
-        return $max_filesize;
+        return $this->upload_limit->getRoleBasedUploadLimitInBytes();
     }
 
     /**

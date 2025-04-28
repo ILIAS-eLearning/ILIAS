@@ -30,6 +30,7 @@ use ILIAS\Filesystem\Filesystem;
 class ilFileDataMail extends ilFileData
 {
     public string $mail_path;
+    protected UploadFileLimits $upload_limit;
     protected int $mail_max_upload_file_size;
     protected Filesystem $tmpDirectory;
     protected Filesystem $storageDirectory;
@@ -51,6 +52,7 @@ class ilFileDataMail extends ilFileData
         $this->db = $DIC->database();
         $this->tmpDirectory = $DIC->filesystem()->temp();
         $this->storageDirectory = $DIC->filesystem()->storage();
+        $this->upload_limit = $DIC['upload_file_limits'];
 
         $this->initAttachmentMaxUploadSize();
     }
@@ -449,45 +451,7 @@ class ilFileDataMail extends ilFileData
 
     protected function initAttachmentMaxUploadSize(): void
     {
-        /** @todo mjansen: Unfortunately we cannot reuse the implementation of ilFileInputGUI */
-
-        // Copy of ilFileInputGUI: begin
-        // get the value for the maximal uploadable filesize from the php.ini (if available)
-        $umf = ini_get("upload_max_filesize");
-        // get the value for the maximal post data from the php.ini (if available)
-        $pms = ini_get("post_max_size");
-
-        //convert from short-string representation to "real" bytes
-        $multiplier_a = ["K" => 1024, "M" => 1024 * 1024, "G" => 1024 * 1024 * 1024];
-
-        $umf_parts = preg_split(
-            "/(\d+)([K|G|M])/",
-            (string) $umf,
-            -1,
-            PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
-        );
-        $pms_parts = preg_split(
-            "/(\d+)([K|G|M])/",
-            (string) $pms,
-            -1,
-            PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
-        );
-
-        if ((is_countable($umf_parts) ? count($umf_parts) : 0) === 2) {
-            $umf = (float) $umf_parts[0] * $multiplier_a[$umf_parts[1]];
-        }
-        if ((is_countable($pms_parts) ? count($pms_parts) : 0) === 2) {
-            $pms = (float) $pms_parts[0] * $multiplier_a[$pms_parts[1]];
-        }
-
-        // use the smaller one as limit
-        $max_filesize = min($umf, $pms);
-
-        if (!$max_filesize) {
-            $max_filesize = max($umf, $pms);
-        }
-
-        $this->mail_max_upload_file_size = (int) $max_filesize;
+        $this->mail_max_upload_file_size = $this->upload_limit->getRoleBasedUploadLimitInBytes();
     }
 
     public function onUserDelete(): void
