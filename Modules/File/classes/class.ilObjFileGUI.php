@@ -28,7 +28,6 @@ use ILIAS\UI\Component\Input\Container\Form\Standard;
 use ILIAS\File\Icon\IconDatabaseRepository;
 use ILIAS\Modules\File\Settings\General;
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
-use ILIAS\Data\DataSize;
 use ILIAS\Refinery\String\Group;
 use ILIAS\Data\Factory;
 use ILIAS\Services\WOPI\Discovery\ActionDBRepository;
@@ -441,18 +440,12 @@ class ilObjFileGUI extends ilObject2GUI
             self::UPLOAD_ORIGIN_STANDARD
         );
 
-        // add file input
-        $size = new DataSize(
-            $this->upload_limit->getBestPossibleUploadLimitInBytes($this->upload_handler),
-            DataSize::MB
-        );
-
         $inputs[self::PARAM_FILES] = $this->ui->factory()->input()->field()->file(
             $this->upload_handler,
             $this->lng->txt('upload_files'),
             sprintf(
                 $this->lng->txt('upload_files_limit'),
-                (string) $size
+                $this->upload_limit->getBestPossibleUploadLimitInfo($this->upload_handler)
             ),
             $this->ui->factory()->input()->field()->group([
                 self::PARAM_TITLE => $this->ui->factory()->input()->field()->text(

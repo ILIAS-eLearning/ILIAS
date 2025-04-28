@@ -17,7 +17,6 @@
  *********************************************************************/
 
 use Psr\Http\Message\RequestInterface;
-use ILIAS\Data\DataSize;
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 
 /**
@@ -90,11 +89,6 @@ class ilFileVersionFormGUI
                 : ilFileVersionsUploadHandlerGUI::MODE_APPEND
         );
 
-        $size = new DataSize(
-            $this->upload_limit->getBestPossibleUploadLimitInBytes($upload_handler),
-            DataSize::MB
-        );
-
         $inputs = [
             self::F_TITLE => $this->ui_factory->input()->field()->text(
                 $this->lng->txt(self::F_TITLE),
@@ -111,7 +105,7 @@ class ilFileVersionFormGUI
                 $this->lng->txt(self::F_FILE),
                 sprintf(
                     $this->lng->txt('upload_files_limit'),
-                    (string) $size
+                    $this->upload_limit->getBestPossibleUploadLimitInfo($upload_handler)
                 ),
             )->withMaxFiles(1)
              ->withRequired(true),

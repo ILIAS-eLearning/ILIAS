@@ -432,9 +432,9 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         $bibl_upload_handler = new ilObjBibliographicUploadHandlerGUI($rid);
 
         $max_filesize_bytes = $this->upload_limit->getBestPossibleUploadLimitInBytes($bibl_upload_handler);
-        $max_filesize_mb = round($max_filesize_bytes / 1024 / 1024, 1);
-        $info_file_limitations = $this->lng->txt('file_notice') . " " . number_format($max_filesize_mb, 1) . " MB <br>"
-            . $this->lng->txt('file_allowed_suffixes') . " .bib, .bibtex, .ris";
+        $max_filesize_mb = $this->upload_limit->getBestPossibleUploadLimitInfo($bibl_upload_handler);
+        $info_file_limitations = $this->lng->txt('file_notice') . " " . $max_filesize_mb . " <br>" . $this->lng->txt('file_allowed_suffixes') . " .bib, .bibtex, .ris";
+
         $section_replace_bibliographic_file = $this->ui_factory
             ->input()
             ->field()
