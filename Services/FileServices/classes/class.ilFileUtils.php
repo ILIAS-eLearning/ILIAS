@@ -639,16 +639,6 @@ class ilFileUtils
         ilFileUtils::makeDir($a_dir);
     }
 
-    public static function getFileSizeInfo(): string
-    {
-        global $DIC;
-        $size = new DataSize(self::getPhpUploadSizeLimitInBytes(), DataSize::MB);
-        $max_filesize = $size->__toString();
-        $lng = $DIC->language();
-
-        return $lng->txt("file_notice") . " $max_filesize.";
-    }
-
     /**
      * @deprecated
      */
@@ -794,49 +784,6 @@ class ilFileUtils
     {
         $path = preg_replace("/[\/\\\]+$/", "", $path);
         return (string) $path;
-    }
-
-    /**
-     * @deprecated should use DataSize instead
-     */
-    public static function getPhpUploadSizeLimitInBytes(): string
-    {
-        $convertPhpIniSizeValueToBytes = function ($phpIniSizeValue) {
-            if (is_numeric($phpIniSizeValue)) {
-                return $phpIniSizeValue;
-            }
-
-            $suffix = substr($phpIniSizeValue, -1);
-            $value = substr($phpIniSizeValue, 0, -1);
-
-            switch (strtoupper($suffix)) {
-                case 'P':
-                    $value *= 1024;
-                    // no break
-                case 'T':
-                    $value *= 1024;
-                    // no break
-                case 'G':
-                    $value *= 1024;
-                    // no break
-                case 'M':
-                    $value *= 1024;
-                    // no break
-                case 'K':
-                    $value *= 1024;
-                    break;
-            }
-
-            return $value;
-        };
-
-
-        $uploadSizeLimitBytes = min(
-            $convertPhpIniSizeValueToBytes(ini_get('post_max_size')),
-            $convertPhpIniSizeValueToBytes(ini_get('upload_max_filesize'))
-        );
-
-        return $uploadSizeLimitBytes;
     }
 
     public static function _sanitizeFilemame(string $a_filename): string
