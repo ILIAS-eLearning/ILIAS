@@ -72,14 +72,6 @@ interface FileUpload
 
 
     /**
-     * Returns the current upload size limit in bytes.
-     *
-     * @since 5.3
-     */
-    public function uploadSizeLimit(): int;
-
-
-    /**
      * Register a new preprocessor instance.
      * The preprocessor instances are invoked for each uploaded file.
      *

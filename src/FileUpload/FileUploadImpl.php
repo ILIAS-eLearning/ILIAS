@@ -239,15 +239,6 @@ final class FileUploadImpl implements FileUpload
     /**
      * @inheritDoc
      */
-    public function uploadSizeLimit(): int
-    {
-        return ilFileUtils::getPhpUploadSizeLimitInBytes();
-    }
-
-
-    /**
-     * @inheritDoc
-     */
     public function register(PreProcessor $preProcessor): void
     {
         if (!$this->processed) {
