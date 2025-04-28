@@ -21,3 +21,18 @@ il.ExtLink = {
 		$(selector).find("a.linkified[target='_blank']").attr("rel", "noreferrer noopener");
 	}
 }
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  // Adjust this selector to find the links you want
+  const links = document.querySelectorAll('a[target="_blank"]');
+
+  links.forEach(link => {
+    // Optionally, only change if href matches a specific pattern
+    if (link.href.includes((window.location.hostname))) {
+      link.target = '_self';
+      console.log(`Changing  ${link.href} to target _self `);
+
+    }
+  });
+});
