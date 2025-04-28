@@ -73,7 +73,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
         $this->wiki_request = $gui->request();
         $this->notes = $DIC->notes();
         $this->wiki_gui = $gui;
-        $this->ot = $gui->wiki()->translation($a_wiki_ref_id);
+        $this->ot = $gui->wiki()->translation($this->getWikiRefId());
         $this->wiki_pm = $this->domain->page()->page($this->getWikiRefId());
         $this->exc_domain = $DIC->exercise()->internal()->domain();
     }
@@ -492,7 +492,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
         if ($this->ot->getContentTranslationActivated()) {
             $actions = [];
             foreach ($this->ot->getLanguages() as $language) {
-                $lang_code = ($language->getLanguageCode() === $this->ot->getMasterLanguage())
+                $lang_code = ($language->getLanguageCode() === $this->ot->getBaseLanguage())
                     ? "-"
                     : $language->getLanguageCode();
                 $exists = $this->wiki_pm->exists($this->getId(), $lang_code);
@@ -528,7 +528,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
     protected function getLanguageLabelForCode(string $code): string
     {
         if ($code === "-") {
-            $code = $this->ot->getMasterLanguage();
+            $code = $this->ot->getBaseLanguage();
         }
         return $this->lng->txt("language") . ": " . $this->lng->txt("meta_l_" . $code);
     }

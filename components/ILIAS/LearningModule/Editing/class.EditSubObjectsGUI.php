@@ -403,7 +403,7 @@ class EditSubObjectsGUI
         $ot = (new TranslationsRepository($this->domain->database()))->getFor($this->lm->getId());
         $ml = "";
         if ($ot->getContentTranslationActivated()) {
-            $ml = " (" . $lng->txt("meta_l_" . $ot->getMasterLanguage()) . ")";
+            $ml = " (" . $lng->txt("meta_l_" . $ot->getBaseLanguage()) . ")";
         }
 
         $form = $this
@@ -413,7 +413,7 @@ class EditSubObjectsGUI
         if ($ot->getContentTranslationActivated()) {
             foreach ($ot->getLanguages() as $lang) {
                 $code = $lang->getLanguageCode();
-                if ($code === $ot->getMasterLanguage()) {
+                if ($code === $ot->getBaseLanguage()) {
                     continue;
                 }
                 $lmobjtrans = new \ilLMObjTranslation($id, $code);
@@ -447,7 +447,7 @@ class EditSubObjectsGUI
             if ($ot->getContentTranslationActivated()) {
                 foreach ($ot->getLanguages() as $lang) {
                     $code = $lang->getLanguageCode();
-                    if ($code === $ot->getMasterLanguage()) {
+                    if ($code === $ot->getBaseLanguage()) {
                         continue;
                     }
                     \ilLMObject::saveTitle($this->request->getEditId(), $form->getData("title_" . $code), $code);

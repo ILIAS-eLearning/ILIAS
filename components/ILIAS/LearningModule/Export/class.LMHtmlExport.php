@@ -194,7 +194,7 @@ class LMHtmlExport
         }
 
         if ($lang != "") {
-            if ($lang == $this->obj_transl->getMasterLanguage()) {
+            if ($lang == $this->obj_transl->getBaseLanguage()) {
                 $lm_gui->lang = "";
             } else {
                 $lm_gui->lang = $lang;

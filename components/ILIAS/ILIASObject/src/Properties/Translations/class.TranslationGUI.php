@@ -112,6 +112,7 @@ class TranslationGUI
             $this->refinery,
             $this->tpl,
             $this->http,
+            $this->ctrl,
             $this->translations,
             $this->object->getObjectProperties(),
             (new DataFactory())->uri(
@@ -157,7 +158,7 @@ class TranslationGUI
         $this->object->getObjectProperties()->storePropertyTranslations(
             $this->translations
         );
-        $this->listTranslations();
+        $this->ctrl->redirectByClass($this->ctrl->getCurrentClassPath());
     }
 
     public function activateContentTranslation(): void

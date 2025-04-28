@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\ILIASObject\Properties\ObjectReferenceProperties;
 
 use ILIAS\ILIASObject\Properties\ObjectReferenceProperties\AvailabilityPeriod\CachedRepository as AvailabilityPeriodRepository;
+use ILIAS\ILIASObject\Properties\ObjectReferenceProperties\AvailabilityPeriod\AvailabilityPeriod;
 
 class CachedRepository implements Repository
 {

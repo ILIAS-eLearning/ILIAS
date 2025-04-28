@@ -1200,7 +1200,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
             // language switch
             $entries = false;
             if (!in_array($requested_transl, array("", "-"))) {
-                $l = $ot->getMasterLanguage();
+                $l = $ot->getBaseLanguage();
                 $actions[] = $ui_factory->link()->standard(
                     $lng->txt("cont_edit_language_version") . ": " .
                     $lng->txt("meta_l_" . $l),
@@ -1211,7 +1211,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
             foreach ($ot->getLanguages() as $al => $lang) {
                 if ($requested_transl != $al &&
-                    $al != $ot->getMasterLanguage()) {
+                    $al != $ot->getBaseLanguage()) {
                     $ilCtrl->setParameter($a_gui_class, "totransl", $al);
                     $actions[] = $ui_factory->link()->standard(
                         $lng->txt("cont_edit_language_version") . ": " .

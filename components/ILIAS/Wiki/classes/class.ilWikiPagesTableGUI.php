@@ -64,7 +64,7 @@ class ilWikiPagesTableGUI extends ilTable2GUI
         $this->requested_lang = $gui->request()->getTranslation();
         $this->pm = $domain->page()->page($this->requested_ref_id);
         $this->link_manager = $domain->links($this->requested_ref_id);
-        $this->ot = $domain->wiki()->translation($a_wiki_id);
+        $this->ot = $domain->wiki()->translation($this->requested_ref_id);
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->pg_list_mode = $a_mode;
@@ -247,7 +247,7 @@ class ilWikiPagesTableGUI extends ilTable2GUI
         if ($this->pg_list_mode === IL_WIKI_NEW_PAGES) {
             if ($this->ot->getContentTranslationActivated() && $this->pg_list_mode !== IL_WIKI_WHAT_LINKS_HERE) {
                 $l = $a_set["lang"] === "-"
-                    ? $this->ot->getMasterLanguage()
+                    ? $this->ot->getBaseLanguage()
                     : $a_set["lang"];
                 $this->tpl->setCurrentBlock("lang");
                 $this->tpl->setVariable("LANG", $this->lng->txt("meta_l_" . $l));
@@ -261,7 +261,7 @@ class ilWikiPagesTableGUI extends ilTable2GUI
         } elseif ($this->pg_list_mode === IL_WIKI_POPULAR_PAGES) {
             if ($this->ot->getContentTranslationActivated()) {
                 $l = $a_set["lang"] === "-"
-                    ? $this->ot->getMasterLanguage()
+                    ? $this->ot->getBaseLanguage()
                     : $a_set["lang"];
                 $this->tpl->setCurrentBlock("lang");
                 $this->tpl->setVariable("LANG", $this->lng->txt("meta_l_" . $l));

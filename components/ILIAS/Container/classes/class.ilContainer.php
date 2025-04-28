@@ -18,6 +18,7 @@
 
 use ILIAS\News\Service as News;
 use ILIAS\ILIASObject\Properties\Translations\Translations;
+use ILIAS\ILIASObject\Properties\Translations\Language;
 
 /**
  * Class ilContainer
@@ -1040,12 +1041,13 @@ class ilContainer extends ilObject
             $a_title = "NO TITLE";
         }
 
-        $this->obj_trans = $this->obj_trans->withAdditionalLanguage(
-            $a_lang,
-            $a_title,
-            $a_desc,
-            (bool) $a_lang_default,
-            true
+        $this->obj_trans = $this->obj_trans->withLanguage(
+            new Language(
+                $a_lang,
+                $a_title,
+                $a_desc,
+                (bool) $a_lang_default
+            )
         );
         $this->getObjectProperties()->storePropertyTranslations($this->obj_trans);
     }

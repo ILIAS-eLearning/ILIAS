@@ -29,10 +29,10 @@ class DBUpdateSteps11 implements \ilDatabaseUpdateSteps
 
     public function step_1(): void
     {
-        if (!$this->db->tableColumnExists('object_translation', 'master_lang')) {
+        if (!$this->db->tableColumnExists('object_translation', 'lang_base')) {
             $this->db->addTableColumn(
                 'object_translation',
-                'lang_master',
+                'lang_base',
                 [
                     'type' => \ilDBConstants::T_INTEGER,
                     'notnull' => true,

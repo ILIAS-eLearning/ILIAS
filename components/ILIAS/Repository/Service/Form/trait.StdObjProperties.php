@@ -26,7 +26,7 @@ use ILIAS\ILIASObject\Properties\CoreProperties\TitleAndDescription;
 
 trait StdObjProperties
 {
-    protected \ilObjectPropertiesAgregator $object_prop;
+    protected \ILIAS\ILIASObject\Properties\Aggregator $object_prop;
 
     protected function initStdObjProperties(Container $DIC)
     {

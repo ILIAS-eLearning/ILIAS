@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\ILIASObject\Properties;
 
-use ILIAS\ILIASObject\Properties\ObjectReferenceProperties\ObjectReferencePropertiesRepository;
 use ILIAS\ILIASObject\Properties\ObjectReferenceProperties\AvailabilityPeriod\AvailabilityPeriod;
+use ILIAS\ILIASObject\Properties\ObjectReferenceProperties\CachedRepository as ObjectReferencePropertiesRepository;
 use ILIAS\UI\Component\Button\Standard as StandardButton;
 use ILIAS\UI\Component\Modal\RoundTrip as RoundTripModal;
 use ILIAS\UI\Factory as UIFactory;

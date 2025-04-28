@@ -88,7 +88,7 @@ class ilLMImportGUI
 
         $ot = $this->lm->getObjectProperties()->getPropertyTranslations();
         foreach ($ot->getLanguages() as $l) {
-            if ($l->getLanguageCode() !== $ot->getMasterLanguage()) {
+            if ($l->getLanguageCode() !== $ot->getBaseLanguage()) {
                 $options[$l->getLanguageCode()] = $lng->txt("meta_l_" . $l->getLanguageCode());
             }
         }
@@ -113,7 +113,7 @@ class ilLMImportGUI
 
         $target_lang = $this->request->getImportLang();
         $ot = $this->lm->getObjectProperties()->getPropertyTranslations();
-        if ($target_lang == $ot->getMasterLanguage() || $target_lang == "") {
+        if ($target_lang == $ot->getBaseLanguage() || $target_lang == "") {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("cont_transl_master_language_not_allowed"), true);
             $ilCtrl->redirect($this, "showTranslationImportForm");
         }

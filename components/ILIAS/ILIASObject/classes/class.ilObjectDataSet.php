@@ -163,7 +163,7 @@ class ilObjectDataSet extends ilDataSet
                         'SELECT obj_id, lang_code' . PHP_EOL
                         . 'FROM object_translation' . PHP_EOL
                         . 'WHERE ' . $this->db->in('obj_id', $ids, false, 'integer') . PHP_EOL
-                        . 'AND master_lang = 1'
+                        . 'AND lang_base = 1'
                     );
                     break;
             }
@@ -322,7 +322,7 @@ class ilObjectDataSet extends ilDataSet
                 if ($new_id > 0) {
                     $transl = $this->translations_repository->getFor($new_id);
                     $this->translations_repository->store(
-                        $transl->withMasterLanguage($rec['MasterLang'])
+                        $transl->withBaseLanguage($rec['MasterLang'])
                     );
                 }
                 break;

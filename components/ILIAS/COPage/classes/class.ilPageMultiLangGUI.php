@@ -16,6 +16,7 @@
  *
  *********************************************************************/
 
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRepository;
 
 /**
@@ -88,9 +89,9 @@ class ilPageMultiLangGUI
 
         $tpl = new ilTemplate("tpl.page_multi_lang_info.html", true, true, "components/ILIAS/COPage");
         $tpl->setVariable("TXT_MASTER_LANG", $lng->txt("obj_base_lang"));
-        $tpl->setVariable("VAL_ML", $lng->txt("meta_l_" . $this->ot->getMasterLanguage()));
+        $tpl->setVariable("VAL_ML", $lng->txt("meta_l_" . $this->ot->getBaseLanguage()));
         $cl = ($a_page_lang == "-")
-            ? $this->ot->getMasterLanguage()
+            ? $this->ot->getBaseLanguage()
             : $a_page_lang;
         $tpl->setVariable("TXT_CURRENT_LANG", $lng->txt("cont_current_lang"));
         $tpl->setVariable("VAL_CL", $lng->txt("meta_l_" . $cl));

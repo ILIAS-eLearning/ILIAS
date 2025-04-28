@@ -42,7 +42,7 @@ class ilWikiPageTemplatesTableGUI extends ilTable2GUI
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
         $service = $DIC->wiki()->internal();
-        $this->ot = $service->domain()->wiki()->translation($a_wiki_id);
+        $this->ot = $service->domain()->wiki()->translation($service->gui()->request()->getRefId());
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $templates = new ilWikiPageTemplate($a_wiki_id);

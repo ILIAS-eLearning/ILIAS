@@ -65,7 +65,7 @@ class MigrateTranslations implements Migration
             $this->db->update(
                 'object_translation',
                 [
-                    'lang_master' => [\ilDBConstants::T_INTEGER, 1]
+                    'lang_base' => [\ilDBConstants::T_INTEGER, 1]
                 ],
                 [
                     'obj_id' => [\ilDBConstants::T_INTEGER, $row->obj_id],
@@ -105,13 +105,17 @@ class MigrateTranslations implements Migration
 
     public function getRemainingAmountOfSteps(): int
     {
-        return (int) ceil(
+        if (!$this->db->tableExists('obj_content_master_lng')) {
+            return 0;
+        }
+
+        return ((int) ceil(
             $this->db->fetchObject(
                 $this->db->query('
                 SELECT DISTINCT COUNT(obj_id) as cnt
                 FROM obj_content_master_lng
             ')
             )->cnt / self::TESTS_PER_STEP
-        );
+        )) + 1;
     }
 }

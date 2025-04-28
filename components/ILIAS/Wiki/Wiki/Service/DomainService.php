@@ -23,6 +23,7 @@ namespace ILIAS\Wiki\Wiki;
 use ILIAS\Wiki\InternalDomainService;
 use ILIAS\Wiki\InternalRepoService;
 use ILIAS\Wiki\InternalDataService;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -63,9 +64,9 @@ class DomainService
         return new \ilObjWiki($ref_id);
     }
 
-    public function translation(int $obj_id): Translation
+    public function translation(int $ref_id): Translations
     {
-        return $this->object()->getObjectProperties()->getPropertyTranslations();
+        return $this->object($ref_id)->getObjectProperties()->getPropertyTranslations();
     }
 
     public function getStartingPageId(int $wiki_ref_id): ?int

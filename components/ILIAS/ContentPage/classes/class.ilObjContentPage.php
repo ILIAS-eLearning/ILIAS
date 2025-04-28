@@ -23,6 +23,7 @@ use ILIAS\ContentPage\PageMetrics\PageMetricsRepositoryImp;
 use ILIAS\ContentPage\PageMetrics\PageMetricsService;
 use ILIAS\Style\Content\DomainService;
 use ILIAS\ILIASObject\Properties\Translations\Translations;
+use ILIAS\ILIASObject\Properties\Translations\Language;
 
 class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
 {
@@ -57,7 +58,7 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
         );
     }
 
-    public function getObjectTranslation(): Translation
+    public function getObjectTranslation(): Translations
     {
         return $this->objTrans;
     }
@@ -143,8 +144,20 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
             [$this->getId(), 0]
         );
 
-        $this->setOfflineStatus(true);
-        $this->update();
+        $this->getObjectProperties()->storeCoreProperties(
+            $this->getObjectProperties()->getPropertyIsOnline()->withOffline()
+        );
+
+        $this->getObjectProperties()->storePropertyTranslations(
+            $this->getObjectProperties()->getPropertyTranslations()->withLanguage(
+                new Language(
+                    $this->lng->getDefaultLanguage(),
+                    $this->getTitle(),
+                    $this->getLongDescription(),
+                    true
+                )
+            )
+        );
 
         $this->createMetaData();
     }

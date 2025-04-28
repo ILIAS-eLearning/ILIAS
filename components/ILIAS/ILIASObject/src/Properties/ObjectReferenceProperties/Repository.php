@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Object\Properties\ObjectReferenceProperties;
+namespace ILIAS\ILIASObject\Properties\ObjectReferenceProperties;
 
 use ILIAS\ILIASObject\Properties\ObjectReferenceProperties\AvailabilityPeriod\AvailabilityPeriod;
 

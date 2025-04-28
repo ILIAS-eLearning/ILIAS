@@ -23,7 +23,6 @@ namespace ILIAS\ILIASObject\Properties\Translations;
 use ILIAS\ILIASObject\Properties\Properties as ObjectProperties;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\UI\Component\Table\Table;
 use ILIAS\UI\Component\Table\DataRetrieval;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\URLBuilder;
@@ -68,6 +67,7 @@ class TranslationsTable implements DataRetrieval
         private readonly Refinery $refinery,
         private readonly \ilGlobalTemplateInterface $tpl,
         private readonly HTTPService $http,
+        private readonly \ilCtrl $ctrl,
         private Translations $translations,
         private readonly ObjectProperties $object_properties,
         URI $here_uri
@@ -151,7 +151,7 @@ class TranslationsTable implements DataRetrieval
             'language' => $cf->text($this->lng->txt('language')),
         ];
         if ($this->translations->getContentTranslationActivated()) {
-            $columns['master'] = $cf->boolean(
+            $columns['base'] = $cf->boolean(
                 $this->lng->txt('obj_base_lang'),
                 $this->ui_factory->symbol()->icon()->custom('assets/images/standard/icon_checked.svg', '', 'small'),
                 $this->ui_factory->symbol()->icon()->custom('assets/images/standard/icon_unchecked.svg', '', 'small')
@@ -237,6 +237,7 @@ class TranslationsTable implements DataRetrieval
             $this->translations->withLanguage($data[0])
         );
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
+        $this->ctrl->redirectByClass($this->ctrl->getCurrentClassPath());
     }
 
     private function makeDefault(): void
@@ -280,6 +281,7 @@ class TranslationsTable implements DataRetrieval
             )
         );
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
+        $this->ctrl->redirectByClass($this->ctrl->getCurrentClassPath());
     }
 
     private function buildEditLanguageModal(string $language_code): RoundtripModal
@@ -323,10 +325,10 @@ class TranslationsTable implements DataRetrieval
     {
         $affected_items = $this->retrieveAffectedItemsFromQuery();
         if (in_array($this->translations->getDefaultLanguage(), $affected_items)
-            || in_array($this->translations->getMasterLanguage(), $affected_items)) {
+            || in_array($this->translations->getBaseLanguage(), $affected_items)) {
             $this->sendAsync(
                 $this->ui_factory->messageBox()->failure(
-                    $this->lng->txt('default_master_lang_not_deletable')
+                    $this->lng->txt('default_base_lang_not_deletable')
                 )
             );
         }

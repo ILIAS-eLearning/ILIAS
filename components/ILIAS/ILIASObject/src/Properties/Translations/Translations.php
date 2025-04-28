@@ -34,20 +34,20 @@ use ILIAS\Refinery\Factory as Refinery;
  *
  * Currently, supported by container objects and ILIAS learning modules.
  *
- * Content master lang vs. default language
- * - If no translation mode for the content is active no master lang will be
- *   set and no record in table obj_content_master_lng will be saved. For the
+ * Content base lang vs. default language
+ * - If no translation mode for the content is active no base lang will be
+ *   set and no record in table obj_content_base_lng will be saved. For the
  *   title/descriptions the default will be marked by field lang_default in table
  *   object_translation.
- * - If translation for content is activated a master language must be set (since
+ * - If translation for content is activated a base language must be set (since
  *   consent may already exist the language of this content is defined through
- *   setting the master language (in obj_content_master_lng). Modules that use
- *   this mode will not get informed about this, so they can not internally
- *   assign existing content to the master lang
+ *   setting the base language. Components that use this mode will not get
+ *   informed about this, so they can not internally assign existing content to
+ *   the base lang
  * - If translation for content is activated additionally a fallback language
  *   can be defined. Users will be presented their language, if content available
  *   otherwise the fallback language, if content is available, otherwise the
- *   master language
+ *   base language
  */
 class Translations
 {
@@ -59,7 +59,7 @@ class Translations
         private readonly int $obj_id,
         private array $languages,
         private string $default_language,
-        private ?string $master_language,
+        private ?string $base_language,
         private readonly bool $migration_missing = false
     ) {
     }
@@ -90,19 +90,19 @@ class Translations
         return $clone;
     }
 
-    public function getMasterLanguage(): string
+    public function getBaseLanguage(): string
     {
-        return $this->master_language ?? '';
+        return $this->base_language ?? '';
     }
 
-    public function withMasterLanguage(string $master_language): self
+    public function withBaseLanguage(string $base_language): self
     {
         $clone = clone $this;
-        if ($clone->master_language !== null) {
-            $clone->languages[$clone->master_language] = $clone->languages[$clone->master_language]->withMaster(false);
+        if ($clone->base_language !== null) {
+            $clone->languages[$clone->base_language] = $clone->languages[$clone->base_language]->withBase(false);
         }
-        $clone->languages[$master_language] = $clone->languages[$master_language]->withMaster(true);
-        $clone->master_language = $master_language;
+        $clone->languages[$base_language] = $clone->languages[$base_language]->withBase(true);
+        $clone->base_language = $base_language;
         return $clone;
     }
 
@@ -123,13 +123,17 @@ class Translations
     {
         $clone = $this;
         $clone->languages[$lang->getLanguageCode()] = $lang;
-        if ($lang->isMaster()) {
-            $clone->languages[$clone->master_language] = $clone->languages[$clone->master_language]->withMaster(false);
-            $clone->master_language = $lang->getLanguageCode();
+        if ($lang->isBase() && $this->base_language !== $lang->getLanguageCode()) {
+            if ($this->base_language !== null) {
+                $clone->languages[$clone->base_language] = $clone->languages[$clone->base_language]->withBase(false);
+            }
+            $clone->base_language = $lang->getLanguageCode();
         }
 
-        if ($lang->isDefault()) {
-            $clone->languages[$clone->default_language] = $this->languages[$clone->default_language]->withDefault(false);
+        if ($lang->isDefault() && $this->default_language !== $lang->getLanguageCode()) {
+            if ($this->default_language !== '') {
+                $clone->languages[$clone->default_language] = $this->languages[$clone->default_language]->withDefault(false);
+            }
             $clone->default_language = $lang->getLanguageCode();
         }
 
@@ -138,7 +142,7 @@ class Translations
 
     public function withoutLanguage(string $lang): self
     {
-        if ($lang === $this->master_language) {
+        if ($lang === $this->base_language) {
             return $this;
         }
 
@@ -206,14 +210,14 @@ class Translations
 
     public function getContentTranslationActivated(): bool
     {
-        return $this->master_language !== null;
+        return $this->base_language !== null;
     }
 
     public function withDeactivatedContentTranslation(): self
     {
         $clone = clone $this;
-        $clone->languages[$clone->master_language] = $clone->languages[$this->master_language]->withMaster(false);
-        $clone->master_language = null;
+        $clone->languages[$clone->base_language] = $clone->languages[$this->base_language]->withBase(false);
+        $clone->base_language = null;
         return $clone;
     }
 
@@ -223,7 +227,7 @@ class Translations
             $obj_id,
             $this->languages,
             $this->default_language,
-            $this->master_language
+            $this->base_language
         );
     }
 
@@ -231,11 +235,11 @@ class Translations
         string $lang,
         string $parent_type
     ): string {
-        if ($this->master_language === null) {
+        if ($this->base_language === null) {
             return '-';
         }
 
-        $page_lang_key = $lang === $this->master_language
+        $page_lang_key = $lang === $this->base_language
             ? '-'
             : $lang;
 

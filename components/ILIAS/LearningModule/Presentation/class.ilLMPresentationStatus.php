@@ -77,13 +77,13 @@ class ilLMPresentationStatus
         $this->concrete_lang = "-";
         if ($this->ot->getContentTranslationActivated()) {
             $langs = $this->ot->getLanguages();
-            if (isset($langs[$this->requested_transl]) || $this->requested_transl == $this->ot->getMasterLanguage()) {
+            if (isset($langs[$this->requested_transl]) || $this->requested_transl == $this->ot->getBaseLanguage()) {
                 $this->lang = $this->requested_transl;
             } else {
                 $this->lang = $this->user->getCurrentLanguage();
             }
             $this->concrete_lang = $this->lang;
-            if ($this->lang == $this->ot->getMasterLanguage()) {
+            if ($this->lang == $this->ot->getBaseLanguage()) {
                 $this->lang = "-";
             }
         }

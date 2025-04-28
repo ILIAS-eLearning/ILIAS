@@ -21,7 +21,6 @@ use ILIAS\GlobalScreen\ScreenContext\ContextServices;
 use ILIAS\Wiki\WikiGUIRequest;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\Wiki\Settings\SettingsGUI;
-use ILIAS\ILIASObject\Properties\Translations\Translations;
 use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
 
 /**
@@ -45,7 +44,6 @@ class ilObjWikiGUI extends ilObjectGUI
     protected \ILIAS\Wiki\Content\GUIService $content_gui;
     protected \ILIAS\Wiki\Navigation\ImportantPageManager $imp_pages;
     protected \ILIAS\Wiki\Page\PageManager $pm;
-    protected Translations $ot;
     protected string $requested_page;
     protected ilPropertyFormGUI $form_gui;
     protected ilTabsGUI $tabs;
@@ -76,7 +74,6 @@ class ilObjWikiGUI extends ilObjectGUI
         $this->tabs = $gui->tabs();
         $this->help = $gui->help();
         $this->locator = $gui->locator();
-        $this->ot = $this->object->getObjectProperties()->getPropertyTranslations();
 
         $this->type = "wiki";
 
@@ -559,16 +556,14 @@ class ilObjWikiGUI extends ilObjectGUI
 
         $ilHelp->setScreenIdComponent("wiki");
 
-
         // wiki tabs
         if (in_array(strtolower($ilCtrl->getNextClass($this)), [strtolower(SettingsGUI::class)]) ||
             in_array(
                 strtolower($ilCtrl->getCmdClass()),
                 array("", "ilobjectcontentstylesettingsgui", "ilobjwikigui",
             "ilinfoscreengui", "ilpermissiongui", "ilexportgui", "ilratingcategorygui", "ilobjnotificationsettingsgui", "iltaxmdgui",
-            "ilwikistatgui", "ilwikipagetemplategui", "iladvancedmdsettingsgui", "ilsettingspermissiongui", 'ilrepositoryobjectsearchgui',
-            strtolower(TranslationGUI::class))
-            ) || $ilCtrl->getNextClass() === "ilpermissiongui") {
+            "ilwikistatgui", "ilwikipagetemplategui", "iladvancedmdsettingsgui", "ilsettingspermissiongui", 'ilrepositoryobjectsearchgui')
+            ) || in_array($ilCtrl->getNextClass(), ["ilpermissiongui", strtolower(TranslationGUI::class)])) {
             if ($this->requested_page !== "") {
                 $page_id = ($this->edit_request->getWikiPageId() > 0)
                     ? $this->edit_request->getWikiPageId()
@@ -1142,7 +1137,7 @@ class ilObjWikiGUI extends ilObjectGUI
         }
         $append = " '" . $this->edit_request->getPage() . "'";
         $append .= " (" . $this->lng->txt("meta_l_" . $this->edit_request->getTranslation()) . ")";
-        $append2 = " (" . $this->lng->txt("meta_l_" . $this->ot->getMasterLanguage()) . ")";
+        $append2 = " (" . $this->lng->txt("meta_l_" . $this->object->getObjectProperties()->getPropertyTranslations()->getBaseLanguage()) . ")";
         $form = $this->gui->form([self::class], "createNewTranslatedPage")
             ->section("sec", $this->lng->txt("wiki_translation_page") . $append)
             ->switch("type", $this->lng->txt("wiki_page_in_master_language") . $append2, "", "existing")

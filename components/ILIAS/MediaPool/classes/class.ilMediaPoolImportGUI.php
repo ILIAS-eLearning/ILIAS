@@ -87,7 +87,7 @@ class ilMediaPoolImportGUI
         $ot = $this->ot;
         $options = [];
         foreach ($ot->getLanguages() as $l) {
-            if ($l->getLanguageCode() != $ot->getMasterLanguage()) {
+            if ($l->getLanguageCode() != $ot->getBaseLanguage()) {
                 $options[$l->getLanguageCode()] = $lng->txt("meta_l_" . $l->getLanguageCode());
             }
         }
@@ -114,7 +114,7 @@ class ilMediaPoolImportGUI
 
         $target_lang = $this->request->getImportLang();
         $ot = $this->ot;
-        if ($target_lang === $ot->getMasterLanguage()) {
+        if ($target_lang === $ot->getBaseLanguage()) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("mep_transl_master_language_not_allowed"), true);
             $ilCtrl->redirect($this, "showTranslationImportForm");
         }

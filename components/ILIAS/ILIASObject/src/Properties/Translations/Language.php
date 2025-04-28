@@ -33,7 +33,7 @@ class Language
         private string $title,
         private string $description,
         private bool $default = false,
-        private bool $master = false
+        private bool $base = false
     ) {
     }
 
@@ -78,15 +78,15 @@ class Language
         return $clone;
     }
 
-    public function isMaster(): bool
+    public function isBase(): bool
     {
-        return $this->master;
+        return $this->base;
     }
 
-    public function withMaster(bool $master): self
+    public function withBase(bool $base): self
     {
         $clone = clone $this;
-        $clone->master = $master;
+        $clone->base = $base;
         return $clone;
     }
 
@@ -102,13 +102,17 @@ class Language
                     ->withRequired(true)
                     ->withValue($this->title),
                 'description' => $field_factory->textarea($language->txt('description'))
-                    ->withValue($this->description)
+                    ->withValue($this->description),
+                'default' => $field_factory->hidden()->withValue($this->isDefault()),
+                'base' => $field_factory->hidden()->withValue($this->isBase()),
             ])->withAdditionalTransformation(
                 $refinery->custom()->transformation(
                     static fn(array $vs): self => new self(
                         $vs['language'],
                         $vs['title'],
-                        $vs['description']
+                        $vs['description'],
+                        $vs['default'] === '1',
+                        $vs['base'] === '1'
                     )
                 )
             )
@@ -123,12 +127,12 @@ class Language
             $this->language_code,
             [
                 'language' => $this->getTranslatedLanguageName($lng, $this->language_code),
-                'master' => $this->isMaster(),
+                'base' => $this->isBase(),
                 'default' => $this->isDefault(),
                 'title' => $this->getTitle(),
                 'description' => $this->getDescription()
             ]
-        )->withDisabledAction(TranslationsTable::ACTION_DELETE, $this->isMaster() || $this->isDefault())
+        )->withDisabledAction(TranslationsTable::ACTION_DELETE, $this->isBase() || $this->isDefault())
         ->withDisabledAction(TranslationsTable::ACTION_MAKE_DEFAULT, $this->isDefault());
     }
 
