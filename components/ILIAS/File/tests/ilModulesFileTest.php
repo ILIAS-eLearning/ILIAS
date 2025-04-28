@@ -31,6 +31,7 @@ use ILIAS\ResourceStorage\Manager\Manager;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Revision\FileRevision;
 use ILIAS\ResourceStorage\Resource\StorableFileResource;
+use ILIAS\ILIASObject\Properties\AdditionalProperties\Icon\Factory as IconFactory;
 
 class ilModulesFileTest extends TestCase
 {
@@ -71,7 +72,7 @@ class ilModulesFileTest extends TestCase
         $DIC['ilCtrl'] = $this->createMock(ilCtrlInterface::class);
         $DIC['refinery'] = $this->createMock(Factory::class);
         $DIC['http'] = $this->createMock(\ILIAS\HTTP\Services::class);
-        $DIC['object.customicons.factory'] = $this->createMock(ilObjectCustomIconFactory::class);
+        $DIC['object.customicons.factory'] = $this->createMock(IconFactory::class);
         /*  $DIC['ilCtrl'] = $this->getMockBuilder(ilCtrl::class)
                                 ->disableOriginalConstructor()
                                 ->disableArgumentCloning()

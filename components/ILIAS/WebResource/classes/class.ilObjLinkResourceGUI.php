@@ -53,12 +53,14 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         int $id_type = self::REPOSITORY_NODE_ID,
         int $parent_node_id = 0
     ) {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         parent::__construct($id, $id_type, $parent_node_id);
 
         $this->lng->loadLanguageModule("webr");
         $this->settings = $DIC->settings();
+        $DIC->resourceStorage();
     }
 
     protected function getWebLinkRepo(): ilWebLinkRepository

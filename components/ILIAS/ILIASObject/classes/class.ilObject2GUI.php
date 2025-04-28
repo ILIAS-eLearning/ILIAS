@@ -96,7 +96,10 @@ abstract class ilObject2GUI extends ilObjectGUI
         $this->user = $DIC->user();
         $this->access = $DIC->access();
         $this->toolbar = $DIC->toolbar();
-        $this->request = $DIC->http()->request();
+        $this->http = $DIC['http'];
+        $this->request = $this->http->request();
+        $this->post_wrapper = $this->http->wrapper()->post();
+        $this->request_wrapper = $this->http->wrapper()->query();
         $this->refinery = $DIC->refinery();
         $this->retriever = new ilObjectRequestRetriever($DIC->http()->wrapper(), $this->refinery);
         $this->rbac_admin = $DIC->rbac()->admin();

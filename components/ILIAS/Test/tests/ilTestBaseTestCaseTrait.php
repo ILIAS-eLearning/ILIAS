@@ -305,10 +305,14 @@ trait ilTestBaseTestCaseTrait
         $this->setGlobalVariable('skill', $this->createMock(ILIAS\Skill\Service\SkillService::class));
     }
 
+    protected function addGlobal_objectMetadata(): void
+    {
+        $this->setGlobalVariable('learning_object_metadata', $this->createMock(ILIAS\MetaData\Services\ServicesInterface::class));
+    }
+
     protected function addGlobal_objectService(): void
     {
-        global $DIC;
-        $DIC['object.customicons.factory'] = $this->getMockBuilder(ilObjectCustomIconFactory::class)->disableOriginalConstructor()->getMock();
+        $this->setGlobalVariable('object.customicons.factory', $this->getMockBuilder(ILIAS\ILIASObject\Properties\AdditionalProperties\Icon\Factory::class)->disableOriginalConstructor()->getMock());
         $object_mock = $this->getMockBuilder(\ilObjectService::class)->disableOriginalConstructor()->getMock();
 
         $this->setGlobalVariable('object', $object_mock);
