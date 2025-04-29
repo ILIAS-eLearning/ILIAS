@@ -325,54 +325,6 @@ class ilDclBaseRecordModel
     }
 
     /**
-     * Get Field Value for Representation in a Form
-     * @param ?int|string $field_id
-     * @return array|int|null|string
-     */
-    public function getRecordFieldRepresentationValue($field_id)
-    {
-        if ($field_id === null) {
-            return null;
-        }
-        $this->loadRecordFields();
-        if (ilDclStandardField::_isStandardField($field_id)) {
-            return $this->getStandardField($field_id);
-        } else {
-            return $this->recordfields[$field_id]->getValueForRepresentation();
-        }
-    }
-
-    /**
-     * Get Field Export Value
-     * @param ?int|string $field_id
-     * @return int|string
-     */
-    public function getRecordFieldExportValue($field_id)
-    {
-        $this->loadRecordFields();
-        if (ilDclStandardField::_isStandardField($field_id)) {
-            return $this->getStandardFieldHTML($field_id);
-        } else {
-            return $this->recordfields[$field_id]->getExportValue();
-        }
-    }
-
-    /**
-     * Get Field Export Value
-     * @param int|string $field_id
-     * @return int|string
-     */
-    public function getRecordFieldPlainText($field_id)
-    {
-        $this->loadRecordFields();
-        if (ilDclStandardField::_isStandardField($field_id)) {
-            return $this->getStandardFieldHTML($field_id);
-        } else {
-            return $this->recordfields[$field_id]->getPlainText();
-        }
-    }
-
-    /**
      * @param int|string $field_id
      */
     public function fillRecordFieldExcelExport(ilExcel $worksheet, int &$row, int &$col, $field_id): void
@@ -429,25 +381,6 @@ class ilDclBaseRecordModel
         } else {
             if (array_key_exists($field_id, $this->recordfields) && is_object($this->recordfields[$field_id])) {
                 $html = $this->recordfields[$field_id]->getRecordRepresentation()->getHTML(true, $options);
-            } else {
-                $html = '';
-            }
-        }
-
-        return $html;
-    }
-
-    /**
-     * @param int|string $field_id
-     */
-    public function getRecordFieldSortingValue($field_id, array $options = []): string
-    {
-        $this->loadRecordFields();
-        if (ilDclStandardField::_isStandardField($field_id)) {
-            $html = $this->getStandardFieldHTML($field_id, $options);
-        } else {
-            if (is_object($this->recordfields[$field_id])) {
-                $html = $this->recordfields[$field_id]->getSortingValue();
             } else {
                 $html = '';
             }

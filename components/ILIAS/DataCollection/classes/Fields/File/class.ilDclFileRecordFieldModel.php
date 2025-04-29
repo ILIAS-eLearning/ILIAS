@@ -90,7 +90,7 @@ class ilDclFileRecordFieldModel extends ilDclBaseRecordFieldModel
             $file_title = $file[self::FILE_NAME] ?? basename($move_file);
 
             // Storing the File to the IRSS
-            $existing_value = $this->getValueForRepresentation();
+            $existing_value = $this->getValue();
             if (
                 is_string($existing_value)
                 && ($rid = $this->irss->manage()->find($existing_value)) !== null
