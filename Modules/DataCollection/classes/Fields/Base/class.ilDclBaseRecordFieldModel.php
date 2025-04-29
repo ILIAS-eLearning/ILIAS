@@ -154,14 +154,6 @@ class ilDclBaseRecordFieldModel
     }
 
     /**
-     * @return array|string
-     */
-    public function getValueForRepresentation()
-    {
-        return $this->getValue();
-    }
-
-    /**
      * Serialize data before storing to db
      * @param mixed $value
      * @return mixed
