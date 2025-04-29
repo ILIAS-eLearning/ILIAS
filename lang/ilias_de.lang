@@ -746,7 +746,7 @@ assessment#:#finish_pass_for_all_users_in_processing_time#:#Sie können die Durc
 assessment#:#finish_pass_for_user_confirmation#:#Wollen Sie den Test Durchlauf für den Teilnehmer „%s“ wirklich beenden?
 assessment#:#finish_pass_for_user_in_processing_time#:#WARNUNG: die Bearbeitungszeit für diesen Benutzer ist noch nicht vorbei! Sie sollten den Testlauf nur bei zwingendem Grund (z.B. Ausschluss vom Test) beenden.
 assessment#:#finish_test#:#Test beenden
-assessment#:#finish_test_all#:#Sind Sie sicher, dass die den Testdurchlauf für alle Teilnehmer beenden möchten?
+assessment#:#finish_test_all#:#Sind Sie sicher, dass Sie den Testdurchlauf für alle Teilnehmer beenden möchten?
 assessment#:#finish_test_more_than_one_selected#:#Wenn der Test nur einen Durchgang zulässt, darf nur ein einziger Teilnehmer ausgewählt werden, um den Durchgang zu beenden.
 assessment#:#finish_test_multiple#:#Sind Sie sicher, dass Sie den Testdurchlauf für folgende Teilnehmer beenden möchten?
 assessment#:#finish_test_no_valid_participants_selected#:#Für die gewählten Teilnehmer gibt es keine aktiven Testdurchläufe und können daher nicht beendet werden.

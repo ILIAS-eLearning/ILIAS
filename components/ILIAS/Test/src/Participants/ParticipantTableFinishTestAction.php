@@ -90,11 +90,7 @@ class ParticipantTableFinishTestAction implements TableAction
                 array_map(
                     fn(Participant $participant) => $this->ui_factory->modal()->interruptiveItem()->standard(
                         (string) $participant->getUserId(),
-                        sprintf(
-                            '%s, %s',
-                            $participant->getLastname(),
-                            $participant->getFirstname()
-                        )
+                        (new \ilObjUser($participant->getUserId()))->getPublicName()
                     ),
                     $selected_participants
                 )
@@ -117,6 +113,20 @@ class ParticipantTableFinishTestAction implements TableAction
                 true
             );
             return null;
+        }
+
+        if ($this->test_obj->getEnableProcessingTime()) {
+            foreach ($selected_participants as $participant) {
+                if ($participant->hasUnfinishedAttempts()) {
+                    $this->tpl->setOnScreenMessage(
+                        \ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
+                        $this->lng->txt('finish_pass_for_all_users_in_processing_time'),
+                        true
+                    );
+
+                    return null;
+                }
+            }
         }
 
         if (!$this->test_obj->getResetProcessingTime() && count($selected_participants) > 1) {
@@ -186,15 +196,12 @@ class ParticipantTableFinishTestAction implements TableAction
             return $this->lng->txt('finish_test_all');
         }
 
-        if (count($selected_participants) === 1) {
-            return sprintf(
-                $this->lng->txt('finish_test_single'),
-                sprintf(
-                    '%s, %s',
-                    $selected_participants[0]->getLastname(),
-                    $selected_participants[0]->getFirstname()
-                )
-            );
+        $selected_participants = array_values($selected_participants);
+
+        if (count($selected_participants) === 1 && isset($selected_participants[0])) {
+            /** @var Participant $selected_participant */
+            $selected_participant = $selected_participants[0];
+            return sprintf($this->lng->txt('finish_test_single'), (new \ilObjUser($selected_participant->getUserId()))->getPublicName());
         }
 
         return $this->lng->txt('finish_test_multiple');
