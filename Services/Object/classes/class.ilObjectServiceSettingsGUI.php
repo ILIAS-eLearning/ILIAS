@@ -320,7 +320,7 @@ class ilObjectServiceSettingsGUI
 
         if (in_array(self::EXTERNAL_MAIL_PREFIX, $services)) {
             $externalMailPrefix = new ilTextInputGUI($lng->txt('obj_tool_ext_mail_subject_prefix'), self::EXTERNAL_MAIL_PREFIX);
-            $externalMailPrefix->setMaxLength(255);
+            $externalMailPrefix->setMaxLength(50);
             $externalMailPrefix->setInfo($lng->txt('obj_tool_ext_mail_subject_prefix_info'));
             $externalMailPrefix->setValue(ilContainer::_lookupContainerSetting($obj_id, self::EXTERNAL_MAIL_PREFIX, ''));
             $form->addItem($externalMailPrefix);
@@ -441,7 +441,11 @@ class ilObjectServiceSettingsGUI
         }
 
         if (in_array(self::EXTERNAL_MAIL_PREFIX, $services)) {
-            ilContainer::_writeContainerSetting($obj_id, self::EXTERNAL_MAIL_PREFIX, $form->getInput(self::EXTERNAL_MAIL_PREFIX));
+            ilContainer::_writeContainerSetting(
+                $obj_id,
+                self::EXTERNAL_MAIL_PREFIX,
+                mb_substr($form->getInput(self::EXTERNAL_MAIL_PREFIX), 0, 50)
+            );
         }
 
         return true;
