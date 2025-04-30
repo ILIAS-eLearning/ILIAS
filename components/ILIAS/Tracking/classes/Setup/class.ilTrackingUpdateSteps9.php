@@ -18,6 +18,22 @@
 
 declare(strict_types=1);
 
-class ilDclPluginFieldRepresentation extends ilDclBaseFieldRepresentation
+class ilTrackingUpdateSteps9 implements ilDatabaseUpdateSteps
 {
+    protected \ilDBInterface $db;
+
+    public function prepare(\ilDBInterface $db): void
+    {
+        $this->db = $db;
+    }
+
+    /**
+     * Remove the unused table 'catch_write_events'
+     */
+    public function step_1(): void
+    {
+        if ($this->db->tableExists('catch_write_events')) {
+            $this->db->dropTable('catch_write_events');
+        }
+    }
 }

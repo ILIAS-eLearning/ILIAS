@@ -18,6 +18,18 @@
 
 declare(strict_types=1);
 
-class ilDclPluginFieldRepresentation extends ilDclBaseFieldRepresentation
+use ILIAS\Setup;
+use ILIAS\Setup\Config;
+
+class ilTrackingSetupAgent extends Setup\Agent\NullAgent
 {
+    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    {
+        return new ilDatabaseUpdateStepsExecutedObjective(new ilTrackingUpdateSteps9());
+    }
+
+    public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
+    {
+        return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilTrackingUpdateSteps9());
+    }
 }

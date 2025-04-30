@@ -285,11 +285,7 @@ class ilDclRecordListGUI
             $output->setVariable("WARNING", $warning);
             $output->parseCurrentBlock();
         }
-        if (!count($warnings)) {
-            $output->setCurrentBlock("warnings");
-            $output->setVariable("WARNING", $this->lng->txt("dcl_no_warnings"));
-            $output->parseCurrentBlock();
-        }
+
         $output->setVariable("BACK_LINK", $this->ctrl->getLinkTargetByClass(ilDclRecordListGUI::class, "listRecords"));
         $output->setVariable("BACK", $this->lng->txt("back"));
         $this->tpl->setContent($output->get());

@@ -115,12 +115,23 @@ class ItemPresentationManager
     /**
      * Are we currently in ordering view and the items can be ordered?
      */
-    public function isActiveItemOrdering(): bool
+    public function isActiveItemOrdering(string $type): bool
     {
+        // see #43205
         if ($this->mode_manager->isActiveItemOrdering()) {
+            if ($type === "sess" && $this->container->getViewMode() === \ilContainer::VIEW_SESSIONS) {
+                return false;
+            }
             return true;
         }
         return false;
+    }
+
+    public function forceSessionOrderingByDate() : bool
+    {
+        // see #43205
+        return ($this->container->getViewMode() === \ilContainer::VIEW_SESSIONS ||
+            $this->container->getOrderType() !== \ilContainer::SORT_MANUAL);
     }
 
 
@@ -170,7 +181,11 @@ class ItemPresentationManager
         if ($this->filteredSubtree()) {
             $this->item_set = $this->domain->content()->itemSetTree($ref_id, $this->container_user_filter);
         } else {
-            $this->item_set = $this->domain->content()->itemSetFlat($ref_id, $this->container_user_filter);
+            $this->item_set = $this->domain->content()->itemSetFlat(
+                $ref_id,
+                $this->container_user_filter,
+                $this->forceSessionOrderingByDate()
+            );
         }
 
         // get view

@@ -47,11 +47,17 @@ class CustomBreadcrumbPagePartProvider implements PagePartProvider
 
     private function getRefId(): string|null
     {
-        if(isset($_GET["ref_id"])) {
-            return (string) $_GET["ref_id"];
+        global $DIC;
+
+        if (ilSession::has("ref_id")) {
+            return (string) ilSession::get("ref_id");
         }
-        if(isset($_SESSION["lti_context_ids"]) && is_array($_SESSION["lti_context_ids"]) && count($_SESSION["lti_context_ids"]) > 0) {
-            return (string) $_SESSION["lti_context_ids"][0];
+        if (ilSession::has("lti_context_ids") && is_array(ilSession::get("lti_context_ids")) && count(ilSession::get("lti_context_ids")) > 0) {
+            return (string) ilSession::get("lti_context_ids")[0];
+        }
+
+        if ($DIC ->http()->wrapper()->query()->has("ref_id")) {
+            return $DIC ->http()->wrapper()->query()->retrieve("ref_id", $DIC->refinery()->to()->string());
         }
         return null;
     }
@@ -74,8 +80,8 @@ class CustomBreadcrumbPagePartProvider implements PagePartProvider
 
         foreach ($breadcrumbs->getItems() as $crumb) {
             $action = (string) $crumb->getAction();
-            if (method_exists($crumb, 'getAction') && str_contains($action, 'goto.php')) {
-                if (str_contains($action, (string) $ref_id) && !str_contains($action, 'root')) {
+            if (method_exists($crumb, 'getAction') && (str_contains($action, 'goto.php') || str_contains($action, '/go/'))) {
+                if (str_contains($action, $ref_id) && !str_contains($action, 'root')) {
                     $goto_crumbs[] = $crumb;
                 }
             } else {

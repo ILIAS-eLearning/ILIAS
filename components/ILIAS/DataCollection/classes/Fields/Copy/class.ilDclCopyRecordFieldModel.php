@@ -27,7 +27,7 @@ class ilDclCopyRecordFieldModel extends ilDclBaseRecordFieldModel
     {
         $value = $form->getInput('field_' . $this->getField()->getId());
         if (is_array($value)) {
-            $value = implode(', ', $value);
+            $value = implode('; ', $value);
         }
         $this->setValue($value);
     }

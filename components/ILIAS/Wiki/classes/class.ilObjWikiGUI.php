@@ -708,7 +708,7 @@ class ilObjWikiGUI extends ilObjectGUI
                 );
 
                 // rating categories
-                if ($this->object->getRating() && $this->object->getRatingCategories()) {
+                if ($this->object->getRatingPages() && $this->object->getRatingCategories()) {
                     $lng->loadLanguageModule("rating");
                     $ilTabs->addSubTab(
                         "rating_categories",

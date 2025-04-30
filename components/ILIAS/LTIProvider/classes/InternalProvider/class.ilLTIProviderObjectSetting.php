@@ -144,7 +144,7 @@ class ilLTIProviderObjectSetting
             $this->ref_id = (int) $row->ref_id;
             $this->consumer_id = (int) $row->ext_consumer_id;
             $this->setAdminRole((int) $row->admin);
-            $this->setAdminRole((int) $row->tutor);
+            $this->setTutorRole((int) $row->tutor);
             $this->setMemberRole((int) $row->member);
         }
         return true;
