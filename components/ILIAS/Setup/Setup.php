@@ -108,5 +108,14 @@ class Setup implements Component\Component
 
         $internal["json.parser"] = static fn() =>
             new \Seld\JsonLint\JsonParser();
+
+        /**
+         * Using the AgentFinder as EntryPoint is an exception/abomination for 10 only.
+         * Do not copy or use as example!
+         * The Finder is needed in ilObjSystemFolderGUI to get the installation's status.
+         * There is a better bridge in 11.
+         */
+        $contribute[EntryPoint::class] = static fn() => $internal["agent_finder"];
+
     }
 }

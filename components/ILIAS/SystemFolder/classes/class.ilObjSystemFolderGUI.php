@@ -611,28 +611,27 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $r = $DIC->ui()->renderer();
         $refinery = $DIC->refinery();
 
-        $metric = $this->getServerStatusInfo($refinery);
+        $metric = $this->getServerStatusInfo();
         $report = $metric->toUIReport($f, $this->lng->txt("installation_status"));
 
         $this->tpl->setContent($r->render($report));
     }
 
-    protected function getServerStatusInfo(ILIAS\Refinery\Factory $refinery): ILIAS\Setup\Metrics\Metric
+    protected function getServerStatusInfo(): ILIAS\Setup\Metrics\Metric
     {
-        $data = new Factory();
-        $lng = new ilSetupLanguage('en');
-        $interface_finder = new ImplementationOfInterfaceFinder();
+        /**
+         * This is a total exception/abomination in the use of entry points.
+         * Do not copy or use as example!
+         * The use case here is quite special, we regularly do not need the agents
+         * throughout runtime, so I did not want to initialize in general.
+         * Also, this is _only_ relevant for version 10, and will be gone in 11.
+         */
+        require_once __DIR__ . '/../../../../artifacts/bootstrap_setup.php';
+        entry_point('Agent Finder Adapter');
 
-        $agent_finder = new ImplementationOfAgentFinder(
-            $refinery,
-            $data,
-            $lng,
-            $interface_finder,
-            []
-        );
-
+        global $DIC;
+        $agent_finder = $DIC['setup.agentfinder'];
         $st = new StatusCommand($agent_finder);
-
         return $st->getMetrics($agent_finder->getAgents());
     }
 
