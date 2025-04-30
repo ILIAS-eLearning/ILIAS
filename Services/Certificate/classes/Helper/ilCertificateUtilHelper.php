@@ -30,14 +30,14 @@ use ILIAS\Filesystem\Util\Archive\ZipDirectoryHandling;
  */
 class ilCertificateUtilHelper
 {
-    private \ILIAS\Filesystem\Util\Convert\LegacyImages $image_converter;
+    private \ILIAS\Filesystem\Util\Convert\Images $image_converter;
     private \ILIAS\Filesystem\Util\Archive\Archives $archives;
     private \ILIAS\FileDelivery\Services $delivery;
 
     public function __construct()
     {
         global $DIC;
-        $this->image_converter = $DIC->fileConverters()->legacyImages();
+        $this->image_converter = $DIC->fileConverters()->images();
         $this->archives = $DIC->archives();
         $this->delivery = $DIC->fileDelivery();
     }
@@ -61,13 +61,42 @@ class ilCertificateUtilHelper
         string $to,
         string $geometry = ''
     ): void {
-        $this->image_converter->convertToFormat(
-            $from,
-            $to,
+        $converter = $this->image_converter->convertToFormat(
+            Streams::ofResource(fopen($from, 'rb')),
             ImageOutputOptions::FORMAT_JPG,
             $geometry === '' ? null : (int) $geometry,
             $geometry === '' ? null : (int) $geometry,
+            (new ImageOutputOptions())->withQuality(100)
         );
+
+        if (!$converter->isOK()) {
+            throw new ilException(
+                sprintf(
+                    'Could not convert image %s to %s',
+                    $from,
+                    $to
+                ),
+                0,
+                $converter->getThrowableIfAny()
+            );
+        }
+
+        $stream = $converter->getStream();
+
+        try {
+            $stream->rewind();
+            if (file_put_contents($to, $stream->getContents()) === false) {
+                throw new ilException(
+                    sprintf(
+                        'Could not store converted image %s to %s',
+                        $from,
+                        $to
+                    )
+                );
+            }
+        } finally {
+            $stream->close();
+        }
     }
 
     public function stripSlashes(string $string): string
