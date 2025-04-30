@@ -17,6 +17,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+require_once __DIR__ . "/../vendor/composer/vendor/autoload.php";
+
 ilContext::init(ilContext::CONTEXT_SCORM);
 ilInitialisation::initILIAS();
 
