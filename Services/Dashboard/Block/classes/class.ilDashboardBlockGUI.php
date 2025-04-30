@@ -91,17 +91,8 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
 
     protected function getListItemGroups(): array
     {
-        $data = $this->loadData();
         $groupedCards = [];
-        $obj_ids = [];
-        foreach ($data as $group) {
-            foreach ($group as $datum) {
-                $obj_ids[] = $datum->getObjId();
-            }
-        }
-        ilLPStatus::preloadListGUIData($obj_ids);
-
-        foreach ($data as $title => $group) {
+        foreach ($this->loadData() as $title => $group) {
             $items = [];
             foreach ($group as $datum) {
                 $item = $this->getListItemForDataDTO($datum);
@@ -155,6 +146,18 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         }
 
         return $this->getNoItemFoundContent();
+    }
+
+    protected function preloadData(array $data): void
+    {
+        $obj_ids = [];
+        foreach ($data as $group) {
+            foreach ($group as $datum) {
+                $obj_ids[] = $datum->getObjId();
+            }
+        }
+        ilLPStatus::preloadListGUIData($obj_ids);
+        parent::preloadData($data);
     }
 
     public function getNoItemFoundContent(): string
