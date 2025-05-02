@@ -93,6 +93,11 @@ class ilPRGAssignmentFilter
                     list($from, $to) = array_values($value);
                     if ($to || $from) {
                         $conditions[] = 'deadline IS NOT NULL';
+                        $conditions[] = ilPRGAssignmentDBRepository::PROGRESS_FIELD_STATUS
+                            . ' NOT IN (' .
+                                ilPRGProgress::STATUS_COMPLETED . ',' .
+                                ilPRGProgress::STATUS_ACCREDITED
+                            . ')';
                     }
                     if ($from) {
                         $from = $from->get(IL_CAL_DATE);
