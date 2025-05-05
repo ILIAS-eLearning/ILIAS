@@ -19,13 +19,11 @@
 declare(strict_types=1);
 
 require_once("vendor/composer/vendor/autoload.php");
-require_once(__DIR__ . "/TableTestBase.php");
+require_once(__DIR__ . "/TableRendererTestBase.php");
 
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\Data;
-use ILIAS\UI\Implementation\Component\Signal;
-use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\URLBuilder;
 
 /**
@@ -71,14 +69,12 @@ class DTRenderer extends I\Table\Renderer
     ) {
         return $this->renderActionsHeader($default_renderer, $component, $tpl);
     }
-
 }
-
 
 /**
  * Tests for the Renderer of DataTables.
  */
-class DataRendererTest extends TableTestBase
+class DataRendererTest extends TableRendererTestBase
 {
     private function getRenderer()
     {
@@ -94,70 +90,6 @@ class DataRendererTest extends TableTestBase
         );
     }
 
-    private function getActionFactory()
-    {
-        return new I\Table\Action\Factory();
-    }
-
-    private function getColumnFactory()
-    {
-        return new I\Table\Column\Factory(
-            $this->getLanguage()
-        );
-    }
-
-    private function getDummyRequest()
-    {
-        $request = $this->createMock(ServerRequestInterface::class);
-        $request
-            ->method("getUri")
-            ->willReturn(new \GuzzleHttp\Psr7\Uri('http://localhost:80'));
-        $request
-            ->method("getQueryParams")
-            ->willReturn([]);
-        return $request;
-    }
-
-    public function getDataFactory(): Data\Factory
-    {
-        return new Data\Factory();
-    }
-
-    public function getUIFactory(): NoUIFactory
-    {
-        $factory = new class ($this->getTableFactory()) extends NoUIFactory {
-            public function __construct(
-                protected Component\Table\Factory $table_factory
-            ) {
-            }
-            public function button(): Component\Button\Factory
-            {
-                return new I\Button\Factory();
-            }
-            public function dropdown(): Component\Dropdown\Factory
-            {
-                return new I\Dropdown\Factory();
-            }
-            public function symbol(): Component\Symbol\Factory
-            {
-                return new I\Symbol\Factory(
-                    new I\Symbol\Icon\Factory(),
-                    new I\Symbol\Glyph\Factory(),
-                    new I\Symbol\Avatar\Factory()
-                );
-            }
-            public function table(): Component\Table\Factory
-            {
-                return $this->table_factory;
-            }
-            public function divider(): Component\Divider\Factory
-            {
-                return new I\Divider\Factory();
-            }
-        };
-        return $factory;
-    }
-
     public function testDataTableGetMultiActionHandler()
     {
         $renderer = $this->getRenderer();
@@ -165,9 +97,9 @@ class DataRendererTest extends TableTestBase
         $closure = $renderer->p_getMultiActionHandler($signal);
         $actual = $this->brutallyTrimHTML($closure('component_id'));
         $expected = $this->brutallyTrimHTML(
-            "$(document).on('signal_id', function(event, signal_data) { 
-                il.UI.table.data.get('component_id').doMultiAction(signal_data); 
-                return false; 
+            "$(document).on('signal_id', function(event, signal_data) {
+                il.UI.table.data.get('component_id').doMultiAction(signal_data);
+                return false;
             });"
         );
         $this->assertEquals($expected, $actual);
