@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -103,7 +104,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate(
             "tpl.directory_row.html",
-            "components/ILIAS/FileSystem"
+            "components/ILIAS/Filesystem"
         );
         $this->setEnableTitle(true);
     }
