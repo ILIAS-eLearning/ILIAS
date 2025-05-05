@@ -2753,7 +2753,7 @@ buddysystem#:#buddy_bs_state_linked_p#:#Vernetzt
 buddysystem#:#buddy_bs_state_requested#:#Angefragt
 buddysystem#:#buddy_bs_state_requested_a#:#Angefragt
 buddysystem#:#buddy_bs_state_requested_filter_a#:#Auf Reaktion wartend
-buddysystem#:#buddy_bs_state_requested_filter_p#:#Aktion erorderlich
+buddysystem#:#buddy_bs_state_requested_filter_p#:#Aktion erforderlich
 buddysystem#:#buddy_bs_state_requested_p#:#Angefragt
 buddysystem#:#buddy_bs_state_unlinked#:#Nicht vernetzt
 buddysystem#:#buddy_bs_state_unlinked_a#:#Nicht vernetzt
@@ -15975,6 +15975,7 @@ style#:#sty_ca_cntr_class#:#Karussell - Container
 style#:#sty_ca_icntr_class#:#Karussell - Element-Container
 style#:#sty_ca_icont_class#:#Karussell - Inhalt Element
 style#:#sty_ca_ihead_class#:#Karussell - Kopfzeile Element
+style#:#sty_cannot_be_copied#:#Die folgenden Styletypen könne nicht kopiert werden
 style#:#sty_caption#:#Legende
 style#:#sty_caption_class#:#Legende
 style#:#sty_carousel_templates#:#Karussell Templates

@@ -32,17 +32,17 @@ use ILIAS\Test\Logging\TestLogger;
  */
 class ilTestSkillEvaluation
 {
-    private ilAssQuestionSkillAssignmentList $skillQuestionAssignmentList;
-    private ilTestSkillLevelThresholdList $skillLevelThresholdList;
+    private ilAssQuestionSkillAssignmentList $skill_question_assignment_list;
+    private ilTestSkillLevelThresholdList $skill_level_threshold_list;
     private array $questions = [];
-    private array $maxPointsByQuestion = [];
-    private array $reachedPointsByQuestion;
-    private array $skillPointAccounts;
-    private array $reachedSkillLevels;
-    private int $userId;
-    private int $activeId;
+    private array $max_points_by_question = [];
+    private array $reached_points_by_question;
+    private array $skill_point_accounts;
+    private array $reached_skill_levels;
+    private int $user_id;
+    private int $active_id;
     private int $pass;
-    private int $numRequiredBookingsForSkillTriggering;
+    private int $num_required_bookings_for_skill_triggering;
 
 
     public function __construct(
@@ -53,30 +53,30 @@ class ilTestSkillEvaluation
         private SkillProfileService $skill_profile_service,
         private SkillPersonalService $skill_personal_service
     ) {
-        $this->skillQuestionAssignmentList = new ilAssQuestionSkillAssignmentList($this->db);
+        $this->skill_question_assignment_list = new ilAssQuestionSkillAssignmentList($this->db);
 
-        $this->skillLevelThresholdList = new ilTestSkillLevelThresholdList($this->db);
-        $this->skillLevelThresholdList->setTestId($test_id);
+        $this->skill_level_threshold_list = new ilTestSkillLevelThresholdList($this->db);
+        $this->skill_level_threshold_list->setTestId($test_id);
     }
 
     public function getUserId(): int
     {
-        return $this->userId;
+        return $this->user_id;
     }
 
-    public function setUserId($userId)
+    public function setUserId(int $user_id): void
     {
-        $this->userId = $userId;
+        $this->user_id = $user_id;
     }
 
     public function getActiveId(): int
     {
-        return $this->activeId;
+        return $this->active_id;
     }
 
-    public function setActiveId($activeId)
+    public function setActiveId(int $active_id): void
     {
-        $this->activeId = $activeId;
+        $this->active_id = $active_id;
     }
 
     public function getPass(): int
@@ -84,29 +84,29 @@ class ilTestSkillEvaluation
         return $this->pass;
     }
 
-    public function setPass($pass)
+    public function setPass($pass): void
     {
         $this->pass = $pass;
     }
 
     public function getNumRequiredBookingsForSkillTriggering(): int
     {
-        return $this->numRequiredBookingsForSkillTriggering;
+        return $this->num_required_bookings_for_skill_triggering;
     }
 
-    public function setNumRequiredBookingsForSkillTriggering(int $numRequiredBookingsForSkillTriggering): void
+    public function setNumRequiredBookingsForSkillTriggering(int $num_required_bookings_for_skill_triggering): void
     {
-        $this->numRequiredBookingsForSkillTriggering = $numRequiredBookingsForSkillTriggering;
+        $this->num_required_bookings_for_skill_triggering = $num_required_bookings_for_skill_triggering;
     }
 
-    public function init(ilAssQuestionList $questionList)
+    public function init(ilAssQuestionList $question_list): void
     {
-        $this->skillQuestionAssignmentList->setParentObjId($questionList->getParentObjId());
-        $this->skillQuestionAssignmentList->loadFromDb();
+        $this->skill_question_assignment_list->setParentObjId($question_list->getParentObjId());
+        $this->skill_question_assignment_list->loadFromDb();
 
-        $this->skillLevelThresholdList->loadFromDb();
+        $this->skill_level_threshold_list->loadFromDb();
 
-        $this->initTestQuestionData($questionList);
+        $this->initTestQuestionData($question_list);
     }
 
     /**
@@ -124,47 +124,43 @@ class ilTestSkillEvaluation
 
     public function getReachedSkillLevels(): array
     {
-        return $this->reachedSkillLevels;
+        return $this->reached_skill_levels;
     }
 
-    private function reset()
+    private function reset(): void
     {
-        $this->reachedPointsByQuestion = [];
-        $this->skillPointAccounts = [];
-        $this->reachedSkillLevels = [];
+        $this->reached_points_by_question = [];
+        $this->skill_point_accounts = [];
+        $this->reached_skill_levels = [];
     }
 
-    private function initTestQuestionData(ilAssQuestionList $questionList)
+    private function initTestQuestionData(ilAssQuestionList $question_list): void
     {
-        foreach ($questionList->getQuestionDataArray() as $questionData) {
-            $this->questions[] = $questionData['question_id'];
-
-            $this->maxPointsByQuestion[ $questionData['question_id'] ] = $questionData['points'];
+        foreach ($question_list->getQuestionDataArray() as $question_data) {
+            $this->questions[] = $question_data['question_id'];
+            $this->max_points_by_question[ $question_data['question_id'] ] = $question_data['points'];
         }
     }
 
-    /**
-     * @param array $testResults
-     */
-    private function initTestResultData($testResults)
+    private function initTestResultData(array $test_results): void
     {
-        foreach ($testResults as $key => $result) {
+        foreach ($test_results as $key => $result) {
             if ($key === 'pass' || $key === 'test') { // note: key int 0 IS == 'pass' or 'buxtehude'
                 continue;
             }
 
-            $this->reachedPointsByQuestion[ $result['qid'] ] = $result['reached'];
+            $this->reached_points_by_question[ $result['qid'] ] = $result['reached'];
         }
     }
 
-    private function drawUpSkillPointAccounts()
+    private function drawUpSkillPointAccounts(): void
     {
         foreach ($this->questions as $question_id) {
             if (!$this->isAnsweredQuestion($question_id)) {
                 continue;
             }
 
-            $assignments = $this->skillQuestionAssignmentList->getAssignmentsByQuestionId($question_id);
+            $assignments = $this->skill_question_assignment_list->getAssignmentsByQuestionId($question_id);
 
             foreach ($assignments as $assignment) {
                 if ($assignment->hasEvalModeBySolution()) {
@@ -172,13 +168,12 @@ class ilTestSkillEvaluation
                         $assignment->getSolutionComparisonExpressionList()
                     );
                 } else {
-                    $maxTestPoints = $this->maxPointsByQuestion[$question_id];
-                    $reachedTestPoints = $this->reachedPointsByQuestion[$question_id];
-
+                    $max_test_points = $this->max_points_by_question[$question_id];
+                    $reached_test_points = $this->reached_points_by_question[$question_id];
                     $reached_skill_points = $this->calculateReachedSkillPointsFromTestPoints(
                         $assignment->getSkillPoints(),
-                        $maxTestPoints,
-                        $reachedTestPoints
+                        $max_test_points,
+                        $reached_test_points
                     );
                 }
 
@@ -192,9 +187,9 @@ class ilTestSkillEvaluation
         }
     }
 
-    private function isAnsweredQuestion($questionId): bool
+    private function isAnsweredQuestion(int $question_id): bool
     {
-        return isset($this->reachedPointsByQuestion[$questionId]);
+        return isset($this->reached_points_by_question[$question_id]);
     }
 
     private function determineReachedSkillPointsWithSolutionCompare(
@@ -221,8 +216,11 @@ class ilTestSkillEvaluation
         return 0;
     }
 
-    private function calculateReachedSkillPointsFromTestPoints($skill_points, $max_test_points, $reached_test_points): float
-    {
+    private function calculateReachedSkillPointsFromTestPoints(
+        int $skill_points,
+        float $max_test_points,
+        float $reached_test_points
+    ): float {
         if ($reached_test_points < 0) {
             $reached_test_points = 0;
         }
@@ -236,20 +234,24 @@ class ilTestSkillEvaluation
         return ($skill_points * $factor);
     }
 
-    private function bookToSkillPointAccount($skill_base_id, $skill_tref_id, $max_skill_points, $reached_skill_points): void
-    {
+    private function bookToSkillPointAccount(
+        int $skill_base_id,
+        int $skill_tref_id,
+        int $max_skill_points,
+        float $reached_skill_points
+    ): void {
         $skill_key = $skill_base_id . ':' . $skill_tref_id;
 
-        if (!isset($this->skillPointAccounts[$skill_key])) {
-            $this->skillPointAccounts[$skill_key] = new ilTestSkillPointAccount();
+        if (!isset($this->skill_point_accounts[$skill_key])) {
+            $this->skill_point_accounts[$skill_key] = new ilTestSkillPointAccount();
         }
 
-        $this->skillPointAccounts[$skill_key]->addBooking($max_skill_points, $reached_skill_points);
+        $this->skill_point_accounts[$skill_key]->addBooking($max_skill_points, $reached_skill_points);
     }
 
-    private function evaluateSkillPointAccounts()
+    private function evaluateSkillPointAccounts(): void
     {
-        foreach ($this->skillPointAccounts as $skill_key => $skill_point_account) {
+        foreach ($this->skill_point_accounts as $skill_key => $skill_point_account) {
             if (!$this->doesNumBookingsExceedRequiredBookingsBarrier($skill_point_account)) {
                 continue;
             }
@@ -261,9 +263,9 @@ class ilTestSkillEvaluation
 
             $reached_level_id = null;
             foreach ($levels as $level) {
-                $threshold = $this->skillLevelThresholdList->getThreshold($skill_base_id, $skill_tref_id, $level['id']);
+                $threshold = $this->skill_level_threshold_list->getThreshold($skill_base_id, $skill_tref_id, $level['id']);
 
-                if (!($threshold instanceof ilTestSkillLevelThreshold) || !$threshold->getThreshold()) {
+                if (!($threshold instanceof ilTestSkillLevelThreshold) || $threshold->getThreshold() === null) {
                     continue;
                 }
 
@@ -274,7 +276,7 @@ class ilTestSkillEvaluation
                 $reached_level_id = $level['id'];
             }
 
-            $this->reachedSkillLevels[] = [
+            $this->reached_skill_levels[] = [
                 'sklBaseId' => $skill_base_id, 'sklTrefId' => $skill_tref_id, 'sklLevelId' => $reached_level_id
             ];
         }
@@ -285,28 +287,28 @@ class ilTestSkillEvaluation
         return $skillPointAccount->getNumBookings() >= $this->getNumRequiredBookingsForSkillTriggering();
     }
 
-    public function handleSkillTriggering()
+    public function handleSkillTriggering(): void
     {
-        foreach ($this->getReachedSkillLevels() as $reachedSkillLevel) {
-            $this->invokeSkillLevelTrigger((int) $reachedSkillLevel['sklLevelId'], (int) $reachedSkillLevel['sklTrefId']);
+        foreach ($this->getReachedSkillLevels() as $reached_skill_level) {
+            $this->invokeSkillLevelTrigger((int) $reached_skill_level['sklLevelId'], (int) $reached_skill_level['sklTrefId']);
 
-            if ($reachedSkillLevel['sklTrefId'] > 0) {
-                $this->skill_personal_service->addPersonalSkill($this->getUserId(), (int) $reachedSkillLevel['sklTrefId']);
+            if ($reached_skill_level['sklTrefId'] > 0) {
+                $this->skill_personal_service->addPersonalSkill($this->getUserId(), (int) $reached_skill_level['sklTrefId']);
             } else {
-                $this->skill_personal_service->addPersonalSkill($this->getUserId(), (int) $reachedSkillLevel['sklBaseId']);
+                $this->skill_personal_service->addPersonalSkill($this->getUserId(), (int) $reached_skill_level['sklBaseId']);
             }
         }
         //write profile completion entries if fulfilment status has changed
         $this->skill_profile_service->writeCompletionEntryForAllProfiles($this->getUserId());
     }
 
-    private function invokeSkillLevelTrigger(int $skillLevelId, int $skillTrefId)
+    private function invokeSkillLevelTrigger(int $skill_level_id, int $skill_tref_id): void
     {
         ilBasicSkill::writeUserSkillLevelStatus(
-            $skillLevelId,
+            $skill_level_id,
             $this->getUserId(),
             $this->refId,
-            $skillTrefId,
+            $skill_tref_id,
             ilBasicSkill::ACHIEVED,
             true,
             false,
@@ -314,89 +316,88 @@ class ilTestSkillEvaluation
         );
 
         $this->logger->info(
-            "refId={$this->refId} / usrId={$this->getUserId()} / levelId={$skillLevelId} / trefId={$skillTrefId}"
+            "refId={$this->refId} / usrId={$this->getUserId()} / levelId={$skill_level_id} / trefId={$skill_tref_id}"
         );
     }
 
     public function getSkillsMatchingNumAnswersBarrier(): array
     {
-        $skillsMatchingNumAnswersBarrier = [];
+        $skills_matching_num_answers_barrier = [];
 
-        foreach ($this->skillPointAccounts as $skillKey => $skillPointAccount) {
+        foreach ($this->skill_point_accounts as $skillKey => $skillPointAccount) {
             if ($this->doesNumBookingsExceedRequiredBookingsBarrier($skillPointAccount)) {
                 list($skillBaseId, $skillTrefId) = explode(':', $skillKey);
 
-                $skillsMatchingNumAnswersBarrier[$skillKey] = [
+                $skills_matching_num_answers_barrier[$skillKey] = [
                     'base_skill_id' => (int) $skillBaseId,
                     'tref_id' => (int) $skillTrefId
                 ];
             }
         }
 
-        return $skillsMatchingNumAnswersBarrier;
+        return $skills_matching_num_answers_barrier;
     }
 
     public function getSkillsInvolvedByAssignment(): array
     {
-        $uniqueSkills = [];
+        $unique_skills = [];
 
-        foreach ($this->skillQuestionAssignmentList->getUniqueAssignedSkills() as $skill) {
+        foreach ($this->skill_question_assignment_list->getUniqueAssignedSkills() as $skill) {
             $skillKey = $skill['skill_base_id'] . ':' . $skill['skill_tref_id'];
 
-            $uniqueSkills[$skillKey] = [
+            $unique_skills[$skillKey] = [
                 'base_skill_id' => (int) $skill['skill_base_id'],
                 'tref_id' => (int) $skill['skill_tref_id']
             ];
         }
 
-        return $uniqueSkills;
+        return $unique_skills;
     }
 
-    public function isAssignedSkill($skillBaseId, $skillTrefId)
+    public function isAssignedSkill($skill_base_id, $skill_tref_id): void
     {
-        $this->skillQuestionAssignmentList->isAssignedSkill($skillBaseId, $skillTrefId);
+        $this->skill_question_assignment_list->isAssignedSkill($skill_base_id, $skill_tref_id);
     }
 
     public function getAssignedSkillMatchingSkillProfiles(): array
     {
-        $matchingSkillProfiles = [];
+        $matching_skill_profiles = [];
+        $users_profiles = $this->skill_profile_service->getProfilesOfUser($this->getUserId());
+        foreach ($users_profiles as $profile_data) {
+            $assigned_skill_levels = $this->skill_profile_service->getSkillLevels($profile_data->getId());
 
-        $usersProfiles = $this->skill_profile_service->getProfilesOfUser($this->getUserId());
+            foreach ($assigned_skill_levels as $assigned_skill_level) {
+                $skill_base_id = $assigned_skill_level->getBaseSkillId();
+                $skill_tref_id = $assigned_skill_level->getTrefId();
 
-        foreach ($usersProfiles as $profileData) {
-            $assignedSkillLevels = $this->skill_profile_service->getSkillLevels($profileData->getId());
-
-            foreach ($assignedSkillLevels as $assignedSkillLevel) {
-                $skillBaseId = $assignedSkillLevel->getBaseSkillId();
-                $skillTrefId = $assignedSkillLevel->getTrefId();
-
-                if ($this->skillQuestionAssignmentList->isAssignedSkill($skillBaseId, $skillTrefId)) {
-                    $matchingSkillProfiles[$profileData->getId()] = $profileData->getTitle();
+                if ($this->skill_question_assignment_list->isAssignedSkill($skill_base_id, $skill_tref_id)) {
+                    $matching_skill_profiles[$profile_data->getId()] = $profile_data->getTitle();
                 }
             }
         }
 
-        return $matchingSkillProfiles;
+        return $matching_skill_profiles;
     }
 
-    public function noProfileMatchingAssignedSkillExists(array $availableSkillProfiles): bool
+    public function noProfileMatchingAssignedSkillExists(array $available_skill_profiles): bool
     {
-        $noProfileMatchingSkills = $this->skillQuestionAssignmentList->getUniqueAssignedSkills();
+        $no_profile_matching_skills = $this->skill_question_assignment_list->getUniqueAssignedSkills();
 
-        foreach ($availableSkillProfiles as $skillProfileId => $skillProfileTitle) {
-            $profile = $this->skill_profile_service->getProfile($skillProfileId);
-            $assignedSkillLevels = $this->skill_profile_service->getSkillLevels($profile->getId());
+        foreach (array_keys($available_skill_profiles) as $skill_profile_id) {
+            $assigned_skill_levels = $this->skill_profile_service->getSkillLevels(
+                $this->skill_profile_service->getProfile($skill_profile_id)->getId()
+            );
 
-            foreach ($assignedSkillLevels as $assignedSkillLevel) {
-                $skillBaseId = $assignedSkillLevel->getBaseSkillId();
-                $skillTrefId = $assignedSkillLevel->getTrefId();
+            foreach ($assigned_skill_levels as $assigned_skill_level) {
+                $skill_base_id = $assigned_skill_level->getBaseSkillId();
+                $skill_tref_id = $assigned_skill_level->getTrefId();
 
-                if ($this->skillQuestionAssignmentList->isAssignedSkill($skillBaseId, $skillTrefId)) {
-                    unset($noProfileMatchingSkills["{$skillBaseId}:{$skillTrefId}"]);
+                if ($this->skill_question_assignment_list->isAssignedSkill($skill_base_id, $skill_tref_id)) {
+                    unset($no_profile_matching_skills["{$skill_base_id}:{$skill_tref_id}"]);
                 }
             }
         }
 
-        return $noProfileMatchingSkills !== [];
+        return $no_profile_matching_skills !== [];
     }
 }

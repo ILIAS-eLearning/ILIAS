@@ -23,7 +23,13 @@ namespace ILIAS\Setup;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data;
 
-class ImplementationOfAgentFinder implements AgentFinder
+/**
+ * Using the AgentFinder as EntryPoint is an exception/abomination for 10 only.
+ * Do not copy or use as example!
+ * The Finder is needed in ilObjSystemFolderGUI to get the installation's status.
+ * There is a better bridge in 11.
+ */
+class ImplementationOfAgentFinder implements AgentFinder, \ILIAS\Component\EntryPoint
 {
     protected array|AgentCollection $component_agents;
 
@@ -175,4 +181,27 @@ class ImplementationOfAgentFinder implements AgentFinder
             }
         }
     }
+
+    /**
+     * Using the AgentFinder as EntryPoint is an exception/abomination for 10 only.
+     * Do not copy or use as example!
+     * @deprecated will be removed in 11
+     */
+    public function getName(): string
+    {
+        return 'Agent Finder Adapter';
+    }
+
+    /**
+     * Using the AgentFinder as EntryPoint is an exception/abomination for 10 only.
+     * Do not copy or use as example!
+     * @deprecated will be removed in 11
+     */
+    public function enter(): int
+    {
+        global $DIC;
+        $DIC['setup.agentfinder'] = fn() => $this;
+        return 0;
+    }
+
 }

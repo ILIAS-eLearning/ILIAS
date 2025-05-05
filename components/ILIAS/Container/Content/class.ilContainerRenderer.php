@@ -146,7 +146,7 @@ class ilContainerRenderer
         $this->item_hidden_closure = $f;
     }
 
-    public function setItemModifierClosure(Closure $f) : void
+    public function setItemModifierClosure(Closure $f): void
     {
         $this->item_renderer->setItemModifierClosure($f);
         $this->item_modifier_closure = $f;
@@ -749,8 +749,10 @@ class ilContainerRenderer
         }
 
         if ($a_order_id !== "") {
+            /* blocks are ordered in page editor
             $a_tpl->setVariable("BLOCK_HEADER_ORDER_NAME", "position[blocks][" . $a_order_id . "]");
             $a_tpl->setVariable("BLOCK_HEADER_ORDER_NUM", (++$this->order_cnt) * 10);
+            */
         }
 
         $presentation_title = $title;

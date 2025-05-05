@@ -36,6 +36,7 @@ class ilTestPlayerFixedQuestionSetGUI extends ilTestPlayerAbstractGUI
     {
         $question_list = new ilAssQuestionList($this->db, $this->lng, $this->refinery, $this->component_repository);
         $question_list->setParentObjId($this->object->getId());
+        $question_list->setQuestionInstanceTypeFilter(null);
         return $question_list;
     }
 

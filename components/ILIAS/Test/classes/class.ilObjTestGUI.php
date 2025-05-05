@@ -1027,10 +1027,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->ref_id
         );
 
-        if ($this->getTestObject()->isRandomTest() && $nr_of_participants_with_results === 0) {
-            $gui->setInfoMessage($this->lng->txt('question_is_part_of_running_test'));
-        }
-
         if ($nr_of_participants_with_results > 0) {
             $gui->addAdditionalCmd(
                 $this->lng->txt('tst_corrections_qst_form'),

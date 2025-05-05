@@ -188,14 +188,12 @@ class assTextSubsetImport extends assQuestionImport
             );
         }
         $this->object->saveToDb();
-        if ($tst_id > 0) {
-            $q_1_id = $this->object->getId();
-            $question_id = $this->object->duplicate(true, "", "", -1, $tst_id);
-            $tst_object->questions[$question_counter++] = $question_id;
-            $import_mapping[$item->getIdent()] = ["pool" => $q_1_id, "test" => $question_id];
-        } else {
-            $import_mapping[$item->getIdent()] = ["pool" => $this->object->getId(), "test" => 0];
-        }
+        $import_mapping[$item->getIdent()] = $this->addQuestionToParentObjectAndBuildMappingEntry(
+            $questionpool_id,
+            $tst_id,
+            $question_counter,
+            $tst_object
+        );
         return $import_mapping;
     }
 }

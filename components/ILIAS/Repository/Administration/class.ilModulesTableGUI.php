@@ -93,9 +93,10 @@ class ilModulesTableGUI extends ilTable2GUI
         $obj_types = [];
 
         // parse modules
+        /* this does not work anymore since 10
         foreach ($this->component_repository->getComponents() as $mod) {
             if ($mod->getType() !== ilComponentInfo::TYPE_MODULES) {
-                continue;
+                //continue;
             }
             $has_repo = false;
             $rep_types = $objDefinition::getRepositoryObjectTypesForComponent(
@@ -123,7 +124,27 @@ class ilModulesTableGUI extends ilTable2GUI
                     ];
                 }
             }
+        }*/
+
+        foreach ($this->obj_definition->getAllRepositoryTypes(false) as $id) {
+            if ($this->obj_definition->isAllowedInRepository($id)) {
+                if ($this->obj_definition->isSystemObject($id)) {
+                    continue;
+                }
+                if (in_array($id, ["lng", "rolt", "sty", "tax", "usr"])) {
+                    continue;
+                }
+                $obj_types[$id] = [
+                    "object" => $this->obj_definition->getClassName($id),
+                    "caption" => $lng->txt("obj_" . $id),
+                    "subdir" => "",
+                    "grp" => $this->obj_definition->getGroupOfObj($id),
+                    "default_pos" => $this->obj_definition->getPositionByType($id),
+                ];
+            }
         }
+
+
 
         // parse plugins
         $obj_types = $this->getPluginComponents($obj_types, ilComponentInfo::TYPE_SERVICES, "Repository", "robj");

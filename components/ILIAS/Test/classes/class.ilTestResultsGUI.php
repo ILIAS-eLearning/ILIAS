@@ -161,12 +161,10 @@ class ilTestResultsGUI
             case 'iltestskillevaluationgui':
                 $this->test_tabs->activateSubTab(TabsManager::SUBTAB_ID_SKILL_RESULTS);
 
-                $questionList = new ilAssQuestionList($this->db, $this->lng, $this->refinery, $this->component_repository);
-                $questionList->setParentObjId($this->test_object->getId());
-                $questionList->load();
-
-                $testSessionFactory = new ilTestSessionFactory($this->test_object, $this->db, $this->user);
-                $testSession = $testSessionFactory->getSession();
+                $question_list = new ilAssQuestionList($this->db, $this->lng, $this->refinery, $this->component_repository);
+                $question_list->setParentObjId($this->test_object->getId());
+                $question_list->setQuestionInstanceTypeFilter(null);
+                $question_list->load();
 
                 $gui = new ilTestSkillEvaluationGUI(
                     $this->test_object,
@@ -178,8 +176,14 @@ class ilTestResultsGUI
                     $this->skills_service,
                     $this->testrequest
                 );
-                $gui->setQuestionList($questionList);
-                $gui->setTestSession($testSession);
+                $gui->setQuestionList($question_list);
+                $gui->setTestSession(
+                    (new ilTestSessionFactory(
+                        $this->test_object,
+                        $this->db,
+                        $this->user
+                    ))->getSession()
+                );
                 $gui->setObjectiveOrientedContainer($this->objective_parent);
 
                 $this->ctrl->forwardCommand($gui);

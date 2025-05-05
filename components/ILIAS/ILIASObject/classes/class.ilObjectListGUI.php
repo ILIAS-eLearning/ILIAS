@@ -1336,7 +1336,7 @@ class ilObjectListGUI
                         $prop_text = '';
                     } // tags counter
                     else {
-                        $tags_value = '<a href="#" onclick="return ' . $tags_url . '>' .
+                        $tags_value = '<a href="#" onclick="return ' . $tags_url . '">' .
                             self::$cnt_tags[$note_obj_id] . '</a>';
                         $prop_text = $this->lng->txt('tagging_tags');
                     }

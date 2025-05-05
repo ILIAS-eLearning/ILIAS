@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -293,21 +294,12 @@ class assOrderingQuestionImport extends assQuestionImport
             );
         }
         $this->object->saveToDb();
-        if (isset($tst_id) && $tst_id !== $questionpool_id) {
-            $qplQid = $this->object->getId();
-            $tstQid = $this->object->duplicate(true, '', '', -1, $tst_id);
-            $tst_object->questions[$question_counter++] = $tstQid;
-            $import_mapping[$item->getIdent()] = ["pool" => $qplQid, "test" => $tstQid];
-            return $import_mapping;
-        }
-
-        if ($tst_id > 0) {
-            $tst_object->questions[$question_counter++] = $this->object->getId();
-            $import_mapping[$item->getIdent()] = ["pool" => 0, "test" => $this->object->getId()];
-            return $import_mapping;
-        }
-
-        $import_mapping[$item->getIdent()] = ["pool" => $this->object->getId(), "test" => 0];
+        $import_mapping[$item->getIdent()] = $this->addQuestionToParentObjectAndBuildMappingEntry(
+            $questionpool_id,
+            $tst_id,
+            $question_counter,
+            $tst_object
+        );
         return $import_mapping;
     }
 
