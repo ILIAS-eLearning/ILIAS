@@ -1666,7 +1666,7 @@ class ilSCORM13PlayerGUI
                     $this->tpl->setVariable('PASSWORD_ENTER', $lng->txt("debugwindow_password_enter"));
                     $this->tpl->setVariable('DEBUG_URL','ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=debugGUI&ref_id='.$this->ref_id);
                 } else {*/
-        $this->tpl = new ilGlobalTemplate("tpl.scorm2004.debug.html", false, false, "../components/ILIAS/Scorm2004");
+        $this->tpl = new ilGlobalTemplate("tpl.scorm2004.debug.html", false, false, "components/ILIAS/Scorm2004");
         $this->tpl->setVariable('CONSOLE', $lng->txt("debugwindow_console"));
         $this->tpl->setVariable('LOGS', $lng->txt("debugwindow_logs"));
         $this->tpl->setVariable('COMMENT', $lng->txt("debugwindow_comment"));
@@ -1680,9 +1680,9 @@ class ilSCORM13PlayerGUI
         $this->tpl->setVariable('FILENAME', $lng->txt("debugwindow_filename"));
         $this->tpl->setVariable('DATE', $lng->txt("debugwindow_date"));
         $this->tpl->setVariable('ACTION', $lng->txt("debugwindow_action"));
-        $this->tpl->setVariable('RECORD_IMG', ilUtil::getImagePath("record.png", "../components/ILIAS/Scorm2004"));
-        $this->tpl->setVariable('STOP_IMG', ilUtil::getImagePath("stop.png", "../components/ILIAS/Scorm2004"));
-        $this->tpl->setVariable('COMMENT_IMG', ilUtil::getImagePath("comment.png", "../components/ILIAS/Scorm2004"));
+        $this->tpl->setVariable('RECORD_IMG', ilUtil::getImagePath("scorm2004/record.png", ""));
+        $this->tpl->setVariable('STOP_IMG', ilUtil::getImagePath("scorm2004/stop.png", ""));
+        $this->tpl->setVariable('COMMENT_IMG', ilUtil::getImagePath("scorm2004/comment.png", ""));
         $logfile = $this->logFileName() . ".html";
         $this->tpl->setVariable('LOGFILE', $this->logFileName() . ".html");
         $this->tpl->setVariable('FILES_DATA', json_encode($this->getLogFileList($lng->txt("debugwindow_delete"), $lng->txt("debugwindow_download"), $lng->txt("debugwindow_open"))));
