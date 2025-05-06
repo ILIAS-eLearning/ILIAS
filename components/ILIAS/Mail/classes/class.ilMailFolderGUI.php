@@ -863,7 +863,7 @@ class ilMailFolderGUI
                     $this->ui_factory
                         ->symbol()
                         ->avatar()
-                        ->picture(ilUtil::getImagePath('logo/HeaderIconAvatar.svg'), ilMail::_getIliasMailerName())
+                        ->picture(ilUtil::getImagePath('logo/ilias_logo_centered.png'), ilMail::_getIliasMailerName())
                 ) . '<br />' . ilMail::_getIliasMailerName()
             );
         }

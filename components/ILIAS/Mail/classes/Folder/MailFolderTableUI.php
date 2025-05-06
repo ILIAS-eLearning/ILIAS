@@ -358,7 +358,7 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
         if (!\array_key_exists($record->getSenderId(), $this->avatars)) {
             if ($record->getSenderId() === ANONYMOUS_USER_ID) {
                 $avatar = $this->ui_factory->symbol()->avatar()->picture(
-                    \ilUtil::getImagePath('logo/HeaderIconAvatar.svg'),
+                    \ilUtil::getImagePath('logo/ilias_logo_centered.png'),
                     $this->getSender($record)
                 );
             } else {
