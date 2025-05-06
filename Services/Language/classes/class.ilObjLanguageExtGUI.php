@@ -527,8 +527,11 @@ class ilObjLanguageExtGUI extends ilObjectGUI
                 $this->ctrl->redirect($this, 'import');
             }
 
-            $this->tpl->setOnScreenMessage('success',
-                sprintf($this->lng->txt("language_file_imported"), $_FILES["userfile"]["name"]), true);
+            $this->tpl->setOnScreenMessage(
+                'success',
+                sprintf($this->lng->txt("language_file_imported"), $_FILES["userfile"]["name"]),
+                true
+            );
             $this->ctrl->redirect($this, "import");
         }
 
