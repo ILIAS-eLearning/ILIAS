@@ -313,4 +313,14 @@ class Factory implements G\Factory
     {
         return new Glyph(G\Glyph::DRAG_HANDLE, "drag_handle", $action);
     }
+
+    public function checked(): G\Glyph
+    {
+        throw new \ILIAS\UI\NotImplementedException();
+    }
+
+    public function unchecked(): G\Glyph
+    {
+        throw new \ILIAS\UI\NotImplementedException();
+    }
 }
