@@ -26,22 +26,14 @@ use ILIAS\UI\Component\Listing\Ordered;
 use ILIAS\UI\Component\Listing\Unordered;
 use ILIAS\UI\Component\Component;
 
-class LinkListing extends Column implements C\LinkListing
+class LinkListing extends Listing implements C\LinkListing
 {
     public function format($value): string|Component
     {
-        $listing = $this->toArray($value);
-        $this->checkArgListElements("value", $listing, [Ordered::class, Unordered::class]);
+        $value = parent::format($value);
         $listing_items = $value->getItems();
         $this->checkArgListElements("list items", $listing_items, Standard::class);
         return $value;
     }
 
-    public function getOrderingLabels(): array
-    {
-        return [
-            $this->asc_label ?? $this->getTitle() . self::SEPERATOR . $this->lng->txt('order_option_alphabetical_ascending'),
-            $this->desc_label ?? $this->getTitle() . self::SEPERATOR . $this->lng->txt('order_option_alphabetical_descending')
-        ];
-    }
 }

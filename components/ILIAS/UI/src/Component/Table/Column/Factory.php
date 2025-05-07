@@ -154,4 +154,15 @@ interface Factory
      * @return \ILIAS\UI\Component\Table\Column\Breadcrumb
      */
     public function breadcrumb(string $title): Breadcrumb;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The Listing Column features an Ordered or Unordered Listing.
+     *
+     * ---
+     * @return \ILIAS\UI\Component\Table\Column\Listing
+     */
+    public function listing(string $title): Listing;
 }

@@ -90,4 +90,9 @@ class Factory implements I\Factory
     {
         return new Breadcrumb($this->lng, $title);
     }
+
+    public function listing(string $title): Listing
+    {
+        return new Listing($this->lng, $title);
+    }
 }

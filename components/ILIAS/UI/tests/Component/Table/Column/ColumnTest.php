@@ -182,6 +182,17 @@ class ColumnTest extends ILIAS_UI_TestBase
                 'value' => 'some string',
                 'ok' => false
             ],
+            [
+                'column' => new Column\Listing($lng, ''),
+                'value' => new Listing\Ordered(['1', '2', '3']),
+                'ok' => true
+            ],
+            [
+                'column' => new Column\Listing($lng, ''),
+                'value' => 123,
+                'ok' => false
+            ],
+
         ];
     }
 
@@ -191,7 +202,7 @@ class ColumnTest extends ILIAS_UI_TestBase
         mixed $value,
         bool $ok
     ): void {
-        if(! $ok) {
+        if (! $ok) {
             $this->expectException(\InvalidArgumentException::class);
         }
         $this->assertEquals($value, $column->format($value));
