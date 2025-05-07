@@ -33,7 +33,6 @@ use LogicException;
 class Renderer extends AbstractComponentRenderer
 {
     public const string COOKIE_NAME_SLATES_ENGAGED = 'il_mb_slates';
-    public const string MATHJAX_DISABLING_CLASS = 'tex2jax_default_ignore';
 
     /**
      * @inheritdoc
@@ -54,7 +53,6 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.standardpage.html", true, true);
 
         $tpl->setVariable('FAVICON_PATH', $component->getFaviconPath());
-        $tpl->setVariable('MATHJAX_DISABLING_CLASS', self::MATHJAX_DISABLING_CLASS);
 
         $id = $this->bindJavaScript($component);
         $tpl->setVariable("ID", $id);

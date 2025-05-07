@@ -268,7 +268,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
     <style></style>
 </head>
 
-<body class="tex2jax_default_ignore">
+<body class="c-layout__page--latex">
     <div class="il-page-overlay">Overlay Stub</div>
     <div class="il-layout-page">
         <header>
@@ -314,7 +314,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
     <style></style>
 </head>
 
-<body class="tex2jax_default_ignore">
+<body class="c-layout__page--latex">
     <div class="il-page-overlay">Overlay Stub</div>
     <div class="il-layout-page">
         <header>
@@ -367,7 +367,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
     <style></style>
 </head>
 
-<body class="tex2jax_default_ignore">
+<body class="c-layout__page--latex">
     <div class="il-page-overlay">Overlay Stub</div>
     <div class="il-layout-page">
         <header>
@@ -447,7 +447,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
     <style></style>
 </head>
 
-<body class="tex2jax_default_ignore">
+<body class="c-layout__page--latex">
     <div class="il-page-overlay">Overlay Stub</div>
     <div class="il-layout-page">
         <header>

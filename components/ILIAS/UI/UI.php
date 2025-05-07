@@ -41,7 +41,6 @@ class UI implements Component\Component
         $define[] = UI\Component\Input\Field\GlobalUploadLimit::class;
         $define[] = UI\Implementation\FactoryInternal::class;
         $define[] = UI\Implementation\Render\ImagePathResolver::class;
-        $define[] = UI\Implementation\Render\LatexResources::class;
 
         $implement[UI\Factory::class] = static fn() =>
             $use[UI\Implementation\FactoryInternal::class];
@@ -51,8 +50,6 @@ class UI implements Component\Component
             $internal[UI\Implementation\DefaultRenderer::class];
         $implement[UI\Component\Progress\AsyncRefreshInterval::class] = static fn() =>
             $internal[UI\Implementation\Component\Progress\DefaultAsyncRefreshInterval::class];
-        $implement[UI\Implementation\Render\LatexResources::class] = static fn() =>
-            $internal[UI\Implementation\Render\DefaultLatexResources::class];
 
         // =================================================================================
         // ATTENTION: these factories are only populated inside $provide in order to
@@ -530,7 +527,7 @@ class UI implements Component\Component
                             $pull[Data\Factory::class],
                             $use[UI\HelpTextRetriever::class],
                             $internal[UI\Implementation\Component\Input\UploadLimitResolver::class],
-                        ))->withLatexResources($internal[UI\Implementation\Render\DefaultLatexResources::class])
+                        ))
                     )
                 )
             );
@@ -544,9 +541,6 @@ class UI implements Component\Component
             );
         $internal[UI\Implementation\Render\TemplateFactory::class] = static fn() =>
             new UI\Implementation\Render\ilTemplateWrapperFactory();
-
-        $internal[UI\Implementation\Render\DefaultLatexResources::class] = static fn() =>
-            new UI\Implementation\Render\DefaultLatexResources();
 
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "js/Button/button.js");
@@ -620,6 +614,8 @@ class UI implements Component\Component
             new Component\Resource\ComponentJS($this, "js/MainControls/dist/footer.min.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "js/Input/ViewControl/dist/input.viewcontrols.min.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "js/MathJax/mathjax_config.js");
 
         /*
         those are contributed by MediaObjects
@@ -638,24 +634,25 @@ class UI implements Component\Component
         */
 
         // This is included via anonymous classes
-        // because MathJax resources are taken from the component and from node_modules and they may be directories
-        foreach ($internal[UI\Implementation\Render\DefaultLatexResources::class]->toProvide() as $source => $target) {
-            $contribute[Component\Resource\PublicAsset::class] = static fn() => new readonly class ($source, $target) implements Component\Resource\PublicAsset {
-                public function __construct(private string $source, private string $target)
+        // because MathJax resources are taken from node_modules and they may be directories
+        foreach (['tex-chtml-full.js', 'a11y', 'adaptors', 'input', 'output', 'sre', 'ui'] as $asset) {
+            $contribute[Component\Resource\PublicAsset::class] = static fn(
+            ) => new readonly class ($asset) implements Component\Resource\PublicAsset {
+                public function __construct(private string $asset)
                 {
                 }
 
                 public function getSource(): string
                 {
-                    return $this->source;
+                    return 'node_modules/mathjax/es5/' . $this->asset;
                 }
 
                 public function getTarget(): string
                 {
-                    return $this->target;
+                    return 'node_modules/mathjax/es5/' . $this->asset;
                 }
             };
-        }
+        };
 
         // This is included via anonymous classes as a testament to the fact, that
         // the templates-folder should probably be moved to some component.

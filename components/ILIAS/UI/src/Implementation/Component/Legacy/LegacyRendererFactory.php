@@ -22,24 +22,13 @@ namespace ILIAS\UI\Implementation\Component\Legacy;
 
 use ILIAS\UI\Implementation\Render;
 use ILIAS\UI\Component;
-use ILIAS\UI\Implementation\Render\LatexResources;
 
 class LegacyRendererFactory extends Render\DefaultRendererFactory
 {
-
-    protected ?LatexResources $latex_resources = null;
-
-    public function withLatexResources(?LatexResources $resources) : self
-    {
-        $clone = clone($this);
-        $clone->latex_resources = $resources;
-        return $clone;
-    }
-
     public function getRendererInContext(Component\Component $component, array $contexts): Render\AbstractComponentRenderer
     {
         if ($component instanceof Component\Legacy\LatexContent) {
-            return (new LatexRenderer(
+            return new LatexRenderer(
                 $this->ui_factory,
                 $this->tpl_factory,
                 $this->lng,
@@ -48,7 +37,7 @@ class LegacyRendererFactory extends Render\DefaultRendererFactory
                 $this->data_factory,
                 $this->help_text_retriever,
                 $this->upload_limit_resolver
-            ))->withLatexResources($this->latex_resources);
+            );
         }
         return new Renderer(
             $this->ui_factory,

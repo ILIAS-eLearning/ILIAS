@@ -24,5 +24,4 @@ use ILIAS\UI\Component as C;
 
 class LatexContent extends Content implements C\Legacy\LatexContent
 {
-
 }

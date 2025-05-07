@@ -7,7 +7,6 @@ namespace ILIAS\UI\Implementation\Component\Legacy;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
-use ILIAS\UI\Implementation\Render\LatexResources;
 
 /**
  * Renderer for content with enabled latex processing
@@ -21,36 +20,20 @@ use ILIAS\UI\Implementation\Render\LatexResources;
  */
 class LatexRenderer extends Renderer
 {
-    public const string MATHJAX_ENABLING_CLASS = 'tex2jax_process';
-
-    protected ?LatexResources $latex_resources = null;
-
-    public function withLatexResources(?LatexResources $resources) : self
-    {
-        $clone = clone($this);
-        $clone->latex_resources = $resources;
-        return $clone;
-    }
-
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         if (!$component instanceof Component\Legacy\LatexContent) {
             $this->cannotHandleComponent($component);
         }
-
-        return $this->enableLatex(parent::render($component, $default_renderer));
-    }
-
-    protected function enableLatex(string $content)
-    {
-        return '<div style="display: inherit;" class="' . self::MATHJAX_ENABLING_CLASS . '">' . $content . '</div>';
+        $tpl = $this->getTemplate("tpl.latex_content.html", true, true);
+        $tpl->setVariable('CONTENT', parent::render($component, $default_renderer));
+        return $tpl->get();
     }
 
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        foreach ((array) $this->latex_resources?->toRegister() as $resource) {
-            $registry->register($resource);
-        }
+        $registry->register('assets/js/mathjax_config.js');
+        $registry->register('node_modules/mathjax/es5/tex-chtml-full.js');
     }
 }
