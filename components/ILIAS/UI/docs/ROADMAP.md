@@ -17,7 +17,7 @@ content (currently provided as array of Legacy Components). Most Probably it sho
 (not yet part of the UI Components, see below), the Tabs (not yet Part of the UI Components, see below) and the
 Inner Content holding the workspace for the current context (not yet Part of the UI Components, see below).
 
-Note; One important aspect here, will be to clarify at some point the relation to the [Global Screen](../../../GlobalScreen). 
+Note; One important aspect here, will be to clarify at some point the relation to the [Global Screen](../../GlobalScreen). 
 
 ### Title Section (advanced, variable)
 This Component will probably hold the Icon, title, description and the actions (maybe along with the used glyphs) of the 
