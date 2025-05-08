@@ -22,6 +22,7 @@ use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Data\Factory as DataFactory;
 
 /**
  * Class ilMailTemplateGUI
@@ -81,6 +82,13 @@ class ilMailTemplateGUI
     public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
+
+        if ($this->http->wrapper()->query()->has('mail_template_table_action')) {
+            $cmd = $this->http->wrapper()->query()->retrieve(
+                'mail_template_table_action',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
         if (!$cmd || !method_exists($this, $cmd)) {
             $cmd = 'showTemplates';
         }
@@ -99,16 +107,16 @@ class ilMailTemplateGUI
             ));
         }
 
-        $tbl = new ilMailTemplateTableGUI(
-            $this,
-            'showTemplates',
+        $tbl = new ilMailTemplateTable(
+            $this->http->request(),
+            $this->lng,
             $this->uiFactory,
-            $this->uiRenderer,
+            new DataFactory(),
+            $this->service,
             !$this->isEditingAllowed()
         );
-        $tbl->setData($this->service->listAllTemplatesAsArray());
 
-        $this->tpl->setContent($tbl->getHTML());
+        $this->tpl->setContent($this->uiRenderer->render($tbl->getComponent()));
     }
 
     /**
@@ -250,11 +258,11 @@ class ilMailTemplateGUI
     {
         if (!($form instanceof ilPropertyFormGUI)) {
             $templateId = 0;
-            if ($this->http->wrapper()->query()->has('tpl_id')) {
+            if ($this->http->wrapper()->query()->has('mail_template_tpl_ids')) {
                 $templateId = $this->http->wrapper()->query()->retrieve(
-                    'tpl_id',
-                    $this->refinery->kindlyTo()->int()
-                );
+                    'mail_template_tpl_ids',
+                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+                )[0];
             }
 
             if (!is_numeric($templateId) || $templateId < 1) {
@@ -296,17 +304,11 @@ class ilMailTemplateGUI
         }
 
         $templateIds = [];
-        if ($this->http->wrapper()->post()->has('tpl_id')) {
-            $templateIds = $this->http->wrapper()->post()->retrieve(
-                'tpl_id',
+        if ($this->http->wrapper()->query()->has('mail_template_tpl_ids')) {
+            $templateIds = $this->http->wrapper()->query()->retrieve(
+                'mail_template_tpl_ids',
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
             );
-        }
-        if (count($templateIds) === 0 && $this->http->wrapper()->query()->has('tpl_id')) {
-            $templateIds = [$this->http->wrapper()->query()->retrieve(
-                'tpl_id',
-                $this->refinery->kindlyTo()->int()
-            )];
         }
 
         if (0 === count($templateIds)) {
@@ -528,8 +530,11 @@ class ilMailTemplateGUI
         }
 
         $templateId = 0;
-        if ($this->http->wrapper()->query()->has('tpl_id')) {
-            $templateId = $this->http->wrapper()->query()->retrieve('tpl_id', $this->refinery->kindlyTo()->int());
+        if ($this->http->wrapper()->query()->has('mail_template_tpl_ids')) {
+            $templateId = $this->http->wrapper()->query()->retrieve(
+                'mail_template_tpl_ids',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            )[0];
         }
 
         if (!is_numeric($templateId) || $templateId < 1) {
@@ -558,8 +563,11 @@ class ilMailTemplateGUI
         }
 
         $templateId = 0;
-        if ($this->http->wrapper()->query()->has('tpl_id')) {
-            $templateId = $this->http->wrapper()->query()->retrieve('tpl_id', $this->refinery->kindlyTo()->int());
+        if ($this->http->wrapper()->query()->has('mail_template_tpl_ids')) {
+            $templateId = $this->http->wrapper()->query()->retrieve(
+                'mail_template_tpl_ids',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            )[0];
         }
 
         if (!is_numeric($templateId) || $templateId < 1) {
