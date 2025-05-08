@@ -10637,6 +10637,31 @@ div.alert ul {
   cursor: grab;
 }
 
+.glyphicon-unselect:before {
+  font-family: il-icons;
+  content: "\e910";
+}
+
+.glyphicon-select:before {
+  font-family: il-icons;
+  content: "\e911";
+}
+
+.glyphicon-clear:before {
+  font-family: il-icons;
+  content: "\e912";
+}
+
+.glyphicon-checked:before {
+  font-family: il-icons;
+  content: "\e913";
+}
+
+.glyphicon-unchecked:before {
+  font-family: il-icons;
+  content: "\e914";
+}
+
 .il-avatar {
   height: 45px;
   width: 45px;
