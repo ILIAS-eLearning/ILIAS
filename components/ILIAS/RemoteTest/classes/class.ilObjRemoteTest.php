@@ -136,7 +136,7 @@ class ilObjRemoteTest extends ilRemoteObjectBase
                 return false;
 
             case self::ACTIVATION_LIMITED:
-                return time() > $row->r_start && time < $row->r_end;
+                return time() > $row->r_start && time() < $row->r_end;
 
             default:
                 return false;
@@ -166,7 +166,7 @@ class ilObjRemoteTest extends ilRemoteObjectBase
         $this->setEndingTime($a_row->availability_end);
     }
 
-    protected function updateCustomFromECSContent(ilECSSetting $a_server, $a_ecs_content): void
+    protected function updateCustomFromECSContent(ilECSSetting $a_server, $ecs_content): void
     {
         // add custom values
         // $this->setAvailabilityType($a_ecs_content->status == 'online' ? self::ACTIVATION_UNLIMITED : self::ACTIVATION_OFFLINE);
