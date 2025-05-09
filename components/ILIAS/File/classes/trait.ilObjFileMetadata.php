@@ -160,11 +160,14 @@ trait ilObjFileMetadata
     {
         global $DIC;
 
-        $DIC->learningObjectMetadata()->manipulate($this->getId(), 0, $this->getType())
-                                      ->prepareCreateOrUpdate($this->getPathToSize(), (string) $this->getFileSize())
-                                      ->prepareCreateOrUpdate($this->getPathToFirstFormat(), $this->getFileType())
-                                      ->prepareCreateOrUpdate($this->getPathToVersion(), (string) $this->getVersion())
-                                      ->execute();
+        $manipulator = $DIC->learningObjectMetadata()
+                           ->manipulate($this->getId(), 0, $this->getType())
+                           ->prepareCreateOrUpdate($this->getPathToSize(), (string) $this->getFileSize())
+                           ->prepareCreateOrUpdate($this->getPathToVersion(), (string) $this->getVersion());
+        if ($this->getFileType() !== '') {
+            $manipulator = $manipulator->prepareCreateOrUpdate($this->getPathToFirstFormat(), $this->getFileType());
+        }
+        $manipulator->execute();
     }
 
     /**
