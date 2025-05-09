@@ -71,7 +71,7 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $buttons[] = $this->getUIFactory()->button()
-            ->standard($this->txt('close_prompt'), '')
+            ->standard($this->txt('close'), '')
             ->withOnLoadCode(
                 fn($id) => "$('#$id').on('click', (e)=> {
                     let promptId = e.target.closest('dialog').parentNode.id;
