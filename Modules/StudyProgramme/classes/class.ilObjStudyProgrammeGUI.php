@@ -304,10 +304,13 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                         // no break
                     case "create":
                     case "save":
-                    case "view":
                     case "cancel":
                     case "edit":
                         $this->$cmd();
+                        break;
+                    case "view":
+                        $this->getModeManager()->setContentMode();
+                        $this->view();
                         break;
                     case "delete":
                         $this->tabs_gui->clearTargets();
@@ -333,7 +336,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                         break;
 
                     case 'editPageFrame':
-                        $this->editPageFrameObject();
+                        $this->ctrl->redirectToURL($this->getLinkTarget('edit_page'));
                         break;
                     case 'editStyleProperties':
                         $this->editStylePropertiesObject();
@@ -442,14 +445,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     {
         $this->denyAccessIfNot(ilPRGPermissionsHelper::ROLEPERM_READ);
         $this->tabs_gui->activateTab(self::TAB_VIEW_CONTENT);
-
-        $this->toolbar->addComponent(
-            $this->ui_factory->link()->standard(
-                $this->lng->txt('cntr_text_media_editor'),
-                $this->getLinkTarget("edit_page")
-            )
-        );
-
         parent::renderObject();
     }
 
@@ -855,6 +850,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
 
     protected function supportsPageEditor(): bool
     {
-        return false;
+        return true;
     }
 }
