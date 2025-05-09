@@ -244,7 +244,6 @@ class ilTestCorrectionsGUI
     {
         $questionGUI = $this->getQuestion((int) $this->testrequest->raw('qid'));
 
-        $this->setCorrectionTabsContext($questionGUI, 'solution');
 
         $pageGUI = new ilAssQuestionPageGUI($questionGUI->object->getId());
         $pageGUI->setRenderPageContainer(false);
@@ -282,6 +281,7 @@ class ilTestCorrectionsGUI
         $stylesheet = ilObjStyleSheet::getSyntaxStylePath();
         $this->main_tpl->setVariable("LOCATION_SYNTAX_STYLESHEET", $stylesheet);
         $this->main_tpl->parseCurrentBlock();
+        $this->setCorrectionTabsContext($questionGUI, 'solution');
     }
 
     /**
