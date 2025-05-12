@@ -47,10 +47,8 @@ class OrderingRendererTest extends TableRendererTestBase
     public function testOrderingTableRenderTableHeaderWithoutActions()
     {
         $renderer = $this->getRenderer();
-        $data_factory = new \ILIAS\Data\Factory();
-        $tpl = $this->getTemplateFactory()->getTemplate("components/ILIAS/UI/src/templates/default/Table/tpl.orderingtable.html", true, true);
         $f = $this->getColumnFactory();
-        $data = new class () implements ILIAS\UI\Component\Table\OrderingBinding {
+        $data = new class () implements ILIAS\UI\Component\Table\OrderingRetrieval {
             public function getRows(
                 Component\Table\OrderingRowBuilder $row_builder,
                 array $visible_column_ids
@@ -66,7 +64,7 @@ class OrderingRendererTest extends TableRendererTestBase
             'f3' => $f->number("Field 3")->withIndex(3)
         ];
         $uri = new Data\URI('https://localhost');
-        $table = $this->getUIFactory()->table()->ordering('', $columns, $data, $uri)
+        $table = $this->getUIFactory()->table()->ordering($data, $uri, '', $columns)
             ->withRequest($this->getDummyRequest());
 
         $actual = $renderer->renderOrderingTable($table, $this->getDefaultRenderer());
