@@ -904,7 +904,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
                         'scorm_tracking',
                         array(
                             'rvalue' => array('clob', $data['Value']),
-                            'c_timestamp' => array('timestamp', $c_timestamp)
+                            'c_timestamp' => array('timestamp', $c_timestamp->format('Y-m-d H:i:s'))
                         ),
                         array(
                             'user_id' => array('integer', $user_id),
