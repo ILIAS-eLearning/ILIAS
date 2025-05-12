@@ -67,15 +67,15 @@ class TableRendererTestBase extends TableTestBase
                 protected Component\Table\Factory $table_factory
             ) {
             }
-            public function button(): Component\Button\Factory
+            public function button(): I\Button\Factory
             {
                 return new I\Button\Factory();
             }
-            public function dropdown(): Component\Dropdown\Factory
+            public function dropdown(): I\Dropdown\Factory
             {
                 return new I\Dropdown\Factory();
             }
-            public function symbol(): Component\Symbol\Factory
+            public function symbol(): I\Symbol\Factory
             {
                 return new I\Symbol\Factory(
                     new I\Symbol\Icon\Factory(),
@@ -83,11 +83,11 @@ class TableRendererTestBase extends TableTestBase
                     new I\Symbol\Avatar\Factory()
                 );
             }
-            public function table(): Component\Table\Factory
+            public function table(): I\Table\Factory
             {
                 return $this->table_factory;
             }
-            public function divider(): Component\Divider\Factory
+            public function divider(): I\Divider\Factory
             {
                 return new I\Divider\Factory();
             }
