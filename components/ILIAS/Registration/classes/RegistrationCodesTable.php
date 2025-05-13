@@ -56,6 +56,9 @@ class RegistrationCodesTable implements DataRetrieval
     ) {
     }
 
+    /**
+     * @param array{code: string, role: int, generated: string, access_limitation: string} $filter_data
+     */
     public function getRows(
         DataRowBuilder $row_builder,
         array $visible_column_ids,
@@ -97,30 +100,35 @@ class RegistrationCodesTable implements DataRetrieval
             ->withActions($this->getActions($url_builder, $action_parameter_token, $row_id_token));
     }
 
+    /**
+     * @param array{code: string, role: int, generated: string, access_limitation: string} $filter_data
+     */
     public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
     {
         return $this->code_repository->getTotalCodeCount(
-            new CodeFilter(
-                (string) ($filter_data['code'] ?? ''),
-                (int) ($filter_data['role'] ?? 0),
-                (string) ($filter_data['generated'] ?? ''),
-                (string) ($filter_data['alimit'] ?? '')
-            )
+            (new CodeFilter())->withData($filter_data)
         );
     }
 
+    /**
+     * @param array{code: string, role: int, generated: string, access_limitation: string} $filter_data
+     * @return list<array{
+     *     code: string,
+     *     code_id: int,
+     *     generated: DateTimeImmutable,
+     *     used: string|null,
+     *     role: string,
+     *     role_local: string|null,
+     *     alimit: string|null
+     * }>
+     */
     private function getRecords(Range $range, Order $order, ?array $filter_data): array
     {
         [$order_field, $order_direction] = $order->join(
             [],
-            fn($ret, $key, $value) => [$key, $value]
+            fn(array $ret, string $key, string $value): array => [$key, $value]
         );
-        $filter = new CodeFilter(
-            (string) ($filter_data['code'] ?? ''),
-            (int) ($filter_data['role'] ?? 0),
-            (string) ($filter_data['generated'] ?? ''),
-            (string) ($filter_data['alimit'] ?? '')
-        );
+        $filter = (new CodeFilter())->withData($filter_data);
 
         $codes_data = $this->code_repository->getCodesData(
             $order_field,

@@ -31,14 +31,17 @@ class CodeFilter
     ) {
     }
 
+    /**
+     * @param array{code: string, role: int, generated: string, access_limitation: string} $filter
+     */
     public function withData(array $filter): CodeFilter
     {
         $clone = clone $this;
 
-        $clone->code = $filter['code'] ?? '';
+        $clone->code = (string) ($filter['code'] ?? '');
         $clone->role = (int) ($filter['role'] ?? 0);
-        $clone->generated = $filter['generated'] ?? '';
-        $clone->access_limitation = $filter['access_limitation'] ?? '';
+        $clone->generated = (string) ($filter['generated'] ?? '');
+        $clone->access_limitation = (string) ($filter['access_limitation'] ?? '');
 
         return $clone;
     }
@@ -63,6 +66,9 @@ class CodeFilter
         return $this->access_limitation;
     }
 
+    /**
+     * @return array{code: string, role: int, generated: string, access_limitation: string}
+     */
     public function getData(): array
     {
         return [

@@ -1117,9 +1117,10 @@ class ilRegistrationSettingsGUI
                 $codes = $this->code_repository->getCodesByFilter($this->getRegistrationFilter()->getFilterData());
             } else {
                 $ids = $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())->transform($ids);
-                $codes = array_filter(array_map(static function ($code) {
-                    return $code['code'] ?? '';
-                }, $this->code_repository->loadCodesByIds($ids)));
+                $codes = array_filter(array_map(
+                    static fn($code) => (string) ($code['code'] ?? ''),
+                    $this->code_repository->loadCodesByIds($ids)
+                ));
             }
         }
 

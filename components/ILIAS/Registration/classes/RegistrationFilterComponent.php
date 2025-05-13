@@ -31,6 +31,7 @@ use ilRegistrationCode;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Input\Field\Factory;
 use ILIAS\UI\Component\Input\Container\Filter\Standard as FilterComponent;
+use ILIAS\UI\Component\Input\Container\Filter\FilterInput;
 
 class RegistrationFilterComponent
 {
@@ -72,6 +73,9 @@ class RegistrationFilterComponent
         return (new CodeFilter())->withData($this->ui_service->filter()->getData($this->filter));
     }
 
+    /**
+     * @return array<string, FilterInput[]>
+     */
     public function getFilterFields(Factory $field_factory): array
     {
         $filters = [

@@ -49,6 +49,9 @@ class RegistrationCodeRepository
         return $cnt;
     }
 
+    /**
+     * @return array<array>
+     */
     public function getCodesData(
         string $order_field,
         string $order_direction,
@@ -75,6 +78,10 @@ class RegistrationCodeRepository
         return $result;
     }
 
+    /**
+     * @param  int[]        $ids
+     * @return array<array>
+     */
     public function loadCodesByIds(array $ids): array
     {
         $set = $this->db->query('SELECT * FROM ' . self::TABLE_NAME . ' WHERE ' . $this->db->in(
@@ -91,6 +98,9 @@ class RegistrationCodeRepository
         return $result;
     }
 
+    /**
+     * @param int[] $ids
+     */
     public function deleteCodes(array $ids): bool
     {
         if (count($ids)) {
@@ -105,17 +115,23 @@ class RegistrationCodeRepository
         return false;
     }
 
+    /**
+     * @return int[]
+     */
     public function getGenerationDates(): array
     {
         $set = $this->db->query('SELECT DISTINCT(generated_on) genr FROM ' . self::TABLE_NAME . ' ORDER BY genr');
         $result = [];
         while ($rec = $this->db->fetchAssoc($set)) {
-            $result[] = $rec['genr'];
+            $result[] = (int) $rec['genr'];
         }
 
         return $result;
     }
 
+    /**
+     * @return array<array>
+     */
     public function getCodesByFilter(CodeFilter $code_filter): array
     {
         $set = $this->db->query(
