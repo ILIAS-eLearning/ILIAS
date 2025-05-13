@@ -65,7 +65,7 @@ class AbandonCASAuthModeUpdateObjective implements ilDatabaseUpdateSteps
         ];
 
         $this->db->manipulate(
-            "DELETE FROM settings WHERE module = 'common' AND "
+            "DELETE FROM settings WHERE module = " . $this->db->quote('common', ilDBConstants::T_TEXT) . " AND "
             . $this->db->in("keyword", $settings, false, ilDBConstants::T_TEXT),
         );
     }
