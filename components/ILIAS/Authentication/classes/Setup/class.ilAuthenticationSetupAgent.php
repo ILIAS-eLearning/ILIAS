@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Authentication\Setup\AbandonLoadDependantSessionDatabaseUpdateObjective;
 use ILIAS\Setup;
 use ILIAS\Refinery;
 
@@ -66,7 +67,10 @@ class ilAuthenticationSetupAgent implements Setup\Agent
                 new ilDatabaseUpdateStepsExecutedObjective(
                     new AbandonAuthRichTextEditorDatabaseUpdateSteps()
                 ),
-                new ilSessionMaxIdleIsSetObjective($config)
+                new ilSessionMaxIdleIsSetObjective($config),
+                new ilDatabaseUpdateStepsExecutedObjective(
+                    new AbandonLoadDependantSessionDatabaseUpdateObjective()
+                )
             );
         }
 
@@ -79,6 +83,9 @@ class ilAuthenticationSetupAgent implements Setup\Agent
             new ilDatabaseUpdateStepsExecutedObjective(
                 new AbandonAuthRichTextEditorDatabaseUpdateSteps()
             ),
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new AbandonLoadDependantSessionDatabaseUpdateObjective()
+            )
         );
     }
 
