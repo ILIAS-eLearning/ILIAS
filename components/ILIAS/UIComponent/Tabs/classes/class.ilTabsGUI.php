@@ -519,6 +519,7 @@ class ilTabsGUI
                 }
             }
 
+            $this->tpl->addOnLoadCode('il.UICore.initLastTabDropdown()');
             return $tpl->get();
         } else {
             return "";

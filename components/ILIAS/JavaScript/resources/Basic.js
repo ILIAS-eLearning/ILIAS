@@ -597,6 +597,34 @@ il.UICore = {
     }
   },
 
+
+  initLastTabDropdown() {
+    const toggle = document.querySelector('#ilLastTab > .dropdown-toggle');
+    const toggler = (e) => {
+      const lastTab = e.target.parentElement;
+      const dropdown = e.target.nextElementSibling;
+
+      if (lastTab.classList.contains('open')) {
+        lastTab.classList.remove('open');
+        lastTab.style.removeProperty('left');
+        return;
+      }
+      lastTab.classList.add('open');
+      const dropdownRight = dropdown?.getBoundingClientRect().right;
+      if (dropdownRight > window.innerWidth) {
+        dropdown.style.left = (window.innerWidth - dropdownRight - 10) + 'px';
+      }
+    };
+    toggle.addEventListener('click', toggler);
+    toggle.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        toggler(e);
+      }
+    });
+  },
+
   initFixedDropDowns() {
     $('.ilMainMenu.ilTopFixed .dropdown').on('shown.bs.dropdown', function () {
       const el = $(this).children('.dropdown-menu')[0];
