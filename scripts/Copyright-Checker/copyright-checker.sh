@@ -62,35 +62,17 @@ function is_copyright_valid() {
   local file_extension="${file##*.}"
   local offset=1
 
-  is_ui_example "${file}"
-  local is_example=${?}
-
-  if [ 1 -eq ${is_example} ]; then
-    if [ "php" = ${file_extension} ]; then
-      offset=3
-    fi
-    for copyright_line in "${COPYRIGHT_LINES[@]}"; do
-      local line_to_check="$(sed "${offset}q;d" "${file}")"
-      if ! [ "${copyright_line}" = "${line_to_check}" ]; then
-        return 1
-      fi
-
-      offset=$((1 + ${offset}))
-    done
-  else
-    local lines=$(wc -l < "${file}");
-    while [ ${offset} -lt ${lines} ]
-    do
-      local line_to_check="$(echo "$(sed "${offset}q;d" ${file})" | xargs)"
-      if echo "$line_to_check" | grep -q "^namespace "; then
-        return 0
-      fi
-      if echo "$line_to_check" | grep -q -e '^/\*' -e '^//' -e '^#'; then
-        return 2
-      fi
-      offset=$((1 + ${offset}))
-    done
+  if [ "php" = ${file_extension} ]; then
+    offset=3
   fi
+  for copyright_line in "${COPYRIGHT_LINES[@]}"; do
+    local line_to_check="$(sed "${offset}q;d" "${file}")"
+    if ! [ "${copyright_line}" = "${line_to_check}" ]; then
+      return 1
+    fi
+
+    offset=$((1 + ${offset}))
+  done
 
   return 0
 }
@@ -108,26 +90,6 @@ function get_supported_files_of_dir() {
   fi
 
   find "${directory}" \( -name "*.php" -or -name "*.js" \) ! -path "*/node_modules/*" ! -path "*/vendor/*"
-}
-
-# DESC: returns 0 if the given path is located in the examples
-#       directory, 1 otherwise
-#
-# ARGS: [<string>] file path to check
-function is_ui_example() {
-  local file="${1}"
-
-  if ! [ -f "${file}" ]; then
-    printf "Internal Error (is_ui_example): ${file} is not a valid file.\n"
-    exit 1
-  fi
-
-  file="$(realpath ${file})"
-  if [[ "${file}" == *"components/ILIAS/UI/src/examples"* ]]; then
-    return 0
-  fi
-
-  return 1
 }
 
 # DESC: main function of this script, which executes the copyright-
@@ -174,11 +136,9 @@ function perform_copyright_check() {
     if [ 1 -eq ${is_valid} ]; then
       printf "copyright is not as expected in %s\n" "${file}"
       exit_status=1
-    elif [ 2 -eq ${is_valid} ]; then
-      printf "copyright is not allowed in %s\n" "${file}"
-      exit_status=2
     fi
   done
+
 
   return ${exit_status}
 }
