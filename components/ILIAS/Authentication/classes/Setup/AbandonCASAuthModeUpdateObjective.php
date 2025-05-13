@@ -38,16 +38,16 @@ class AbandonCASAuthModeUpdateObjective implements ilDatabaseUpdateSteps
 
     public function step_1(): void
     {
-        $defaultAuthModeResult = $this->db->query(
-            "SELECT value FROM settings WHERE module = 'common' AND keyword = 'auth_mode'"
+        $default_auth_mode_result = $this->db->query(
+            "SELECT value FROM settings WHERE module = " . $this->db->quote('common', ilDBConstants::T_TEXT) . " AND keyword = " . $this->db->quote('auth_mode', ilDBConstants::T_TEXT)
         );
 
-        $defaultAuthMode = (int) ($this->db->fetchAssoc($defaultAuthModeResult)["value"] ?? ilAuthUtils::AUTH_LOCAL);
+        $default_auth_mode = (int) ($this->db->fetchAssoc($default_auth_mode_result)["value"] ?? ilAuthUtils::AUTH_LOCAL);
 
         $this->db->manipulateF(
             'UPDATE ' . self::TABLE_NAME . ' SET auth_mode = %s WHERE auth_mode = %s',
             [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
-            [$defaultAuthMode === ilAuthUtils::AUTH_LOCAL ? 'default' : 'local', 'cas']
+            [$default_auth_mode === ilAuthUtils::AUTH_LOCAL ? 'default' : 'local', 'cas']
         );
     }
 
