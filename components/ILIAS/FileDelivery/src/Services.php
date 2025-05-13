@@ -83,6 +83,7 @@ class Services
         return $this->base_uri ?? $this->base_uri = rtrim(
             $this->http->request()->getUri()->getScheme()
             . '://' . $this->http->request()->getUri()->getHost()
+            . ($this->http->request()->getUri()->getPort() ? ':' . $this->http->request()->getUri()->getPort() : '')
             . dirname($this->http->request()->getUri()->getPath()),
             "/"
         );
