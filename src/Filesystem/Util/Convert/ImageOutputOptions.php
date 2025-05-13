@@ -106,7 +106,7 @@ class ImageOutputOptions
         }
 
         if (!in_array($format, $this->allowed_formats, true)) {
-            throw new \InvalidArgumentException('Format must be either jpg or png, ' . $format . ' given.');
+            throw new \InvalidArgumentException('Format must be one of ' . implode(', ',$this->allowed_formats) . ', but ' . $format . ' was given.');
         }
         return $format;
     }
