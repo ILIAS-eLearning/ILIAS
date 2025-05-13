@@ -27,9 +27,9 @@ use ilDBInterface;
 
 class AbandonCASAuthModeUpdateObjective implements ilDatabaseUpdateSteps
 {
-    protected ilDBInterface $db;
-
     private const TABLE_NAME = 'usr_data';
+
+    protected ilDBInterface $db;
 
     public function prepare(ilDBInterface $db): void
     {
