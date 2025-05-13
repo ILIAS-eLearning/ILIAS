@@ -1,0 +1,132 @@
+<?php
+
+namespace ILIAS\Registration;
+
+use ilDBConstants;
+use ilDBInterface;
+
+class RegistrationCodeRepository
+{
+    private const TABLE_NAME = 'reg_registration_codes';
+
+    public function __construct(
+        protected ilDBInterface $db
+    ) {
+    }
+
+    private function filterToSQL(
+        CodeFilter $code_filter,
+    ): string {
+        $where = [];
+        if ($code_filter->getCode()) {
+            $where[] = $this->db->like('code', ilDBConstants::T_TEXT, '%' . $code_filter->getCode() . '%');
+        }
+        if ($code_filter->getRole()) {
+            $where[] = 'role = ' . $this->db->quote($code_filter->getRole(), ilDBConstants::T_INTEGER);
+        }
+        if ($code_filter->getGenerated()) {
+            $where[] = 'generated_on = ' . $this->db->quote($code_filter->getGenerated(), ilDBConstants::T_TEXT);
+        }
+        if ($code_filter->getAccessLimitation()) {
+            $where[] = 'alimit = ' . $this->db->quote($code_filter->getAccessLimitation(), ilDBConstants::T_TEXT);
+        }
+        if (count($where)) {
+            return ' WHERE ' . implode(' AND ', $where);
+        }
+
+        return '';
+    }
+
+    public function getTotalCodeCount(
+        CodeFilter $code_filter = null
+    ): int {
+        $set = $this->db->query('SELECT COUNT(*) AS cnt FROM ' . self::TABLE_NAME . ($code_filter ? $this->filterToSQL($code_filter) : ''));
+        $cnt = 0;
+        if ($rec = $this->db->fetchAssoc($set)) {
+            $cnt = (int) ($rec['cnt'] ?? 0);
+        }
+
+        return $cnt;
+    }
+
+    public function getCodesData(
+        string $order_field,
+        string $order_direction,
+        int $offset,
+        int $limit,
+        CodeFilter $code_filter = null
+    ): array {
+        $sql = 'SELECT * FROM ' . self::TABLE_NAME . ($code_filter ? $this->filterToSQL($code_filter) : '');
+        if ($order_field) {
+            if ($order_field === 'generated') {
+                $order_field = 'generated_on';
+            }
+            $sql .= ' ORDER BY ' . $order_field . ' ' . $order_direction;
+        }
+
+        $this->db->setLimit($limit, $offset);
+        $set = $this->db->query($sql);
+        $result = [];
+        while ($rec = $this->db->fetchAssoc($set)) {
+            $rec['generated'] = $rec['generated_on'];
+            $result[] = $rec;
+        }
+
+        return $result;
+    }
+
+    public function loadCodesByIds(array $ids): array
+    {
+        $set = $this->db->query('SELECT * FROM ' . self::TABLE_NAME . ' WHERE ' . $this->db->in(
+            'code_id',
+            $ids,
+            false,
+            ilDBConstants::T_INTEGER
+        ));
+        $result = [];
+        while ($rec = $this->db->fetchAssoc($set)) {
+            $result[] = $rec;
+        }
+
+        return $result;
+    }
+
+    public function deleteCodes(array $ids): bool
+    {
+        if (count($ids)) {
+            return (bool) $this->db->manipulate('DELETE FROM ' . self::TABLE_NAME . ' WHERE ' . $this->db->in(
+                'code_id',
+                $ids,
+                false,
+                ilDBConstants::T_INTEGER
+            ));
+        }
+
+        return false;
+    }
+
+    public function getGenerationDates(): array
+    {
+        $set = $this->db->query('SELECT DISTINCT(generated_on) genr FROM ' . self::TABLE_NAME . ' ORDER BY genr');
+        $result = [];
+        while ($rec = $this->db->fetchAssoc($set)) {
+            $result[] = $rec['genr'];
+        }
+
+        return $result;
+    }
+
+    public function getCodesByFilter(CodeFilter $code_filter): array
+    {
+        $set = $this->db->query(
+            'SELECT * FROM ' . self::TABLE_NAME .
+            ($code_filter ? $this->filterToSQL($code_filter) : '')
+        );
+        $result = [];
+        while ($rec = $this->db->fetchAssoc($set)) {
+            $result[] = $rec;
+        }
+
+        return $result;
+    }
+}
