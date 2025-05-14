@@ -86,5 +86,21 @@
 			</div>
 		</div>
 	</div>
-
+	<!-- BEGIN warning_dialog -->
+	<dialog class="c-modal c-table-data__multiaction-warning" id="{ID}_warningmodal">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<form><button formmethod="dialog" class="close" aria-label="close"><span aria-hidden="true">&times;</span></button></form>
+				</div>
+				<div class="modal-body">
+					{MULTI_ACTION_WARNING}
+				</div>
+				<div class="modal-footer">
+					<form><button formmethod="dialog" aria-label="close" class="btn btn-primary">{MULTI_ACTION_WARNING_BUTTON_CLOSE_LABEL}</button></form>
+				</div>
+			</div>
+		</div>
+	</dialog>
+	<!-- END warning_dialog -->
 </div>
