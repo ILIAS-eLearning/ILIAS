@@ -118,4 +118,9 @@ class ilDashboardUpdateSteps implements ilDatabaseUpdateSteps
             ]);
         }
     }
+
+    public function step_3(): void
+    {
+        $this->db->manipulate('DELETE FROM desktop_item WHERE user_id NOT IN (SELECT usr_id FROM usr_data)');
+    }
 }
