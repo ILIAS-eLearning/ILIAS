@@ -314,6 +314,9 @@ class ilMailTemplateGUI
                     static fn(array $template): int => (int) ($template['tpl_id'] ?? 0),
                     $this->service->listAllTemplatesAsArray()
                 );
+            } else {
+                $templateIds = $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+                    ->transform($templateIds);
             }
         }
 
