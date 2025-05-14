@@ -3203,11 +3203,11 @@ input.btn, input.il-link.link-bulky,
 .ilTableNav > table > tbody > tr > td > .btn-group > .btn-link fieldset[disabled],
 .ilTableNav > table > tbody > tr > td > .dropdown > .btn-default fieldset[disabled],
 .ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a fieldset[disabled] {
-  background-color: white;
+  background-color: #b0b0b0;
   border-width: 1px;
   border-style: solid;
-  border-color: white;
-  color: rgba(76, 101, 134, 0.9);
+  border-color: #b0b0b0;
+  color: black;
   cursor: not-allowed;
   transform: none;
 }
@@ -7429,11 +7429,11 @@ input.btn, .c-drilldown input.c-drilldown__menulevel--trigger, input.il-link.lin
 .ilTableNav > table > tbody > tr > td > .btn-group > .btn-link fieldset[disabled],
 .ilTableNav > table > tbody > tr > td > .dropdown > .btn-default fieldset[disabled],
 .ilTableNav > table > tbody > tr > td > .navbar-form.dropdown > a fieldset[disabled] {
-  background-color: white;
+  background-color: #b0b0b0;
   border-width: 1px;
   border-style: solid;
-  border-color: white;
-  color: rgba(76, 101, 134, 0.9);
+  border-color: #b0b0b0;
+  color: black;
   cursor: not-allowed;
   transform: none;
 }

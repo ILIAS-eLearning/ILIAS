@@ -519,21 +519,17 @@ EOT;
         <div class="panel-title"><h2>Title</h2></div>
         <div class="panel-viewcontrols l-bar__space-keeper">
             <div class="il-viewcontrol-pagination l-bar__element">
-                    <span class="btn btn-ctrl browse previous">
-                        <a tabindex="0" class="glyph" href="http://ilias.de?page=0" aria-label="back">
-                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                        </a>
-                    </span>
-                    <button class="btn btn-link" data-action="http://ilias.de?page=0" id="id_1">1</button>
-                    <button class="btn btn-link engaged" aria-pressed="true" data-action="http://ilias.de?page=1" id="id_2">2</button>
-                    <button class="btn btn-link" data-action="http://ilias.de?page=2" id="id_3">3</button>
-                    <button class="btn btn-link" data-action="http://ilias.de?page=3" id="id_4">4</button>
-                    <button class="btn btn-link" data-action="http://ilias.de?page=4" id="id_5">5</button>
-                    <span class="btn btn-ctrl browse next">
-                    <a tabindex="0" class="glyph" href="http://ilias.de?page=2" aria-label="next">
-                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                    </a>
-                </span>
+                <button class="btn btn-default" data-action="http://ilias.de?page=0" id="id_6">
+                    <span class="glyph" aria-label="back" role="img"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></span>
+                </button>
+                <button class="btn btn-link" data-action="http://ilias.de?page=0" id="id_1">1</button>
+                <button class="btn btn-link engaged" aria-pressed="true" data-action="http://ilias.de?page=1" id="id_2">2</button>
+                <button class="btn btn-link" data-action="http://ilias.de?page=2" id="id_3">3</button>
+                <button class="btn btn-link" data-action="http://ilias.de?page=3" id="id_4">4</button>
+                <button class="btn btn-link" data-action="http://ilias.de?page=4" id="id_5">5</button>
+                <button class="btn btn-default" data-action="http://ilias.de?page=2" id="id_7">
+                    <span class="glyph" aria-label="next" role="img"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></span>
+                </button>
             </div>
         </div>
         <div class="panel-controls"></div>

@@ -104,20 +104,14 @@ class PaginationTest extends ILIAS_UI_TestBase
         //browse-left disabled
         $expected_html = <<<EOT
 <div class="il-viewcontrol-pagination l-bar__element">
-	<span class="btn btn-ctrl browse previous">
-		<a class="glyph disabled" aria-label="back" aria-disabled="true">
-			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-		</a>
-	</span>
-
-	<button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=0" id="id_1">1</button>
-	<button class="btn btn-link" data-action="?pagination_offset=1" id="id_2">2</button>
-
-	<span class="btn btn-ctrl browse next">
-		<a tabindex="0" class="glyph" href="?pagination_offset=1" aria-label="next">
-			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-		</a>
-	</span>
+    <button class="btn btn-default" data-action="?pagination_offset=0" disabled="disabled">
+        <span class="glyph" aria-label="back" role="img"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></span>
+    </button>
+    <button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=0" id="id_1">1</button>
+    <button class="btn btn-link" data-action="?pagination_offset=1" id="id_2">2</button>
+    <button class="btn btn-default" data-action="?pagination_offset=1" id="id_3">
+        <span class="glyph" aria-label="next" role="img"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></span>
+    </button>
 </div>
 EOT;
 
@@ -136,25 +130,22 @@ EOT;
         //browse-right disabled
         $expected_html = <<<EOT
 <div class="il-viewcontrol-pagination l-bar__element">
-	<span class="btn btn-ctrl browse previous">
-		<a tabindex="0" class="glyph" href="?pagination_offset=0" aria-label="back">
-			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-		</a>
-	</span>
-
-	<button class="btn btn-link" data-action="?pagination_offset=0" id="id_1">1</button>
-	<button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=1" id="id_2">2</button>
-
-	<span class="btn btn-ctrl browse next">
-		<a class="glyph disabled" aria-label="next" aria-disabled="true">
-			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-		</a>
-	</span>
+    <button class="btn btn-default" data-action="?pagination_offset=0" id="id_3">
+        <span class="glyph" aria-label="back" role="img"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></span>
+    </button>
+    <button class="btn btn-link" data-action="?pagination_offset=0" id="id_1">1</button>
+    <button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=1" id="id_2">2</button>
+    <button class="btn btn-default" data-action="?pagination_offset=2" disabled="disabled">
+        <span class="glyph" aria-label="next" role="img"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></span>
+    </button>
 </div>
 EOT;
 
         $html = $this->getDefaultRenderer()->render($p);
-        $this->assertHTMLEquals($expected_html, $html);
+        $this->assertHTMLEquals(
+            $this->brutallyTrimHTML($expected_html),
+            $this->brutallyTrimHTML($html)
+        );
     }
 
     public function testRenderLimited(): void
@@ -169,27 +160,21 @@ EOT;
         //boundary-button right
         $expected_html = <<<EOT
 <div class="il-viewcontrol-pagination l-bar__element">
-	<span class="btn btn-ctrl browse previous">
-		<a class="glyph disabled" aria-label="back" aria-disabled="true">
-			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-		</a>
-	</span>
-
-	<button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=0" id="id_1">1</button>
-
-	<span class="last">
-		<button class="btn btn-link" data-action="?pagination_offset=2" id="id_2">3</button>
-	</span>
-
-	<span class="btn btn-ctrl browse next">
-		<a tabindex="0" class="glyph" href="?pagination_offset=1" aria-label="next">
-			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-		</a>
-	</span>
+    <button class="btn btn-default" data-action="?pagination_offset=0" disabled="disabled">
+        <span class="glyph" aria-label="back" role="img"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></span>
+    </button>
+    <button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=0" id="id_1">1</button>
+    <span class="last"><button class="btn btn-link" data-action="?pagination_offset=2" id="id_2">3</button></span>
+    <button class="btn btn-default" data-action="?pagination_offset=1" id="id_3">
+        <span class="glyph" aria-label="next" role="img"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></span>
+    </button>
 </div>
 EOT;
         $html = $this->getDefaultRenderer()->render($p);
-        $this->assertHTMLEquals($expected_html, $html);
+        $this->assertEquals(
+            $this->brutallyTrimHTML($expected_html),
+            $this->brutallyTrimHTML($html)
+        );
     }
 
     public function testRenderLimitedWithCurrentPage(): void
@@ -205,31 +190,21 @@ EOT;
         //both boundary-buttons
         $expected_html = <<<EOT
 <div class="il-viewcontrol-pagination l-bar__element">
-	<span class="btn btn-ctrl browse previous">
-		<a tabindex="0" class="glyph" href="?pagination_offset=0" aria-label="back">
-			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-		</a>
-	</span>
-
-	<span class="first">
-		<button class="btn btn-link" data-action="?pagination_offset=0" id="id_2">1</button>
-	</span>
-
-	<button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=1" id="id_1">2</button>
-
-	<span class="last">
-		<button class="btn btn-link" data-action="?pagination_offset=2" id="id_3">3</button>
-	</span>
-
-	<span class="btn btn-ctrl browse next">
-		<a tabindex="0" class="glyph" href="?pagination_offset=2" aria-label="next">
-			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-		</a>
-	</span>
+    <button class="btn btn-default" data-action="?pagination_offset=0" id="id_4">
+        <span class="glyph" aria-label="back" role="img"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></span>
+    </button><span class="first"><button class="btn btn-link" data-action="?pagination_offset=0" id="id_2">1</button></span>
+    <button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=1" id="id_1">2</button>
+    <span class="last"><button class="btn btn-link" data-action="?pagination_offset=2" id="id_3">3</button></span>
+    <button class="btn btn-default" data-action="?pagination_offset=2" id="id_5">
+        <span class="glyph" aria-label="next" role="img"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></span>
+    </button>
 </div>
 EOT;
         $html = $this->getDefaultRenderer()->render($p);
-        $this->assertHTMLEquals($expected_html, $html);
+        $this->assertHTMLEquals(
+            $this->brutallyTrimHTML($expected_html),
+            $this->brutallyTrimHTML($html)
+        );
     }
 
     public function testRenderLimitedWithCurrentPage2(): void
@@ -245,29 +220,22 @@ EOT;
         //boundary-button left only
         $expected_html = <<<EOT
 <div class="il-viewcontrol-pagination l-bar__element">
-	<span class="btn btn-ctrl browse previous">
-		<a tabindex="0" class="glyph" href="?pagination_offset=1" aria-label="back">
-			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-		</a>
-	</span>
-	<span class="first">
-		<button class="btn btn-link" data-action="?pagination_offset=0" id="id_2">1</button>
-	</span>
-
-	<button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=2" id="id_1">3</button>
-
-	<span class="btn btn-ctrl browse next">
-		<a class="glyph disabled" aria-label="next" aria-disabled="true">
-			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-		</a>
-	</span>
+    <button class="btn btn-default" data-action="?pagination_offset=1" id="id_3">
+        <span class="glyph" aria-label="back" role="img"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></span>
+    </button>
+    <span class="first"><button class="btn btn-link" data-action="?pagination_offset=0" id="id_2">1</button></span>
+    <button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=2" id="id_1">3</button>
+    <button class="btn btn-default" data-action="?pagination_offset=3" disabled="disabled">
+        <span class="glyph" aria-label="next" role="img"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></span>
+    </button>
 </div>
 EOT;
         $html = $this->getDefaultRenderer()->render($p);
-        $this->assertHTMLEquals($expected_html, $html);
+        $this->assertEquals(
+            $this->brutallyTrimHTML($expected_html),
+            $this->brutallyTrimHTML($html)
+        );
     }
-
-
 
     public function testRenderDropdown(): void
     {
@@ -278,30 +246,33 @@ EOT;
 
         $expected_html = <<<EOT
 <div class="il-viewcontrol-pagination l-bar__element">
-	<span class="btn btn-ctrl browse previous">
-		<a class="glyph disabled" aria-label="back" aria-disabled="true">
-			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-		</a>
-	</span>
-
-	<div class="dropdown" id="id_4">
-		<button class="btn btn-default dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="id_4_menu" >pagination_label_x_of_y<span class="caret"></span></button>
-		<ul id="id_4_menu" class="dropdown-menu">
-			<li><button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=0" id="id_1">1</button></li>
-			<li><button class="btn btn-link" data-action="?pagination_offset=1" id="id_2">2</button></li>
-			<li><button class="btn btn-link" data-action="?pagination_offset=2" id="id_3">3</button></li>
-		</ul>
-	</div>
-
-	<span class="btn btn-ctrl browse next">
-		<a tabindex="0" class="glyph" href="?pagination_offset=1" aria-label="next">
-			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-		</a>
-	</span>
+    <button class="btn btn-default" data-action="?pagination_offset=0" disabled="disabled">
+        <span class="glyph" aria-label="back" role="img"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></span>
+    </button>
+    <div class="dropdown" id="id_4">
+        <button class="btn btn-default dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="id_4_menu">pagination_label_x_of_y<span class="caret"></span></button>
+        <ul id="id_4_menu" class="dropdown-menu">
+            <li>
+                <button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=0" id="id_1">1</button>
+            </li>
+            <li>
+                <button class="btn btn-link" data-action="?pagination_offset=1" id="id_2">2</button>
+            </li>
+            <li>
+                <button class="btn btn-link" data-action="?pagination_offset=2" id="id_3">3</button>
+            </li>
+        </ul>
+    </div>
+    <button class="btn btn-default" data-action="?pagination_offset=1" id="id_5">
+        <span class="glyph" aria-label="next" role="img"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></span>
+    </button>
 </div>
 EOT;
         $html = $this->getDefaultRenderer()->render($p);
-        $this->assertEquals($this->brutallyTrimHTML($expected_html), $this->brutallyTrimHTML($html));
+        $this->assertEquals(
+            $this->brutallyTrimHTML($expected_html),
+            $this->brutallyTrimHTML($html)
+        );
     }
 
     public function testGetRangeOnNull(): void
