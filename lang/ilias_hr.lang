@@ -14418,6 +14418,7 @@ rbac#:#rbac_role_rights_copy_empty#:#Nijedna
 rbac#:#rbac_role_selection#:#Vrsta uloge
 rbac#:#rbac_role_title#:#Naslov uloge
 rbac#:#rbac_select_copy_targets#:#Molimo odaberite ciljane uloge
+rbac#:#rbac_select_roles#:#Role Selection
 rbac#:#rbac_ud_global#:#Korisnički definirana globalna uloga
 rbac#:#rbac_ud_local#:#Korisnički definirana lokalna uloga
 rbac#:#rbac_ud_rolt#:#Korisnički definirani predložak uloge
