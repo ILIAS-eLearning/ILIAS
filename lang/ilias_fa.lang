@@ -14418,7 +14418,7 @@ rbac#:#rbac_role_rights_copy_empty#:#هیچ کدام
 rbac#:#rbac_role_selection#:#نوع نقش
 rbac#:#rbac_role_title#:#عنوان نقش
 rbac#:#rbac_select_copy_targets#:#Please select the target roles
-rbac#:#rbac_select_roles#:#Role Selection
+rbac#:#rbac_select_roles#:#Role Selection###28 11 2023 new variable
 rbac#:#rbac_ud_global#:#نقش همگانی تعریف شده توسط کاربر
 rbac#:#rbac_select_roles#:#Role Selection
 rbac#:#rbac_ud_local#:#User defined local role
