@@ -1,0 +1,4 @@
+.il-input-radiooption.form-has-collapsible-form > input:not(:checked) ~ .form-group,
+input[type="checkbox"].form-has-collapsible-form:not(:checked) ~ .form-group {
+  display: none;
+}

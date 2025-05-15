@@ -317,54 +317,24 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         return $return;
     }
 
-    /**
-     * init filters with values from tableview
-     */
-    public function initFilterFromTableView(): void
-    {
-        $this->filters = [];
-        $this->filter = [];
-        foreach ($this->tableview->getFilterableFieldSettings() as $field_set) {
-            $field = $field_set->getFieldObject();
-            ilDclCache::getFieldRepresentation($field)->addFilterInputFieldToTable($this);
-
-            //set filter values
-            $filter = end($this->filters);
-            $value = $field_set->getFilterValue();
-            $filter->setValueByArray($value);
-            $filter->writeToSession();
-            $this->applyFilter($field->getId(), empty(array_filter($value)) ? null : $filter->getValue());
-
-            //Disable filters
-            if (!$field_set->isFilterChangeable()) {
-                $filter->setDisabled(true);
-                if ($filter instanceof ilCombinationInputGUI) {
-                    $filter->__call('setDisabled', [true]);
-                }
-            }
-        }
-    }
-
-    /**
-     * normally initialize filters - used by applyFilter and resetFilter
-     */
     public function initFilter(): void
     {
         foreach ($this->tableview->getFilterableFieldSettings() as $field_set) {
             $field = $field_set->getFieldObject();
             $value = ilDclCache::getFieldRepresentation($field)->addFilterInputFieldToTable($this);
+            $filter = $this->getFilterItemByPostVar('filter_' . $field->getId());
 
-            //Disable filters
-            $filter = end($this->filters);
-            if (!$field_set->isFilterChangeable()) {
-                //always set tableview-filtervalue with disabled fields, so resetFilter won't reset it
+            $isset = ilSession::has("form_" . $filter->getParentTable()->getId() . "_" . $filter->getFieldId());
+            if (!$field_set->isFilterChangeable() || !$isset) {
                 $value = $field_set->getFilterValue();
                 $filter->setValueByArray($value);
                 $value = $filter->getValue();
 
-                $filter->setDisabled(true);
-                if ($filter instanceof ilCombinationInputGUI) {
-                    $filter->__call('setDisabled', [true]);
+                if (!$field_set->isFilterChangeable()) {
+                    $filter->setDisabled(true);
+                    if ($filter instanceof ilCombinationInputGUI) {
+                        $filter->__call('setDisabled', [true]);
+                    }
                 }
             }
 

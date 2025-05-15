@@ -459,6 +459,10 @@ class ilObjLanguageExt extends ilObjLanguage
                 $ilDB->quote($module, "text")
             ));
             $row = $ilDB->fetchAssoc($set);
+            if (!$row) {
+                $DIC->logger()->root()->warning("Language module '{$module}' not found for language {$a_lang_key}.");
+                continue;
+            }
 
             $arr = unserialize($row["lang_array"], ["allowed_classes" => false]);
             if (is_array($arr)) {

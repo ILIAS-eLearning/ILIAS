@@ -230,28 +230,30 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
                 continue;
             }
 
-            foreach ((array) $member->groups as $pgroup) {
-                // the sequence number in the course ressource
-                $sequence_number = (int) $pgroup->num;
-                // find parallel group with by sequence number
-                if (property_exists($course, 'groups')) {
-                    $tmp_pgroup = $course->groups[$sequence_number] ?? null;
+            if (property_exists($member, 'groups')) {
+                foreach ((array) $member->groups as $pgroup) {
+                    // the sequence number in the course ressource
+                    $sequence_number = (int) $pgroup->num;
+                    // find parallel group with by sequence number
+                    if (property_exists($course, 'groups')) {
+                        $tmp_pgroup = $course->groups[$sequence_number] ?? null;
 
-                    if (is_object($tmp_pgroup) && $tmp_pgroup->id !== '') {
-                        $this->log->debug('Found parallel group with id: ' . $tmp_pgroup->id . ': for sequence number: ' . $sequence_number);
+                        if (is_object($tmp_pgroup) && $tmp_pgroup->id !== '') {
+                            $this->log->debug('Found parallel group with id: ' . $tmp_pgroup->id . ': for sequence number: ' . $sequence_number);
 
-                        // @todo check hierarchy of roles
-                        $assigned[$tmp_pgroup->id][$member->personID] = array(
-                            'id' => $member->personID,
-                            'role' => $pgroup->role
-                        );
+                            // @todo check hierarchy of roles
+                            $assigned[$tmp_pgroup->id][$member->personID] = array(
+                                'id' => $member->personID,
+                                'role' => $pgroup->role
+                            );
+                        } else {
+                            $this->log->warning('Cannot find parallel group with sequence id: ' . $sequence_number);
+                        }
                     } else {
-                        $this->log->warning('Cannot find parallel group with sequence id: ' . $sequence_number);
+                        $this->log->error('Invalid course/group-configuration found, ignoring}');
                     }
-                } else {
-                    $this->log->error('Invalid course/group-configuration found, ignoring}');
-                }
 
+                }
             }
         }
         $this->log->debug('ECS member assignments ' . print_r($assigned, true));
@@ -368,7 +370,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
                 $assignment->setServer($this->getServer()->getServerId());
                 $assignment->setMid($this->mid);
                 $assignment->setCmsId($course_id);
-                $assignment->setCmsSubId((int) $sub_id);
+                $assignment->setCmsSubId(is_null($sub_id) ? $sub_id : (int) $sub_id);
                 $assignment->setObjId($obj_id);
                 $assignment->setUid((string) $person_id);
                 $assignment->save();

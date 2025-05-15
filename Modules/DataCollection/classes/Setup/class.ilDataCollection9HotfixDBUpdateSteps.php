@@ -44,4 +44,18 @@ class ilDataCollection9HotfixDBUpdateSteps implements ilDatabaseUpdateSteps
             $field_set->create();
         }
     }
+
+    public function step_2(): void
+    {
+        $this->db->manipulateF(
+            'UPDATE il_dcl_stloc1_value ' .
+            'LEFT JOIN il_dcl_record_field ON il_dcl_stloc1_value.record_field_id = il_dcl_record_field.id ' .
+            'LEFT JOIN il_dcl_field ON il_dcl_record_field.field_id = il_dcl_field.id ' .
+            'LEFT JOIN il_dcl_field_prop ON il_dcl_field.id = il_dcl_field_prop.field_id AND il_dcl_field_prop.name = "multiple_selection" ' .
+            'SET il_dcl_stloc1_value.value = REPLACE(il_dcl_stloc1_value.value, %s, %s) ' .
+            'WHERE il_dcl_field.datatype_id = %s AND il_dcl_field_prop.value = %s',
+            [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
+            [', ', '; ', ilDclDatatype::INPUTFORMAT_COPY, 1]
+        );
+    }
 }

@@ -63,6 +63,10 @@ LIMIT 1;"
         );
 
         $d = $this->helper->getDatabase()->fetchObject($r);
+        if (!($d instanceof stdClass)) {
+            return;
+        }
+
         $posting_id = (int) $d->posting_id;
         $object_id = (int) $d->object_id;
         $resource_owner_id = (int) $d->owner_id;

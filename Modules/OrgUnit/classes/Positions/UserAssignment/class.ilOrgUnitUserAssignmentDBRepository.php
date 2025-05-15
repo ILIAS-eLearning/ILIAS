@@ -15,6 +15,7 @@
  *
  ********************************************************************
  */
+
 declare(strict_types=1);
 
 class ilOrgUnitUserAssignmentDBRepository implements OrgUnitUserAssignmentRepository
@@ -342,9 +343,8 @@ class ilOrgUnitUserAssignmentDBRepository implements OrgUnitUserAssignmentReposi
         $recursive_orgu_ids = [];
         $tree = ilObjOrgUnitTree::_getInstance();
         foreach ($orgu_ids as $orgu_id) {
-            $recursive_orgu_ids = $recursive_orgu_ids + $tree->getAllChildren($orgu_id);
+            $recursive_orgu_ids = array_merge($recursive_orgu_ids, $tree->getAllChildren($orgu_id));
         }
-
         return $recursive_orgu_ids;
     }
 

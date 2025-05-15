@@ -125,9 +125,6 @@ class ilDclRecordListGUI
         // whereas 'listRecords' handels the filters "normally", filling them from the POST-variable
         switch ($cmd) {
             case self::CMD_SHOW:
-                $this->setSubTabs($this->mode);
-                $this->listRecords(true);
-                break;
             case self::CMD_CANCEL_DELETE:
             case self::CMD_LIST_RECORDS:
                 $this->setSubTabs($this->mode);
@@ -150,9 +147,9 @@ class ilDclRecordListGUI
         }
     }
 
-    public function listRecords(bool $use_tableview_filter = false): void
+    public function listRecords(): void
     {
-        $list = $this->getRecordListTableGUI($use_tableview_filter);
+        $list = $this->getRecordListTableGUI();
 
         $this->createSwitchers();
 
@@ -289,11 +286,7 @@ class ilDclRecordListGUI
             $output->setVariable("WARNING", $warning);
             $output->parseCurrentBlock();
         }
-        if (!count($warnings)) {
-            $output->setCurrentBlock("warnings");
-            $output->setVariable("WARNING", $this->lng->txt("dcl_no_warnings"));
-            $output->parseCurrentBlock();
-        }
+
         $output->setVariable("BACK_LINK", $this->ctrl->getLinkTargetByClass(ilDclRecordListGUI::class, "listRecords"));
         $output->setVariable("BACK", $this->lng->txt("back"));
         $this->tpl->setContent($output->get());
@@ -496,18 +489,12 @@ class ilDclRecordListGUI
         $this->ctrl->clearParameters($this);
     }
 
-    protected function getRecordListTableGUI(bool $use_tableview_filter): ilDclRecordListTableGUI
+    protected function getRecordListTableGUI(): ilDclRecordListTableGUI
     {
         $table_obj = $this->table_obj;
 
         $list = new ilDclRecordListTableGUI($this, "listRecords", $table_obj, $this->tableview_id, $this->mode);
         $list->initFilter();
-        if ($use_tableview_filter) {
-            $list->initFilter();
-            $list->resetOffset();
-            $list->resetFilter();
-            $list->initFilterFromTableView();
-        }
 
         $list->setExternalSegmentation(true);
         $list->setExternalSorting(true);

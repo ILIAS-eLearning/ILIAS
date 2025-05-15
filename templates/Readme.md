@@ -66,7 +66,7 @@ To create a new skin, first add a new subdirectory to directory
 In the future, we will provide a base System Style based on the
 default Delos that you can download from Github and place here.
 
-#### Step 2: Create template.xml File
+#### Step 2.1: Create template.xml File
 
 One file that must exist in every skin is the file template.xml. E.g.
 `Customizing/global/skin/myskin/template.xml`:
@@ -84,7 +84,7 @@ ILIAS Style and Layout administration. The ILIAS administration is the place
 where you can activate/deactivate styles, and where you can assign users from
 one skin to another.
 
-#### Step 2: Create main CSS File
+#### Step 2.2: Create main CSS File
 
 The `id` attribute of the style tag defines the name of the corresponding style
 sheet (CSS) file. This CSS file must also be added to the skin directory (here:
@@ -102,17 +102,22 @@ directory, change the CSS definitions or provide your own image files.
 
 To have a working directory for your skin, you can also copy the complete folder
 templates/default of your ilias installation to a new folder below
-`Customizing/global/skin` within that directory, edit the file `template.xml` to
-have an unique Style Name and id. This is needed to identify the new skin in
-ILIAS' administration. Then copy the standard `delos.css` file to "your-id.css".
-Take care: the main CSS-File must reflect the id in its name (see above).
+`Customizing/global/skin/myskin/mystyle`. 
+Move `template.xml` to the `myskin` folder
+and edit it according to Step 2.1. Rename the `mystyle/delos.css` to `mystyle/mystyle.css`
+and `mystyle/delos.scss` to `mystyle/mystyle.scss` (Step 2.2).
+Remember: the main CSS-File must reflect the id in its name (see above).
 
 #### Step 3: Sass (Optional)
 
 Best use the stand alone skin [delos](https://github.com/ILIAS-eLearning/delos) 
 git repo, which is always an up-to-date copy of the delos skin from the main repo. 
-Clone it into your `Customizing/global/skin` folder, make your changes and keep it always
-up-to-date for fixes from the main repo.
+Clone it into your `Customizing/global/skin/myskin/mystyle` folder.
+Move `template.xml` to the `myskin` folder
+and edit it according to Step 2.1. Rename the `mystyle/delos.css` to `mystyle/mystyle.css`
+and `mystyle/delos.scss` to `mystyle/mystyle.scss` (Step 2.2).
+Remember: the main CSS-File must reflect the id in its name (see above). 
+This way you can always keep the delos files up-to-date and merge them with your changes.
 
 Do not froget to re-compile the scss-file after each change:
 

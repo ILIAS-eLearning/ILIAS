@@ -303,6 +303,7 @@ class Renderer extends AbstractComponentRenderer
         if ($component->getValue()) {
             $tpl->touchBlock("value");
         }
+        $tpl->touchBlock("hascollapsible");
         /**
          * @var $component F\OptionalGroup
          */
@@ -334,6 +335,7 @@ class Renderer extends AbstractComponentRenderer
         foreach ($component->getInputs() as $key => $group) {
             $opt_id = $id . '_' . $key . '_opt';
 
+            $tpl->touchBlock('hascollapsible');
             $tpl->setCurrentBlock('optionblock');
             $tpl->setVariable("NAME", $component->getName());
             $tpl->setVariable("OPTIONID", $opt_id);

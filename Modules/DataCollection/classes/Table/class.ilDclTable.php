@@ -1059,9 +1059,6 @@ class ilDclTable
             if (!$orig_field->isStandardField()) {
                 $class_name = get_class($orig_field);
                 $new_field = new $class_name();
-                if ($new_field instanceof ilDclReferenceFieldModel && $new_field->getFieldRef()->getTableId() === 0) {
-                    continue;
-                }
                 $new_field->setTableId($this->getId());
                 $new_field->cloneStructure((int) $orig_field->getId());
                 $new_fields[$orig_field->getId()] = $new_field;

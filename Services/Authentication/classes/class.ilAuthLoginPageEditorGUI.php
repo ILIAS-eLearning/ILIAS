@@ -320,7 +320,7 @@ class ilAuthLoginPageEditorGUI
             $this->loginSettings = new ilSetting("login_settings");
             foreach ($this->lng->getInstalledLanguages() as $lang_key) {
                 $settingKey = "login_message_" . $lang_key;
-                if ($this->form->getInput($settingKey)) {
+                if ($this->form->getItemByPostVar($settingKey)) {
                     $this->loginSettings->set($settingKey, $this->form->getInput($settingKey));
                 }
             }

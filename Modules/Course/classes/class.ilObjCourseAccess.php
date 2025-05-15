@@ -235,8 +235,8 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 
         // checking for read results in endless loop, if read is given
         // but visible is not given (-> see bug 5323)
-        if ($ilAccess->checkAccess("read", "", $t_arr[1]) ||
-            $ilAccess->checkAccess("visible", "", $t_arr[1])) {
+        if ($ilAccess->checkAccess("read", "", (int) $t_arr[1]) ||
+            $ilAccess->checkAccess("visible", "", (int) $t_arr[1])) {
             //if ($ilAccess->checkAccess("visible", "", $t_arr[1]))
             return true;
         }

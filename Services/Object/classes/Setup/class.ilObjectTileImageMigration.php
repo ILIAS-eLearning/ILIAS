@@ -120,8 +120,29 @@ class ilObjectTileImageMigration implements Migration
             ['obj_id' => ['integer', $next_record->id],]
         );
 
-        rmdir(dirname($path));
+        $this->removeDirectoryOrInform(\dirname($path), $next_record);
         $this->deleteTileImageInfoFromContainerSettings($next_record->id);
+    }
+
+    private function removeDirectoryOrInform(string $directory, \stdClass $record): void
+    {
+        if (!is_dir($directory)) {
+            return;
+        }
+
+        $files = array_diff(scandir($directory), ['.', '..']);
+        if (empty($files)) {
+            rmdir($directory);
+        } else {
+            $file_list = implode(', ', $files);
+            $this->admin_interaction->inform(
+                "The tile image for the object with the id $record->id was probably migrated successfully. "
+                . "However, the directory $directory could not be removed because it is not empty. "
+                . "Remaining files: $file_list. "
+                . 'You may want to verify that the tile image is visible for the object, and remove '
+                . 'the remaining files manually if they are not needed.'
+            );
+        }
     }
 
     private function getFullPath(int $object_id, ?string $extension): string
@@ -175,10 +196,7 @@ class ilObjectTileImageMigration implements Migration
             unlink($path);
         }
 
-        if (file_exists(dirname($path))) {
-            rmdir(dirname($path));
-        }
-
+        $this->removeDirectoryOrInform(\dirname($path), $next_record);
         $this->deleteTileImageInfoFromContainerSettings($next_record->id);
     }
 

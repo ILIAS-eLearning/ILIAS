@@ -255,7 +255,7 @@ class ilECSCourseCreationHandler
      */
     protected function syncParentContainer($a_content_id, $course): int
     {
-        if (!is_array($course->allocations)) {
+        if (!property_exists($course, 'allocations') || !is_array($course->allocations)) {
             $this->logger->debug('No allocation in course defined.');
             return 0;
         }
@@ -461,7 +461,7 @@ class ilECSCourseCreationHandler
         $course_obj = new ilObjCourse();
         $course_obj->setOwner(SYSTEM_USER_ID);
         $title = $course->title;
-        if ($group->title !== '') {
+        if (property_exists($group, 'title') && $group->title !== '') {
             $title .= ' (' . $group->title . ')';
         }
         $this->logger->debug('Creating new parallel course instance from ecs : ' . $title);
@@ -501,7 +501,7 @@ class ilECSCourseCreationHandler
                 if ($course_obj instanceof ilObjCourse) {
                     $this->logger->debug('New title is ' . $title);
                     $course_obj->setTitle($title);
-                    if(property_exists($group, 'maxParticipants') && !is_null($group->maxParticipants)) {
+                    if (property_exists($group, 'maxParticipants') && !is_null($group->maxParticipants)) {
                         $course_obj->setSubscriptionMaxMembers($group->maxParticipants);
                     }
                     $course_obj->update();
@@ -532,7 +532,7 @@ class ilECSCourseCreationHandler
     {
         $group_obj = new ilObjGroup();
         $group_obj->setOwner(SYSTEM_USER_ID);
-        $title = $group->title !== '' ? $group->title : $course->title;
+        $title = (property_exists($group, 'title') && $group->title !== '') ? $group->title : $course->title;
         $group_obj->setTitle($title);
         if (property_exists($group, 'maxParticipants')) {
             $group_obj->setMaxMembers((int) $group->maxParticipants);
@@ -566,7 +566,7 @@ class ilECSCourseCreationHandler
                     $title = $group->title !== '' ? $group->title : $course->title;
                     $this->logger->debug('New title is ' . $title);
                     $group_obj->setTitle($title);
-                    if(property_exists($group, 'maxParticipants') && !is_null($group->maxParticipants)) {
+                    if (property_exists($group, 'maxParticipants') && !is_null($group->maxParticipants)) {
                         $group_obj->setMaxMembers((int) $group->maxParticipants);
                     }
                     $group_obj->update();

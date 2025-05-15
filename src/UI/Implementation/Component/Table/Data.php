@@ -404,7 +404,13 @@ class Data extends Table implements T\Data, JSBindable
             # This retrieves container data from the request
             $data = $this->applyValuesToViewcontrols($view_controls, $request)->getData();
             $range = $data[self::VIEWCONTROL_KEY_PAGINATION];
-            $range = ($range instanceof Range) ? $range->croppedTo($total_count ?? PHP_INT_MAX) : null;
+            $range = $range instanceof Range ? $range : null;
+            if ($range instanceof Range) {
+                $range = $range
+                    ->withStart($range->getStart() <= $total_count ? $range->getStart() : 0)
+                    ->croppedTo($total_count ?? PHP_INT_MAX);
+            }
+
             $table = $table
                 ->withRange($range)
                 ->withOrder($data[self::VIEWCONTROL_KEY_ORDERING] ?? null)

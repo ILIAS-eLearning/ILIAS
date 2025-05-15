@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  ********************************************************************
  */
+
+declare(strict_types=1);
 
 use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\FileUpload\Location;
@@ -527,8 +527,11 @@ class ilObjLanguageExtGUI extends ilObjectGUI
                 $this->ctrl->redirect($this, 'import');
             }
 
-            $this->tpl->setOnScreenMessage('success',
-                sprintf($this->lng->txt("language_file_imported"), $_FILES["userfile"]["name"]), true);
+            $this->tpl->setOnScreenMessage(
+                'success',
+                sprintf($this->lng->txt("language_file_imported"), $_FILES["userfile"]["name"]),
+                true
+            );
             $this->ctrl->redirect($this, "import");
         }
 

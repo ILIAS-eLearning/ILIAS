@@ -52,95 +52,33 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
 
     public function checkValidityFromForm(ilPropertyFormGUI &$form, ?int $record_id = null): void
     {
-        $has_url_property = $this->getProperty(ilDclBaseFieldModel::PROP_URL);
-        if ($has_url_property) {
-            $values = [
+        if ($this->getProperty(ilDclBaseFieldModel::PROP_URL)) {
+            $value = [
                 'link' => $form->getInput("field_" . $this->getId()),
                 'title' => $form->getInput("field_" . $this->getId() . "_title"),
             ];
-            $this->checkValidityOfURLField($values, $record_id);
         } else {
-            parent::checkValidityFromForm($form, $record_id);
+            $value = $form->getInput('field_' . $this->getId());
         }
+        $this->checkValidity($value, $record_id);
     }
 
-    /**
-     * @param null|string $value
-     * @throws ilDclInputException
-     */
     public function checkValidity($value, ?int $record_id = null): bool
     {
-        $has_url_property = $this->getProperty(ilDclBaseFieldModel::PROP_URL);
-        if ($has_url_property) {
-            return $this->checkValidityOfURLField($value, $record_id);
-        }
-
-        // Don't check empty values
-        if ($value === null) {
-            return true;
-        }
-
-        $this->checkRegexAndLength($value);
-
-        if ($this->isUnique()) {
-            $table = ilDclCache::getTableCache($this->getTableId());
-            foreach ($table->getRecords() as $record) {
-                //for text it has to be case insensitive.
-                $record_value = $record->getRecordFieldValue($this->getId());
-
-                if (strtolower((string) $this->normalizeValue($record_value)) == strtolower((string) $this->normalizeValue($value))
-                    && ($record->getId() != $record_id
-                        || $record_id == 0)
-                ) {
-                    throw new ilDclInputException(ilDclInputException::UNIQUE_EXCEPTION);
-                }
+        if (isset($value['link'])) {
+            $value = $value['link'];
+            $link = (substr($value, 0, 3) === 'www') ? 'https://' . $value : $value;
+            if (!filter_var($link, FILTER_VALIDATE_URL) && !filter_var($link, FILTER_VALIDATE_EMAIL) && $link != '') {
+                throw new ilDclInputException(ilDclInputException::NOT_URL);
             }
         }
-
-        return false;
+        $this->checkRegexAndLength($value);
+        return parent::checkValidity($value, $record_id);
     }
 
-    /**
-     * @param null|string|array $value
-     * @param int               $record_id
-     * @return bool
-     * @throws ilDclInputException
-     */
-    protected function checkValidityOfURLField($value, ?int $record_id): bool
+    protected function areEqual($value_1, $value_2): bool
     {
-        // TODO: value should always be an array with url fields, can we remove the check & json_decode?
-        if (!is_array($value)) {
-            $value = ['link' => $value, 'title' => ''];
-        }
-
-        //Don't check empty values
-        if (!$value['link']) {
-            return true;
-        }
-
-        $this->checkRegexAndLength($value['link']);
-
-        //check url/email
-        $link = (substr($value['link'], 0, 3) === 'www') ? 'https://' . $value['link'] : $value['link'];
-        if (!filter_var($link, FILTER_VALIDATE_URL) && !filter_var($link, FILTER_VALIDATE_EMAIL) && $link != '') {
-            throw new ilDclInputException(ilDclInputException::NOT_URL);
-        }
-
-        if ($this->isUnique()) {
-            $table = ilDclCache::getTableCache($this->getTableId());
-            foreach ($table->getRecords() as $record) {
-                $record_value = $record->getRecordFieldValue($this->getId());
-
-                if ($record_value == $value
-                    && ($record->getId() != $record_id
-                        || !$record_id)
-                ) {
-                    throw new ilDclInputException(ilDclInputException::UNIQUE_EXCEPTION);
-                }
-            }
-        }
-
-        return true;
+        return parent::areEqual($value_1['link'] ?? $value_1, $value_2['link'] ?? $value_2);
     }
 
     public function checkFieldCreationInput(ilPropertyFormGUI $form): bool

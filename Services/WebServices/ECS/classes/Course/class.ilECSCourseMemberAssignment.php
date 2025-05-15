@@ -31,7 +31,7 @@ class ilECSCourseMemberAssignment
     private int $server;
     private int $mid;
     private int $cms_id;
-    private int $cms_sub_id = 0;
+    private ?int $cms_sub_id = null;
     private int $obj_id;
     private string $uid;
     private bool $status = false;
@@ -200,12 +200,12 @@ class ilECSCourseMemberAssignment
         return $this->cms_id;
     }
 
-    public function setCmsSubId(int $a_id): void
+    public function setCmsSubId(?int $a_id): void
     {
         $this->cms_sub_id = $a_id;
     }
 
-    public function getCmsSubId(): int
+    public function getCmsSubId(): ?int
     {
         return $this->cms_sub_id;
     }
@@ -240,6 +240,19 @@ class ilECSCourseMemberAssignment
         return $this->status;
     }
 
+    private function getArrayForDatabase(): array
+    {
+        return [
+            'id' => ['integer', $this->getId()],
+            'sid' => ['integer', $this->getServer()],
+            'mid' => ['integer', $this->getMid()],
+            'cms_id' => ['integer', $this->getCmsId()],
+            'cms_sub_id' => ['integer', $this->getCmsSubId()],
+            'obj_id' => ['integer', $this->getObjId()],
+            'usr_id' => ['text', $this->getUid()],
+            'status' => ['integer', $this->getStatus()],
+        ];
+    }
     /**
      * Save new entry
      */
@@ -257,20 +270,7 @@ class ilECSCourseMemberAssignment
             $assignment->update();
             return true;
         }
-
-        $query = 'INSERT INTO ecs_course_assignments ' .
-                '(id,sid,mid,cms_id,cms_sub_id,obj_id,usr_id,status) ' .
-                'VALUES( ' .
-                $this->db->quote($this->getId(), 'integer') . ', ' .
-                $this->db->quote($this->getServer(), 'integer') . ', ' .
-                $this->db->quote($this->getMid(), 'integer') . ', ' .
-                $this->db->quote($this->getCmsId(), 'integer') . ', ' .
-                $this->db->quote($this->getCmsSubId(), 'integer') . ', ' .
-                $this->db->quote($this->getObjId(), 'integer') . ', ' .
-                $this->db->quote($this->getUid(), 'text') . ', ' .
-                $this->db->quote($this->getStatus(), 'integer') . ' ' .
-                ')';
-        $this->db->manipulate($query);
+        $this->db->insert('ecs_course_assignments', $this->getArrayForDatabase());
         return true;
     }
 
@@ -279,17 +279,12 @@ class ilECSCourseMemberAssignment
      */
     public function update(): bool
     {
-        $query = 'UPDATE ecs_course_assignments ' .
-                'SET ' .
-                'sid = ' . $this->db->quote($this->getServer(), 'integer') . ', ' .
-                'mid = ' . $this->db->quote($this->getMid(), 'integer') . ', ' .
-                'cms_id = ' . $this->db->quote($this->getCmsId(), 'integer') . ', ' .
-                'cms_sub_id = ' . $this->db->quote($this->getCmsSubId(), 'integer') . ', ' .
-                'obj_id = ' . $this->db->quote($this->getObjId(), 'integer') . ', ' .
-                'usr_id = ' . $this->db->quote($this->getUid(), 'text') . ', ' .
-                'status = ' . $this->db->quote($this->getStatus(), 'integer') . ' ' .
-                'WHERE id = ' . $this->db->quote($this->getId(), 'integer');
-        $this->db->manipulate($query);
+        $this->database->update('ecs_course_assignments', $this->getArrayForDatabase(), [
+            'id' => [
+                'integer',
+                $this->getId(),
+            ],
+        ]);
         return true;
     }
 
@@ -314,19 +309,19 @@ class ilECSCourseMemberAssignment
         if (!$this->getId()) {
             return false;
         }
-
-        $query = 'SELECT * FROM ecs_course_assignments ' .
-            'WHERE id = ' . $this->db->quote($this->getId(), 'integer');
-        $res = $this->db->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->setServer((int) $row->sid);
-            $this->setMid((int) $row->mid);
-            $this->setCmsId((int) $row->cms_id);
-            $this->setCmsSubId((int) $row->cms_sub_id);
-            $this->setObjId((int) $row->obj_id);
-            $this->setUid($row->usr_id);
-            $this->setStatus((bool) $row->status);
-        }
+        $r = $this->db->queryF(
+            "SELECT sid,mid,cms_id,cms_sub_id,obj_id,usr_id,status FROM ecs_course_assignments WHERE id = %d",
+            ['integer'],
+            [$this->getId()]
+        );
+        $row = $this->db->fetchObject($r);
+        $this->setServer((int) $row->sid);
+        $this->setMid((int) $row->mid);
+        $this->setCmsId((int) $row->cms_id);
+        $this->setCmsSubId((int) $row->cms_sub_id);
+        $this->setObjId((int) $row->obj_id);
+        $this->setUid($row->usr_id);
+        $this->setStatus((bool) $row->status);
         return true;
     }
 }

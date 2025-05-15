@@ -540,7 +540,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 ),
         ];
 
-        $sections = [$field_factory->section($fields, $this->lng->txt('login_to_ilias'))];
+        $sections = [$field_factory->section($fields, $this->lng->txt('login_to_ilias_via_login_form'))];
 
         return $this->ui_factory->input()
                                 ->container()
@@ -1276,7 +1276,9 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             'client_id',
             $this->refinery->byTrying([$this->refinery->kindlyTo()->string(), $this->refinery->always('')])
         );
-        if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME'])) {
+
+        if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME']) &&
+            $this->access->checkAccessOfUser(ANONYMOUS_USER_ID, 'read', '', ROOT_FOLDER_ID)) {
             $tpl->setCurrentBlock('homelink');
             $tpl->setVariable('CLIENT_ID', '?client_id=' . $client_id . '&lang=' . $this->lng->getLangKey());
             $tpl->setVariable('TXT_HOME', $this->lng->txt('home'));
@@ -1349,15 +1351,18 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     private function processIndexPHP(): void
     {
         if ($this->authSession->isValid()) {
-            if (!$this->user->isAnonymous() || ilPublicSectionSettings::getInstance()->isEnabledForDomain(
-                $this->httpRequest->getServerParams()['SERVER_NAME']
+            if (!$this->user->isAnonymous() || (
+                ilPublicSectionSettings::getInstance()->isEnabledForDomain(
+                    $this->httpRequest->getServerParams()['SERVER_NAME']
+                ) && $this->access->checkAccessOfUser(ANONYMOUS_USER_ID, 'read', '', ROOT_FOLDER_ID)
             )) {
                 ilInitialisation::redirectToStartingPage();
                 return;
             }
         }
 
-        if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME'])) {
+        if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME']) &&
+            $this->access->checkAccessOfUser(ANONYMOUS_USER_ID, 'read', '', ROOT_FOLDER_ID)) {
             ilInitialisation::goToPublicSection();
         }
 

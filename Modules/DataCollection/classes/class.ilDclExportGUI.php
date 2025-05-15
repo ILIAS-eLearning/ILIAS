@@ -37,6 +37,7 @@ class ilDclExportGUI extends ilExportGUI
         }
         if ($format === 'xlsx') {
             $this->checkForExportableFields();
+            $this->checkForAsyncEnabled();
         }
 
         parent::createExportFile();
@@ -57,6 +58,19 @@ class ilDclExportGUI extends ilExportGUI
         }
 
         $this->tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_no_export_data_available'), true);
+        $this->ctrl->redirect($this, "listExportFiles");
+
+        return false;
+    }
+
+    protected function checkForAsyncEnabled(): bool
+    {
+        global $DIC;
+        if ($DIC->settings()->get('soap_user_administration', '0') === '1') {
+            return true;
+        }
+
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_no_export_async_config'), true);
         $this->ctrl->redirect($this, "listExportFiles");
 
         return false;

@@ -609,7 +609,7 @@ class ilLDAPSettingsGUI
         $this->rule->setMemberIsDN((bool) (ilUtil::stripSlashes($rule['isdn'] ?? false)));
         $this->rule->setAttributeName(ilUtil::stripSlashes($rule['name'] ?? ''));
         $this->rule->setAttributeValue(ilUtil::stripSlashes($rule['value'] ?? ''));
-        $this->rule->setPluginId((int) ilUtil::stripSlashes($rule['plugin'] ?? '0'));
+        $this->rule->setPluginId((int) ilUtil::stripSlashes((string) ($rule['plugin'] ?? '0')));
     }
 
     public function deleteRoleMapping(): bool

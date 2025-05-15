@@ -66,14 +66,21 @@
 
     <xs:element name="roleFilter">
         <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="includePattern" minOccurs="1" maxOccurs="1"/>
-            </xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="100">
+                <xs:element ref="includePattern"/>
+                <xs:element ref="excludePattern"/>
+            </xs:choice>
             <xs:attribute name="source" type="xs:string" use="required"/>
         </xs:complexType>
     </xs:element>
 
     <xs:element name="includePattern">
+        <xs:complexType>
+            <xs:attribute name="preg" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="excludePattern">
         <xs:complexType>
             <xs:attribute name="preg" type="xs:string" use="required"/>
         </xs:complexType>
