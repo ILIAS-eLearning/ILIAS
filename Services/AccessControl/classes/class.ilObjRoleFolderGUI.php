@@ -86,6 +86,9 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         }
     }
 
+    /**
+     * @return int
+     */
     protected function initCopySourceFromGET(): int
     {
         if ($this->http->wrapper()->query()->has('csource')) {
@@ -123,6 +126,34 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         return [];
     }
 
+    /*
+     * @return string
+     */
+    protected function buildTargetNamesString(): string
+    {
+        $targets = $this->initRolesFromPOST();
+        
+        if (count($targets) == 0) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('rbac_copy_no_targets'), true);
+            $this->ctrl->tedirect($this, 'roleSearchList');
+        }
+
+        if (count($targets) > 3) {
+            return sprintf($this->lng->txt('rbac_copy_multi_targets'), '<strong>' . ilObject::_lookupTitle($targets[0]), ilObject::_lookupTitle($targets[1]) . '</strong>', '<strong>' . (string) count($targets) - 2, '</strong>');
+        }
+
+        if (count($targets) > 1) {
+            $target_names = '<strong>' . ilObject::_lookupTitle(array_shift($targets));
+            foreach ($targets as $target) {
+                $target_names .= ', ' . ilObject::_lookupTitle($target);
+                }
+            return $target_names . '</strong>';
+        }
+
+        // we have one single target
+        return '<strong>' . ilObject::_lookupTitle($targets[0]) . '</strong>';
+    }
+    
     public function viewObject(): void
     {
         $this->tabs_gui->activateTab('view');
@@ -186,7 +217,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         }
 
         $this->ctrl->setParameter($this, 'csource', $this->initCopySourceFromGET());
-        $this->tpl->setOnScreenMessage('info', $this->lng->txt('rbac_choose_copy_targets'));
+        $this->tpl->setOnScreenMessage('info', sprintf($this->lng->txt('rbac_choose_copy_targets'), '<strong>' . ilObject::_lookupTitle($this->initCopySourceFromGET()) . '</strong>'));
 
         $form = $this->initRoleSearchForm();
         $this->tpl->setContent($form->getHTML());
@@ -241,13 +272,11 @@ class ilObjRoleFolderGUI extends ilObjectGUI
             $this->lng->txt('rbac_back_to_overview'),
             $this->ctrl->getLinkTarget($this, 'view')
         );
-
-        $sourceName = ilObject::_lookupTitle($this->initCopySourceFromGET());
         
         $this->ctrl->setParameter($this, 'csource', $this->initCopySourceFromGET());
 
         if (strlen(ilSession::get('rolf_search_query'))) {
-            $this->tpl->setOnScreenMessage('info', sprintf($this->lng->txt('rbac_select_copy_targets'),$sourceName));
+            $this->tpl->setOnScreenMessage('info', sprintf($this->lng->txt('rbac_select_copy_targets'), '<strong>' . ilObject::_lookupTitle($this->initCopySourceFronGET()) . '</strong>'));
             $table = new ilRoleTableGUI($this, 'roleSearchList');
             $table->setType(ilRoleTableGUI::TYPE_SEARCH);
             $table->setRoleTitleFilter(ilSession::get('rolf_search_query'));
@@ -288,30 +317,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         // not only for role templates; add/remove permissions is also applicable for roles
         $full_featured = true;
 
-        $sourceName = ilObject::_lookupTitle($this->initCopySourceFromGET());
-        $targets = $this->initRolesFromPOST();
-
-        if (count($targets)==0) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('rbac_copy_no_targets'), true);
-            $this->ctrl->redirect($this, 'roleSearchList');
-        }
-
-        $targetName = ilObject::_lookupTitle(array_shift($targets));
-
-        switch (count($targets)+1) {
-            case 1:
-                break;
-            case 2:
-            case 3:
-                foreach ($targets as $target) {
-                    $targetName .= ', ' . ilObject::_lookupTitle($target);
-                }
-                break;
-            default:
-                $targetName = (string) count($targets)+1 . ' ' . $this->lng->txt('rbac_copy_multi_targets');
-                break;
-        }
-        $this->tpl->setOnScreenMessage('info', sprintf($this->lng->txt('rbac_copy_behaviour_info'),$sourceName,$targetName),true);
+        $this->tpl->setOnScreenMessage('info', sprintf($this->lng->txt('rbac_copy_behaviour_info'), '<strong>' . ilObject::_lookupTitle($this->initCopySourceFromGET()) . '</strong>', $this->buildTargetNamesString()), true);
         
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('rbac_copy_behaviour'));
