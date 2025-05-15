@@ -141,7 +141,7 @@ export default class DataTable {
     const token = urlTokens.values().next().value;
 
     const rowIds = this.collectSelectedRowIds();
-    rowIds.push('_'.repeat(16)); // add one more.
+    rowIds.push(rowIds[0]); // add one more.
     urlBuilder.writeParameter(token, rowIds);
     try {
       urlBuilder.getUrl().toString();

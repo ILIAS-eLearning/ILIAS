@@ -20,7 +20,7 @@ use ILIAS\Data\URI;
  *   Select all rows using the "+"-icon on the top left.
  *   A dialog should warn you that the expected URL is too large.
  *   Deselect / select some rows with the checkbox.
- *   It should not be possible to select more than 8 rows simultaniously.
+ *   It should not be possible to select more than 7 rows simultaniously.
  * ---
  */
 function large()
