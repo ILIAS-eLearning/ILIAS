@@ -316,11 +316,11 @@ class Factory implements G\Factory
 
     public function checked(): G\Glyph
     {
-        throw new \ILIAS\UI\NotImplementedException();
+        return new Glyph(G\Glyph::CHECKED, "checked");
     }
 
     public function unchecked(): G\Glyph
     {
-        throw new \ILIAS\UI\NotImplementedException();
+        return new Glyph(G\Glyph::UNCHECKED, "unchecked");
     }
 }
