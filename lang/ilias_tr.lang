@@ -14418,6 +14418,7 @@ rbac#:#rbac_role_rights_copy_empty#:#Yok
 rbac#:#rbac_role_selection#:#Rolü Tip
 rbac#:#rbac_role_title#:#Rolü Başlık
 rbac#:#rbac_select_copy_targets#:#Hedef rolleri seçiniz
+rbac#:#rbac_select_roles#:#Role Selection###28 11 2023 new variable
 rbac#:#rbac_ud_global#:#Kullanıcı tanımlı global rol
 rbac#:#rbac_ud_local#:#Kullanıcı yerel rolü tanımlı
 rbac#:#rbac_ud_rolt#:#Kullanıcı rolü şablonu tanımlı
