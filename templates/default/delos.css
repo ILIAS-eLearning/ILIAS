@@ -2088,9 +2088,9 @@ body {
 }
 @media only screen and (max-width: 991px) {
   body {
-    overflow: initial;
-    height: auto;
-    min-height: 100vh;
+    overflow: auto;
+    height: 100%;
+    min-height: 100%;
   }
 }
 
