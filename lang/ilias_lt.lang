@@ -14418,6 +14418,7 @@ rbac#:#rbac_role_rights_copy_empty#:#None###16 07 2010 new variable
 rbac#:#rbac_role_selection#:#Role Type###06 08 2011 new variable
 rbac#:#rbac_role_title#:#Role Title###01 10 2011 new variable
 rbac#:#rbac_select_copy_targets#:#Please select the target roles###01 10 2011 new variable
+rbac#:#rbac_select_roles#:#Role Selection
 rbac#:#rbac_ud_global#:#User defined global role###06 08 2011 new variable
 rbac#:#rbac_ud_local#:#User defined local role###06 08 2011 new variable
 rbac#:#rbac_ud_rolt#:#User defined role template###06 08 2011 new variable
