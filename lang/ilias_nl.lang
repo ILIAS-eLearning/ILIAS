@@ -14418,6 +14418,7 @@ rbac#:#rbac_role_rights_copy_empty#:#Niets
 rbac#:#rbac_role_selection#:#Type rol
 rbac#:#rbac_role_title#:#Titel van rol
 rbac#:#rbac_select_copy_targets#:#Please select the target roles
+rbac#:#rbac_select_roles#:#Role Selection
 rbac#:#rbac_ud_global#:#Gebruikers-gedefinieerde globale rol
 rbac#:#rbac_ud_local#:#Gebruikers-gedefinieerde lokale rol
 rbac#:#rbac_ud_rolt#:#Gebruikers-gedefinieerd rolsjabloon
