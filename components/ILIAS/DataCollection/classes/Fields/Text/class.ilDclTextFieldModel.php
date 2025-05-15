@@ -54,7 +54,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
     /**
      * @throws ilDclInputException
      */
-    public function checkValidityFromForm(ilPropertyFormGUI &$form, ?int $record_id = null): void
+    public function checkValidityFromForm(ilPropertyFormGUI &$form, ?int $record_id): void
     {
         if ($this->getProperty(ilDclBaseFieldModel::PROP_URL)) {
             $value = [
@@ -67,8 +67,9 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
         $this->checkValidity($value, $record_id);
     }
 
-    public function checkValidity($value, ?int $record_id = null): bool
+    public function checkValidity($value, ?int $record_id): bool
     {
+        $this->checkUnique($value, $record_id);
         if (isset($value['link'])) {
             $value = $value['link'];
             $link = (substr($value, 0, 3) === 'www') ? 'https://' . $value : $value;
@@ -87,15 +88,15 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
 
     public function checkFieldCreationInput(ilPropertyFormGUI $form): bool
     {
-        $return = true;
-        // Additional check for text fields: The length property should be max 200 if the textarea option is not set
+        $return = $this->checkUniqueProp($form);
+
         if ((int) $form->getInput('prop_' . ilDclBaseFieldModel::PROP_LENGTH) > 200 && !$form->getInput('prop_' . ilDclBaseFieldModel::PROP_TEXTAREA)) {
             $inputObj = $form->getItemByPostVar('prop_' . ilDclBaseFieldModel::PROP_LENGTH);
             $inputObj->setAlert($this->lng->txt("form_msg_value_too_high"));
             $return = false;
         }
 
-        return $return;
+        return parent::checkFieldCreationInput($form) && $return;
     }
 
     /**
@@ -109,6 +110,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
             ilDclBaseFieldModel::PROP_URL,
             ilDclBaseFieldModel::PROP_TEXTAREA,
             ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT,
+            ilDclBaseFieldModel::PROP_UNIQUE,
         ];
     }
 

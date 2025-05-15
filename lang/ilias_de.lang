@@ -8615,7 +8615,6 @@ dcl#:#dcl_detailed_view#:#Einzelansicht
 dcl#:#dcl_display_action_menu#:#Kopieren
 dcl#:#dcl_display_action_menu_desc#:#Das Objekt kann von dem Eintrag aus kopiert werden.
 dcl#:#dcl_display_record_alt#:#Diesen Eintrag anzeigen
-dcl#:#dcl_duplicate_non_unique_entries_exist#:#Es kann sich auch um bereits vorhandene Einträge handeln.
 dcl#:#dcl_edit#:#Einstellungen der Datensammlung
 dcl#:#dcl_edit_entry_rules#:#Eintragsbearbeitung
 dcl#:#dcl_edit_field#:#Feld bearbeiten
@@ -8841,6 +8840,7 @@ dcl#:#dcl_wrong_regex#:#Der eingegebene Text passt nicht zur Spezifikation diese
 dcl#:#dcl_xls_async_export#:#als XLSX (asynchron)
 dcl#:#disable_comments#:#Kommentare deaktivieren
 dcl#:#disable_visible#:#Sichtbarkeit deaktivieren
+dcl#:#duplicate_entries_exist#:#Innerhalb der vorhandenen Einträge gibt es bereits gleiche Werte.
 dcl#:#enable_comments#:#Kommentare aktivieren
 dcl#:#enable_visible#:#Sichtbarkeit aktivieren
 dcl#:#entry_of#:#Eintrag %1$d von %2$d

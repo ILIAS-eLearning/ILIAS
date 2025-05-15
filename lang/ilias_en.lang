@@ -8616,7 +8616,6 @@ dcl#:#dcl_detailed_view#:#Single
 dcl#:#dcl_display_action_menu#:#Copy
 dcl#:#dcl_display_action_menu_desc#:#Enable possibility to copy or link the referenced module
 dcl#:#dcl_display_record_alt#:#Display this entry
-dcl#:#dcl_duplicate_non_unique_entries_exist#:#This may also concern existing records.###23 02 2024 new variable
 dcl#:#dcl_edit#:#Edit Data Collection
 dcl#:#dcl_edit_entry_rules#:#Entry Editing
 dcl#:#dcl_edit_field#:#Edit Field
@@ -8842,6 +8841,7 @@ dcl#:#dcl_wrong_regex#:#The text you entered does not match the specification fo
 dcl#:#dcl_xls_async_export#:#as XLSX (asynchronous)
 dcl#:#disable_comments#:#Disable comments
 dcl#:#disable_visible#:#Disable visible
+dcl#:#duplicate_entries_exist#:#The existing records already contain duplicated entries.
 dcl#:#enable_comments#:#Enable comments
 dcl#:#enable_visible#:#Enable visible
 dcl#:#entry_of#:#Entry %1$d of %2$d

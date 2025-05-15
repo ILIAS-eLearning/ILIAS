@@ -29,7 +29,11 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
 
     public function getValidFieldProperties(): array
     {
-        return [static::PROP_SELECTION_OPTIONS, static::PROP_SELECTION_TYPE];
+        return [
+            $this::PROP_SELECTION_OPTIONS,
+            $this::PROP_SELECTION_TYPE,
+            ilDclBaseFieldModel::PROP_UNIQUE
+        ];
     }
 
     /**
@@ -87,16 +91,24 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
 
     public function checkFieldCreationInput(ilPropertyFormGUI $form): bool
     {
+        $return = $this->checkUniqueProp($form);
+
         $options_post_var = "prop_" . static::PROP_SELECTION_OPTIONS;
         foreach ($form->getInput($options_post_var) as $value) {
             if ($value["selection_value"] == "") {
                 $inputObj = $form->getItemByPostVar($options_post_var);
                 $inputObj->setAlert($this->lng->txt("msg_input_is_required"));
-                return false;
+                $return = false;
             }
         }
 
-        return parent::checkFieldCreationInput($form);
+        return parent::checkFieldCreationInput($form) && $return;
+    }
+
+    public function checkValidity($value, ?int $record_id): bool
+    {
+        $this->checkUnique($value, $record_id);
+        return parent::checkValidity($value, $record_id);
     }
 
     /**
@@ -140,7 +152,6 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
             'title' => $this->getTitle(),
             'datatype' => $this->getDatatypeId(),
             'description' => $this->getDescription(),
-            'unique' => $this->isUnique(),
         ];
 
         $properties = $this->getValidFieldProperties();

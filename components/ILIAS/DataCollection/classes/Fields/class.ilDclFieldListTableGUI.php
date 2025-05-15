@@ -48,7 +48,6 @@ class ilDclFieldListTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('dcl_in_export'), '', '30px');
         $this->addColumn($this->lng->txt('dcl_description'), '', 'auto');
         $this->addColumn($this->lng->txt('dcl_field_datatype'), '', 'auto');
-        $this->addColumn($this->lng->txt('dcl_unique'), '', 'auto');
         $this->addColumn($this->lng->txt('actions'), '', '');
         // Only add mutli command for custom fields
         if (count($this->table->getRecordFields())) {
@@ -238,17 +237,6 @@ class ilDclFieldListTableGUI extends ilTable2GUI
         $this->tpl->setVariable('TITLE', $a_set->getTitle());
         $this->tpl->setVariable('DESCRIPTION', $a_set->getDescription());
         $this->tpl->setVariable('DATATYPE', $a_set->getPresentationTitle());
-
-        if (!$a_set->isStandardField()) {
-            if ($a_set->isUnique()) {
-                $icon = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('standard/icon_checked.svg'), $this->lng->txt("yes"));
-            } else {
-                $icon = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('standard/icon_unchecked.svg'), $this->lng->txt("no"));
-            }
-            $this->tpl->setVariable('ICON_UNIQUE', $this->renderer->render($icon));
-        } else {
-            $this->tpl->setVariable('NO_UNIQUE');
-        }
 
         $this->ctrl->setParameterByClass('ildclfieldeditgui', 'field_id', $a_set->getId());
 

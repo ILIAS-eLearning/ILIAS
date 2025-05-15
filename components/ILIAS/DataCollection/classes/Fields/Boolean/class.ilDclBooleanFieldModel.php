@@ -56,7 +56,7 @@ class ilDclBooleanFieldModel extends ilDclBaseFieldModel
     /**
      * @throws ilDclInputException
      */
-    public function checkValidityFromForm(ilPropertyFormGUI &$form, ?int $record_id = null): void
+    public function checkValidityFromForm(ilPropertyFormGUI &$form, ?int $record_id): void
     {
         $value = $form->getInput('field_' . $this->getId());
 
