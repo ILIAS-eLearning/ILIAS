@@ -14419,6 +14419,7 @@ rbac#:#rbac_role_selection#:#نوع نقش
 rbac#:#rbac_role_title#:#عنوان نقش
 rbac#:#rbac_select_copy_targets#:#Please select the target roles
 rbac#:#rbac_ud_global#:#نقش همگانی تعریف شده توسط کاربر
+rbac#:#rbac_select_roles#:#Role Selection
 rbac#:#rbac_ud_local#:#User defined local role
 rbac#:#rbac_ud_rolt#:#User defined role template
 rbac#:#rbac_unprotected_delete_local_policies_info#:#If activated, all local policies will be deleted. Permissions in courses and groups will be newly initialized.
