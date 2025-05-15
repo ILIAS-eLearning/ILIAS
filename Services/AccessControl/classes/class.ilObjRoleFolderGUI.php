@@ -276,7 +276,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         $this->ctrl->setParameter($this, 'csource', $this->initCopySourceFromGET());
 
         if (strlen(ilSession::get('rolf_search_query'))) {
-            $this->tpl->setOnScreenMessage('info', sprintf($this->lng->txt('rbac_select_copy_targets'), '<strong>' . ilObject::_lookupTitle($this->initCopySourceFronGET()) . '</strong>'));
+            $this->tpl->setOnScreenMessage('info', sprintf($this->lng->txt('rbac_select_copy_targets'), '<strong>' . ilObject::_lookupTitle($this->initCopySourceFromGET()) . '</strong>'));
             $table = new ilRoleTableGUI($this, 'roleSearchList');
             $table->setType(ilRoleTableGUI::TYPE_SEARCH);
             $table->setRoleTitleFilter(ilSession::get('rolf_search_query'));
