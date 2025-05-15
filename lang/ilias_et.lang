@@ -14418,6 +14418,7 @@ rbac#:#rbac_role_rights_copy_empty#:#Pole
 rbac#:#rbac_role_selection#:#Rolli tüüp
 rbac#:#rbac_role_title#:#Rolli nimetus
 rbac#:#rbac_select_copy_targets#:#Please select the target roles
+rbac#:#rbac_select_roles#:#Role Selection
 rbac#:#rbac_ud_global#:#User defined global role
 rbac#:#rbac_ud_local#:#User defined local role
 rbac#:#rbac_ud_rolt#:#User defined role template
