@@ -14418,6 +14418,7 @@ rbac#:#rbac_role_rights_copy_empty#:#Ingen
 rbac#:#rbac_role_selection#:#Typ av rullning
 rbac#:#rbac_role_title#:#Roll titel
 rbac#:#rbac_select_copy_targets#:#Vänligen välj de roller till vilka rättigheterna ska överföras.
+rbac#:#rbac_select_roles#:#Role Selection###28 11 2023 new variable
 rbac#:#rbac_ud_global#:#Självskapad global roll
 rbac#:#rbac_ud_local#:#Skapa lokal roll själv
 rbac#:#rbac_ud_rolt#:#Självskapad rollmall
