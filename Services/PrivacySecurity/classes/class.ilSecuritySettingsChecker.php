@@ -252,11 +252,9 @@ class ilSecuritySettingsChecker
                 ? $security->getPasswordMinLength()
                 : 6;
             $max = ($security->getPasswordMaxLength() > 0)
-                ? $security->getPasswordMaxLength()
-                : 10;
-            if ($min > $max) {
-                $max = $max + 1;
-            }
+                ? max($security->getPasswordMaxLength(), $min)
+                : max($min, 10);
+
             $random = new ilRandom();
             $length = $random->int($min, $max);
             $next = $random->int(1, 2);
