@@ -14418,6 +14418,7 @@ rbac#:#rbac_role_rights_copy_empty#:#Brak
 rbac#:#rbac_role_selection#:#Typ roli
 rbac#:#rbac_role_title#:#Tytuł roli
 rbac#:#rbac_select_copy_targets#:#Wybierz role, na które mają zostać przeniesione uprawnienia.
+rbac#:#rbac_select_roles#:#Role Selection
 rbac#:#rbac_ud_global#:#Samodzielnie utworzona globalna rola
 rbac#:#rbac_ud_local#:#Samodzielnie utworzona lokalna rola
 rbac#:#rbac_ud_rolt#:#Samodzielnie utworzony szablon roli
