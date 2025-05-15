@@ -14299,7 +14299,7 @@ rbac#:#rbac_condition_delete_sure#:#Are you sure you want to delete the followin
 rbac#:#rbac_context_global#:#Global
 rbac#:#rbac_copy_behaviour#:#Role Copy Settings
 rbac#:#rbac_copy_behaviour_info#:#Transfer Permissions from: %s to: %s
-rbac#:#rbac_copy_multi_targets#:%s, %s and %s further Roles selected%s
+rbac#:#rbac_copy_multi_targets#:#%s, %s and %s further Roles selected%s
 rbac#:#rbac_copy_no_targets#:#At least one Role must be selected as Target
 rbac#:#rbac_copy_finished#:#Finished copying.
 rbac#:#rbac_copy_role#:#Copy Role
