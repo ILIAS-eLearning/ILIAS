@@ -14418,6 +14418,7 @@ rbac#:#rbac_role_rights_copy_empty#:#Semmi
 rbac#:#rbac_role_selection#:#Szereptípus
 rbac#:#rbac_role_title#:#Szerepcím
 rbac#:#rbac_select_copy_targets#:#Válassza ki a célszerepeket.
+rbac#:#rbac_select_roles#:#Szerep kiválasztása
 rbac#:#rbac_ud_global#:#Felhasználó által létrehozott globális szerep
 rbac#:#rbac_ud_local#:#Felhasználó által létrehozott helyi szerep
 rbac#:#rbac_ud_rolt#:#Felhasználó által létrehozott szerepsablon
