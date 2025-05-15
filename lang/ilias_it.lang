@@ -14417,6 +14417,7 @@ rbac#:#rbac_role_rights_copy_empty#:#Nessuno
 rbac#:#rbac_role_selection#:#Tipo di ruolo
 rbac#:#rbac_role_title#:#Titolo del ruolo
 rbac#:#rbac_select_copy_targets#:#Si prega di selezionare i ruoli di destinazione
+rbac#:#rbac_select_roles#:#Role Selection
 rbac#:#rbac_ud_global#:#Ruolo globale definito dall’utente
 rbac#:#rbac_ud_local#:#Ruolo locale definito dall’utente
 rbac#:#rbac_ud_rolt#:#Modello di ruolo definito dall’utente
