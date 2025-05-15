@@ -14418,6 +14418,7 @@ rbac#:#rbac_role_rights_copy#:#Copiar permisos
 rbac#:#rbac_role_rights_copy_change_existing#:#Cambiar objetos existentes
 rbac#:#rbac_role_rights_copy_empty#:#Ninguno
 rbac#:#rbac_role_selection#:#Tipo de rol
+rbac#:#rbac_select_roles#:#Role Selection
 rbac#:#rbac_role_title#:#Título de rol
 rbac#:#rbac_select_copy_targets#:#Seleccione un nuevo rol
 rbac#:#rbac_ud_global#:#Rol local definido por usuario
