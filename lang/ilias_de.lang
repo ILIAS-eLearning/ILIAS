@@ -14294,13 +14294,13 @@ rbac#:#rbac_cant_import_role_wrong_type#:#Eine Rolle aus dem Objekt $s in ein Ob
 rbac#:#rbac_change_existing_confirm_tbl#:#Einstellungen zum Ändern vorhandener Objekte
 rbac#:#rbac_change_existing_objects_desc_new_role#:#Die Rechteeinstellungen von dieser Rolle werden auf ALLE vorhandenen Objekte übertragen.
 rbac#:#rbac_changes#:#Änderungen
-rbac#:#rbac_choose_copy_targets#:#Bitte geben Sie einen Suchbegriff ein, um die Rollen zu finden, auf die Rechte übertragen werden sollen.
+rbac#:#rbac_choose_copy_targets#:#Bitte geben Sie einen Suchbegriff ein, um die Rollen zu finden, auf die Rechte von %s übertragen werden sollen.
 rbac#:#rbac_condition_delete_sure#:#Wollen Sie wirklich die folgenden Vorbedingungen löschen?
 rbac#:#rbac_context_global#:#Global
 rbac#:#rbac_copy_behaviour#:#Einstellungen zum Kopieren der Rechte
-rbac#:#rbac_copy_behaviour_info#:#Übertragen der Rechte von: <strong>%s</strong> nach: <strong>%s</strong>
+rbac#:#rbac_copy_behaviour_info#:#Übertragen der Rechte von: %s nach: %s
 rbac#:#rbac_copy_finished#:#Die Rechte wurden auf die ausgewählten Rollen übertragen.
-rbac#:#rbac_copy_multi_targets#:#Rollen ausgewählt
+rbac#:#rbac_copy_multi_targets#:#%s, %s und %s weitere Rollen ausgewählt%s
 rbac#:#rbac_copy_no_targets#:#Es muss mindestens eine Rolle als Ziel ausgewählt werden
 rbac#:#rbac_copy_role#:#Rolle kopieren
 rbac#:#rbac_copy_role_add_perm#:#Rechte hinzufügen
