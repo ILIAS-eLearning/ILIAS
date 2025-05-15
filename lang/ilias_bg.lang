@@ -14418,6 +14418,7 @@ rbac#:#rbac_role_rights_copy_empty#:#None
 rbac#:#rbac_role_selection#:#Тип на ролята
 rbac#:#rbac_role_title#:#Заглавие на ролята
 rbac#:#rbac_select_copy_targets#:#Моля, изберете целевите роли
+rbac#:#rbac_select_roles#:#Role Selection
 rbac#:#rbac_ud_global#:#Глобална роля, определена от потребителя
 rbac#:#rbac_ud_local#:#Местна роля, определена от потребителя
 rbac#:#rbac_ud_rolt#:# Шаблон за роля, дефинирана от потребителя
