@@ -102,11 +102,6 @@ class FileInputTest extends ILIAS_UI_TestBase
                 return 'uploadurl';
             }
 
-            public function getFileRemovalURL(): string
-            {
-                return 'removalurl';
-            }
-
             /**
              * @inheritDoc
              */

@@ -1,7 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 declare(strict_types=1);
-
 
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileUpload\FileUpload;
@@ -14,20 +28,6 @@ use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\Handler\BasicHandlerResult;
 use ILIAS\FileUpload\Handler\BasicFileInfoResult;
 use ILIAS\FileUpload\Handler\AbstractCtrlAwareUploadHandler;
-
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 
 /**
  * Class ilCtrlAwareStorageUploadHandler
@@ -69,20 +69,6 @@ class ilCtrlAwareStorageUploadHandler extends AbstractCtrlAwareUploadHandler
             $identifier = '';
             $status = HandlerResult::STATUS_FAILED;
             $message = $result->getStatus()->getMessage();
-        }
-
-        return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $identifier, $message);
-    }
-
-    protected function getRemoveResult(string $identifier): HandlerResult
-    {
-        if (null !== ($id = $this->storage->manage()->find($identifier))) {
-            $this->storage->manage()->remove($id, $this->stakeholder);
-            $status = HandlerResult::STATUS_OK;
-            $message = "file removal OK";
-        } else {
-            $status = HandlerResult::STATUS_OK;
-            $message = "file with identifier '$identifier' doesn't exist, nothing to do.";
         }
 
         return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $identifier, $message);

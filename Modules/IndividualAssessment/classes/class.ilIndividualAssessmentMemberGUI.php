@@ -89,7 +89,6 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
                 $this->$cmd();
                 break;
             case AbstractCtrlAwareUploadHandler::CMD_UPLOAD:
-            case AbstractCtrlAwareUploadHandler::CMD_REMOVE:
             case AbstractCtrlAwareUploadHandler::CMD_INFO:
                 parent::executeCommand();
                 break;
@@ -347,21 +346,6 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
             $message = $result->getStatus()->getMessage();
         }
 
-        return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $identifier, $message);
-    }
-
-    protected function getRemoveResult(string $identifier): HandlerResult
-    {
-        $resource_id = $this->irss->manage()->find($identifier);
-        if($resource_id) {
-            $this->irss->manage()->remove($resource_id, $this->stakeholder);
-            $status = HandlerResult::STATUS_OK;
-            $message = $this->lng->txt('iass_file_deleted');
-        } else {
-            $status = HandlerResult::STATUS_FAILED;
-            $identifier = '';
-            $message = 'no resource to delete';
-        }
         return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $identifier, $message);
     }
 
