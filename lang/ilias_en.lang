@@ -14294,12 +14294,12 @@ rbac#:#rbac_cant_import_role_wrong_type#:#Can't import a role from item %s into 
 rbac#:#rbac_change_existing_confirm_tbl#:#Settings for ‘Change Existing Objects’
 rbac#:#rbac_change_existing_objects_desc_new_role#:#The permission settings of this role will be adopted to ALL existing objects.
 rbac#:#rbac_changes#:#Changes
-rbac#:#rbac_choose_copy_targets#:#Please select the roles which are to be the targets for the copied permissions.
+rbac#:#rbac_choose_copy_targets#:#Please select the roles which are to be the targets for the copied permissions from %s.
 rbac#:#rbac_condition_delete_sure#:#Are you sure you want to delete the following preconditions?
 rbac#:#rbac_context_global#:#Global
 rbac#:#rbac_copy_behaviour#:#Role Copy Settings
-rbac#:#rbac_copy_behaviour_info#:#Transfer Permissions from: <strong>%s</strong> to: <strong>%s</strong>
-rbac#:#rbac_copy_multi_targets#:#Roles selected
+rbac#:#rbac_copy_behaviour_info#:#Transfer Permissions from: %s to: %s
+rbac#:#rbac_copy_multi_targets#:#$s, %s and %s further Roles selected%s
 rbac#:#rbac_copy_no_targets#:#At least one Role must be selected as Target
 rbac#:#rbac_copy_finished#:#Finished copying.
 rbac#:#rbac_copy_role#:#Copy Role
