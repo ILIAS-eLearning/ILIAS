@@ -88,6 +88,10 @@ class TestScoring
         foreach ($participants as $active_id => $userdata) {
             if (is_object($userdata) && is_array($userdata->getPasses())) {
                 $this->recalculatePasses($userdata, $active_id);
+                \ilLPStatusWrapper::_updateStatus(
+                    $this->test->getId(),
+                    $userdata->getUserID()
+                );
             }
         }
 

@@ -18,73 +18,44 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailAddressTypeFactory
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilMailAddressTypeFactory
 {
-    private readonly ilGroupNameAsMailValidator $groupNameValidator;
+    private readonly ilGroupNameAsMailValidator $group_name_validator;
     private readonly ilLogger $logger;
     protected ilRbacSystem $rbacsystem;
     protected ilRbacReview $rbacreview;
-    protected ilMailAddressTypeHelper $typeHelper;
+    protected ilMailAddressTypeHelper $type_helper;
     protected ilMailingLists $lists;
-    protected ilRoleMailboxSearch $roleMailboxSearch;
+    protected ilRoleMailboxSearch $role_mailbox_search;
 
     public function __construct(
-        ?ilGroupNameAsMailValidator $groupNameValidator = null,
+        ?ilGroupNameAsMailValidator $group_name_validator = null,
         ?ilLogger $logger = null,
         ?ilRbacSystem $rbacsystem = null,
         ?ilRbacReview $rbacreview = null,
-        ?ilMailAddressTypeHelper $typeHelper = null,
+        ?ilMailAddressTypeHelper $type_helper = null,
         ?ilMailingLists $lists = null,
-        ?ilRoleMailboxSearch $roleMailboxSearch = null
+        ?ilRoleMailboxSearch $role_mailbox_search = null
     ) {
         global $DIC;
 
-        if ($groupNameValidator === null) {
-            $groupNameValidator = new ilGroupNameAsMailValidator(ilMail::ILIAS_HOST);
-        }
-
-        if ($logger === null) {
-            $logger = ilLoggerFactory::getLogger('mail');
-        }
-
-        if ($typeHelper === null) {
-            $typeHelper = new ilMailAddressTypeHelperImpl(ilMail::ILIAS_HOST);
-        }
-
-        if ($rbacsystem === null) {
-            $rbacsystem = $DIC->rbac()->system();
-        }
-
-        if ($rbacreview === null) {
-            $rbacreview = $DIC->rbac()->review();
-        }
-
-        if ($lists === null) {
-            $lists = new ilMailingLists($DIC->user());
-        }
-
-        if ($roleMailboxSearch === null) {
-            $roleMailboxSearch = new ilRoleMailboxSearch(new ilMailRfc822AddressParserFactory(), $DIC->database());
-        }
-
-        $this->groupNameValidator = $groupNameValidator;
-        $this->logger = $logger;
-        $this->typeHelper = $typeHelper;
-        $this->rbacsystem = $rbacsystem;
-        $this->rbacreview = $rbacreview;
-        $this->lists = $lists;
-        $this->roleMailboxSearch = $roleMailboxSearch;
+        $this->group_name_validator = $group_name_validator ?? new ilGroupNameAsMailValidator(ilMail::ILIAS_HOST);
+        $this->logger = $logger ?? ilLoggerFactory::getLogger('mail');
+        $this->type_helper = $type_helper ?? new ilMailAddressTypeHelperImpl(ilMail::ILIAS_HOST);
+        $this->rbacsystem = $rbacsystem ?? $DIC->rbac()->system();
+        $this->rbacreview = $rbacreview ?? $DIC->rbac()->review();
+        $this->lists = $lists ?? new ilMailingLists($DIC->user());
+        $this->role_mailbox_search = $role_mailbox_search ?? new ilRoleMailboxSearch(
+            new ilMailRfc822AddressParserFactory(),
+            $DIC->database()
+        );
     }
 
     public function getByPrefix(ilMailAddress $address, bool $cached = true): ilMailAddressType
     {
-        $addressType = match (true) {
+        $address_type = match (true) {
             str_starts_with($address->getMailbox(), '#il_ml_') => new ilMailMailingListAddressType(
-                $this->typeHelper,
+                $this->type_helper,
                 $address,
                 $this->logger,
                 $this->lists
@@ -93,26 +64,26 @@ class ilMailAddressTypeFactory
                 $address->getMailbox(),
                 '"#'
             ) => new ilMailLoginOrEmailAddressAddressType(
-                $this->typeHelper,
+                $this->type_helper,
                 $address,
                 $this->logger,
                 $this->rbacsystem
             ),
-            $this->groupNameValidator->validate($address) => new ilMailGroupAddressType(
-                $this->typeHelper,
+            $this->group_name_validator->validate($address) => new ilMailGroupAddressType(
+                $this->type_helper,
                 $address,
                 $this->logger
             ),
             default => new ilMailRoleAddressType(
-                $this->typeHelper,
+                $this->type_helper,
                 $address,
-                $this->roleMailboxSearch,
+                $this->role_mailbox_search,
                 $this->logger,
                 $this->rbacsystem,
                 $this->rbacreview
             ),
         };
 
-        return new ilMailCachedAddressType($addressType, $cached);
+        return new ilMailCachedAddressType($address_type, $cached);
     }
 }

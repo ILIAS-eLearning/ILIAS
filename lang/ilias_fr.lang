@@ -2060,8 +2060,6 @@ auth#:#auth_account_migration_new#:#Créer Nouveau Compte Utilisateur
 auth#:#auth_activation_code_success#:#Votre compte a été réactivé. Vous pouvez maintenant vous connecter dans ILIAS.
 auth#:#auth_allow_local_info#:#Si cette option est activée, une authentification locale par rapport à la base de données ILIAS est toujours possible (avec un nom d'utilisateur/mot de passe local) pour les comptes utilisateur dont le mode d’authentification est défini sur SAML.
 auth#:#auth_auth_settings#:#Paramètres
-auth#:#auth_cas_ldap#:#Synchronization using LDAP###31 10 2023 new variable
-auth#:#auth_cas_ldap_info#:#If enabled, the synchronization of user accounts and role assignments is done using an existing LDAP configuration.###31 10 2023 new variable
 auth#:#auth_cron_destroy_expired_sessions#:#Deletion of Expired Sessions###31 10 2023 new variable
 auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessions.###31 10 2023 new variable
 auth#:#auth_err_expired#:#Votre session a été désactivée pour cause d’inactivité.
@@ -2164,8 +2162,6 @@ auth#:#auth_saml_user_mapping#:#Localisation de profile d’utilisateur
 auth#:#auth_saml_username_claim#:#Assigner à un nom d’utilisateur
 auth#:#auth_saml_username_claim_info#:#Définir l’attribut qu’ILIAS utilise pour générer le nom d’utilisateur qui sera visible dans ILIAS.
 auth#:#auth_sync#:#Synchronisation Utilisateur
-auth#:#auth_sync_cas#:#Génération automatique de comptes utilisateurs
-auth#:#auth_sync_cas_info#:#Crée automatiquement des comptes utilisateurs ILIAS pour les utilisateurs qui se sont correctement authentifiés avec CAS.
 auth#:#destination_after_logout#:#Destination After Logout###28 10 2024 new variable
 auth#:#destination_external_ressource#:#Show External Ressource###28 10 2024 new variable
 auth#:#destination_external_ressource_url#:#External URL###28 10 2024 new variable
@@ -3583,13 +3579,6 @@ common#:#attachments#:#Pièces jointes
 common#:#attempts#:#Tentatives
 common#:#auth_active_roles#:#Rôles globaux disponibles dans le formulaire d'enregistrement
 common#:#auth_allow_local#:#Autoriser l'Authentification Locale
-common#:#auth_cas#:#CAS
-common#:#auth_cas_allow_local_desc#:#Permet aux utilisateurs authentifiés par CAS de se connecter avec leur identifiant et leur mot de passe local.
-common#:#auth_cas_auth#:#Configurer l'Authentification CAS
-common#:#auth_cas_auth_desc#:#Pour que l'authentification CAS fonctionne, le paramètre serveur prevent_super_global_replacement dans client.ini.php doit être défini.
-common#:#auth_cas_port_desc#:#Par ex. 443 si l'URI du serveur CAS est https://auth.yourserver.com:443/cas/
-common#:#auth_cas_server_desc#:#Par ex. auth.yourserver.com si l'URI du serveur CAS est https://auth.yourserver.com:443/cas/
-common#:#auth_cas_uri_desc#:#URI local, par ex. cas si l'URI du serveur CAS est https://auth.yourserver.com:443/cas/
 common#:#auth_configure#:#configurer...
 common#:#auth_create_users#:#Crée automatiquement les comptes non existants
 common#:#auth_default#:#Paramètres par défaut
@@ -4045,7 +4034,6 @@ common#:#entry_status#:#Entry status
 common#:#err_1_param#:#Seulement 1 paramètre !
 common#:#err_2_param#:#Seulement 2 paramètres !
 common#:#err_auth_apache_failed#:#L'authentification a échoué. Il est possible que vous n'ayez pas de certificat utilisateur valide ou votre "smartcard" n'est pas insérée.
-common#:#err_auth_cas_no_ilias_user#:#La connexion a échoué. L'authentification au serveur CAS a réussi, mais aucun compte utilisateur correspondant sur ILIAS n'existe. Veuillez prendre contact avec l'administrateur de la plate-forme ILIAS.
 common#:#err_auth_ldap_no_ilias_user#:#Echec de connexion. L'authentification LDAP a réussi mais il n'existe aucun utilisateur ILIAS correspondant. Veuillez contacter votre administrateur.
 common#:#err_auth_mode_inactive#:#Votre méthode d'authentification a été désactivée.
 common#:#err_auth_soap_no_ilias_user#:#La connexion a échoué. L'authentification au serveur SOAP a réussi, mais aucun compte utilisateur correspondant sur ILIAS n'existe. Veuillez prendre contact avec l'administrateur de la plate-forme ILIAS.
@@ -4579,7 +4567,6 @@ common#:#login_information_desc#:#Veuillez saisir un message pour la page de con
 common#:#login_information_settings_saved#:#L'information de connexion a été enregistréeavec succès
 common#:#login_invalid#:#Le nom d'utilisateur choisi n'est pas valide ! Seuls les caractères suivants sont autorisés (au moins 3 caractères) : A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_to_ilias#:#Connexion à ILIAS
-common#:#login_to_ilias_via_cas#:#Se connecter à ILIAS via le Service Central d'Authentification CAS
 common#:#login_to_ilias_via_saml#:#Connexion à ILIAS par authentification SAML
 common#:#login_to_ilias_via_shibboleth#:#Se connecter à ILIAS via Shibboleth
 common#:#loginname_already_exists#:#Ce nom de connexion (login) existe déjà .
@@ -4898,7 +4885,7 @@ common#:#obj_ass#:#Atout
 common#:#obj_assf#:#Test et évaluation
 common#:#obj_assf_desc#:#Paramétrage et gestion de l'outil de test et d'évaluation
 common#:#obj_auth#:#Authentification / Nouvelle inscription
-common#:#obj_auth_desc#:#Configurez ici le type d'authentification des utilisateurs (local, LDAP, CAS, ...) ainsi que les nouvelles inscriptions.
+common#:#obj_auth_desc#:#Configurez ici le type d'authentification des utilisateurs (local, LDAP, ...) ainsi que les nouvelles inscriptions.
 common#:#obj_awra#:#Annonce 'Qui est en ligne ?'
 common#:#obj_awra_desc#:#Paramétrage de l'annonce 'Qui est en ligne ?'
 common#:#obj_bdga#:#Badges
@@ -5889,7 +5876,7 @@ common#:#user_defined_list#:#Champs Utilisateur Personnalisés
 common#:#user_deleted#:#Utilisateur supprimé
 common#:#user_detail#:#Détail
 common#:#user_ext_account#:#Compte Externe
-common#:#user_ext_account_desc#:#Compte utilisé pour l'authentification externe (authentification CAS, SOAP, LDAP ou Radius)
+common#:#user_ext_account_desc#:#Compte utilisé pour l'authentification externe (authentification SOAP, LDAP ou Radius)
 common#:#user_image#:#Image de l'Utilisateur
 common#:#user_import_failed#:#Echec d'importation utilisateur
 common#:#user_imported#:#Importation utilisateur terminée.
@@ -6741,7 +6728,6 @@ content#:#cont_localfile#:#Fichier local
 content#:#cont_localization#:#Langue
 content#:#cont_localization_info#:#Langue utilisée pour les textes prédéfinis, comme "Précédent" et "Suivant".
 content#:#cont_location#:#Localisation
-content#:#cont_lpe_cas_login_form#:#Formulaire de connexion CAS
 content#:#cont_lpe_dpro_agreement_link#:#Declaration of Data Protection Link###31 10 2023 new variable
 content#:#cont_lpe_language_selection#:#Sélection de la langue
 content#:#cont_lpe_login_form#:#Formulaire de connexion
@@ -10722,7 +10708,7 @@ ldap#:#ldap_add_missing#:#Assigner rôles manquants
 ldap#:#ldap_add_remove#:#Ajouter/supprimer rôles
 ldap#:#ldap_add_role_ass_rule#:#Nouvelle règle pour les assignations de rôle
 ldap#:#ldap_as_ds#:#Utiliser comme source de données
-ldap#:#ldap_as_ds_info#:#Si activée, cette configuration de LDAP est utilisée uniquement pour la synchronisation des comptes d'utilisateur en association avec une autre méthode d'authentification (i.e. CAS or Radius).
+ldap#:#ldap_as_ds_info#:#Si activée, cette configuration de LDAP est utilisée uniquement pour la synchronisation des comptes d'utilisateur en association avec une autre méthode d'authentification (i.e. Radius).
 ldap#:#ldap_assignment_type#:#Type d'assignation
 ldap#:#ldap_authentication_settings#:#Paramètres d'Authentification
 ldap#:#ldap_bind_anonymous#:#Bind de façon anonyme

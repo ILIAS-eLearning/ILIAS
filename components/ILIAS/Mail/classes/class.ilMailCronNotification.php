@@ -23,27 +23,23 @@ use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
 use ILIAS\Cron\CronJob;
 
-/**
- * Mail notifications
- * @author Nadia Ahmad <nahmad@databay.de>
- */
 class ilMailCronNotification extends CronJob
 {
     private GlobalHttpState $http;
     protected ilLanguage $lng;
     protected ilSetting $settings;
-    protected bool $initDone = false;
+    protected bool $init_done = false;
 
     protected function init(): void
     {
         global $DIC;
 
-        if (!$this->initDone) {
+        if (!$this->init_done) {
             $this->settings = $DIC->settings();
             $this->lng = $DIC->language();
             $this->http = $DIC->http();
 
-            $this->initDone = true;
+            $this->init_done = true;
         }
     }
 

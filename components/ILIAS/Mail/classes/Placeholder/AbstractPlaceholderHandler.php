@@ -49,7 +49,6 @@ abstract class AbstractPlaceholderHandler implements Placeholder
     }
 
     /**
-     * @param Signature $signature
      * @return string<string, string>
      */
     public function handle(Signature $signature): array
@@ -68,7 +67,7 @@ abstract class AbstractPlaceholderHandler implements Placeholder
     }
 
     /**
-     * @param Placeholder[] $placeholder
+     * @param array<string, string> $placeholder
      * @return array<string, string>
      */
     abstract public function addPlaceholder(array $placeholder): array;

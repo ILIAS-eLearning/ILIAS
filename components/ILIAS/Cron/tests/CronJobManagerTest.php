@@ -31,12 +31,9 @@ class CronJobManagerTest extends TestCase
         $clock_factory = $this->createMock(ILIAS\Data\Clock\ClockFactory::class);
         $now = new DateTimeImmutable('@' . time());
         $clock_factory->method('system')->willReturn(
-            new class ($now) implements \ILIAS\Data\Clock\ClockInterface {
-                private DateTimeImmutable $now;
-
-                public function __construct(DateTimeImmutable $now)
+            new readonly class ($now) implements \ILIAS\Data\Clock\ClockInterface {
+                public function __construct(private DateTimeImmutable $now)
                 {
-                    $this->now = $now;
                 }
 
                 public function now(): DateTimeImmutable

@@ -22,7 +22,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 
 class ilMailAddressParserTest extends ilMailBaseTestCase
 {
-    private const DEFAULT_HOST = 'ilias';
+    private const string DEFAULT_HOST = 'ilias';
 
     /**
      * @return array[]
@@ -127,28 +127,28 @@ class ilMailAddressParserTest extends ilMailBaseTestCase
         }
 
         $parser = new ilMailImapRfc822AddressParser($addresses);
-        $parsedAddresses = $parser->parse();
+        $parsed_addresses = $parser->parse();
 
-        $this->assertCount(count($expected), $parsedAddresses);
-        $this->assertEquals($expected, $parsedAddresses);
+        $this->assertCount(count($expected), $parsed_addresses);
+        $this->assertEquals($expected, $parsed_addresses);
     }
 
     #[DataProvider('emailAddressesProvider')]
     public function testPearAddressParser(string $addresses, array $expected): void
     {
         $parser = new ilMailPearRfc822WrapperAddressParser($addresses);
-        $parsedAddresses = $parser->parse();
+        $parsed_addresses = $parser->parse();
 
-        $this->assertEquals($expected, $parsedAddresses);
-        $this->assertCount(count($expected), $parsedAddresses);
+        $this->assertEquals($expected, $parsed_addresses);
+        $this->assertCount(count($expected), $parsed_addresses);
     }
 
     public function testAddressParserReturnsEmptyListIfAnEmptyAddressStringIsGiven(): void
     {
         $parser = new ilMailPearRfc822WrapperAddressParser('');
-        $parsedAddresses = $parser->parse();
+        $parsed_addresses = $parser->parse();
 
-        $this->assertCount(0, $parsedAddresses);
+        $this->assertCount(0, $parsed_addresses);
     }
 
     #[DataProvider('emailInvalidAddressesProvider')]
@@ -162,12 +162,12 @@ class ilMailAddressParserTest extends ilMailBaseTestCase
 
     public function testWrappingParserDelegatesParsingToAggregatedParser(): void
     {
-        $wrappedParser = $this->getMockBuilder(ilBaseMailRfc822AddressParser::class)
+        $wrapped_parser = $this->getMockBuilder(ilBaseMailRfc822AddressParser::class)
             ->setConstructorArgs(['phpunit', 'ilias'])
             ->getMock();
-        $wrappedParser->expects($this->once())->method('parse');
+        $wrapped_parser->expects($this->once())->method('parse');
 
-        $parser = new ilMailRfc822AddressParser($wrappedParser);
+        $parser = new ilMailRfc822AddressParser($wrapped_parser);
         $parser->parse();
     }
 }

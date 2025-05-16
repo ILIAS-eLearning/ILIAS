@@ -27,8 +27,8 @@ class ilChatroomSetupAgent implements Setup\Agent
 {
     use Setup\Agent\HasNoNamedObjective;
 
-    private const PORT_MIN = 1;
-    private const PORT_MAX = 65535;
+    private const int PORT_MIN = 1;
+    private const int PORT_MAX = 65535;
 
     /** @var string[] */
     public static array $LOG_LEVELS = [

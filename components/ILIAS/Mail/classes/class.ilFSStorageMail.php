@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilFSStorageMail extends ilFileSystemAbstractionStorage
 {
     public function __construct(int $a_container_id, int $a_usr_id)

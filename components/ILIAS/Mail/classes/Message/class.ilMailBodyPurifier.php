@@ -18,19 +18,15 @@
 
 declare(strict_types=1);
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilMailBodyPurifier
 {
     public function purify(string $content): string
     {
-        $sanitizedContent = ilUtil::stripSlashes($content);
-
-        if ($sanitizedContent !== $content) {
-            $sanitizedContent = ilUtil::stripSlashes(str_replace('<', '< ', $content));
+        $sanitized_content = ilUtil::stripSlashes($content);
+        if ($sanitized_content !== $content) {
+            $sanitized_content = ilUtil::stripSlashes(str_replace('<', '< ', $content));
         }
 
-        return str_replace(chr(13), '', $sanitizedContent);
+        return str_replace(chr(13), '', $sanitized_content);
     }
 }

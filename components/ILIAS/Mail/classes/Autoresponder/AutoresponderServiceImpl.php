@@ -28,13 +28,16 @@ use DateTimeImmutable;
 
 final class AutoresponderServiceImpl implements AutoresponderService
 {
-    /** @var callable */
+    /** @var callable(int, ilMailOptions, DateTimeImmutable): void|null */
     private $mail_action;
     private readonly DateInterval $idle_time_interval;
 
-    /** @var ilMailOptions[] $auto_responder_data */
+    /** @var array<int, ilMailOptions> $auto_responder_data */
     protected array $auto_responder_data = [];
 
+    /**
+     * @param callable(int, ilMailOptions, DateTimeImmutable): void|null $mail_action
+     */
     public function __construct(
         int $global_idle_time_interval,
         private bool $auto_responder_status,
@@ -43,7 +46,6 @@ final class AutoresponderServiceImpl implements AutoresponderService
         ?callable $mail_action = null
     ) {
         $this->mail_action = $mail_action;
-
         $this->idle_time_interval = new DateInterval('P' . $global_idle_time_interval . 'D');
     }
 

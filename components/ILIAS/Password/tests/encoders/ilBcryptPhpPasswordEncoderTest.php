@@ -24,9 +24,9 @@ use PHPUnit\Framework\Attributes\DataProvider;
 
 final class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTestCase
 {
-    private const VALID_COSTS = '08';
-    private const PASSWORD = 'password';
-    private const WRONG_PASSWORD = 'wrong_password';
+    private const string VALID_COSTS = '08';
+    private const string PASSWORD = 'password';
+    private const string WRONG_PASSWORD = 'wrong_password';
 
     /**
      * @return array<string, string[]>

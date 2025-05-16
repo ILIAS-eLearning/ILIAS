@@ -30,7 +30,7 @@ use ilDBInterface;
 
 class NotificationsCollector
 {
-    private const PING_THRESHOLD = 500;
+    private const int PING_THRESHOLD = 500;
 
     /** @var array<int, ReportDto> */
     private array $collection = [];
@@ -69,23 +69,23 @@ class NotificationsCollector
         $types = [ilDBConstants::T_TIMESTAMP];
         $data = [$left_interval_datetime->format('Y-m-d 23:59:59')];
 
-        $notification_query = "
+        $notification_query = '
             SELECT 		m.mail_id, m.user_id, m.folder_id, m.send_time, m.m_subject, mdata.title
             FROM 		mail m
             LEFT JOIN 	mail_obj_data mdata ON mdata.obj_id = m.folder_id
             LEFT JOIN   mail_cron_orphaned mco ON mco.mail_id = m.mail_id
             WHERE 		mco.mail_id IS NULL AND m.send_time <= %s
-        ";
+        ';
 
         if ((int) $this->setting->get('mail_only_inbox_trash', '0') > 0) {
-            $notification_query .= " AND ((mdata.m_type = %s OR mdata.m_type = %s) OR mdata.obj_id IS NULL)";
+            $notification_query .= ' AND ((mdata.m_type = %s OR mdata.m_type = %s) OR mdata.obj_id IS NULL)';
             $types[] = ilDBConstants::T_TEXT;
             $types[] = ilDBConstants::T_TEXT;
             $data[] = 'inbox';
             $data[] = 'trash';
         }
 
-        $notification_query .= " ORDER BY m.user_id, m.folder_id, m.mail_id";
+        $notification_query .= ' ORDER BY m.user_id, m.folder_id, m.mail_id';
 
         /** @var null|ReportDto $collection_obj */
         $collection_obj = null;

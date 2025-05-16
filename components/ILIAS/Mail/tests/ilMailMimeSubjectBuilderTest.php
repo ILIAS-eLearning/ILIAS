@@ -22,7 +22,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 
 class ilMailMimeSubjectBuilderTest extends ilMailBaseTestCase
 {
-    private const DEFAULT_PREFIX = 'docu default';
+    private const string DEFAULT_PREFIX = 'docu default';
 
     /**
      * @return array<string, array<int, string>>
@@ -59,26 +59,26 @@ class ilMailMimeSubjectBuilderTest extends ilMailBaseTestCase
     public function testSubjectMustNotBeChangedWhenNoPrefixShouldBeAdded(): void
     {
         $settings = $this->getMockBuilder(ilSetting::class)->onlyMethods(['get'])->disableOriginalConstructor()->getMock();
-        $subjectBuilder = new ilMailMimeSubjectBuilder($settings, self::DEFAULT_PREFIX);
+        $subject_builder = new ilMailMimeSubjectBuilder($settings, self::DEFAULT_PREFIX);
 
         $subject = 'phpunit';
-        $this->assertSame($subject, $subjectBuilder->subject($subject));
-        $this->assertSame($subject, $subjectBuilder->subject($subject, false, 'Course'));
+        $this->assertSame($subject, $subject_builder->subject($subject));
+        $this->assertSame($subject, $subject_builder->subject($subject, false, 'Course'));
     }
 
     #[DataProvider('globalSubjectPrefixOnlyProvider')]
     public function testGlobalPrefixMustBePrependedWhenDefinedAndPrefixShouldBeAppended(
-        string $globalPrefix,
-        string $expectedSubject
+        string $global_prefix,
+        string $expected_subject
     ): void {
         $settings = $this->getMockBuilder(ilSetting::class)->onlyMethods(['get'])->disableOriginalConstructor()->getMock();
-        $settings->expects($this->once())->method('get')->with('mail_subject_prefix')->willReturn($globalPrefix);
+        $settings->expects($this->once())->method('get')->with('mail_subject_prefix')->willReturn($global_prefix);
 
-        $subjectBuilder = new ilMailMimeSubjectBuilder($settings, self::DEFAULT_PREFIX);
+        $subject_builder = new ilMailMimeSubjectBuilder($settings, self::DEFAULT_PREFIX);
 
         $subject = 'phpunit';
-        $expectedSubject = sprintf($expectedSubject, $subject);
-        $this->assertSame($expectedSubject, $subjectBuilder->subject($subject, true));
+        $expected_subject = sprintf($expected_subject, $subject);
+        $this->assertSame($expected_subject, $subject_builder->subject($subject, true));
     }
 
     public function testDefaultPrefixMustBePrependedWhenNoGlobalPrefixIsDefinedAndPrefixShouldBeAppended(): void
@@ -88,26 +88,26 @@ class ilMailMimeSubjectBuilderTest extends ilMailBaseTestCase
             null
         );
 
-        $subjectBuilder = new ilMailMimeSubjectBuilder($settings, self::DEFAULT_PREFIX);
+        $subject_builder = new ilMailMimeSubjectBuilder($settings, self::DEFAULT_PREFIX);
 
         $subject = 'phpunit';
-        $expectedSubject = self::DEFAULT_PREFIX . ' ' . $subject;
-        $this->assertSame($expectedSubject, $subjectBuilder->subject($subject, true));
+        $expected_subject = self::DEFAULT_PREFIX . ' ' . $subject;
+        $this->assertSame($expected_subject, $subject_builder->subject($subject, true));
     }
 
     #[DataProvider('subjectPrefixesProvider')]
     public function testContextPrefixMustBePrependedWhenGivenAndPrefixShouldBeAppended(
-        ?string $globalPrefix,
-        string $contextPrefix,
-        string $expectedSubject
+        ?string $global_prefix,
+        string $context_prefix,
+        string $expected_subject
     ): void {
         $settings = $this->getMockBuilder(ilSetting::class)->onlyMethods(['get'])->disableOriginalConstructor()->getMock();
-        $settings->expects($this->once())->method('get')->with('mail_subject_prefix')->willReturn($globalPrefix);
+        $settings->expects($this->once())->method('get')->with('mail_subject_prefix')->willReturn($global_prefix);
 
-        $subjectBuilder = new ilMailMimeSubjectBuilder($settings, self::DEFAULT_PREFIX);
+        $subject_builder = new ilMailMimeSubjectBuilder($settings, self::DEFAULT_PREFIX);
 
         $subject = 'phpunit';
-        $expectedSubject = sprintf($expectedSubject, $subject);
-        $this->assertSame($expectedSubject, $subjectBuilder->subject($subject, true, $contextPrefix));
+        $expected_subject = sprintf($expected_subject, $subject);
+        $this->assertSame($expected_subject, $subject_builder->subject($subject, true, $context_prefix));
     }
 }

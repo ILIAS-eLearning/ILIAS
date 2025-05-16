@@ -18,23 +18,25 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailError
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilMailError
 {
-    public function __construct(protected string $languageVariable, protected array $placeHolderValues = [])
+    /**
+     * @param list<string> $place_holder_values
+     */
+    public function __construct(protected string $language_variable, protected array $place_holder_values = [])
     {
     }
 
     public function getLanguageVariable(): string
     {
-        return $this->languageVariable;
+        return $this->language_variable;
     }
 
+    /**
+     * @return list<string>
+     */
     public function getPlaceHolderValues(): array
     {
-        return $this->placeHolderValues;
+        return $this->place_holder_values;
     }
 }

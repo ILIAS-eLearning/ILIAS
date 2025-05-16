@@ -30,11 +30,6 @@ use ILIAS\Cron\Job\JobManager;
 use ILIAS\Cron\Job\JobResult;
 use ILIAS\Cron\CronJob;
 
-/**
- * Delete orphaned mails
- *
- * @author Nadia Matuschek <nmatuschek@databay.de>
- */
 class ilMailCronOrphanedMails extends CronJob
 {
     private GlobalHttpState $http;
@@ -43,14 +38,14 @@ class ilMailCronOrphanedMails extends CronJob
     private ilSetting $settings;
     private ilDBInterface $db;
     private ilObjUser $user;
-    private bool $initDone = false;
+    private bool $init_done = false;
     private JobManager $cron_manager;
 
     private function init(): void
     {
         global $DIC;
 
-        if (!$this->initDone) {
+        if (!$this->init_done) {
             $this->settings = $DIC->settings();
             $this->lng = $DIC->language();
             $this->db = $DIC->database();
@@ -60,14 +55,14 @@ class ilMailCronOrphanedMails extends CronJob
             $this->cron_manager = $DIC->cron()->manager();
 
             $this->lng->loadLanguageModule('mail');
-            $this->initDone = true;
+            $this->init_done = true;
         }
     }
 
     private function emptyStringOrFloatOrIntToEmptyOrIntegerString(): Transformation
     {
         $empty_string_or_null_to_stirng_trafo = $this->refinery->custom()->transformation(static function ($value): string {
-            if ($value === '' || null === $value) {
+            if ($value === '' || $value === null) {
                 return '';
             }
 
@@ -209,7 +204,7 @@ class ilMailCronOrphanedMails extends CronJob
             $this->db->manipulate('DELETE FROM mail_cron_orphaned');
 
             ilLoggerFactory::getLogger('mail')->info(sprintf(
-                "Deleted all scheduled mail deletions " .
+                'Deleted all scheduled mail deletions ' .
                 "because a reminder shouldn't be sent (login: %s|usr_id: %s) anymore!",
                 $this->user->getLogin(),
                 $this->user->getId()

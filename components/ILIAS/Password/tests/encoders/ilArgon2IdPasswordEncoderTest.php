@@ -22,8 +22,8 @@ use PHPUnit\Framework\Attributes\Depends;
 
 class ilArgon2IdPasswordEncoderTest extends ilPasswordBaseTestCase
 {
-    private const PASSWORD = 'password';
-    private const WRONG_PASSWORD = 'wrong_password';
+    private const string PASSWORD = 'password';
+    private const string WRONG_PASSWORD = 'wrong_password';
 
     public function testInstanceCanBeCreated(): ilArgon2idPasswordEncoder
     {

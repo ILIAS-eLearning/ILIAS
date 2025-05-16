@@ -12,12 +12,12 @@ are explained in [Usage](#usage).
 ## Short Term
 
 ### Outer Content (advanced, variable)
-This Component is basically what could be hooked into the [Standard Layout](Component/Layout/Page/Factory.php) as
+This Component is basically what could be hooked into the [Standard Layout](../src/Component/Layout/Page/Factory.php) as
 content (currently provided as array of Legacy Components). Most Probably it should be able to hold the title section 
 (not yet part of the UI Components, see below), the Tabs (not yet Part of the UI Components, see below) and the
 Inner Content holding the workspace for the current context (not yet Part of the UI Components, see below).
 
-Note; One important aspect here, will be to clarify at some point the relation to the [Global Screen](../GlobalScreen). 
+Note; One important aspect here, will be to clarify at some point the relation to the [Global Screen](../../GlobalScreen). 
 
 ### Title Section (advanced, variable)
 This Component will probably hold the Icon, title, description and the actions (maybe along with the used glyphs) of the 
@@ -27,7 +27,7 @@ when to provide an Icon, restrictions of the Title (lengths, nouns vs verbs etc.
 subjects: [Feature Wiki](https://docu.ilias.de/goto_docu_wiki_wpage_6080_1357.html). 
 However, this has not been decided yet and is thus most certainly up for discussion.
 
-Note; One important aspect here, will be to clarify at some point the relation to the [Global Screen](../GlobalScreen).
+Note; One important aspect here, will be to clarify at some point the relation to the [Global Screen](../../GlobalScreen).
 
 The need for a title section component was also discovered while discussing [this PR for the Test & Assessment kiosk mode header](https://github.com/ILIAS-eLearning/ILIAS/pull/7311). This shows that there are use cases beyond the content page title and actions that should be taken into account. Maybe the UI Entity could serve as inspiration for how properties and actions in a title sections could be arranged with effective visual weighting by relevance and semantic grouping.
 
@@ -37,7 +37,7 @@ Tabs and Sub Tabs (noun vs verbs, length, amount of words etc.) and rules for th
 in Forms shown in Tabs. Also, one would have to look into the issue that currently "<-- Back" actions are mixed into 
 the Tabs. We will need to decide, whether we will still use this concept in the future.
 
-Note; One important aspect here, will be to clarify at some point the relation to the [Global Screen](../GlobalScreen). 
+Note; One important aspect here, will be to clarify at some point the relation to the [Global Screen](../../GlobalScreen). 
 
 ### Inner Content
 This will most probably mainly contain an array of Components used in the Content Section. An interesting 

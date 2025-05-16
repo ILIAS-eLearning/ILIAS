@@ -28,9 +28,9 @@ use ILIAS\User\Profile\Mode as PersonalProfileMode;
  */
 class ilForum
 {
-    private const SORT_TITLE = 1;
-    private const SORT_DATE = 2;
-    private const DEFAULT_PAGE_HITS = 30;
+    private const int SORT_TITLE = 1;
+    private const int SORT_DATE = 2;
+    private const int DEFAULT_PAGE_HITS = 30;
 
     /** @var array<int, int[]> */
     protected static array $moderators_by_ref_id_map = [];

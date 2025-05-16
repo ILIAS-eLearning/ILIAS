@@ -23,148 +23,126 @@ use ILIAS\BackgroundTasks\Task\TaskFactory;
 use ILIAS\BackgroundTasks\TaskManager;
 use ILIAS\DI\Container;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilMassMailTaskProcessor
 {
-    private readonly TaskManager $taskManager;
-    private readonly TaskFactory $taskFactory;
+    private readonly TaskManager $task_manager;
+    private readonly TaskFactory $task_factory;
     private readonly ilLanguage $language;
     private readonly ilLogger $logger;
-    private readonly ilMailValueObjectJsonService $objectJsonService;
+    private readonly ilMailValueObjectJsonService $object_json_service;
 
     public function __construct(
-        private readonly int $anonymousUserId = ANONYMOUS_USER_ID,
-        ?TaskManager $taskManager = null,
-        ?TaskFactory $taskFactory = null,
+        private readonly int $anonymous_user_id = ANONYMOUS_USER_ID,
+        ?TaskManager $task_manager = null,
+        ?TaskFactory $task_factory = null,
         ?ilLanguage $language = null,
         ?ilLogger $logger = null,
         ?Container $dic = null,
-        ?ilMailValueObjectJsonService $objectJsonService = null
+        ?ilMailValueObjectJsonService $object_json_service = null
     ) {
-        if (null === $dic) {
+        if ($dic === null) {
             global $DIC;
             $dic = $DIC;
         }
 
-        if (null === $taskManager) {
-            $taskManager = $dic->backgroundTasks()->taskManager();
-        }
-        $this->taskManager = $taskManager;
-
-        if (null === $taskFactory) {
-            $taskFactory = $dic->backgroundTasks()->taskFactory();
-        }
-        $this->taskFactory = $taskFactory;
-
-        if (null === $language) {
-            $language = $dic->language();
-        }
-        $this->language = $language;
-
-        if (null === $logger) {
-            $logger = ilLoggerFactory::getLogger('mail');
-        }
-        $this->logger = $logger;
-
-        if (null === $objectJsonService) {
-            $objectJsonService = new ilMailValueObjectJsonService();
-        }
-        $this->objectJsonService = $objectJsonService;
+        $this->task_manager = $task_manager ?? $dic->backgroundTasks()->taskManager();
+        $this->task_factory = $task_factory ?? $dic->backgroundTasks()->taskFactory();
+        $this->language = $language ?? $dic->language();
+        $this->logger = $logger ?? ilLoggerFactory::getLogger('mail');
+        $this->object_json_service = $object_json_service ?? new ilMailValueObjectJsonService();
     }
 
     /**
-     * @param ilMailValueObject[] $mailValueObjects - One MailValueObject = One Task
-     * @param int $userId - User ID of the user who executes the background task
-     * @param string $contextId - context ID of the Background task
-     * @param array $contextParameters - context parameters for the background tasks
-     * @param int $mailsPerTask - Defines how many mails will be added before a background task is executed
+     * @param list<ilMailValueObject> $value_objects      - One MailValueObject = One Task
+     * @param int                     $usr_id             - User ID of the user who executes the background task
+     * @param string                  $context_id         - context ID of the Background task
+     * @param array                   $context_parameters - context parameters for the background tasks
+     * @param int                     $mails_per_task     - Defines how many mails will be added before a background task is executed
      * @throws ilMailException
      */
     public function run(
-        array $mailValueObjects,
-        int $userId,
-        string $contextId,
-        array $contextParameters,
-        int $mailsPerTask = 100
+        array $value_objects,
+        int $usr_id,
+        string $context_id,
+        array $context_parameters,
+        int $mails_per_task = 100
     ): void {
-        $objectsServiceSize = count($mailValueObjects);
+        $num_value_objects = count($value_objects);
 
-        if ($objectsServiceSize <= 0) {
+        if ($num_value_objects <= 0) {
             throw new ilMailException('First parameter must contain at least 1 array element');
         }
 
-        if ($mailsPerTask <= 0) {
+        if ($mails_per_task <= 0) {
             throw new ilMailException(
                 sprintf(
                     'The mails per task MUST be a positive integer, "%s" given',
-                    $mailsPerTask
+                    $mails_per_task
                 )
             );
         }
 
-        foreach ($mailValueObjects as $mailValueObject) {
-            if (!($mailValueObject instanceof ilMailValueObject)) {
+        foreach ($value_objects as $value_object) {
+            if (!($value_object instanceof ilMailValueObject)) {
                 throw new ilMailException('Array MUST contain ilMailValueObjects ONLY');
             }
         }
-        $taskCounter = 0;
 
-        $remainingObjects = [];
-        foreach ($mailValueObjects as $mailValueObject) {
-            $taskCounter++;
+        $task_counter = 0;
+        $remaining_objects = [];
+        foreach ($value_objects as $value_object) {
+            $task_counter++;
 
-            $remainingObjects[] = $mailValueObject;
-            if ($taskCounter === $mailsPerTask) {
-                $interaction = $this->createInteraction($userId, $contextId, $contextParameters, $remainingObjects);
+            $remaining_objects[] = $value_object;
+            if ($task_counter === $mails_per_task) {
+                $interaction = $this->createInteraction($usr_id, $context_id, $context_parameters, $remaining_objects);
 
-                $this->runTask($interaction, $userId);
+                $this->runTask($interaction, $usr_id);
 
-                $taskCounter = 0;
-                $remainingObjects = [];
+                $task_counter = 0;
+                $remaining_objects = [];
             }
         }
 
-        if ([] !== $remainingObjects) {
-            $interaction = $this->createInteraction($userId, $contextId, $contextParameters, $remainingObjects);
+        if ([] !== $remaining_objects) {
+            $interaction = $this->createInteraction($usr_id, $context_id, $context_parameters, $remaining_objects);
 
-            $this->runTask($interaction, $userId);
+            $this->runTask($interaction, $usr_id);
         }
     }
 
-    private function runTask(\ILIAS\BackgroundTasks\Task $task, int $userId): void
+    private function runTask(\ILIAS\BackgroundTasks\Task $task, int $usr_id): void
     {
         $bucket = new BasicBucket();
-        $bucket->setUserId($userId);
+        $bucket->setUserId($usr_id);
 
         $bucket->setTask($task);
         $bucket->setTitle($this->language->txt('mail_bg_task_title'));
 
         $this->logger->info('Delegated delivery to background task');
-        $this->taskManager->run($bucket);
+        $this->task_manager->run($bucket);
     }
 
     private function createInteraction(
-        int $userId,
-        string $contextId,
-        array $contextParameters,
-        $remainingObjects
+        int $usr_id,
+        string $context_id,
+        array $context_parameters,
+        $remaining_objects
     ): ILIAS\BackgroundTasks\Task {
-        $jsonString = $this->objectJsonService->convertToJson($remainingObjects);
+        $json_string = $this->object_json_service->convertToJson($remaining_objects);
 
-        $task = $this->taskFactory->createTask(ilMassMailDeliveryJob::class, [
-            $userId,
-            $jsonString,
-            $contextId,
-            serialize($contextParameters),
+        $task = $this->task_factory->createTask(ilMassMailDeliveryJob::class, [
+            $usr_id,
+            $json_string,
+            $context_id,
+            serialize($context_parameters),
         ]);
 
         // Important: Don't return the task (e.g. as an early return for anonymous user id) https://mantis.ilias.de/view.php?id=33618
 
-        $parameters = [$task, $userId];
+        $parameters = [$task, $usr_id];
 
-        return $this->taskFactory->createTask(
+        return $this->task_factory->createTask(
             ilMailDeliveryJobUserInteraction::class,
             $parameters
         );

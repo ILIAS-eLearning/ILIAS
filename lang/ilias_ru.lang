@@ -2075,8 +2075,6 @@ auth#:#auth_account_migration_new#:#Create New User Account
 auth#:#auth_activation_code_success#:#Your account has been reactivated. You can now login to ILIAS.###07 02 2017 new variable
 auth#:#auth_allow_local_info#:#If enabled a local authentication against the ILIAS database is still possible (with a local login/password) for those user accounts, whose authentication mode is set to SAML.###31 08 2017 new variable
 auth#:#auth_auth_settings#:#Settings
-auth#:#auth_cas_ldap#:#Synchronization using LDAP
-auth#:#auth_cas_ldap_info#:#If enabled, the synchronization of user accounts and role assignments is done using an existing LDAP configuration.
 auth#:#auth_cron_destroy_expired_sessions#:#Deletion of Expired Sessions###26 08 2024 new variable
 auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessions.###26 08 2024 new variable
 auth#:#auth_err_expired#:#Your session has been deactivated due to inactivity.###25 10 2016 new variable
@@ -2179,8 +2177,6 @@ auth#:#auth_saml_user_mapping#:#User Profile Mapping###31 08 2017 new variable
 auth#:#auth_saml_username_claim#:#Arrtibue for Username###31 08 2017 new variable
 auth#:#auth_saml_username_claim_info#:#Define the attribute ILIAS uses to generate the username which will be visible in ILIAS.###31 08 2017 new variable
 auth#:#auth_sync#:#User Synchronisation
-auth#:#auth_sync_cas#:#Automatic generation of user accounts
-auth#:#auth_sync_cas_info#:#Creates automatically ILIAS user accounts, for users that successfully authenticated against CAS, without having an ILIAS account yet.
 auth#:#destination_after_logout#:#Destination After Logout###28 10 2024 new variable
 auth#:#destination_external_ressource#:#Show External Ressource###28 10 2024 new variable
 auth#:#destination_external_ressource_url#:#External URL###28 10 2024 new variable
@@ -3598,13 +3594,6 @@ common#:#attachments#:#Присоединения
 common#:#attempts#:#Attempts
 common#:#auth_active_roles#:#Global roles available on registration form
 common#:#auth_allow_local#:#Allow Local Authentication
-common#:#auth_cas#:#CAS
-common#:#auth_cas_allow_local_desc#:#This allows CAS users to authenticate with their local ILIAS username and a local password.
-common#:#auth_cas_auth#:#Configure CAS Authentication
-common#:#auth_cas_auth_desc#:#CAS requires PHP 4.3.1 or higher with CURL support (7.5 or higher)
-common#:#auth_cas_port_desc#:#E.g. 443 if the full CAS server URI is https://auth.yourserver.com:443/cas/
-common#:#auth_cas_server_desc#:#E.g. auth.yourserver.com if the full CAS server URI is https://auth.yourserver.com:443/cas/
-common#:#auth_cas_uri_desc#:#Local URI, e.g. cas if the full CAS server URI is https://auth.yourserver.com:443/cas/
 common#:#auth_configure#:#конфигурировать...
 common#:#auth_create_users#:#Create non-existing users automatically
 common#:#auth_default#:#Настройки по умолчанию
@@ -4060,7 +4049,6 @@ common#:#entry_status#:#Entry status###07 02 2020 new variable
 common#:#err_1_param#:#Только 1 параметр!
 common#:#err_2_param#:#Только 2 параметра!
 common#:#err_auth_apache_failed#:#The authentication has failed. Maybe you have no valid user certificate or your smartcard is not inserted.
-common#:#err_auth_cas_no_ilias_user#:#Login failed. CAS authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.
 common#:#err_auth_ldap_no_ilias_user#:#Login failed. LDAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.
 common#:#err_auth_mode_inactive#:#Your authentication method is deactivated.
 common#:#err_auth_soap_no_ilias_user#:#Login failed. SOAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.
@@ -4594,7 +4582,6 @@ common#:#login_information_desc#:#Please enter a login information for the respe
 common#:#login_information_settings_saved#:#The login information were saved successfully
 common#:#login_invalid#:#Выбранный логин некорректен! Логин может содержать только следующие символы (не меньше 4): A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_to_ilias#:#Войти в ILIAS
-common#:#login_to_ilias_via_cas#:#Login to ILIAS via Central Authentication Service
 common#:#login_to_ilias_via_saml#:#Login to ILIAS via SAML Authentification###31 08 2017 new variable
 common#:#login_to_ilias_via_shibboleth#:#Login to ILIAS via Shibboleth
 common#:#loginname_already_exists#:#This login name already exists.
@@ -5904,7 +5891,7 @@ common#:#user_defined_list#:#Overview User-defined Fields
 common#:#user_deleted#:#Пользователь удален
 common#:#user_detail#:#Данные (детальнее)
 common#:#user_ext_account#:#External Account
-common#:#user_ext_account_desc#:#Account used for external authentication. (CAS or SOAP authentication)
+common#:#user_ext_account_desc#:#Account used for external authentication. (SOAP authentication)
 common#:#user_image#:#User Image
 common#:#user_import_failed#:#Импорт пользователя неудачен.
 common#:#user_imported#:#Импорт пользователя полностью завершен.
@@ -6756,7 +6743,6 @@ content#:#cont_localfile#:#Local File###08 09 2014 new variable
 content#:#cont_localization#:#Localization
 content#:#cont_localization_info#:#Language used for predifined texts, e.g. "Previous" and "Next".
 content#:#cont_location#:#Location
-content#:#cont_lpe_cas_login_form#:#CAS Login Form###10 11 2018 new variable
 content#:#cont_lpe_dpro_agreement_link#:#Declaration of Data Protection Link###26 08 2024 new variable
 content#:#cont_lpe_language_selection#:#Language Selection###10 11 2018 new variable
 content#:#cont_lpe_login_form#:#Login Form###10 11 2018 new variable
@@ -10737,7 +10723,7 @@ ldap#:#ldap_add_missing#:#Assign Missing Roles
 ldap#:#ldap_add_remove#:#Add/Remove Roles
 ldap#:#ldap_add_role_ass_rule#:#New Rule for Role Assignments
 ldap#:#ldap_as_ds#:#Use as Data Source
-ldap#:#ldap_as_ds_info#:#If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods (e.g. CAS).
+ldap#:#ldap_as_ds_info#:#If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods.
 ldap#:#ldap_assignment_type#:#Assignment Type
 ldap#:#ldap_authentication_settings#:#Authentication Settings
 ldap#:#ldap_bind_anonymous#:#Bind Anonymously

@@ -29,12 +29,12 @@ use ilDBInterface;
 
 class ExpiredOrOrphanedMailsCollector
 {
-    private const PING_THRESHOLD = 500;
+    private const int PING_THRESHOLD = 500;
 
     private readonly ilDBInterface $db;
     private readonly ilSetting $settings;
     private readonly ClockInterface $clock;
-    /** @var int[] */
+    /** @var list<int> */
     private array $mail_ids = [];
 
     public function __construct(
@@ -61,18 +61,18 @@ class ExpiredOrOrphanedMailsCollector
             if ($mail_only_inbox_trash) {
                 // Only select determine mails which are now located in the inbox or trash folder
                 $res = $this->db->queryF(
-                    "
+                    '
                         SELECT mail_id FROM mail_cron_orphaned 
                         LEFT JOIN mail_obj_data mdata ON mdata.obj_id = folder_id
                         WHERE ts_do_delete <= %s AND ((mdata.m_type = %s OR mdata.m_type = %s) OR mdata.obj_id IS NULL)
-                    ",
+                    ',
                     [ilDBConstants::T_INTEGER, ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
                     [$this->clock->now()->getTimestamp(), 'inbox', 'trash']
                 );
             } else {
                 // Select all determined emails independently of the folder
                 $res = $this->db->queryF(
-                    "SELECT mail_id FROM mail_cron_orphaned WHERE ts_do_delete <= %s",
+                    'SELECT mail_id FROM mail_cron_orphaned WHERE ts_do_delete <= %s',
                     [ilDBConstants::T_INTEGER],
                     [$this->clock->now()->getTimestamp()]
                 );
@@ -85,15 +85,15 @@ class ExpiredOrOrphanedMailsCollector
             $types = [ilDBConstants::T_TIMESTAMP];
             $data = [$left_interval_datetime->format('Y-m-d 23:59:59')];
 
-            $mails_query = "
+            $mails_query = '
 				SELECT 		m.mail_id
 				FROM 		mail m
 				LEFT JOIN 	mail_obj_data mdata ON mdata.obj_id = m.folder_id
 				WHERE 		m.send_time <= %s
-            ";
+            ';
 
             if ($mail_only_inbox_trash) {
-                $mails_query .= " AND ((mdata.m_type = %s OR mdata.m_type = %s) OR mdata.obj_id IS NULL)";
+                $mails_query .= ' AND ((mdata.m_type = %s OR mdata.m_type = %s) OR mdata.obj_id IS NULL)';
                 $types[] = ilDBConstants::T_TEXT;
                 $types[] = ilDBConstants::T_TEXT;
                 $data[] = 'inbox';

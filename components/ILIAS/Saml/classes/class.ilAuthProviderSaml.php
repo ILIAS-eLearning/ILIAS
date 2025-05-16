@@ -20,12 +20,12 @@ declare(strict_types=1);
 
 class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccountMigrationInterface
 {
-    private const LOG_COMPONENT = 'auth';
+    private const string LOG_COMPONENT = 'auth';
 
-    private const ERR_WRONG_LOGIN = 'err_wrong_login';
+    private const string ERR_WRONG_LOGIN = 'err_wrong_login';
 
-    private const SESSION_TMP_ATTRIBUTES = 'tmp_attributes';
-    private const SESSION_TMP_RETURN_TO = 'tmp_return_to';
+    private const string SESSION_TMP_ATTRIBUTES = 'tmp_attributes';
+    private const string SESSION_TMP_RETURN_TO = 'tmp_return_to';
 
     private ilSamlIdp $idp;
     private readonly ilLanguage $lng;

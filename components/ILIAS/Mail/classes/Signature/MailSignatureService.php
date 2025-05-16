@@ -37,7 +37,7 @@ use ILIAS\Mail\Placeholder\MailSignatureUserFullnamePlaceholder;
 class MailSignatureService
 {
     public function __construct(
-        private readonly ilMustacheFactory $mustacheFactory,
+        private readonly ilMustacheFactory $mustache_factory,
         private readonly ilIniFile $client_ini_file,
         private readonly ilLanguage $lng,
         private readonly ilSetting $settings
@@ -64,7 +64,7 @@ class MailSignatureService
     {
         $placeholders = $placeholder->handle($signature);
 
-        return "\n\n\n" . $this->mustacheFactory->getBasicEngine()->render($signature->getSignature(), $placeholders);
+        return "\n\n\n" . $this->mustache_factory->getBasicEngine()->render($signature->getSignature(), $placeholders);
     }
 
     public function getPlaceholder(int $user_id = 0): Placeholder

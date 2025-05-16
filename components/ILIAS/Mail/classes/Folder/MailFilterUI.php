@@ -27,12 +27,9 @@ use ilLanguage;
 use DateTimeImmutable;
 use DateTimeZone;
 
-/**
- * Filter input for mail folders
- */
 class MailFilterUI
 {
-    private FilterComponent $filter;
+    private readonly FilterComponent $filter;
 
     public function __construct(
         private readonly string $target_url,
@@ -77,7 +74,7 @@ class MailFilterUI
             //elements
             $inputs,
             // initially rendered
-            array_map(fn($value): bool => true, $inputs),
+            array_map(static fn($value): bool => true, $inputs),
             false,
             false
         );
@@ -103,15 +100,15 @@ class MailFilterUI
         $has_attachment = null;
 
         // contrary filter options are only applied, if only one of them is set
-        if (is_array($display = $data['display'] ?? null)) {
-            if (in_array('read', $display) xor in_array('unread', $display)) {
-                $is_unread = in_array('unread', $display);
+        if (\is_array($display = $data['display'] ?? null)) {
+            if (\in_array('read', $display, true) xor \in_array('unread', $display, true)) {
+                $is_unread = \in_array('unread', $display, true);
             }
-            if (in_array('system', $display) xor in_array('user', $display)) {
-                $is_system = in_array('system', $display);
+            if (\in_array('system', $display, true) xor \in_array('user', $display, true)) {
+                $is_system = \in_array('system', $display, true);
             }
-            if (in_array('with_attachment', $display) xor in_array('without_attachment', $display)) {
-                $has_attachment = in_array('with_attachment', $display);
+            if (\in_array('with_attachment', $display, true) xor \in_array('without_attachment', $display, true)) {
+                $has_attachment = \in_array('with_attachment', $display, true);
             }
         }
 

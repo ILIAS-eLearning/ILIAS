@@ -18,36 +18,32 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailMimeSubjectBuilder
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilMailMimeSubjectBuilder
 {
-    public function __construct(private readonly ilSetting $settings, private readonly string $defaultPrefix)
+    public function __construct(private readonly ilSetting $settings, private readonly string $default_prefix)
     {
     }
 
-    public function subject(string $subject, bool $addPrefix = false, string $contextPrefix = ''): string
+    public function subject(string $subject, bool $add_prefix = false, string $context_prefix = ''): string
     {
         $subject = trim($subject);
-        $contextPrefix = trim($contextPrefix);
+        $context_prefix = trim($context_prefix);
 
-        if ($addPrefix) {
+        if ($add_prefix) {
             // #9096
-            $globalPrefix = $this->settings->get('mail_subject_prefix');
-            if (!is_string($globalPrefix)) {
-                $globalPrefix = $this->defaultPrefix;
+            $global_prefix = $this->settings->get('mail_subject_prefix');
+            if (!is_string($global_prefix)) {
+                $global_prefix = $this->default_prefix;
             }
-            $globalPrefix = trim($globalPrefix);
+            $global_prefix = trim($global_prefix);
 
-            $prefix = $globalPrefix;
-            if ($contextPrefix !== '') {
+            $prefix = $global_prefix;
+            if ($context_prefix !== '') {
                 $prefix = str_replace(['[', ']',], '', $prefix);
                 if ($prefix !== '') {
-                    $prefix = '[' . $prefix . ' : ' . $contextPrefix . ']';
+                    $prefix = '[' . $prefix . ' : ' . $context_prefix . ']';
                 } else {
-                    $prefix = '[' . $contextPrefix . ']';
+                    $prefix = '[' . $context_prefix . ']';
                 }
             }
 

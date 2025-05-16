@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 class ilMailMimeTransportFactory
 {
-    public function __construct(protected ilSetting $settings, private readonly ilAppEventHandler $eventHandler)
+    public function __construct(protected ilSetting $settings, private readonly ilAppEventHandler $event_handler)
     {
     }
 
@@ -31,9 +31,9 @@ class ilMailMimeTransportFactory
         }
 
         if ($this->settings->get('mail_smtp_status', '0')) {
-            return new ilMailMimeTransportSmtp($this->settings, $this->eventHandler);
+            return new ilMailMimeTransportSmtp($this->settings, $this->event_handler);
         }
 
-        return new ilMailMimeTransportSendmail($this->settings, $this->eventHandler);
+        return new ilMailMimeTransportSendmail($this->settings, $this->event_handler);
     }
 }

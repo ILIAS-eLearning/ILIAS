@@ -128,9 +128,12 @@ class ilTestImporter extends ilXmlImporter
         $new_obj->saveToDb(); // this creates test_fi
         $new_obj->update(); // this saves ilObject data
 
-        // import skill assignments
-        $importedAssignmentList = $this->importQuestionSkillAssignments($a_mapping, $new_obj, $xmlfile);
-        $this->importSkillLevelThresholds($a_mapping, $importedAssignmentList, $new_obj, $xmlfile);
+        $this->importSkillLevelThresholds(
+            $a_mapping,
+            $this->importQuestionSkillAssignments($a_mapping, $new_obj, $xmlfile),
+            $new_obj,
+            $xmlfile
+        );
 
         $a_mapping->addMapping("components/ILIAS/Test", "tst", (string) $a_id, (string) $new_obj->getId());
         $a_mapping->addMapping(

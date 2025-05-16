@@ -18,22 +18,18 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailMailingListAddressType
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilMailMailingListAddressType extends ilBaseMailAddressType
 {
     public function __construct(
-        ilMailAddressTypeHelper $typeHelper,
+        ilMailAddressTypeHelper $type_helper,
         ilMailAddress $address,
         ilLogger $logger,
         private readonly ilMailingLists $lists
     ) {
-        parent::__construct($typeHelper, $address, $logger);
+        parent::__construct($type_helper, $address, $logger);
     }
 
-    protected function isValid(int $senderId): bool
+    protected function isValid(int $sender_id): bool
     {
         $valid = $this->lists->mailingListExists($this->address->getMailbox());
 
@@ -50,17 +46,17 @@ class ilMailMailingListAddressType extends ilBaseMailAddressType
 
     public function resolve(): array
     {
-        $usrIds = [];
+        $usr_ids = [];
 
         if ($this->lists->mailingListExists($this->address->getMailbox())) {
             foreach ($this->lists->getCurrentMailingList()->getAssignedEntries() as $entry) {
-                $usrIds[] = $entry['usr_id'];
+                $usr_ids[] = $entry['usr_id'];
             }
 
             $this->logger->debug(sprintf(
                 "Found the following user ids for address (mailing list title) '%s': %s",
                 $this->address->getMailbox(),
-                implode(', ', array_unique($usrIds))
+                implode(', ', array_unique($usr_ids))
             ));
         } else {
             $this->logger->debug(sprintf(
@@ -69,6 +65,6 @@ class ilMailMailingListAddressType extends ilBaseMailAddressType
             ));
         }
 
-        return array_unique($usrIds);
+        return array_unique($usr_ids);
     }
 }

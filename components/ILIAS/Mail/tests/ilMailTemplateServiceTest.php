@@ -29,18 +29,18 @@ class ilMailTemplateServiceTest extends ilMailBaseTestCase
         $template->setAsDefault(false);
         $template->setContext('phpunit');
 
-        $otherTemplate = clone $template;
-        $otherTemplate->setTplId(2);
-        $otherTemplate->setAsDefault(false);
+        $other_template = clone $template;
+        $other_template->setTplId(2);
+        $other_template->setAsDefault(false);
 
-        $yetAnotherTemplate = clone $template;
-        $yetAnotherTemplate->setTplId(3);
-        $yetAnotherTemplate->setAsDefault(true);
+        $yet_another_template = clone $template;
+        $yet_another_template->setTplId(3);
+        $yet_another_template->setAsDefault(true);
 
         $all = [
             $template,
-            $otherTemplate,
-            $yetAnotherTemplate,
+            $other_template,
+            $yet_another_template,
         ];
 
         $repo->expects($this->once())->method('findByContextId')->with($template->getContext())->willReturn($all);
@@ -51,8 +51,8 @@ class ilMailTemplateServiceTest extends ilMailBaseTestCase
         $service->setAsContextDefault($template);
 
         $this->assertTrue($template->isDefault());
-        $this->assertFalse($otherTemplate->isDefault());
-        $this->assertFalse($yetAnotherTemplate->isDefault());
+        $this->assertFalse($other_template->isDefault());
+        $this->assertFalse($yet_another_template->isDefault());
     }
 
     public function testDefaultTemplateForContextCanBeUnset(): void

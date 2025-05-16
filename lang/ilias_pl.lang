@@ -2075,8 +2075,6 @@ auth#:#auth_account_migration_new#:#Utwórz nowe konto
 auth#:#auth_activation_code_success#:#Twój dostęp został aktywowany, możesz się teraz zalogować.
 auth#:#auth_allow_local_info#:#Jeśli ta opcja jest aktywna, lokalna identyfikacja w bazie danych ILIAS z podaniem nazwy użytkownika/hasła możliwa jest również dla kont użytkownika w trybie identyfikacji SAML.
 auth#:#auth_auth_settings#:#Ustawienia
-auth#:#auth_cas_ldap#:#Synchronizacja za pomocą ustawień LDAP
-auth#:#auth_cas_ldap_info#:#Jeśli ta opcja jest aktywna, synchronizacja danych użytkownika i przyporządkowanych ról zostanie przeprowadzona zgodnie z ustawieniami LDAP.
 auth#:#auth_cron_destroy_expired_sessions#:#Deletion of Expired Sessions###26 08 2024 new variable
 auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessions.###26 08 2024 new variable
 auth#:#auth_err_expired#:#Czas Twojej sesji upłynął. Zaloguj się proszę ponownie.
@@ -2179,8 +2177,6 @@ auth#:#auth_saml_user_mapping#:#Mapowanie profilu użytkownika
 auth#:#auth_saml_username_claim#:#Atrybut dla wyświetlanej nazwy/nazwy użytkownika
 auth#:#auth_saml_username_claim_info#:#Określ tutaj atrybut, na podstawie którego ILIAS ma wygenerować wyświetlaną nazwę/nazwę użytkownika.
 auth#:#auth_sync#:#Synchronizacja użytkownika
-auth#:#auth_sync_cas#:#Automatyczne generowanie kont użytkownika ILIAS
-auth#:#auth_sync_cas_info#:#Dla użytkowników, którzy z powodzeniem uwierzytelnili się w serwerze CAS, jednak nie posiadają konta użytkownika, zostaną automatycznie założone nowe.
 auth#:#destination_after_logout#:#Destination After Logout###28 10 2024 new variable
 auth#:#destination_external_ressource#:#Show External Ressource###28 10 2024 new variable
 auth#:#destination_external_ressource_url#:#External URL###28 10 2024 new variable
@@ -3598,13 +3594,6 @@ common#:#attachments#:#Załączniki
 common#:#attempts#:#Ilość prób
 common#:#auth_active_roles#:#Globalne role aktywowane dla rejestracji
 common#:#auth_allow_local#:#Zezwól na lokalną identyfikację
-common#:#auth_cas#:#CAS
-common#:#auth_cas_allow_local_desc#:#Zezwala użytkownikom CAS do identyfikacji ich lokalną nazwą użytkownika ILIAS i lokalnym hasłem.
-common#:#auth_cas_auth#:#Konfiguracja identyfikacji CAS
-common#:#auth_cas_auth_desc#:#CAS wymaga PHP 4.3.1 lub nowszego ze wsparciem CURL (7.5 lub nowszy)
-common#:#auth_cas_port_desc#:#Np. 443, jeśli pełen URI serwera CAS to https://auth.yourserver.com:443/cas/
-common#:#auth_cas_server_desc#:#Np. auth.yourserver.com, jeśli pełen URI serwera CAS to https://auth.yourserver.com:443/cas/
-common#:#auth_cas_uri_desc#:#Lokalny URI, np. jeśli pełen URI serwera CAS to https://auth.yourserver.com:443/cas/
 common#:#auth_configure#:#konfiguracja...
 common#:#auth_create_users#:#Twórz automatycznie nieistniejących użytkowników
 common#:#auth_default#:#Ustawienia domyślne
@@ -4060,7 +4049,6 @@ common#:#entry_status#:#Entry status###07 02 2020 new variable
 common#:#err_1_param#:#Tylko 1 parametr!
 common#:#err_2_param#:#Tylko 2 parametr!
 common#:#err_auth_apache_failed#:#Identyfikacja nie powiodła się.
-common#:#err_auth_cas_no_ilias_user#:#Logowanie nieudane. Identyfikacja CAS udana, lecz brak odpowiedniego konta użytkownika ILIAS. Skontaktuj się z administratorem systemu.
 common#:#err_auth_ldap_no_ilias_user#:#Błędne logowanie. Autoryzacja LDAP udana, lecz brak odpowiedniego użytkownika ILIAS. Skontaktuj się z administratorem systemu.
 common#:#err_auth_mode_inactive#:#Aktualnie logowanie nie jest możliwe.
 common#:#err_auth_soap_no_ilias_user#:#Logowanie nieudane. Identyfikacja SOAP udana, lecz brak odpowiedniego konta użytkownika ILIAS. Skontaktuj się z administratorem systemu.
@@ -4594,7 +4582,6 @@ common#:#login_information_desc#:#Wprowadź informacje logowania dla wybranego j
 common#:#login_information_settings_saved#:#Informacje logowania zostały zapisane.
 common#:#login_invalid#:#Wybrana nazwa użytkownika jest błędna! Tylko następujące znaki są dozwolone (minimum 4 znaki): A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_to_ilias#:#Logowanie do ILIAS-a
-common#:#login_to_ilias_via_cas#:#Logowanie do ILIAS poprzez (CAS) Centralny Serwis Identyfikacji
 common#:#login_to_ilias_via_saml#:#Zaloguj się w ILIAS za pomocą identyfikacji SAML
 common#:#login_to_ilias_via_shibboleth#:#Zaloguj się do ILIAS poprzez Shibboleth
 common#:#loginname_already_exists#:#Jest już tak nazwa logowania.
@@ -5904,7 +5891,7 @@ common#:#user_defined_list#:#Podgląd pól zdefiniowanych przez użytkownika
 common#:#user_deleted#:#Użytkownik usunięty
 common#:#user_detail#:#Dane szczegółowe
 common#:#user_ext_account#:#Konto zewnętrzne
-common#:#user_ext_account_desc#:#Konto używane do zewnętrznej identyfikacji. (identyfikacja CAS lub SOAP)
+common#:#user_ext_account_desc#:#Konto używane do zewnętrznej identyfikacji. (identyfikacja SOAP)
 common#:#user_image#:#Obraz użytkownika
 common#:#user_import_failed#:#Błędny import użytkowników.
 common#:#user_imported#:#Zakończony import użytkowników.
@@ -6756,7 +6743,6 @@ content#:#cont_localfile#:#Lokalny plik
 content#:#cont_localization#:#Język
 content#:#cont_localization_info#:#To ustawienie potrzebne jest do wstępnie zdefiniowanych tekstów (np. "do przodu" / "do tyłu").
 content#:#cont_location#:#Pozycja
-content#:#cont_lpe_cas_login_form#:#Maska logowania CAS
 content#:#cont_lpe_dpro_agreement_link#:#Declaration of Data Protection Link###26 08 2024 new variable
 content#:#cont_lpe_language_selection#:#Wybór języka
 content#:#cont_lpe_login_form#:#Maska logowania
@@ -10737,7 +10723,7 @@ ldap#:#ldap_add_missing#:#Przydziel brakujące role
 ldap#:#ldap_add_remove#:#Dodaj/usuń rolę
 ldap#:#ldap_add_role_ass_rule#:#Nowe zasady przydzielania ról ILIAS
 ldap#:#ldap_as_ds#:#Użyj jako źródła danych
-ldap#:#ldap_as_ds_info#:#Jeśli ta opcja jest aktywna, konfigurację LDAP stosuje się do synchronizacji danych użytkownika w połączeniu z innymi rodzajami identyfikacji (CAS, itd.). Nie ma możliwości przeprowadzenia bezpośredniej identyfikacji za pomocą LDAP.
+ldap#:#ldap_as_ds_info#:#Jeśli ta opcja jest aktywna, konfigurację LDAP stosuje się do synchronizacji danych użytkownika w połączeniu z innymi rodzajami identyfikacji (itd.). Nie ma możliwości przeprowadzenia bezpośredniej identyfikacji za pomocą LDAP.
 ldap#:#ldap_assignment_type#:#Rodzaj przydziału
 ldap#:#ldap_authentication_settings#:#Ustawienia autoryzacji
 ldap#:#ldap_bind_anonymous#:#Połączenie anonimowe

@@ -22,10 +22,6 @@ namespace ILIAS\ContentPage\PageMetrics\Entity;
 
 use ILIAS\ContentPage\PageMetrics\ValueObject\PageReadingTime;
 
-/**
- * Class PageMetrics
- * @package ILIAS\ContentPage\PageMetrics\Entity
- */
 class PageMetrics
 {
     public function __construct(

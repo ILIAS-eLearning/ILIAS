@@ -22,14 +22,9 @@ namespace ILIAS\ContentPage\PageMetrics\Event;
 
 use ilContentPagePage;
 
-/**
- * Class PageUpdatedEvent
- * @package ILIAS\ContentPage\PageMetrics\Event
- * @author Michael Jansen <mjansen@databay.de>
- */
-final class PageUpdatedEvent
+final readonly class PageUpdatedEvent
 {
-    public function __construct(private readonly ilContentPagePage $page)
+    public function __construct(private ilContentPagePage $page)
     {
     }
 

@@ -53,15 +53,15 @@ class ilMailAddressListTest extends ilMailBaseTestCase
 
     #[DataProvider('addressTestProvider')]
     public function testDiffAddressListCanCalculateTheDifferenceOfTwoLists(
-        array $leftAddresses,
-        array $rightAddresses,
-        int $numberOfExpectedItems
+        array $left_addresses,
+        array $right_addresses,
+        int $num_expected_items
     ): void {
-        $left = new ilMailAddressListImpl($leftAddresses);
-        $right = new ilMailAddressListImpl($rightAddresses);
+        $left = new ilMailAddressListImpl($left_addresses);
+        $right = new ilMailAddressListImpl($right_addresses);
 
         $list = new ilMailDiffAddressList($left, $right);
-        $this->assertCount($numberOfExpectedItems, $list->value());
+        $this->assertCount($num_expected_items, $list->value());
     }
 
     public static function externalAddressTestProvider(): array
@@ -97,17 +97,17 @@ class ilMailAddressListTest extends ilMailBaseTestCase
     #[DataProvider('externalAddressTestProvider')]
     public function testExternalAddressListDecoratorFiltersExternalAddresses(
         ilMailAddress $address,
-        int $numberOfExpectedItems
+        int $num_expected_items
     ): void {
         $list = new ilMailAddressListImpl([$address]);
-        $externalList = new ilMailOnlyExternalAddressList($list, 'ilias', static function (string $address): int {
-            if ('max.mustermann@ilias.de' === $address) {
+        $external_list = new ilMailOnlyExternalAddressList($list, 'ilias', static function (string $address): int {
+            if ($address === 'max.mustermann@ilias.de') {
                 return 4711;
             }
 
             return 0;
         });
 
-        $this->assertCount($numberOfExpectedItems, $externalList->value());
+        $this->assertCount($num_expected_items, $external_list->value());
     }
 }

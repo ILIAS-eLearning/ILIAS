@@ -22,30 +22,30 @@ use PHPUnit\Framework\Attributes\DataProvider;
 
 class ilMailErrorFormatterTest extends ilMailBaseTestCase
 {
-    private ilMailErrorFormatter $errorFormatter;
+    private ilMailErrorFormatter $error_formatter;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $componentFactory = $this->getMockBuilder(ilComponentFactory::class)->getMock();
+        $component_factory = $this->getMockBuilder(ilComponentFactory::class)->getMock();
 
-        $this->setGlobalVariable('component.factory', $componentFactory);
+        $this->setGlobalVariable('component.factory', $component_factory);
 
-        $languageMock = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
-        $languageMock->method('txt')->willReturnCallback(static function (string $key): string {
-            if ('error1' === $key) {
+        $language_mock = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
+        $language_mock->method('txt')->willReturnCallback(static function (string $key): string {
+            if ($key === 'error1') {
                 return '-' . $key . '-';
             }
 
-            if ('error3' === $key) {
+            if ($key === 'error3') {
                 return $key . ' (1. %s/2. %s/3. %s)';
             }
 
             return $key;
         });
 
-        $this->errorFormatter = new ilMailErrorFormatter($languageMock);
+        $this->error_formatter = new ilMailErrorFormatter($language_mock);
     }
 
     public static function errorCollectionProvider(): array
@@ -74,8 +74,8 @@ class ilMailErrorFormatterTest extends ilMailBaseTestCase
      * @param ilMailError[] $errors
      */
     #[DataProvider('errorCollectionProvider')]
-    public function testErrorFormatter(array $errors, string $expectedHtml): void
+    public function testErrorFormatter(array $errors, string $exteced_html): void
     {
-        $this->assertSame($expectedHtml, $this->brutallyTrimHTML($this->errorFormatter->format($errors)));
+        $this->assertSame($exteced_html, $this->brutallyTrimHTML($this->error_formatter->format($errors)));
     }
 }

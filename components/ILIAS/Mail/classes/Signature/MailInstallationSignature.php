@@ -28,7 +28,7 @@ use ILIAS\Mail\Placeholder\Placeholder;
 
 class MailInstallationSignature implements Signature
 {
-    public const MAIL_INSTALLATION_SIGNATURE = 'mail_system_sys_general_signature';
+    public const string MAIL_INSTALLATION_SIGNATURE = 'mail_system_sys_general_signature';
 
     public function __construct(private readonly ilSetting $settings)
     {

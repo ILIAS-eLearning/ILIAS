@@ -95,6 +95,7 @@ class TabsManager
             case self::TAB_ID_YOUR_RESULTS:
             case self::TAB_ID_SETTINGS:
             case self::TAB_ID_TEST:
+            case self::TAB_ID_LEARNING_PROGRESS:
                 $this->tabs->activateTab($tab_id);
         }
     }

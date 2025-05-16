@@ -27,12 +27,12 @@ use PHPUnit\Framework\Attributes\DataProvider;
 class ilMailTemplateContextTest extends ilMailBaseTestCase
 {
     public function getAnonymousTemplateContext(
-        OrgUnitUserService $orgUnitUserService,
-        ilMailEnvironmentHelper $envHelper,
-        ilMailUserHelper $usernameHelper,
-        ilMailLanguageHelper $languageHelper
+        OrgUnitUserService $org_unit_user_service,
+        ilMailEnvironmentHelper $il_mail_environment_helper,
+        ilMailUserHelper $mail_user_helper,
+        ilMailLanguageHelper $language_helper
     ): ilMailTemplateContext {
-        return new class ($orgUnitUserService, $envHelper, $usernameHelper, $languageHelper) extends
+        return new class ($org_unit_user_service, $il_mail_environment_helper, $mail_user_helper, $language_helper) extends
             ilMailTemplateContext {
             public function getId(): string
             {
@@ -163,12 +163,8 @@ class ilMailTemplateContextTest extends ilMailBaseTestCase
         callable $user_callable,
         callable $ou_user_callable
     ): void {
-        $mock_builder_user_callable = function (): MockBuilder {
-            return $this->getMockBuilder(ilObjUser::class);
-        };
-        $mock_builder_ou_user_callable = function (): MockBuilder {
-            return $this->getMockBuilder(ilOrgUnitUser::class);
-        };
+        $mock_builder_user_callable = fn(): MockBuilder => $this->getMockBuilder(ilObjUser::class);
+        $mock_builder_ou_user_callable = fn(): MockBuilder => $this->getMockBuilder(ilOrgUnitUser::class);
 
         $user_callable = Closure::bind($user_callable, $this, self::class);
         $ou_user_callable = Closure::bind($ou_user_callable, $this, self::class);
@@ -258,8 +254,8 @@ class ilMailTemplateContextTest extends ilMailBaseTestCase
         $this->assertStringContainsString('###http_ilias###', $replace_message);
         $this->assertStringContainsString('mail_salutation_' . $user->getGender(), $replace_message);
 
-        foreach ($first_and_last_names as $firstAndLastname) {
-            $this->assertStringContainsString($firstAndLastname, $replace_message);
+        foreach ($first_and_last_names as $first_and_lastname) {
+            $this->assertStringContainsString($first_and_lastname, $replace_message);
         }
     }
 }

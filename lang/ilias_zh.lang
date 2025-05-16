@@ -2074,8 +2074,6 @@ auth#:#auth_account_migration_new#:#创建新用户账号
 auth#:#auth_activation_code_success#:#Your account has been reactivated. You can now login to ILIAS.###07 02 2017 new variable
 auth#:#auth_allow_local_info#:#If enabled a local authentication against the ILIAS database is still possible (with a local login/password) for those user accounts, whose authentication mode is set to SAML.###31 08 2017 new variable
 auth#:#auth_auth_settings#:#Settings###24 10 2013 new variable
-auth#:#auth_cas_ldap#:#同步使用LDAP
-auth#:#auth_cas_ldap_info#:#如果启用，用户账号和角色分配的同步将使用一个现存的LDAP配置来完成。
 auth#:#auth_cron_destroy_expired_sessions#:#Deletion of Expired Sessions###26 08 2024 new variable
 auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessions.###26 08 2024 new variable
 auth#:#auth_err_expired#:#Your session has been deactivated due to inactivity.###25 10 2016 new variable
@@ -2178,8 +2176,6 @@ auth#:#auth_saml_user_mapping#:#User Profile Mapping###31 08 2017 new variable
 auth#:#auth_saml_username_claim#:#Arrtibue for Username###31 08 2017 new variable
 auth#:#auth_saml_username_claim_info#:#Define the attribute ILIAS uses to generate the username which will be visible in ILIAS.###31 08 2017 new variable
 auth#:#auth_sync#:#用户同步
-auth#:#auth_sync_cas#:#用户账号的自动生成
-auth#:#auth_sync_cas_info#:#为针对CAS身份验证成功的用户自动创建ILIAS用户账号，而无需一个ILIAS账号。
 auth#:#destination_after_logout#:#Destination After Logout###28 10 2024 new variable
 auth#:#destination_external_ressource#:#Show External Ressource###28 10 2024 new variable
 auth#:#destination_external_ressource_url#:#External URL###28 10 2024 new variable
@@ -3597,13 +3593,6 @@ common#:#attachments#:#附件
 common#:#attempts#:#尝试
 common#:#auth_active_roles#:#注册就激活全局角色
 common#:#auth_allow_local#:#允许本地身份验证
-common#:#auth_cas#:#CAS
-common#:#auth_cas_allow_local_desc#:#这允许CAS用户以他们的本地ILIAS用户名和一个本地密码进行身份验证。
-common#:#auth_cas_auth#:#配置CAS身份验证
-common#:#auth_cas_auth_desc#:#CAS 必需要求PHP 4.3.1 或更高版本，且要CURL支持 (7.5 或更高版本)
-common#:#auth_cas_port_desc#:#假如使用443端口，则完整的CAS服务器URI是 https://auth.yourserver.com:443/cas/
-common#:#auth_cas_server_desc#:#假如使用auth.yourserver.com主机名，则完整的CAS服务器URI是 https://auth.yourserver.com:443/cas/
-common#:#auth_cas_uri_desc#:#本地URI，则完整的CAS服务URI是 https://auth.yourserver.com:443/cas/
 common#:#auth_configure#:#配置……
 common#:#auth_create_users#:#自动创建不存在的用户
 common#:#auth_default#:#默认设置
@@ -4059,7 +4048,6 @@ common#:#entry_status#:#Entry status###07 02 2020 new variable
 common#:#err_1_param#:#只一个参数！
 common#:#err_2_param#:#只两个参数！
 common#:#err_auth_apache_failed#:#身份验证已失败。也许您没有有效的用户证书或您的智能卡还没有插入。
-common#:#err_auth_cas_no_ilias_user#:#登录失败。CAS身份验证成功，但不存在相应的ILIAS用户。请联系您的系统管理员。
 common#:#err_auth_ldap_no_ilias_user#:#登录失败！LDAP身份验证成功，但不存在相应的ILIAS用户。请联系您的系统管理员。
 common#:#err_auth_mode_inactive#:#您的身份验证方法已失效。
 common#:#err_auth_soap_no_ilias_user#:#登录失败。SOAP身份验证成功，但不存在相应的ILIAS用户。请联系您的系统管理员。
@@ -4593,7 +4581,6 @@ common#:#login_information_desc#:#请用各自语言输入一个登录信息。
 common#:#login_information_settings_saved#:#登录信息已成功保存
 common#:#login_invalid#:#选定的登录无效！仅允许以下字符(最少4个字符)：A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_to_ilias#:#登录到ILIAS
-common#:#login_to_ilias_via_cas#:#通过中心身份验证服务登录到 ILIAS
 common#:#login_to_ilias_via_saml#:#Login to ILIAS via SAML Authentification###31 08 2017 new variable
 common#:#login_to_ilias_via_shibboleth#:#通过Shibboleth登录到 ILIAS
 common#:#loginname_already_exists#:#此登录名已存在。
@@ -5903,7 +5890,7 @@ common#:#user_defined_list#:#用户定义字段概况
 common#:#user_deleted#:#用户已删除
 common#:#user_detail#:#详细数据
 common#:#user_ext_account#:#外部账号
-common#:#user_ext_account_desc#:#账号用于外部身份验证。 (CAS 或 SOAP 身份验证)
+common#:#user_ext_account_desc#:#账号用于外部身份验证。 (SOAP 身份验证)
 common#:#user_image#:#用户图像
 common#:#user_import_failed#:#用户导入失败。
 common#:#user_imported#:#用户导入完成。
@@ -6755,7 +6742,6 @@ content#:#cont_localfile#:#本地文件
 content#:#cont_localization#:#本地化
 content#:#cont_localization_info#:#用于预定义文本的语言，例如，“Previous”和“Next”。
 content#:#cont_location#:#位置
-content#:#cont_lpe_cas_login_form#:#CAS Login Form###10 11 2018 new variable
 content#:#cont_lpe_dpro_agreement_link#:#Declaration of Data Protection Link###26 08 2024 new variable
 content#:#cont_lpe_language_selection#:#Language Selection###10 11 2018 new variable
 content#:#cont_lpe_login_form#:#Login Form###10 11 2018 new variable
@@ -10736,7 +10722,7 @@ ldap#:#ldap_add_missing#:#分配缺失角色
 ldap#:#ldap_add_remove#:#添加/删除角色
 ldap#:#ldap_add_role_ass_rule#:#角色分配的新规则
 ldap#:#ldap_as_ds#:#作为数据库源来使用
-ldap#:#ldap_as_ds_info#:#如果已激活，这个LDAP配置仅用于组合其他身份验证方法的用户账号的同步上。(例如,CAS)。
+ldap#:#ldap_as_ds_info#:#如果已激活，这个LDAP配置仅用于组合其他身份验证方法的用户账号的同步上。(例如)。
 ldap#:#ldap_assignment_type#:#分配类型
 ldap#:#ldap_authentication_settings#:#身份验证设置
 ldap#:#ldap_bind_anonymous#:#匿名绑定

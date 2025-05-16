@@ -18,10 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailGlobalAddressSettingsChangedCommand
- * @author Marvin Beym <mbeym@databay.de>
- */
 class ilMailGlobalAddressSettingsChangedCommand
 {
     public function __construct(private readonly ilDBInterface $db, private readonly int $option)
@@ -32,12 +28,12 @@ class ilMailGlobalAddressSettingsChangedCommand
     {
         $this->db->manipulateF(
             "UPDATE settings SET value = %s WHERE module = 'common' AND keyword = 'mail_address_option'",
-            ["integer"],
+            ['integer'],
             [$this->option]
         );
         $this->db->manipulateF(
-            "UPDATE mail_options SET mail_address_option = %s",
-            ["integer"],
+            'UPDATE mail_options SET mail_address_option = %s',
+            ['integer'],
             [$this->option]
         );
     }

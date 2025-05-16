@@ -37,11 +37,11 @@ class ilMailBodyPurifierTest extends ilMailBaseTestCase
     }
 
     #[DataProvider('bodyProvider')]
-    public function testMailBodyPurifier(string $body, string $expectedBody): void
+    public function testMailBodyPurifier(string $body, string $expected_body): void
     {
         $purifier = new ilMailBodyPurifier();
 
-        $this->assertSame($expectedBody, $purifier->purify($body));
+        $this->assertSame($expected_body, $purifier->purify($body));
     }
 
     public function testCarriageReturnCharactersAreRemoved(): void

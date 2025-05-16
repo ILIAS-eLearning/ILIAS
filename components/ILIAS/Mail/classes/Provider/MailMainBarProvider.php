@@ -25,10 +25,6 @@ use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
 use ilMailGlobalServices;
 
-/**
- * Class MailMainBarProvider
- * @author Fabian Schmid <fs@studer-raimann.ch>
- */
 class MailMainBarProvider extends AbstractStaticMainMenuProvider
 {
     public function getStaticTopItems(): array
@@ -40,7 +36,7 @@ class MailMainBarProvider extends AbstractStaticMainMenuProvider
     {
         $dic = $this->dic;
 
-        $title = $this->dic->language()->txt("mm_mail");
+        $title = $this->dic->language()->txt('mm_mail');
         $icon = $this->dic->ui()->factory()
             ->symbol()
             ->icon()
@@ -57,17 +53,13 @@ class MailMainBarProvider extends AbstractStaticMainMenuProvider
                     $this->dic->ui()->factory()->legacy()->content($this->dic->language()->txt('component_not_active'))
                 )
                 ->withAvailableCallable(
-                    static function () use ($dic): bool {
-                        return !$dic->user()->isAnonymous() && $dic->user()->getId() !== 0;
-                    }
+                    static fn(): bool => !$dic->user()->isAnonymous() && $dic->user()->getId() !== 0
                 )
                 ->withVisibilityCallable(
-                    static function () use ($dic): bool {
-                        return $dic->rbac()->system()->checkAccess(
-                            'internal_mail',
-                            ilMailGlobalServices::getMailObjectRefId()
-                        );
-                    }
+                    static fn(): bool => $dic->rbac()->system()->checkAccess(
+                        'internal_mail',
+                        ilMailGlobalServices::getMailObjectRefId()
+                    )
                 ),
         ];
     }

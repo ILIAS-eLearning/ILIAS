@@ -1636,7 +1636,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 self::UI_TAB_ID_SETTINGS,
                 $this->ctrl->getLinkTarget($this, 'edit'),
                 'edit',
-                $this::class,
+                static::class,
                 '',
                 $force_active
             );
@@ -1924,9 +1924,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             }
 
             $draft_ids = array_filter(array_map(
-                static function (array $draft): int {
-                    return $draft['draft_id'] ?? 0;
-                },
+                static fn(array $draft): int => $draft['draft_id'] ?? 0,
                 ilForumPostDraft::getThreadDraftData(
                     $this->user->getId(),
                     ilObjForum::lookupForumIdByObjId($this->object->getId())
@@ -3377,9 +3375,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 foreach ($draftsObjects as $draft) {
                     $referencePosting = array_values(array_filter(
                         $subtree_nodes,
-                        static function (ilForumPost $post) use ($draft): bool {
-                            return $draft->getPostId() === $post->getId();
-                        }
+                        static fn(ilForumPost $post): bool => $draft->getPostId() === $post->getId()
                     ))[0] ?? $firstNodeInThread;
 
                     $this->renderDraftContent(
@@ -3427,9 +3423,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 foreach ($draftsObjects as $draft) {
                     $referencePosting = array_values(array_filter(
                         $subtree_nodes,
-                        static function (ilForumPost $post) use ($draft): bool {
-                            return $draft->getPostId() === $post->getId();
-                        }
+                        static fn(ilForumPost $post): bool => $draft->getPostId() === $post->getId()
                     ))[0] ?? $firstNodeInThread;
 
                     $this->renderDraftContent(
@@ -3568,9 +3562,7 @@ EOD
             ''
         );
 
-        $translatedSortationOptions = array_map(function ($value): string {
-            return $this->lng->txt($value);
-        }, $this->sortationOptions);
+        $translatedSortationOptions = array_map(fn($value): string => $this->lng->txt($value), $this->sortationOptions);
 
         $sortingDirectionViewControl = $this->uiFactory
             ->viewControl()
@@ -5371,9 +5363,7 @@ EOD
                 $this->objProperties,
                 $this->objCurrentTopic,
                 $this->objCurrentPost,
-                function (string $message): string {
-                    return $this->handleFormInput($message);
-                },
+                fn(string $message): string => $this->handleFormInput($message),
                 $this->retrieveDraftId(),
                 ilObjForum::lookupForumIdByRefId($this->ref_id),
                 ilUtil::stripSlashes($this->requestAction)
@@ -5403,9 +5393,7 @@ EOD
                 $this->objProperties,
                 $this->objCurrentTopic,
                 $this->objCurrentPost,
-                function (string $message): string {
-                    return $this->handleFormInput($message, false);
-                },
+                fn(string $message): string => $this->handleFormInput($message, false),
                 $this->retrieveDraftId(),
                 ilObjForum::lookupForumIdByRefId($this->ref_id),
                 ilUtil::stripSlashes($this->requestAction)

@@ -18,10 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailDiffAddressList
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilMailDiffAddressList implements ilMailAddressList
 {
     public function __construct(protected ilMailAddressList $left, protected ilMailAddressList $right)
@@ -30,9 +26,9 @@ class ilMailDiffAddressList implements ilMailAddressList
 
     public function value(): array
     {
-        $leftAddresses = $this->left->value();
-        $rightAddresses = $this->right->value();
+        $left_addresses = $this->left->value();
+        $right_addresses = $this->right->value();
 
-        return array_diff($leftAddresses, $rightAddresses);
+        return array_diff($left_addresses, $right_addresses);
     }
 }

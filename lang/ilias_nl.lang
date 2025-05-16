@@ -2075,8 +2075,6 @@ auth#:#auth_account_migration_new#:#Maak nieuw gebruikersaccount aan
 auth#:#auth_activation_code_success#:#Your account has been reactivated. You can now login to ILIAS.###07 02 2017 new variable
 auth#:#auth_allow_local_info#:#If enabled a local authentication against the ILIAS database is still possible (with a local login/password) for those user accounts, whose authentication mode is set to SAML.###31 08 2017 new variable
 auth#:#auth_auth_settings#:#Instellingen
-auth#:#auth_cas_ldap#:#Synchronizatie via LDAP
-auth#:#auth_cas_ldap_info#:#Als ingeschakeld wordt de synchronisatie van gebruikersaccounts gedaan via een bestaande LDAP configuratie.
 auth#:#auth_cron_destroy_expired_sessions#:#Deletion of Expired Sessions###26 08 2024 new variable
 auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessions.###26 08 2024 new variable
 auth#:#auth_err_expired#:#Your session has been deactivated due to inactivity.###25 10 2016 new variable
@@ -2179,8 +2177,6 @@ auth#:#auth_saml_user_mapping#:#User Profile Mapping###31 08 2017 new variable
 auth#:#auth_saml_username_claim#:#Arrtibue for Username###31 08 2017 new variable
 auth#:#auth_saml_username_claim_info#:#Define the attribute ILIAS uses to generate the username which will be visible in ILIAS.###31 08 2017 new variable
 auth#:#auth_sync#:#Gebruikers Synchronisatie
-auth#:#auth_sync_cas#:#Automatische aanmaken van gebruikersaccounts.
-auth#:#auth_sync_cas_info#:#Maakt automatisch gebruikersaccounts aan voor gebruikers zonder ILIAS accounts die zijn geauthenticeerd bij CAS.
 auth#:#destination_after_logout#:#Destination After Logout###28 10 2024 new variable
 auth#:#destination_external_ressource#:#Show External Ressource###28 10 2024 new variable
 auth#:#destination_external_ressource_url#:#External URL###28 10 2024 new variable
@@ -3598,13 +3594,6 @@ common#:#attachments#:#Bijlagen
 common#:#attempts#:#Pogingen
 common#:#auth_active_roles#:#Algemene rollen ingeschakeld voor registratie
 common#:#auth_allow_local#:#Sta lokale authenticatie toe
-common#:#auth_cas#:#CAS
-common#:#auth_cas_allow_local_desc#:#This allows CAS users to authenticate with their local ILIAS username and a local password.
-common#:#auth_cas_auth#:#Configure CAS Authentication
-common#:#auth_cas_auth_desc#:#Om CAS-authenticatie te laten werken, moet de serverinstelling prevent_super_global_replacement in client.ini.php ingesteld zijn.
-common#:#auth_cas_port_desc#:#E.g. 443 if the full CAS server URI is https://auth.yourserver.com:443/cas/
-common#:#auth_cas_server_desc#:#E.g. auth.yourserver.com if the full CAS server URI is https://auth.yourserver.com:443/cas/
-common#:#auth_cas_uri_desc#:#Local URI, e.g. cas if the full CAS server URI is https://auth.yourserver.com:443/cas/
 common#:#auth_configure#:#configureer...
 common#:#auth_create_users#:#Creëer automatisch gebruikers
 common#:#auth_default#:#Standaard instellingen
@@ -4060,7 +4049,6 @@ common#:#entry_status#:#Entry status###07 02 2020 new variable
 common#:#err_1_param#:#Slechts 1 parameter!
 common#:#err_2_param#:#Slechts 2 parameters!
 common#:#err_auth_apache_failed#:#De authenticatie is mislukt. Misschien heb je geen geldig gebruikers certificaat of is je smartcard niet geïnstalleerd..
-common#:#err_auth_cas_no_ilias_user#:#Login mislukt. CAS authenticatie gelukt, maar geen overeenkomstige ILIAS gebruiker gevonden. Gelieve de systeembeheerder te contacteren
 common#:#err_auth_ldap_no_ilias_user#:#Login mislukt. LDAP authenticatie gelukt, maar deze gebruiker bestaat niet in ILIAS. Gelieve de systeembeheerder te contacteren.
 common#:#err_auth_mode_inactive#:#Your authentication method is deactivated.
 common#:#err_auth_soap_no_ilias_user#:##Login mislukt. SOAP authenticatie succesvol, maar geen overeenkomstige ILIAS gebruiker gevonden. Gelieve de systeembeheerder te contacteren
@@ -4594,7 +4582,6 @@ common#:#login_information_desc#:#Geef de login informatie voor de respectieveli
 common#:#login_information_settings_saved#:#De aanmeldingsinformatie is opgeslagen.
 common#:#login_invalid#:#De gekozen gebruikersnaam is niet geldig! Alleen de volgende tekens zijn toegestaan (minimaal 4 tekens): A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_to_ilias#:#Aanmelden in ILIAS
-common#:#login_to_ilias_via_cas#:#Login to ILIAS via Central Authentication Service
 common#:#login_to_ilias_via_saml#:#Login to ILIAS via SAML Authentification###31 08 2017 new variable
 common#:#login_to_ilias_via_shibboleth#:#Login to ILIAS via Shibboleth
 common#:#loginname_already_exists#:#Deze gebruikersnaam is al in gebruik.
@@ -5904,7 +5891,7 @@ common#:#user_defined_list#:#Overzicht gebruikers-gedefinieerde velden
 common#:#user_deleted#:#Gebruiker gewist
 common#:#user_detail#:#Detail-gegevens
 common#:#user_ext_account#:#Externe Account
-common#:#user_ext_account_desc#:#Account gebruikt voor externe authenticatie. (CAS or SOAP authenticatie)
+common#:#user_ext_account_desc#:#Account gebruikt voor externe authenticatie. (SOAP authenticatie)
 common#:#user_image#:#Afbeelding gebruiker
 common#:#user_import_failed#:#Gebruikers import mislukt
 common#:#user_imported#:#Gebruikers import gereed
@@ -6756,7 +6743,6 @@ content#:#cont_localfile#:#Local File###06 02 2015 new variable
 content#:#cont_localization#:#Locatieaanpassing
 content#:#cont_localization_info#:#Taal die zal worden gebruikt voor voor-gedefinieerde teksten zoals "Volgende" en "Vorige".
 content#:#cont_location#:#Location
-content#:#cont_lpe_cas_login_form#:#CAS Login Form###10 11 2018 new variable
 content#:#cont_lpe_dpro_agreement_link#:#Declaration of Data Protection Link###26 08 2024 new variable
 content#:#cont_lpe_language_selection#:#Language Selection###10 11 2018 new variable
 content#:#cont_lpe_login_form#:#Login Form###10 11 2018 new variable
@@ -10737,7 +10723,7 @@ ldap#:#ldap_add_missing#:#Assign Missing Roles
 ldap#:#ldap_add_remove#:#Add/Remove Roles
 ldap#:#ldap_add_role_ass_rule#:#New Rule for Role Assignments
 ldap#:#ldap_as_ds#:#Use as Data Source
-ldap#:#ldap_as_ds_info#:#If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods (e.g. CAS).
+ldap#:#ldap_as_ds_info#:#If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods.
 ldap#:#ldap_assignment_type#:#Assignment Type
 ldap#:#ldap_authentication_settings#:#Authenticatie instellingen
 ldap#:#ldap_bind_anonymous#:#Anonieme band

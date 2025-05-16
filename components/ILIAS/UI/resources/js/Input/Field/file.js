@@ -347,8 +347,8 @@ il.UI.Input = il.UI.Input || {};
 			}
 
 			// abort if the given file is not an allowed file type.
-			if (dropzones[input_id].options.acceptedFiles !== null &&
-				!dropzones[input_id].options.acceptedFiles.includes(file.type)
+			if (dropzones[input_id].options.acceptedFiles &&
+				!Dropzone.isValidFile(file, dropzones[input_id].options.acceptedFiles)
 			) {
 				displayErrorMessage(
 					I18N.invalid_mime.replace('%s', file.type),

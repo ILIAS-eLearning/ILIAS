@@ -18,21 +18,16 @@
 
 declare(strict_types=1);
 
-/**
- * Base class for mime mail notifications
- * @author  Michael Jansen <mjansen@databay.de>
- * @ingroup ServicesMail
- */
 abstract class ilMimeMailNotification extends ilMailNotification
 {
     protected ilMimeMail $mime_mail;
     protected string $current_recipient;
-    protected ilMailMimeSenderFactory $senderFactory;
+    protected ilMailMimeSenderFactory $sender_factory;
 
     public function __construct(bool $a_is_personal_workspace = false)
     {
         global $DIC;
-        $this->senderFactory = $DIC->mail()->mime()->senderFactory();
+        $this->sender_factory = $DIC->mail()->mime()->senderFactory();
         parent::__construct($a_is_personal_workspace);
     }
 
@@ -52,7 +47,7 @@ abstract class ilMimeMailNotification extends ilMailNotification
     protected function initMimeMail(): ilMimeMail
     {
         $this->mime_mail = new ilMimeMail();
-        $this->mime_mail->From($this->senderFactory->system());
+        $this->mime_mail->From($this->sender_factory->system());
 
         return $this->mime_mail;
     }

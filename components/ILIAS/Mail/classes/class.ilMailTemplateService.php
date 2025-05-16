@@ -25,31 +25,31 @@ class ilMailTemplateService implements ilMailTemplateServiceInterface
 {
     public function __construct(
         protected ilMailTemplateRepository $repository,
-        protected ilMustacheFactory $mustacheFactory
+        protected ilMustacheFactory $mustache_factory
     ) {
     }
 
     public function createNewTemplate(
-        string $contextId,
+        string $context_id,
         string $title,
         string $subject,
         string $message,
         string $language
     ): ilMailTemplate {
         try {
-            $this->mustacheFactory->getBasicEngine()->render($subject, []);
+            $this->mustache_factory->getBasicEngine()->render($subject, []);
         } catch (Exception) {
             throw new TemplateSubjectSyntaxException('Invalid mail template for subject');
         }
 
         try {
-            $this->mustacheFactory->getBasicEngine()->render($message, []);
+            $this->mustache_factory->getBasicEngine()->render($message, []);
         } catch (Exception) {
             throw new TemplateMessageSyntaxException('Invalid mail template for message');
         }
 
         $template = new ilMailTemplate();
-        $template->setContext($contextId);
+        $template->setContext($context_id);
         $template->setTitle($title);
         $template->setSubject($subject);
         $template->setMessage($message);
@@ -61,28 +61,28 @@ class ilMailTemplateService implements ilMailTemplateServiceInterface
     }
 
     public function modifyExistingTemplate(
-        int $templateId,
-        string $contextId,
+        int $template_id,
+        string $context_id,
         string $title,
         string $subject,
         string $message,
         string $language
     ): void {
         try {
-            $this->mustacheFactory->getBasicEngine()->render($subject, []);
+            $this->mustache_factory->getBasicEngine()->render($subject, []);
         } catch (Exception) {
             throw new TemplateSubjectSyntaxException('Invalid mail template for subject');
         }
 
         try {
-            $this->mustacheFactory->getBasicEngine()->render($message, []);
+            $this->mustache_factory->getBasicEngine()->render($message, []);
         } catch (Exception) {
             throw new TemplateMessageSyntaxException('Invalid mail template for message');
         }
 
-        $template = $this->repository->findById($templateId);
+        $template = $this->repository->findById($template_id);
 
-        $template->setContext($contextId);
+        $template->setContext($context_id);
         $template->setTitle($title);
         $template->setSubject($subject);
         $template->setMessage($message);
@@ -91,28 +91,26 @@ class ilMailTemplateService implements ilMailTemplateServiceInterface
         $this->repository->store($template);
     }
 
-    public function loadTemplateForId(int $templateId): ilMailTemplate
+    public function loadTemplateForId(int $template_id): ilMailTemplate
     {
-        return $this->repository->findById($templateId);
+        return $this->repository->findById($template_id);
     }
 
-    public function loadTemplatesForContextId(string $contextId): array
+    public function loadTemplatesForContextId(string $context_id): array
     {
-        return $this->repository->findByContextId($contextId);
+        return $this->repository->findByContextId($context_id);
     }
 
-    public function deleteTemplatesByIds(array $templateIds): void
+    public function deleteTemplatesByIds(array $template_ids): void
     {
-        $this->repository->deleteByIds($templateIds);
+        $this->repository->deleteByIds($template_ids);
     }
 
     public function listAllTemplatesAsArray(): array
     {
         $templates = $this->repository->getAll();
 
-        return array_map(static function (ilMailTemplate $template): array {
-            return $template->toArray();
-        }, $templates);
+        return array_map(static fn(ilMailTemplate $template): array => $template->toArray(), $templates);
     }
 
     public function unsetAsContextDefault(ilMailTemplate $template): void
@@ -124,15 +122,15 @@ class ilMailTemplateService implements ilMailTemplateServiceInterface
 
     public function setAsContextDefault(ilMailTemplate $template): void
     {
-        $allOfContext = $this->repository->findByContextId($template->getContext());
-        foreach ($allOfContext as $otherTemplate) {
-            $otherTemplate->setAsDefault(false);
+        $all_of_context = $this->repository->findByContextId($template->getContext());
+        foreach ($all_of_context as $other_template) {
+            $other_template->setAsDefault(false);
 
-            if ($template->getTplId() === $otherTemplate->getTplId()) {
-                $otherTemplate->setAsDefault(true);
+            if ($template->getTplId() === $other_template->getTplId()) {
+                $other_template->setAsDefault(true);
             }
 
-            $this->repository->store($otherTemplate);
+            $this->repository->store($other_template);
         }
     }
 }

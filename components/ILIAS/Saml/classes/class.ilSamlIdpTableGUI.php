@@ -18,24 +18,24 @@
 
 declare(strict_types=1);
 
-final class ilSamlIdpTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
+final readonly class ilSamlIdpTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
 {
     /** @var list<ilSamlIdp> */
     private array $idps;
-    private readonly ILIAS\UI\URLBuilder $url_builder;
-    private readonly ILIAS\UI\URLBuilderToken $action_parameter_token;
-    private readonly ILIAS\UI\URLBuilderToken $row_id_token;
+    private ILIAS\UI\URLBuilder $url_builder;
+    private ILIAS\UI\URLBuilderToken $action_parameter_token;
+    private ILIAS\UI\URLBuilderToken $row_id_token;
 
     public function __construct(
-        private readonly ilSamlSettingsGUI $parent_gui,
-        private readonly \ILIAS\UI\Factory $ui_factory,
-        private readonly \ILIAS\UI\Renderer $ui_renderer,
-        private readonly ilLanguage $lng,
-        private readonly ilCtrlInterface $ctrl,
-        private readonly \Psr\Http\Message\ServerRequestInterface $http_request,
-        private readonly \ILIAS\Data\Factory $df,
-        private readonly string $parent_cmd,
-        private readonly bool $has_write_access
+        private ilSamlSettingsGUI $parent_gui,
+        private \ILIAS\UI\Factory $ui_factory,
+        private \ILIAS\UI\Renderer $ui_renderer,
+        private ilLanguage $lng,
+        private ilCtrlInterface $ctrl,
+        private \Psr\Http\Message\ServerRequestInterface $http_request,
+        private \ILIAS\Data\Factory $df,
+        private string $parent_cmd,
+        private bool $has_write_access
     ) {
         $this->idps = ilSamlIdp::getAllIdps();
 

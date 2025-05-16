@@ -30,15 +30,11 @@ use ilException;
 use ILIAS\ContentPage\PageMetrics\Command\StorePageMetricsCommand;
 use ILIAS\ContentPage\PageMetrics\Command\GetPageMetricsCommand;
 
-/**
- * Class PageMetricsService
- * @package ILIAS\ContentPage\PageMetrics
- */
-final class PageMetricsService implements ilContentPageObjectConstants
+final readonly class PageMetricsService implements ilContentPageObjectConstants
 {
     public function __construct(
-        private readonly PageMetricsRepository $pageMetricsRepository,
-        private readonly Factory $refinery
+        private PageMetricsRepository $pageMetricsRepository,
+        private Factory $refinery
     ) {
     }
 

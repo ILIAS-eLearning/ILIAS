@@ -34,7 +34,7 @@ class ilMailOptionsTest extends ilMailBaseTestCase
 
         $this->database = $this->getMockBuilder(ilDBInterface::class)
                                ->getMock();
-        $queryMock = $this->getMockBuilder(ilDBStatement::class)
+        $query_mock = $this->getMockBuilder(ilDBStatement::class)
                           ->getMock();
 
         $this->object = new stdClass();
@@ -51,7 +51,7 @@ class ilMailOptionsTest extends ilMailBaseTestCase
         $this->object->absence_ar_body = 'body';
 
 
-        $this->database->expects($this->once())->method('queryF')->willReturn($queryMock);
+        $this->database->expects($this->once())->method('queryF')->willReturn($query_mock);
         $this->database->expects($this->once())->method('fetchObject')->willReturn($this->object);
         $this->database->method('replace')->willReturn(0);
         $this->setGlobalVariable('ilDB', $this->database);
@@ -72,16 +72,16 @@ class ilMailOptionsTest extends ilMailBaseTestCase
             return $default;
         });
 
-        $mailOptions = new ilMailOptions(
+        $mail_options = new ilMailOptions(
             1,
             null,
             $this->createMock(ClockInterface::class),
             $settings
         );
 
-        $this->assertSame('', $mailOptions->getSignature());
-        $this->assertSame(ilMailOptions::INCOMING_LOCAL, $mailOptions->getIncomingType());
-        $this->assertFalse($mailOptions->isCronJobNotificationEnabled());
+        $this->assertSame('', $mail_options->getSignature());
+        $this->assertSame(ilMailOptions::INCOMING_LOCAL, $mail_options->getIncomingType());
+        $this->assertFalse($mail_options->isCronJobNotificationEnabled());
     }
 
     public function testConstructorWithUserSettings(): void
@@ -103,35 +103,35 @@ class ilMailOptionsTest extends ilMailBaseTestCase
             return $default;
         });
 
-        $mailOptions = new ilMailOptions(
+        $mail_options = new ilMailOptions(
             1,
             null,
             $this->createMock(ClockInterface::class),
             $settings
         );
 
-        $this->assertSame($this->object->signature, $mailOptions->getSignature());
-        $this->assertSame($this->object->incoming_type, $mailOptions->getIncomingType());
-        $this->assertSame($this->object->cronjob_notification, $mailOptions->isCronJobNotificationEnabled());
-        $this->assertSame($this->object->absence_status, $mailOptions->getAbsenceStatus());
-        $this->assertSame($this->object->absent_from, $mailOptions->getAbsentFrom());
-        $this->assertSame($this->object->absent_until, $mailOptions->getAbsentUntil());
-        $this->assertSame($this->object->absence_ar_subject, $mailOptions->getAbsenceAutoresponderSubject());
-        $this->assertSame($this->object->absence_ar_body, $mailOptions->getAbsenceAutoresponderBody());
+        $this->assertSame($this->object->signature, $mail_options->getSignature());
+        $this->assertSame($this->object->incoming_type, $mail_options->getIncomingType());
+        $this->assertSame($this->object->cronjob_notification, $mail_options->isCronJobNotificationEnabled());
+        $this->assertSame($this->object->absence_status, $mail_options->getAbsenceStatus());
+        $this->assertSame($this->object->absent_from, $mail_options->getAbsentFrom());
+        $this->assertSame($this->object->absent_until, $mail_options->getAbsentUntil());
+        $this->assertSame($this->object->absence_ar_subject, $mail_options->getAbsenceAutoresponderSubject());
+        $this->assertSame($this->object->absence_ar_body, $mail_options->getAbsenceAutoresponderBody());
     }
 
     #[DataProvider('provideMailOptionsData')]
     public function testIsAbsent(bool $absence_status, int $absent_from, int $absent_until, bool $result): void
     {
-        $userId = 1;
+        $usr_id = 1;
         $this->object->absence_status = $absence_status;
         $this->object->absent_from = $absent_from;
         $this->object->absent_until = $absent_until;
         $this->object->absence_ar_subject = 'subject';
         $this->object->absence_ar_body = 'body';
 
-        $clockService = $this->createMock(ClockInterface::class);
-        $clockService->method('now')->willReturn((new DateTimeImmutable())->setTimestamp(100));
+        $cloc_service = $this->createMock(ClockInterface::class);
+        $cloc_service->method('now')->willReturn((new DateTimeImmutable())->setTimestamp(100));
 
         $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods(['get'])->getMock();
         $settings->method('get')->willReturnCallback(static function (string $key, ?string $default = null) {
@@ -150,14 +150,14 @@ class ilMailOptionsTest extends ilMailBaseTestCase
             return $default;
         });
 
-        $mailOptions = new ilMailOptions(
-            $userId,
+        $mail_options = new ilMailOptions(
+            $usr_id,
             null,
-            $clockService,
+            $cloc_service,
             $settings
         );
 
-        $this->assertEquals($result, $mailOptions->isAbsent());
+        $this->assertEquals($result, $mail_options->isAbsent());
     }
 
     public static function provideMailOptionsData(): Generator

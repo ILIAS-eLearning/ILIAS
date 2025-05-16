@@ -18,14 +18,11 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailAutoCompleteRecipientResult
- */
 class ilMailAutoCompleteRecipientResult
 {
-    final public const MODE_STOP_ON_MAX_ENTRIES = 1;
-    final public const MODE_FETCH_ALL = 2;
-    final public const MAX_RESULT_ENTRIES = 1000;
+    final public const int MODE_STOP_ON_MAX_ENTRIES = 1;
+    final public const int MODE_FETCH_ALL = 2;
+    final public const int MAX_RESULT_ENTRIES = 1000;
 
     protected bool $allow_smtp;
     protected int $user_id;

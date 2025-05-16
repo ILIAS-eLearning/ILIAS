@@ -24,7 +24,7 @@ class ilMailTemplateContextDefinitionProcessor implements ilComponentDefinitionP
     protected bool $in_mailtemplates = false;
 
     /**
-     * @var string[]
+     * @var list<string>
      */
     protected array $mail_templates = [];
 

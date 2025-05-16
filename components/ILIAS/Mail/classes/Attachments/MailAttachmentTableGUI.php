@@ -142,9 +142,7 @@ class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
     {
         $records = $this->records;
 
-        [$order_field, $order_direction] = $order->join([], static function ($ret, $key, $value) {
-            return [$key, $value];
-        });
+        [$order_field, $order_direction] = $order->join([], static fn($ret, $key, $value) => [$key, $value]);
 
         usort($records, static function (array $left, array $right) use ($order_field): int {
             if ($order_field === 'filename') {

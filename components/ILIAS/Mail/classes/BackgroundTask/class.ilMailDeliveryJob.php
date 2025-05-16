@@ -27,19 +27,13 @@ use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
 
-/**
- * Class ilMailDeliveryJob
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilMailDeliveryJob extends AbstractJob
 {
     public function run(array $input, Observer $observer): Value
     {
         global $DIC;
 
-        $arguments = array_map(static function ($value) {
-            return $value->getValue();
-        }, $input);
+        $arguments = array_map(static fn($value) => $value->getValue(), $input);
 
         $DIC->logger()->mail()->info('Mail delivery background task executed');
 

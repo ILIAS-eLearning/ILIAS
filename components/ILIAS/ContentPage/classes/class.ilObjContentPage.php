@@ -27,7 +27,6 @@ use ILIAS\ILIASObject\Properties\Translations\Language;
 
 class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
 {
-    protected int $styleId = 0;
     protected ?Translations $objTrans = null;
     private PageMetricsService $pageMetricsService;
     protected DomainService $content_style_domain;
@@ -74,8 +73,9 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
         parent::doCloneObject($new_obj, $a_target_id, $a_copy_id);
         $this->cloneMetaData($new_obj);
 
-        $ot = ilObjectTranslation::getInstance($this->getId());
-        $ot->copy($new_obj->getId());
+        $new_obj->getObjectProperties()->storePropertyTranslations(
+            $this->objTrans->copy($new_obj->getId())
+        );
 
         if (ilContentPagePage::_exists($this->getType(), $this->getId(), '', true)) {
             $translations = ilContentPagePage::lookupTranslations($this->getType(), $this->getId());
@@ -144,9 +144,9 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
             [$this->getId(), 0]
         );
 
-        $this->getObjectProperties()->storeCoreProperties(
+        $this->getObjectProperties()->withPropertyIsOnline(
             $this->getObjectProperties()->getPropertyIsOnline()->withOffline()
-        );
+        )->storeCoreProperties();
 
         $this->getObjectProperties()->storePropertyTranslations(
             $this->getObjectProperties()->getPropertyTranslations()->withLanguage(

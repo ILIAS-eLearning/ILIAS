@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 class ilBuddySystemRelationTestCase extends ilBuddySystemBaseTestCase
 {
-    private const RELATION_OWNER_ID = -1;
+    private const int RELATION_OWNER_ID = -1;
 
     public function testPriorStateIsEmptyAfterInstanceWasCreated(): void
     {

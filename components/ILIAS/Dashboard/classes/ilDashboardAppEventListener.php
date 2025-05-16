@@ -18,22 +18,19 @@
 
 declare(strict_types=1);
 
-class AbandonAuthRichTextEditorDatabaseUpdateSteps implements ilDatabaseUpdateSteps
+class ilDashboardAppEventListener implements ilAppEventListener
 {
-    protected ilDBInterface $db;
+    private static ?ilDBStatement $clean_up = null;
 
-    public function prepare(ilDBInterface $db): void
+    public static function handleEvent(string $component, string $event, array $parameter): void
     {
-        $this->db = $db;
-    }
-
-    public function step_1(): void
-    {
-        if ($this->db->tableExists('settings')) {
-            $query = 'DELETE FROM settings WHERE module = ' . $this->db->quote('login_settings', 'text')
-                . ' AND ' . $this->db->like('keyword', ilDBConstants::T_TEXT, 'login_message_%');
-
-            $this->db->manipulate($query);
+        if ($event === 'deleteUser') {
+            global $DIC;
+            self::$clean_up ??= $DIC->database()->prepare(
+                'DELETE FROM desktop_item WHERE user_id = ?',
+                [ilDBConstants::T_INTEGER]
+            );
+            $DIC->database()->execute(self::$clean_up, [$parameter['usr_id']]);
         }
     }
 }

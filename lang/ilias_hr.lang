@@ -2075,8 +2075,6 @@ auth#:#auth_account_migration_new#:#Create New User Account
 auth#:#auth_activation_code_success#:#Your account has been reactivated. You can now login to ILIAS.
 auth#:#auth_allow_local_info#:#If enabled a local authentication against the ILIAS database is still possible (with a local login/password) for those user accounts, whose authentication mode is set to SAML.
 auth#:#auth_auth_settings#:#Settings
-auth#:#auth_cas_ldap#:#Synchronization using LDAP
-auth#:#auth_cas_ldap_info#:#If enabled, the synchronization of user accounts and role assignments is done using an existing LDAP configuration.
 auth#:#auth_cron_destroy_expired_sessions#:#Deletion of Expired Sessions###26 08 2024 new variable
 auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessions.###26 08 2024 new variable
 auth#:#auth_err_expired#:#Your session has been deactivated due to inactivity.
@@ -2179,8 +2177,6 @@ auth#:#auth_saml_user_mapping#:#User Profile Mapping
 auth#:#auth_saml_username_claim#:#Attribute for Username
 auth#:#auth_saml_username_claim_info#:#Define the attribute ILIAS uses to generate the username which will be visible in ILIAS.
 auth#:#auth_sync#:#User Synchronisation
-auth#:#auth_sync_cas#:#Automatic generation of user accounts
-auth#:#auth_sync_cas_info#:#Creates automatically ILIAS user accounts, for users that successfully authenticated against CAS, without having an ILIAS account yet.
 auth#:#destination_after_logout#:#Destination After Logout###28 10 2024 new variable
 auth#:#destination_external_ressource#:#Show External Ressource###28 10 2024 new variable
 auth#:#destination_external_ressource_url#:#External URL###28 10 2024 new variable
@@ -3598,13 +3594,6 @@ common#:#attachments#:#Prilozi
 common#:#attempts#:#Pokušaji
 common#:#auth_active_roles#:#Globalne uloge dostupne na obrascu za registraciju
 common#:#auth_allow_local#:#Dopusti lokalnu provjeru autentičnosti
-common#:#auth_cas#:#CAS
-common#:#auth_cas_allow_local_desc#:#To omogućuje korisnicima CAS-a da se autentificiraju pomoću svog lokalnog ILIAS korisničkog imena i lokalne lozinke.
-common#:#auth_cas_auth#:#Konfiguriraj CAS autentifikaciju
-common#:#auth_cas_auth_desc#:#CAS zahtijeva PHP 4.3.1 ili noviji s podrškom za CURL (7,5 ili noviji)
-common#:#auth_cas_port_desc#:#Npr. 443 ako je puni URI poslužitelja CAS https://auth.yourserver.com:443/cas/
-common#:#auth_cas_server_desc#:#Npr. auth.yourserver.com ako je puni URI CAS poslužitelja https://auth.yourserver.com:443/cas/
-common#:#auth_cas_uri_desc#:#Lokalni URI, npr. cas ako je puni URI poslužitelja CAS https://auth.yourserver.com:443/cas/
 common#:#auth_configure#:#konfiguriraj...
 common#:#auth_create_users#:#Automatski izradi nepostojeće korisnike
 common#:#auth_default#:#Tvorničke postavke
@@ -4060,7 +4049,6 @@ common#:#entry_status#:#Status unosa
 common#:#err_1_param#:#Samo 1 parametar!
 common#:#err_2_param#:#Samo 2 parametra!
 common#:#err_auth_apache_failed#:#Autentifikacija nije uspjela. Možda nemate valjani korisnički certifikat ili vaša pametna kartica nije umetnuta.
-common#:#err_auth_cas_no_ilias_user#:#Prijava nije uspjela. CAS provjera autentičnosti uspješna, ali ne postoji odgovarajući ILIAS korisnik. Molimo kontaktirajte svog administratora sustava.
 common#:#err_auth_ldap_no_ilias_user#:#Prijava nije uspjela. LDAP provjera autentičnosti uspješna, ali ne postoji odgovarajući ILIAS korisnik. Molimo kontaktirajte svog administratora sustava.
 common#:#err_auth_mode_inactive#:#Vaš način autentifikacije je deaktiviran.
 common#:#err_auth_soap_no_ilias_user#:#Prijava nije uspjela. SOAP provjera autentičnosti uspješna, ali ne postoji odgovarajući ILIAS korisnik. Molimo kontaktirajte svog administratora sustava.
@@ -4594,7 +4582,6 @@ common#:#login_information_desc#:#Unesite podatke za prijavu za odgovarajući je
 common#:#login_information_settings_saved#:#Podaci za prijavu uspješno su spremljeni
 common#:#login_invalid#:#Odabrano korisničko ime za prijavu je nevažeće! Dopušteni su samo sljedeći znakovi (najmanje 3 znaka): A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_to_ilias#:#Prijava u ILIAS
-common#:#login_to_ilias_via_cas#:#Prijava u ILIAS putem središnjeg sustava za provjeru autentičnosti
 common#:#login_to_ilias_via_saml#:#Prijava u ILIAS putem SAML provjere autentičnosti
 common#:#login_to_ilias_via_shibboleth#:#Prijavite u ILIAS putem
 common#:#loginname_already_exists#:#Ovo korisničko ime za prijavu već postoji.
@@ -5904,7 +5891,7 @@ common#:#user_defined_list#:#Polja s prilagođenim korisničkim podacima
 common#:#user_deleted#:#Korisnik je izbrisan
 common#:#user_detail#:#Detaljni podaci
 common#:#user_ext_account#:#Vanjski račun
-common#:#user_ext_account_desc#:#Račun koji se koristi za vanjsku provjeru autentičnosti. (CAS, SOAP, LDAP ili radijus autentifikacija)
+common#:#user_ext_account_desc#:#Račun koji se koristi za vanjsku provjeru autentičnosti. (SOAP, LDAP ili radijus autentifikacija)
 common#:#user_image#:#Slika korisnika
 common#:#user_import_failed#:#Uvoz korisnika nije uspio.
 common#:#user_imported#:#Uvoz korisnika dovršen.
@@ -6756,7 +6743,6 @@ content#:#cont_localfile#:#Lokalna datoteka
 content#:#cont_localization#:#Lokalizacija
 content#:#cont_localization_info#:#Jezik koji se koristi za unaprijed definirane tekstove, npr. ‘Prethodni’ i ‘Sljedeći’.
 content#:#cont_location#:#Lokacija
-content#:#cont_lpe_cas_login_form#:#CAS obrazac za prijavu
 content#:#cont_lpe_dpro_agreement_link#:#Declaration of Data Protection Link###26 08 2024 new variable
 content#:#cont_lpe_language_selection#:#Odabir jezika
 content#:#cont_lpe_login_form#:#Obrazac za prijavu
@@ -10737,7 +10723,7 @@ ldap#:#ldap_add_missing#:#Dodijeli nedostajuće uloge
 ldap#:#ldap_add_remove#:#Dodaj/ukloni uloge
 ldap#:#ldap_add_role_ass_rule#:#Novo pravilo za dodjelu uloga
 ldap#:#ldap_as_ds#:#Koristite kao izvor podataka
-ldap#:#ldap_as_ds_info#:#Ako se aktivira, ova konfiguracija LDAP-a koristi se samo za sinkronizaciju korisničkih računa u kombinaciji s drugim metodama provjere autentičnosti (npr. CAS).
+ldap#:#ldap_as_ds_info#:#Ako se aktivira, ova konfiguracija LDAP-a koristi se samo za sinkronizaciju korisničkih računa u kombinaciji s drugim metodama provjere autentičnosti.
 ldap#:#ldap_assignment_type#:#Vrsta dodjele
 ldap#:#ldap_authentication_settings#:#Postavke provjere autentičnosti
 ldap#:#ldap_bind_anonymous#:#Poveži anonimno

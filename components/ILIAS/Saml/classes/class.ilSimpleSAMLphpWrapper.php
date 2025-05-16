@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 final readonly class ilSimpleSAMLphpWrapper implements ilSamlAuth
 {
-    private const ILIAS = 'ilias';
+    private const string ILIAS = 'ilias';
 
     private SimpleSAML\Configuration $config;
     private SimpleSAML\Auth\Simple $authSource;

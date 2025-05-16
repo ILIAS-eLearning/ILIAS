@@ -643,6 +643,10 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('POS_INPUT_TITLE', $this->txt('table_posinput_col_title'));
         }
 
+        if (!$component->hasMultiActions()) {
+            $tpl->touchBlock('header_rowselection_ordering_no_multi_actions');
+        }
+
         $tpl->setVariable('ID', $tableid);
         $tpl->setVariable('TARGET_URL', $component->getTargetURL() ? $component->getTargetURL()->__toString() : '#');
         $tpl->setVariable('TITLE', $component->getTitle());

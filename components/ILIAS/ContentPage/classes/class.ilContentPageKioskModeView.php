@@ -31,8 +31,8 @@ use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 class ilContentPageKioskModeView extends ilKioskModeView
 {
-    private const CMD_LP_TO_COMPLETED = 'lp_completed';
-    private const CMD_LP_TO_INCOMPLETE = 'lp_incomplete';
+    private const string CMD_LP_TO_COMPLETED = 'lp_completed';
+    private const string CMD_LP_TO_INCOMPLETE = 'lp_incomplete';
 
     protected ilObjContentPage $contentPageObject;
     protected Translations $translation;

@@ -22,7 +22,7 @@ use ILIAS\Refinery\Factory;
 
 class ilMailMimeTest extends ilMailBaseTestCase
 {
-    private const USER_ID = 6;
+    private const int USER_ID = 6;
 
     protected function setUp(): void
     {
@@ -34,18 +34,18 @@ class ilMailMimeTest extends ilMailBaseTestCase
 
     public function testMimMailDelegatesEmailDeliveryToThePassedTransporter(): void
     {
-        $defaultTransport = $this->getMockBuilder(ilMailMimeTransport::class)->disableOriginalConstructor()->getMock();
-        $defaultTransport->expects($this->never())->method('send');
+        $default_transport = $this->getMockBuilder(ilMailMimeTransport::class)->disableOriginalConstructor()->getMock();
+        $default_transport->expects($this->never())->method('send');
 
         $transport = $this->getMockBuilder(ilMailMimeTransport::class)->getMock();
         $transport->expects($this->once())->method('send');
 
-        $transportFactory = $this->getMockBuilder(ilMailMimeTransportFactory::class)->disableOriginalConstructor()->getMock();
-        $transportFactory->method('getTransport')->willReturn($defaultTransport);
-        $this->setGlobalVariable('mail.mime.transport.factory', $transportFactory);
+        $transport_factory = $this->getMockBuilder(ilMailMimeTransportFactory::class)->disableOriginalConstructor()->getMock();
+        $transport_factory->method('getTransport')->willReturn($default_transport);
+        $this->setGlobalVariable('mail.mime.transport.factory', $transport_factory);
 
-        $refineryMock = $this->getMockBuilder(Factory::class)->disableOriginalConstructor()->getMock();
-        $this->setGlobalVariable('refinery', $refineryMock);
+        $refinery = $this->getMockBuilder(Factory::class)->disableOriginalConstructor()->getMock();
+        $this->setGlobalVariable('refinery', $refinery);
 
         $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods([
             'set',
@@ -59,15 +59,15 @@ class ilMailMimeTest extends ilMailBaseTestCase
 
     public function testMimMailDelegatesEmailDeliveryToDefaultTransport(): void
     {
-        $defaultTransport = $this->getMockBuilder(ilMailMimeTransport::class)->getMock();
-        $defaultTransport->expects($this->once())->method('send');
+        $default_transport = $this->getMockBuilder(ilMailMimeTransport::class)->getMock();
+        $default_transport->expects($this->once())->method('send');
 
-        $transportFactory = $this->getMockBuilder(ilMailMimeTransportFactory::class)->disableOriginalConstructor()->getMock();
-        $transportFactory->method('getTransport')->willReturn($defaultTransport);
-        $this->setGlobalVariable('mail.mime.transport.factory', $transportFactory);
+        $transport_factory = $this->getMockBuilder(ilMailMimeTransportFactory::class)->disableOriginalConstructor()->getMock();
+        $transport_factory->method('getTransport')->willReturn($default_transport);
+        $this->setGlobalVariable('mail.mime.transport.factory', $transport_factory);
 
-        $refineryMock = $this->getMockBuilder(Factory::class)->disableOriginalConstructor()->getMock();
-        $this->setGlobalVariable('refinery', $refineryMock);
+        $refinery = $this->getMockBuilder(Factory::class)->disableOriginalConstructor()->getMock();
+        $this->setGlobalVariable('refinery', $refinery);
 
         $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods([
             'set',
@@ -90,11 +90,11 @@ class ilMailMimeTest extends ilMailBaseTestCase
         });
         $this->setGlobalVariable('ilSetting', $settings);
 
-        $eventHandler = $this->getMockBuilder(ilAppEventHandler::class)->disableOriginalConstructor()->onlyMethods([
+        $event_handler = $this->getMockBuilder(ilAppEventHandler::class)->disableOriginalConstructor()->onlyMethods([
             'raise',
         ])->getMock();
 
-        $factory = new ilMailMimeTransportFactory($settings, $eventHandler);
+        $factory = new ilMailMimeTransportFactory($settings, $event_handler);
         $this->assertInstanceOf(ilMailMimeTransportNull::class, $factory->getTransport());
     }
 
@@ -104,16 +104,14 @@ class ilMailMimeTest extends ilMailBaseTestCase
             'set',
             'get',
         ])->getMock();
-        $settings->method('get')->willReturnCallback(static function ($key): ?string {
-            return '1';
-        });
+        $settings->method('get')->willReturnCallback(static fn($key): ?string => '1');
         $this->setGlobalVariable('ilSetting', $settings);
 
-        $eventHandler = $this->getMockBuilder(ilAppEventHandler::class)->disableOriginalConstructor()->onlyMethods([
+        $event_handler = $this->getMockBuilder(ilAppEventHandler::class)->disableOriginalConstructor()->onlyMethods([
             'raise',
         ])->getMock();
 
-        $factory = new ilMailMimeTransportFactory($settings, $eventHandler);
+        $factory = new ilMailMimeTransportFactory($settings, $event_handler);
         $this->assertInstanceOf(ilMailMimeTransportSmtp::class, $factory->getTransport());
     }
 
@@ -138,11 +136,11 @@ class ilMailMimeTest extends ilMailBaseTestCase
         });
         $this->setGlobalVariable('ilSetting', $settings);
 
-        $eventHandler = $this->getMockBuilder(ilAppEventHandler::class)->disableOriginalConstructor()->onlyMethods([
+        $event_handler = $this->getMockBuilder(ilAppEventHandler::class)->disableOriginalConstructor()->onlyMethods([
             'raise',
         ])->getMock();
 
-        $factory = new ilMailMimeTransportFactory($settings, $eventHandler);
+        $factory = new ilMailMimeTransportFactory($settings, $event_handler);
         $this->assertInstanceOf(ilMailMimeTransportSendmail::class, $factory->getTransport());
     }
 
@@ -170,13 +168,13 @@ class ilMailMimeTest extends ilMailBaseTestCase
         $this->assertInstanceOf(ilMailMimeSenderSystem::class, $factory->system());
     }
 
-    protected function getUserById(int $usrId): ilObjUser
+    protected function getUserById(int $usr_id): ilObjUser
     {
         $user = $this->getMockBuilder(ilObjUser::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['getId'])
             ->getMock();
-        $user->method('getId')->willReturn($usrId);
+        $user->method('getId')->willReturn($usr_id);
 
         return $user;
     }

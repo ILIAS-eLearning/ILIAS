@@ -22,8 +22,8 @@ use PHPUnit\Framework\Attributes\Depends;
 
 class ilMailAddressTest extends ilMailBaseTestCase
 {
-    private const LOCAL_PART = 'phpunit';
-    private const DOMAIN_PART = 'ilias.de';
+    private const string LOCAL_PART = 'phpunit';
+    private const string DOMAIN_PART = 'ilias.de';
 
     public function testInstanceCanBeCreated(): ilMailAddress
     {

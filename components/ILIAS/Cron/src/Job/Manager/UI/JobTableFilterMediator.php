@@ -124,9 +124,7 @@ class JobTableFilterMediator
         ];
 
         $initially_rendered = array_map(
-            static function (string $key): bool {
-                return $key !== self::FILTER_PROPERTY_NAME_COMPONENT;
-            },
+            static fn(string $key): bool => $key !== self::FILTER_PROPERTY_NAME_COMPONENT,
             array_keys($fields)
         );
 

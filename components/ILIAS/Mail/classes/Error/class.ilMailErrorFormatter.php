@@ -18,10 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailErrorFormatter
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilMailErrorFormatter
 {
     public function __construct(protected ilLanguage $lng)
@@ -31,7 +27,7 @@ class ilMailErrorFormatter
     /**
      * Formats an error string based on the passed list of errors. If the list contains > 1 elements, the 1st error
      * will be used as a headline for the list of errors.
-     * @param ilMailError[] $errors
+     * @param list<ilMailError> $errors
      */
     public function format(array $errors): string
     {
@@ -39,25 +35,22 @@ class ilMailErrorFormatter
             return '';
         }
 
-        $errorsToDisplay = [];
+        $errors_to_display = [];
         foreach ($errors as $error) {
             $translation = $this->lng->txt($error->getLanguageVariable());
             if ($translation === '-' . $error->getLanguageVariable() . '-') {
                 $translation = $error->getLanguageVariable();
             }
 
-            if (
-                $translation === $error->getLanguageVariable() ||
-                [] === $error->getPlaceHolderValues()
-            ) {
-                $errorsToDisplay[] = $translation;
+            if ($translation === $error->getLanguageVariable() || [] === $error->getPlaceHolderValues()) {
+                $errors_to_display[] = $translation;
             } else {
-                $escapedPlaceholderValues = array_map(static function (string $address): string {
-                    return ilLegacyFormElementsUtil::prepareFormOutput($address);
+                $escaped_placeholder_values = array_map(static function (string $value): string {
+                    return ilLegacyFormElementsUtil::prepareFormOutput($value);
                 }, $error->getPlaceHolderValues());
 
-                array_unshift($escapedPlaceholderValues, $translation);
-                $errorsToDisplay[] = sprintf(...$escapedPlaceholderValues);
+                array_unshift($escaped_placeholder_values, $translation);
+                $errors_to_display[] = sprintf(...$escaped_placeholder_values);
             }
         }
 
@@ -67,20 +60,19 @@ class ilMailErrorFormatter
             true,
             'components/ILIAS/Mail'
         );
-        if (1 === count($errorsToDisplay)) {
+        if (count($errors_to_display) === 1) {
             $tpl->setCurrentBlock('single_error');
-            $tpl->setVariable('SINGLE_ERROR', current($errorsToDisplay));
+            $tpl->setVariable('SINGLE_ERROR', current($errors_to_display));
         } else {
-            $firstError = array_shift($errorsToDisplay);
-
-            foreach ($errorsToDisplay as $error) {
+            $first_error = array_shift($errors_to_display);
+            foreach ($errors_to_display as $error) {
                 $tpl->setCurrentBlock('error_loop');
                 $tpl->setVariable('ERROR', $error);
                 $tpl->parseCurrentBlock();
             }
 
             $tpl->setCurrentBlock('multiple_errors');
-            $tpl->setVariable('FIRST_ERROR', $firstError);
+            $tpl->setVariable('FIRST_ERROR', $first_error);
         }
         $tpl->parseCurrentBlock();
 

@@ -27,8 +27,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
 
 class ilMailAutoresponderServiceTest extends ilMailBaseTestCase
 {
-    private const MAIL_SENDER_USER_ID = 4711;
-    private const MAIL_RECEIVER_USER_ID = 4712;
+    private const int MAIL_SENDER_USER_ID = 4711;
+    private const int MAIL_RECEIVER_USER_ID = 4712;
 
     #[DataProvider('autoresponderProvider')]
     public function testAutoresponderDeliveryWillBeHandledCorrectlyDependingOnLastSentTime(
@@ -64,13 +64,11 @@ class ilMailAutoresponderServiceTest extends ilMailBaseTestCase
 
         if ($expects_active_auto_responder) {
             $repository->expects($this->once())->method('store')->with(
-                $this->callback(static function (AutoresponderDto $actual) use ($faked_now, $auto_responder_record): bool {
-                    return (
-                        // Compare by values, not identity (and ignore sent time)
-                        $actual->getReceiverId() === $auto_responder_record->getReceiverId() &&
-                        $actual->getSenderId() === $auto_responder_record->getSenderId()
-                    ) && $faked_now->format('Y-m-d H:i:s') === $actual->getSentTime()->format('Y-m-d H:i:s');
-                })
+                $this->callback(static fn(AutoresponderDto $actual): bool => (
+                    // Compare by values, not identity (and ignore sent time)
+                    $actual->getReceiverId() === $auto_responder_record->getReceiverId() &&
+                    $actual->getSenderId() === $auto_responder_record->getSenderId()
+                ) && $faked_now->format('Y-m-d H:i:s') === $actual->getSentTime()->format('Y-m-d H:i:s'))
             );
         } else {
             $repository->expects($this->never())->method('store');

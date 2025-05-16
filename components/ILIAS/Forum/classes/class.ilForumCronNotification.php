@@ -30,8 +30,8 @@ use ILIAS\Cron\CronJob;
  */
 class ilForumCronNotification extends CronJob
 {
-    private const KEEP_ALIVE_CHUNK_SIZE = 25;
-    private const DEFAULT_MAX_NOTIFICATION_AGE_IN_DAYS = 30;
+    private const int KEEP_ALIVE_CHUNK_SIZE = 25;
+    private const int DEFAULT_MAX_NOTIFICATION_AGE_IN_DAYS = 30;
 
     /** @var ilForumCronNotificationDataProvider[] */
     private static array $providerObject = [];

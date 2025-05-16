@@ -27,7 +27,7 @@ use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 class ilMailOptionsGUITest extends ilMailBaseTestCase
 {
     protected function getMailOptionsGUI(
-        GlobalHttpState $httpState,
+        GlobalHttpState $http_state,
         ilCtrlInterface $ctrl,
         ilMailOptions $mail_options
     ): ilMailOptionsGUI {
@@ -40,7 +40,7 @@ class ilMailOptionsGUITest extends ilMailBaseTestCase
             $ctrl,
             $lng,
             $user,
-            $httpState,
+            $http_state,
             new Factory(new \ILIAS\Data\Factory(), $lng),
             $mail_options
         );

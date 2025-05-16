@@ -27,9 +27,6 @@ use ILIAS\Cron\Job\Collection\OrderedJobEntities;
 
 class JobTable implements \ILIAS\UI\Component\Table\DataRetrieval
 {
-    private \ILIAS\UI\Factory $ui_factory;
-    private \ilLanguage $lng;
-    private \Psr\Http\Message\ServerRequestInterface $request;
     private readonly \ILIAS\UI\URLBuilder $url_builder;
     private readonly \ILIAS\UI\URLBuilderToken $action_parameter_token;
     private readonly \ILIAS\UI\URLBuilderToken $row_id_token;
@@ -43,18 +40,14 @@ class JobTable implements \ILIAS\UI\Component\Table\DataRetrieval
         array $table_action_namespace,
         string $table_action_param_name,
         string $table_row_identifier_name,
-        \ILIAS\UI\Factory $ui_factory,
-        \Psr\Http\Message\ServerRequestInterface $request,
+        private readonly \ILIAS\UI\Factory $ui_factory,
+        private readonly \Psr\Http\Message\ServerRequestInterface $request,
         \ilCtrlInterface $ctrl,
-        \ilLanguage $lng,
+        private readonly \ilLanguage $lng,
         private readonly \ILIAS\Cron\Job\JobCollection $job_collection,
         private readonly JobRepository $job_repository,
         private readonly bool $mayWrite = false
     ) {
-        $this->ui_factory = $ui_factory;
-        $this->lng = $lng;
-        $this->request = $request;
-
         $form_action = (new \ILIAS\Data\Factory())->uri(
             \ilUtil::_getHttpPath() . '/' .
             $ctrl->getLinkTarget($a_parent_obj, $a_parent_cmd)

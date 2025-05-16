@@ -22,7 +22,7 @@ use ILIAS\Filesystem\Exception\IOException;
 
 final class ilSamlAuthFactory
 {
-    private const METADATA_PATH = 'auth/saml/config';
+    private const string METADATA_PATH = 'auth/saml/config';
 
     /**
      * @throws Exception

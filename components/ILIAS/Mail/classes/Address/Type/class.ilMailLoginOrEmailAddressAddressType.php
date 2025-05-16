@@ -18,48 +18,44 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailLoginOrEmailAddressAddressType
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilMailLoginOrEmailAddressAddressType extends ilBaseMailAddressType
 {
     public function __construct(
-        ilMailAddressTypeHelper $typeHelper,
+        ilMailAddressTypeHelper $type_helper,
         ilMailAddress $address,
         ilLogger $logger,
         protected ilRbacSystem $rbacsystem
     ) {
-        parent::__construct($typeHelper, $address, $logger);
+        parent::__construct($type_helper, $address, $logger);
     }
 
-    protected function isValid(int $senderId): bool
+    protected function isValid(int $sender_id): bool
     {
-        if ($this->address->getHost() === $this->typeHelper->getInstallationHost()) {
-            $usrId = $this->typeHelper->getUserIdByLogin($this->address->getMailbox());
+        if ($this->address->getHost() === $this->type_helper->getInstallationHost()) {
+            $usr_id = $this->type_helper->getUserIdByLogin($this->address->getMailbox());
         } else {
-            $usrId = false;
+            $usr_id = false;
         }
 
-        if (!$usrId && $this->address->getHost() === $this->typeHelper->getInstallationHost()) {
+        if (!$usr_id && $this->address->getHost() === $this->type_helper->getInstallationHost()) {
             $this->pushError('mail_recipient_not_found', [$this->address->getMailbox()]);
             return false;
         }
 
         if (
-            $usrId &&
-            $this->typeHelper->receivesInternalMailsOnly($usrId) &&
+            $usr_id &&
+            $this->type_helper->receivesInternalMailsOnly($usr_id) &&
             !$this->rbacsystem->checkAccessOfUser(
-                $usrId,
+                $usr_id,
                 'internal_mail',
-                $this->typeHelper->getGlobalMailSystemId()
+                $this->type_helper->getGlobalMailSystemId()
             )
         ) {
             $this->logger->debug(sprintf(
                 "Address '%s' not valid. Found id %s, " .
                 "but user can't use mail system and wants to receive emails only internally.",
                 $this->address->getMailbox(),
-                $usrId
+                $usr_id
             ));
             $this->pushError('user_cant_receive_mail', [$this->address->getMailbox()]);
             return false;
@@ -70,21 +66,21 @@ class ilMailLoginOrEmailAddressAddressType extends ilBaseMailAddressType
 
     public function resolve(): array
     {
-        if ($this->address->getHost() === $this->typeHelper->getInstallationHost()) {
+        if ($this->address->getHost() === $this->type_helper->getInstallationHost()) {
             $address = $this->address->getMailbox();
         } else {
             $address = (string) $this->address;
         }
 
-        $usrIds = array_filter([
-            $this->typeHelper->getUserIdByLogin($address),
+        $usr_ids = array_filter([
+            $this->type_helper->getUserIdByLogin($address),
         ]);
 
-        if ($usrIds !== []) {
+        if ($usr_ids !== []) {
             $this->logger->debug(sprintf(
                 "Found the following user ids for address (login) '%s': %s",
                 $address,
-                implode(', ', array_unique($usrIds))
+                implode(', ', array_unique($usr_ids))
             ));
         } elseif ($address !== '') {
             $this->logger->debug(sprintf(
@@ -93,6 +89,6 @@ class ilMailLoginOrEmailAddressAddressType extends ilBaseMailAddressType
             ));
         }
 
-        return $usrIds;
+        return $usr_ids;
     }
 }

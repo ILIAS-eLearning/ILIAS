@@ -24,9 +24,9 @@ declare(strict_types=1);
  */
 class ilBuddySystemRelationsTableGUI extends ilTable2GUI
 {
-    private const APPLY_FILTER_CMD = 'applyContactsTableFilter';
-    private const RESET_FILTER_CMD = 'resetContactsTableFilter';
-    final public const STATE_FILTER_ELM_ID = 'relation_state_type';
+    private const string APPLY_FILTER_CMD = 'applyContactsTableFilter';
+    private const string RESET_FILTER_CMD = 'resetContactsTableFilter';
+    final public const string STATE_FILTER_ELM_ID = 'relation_state_type';
 
     protected ilGlobalTemplateInterface $containerTemplate;
     protected bool $hasAccessToMailSystem = false;
@@ -203,9 +203,6 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function fillRow(array $a_set): void
     {
         if ($this->hasAccessToMailSystem) {
@@ -233,9 +230,6 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
         parent::fillRow($a_set);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function render(): string
     {
         $listener_tpl = new ilTemplate(

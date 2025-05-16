@@ -128,9 +128,7 @@ readonly class JobManagerImpl implements \ILIAS\Cron\Job\JobManager
             $jobData = array_pop($jobsData);
         }
 
-        $job->setDateTimeProvider(function (): \DateTimeImmutable {
-            return $this->clock_factory->system()->now();
-        });
+        $job->setDateTimeProvider(fn(): \DateTimeImmutable => $this->clock_factory->system()->now());
 
         // already running?
         if ($jobData['alive_ts']) {

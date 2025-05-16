@@ -29,18 +29,18 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
     /**
      * presentation mode for authoring
      */
-    final public const PRESENTATION_MODE_EDITING = 'PRESENTATION_MODE_EDITING';
+    final public const string PRESENTATION_MODE_EDITING = 'PRESENTATION_MODE_EDITING';
 
     /**
      * presentation mode for requesting
      */
-    final public const PRESENTATION_MODE_PRESENTATION = 'PRESENTATION_MODE_PRESENTATION';
+    final public const string PRESENTATION_MODE_PRESENTATION = 'PRESENTATION_MODE_PRESENTATION';
 
     /**
      * presentation mode for embedded presentation, e.g. in a kiosk mode
      */
-    final public const PRESENTATION_MODE_EMBEDDED_PRESENTATION = 'PRESENTATION_MODE_EMBEDDED_PRESENTATION';
-    final public const PRESENTATION_MODE_PREVIEW = 'PRESENTATION_MODE_PREVIEW';
+    final public const string PRESENTATION_MODE_EMBEDDED_PRESENTATION = 'PRESENTATION_MODE_EMBEDDED_PRESENTATION';
+    final public const string PRESENTATION_MODE_PREVIEW = 'PRESENTATION_MODE_PREVIEW';
 
     protected string $presentationMode = self::PRESENTATION_MODE_EDITING;
     protected string $backUrl = '';

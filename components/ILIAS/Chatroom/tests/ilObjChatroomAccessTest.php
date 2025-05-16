@@ -66,9 +66,7 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTestBase
 
         $this->db
             ->method('fetchAssoc')
-            ->willReturnCallback(static function (ilDBStatement $statement) {
-                return $statement->fetchAssoc();
-            });
+            ->willReturnCallback(static fn(ilDBStatement $statement) => $statement->fetchAssoc());
 
         $this->db
             ->method('query')
@@ -122,9 +120,7 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTestBase
 
         $this->db
             ->method('fetchAssoc')
-            ->willReturnCallback(static function (ilDBStatement $statement) {
-                return $statement->fetchAssoc();
-            });
+            ->willReturnCallback(static fn(ilDBStatement $statement) => $statement->fetchAssoc());
 
         $this->db
             ->method('query')

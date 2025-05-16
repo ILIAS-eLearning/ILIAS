@@ -111,9 +111,6 @@ class ilTestAccess
         return false;
     }
 
-    /**
-     * @return bool
-     */
     public function checkParticipantsResultsAccess(): bool
     {
         if ($this->getAccess()->checkAccess('write', '', $this->getRefId())) {
@@ -129,6 +126,23 @@ class ilTestAccess
         }
 
         if ($this->getAccess()->checkPositionAccess(ilOrgUnitOperation::OP_ACCESS_RESULTS, $this->getRefId())) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function checkOtherParticipantsLearningProgressAccess(): bool
+    {
+        if ($this->getAccess()->checkAccess('write', '', $this->getRefId())) {
+            return true;
+        }
+
+        if ($this->getAccess()->checkRbacOrPositionPermissionAccess(
+            'read_learning_progress',
+            ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS,
+            $this->getRefId()
+        )) {
             return true;
         }
 
@@ -214,7 +228,7 @@ class ilTestAccess
         }
 
         if ($this->isIpTypeOf(FILTER_FLAG_IPV6, $ip, $range_start, $range_end)) {
-            return !$this->isIpv6Between($ip, $range_start, $range_end);
+            return $this->isIpv6Between($ip, $range_start, $range_end);
         }
 
         return false;

@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 class ilBuddyListTestCase extends ilBuddySystemBaseTestCase
 {
-    private const BUDDY_LIST_OWNER_ID = -1;
-    private const BUDDY_LIST_BUDDY_ID = -2;
+    private const int BUDDY_LIST_OWNER_ID = -1;
+    private const int BUDDY_LIST_BUDDY_ID = -2;
 
     protected function setUp(): void
     {

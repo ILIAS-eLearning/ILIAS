@@ -28,13 +28,9 @@ use ILIAS\UI\Component\Legacy\Content;
 use ilMailExplorer;
 use ilMailGUI;
 
-/**
- * Class MailGlobalScreenToolProvider
- * @author Michael Jansen <mjansen@databay.de>
- */
 class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
 {
-    final public const SHOW_MAIL_FOLDERS_TOOL = 'show_mail_folders_tool';
+    final public const string SHOW_MAIL_FOLDERS_TOOL = 'show_mail_folders_tool';
 
     public function isInterestedInContexts(): ContextCollection
     {
@@ -44,9 +40,7 @@ class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
     public function getToolsForContextStack(
         CalledContexts $called_contexts
     ): array {
-        $identification = function ($id): IdentificationInterface {
-            return $this->identification_provider->contextAwareIdentifier($id);
-        };
+        $identification = fn($id): IdentificationInterface => $this->identification_provider->contextAwareIdentifier($id);
 
         $tools = [];
 

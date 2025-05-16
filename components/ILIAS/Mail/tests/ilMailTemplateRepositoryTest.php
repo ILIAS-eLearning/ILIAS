@@ -28,7 +28,7 @@ class ilMailTemplateRepositoryTest extends ilMailBaseTestCase
 
         $repository = new ilMailTemplateRepository($db);
 
-        $templateId = 666;
+        $template_id = 666;
 
         $template = new ilMailTemplate();
         $template->setTitle('phpunit');
@@ -38,12 +38,12 @@ class ilMailTemplateRepositoryTest extends ilMailBaseTestCase
         $template->setContext('4711');
         $template->setAsDefault(true);
 
-        $db->expects($this->once())->method('nextId')->willReturn($templateId);
+        $db->expects($this->once())->method('nextId')->willReturn($template_id);
         $db->expects($this->once())->method('insert');
 
         $repository->store($template);
 
-        $this->assertSame($templateId, $template->getTplId());
+        $this->assertSame($template_id, $template->getTplId());
 
         return $template;
     }
@@ -79,19 +79,19 @@ class ilMailTemplateRepositoryTest extends ilMailBaseTestCase
         $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
         $statement = $this->getMockBuilder(ilDBStatement::class)->getMock();
 
-        $templateId = 666;
+        $template_id = 666;
 
-        $emptyTemplate = new ilMailTemplate();
-        $emptyTemplate->setTplId($templateId);
+        $empty_template = new ilMailTemplate();
+        $empty_template->setTplId($template_id);
 
         $db->expects($this->once())->method('queryF')->willReturn($statement);
         $db->expects($this->once())->method('numRows')->willReturn(1);
-        $db->expects($this->once())->method('fetchAssoc')->willReturn($emptyTemplate->toArray());
+        $db->expects($this->once())->method('fetchAssoc')->willReturn($empty_template->toArray());
 
         $repository = new ilMailTemplateRepository($db);
         $template = $repository->findById(4711);
 
-        $this->assertSame($templateId, $template->getTplId());
+        $this->assertSame($template_id, $template->getTplId());
     }
 
     public function testExceptionIsRaisedIfNoTemplateCanBeFoundById(): void

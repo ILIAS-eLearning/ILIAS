@@ -28,7 +28,7 @@ use ilDBConstants;
 
 final class AutoresponderDatabaseRepository implements AutoresponderRepository
 {
-    private const TABLE_NAME = 'mail_auto_responder';
+    private const string TABLE_NAME = 'mail_auto_responder';
 
     public function __construct(protected ilDBInterface $db)
     {
@@ -36,7 +36,7 @@ final class AutoresponderDatabaseRepository implements AutoresponderRepository
 
     public function findBySenderId(int $sender_id): AutoresponderArrayCollection
     {
-        $query = "SELECT * FROM " . self::TABLE_NAME . " WHERE sender_id = " . $this->db->quote(
+        $query = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE sender_id = ' . $this->db->quote(
             $sender_id,
             ilDBConstants::T_INTEGER
         );
@@ -59,7 +59,7 @@ final class AutoresponderDatabaseRepository implements AutoresponderRepository
 
     public function findByReceiverId(int $receiver_id): AutoresponderArrayCollection
     {
-        $query = "SELECT * FROM " . self::TABLE_NAME . " WHERE receiver_id = " . $this->db->quote(
+        $query = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE receiver_id = ' . $this->db->quote(
             $receiver_id,
             ilDBConstants::T_INTEGER
         );
@@ -85,15 +85,15 @@ final class AutoresponderDatabaseRepository implements AutoresponderRepository
      */
     public function findBySenderIdAndReceiverId(int $sender_id, int $receiver_id): AutoresponderDto
     {
-        $query = "SELECT * FROM " . self::TABLE_NAME . " WHERE sender_id = " . $this->db->quote(
+        $query = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE sender_id = ' . $this->db->quote(
             $sender_id,
             ilDBConstants::T_INTEGER
-        ) . " AND receiver_id = " . $this->db->quote($receiver_id, ilDBConstants::T_INTEGER);
+        ) . ' AND receiver_id = ' . $this->db->quote($receiver_id, ilDBConstants::T_INTEGER);
         $result = $this->db->query($query);
         $row = $this->db->fetchAssoc($result);
         if (!$row) {
             throw new ilObjectNotFoundException(
-                "No auto responder found for sender_id: " . $sender_id . " and receiver_id: " . $receiver_id
+                'No auto responder found for sender_id: ' . $sender_id . ' and receiver_id: ' . $receiver_id
             );
         }
 
@@ -143,10 +143,10 @@ final class AutoresponderDatabaseRepository implements AutoresponderRepository
 
     public function exists(int $sender_id, int $receiver_id): bool
     {
-        $query = "SELECT 1 existing_record FROM " . self::TABLE_NAME . " WHERE sender_id = " . $this->db->quote(
+        $query = 'SELECT 1 existing_record FROM ' . self::TABLE_NAME . ' WHERE sender_id = ' . $this->db->quote(
             $sender_id,
             ilDBConstants::T_INTEGER
-        ) . " AND receiver_id = " . $this->db->quote($receiver_id, ilDBConstants::T_INTEGER);
+        ) . ' AND receiver_id = ' . $this->db->quote($receiver_id, ilDBConstants::T_INTEGER);
         $result = $this->db->query($query);
 
         if ($row = $this->db->fetchAssoc($result)) {

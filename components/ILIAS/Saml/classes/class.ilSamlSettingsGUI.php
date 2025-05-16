@@ -26,40 +26,40 @@ use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 
 final class ilSamlSettingsGUI
 {
-    private const VIEW_MODE_GLOBAL = 1;
-    private const VIEW_MODE_SINGLE = 2;
+    private const int VIEW_MODE_GLOBAL = 1;
+    private const int VIEW_MODE_SINGLE = 2;
 
-    public const DEFAULT_CMD = 'listIdps';
+    public const string DEFAULT_CMD = 'listIdps';
 
-    private const PERMISSION_WRITE = 'write';
+    private const string PERMISSION_WRITE = 'write';
 
-    private const REQUEST_PARAM_SAML_IDP_ID = 'saml_idp_id';
-    private const REQUEST_PARAM_SAML_IDP_IDS = 'saml_idp_ids';
+    private const string REQUEST_PARAM_SAML_IDP_ID = 'saml_idp_id';
+    private const string REQUEST_PARAM_SAML_IDP_IDS = 'saml_idp_ids';
 
-    private const MESSAGE_TYPE_FAILURE = 'failure';
-    private const MESSAGE_TYPE_SUCCESS = 'success';
+    private const string MESSAGE_TYPE_FAILURE = 'failure';
+    private const string MESSAGE_TYPE_SUCCESS = 'success';
 
-    private const LNG_SAVED_SUCCESSFULLY = 'saved_successfully';
-    private const LNG_AUTH_SAML_USER_MAPPING = 'auth_saml_user_mapping';
-    private const LNG_LOGIN_FORM = 'login_form';
-    private const LNG_CANCEL = 'cancel';
+    private const string LNG_SAVED_SUCCESSFULLY = 'saved_successfully';
+    private const string LNG_AUTH_SAML_USER_MAPPING = 'auth_saml_user_mapping';
+    private const string LNG_LOGIN_FORM = 'login_form';
+    private const string LNG_CANCEL = 'cancel';
 
-    private const CMD_SHOW_SETTINGS = 'showSettings';
-    private const CMD_SAVE_NEW_IDP = 'saveNewIdp';
-    private const CMD_SAVE_SETTINGS = 'saveSettings';
-    private const CMD_SHOW_IDP_SETTINGS = 'showIdpSettings';
-    private const CMT_SAVE_IDP_SETTINGS = 'saveIdpSettings';
-    private const CMD_SAVE = 'save';
-    private const CMD_SAVE_USER_ATTRIBUTE_MAPPING = 'saveUserAttributeMapping';
+    private const string CMD_SHOW_SETTINGS = 'showSettings';
+    private const string CMD_SAVE_NEW_IDP = 'saveNewIdp';
+    private const string CMD_SAVE_SETTINGS = 'saveSettings';
+    private const string CMD_SHOW_IDP_SETTINGS = 'showIdpSettings';
+    private const string CMT_SAVE_IDP_SETTINGS = 'saveIdpSettings';
+    private const string CMD_SAVE = 'save';
+    private const string CMD_SAVE_USER_ATTRIBUTE_MAPPING = 'saveUserAttributeMapping';
 
-    private const PROP_UPDATE_SUFFIX = '_update';
+    private const string PROP_UPDATE_SUFFIX = '_update';
 
-    private const METADATA_STORAGE_KEY = 'metadata';
+    private const string METADATA_STORAGE_KEY = 'metadata';
 
     /**
      * @var string[]
      */
-    private const GLOBAL_COMMANDS = [
+    private const array GLOBAL_COMMANDS = [
         self::DEFAULT_CMD,
         'showAddIdpForm',
         self::CMD_SHOW_SETTINGS,
@@ -71,7 +71,7 @@ final class ilSamlSettingsGUI
     /**
      * @var string[]
      */
-    private const GLOBAL_ENTITY_COMMANDS = [
+    private const array GLOBAL_ENTITY_COMMANDS = [
         'deactivateIdp',
         'activateIdp',
         'confirmDeleteIdp',
@@ -81,7 +81,7 @@ final class ilSamlSettingsGUI
     /**
      * @var string[]
      */
-    private const IGNORED_USER_FIELDS = [
+    private const array IGNORED_USER_FIELDS = [
         'mail_incoming_mail',
         'preferences',
         'hide_own_online_status',

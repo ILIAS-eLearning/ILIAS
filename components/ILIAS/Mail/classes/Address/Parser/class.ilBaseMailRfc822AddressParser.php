@@ -18,30 +18,19 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilBaseMailRfc822AddressParser
- * @author Michael Jansen <mjansen@databay.de>
- */
 abstract class ilBaseMailRfc822AddressParser implements ilMailRecipientParser
 {
-    /**
-     * @param string $addresses A comma separated list of email addresses
-     */
-    public function __construct(protected string $addresses, protected string $installationHost = ilMail::ILIAS_HOST)
+    public function __construct(protected string $addresses, protected string $installation_host = ilMail::ILIAS_HOST)
     {
     }
 
-    /**
-     * @return string A comma separated list of email addresses
-     */
     public function getAddresses(): string
     {
         return $this->addresses;
     }
 
     /**
-     * @param string $addresses A comma separated list of email addresses
-     * @return ilMailAddress[]
+     * @return list<ilMailAddress>
      */
     abstract protected function parseAddressString(string $addresses): array;
 

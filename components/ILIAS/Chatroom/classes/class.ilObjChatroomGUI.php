@@ -181,7 +181,6 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
                 $GLOBALS['DIC']->tabs()->setTabActive('export');
 
                 $exp = new ilExportGUI($this);
-                $exp->addFormat('xml');
                 $this->ctrl->forwardCommand($exp);
                 break;
 

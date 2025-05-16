@@ -146,11 +146,17 @@ class ilBiblEntryTableGUI
         foreach (array_keys($this->getSortationsMapping()) as $sort_id) {
             $sortations[$sort_id] = $this->lng->txt('sorting_' . $sort_id);
         }
-        $view_controls[] = $this->ui_factory->viewControl()->sortation($sortations)
-            ->withTargetURL(
-                $this->ctrl->getLinkTargetByClass(ilObjBibliographicGUI::class, ilObjBibliographicGUI::CMD_SHOW_CONTENT),
-                self::P_SORTATION
-            )->withLabel($this->lng->txt('sorting_' . $this->determineSortation()));
+        if ($sortations !== []) {
+            $view_controls[] = $this->ui_factory->viewControl()->sortation($sortations, array_key_first($sortations))
+                                                ->withTargetURL(
+                                                    $this->ctrl->getLinkTargetByClass(
+                                                        ilObjBibliographicGUI::class,
+                                                        ilObjBibliographicGUI::CMD_SHOW_CONTENT
+                                                    ),
+                                                    self::P_SORTATION
+                                                );
+        }
+
         $view_controls[] = $this->ui_factory->viewControl()->pagination()
           ->withTargetURL($this->http->request()->getRequestTarget(), self::P_PAGE)
           ->withTotalEntries(count($records))
@@ -236,15 +242,9 @@ class ilBiblEntryTableGUI
             foreach ($sorted_attributes as $sorted_attribute) {
                 $entry_data[$sorted_attribute->getName()] = $sorted_attribute->getValue();
             }
-            if (!array_key_exists('author', $entry_data)) {
-                $entry_data['author'] = '';
-            }
-            if (!array_key_exists('title', $entry_data)) {
-                $entry_data['title'] = '';
-            }
-            if (!array_key_exists('year', $entry_data)) {
-                $entry_data['year'] = '';
-            }
+            $entry_data['author'] ??= $entry_data['AU'] ?? $entry_data['A1'] ?? $entry_data['A2'] ?? '';
+            $entry_data['title'] ??= $entry_data['T1'] ?? $entry_data['T2'] ?? '';
+            $entry_data['year'] ??= $entry_data['PY'] ?? $entry_data['Y1'] ?? '';
             $bibl_data[] = $entry_data;
         }
 

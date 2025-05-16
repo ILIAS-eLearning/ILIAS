@@ -65,7 +65,7 @@ final class AutoresponderArrayCollection implements AutoresponderCollection
 
     public function count(): int
     {
-        return count($this->elements);
+        return \count($this->elements);
     }
 
     public function add(AutoresponderDto $element): void
@@ -84,7 +84,7 @@ final class AutoresponderArrayCollection implements AutoresponderCollection
     public function removeElement(AutoresponderDto $element): void
     {
         $key = array_search($element, $this->elements, true);
-        if (false === $key) {
+        if ($key === false) {
             throw new InvalidArgumentException('Could not find an key for the passed element.');
         }
         unset($this->elements[$key]);
@@ -98,7 +98,7 @@ final class AutoresponderArrayCollection implements AutoresponderCollection
     public function getKey(AutoresponderDto $element): int
     {
         $key = array_search($element, $this->elements, true);
-        if (false === $key) {
+        if ($key === false) {
             throw new InvalidArgumentException('Could not find an key for the passed element.');
         }
         return $key;
@@ -111,7 +111,7 @@ final class AutoresponderArrayCollection implements AutoresponderCollection
 
     public function contains(AutoresponderDto $element): bool
     {
-        return in_array($element, $this->elements, true);
+        return \in_array($element, $this->elements, true);
     }
 
     public function get($key): ?AutoresponderDto
@@ -147,7 +147,7 @@ final class AutoresponderArrayCollection implements AutoresponderCollection
 
     public function slice(int $offset, ?int $length = null): AutoresponderCollection
     {
-        $sliced = array_slice($this->elements, $offset, $length, true);
+        $sliced = \array_slice($this->elements, $offset, $length, true);
         return new self($sliced);
     }
 

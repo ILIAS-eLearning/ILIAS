@@ -18,16 +18,12 @@
 
 declare(strict_types=1);
 
-/**
- * @author Nadia Matuschek <nmatuschek@databay.de>
- * @ingroup ServicesMail
- */
 class ilMailSummaryNotification extends ilMailNotification
 {
     protected ilLanguage $lng;
     protected ilDBInterface $db;
     protected ilSetting $settings;
-    protected ilMailMimeSenderFactory $senderFactory;
+    protected ilMailMimeSenderFactory $sender_factory;
 
     public function __construct(bool $a_is_personal_workspace = false)
     {
@@ -35,7 +31,7 @@ class ilMailSummaryNotification extends ilMailNotification
         $this->db = $DIC->database();
         $this->lng = $DIC->language();
         $this->settings = $DIC->settings();
-        $this->senderFactory = $DIC->mail()->mime()->senderFactory();
+        $this->sender_factory = $DIC->mail()->mime()->senderFactory();
 
         parent::__construct($a_is_personal_workspace);
     }
@@ -66,7 +62,7 @@ class ilMailSummaryNotification extends ilMailNotification
             }
             $users[$user_id][] = $row;
         }
-        $sender = $this->senderFactory->system();
+        $sender = $this->sender_factory->system();
 
         foreach ($users as $user_id => $mail_data) {
             $this->initLanguage($user_id);
@@ -104,11 +100,11 @@ class ilMailSummaryNotification extends ilMailNotification
                 $this->appendBody($user_lang->txt('date') . ': ' . $mail['send_time']);
                 $this->appendBody("\n");
                 if ((int) $mail['sender_id'] === ANONYMOUS_USER_ID) {
-                    $senderName = ilMail::_getIliasMailerName();
+                    $sender_name = ilMail::_getIliasMailerName();
                 } else {
-                    $senderName = ilObjUser::_lookupLogin((int) $mail['sender_id']);
+                    $sender_name = ilObjUser::_lookupLogin((int) $mail['sender_id']);
                 }
-                $this->appendBody($user_lang->txt('sender') . ': ' . $senderName);
+                $this->appendBody($user_lang->txt('sender') . ': ' . $sender_name);
                 $this->appendBody("\n");
                 $this->appendBody($user_lang->txt('subject') . ': ' . $mail['m_subject']);
                 $this->appendBody("\n\n");
@@ -136,8 +132,8 @@ class ilMailSummaryNotification extends ilMailNotification
             $mmail = new ilMimeMail();
             $mmail->From($sender);
 
-            $mailOptions = new ilMailOptions($user_id);
-            $mmail->To($mailOptions->getExternalEmailAddresses());
+            $mail_options = new ilMailOptions($user_id);
+            $mmail->To($mail_options->getExternalEmailAddresses());
 
             $mmail->Subject($this->getSubject());
             $mmail->Body($this->getBody());

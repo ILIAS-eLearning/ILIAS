@@ -65,9 +65,7 @@ abstract class ilChatroomAbstractTestBase extends TestCase
     protected function createGlobalIlDBMock(): ilDBInterface&MockObject
     {
         $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
-        $db->method('quote')->willReturnCallback(static function ($arg): string {
-            return "'" . $arg . "'";
-        });
+        $db->method('quote')->willReturnCallback(static fn($arg): string => "'" . $arg . "'");
 
         $this->setGlobalVariable('ilDB', $db);
 
@@ -80,8 +78,6 @@ abstract class ilChatroomAbstractTestBase extends TestCase
 
         $GLOBALS[$name] = $value;
 
-        $DIC[$name] = static function (Container $c) use ($name) {
-            return $GLOBALS[$name];
-        };
+        $DIC[$name] = (static fn(Container $c) => $GLOBALS[$name]);
     }
 }

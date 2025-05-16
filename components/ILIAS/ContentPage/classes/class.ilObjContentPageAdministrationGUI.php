@@ -31,10 +31,10 @@ use ILIAS\HTTP\GlobalHttpState;
  */
 class ilObjContentPageAdministrationGUI extends ilObjectGUI
 {
-    private const CMD_VIEW = 'view';
-    private const CMD_EDIT = 'edit';
-    private const CMD_SAVE = 'save';
-    private const F_READING_TIME = 'reading_time';
+    private const string CMD_VIEW = 'view';
+    private const string CMD_EDIT = 'edit';
+    private const string CMD_SAVE = 'save';
+    private const string F_READING_TIME = 'reading_time';
 
     private readonly Storage $settings_storage;
 

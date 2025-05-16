@@ -69,6 +69,7 @@ class ilTestPlayerCommands
     public const AUTO_SAVE = 'autosave';
     public const AUTO_SAVE_ON_TIME_LIMIT = 'autosaveOnTimeLimit';
     public const REDIRECT_ON_TIME_LIMIT = 'redirectAfterAutosave';
+    public const REDIRECT_AFTER_QUESTION_LIST = 'redirectAfterQuestionList';
 
     public const SUSPEND_TEST = 'suspendTest';
     public const FINISH_TEST = 'finishTest';
@@ -82,11 +83,13 @@ class ilTestPlayerCommands
      * @var array
      */
     private static $nonExecutionCommands = [
-// fau: testNav - declare DETECT_CHANGES as non execution command
         self::DETECT_CHANGES,
-// fau.
-        self::AUTO_SAVE, self::AUTO_SAVE_ON_TIME_LIMIT, self::REDIRECT_ON_TIME_LIMIT,
-        self::AFTER_TEST_PASS_FINISHED, self::SHOW_FINAL_STATMENT
+        self::AUTO_SAVE,
+        self::AUTO_SAVE_ON_TIME_LIMIT,
+        self::REDIRECT_ON_TIME_LIMIT,
+        self::AFTER_TEST_PASS_FINISHED,
+        self::SHOW_FINAL_STATMENT,
+        self::REDIRECT_AFTER_QUESTION_LIST
     ];
 
     /**

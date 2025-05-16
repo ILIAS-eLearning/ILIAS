@@ -25,11 +25,11 @@ use PHPUnit\Framework\Attributes\Depends;
 
 final class ilBcryptPasswordEncoderTest extends ilPasswordBaseTestCase
 {
-    private const VALID_COSTS = '08';
-    private const PASSWORD = 'password';
-    private const WRONG_PASSWORD = 'wrong_password';
-    private const CLIENT_SALT = 'homer!12345_/';
-    private const PASSWORD_SALT = 'salt';
+    private const string VALID_COSTS = '08';
+    private const string PASSWORD = 'password';
+    private const string WRONG_PASSWORD = 'wrong_password';
+    private const string CLIENT_SALT = 'homer!12345_/';
+    private const string PASSWORD_SALT = 'salt';
 
     private vfs\vfsStreamDirectory $testDirectory;
     private string $testDirectoryUrl;

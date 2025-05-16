@@ -84,6 +84,7 @@ function parameters()
                         fn($id) => "$('#$id').on('click', (e)=> {alert('$id');});"
                     )
                 ];
+                \ilSession::set("full_amount", (string) $idx);
                 $prompt_content = $factory->messageBox()->info('some text')
                     ->withLinks($links)
                     ->withButtons($buttons);
@@ -92,7 +93,7 @@ function parameters()
             case 'promptlink':
                 $back_uri = $url_builder
                         ->withParameter($action_token, "showprompt")
-                        ->withParameter($amount_token, (string) $amount)
+                        ->withParameter($amount_token, (string) \ilSession::get("full_amount"))
                         ->buildURI()->__toString();
                 $back = $factory->button()->standard('back', '#')->withOnLoadCode(
                     fn($id) => "$('#$id').on('click', (e)=> {

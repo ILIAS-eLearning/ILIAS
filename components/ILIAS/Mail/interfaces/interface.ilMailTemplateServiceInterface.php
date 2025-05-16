@@ -24,7 +24,7 @@ use ILIAS\Mail\Templates\TemplateMessageSyntaxException;
 interface ilMailTemplateServiceInterface
 {
     public function createNewTemplate(
-        string $contextId,
+        string $context_id,
         string $title,
         string $subject,
         string $message,
@@ -35,25 +35,25 @@ interface ilMailTemplateServiceInterface
      * @throws TemplateSubjectSyntaxException|TemplateMessageSyntaxException
      */
     public function modifyExistingTemplate(
-        int $templateId,
-        string $contextId,
+        int $template_id,
+        string $context_id,
         string $title,
         string $subject,
         string $message,
         string $language
     ): void;
 
-    public function loadTemplateForId(int $templateId): ilMailTemplate;
+    public function loadTemplateForId(int $template_id): ilMailTemplate;
 
     /**
      * @return list<ilMailTemplate>
      */
-    public function loadTemplatesForContextId(string $contextId): array;
+    public function loadTemplatesForContextId(string $context_id): array;
 
     /**
-     * @param list<int> $templateIds
+     * @param list<int> $template_ids
      */
-    public function deleteTemplatesByIds(array $templateIds): void;
+    public function deleteTemplatesByIds(array $template_ids): void;
 
     /**
      * @return list<array<string, mixed>>

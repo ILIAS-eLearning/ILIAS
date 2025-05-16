@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailMimeTransportSmtp
- */
 class ilMailMimeTransportSmtp extends ilMailMimeTransportBase
 {
     protected function onBeforeSend(): void

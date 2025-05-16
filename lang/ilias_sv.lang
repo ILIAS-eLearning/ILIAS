@@ -2075,8 +2075,6 @@ auth#:#auth_account_migration_new#:#Create nytt ILIAS-konto
 auth#:#auth_activation_code_success#:#Din åtkomst har aktiverats. Du kan nu logga in.
 auth#:#auth_allow_local_info#:#Om den är aktiverad är lokal autentisering mot ILIAS-databasen med inloggningsnamn/lösenord också möjlig för de inloggningskonton vars autentiseringsläge är SAML.
 auth#:#auth_auth_settings#:#Inställningar
-auth#:#auth_cas_ldap#:#Synkronisering via LDAP-inställningar
-auth#:#auth_cas_ldap_info#:#Om aktiverat utförs synkroniseringen av användardata och rolltilldelningar enligt LDAP-inställningarna.
 auth#:#auth_cron_destroy_expired_sessions#:#Deletion of Expired Sessions###21 11 2023 new variable
 auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessions.###21 11 2023 new variable
 auth#:#auth_err_expired#:#Din session har löpt ut. Logga in igen.
@@ -2179,8 +2177,6 @@ auth#:#auth_saml_user_mapping#:#Tilldelning av profiluppgifter
 auth#:#auth_saml_username_claim#:#Attribut för visningsnamn/inloggningsnamn
 auth#:#auth_saml_username_claim_info#:#Definiera attributet här som ILIAS ska använda för att generera visningsnamnet/inloggningsnamnet.
 auth#:#auth_sync#:#Synkronisering av användare
-auth#:#auth_sync_cas#:#Automatisk generering av ILIAS-inloggningskonton
-auth#:#auth_sync_cas_info#:#Användare som har autentiserat sig mot CAS men inte har ett ILIAS-konto skapas automatiskt.
 auth#:#destination_after_logout#:#Destination After Logout###28 10 2024 new variable
 auth#:#destination_external_ressource#:#Show External Ressource###28 10 2024 new variable
 auth#:#destination_external_ressource_url#:#External URL###28 10 2024 new variable
@@ -3598,13 +3594,6 @@ common#:#attachments#:#Attachments
 common#:#attempts#:#Prövningar
 common#:#auth_active_roles#:#Tillgängliga globala roller på registreringsformuläret
 common#:#auth_allow_local#:#Tillåt lokal autentisering
-common#:#auth_cas#:#CAS
-common#:#auth_cas_allow_local_desc#:#Tillåter personer med CAS-konton att logga in med sitt lokala ILIAS-inloggningsnamn och lösenord.
-common#:#auth_cas_auth#:#Konfigurera CAS-autentisering
-common#:#auth_cas_auth_desc#:#För att CAS-autentisering ska fungera måste serverinställningen prevent_super_global_replacement i client.ini.php vara inställd.
-common#:#auth_cas_port_desc#:#Till exempel "443" för en CAS-server URI "https
-common#:#auth_cas_server_desc#:#Till exempel "auth.yourserver.com" för en CAS-server URI "https
-common#:#auth_cas_uri_desc#:#Lokal URI, t.ex. "cas" för en CAS-server URI "https
 common#:#auth_configure#:#konfigurera...
 common#:#auth_create_users#:#Automatiskt skapa användare som ännu inte har registrerats.
 common#:#auth_default#:#Standardinställning
@@ -4060,7 +4049,6 @@ common#:#entry_status#:#Status för inresa
 common#:#err_1_param#:#Endast 1 parameter!
 common#:#err_2_param#:#Endast 2 parametrar!
 common#:#err_auth_apache_failed#:#Autentiseringen har misslyckats.
-common#:#err_auth_cas_no_ilias_user#:#Logon misslyckades! CAS-autentiseringen lyckades, men det finns ingen motsvarande ILIAS-användare. Kontakta din systemadministratör.
 common#:#err_auth_ldap_no_ilias_user#:#Logon misslyckades! LDAP-autentiseringen lyckades, men det finns ingen motsvarande ILIAS-användare. Kontakta din systemadministratör.
 common#:#err_auth_mode_inactive#:#Tyvärr är registrering inte möjlig för tillfället.
 common#:#err_auth_soap_no_ilias_user#:#Logon misslyckades! SOAP-autentiseringen lyckades, men det finns ingen motsvarande ILIAS-användare. Kontakta din systemadministratör.
@@ -4594,7 +4582,6 @@ common#:#login_information_desc#:#Ange inloggningsuppgifter här för respektive
 common#:#login_information_settings_saved#:#Inloggningsuppgifterna sparades framgångsrikt
 common#:#login_invalid#:#Ditt inloggningsnamn måste vara minst tre tecken långt och får endast innehålla följande tecken
 common#:#login_to_ilias#:#Logga in på ILIAS
-common#:#login_to_ilias_via_cas#:#Logga in på ILIAS via det centrala autentiseringssystemet
 common#:#login_to_ilias_via_saml#:#Logga in på ILIAS via SAML-autentisering
 common#:#login_to_ilias_via_shibboleth#:#Logga in på ILIAS via
 common#:#loginname_already_exists#:#Detta inloggningsnamn är redan upptaget. Vänligen välj ett annat inloggningsnamn.
@@ -4913,7 +4900,7 @@ common#:#obj_ass#:#Asset
 common#:#obj_assf#:#Test och bedömning
 common#:#obj_assf_desc#:#Inställningar och administration av testet och bedömningsverktyget
 common#:#obj_auth#:#Autentisering / Ny registrering
-common#:#obj_auth_desc#:#Konfigurera typen av användarautentisering (lokal, LDAP, CAS, ...) och de nya inloggningarna här.
+common#:#obj_auth_desc#:#Konfigurera typen av användarautentisering (lokal, LDAP, ...) och de nya inloggningarna här.
 common#:#obj_awra#:#"Vem är online?" display
 common#:#obj_awra_desc#:#"Vem är online?"-Administratörens display
 common#:#obj_bdga#:#Badges
@@ -5904,7 +5891,7 @@ common#:#user_defined_list#:#Oversikt över användardefinierade fält
 common#:#user_deleted#:#ILIAS-konto raderat
 common#:#user_detail#:#Detaljer
 common#:#user_ext_account#:#Externt inloggningskonto
-common#:#user_ext_account_desc#:#Logonkonto som används för extern autentisering. (CAS-, SOAP- eller LDAP-autentisering)
+common#:#user_ext_account_desc#:#Logonkonto som används för extern autentisering. (SOAP- eller LDAP-autentisering)
 common#:#user_image#:#Användarbild
 common#:#user_import_failed#:#User import misslyckades.
 common#:#user_imported#:#User import slutförd.
@@ -6756,7 +6743,6 @@ content#:#cont_localfile#:#Lokal fil
 content#:#cont_localization#:#Språk
 content#:#cont_localization_info#:#Inställningen krävs för fördefinierade texter i modulen (t.ex. "Framåt" / "Tillbaka").
 content#:#cont_location#:#Position
-content#:#cont_lpe_cas_login_form#:#CAS inloggningsmask
 content#:#cont_lpe_dpro_agreement_link#:#Declaration of Data Protection Link###21 11 2023 new variable
 content#:#cont_lpe_language_selection#:#Val av språk
 content#:#cont_lpe_login_form#:#Logga in mask
@@ -10737,7 +10723,7 @@ ldap#:#ldap_add_missing#:#Tilldela roller som saknas
 ldap#:#ldap_add_remove#:#Lägg till/ta bort roller
 ldap#:#ldap_add_role_ass_rule#:#Ny regel för ILIAS rolltilldelning
 ldap#:#ldap_as_ds#:#Använd som datakälla
-ldap#:#ldap_as_ds_info#:#I kombination med andra autentiseringstyper (t.ex. CAS eller SAML) används LDAP-konfigurationen endast för att synkronisera uppgifterna i ILIAS-kontona. Direkt autentisering via LDAP är inte möjlig.
+ldap#:#ldap_as_ds_info#:#I kombination med andra autentiseringstyper (t.ex. SAML) används LDAP-konfigurationen endast för att synkronisera uppgifterna i ILIAS-kontona. Direkt autentisering via LDAP är inte möjlig.
 ldap#:#ldap_assignment_type#:#Typ av uppdrag
 ldap#:#ldap_authentication_settings#:#Inställningar för autentisering
 ldap#:#ldap_bind_anonymous#:#Ankoppla anonymt

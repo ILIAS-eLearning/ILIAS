@@ -23,8 +23,8 @@ declare(strict_types=1);
  */
 class ilForumMailNotification extends ilMailNotification
 {
-    private const PERMANENT_LINK_POST = 'PL_Post';
-    private const PERMANENT_LINK_FORUM = 'PL_Forum';
+    private const string PERMANENT_LINK_POST = 'PL_Post';
+    private const string PERMANENT_LINK_FORUM = 'PL_Forum';
     public const TYPE_THREAD_DELETED = 54;
     public const TYPE_POST_NEW = 60;
     public const TYPE_POST_ACTIVATION = 61;

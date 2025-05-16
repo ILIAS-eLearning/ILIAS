@@ -22,17 +22,17 @@ namespace ILIAS\components\Forum\Subject;
 
 class PostingReplySubjectBuilder
 {
-    private const EXPECTED_REPLY_PREFIX_END = ':';
-    private const EXPECTED_NUMBER_WRAPPER_CHAR_START_PATTERN = '\\(';
-    private const EXPECTED_NUMBER_WRAPPER_CHAR_END_PATTERN = '\\)';
-    private const EXPECTED_NUMBER_WRAPPER_CHAR_START = '(';
-    private const EXPECTED_NUMBER_WRAPPER_CHAR_END = ')';
+    private const string EXPECTED_REPLY_PREFIX_END = ':';
+    private const string EXPECTED_NUMBER_WRAPPER_CHAR_START_PATTERN = '\\(';
+    private const string EXPECTED_NUMBER_WRAPPER_CHAR_END_PATTERN = '\\)';
+    private const string EXPECTED_NUMBER_WRAPPER_CHAR_START = '(';
+    private const string EXPECTED_NUMBER_WRAPPER_CHAR_END = ')';
 
     /** @var null|array{"strpos": \Closure(string, string, ?int=): (int|false), "strrpos": \Closure(string, string, ?int=): (int|false), "strlen": \Closure(string): int, "substr": \Closure(string, int, ?int=): string} */
     private static ?array $f = null;
 
-    private string $reply_prefix;
-    private string $optimized_repeated_reply_prefix;
+    private readonly string $reply_prefix;
+    private readonly string $optimized_repeated_reply_prefix;
 
     /**
      * @param string $reply_prefix                    e.g. 'Re:'

@@ -25,7 +25,7 @@ declare(strict_types=1);
  */
 class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
 {
-    private const COST = 'cost';
+    private const string COST = 'cost';
 
     private string $costs = '08';
 
