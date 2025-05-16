@@ -409,8 +409,8 @@ class ilSCORM13PlayerGUI
         $config['get_gobjective_url'] = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=getGobjective&ref_id=' . $this->ref_id;
         $config['ping_url'] = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=pingSession&ref_id=' . $this->ref_id;
         $config['scorm_player_unload_url'] = $unload_url;
-        $config['post_log_url'] = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=postLogEntry&ref_id=' . $this->ref_id;
-        $config['livelog_url'] = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=liveLogContent&ref_id=' . $this->ref_id;
+        $config['post_log_url'] = $DIC->ctrl()->getLinkTarget($this, 'postLogEntry');
+        $config['livelog_url'] = $DIC->ctrl()->getLinkTarget($this, 'liveLogContent');
         $config['package_url'] = $this->getDataDirectory() . "/";
 
         //editor
