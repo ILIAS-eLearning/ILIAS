@@ -27,8 +27,8 @@ use ILIAS\HTTP\Services;
  */
 class ilBuddySystemGUI
 {
-    private const BS_REQUEST_HTTP_GET = 1;
-    private const BS_REQUEST_HTTP_POST = 2;
+    private const int BS_REQUEST_HTTP_GET = 1;
+    private const int BS_REQUEST_HTTP_POST = 2;
 
     protected static bool $isFrontendInitialized = false;
 

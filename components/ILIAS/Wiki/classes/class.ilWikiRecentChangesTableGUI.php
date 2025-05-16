@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\ILIASObject\Properties\Translations\Translations;
+
 /**
  * TableGUI class for recent changes in wiki
  *
@@ -25,7 +27,7 @@ class ilWikiRecentChangesTableGUI extends ilTable2GUI
 {
     protected int $requested_ref_id;
     protected int $wiki_id = 0;
-    protected ilObjectTranslation $ot;
+    protected Translations $ot;
     protected \ILIAS\Wiki\Page\PageManager $pm;
 
     public function __construct(
@@ -44,14 +46,14 @@ class ilWikiRecentChangesTableGUI extends ilTable2GUI
             ->request()
             ->getRefId();
         $this->pm = $domain->page()->page($this->requested_ref_id);
-        $this->ot = $domain->wiki()->translation($a_wiki_id);
+        $this->ot = $domain->wiki()->translation($this->requested_ref_id);
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->wiki_id = $a_wiki_id;
 
         $this->addColumn($this->lng->txt("wiki_last_changed"));
         $this->addColumn($this->lng->txt("wiki_page"));
-        if ($this->ot->getContentActivated()) {
+        if ($this->ot->getContentTranslationActivated()) {
             $this->addColumn($this->lng->txt("language"));
         }
         $this->addColumn($this->lng->txt("wiki_last_changed_by"));
@@ -90,10 +92,10 @@ class ilWikiRecentChangesTableGUI extends ilTable2GUI
     {
         $ilCtrl = $this->ctrl;
 
-        if ($this->ot->getContentActivated()) {
+        if ($this->ot->getContentTranslationActivated()) {
             $l = $a_set["lang"];
             if ($l === "-") {
-                $l = $this->ot->getMasterLanguage();
+                $l = $this->ot->getBaseLanguage();
             }
             $this->tpl->setCurrentBlock("lang");
             $this->tpl->setVariable("LANG", $this->lng->txt("meta_l_" . $l));

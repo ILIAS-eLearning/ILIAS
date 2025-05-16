@@ -27,8 +27,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 class ilObjChatroomAccessTest extends ilChatroomAbstractTestBase
 {
     protected ilObjChatroomAccess $access;
-    /** @var ilDBInterface&MockObject */
-    protected ilDBInterface $db;
+    protected ilDBInterface&MockObject $db;
 
     public function testCommandDefitionFullfilsExpectations(): void
     {
@@ -67,9 +66,7 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTestBase
 
         $this->db
             ->method('fetchAssoc')
-            ->willReturnCallback(static function (ilDBStatement $statement) {
-                return $statement->fetchAssoc();
-            });
+            ->willReturnCallback(static fn(ilDBStatement $statement) => $statement->fetchAssoc());
 
         $this->db
             ->method('query')
@@ -123,9 +120,7 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTestBase
 
         $this->db
             ->method('fetchAssoc')
-            ->willReturnCallback(static function (ilDBStatement $statement) {
-                return $statement->fetchAssoc();
-            });
+            ->willReturnCallback(static fn(ilDBStatement $statement) => $statement->fetchAssoc());
 
         $this->db
             ->method('query')

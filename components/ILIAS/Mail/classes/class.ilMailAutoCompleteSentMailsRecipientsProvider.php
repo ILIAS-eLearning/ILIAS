@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailAutoCompleteSentMailsRecipientsProvider
- */
 class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRecipientProvider
 {
     /** @var list<array{login: string, firstname: string, lastname: string}> */
@@ -70,13 +67,13 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
         if (is_array($this->data) &&
             !empty($this->data) &&
             (
-                strpos($this->data['login'], ',') ||
-                strpos($this->data['login'], ';')
+                strpos((string) $this->data['login'], ',') ||
+                strpos((string) $this->data['login'], ';')
             )) {
             $parts = array_filter(
                 array_map(
                     'trim',
-                    preg_split("/[ ]*[;,][ ]*/", trim($this->data['login']))
+                    preg_split("/[ ]*[;,][ ]*/", trim((string) $this->data['login']))
                 )
             );
 

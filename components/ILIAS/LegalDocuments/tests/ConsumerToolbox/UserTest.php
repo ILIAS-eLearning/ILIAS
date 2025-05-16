@@ -37,6 +37,7 @@ use ILIAS\LegalDocuments\ConsumerToolbox\User;
 use ilObjUser;
 use DateTimeImmutable;
 use ilAuthUtils;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 require_once __DIR__ . '/../ContainerMock.php';
 
@@ -333,9 +334,7 @@ class UserTest extends TestCase
         $this->assertTrue($instance->isLDAPUser());
     }
 
-    /**
-     * @dataProvider externalAuthModes
-     */
+    #[DataProvider('externalAuthModes')]
     public function testIsExternalUser(int $auth_mode, bool $is_external_account): void
     {
         $instance = new User(

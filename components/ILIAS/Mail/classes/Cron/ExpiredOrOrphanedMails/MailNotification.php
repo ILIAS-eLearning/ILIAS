@@ -76,7 +76,7 @@ class MailNotification extends ilMimeMailNotification
     public function appendOrphanedMailsBody(): void
     {
         $additional_information = $this->getAdditionalInformation();
-        /** @var FolderDto[] $mail_folders */
+        /** @var array<int, FolderDto> $mail_folders */
         $mail_folders = $additional_information['mail_folders'];
 
         $folder_rendered = false;

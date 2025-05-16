@@ -30,7 +30,7 @@ use ILIAS\Mail\Placeholder\Placeholder;
 
 class MailUserSignature implements Signature
 {
-    public const MAIL_USER_SIGNATURE = 'mail_system_usr_general_signature';
+    public const string MAIL_USER_SIGNATURE = 'mail_system_usr_general_signature';
 
     public function __construct(
         private readonly ilSetting $settings,

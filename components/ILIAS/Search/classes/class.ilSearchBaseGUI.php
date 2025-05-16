@@ -23,7 +23,7 @@ use ILIAS\Container\Content\ViewManager;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 use ILIAS\Object\ImplementsCreationCallback;
-use ILIAS\Object\CreationCallbackTrait;
+use ILIAS\ILIASObject\Creation\CreationCallbackTrait;
 
 /**
 * Class ilSearchBaseGUI

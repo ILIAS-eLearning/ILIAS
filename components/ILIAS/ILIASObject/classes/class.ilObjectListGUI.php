@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\ILIASObject\LocalDIC;
+use ILIAS\ILIASObject\Properties\Properties;
 use ILIAS\Repository\Clipboard\ClipboardManager;
 use ILIAS\DI\UIServices;
 use ILIAS\UI\Component\Button\Button;
@@ -30,7 +32,6 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\Notes\Note;
 use ILIAS\Container\Content\ModeSessionRepository;
 use ILIAS\HTTP\Services as HTTPServices;
-use ILIAS\Object\ilObjectDIC;
 
 /**
  * Important note:
@@ -76,8 +77,8 @@ class ilObjectListGUI
     protected array $access_cache;
     protected ilAccessHandler $access;
     protected ilObjUser $user;
-    protected ilObjectDIC $object_dic;
-    protected ilObjectProperties $object_properties;
+    protected LocalDIC $object_dic;
+    protected Properties $object_properties;
     protected ilObjectDefinition $obj_definition;
     protected ilTree $tree;
     protected ilSetting $settings;
@@ -199,7 +200,7 @@ class ilObjectListGUI
 
         $this->access = $DIC['ilAccess'];
         $this->user = $DIC['ilUser'];
-        $this->object_dic = ilObjectDIC::dic();
+        $this->object_dic = LocalDIC::dic();
         $this->obj_definition = $DIC['objDefinition'];
         $this->tree = $DIC['tree'];
         $this->settings = $DIC['ilSetting'];
@@ -723,7 +724,7 @@ class ilObjectListGUI
         $this->access_cache = [];
         $this->ref_id = $ref_id;
         $this->obj_id = $obj_id;
-        $this->object_properties = $this->object_dic['object_properties_agregator']->getFor($obj_id);
+        $this->object_properties = $this->object_dic['properties.aggregator']->getFor($obj_id);
         $this->setTitle($title);
         $this->setDescription($description);
 
@@ -1336,7 +1337,7 @@ class ilObjectListGUI
                         $prop_text = '';
                     } // tags counter
                     else {
-                        $tags_value = '<a href="#" onclick="return ' . $tags_url . '>' .
+                        $tags_value = '<a href="#" onclick="return ' . $tags_url . '">' .
                             self::$cnt_tags[$note_obj_id] . '</a>';
                         $prop_text = $this->lng->txt('tagging_tags');
                     }

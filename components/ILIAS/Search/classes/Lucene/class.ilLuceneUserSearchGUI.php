@@ -17,15 +17,12 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
 /**
- * @classDescription GUI for  Lucene user search
- *
  * @author Stefan Meyer <meyer@leifos.com>
  *
  * @ilCtrl_Calls ilLuceneUserSearchGUI: ilPublicUserProfileGUI
  * @ilCtrl_IsCalledBy ilLuceneUserSearchGUI: ilSearchControllerGUI
- *
- * @ingroup ServicesSearch
  */
 class ilLuceneUserSearchGUI extends ilSearchBaseGUI
 {
@@ -134,10 +131,6 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
         $this->search();
     }
 
-    /**
-     * Show saved results
-     * @return void
-     */
     protected function showSavedResults(): void
     {
         if (strlen($this->search_cache->getQuery())) {
@@ -150,7 +143,6 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
 
     /**
      * Search (button pressed)
-     * @return void
      */
     protected function search(): void
     {
@@ -207,14 +199,6 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
             $this->tabs->addTarget('search_user', $this->ctrl->getLinkTargetByClass('illuceneusersearchgui'));
         }
 
-        $fields = ilLuceneAdvancedSearchFields::getInstance();
-
-        if (
-            !ilSearchSettings::getInstance()->getHideAdvancedSearch() and
-            $fields->getActiveFields()) {
-            $this->tabs->addTarget('search_advanced', $this->ctrl->getLinkTargetByClass('illuceneadvancedsearchgui'));
-        }
-
         $this->tabs->setTabActive('search_user');
     }
 
@@ -246,7 +230,6 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
 
     /**
      * Show search form
-     * @return boolean
      */
     protected function showSearchForm()
     {

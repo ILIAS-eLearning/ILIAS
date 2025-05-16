@@ -18,26 +18,17 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilRoleMailboxSearch
- * @author Werner Randelshofer <wrandels@hsw.fhz.ch>
- * @author Stefan Meyer <meyer@leifos.com>
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilRoleMailboxSearch
 {
     protected ilDBInterface $db;
 
     public function __construct(
-        protected ilMailRfc822AddressParserFactory $parserFactory,
+        protected ilMailRfc822AddressParserFactory $parser_factory,
         ?ilDBInterface $db = null
     ) {
         global $DIC;
 
-        if (null === $db) {
-            $db = $DIC->database();
-        }
-        $this->db = $db;
+        $this->db = $db ?? $DIC->database();
     }
 
     /**
@@ -80,17 +71,17 @@ class ilRoleMailboxSearch
      * objects that are possible recipients for the role mailbox address.
      *
      * If Pear Mail is not installed, then the mailbox address
-     * @return int[] Array with role ids that were found
+     * @return list<int> Array with role ids that were found
      */
     public function searchRoleIdsByAddressString(string $a_address_list): array
     {
-        $parser = $this->parserFactory->getParser($a_address_list);
-        $parsedList = $parser->parse();
+        $parser = $this->parser_factory->getParser($a_address_list);
+        $parsed_list = $parser->parse();
 
         $role_ids = [];
-        foreach ($parsedList as $address) {
+        foreach ($parsed_list as $address) {
             $local_part = $address->getMailbox();
-            if (!str_starts_with($local_part, '#') && !($local_part[0] === '"' && $local_part[1] === "#")) {
+            if (!str_starts_with($local_part, '#') && !($local_part[0] === '"' && $local_part[1] === '#')) {
                 // A local-part which doesn't start with a '#' doesn't denote a role.
                 // Therefore we can skip it.
                 continue;
@@ -106,12 +97,12 @@ class ilRoleMailboxSearch
 
             if (str_starts_with($local_part, 'il_role_')) {
                 $role_id = substr($local_part, 8);
-                $query = "SELECT t.tree " .
-                    "FROM rbac_fa fa " .
-                    "JOIN tree t ON t.child = fa.parent " .
-                    "WHERE fa.rol_id = " . $this->db->quote($role_id, 'integer') . " " .
+                $query = 'SELECT t.tree ' .
+                    'FROM rbac_fa fa ' .
+                    'JOIN tree t ON t.child = fa.parent ' .
+                    'WHERE fa.rol_id = ' . $this->db->quote($role_id, 'integer') . ' ' .
                     "AND fa.assign = 'y' " .
-                    "AND t.tree = 1";
+                    'AND t.tree = 1';
                 $res = $this->db->query($query);
                 if ($this->db->numRows($res) > 0) {
                     $role_ids[] = (int) $role_id;
@@ -131,26 +122,26 @@ class ilRoleMailboxSearch
 
             if (strtolower($address->getHost()) === ilMail::ILIAS_HOST) {
                 // Search for roles = local-part in the whole repository
-                $query = "SELECT dat.obj_id " .
-                    "FROM object_data dat " .
-                    "JOIN rbac_fa fa ON fa.rol_id = dat.obj_id " .
-                    "JOIN tree t ON t.child = fa.parent " .
-                    "WHERE dat.title =" . $this->db->quote($local_part, 'text') . " " .
+                $query = 'SELECT dat.obj_id ' .
+                    'FROM object_data dat ' .
+                    'JOIN rbac_fa fa ON fa.rol_id = dat.obj_id ' .
+                    'JOIN tree t ON t.child = fa.parent ' .
+                    'WHERE dat.title =' . $this->db->quote($local_part, 'text') . ' ' .
                     "AND dat.type = 'role' " .
                     "AND fa.assign = 'y' " .
-                    "AND t.tree = 1";
+                    'AND t.tree = 1';
             } else {
                 // Search for roles like local-part in objects = host
-                $query = "SELECT rdat.obj_id " .
-                    "FROM object_data odat " .
-                    "JOIN object_reference oref ON oref.obj_id = odat.obj_id " .
-                    "JOIN tree otree ON otree.child = oref.ref_id " .
-                    "JOIN rbac_fa rfa ON rfa.parent = otree.child " .
-                    "JOIN object_data rdat ON rdat.obj_id = rfa.rol_id " .
-                    "WHERE odat.title = " . $this->db->quote($domain, 'text') . " " .
-                    "AND otree.tree = 1 " .
+                $query = 'SELECT rdat.obj_id ' .
+                    'FROM object_data odat ' .
+                    'JOIN object_reference oref ON oref.obj_id = odat.obj_id ' .
+                    'JOIN tree otree ON otree.child = oref.ref_id ' .
+                    'JOIN rbac_fa rfa ON rfa.parent = otree.child ' .
+                    'JOIN object_data rdat ON rdat.obj_id = rfa.rol_id ' .
+                    'WHERE odat.title = ' . $this->db->quote($domain, 'text') . ' ' .
+                    'AND otree.tree = 1 ' .
                     "AND rfa.assign = 'y' " .
-                    "AND rdat.title LIKE " .
+                    'AND rdat.title LIKE ' .
                     $this->db->quote(
                         '%' . preg_replace('/([_%])/', '\\\\$1', $local_part) . '%',
                         'text'
@@ -168,13 +159,13 @@ class ilRoleMailboxSearch
             // Nothing found?
             // In this case, we search for roles = host.
             if ($count === 0 && strtolower($address->getHost()) === ilMail::ILIAS_HOST) {
-                $q = "SELECT dat.obj_id " .
-                    "FROM object_data dat " .
-                    "JOIN object_reference ref ON ref.obj_id = dat.obj_id " .
-                    "JOIN tree t ON t.child = ref.ref_id " .
-                    "WHERE dat.title = " . $this->db->quote($domain, 'text') . " " .
+                $q = 'SELECT dat.obj_id ' .
+                    'FROM object_data dat ' .
+                    'JOIN object_reference ref ON ref.obj_id = dat.obj_id ' .
+                    'JOIN tree t ON t.child = ref.ref_id ' .
+                    'WHERE dat.title = ' . $this->db->quote($domain, 'text') . ' ' .
                     "AND dat.type = 'role' " .
-                    "AND t.tree = 1 ";
+                    'AND t.tree = 1 ';
                 $res = $this->db->query($q);
 
                 while ($row = $this->db->fetchAssoc($res)) {

@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
 {
     public function testCertificateWillBeSavedToTheDatabase(): void
@@ -460,9 +457,6 @@ AND obj_id = 200');
         $this->assertSame(30, $templates[1]->getObjId());
     }
 
-    /**
-     *
-     */
     public function testFetchFirstCreatedTemplateFailsBecauseNothingWasSaved(): never
     {
         $this->expectException(ilException::class);

@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class ilMailBodyPurifierTest extends ilMailBaseTestCase
 {
     public static function bodyProvider(): array
@@ -34,14 +36,12 @@ class ilMailBodyPurifierTest extends ilMailBaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider bodyProvider
-     */
-    public function testMailBodyPurifier(string $body, string $expectedBody): void
+    #[DataProvider('bodyProvider')]
+    public function testMailBodyPurifier(string $body, string $expected_body): void
     {
         $purifier = new ilMailBodyPurifier();
 
-        $this->assertSame($expectedBody, $purifier->purify($body));
+        $this->assertSame($expected_body, $purifier->purify($body));
     }
 
     public function testCarriageReturnCharactersAreRemoved(): void

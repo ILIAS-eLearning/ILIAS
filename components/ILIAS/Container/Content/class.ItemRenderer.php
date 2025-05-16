@@ -38,6 +38,7 @@ class ItemRenderer
     protected string $view_mode;
     protected InternalGUIService $gui;
     protected InternalDomainService $domain;
+    protected ?\Closure $item_modifier_closure = null;
     protected array $list_gui = [];
 
     public function __construct(
@@ -103,7 +104,7 @@ class ItemRenderer
             $item_list_gui->enableDownloadCheckbox((int) $a_item_data["ref_id"]);
         }
 
-        if ($item_ordering && $a_item_data['type'] !== 'sess') {
+        if ($item_ordering) {
             $item_list_gui->setPositionInputField(
                 $a_pos_prefix . "[" . $a_item_data["ref_id"] . "]",
                 sprintf('%d', $a_position * 10)
@@ -140,8 +141,9 @@ class ItemRenderer
             }
         }
 
-        if (method_exists($this, "addItemDetails")) {
-            $this->addItemDetails($item_list_gui, $a_item_data);
+        if ($this->item_modifier_closure instanceof \Closure) {
+            $c = $this->item_modifier_closure;
+            $c($item_list_gui, $a_item_data);
         }
 
         // show subitems of sessions
@@ -237,6 +239,11 @@ class ItemRenderer
         );
 
         return $html;
+    }
+
+    public function setItemModifierClosure(\Closure $f): void
+    {
+        $this->item_modifier_closure = $f;
     }
 
     public function renderCard(

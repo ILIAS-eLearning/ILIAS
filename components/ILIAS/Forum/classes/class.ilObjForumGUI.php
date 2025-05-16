@@ -58,7 +58,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     private ?ilPropertyFormGUI $replyEditForm = null;
     private bool $hideToolbar = false;
     private \Psr\Http\Message\ServerRequestInterface $httpRequest;
-    private \ILIAS\HTTP\Services $http;
     private Factory $uiFactory;
     private Renderer $uiRenderer;
     private ?array $forumObjects = null;
@@ -87,7 +86,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         global $DIC;
 
         $this->httpRequest = $DIC->http()->request();
-        $this->http = $DIC->http();
 
         $this->uiFactory = $DIC->ui()->factory();
         $this->uiRenderer = $DIC->ui()->renderer();
@@ -107,7 +105,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $this->lng->loadLanguageModule('forum');
         $this->lng->loadLanguageModule('content');
-        
+
         $ref_id = $this->retrieveIntOrZeroFrom($this->http->wrapper()->query(), 'ref_id');
 
         $this->objProperties = ilForumProperties::getInstance($this->ilObjDataCache->lookupObjId($ref_id));
@@ -1638,7 +1636,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 self::UI_TAB_ID_SETTINGS,
                 $this->ctrl->getLinkTarget($this, 'edit'),
                 'edit',
-                $this::class,
+                static::class,
                 '',
                 $force_active
             );
@@ -1926,9 +1924,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             }
 
             $draft_ids = array_filter(array_map(
-                static function (array $draft): int {
-                    return $draft['draft_id'] ?? 0;
-                },
+                static fn(array $draft): int => $draft['draft_id'] ?? 0,
                 ilForumPostDraft::getThreadDraftData(
                     $this->user->getId(),
                     ilObjForum::lookupForumIdByObjId($this->object->getId())
@@ -2235,10 +2231,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 (function () {
                   const button = document.getElementById('$id');
                   if (!button) return;
-                
+
                   const form = document.getElementById('form_$form_id');
                   if (!form) return;
-                
+
                   button.addEventListener('click', (event) => {
                     event.preventDefault();
                     form.submit();
@@ -3379,9 +3375,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 foreach ($draftsObjects as $draft) {
                     $referencePosting = array_values(array_filter(
                         $subtree_nodes,
-                        static function (ilForumPost $post) use ($draft): bool {
-                            return $draft->getPostId() === $post->getId();
-                        }
+                        static fn(ilForumPost $post): bool => $draft->getPostId() === $post->getId()
                     ))[0] ?? $firstNodeInThread;
 
                     $this->renderDraftContent(
@@ -3429,9 +3423,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 foreach ($draftsObjects as $draft) {
                     $referencePosting = array_values(array_filter(
                         $subtree_nodes,
-                        static function (ilForumPost $post) use ($draft): bool {
-                            return $draft->getPostId() === $post->getId();
-                        }
+                        static fn(ilForumPost $post): bool => $draft->getPostId() === $post->getId()
                     ))[0] ?? $firstNodeInThread;
 
                     $this->renderDraftContent(
@@ -3508,12 +3500,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         document.querySelectorAll('.ilFrmPostContent img').forEach((img) => {
           const maxWidth = img.getAttribute('width');
           const maxHeight = img.getAttribute('height');
-        
+
           if (maxWidth) {
             img.style.maxWidth = maxWidth + 'px';
             img.removeAttribute('width');
           }
-        
+
           if (maxHeight) {
             img.style.maxHeight = maxHeight + 'px';
             img.removeAttribute('height');
@@ -3570,9 +3562,7 @@ EOD
             ''
         );
 
-        $translatedSortationOptions = array_map(function ($value): string {
-            return $this->lng->txt($value);
-        }, $this->sortationOptions);
+        $translatedSortationOptions = array_map(fn($value): string => $this->lng->txt($value), $this->sortationOptions);
 
         $sortingDirectionViewControl = $this->uiFactory
             ->viewControl()
@@ -4369,7 +4359,6 @@ EOD
 
         $info = new ilInfoScreenGUI($this);
         $info->enablePrivateNotes();
-        $info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
         $this->ctrl->forwardCommand($info);
     }
 
@@ -4484,7 +4473,7 @@ EOD
                         (function () {
                           const button = document.getElementById('$id');
                           if (!button) return;
-                        
+
                           const modalDialog = button.closest('.modal-dialog');
                           if (!modalDialog) return;
 
@@ -5374,9 +5363,7 @@ EOD
                 $this->objProperties,
                 $this->objCurrentTopic,
                 $this->objCurrentPost,
-                function (string $message): string {
-                    return $this->handleFormInput($message);
-                },
+                fn(string $message): string => $this->handleFormInput($message),
                 $this->retrieveDraftId(),
                 ilObjForum::lookupForumIdByRefId($this->ref_id),
                 ilUtil::stripSlashes($this->requestAction)
@@ -5406,9 +5393,7 @@ EOD
                 $this->objProperties,
                 $this->objCurrentTopic,
                 $this->objCurrentPost,
-                function (string $message): string {
-                    return $this->handleFormInput($message, false);
-                },
+                fn(string $message): string => $this->handleFormInput($message, false),
                 $this->retrieveDraftId(),
                 ilObjForum::lookupForumIdByRefId($this->ref_id),
                 ilUtil::stripSlashes($this->requestAction)
@@ -5638,10 +5623,10 @@ EOD
                             (function () {
                               const button = document.getElementById('$id');
                               if (!button) return;
-                            
+
                               const form = document.getElementById('$form_id');
                               if (!form) return;
-                            
+
                               button.addEventListener('click', (event) => {
                                 event.preventDefault();
                                 form.submit();

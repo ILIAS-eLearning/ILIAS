@@ -35,6 +35,7 @@ class ilObjTestVerificationGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilObjDataCache();
         $this->addGlobal_ilSetting();
         $this->addGlobal_filesystem();
+        $this->addGlobal_http();
     }
 
     public function testConstruct(): void

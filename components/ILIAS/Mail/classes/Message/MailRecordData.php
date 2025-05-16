@@ -24,8 +24,8 @@ use DateTimeImmutable;
 
 class MailRecordData
 {
-    public const STATUS_READ = 'read';
-    public const STATUS_UNREAD = 'unread';
+    public const string STATUS_READ = 'read';
+    public const string STATUS_UNREAD = 'unread';
 
     public function __construct(
         private readonly int $mail_id,

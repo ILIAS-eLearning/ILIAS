@@ -56,9 +56,7 @@ class WordOnlyMarkdownShapeTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider constructDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('constructDataProvider')]
     public function testGetSupportedStructure(Structure $dp_bold, Structure $dp_italic): void
     {
         $supported_structure = $this->word_only_markdown_shape->getSupportedStructure();
@@ -70,9 +68,7 @@ class WordOnlyMarkdownShapeTest extends TestCase
         $this->assertEquals($exptected, $supported_structure);
     }
 
-    /**
-     * @dataProvider stringComplianceDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('stringComplianceDataProvider')]
     public function testIsRawStringCompliant(string $markdown_string, bool $compliance): void
     {
         $this->assertEquals($compliance, $this->word_only_markdown_shape->isRawStringCompliant($markdown_string));

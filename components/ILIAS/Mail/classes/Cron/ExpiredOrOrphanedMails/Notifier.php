@@ -30,8 +30,8 @@ use ilDBInterface;
 
 class Notifier
 {
-    private const NOTIFICATION_MARKER_PING_THRESHOLD = 250;
-    private const MAIL_DELIVERY_PING_THRESHOLD = 25;
+    private const int NOTIFICATION_MARKER_PING_THRESHOLD = 250;
+    private const int MAIL_DELIVERY_PING_THRESHOLD = 25;
 
     private readonly ilDBInterface $db;
     private readonly ClockInterface $clock;

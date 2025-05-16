@@ -22,19 +22,14 @@ use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 
 /**
- * Class ilObjSearchController
- *
  * @author       Stefan Meyer <meyer@leifos.com>
  *
- * @package      ilias-search
- *
- * @ilCtrl_Calls ilSearchControllerGUI: ilSearchGUI, ilAdvancedSearchGUI
- * @ilCtrl_Calls ilSearchControllerGUI: ilLuceneSearchGUI, ilLuceneAdvancedSearchGUI, ilLuceneUserSearchGUI
- *
+ * @ilCtrl_Calls ilSearchControllerGUI: ilSearchGUI
+ * @ilCtrl_Calls ilSearchControllerGUI: ilLuceneSearchGUI ilLuceneUserSearchGUI
  */
 class ilSearchControllerGUI implements ilCtrlBaseClassInterface
 {
-    public const TYPE_USER_SEARCH = -1;
+    public const int TYPE_USER_SEARCH = -1;
     protected ilObjUser $user;
 
     protected ilCtrl $ctrl;
@@ -45,11 +40,6 @@ class ilSearchControllerGUI implements ilCtrlBaseClassInterface
     protected GlobalHttpState $http;
     protected Factory $refinery;
 
-
-    /**
-    * Constructor
-    * @access public
-    */
     public function __construct()
     {
         global $DIC;
@@ -76,19 +66,11 @@ class ilSearchControllerGUI implements ilCtrlBaseClassInterface
                 $this->ctrl->forwardCommand(new ilLuceneSearchGUI());
                 break;
 
-            case 'illuceneadvancedsearchgui':
-                $this->ctrl->forwardCommand(new ilLuceneAdvancedSearchGUI());
-                break;
-
             case 'illuceneusersearchgui':
                 if ($this->user->getId() === ANONYMOUS_USER_ID) {
                     $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
                 }
                 $this->ctrl->forwardCommand(new ilLuceneUserSearchGUI());
-                break;
-
-            case 'iladvancedsearchgui':
-                $this->ctrl->forwardCommand(new ilAdvancedSearchGUI());
                 break;
 
             case 'ilsearchgui':

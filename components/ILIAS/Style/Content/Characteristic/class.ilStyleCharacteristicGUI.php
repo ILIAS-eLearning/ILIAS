@@ -1042,6 +1042,20 @@ class ilStyleCharacteristicGUI
         $lng = $this->domain_service->lng();
 
         $chars = $this->request->getCharacteristics();
+
+        // check, if type can be copied (is expanable)
+        foreach ($chars as $c) {
+            $type_arr = explode(".", $c);
+            if (!ilObjStyleSheet::_isExpandable($type_arr[0] ?? "")) {
+                $this->main_tpl->setOnScreenMessage(
+                    'failure',
+                    $lng->txt("sty_cannot_be_copied") . ": " . $lng->txt("sty_type_" . $type_arr[0] ?? ""),
+                    true
+                );
+                $ilCtrl->redirect($this, "listCharacteristics");
+            }
+        }
+
         if (count($chars) == 0) {
             $this->main_tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
         } else {

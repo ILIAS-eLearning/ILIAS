@@ -27,13 +27,15 @@ use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 class ilContentPageKioskModeView extends ilKioskModeView
 {
-    private const CMD_LP_TO_COMPLETED = 'lp_completed';
-    private const CMD_LP_TO_INCOMPLETE = 'lp_incomplete';
+    private const string CMD_LP_TO_COMPLETED = 'lp_completed';
+    private const string CMD_LP_TO_INCOMPLETE = 'lp_incomplete';
 
     protected ilObjContentPage $contentPageObject;
+    protected Translations $translation;
     protected ilObjUser $user;
     protected Factory $uiFactory;
     protected Renderer $uiRenderer;
@@ -68,6 +70,8 @@ class ilContentPageKioskModeView extends ilKioskModeView
         $cs = $DIC->contentStyle();
         $this->content_style_gui = $cs->gui();
         $this->content_style_domain = $cs->domain()->styleForRefId($object->getRefId());
+
+        $this->translation = $object->getObjectProperties()->getPropertyTranslations();
     }
 
     protected function hasPermissionToAccessKioskMode(): bool
@@ -166,6 +170,7 @@ class ilContentPageKioskModeView extends ilKioskModeView
             $this->tabs,
             $this->lng,
             $this->contentPageObject,
+            $this->translation,
             $this->user,
             $this->refinery,
             $this->content_style_domain

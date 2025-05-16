@@ -18,10 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailMimeSenderSystem
- * @author Michael Jansen <mjansen@databay.de>
- */
 abstract class ilMailMimeSenderUser implements ilMailMimeSender
 {
     public function __construct(
@@ -39,7 +35,7 @@ abstract class ilMailMimeSenderUser implements ilMailMimeSender
     public function getReplyToAddress(): string
     {
         if (
-            (bool) $this->settings->get('use_global_reply_to_addr', '0') &&
+            $this->settings->get('use_global_reply_to_addr', '0') &&
             is_string($this->settings->get('global_reply_to_addr', '')) &&
             $this->settings->get('global_reply_to_addr', '') !== ''
         ) {

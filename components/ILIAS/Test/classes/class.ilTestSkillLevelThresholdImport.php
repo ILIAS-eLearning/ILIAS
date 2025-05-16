@@ -26,65 +26,32 @@ declare(strict_types=1);
  */
 class ilTestSkillLevelThresholdImport
 {
-    /**
-     * @var integer
-     */
-    protected $importSkillBaseId = null;
-    /**
-     * @var integer
-     */
-    protected $importSkillTrefId = null;
-
-    /**
-     * @var integer
-     */
-    protected $importLevelId = null;
-    /**
-     * @var integer
-     */
-    protected $orderIndex = null;
-
+    protected ?int $import_skill_base_id = null;
+    protected ?int $import_skill_tref_id = null;
+    protected ?int $import_level_id = null;
+    protected ?int $order_index = null;
     protected ?int $threshold = null;
+    protected ?string $original_level_title = null;
+    protected ?string $original_level_description = null;
 
-    /**
-     * @var string
-     */
-    protected $originalLevelTitle = null;
-    /**
-     * @var string
-     */
-    protected $originalLevelDescription = null;
-
-    /**
-     * @return int
-     */
     public function getImportSkillBaseId(): ?int
     {
-        return $this->importSkillBaseId;
+        return $this->import_skill_base_id;
     }
 
-    /**
-     * @param int $importSkillBaseId
-     */
-    public function setImportSkillBaseId($importSkillBaseId)
+    public function setImportSkillBaseId(int $import_skill_base_id): void
     {
-        $this->importSkillBaseId = $importSkillBaseId;
+        $this->import_skill_base_id = $import_skill_base_id;
     }
 
-    /**
-     * @return int
-     */
     public function getImportSkillTrefId(): ?int
     {
-        return $this->importSkillTrefId;
+        return $this->import_skill_tref_id;
     }
 
-    /**
-     * @param int $importSkillTrefId
-     */
-    public function setImportSkillTrefId($importSkillTrefId)
+    public function setImportSkillTrefId(int $import_skill_tref_id): void
     {
-        $this->importSkillTrefId = $importSkillTrefId;
+        $this->import_skill_tref_id = $import_skill_tref_id;
     }
 
     /**
@@ -92,78 +59,51 @@ class ilTestSkillLevelThresholdImport
      */
     public function getImportLevelId(): ?int
     {
-        return $this->importLevelId;
+        return $this->import_level_id;
     }
 
-    /**
-     * @param int $importLevelId
-     */
-    public function setImportLevelId($importLevelId)
+    public function setImportLevelId(int $import_level_id): void
     {
-        $this->importLevelId = $importLevelId;
+        $this->import_level_id = $import_level_id;
     }
 
-    /**
-     * @return int
-     */
     public function getOrderIndex(): ?int
     {
-        return $this->orderIndex;
+        return $this->order_index;
     }
 
-    /**
-     * @param int $orderIndex
-     */
-    public function setOrderIndex($orderIndex)
+    public function setOrderIndex(int $order_index): void
     {
-        $this->orderIndex = $orderIndex;
+        $this->order_index = $order_index;
     }
 
-    /**
-     * @return int
-     */
     public function getThreshold(): ?int
     {
         return $this->threshold;
     }
 
-    /**
-     * @param int $threshold
-     */
-    public function setThreshold($threshold)
+    public function setThreshold(int $threshold): void
     {
-        $this->threshold = (int) $threshold;
+        $this->threshold = $threshold;
     }
 
-    /**
-     * @return string
-     */
     public function getOriginalLevelTitle(): ?string
     {
-        return $this->originalLevelTitle;
+        return $this->original_level_title;
     }
 
-    /**
-     * @param string $originalLevelTitle
-     */
-    public function setOriginalLevelTitle($originalLevelTitle)
+    public function setOriginalLevelTitle(string $original_level_title): void
     {
-        $this->originalLevelTitle = $originalLevelTitle;
+        $this->original_level_title = $original_level_title;
     }
 
-    /**
-     * @return string
-     */
     public function getOriginalLevelDescription(): ?string
     {
-        return $this->originalLevelDescription;
+        return $this->original_level_description;
     }
 
-    /**
-     * @param string $originalLevelDescription
-     */
-    public function setOriginalLevelDescription($originalLevelDescription)
+    public function setOriginalLevelDescription(string $original_level_description): void
     {
-        $this->originalLevelDescription = $originalLevelDescription;
+        $this->original_level_description = $original_level_description;
     }
 }

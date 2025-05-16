@@ -18,15 +18,11 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilBuddySystemRelationCollectionTest
- * @author Michael Jansen <mjansen@databay.de>
- */
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class ilBuddySystemRelationCollectionTestCase extends ilBuddySystemBaseTestCase
 {
-    /**
-     * @dataProvider provideElements
-     */
+    #[DataProvider('provideElements')]
     public function testElementsCanBeInitiallyAdded(array $elements): void
     {
         $collection = new ilBuddySystemRelationCollection($elements);
@@ -43,9 +39,7 @@ class ilBuddySystemRelationCollectionTestCase extends ilBuddySystemBaseTestCase
         }
     }
 
-    /**
-     * @dataProvider provideElements
-     */
+    #[DataProvider('provideElements')]
     public function testElementsCanBeAddedAndRemoved(array $elements): void
     {
         $collection = new ilBuddySystemRelationCollection();
@@ -94,14 +88,12 @@ class ilBuddySystemRelationCollectionTestCase extends ilBuddySystemBaseTestCase
         $this->assertSame(5, reset($data));
     }
 
-    /**
-     * @dataProvider provideElements
-     */
+    #[DataProvider('provideElements')]
     public function testIterator(array $elements): void
     {
         $collection = new ilBuddySystemRelationCollection($elements);
         $iterations = 0;
-        foreach ($collection->getIterator() as $key => $item) {
+        foreach ($collection as $key => $item) {
             $this->assertSame($elements[$key], $item, "Item $key not match");
             $iterations++;
         }
@@ -149,11 +141,11 @@ class ilBuddySystemRelationCollectionTestCase extends ilBuddySystemBaseTestCase
      */
     public static function provideElements(): array
     {
-        $relation1 = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
-        $relation2 = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
-        $relation3 = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
-        $relation4 = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
-        $relation5 = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
+        $relation1 = new ilBuddySystemRelation(new ilBuddySystemUnlinkedRelationState(), 1, 2, false, time());
+        $relation2 = new ilBuddySystemRelation(new ilBuddySystemUnlinkedRelationState(), 3, 4, false, time());
+        $relation3 = new ilBuddySystemRelation(new ilBuddySystemUnlinkedRelationState(), 5, 6, false, time());
+        $relation4 = new ilBuddySystemRelation(new ilBuddySystemUnlinkedRelationState(), 7, 8, false, time());
+        $relation5 = new ilBuddySystemRelation(new ilBuddySystemUnlinkedRelationState(), 9, 10, false, time());
 
         return [
             'indexed' => [[0, 1, 2, 3, 4, 5]],

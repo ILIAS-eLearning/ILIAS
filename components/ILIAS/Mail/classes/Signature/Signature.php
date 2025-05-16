@@ -29,5 +29,4 @@ interface Signature
     public function supports(Placeholder $placeholder): bool;
 
     public function getPersistenceIdentifier(): string;
-
 }

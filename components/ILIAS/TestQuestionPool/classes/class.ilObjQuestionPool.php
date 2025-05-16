@@ -458,11 +458,11 @@ class ilObjQuestionPool extends ilObject
     {
         foreach ($this->mob_ids as $mob_id) {
             $expLog->write(date('[y-m-d H:i:s] ') . 'Media Object ' . $mob_id);
-            if (ilObjMediaObject::_exists($mob_id)) {
+            if (ilObjMediaObject::_exists((int) $mob_id)) {
                 $target_dir = $a_target_dir . DIRECTORY_SEPARATOR . 'objects'
                     . DIRECTORY_SEPARATOR . 'il_' . IL_INST_ID . '_mob_' . $mob_id;
                 ilFileUtils::createDirectory($target_dir);
-                $media_obj = new ilObjMediaObject($mob_id);
+                $media_obj = new ilObjMediaObject((int) $mob_id);
                 $media_obj->exportXML($a_xml_writer, $a_inst);
                 foreach ($media_obj->getMediaItems() as $item) {
                     $stream = $item->getLocationStream();
@@ -484,7 +484,7 @@ class ilObjQuestionPool extends ilObject
             $expLog->write(date("[y-m-d H:i:s] ") . "File Item " . $file_id);
             $file_dir = $target_dir . '/objects/il_' . IL_INST_ID . '_file_' . $file_id;
             ilFileUtils::makeDir($file_dir);
-            $file_obj = new ilObjFile($file_id, false);
+            $file_obj = new ilObjFile((int) $file_id, false);
             $source_file = $file_obj->getFile($file_obj->getVersion());
             if (!is_file($source_file)) {
                 $source_file = $file_obj->getFile();

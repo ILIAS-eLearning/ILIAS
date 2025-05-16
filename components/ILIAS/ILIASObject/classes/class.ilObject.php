@@ -18,8 +18,12 @@
 
 declare(strict_types=1);
 
-use ILIAS\Object\ilObjectDIC;
+use ILIAS\ILIASObject\LocalDIC;
 use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+use ILIAS\ILIASObject\Properties\Properties;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
+use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRepository;
+use ILIAS\ILIASObject\Properties\Aggregator;
 
 /**
  * Class ilObject
@@ -36,7 +40,7 @@ class ilObject
     public const LONG_DESC_LENGTH = 4000; // long description column max length in db
     public const TABLE_OBJECT_DATA = "object_data";
 
-    private ?ilObjectProperties $object_properties = null;
+    private ?Properties $object_properties = null;
 
     protected ilLogger $obj_log;
     protected ?ILIAS $ilias;
@@ -51,7 +55,8 @@ class ilObject
     protected ilObjUser $user;
     protected ilLanguage $lng;
     protected LOMServices $lom_services;
-    private ilObjectDIC $object_dic;
+    private Aggregator $properties_aggregator;
+    private TranslationsRepository $translations_repository;
 
     protected bool $call_by_reference;
     protected int $max_title = self::TITLE_LENGTH;
@@ -101,7 +106,9 @@ class ilObject
         $this->tree = $DIC["tree"];
         $this->app_event_handler = $DIC["ilAppEventHandler"];
         $this->lom_services = $DIC->learningObjectMetadata();
-        $this->object_dic = ilObjectDIC::dic();
+        $object_dic = LocalDIC::dic();
+        $this->properties_aggregator = $object_dic['properties.aggregator'];
+        $this->translations_repository = $object_dic['properties.translations.repository'];
 
         $this->call_by_reference = $this->referenced;
 
@@ -136,10 +143,10 @@ class ilObject
         }
     }
 
-    public function getObjectProperties(): ilObjectProperties
+    public function getObjectProperties(): Properties
     {
         if ($this->object_properties === null) {
-            $this->object_properties = $this->object_dic['object_properties_agregator']->getFor($this->id, $this->type);
+            $this->object_properties = $this->properties_aggregator->getFor($this->id, $this->type);
         }
         return $this->object_properties;
     }
@@ -1322,6 +1329,8 @@ class ilObject
             // keep log of core object data
             ilObjectDataDeletionLog::add($this);
 
+            $this->getObjectProperties()->deletePropertyTranslations();
+
             // remove news
             $news_item = new ilNewsItem();
             $news_item->deleteNewsOfContext($this->getId(), $this->getType());
@@ -1571,27 +1580,28 @@ class ilObject
 
         $options = ilCopyWizardOptions::_getInstance($copy_id);
 
-        $title = $this->getTitle();
-        $this->obj_log->debug($title);
+        $this->obj_log->debug($this->getTitle());
         $this->obj_log->debug("isTreeCopyDisabled: " . $options->isTreeCopyDisabled());
         $this->obj_log->debug("omit_tree: " . $omit_tree);
-        if (!$options->isTreeCopyDisabled() && !$omit_tree) {
-            $title_with_suffix = $this->appendCopyInfo($target_id, $copy_id);
-            $title = mb_strlen($title_with_suffix) < self::TITLE_LENGTH ? $title_with_suffix : $title;
-            $this->obj_log->debug("title incl. copy info: " . $title);
-
-        }
 
         /** @var ilObject $new_obj */
         $new_obj = new $class_name(0, false);
         $new_obj->setOwner($ilUser->getId());
-        $new_obj->title = $title;
+        $new_obj->title = $this->getTitle();
         $new_obj->long_desc = $this->getLongDescription();
         $new_obj->desc = $this->getDescription();
         $new_obj->type = $this->getType();
 
         // Choose upload mode to avoid creation of additional settings, db entries ...
         $new_obj->create(true);
+
+        if (!$options->isTreeCopyDisabled() && !$omit_tree) {
+            $title_with_suffix = $this->appendCopyInfo($target_id, $copy_id, $new_obj->getId());
+            $title = mb_strlen($title_with_suffix) < self::TITLE_LENGTH ? $title_with_suffix : $title;
+            $this->obj_log->debug("title incl. copy info: " . $title);
+            $new_obj->setTitle($title);
+            $new_obj->update();
+        }
 
         if ($this->supportsOfflineHandling()) {
             if ($options->isRootNode($this->getRefId())) {
@@ -1659,14 +1669,17 @@ class ilObject
     /**
      * Prepend Copy info if object with same name exists in that container
      */
-    final public function appendCopyInfo(int $target_id, int $copy_id): string
-    {
+    final public function appendCopyInfo(
+        int $target_id,
+        int $copy_id,
+        int $new_obj_id
+    ): string {
         $cp_options = ilCopyWizardOptions::_getInstance($copy_id);
         if (!$cp_options->isRootNode($this->getRefId())) {
             return $this->getTitle();
         }
 
-        $obj_translations = ilObjectTranslation::getInstance($this->getId());
+        $obj_translations = $this->getObjectProperties()->clonePropertyTranslations($new_obj_id);
 
         $other_children_of_same_type = $this->tree->getChildsByType($target_id, $this->type);
 
@@ -1688,12 +1701,12 @@ class ilObject
     }
 
     private function appendCopyInfoToTranslations(
-        ilObjectTranslation $obj_translations,
+        Translations $obj_translations,
         array $other_children_of_same_type
     ): string {
         $nodes_translations = array_map(
-            fn(array $child): ilObjectTranslation =>
-                ilObjectTranslation::getInstance($child['obj_id']),
+            fn(array $child): Translations =>
+                $this->translations_repository->getFor($child['obj_id']),
             $other_children_of_same_type
         );
 
@@ -1711,24 +1724,28 @@ class ilObject
             if (!in_array($suffix_lang, $installed_langs)) {
                 $suffix_lang = $this->lng->getDefaultLanguage();
             }
-            $language->setTitle(
+            $obj_translations->addLanguage(
+                $language->getLanguageCode(),
                 $this->appendNumberOfCopiesToTitle(
                     $this->lng->txtlng('common', 'copy_of_suffix', $suffix_lang),
                     $this->lng->txtlng('common', 'copy_n_of_suffix', $suffix_lang),
                     $language->getTitle(),
                     $title_translations_per_lang[$lang_code] ?? []
-                )
+                ),
+                $language->getDescription(),
+                $language->isDefault,
+                true
             );
-            $new_languages[$lang_code] = $language;
         }
-        $obj_translations->setLanguages($new_languages);
+
+        $this->translations_repository->store($obj_translations);
 
         return $obj_translations->getDefaultTitle();
     }
 
     private function getCallbackForTitlesPerLanguageTransformation(): callable
     {
-        return function (array $npl, ?ilObjectTranslation $nt): array {
+        return function (array $npl, ?Translations $nt): array {
             $langs = $nt->getLanguages();
             foreach ($langs as $lang) {
                 if (!array_key_exists($lang->getLanguageCode(), $npl)) {
@@ -1862,8 +1879,8 @@ class ilObject
         }
 
         if ($obj_id) {
-            /** @var ilObjectPropertyIcon $property_icon */
-            $property_icon = ilObjectDIC::dic()['additional_properties_repository']->getFor($obj_id)->getPropertyIcon();
+            /** @var ILIAS\ILIASObject\Properties\AdditionalProperties\Icon\Icon $property_icon */
+            $property_icon = LocalDIC::dic()['properties.additional.repository']->getFor($obj_id)->getPropertyIcon();
             $custom_icon = $property_icon->getCustomIcon();
             if ($custom_icon?->exists()) {
                 return $custom_icon->getFullPath() . '?tmp=' . filemtime($custom_icon->getFullPath());

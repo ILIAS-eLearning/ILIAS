@@ -108,8 +108,9 @@ class ilObjPortfolio extends ilObjPortfolioBase implements ilAdvancedMetaDataSub
 
         $params = null;
         if ($a_back_url) {
-            $params = array("back_url" => rawurlencode($a_back_url));
+            //$params = array("back_url" => rawurlencode($a_back_url));
         }
+        $params = [];
 
         foreach ($access_handler->getShardObjectsDataForUserIds($a_owner_ids) as $owner_id => $items) {
             foreach ($items as $id => $title) {

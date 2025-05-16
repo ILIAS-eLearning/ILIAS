@@ -24,12 +24,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class ilForumNotificationTest extends TestCase
 {
-    /** @var MockObject&ilDBInterface */
-    private $database;
-    /** @var MockObject&ilObjUser */
-    private $user;
-    /** @var MockObject&ilTree */
-    private $tree;
+    private MockObject&ilDBInterface $database;
+    private MockObject&ilObjUser $user;
+    private MockObject&ilTree $tree;
     private ?Container $dic = null;
 
     public function testConstruct(): void

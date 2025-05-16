@@ -506,13 +506,6 @@ class ilObjStudyProgramme extends ilContainer
         if ($include_references && $this->reference_children === null) {
             $this->reference_children = [];
             $ref_child_ref_ids = $this->tree->getChildsByType($this->getRefId(), "prgr");
-            foreach ($this->children as $prg) {
-                $ref_child_ref_ids =
-                    array_merge(
-                        $this->tree->getChildsByType($prg->getRefId(), "prgr"),
-                        $ref_child_ref_ids
-                    );
-            }
             foreach (
                 array_unique(
                     array_map(
@@ -754,38 +747,40 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Get courses in this program that the given user already completed.
      */
-    public function getCompletedCourses(int $usr_id): array
+    public function getCompletedCourses(ilPRGAssignment $assignment): array
     {
-        $node_data = $this->tree->getNodeData($this->getRefId());
-        $crsrs = $this->tree->getSubTree($node_data, true, ["crsr"]);
-
-        $completed_crss = array();
-        foreach ($crsrs as $ref) {
-            $crs_id = (int) ilContainerReference::_lookupTargetId((int) $ref["obj_id"]);
-            $crs_ref_id = (int) ilContainerReference::_lookupTargetRefId((int) $ref["obj_id"]);
-
-            if (ilObject::_exists((int) $ref['ref_id'], true) &&
-                is_null(ilObject::_lookupDeletedDate((int) $ref['ref_id'])) &&
-                ilObject::_exists($crs_id, false) &&
-                is_null(ilObject::_lookupDeletedDate($crs_ref_id)) &&
-                ilLPStatus::_hasUserCompleted($crs_id, $usr_id)
+        $completed_crss = [];
+        $f = function ($prg) use (&$completed_crss, $assignment) {
+            if ($prg->isActive() &&
+                $assignment->getProgressForNode($prg->getId())->isRelevant()
             ) {
-                $containing_prg = self::getInstanceByRefId((int) $ref["parent"]);
-                if ($containing_prg->isActive()) {
-                    $completed_crss[] = [
-                        "crs_id" => $crs_id
-                        , "prg_ref_id" => (int) $ref["parent"]
-                        , "prg_obj_id" => $containing_prg->getId()
-                        , "crsr_ref_id" => (int) $ref["child"]
-                        , "crsr_id" => (int) $ref["obj_id"]
-                        , "crs_ref_id" => (int) $crs_ref_id
-                        , "crs_id" => (int) $crs_id
+                foreach ($prg->getLPChildren() as $child) {
+                    $crs_id = (int) ilContainerReference::_lookupTargetId((int) $child->getId());
+                    $crs_ref_id = (int) ilContainerReference::_lookupTargetRefId((int) $child->getId());
+                    $crsr_ref_id = (int) $child->getRefId();
 
-                        , "title" => ilContainerReference::_lookupTitle((int) $ref["obj_id"])
-                    ];
+                    if (ilObject::_exists($crsr_ref_id, true) &&
+                        is_null(ilObject::_lookupDeletedDate($crsr_ref_id)) &&
+                        ilObject::_exists($crs_id, false) &&
+                        is_null(ilObject::_lookupDeletedDate($crs_ref_id)) &&
+                        ilLPStatus::_hasUserCompleted($crs_id, $assignment->getUserId())
+                    ) {
+                        $completed_crss[] = [
+                            'crs_id' => $crs_id,
+                            'prg_ref_id' => $prg->getRefId(),
+                            'prg_obj_id' => $prg->getId(),
+                            'crsr_ref_id' => $crsr_ref_id,
+                            'crsr_id' => $child->getId(),
+                            'crs_ref_id' => $crs_ref_id,
+                            'title' => ilContainerReference::_lookupTitle((int) $child->getId()),
+                        ];
+                    }
                 }
+                return true;
             }
-        }
+            return false;
+        };
+        $this->applyToSubTreeNodes($f, true);
         return $completed_crss;
     }
 

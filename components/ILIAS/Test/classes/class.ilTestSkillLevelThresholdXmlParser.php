@@ -36,11 +36,12 @@ class ilTestSkillLevelThresholdXmlParser extends ilSaxParser
     protected ?ilTestSkillLevelThresholdImportList $skillLevelThresholdImportList = null;
     protected ?ilTestSkillLevelThresholdImport $curSkillLevelThreshold = null;
 
-    public function __construct()
-    {
+    public function __construct(
+        ?string $path_to_file = ''
+    ) {
         global $DIC;
         $this->db = $DIC['ilDB'];
-        parent::__construct();
+        parent::__construct($path_to_file);
     }
 
     public function isParsingActive(): bool
@@ -130,8 +131,8 @@ class ilTestSkillLevelThresholdXmlParser extends ilSaxParser
                 break;
 
             case 'QuestionsAssignedSkill':
-                $this->setCurSkillBaseId($tagAttributes['BaseId']);
-                $this->setCurSkillTrefId($tagAttributes['TrefId']);
+                $this->setCurSkillBaseId((int) $tagAttributes['BaseId']);
+                $this->setCurSkillTrefId((int) $tagAttributes['TrefId']);
                 break;
 
             case 'OriginalLevelDescription':
@@ -146,8 +147,8 @@ class ilTestSkillLevelThresholdXmlParser extends ilSaxParser
                 $skillLevelThreshold = new ilTestSkillLevelThresholdImport();
                 $skillLevelThreshold->setImportSkillBaseId($this->getCurSkillBaseId());
                 $skillLevelThreshold->setImportSkillTrefId($this->getCurSkillTrefId());
-                $skillLevelThreshold->setImportLevelId($tagAttributes['Id']);
-                $skillLevelThreshold->setOrderIndex($tagAttributes['Nr']);
+                $skillLevelThreshold->setImportLevelId((int) $tagAttributes['Id']);
+                $skillLevelThreshold->setOrderIndex((int) $tagAttributes['Nr']);
                 $this->setCurSkillLevelThreshold($skillLevelThreshold);
                 break;
         }
@@ -195,7 +196,7 @@ class ilTestSkillLevelThresholdXmlParser extends ilSaxParser
                 break;
 
             case 'ThresholdPercentage':
-                $this->getCurSkillLevelThreshold()->setThreshold($this->getCharacterDataBuffer());
+                $this->getCurSkillLevelThreshold()->setThreshold((int) $this->getCharacterDataBuffer());
                 $this->resetCharacterDataBuffer();
                 break;
 

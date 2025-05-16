@@ -20,9 +20,6 @@ declare(strict_types=1);
 
 use Psr\Http\Message\ServerRequestInterface;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilUserCertificateApiGUITest extends ilCertificateBaseTestCase
 {
     public function testCreationOfGuiClass(): void

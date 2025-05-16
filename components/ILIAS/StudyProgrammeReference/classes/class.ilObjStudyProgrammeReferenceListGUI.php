@@ -118,6 +118,7 @@ class ilObjStudyProgrammeReferenceListGUI extends ilObjStudyProgrammeListGUI
         } else {
             $this->info_screen_enabled = true;
         }
+        $this->cut_enabled = $this->getParentType() !== 'prg';
     }
 
     public function getProperties(): array
@@ -184,13 +185,7 @@ class ilObjStudyProgrammeReferenceListGUI extends ilObjStudyProgrammeListGUI
         string $a_asynch_url = "",
         int $a_context = self::CONTEXT_REPOSITORY
     ): string {
-        $target_obj_id = ilContainerReference::_lookupTargetId($a_obj_id);
-
-        $prg_dic = \ilStudyProgrammeDIC::dic();
-        $assignment_repo = $prg_dic['repo.assignment'];
-        $has_assignments = $assignment_repo->countAllForNodeIsContained($target_obj_id) > 0;
-
-        if ($this->getCheckboxStatus() && $has_assignments) {
+        if ($this->getCheckboxStatus() && $this->hasAssignments($target_obj_id)) {
             $this->setAdditionalInformation($this->lng->txt("prg_can_not_manage_in_repo"));
             $this->enableCheckbox(false);
         } else {
@@ -209,4 +204,18 @@ class ilObjStudyProgrammeReferenceListGUI extends ilObjStudyProgrammeListGUI
             $a_asynch_url
         );
     }
+
+    private function hasAssignments(int $obj_id): bool
+    {
+        $assignment_repo = ilStudyProgrammeDIC::dic()['repo.assignment'];
+        $target_obj_id = ilContainerReference::_lookupTargetId($obj_id);
+        return $assignment_repo->countAllForNodeIsContained($target_obj_id) > 0;
+    }
+
+    private function getParentType(): string
+    {
+        $parent_data = $this->tree->getParentNodeData($this->getCommandId());
+        return $parent_data["type"];
+    }
+
 }

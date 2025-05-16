@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Refinery\Constraint;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class PasswordContraintsTest extends TestCase
 {
@@ -82,11 +83,11 @@ class PasswordContraintsTest extends TestCase
     }
 
     /**
-     * @dataProvider constraintsProvider
      * @param Constraint $constraint
      * @param ILIAS\Data\Password[] $ok_values
      * @param ILIAS\Data\Password[] $error_values
      */
+    #[DataProvider('constraintsProvider')]
     public function testAccept(Constraint $constraint, array $ok_values, array $error_values): void
     {
         foreach ($ok_values as $ok_value) {

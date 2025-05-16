@@ -22,7 +22,7 @@ use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 
 /**
  * @author            Thibeau Fuhrer <thf@studer-raimann.ch>
- * @ilCtrl_isCalledBy ilObjFileUploadHandlerGUI: ilObjFileGUI, ilRepositoryGUI, ilDashboardGUI
+ * @ilCtrl_isCalledBy ilObjFileUploadHandlerGUI: ilObjFileGUI, ilRepositoryGUI, ilDashboardGUI, ilAdministrationGUI
  */
 class ilObjFileUploadHandlerGUI extends AbstractCtrlAwareIRSSUploadHandler
 {

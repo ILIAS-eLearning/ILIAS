@@ -184,21 +184,8 @@ class ilDclContentExporter
             unlink($in_progress_file);
         }
 
-        if (!$data_available) {
-            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('dcl_no_export_content_available'));
-
-            return false;
-        }
-
-        if (!$fields_available) {
-            global $ilCtrl;
-            $this->main_tpl->setOnScreenMessage('info', sprintf(
-                $this->lng->txt('dcl_no_export_fields_available'),
-                $ilCtrl->getLinkTargetByClass(
-                    ['ilDclTableListGUI', 'ilDclFieldListGUI'],
-                    'listFields'
-                )
-            ));
+        if (!$data_available || !$fields_available) {
+            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_no_export_data_available'));
             return false;
         }
 

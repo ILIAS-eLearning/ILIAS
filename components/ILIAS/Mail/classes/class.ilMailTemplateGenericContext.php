@@ -18,10 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * @author Guido Vollbach <gvollbach@databay.de>
- * Class ilMailTemplateGenericContext
- */
 class ilMailTemplateGenericContext extends ilMailTemplateContext
 {
     public function getId(): string

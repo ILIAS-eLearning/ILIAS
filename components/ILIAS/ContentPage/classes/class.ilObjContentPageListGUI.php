@@ -92,8 +92,8 @@ class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageOb
         }
 
         try {
-            $ot = ilObjectTranslation::getInstance($this->obj_id);
-            $language = $ot->getEffectiveContentLang($this->user->getCurrentLanguage(), $this->type);
+            $language = $this->object_properties->getPropertyTranslations()
+                ->getEffectiveCOPageLang($this->user->getCurrentLanguage(), $this->type);
 
             $pageMetrics = $this->pageMetricsService->get(
                 new GetPageMetricsCommand($this->obj_id, $language)

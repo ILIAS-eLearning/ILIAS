@@ -1,11 +1,23 @@
 /**
- * @author Thibeau Fuhrer <thibeau@sr.solutions>
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  */
 
-import { assert, expect } from 'chai';
+import { beforeEach, describe, it } from 'node:test';
+import { strict } from 'node:assert/strict';
 import { JSDOM } from 'jsdom';
-import TextareaFactory from '../../../../resources/js/Input/Field/src/Textarea/textarea.factory';
-import Textarea from '../../../../resources/js/Input/Field/src/Textarea/textarea.class';
+import TextareaFactory from '../../../../resources/js/Input/Field/src/Textarea/textarea.factory.js';
+import Textarea from '../../../../resources/js/Input/Field/src/Textarea/textarea.class.js';
 
 /**
  * Input-ID that should be used to initialize instances, it will be used when
@@ -58,9 +70,9 @@ describe('Textarea input', () => {
     // selection or cursor is at the begining of line_2.
     input.textarea.selectionStart = input.textarea.selectionEnd = line_1.length + 1;
 
-    expect(input.getLinesBeforeSelection()).to.have.ordered.members([line_1]);
-    expect(input.getLinesOfSelection()).to.have.ordered.members([line_2]);
-    expect(input.getLinesAfterSelection()).to.have.ordered.members([line_3]);
+    strict.deepEqual(input.getLinesBeforeSelection(), [line_1]);
+    strict.deepEqual(input.getLinesOfSelection(), [line_2]);
+    strict.deepEqual(input.getLinesAfterSelection(), [line_3]);
   });
 
   it('can return lines relative to the current multiline selection.', () => {
@@ -77,9 +89,9 @@ describe('Textarea input', () => {
     input.textarea.selectionStart = line_1.length + 1;
     input.textarea.selectionEnd = input.textarea.selectionStart + line_2.length + 1;
 
-    expect(input.getLinesBeforeSelection()).to.have.ordered.members([line_1]);
-    expect(input.getLinesOfSelection()).to.have.ordered.members([line_2, line_3]);
-    expect(input.getLinesAfterSelection()).to.have.ordered.members([line_4]);
+    strict.deepEqual(input.getLinesBeforeSelection(), [line_1]);
+    strict.deepEqual(input.getLinesOfSelection(), [line_2, line_3]);
+    strict.deepEqual(input.getLinesAfterSelection(), [line_4]);
   });
 
   it('can update the textarea content and selection.', () => {
@@ -93,15 +105,15 @@ describe('Textarea input', () => {
 
     input.updateTextareaContent(content, position, position);
 
-    assert.strictEqual(input.textarea.value, content);
-    assert.strictEqual(input.textarea.selectionStart, position);
-    assert.strictEqual(input.textarea.selectionEnd, position);
+    strict.equal(input.textarea.value, content);
+    strict.equal(input.textarea.selectionStart, position);
+    strict.equal(input.textarea.selectionEnd, position);
   });
 
   it('can update the remainder if the content is updated programaticaly.', () => {
     const content = '12345';
     const max_limit = 10;
-    const remainder = 5;
+    const remainder = '5';
 
     // serverside rendering automatically adds this attribute,
     // in this unit test however, we append it manually.
@@ -111,14 +123,14 @@ describe('Textarea input', () => {
 
     input.updateTextareaContent(content);
 
-    assert.isNotNull(input.remainder);
-    assert.equal(input.remainder.innerHTML, remainder);
+    strict.notEqual(input.remainder, null);
+    strict.equal(input.remainder.innerHTML, remainder);
   });
 
   it('can update the remainder according to the current value.', () => {
     const content = '123456789';
     const max_limit = 10;
-    const remainder = 1;
+    const remainder = '1';
 
     // serverside rendering automatically adds this attribute,
     // in this unit test however, we append it manually.
@@ -126,12 +138,12 @@ describe('Textarea input', () => {
 
     const input = new Textarea(test_input_id);
 
-    assert.equal(input.remainder.innerHTML, 0);
+    strict.equal(input.remainder.innerHTML, '0');
 
     input.textarea.value = content;
     input.updateRemainderCountHook({});
 
-    assert.equal(input.remainder.innerHTML, remainder);
+    strict.equal(input.remainder.innerHTML, remainder);
   });
 });
 
@@ -143,7 +155,7 @@ describe('Textarea factory', () => {
 
     factory.init(test_input_id, null, null);
 
-    expect(factory.instances[test_input_id]).to.be.an.instanceOf(Textarea);
+    strict.equal(factory.instances[test_input_id] instanceof Textarea, true);
   });
 
   it('can only instantiate the same ID once.', () => {
@@ -151,9 +163,9 @@ describe('Textarea factory', () => {
 
     factory.init(test_input_id, null, null);
 
-    expect(() => {
+    strict.throws(() => {
       factory.init(test_input_id, null, null);
-    }).to.throw(Error);
+    }, Error);
   });
 
   it('can return an already created instance.', () => {
@@ -163,6 +175,6 @@ describe('Textarea factory', () => {
 
     const instance = factory.get(test_input_id);
 
-    expect(instance).to.be.an.instanceOf(Textarea);
+    strict.equal(instance instanceof Textarea, true);
   });
 });

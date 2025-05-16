@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilCertificateTemplateTest extends ilCertificateBaseTestCase
 {
     public function testCreateCertificateTemplate(): void

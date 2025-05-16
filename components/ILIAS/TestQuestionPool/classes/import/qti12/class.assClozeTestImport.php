@@ -362,21 +362,12 @@ class assClozeTestImport extends assQuestionImport
         $this->object->saveToDb();
 
         $this->importSuggestedSolutions($this->object->getId(), $item->suggested_solutions);
-        if (isset($tst_id) && $tst_id !== $questionpool_id) {
-            $qpl_qid = $this->object->getId();
-            $tst_qid = $this->object->duplicate(true, '', '', -1, $tst_id);
-            $tst_object->questions[$question_counter++] = $tst_qid;
-            $import_mapping[$item->getIdent()] = ['pool' => $qpl_qid, 'test' => $tst_qid];
-            return $import_mapping;
-        }
-
-        if ($tst_id > 0) {
-            $tst_object->questions[$question_counter++] = $this->object->getId();
-            $import_mapping[$item->getIdent()] = ['pool' => 0, 'test' => $this->object->getId()];
-            return $import_mapping;
-        }
-
-        $import_mapping[$item->getIdent()] = ['pool' => $this->object->getId(), 'test' => 0];
+        $import_mapping[$item->getIdent()] = $this->addQuestionToParentObjectAndBuildMappingEntry(
+            $questionpool_id,
+            $tst_id,
+            $question_counter,
+            $tst_object
+        );
         return $import_mapping;
     }
 

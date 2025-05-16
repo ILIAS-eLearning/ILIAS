@@ -193,14 +193,6 @@ class ilLocalUserPasswordSettingsGUI
 
                     break;
                 case ilAuthUtils::AUTH_SHIBBOLETH:
-                case ilAuthUtils::AUTH_CAS:
-                    if (ilDAVActivationChecker::_isActive()) {
-                        $title = $this->lng->txt('chg_ilias_and_webfolder_password');
-                    } else {
-                        $title = $this->lng->txt('chg_ilias_password');
-                    }
-
-                    break;
                 default:
                     $title = $this->lng->txt('chg_ilias_password');
 

@@ -612,7 +612,6 @@ class ilObjectDefinition
                 $types[] = $rec;
             }
         }
-
         return $types;
     }
 

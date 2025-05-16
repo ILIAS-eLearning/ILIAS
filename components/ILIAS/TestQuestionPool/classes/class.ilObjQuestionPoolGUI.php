@@ -70,7 +70,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     public const SUPPORTED_IMPORT_MIME_TYPES = [MimeType::APPLICATION__ZIP, MimeType::TEXT__XML];
     public const DEFAULT_CMD = 'questions';
 
-    private HTTPServices $http;
     protected Service $taxonomy;
     protected ilDBInterface $db;
     protected ilComponentLogger $log;
@@ -106,7 +105,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->navigation_history = $DIC['ilNavigationHistory'];
         $this->ui_service = $DIC->uiService();
         $this->taxonomy = $DIC->taxonomy();
-        $this->http = $DIC->http();
         $this->archives = $DIC->archives();
         $this->content_style = $DIC->contentStyle();
 
@@ -705,7 +703,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
     public function importVerifiedFileObject(): void
     {
-        if (!$this->checkPermissionBool('create', '', $this->qplrequest->string('new_type'))) {
+        if ($this->creation_mode
+                && !$this->checkPermissionBool('create', '', $this->request_data_collector->string('new_type'))
+            || !$this->creation_mode
+                && !$this->checkPermissionBool('read', '', $this->object->getType())) {
             $this->redirectAfterMissingWrite();
             return;
         }
@@ -1704,6 +1705,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
     public static function _goto($a_target): void
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
         $ilAccess = $DIC['ilAccess'];
@@ -1711,14 +1713,16 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $lng = $DIC['lng'];
         $ctrl = $DIC['ilCtrl'];
 
-        if ($ilAccess->checkAccess('write', '', (int) $a_target)
-            || $ilAccess->checkAccess('read', '', (int) $a_target)
+        $target_ref_id = (int) $a_target;
+
+        if ($ilAccess->checkAccess('write', '', $target_ref_id)
+            || $ilAccess->checkAccess('read', '', $target_ref_id)
         ) {
             $ctrl->setParameterByClass(ilObjQuestionPoolGUI::class, 'ref_id', $a_target);
             $ctrl->redirectByClass([ilRepositoryGUI::class, ilObjQuestionPoolGUI::class], self::DEFAULT_CMD);
             return;
         }
-        if ($ilAccess->checkAccess('visible', '', $a_target)) {
+        if ($ilAccess->checkAccess('visible', '', $target_ref_id)) {
             $DIC->ctrl()->setParameterByClass(ilInfoScreenGUI::class, 'ref_id', $a_target);
             $DIC->ctrl()->redirectByClass(
                 [
@@ -1733,7 +1737,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 'info',
                 sprintf(
                     $lng->txt('msg_no_perm_read_item'),
-                    ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
+                    ilObject::_lookupTitle(ilObject::_lookupObjId($target_ref_id))
                 ),
                 true
             );

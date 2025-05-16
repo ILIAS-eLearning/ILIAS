@@ -36,7 +36,11 @@ class Tracking implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[SetupAgentInterface::class] = fn() => new SetupAgent($pull[Refinery::class]);
+        $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
+        new \ilTrackingSetupAgent(
+            $pull[\ILIAS\Refinery\Factory::class]
+        );
+
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "ilObjStat.js");
     }

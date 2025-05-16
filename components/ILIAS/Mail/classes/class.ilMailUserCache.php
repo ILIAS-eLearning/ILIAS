@@ -18,10 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * @author  Michael Jansen <mjansen@databay.de>
- * @ingroup ServicesMail
- */
 class ilMailUserCache
 {
     /** @var array<int, ilObjUser|null> */

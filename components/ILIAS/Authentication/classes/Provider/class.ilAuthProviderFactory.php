@@ -77,10 +77,6 @@ class ilAuthProviderFactory
                 $this->logger->debug('Using apache authentication.');
                 return new ilAuthProviderApache($credentials);
 
-            case ilAuthUtils::AUTH_CAS:
-                $this->logger->debug('Using CAS authentication');
-                return new ilAuthProviderCAS($credentials);
-
             case ilAuthUtils::AUTH_SHIBBOLETH:
                 $this->logger->debug('Using shibboleth authentication.');
                 return new ilAuthProviderShibboleth($credentials);

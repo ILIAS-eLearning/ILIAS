@@ -30,14 +30,8 @@ class ilObjSystemCheckGUI extends ilObjectGUI
     protected const SECTION_MAIN = 'main';
     protected const SECTION_GROUP = 'group';
 
-    protected GlobalHttpState $http;
-    protected Factory $refinery;
-
     public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
     {
-        global $DIC;
-        $this->http = $DIC->http();
-        $this->refinery = $DIC->refinery();
         $this->type = 'sysc';
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
         $this->lng->loadLanguageModule('sysc');

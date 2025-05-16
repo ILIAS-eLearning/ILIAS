@@ -502,13 +502,11 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
                 $user_id = (int) $data["user"];
             }
             if ($user_id > 0) {
-                $last_access = ilUtil::now();
-                if (isset($data['Date'])) {
-                    $date_ex = explode('.', $data['Date']);
-                    $last_access = implode('-', array($date_ex[2], $date_ex[1], $date_ex[0]));
-                }
-                if (isset($data['LastAccess'])) {
-                    $last_access = $data['LastAccess'];
+                $last_access = new DateTimeImmutable('now');
+                if (isset($data['LastAccess']) && $data['LastAccess']) {
+                    $last_access = $this->kindlyToDateTime('Y-m-d H:i:s', $data['LastAccess']);
+                } elseif (isset($data['Date']) && $data['Date']) {
+                    $last_access = $this->kindlyToDateTime('d.m.Y', $data['Date']);
                 }
 
                 $status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
@@ -564,7 +562,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 							(cp_node_id,user_id,completion_status,c_timestamp,cmi_node_id) 
 							VALUES(%s,%s,%s,%s,%s)',
                                 array('integer','integer','text','timestamp','integer'),
-                                array($sco_id,$user_id,'completed',$last_access,$nextId)
+                                [$sco_id, $user_id, 'completed', $last_access?->format('Y-m-d H:i:s'), $nextId]
                             );
                         } else {
                             $doUpdate = false;
@@ -584,7 +582,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
                                         'completion_status' => array('text', 'completed'),
                                         'success_status' => array('text', ''),
                                         'suspend_data' => array('text', ''),
-                                        'c_timestamp' => array('timestamp', $last_access)
+                                        'c_timestamp' => array('timestamp', $last_access?->format('Y-m-d H:i:s')),
                                     ),
                                     array(
                                         'user_id' => array('integer', $user_id),

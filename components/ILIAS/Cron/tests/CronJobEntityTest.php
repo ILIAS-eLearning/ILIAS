@@ -23,12 +23,10 @@ use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobEntity;
 use ILIAS\Cron\Job\JobResult;
 use ILIAS\Cron\CronJob;
+use PHPUnit\Framework\Attributes\Depends;
 
 class CronJobEntityTest extends TestCase
 {
-    /**
-     * @param CronJob|null $job_instance
-     */
     private function getEntity(
         ?CronJob $job_instance = null,
         ?int $schedule_type = null,
@@ -73,9 +71,7 @@ class CronJobEntityTest extends TestCase
         return $entities;
     }
 
-    /**
-     * @depends testEntityCollectionCanBeCreatedWithItems
-     */
+    #[Depends('testEntityCollectionCanBeCreatedWithItems')]
     public function testCollectionCanBeChanged(
         \ILIAS\Cron\Job\Collection\JobEntities $entities
     ): \ILIAS\Cron\Job\Collection\JobEntities {
@@ -86,9 +82,7 @@ class CronJobEntityTest extends TestCase
         return $entities;
     }
 
-    /**
-     * @depends testCollectionCanBeChanged
-     */
+    #[Depends('testCollectionCanBeChanged')]
     public function testCollectionCanBeFilteredAndSliced(\ILIAS\Cron\Job\Collection\JobEntities $entities): void
     {
         $this->assertCount(0, $entities->filter(static function (JobEntity $entity): bool {

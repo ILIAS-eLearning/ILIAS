@@ -24,6 +24,7 @@ use PHPUnit\Framework\TestCase;
 use ILIAS\Refinery\Encode\Transformation\URL;
 use ValueError;
 use TypeError;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class URLTest extends TestCase
 {
@@ -32,9 +33,7 @@ class URLTest extends TestCase
         $this->assertInstanceOf(URL::class, new URL());
     }
 
-    /**
-     * @dataProvider provideTransformData
-     */
+    #[DataProvider('provideTransformData')]
     public function testTransform(string $exptected, string $in): void
     {
         $this->assertSame($exptected, (new URL())->transform($in));

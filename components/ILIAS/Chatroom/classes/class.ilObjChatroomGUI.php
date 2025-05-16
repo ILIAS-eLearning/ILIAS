@@ -181,7 +181,6 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
                 $GLOBALS['DIC']->tabs()->setTabActive('export');
 
                 $exp = new ilExportGUI($this);
-                $exp->addFormat('xml');
                 $this->ctrl->forwardCommand($exp);
                 break;
 
@@ -270,11 +269,6 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
             $info->enableNews();
         }
 
-        $info->addMetaDataSections(
-            $this->getObject()->getId(),
-            0,
-            $this->getObject()->getType()
-        );
         $this->ctrl->forwardCommand($info);
     }
 

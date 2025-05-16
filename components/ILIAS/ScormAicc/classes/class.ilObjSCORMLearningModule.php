@@ -618,13 +618,11 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
             }
 
             if ($user_id > 0) {
-                $last_access = ilUtil::now();
-                if (isset($data['Date'])) {
-                    $date_ex = explode('.', $data['Date']);
-                    $last_access = implode('-', array($date_ex[2], $date_ex[1], $date_ex[0]));
-                }
-                if (isset($data['LastAccess'])) {
-                    $last_access = $data['LastAccess'];
+                $last_access = new DateTimeImmutable('now');
+                if (isset($data['LastAccess']) && $data['LastAccess']) {
+                    $last_access = $this->kindlyToDateTime('Y-m-d H:i:s', $data['LastAccess']);
+                } elseif (isset($data['Date']) && $data['Date']) {
+                    $last_access = $this->kindlyToDateTime('d.m.Y', $data['Date']);
                 }
 
                 $status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
@@ -685,7 +683,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
                                 'scorm_tracking',
                                 array(
                                     'rvalue' => array('clob', 'completed'),
-                                    'c_timestamp' => array('timestamp', $last_access)
+                                    'c_timestamp' => array('timestamp', $last_access?->format('Y-m-d H:i:s'))
                                 ),
                                 array(
                                     'user_id' => array('integer', $user_id),
@@ -701,7 +699,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
                                 'sco_id' => array('integer', $sco_id),
                                 'lvalue' => array('text', 'cmi.core.lesson_status'),
                                 'rvalue' => array('clob', 'completed'),
-                                'c_timestamp' => array('timestamp', $last_access)
+                                'c_timestamp' => array('timestamp', $last_access?->format('Y-m-d H:i:s'))
                             ));
                         }
                     }
@@ -720,9 +718,32 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         return true;
     }
 
+    protected function kindlyToDateTime(
+        string $maybe_datetime,
+        string $format,
+        ?DateTimeImmutable $default = null
+    ): ?DateTimeImmutable {
+        $datetime = $default;
+
+        if ($maybe_datetime === '0000-00-00 00:00:00' || $maybe_datetime === '0000-00-00') {
+            return null;
+        }
+
+        try {
+            $parsed_date = DateTimeImmutable::createFromFormat($format, $maybe_datetime);
+            if ($parsed_date !== false) {
+                $datetime = $parsed_date;
+            }
+        } catch (Throwable) {
+            // Ignore
+        }
+
+        return $datetime;
+    }
+
     public function importSuccessForSahsUser(
         int $user_id,
-        string $last_access,
+        ?DateTimeImmutable $last_access,
         int $status,
         ?int $attempts = null,
         ?int $percentage_completed = null,
@@ -739,7 +760,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
             $ilDB->update(
                 'sahs_user',
                 array(
-                    'last_access' => array('timestamp', $last_access),
+                    'last_access' => array('timestamp', $last_access?->format('Y-m-d H:i:s')),
                     'status' => array('integer', $status),
                     'package_attempts' => array('integer', $attempts),
                     'percentage_completed' => array('integer', $percentage_completed),
@@ -754,7 +775,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
             $ilDB->insert('sahs_user', array(
                 'obj_id' => array('integer', $this->getID()),
                 'user_id' => array('integer', $user_id),
-                'last_access' => array('timestamp', $last_access),
+                'last_access' => array('timestamp', $last_access?->format('Y-m-d H:i:s')),
                 'status' => array('integer', $status),
                 'package_attempts' => array('integer', $attempts),
                 'percentage_completed' => array('integer', $percentage_completed),
@@ -836,24 +857,17 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
                 continue;
             }
 
-            $c_timestamp = "";
-            if ($data['Timestamp']) {
-                $c_timestamp = $data['Timestamp'];
-            }
-            if ($data[$lng->txt("c_timestamp")]) {
-                $c_timestamp = $data[$lng->txt("c_timestamp")];
-            }
-            if ($c_timestamp == "") {
-                $date = new DateTime();
-                $c_timestamp = $date->getTimestamp();
-            } else {
-                if ($a_last_access[$user_id]) {
-                    if ($a_last_access[$user_id] < $c_timestamp) {
-                        $a_last_access[$user_id] = $c_timestamp;
-                    }
-                } else {
-                    $a_last_access[$user_id] = $c_timestamp;
+            $c_timestamp = null;
+            foreach ([$lng->txt("c_timestamp"), 'Timestamp'] as $key) {
+                if (!empty($data[$key])) {
+                    $c_timestamp = $this->kindlyToDateTime('Y-m-d H:i:s', $data[$key]);
+                    break;
                 }
+            }
+
+            $c_timestamp ??= new DateTimeImmutable('now');
+            if (!isset($a_last_access[$user_id]) || $a_last_access[$user_id] < $c_timestamp) {
+                $a_last_access[$user_id] = $c_timestamp;
             }
 
             if (!$data['Key']) {
@@ -935,7 +949,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
                 $sco_total_time_sec = $a_time[$user_id];
             }
             $last_access = null;
-            if ($a_last_access[$user_id]) {
+            if (isset($a_last_access[$user_id])) {
                 $last_access = $a_last_access[$user_id];
             }
             // $status = ilLPStatusWrapper::_determineStatus($this->getId(),$user_id);

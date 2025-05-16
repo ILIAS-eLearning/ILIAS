@@ -174,7 +174,8 @@ administration#:#auth_auth_mode_determination#:#Bestimmung der Authentifizierung
 administration#:#auth_automatic#:#Festgelegte Reihenfolge
 administration#:#auth_by_user#:#Durch den Benutzer
 administration#:#auth_kind_determination#:#Art der Bestimmung
-administration#:#auth_mode_determination_info#:#Hier können Sie festlegen, ob die Authentifizierungsmethode durch die Benutzer beim Login ausgewählt werden muss oder ob die Authentifizierungsdaten anhand einer vorgegebenen Reihenfolge überprüft werden sollen.
+administration#:#auth_mode_default_change_info#:#Die Änderung des Standard-Authentifizierungsverfahrens betrifft alle ILIAS-Konten, bei denen die Authentifizierung auf „Standard“ gesetzt ist. Wenn das gewählte Verfahren (z.B. Shibboleth, SAML, LDAP, ...) keine lokale ILIAS-Authentifizierung unterstützt oder diese Funktion nicht aktiviert ist, können betroffene Personen sich möglicherweise nicht mehr anmelden. Um dies zu vermeiden, stellen Sie bitte sicher, dass die lokale Authentifizierung im konfigurierten Verfahren (sofern unterstützt) aktiviert ist oder dass das Authentifizierungsverfahren in den betroffenen ILIAS-Konten entsprechend angepasst wird.
+administration#:#auth_mode_determination_info#:#Hier kann festgelegt werden, ob die Authentifizierungsmethode beim Login von der jeweiligen Person ausgewählt werden muss oder ob die Authentifizierungsdaten anhand einer vorgegebenen Reihenfolge überprüft werden sollen.
 administration#:#clean#:#Räume auf
 administration#:#clean_desc#:#Entferne ungültige Referenzen und Baumeinträge. Initialisiere Lücken in der Baumstruktur
 administration#:#cleaning#:#Bereinigen...
@@ -214,7 +215,7 @@ administration#:#language_former_file_equal#:#Die Datei <b>%s</b> stimmt mit der
 administration#:#language_former_file_missing#:#Die Datei <b>%s</b> existiert nicht.
 administration#:#language_import_file#:#Sprachdatei importieren
 administration#:#language_load_local_changes#:#Custom-Sprachdatei in die Datenbank laden
-administration#:#language_load_local_changes_info#:#Lädt die Datei Customizing/global/lang/ilias_%s.lang.local in die Datenbank. Neue Einträge aus der Datei werden hinzugefügt und vorhandene Einträge in der Datenbank werden überschrieben.
+administration#:#language_load_local_changes_info#:#Lädt die Datei lang/customizing/ilias_%s.lang.local in die Datenbank. Neue Einträge aus der Datei werden hinzugefügt und vorhandene Einträge in der Datenbank werden überschrieben.
 administration#:#language_loaded_local#:#Die Custom-Sprachdatei wurde in die Datenbank geladen.
 administration#:#language_local_file_deleted#:#Die Custom-Sprachdatei wurde gelöscht.
 administration#:#language_maintain#:#Wartung
@@ -235,12 +236,12 @@ administration#:#language_mode_existing_replace_info#:#Importiert neue Einträge
 administration#:#language_note_translation#:#Die Seitenübersetzung wird für jede Sprache separat aktiviert. Zusätzlich muss ein Benutzer die Rechte "Lesen" und "Schreiben" im Sprachordner haben.
 administration#:#language_process_maintenance#:#Wartung durchführen
 administration#:#language_remove_local_file#:#Custom-Sprachdatei löschen
-administration#:#language_remove_local_file_info#:#Entfernt die Datei Customizing/global/lang/ilias_%s.lang.local und setzt den Status der Sprache von "Mit lokaler Version installiert" auf "Installiert". Die Einträge in der Datenbank sind davon nicht betroffen.
+administration#:#language_remove_local_file_info#:#Entfernt die Datei lang/customizing/ilias_%s.lang.local und setzt den Status der Sprache von "Mit lokaler Version installiert" auf "Installiert". Die Einträge in der Datenbank sind davon nicht betroffen.
 administration#:#language_save_dist#:#Backup der Standard-Sprachdatei erzeugen
 administration#:#language_save_dist_failed#:#Das Backup der Standard-Sprachdatei konnte nicht geschrieben werden.
 administration#:#language_save_dist_info#:#Erzeugt ein Backup der Standard-Sprachdatei im externen ILIAS-Datenverzeichnis. Dies hilft nach einem ILIAS-Update, Konflikte von eigenen Änderungen mit aktualisierten Sprachvariablen zu finden.
 administration#:#language_save_local_changes#:#Alle Änderungen in der Custom-Sprachdatei speichern
-administration#:#language_save_local_changes_info#:#Speichert alle lokalen Änderungen oder Ergänzungen in der Datei Customizing/global/lang/ilias_%s.lang.local und setzt den Status der Sprache auf "Mit lokaler Version installiert". Der Web-Server muss Schreibrecht in dem Verzeichnis besitzen. Beachten Sie, dass diese Datei für alle Mandanten der Installation dieselbe ist.
+administration#:#language_save_local_changes_info#:#Speichert alle lokalen Änderungen oder Ergänzungen in der Datei lang/customizing/ilias_%s.lang.local und setzt den Status der Sprache auf "Mit lokaler Version installiert". Der Web-Server muss Schreibrecht in dem Verzeichnis besitzen. Beachten Sie, dass diese Datei für alle Mandanten der Installation dieselbe ist.
 administration#:#language_saved_dist#:#Das Backup der Standard-Sprachdatei wurde erzeugt und im externen ILIAS-Datenverzeichnis abgelegt.
 administration#:#language_scope_added#:#Nur lokale Ergänzungen
 administration#:#language_scope_added_info#:#Exportiert alle Einträge, die in der Datenbank lokal hinzugefügt wurden. Dies kann genutzt werden, um zusätzliche Entwicklungs-Einträge zu sichern, bevor die lokalen Änderungen auf dem Reiter "Wartung" zurückgesetzt werden.
@@ -2033,8 +2034,6 @@ auth#:#auth_account_migration_new#:#Neues ILIAS-Konto anlegen
 auth#:#auth_activation_code_success#:#Ihr Zugang wurde aktiviert. Sie können sich nun einloggen.
 auth#:#auth_allow_local_info#:#Wenn aktiviert, ist die lokale Authentifizierung gegen die ILIAS-Datenbank mit Anmeldename/Passwort auch für jene Anmeldekonten möglich, deren Authentifizierungsmodus SAML ist.
 auth#:#auth_auth_settings#:#Einstellungen
-auth#:#auth_cas_ldap#:#Synchronisierung über LDAP-Einstellungen
-auth#:#auth_cas_ldap_info#:#Wenn aktiviert, wird die Synchronisierung der Benutzerdaten und Rollenzuordnungen, gemäß der LDAP-Einstellungen vorgenommen.
 auth#:#auth_cron_destroy_expired_sessions#:#Löschen abgelaufener Benutzer-Sitzungen
 auth#:#auth_cron_destroy_expired_sessions_desc#:#Dieser Cron-Job löscht bereits abgelaufene Benutzer-Sitzungen
 auth#:#auth_err_expired#:#Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.
@@ -2138,8 +2137,6 @@ auth#:#auth_saml_user_mapping#:#Zuordnung der Profildaten
 auth#:#auth_saml_username_claim#:#Attribut für den Anzeigenamen/Anmeldenamen
 auth#:#auth_saml_username_claim_info#:#Definieren Sie hier das Attribut, anhand dessen ILIAS den Anzeigenamen/Anmeldenamen generieren soll.
 auth#:#auth_sync#:#Benutzer-Synchronisierung
-auth#:#auth_sync_cas#:#Automatische Generierung von ILIAS-Anmeldekonten
-auth#:#auth_sync_cas_info#:#Benutzer, die sich erfolgreich gegen CAS authentifiziert haben, jedoch über kein ILIAS-Konto verfügen, werden automatisch angelegt.
 auth#:#destination_after_logout#:#Weiterleitung nach Abmeldung
 auth#:#destination_external_ressource#:#Zeige Externe Resource
 auth#:#destination_external_ressource_url#:#Externe URL
@@ -2699,7 +2696,7 @@ buddysystem#:#buddy_bs_state_linked_p#:#Vernetzt
 buddysystem#:#buddy_bs_state_requested#:#Angefragt
 buddysystem#:#buddy_bs_state_requested_a#:#Angefragt
 buddysystem#:#buddy_bs_state_requested_filter_a#:#Auf Reaktion wartend
-buddysystem#:#buddy_bs_state_requested_filter_p#:#Aktion erorderlich
+buddysystem#:#buddy_bs_state_requested_filter_p#:#Aktion erforderlich
 buddysystem#:#buddy_bs_state_requested_p#:#Angefragt
 buddysystem#:#buddy_bs_state_unlinked#:#Nicht vernetzt
 buddysystem#:#buddy_bs_state_unlinked_a#:#Nicht vernetzt
@@ -3518,7 +3515,7 @@ common#:#are_you_sure#:#Sind Sie sicher?
 common#:#assf_allowed_questiontypes#:#Verfügbare Fragetypen
 common#:#assf_allowed_questiontypes_desc#:#Alle ausgewählten Fragetypen werden für diese ILIAS-Installation zur Verfügung stehen. Wenn Sie die Erzeugung von bestimmten Fragetypen verhindern wollen, müssen Sie die Auswahl bei diesen Fragetypen entfernen.
 common#:#assf_questiontypes#:#Frageneinstellungen
-common#:#assign#:#Antrag annehmen
+common#:#assign#:#Zuweisen
 common#:#assign_global_role#:#Einer globalen Rolle zuordnen
 common#:#assign_local_role#:#Lokale Rolle zuweisen
 common#:#assigned_members#:#Zugeordnete Teilnehmer
@@ -3531,13 +3528,6 @@ common#:#attachments#:#Anhänge
 common#:#attempts#:#Versuche
 common#:#auth_active_roles#:#Verfügbare globale Rollen auf dem Registrierformular
 common#:#auth_allow_local#:#Erlaube lokale Authentifizierung
-common#:#auth_cas#:#CAS
-common#:#auth_cas_allow_local_desc#:#Erlaubt Personen mit CAS-Konten, sich mit ihrem lokalen ILIAS-Anmeldenamen und -Passwort anzumelden.
-common#:#auth_cas_auth#:#Konfiguriere CAS-Authentifizierung
-common#:#auth_cas_auth_desc#:#Damit die CAS-Authentifizierung funktioniert, muss die Servereinstellung prevent_super_global_replacement in der Datei client.ini.php gesetzt sein.
-common#:#auth_cas_port_desc#:#Zum Beispiel "443" bei einer CAS-Server-URI "https://auth.yourserver.com:443/cas/"
-common#:#auth_cas_server_desc#:#Zum Beispiel "auth.yourserver.com" bei einer CAS-Server-URI "https://auth.yourserver.com:443/cas/"
-common#:#auth_cas_uri_desc#:#Lokale URI, zum Beispiel "cas" bei einer CAS-Server-URI "https://auth.yourserver.com:443/cas/"
 common#:#auth_configure#:#konfigurieren...
 common#:#auth_create_users#:#Lege noch nicht eingetragene Benutzer automatisch an.
 common#:#auth_default#:#Standardeinstellung
@@ -3996,7 +3986,6 @@ common#:#entry_status#:#Eintragsstatus
 common#:#err_1_param#:#Nur 1 Parameter!
 common#:#err_2_param#:#Nur 2 Parameter!
 common#:#err_auth_apache_failed#:#Die Authentifikation ist fehlgeschlagen.
-common#:#err_auth_cas_no_ilias_user#:#Die Anmeldung ist fehlgeschlagen. Die CAS-Authentifizierung war erfolgreich, aber es existiert kein entsprechendes ILIAS-Konto. Bitte kontaktieren Sie Ihre technische Betreuung.
 common#:#err_auth_ldap_no_ilias_user#:#Die Anmeldung ist fehlgeschlagen. Die LDAP-Authentifizierung war erfolgreich, aber es existiert kein entsprechendes ILIAS-Konto. Bitte kontaktieren Sie Ihre technische Betreuung.
 common#:#err_auth_mode_inactive#:#Zur Zeit ist leider keine Anmeldung möglich.
 common#:#err_auth_soap_no_ilias_user#:#Anmeldung fehlgeschlagen! Die SOAP-Authentifizierung war erfolgreich, aber es existiert kein entsprechender ILIAS-Benutzer. Bitte kontaktieren Sie Ihren Systemadministrator.
@@ -4519,7 +4508,7 @@ common#:#login_data#:#Anmeldedaten
 common#:#login_exists#:#Dieser Anmeldename ist bereits vergeben. Bitte wählen Sie einen anderen.
 common#:#login_invalid#:#Ihr Anmeldename muss mindestens drei Zeichen lang sein und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_to_ilias#:#Bei ILIAS anmelden
-common#:#login_to_ilias_via_cas#:#Bei ILIAS über zentrales Authentifizierungssystem anmelden
+common#:#login_to_ilias_via_login_form#:#Bei ILIAS anmelden
 common#:#login_to_ilias_via_saml#:#Bei ILIAS via SAML-Authentifizierung anmelden
 common#:#login_to_ilias_via_shibboleth#:#Bei ILIAS anmelden über
 common#:#loginname_already_exists#:#Dieser Anmeldename ist bereits vergeben. Bitte wählen Sie einen anderen Anmeldenamen.
@@ -4839,7 +4828,7 @@ common#:#obj_ass#:#Asset
 common#:#obj_assf#:#Test und Assessment
 common#:#obj_assf_desc#:#Einstellungen und Verwaltung des Test und Assessment-Tools
 common#:#obj_auth#:#Authentifizierung / Neuanmeldung
-common#:#obj_auth_desc#:#Konfigurieren Sie hier die Art der Benutzerauthentifizierung (Lokal, LDAP, CAS, ...) sowie die Neuanmeldungen.
+common#:#obj_auth_desc#:#Konfigurieren Sie hier die Art der Benutzerauthentifizierung (Lokal, LDAP, ...) sowie die Neuanmeldungen.
 common#:#obj_awra#:#„Wer ist online?“-Anzeige
 common#:#obj_awra_desc#:#„Wer ist online?“-Anzeige administrieren
 common#:#obj_bdga#:#Badges
@@ -5833,7 +5822,7 @@ common#:#user_defined_list#:#Übersicht zusätzlicher Felder
 common#:#user_deleted#:#ILIAS-Konto gelöscht
 common#:#user_detail#:#Details
 common#:#user_ext_account#:#Externes Anmeldekonto
-common#:#user_ext_account_desc#:#Anmeldekonto, das für die externe Authentifizierung benutzt wird. (CAS-, SOAP- oder LDAP-Authentifizierung)
+common#:#user_ext_account_desc#:#Anmeldekonto, das für die externe Authentifizierung benutzt wird. (SOAP- oder LDAP-Authentifizierung)
 common#:#user_image#:#Benutzerbild
 common#:#user_import_failed#:#Benutzerimport fehlgeschlagen.
 common#:#user_imported#:#Benutzerimport abgeschlossen.
@@ -6680,7 +6669,6 @@ content#:#cont_localfile#:#Lokale Datei
 content#:#cont_localization#:#Sprache
 content#:#cont_localization_info#:#Die Einstellung wird für vordefinierte Texte im Modul (z.B. "Vor" / "Zurück") benötigt.
 content#:#cont_location#:#Position
-content#:#cont_lpe_cas_login_form#:#CAS-Login-Maske
 content#:#cont_lpe_dpro_agreement_link#:#Link zur Datenschutzerklärung
 content#:#cont_lpe_language_selection#:#Sprachauswahl
 content#:#cont_lpe_login_form#:#Login-Maske
@@ -6810,7 +6798,7 @@ content#:#cont_overlay_image#:#Overlay-Bild
 content#:#cont_overlay_images#:#Overlay-Bilder
 content#:#cont_overlays_have_been_deleted#:#Overlays wurden gelöscht
 content#:#cont_page_activation#:#Seitenaktivierung
-content#:#cont_page_activation_on#:#Der Inhalt wird aktiviert am %s.
+content#:#cont_page_activation_on#:#Aktivierung erfolgt: %s.
 content#:#cont_page_compare#:#Vergleiche ausgewählte Änderungen
 content#:#cont_page_created#:#Seite hinzugefügt
 content#:#cont_page_currently_deactivated#:#Diese Seite ist momentan deaktiviert.
@@ -7336,6 +7324,7 @@ copg#:#copg_more_character_formats#:#Weitere Zeichenformate
 copg#:#copg_obj_types#:#Objekttypen
 copg#:#copg_page_element_not_found#:#Unbekanntes Seitenelement.
 copg#:#copg_page_type_stys#:#Seitenlayout
+copg#:#copg_pages#:#Seiten
 copg#:#copg_par_format_selection#:#Absatzformatauswahl
 copg#:#copg_pc_mob_does_not_exist#:#Das Medienobjekt wurde nicht gefunden.
 copg#:#copg_plugin_not_avail#:#Plugin %s nicht verfügbar.
@@ -8564,8 +8553,6 @@ dcl#:#dcl_delete_fields#:#Felder löschen
 dcl#:#dcl_delete_fields_no_selection#:#Zum Löschen muss mindestens ein Feld ausgewählt werden.
 dcl#:#dcl_delete_perm#:#Einträge löschen
 dcl#:#dcl_delete_records#:#Datensätze löschen
-dcl#:#dcl_delete_tables#:#Tabellen löschen
-dcl#:#dcl_delete_tables_no_selection#:#Zum Löschen muss mindestens eine Tabelle ausgewählt werden.
 dcl#:#dcl_deleted_records#:#Es wurden %s Datensätze gelöscht.
 dcl#:#dcl_deprecated_copy#:#(Veraltet)
 dcl#:#dcl_desc#:#Absteigend ↓
@@ -8574,7 +8561,6 @@ dcl#:#dcl_detailed_view#:#Einzelansicht
 dcl#:#dcl_display_action_menu#:#Kopieren
 dcl#:#dcl_display_action_menu_desc#:#Das Objekt kann von dem Eintrag aus kopiert werden.
 dcl#:#dcl_display_record_alt#:#Diesen Eintrag anzeigen
-dcl#:#dcl_duplicate_non_unique_entries_exist#:#Es kann sich auch um bereits vorhandene Einträge handeln.
 dcl#:#dcl_edit#:#Einstellungen der Datensammlung
 dcl#:#dcl_edit_entry_rules#:#Eintragsbearbeitung
 dcl#:#dcl_edit_field#:#Feld bearbeiten
@@ -8654,13 +8640,10 @@ dcl#:#dcl_msg_no_perm_edit#:#Keine Berechtigung zum Bearbeiten dieses Eintrags
 dcl#:#dcl_msg_no_perm_view#:#Keine Berechtigung zum Ansehen dieses Eintrags
 dcl#:#dcl_msg_table_created#:#Tabelle angelegt
 dcl#:#dcl_msg_table_edited#:#Tabelleneinstellungen wurden gespeichert.
-dcl#:#dcl_msg_tables_delete_all#:#Löschen nicht möglich: Es muss mindestens eine Tabelle existieren.
-dcl#:#dcl_msg_tables_deleted#:#Tabellen gelöscht.
 dcl#:#dcl_msg_tableview_created#:#Ansicht hinzugefügt.
 dcl#:#dcl_msg_tableview_deleted#:#Ansicht gelöscht.
 dcl#:#dcl_msg_tableview_updated#:#Ansicht aktualisiert.
 dcl#:#dcl_msg_tableviews_delete_all#:#Löschen nicht möglich: Es muss mindestens eine Ansicht existieren.
-dcl#:#dcl_msg_tableviews_deleted#:#Ansichten gelöscht.
 dcl#:#dcl_msg_tableviews_order_updated#:#Anordnung der Ansichten aktualisiert.
 dcl#:#dcl_multiple_selection#:#Mehrfachauswahl
 dcl#:#dcl_new#:#Neue Datensammlung anlegen
@@ -8670,14 +8653,12 @@ dcl#:#dcl_next_record#:#Nächster Eintrag
 dcl#:#dcl_no_content_warning#:#Achtung: die Datensammlung ist bereits online, hat aber noch keinen Felder
 dcl#:#dcl_no_entries#:#Keine Einträge
 dcl#:#dcl_no_entry#:#Kein Eintrag
-dcl#:#dcl_no_export_content_available#:#Keine Daten für den Export verfügbar.
+dcl#:#dcl_no_export_async_config#:#Keine SOAP Konfiguration für asyncrone Exporte verfügbar.
 dcl#:#dcl_no_export_data_available#:#Keine Daten oder Felder für den Export verfügbar.
-dcl#:#dcl_no_export_fields_available#:#Keine Felder für den Export aktiviert. Markieren Sie mindestens ein Feld als „Exportierbar“ in den <a href=„%s“>Tabelleneinstellungen</a>.
 dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstellt. Daher können noch keine Einträge eingefügt werden. Klicken Sie im Reiter "Tabellen" auf eine Tabelle und erstellen Sie mithilfe des Buttons "Feld hinzufügen" neue Felder.
 dcl#:#dcl_no_read_access_on_any_standard_view#:#Sie haben auf keine Standard-Tabellenansicht Lesezugriff.
 dcl#:#dcl_no_search_results_found_for#:#Es wurden keine Module gefunden mit:
 dcl#:#dcl_no_such_reference#:#Der folgende Wert ist in der Referenztabelle nicht vorhanden:
-dcl#:#dcl_no_warnings#:#Der Import wurde reibungslos abgeschlossen.
 dcl#:#dcl_not_checked#:#Nicht ausgewählt
 dcl#:#dcl_not_supported_in_import#:#Dieser Feldtyp wird beim Import nicht unterstützt.
 dcl#:#dcl_notification_activate_dcl#:#Benachrichtigung aktivieren
@@ -8701,7 +8682,6 @@ dcl#:#dcl_permissions_form#:#Erlaubte Aktionen für diese Tabelle
 dcl#:#dcl_please_select#:#--- Bitte wählen ---
 dcl#:#dcl_plugin#:#Plugin
 dcl#:#dcl_plugin_desc#:#DataCollection-Feld Erweiterungen
-dcl#:#dcl_plugin_hooks#:#Verfügbare Erweiterungen
 dcl#:#dcl_plugin_no_hooks_available#:#Keine aktiven Field-Type Plugins gefunden.
 dcl#:#dcl_prev_record#:#Vorheriger Eintrag
 dcl#:#dcl_prop_expression#:#Ausdruck
@@ -8754,7 +8734,6 @@ dcl#:#dcl_table_settings_saved#:#Tabellen Einstellungen wurden gespeichert.
 dcl#:#dcl_table_title_not_matching#:#Die Titel des Excel-Arbeitsblatts und der Tabelle in der Datensammlung stimmen nicht überein. Benennen Sie das Arbeitsblatt um, um einen korrekten Import zu gewährleisten.
 dcl#:#dcl_table_title_unique#:#Es existiert bereits eine Tabelle mit diesem Titel. Der Titel muss eindeutig sein.
 dcl#:#dcl_tables#:#Tabellen
-dcl#:#dcl_tables_confirm_delete#:#Sind Sie sicher, dass die folgenden Tabellen gelöscht werden sollen?
 dcl#:#dcl_tableview#:#Ansicht
 dcl#:#dcl_tableview_add#:#Neue Ansicht hinzufügen
 dcl#:#dcl_tableview_confirm_delete#:#Sind Sie sicher, dass die folgende Ansicht gelöscht werden soll?
@@ -8786,7 +8765,9 @@ dcl#:#dcl_title_standardview#:#Standard-Ansicht
 dcl#:#dcl_unique#:#Gleiche Einträge verhindern
 dcl#:#dcl_unique_desc#:#Identische Einträge sind in diesem Feld nicht erlaubt.
 dcl#:#dcl_unique_exception#:#Der eingegebene Wert wird schon von einem anderen Eintrag verwendet.
+dcl#:#dcl_unknown#:#Unbekannt
 dcl#:#dcl_unknown_exception#:#Der eingegebene Wert ist nicht gültig.
+dcl#:#dcl_unknown_plugin#:#Unbekannter Plugintyp
 dcl#:#dcl_update_field#:#Feld aktualisieren
 dcl#:#dcl_update_record#:#Eintrag aktualisieren
 dcl#:#dcl_url#:#URL oder E-Mail
@@ -8802,9 +8783,10 @@ dcl#:#dcl_width_desc#:#Die Datei wird beim Upload auf diese Größe verkleinert.
 dcl#:#dcl_wrong_input_type#:#Der eingegebene Text passt nicht zum Typ dieses Feldes (falscher Typ).
 dcl#:#dcl_wrong_length#:#Der eingegebene Text ist zu lang.
 dcl#:#dcl_wrong_regex#:#Der eingegebene Text passt nicht zur Spezifikation dieses Feldes (regulärer Ausdruck).
-dcl#:#dcl_xls_async_export#:#Asynchroner XLSX-Export
+dcl#:#dcl_xls_async_export#:#als XLSX (asynchron)
 dcl#:#disable_comments#:#Kommentare deaktivieren
 dcl#:#disable_visible#:#Sichtbarkeit deaktivieren
+dcl#:#duplicate_entries_exist#:#Innerhalb der vorhandenen Einträge gibt es bereits gleiche Werte.
 dcl#:#enable_comments#:#Kommentare aktivieren
 dcl#:#enable_visible#:#Sichtbarkeit aktivieren
 dcl#:#entry_of#:#Eintrag %1$d von %2$d
@@ -10680,7 +10662,7 @@ ldap#:#ldap_add_missing#:#Fehlende Rollen zuweisen
 ldap#:#ldap_add_remove#:#Rollen hinzufügen/entfernen
 ldap#:#ldap_add_role_ass_rule#:#Neue Regel für die ILIAS-Rollenzuordnung
 ldap#:#ldap_as_ds#:#Als Datenquelle verwenden
-ldap#:#ldap_as_ds_info#:#In Kombination mit anderen Authentifizierungsarten (z. B. CAS oder SAML) wird die LDAP-Konfiguration nur für die Synchronisierung der Angaben in den ILIAS-Konten genutzt. Eine direkte Authentifizierung über LDAP ist nicht möglich.
+ldap#:#ldap_as_ds_info#:#In Kombination mit anderen Authentifizierungsarten (z. B. SAML) wird die LDAP-Konfiguration nur für die Synchronisierung der Angaben in den ILIAS-Konten genutzt. Eine direkte Authentifizierung über LDAP ist nicht möglich.
 ldap#:#ldap_assignment_type#:#Art der Zuordnung
 ldap#:#ldap_authentication_settings#:#Einstellungen zur Authentifizierung
 ldap#:#ldap_bind_anonymous#:#Anonym verbinden
@@ -12951,6 +12933,7 @@ notifications_adm#:#osd_settings#:#Pop-up-Benachrichtigungen
 obj#:#activation_visible_when_disabled#:#Sichtbarkeit
 obj#:#activation_visible_when_disabled_info#:#Die gewählten Objekte sind auch außerhalb des gewählten Zeitraums sichtbar, können aber nicht geöffnet werden.
 obj#:#availability_period_changed#:#Die zeitliche Verfügbarkeit wurde für die ausgewählten Objekte erfolgreich angepasst.
+obj#:#available_languages#:#Available Languages
 obj#:#cont_filter_empty#:#Bitte nutzen Sie den Filter zur Anzeige von Objekten.
 obj#:#cont_skll_published#:#Alle Kompetenzzuweisungen wurden veröffentlicht.
 obj#:#cont_skll_published_some_not#:#Alle gegebenen Kompetenzzuweisungen wurden veröffentlicht. Zu einigen Benutzern konnten keine Kompetenzen veröffentlicht werden, da keine Zuweisungen vorlagen.
@@ -12958,16 +12941,21 @@ obj#:#copy_container_page_no_label#:#Seitengestaltung nicht übernehmen
 obj#:#copy_container_page_yes_byline#:#Die komplette Seitengestaltung des Kurses, aus dem Sie Objekte kopieren, wird in den Zielkurs übernommen. Allfällig vorhandene Seitenelemente werden überschrieben.
 obj#:#copy_container_page_yes_label#:#Seitengestaltung übernehmen
 obj#:#custom_icon#:#Angepasstes Icon
+obj#:#default_base_lang_not_deletable#:#Die Basis- und die Standardsprache können nicht gelöscht werden.
 obj#:#edit_availability_period#:#Zeitliche Verfügbarkeit
+obj#:#edit_language#:#Sprache bearbeiten
 obj#:#edit_questions#:#Fragen bearbeiten
+obj#:#make_default_language#:#Zur Standardsprache machen
+obj#:#missing_migration#:#Sie können die Informationen auf dieser Seite nicht bearbeiten, da nicht alle Migrationen auf dem System durchgeführt wurden. Bitte kontaktieren Sie Ihre*n Systemadministator*in.
 obj#:#multiple_reference_deletion_info#:#Für die folgenden Objekte existieren weitere Referenzen.
 obj#:#no_objects_selected#:#Es muss mindestens ein Objekt ausgewählt werden.
 obj#:#obj_activate_content_lang#:#Mehrsprachigkeit für die Bearbeitung aktivieren
 obj#:#obj_activate_multilang#:#Mehrsprachigkeit aktivieren
 obj#:#obj_activation#:#Aktivierung
 obj#:#obj_activation_list_gui#:#Verfügbarkeit
-obj#:#obj_add_languages#:#Sprachen hinzufügen
+obj#:#obj_add_language#:#Sprache hinzufügen
 obj#:#obj_additional_langs#:#Zusätzliche Sprachen
+obj#:#obj_base_lang#:#Basissprache
 obj#:#obj_conf_delete_lang#:#Wollen Sie die Anzeige von Titel und Beschreibung für diese Sprachen wirklich beenden?
 obj#:#obj_cont_transl_deactivated#:#Die Unterstützung für mehrsprachige Inhalte wurde deaktiviert.
 obj#:#obj_copy_progress#:#Fortschritt des Kopierens
@@ -12980,7 +12968,6 @@ obj#:#obj_features#:#Zusätzliche Funktionen
 obj#:#obj_import_file_error#:#Die Datei konnte nicht importiert werden. Bitte stellen Sie sicher, dass es sich um eine ILIAS-Exportdatei (XML-Export) des gleichen Objekttyps handelt und der Dateiname unverändert ist. Fehlermeldung:
 obj#:#obj_insert_into_clipboard#:#In Zwischenablage einfügen
 obj#:#obj_inserted_clipboard#:#Die Objekte wurden in die Zwischenablage eingefügt
-obj#:#obj_master_lang#:#Basissprache
 obj#:#obj_more_translations#:#Weitere Übersetzungen
 obj#:#obj_multilang_deactivated#:#Die Unterstützung für mehrsprachige Inhalte wurde deaktiviert.
 obj#:#obj_multilang_title_descr_only#:#Die Mehrsprachigkeit ist nur für Titel und Beschreibung aktiviert. Die Unterstützung für Inhalte im Seiteneditor ("Seite bearbeiten") kann separat aktiviert werden.
@@ -12989,7 +12976,7 @@ obj#:#obj_orgunit_positions#:#Zugriffsregelungen nach Organisationseinheiten
 obj#:#obj_orgunit_positions_info#:#Wenn aktiviert, können zusätzliche Zugriffsregelungen über Positionen in Organisationseinheiten vergeben werden.
 obj#:#obj_permission_settings#:#Rechteeinstellungen
 obj#:#obj_presentation#:#Darstellung
-obj#:#obj_select_master_lang#:#Bitte wählen Sie die Basissprache aus. Bestehende Inhalte werden dieser Sprache zugeordnet. Die Basissprache kann anschließend nicht geändert werden.
+obj#:#obj_select_base_lang#:#Bitte wählen Sie die Basissprache aus. Bestehende Inhalte werden dieser Sprache zugeordnet. Die Basissprache kann anschließend nicht geändert werden.
 obj#:#obj_select_one_language#:#Bitte genau eine Sprache auswählen
 obj#:#obj_set_fallback_lang#:#Standardsprache setzen
 obj#:#obj_settings_for_all_members#:#Mitglieder werden automatisch benachrichtigt
@@ -13478,7 +13465,6 @@ prg#:#prg_remove_user#:#Zuweisung löschen
 prg#:#prg_remove_user_success#:#Die Zuweisung wurde entfernt.
 prg#:#prg_remove_users_not_possible#:#Ausgewählte Benutzer können nicht entfernt werden.
 prg#:#prg_remove_users_partial_success#:#Zuweisungen (teilweise) entfernt.
-prg#:#prg_remove_users_partitial_success#:#Ausgewählte Benutzer wurden teilweise entfernt.
 prg#:#prg_remove_users_success#:#Ausgewählte Benutzer wurden entfernt.
 prg#:#prg_restart_assignments_temporal_progress_desc#:#Bucht Teilnehmer erneut auf Studienprogramme wenn Wiederholungszeitraum beginnt.
 prg#:#prg_restart_assignments_temporal_progress_title#:#Automatische Wiederaufnahme in Studienprogramme
@@ -13890,7 +13876,7 @@ rbac#:#adn_edit_permission#:#Rechteeinstellungen für die Verwaltung der Ankünd
 rbac#:#adn_read#:#Einstellungen für Ankündigungen in der Administration einsehen
 rbac#:#adn_visible#:#Administrationsknoten „Ankündigungen“ sehen
 rbac#:#adn_write#:#Ankündigungen erstellen und verwalten
-rbac#:#adopt_perm_from_template#:#Rechteeinstellungen kopieren
+rbac#:#adopt_perm_from_template#:#Rechteeinstellungen von anderer Rolle übernehmen
 rbac#:#adve_edit_permission#:#Rechteeinstellungen der Editor-Administration ändern
 rbac#:#adve_read#:#Einstellungen zur Editor-Administration einsehen
 rbac#:#adve_visible#:#Administrationsknoten „Editor“ sehen
@@ -14008,7 +13994,7 @@ rbac#:#coms_read#:#Lesezugriff auf Administration für Kommentare
 rbac#:#coms_visible#:#Administration für Kommentare ist sichtbar.
 rbac#:#coms_write#:#Einstellungen in Administration für Kommentare ändern
 rbac#:#condition_failed#:#Nicht bestanden
-rbac#:#condition_learning_progress#:#Lernfortschritt-Status: Bearbeitet
+rbac#:#condition_learning_progress#:#Gemäß Lernfortschritt
 rbac#:#condition_result_range_percentage#:#Ergebnisbereich
 rbac#:#contribute#:#Beiträge erstellen
 rbac#:#copa_copy#:#Inhaltsseite kopieren
@@ -14110,6 +14096,7 @@ rbac#:#feed_delete#:#Webfeed löschen
 rbac#:#feed_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#feed_read#:#Inhalt des Webfeeds lesen
 rbac#:#feed_write#:#Einstellungen des Webfeeds bearbeiten
+rbac#:#file_content#:#Inhalt anzeigen
 rbac#:#file_copy#:#Datei kopieren
 rbac#:#file_delete#:#Datei verschieben oder löschen
 rbac#:#file_edit_file#:#Bearbeitung in einem externen Editor erlauben, sofern vorhanden
@@ -14445,14 +14432,17 @@ rbac#:#rbac_cant_import_role_wrong_type#:#Eine Rolle aus dem Objekt $s in ein Ob
 rbac#:#rbac_change_existing_confirm_tbl#:#Einstellungen zum Ändern vorhandener Objekte
 rbac#:#rbac_change_existing_objects_desc_new_role#:#Die Rechteeinstellungen von dieser Rolle werden auf ALLE vorhandenen Objekte übertragen.
 rbac#:#rbac_changes#:#Änderungen
-rbac#:#rbac_choose_copy_targets#:#Bitte geben Sie einen Suchbegriff ein, um die Rollen zu finden, auf die Rechte übertragen werden sollen.
+rbac#:#rbac_choose_copy_targets#:#Bitte geben Sie einen Suchbegriff ein, um die Rollen zu finden, auf die Rechte von %s übertragen werden sollen.
 rbac#:#rbac_condition_delete_sure#:#Wollen Sie wirklich die folgenden Vorbedingungen löschen?
 rbac#:#rbac_context_global#:#Global
 rbac#:#rbac_copy_behaviour#:#Einstellungen zum Kopieren der Rechte
+rbac#:#rbac_copy_behaviour_info#:#Übertragen der Rechte von %s nach %s
 rbac#:#rbac_copy_finished#:#Die Rechte wurden auf die ausgewählten Rollen übertragen.
+rbac#:#rbac_copy_multi_targets#:#%s, %s und %s weitere Rollen ausgewählt%s
+rbac#:#rbac_copy_no_targets#:#Es muss mindestens eine Rolle als Ziel ausgewählt werden
 rbac#:#rbac_copy_role#:#Rolle kopieren
 rbac#:#rbac_copy_role_add_perm#:#Rechte hinzufügen
-rbac#:#rbac_copy_role_copy#:#Rechte kopieren
+rbac#:#rbac_copy_role_copy#:#Rechte auf andere Rolle(n) übertragen
 rbac#:#rbac_copy_role_remove_perm#:#Rechte entfernen
 rbac#:#rbac_create_bibl#:#Literaturliste anlegen
 rbac#:#rbac_create_blog#:#Blog anlegen
@@ -14563,12 +14553,13 @@ rbac#:#rbac_role_delete_qst#:#Sind Sie sicher, dass Sie diese Rolle löschen mö
 rbac#:#rbac_role_delete_self#:#<strong>Achtung:</strong> Sie selbst sind dieser Rolle zugeordnet. Wenn Sie den Löschvorgang fortführen, kann es sein, dass Sie Zugriffsrechte an diesem oder anderen ILIAS-Materialien verlieren.
 rbac#:#rbac_role_exists_alert#:#Es existiert bereits eine Rolle mit dem gleichen Namen. Bitte wählen Sie einen anderen Rollennamen.
 rbac#:#rbac_role_imported#:#Die Rolle wurde erfolgreich importiert und die gesetzten Rechte in die Rechtevorgaben der neuen Rolle übernommen. Legen Sie jetzt noch unten fest, welche Rechte die importierte Rolle für das vorliegende Objekt haben soll.
-rbac#:#rbac_role_rights_copy#:#Rechte kopieren
+rbac#:#rbac_role_rights_copy#:#Rechte übertragen
 rbac#:#rbac_role_rights_copy_change_existing#:#Vorhandene Objekte ändern
 rbac#:#rbac_role_rights_copy_empty#:#Keine
 rbac#:#rbac_role_selection#:#Rollentyp
 rbac#:#rbac_role_title#:#Rollentitel
-rbac#:#rbac_select_copy_targets#:#Bitte wählen Sie die Rollen aus, auf die die Rechte übertragen werden sollen.
+rbac#:#rbac_select_copy_targets#:#Bitte wählen Sie die Rollen aus, auf die die Rechte von <strong>%s</strong> übertragen werden sollen.
+rbac#:#rbac_select_roles#:#Rollenauswahl
 rbac#:#rbac_ud_global#:#Selbst erstellte globale Rolle
 rbac#:#rbac_ud_local#:#Selbst erstelle lokale Rolle
 rbac#:#rbac_ud_rolt#:#Selbst erstellte Rollenvorlage
@@ -15290,13 +15281,9 @@ scov#:#crsv_create_info#:#Wählen Sie ein absolviertes Lernmodul aus, um dafür 
 scov#:#scov_create#:#SCORM-Zertifikat erstellen
 scov#:#scov_create_info#:#Wählen Sie ein SCORM-Modul, für das Sie ein Zertifikat benötigen
 search#:#add_members_header#:#Benutzer hinzufügen
-search#:#adv_md_search_title#:#Suche in den erweiterten Metadaten
 search#:#append_results#:#Ergebnisse anhängen
 search#:#btn_search#:#Suchen
 search#:#last_search_result#:#Letztes Suchergebnis
-search#:#lucene_activate_field#:#Suche aktivieren
-search#:#lucene_advanced_settings#:#Erweiterte Suche
-search#:#lucene_advanced_settings_table#:#Einstellungen zur erweiterten Suche
 search#:#lucene_all_occurrences#:#... %s weitere(s) Vorkommen
 search#:#lucene_and#:#UND
 search#:#lucene_cpu#:#Anzahl Threads
@@ -15345,11 +15332,7 @@ search#:#lucene_size_fragments#:#Länge der Textabschnitte
 search#:#lucene_tbl_create_ini#:#Java-Server Konfigurationsdatei erstellen
 search#:#search_add_members_from_container_crs#:#Benutzer aus aktuellem Kurs hinzufügen
 search#:#search_add_members_from_container_grp#:#Benutzer aus aktueller Gruppe hinzufügen
-search#:#search_adv_md#:#Benutzerdefinierte Metadaten
-search#:#search_advanced#:#Erweiterte Suche
-search#:#search_all_words#:#Alle Begriffe <small>(<i>UND</i>)</small>
 search#:#search_any#:#-- Beliebig --
-search#:#search_any_word#:#Einen der Begriffe <small>(<i>ODER</i>)</small>
 search#:#search_area#:#Suchbereich
 search#:#search_area_info#:#Bitte wählen Sie einen Bereich aus, innerhalb dem die Suche starten soll.
 search#:#search_auto_complete_length#:#Anzahl der Einträge in Auto-Complete-Liste
@@ -15376,12 +15359,10 @@ search#:#search_for_orgu_members_recursive#:#Darunterliegende einbeziehen?
 search#:#search_for_role_members#:#Nach Rollen suchen
 search#:#search_for_users#:#Nach Benutzern suchen
 search#:#search_grp_title#:#Gruppenname
-search#:#search_hide_adv_search#:#Erweiterte Suche ausblenden
 search#:#search_item_filter_form#:#Suche nach Typ
 search#:#search_item_filter_form_info#:#Suche wird auf die ausgewählten Objekttypen beschränkt.
 search#:#search_like_info#:#Erlaubt die Suche in der ILIAS-Datenbank ohne Zusatzsoftware. Der Inhalt von Dateien (z. B. PDFs oder HTML-Lernmodule) wird nicht erfasst und deshalb auch nicht als Suchergebnis angezeigt.
 search#:#search_limit_reached#:#Ihre Suche ergab mehr als %s Treffer. Sie können die Abfrage weiter einschränken, um detailliertere Treffer zu erhalten.
-search#:#search_lom#:#LOM Metadaten
 search#:#search_lucene#:#Lucene-Suche
 search#:#search_mime_excel#:#Excel-Dateien
 search#:#search_mime_filter_form#:#Dateitypen-Filter
@@ -15398,8 +15379,6 @@ search#:#search_no_match#:#Ihre Suche ergab keine Treffer.
 search#:#search_no_match_hint#:#Es wurden keine Treffer für Ihre Suchanfrage nach <b>%s</b> gefunden.<br />Vorschläge:<br /><br />• Vergewissern Sie sich, dass alle Wörter richtig geschrieben sind.<br />• Probieren Sie andere Suchbegriffe.<br />• Probieren Sie allgemeinere Suchbegriffe.<br />• Probieren Sie weniger Suchbegriffe.
 search#:#search_no_selection#:#Sie haben keine Auswahl getroffen.
 search#:#search_off#:#Aus
-search#:#search_option_offline#:#Offline
-search#:#search_option_online#:#Online
 search#:#search_role_title#:#Rollenname
 search#:#search_select_search_area#:#Suchbereich ändern
 search#:#search_show_inactive_user#:#Inaktive Benutzer anzeigen
@@ -15616,7 +15595,7 @@ skmg#:#skmg_create_skill_template_reference#:#Vorlage einfügen
 skmg#:#skmg_create_skll#:#Kompetenz erstellen
 skmg#:#skmg_custom_image_alt#:#Bild für Kompetenzprofil
 skmg#:#skmg_delete_profiles#:#Wollen Sie wirklich die folgenden Profile löschen?
-skmg#:#skmg_delete_warning#:#Sind Sie sicher, dass folgende Objekte gelöscht werden sollen? Wenn Sie die Objekte löschen, löschen Sie ebenfalls alle dazugehörigen Gebräuche, Zuordnungen und Leistungen. Um auf der sicheren Seite zu sein, finden Sie unten eine Liste mit sämtlichen Gebräuchen. Wenn das Objekt in einem Kompetenzprofil benutzt wird, wird es auch dort entfernt. Dies kann zur Erfüllung von Kompetenzprofilen der dort zugewiesenen Personen führen. Falls Sie sich nicht sicher sind, ob ein Objekt wirklich gelöscht werden soll, nutzen Sie die Status in den Einstellungen eines einzelnen Objekts.
+skmg#:#skmg_delete_warning#:#Sind Sie sicher, dass folgende Kompetenzen, Kompetenzkategorien oder Kompetenzbäume gelöscht werden sollen? Sie löschen damit auch Zuordnungen zu Objekten, Benutzern und Profilen. Wird ein Teil eines Kompetenzprofils gelöscht, kann dies zur Erfüllung von Kompetenzprofilen für die zugewiesenen Personen führen. Die folgende Liste zählt auf, wie häufig das, was Sie löschen wollen, genutzt wird. Bitte prüfen Sie die Liste genau vor dem Löschen.
 skmg#:#skmg_description_info#:#Die Beschreibung stammt aus der Vorlage.
 skmg#:#skmg_edit_level#:#Ausprägung editieren
 skmg#:#skmg_edit_profile#:#Profil bearbeiten
@@ -15885,6 +15864,7 @@ style#:#sty_ca_cntr_class#:#Karussell - Container
 style#:#sty_ca_icntr_class#:#Karussell - Element-Container
 style#:#sty_ca_icont_class#:#Karussell - Inhalt Element
 style#:#sty_ca_ihead_class#:#Karussell - Kopfzeile Element
+style#:#sty_cannot_be_copied#:#Die folgenden Styletypen könne nicht kopiert werden
 style#:#sty_caption#:#Legende
 style#:#sty_caption_class#:#Legende
 style#:#sty_carousel_templates#:#Karussell Templates

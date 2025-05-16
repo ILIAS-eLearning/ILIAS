@@ -214,7 +214,9 @@ class ilNusoapUserAdministrationAdapter
             SERVICE_NAMESPACE . '#addCourse',
             SERVICE_STYLE,
             SERVICE_USE,
-            'ILIAS addCourse(). Course import. See ilias_course_0_1.dtd for details about course xml structure'
+            'ILIAS addCourse(). Course import. See ' .
+            'components/ILIAS/Export/xml/SchemaValidation/ilias_ws_crs_11_0.xsd ' .
+            'for details about course xml structure'
         );
 
         // deleteCourse()

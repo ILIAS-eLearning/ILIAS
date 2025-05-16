@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailAutoCompleteSearch
- */
 class ilMailAutoCompleteSearch
 {
     /** @var Iterator[] */

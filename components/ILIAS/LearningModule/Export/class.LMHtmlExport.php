@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\LearningModule\Export;
 
 use ILIAS\COPage\PageLinker;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 use ilFileUtils;
 use ILIAS\components\Export\HTML\Util;
 use ILIAS\components\Export\HTML\ExportCollector;
@@ -40,7 +41,7 @@ class LMHtmlExport
     protected \ilCOPageHTMLExport $co_page_html_export;
     protected string $export_format = "";
     protected \ilLMPresentationGUI $lm_gui;
-    protected \ilObjectTranslation $obj_transl;
+    protected Translations $obj_transl;
     protected string $lang = "";
     protected \ilSetting $lm_settings;
     protected array $offline_files = [];
@@ -79,7 +80,7 @@ class LMHtmlExport
 
         // get learning module presentation gui class
         $this->lm_gui = new \ilLMPresentationGUI($export_format, ($lang == "all"), $this->target_dir, false);
-        $this->obj_transl = \ilObjectTranslation::getInstance($lm->getId());
+        $this->obj_transl = $lm->getObjectProperties()->getPropertyTranslations();
 
         $this->lm_settings = new \ilSetting("lm");
 
@@ -138,7 +139,7 @@ class LMHtmlExport
 
             public function __construct(
                 string $lang,
-                \ilObjectTranslation $obj_transl
+                Translations $obj_transl
             ) {
                 $this->position = 0;
                 if ($lang != "all") {
@@ -193,7 +194,7 @@ class LMHtmlExport
         }
 
         if ($lang != "") {
-            if ($lang == $this->obj_transl->getMasterLanguage()) {
+            if ($lang == $this->obj_transl->getBaseLanguage()) {
                 $lm_gui->lang = "";
             } else {
                 $lm_gui->lang = $lang;

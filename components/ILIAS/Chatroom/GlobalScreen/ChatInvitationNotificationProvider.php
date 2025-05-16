@@ -29,8 +29,8 @@ use ILIAS\Notifications\ilNotificationOSDHandler;
 
 class ChatInvitationNotificationProvider extends AbstractNotificationProvider
 {
-    final public const MUTED_UNTIL_PREFERENCE_KEY = 'chatinv_nc_muted_until';
-    final public const NOTIFICATION_TYPE = 'chat_invitation';
+    final public const string MUTED_UNTIL_PREFERENCE_KEY = 'chatinv_nc_muted_until';
+    final public const string NOTIFICATION_TYPE = 'chat_invitation';
 
     public function getNotifications(): array
     {

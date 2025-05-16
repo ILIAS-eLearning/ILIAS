@@ -18,87 +18,69 @@
 
 declare(strict_types=1);
 
+use ILIAS\Data\ReferenceId;
+use ILIAS\StaticURL\Services;
+
 class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
 {
+    private ilObjectDefinition $obj_def;
+    private Services $static_url;
+
+    public function __construct(ilDclBaseRecordFieldModel $record_field)
+    {
+        parent::__construct($record_field);
+        global $DIC;
+
+        $this->obj_def = $DIC['objDefinition'];
+        $this->static_url = $DIC['static_url'];
+    }
+
     public function getHTML(bool $link = true, array $options = []): string
     {
-        $title = $this->getRecordField()->getValueForRepresentation();
-        if (!$title) {
+        $ref_id = (int) $this->getRecordField()->getValue();
+        if ($ref_id === 0) {
             return '';
         }
-        $field = $this->getRecordField()->getField();
 
-        if ($field->getProperty(ilDclBaseFieldModel::PROP_DISPLAY_COPY_LINK_ACTION_MENU)) {
-            $html = $this->getLinkHTML($title, true);
-        } else {
-            if ($field->getProperty(ilDclBaseFieldModel::PROP_ILIAS_REFERENCE_LINK)) {
-                $html = $this->getLinkHTML($title);
+        $object = ilObjectFactory::getInstanceByRefId($ref_id);
+        $html = $object->getTitle() . ' [' . $ref_id . ']';
+
+        $actions = [];
+        if (
+            $this->getField()->getProperty(ilDclBaseFieldModel::PROP_DISPLAY_COPY_LINK_ACTION_MENU)
+        ) {
+            if ($this->access->checkAccess('delete', '', $ref_id) && $this->obj_def->allowLink($object->getType())) {
+                $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'item_ref_id', $ref_id);
+                $actions[] = $this->factory->link()->standard(
+                    $this->lng->txt('link'),
+                    $this->ctrl->getLinkTargetByClass([ilRepositoryGUI::class, ilObjRootFolderGUI::class], 'link')
+                );
+            }
+            if ($this->access->checkAccess('copy', '', $ref_id) && $this->obj_def->allowCopy($object->getType())) {
+                $this->ctrl->setParameterByClass(ilObjectCopyGUI::class, 'source_id', $ref_id);
+                $actions[] = $this->factory->link()->standard(
+                    $this->lng->txt('copy'),
+                    $this->ctrl->getLinkTargetByClass(ilObjectCopyGUI::class, 'initTargetSelection')
+                );
+            }
+        }
+
+        if (
+            $this->getField()->getProperty(ilDclBaseFieldModel::PROP_ILIAS_REFERENCE_LINK) &&
+            $this->access->checkAccess('read', '', $ref_id)
+        ) {
+            $link = (string) $this->static_url->builder()->build($object->getType(), new ReferenceId($ref_id));
+            if ($actions === []) {
+                $html = $this->renderer->render($this->factory->link()->standard($html, $link));
             } else {
-                $html = $title;
+                $html = $this->renderer->render(
+                    $this->factory->dropdown()->standard(
+                        array_merge([$this->factory->link()->standard($this->lng->txt('view'), $link)], $actions)
+                    )->withLabel($html)
+                );
             }
         }
 
         return $html;
-    }
-
-    public function getSingleHTML(?array $options = null, bool $link = true): string
-    {
-        $value = $this->getRecordField()->getValue();
-        if (!$value) {
-            return '';
-        }
-        $id = ilObject::_lookupObjId($value);
-        $value = ilObject::_lookupTitle($id);
-        if ($this->getRecordField()->getField()->getProperty(ilDclBaseFieldModel::PROP_ILIAS_REFERENCE_LINK)) {
-            return $this->getLinkHTML($value);
-        }
-
-        return $value;
-    }
-
-    public function getLinkHTML(string $title, bool $show_action_menu = false): string
-    {
-        $link = ilLink::_getStaticLink($this->getRecordField()->getValue());
-        if ($show_action_menu) {
-            $field = $this->getRecordField()->getField();
-            $dropdown_items = [];
-            if ($field->getProperty(ilDclBaseFieldModel::PROP_ILIAS_REFERENCE_LINK)) {
-                $dropdown_items[] = $this->factory->link()->standard(
-                    $this->lng->txt('view'),
-                    $link
-                );
-            }
-            $dropdown_items[] = $this->factory->link()->standard(
-                $this->lng->txt('link'),
-                $this->getActionLink('link')
-            );
-            $dropdown_items[] = $this->factory->link()->standard(
-                $this->lng->txt('copy'),
-                $this->getActionLink('copy')
-            );
-            $dropdown = $this->factory->dropdown()->standard($dropdown_items)->withLabel($title);
-            return $this->renderer->render($dropdown);
-        } else {
-            return $this->renderer->render($this->factory->link()->standard($title, $link));
-        }
-    }
-
-    /**
-     * @param string $mode copy|link
-     */
-    protected function getActionLink(string $mode): string
-    {
-        switch ($mode) {
-            case 'copy':
-                $this->ctrl->setParameterByClass(ilObjectCopyGUI::class, 'item_ref_id', $this->getRecordField()->getValue());
-                $this->ctrl->setParameterByClass(ilObjRootFolderGUI::class, 'item_ref_id', $this->getRecordField()->getValue());
-                $this->ctrl->setParameterByClass(ilObjectCopyGUI::class, 'source_id', $this->getRecordField()->getValue());
-
-                return $this->ctrl->getLinkTargetByClass(ilObjectCopyGUI::class, 'initTargetSelection');
-            case 'link':
-                return $this->ctrl->getLinkTargetByClass([ilRepositoryGUI::class, ilObjRootFolderGUI::class], 'link');
-            default:
-                return '';
-        }
     }
 }

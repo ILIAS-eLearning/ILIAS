@@ -19,9 +19,7 @@
 declare(strict_types=1);
 
 /**
- * Booking definition
  * @author  Stefan Meyer <meyer@leifos.com>
- * @ingroup ServicesBooking
  */
 class ilWebResourceExporter extends ilXmlExporter
 {
@@ -51,7 +49,7 @@ class ilWebResourceExporter extends ilXmlExporter
         try {
             $this->writer = new ilWebLinkXmlWriter(false);
             $this->writer->setObjId((int) $a_id);
-            $this->writer->write(true);
+            $this->writer->write();
             return $this->writer->xmlDumpMem(false);
         } catch (UnexpectedValueException $e) {
             $this->logger->warning("Caught error: " . $e->getMessage());

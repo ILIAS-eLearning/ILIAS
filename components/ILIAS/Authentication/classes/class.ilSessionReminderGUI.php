@@ -20,47 +20,44 @@ declare(strict_types=1);
 
 class ilSessionReminderGUI
 {
-    private ilSessionReminder $sessionReminder;
-    private ilGlobalTemplateInterface $page;
-    private ilLanguage $lng;
-
     public function __construct(
-        ilSessionReminder $sessionReminder,
-        ilGlobalTemplateInterface $page,
-        ilLanguage $language
+        private readonly ilSessionReminder $session_reminder,
+        private readonly ilGlobalTemplateInterface $page,
+        private readonly ilLanguage $lng,
+        private readonly ilLoggerFactory $logger_factory
     ) {
-        $this->sessionReminder = $sessionReminder;
-        $this->page = $page;
-        $this->lng = $language;
     }
 
     public function populatePage(): void
     {
-        if (!$this->sessionReminder->isActive()) {
+        if (!$this->session_reminder->isActive()) {
             return;
         }
 
-        iljQueryUtil::initjQuery($this->page);
-
-        $this->page->addJavaScript('assets/js/session_reminder.js');
+        $this->page->addJavaScript('assets/js/SessionReminder.min.js');
 
         $url = './sessioncheck.php?client_id=' . CLIENT_ID . '&lang=' . $this->lng->getLangKey();
-        $devMode = defined('DEVMODE') && DEVMODE ? 1 : 0;
-        $clientId = defined('CLIENT_ID') ? CLIENT_ID : '';
-        $sessionId = session_id();
-        $sessionHash = md5($sessionId);
+        $client_id = defined('CLIENT_ID') ? CLIENT_ID : '';
+        $hash = hash(
+            'sha256',
+            implode('', [
+                session_id(),
+                $this->session_reminder->getUser()->getId(),
+                $this->session_reminder->getUser()->getCreateDate()
+            ])
+        );
+        $log_level = $this->logger_factory->getSettings()->getLevelByComponent('auth');
 
         $javascript = <<<JS
-(function($) {
-    $("body").ilSessionReminder({
-        url: "$url",
-        client_id: "$clientId",
-        hash: "$sessionHash",
-        frequency: 60,
-        debug: $devMode
-    });
-})(jQuery);
-JS;
+            il.SessionReminder.init({
+                url: "$url",
+                clientId: "$client_id",
+                hash: "$hash",
+                frequency: 60,
+                logLevel: $log_level
+            }, window, console);
+            il.SessionReminder.run();
+        JS;
 
         $this->page->addOnLoadCode($javascript);
     }

@@ -18,17 +18,12 @@
 
 declare(strict_types=1);
 
-/**
- *
- * @author Jan Posselt <jposselt@databay.de>
- * @ingroup ServicesMail
- */
 class ilMailFormAttachmentPropertyGUI extends ilFormPropertyGUI
 {
-    /** @var string[] */
+    /** @var list<string> */
     private array $items = [];
 
-    public function __construct(private readonly string $buttonLabel, string $http_post_param_name)
+    public function __construct(private readonly string $button_label, string $http_post_param_name)
     {
         parent::__construct('', $http_post_param_name);
         $this->setTitle($this->lng->txt('attachments'));
@@ -48,7 +43,7 @@ class ilMailFormAttachmentPropertyGUI extends ilFormPropertyGUI
             $tpl->setVariable('ATTACHMENT_LABEL', $item);
             $tpl->parseCurrentBlock();
         }
-        $tpl->setVariable('ATTACHMENT_BUTTON_LABEL', $this->buttonLabel);
+        $tpl->setVariable('ATTACHMENT_BUTTON_LABEL', $this->button_label);
 
         $a_tpl->setCurrentBlock('prop_generic');
         $a_tpl->setVariable('PROP_GENERIC', $tpl->get());

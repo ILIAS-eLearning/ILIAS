@@ -20,9 +20,6 @@ declare(strict_types=1);
 
 use ILIAS\ResourceStorage\Services as IRSS;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
 {
     public function testA(): void

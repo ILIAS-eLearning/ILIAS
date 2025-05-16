@@ -62,6 +62,7 @@ class InternalDomainService
         ?string $lang = null
     ): Page\PageManager {
         return new PageManager(
+            $this->DIC->database(),
             $this,
             $this->content_style_domain,
             $container,

@@ -17,27 +17,20 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
 /**
-* Class for storing search result. Allows paging of result sets
-*
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-*
-* @ilCtrl_Calls
-* @ingroup ServicesSearch
-*/
+ * Class for storing search result. Allows paging of result sets
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilUserSearchCache
 {
-    public const DEFAULT_SEARCH = 0;
-    public const ADVANCED_SEARCH = 1;
-    public const ADVANCED_MD_SEARCH = 4;
-    public const LUCENE_DEFAULT = 5;
-    public const LUCENE_ADVANCED = 6;
+    public const int DEFAULT_SEARCH = 0;
+    public const int LUCENE_DEFAULT = 5;
 
-    public const LAST_QUERY = 7;
+    public const int LAST_QUERY = 7;
 
-    public const LUCENE_USER_SEARCH = 8;
+    public const int LUCENE_USER_SEARCH = 8;
 
     private static ?ilUserSearchCache $instance = null;
     protected ilDBInterface $db;
@@ -127,7 +120,7 @@ class ilUserSearchCache
      * Set results
      *
      * @access public
-     * @param array(int => array(int,int,string)) array(ref_id => array(ref_id,obj_id,type))
+     * @param array $a_results (int => array(int,int,string)) array(ref_id => array(ref_id,obj_id,type))
      *
      */
     public function setResults(array $a_results): void
@@ -139,7 +132,7 @@ class ilUserSearchCache
      * Append result
      *
      * @access public
-     * @param array(int,int,string) array(ref_id,obj_id,type)
+     * @param array $a_result_item (int,int,string) array(ref_id,obj_id,type)
      *
      */
     public function addResult(array $a_result_item): bool
@@ -166,26 +159,11 @@ class ilUserSearchCache
         return in_array($a_ref_id, $this->failed);
     }
 
-    /**
-     * Append checked id
-     *
-     * @access public
-     * @param int checked reference id
-     * @param int checked obj_id
-     *
-     */
     public function appendToChecked(int $a_ref_id, int $a_obj_id): void
     {
         $this->checked[$a_ref_id] = $a_obj_id;
     }
 
-    /**
-     * Check if reference was already checked
-     *
-     * @access public
-     * @param int ref_id
-     *
-     */
     public function isChecked(int $a_ref_id): bool
     {
         return array_key_exists($a_ref_id, $this->checked) and $this->checked[$a_ref_id];
@@ -222,24 +200,13 @@ class ilUserSearchCache
         return $this->page_number ?: 1;
     }
 
-    /**
-     * set query
-     * @param mixed query string or array (for advanced search)
-     * @return void
-     */
-    public function setQuery($a_query): void
+    public function setQuery(string $a_query): void
     {
         $this->query = $a_query;
     }
 
-    /**
-     * @return string|array query string or array (for advanced search)
-     */
-    public function getQuery()
+    public function getQuery(): string
     {
-        if (is_array($this->query)) {
-            return $this->query;
-        }
         return $this->query ?? '';
     }
 
@@ -248,11 +215,6 @@ class ilUserSearchCache
      */
     public function getUrlEncodedQuery(): string
     {
-        if (is_array($this->getQuery())) {
-            $query = $this->getQuery();
-
-            return urlencode(str_replace('"', '.', $query['lom_content']));
-        }
         return urlencode(str_replace('"', '.', $this->getQuery()));
     }
 
@@ -264,10 +226,6 @@ class ilUserSearchCache
         $this->root = $a_root;
     }
 
-    /**
-     * get root node
-     * @return int
-     */
     public function getRoot(): int
     {
         return $this->root ?: ROOT_FOLDER_ID;
@@ -303,10 +261,6 @@ class ilUserSearchCache
         return $this->creation_filter;
     }
 
-
-    /**
-     * delete cached entries
-     */
     public function deleteCachedEntries(): void
     {
         if ($this->isAnonymous()) {
@@ -353,10 +307,6 @@ class ilUserSearchCache
         $this->failed = array();
     }
 
-    /**
-     * Delete cached entries for anonymous user
-     * @return bool
-     */
     public function deleteCachedEntriesAnonymous(): bool
     {
         $this->setResultPageNumber(1);
@@ -366,8 +316,6 @@ class ilUserSearchCache
 
         return true;
     }
-
-
 
     public function delete(): bool
     {
@@ -436,13 +384,6 @@ class ilUserSearchCache
         ilSession::set('usr_search_cache', $session_usr_search);
     }
 
-
-    /**
-     * Read user entries
-     *
-     * @access private
-     *
-     */
     private function read(): void
     {
         $this->failed = array();

@@ -99,7 +99,7 @@ div#minheight {
 
 /* see #27399 (should be finally tackled in PLR2) */
 div.ilContentFixed {
-	padding-bottom: 20px;
+	padding-bottom: 60px;
 }
 
 //please move to template/default/scss/modules/Test when created
@@ -246,7 +246,7 @@ div.ilFrame {
 	}
 }
 
-// used to be in Services/certificates 
+// used to be in Services/certificates
 
 .il-deck {
 	.il-card {

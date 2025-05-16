@@ -28,8 +28,8 @@ use ILIAS\Refinery\Factory as Refinery;
 */
 class ilContactGUI
 {
-    final public const CONTACTS_VIEW_GALLERY = 'buddy_view_gallery';
-    final public const CONTACTS_VIEW_TABLE = 'buddy_view_table';
+    final public const string CONTACTS_VIEW_GALLERY = 'buddy_view_gallery';
+    final public const string CONTACTS_VIEW_TABLE = 'buddy_view_table';
 
     private readonly \ILIAS\HTTP\GlobalHttpState $http;
     protected ilGlobalTemplateInterface $tpl;

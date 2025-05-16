@@ -50,7 +50,7 @@ class ilMultilingualism
         $this->setType($a_type);
 
         if ($this->getObjId() <= 0) {
-            throw new ilObjectException("ilObjectTranslation: No object ID passed.");
+            throw new ilObjectException("Translation: No object ID passed.");
         }
 
         $this->read();

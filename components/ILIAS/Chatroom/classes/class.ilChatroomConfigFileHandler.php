@@ -27,9 +27,9 @@ declare(strict_types=1);
  */
 class ilChatroomConfigFileHandler
 {
-    private const CHATROOM_DATA_DIR = '/chatroom/';
-    private const CHATROOM_CLIENT_CONFIG_FILENAME = 'client.cfg';
-    private const CHATROOM_SERVER_CONFIG_FILENAME = 'server.cfg';
+    private const string CHATROOM_DATA_DIR = '/chatroom/';
+    private const string CHATROOM_CLIENT_CONFIG_FILENAME = 'client.cfg';
+    private const string CHATROOM_SERVER_CONFIG_FILENAME = 'server.cfg';
 
     /**
      * Creates a client config file and saves it to the chatroom data directory

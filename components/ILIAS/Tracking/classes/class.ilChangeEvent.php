@@ -532,39 +532,16 @@ class ilChangeEvent
      * @param $usr_id    int The user.
      * @param $timestamp string|null timestamp.
      * @return void
+     *
+     * This method was only used to write to catch_write_events,
+     * but the methods reading out that table are not used anywhere.
+     * @deprecated, will be removed with ILIAS 11
      */
     public static function _catchupWriteEvents(
         int $obj_id,
         int $usr_id,
         ?string $timestamp = null
     ): void {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $query = "SELECT obj_id FROM catch_write_events " .
-            "WHERE obj_id = " . $ilDB->quote($obj_id, 'integer') . " " .
-            "AND usr_id  = " . $ilDB->quote($usr_id, 'integer');
-        $res = $ilDB->query($query);
-        if ($res->numRows()) {
-            $ts = ($timestamp == null)
-                ? ilUtil::now()
-                : $timestamp;
-        } else {
-            $ts = ilUtil::now();
-        }
-
-        // alex, use replace due to bug #10406
-        $ilDB->replace(
-            "catch_write_events",
-            array(
-                "obj_id" => array("integer", $obj_id),
-                "usr_id" => array("integer", $usr_id)
-            ),
-            array(
-                "ts" => array("timestamp", $ts)
-            )
-        );
     }
 
     /**
@@ -573,52 +550,16 @@ class ilChangeEvent
      * @param $obj_id int The object
      * @param $usr_id int The user who is interested into these events.
      * @return array with rows from table write_event
+     *
+     * This method is unused, so the table it read from was
+     * removed for performance reasons.
+     * @deprecated, will be removed with ILIAS 11
      */
     public static function _lookupUncaughtWriteEvents(
         int $obj_id,
         int $usr_id
     ): array {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        $q = "SELECT ts " .
-            "FROM catch_write_events " .
-            "WHERE obj_id=" . $ilDB->quote($obj_id, 'integer') . " " .
-            "AND usr_id=" . $ilDB->quote($usr_id, 'integer');
-        $r = $ilDB->query($q);
-        $catchup = null;
-        while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
-            $catchup = $row['ts'];
-        }
-
-        if ($catchup == null) {
-            $query = sprintf(
-                'SELECT * FROM write_event ' .
-                'WHERE obj_id = %s ' .
-                'AND usr_id <> %s ' .
-                'ORDER BY ts DESC',
-                $ilDB->quote($obj_id, 'integer'),
-                $ilDB->quote($usr_id, 'integer')
-            );
-            $res = $ilDB->query($query);
-        } else {
-            $query = sprintf(
-                'SELECT * FROM write_event ' .
-                'WHERE obj_id = %s ' .
-                'AND usr_id <> %s ' .
-                'AND ts >= %s ' .
-                'ORDER BY ts DESC',
-                $ilDB->quote($obj_id, 'integer'),
-                $ilDB->quote($usr_id, 'integer'),
-                $ilDB->quote($catchup, 'timestamp')
-            );
-            $res = $ilDB->query($query);
-        }
-        $events = array();
-        while ($row = $ilDB->fetchAssoc($res)) {
-            $events[] = $row;
-        }
-        return $events;
+        return [];
     }
 
     /**
@@ -629,56 +570,14 @@ class ilChangeEvent
      * @return int 0 = object is unchanged,
      *                1 = object is new,
      *                2 = object has changed
+     *
+     * This method is unused, so the table it read from was
+     * removed for performance reasons.
+     * @deprecated, will be removed with ILIAS 11
      */
     public static function _lookupChangeState(int $obj_id, int $usr_id): int
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $q = "SELECT ts " .
-            "FROM catch_write_events " .
-            "WHERE obj_id=" . $ilDB->quote($obj_id, 'integer') . " " .
-            "AND usr_id=" . $ilDB->quote($usr_id, 'integer');
-        $r = $ilDB->query($q);
-        $catchup = null;
-        while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
-            $catchup = $row['ts'];
-        }
-
-        if ($catchup == null) {
-            $ilDB->setLimit(1);
-            $query = sprintf(
-                'SELECT * FROM write_event ' .
-                'WHERE obj_id = %s ' .
-                'AND usr_id <> %s ',
-                $ilDB->quote($obj_id, 'integer'),
-                $ilDB->quote($usr_id, 'integer')
-            );
-            $res = $ilDB->query($query);
-        } else {
-            $ilDB->setLimit(1);
-            $query = sprintf(
-                'SELECT * FROM write_event ' .
-                'WHERE obj_id = %s ' .
-                'AND usr_id <> %s ' .
-                'AND ts > %s ',
-                $ilDB->quote($obj_id, 'integer'),
-                $ilDB->quote($usr_id, 'integer'),
-                $ilDB->quote($catchup, 'timestamp')
-            );
-            $res = $ilDB->query($query);
-        }
-
-        $numRows = $res->numRows();
-        if ($numRows > 0) {
-            $row = $ilDB->fetchAssoc($res);
-            // if we have write events, and user never catched one, report as new (1)
-            // if we have write events, and user catched an old write event, report as changed (2)
-            return ($catchup == null) ? 1 : 2;
-        } else {
-            return 0; // user catched all write events, report as unchanged (0)
-        }
+        return 0;
     }
 
     /**

@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRepository;
 
 /**
  * Handles StructureObjects of ILIAS Learning Modules (see ILIAS DTD)
@@ -185,11 +186,9 @@ class ilStructureObject extends ilLMObject
             $title = ilLMObject::_lookupTitle($a_st_id);
         }
 
-        // this is also optimized since ilObjectTranslation re-uses instances for one lm
-        $ot = ilObjectTranslation::getInstance($a_lm_id);
-        $languages = $ot->getLanguages();
+        $ot = (new TranslationsRepository($ilDB))->getFor($a_lm_id);
 
-        if ($a_lang != "-" && $ot->getContentActivated()) {
+        if ($a_lang != "-" && $ot->getContentTranslationActivated()) {
             $lmobjtrans = new ilLMObjTranslation($a_st_id, $a_lang);
             $trans_title = "";
             if ($a_include_short) {
@@ -199,7 +198,7 @@ class ilStructureObject extends ilLMObject
                 $trans_title = $lmobjtrans->getTitle();
             }
             if ($trans_title == "") {
-                $lmobjtrans = new ilLMObjTranslation($a_st_id, $ot->getFallbackLanguage());
+                $lmobjtrans = new ilLMObjTranslation($a_st_id, $ot->getDefaultLanguage());
                 $trans_title = $lmobjtrans->getTitle();
             }
             if ($trans_title != "") {

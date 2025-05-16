@@ -41,8 +41,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI
     protected const int LINK_MOD_SET_LIST = 4;
     protected const int LINK_MOD_ASYNC = 6;
 
-    protected HTTPService $http;
-
     private int $view_mode = self::VIEW_MODE_VIEW;
 
     private ?ilPropertyFormGUI $form = null;
@@ -55,13 +53,14 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         int $id_type = self::REPOSITORY_NODE_ID,
         int $parent_node_id = 0
     ) {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         parent::__construct($id, $id_type, $parent_node_id);
 
         $this->lng->loadLanguageModule("webr");
-        $this->http = $DIC->http();
         $this->settings = $DIC->settings();
+        $DIC->resourceStorage();
     }
 
     protected function getWebLinkRepo(): ilWebLinkRepository
@@ -301,7 +300,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
 
         $obj_props = $this->object->getObjectProperties();
 
-        /** @var ilObjectPropertyTitleAndDescription $title_and_description */
+        /** @var ILIAS\ILIASObject\Properties\CoreProperties\TitleAndDescription $title_and_description */
         $title_and_description = $data['general']['title_and_description'] ?? null;
         if ($title_and_description !== null && $this->getWebLinkRepo()->doesListExist()) {
             $obj_props->storePropertyTitleAndDescription($title_and_description);

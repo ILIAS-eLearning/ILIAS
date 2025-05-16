@@ -18,25 +18,20 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailOnlyExternalAddressList
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilMailOnlyExternalAddressList implements ilMailAddressList
 {
-    /** @var callable */
-    protected $getUsrIdByLoginCallable;
+    /** @var callable(string): int */
+    protected $get_usr_id_by_login_callable;
 
     /**
-     * @param callable $getUsrIdByLoginCallable A callable which accepts a string as argument
-     *                                          and returns an integer >= 0
+     * @param callable(string): int $get_usr_id_by_login_callable A callable which accepts a string as argument and returns an integer >= 0
      */
     public function __construct(
         protected ilMailAddressList $origin,
-        protected string $installationHost,
-        callable $getUsrIdByLoginCallable
+        protected string $installation_host,
+        callable $get_usr_id_by_login_callable
     ) {
-        $this->getUsrIdByLoginCallable = $getUsrIdByLoginCallable;
+        $this->get_usr_id_by_login_callable = $get_usr_id_by_login_callable;
     }
 
     public function value(): array
@@ -44,12 +39,12 @@ class ilMailOnlyExternalAddressList implements ilMailAddressList
         $addresses = $this->origin->value();
 
         return array_filter($addresses, function (ilMailAddress $address): bool {
-            if (($this->getUsrIdByLoginCallable)((string) $address)) {
+            if (($this->get_usr_id_by_login_callable)((string) $address)) {
                 // Fixed mantis bug #5875
                 return false;
             }
 
-            if ($address->getHost() === $this->installationHost) {
+            if ($address->getHost() === $this->installation_host) {
                 return false;
             }
 

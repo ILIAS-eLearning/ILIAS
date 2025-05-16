@@ -36,8 +36,8 @@ class ForumThreadTableSessionStorage
     public const string KEY_THREAD_SORTATION = 'thread_sortation';
     public const string KEY_THREAD_PAGE = 'thread_page';
 
-    private WrapperFactory $http_wrapper;
-    private Factory $refinery;
+    private readonly WrapperFactory $http_wrapper;
+    private readonly Factory $refinery;
 
     public function __construct(
         private readonly int $forum_ref_id,

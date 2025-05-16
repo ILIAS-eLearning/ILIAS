@@ -23,6 +23,7 @@ namespace ILIAS\Tests\Refinery\KindlyTo\Transformation;
 use ILIAS\Refinery\KindlyTo\Transformation\StringTransformation;
 use PHPUnit\Framework\TestCase;
 use stdClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class StringTransformationTest extends TestCase
 {
@@ -33,12 +34,8 @@ class StringTransformationTest extends TestCase
         $this->transformation = new StringTransformation();
     }
 
-    /**
-     * @dataProvider StringTestDataProvider
-     * @param mixed $originVal
-     * @param string $expectedVal
-     */
-    public function testStringTransformation($originVal, string $expectedVal): void
+    #[DataProvider('StringTestDataProvider')]
+    public function testStringTransformation(mixed $originVal, string $expectedVal): void
     {
         $transformedValue = $this->transformation->transform($originVal);
         $this->assertIsString($transformedValue);

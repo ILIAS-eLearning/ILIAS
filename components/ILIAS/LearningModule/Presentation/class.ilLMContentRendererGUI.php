@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\ILIASObject\Properties\Translations\Translations;
+
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
@@ -52,13 +54,14 @@ class ilLMContentRendererGUI
     protected string $lang;
     protected ilLMPresentationLinker $linker;
     protected string $requested_frame;
-    protected ilObjectTranslation $ot;
+    protected Translations $ot;
     protected string $concrete_lang = "";
 
     public function __construct(
         ilLMPresentationService $service,
         ilLMPresentationGUI $parent_gui,
         ilLanguage $lng,
+        Translations $translation,
         ilCtrl $ctrl,
         ilAccessHandler $access,
         ilObjUser $user,
@@ -71,6 +74,7 @@ class ilLMContentRendererGUI
         $this->ctrl = $ctrl;
         $this->lm_tree = $service->getLMTree();
         $this->lang = $service->getPresentationStatus()->getLang();
+        $this->ot = $translation;
         $this->current_page = $service->getNavigationStatus()->getCurrentPage();
         $this->lm = $service->getLearningModule();
         $this->lm_set = $service->getSettings();
@@ -88,7 +92,6 @@ class ilLMContentRendererGUI
         $this->requested_focus_return = $service->getPresentationStatus()->getFocusReturn();
         $this->requested_frame = $service->getRequest()->getFrame();
         $this->navigation_status = $service->getNavigationStatus();
-        $this->ot = ilObjectTranslation::getInstance($this->lm->getId());
     }
 
     protected function initHelp(): void
@@ -290,8 +293,8 @@ class ilLMContentRendererGUI
         if ($this->lang != "-" && ilPageObject::_exists("lm", $a_id, $this->lang)) {
             $page_gui = new ilLMPageGUI($a_id, 0, false, $this->lang, $this->concrete_lang);
         } else {
-            if ($this->lang != "-" && ilPageObject::_exists("lm", $a_id, $this->ot->getFallbackLanguage())) {
-                $page_gui = new ilLMPageGUI($a_id, 0, false, $this->ot->getFallbackLanguage(), $this->concrete_lang);
+            if ($this->lang != "-" && ilPageObject::_exists("lm", $a_id, $this->ot->getDefaultLanguage())) {
+                $page_gui = new ilLMPageGUI($a_id, 0, false, $this->ot->getDefaultLanguage(), $this->concrete_lang);
             } else {
                 $page_gui = new ilLMPageGUI($a_id, 0, false, "", $this->concrete_lang);
             }

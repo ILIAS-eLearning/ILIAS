@@ -41,6 +41,7 @@ class ilWOPISettingsForm
 
     public function __construct(
         private Setting $settings,
+        private bool $write_access
     ) {
         global $DIC;
         $this->ui_factory = $DIC->ui()->factory();
@@ -62,37 +63,36 @@ class ilWOPISettingsForm
 
     private function getSection(): Section
     {
-        $wopi_activated = (bool) $this->settings->get("wopi_activated", '0');
         $wopi_discovery_url = $this->settings->get("wopi_discovery_url");
         $saving_interval_value = (int) $this->settings->get("saving_interval", '0');
         $saving_interval_value = $saving_interval_value === 0 ? null : $saving_interval_value;
 
-        $wopi_url = $this->ui_factory->input()->field()->text(
-            $this->lng->txt("wopi_url"),
-            $this->lng->txt("wopi_url_byline")
-            /*. $this->renderLink(
-                " ➜︎ Wikipedia",
-                "https://en.wikipedia.org/wiki/Web_Application_Open_Platform_Interface",
-                true
-            )*/
-        )->withAdditionalTransformation(
-            $this->refinery->custom()->transformation(fn($v) => $v === '' ? null : $v)
-        )->withAdditionalTransformation(
-            $this->refinery->custom()->constraint(function ($v): bool {
-                if ($v === null) {
-                    return false;
-                }
-                return (new Crawler())->validate(new URI($v));
-            }, $this->lng->txt('msg_error_wopi_invalid_discorvery_url'))
-        )->withAdditionalTransformation(
-            $this->refinery->custom()->transformation(function ($v): true {
-                $this->settings->set("wopi_discovery_url", $v);
+        $wopi_url = $this->ui_factory
+            ->input()
+            ->field()
+            ->text(
+                $this->lng->txt("wopi_url"),
+                $this->lng->txt("wopi_url_byline")
+            )
+            ->withDisabled(!$this->write_access)
+            ->withAdditionalTransformation(
+                $this->refinery->custom()->transformation(fn($v) => $v === '' ? null : $v)
+            )->withAdditionalTransformation(
+                $this->refinery->custom()->constraint(function ($v): bool {
+                    if ($v === null) {
+                        return false;
+                    }
+                    return (new Crawler())->validate(new URI($v));
+                }, $this->lng->txt('msg_error_wopi_invalid_discorvery_url'))
+            )->withAdditionalTransformation(
+                $this->refinery->custom()->transformation(function ($v): true {
+                    $this->settings->set("wopi_discovery_url", $v);
 
-                return true;
-            })
-        )->withValue(
-            $wopi_discovery_url ?? ''
-        );
+                    return true;
+                })
+            )->withValue(
+                $wopi_discovery_url ?? ''
+            );
 
         $saving_interval = $this->ui_factory->input()->field()->optionalGroup(
             [
@@ -103,6 +103,7 @@ class ilWOPISettingsForm
                         $this->lng->txt("saving_interval"),
                         $this->lng->txt("saving_interval_byline")
                     )
+                    ->withDisabled(!$this->write_access)
                     ->withAdditionalTransformation(
                         $this->refinery->custom()->transformation(fn($v) => $v === '' ? null : $v)
                     )->withAdditionalTransformation(
@@ -132,30 +133,38 @@ class ilWOPISettingsForm
             })
         );
 
-        return $this->ui_factory->input()->field()->section(
-            [
-                $this->ui_factory->input()->field()->optionalGroup(
-                    [$wopi_url, $saving_interval],
-                    $this->lng->txt("activate_wopi")
-                )->withValue(
-                    $wopi_discovery_url === null ? null : [
-                        $wopi_discovery_url,
-                        $saving_interval_value === null ? null : [$saving_interval_value]
-                    ]
-                )->withAdditionalTransformation(
-                    $this->refinery->custom()->transformation(function ($v) {
-                        if ($v === null || $v === [null]) {
-                            $this->settings->set("wopi_activated", '0');
-                            $this->settings->delete("wopi_discovery_url");
-                        } else {
-                            $this->settings->set("wopi_activated", "1");
-                        }
-                        return $v;
-                    })
-                )
-            ],
-            $this->lng->txt("wopi_settings"),
-        );
+        return $this->ui_factory
+            ->input()
+            ->field()
+            ->section(
+                [
+                    $this->ui_factory
+                        ->input()
+                        ->field()
+                        ->optionalGroup(
+                            [$wopi_url, $saving_interval],
+                            $this->lng->txt("activate_wopi")
+                        )
+                        ->withDisabled(!$this->write_access)
+                        ->withValue(
+                            $wopi_discovery_url === null ? null : [
+                                $wopi_discovery_url,
+                                $saving_interval_value === null ? null : [$saving_interval_value]
+                            ]
+                        )->withAdditionalTransformation(
+                            $this->refinery->custom()->transformation(function ($v) {
+                                if ($v === null || $v === [null]) {
+                                    $this->settings->set("wopi_activated", '0');
+                                    $this->settings->delete("wopi_discovery_url");
+                                } else {
+                                    $this->settings->set("wopi_activated", "1");
+                                }
+                                return $v;
+                            })
+                        )
+                ],
+                $this->lng->txt("wopi_settings"),
+            );
     }
 
     public function proceed(RequestInterface $request): bool
@@ -168,14 +177,5 @@ class ilWOPISettingsForm
     public function getHTML(): string
     {
         return $this->ui_renderer->render($this->form);
-    }
-
-    private function renderLink(string $translation, string $url, bool $new_tab = true): string
-    {
-        $link = $this->ui_factory->link()->standard(
-            $translation,
-            $url
-        )->withOpenInNewViewport($new_tab);
-        return $this->ui_renderer->render($link);
     }
 }

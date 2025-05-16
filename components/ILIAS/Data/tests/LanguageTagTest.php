@@ -32,9 +32,7 @@ class LanguageTagTest extends TestCase
         $this->assertInstanceOf(LanguageTag::class, $tag);
     }
 
-    /**
-     * @dataProvider saveToRun
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('SaveToRun')]
     public function testParse(string $input, bool $isOk): void
     {
         if (!$isOk) {
@@ -44,9 +42,7 @@ class LanguageTagTest extends TestCase
         $this->assertInstanceOf(LanguageTag::class, $tag);
     }
 
-    /**
-     * @dataProvider risky
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('risky')]
     public function testRisky(string $input, bool $isOk): void
     {
         $this->testParse($input, $isOk);

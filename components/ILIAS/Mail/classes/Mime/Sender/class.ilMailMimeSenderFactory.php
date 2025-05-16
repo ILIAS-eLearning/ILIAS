@@ -18,49 +18,45 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailMimeSenderFactory
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilMailMimeSenderFactory
 {
-    /** @var ilMailMimeSender[] */
+    /** @var array<int, ilMailMimeSender> */
     protected array $senders = [];
-    protected int $anonymousUsrId = 0;
+    protected int $anonymous_usr_id = 0;
 
     public function __construct(
         protected ilSetting $settings,
         protected ilMustacheFactory $mustache_factory,
-        ?int $anonymousUsrId = null
+        ?int $anonymous_usr_id = null
     ) {
-        if (null === $anonymousUsrId && defined('ANONYMOUS_USER_ID')) {
-            $anonymousUsrId = ANONYMOUS_USER_ID;
+        if ($anonymous_usr_id === null && defined('ANONYMOUS_USER_ID')) {
+            $anonymous_usr_id = ANONYMOUS_USER_ID;
         }
-        if (null === $anonymousUsrId) {
+        if ($anonymous_usr_id === null) {
             throw new Exception();
         }
 
-        $this->anonymousUsrId = $anonymousUsrId;
+        $this->anonymous_usr_id = $anonymous_usr_id;
     }
 
-    protected function isSystemMail(int $usrId): bool
+    protected function isSystemMail(int $usr_id): bool
     {
-        return $usrId === $this->anonymousUsrId;
+        return $usr_id === $this->anonymous_usr_id;
     }
 
-    public function getSenderByUsrId(int $usrId): ilMailMimeSender
+    public function getSenderByUsrId(int $usr_id): ilMailMimeSender
     {
-        if (array_key_exists($usrId, $this->senders)) {
-            return $this->senders[$usrId];
+        if (array_key_exists($usr_id, $this->senders)) {
+            return $this->senders[$usr_id];
         }
 
-        if ($this->isSystemMail($usrId)) {
+        if ($this->isSystemMail($usr_id)) {
             $sender = $this->system();
         } else {
-            $sender = $this->user($usrId);
+            $sender = $this->user($usr_id);
         }
 
-        $this->senders[$usrId] = $sender;
+        $this->senders[$usr_id] = $sender;
 
         return $sender;
     }
@@ -70,13 +66,13 @@ class ilMailMimeSenderFactory
         return new ilMailMimeSenderSystem($this->settings);
     }
 
-    public function user(int $usrId): ilMailMimeSenderUser
+    public function user(int $usr_id): ilMailMimeSenderUser
     {
-        return new ilMailMimeSenderUserById($this->settings, $usrId, $this->mustache_factory);
+        return new ilMailMimeSenderUserById($this->settings, $usr_id, $this->mustache_factory);
     }
 
-    public function userByEmailAddress(string $emailAddress): ilMailMimeSenderUser
+    public function userByEmailAddress(string $email_address): ilMailMimeSenderUser
     {
-        return new ilMailMimeSenderUserByEmailAddress($this->settings, $emailAddress, $this->mustache_factory);
+        return new ilMailMimeSenderUserByEmailAddress($this->settings, $email_address, $this->mustache_factory);
     }
 }

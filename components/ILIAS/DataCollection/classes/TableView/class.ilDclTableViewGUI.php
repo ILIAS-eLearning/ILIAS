@@ -191,55 +191,6 @@ class ilDclTableViewGUI
     }
 
     /**
-     * Confirm deletion of multiple fields
-     */
-    public function confirmDeleteTableviews(): void
-    {
-        //at least one view must exist
-        $has_dcl_tableview_ids = $this->http->wrapper()->post()->has('dcl_tableview_ids');
-        if (!$has_dcl_tableview_ids) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_delete_views_no_selection'), true);
-            $this->ctrl->redirect($this, 'show');
-        }
-
-        $tableviews = $this->http->wrapper()->post()->retrieve(
-            'dcl_tableview_ids',
-            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
-        );
-        $this->checkViewsLeft(count($tableviews));
-
-        $this->tabs->clearSubTabs();
-        $conf = new ilConfirmationGUI();
-        $conf->setFormAction($this->ctrl->getFormAction($this));
-        $conf->setHeaderText($this->lng->txt('dcl_tableviews_confirm_delete'));
-
-        foreach ($tableviews as $tableview_id) {
-            $conf->addItem('dcl_tableview_ids[]', (string) $tableview_id, ilDclTableView::find($tableview_id)->getTitle());
-        }
-        $conf->setConfirm($this->lng->txt('delete'), 'deleteTableviews');
-        $conf->setCancel($this->lng->txt('cancel'), 'show');
-        $this->tpl->setContent($conf->getHTML());
-    }
-
-    protected function deleteTableviews(): void
-    {
-        $has_dcl_tableview_ids = $this->http->wrapper()->post()->has('dcl_tableview_ids');
-        if ($has_dcl_tableview_ids) {
-            $tableviews = $this->http->wrapper()->post()->retrieve(
-                'dcl_tableview_ids',
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
-            );
-            foreach ($tableviews as $tableview_id) {
-                ilDclTableView::find($tableview_id)->delete();
-            }
-        }
-
-        $this->table->sortTableViews();
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_tableviews_deleted'), true);
-        $this->ctrl->redirect($this, 'show');
-    }
-
-    /**
      * redirects if there are no tableviews left after deletion of {$delete_count} tableviews
      * @param $delete_count number of tableviews to delete
      */

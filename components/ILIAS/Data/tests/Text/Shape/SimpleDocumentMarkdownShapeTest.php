@@ -68,9 +68,7 @@ class SimpleDocumentMarkdownShapeTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider constructDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('constructDataProvider')]
     public function testGetSupportedStructure(
         Structure $dp_bold,
         Structure $dp_italic,
@@ -109,9 +107,7 @@ class SimpleDocumentMarkdownShapeTest extends TestCase
         $this->assertEquals($expected, $supported_structure);
     }
 
-    /**
-     * @dataProvider stringComplianceDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('stringComplianceDataProvider')]
     public function testIsRawStringCompliant(string $markdown_string, bool $compliance): void
     {
         $this->assertEquals($this->simple_doc_markdown_shape->isRawStringCompliant($markdown_string), $compliance);

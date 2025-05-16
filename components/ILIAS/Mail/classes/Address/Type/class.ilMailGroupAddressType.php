@@ -18,46 +18,42 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailGroupAddressType
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilMailGroupAddressType extends ilBaseMailAddressType
 {
-    protected function isValid(int $senderId): bool
+    protected function isValid(int $sender_id): bool
     {
-        return $this->typeHelper->doesGroupNameExists(substr($this->address->getMailbox(), 1));
+        return $this->type_helper->doesGroupNameExists(substr($this->address->getMailbox(), 1));
     }
 
     public function resolve(): array
     {
-        $usrIds = [];
+        $usr_ids = [];
 
-        $possibleGroupTitle = substr($this->address->getMailbox(), 1);
-        $possibleGroupObjId = $this->typeHelper->getGroupObjIdByTitle($possibleGroupTitle);
+        $possible_grp_title = substr($this->address->getMailbox(), 1);
+        $possible_grp_obj_id = $this->type_helper->getGroupObjIdByTitle($possible_grp_title);
 
         $group = null;
-        foreach ($this->typeHelper->getAllRefIdsForObjId($possibleGroupObjId) as $refId) {
-            $group = $this->typeHelper->getInstanceByRefId($refId);
+        foreach ($this->type_helper->getAllRefIdsForObjId($possible_grp_obj_id) as $ref_id) {
+            $group = $this->type_helper->getInstanceByRefId($ref_id);
             break;
         }
 
         if ($group instanceof ilObjGroup) {
-            $usrIds = $group->getGroupMemberIds();
+            $usr_ids = $group->getGroupMemberIds();
 
             $this->logger->debug(sprintf(
                 "Found the following group member user ids for address (object title) '%s' and obj_id %s: %s",
-                $possibleGroupTitle,
-                $possibleGroupObjId,
-                implode(', ', array_unique($usrIds))
+                $possible_grp_title,
+                $possible_grp_obj_id,
+                implode(', ', array_unique($usr_ids))
             ));
         } else {
             $this->logger->debug(sprintf(
                 "Did not find any group object for address (object title) '%s'",
-                $possibleGroupTitle
+                $possible_grp_title
             ));
         }
 
-        return array_unique($usrIds);
+        return array_unique($usr_ids);
     }
 }

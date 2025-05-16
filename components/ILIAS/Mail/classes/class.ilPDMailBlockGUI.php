@@ -23,8 +23,6 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Item\Item;
 
 /**
- * BlockGUI class for Personal Desktop Mail block
- * @author			Alex Killing <alex.killing@gmx.de>
  * @ilCtrl_IsCalledBy ilPDMailBlockGUI: ilColumnGUI
  */
 class ilPDMailBlockGUI extends ilBlockGUI
@@ -33,7 +31,6 @@ class ilPDMailBlockGUI extends ilBlockGUI
 
     private readonly GlobalHttpState $http;
     private readonly Refinery $refinery;
-    private int $requestMailObjId = 0;
     protected ilRbacSystem $rbacsystem;
     protected ilSetting $setting;
     /** @var string[] */
@@ -152,7 +149,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
             $avatar = $this->ui->factory()
                 ->symbol()
                 ->avatar()
-                ->picture(ilUtil::getImagePath('logo/HeaderIconAvatar.svg'), ilMail::_getIliasMailerName());
+                ->picture(ilUtil::getImagePath('logo/ilias_logo_centered.png'), ilMail::_getIliasMailerName());
             $public_name_long = ilMail::_getIliasMailerName();
         } else {
             $public_name_long = trim(($data['import_name'] ?? '') . ' (' . $this->lng->txt('user_deleted') . ')');

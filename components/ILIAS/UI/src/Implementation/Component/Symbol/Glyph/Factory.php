@@ -313,4 +313,14 @@ class Factory implements G\Factory
     {
         return new Glyph(G\Glyph::DRAG_HANDLE, "drag_handle", $action);
     }
+
+    public function checked(): G\Glyph
+    {
+        return new Glyph(G\Glyph::CHECKED, "checked");
+    }
+
+    public function unchecked(): G\Glyph
+    {
+        return new Glyph(G\Glyph::UNCHECKED, "unchecked");
+    }
 }

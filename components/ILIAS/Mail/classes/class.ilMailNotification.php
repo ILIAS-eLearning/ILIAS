@@ -18,14 +18,9 @@
 
 declare(strict_types=1);
 
-/**
- * Base class for course/group mail notifications
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @ingroup ServicesMembership
- */
 abstract class ilMailNotification
 {
-    final public const SUBJECT_TITLE_LENGTH = 60;
+    final public const int SUBJECT_TITLE_LENGTH = 60;
 
     protected int $type;
     protected int $sender;
@@ -280,7 +275,7 @@ abstract class ilMailNotification
             ($name['lastname'] ? $name['lastname'] . ' ' : '');
     }
 
-    protected function isRefIdAccessible(int $a_user_id, int $a_ref_id, string $a_permission = "read"): bool
+    protected function isRefIdAccessible(int $a_user_id, int $a_ref_id, string $a_permission = 'read'): bool
     {
         global $DIC;
 
@@ -291,7 +286,7 @@ abstract class ilMailNotification
                 !$DIC->access()->checkAccessOfUser(
                     $a_user_id,
                     $a_permission,
-                    "",
+                    '',
                     $a_ref_id,
                     $this->getObjType()
                 )) {
@@ -303,7 +298,7 @@ abstract class ilMailNotification
                 $this->wsp_tree,
                 $a_user_id,
                 $a_permission,
-                "",
+                '',
                 $a_ref_id,
                 $this->getObjType()
             )

@@ -28,6 +28,8 @@ use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\FileUpload\Location;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\Repository\IRSS\IRSSWrapper;
+use ILIAS\Filesystem\Stream\ZIPStream;
+use ILIAS\Filesystem\Stream\FileStream;
 
 class ImageFileRepo
 {
@@ -120,6 +122,28 @@ class ImageFileRepo
         }
     }
 
+    public function getImageStream(
+        string $rid,
+        string $image
+    ): ZIPStream {
+        return $this->irss->getStreamOfContainerEntry(
+            $rid,
+            "images/" . $image
+        );
+    }
+
+    public function addStream(
+        string $rid,
+        string $image,
+        FileStream $stream
+    ): void {
+        $this->irss->addStreamToContainer(
+            $rid,
+            $stream,
+            "images/" . $image
+        );
+    }
+
     // get full web path for relative file path
     public function getWebPath(string $path): string
     {
@@ -130,10 +154,10 @@ class ImageFileRepo
     }
 
     // get image data object by filename
-    public function getByFilename(int $style_id, string $filename): ?Image
+    public function getByFilename(int $style_id, string $rid, string $filename): ?Image
     {
         /** @var Image $i */
-        foreach ($this->getImages($style_id) as $i) {
+        foreach ($this->getImages($style_id, $rid) as $i) {
             if ($i->getFilename() == $filename) {
                 return $i;
             }

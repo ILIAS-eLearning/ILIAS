@@ -18,16 +18,12 @@
 
 declare(strict_types=1);
 
-/**
- * @author Nadia Ahmad
- * @version $Id$
- */
 class ilMailForm
 {
     /**
      * @return array{hasMoreResults: bool, items: array}
      */
-    public function getRecipientAsync(string $quotedTerm, string $term, bool $doRecipientSearch = true): array
+    public function getRecipientAsync(string $quoted_term, string $term, bool $do_recipient_search = true): array
     {
         global $DIC;
 
@@ -45,12 +41,12 @@ class ilMailForm
         $result = new ilMailAutoCompleteRecipientResult($mode);
 
         $search = new ilMailAutoCompleteSearch($result);
-        if ($doRecipientSearch) {
-            $search->addProvider(new ilMailAutoCompleteSentMailsRecipientsProvider($quotedTerm, $term));
+        if ($do_recipient_search) {
+            $search->addProvider(new ilMailAutoCompleteSentMailsRecipientsProvider($quoted_term, $term));
         }
-        $search->addProvider(new ilMailAutoCompleteBuddyRecipientsProvider($quotedTerm, $term));
+        $search->addProvider(new ilMailAutoCompleteBuddyRecipientsProvider($quoted_term, $term));
         if (ilSearchSettings::getInstance()->isLuceneUserSearchEnabled()) {
-            $search->addProvider(new ilMailAutoCompleteUserProvider($quotedTerm, $term));
+            $search->addProvider(new ilMailAutoCompleteUserProvider($quoted_term, $term));
         }
         $search->search();
 

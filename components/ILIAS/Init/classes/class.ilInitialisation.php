@@ -33,6 +33,7 @@ use ILIAS\Data\Result\Error;
 use ILIAS\Refinery\Transformation;
 use ILIAS\FileDelivery\Init;
 use ILIAS\LegalDocuments\Conductor;
+use ILIAS\ILIASObject\Properties\AdditionalProperties\Icon\Factory as CustomIconFactory;
 
 // needed for slow queries, etc.
 if (!isset($GLOBALS['ilGlobalStartTime']) || !$GLOBALS['ilGlobalStartTime']) {
@@ -263,7 +264,7 @@ class ilInitialisation
              * @var FilesystemFactory $delegatingFactory
              */
             $delegatingFactory = $c['filesystem.factory'];
-            $customizingConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/' . 'Customizing');
+            $customizingConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/public/' . 'Customizing');
             return $delegatingFactory->getLocal($customizingConfiguration);
         };
 
@@ -621,7 +622,7 @@ class ilInitialisation
 
     /**
      * set session handler to db
-     * Used in Soap/CAS
+     * Used in Soap
      */
     public static function setSessionHandler(): void
     {
@@ -744,7 +745,7 @@ class ilInitialisation
     protected static function initCustomObjectIcons(\ILIAS\DI\Container $c): void
     {
         $c["object.customicons.factory"] = function ($c) {
-            return new ilObjectCustomIconFactory(
+            return new CustomIconFactory(
                 $c->filesystem()->web(),
                 $c->upload(),
                 $c['ilObjDataCache']
@@ -1228,8 +1229,6 @@ class ilInitialisation
 
         self::handleErrorReporting();
 
-        // breaks CAS: must be included after CAS context isset in AuthUtils
-
         self::requireCommonIncludes();
         $GLOBALS["DIC"]["ilias.version"] = $GLOBALS["DIC"][\ILIAS\Data\Factory::class]->version(ILIAS_VERSION_NUMERIC);
 
@@ -1455,7 +1454,8 @@ class ilInitialisation
             self::goToLogin();
             return;
         }
-        if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME'])) {
+        if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME']) &&
+            $DIC->access()->checkAccessOfUser(ANONYMOUS_USER_ID, 'read', '', ROOT_FOLDER_ID)) {
             ilLoggerFactory::getLogger('init')->debug('Redirect to public section.');
             self::goToPublicSection();
             return;

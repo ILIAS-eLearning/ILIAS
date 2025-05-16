@@ -26,6 +26,7 @@ use ILIAS\Repository\Form\FormAdapterGUI;
 use ilLMObject;
 use ILIAS\LearningModule\Table\TableAdapterGUI;
 use ILIAS\UI\Component\Input\Container\Form\Standard;
+use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRepository;
 
 class EditSubObjectsGUI
 {
@@ -399,20 +400,20 @@ class EditSubObjectsGUI
     {
         $lng = $this->domain->lng();
         $this->gui->ctrl()->setParameterByClass(self::class, "edit_id", $id);
-        $ot = \ilObjectTranslation::getInstance($this->lm->getId());
+        $ot = (new TranslationsRepository($this->domain->database()))->getFor($this->lm->getId());
         $ml = "";
-        if ($ot->getContentActivated()) {
-            $ml = " (" . $lng->txt("meta_l_" . $ot->getMasterLanguage()) . ")";
+        if ($ot->getContentTranslationActivated()) {
+            $ml = " (" . $lng->txt("meta_l_" . $ot->getBaseLanguage()) . ")";
         }
 
         $form = $this
             ->gui
             ->form(self::class, "saveTitle")
             ->text("title", $lng->txt('title') . $ml, "", ilLMObject::_lookupTitle($id));
-        if ($ot->getContentActivated()) {
+        if ($ot->getContentTranslationActivated()) {
             foreach ($ot->getLanguages() as $lang) {
                 $code = $lang->getLanguageCode();
-                if ($code === $ot->getMasterLanguage()) {
+                if ($code === $ot->getBaseLanguage()) {
                     continue;
                 }
                 $lmobjtrans = new \ilLMObjTranslation($id, $code);
@@ -443,10 +444,10 @@ class EditSubObjectsGUI
             \ilLMObject::saveTitle($this->request->getEditId(), $form->getData("title"));
 
             $ot = \ilObjectTranslation::getInstance($this->lm->getId());
-            if ($ot->getContentActivated()) {
+            if ($ot->getContentTranslationActivated()) {
                 foreach ($ot->getLanguages() as $lang) {
                     $code = $lang->getLanguageCode();
-                    if ($code === $ot->getMasterLanguage()) {
+                    if ($code === $ot->getBaseLanguage()) {
                         continue;
                     }
                     \ilLMObject::saveTitle($this->request->getEditId(), $form->getData("title_" . $code), $code);

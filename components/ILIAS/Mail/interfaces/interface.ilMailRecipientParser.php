@@ -18,14 +18,10 @@
 
 declare(strict_types=1);
 
-/**
- * Interface ilMailRecipientParser
- * @author Michael Jansen <mjansen@databay.de>
- */
 interface ilMailRecipientParser
 {
     /**
-     * @return ilMailAddress[]
+     * @return list<ilMailAddress>
      */
     public function parse(): array;
 }

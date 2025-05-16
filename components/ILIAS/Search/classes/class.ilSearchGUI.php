@@ -22,18 +22,14 @@ use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 
 /**
-* Class ilSearchGUI
-*
-* GUI class for 'simple' search
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @ilCtrl_Calls ilSearchGUI: ilObjectGUI, ilContainerGUI
-* @ilCtrl_Calls ilSearchGUI: ilObjCategoryGUI, ilObjCourseGUI, ilObjFolderGUI, ilObjGroupGUI
-* @ilCtrl_Calls ilSearchGUI: ilObjStudyProgrammeGUI
-* @ilCtrl_Calls ilSearchGUI: ilObjRootFolderGUI, ilObjectCopyGUI
-*
-* @ingroup	ServicesSearch
-*/
+ * GUI class for 'simple' search
+ *
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ *
+ * @ilCtrl_Calls ilSearchGUI: ilObjectGUI, ilContainerGUI
+ * @ilCtrl_Calls ilSearchGUI: ilObjCategoryGUI, ilObjCourseGUI, ilObjFolderGUI, ilObjGroupGUI
+ * @ilCtrl_Calls ilSearchGUI: ilObjStudyProgrammeGUI
+ */
 class ilSearchGUI extends ilSearchBaseGUI
 {
     private array $details;
@@ -47,10 +43,6 @@ class ilSearchGUI extends ilSearchBaseGUI
     protected UIFactory $ui_factory;
     protected UIRenderer $ui_renderer;
 
-    /**
-    * Constructor
-    * @access public
-    */
     public function __construct()
     {
         global $DIC;
@@ -138,11 +130,6 @@ class ilSearchGUI extends ilSearchBaseGUI
         }
     }
 
-
-    /**
-    * Control
-    * @access public
-    */
     public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
@@ -167,9 +154,8 @@ class ilSearchGUI extends ilSearchBaseGUI
     }
 
     /**
-    * Set/get type of search (detail or 'fast' search)
-    * @access public
-    */
+     * Set/get type of search (detail or 'fast' search)
+     */
     public function setType(int $a_type): void
     {
         $session_search = ilSession::get('search');
@@ -181,10 +167,10 @@ class ilSearchGUI extends ilSearchBaseGUI
     {
         return $this->type ?? self::SEARCH_FAST;
     }
+
     /**
-    * Set/get combination of search ('and' or 'or')
-    * @access public
-    */
+     * Set/get combination of search ('and' or 'or')
+     */
     public function setCombination(string $a_combination): void
     {
         $session_search = ilSession::get('search') ?? [];
@@ -195,35 +181,33 @@ class ilSearchGUI extends ilSearchBaseGUI
     {
         return $this->combination ?: self::SEARCH_OR;
     }
-    /**
-    * Set/get search string
-    * @access public
-    */
+
     public function setString(string $a_str): void
     {
         $session_search = ilSession::get('search') ?? [];
         $session_search['string'] = $this->string = $a_str;
         ilSession::set('search', $session_search);
     }
+
     public function getString(): string
     {
         return $this->string;
     }
+
     /**
-    * Set/get details (object types for details search)
-    * @access public
-    */
+     * Set/get details (object types for details search)
+     */
     public function setDetails(array $a_details): void
     {
         $session_search = ilSession::get('search') ?? [];
         $session_search['details'] = $this->details = $a_details;
         ilSession::set('search', $session_search);
     }
+
     public function getDetails(): array
     {
         return $this->details ?? [];
     }
-
 
     public function getRootNode(): int
     {
@@ -234,7 +218,6 @@ class ilSearchGUI extends ilSearchBaseGUI
     {
         ilSession::set('search_root', $this->root_node = $a_node_id);
     }
-
 
     public function remoteSearch(): void
     {
@@ -258,8 +241,8 @@ class ilSearchGUI extends ilSearchBaseGUI
     }
 
     /**
-    * Data resource for autoComplete
-    */
+     * Data resource for autoComplete
+     */
     public function autoComplete(): void
     {
         $query = '';
@@ -350,9 +333,6 @@ class ilSearchGUI extends ilSearchBaseGUI
         $this->performSearch();
     }
 
-    /**
-     * Perform search
-     */
     public function performSearch(): void
     {
         $page_number = $this->initPageNumberFromQuery();
@@ -435,8 +415,6 @@ class ilSearchGUI extends ilSearchBaseGUI
         }
     }
 
-
-
     public function prepareOutput(): void
     {
         parent::prepareOutput();
@@ -448,14 +426,6 @@ class ilSearchGUI extends ilSearchBaseGUI
             $this->lng->txt("search"),
             $this->ctrl->getLinkTarget($this)
         );
-
-        if (!$this->settings->getHideAdvancedSearch()) {
-            $this->tabs_gui->addTab(
-                "adv_search",
-                $this->lng->txt("search_advanced"),
-                $this->ctrl->getLinkTargetByClass('iladvancedsearchgui')
-            );
-        }
 
         $this->tabs_gui->activateTab("search");
     }
@@ -547,10 +517,9 @@ class ilSearchGUI extends ilSearchBaseGUI
     }
 
     /**
-    * parse query string, using query parser instance
-     * @return ilQueryParser | string
+     * parse query string, using query parser instance
      */
-    public function __parseQueryString()
+    public function __parseQueryString(): ilQueryParser|string
     {
         $query_parser = new ilQueryParser(ilUtil::stripSlashes($this->getString()));
         $query_parser->setCombination($this->getCombination());
@@ -561,6 +530,7 @@ class ilSearchGUI extends ilSearchBaseGUI
         }
         return $query_parser;
     }
+
     /**
     * Search in obect title,desctiption
     */
@@ -607,10 +577,8 @@ class ilSearchGUI extends ilSearchBaseGUI
     }
 
     /**
-    * Search in object meta data (keyword)
-    * @return ilSearchResult result object
-    * @access public
-    */
+     * Search in object meta data (keyword)
+     */
     public function __searchMeta(ilQueryParser $query_parser, string $a_type): ilSearchResult
     {
         $meta_search = ilObjectSearchFactory::_getMetaDataSearchInstance($query_parser);
@@ -636,10 +604,11 @@ class ilSearchGUI extends ilSearchBaseGUI
         }
         return $meta_search->performSearch();
     }
+
     /**
-    * Get object type for filter (If detail search is enabled)
+     * Get object type for filter (If detail search is enabled)
      * @return string[]
-    */
+     */
     public function __getFilter(): array
     {
         if ($this->getType() != self::SEARCH_DETAILS) {

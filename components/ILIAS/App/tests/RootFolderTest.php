@@ -25,11 +25,9 @@ use PHPUnit\Framework\TestCase;
 final class RootFolderTest extends TestCase
 {
     private const array ALLOWED_ROOT_FOLDER_FILES = [
-        '.babelrc.json',
         '.eslintrc.json',
         '.gitignore',
         '.htaccess',
-        '.mocharc.json',
         '.phpunit.result.cache',
         'captainhook.local.json',
         'phpstan.local.neon',
@@ -60,7 +58,6 @@ final class RootFolderTest extends TestCase
         'artifacts',
         'cli',
         'components',
-        'Customizing',
         'docs',
         'extern',
         'lang',

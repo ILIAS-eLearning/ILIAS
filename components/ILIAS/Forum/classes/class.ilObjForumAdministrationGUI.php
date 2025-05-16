@@ -29,10 +29,10 @@ use ILIAS\Cron\Job\JobManager;
  */
 class ilObjForumAdministrationGUI extends ilObjectGUI
 {
-    private const PROP_SECTION_DEFAULTS = 'defaults';
-    private const PROP_SECTION_FEATURES = 'features';
-    private const PROP_SECTION_NOTIFICATIONS = 'notifications';
-    private const PROP_SECTION_DRAFTS = 'drafts';
+    private const string PROP_SECTION_DEFAULTS = 'defaults';
+    private const string PROP_SECTION_FEATURES = 'features';
+    private const string PROP_SECTION_NOTIFICATIONS = 'notifications';
+    private const string PROP_SECTION_DRAFTS = 'drafts';
 
     private readonly JobManager $cronManager;
     private readonly UIServices $ui;

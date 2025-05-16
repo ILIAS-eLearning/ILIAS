@@ -26,10 +26,10 @@ declare(strict_types=1);
  */
 class ilChatroomServerSettings
 {
-    private const DEFAULT_PORT = 8585;
-    private const DEFAULT_PROCOTOL = 'http://';
-    private const DEFAULT_HOST = '192.168.1.94';
-    final public const PREFIX = '/backend';
+    private const int DEFAULT_PORT = 8585;
+    private const string DEFAULT_PROCOTOL = 'http://';
+    private const string DEFAULT_HOST = '192.168.1.94';
+    final public const string PREFIX = '/backend';
 
     private int $port = self::DEFAULT_PORT;
     private string $protocol = self::DEFAULT_PROCOTOL;

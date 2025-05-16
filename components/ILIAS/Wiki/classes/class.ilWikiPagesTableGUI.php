@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\ILIASObject\Properties\Translations\Translations;
+
 const IL_WIKI_ALL_PAGES = "all";
 const IL_WIKI_NEW_PAGES = "new";
 const IL_WIKI_POPULAR_PAGES = "popular";
@@ -32,7 +34,7 @@ class ilWikiPagesTableGUI extends ilTable2GUI
     protected \ILIAS\Wiki\Links\LinkManager $link_manager;
     protected string $requested_lang;
     protected string $lang;
-    protected ilObjectTranslation $ot;
+    protected Translations $ot;
     protected \ILIAS\Wiki\Page\PageManager $pm;
     protected int $requested_ref_id;
     protected int $page_id = 0;
@@ -62,7 +64,7 @@ class ilWikiPagesTableGUI extends ilTable2GUI
         $this->requested_lang = $gui->request()->getTranslation();
         $this->pm = $domain->page()->page($this->requested_ref_id);
         $this->link_manager = $domain->links($this->requested_ref_id);
-        $this->ot = $domain->wiki()->translation($a_wiki_id);
+        $this->ot = $domain->wiki()->translation($this->requested_ref_id);
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->pg_list_mode = $a_mode;
@@ -137,14 +139,14 @@ class ilWikiPagesTableGUI extends ilTable2GUI
 
     protected function addLanguageColumn(): void
     {
-        if ($this->ot->getContentActivated()) {
+        if ($this->ot->getContentTranslationActivated()) {
             $this->addColumn($this->lng->txt("language"));
         }
     }
 
     protected function addTranslationsColumn(): void
     {
-        if ($this->ot->getContentActivated()) {
+        if ($this->ot->getContentTranslationActivated()) {
             $this->addColumn($this->lng->txt("wiki_translations"));
         }
     }
@@ -243,9 +245,9 @@ class ilWikiPagesTableGUI extends ilTable2GUI
         $ilCtrl = $this->ctrl;
 
         if ($this->pg_list_mode === IL_WIKI_NEW_PAGES) {
-            if ($this->ot->getContentActivated() && $this->pg_list_mode !== IL_WIKI_WHAT_LINKS_HERE) {
+            if ($this->ot->getContentTranslationActivated() && $this->pg_list_mode !== IL_WIKI_WHAT_LINKS_HERE) {
                 $l = $a_set["lang"] === "-"
-                    ? $this->ot->getMasterLanguage()
+                    ? $this->ot->getBaseLanguage()
                     : $a_set["lang"];
                 $this->tpl->setCurrentBlock("lang");
                 $this->tpl->setVariable("LANG", $this->lng->txt("meta_l_" . $l));
@@ -257,9 +259,9 @@ class ilWikiPagesTableGUI extends ilTable2GUI
                 ilDatePresentation::formatDate(new ilDateTime($a_set["created"], IL_CAL_DATETIME))
             );
         } elseif ($this->pg_list_mode === IL_WIKI_POPULAR_PAGES) {
-            if ($this->ot->getContentActivated()) {
+            if ($this->ot->getContentTranslationActivated()) {
                 $l = $a_set["lang"] === "-"
-                    ? $this->ot->getMasterLanguage()
+                    ? $this->ot->getBaseLanguage()
                     : $a_set["lang"];
                 $this->tpl->setCurrentBlock("lang");
                 $this->tpl->setVariable("LANG", $this->lng->txt("meta_l_" . $l));
@@ -273,7 +275,7 @@ class ilWikiPagesTableGUI extends ilTable2GUI
                 "DATE",
                 ilDatePresentation::formatDate(new ilDateTime($a_set["date"], IL_CAL_DATETIME))
             );
-            if ($this->ot->getContentActivated() && $this->pg_list_mode !== IL_WIKI_WHAT_LINKS_HERE) {
+            if ($this->ot->getContentTranslationActivated() && $this->pg_list_mode !== IL_WIKI_WHAT_LINKS_HERE) {
                 $this->tpl->setCurrentBlock("lang");
                 $this->tpl->setVariable("LANG", implode(", ", $this->pm->getLanguages($a_set["id"])));
                 $this->tpl->parseCurrentBlock();

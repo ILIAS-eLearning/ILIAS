@@ -38,7 +38,6 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
     protected AdministrationGUIRequest $admin_gui_request;
     protected ilErrorHandling $error;
     protected ilSetting $folder_settings;
-    protected GlobalHttpState $http;
     protected UIFactory $factory;
     protected UIRenderer $renderer;
     protected RefFactory $refinery;
@@ -56,7 +55,6 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->rbacsystem = $DIC->rbac()->system();
         $this->settings = $DIC->settings();
         $this->folder_settings = new ilSetting('fold');
-        $this->http = $DIC->http();
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->toolbar = $DIC->toolbar();

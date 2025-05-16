@@ -17,6 +17,7 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\DI\UIServices;
 use ILIAS\UI\Factory;
@@ -123,7 +124,6 @@ class ilObjSearchSettingsFormGUI
         if (!is_null($main_data['filter'])) {
             $settings->setLuceneItemFilter((array) $main_data['filter']);
         }
-        $settings->setHideAdvancedSearch((bool) $main_data['hide_adv_search']);
         $settings->enableDateFilter((bool) $main_data['cdate']);
         $settings->setAutoCompleteLength((int) $user_data['auto_complete_length']);
         $settings->showInactiveUser((bool) $user_data['inactive_user']);
@@ -222,11 +222,6 @@ class ilObjSearchSettingsFormGUI
             $this->lng->txt('search_cdate_filter_info')
         )->withValue($settings->isDateFilterEnabled());
 
-        // hide advanced search
-        $hide_adv = $field_factory->checkbox(
-            $this->lng->txt('search_hide_adv_search')
-        )->withValue($settings->getHideAdvancedSearch());
-
         // number of auto complete entries
         $options = [
             5 => 5,
@@ -262,7 +257,6 @@ class ilObjSearchSettingsFormGUI
                 'max_hits' => $hits,
                 'search_type' => $type,
                 'operator' => $operator,
-                'hide_adv_search' => $hide_adv,
                 'filter' => $item_filter,
                 'cdate' => $cdate
             ],

@@ -25,6 +25,7 @@ use ILIAS\Refinery\String\Group;
 use PHPUnit\Framework\TestCase;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Transformation;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class MarkdownFormattingToHTMLTest extends TestCase
 {
@@ -57,9 +58,7 @@ class MarkdownFormattingToHTMLTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider stringProvider
-     */
+    #[DataProvider('stringProvider')]
     public function testTransformationToHTML(
         string $markdown_string,
         string $expected_html,

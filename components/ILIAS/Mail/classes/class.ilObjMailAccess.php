@@ -18,10 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilObjMailAccess
- * @author Alex Killing <alex.killing@gmx.de>
- */
 class ilObjMailAccess extends ilObjectAccess
 {
     public static function _checkGoto(string $target): bool

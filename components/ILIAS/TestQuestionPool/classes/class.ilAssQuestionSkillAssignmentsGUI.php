@@ -487,7 +487,7 @@ class ilAssQuestionSkillAssignmentsGUI
 
         $parentObjId = assQuestion::lookupParentObjId($questionData['original_id']);
 
-        if (!$this->doesObjectTypeMatch($parentObjId)) {
+        if ($parentObjId === null || !$this->doesObjectTypeMatch($parentObjId)) {
             return false;
         }
 

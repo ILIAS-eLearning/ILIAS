@@ -107,7 +107,7 @@ function sendRequest (url, data, callback, user, password, headers) {
 	
 	if (r.content) {
 		if (r.content.indexOf("login.php")>-1) {
-			window.location.href = "./Modules/Scorm2004/templates/default/session_timeout.html";
+			window.location.href = "./components/ILIAS/Scorm2004/templates/default/session_timeout.html";
 		}
 	}
 	
@@ -247,7 +247,7 @@ function IliasLaunch(i_l){
 		b_launched=false;
 		setTimeout("API.IliasAbortSco("+iv.launchId+")",5000);
 		iv.launchId=i_l;
-		frames.sahs_content.document.location.replace('./Modules/ScormAicc/templates/default/dummy.html');
+		frames.sahs_content.document.location.replace('./components/ILIAS/ScormAicc/templates/default/dummy.html');
 	}
 	status4tree(iv.launchId,'running');
 }

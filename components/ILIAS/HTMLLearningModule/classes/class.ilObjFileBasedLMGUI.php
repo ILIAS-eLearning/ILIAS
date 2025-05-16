@@ -35,7 +35,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
     private const PARAM_PATH = "path";
     public const CMD_LIST_FILES = "listFiles";
     private \ILIAS\ResourceStorage\Services $irss;
-    private \ILIAS\HTTP\Services $http;
     protected \ILIAS\HTMLLearningModule\InternalGUIService $gui;
     protected StandardGUIRequest $lm_request;
     protected ilPropertyFormGUI $form;
@@ -61,7 +60,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         $this->access = $DIC->access();
         $this->toolbar = $DIC->toolbar();
         $this->help = $DIC["ilHelp"];
-        $this->http = $DIC->http();
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
 

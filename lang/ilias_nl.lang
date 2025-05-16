@@ -214,7 +214,7 @@ administration#:#language_former_file_equal#:#Het bestand <b>%s</b> is identiek 
 administration#:#language_former_file_missing#:#het bestand <b>%s</b> is niet aanwezig.
 administration#:#language_import_file#:#Taalbestand importeren
 administration#:#language_load_local_changes#:#Bestand met lokale taal in de database laden
-administration#:#language_load_local_changes_info#:#Laad het bestand Customizing/global/lang/ilias_%s_lang.local in de database. Nieuwe termen worden toegevoegd en bestaande termen worden overschreven.
+administration#:#language_load_local_changes_info#:#Laad het bestand lang/customizing/ilias_%s_lang.local in de database. Nieuwe termen worden toegevoegd en bestaande termen worden overschreven.
 administration#:#language_loaded_local#:#Het lokale taalbestand werd geladen in de database.
 administration#:#language_local_file_deleted#:#Het lokale taalbestand werd verwijderd.
 administration#:#language_maintain#:#Onderhoud
@@ -235,12 +235,12 @@ administration#:#language_mode_existing_replace_info#:#Importeer nieuwe termen e
 administration#:#language_note_translation#:#Vertaling per pagina wordt voor elke taal afzonderlijk ingeschakeld. Daarnaast heeft de gebruiker lees- en schrijfrechten nodig in de talen map.
 administration#:#language_process_maintenance#:#Beheer uitvoeren
 administration#:#language_remove_local_file#:#Verwijderen lokaal taalbestand
-administration#:#language_remove_local_file_info#:#Verwijder het bestand Customizing/global/lang/ilias_%s_lang.local en verander de taalstatus van "Geïnstalleerd met Lokaal" naar "Geïnstalleerd". De wijzigingen in de database blijven hetzelfde.
+administration#:#language_remove_local_file_info#:#Verwijder het bestand lang/customizing/ilias_%s_lang.local en verander de taalstatus van "Geïnstalleerd met Lokaal" naar "Geïnstalleerd". De wijzigingen in de database blijven hetzelfde.
 administration#:#language_save_dist#:#Backup the standard language file###25 10 2016 new variable
 administration#:#language_save_dist_failed#:#The backup of the standard ILIAS language file could not be written.###25 10 2016 new variable
 administration#:#language_save_dist_info#:#Create a backup of the standard ILIAS language file in the ILIAS data directory. This helps after an ILIAS update to find conflicst of own changes with updated language variables.###25 10 2016 new variable
 administration#:#language_save_local_changes#:#Alle wijzigingen van het lokale taalbestand opslaan.
-administration#:#language_save_local_changes_info#:#Opslaan van alle lokaal toegevoegde of gewijzigde taaltermen naar bestand Customizing/global/lang/ilias_%s_lang.local en zet status op "Geïnstalleerd met Lokaal". De web server moet schrijftoegang hebben tot deze folder. Let erop dat ditzelfde bestand wordt gebruikt voor alle clients van deze installatie.
+administration#:#language_save_local_changes_info#:#Opslaan van alle lokaal toegevoegde of gewijzigde taaltermen naar bestand lang/customizing/ilias_%s_lang.local en zet status op "Geïnstalleerd met Lokaal". De web server moet schrijftoegang hebben tot deze folder. Let erop dat ditzelfde bestand wordt gebruikt voor alle clients van deze installatie.
 administration#:#language_saved_dist#:#The backup of the standard ILIAS language file is created.###25 10 2016 new variable
 administration#:#language_scope_added#:#Alleen lokale versies
 administration#:#language_scope_added_info#:#Exporteer alle termen die lokaal zijn toegevoegd in de database. Dit kan worden gebruikt als backup voordat lokale wijzingen worden verwijderd vanaf tabblad "Onderhoud".
@@ -2075,8 +2075,6 @@ auth#:#auth_account_migration_new#:#Maak nieuw gebruikersaccount aan
 auth#:#auth_activation_code_success#:#Your account has been reactivated. You can now login to ILIAS.###07 02 2017 new variable
 auth#:#auth_allow_local_info#:#If enabled a local authentication against the ILIAS database is still possible (with a local login/password) for those user accounts, whose authentication mode is set to SAML.###31 08 2017 new variable
 auth#:#auth_auth_settings#:#Instellingen
-auth#:#auth_cas_ldap#:#Synchronizatie via LDAP
-auth#:#auth_cas_ldap_info#:#Als ingeschakeld wordt de synchronisatie van gebruikersaccounts gedaan via een bestaande LDAP configuratie.
 auth#:#auth_cron_destroy_expired_sessions#:#Deletion of Expired Sessions###26 08 2024 new variable
 auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessions.###26 08 2024 new variable
 auth#:#auth_err_expired#:#Your session has been deactivated due to inactivity.###25 10 2016 new variable
@@ -2179,8 +2177,6 @@ auth#:#auth_saml_user_mapping#:#User Profile Mapping###31 08 2017 new variable
 auth#:#auth_saml_username_claim#:#Arrtibue for Username###31 08 2017 new variable
 auth#:#auth_saml_username_claim_info#:#Define the attribute ILIAS uses to generate the username which will be visible in ILIAS.###31 08 2017 new variable
 auth#:#auth_sync#:#Gebruikers Synchronisatie
-auth#:#auth_sync_cas#:#Automatische aanmaken van gebruikersaccounts.
-auth#:#auth_sync_cas_info#:#Maakt automatisch gebruikersaccounts aan voor gebruikers zonder ILIAS accounts die zijn geauthenticeerd bij CAS.
 auth#:#destination_after_logout#:#Destination After Logout###28 10 2024 new variable
 auth#:#destination_external_ressource#:#Show External Ressource###28 10 2024 new variable
 auth#:#destination_external_ressource_url#:#External URL###28 10 2024 new variable
@@ -3598,13 +3594,6 @@ common#:#attachments#:#Bijlagen
 common#:#attempts#:#Pogingen
 common#:#auth_active_roles#:#Algemene rollen ingeschakeld voor registratie
 common#:#auth_allow_local#:#Sta lokale authenticatie toe
-common#:#auth_cas#:#CAS
-common#:#auth_cas_allow_local_desc#:#This allows CAS users to authenticate with their local ILIAS username and a local password.
-common#:#auth_cas_auth#:#Configure CAS Authentication
-common#:#auth_cas_auth_desc#:#Om CAS-authenticatie te laten werken, moet de serverinstelling prevent_super_global_replacement in client.ini.php ingesteld zijn.
-common#:#auth_cas_port_desc#:#E.g. 443 if the full CAS server URI is https://auth.yourserver.com:443/cas/
-common#:#auth_cas_server_desc#:#E.g. auth.yourserver.com if the full CAS server URI is https://auth.yourserver.com:443/cas/
-common#:#auth_cas_uri_desc#:#Local URI, e.g. cas if the full CAS server URI is https://auth.yourserver.com:443/cas/
 common#:#auth_configure#:#configureer...
 common#:#auth_create_users#:#Creëer automatisch gebruikers
 common#:#auth_default#:#Standaard instellingen
@@ -4060,7 +4049,6 @@ common#:#entry_status#:#Entry status###07 02 2020 new variable
 common#:#err_1_param#:#Slechts 1 parameter!
 common#:#err_2_param#:#Slechts 2 parameters!
 common#:#err_auth_apache_failed#:#De authenticatie is mislukt. Misschien heb je geen geldig gebruikers certificaat of is je smartcard niet geïnstalleerd..
-common#:#err_auth_cas_no_ilias_user#:#Login mislukt. CAS authenticatie gelukt, maar geen overeenkomstige ILIAS gebruiker gevonden. Gelieve de systeembeheerder te contacteren
 common#:#err_auth_ldap_no_ilias_user#:#Login mislukt. LDAP authenticatie gelukt, maar deze gebruiker bestaat niet in ILIAS. Gelieve de systeembeheerder te contacteren.
 common#:#err_auth_mode_inactive#:#Your authentication method is deactivated.
 common#:#err_auth_soap_no_ilias_user#:##Login mislukt. SOAP authenticatie succesvol, maar geen overeenkomstige ILIAS gebruiker gevonden. Gelieve de systeembeheerder te contacteren
@@ -4594,7 +4582,6 @@ common#:#login_information_desc#:#Geef de login informatie voor de respectieveli
 common#:#login_information_settings_saved#:#De aanmeldingsinformatie is opgeslagen.
 common#:#login_invalid#:#De gekozen gebruikersnaam is niet geldig! Alleen de volgende tekens zijn toegestaan (minimaal 4 tekens): A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_to_ilias#:#Aanmelden in ILIAS
-common#:#login_to_ilias_via_cas#:#Login to ILIAS via Central Authentication Service
 common#:#login_to_ilias_via_saml#:#Login to ILIAS via SAML Authentification###31 08 2017 new variable
 common#:#login_to_ilias_via_shibboleth#:#Login to ILIAS via Shibboleth
 common#:#loginname_already_exists#:#Deze gebruikersnaam is al in gebruik.
@@ -5904,7 +5891,7 @@ common#:#user_defined_list#:#Overzicht gebruikers-gedefinieerde velden
 common#:#user_deleted#:#Gebruiker gewist
 common#:#user_detail#:#Detail-gegevens
 common#:#user_ext_account#:#Externe Account
-common#:#user_ext_account_desc#:#Account gebruikt voor externe authenticatie. (CAS or SOAP authenticatie)
+common#:#user_ext_account_desc#:#Account gebruikt voor externe authenticatie. (SOAP authenticatie)
 common#:#user_image#:#Afbeelding gebruiker
 common#:#user_import_failed#:#Gebruikers import mislukt
 common#:#user_imported#:#Gebruikers import gereed
@@ -6756,7 +6743,6 @@ content#:#cont_localfile#:#Local File###06 02 2015 new variable
 content#:#cont_localization#:#Locatieaanpassing
 content#:#cont_localization_info#:#Taal die zal worden gebruikt voor voor-gedefinieerde teksten zoals "Volgende" en "Vorige".
 content#:#cont_location#:#Location
-content#:#cont_lpe_cas_login_form#:#CAS Login Form###10 11 2018 new variable
 content#:#cont_lpe_dpro_agreement_link#:#Declaration of Data Protection Link###26 08 2024 new variable
 content#:#cont_lpe_language_selection#:#Language Selection###10 11 2018 new variable
 content#:#cont_lpe_login_form#:#Login Form###10 11 2018 new variable
@@ -10737,7 +10723,7 @@ ldap#:#ldap_add_missing#:#Assign Missing Roles
 ldap#:#ldap_add_remove#:#Add/Remove Roles
 ldap#:#ldap_add_role_ass_rule#:#New Rule for Role Assignments
 ldap#:#ldap_as_ds#:#Use as Data Source
-ldap#:#ldap_as_ds_info#:#If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods (e.g. CAS).
+ldap#:#ldap_as_ds_info#:#If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods.
 ldap#:#ldap_assignment_type#:#Assignment Type
 ldap#:#ldap_authentication_settings#:#Authenticatie instellingen
 ldap#:#ldap_bind_anonymous#:#Anonieme band
@@ -13020,6 +13006,7 @@ obj#:#obj_activation#:#Activation###31 08 2017 new variable
 obj#:#obj_activation_list_gui#:#Beschikbaarheid
 obj#:#obj_add_languages#:#Toevoegen talen
 obj#:#obj_additional_langs#:#Extra talen
+obj#:#obj_base_lang#:#Master Taal
 obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?###26 08 2024 new variable
 obj#:#obj_cont_transl_deactivated#:#Vertaling voor pagina editor is uitgeschakeld.
 obj#:#obj_copy_progress#:#Copy Progress###30 08 2015 new variable
@@ -13032,7 +13019,6 @@ obj#:#obj_features#:#Functionaliteiten
 obj#:#obj_import_file_error#:#This file could not be imported. Please make sure that this is a valid ILIAS export file (XML Export), of the same object type. The filename must not be modified after export. Error Message:###23 12 2015 new variable
 obj#:#obj_insert_into_clipboard#:#Voer in in klembord.
 obj#:#obj_inserted_clipboard#:#Objecten zijn verplaats naar klembord.
-obj#:#obj_master_lang#:#Master Taal
 obj#:#obj_more_translations#:#More Translations###10 11 2018 new variable
 obj#:#obj_multilang_deactivated#:#Meertaligheid is uitgeschakeld
 obj#:#obj_multilang_title_descr_only#:#Vertaling is alleen ingeschakeld voor titel en beschrijving. Vertaling ondersteuning voor de pagina editor ("Tekst/Media wijzigen") vereist aparte inschakeling.
@@ -13041,7 +13027,7 @@ obj#:#obj_orgunit_positions#:#Access Control by Organisation Unit Positions###31
 obj#:#obj_orgunit_positions_info#:#If enabled, additional access control rules can be defined by positions in organisational units.###31 08 2017 new variable
 obj#:#obj_permission_settings#:#Permission Settings###30 08 2015 new variable
 obj#:#obj_presentation#:#Presentate
-obj#:#obj_select_master_lang#:#Selecteer de master taal. The huidige inhoud zal worden toegewezen aan de master-taal. De master-taal kan achteraf niet meer worden gewijzigd.
+obj#:#obj_select_base_lang#:#Selecteer de master taal. The huidige inhoud zal worden toegewezen aan de master-taal. De master-taal kan achteraf niet meer worden gewijzigd.
 obj#:#obj_select_one_language#:#Please select one language###29 07 2022 new variable
 obj#:#obj_set_fallback_lang#:#Set default language###29 07 2022 new variable
 obj#:#obj_settings_for_all_members#:#Members will be notified automatically###31 08 2017 new variable
@@ -14607,6 +14593,7 @@ rbac#:#rbac_role_rights_copy_empty#:#Niets
 rbac#:#rbac_role_selection#:#Type rol
 rbac#:#rbac_role_title#:#Titel van rol
 rbac#:#rbac_select_copy_targets#:#Please select the target roles
+rbac#:#rbac_select_roles#:#Role Selection
 rbac#:#rbac_ud_global#:#Gebruikers-gedefinieerde globale rol
 rbac#:#rbac_ud_local#:#Gebruikers-gedefinieerde lokale rol
 rbac#:#rbac_ud_rolt#:#Gebruikers-gedefinieerd rolsjabloon

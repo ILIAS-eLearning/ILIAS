@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilFormFieldParserTest extends ilCertificateBaseTestCase
 {
     public function testA4(): void

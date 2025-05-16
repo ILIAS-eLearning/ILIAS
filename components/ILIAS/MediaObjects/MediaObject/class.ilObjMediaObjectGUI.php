@@ -1401,7 +1401,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             $tpl->setVariable("VAL_LOCATION", $med->getLocation());
             if ($med->getLocationType() == "LocalFile") {
 
-                $info = $media_manager->getInfoOfEntry($med->getMobId(), "/" . $med->getLocation());
+                try {
+                    $info = $media_manager->getInfoOfEntry($med->getMobId(), "/" . $med->getLocation());
+                } catch (Exception $e) {
+                }
 
                 $size = $info["size"] ?? 0;
                 $tpl->setVariable("VAL_FILE_SIZE", " ($size " . $lng->txt("bytes") . ")");

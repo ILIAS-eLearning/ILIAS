@@ -26,8 +26,8 @@ class ilForumAutoSaveAsyncDraftAction
         private readonly ilForumProperties $forumProperties,
         private readonly ilForumTopic $thread,
         private readonly ?ilForumPost $relatedPost,
-        private Closure $subjectFormatterCallable,
-        private int $relatedDraftId,
+        private readonly Closure $subjectFormatterCallable,
+        private readonly int $relatedDraftId,
         private readonly int $relatedForumId,
         private readonly string $action
     ) {

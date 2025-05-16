@@ -21,31 +21,27 @@ declare(strict_types=1);
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Filesystem\Stream\Streams;
 
-/**
- * Class ilManualPlaceholderInputGUI
- * @author Nadia Ahmad <nahmad@databay.de>
- */
 class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
 {
-    protected GlobalHttpState $httpState;
+    protected GlobalHttpState $http_state;
     /**
      * @var array<string, array{placeholder: string, title: string}>
      */
     protected array $placeholders = [];
-    protected string $rerenderUrl = '';
-    protected string $rerenderTriggerElementName = '';
-    protected string $instructionText = '';
-    protected string $adviseText = '';
+    protected string $rerender_url = '';
+    protected string $rerender_trigger_element_name = '';
+    protected string $instruction_text = '';
+    protected string $advise_text = '';
     protected ilGlobalTemplateInterface $tpl;
     /** @var mixed */
     protected $value;
 
-    public function __construct(string $label, string $http_post_param_name, protected string $dependencyElementId)
+    public function __construct(string $label, string $http_post_param_name, protected string $dependency_element_id)
     {
         global $DIC;
 
         $this->tpl = $DIC->ui()->mainTemplate();
-        $this->httpState = $DIC->http();
+        $this->http_state = $DIC->http();
 
         parent::__construct($label, $http_post_param_name);
 
@@ -54,38 +50,38 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
 
     public function getRerenderUrl(): ?string
     {
-        return $this->rerenderUrl;
+        return $this->rerender_url;
     }
 
     public function getRerenderTriggerElementName(): string
     {
-        return $this->rerenderTriggerElementName;
+        return $this->rerender_trigger_element_name;
     }
 
-    public function supportsRerenderSignal(string $elementId, string $url): void
+    public function supportsRerenderSignal(string $element_id, string $url): void
     {
-        $this->rerenderTriggerElementName = $elementId;
-        $this->rerenderUrl = $url;
+        $this->rerender_trigger_element_name = $element_id;
+        $this->rerender_url = $url;
     }
 
     public function getAdviseText(): string
     {
-        return $this->adviseText;
+        return $this->advise_text;
     }
 
-    public function setAdviseText(string $adviseText): void
+    public function setAdviseText(string $advise_text): void
     {
-        $this->adviseText = $adviseText;
+        $this->advise_text = $advise_text;
     }
 
     public function getInstructionText(): string
     {
-        return $this->instructionText;
+        return $this->instruction_text;
     }
 
-    public function setInstructionText(string $instructionText): void
+    public function setInstructionText(string $instruction_text): void
     {
-        $this->instructionText = $instructionText;
+        $this->instruction_text = $instruction_text;
     }
 
     public function addPlaceholder(string $placeholder, string $title): void
@@ -112,14 +108,14 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
             'components/ILIAS/Mail'
         );
         $subtpl->setVariable('TXT_USE_PLACEHOLDERS', $this->lng->txt('mail_nacc_use_placeholder'));
-        $subtpl->setVariable('DEPENDENCY_ELM_ID_OUTER', $this->dependencyElementId);
+        $subtpl->setVariable('DEPENDENCY_ELM_ID_OUTER', $this->dependency_element_id);
         if ($this->getAdviseText() !== '') {
             $subtpl->setVariable('TXT_PLACEHOLDERS_ADVISE', $this->getAdviseText());
         }
 
         foreach ($this->placeholders as $placeholder) {
             $subtpl->setCurrentBlock('man_placeholder');
-            $subtpl->setVariable('DEPENDENCY_ELM_ID', $this->dependencyElementId);
+            $subtpl->setVariable('DEPENDENCY_ELM_ID', $this->dependency_element_id);
             $subtpl->setVariable('PLACEHOLDER', '&lbrace;&lbrace;' . $placeholder['placeholder'] . '&rbrace;&rbrace;');
             $subtpl->setVariable('PLACEHOLDER_INTERACTION_INFO', sprintf(
                 $this->lng->txt('mail_hint_add_placeholder_x'),
@@ -131,18 +127,18 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
 
         if (!$ajax && $this->getRerenderTriggerElementName() && $this->getRerenderUrl()) {
             $subtpl->setVariable('RERENDER_URL', $this->getRerenderUrl());
-            $subtpl->setVariable('RERENDER_DEPENDENCY_ELM_ID_OUTER', $this->dependencyElementId);
+            $subtpl->setVariable('RERENDER_DEPENDENCY_ELM_ID_OUTER', $this->dependency_element_id);
             $subtpl->setVariable('RERENDER_TRIGGER_ELM_NAME', $this->getRerenderTriggerElementName());
         }
 
         if ($ajax) {
-            $this->httpState->saveResponse(
-                $this->httpState
+            $this->http_state->saveResponse(
+                $this->http_state
                     ->response()
                     ->withBody(Streams::ofString($subtpl->get()))
             );
-            $this->httpState->sendResponse();
-            $this->httpState->close();
+            $this->http_state->sendResponse();
+            $this->http_state->close();
         }
 
         return $subtpl->get();

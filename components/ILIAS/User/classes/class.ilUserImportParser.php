@@ -497,7 +497,6 @@ class ilUserImportParser extends ilSaxParser
                         case 'local':
                         case 'shibboleth':
                         case 'script':
-                        case 'cas':
                         case 'soap':
                         case 'openid':
                             // begin-patch auth_plugin
@@ -629,7 +628,6 @@ class ilUserImportParser extends ilSaxParser
                         case 'local':
                         case 'shibboleth':
                         case 'script':
-                        case 'cas':
                         case 'soap':
                         case 'openid':
                             // begin-patch auth_plugin

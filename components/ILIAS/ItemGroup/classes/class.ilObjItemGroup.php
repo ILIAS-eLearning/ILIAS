@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\ILIASObject\Properties\Translations\Language;
+
 /**
  * Class ilObjItemGroup
  * @author Alexander Killing <killing@leifos.de>
@@ -120,15 +122,17 @@ class ilObjItemGroup extends ilObject2
         $lng = $DIC->language();
 
         // add default translation
-        $obj_trans = ilObjectTranslation::getInstance($this->getId());
-        $obj_trans->addLanguage(
-            $lng->getDefaultLanguage(),
-            $this->getTitle(),
-            $this->getDescription(),
-            true,
-            true
+        $obj_trans = $this->getObjectProperties()->getPropertyTranslations();
+        $this->getObjectProperties()->storePropertyTranslations(
+            $obj_trans->withLanguage(
+                new Language(
+                    $lng->getDefaultLanguage(),
+                    $this->getTitle(),
+                    $this->getDescription(),
+                    true
+                )
+            )
         );
-        $obj_trans->save();
     }
 
     protected function doUpdate(): void
@@ -136,11 +140,11 @@ class ilObjItemGroup extends ilObject2
         if ($this->getId()) {
             $this->item_data_ar->update();
 
-            $trans = ilObjectTranslation::getInstance($this->getId());
-            ;
-            $trans->setDefaultTitle($this->getTitle());
-            $trans->setDefaultDescription($this->getLongDescription());
-            $trans->save();
+            $this->getObjectProperties()->storePropertyTranslations(
+                $this->getObjectProperties()->getPropertyTranslations()
+                    ->withDefaultTitle($this->getTitle())
+                    ->withDefaultDescription($this->getLongDescription())
+            );
         }
     }
 
@@ -161,15 +165,12 @@ class ilObjItemGroup extends ilObject2
 
 
         // translations
-        $ot = ilObjectTranslation::getInstance($this->getId());
-        $ot->copy($new_obj->getId());
-        $ot2 = ilObjectTranslation::getInstance($new_obj->getId());
-        $ot2->read();
-        if ($ot2->getDefaultTitle() !== "") {
-            $new_obj->setTitle($ot2->getDefaultTitle());
+        $ot = $this->getObjectProperties()->clonePropertyTranslations($new_obj->getId());
+        if ($ot->getDefaultTitle() !== "") {
+            $new_obj->setTitle($ot->getDefaultTitle());
         }
-        if ($ot2->getDefaultDescription() !== "") {
-            $new_obj->setDescription($ot2->getDefaultDescription());
+        if ($ot->getDefaultDescription() !== "") {
+            $new_obj->setDescription($ot->getDefaultDescription());
         }
 
         $new_obj->update();

@@ -23,6 +23,7 @@ namespace ILIAS\UI\Implementation\Component;
 use ILIAS\UI\Component\Signal;
 use InvalidArgumentException;
 use Closure;
+use ILIAS\UI\Component\Component;
 
 /**
  * Provides common functionality for component implementations.
@@ -239,4 +240,28 @@ trait ComponentHelper
             return "expected $expected, got $type";
         }
     }
+
+    public function reduceWith(\Closure $fn): mixed
+    {
+        $clone = clone $this;
+        $results = [];
+        foreach ($clone->getSubComponents() ?? [] as $component) {
+            $results[] = $component->reduceWith($fn);
+        }
+        return $fn($clone, $results);
+    }
+
+    /**
+     * Get all components that are contained within this component. Sub components
+     * could either be contained by construction (like a bulky button gets a glyph
+     * when it is created) or by internal composition (like a launcher uses a bulky
+     * button internally).
+     *
+     * Defaults to empty array, as many components do not contain any substructure.
+     */
+    protected function getSubComponents(): ?array
+    {
+        return null;
+    }
+
 }

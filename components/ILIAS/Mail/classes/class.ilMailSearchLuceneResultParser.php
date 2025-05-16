@@ -18,10 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * @author Michael Jansen <mjansen@databay.de>
- * @ingroup ServicesMail
- */
 class ilMailSearchLuceneResultParser
 {
     public function __construct(protected ilMailSearchResult $result, protected string $xml)

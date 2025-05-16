@@ -59,6 +59,12 @@ class ilBackgroundTasksConfigStoredObjective implements Objective
             $ini->addGroup("background_tasks");
         }
 
+        if ($this->config->getType() === \ilBackgroundTasksSetupConfig::TYPE_ASYNCHRONOUS) {
+            $io = $environment->getResource(Setup\Environment::RESOURCE_ADMIN_INTERACTION);
+            /** @var Setup\CLI\IOWrapper $io */
+            $io->inform('Asynchronous background tasks need SOAP administration to be enabled. Make sure to enable it in your configuarion.');
+        }
+
         $ini->setVariable("background_tasks", "concurrency", $this->config->getType());
         $ini->setVariable("background_tasks", "number_of_concurrent_tasks", $this->config->getMaxCurrentTasks());
 

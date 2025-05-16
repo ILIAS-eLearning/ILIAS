@@ -27,7 +27,7 @@ declare(strict_types=1);
  */
 class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 {
-    private const CHATROOM_README_PATH = '/components/ILIAS/Chatroom/README.md';
+    private const string CHATROOM_README_PATH = '/components/ILIAS/Chatroom/README.md';
 
     protected ilSetting $commonSettings;
 

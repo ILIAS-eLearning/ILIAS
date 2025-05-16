@@ -34,9 +34,7 @@ class orderTest extends TestCase
         return $order;
     }
 
-    /**
-     * @depends testFactory
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testFactory')]
     public function testValues(Order $order): void
     {
         $this->assertEquals(
@@ -45,9 +43,7 @@ class orderTest extends TestCase
         );
     }
 
-    /**
-     * @depends testFactory
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testFactory')]
     public function testAppend(Order $order): Order
     {
         $order = $order->append('sub2', Order::DESC);
@@ -61,9 +57,7 @@ class orderTest extends TestCase
         return $order;
     }
 
-    /**
-     * @depends testFactory
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testFactory')]
     public function testJoinOne(Order $order): void
     {
         $this->assertEquals(
@@ -77,9 +71,7 @@ class orderTest extends TestCase
         );
     }
 
-    /**
-     * @depends testAppend
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testAppend')]
     public function testJoinMore(Order $order): void
     {
         $this->assertEquals(
@@ -93,18 +85,14 @@ class orderTest extends TestCase
         );
     }
 
-    /**
-     * @depends testFactory
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testFactory')]
     public function testInvalidDirection(Order $order): void
     {
         $this->expectException(TypeError::class);
         $order = $order->append('sub3', -1);
     }
 
-    /**
-     * @depends testFactory
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testFactory')]
     public function testInvalidSubject(Order $order): void
     {
         $this->expectException(InvalidArgumentException::class);

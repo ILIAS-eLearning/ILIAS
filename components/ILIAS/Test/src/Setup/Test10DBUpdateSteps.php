@@ -450,4 +450,18 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
             $this->db->addIndex(DBRepository::TST_EXPORT_TABLE, ['object_id'], 'oid');
         }
     }
+
+    public function step_13(): void
+    {
+        $this->db->update(
+            'rbac_operations',
+            ['op_order' => [\ilDBConstants::T_INTEGER, 4100]],
+            ['operation' => [\ilDBConstants::T_TEXT, 'tst_history_read']]
+        );
+        $this->db->update(
+            'rbac_operations',
+            ['op_order' => [\ilDBConstants::T_INTEGER, 4200]],
+            ['operation' => [\ilDBConstants::T_TEXT, 'tst_results']]
+        );
+    }
 }

@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Component\Item\Item;
 use ILIAS\HTTP\Services;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
-use ILIAS\UI\Component\Item\Item;
 use ILIAS\components\WOPI\Discovery\Crawler;
 use ILIAS\Data\URI;
 use ILIAS\components\WOPI\Discovery\AppDBRepository;
@@ -113,7 +113,10 @@ class ilWOPIAdministrationGUI
             $info = $this->ui_renderer->render($listing);
         }
 
-        $form = new ilWOPISettingsForm($this->settings);
+        $form = new ilWOPISettingsForm(
+            $this->settings,
+            $this->access->checkAccess("write", "", $this->ref_id)
+        );
 
         $this->maint_tpl->setContent(
             $form->getHTML()
@@ -156,7 +159,15 @@ class ilWOPIAdministrationGUI
 
     private function store(): void
     {
-        $form = new ilWOPISettingsForm($this->settings);
+        if (!$this->access->checkAccess("write", "", $this->ref_id)) {
+            $this->maint_tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
+            $this->ctrl->redirect($this, self::CMD_DEFAULT);
+        }
+
+        $form = new ilWOPISettingsForm(
+            $this->settings,
+            $this->access->checkAccess("write", "", $this->ref_id)
+        );
 
         if ($form->proceed($this->http->request())) {
             global $DIC;

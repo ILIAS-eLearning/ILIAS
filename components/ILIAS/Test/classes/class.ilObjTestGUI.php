@@ -139,11 +139,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     protected ilComponentRepository $component_repository;
     protected ilComponentFactory $component_factory;
     protected ilDBInterface $db;
-    protected UIFactory $ui_factory;
-    protected UIRenderer $ui_renderer;
     protected ilUIService $ui_service;
     private ContentStyle $content_style;
-    protected HTTPServices $http;
     protected ilHelpGUI $help;
     protected GlobalScreen $global_screen;
     protected ilObjectDataCache $obj_data_cache;
@@ -175,10 +172,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->navigation_history = $DIC['ilNavigationHistory'];
         $this->component_repository = $DIC['component.repository'];
         $this->component_factory = $DIC['component.factory'];
-        $this->ui_factory = $DIC['ui.factory'];
-        $this->ui_renderer = $DIC['ui.renderer'];
         $this->ui_service = $DIC->uiService();
-        $this->http = $DIC['http'];
         $this->error = $DIC['ilErr'];
         $this->db = $DIC['ilDB'];
         $this->help = $DIC['ilHelp'];
@@ -189,7 +183,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->archives = $DIC->archives();
         $this->type = 'tst';
         $this->data_factory = new DataFactory();
-        $this->ui_service = $DIC->uiService();
         $this->taxonomy = $DIC->taxonomy()->domain();
         $this->ui_service = $DIC->uiService();
         $this->content_style = $DIC->contentStyle();
@@ -513,9 +506,10 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
                 $this->prepareOutput();
                 $this->addHeaderAction();
+                $this->tabs_manager->activateTab(TabsManager::TAB_ID_LEARNING_PROGRESS);
 
                 $test_session = $this->test_session_factory->getSessionByUserId($this->user->getId());
-                if (!$this->checkPermissionBool('write')
+                if (!$this->test_access->checkOtherParticipantsLearningProgressAccess()
                     && !$this->getTestObject()->canShowTestResults($test_session)) {
                     $this->tpl->setOnScreenMessage(
                         'info',
@@ -524,7 +518,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     break;
                 }
 
-                $this->tabs_manager->activateTab(TabsManager::TAB_ID_LEARNING_PROGRESS);
                 $new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY, $this->getTestObject()->getRefId());
                 $this->ctrl->forwardCommand($new_gui);
 
@@ -958,8 +951,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
     protected function redirectAfterMissingWrite()
     {
-        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_permission"), true);
-        $target_class = get_class($this->getTestObject()) . "GUI";
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'), true);
+        $target_class = get_class($this->object) . 'GUI';
         $this->ctrl->setParameterByClass($target_class, 'ref_id', $this->ref_id);
         $this->ctrl->redirectByClass($target_class);
     }
@@ -968,7 +961,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     {
         $this->tpl->setOnScreenMessage('failure', sprintf(
             $this->lng->txt("msg_no_perm_read_item"),
-            $this->getTestObject()->getTitle()
+            $this->object->getTitle()
         ), true);
         $this->ctrl->setParameterByClass('ilrepositorygui', 'ref_id', ROOT_FOLDER_ID);
         $this->ctrl->redirectByClass('ilrepositorygui');
@@ -996,10 +989,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->refinery,
             $this->ref_id
         );
-
-        if ($this->getTestObject()->isRandomTest() && $nr_of_participants_with_results === 0) {
-            $gui->setInfoMessage($this->lng->txt('question_is_part_of_running_test'));
-        }
 
         if ($nr_of_participants_with_results > 0) {
             $gui->addAdditionalCmd(
@@ -1254,18 +1243,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->ctrl->redirectByClass('ilObjTestGUI', self::SHOW_QUESTIONS_CMD);
     }
 
-    public function prepareOutput(bool $show_subobjects = true): bool
-    {
-        if (!$this->getCreationMode()) {
-            $settings = ilMemberViewSettings::getInstance();
-            if ($settings->isActive() && $settings->getContainer() != $this->getTestObject()->getRefId()) {
-                $settings->setContainer($this->getTestObject()->getRefId());
-                $this->rbac_system->initMemberView();
-            }
-        }
-        return parent::prepareOutput($show_subobjects);
-    }
-
     private function showEditTestPageGUI(string $cmd): void
     {
         $this->prepareOutput();
@@ -1372,7 +1349,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         ilSession::set('path_to_uploaded_file_in_temp_dir', $path_to_uploaded_file_in_temp_dir);
 
         if ($qtiParser->getQuestionSetType() !== ilObjTest::QUESTION_SET_TYPE_FIXED
-            || file_exists($this->buildResultsFilePath($importdir, $subdir))) {
+            || file_exists($this->buildResultsFilePath($importdir, $subdir))
+            || $founditems === []) {
             $this->importVerifiedFileObject(true);
             return;
         }
@@ -1481,8 +1459,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     public function importVerifiedFileObject(
         bool $skip_retrieve_selected_questions = false
     ): void {
-        if (!$this->checkPermissionBool('create', '', $this->testrequest->strVal('new_type'))) {
-            $this->redirectAfterMissingWrite();
+        if (!$this->checkPermissionBool('create', '', 'tst')) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'), true);
+            $this->ctrl->returnToParent($this);
         }
         $file_to_import = ilSession::get('path_to_import_file');
         $path_to_uploaded_file_in_temp_dir = ilSession::get('path_to_uploaded_file_in_temp_dir');

@@ -42,7 +42,7 @@ abstract class ilBiblAdminFieldGUI
     private ilCtrl $ctrl;
     private ilTabsGUI $tabs;
     private ilLanguage $lng;
-    private ilAccessHandler $access;
+    protected ilAccessHandler $access;
     protected Table $table;
     private \ilGlobalTemplateInterface $main_tpl;
 
@@ -53,15 +53,15 @@ abstract class ilBiblAdminFieldGUI
     {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
-        $this->table = new Table(
-            $this,
-            $this->facade
-        );
         $this->http = $DIC['http'];
         $this->ctrl = $DIC['ilCtrl'];
         $this->tabs = $DIC['ilTabs'];
         $this->lng = $DIC['lng'];
-        $this->access = $DIC['ilAccess'];
+        $this->access = $DIC->access();
+        $this->table = new Table(
+            $this,
+            $this->facade
+        );
     }
 
     public function executeCommand(): void
@@ -191,7 +191,6 @@ abstract class ilBiblAdminFieldGUI
     protected function save(): void
     {
         $this->saveOrdering();
-        ;
     }
 
     protected function applyFilter(): void
@@ -218,6 +217,6 @@ abstract class ilBiblAdminFieldGUI
 
     public function checkPermissionBoolAndReturn(string $permission): bool
     {
-        return (bool) $this->access->checkAccess($permission, '', $this->http->request()->getQueryParams()['ref_id']);
+        return $this->access->checkAccess($permission, '', $this->http->request()->getQueryParams()['ref_id']);
     }
 }

@@ -197,7 +197,7 @@ export default class Metabar {
         // 42143: focusInEngagedSlate() set a focus in engaged slates. Clicking outside a focusable
         // element, but inside the slate triggers focusout with 'nextFocusTarget = null'.
         // We don't want a click inside the slate to close it, so we exclude this focusout case.
-        if (nextFocusTarget != null && !this.#jquery.contains(currentSlate, nextFocusTarget)) {
+        if (nextFocusTarget !== null && !currentSlate.contains(nextFocusTarget)) {
           this.onClickDisengageAll();
         }
       }

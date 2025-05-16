@@ -37,9 +37,10 @@ class ilDclDatatype
     public const INPUTFORMAT_TEXT_SELECTION = 14;
     public const INPUTFORMAT_DATE_SELECTION = 15;
     public const INPUTFORMAT_FILE = 16;
+    public const INPUTFORMAT_COPY = 17;
 
     protected int $id = 0;
-    protected string $title = "";
+    protected string $title = "unknown";
     protected int $storageLocation = 0;
     protected string $dbType;
     /**

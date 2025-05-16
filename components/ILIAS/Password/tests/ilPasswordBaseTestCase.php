@@ -20,10 +20,6 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
- */
 abstract class ilPasswordBaseTestCase extends TestCase
 {
 }

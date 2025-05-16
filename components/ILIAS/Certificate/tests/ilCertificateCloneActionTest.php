@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
 {
     public function testCloneCertificate(): void

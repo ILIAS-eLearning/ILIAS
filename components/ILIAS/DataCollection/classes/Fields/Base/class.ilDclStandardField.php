@@ -55,7 +55,6 @@ class ilDclStandardField extends ilDclBaseFieldModel
     public function clone(ilDclStandardField $original_record): void
     {
         $this->setOrder($original_record->getOrder());
-        $this->setUnique($original_record->isUnique());
         $this->setExportable($original_record->getExportable());
 
         $this->doUpdate();
@@ -210,11 +209,6 @@ class ilDclStandardField extends ilDclBaseFieldModel
     public function isStandardField(): bool
     {
         return true;
-    }
-
-    public function isUnique(): bool
-    {
-        return false;
     }
 
     /**

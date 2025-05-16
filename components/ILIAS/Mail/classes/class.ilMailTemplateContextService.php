@@ -21,7 +21,7 @@ declare(strict_types=1);
 class ilMailTemplateContextService
 {
     /**
-     * @param string[] $a_new_templates
+     * @param list<string> $a_new_templates
      */
     public static function clearFromXml(string $a_component, array $a_new_templates): void
     {
@@ -89,7 +89,7 @@ class ilMailTemplateContextService
 
     /**
      * Returns an array of mail template contexts, the key of each entry matches its id
-     * @param string[] $a_id
+     * @param list<string>|null $a_id
      * @return array<string, ilMailTemplateContext>
      */
     public static function getTemplateContexts(?array $a_id = null): array
@@ -99,7 +99,7 @@ class ilMailTemplateContextService
 
         $query = 'SELECT * FROM mail_tpl_ctx';
         $where = [];
-        if (is_array($a_id) && count($a_id)) {
+        if (is_array($a_id) && count($a_id) > 0) {
             $where[] = $DIC->database()->in('id', $a_id, false, 'text');
         }
         if ($where !== []) {
@@ -125,12 +125,12 @@ class ilMailTemplateContextService
         string $a_id,
         string $a_class,
         ?string $a_path,
-        bool $isCreationContext = false
+        bool $is_creation_context = false
     ): ?ilMailTemplateContext {
         if (class_exists($a_class)) {
-            if ($isCreationContext) {
-                $reflClass = new ReflectionClass($a_class);
-                $context = $reflClass->newInstanceWithoutConstructor();
+            if ($is_creation_context) {
+                $class = new ReflectionClass($a_class);
+                $context = $class->newInstanceWithoutConstructor();
             } else {
                 $context = new $a_class();
             }

@@ -21,7 +21,6 @@ declare(strict_types=1);
 use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 
 /**
- * Class ilObjLinkResource
  * @author  Stefan Meyer <meyer@leifos.com>
  */
 class ilObjLinkResource extends ilObject
@@ -47,15 +46,10 @@ class ilObjLinkResource extends ilObject
         return $this->repo = new ilWebLinkDatabaseRepository($this->getId());
     }
 
-    /**
-     * @todo how to handle this meta data switch
-     */
     public function create($a_upload = false): int
     {
         $new_id = parent::create();
-        if (!$a_upload) {
-            $this->createMetaData();
-        }
+        $this->createMetaData();
         return $new_id;
     }
 
@@ -180,20 +174,13 @@ class ilObjLinkResource extends ilObject
         return $new_obj;
     }
 
-    public function toXML(ilXmlWriter $writer, bool $skip_lom = false): void
+    public function toXML(ilXmlWriter $writer): void
     {
         $attribs = array("obj_id" => "il_" . IL_INST_ID . "_webr_" . $this->getId(
         )
         );
 
         $writer->xmlStartTag('WebLinks', $attribs);
-
-        if (!$skip_lom) {
-            // LOM MetaData
-            $md2xml = new ilMD2XML($this->getId(), $this->getId(), 'webr');
-            $md2xml->startExport();
-            $writer->appendXML($md2xml->getXML());
-        }
 
         // Sorting
         switch (ilContainerSortingSettings::_lookupSortMode($this->getId())) {

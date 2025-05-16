@@ -30,6 +30,7 @@ class FooterTest extends ILIAS_UI_TestBase
     protected I\Link\Standard $link_mock;
     protected I\Symbol\Icon\Icon $icon_mock;
     protected I\Button\Shy $shy_mock;
+    protected I\Button\Standard $button_mock;
     protected I\Listing\Unordered $unordered_mock;
     protected I\Button\Factory $button_factory;
     protected I\Link\Factory $link_factory;
@@ -38,6 +39,7 @@ class FooterTest extends ILIAS_UI_TestBase
     protected string $link_html;
     protected string $icon_html;
     protected string $shy_html;
+    protected string $button_html;
     protected string $unordered_html;
 
     protected function setUp(): void
@@ -45,6 +47,7 @@ class FooterTest extends ILIAS_UI_TestBase
         $this->link_html = sha1(C\Link\Standard::class);
         $this->icon_html = sha1(C\Symbol\Icon\Icon::class);
         $this->shy_html = sha1(C\Button\Shy::class);
+        $this->button_html = sha1(C\Button\Standard::class);
         $this->unordered_html = sha1(C\Listing\Unordered::class);
 
         $this->link_mock = $this->createMock(I\Link\Standard::class);
@@ -56,11 +59,15 @@ class FooterTest extends ILIAS_UI_TestBase
         $this->shy_mock = $this->createMock(I\Button\Shy::class);
         $this->shy_mock->method('getCanonicalName')->willReturn($this->shy_html);
 
+        $this->button_mock = $this->createMock(I\Button\Standard::class);
+        $this->button_mock->method('getCanonicalName')->willReturn($this->button_html);
+
         $this->unordered_mock = $this->createMock(I\Listing\Unordered::class);
         $this->unordered_mock->method('getCanonicalName')->willReturn($this->unordered_html);
 
         $this->button_factory = $this->createMock(I\Button\Factory::class);
         $this->button_factory->method('shy')->willReturn($this->shy_mock);
+        $this->button_factory->method('standard')->willReturn($this->button_mock);
 
         $this->link_factory = $this->createMock(I\Link\Factory::class);
         $this->link_factory->method('standard')->willReturn($this->link_mock);
@@ -99,10 +106,10 @@ class FooterTest extends ILIAS_UI_TestBase
         $footer = $this->getUIFactory()->mainControls()->footer();
         $footer = $footer->withPermanentURL($this->uri_mock);
 
-        $this->button_factory->expects($this->once())->method('shy')->with('copy_perma_link', '');
-        $this->shy_mock->expects($this->once())->method('withAdditionalOnLoadCode')->willReturnSelf();
+        $this->button_factory->expects($this->once())->method('standard')->with('copy_perma_link', '');
+        $this->button_mock->expects($this->once())->method('withAdditionalOnLoadCode')->willReturnSelf();
 
-        $renderer = $this->getDefaultRenderer(null, [$this->shy_mock]);
+        $renderer = $this->getDefaultRenderer(null, [$this->button_mock]);
         $actual_html = $renderer->render($footer);
 
         $expected_html = <<<EOT
@@ -110,7 +117,7 @@ class FooterTest extends ILIAS_UI_TestBase
     <section class="c-maincontrols__footer-grid" data-section="permanent-link" aria-label="footer_permanent_link" tabindex="0">
         <div class="c-maincontrols__footer-grid__item text-left">
             <div class="c-tooltip__container c-tooltip--top" aria-live="polite">
-                $this->shy_html
+                $this->button_html
                 <div class="c-tooltip c-tooltip--hidden" role="tooltip">
                     perma_link_copied
                 </div>

@@ -56,9 +56,7 @@ class Zip
         } else {
             $this->zip_output_file = $this->buildTempPath();
             $this->registerShutdownFunction(function (): void {
-                if (file_exists($this->zip_output_file)) {
-                    unlink($this->zip_output_file);
-                }
+                $this->destroy();
             });
         }
         $system_limit = (int) shell_exec('ulimit -n') ?: 0;
@@ -136,6 +134,18 @@ class Zip
         $this->zip->close();
 
         return Streams::ofResource(fopen($this->zip_output_file, 'rb'));
+    }
+
+    /**
+     * @description Explicitly close the zip file and remove the file from the filesystem. In general, temp
+     * files are deleted whyle destroying the object. but in cases like migrations, you should call this method explicitly.
+     * Please note that also explicitly set paths (non-temp) are deleted if you call this method.
+     */
+    public function destroy(): void
+    {
+        if (file_exists($this->zip_output_file)) {
+            unlink($this->zip_output_file);
+        }
     }
 
     /**

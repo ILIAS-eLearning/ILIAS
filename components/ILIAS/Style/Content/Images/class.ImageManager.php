@@ -27,6 +27,8 @@ use Generator;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\Style\Content\Style\StyleRepo;
+use ILIAS\Filesystem\Stream\Stream;
+use ILIAS\Filesystem\Util\Convert\Images;
 
 /**
  * Main business logic for content style images
@@ -34,6 +36,7 @@ use ILIAS\Style\Content\Style\StyleRepo;
  */
 class ImageManager
 {
+    protected Images $img_convert;
     protected ImageFileRepo $repo;
     protected StyleRepo $style_repo;
     protected Access\StyleAccessManager $access_manager;
@@ -52,6 +55,7 @@ class ImageManager
         $this->access_manager = $access_manager;
         $this->style_id = $style_id;
         $this->image_conversion = $DIC->fileConverters()->legacyImages();
+        $this->img_convert = $DIC->fileConverters()->images();
     }
 
     /**
@@ -85,7 +89,8 @@ class ImageManager
     // get image data object by filename
     public function getByFilename(string $filename): Image
     {
-        return $this->repo->getByFilename($this->style_id, $filename);
+        $rid = $this->style_repo->readRid($this->style_id);
+        return $this->repo->getByFilename($this->style_id, $rid, $filename);
     }
 
     // resize image
@@ -95,16 +100,26 @@ class ImageManager
         int $height,
         bool $constrain_proportions
     ): void {
+        $rid = $this->style_repo->readRid($this->style_id);
         if ($this->filenameExists($filename)) {
-            $file = $this->getWebPath($this->getByFilename($filename));
+            // the zip stream is not seekable, which is needed by Imagick
+            // so we create a seekable stream first
+            $tempStream = fopen('php://temp', 'w+');
+            stream_copy_to_stream($this->repo->getImageStream($rid, $filename)->detach(), $tempStream);
+            rewind($tempStream);
+            $stream = new Stream($tempStream);
 
-            $this->image_conversion->resizeToFixedSize(
-                $file,
-                $file,
+            $converter = $this->img_convert->resizeToFixedSize(
+                $stream,
                 $width,
-                $height,
-                $constrain_proportions
+                $height
             );
+            $this->repo->addStream(
+                $rid,
+                $filename,
+                $converter->getStream()
+            );
+            fclose($tempStream);
         }
     }
 

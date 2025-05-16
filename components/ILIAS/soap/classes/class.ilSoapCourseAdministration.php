@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -23,10 +24,10 @@
  */
 class ilSoapCourseAdministration extends ilSoapAdministration
 {
-    public const MEMBER = 1;
-    public const TUTOR = 2;
-    public const ADMIN = 4;
-    public const OWNER = 8;
+    public const int MEMBER = 1;
+    public const int TUTOR = 2;
+    public const int ADMIN = 4;
+    public const int OWNER = 8;
 
     /**
      * @return int|soap_fault|SoapFault|string|null
@@ -60,7 +61,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         $newObj->setType('crs');
         $newObj->setTitle('dummy');
         $newObj->setDescription("");
-        $newObj->create(true); // true for upload
+        $newObj->create(); // true for upload
         $newObj->createReference();
         $newObj->putInTree($target_id);
         $newObj->setPermissions($target_id);
@@ -362,11 +363,6 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         if (!$rbacsystem->checkAccess('write', $course_id)) {
             return $this->raiseError('Check access failed. No permission to write course', 'Server');
         }
-
-        // First delete old meta data
-
-        $md = new ilMD($tmp_course->getId(), 0, 'crs');
-        $md->deleteAll();
 
         ilCourseParticipants::_deleteAllEntries($tmp_course->getId());
 

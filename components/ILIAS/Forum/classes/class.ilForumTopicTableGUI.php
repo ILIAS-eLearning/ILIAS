@@ -330,9 +330,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
         }
 
         $this->setMaxCount($data['cnt']);
-        $this->setData(array_map(static function (ilForumTopic $thread): array {
-            return ['thread' => $thread];
-        }, $data['items']));
+        $this->setData(array_map(static fn(ilForumTopic $thread): array => ['thread' => $thread], $data['items']));
 
         $thread_ids = [];
         $user_ids = [];

@@ -20,13 +20,14 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Test\TestComponent;
 
 require_once("vendor/composer/vendor/autoload.php");
 
 require_once(__DIR__ . "/../Renderer/TestComponent.php");
 
-class ComponentMock
+class ComponentMock implements Component
 {
     use ComponentHelper;
 
@@ -68,6 +69,14 @@ class ComponentMock
     public function _checkArgList(string $which, array &$value, Closure $check, Closure $message): void
     {
         $this->checkArgList($which, $value, $check, $message);
+    }
+
+    public $sub_components = null;
+    public $random_data;
+
+    public function getSubComponents(): ?array
+    {
+        return $this->sub_components;
     }
 }
 
@@ -280,5 +289,81 @@ class ComponentHelperTest extends TestCase
         }, function ($k, $v) {
             return "expected keys of type string and integer values, got ($k => $v)";
         });
+    }
+
+    public function testReduceWith()
+    {
+        $a = new ComponentMock();
+        $a->random_data = "A";
+        $b = new ComponentMock();
+        $b->random_data = "B";
+        $c = new ComponentMock();
+        $c->random_data = "C";
+        $c->sub_components = [$a, $b];
+
+        $f = fn($c, $res) => [$c->random_data => $res];
+        $res = $c->reduceWith($f);
+
+        $this->assertEquals(
+            ["C" =>
+                [
+                    ["A" => []],
+                    ["B" => []],
+                ]
+            ],
+            $res
+        );
+    }
+
+    public function testReduceWithDoesNotModify()
+    {
+        $a = new ComponentMock();
+        $a->random_data = "A";
+        $b = new ComponentMock();
+        $b->random_data = "B";
+        $c = new ComponentMock();
+        $c->random_data = "C";
+        $c->sub_components = [$a, $b];
+
+        $f = function ($c, $res) {
+            $clone = clone $c;
+            $clone->random_data = strtolower($c->random_data);
+            $clone->sub_components = $res;
+            return $clone;
+        };
+        $c2 = $c->reduceWith($f);
+
+        [$a2, $b2] = $c2->sub_components;
+
+        $this->assertNotEquals(spl_object_id($a), spl_object_id($a2));
+        $this->assertNotEquals(spl_object_id($b), spl_object_id($b2));
+        $this->assertNotEquals(spl_object_id($c), spl_object_id($c2));
+
+        $this->assertEquals("A", $a->random_data);
+        $this->assertEquals("B", $b->random_data);
+        $this->assertEquals("C", $c->random_data);
+        $this->assertEquals([$a, $b], $c->sub_components);
+
+        $this->assertEquals("a", $a2->random_data);
+        $this->assertEquals("b", $b2->random_data);
+        $this->assertEquals("c", $c2->random_data);
+    }
+
+    public function testReduceWithSubStructureIsTransient()
+    {
+        $a = new ComponentMock();
+        $a->random_data = "A";
+        $b = new ComponentMock();
+        $b->random_data = "B";
+        $c = new ComponentMock();
+        $c->random_data = "C";
+        $c->sub_components = [$a, $b];
+
+        $f = function ($c, $res) {
+            return [$c, $c->random_data];
+        };
+
+        [$res, $_] = $c->reduceWith($f);
+        $this->assertEquals([$a, $b], $res->sub_components);
     }
 }

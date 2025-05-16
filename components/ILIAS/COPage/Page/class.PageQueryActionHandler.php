@@ -23,6 +23,7 @@ use ILIAS\COPage\Editor\Server;
 use ParagraphStyleSelector;
 use SectionStyleSelector;
 use MediaObjectStyleSelector;
+use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRepository;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -38,6 +39,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     protected \ilObjUser $user;
     protected Server\UIWrapper $ui_wrapper;
     protected \ilCtrl $ctrl;
+    protected \ilDBInterface $db;
     protected \ilComponentFactory $component_factory;
 
     public function __construct(\ilPageObjectGUI $page_gui, string $pc_id = "")
@@ -49,6 +51,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $this->page_gui = $page_gui;
         $this->user = $DIC->user();
         $this->ctrl = $DIC->ctrl();
+        $this->db = $DIC->database();
         $this->component_factory = $DIC["component.factory"];
         $this->gui = $DIC->copage()->internal()->gui();
         $this->pc_id = $pc_id;
@@ -415,13 +418,15 @@ class PageQueryActionHandler implements Server\QueryActionHandler
 
         // general multi lang support and single page mode?
         if ($config->getMultiLangSupport()) {
-            $ot = \ilObjectTranslation::getInstance($page->getParentId());
+            $ot = (new TranslationsRepository(
+                $this->db
+            ))->getFor($page->getParentId());
 
-            if ($ot->getContentActivated()) {
+            if ($ot->getContentTranslationActivated()) {
                 $lng->loadLanguageModule("meta");
 
                 if ($page->getLanguage() != "-") {
-                    $l = $ot->getMasterLanguage();
+                    $l = $ot->getBaseLanguage();
                     $items[] = $ui->factory()->link()->standard(
                         $lng->txt("cont_edit_language_version") . ": " .
                         $lng->txt("meta_l_" . $l),
@@ -431,7 +436,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
 
                 foreach ($ot->getLanguages() as $al => $lang) {
                     if ($page->getLanguage() != $al &&
-                        $al != $ot->getMasterLanguage()) {
+                        $al != $ot->getBaseLanguage()) {
                         $ctrl->setParameter($this->page_gui, "totransl", $al);
                         $items[] = $ui->factory()->link()->standard(
                             $lng->txt("cont_edit_language_version") . ": " .
@@ -458,9 +463,11 @@ class PageQueryActionHandler implements Server\QueryActionHandler
 
         // general multi lang support and single page mode?
         if ($config->getMultiLangSupport()) {
-            $ot = \ilObjectTranslation::getInstance($page->getParentId());
+            $ot = (new TranslationsRepository(
+                $this->db
+            ))->getFor($page->getParentId());
 
-            if ($ot->getContentActivated()) {
+            if ($ot->getContentTranslationActivated()) {
                 $lng->loadLanguageModule("meta");
 
                 $ml_gui = new \ilPageMultiLangGUI(

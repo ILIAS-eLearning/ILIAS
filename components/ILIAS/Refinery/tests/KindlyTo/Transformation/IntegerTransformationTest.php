@@ -23,6 +23,7 @@ namespace ILIAS\Tests\Refinery\KindlyTo\Transformation;
 use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Refinery\KindlyTo\Transformation\IntegerTransformation;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class IntegerTransformationTest extends TestCase
 {
@@ -33,23 +34,16 @@ class IntegerTransformationTest extends TestCase
         $this->transformation = new IntegerTransformation();
     }
 
-    /**
-     * @dataProvider IntegerTestDataProvider
-     * @param mixed $originVal
-     * @param int $expectedVal
-     */
-    public function testIntegerTransformation($originVal, int $expectedVal): void
+    #[DataProvider('IntegerTestDataProvider')]
+    public function testIntegerTransformation(mixed $originVal, int $expectedVal): void
     {
         $transformedValue = $this->transformation->transform($originVal);
         $this->assertIsInt($transformedValue);
         $this->assertEquals($expectedVal, $transformedValue);
     }
 
-    /**
-     * @dataProvider TransformationFailureDataProvider
-     * @param mixed $failingValue
-     */
-    public function testTransformIsInvalid($failingValue): void
+    #[DataProvider('TransformationFailureDataProvider')]
+    public function testTransformIsInvalid(mixed $failingValue): void
     {
         $this->expectException(ConstraintViolationException::class);
         $this->transformation->transform($failingValue);

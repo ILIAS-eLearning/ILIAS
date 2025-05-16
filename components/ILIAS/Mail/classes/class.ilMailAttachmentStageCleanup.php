@@ -18,11 +18,11 @@
 
 declare(strict_types=1);
 
-final class ilMailAttachmentStageCleanup
+final readonly class ilMailAttachmentStageCleanup
 {
-    private const OLD_FILE_MTIME_EXPRESSION = '1 day ago';
+    private const string OLD_FILE_MTIME_EXPRESSION = '1 day ago';
 
-    public function __construct(private readonly ilLogger $logger, private readonly ilFileDataMail $mail_file_manager)
+    public function __construct(private ilLogger $logger, private ilFileDataMail $mail_file_manager)
     {
     }
 

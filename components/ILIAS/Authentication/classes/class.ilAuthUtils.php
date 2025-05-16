@@ -34,7 +34,6 @@ class ilAuthUtils
     public const AUTH_LDAP = 2;
     public const AUTH_SCRIPT = 4;
     public const AUTH_SHIBBOLETH = 5;
-    public const AUTH_CAS = 6;
     public const AUTH_SOAP = 7;
     public const AUTH_HTTP = 8; // Used for WebDAV
     public const AUTH_ECS = 9;
@@ -76,8 +75,6 @@ class ilAuthUtils
     // matches one or more ILIAS users
     //TODO this is not used anywhere, can it be removed?
     private const AUTH_SOAP_NO_ILIAS_USER_BUT_EMAIL = -101;
-    //TODO this is not used anywhere, can it be removed?
-    private const AUTH_CAS_NO_ILIAS_USER = -90;
 
     // ilUser validation (no login)
     //TODO All these are is not used anywhere, can it be removed?
@@ -182,10 +179,6 @@ class ilAuthUtils
             case 'saml':
                 return ilSamlIdp::getKeyByAuthMode($a_auth_mode);
 
-            case "cas":
-                return self::AUTH_CAS;
-                break;
-
             case "soap":
                 return self::AUTH_SOAP;
                 break;
@@ -219,10 +212,6 @@ class ilAuthUtils
 
             case self::AUTH_PROVIDER_LTI:
                 return ilAuthProviderLTI::getAuthModeByKey($a_auth_key);
-
-            case self::AUTH_CAS:
-                return "cas";
-                break;
 
             case self::AUTH_SCRIPT:
                 return "script";
@@ -287,9 +276,6 @@ class ilAuthUtils
         if ($ilSetting->get("script_active")) {
             $modes['script'] = self::AUTH_SCRIPT;
         }
-        if ($ilSetting->get("cas_active")) {
-            $modes['cas'] = self::AUTH_CAS;
-        }
         if ($ilSetting->get("soap_auth_active")) {
             $modes['soap'] = self::AUTH_SOAP;
         }
@@ -328,7 +314,6 @@ class ilAuthUtils
             self::AUTH_LDAP,
             self::AUTH_SHIBBOLETH,
             self::AUTH_SAML,
-            self::AUTH_CAS,
             self::AUTH_SOAP,
             self::AUTH_ECS,
             self::AUTH_PROVIDER_LTI,
@@ -481,7 +466,7 @@ class ilAuthUtils
 
     /**
      * Check if an external account name is required.
-     * That's the case if LDAP, CAS or SOAP is active
+     * That's the case if LDAP or SOAP is active
      */
     public static function _isExternalAccountEnabled(): bool
     {
@@ -489,9 +474,6 @@ class ilAuthUtils
 
         $ilSetting = $DIC['ilSetting'];
 
-        if ($ilSetting->get("cas_active")) {
-            return true;
-        }
         if ($ilSetting->get("soap_auth_active")) {
             return true;
         }
@@ -606,8 +588,6 @@ class ilAuthUtils
                 return (bool) $ilSetting->get("shib_auth_allow_local", '0');
             case self::AUTH_SOAP:
                 return (bool) $ilSetting->get("soap_auth_allow_local", '0');
-            case self::AUTH_CAS:
-                return (bool) $ilSetting->get("cas_allow_local", '0');
         }
         return false;
     }
@@ -643,12 +623,10 @@ class ilAuthUtils
             case self::AUTH_OPENID_CONNECT:
             case self::AUTH_SAML:
             case self::AUTH_SOAP:
-            case self::AUTH_CAS:
                 if (!self::isPasswordModificationEnabled($a_authmode)) {
                     return self::LOCAL_PWV_NO;
                 }
                 return self::LOCAL_PWV_USER;
-
             case self::AUTH_PROVIDER_LTI:
             case self::AUTH_ECS:
             case self::AUTH_SCRIPT:

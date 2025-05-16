@@ -22,6 +22,7 @@ use PHPUnit\Framework\TestCase;
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobResult;
 use ILIAS\Cron\CronJob;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class CronJobScheduleTest extends TestCase
 {
@@ -95,9 +96,7 @@ class CronJobScheduleTest extends TestCase
             }
         };
 
-        $job_instance->setDateTimeProvider(function (): DateTimeImmutable {
-            return self::$now;
-        });
+        $job_instance->setDateTimeProvider(fn(): DateTimeImmutable => self::$now);
 
         return $job_instance;
     }
@@ -434,9 +433,9 @@ class CronJobScheduleTest extends TestCase
     }
 
     /**
-     * @dataProvider jobProvider
      * @param null|callable(): DateTimeImmutable $last_run_datetime_callable
      */
+    #[DataProvider('jobProvider')]
     public function testSchedule(
         CronJob $job_instance,
         bool $is_manual_run,
@@ -575,9 +574,9 @@ class CronJobScheduleTest extends TestCase
     }
 
     /**
-     * @dataProvider weeklyScheduleProvider
      * @param callable(): DateTimeImmutable $last_run_datetime_provider
      */
+    #[DataProvider('weeklyScheduleProvider')]
     public function testWeeklySchedules(
         CronJob $job_instance,
         callable $last_run_datetime_provider,

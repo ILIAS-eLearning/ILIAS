@@ -341,7 +341,7 @@ class ilAdvancedMDRecordGUI
      */
     private function parseSearch(): void
     {
-        // this is NOT used for the global search, see ilLuceneAdvancedSearchFields::getFormElement()
+        // this is NOT used for the global search
         // (so searchable flag is NOT relevant)
         //
         // current usage: wiki page element "[amd] page list"

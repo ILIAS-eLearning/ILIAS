@@ -191,11 +191,12 @@ class ilContentStyleSettingsGUI
                 $this->ctrl->getLinkTarget($this, "createStyle")
             );
 
+            /*
             $modal = $this->gui->modal($this->lng->txt("import"))
                       ->form($this->getImportForm());
             $modal_c = $modal->getTriggerButtonComponents($this->lng->txt("import"), false);
             $this->toolbar->addComponent($modal_c["button"]);
-            $rendered_modal = $this->gui->ui()->renderer()->render($modal_c["modal"]);
+            $rendered_modal = $this->gui->ui()->renderer()->render($modal_c["modal"]);*/
 
             $this->toolbar->addSeparator();
 

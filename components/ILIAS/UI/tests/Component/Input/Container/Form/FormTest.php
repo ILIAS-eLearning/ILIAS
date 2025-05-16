@@ -461,7 +461,8 @@ class FormTest extends ILIAS_UI_TestBase
                 "withOnUpdate",
                 "appendOnUpdate",
                 "withResetTriggeredSignals",
-                "getTriggeredSignals"
+                "getTriggeredSignals",
+                "reduceWith"
             ])
             ->setMockClassName("Mock_InputNo" . ($no++))
             ->getMock();

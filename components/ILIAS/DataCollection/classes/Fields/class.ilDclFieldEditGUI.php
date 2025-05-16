@@ -267,10 +267,6 @@ class ilDclFieldEditGUI
         $edit_datatype->setRequired(true);
         $this->form->addItem($edit_datatype);
 
-        //Unique
-        $cb = new ilCheckboxInputGUI($lng->txt("dcl_unique"), "unique");
-        $cb->setInfo($lng->txt('dcl_unique_desc'));
-        $this->form->addItem($cb);
     }
 
     /**
@@ -304,7 +300,6 @@ class ilDclFieldEditGUI
             $this->field_obj->setTitle($title);
             $this->field_obj->setDescription($this->form->getInput("description"));
             $this->field_obj->setDatatypeId((int) $this->form->getInput("datatype"));
-            $this->field_obj->setUnique((bool) $this->form->getInput("unique"));
 
             if ($a_mode == "update") {
                 $this->field_obj->doUpdate();
@@ -343,22 +338,8 @@ class ilDclFieldEditGUI
         $lng = $DIC['lng'];
         $return = $this->form->checkInput();
 
-        //mantis 30758, 36585, jour fixe decision:
-        //uniqueness shall be changeable for all types of fields
-        if ($a_mode === 'update' && !$this->checkUniqueness()) {
+        if (!$this->field_obj->checkFieldCreationInput($this->form)) {
             $return = false;
-        }
-
-        // load specific model for input checking
-        $datatype_id = $this->form->getInput('datatype');
-        if ($datatype_id != null && is_numeric($datatype_id)) {
-            $base_model = new ilDclBaseFieldModel();
-            $base_model->setDatatypeId((int) $datatype_id);
-            $field_validation_class = ilDclFieldFactory::getFieldModelInstanceByClass($base_model);
-
-            if (!$field_validation_class->checkFieldCreationInput($this->form)) {
-                $return = false;
-            }
         }
 
         // Don't allow multiple fields with the same title in this table
@@ -396,44 +377,6 @@ class ilDclFieldEditGUI
                 $this->table_id
             );
         }
-    }
-
-    /**
-     * @return bool
-     */
-    protected function checkUniqueness(): bool
-    {
-        $this->field_obj->setUnique((bool) $this->form->getInput("unique"));
-        if (!$this->field_obj->isUnique()) {
-            return true;
-        }
-
-        $txt = $this->lng->txt("dcl_duplicate_non_unique_entries_exist");
-
-        //check validity of all available records
-        foreach ($this->table->getRecords() as $record) {
-
-            //except of formula field
-            if ((int) ($this->field_obj->getDatatypeId()) !== ilDclDatatype::INPUTFORMAT_FORMULA) {
-                //get field value
-                $value = $record->getRecordFieldValue($this->field_obj->getId());
-
-                //special for rating field: only voting of the current user
-                if ((int) ($this->field_obj->getDatatypeId()) === ilDclDatatype::INPUTFORMAT_RATING) {
-                    $value = $record->getRecordFieldValueForUser($this->field_obj->getId());
-                    $txt = "";
-                }
-                //validity of field content
-                try {
-                    $this->field_obj->checkValidity($value, $record->getId());
-                } catch (ilDclInputException $e) {
-                    $item = $this->form->getItemByPostVar('unique');
-                    $item->setAlert($txt);
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 
     /**

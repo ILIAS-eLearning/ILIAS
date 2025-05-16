@@ -54,7 +54,7 @@ class ilDclDatetimeFieldModel extends ilDclBaseFieldModel
 
     /**
      */
-    public function checkValidityFromForm(ilPropertyFormGUI &$form, ?int $record_id = null): void
+    public function checkValidityFromForm(ilPropertyFormGUI &$form, ?int $record_id): void
     {
         $value = $form->getInput('field_' . $this->getId());
 

@@ -32,25 +32,25 @@ class ilFormatMail extends ilMail
             return '';
         }
 
-        $newCC = [];
+        $new_cc = [];
 
-        $currentUserLogin = $DIC->user()->getLogin();
+        $current_usr_login = $DIC->user()->getLogin();
 
         foreach (explode(',', (string) $this->mail_data['rcp_to']) as $to) {
             $to = trim($to);
-            if ($to !== '' && $currentUserLogin !== $to) {
-                $newCC[] = $to;
+            if ($to !== '' && $current_usr_login !== $to) {
+                $new_cc[] = $to;
             }
         }
 
         foreach (explode(',', (string) $this->mail_data['rcp_cc']) as $cc) {
             $cc = trim($cc);
-            if ($cc !== '' && $currentUserLogin !== $cc) {
-                $newCC[] = $cc;
+            if ($cc !== '' && $current_usr_login !== $cc) {
+                $new_cc[] = $cc;
             }
         }
 
-        return $this->mail_data['rcp_cc'] = implode(', ', $newCC);
+        return $this->mail_data['rcp_cc'] = implode(', ', $new_cc);
     }
 
     public function formatReplyRecipient(): string
@@ -64,16 +64,16 @@ class ilFormatMail extends ilMail
     }
 
     /**
-     * @param string[] $a_names
+     * @param list<string> $a_names
      */
     public function appendSearchResult(array $a_names, string $a_type): array
     {
         $name_str = implode(',', $a_names);
 
         $key = 'rcp_to';
-        if ('cc' === $a_type) {
+        if ($a_type === 'cc') {
             $key = 'rcp_cc';
-        } elseif ('bc' === $a_type) {
+        } elseif ($a_type === 'bc') {
             $key = 'rcp_bcc';
         }
 
@@ -109,8 +109,8 @@ class ilFormatMail extends ilMail
     public function formatReplyMessage(string $message): string
     {
         $bodylines = preg_split("/\r\n|\n|\r/", $message);
-        foreach ($bodylines as $i => $iValue) {
-            $bodylines[$i] = '> ' . $iValue;
+        foreach ($bodylines as $i => $value) {
+            $bodylines[$i] = '> ' . $value;
         }
 
         return implode(chr(10), $bodylines);

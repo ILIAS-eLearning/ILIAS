@@ -62,11 +62,11 @@
 				test_time_min = (response - test_time_sec) / 60;
 				setWorkingTime();
 			} else {
-				$("#listofquestions").attr('action', redirectUrl).submit();
+				window.location.href = redirectUrl;
 			}
 		})
 		.fail(
-			$("#listofquestions").attr('action', redirectUrl).submit()
+			window.location.href = redirectUrl
 		);
 	}
 

@@ -24,9 +24,9 @@ declare(strict_types=1);
  */
 class ilBuddySystemRelationRepository
 {
-    private const TYPE_APPROVED = 'app';
-    private const TYPE_REQUESTED = 'req';
-    private const TYPE_IGNORED = 'ign';
+    private const string TYPE_APPROVED = 'app';
+    private const string TYPE_REQUESTED = 'req';
+    private const string TYPE_IGNORED = 'ign';
 
     protected ilDBInterface $db;
 

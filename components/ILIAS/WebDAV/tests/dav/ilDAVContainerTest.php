@@ -65,8 +65,9 @@ class ilDAVContainerTest extends TestCase
         $DIC['upload'] = $this->createMock(FileUpload::class);
         $DIC['resource_storage'] = $this->createMock(\ILIAS\ResourceStorage\Services::class);
         $DIC['refinery'] = $this->createMock(Factory::class);
-        $DIC['object.customicons.factory'] = $this->createMock(ilObjectCustomIconFactory::class);
+        $DIC['object.customicons.factory'] = $this->createMock(ILIAS\ILIASObject\Properties\AdditionalProperties\Icon\Factory::class);
         $DIC['learning_object_metadata'] = $this->createMock(LOMServices::class);
+        $DIC['resource_storage'] = $this->createMock(ILIAS\ResourceStorage\Services::class);
     }
 
     protected function tearDown(): void

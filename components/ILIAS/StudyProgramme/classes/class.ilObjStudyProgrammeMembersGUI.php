@@ -354,7 +354,7 @@ class ilObjStudyProgrammeMembersGUI
         foreach ($user_ids as $user_id) {
             $ass = $prg->assignUser((int) $user_id);
             $assignments[] = $ass;
-            if ($prg->getCompletedCourses((int) $user_id)) {
+            if ($prg->getCompletedCourses($ass)) {
                 $with_courses[] = $ass;
             }
         }
@@ -389,7 +389,7 @@ class ilObjStudyProgrammeMembersGUI
         $ass_ids = [];
         foreach ($assignments as $ass) {
             $ass_ids[] = $ass->getId();
-            $completed_crss = $prg->getCompletedCourses($ass->getUserId());
+            $completed_crss = $prg->getCompletedCourses($ass);
 
             $label = sprintf(
                 "%s (%s)",
@@ -685,11 +685,6 @@ class ilObjStudyProgrammeMembersGUI
             fn($ass_id) => $this->assignment_db->get((int) $ass_id),
             $ass_ids
         );
-
-        $assignments = array_filter(
-            $assignments,
-            fn($ass) => $ass->getRootId() === $prg->getId()
-        );
         return $assignments;
     }
 
@@ -701,10 +696,10 @@ class ilObjStudyProgrammeMembersGUI
 
         foreach ($assignments as $ass) {
             $ass_ids[] = $ass->getId();
-            $completed_crss = $prg->getCompletedCourses($ass->getUserId());
+            $completed_crss = $prg->getCompletedCourses($ass);
             $nodes = [];
             foreach ($completed_crss as $opt) {
-                $nodes[] = [$opt['prg_obj_id'], $opt['crsr_id']];
+                $nodes[] = [$opt['prg_obj_id'], $opt['crs_id']];
             }
             $prg->acknowledgeCourses(
                 $ass->getId(),

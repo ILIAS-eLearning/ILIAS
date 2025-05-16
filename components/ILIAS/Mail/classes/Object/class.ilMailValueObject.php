@@ -18,28 +18,25 @@
 
 declare(strict_types=1);
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilMailValueObject
 {
-    /** @var string[] */
+    /** @var list<string> */
     private readonly array $attachments;
 
     /**
-     * @param string[] $attachments
+     * @param list<string> $attachments
      * @throws InvalidArgumentException
      */
     public function __construct(
         private readonly string $from,
         private readonly string $recipients,
-        private readonly string $recipientsCC,
-        private readonly string $recipientsBCC,
+        private readonly string $recipients_cc,
+        private readonly string $recipients_bcc,
         private readonly string $subject,
         private readonly string $body,
         array $attachments,
-        private readonly bool $usePlaceholders = false,
-        private readonly bool $saveInSentBox = false
+        private readonly bool $use_placeholders = false,
+        private readonly bool $save_in_sent_box = false
     ) {
         $this->attachments = array_filter(array_map('trim', $attachments));
         if (ilStr::strLen($this->subject) > 255) {
@@ -54,12 +51,12 @@ class ilMailValueObject
 
     public function getRecipientsCC(): string
     {
-        return $this->recipientsCC;
+        return $this->recipients_cc;
     }
 
     public function getRecipientsBCC(): string
     {
-        return $this->recipientsBCC;
+        return $this->recipients_bcc;
     }
 
     public function getSubject(): string
@@ -73,7 +70,7 @@ class ilMailValueObject
     }
 
     /**
-     * @return string[]
+     * @return list<string>
      */
     public function getAttachments(): array
     {
@@ -82,12 +79,12 @@ class ilMailValueObject
 
     public function isUsingPlaceholders(): bool
     {
-        return $this->usePlaceholders;
+        return $this->use_placeholders;
     }
 
     public function shouldSaveInSentBox(): bool
     {
-        return $this->saveInSentBox;
+        return $this->save_in_sent_box;
     }
 
     public function getFrom(): string

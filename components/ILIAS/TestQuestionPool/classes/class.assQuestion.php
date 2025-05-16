@@ -486,10 +486,12 @@ abstract class assQuestion implements Question
                     );
 
                     ilWACSignedPath::setTokenMaxLifetimeInSeconds(60);
+                    $path_to_solution = $this->getSuggestedSolutionPathWeb() . $solution->getFilename();
+                    if (!file_exists($path_to_solution)) {
+                        break;
+                    }
                     $output[] = '<a href="'
-                        . ilWACSignedPath::signFile(
-                            $this->getSuggestedSolutionPathWeb() . $solution->getFilename()
-                        )
+                        . ilWACSignedPath::signFile($path_to_solution)
                         . '">'
                         . $possible_texts[0]
                         . '</a>';
@@ -1875,6 +1877,8 @@ abstract class assQuestion implements Question
     ): void {
         global $DIC;
         $ilDB = $DIC['ilDB'];
+        /** @var ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository $question_properties_repository */
+        $question_properties_repository = QuestionPoolDIC::dic()['question.general_properties.repository'];
 
         if ($points > $maxpoints) {
             return;
@@ -1915,12 +1919,13 @@ abstract class assQuestion implements Question
             return;
         }
 
-        $test_id = ilObjTest::_lookupTestObjIdForQuestionId($question_id);
-        if ($test_id === null) {
+        $test_obj_id = $question_properties_repository->getForQuestionId($question_id)
+            ->getParentObjectId();
+        if ($test_obj_id === null) {
             return;
         }
         $test = new ilObjTest(
-            $test_id,
+            $test_obj_id,
             false
         );
         $test->updateTestPassResults($active_id, $pass);

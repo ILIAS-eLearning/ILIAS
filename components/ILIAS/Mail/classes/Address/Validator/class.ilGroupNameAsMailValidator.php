@@ -18,25 +18,17 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilGroupNameAsMailValidator
- * @author Niels Theen <ntheen@databay.de>
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilGroupNameAsMailValidator
 {
-    /** @var callable */
-    protected $groupNameCheckCallable;
+    /** @var callable(string): bool */
+    protected $group_name_check_callable;
 
-    public function __construct(protected string $host, ?callable $groupNameCheckCallable = null)
+    /**
+     * @param callable(string): bool|null $group_name_check_callable
+     */
+    public function __construct(protected string $host, ?callable $group_name_check_callable = null)
     {
-        if (null === $groupNameCheckCallable) {
-            $groupNameCheckCallable = static function (string $groupName): bool {
-                return ilUtil::groupNameExists($groupName);
-            };
-        }
-
-        $this->groupNameCheckCallable = $groupNameCheckCallable;
+        $this->group_name_check_callable = $group_name_check_callable ?? static fn(string $group_name): bool => ilUtil::groupNameExists($group_name);
     }
 
     /**
@@ -44,10 +36,10 @@ class ilGroupNameAsMailValidator
      */
     public function validate(ilMailAddress $address): bool
     {
-        $groupName = substr($address->getMailbox(), 1);
+        $group_name = substr($address->getMailbox(), 1);
 
-        $func = $this->groupNameCheckCallable;
-        return $func($groupName) && $this->isHostValid($address->getHost());
+        $func = $this->group_name_check_callable;
+        return $func($group_name) && $this->isHostValid($address->getHost());
     }
 
     private function isHostValid(string $host): bool

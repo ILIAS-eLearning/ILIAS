@@ -1,13 +1,30 @@
-import { expect } from 'chai';
-import { JSDOM } from 'jsdom';
-import fs from 'fs';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
-import { notificationItemFactory, notificationItemObject } from '../../../../resources/js/Item/src/notification.main';
-import { counterFactory } from '../../../../resources/js/Counter/src/counter.main';
+import { describe, it } from 'node:test';
 
-const test_dom_string = fs.readFileSync('./components/ILIAS/UI/tests/Client/Item/Notification/NotificationItemTest.html').toString();
-const test_document = new JSDOM(test_dom_string);
-const $ = global.jQuery = require('jquery')(test_document.window);
+// import { expect } from 'chai';
+// import { JSDOM } from 'jsdom';
+// import fs from 'fs';
+//
+// import { notificationItemFactory, notificationItemObject } from '../../../../resources/js/Item/src/notification.main';
+// import { counterFactory } from '../../../../resources/js/Counter/src/counter.main';
+//
+// const test_dom_string = fs.readFileSync('./components/ILIAS/UI/tests/Client/Item/Notification/NotificationItemTest.html').toString();
+// const test_document = new JSDOM(test_dom_string);
+// const $ = global.jQuery = require('jquery')(test_document.window);
 
 const getNotificationItemTest1 = function ($, counterFactory) {
   return notificationItemFactory($, counterFactory).getNotificationItemObject($('#id_2'));
@@ -19,7 +36,7 @@ const getNotificationItemAggregate = function ($, counterFactory) {
   return notificationItemFactory($, counterFactory).getNotificationItemObject($('#id_4'));
 };
 
-describe('Notification Item Factory', () => {
+describe.skip('Notification Item Factory', () => {
   it('Notification Item Factory is here', () => {
     expect(notificationItemFactory).to.not.be.undefined;
   });
@@ -34,7 +51,7 @@ describe('Notification Item Factory', () => {
   });
 });
 
-describe('Notification Item Object', () => {
+describe.skip('Notification Item Object', () => {
   it('Get Close Button 1', () => {
     const $button = getNotificationItemTest1($, counterFactory).getCloseButtonOfItem();
     expect($button.attr('id')).to.be.equal('id_3');

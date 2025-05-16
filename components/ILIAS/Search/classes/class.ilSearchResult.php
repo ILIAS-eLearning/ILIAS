@@ -17,14 +17,12 @@
  *********************************************************************/
 
 /**
-* searchResult stores all result of a search query.
-* Offers methods like mergeResults. To merge result sets of different queries.
-*
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @package ilias-search
-*/
+ * searchResult stores all result of a search query.
+ * Offers methods like mergeResults. To merge result sets of different queries.
+ *
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilSearchResult
 {
     private string $permission = 'visible';
@@ -52,12 +50,6 @@ class ilSearchResult
 
     protected ilLogger $logger;
 
-
-
-    /**
-    * Constructor
-    * @access	public
-    */
     public function __construct(int $a_user_id = 0)
     {
         global $DIC;
@@ -78,8 +70,8 @@ class ilSearchResult
     }
 
     /**
-    * Set the required permission for the rbac checks in function 'filter()'
-    */
+     * Set the required permission for the rbac checks in function 'filter()'
+     */
     public function setRequiredPermission(string $a_permission): void
     {
         $this->permission = $a_permission;
@@ -89,7 +81,6 @@ class ilSearchResult
     {
         return $this->permission;
     }
-
 
     public function setUserId(int $a_user_id): void
     {
@@ -131,10 +122,10 @@ class ilSearchResult
      *
      * add search result entry
      * Entries are stored with 'obj_id'. This method is typically called to store db query results.
-     * @param int object object_id
-     * @param string obj_type 'lm' or 'crs' ...
-     * @param array value position of query parser words in query string
-     * @param int child id e.g id of page or chapter
+     * @param int    $a_obj_id   object object_id
+     * @param string $a_type     obj_type 'lm' or 'crs' ...
+     * @param array  $found      value position of query parser words in query string
+     * @param int    $a_child_id child id e.g id of page or chapter
      * @return void
      */
     public function addEntry(int $a_obj_id, string $a_type, array $found, int $a_child_id = 0): void
@@ -164,11 +155,6 @@ class ilSearchResult
         }
     }
 
-    /**
-     *
-     * Check number of entries
-     * @access	public
-     */
     public function numEntries(): int
     {
         return count($this->getEntries());
@@ -177,8 +163,6 @@ class ilSearchResult
     /**
      *
      * merge entries of this instance and another result object
-     * @param object result_obj
-     * @access	public
      */
     public function mergeEntries(ilSearchResult $result_obj): void
     {
@@ -250,8 +234,7 @@ class ilSearchResult
     }
 
     /**
-     * get result ids
-     * @return int[] result ids
+     * @return int[]
      */
     public function getResultIds(): array
     {
@@ -270,7 +253,6 @@ class ilSearchResult
         }
         return $tmp_res;
     }
-
 
     /**
      * Get unique results. Return an array of obj_id (No multiple results for references)
@@ -311,8 +293,6 @@ class ilSearchResult
         }
         return $res;
     }
-
-
 
     /**
      * Filter search result.
@@ -374,10 +354,8 @@ class ilSearchResult
                     if (!ilDate::_before($creation_date, $creation_filter_date_end)) {
                         continue;
                     }
-                } else {
-                    if (!ilDate::_within($creation_date, $creation_filter_date_start, $creation_filter_date_end)) {
-                        continue;
-                    }
+                } elseif (!ilDate::_within($creation_date, $creation_filter_date_start, $creation_filter_date_end)) {
+                    continue;
                 }
             }
 
@@ -438,9 +416,7 @@ class ilSearchResult
     }
 
     /**
-     *
      * Filter search area of result set
-     * @access	public
      */
     public function filterResults(int $a_root_node): void
     {
@@ -454,34 +430,20 @@ class ilSearchResult
         }
     }
 
-
-    /**
-     *
-     * Save search results
-     * @param int DEFAULT_SEARCH or ADVANCED_SEARCH
-     */
     public function save(int $a_type = ilUserSearchCache::DEFAULT_SEARCH): void
     {
         $this->search_cache->save();
     }
-    /**
-     *
-     * read search results
-     * @param int DEFAULT_SEARCH or ADVANCED_SEARCH
-     * @access	public
-     */
+
     public function read(int $a_type = ilUserSearchCache::DEFAULT_SEARCH): void
     {
         $this->results = $this->search_cache->getResults();
     }
 
-    // PRIVATE
     /**
-     *
-     * Update childs for a specific entry
-     * @param int object object_id
-     * @param array array of child ids. E.g 'pg', 'st'
-     * @access	private
+     * @param int   $a_obj_id
+     * @param array $a_childs array of child ids. E.g 'pg', 'st'
+     * @return bool
      */
     public function __updateEntryChilds(int $a_obj_id, array $a_childs): bool
     {
@@ -495,6 +457,7 @@ class ilSearchResult
         }
         return false;
     }
+
     /**
      * Update child ids for a specific result
      */
@@ -509,8 +472,6 @@ class ilSearchResult
         return false;
     }
 
-
-
     public function __initSearchSettingsObject(): void
     {
         $this->search_settings = new ilSearchSettings();
@@ -519,12 +480,6 @@ class ilSearchResult
         }
     }
 
-    /**
-     * Init user search cache
-     *
-     * @access private
-     *
-     */
     protected function initUserSearchCache(): void
     {
         $this->search_cache = ilUserSearchCache::_getInstance($this->getUserId());
@@ -554,8 +509,8 @@ class ilSearchResult
      * Every callback function should support the following parameters:
      * array of ids. E.g: ref_id = 5,array(obj_id = 1,type = 'crs'),
      * The function should return true or false.
-     * @param object class of callback function
-     * @param string name of callback method
+     * @param object $a_class  class of callback function
+     * @param string $a_method name of callback method
      */
     public function addObserver(object $a_class, string $a_method): bool
     {
@@ -577,4 +532,4 @@ class ilSearchResult
         }
         return true;
     }
-} // END class.Search
+}

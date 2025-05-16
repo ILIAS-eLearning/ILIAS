@@ -92,8 +92,8 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler
         // Important: Do not check for uploaded files here,
         // otherwise it is no more possible to remove files (please ignore bug reports like 10137)
 
-        $sizeOfSelectedFiles = 0;
-        $filesOfRequest = $this->http->wrapper()->query()->retrieve(
+        $size_of_affected_files = 0;
+        $files_of_request = $this->http->wrapper()->query()->retrieve(
             'mail_attachments_filename',
             $this->refinery->byTrying([
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()),
@@ -101,25 +101,23 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler
             ])
         );
 
-        if ($filesOfRequest !== [] && $filesOfRequest[0] === 'ALL_OBJECTS') {
-            $filesOfRequest = array_map(static function (array $file): string {
-                return $file['name'];
-            }, $this->mfile->getUserFilesData());
+        if ($files_of_request !== [] && $files_of_request[0] === 'ALL_OBJECTS') {
+            $files_of_request = array_map(static fn(array $file): string => $file['name'], $this->mfile->getUserFilesData());
         }
 
-        foreach ($filesOfRequest as $file) {
-            if (is_file($this->mfile->getMailPath() . '/' . basename($this->user->getId() . '_' . urldecode($file)))) {
-                $files[] = urldecode($file);
-                $sizeOfSelectedFiles += filesize(
+        foreach ($files_of_request as $file) {
+            if (is_file($this->mfile->getMailPath() . '/' . basename($this->user->getId() . '_' . urldecode((string) $file)))) {
+                $files[] = urldecode((string) $file);
+                $size_of_affected_files += filesize(
                     $this->mfile->getMailPath() . '/' .
-                    basename($this->user->getId() . '_' . urldecode($file))
+                    basename($this->user->getId() . '_' . urldecode((string) $file))
                 );
             }
         }
 
         if ($files !== [] &&
-            null !== $this->mfile->getAttachmentsTotalSizeLimit() &&
-            $sizeOfSelectedFiles > $this->mfile->getAttachmentsTotalSizeLimit()) {
+            $this->mfile->getAttachmentsTotalSizeLimit() !== null &&
+            $size_of_affected_files > $this->mfile->getAttachmentsTotalSizeLimit()) {
             $this->tpl->setOnScreenMessage(
                 'failure',
                 $this->lng->txt('mail_max_size_attachments_total_error') . ' ' .
@@ -151,9 +149,7 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler
         );
 
         if ($files !== [] && $files[0] === 'ALL_OBJECTS') {
-            $files = array_map(static function (array $file): string {
-                return $file['name'];
-            }, $this->mfile->getUserFilesData());
+            $files = array_map(static fn(array $file): string => $file['name'], $this->mfile->getUserFilesData());
         }
 
         if ($files === []) {
@@ -173,7 +169,7 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler
             $confirmation->addItem(
                 'filename[]',
                 ilUtil::stripSlashes($filename),
-                ilUtil::stripSlashes(urldecode($filename))
+                ilUtil::stripSlashes(urldecode((string) $filename))
             );
         }
 
@@ -197,12 +193,12 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler
             return;
         }
 
-        $decodedFiles = [];
+        $decoded_files = [];
         foreach ($files as $value) {
-            $decodedFiles[] = urldecode($value);
+            $decoded_files[] = urldecode((string) $value);
         }
 
-        $error = $this->mfile->unlinkFiles($decodedFiles);
+        $error = $this->mfile->unlinkFiles($decoded_files);
         if ($error !== '') {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_error_delete_file') . ' ' . $error, true);
         } else {
@@ -210,7 +206,7 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler
             if (is_array($mail_data['attachments'])) {
                 $tmp = [];
                 foreach ($mail_data['attachments'] as $attachment) {
-                    if (!in_array($attachment, $decodedFiles, true)) {
+                    if (!in_array($attachment, $decoded_files, true)) {
                         $tmp[] = $attachment;
                     }
                 }

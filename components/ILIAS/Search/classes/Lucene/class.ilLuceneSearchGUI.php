@@ -22,26 +22,20 @@ use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 
 /**
-* @classDescription GUI for simple Lucene search
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @ilCtrl_IsCalledBy ilLuceneSearchGUI: ilSearchControllerGUI
-* @ilCtrl_Calls ilLuceneSearchGUI: ilObjectGUI, ilContainerGUI
-* @ilCtrl_Calls ilLuceneSearchGUI: ilObjCategoryGUI, ilObjCourseGUI, ilObjFolderGUI, ilObjGroupGUI
-* @ilCtrl_Calls ilLuceneSearchGUI: ilObjStudyProgrammeGUI
-* @ilCtrl_Calls ilLuceneSearchGUI: ilObjRootFolderGUI, ilObjectCopyGUI
-*
-* @ingroup ServicesSearch
-*/
+ * @author Stefan Meyer <meyer@leifos.com>
+ *
+ * @ilCtrl_IsCalledBy ilLuceneSearchGUI: ilSearchControllerGUI
+ * @ilCtrl_Calls ilLuceneSearchGUI: ilObjectGUI, ilContainerGUI
+ * @ilCtrl_Calls ilLuceneSearchGUI: ilObjCategoryGUI, ilObjCourseGUI, ilObjFolderGUI, ilObjGroupGUI
+ * @ilCtrl_Calls ilLuceneSearchGUI: ilObjStudyProgrammeGUI
+ * @ilCtrl_Calls ilLuceneSearchGUI: ilObjRootFolderGUI, ilObjectCopyGUI
+ */
 class ilLuceneSearchGUI extends ilSearchBaseGUI
 {
     protected ilTabsGUI $tabs;
     protected ilHelpGUI $help;
     protected UIFactory $ui_factory;
     protected UIRenderer $ui_renderer;
-
-    protected ilLuceneAdvancedSearchFields $fields;
 
     protected ?int $root_node;
     protected array $admin_panel_commands = [];
@@ -64,7 +58,6 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
 
-        $this->fields = ilLuceneAdvancedSearchFields::getInstance();
         $this->initFilter(self::SEARCH_FORM_LUCENE);
         $this->initUserSearchCache();
     }
@@ -207,7 +200,6 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 
     /**
      * Search (button pressed)
-     * @return void
      */
     protected function search(): void
     {
@@ -323,19 +315,9 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
             $this->tabs->addTarget('search_user', $this->ctrl->getLinkTargetByClass('illuceneusersearchgui'));
         }
 
-        if ($this->fields->getActiveFields() && !ilSearchSettings::getInstance()->getHideAdvancedSearch()) {
-            $this->tabs->addTarget('search_advanced', $this->ctrl->getLinkTargetByClass('illuceneAdvancedSearchgui'));
-        }
-
         $this->tabs->setTabActive('search');
     }
 
-    /**
-     * Init user search cache
-     *
-     * @access private
-     *
-     */
     protected function initUserSearchCache(): void
     {
         $this->search_cache = ilUserSearchCache::_getInstance($this->user->getId());
@@ -520,16 +502,11 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
         $this->page_form_action = $a_action;
     }
 
-    /**
-     * Show search form
-     * @return void
-     */
     protected function showSearchForm(): void
     {
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.search.html', 'components/ILIAS/Search');
         $this->renderSearch($this->search_cache->getQuery(), $this->search_cache->getRoot());
     }
-
 
     /**
      * Parse creation date
@@ -562,5 +539,4 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 
         return '';
     }
-    // end-patch creation_date
 }

@@ -18,110 +18,91 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailTransportSettingsTest
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilMailTransportSettingsTest extends ilMailBaseTestCase
 {
-    /**
-     * @throws ReflectionException
-     */
     public function testSystemAsIncomingTypeWontUpdate(): void
     {
-        $mailOptions = $this->getMockBuilder(ilMailOptions::class)
+        $mail_options = $this->getMockBuilder(ilMailOptions::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['updateOptions'])
             ->getMock();
 
-        $mailOptions->setIncomingType(0);
-        $mailOptions->setEmailAddressMode(3);
+        $mail_options->setIncomingType(0);
+        $mail_options->setEmailAddressmode(3);
 
-        $setting = new ilMailTransportSettings($mailOptions);
+        $setting = new ilMailTransportSettings($mail_options);
         $setting->adjust('test@ilias-test.de', 'someone@php-test.net');
 
-        $this->assertSame(0, $mailOptions->getIncomingType());
-        $this->assertSame(3, $mailOptions->getEmailAddressMode());
+        $this->assertSame(0, $mail_options->getIncomingType());
+        $this->assertSame(3, $mail_options->getEmailAddressMode());
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testOnlyFirstMailWillResultInUpdateProcess(): void
     {
-        $mailOptions = $this->getMockBuilder(ilMailOptions::class)
+        $mail_options = $this->getMockBuilder(ilMailOptions::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['updateOptions'])
             ->getMock();
 
-        $mailOptions->expects($this->once())->method('updateOptions');
-        $mailOptions->setIncomingType(2);
-        $mailOptions->setEmailAddressMode(4);
+        $mail_options->expects($this->once())->method('updateOptions');
+        $mail_options->setIncomingType(2);
+        $mail_options->setEmailAddressmode(4);
 
-        $setting = new ilMailTransportSettings($mailOptions);
+        $setting = new ilMailTransportSettings($mail_options);
         $setting->adjust('test@ilias-test.de', '');
 
-        $this->assertSame(3, $mailOptions->getEmailAddressMode());
+        $this->assertSame(3, $mail_options->getEmailAddressMode());
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testOnlySecondMailWillResultInUpdateProcess(): void
     {
-        $mailOptions = $this->getMockBuilder(ilMailOptions::class)
+        $mail_options = $this->getMockBuilder(ilMailOptions::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['updateOptions'])
             ->getMock();
 
-        $mailOptions->expects($this->once())->method('updateOptions');
-        $mailOptions->setIncomingType(2);
-        $mailOptions->setEmailAddressMode(3);
+        $mail_options->expects($this->once())->method('updateOptions');
+        $mail_options->setIncomingType(2);
+        $mail_options->setEmailAddressmode(3);
 
-        $setting = new ilMailTransportSettings($mailOptions);
+        $setting = new ilMailTransportSettings($mail_options);
         $setting->adjust('', 'test@ilias-test.de');
 
-        $this->assertSame(4, $mailOptions->getEmailAddressMode());
+        $this->assertSame(4, $mail_options->getEmailAddressMode());
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testNoMailWillResultInUpdateProcess(): void
     {
-        $mailOptions = $this->getMockBuilder(ilMailOptions::class)
+        $mail_options = $this->getMockBuilder(ilMailOptions::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['updateOptions'])
             ->getMock();
 
-        $mailOptions->expects($this->once())->method('updateOptions');
-        $mailOptions->setIncomingType(2);
-        $mailOptions->setEmailAddressMode(3);
+        $mail_options->expects($this->once())->method('updateOptions');
+        $mail_options->setIncomingType(2);
+        $mail_options->setEmailAddressmode(3);
 
-        $setting = new ilMailTransportSettings($mailOptions);
+        $setting = new ilMailTransportSettings($mail_options);
         $setting->adjust('', '');
 
-        $this->assertSame(0, $mailOptions->getIncomingType());
+        $this->assertSame(0, $mail_options->getIncomingType());
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testNothingWillBeAdjusted(): void
     {
-        $mailOptions = $this->getMockBuilder(ilMailOptions::class)
+        $mail_options = $this->getMockBuilder(ilMailOptions::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['updateOptions'])
             ->getMock();
 
-        $mailOptions->expects($this->never())->method('updateOptions');
-        $mailOptions->setIncomingType(2);
-        $mailOptions->setEmailAddressMode(5);
+        $mail_options->expects($this->never())->method('updateOptions');
+        $mail_options->setIncomingType(2);
+        $mail_options->setEmailAddressmode(5);
 
-        $setting = new ilMailTransportSettings($mailOptions);
+        $setting = new ilMailTransportSettings($mail_options);
         $setting->adjust('test@ilias-test.de', 'someone@php-test.net');
 
-        $this->assertSame(2, $mailOptions->getIncomingType());
-        $this->assertSame(5, $mailOptions->getEmailAddressMode());
+        $this->assertSame(2, $mail_options->getIncomingType());
+        $this->assertSame(5, $mail_options->getEmailAddressMode());
     }
 }

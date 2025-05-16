@@ -18,13 +18,9 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailAddressTypeHelper
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilMailAddressTypeHelperImpl implements ilMailAddressTypeHelper
 {
-    public function __construct(protected string $installationHost)
+    public function __construct(protected string $installation_host)
     {
     }
 
@@ -35,17 +31,17 @@ class ilMailAddressTypeHelperImpl implements ilMailAddressTypeHelper
 
     public function getGroupObjIdByTitle(string $title): int
     {
-        return (int) ilObjGroup::_lookupIdByTitle($title);
+        return ilObjGroup::_lookupIdByTitle($title);
     }
 
-    public function getInstanceByRefId(int $refId): ilObject
+    public function getInstanceByRefId(int $ref_id): ilObject
     {
-        return ilObjectFactory::getInstanceByRefId($refId);
+        return ilObjectFactory::getInstanceByRefId($ref_id);
     }
 
-    public function getAllRefIdsForObjId(int $objId): array
+    public function getAllRefIdsForObjId(int $obj_id): array
     {
-        return array_map('intval', ilObject::_getAllReferences($objId));
+        return array_map(intval(...), ilObject::_getAllReferences($obj_id));
     }
 
     public function getUserIdByLogin(string $login): int
@@ -55,7 +51,7 @@ class ilMailAddressTypeHelperImpl implements ilMailAddressTypeHelper
 
     public function getInstallationHost(): string
     {
-        return $this->installationHost;
+        return $this->installation_host;
     }
 
     public function getGlobalMailSystemId(): int
@@ -63,9 +59,9 @@ class ilMailAddressTypeHelperImpl implements ilMailAddressTypeHelper
         return ilMailGlobalServices::getMailObjectRefId();
     }
 
-    public function receivesInternalMailsOnly(int $usrId): bool
+    public function receivesInternalMailsOnly(int $usr_id): bool
     {
-        $options = new ilMailOptions($usrId);
+        $options = new ilMailOptions($usr_id);
 
         return $options->getIncomingType() === ilMailOptions::INCOMING_LOCAL;
     }

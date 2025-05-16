@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailTemplateSelectInputGUI
- */
 class ilMailTemplateSelectInputGUI extends ilSelectInputGUI
 {
     public function __construct(string $a_title, string $a_postvar, protected string $url, protected array $fields)

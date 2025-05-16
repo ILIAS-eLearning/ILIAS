@@ -43,6 +43,9 @@ class ilObjectTest extends TestCase
         $DIC['tree'] = $this->createMock(ilTree::class);
         $DIC['ilAppEventHandler'] = $this->createMock(ilAppEventHandler::class);
         $DIC['ilUser'] = $this->createMock(ilObjUser::class);
+        $DIC['resource_storage'] = $this->createMock(ILIAS\ResourceStorage\Services::class);
+        $DIC['object.customicons.factory'] = $this->createMock(ILIAS\ILIASObject\Properties\AdditionalProperties\Icon\Factory::class);
+        $DIC['learning_object_metadata'] = $this->createMock(ILIAS\MetaData\Services\ServicesInterface::class);
 
         if (!defined('ILIAS_LOG_DIR')) {
             define('ILIAS_LOG_DIR', '/var/log');

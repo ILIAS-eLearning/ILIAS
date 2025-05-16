@@ -363,7 +363,7 @@ class ilWikiDataSet extends ilDataSet
                 $newObj->setShortTitle($a_rec["Short"]);
                 $newObj->setStartPage($a_rec["StartPage"]);
                 $newObj->setRatingOverall($a_rec["RatingOverall"]);
-                $newObj->setRating($a_rec["Rating"]);
+                $newObj->setRatingPages($a_rec["Rating"]);
                 $newObj->setIntroduction($a_rec["Introduction"]);
                 $newObj->setPublicNotes($a_rec["PublicNotes"]);
 

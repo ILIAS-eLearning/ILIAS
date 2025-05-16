@@ -35,15 +35,18 @@ use SplFileInfo;
 
 class MailDeletionHandler
 {
-    private const PING_THRESHOLD = 250;
+    private const int PING_THRESHOLD = 250;
 
     private readonly ilDBInterface $db;
     private readonly ilSetting $settings;
     private readonly ilLogger $logger;
     private readonly ilDBStatement $mail_ids_for_path_stmt;
-    /** @var callable|null */
+    /** @var callable(string): void|null */
     private $delete_directory_callback;
 
+    /**
+     * @param callable(string): void|null $delete_directory_callback
+     */
     public function __construct(
         private readonly ilMailCronOrphanedMails $job,
         private readonly ExpiredOrOrphanedMailsCollector $collector,
@@ -66,7 +69,7 @@ class MailDeletionHandler
     }
 
     /**
-     * @return string[]
+     * @return list<string>
      */
     private function determineDeletableAttachmentPaths(): array
     {
@@ -111,7 +114,7 @@ class MailDeletionHandler
     private function deleteDirectory(string $directory): void
     {
         if ($this->delete_directory_callback !== null) {
-            call_user_func($this->delete_directory_callback, $directory);
+            \call_user_func($this->delete_directory_callback, $directory);
         } else {
             ilFileUtils::delDir($directory);
         }
@@ -141,21 +144,21 @@ class MailDeletionHandler
                     if ($file->isDir()) {
                         $this->deleteDirectory($path_name);
                         $this->logger->info(
-                            sprintf(
+                            \sprintf(
                                 "Attachment directory '%s' deleted",
                                 $path_name
                             )
                         );
                     } elseif (is_file($path_name) && unlink($path_name)) {
                         $this->logger->info(
-                            sprintf(
+                            \sprintf(
                                 "Attachment file '%s' deleted",
                                 $path_name
                             )
                         );
                     } else {
                         $this->logger->info(
-                            sprintf(
+                            \sprintf(
                                 'Attachment file \'%s\' for mail_id could not be deleted due to missing file system permissions',
                                 $path_name
                             )
@@ -165,7 +168,7 @@ class MailDeletionHandler
 
                 $this->deleteDirectory($path);
                 $this->logger->info(
-                    sprintf(
+                    \sprintf(
                         "Attachment directory '%s' deleted",
                         $path
                     )
@@ -212,7 +215,7 @@ class MailDeletionHandler
             $this->deleteMails();
 
             $this->logger->info(
-                sprintf(
+                \sprintf(
                     'Deleted mail_ids: %s',
                     implode(', ', $this->collector->mailIdsToDelete())
                 )
@@ -220,7 +223,7 @@ class MailDeletionHandler
 
             $this->deleteMarkedAsNotified();
             $this->logger->info(
-                sprintf(
+                \sprintf(
                     'Deleted mail_cron_orphaned mail_ids: %s',
                     implode(', ', $this->collector->mailIdsToDelete())
                 )

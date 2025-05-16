@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\Refinery\Factory as Refinery;
@@ -29,9 +30,10 @@ use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\UI\Component\Input\Field\Radio;
 use ILIAS\UI\Component\Modal\RoundTrip;
 use ILIAS\Object\ImplementsCreationCallback;
-use ILIAS\Object\CreationCallbackTrait;
-use ILIAS\Object\ilObjectDIC;
-use ILIAS\Object\Properties\MultiObjectPropertiesManipulator;
+use ILIAS\ILIASObject\Creation\CreationCallbackTrait;
+use ILIAS\ILIASObject\LocalDIC;
+use ILIAS\ILIASObject\Properties\AdditionalProperties\Icon\Factory as CustomIconFactory;
+use ILIAS\ILIASObject\Properties\MultiPropertiesManipulator;
 use ILIAS\ILIASObject\Creation\AddNewItemElement;
 use ILIAS\ILIASObject\Creation\AddNewItemElementTypes;
 use ILIAS\Filesystem\Filesystem;
@@ -58,6 +60,7 @@ class ilObjectGUI implements ImplementsCreationCallback
     public const SUPPORTED_IMPORT_MIME_TYPES = [MimeType::APPLICATION__ZIP, MimeType::APPLICATION__X_ZIP_COMPRESSED];
     protected \ILIAS\Notes\Service $notes_service;
 
+    protected GlobalHttpState $http;
     protected ServerRequestInterface $request;
     protected ilLocatorGUI $locator;
     protected ilObjUser $user;
@@ -80,11 +83,11 @@ class ilObjectGUI implements ImplementsCreationCallback
     protected RequestWrapper $request_wrapper;
     protected Refinery $refinery;
     protected ilFavouritesManager $favourites;
-    protected ilObjectCustomIconFactory $custom_icon_factory;
+    protected CustomIconFactory $custom_icon_factory;
     protected UIFactory $ui_factory;
     protected UIRenderer $ui_renderer;
     private ilObjectRequestRetriever $retriever;
-    private MultiObjectPropertiesManipulator $multi_object_manipulator;
+    private MultiPropertiesManipulator $multi_object_manipulator;
     protected Filesystem $temp_file_system;
 
     protected ?ilObject $object = null;
@@ -126,33 +129,36 @@ class ilObjectGUI implements ImplementsCreationCallback
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
-        $this->request = $DIC->http()->request();
-        $this->locator = $DIC["ilLocator"];
-        $this->user = $DIC->user();
-        $this->access = $DIC->access();
-        $this->settings = $DIC->settings();
-        $this->toolbar = $DIC->toolbar();
-        $this->rbac_admin = $DIC->rbac()->admin();
-        $this->rbac_system = $DIC->rbac()->system();
-        $this->rbac_review = $DIC->rbac()->review();
-        $this->object_service = $DIC->object();
-        $this->obj_definition = $DIC["objDefinition"];
-        $this->tpl = $DIC["tpl"];
-        $this->tree = $DIC->repositoryTree();
-        $this->ctrl = $DIC->ctrl();
-        $this->error = $DIC["ilErr"];
-        $this->lng = $DIC->language();
-        $this->tabs_gui = $DIC->tabs();
-        $this->ilias = $DIC["ilias"];
-        $this->post_wrapper = $DIC->http()->wrapper()->post();
-        $this->request_wrapper = $DIC->http()->wrapper()->query();
-        $this->refinery = $DIC->refinery();
-        $this->retriever = new ilObjectRequestRetriever($DIC->http()->wrapper(), $this->refinery);
-        $this->favourites = new ilFavouritesManager();
+        $this->http = $DIC['http'];
+        $this->locator = $DIC['ilLocator'];
+        $this->user = $DIC['ilUser'];
+        $this->access = $DIC['ilAccess'];
+        $this->settings = $DIC['ilSetting'];
+        $this->toolbar = $DIC['ilToolbar'];
+        $this->rbac_admin = $DIC['rbacadmin'];
+        $this->rbac_system = $DIC['rbacsystem'];
+        $this->rbac_review = $DIC['rbacreview'];
+        $this->obj_definition = $DIC['objDefinition'];
+        $this->tpl = $DIC['tpl'];
+        $this->tree = $DIC['tree'];
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->error = $DIC['ilErr'];
+        $this->lng = $DIC['lng'];
+        $this->tabs_gui = $DIC['ilTabs'];
+        $this->ilias = $DIC['ilias'];
+        $this->refinery = $DIC['refinery'];
         $this->custom_icon_factory = $DIC['object.customicons.factory'];
         $this->ui_factory = $DIC['ui.factory'];
         $this->ui_renderer = $DIC['ui.renderer'];
+        $this->object_service = $DIC->object();
         $this->temp_file_system = $DIC->filesystem()->temp();
+
+        $this->request = $this->http->request();
+        $this->post_wrapper = $this->http->wrapper()->post();
+        $this->request_wrapper = $this->http->wrapper()->query();
+
+        $this->retriever = new ilObjectRequestRetriever($DIC->http()->wrapper(), $this->refinery);
+        $this->favourites = new ilFavouritesManager();
 
         $this->data = $data;
         $this->id = $id;
@@ -211,10 +217,10 @@ class ilObjectGUI implements ImplementsCreationCallback
         $this->notes_service = $DIC->notes();
     }
 
-    private function getMultiObjectPropertiesManipulator(): MultiObjectPropertiesManipulator
+    private function getMultiObjectPropertiesManipulator(): MultiPropertiesManipulator
     {
         if (!isset($this->multi_object_manipulator)) {
-            $this->multi_object_manipulator = ilObjectDIC::dic()['multi_object_properties_manipulator'];
+            $this->multi_object_manipulator = LocalDIC::dic()['properties.multi_manipulator'];
         }
         return $this->multi_object_manipulator;
     }
@@ -406,9 +412,9 @@ class ilObjectGUI implements ImplementsCreationCallback
             $dispatcher->setSubObject($sub_type, $sub_id);
 
             ilObjectListGUI::prepareJsLinks(
-                $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
+                $this->ctrl->getLinkTarget($this, 'redrawHeaderAction', '', true),
                 "",
-                $this->ctrl->getLinkTargetByClass(["ilcommonactiondispatchergui", "iltagginggui"], "", "", true)
+                $this->ctrl->getLinkTargetByClass([ilCommonActionDispatcherGUI::class, ilTaggingGUI::class], '', '', true)
             );
 
             $lg = $dispatcher->initHeaderAction();

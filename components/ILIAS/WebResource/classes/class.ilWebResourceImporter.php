@@ -19,9 +19,7 @@
 declare(strict_types=1);
 
 /**
- * Webresource xml importer
  * @author  Stefan Meyer <meyer@leifos.com>
- * @ingroup components\ILIASWebResource
  */
 class ilWebResourceImporter extends ilXmlImporter
 {
@@ -60,7 +58,7 @@ class ilWebResourceImporter extends ilXmlImporter
         } else {
             $this->link = new ilObjLinkResource();
             $this->link->setType('webr');
-            $this->link->create(true);
+            $this->link->create();
         }
 
         try {

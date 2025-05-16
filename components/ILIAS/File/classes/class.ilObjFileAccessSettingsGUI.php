@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -48,7 +49,6 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
     private \ILIAS\components\File\Settings\Form $file_object_settings;
     protected Factory $ui_factory;
     protected Renderer $ui_renderer;
-    protected Services $http;
 
     /**
      * Constructor
@@ -62,7 +62,6 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
         $this->preview_settings = new Form(new Settings());
         $this->file_object_settings = new \ILIAS\components\File\Settings\Form(new General());
-        $this->http = $DIC->http();
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
         $this->language = $DIC->language();

@@ -24,6 +24,7 @@ use PHPUnit\Framework\TestCase;
 use ILIAS\Refinery\Encode\Transformation\HTMLAttributeValue;
 use ValueError;
 use TypeError;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 require_once __DIR__ . '/ProvideUTF8CodepointRange.php';
 
@@ -36,9 +37,7 @@ class HTMLAttributeValueTest extends TestCase
         $this->assertInstanceOf(HTMLAttributeValue::class, new HTMLAttributeValue());
     }
 
-    /**
-     * @dataProvider provideTransformData
-     */
+    #[DataProvider('provideTransformData')]
     public function testTransform(string $exptected, string $in, string $method): void
     {
         $this->$method($exptected, (new HTMLAttributeValue())->transform($in));

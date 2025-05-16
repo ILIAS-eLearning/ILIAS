@@ -18,27 +18,18 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilGroupNameAsMailValidatorTest
- * @author Niels Theen <ntheen@databay.de>
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilGroupNameAsMailValidatorTest extends ilMailBaseTestCase
 {
     public function testGroupIsDetectedIfGroupNameExists(): void
     {
-        $validator = new ilGroupNameAsMailValidator('someHost', static function (string $groupName): bool {
-            return true;
-        });
+        $validator = new ilGroupNameAsMailValidator('someHost', static fn(string $group_name): bool => true);
 
         $this->assertTrue($validator->validate(new ilMailAddress('phpunit', 'someHost')));
     }
 
     public function testGroupIsNotDetectedIfGroupNameDoesNotExists(): void
     {
-        $validator = new ilGroupNameAsMailValidator('someHost', static function (string $groupName): bool {
-            return false;
-        });
+        $validator = new ilGroupNameAsMailValidator('someHost', static fn(string $group_name): bool => false);
 
         $this->assertFalse($validator->validate(new ilMailAddress('someHost', 'someHost')));
     }

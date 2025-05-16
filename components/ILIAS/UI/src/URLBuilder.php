@@ -112,7 +112,7 @@ class URLBuilder
      * changed URLBuilder as well as the token for any
      * subsequent changes to the acquired parameter.
      *
-     * @return array<URLBuilder,URLBuilderToken>
+     * @return array{0: URLBuilder, 1: URLBuilderToken}
      * @throws \ilException
      * @throws \InvalidArgumentException
      */

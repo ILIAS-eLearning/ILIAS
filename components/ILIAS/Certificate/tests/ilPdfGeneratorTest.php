@@ -21,15 +21,11 @@ declare(strict_types=1);
 use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\Certificate\ValueObject\CertificateId;
 use ILIAS\Filesystem\Filesystem;
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilPdfGeneratorTest extends ilCertificateBaseTestCase
 {
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[DoesNotPerformAssertions]
     public function testGenerateSpecificCertificate(): void
     {
         if (!defined('CLIENT_WEB_DIR')) {
@@ -106,9 +102,7 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
         $pdfGenerator->generate(100);
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[DoesNotPerformAssertions]
     public function testGenerateCurrentActiveCertificate(): void
     {
         if (!defined('CLIENT_WEB_DIR')) {

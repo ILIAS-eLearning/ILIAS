@@ -73,9 +73,9 @@ class HttpPathBuilderTest extends TestCase
     }
 
     /**
-     * @dataProvider environmentProvider
      * @param array<string, mixed>|ArrayAccess<string, mixed> $server_data
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('environmentProvider')]
     public function testValidHostsTriggerNoExceptions(
         array|ArrayAccess $server_data,
         string $http_path,

@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailMimeTransportNull
- */
 class ilMailMimeTransportNull implements ilMailMimeTransport
 {
     public function send(ilMimeMail $mail): bool

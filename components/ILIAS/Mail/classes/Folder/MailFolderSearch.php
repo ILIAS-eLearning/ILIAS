@@ -109,7 +109,7 @@ class MailFolderSearch
 
     /**
      * Get the ids of all filtered mails
-     * @return int[]
+     * @return list<int>
      */
     public function getMaiIds(): array
     {
@@ -120,7 +120,7 @@ class MailFolderSearch
 
     /**
      * Get record objects of all filtered mails
-     * @return MailRecordData[]
+     * @return list<MailRecordData>
      */
     public function getRecords(): array
     {
@@ -131,7 +131,7 @@ class MailFolderSearch
 
     /**
      * Get record objects of filtered and paged mails
-     * @return MailRecordData[]
+     * @return list<MailRecordData>
      */
     public function getPagedRecords(
         int $limit,
