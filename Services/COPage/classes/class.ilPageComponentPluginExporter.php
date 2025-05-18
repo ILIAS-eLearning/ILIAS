@@ -23,22 +23,14 @@
 abstract class ilPageComponentPluginExporter extends ilXmlExporter
 {
     /**
-     * Properties of exportable plugged page contents
-     * The id has the following format:
-     * 		<parent_type>:<page_id>:<lang>:<pc_id>
-     * This format, however, should be irrelevant to child classes
-     *
-     * @var array $pc_properties  id => [ name => value, ... ]
+     * @deprecated
      */
     protected static array $pc_properties = array();
 
     /**
-     * Plugin versions of exportable plugged page contents
-     *
-     * @var array $pc_version	id => version
+     * @deprecated
      */
     protected static array $pc_version = array();
-
 
     /**
      * Set the properties of a plugged page content
@@ -48,7 +40,7 @@ abstract class ilPageComponentPluginExporter extends ilXmlExporter
         string $a_id,
         array $a_properties
     ): void {
-        self::$pc_properties[$a_id] = $a_properties;
+        ilPageComponentPluginExportImportStore::getInstance()->setPCProperties($a_id, $a_properties);
     }
 
     /**
@@ -56,7 +48,7 @@ abstract class ilPageComponentPluginExporter extends ilXmlExporter
      */
     public static function getPCProperties(string $a_id): ?array
     {
-        return self::$pc_properties[$a_id] ?? null;
+        return ilPageComponentPluginExportImportStore::getInstance()->getPCProperties($a_id);
     }
 
     /**
@@ -67,7 +59,7 @@ abstract class ilPageComponentPluginExporter extends ilXmlExporter
         string $a_id,
         string $a_version
     ): void {
-        self::$pc_version[$a_id] = $a_version;
+        ilPageComponentPluginExportImportStore::getInstance()->setPCVersion($a_id, $a_version);
     }
 
     /**
@@ -75,6 +67,6 @@ abstract class ilPageComponentPluginExporter extends ilXmlExporter
      */
     public static function getPCVersion(string $a_id): ?string
     {
-        return self::$pc_version[$a_id] ?? null;
+        return ilPageComponentPluginExportImportStore::getInstance()->getPCVersion($a_id);
     }
 }

@@ -440,6 +440,7 @@ class ilObjQuestionPool extends ilObject
             $page_object = new ilAssQuestionPage($question_id);
             $page_object->buildDom();
             $page_object->insertInstIntoIDs($a_inst);
+            ilPageComponentPluginExportImportStore::getInstance()->extractPluginProperties($page_object);
             $mob_ids = $page_object->collectMediaObjects(false);
             $file_ids = ilPCFileList::collectFileItems($page_object, $page_object->getDomDoc());
             $xml = $page_object->getXMLFromDom(false, false, false, '', true);

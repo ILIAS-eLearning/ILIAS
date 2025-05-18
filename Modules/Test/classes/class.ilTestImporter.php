@@ -34,12 +34,14 @@ class ilTestImporter extends ilXmlImporter
 
     private ilLogger $log;
     private ilDBInterface $db;
+    private ilPageComponentPluginExportImportStore $pc_plugin_store;
 
     public function __construct()
     {
         global $DIC;
         $this->log = $DIC['ilLog'];
         $this->db = $DIC['ilDB'];
+        $this->pc_plugin_store = ilPageComponentPluginExportImportStore::getInstance();
 
         parent::__construct();
     }
@@ -160,6 +162,14 @@ class ilTestImporter extends ilXmlImporter
                 (string) $oldQuestionId,
                 (string) $newQuestionId
             );
+
+            // needed for the import of page component plugins
+            $mapping->addMapping(
+                "Services/COPage",
+                "pg",
+                'qpl:' . $oldQuestionId,
+                'qpl:' . $newQuestionId
+            );
         }
 
         return $mapping;
@@ -172,6 +182,15 @@ class ilTestImporter extends ilXmlImporter
      */
     public function finalProcessing(ilImportMapping $a_mapping): void
     {
+        $page_map = $a_mapping->getMappingsOfEntity("Services/COPage", "pg");
+        foreach ($page_map as $new_page_id) {
+            $parts = explode(":", $new_page_id);
+            $page = ilPageObjectFactory::getInstance($parts[0], (int) $parts[1], 0, '-');
+            if ($this->pc_plugin_store->replacePluginProperties($page)) {
+                $page->update(false, true);
+            }
+        }
+
         $maps = $a_mapping->getMappingsOfEntity("Modules/Test", "tst");
 
         foreach ($maps as $old => $new) {

@@ -4181,6 +4181,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $page_object = new ilAssQuestionPage($question_id);
             $page_object->buildDom();
             $page_object->insertInstIntoIDs((string) $inst);
+            ilPageComponentPluginExportImportStore::getInstance()->extractPluginProperties($page_object);
             $mob_ids = $page_object->collectMediaObjects(false);
             $file_ids = ilPCFileList::collectFileItems($page_object, $page_object->getDomDoc());
             $xml = $page_object->getXMLFromDom(false, false, false, "", true);
