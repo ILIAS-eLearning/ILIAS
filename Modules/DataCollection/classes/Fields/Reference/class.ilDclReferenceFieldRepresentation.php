@@ -60,7 +60,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
                     $media_obj = new ilObjMediaObject($record_field->getValue());
                     $options[$record->getId()] = $media_obj->getTitle();
                     break;
-                case ilDclDatatype::INPUTFORMAT_DATETIME:
+                case ilDclDatatype::INPUTFORMAT_DATE:
                     $options[$record->getId()] = strtotime($record->getRecordFieldSingleHTML($fieldref));
                     $options2[$record->getId()] = $record->getRecordFieldSingleHTML($fieldref);
                     break;
@@ -86,7 +86,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
         asort($options, SORT_NATURAL | SORT_FLAG_CASE);
 
         // TT #0019091: restore the actual values after sorting with timestamp
-        if ($reffield->getDatatypeId() == ilDclDatatype::INPUTFORMAT_DATETIME) {
+        if ($reffield->getDatatypeId() === ilDclDatatype::INPUTFORMAT_DATE) {
             foreach ($options as $key => $opt) {
                 if ($key != "" && isset($options2) && is_array($options2)) {
                     $options[$key] = $options2[$key];

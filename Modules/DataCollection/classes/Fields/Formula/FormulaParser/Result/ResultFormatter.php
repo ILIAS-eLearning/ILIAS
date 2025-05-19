@@ -26,8 +26,6 @@ use ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\Result\Result\Inte
 
 class ResultFormatter
 {
-    use \ilDclDatetimeRecordDateFormatter;
-
     private const N_DECIMALS = 1;
     private const SCIENTIFIC_NOTATION_UPPER = 1000000000000;
     private const SCIENTIFIC_NOTATION_LOWER = 0.000000001;
@@ -54,11 +52,6 @@ class ResultFormatter
     protected function formatString(Result\StringResult $result): string
     {
         return $result->getValue();
-    }
-
-    protected function getUserDateFormat(): string
-    {
-        return (string) $this->user->getDateFormat();
     }
 
     protected function formatDateFromString(Result\DateResult $result): string
@@ -104,7 +97,7 @@ class ResultFormatter
                     case Functions::MAX:
                     case Functions::MIN:
                     case Functions::AVERAGE:
-                        return $this->formatDateFromInt($calculated_timestamp);
+                        return date($this->user->getDateFormat()->toString(), $calculated_timestamp);
                     case Functions::SUM:
                     default:
                         return '';

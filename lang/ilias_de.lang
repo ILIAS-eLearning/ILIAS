@@ -8567,10 +8567,10 @@ dcl#:#dcl_create_fields#:#Klicken Sie in der Registerkarte „Tabellen“ auf ei
 dcl#:#dcl_creation_date#:#Erstellungsdatum
 dcl#:#dcl_creation_date_description#:#Das Datum, an dem dieser Eintrag erstellt wurde.
 dcl#:#dcl_datatype#:#Datentyp
+dcl#:#dcl_date#:#Datumseingabe
+dcl#:#dcl_date_desc#:#Datum wird eingegeben oder im Kalender ausgewählt.
 dcl#:#dcl_date_selection#:#Auswahlmenü Datum
 dcl#:#dcl_date_selection_desc#:#Bereitstellen von Auswahloptionen (Datum)
-dcl#:#dcl_datetime#:#Datumseingabe
-dcl#:#dcl_datetime_desc#:#Datumseingabe per Auswahlmenü oder Kalender
 dcl#:#dcl_deactivate_view#:#Vorlage für Einzelansicht deaktivieren
 dcl#:#dcl_default_sort_field#:#Sortierung
 dcl#:#dcl_default_sort_field_desc#:#Tabelle wird standardmässig nach dem ausgewählten Feld sortiert.

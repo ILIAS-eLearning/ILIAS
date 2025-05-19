@@ -30,6 +30,7 @@ use ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\Result\Result\Resu
 use ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\Result\Result\IntegerResult;
 use ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\Result\Result\DateResult;
 use ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\Token\MathToken;
+use ilDclDatatype;
 
 class MathResultResolver implements ResultResolver
 {
@@ -70,7 +71,7 @@ class MathResultResolver implements ResultResolver
         foreach ($math_tokens as $math_token) {
             if (str_starts_with($math_token->getValue(), Tokenizer::FIELD_OPENER)) {
                 $field = $this->substitution->getFieldFromPlaceholder($math_token->getValue());
-                if ($field->getDatatypeId() === \ilDclDatatype::INPUTFORMAT_DATETIME) {
+                if ($field->getDatatypeId() === ilDclDatatype::INPUTFORMAT_DATE) {
                     return true;
                 }
             }
@@ -83,7 +84,7 @@ class MathResultResolver implements ResultResolver
             if (preg_match_all('/\[\[(.*?)\]\]/', $token->getValue(), $matches)) {
                 foreach ($matches[1] as $match) {
                     $field = $this->substitution->getFieldFromPlaceholder($match);
-                    if ($field->getDatatypeId() === \ilDclDatatype::INPUTFORMAT_DATETIME) {
+                    if ($field->getDatatypeId() === ilDclDatatype::INPUTFORMAT_DATE) {
                         return true;
                     }
                 }
