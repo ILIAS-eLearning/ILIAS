@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Filesystem\Filesystem;
+use ILIAS\ILIASObject\Properties\AdditionalProperties\Icon\Factory as CustomIconFactory;
 
 class ilObjStudyProgramme extends ilContainer
 {
@@ -64,7 +65,7 @@ class ilObjStudyProgramme extends ilContainer
     protected Filesystem $webdir;
     protected ilObjUser $ilUser;
     protected ?ilObjectFactoryWrapper $object_factory = null;
-    protected ilObjectCustomIconFactory $custom_icon_factory;
+    protected CustomIconFactory $custom_icon_factory;
     protected ilLogger $logger;
 
     /**
