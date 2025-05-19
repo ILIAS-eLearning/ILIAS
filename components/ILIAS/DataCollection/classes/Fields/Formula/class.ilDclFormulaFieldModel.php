@@ -24,7 +24,7 @@ class ilDclFormulaFieldModel extends ilDclBaseFieldModel
         ilDclDatatype::INPUTFORMAT_NUMBER,
         ilDclDatatype::INPUTFORMAT_TEXT,
         ilDclDatatype::INPUTFORMAT_BOOLEAN,
-        ilDclDatatype::INPUTFORMAT_DATETIME,
+        ilDclDatatype::INPUTFORMAT_DATE,
     ];
 
     /**

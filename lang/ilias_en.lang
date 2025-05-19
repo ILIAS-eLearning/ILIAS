@@ -8546,10 +8546,10 @@ dcl#:#dcl_create_fields#:#Click a table in the tab "Tables" and create new field
 dcl#:#dcl_creation_date#:#Creation Date
 dcl#:#dcl_creation_date_description#:#The date on which the entry was created.
 dcl#:#dcl_datatype#:#Datatype
+dcl#:#dcl_date#:#Date Entry
+dcl#:#dcl_date_desc#:#Field for a date.
 dcl#:#dcl_date_selection#:#Date Selection
 dcl#:#dcl_date_selection_desc#:#Offer selection of date options.
-dcl#:#dcl_datetime#:#Date Entry
-dcl#:#dcl_datetime_desc#:#Field for a date.
 dcl#:#dcl_default_sort_field#:#Default sort field
 dcl#:#dcl_default_sort_field_desc#:#The table will be sorted by this field by default.
 dcl#:#dcl_default_sort_field_order#:#Default sort field order

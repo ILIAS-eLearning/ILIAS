@@ -102,11 +102,11 @@ class ilDataCollectionDBUpdateSteps9 implements ilDatabaseUpdateSteps
     public function step_6(): void
     {
         $this->db->insert("il_dcl_datatype", [
-            'id' => ['integer', ilDclDatatype::INPUTFORMAT_FILE],
-            'title' => ['text', 'file'],
-            'ildb_type' => ['text', 'text'],
-            'storage_location' => ['integer', 1], // string-storage location
-            'sort' => ['integer', 75], // legacy + 5
+            'id' => [ilDBConstants::T_INTEGER, ilDclDatatype::INPUTFORMAT_FILE],
+            'title' => [ilDBConstants::T_TEXT, 'file'],
+            'ildb_type' => [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
+            'storage_location' => [ilDBConstants::T_INTEGER, 1],
+            'sort' => [ilDBConstants::T_INTEGER, 75],
         ]);
     }
 
@@ -114,7 +114,7 @@ class ilDataCollectionDBUpdateSteps9 implements ilDatabaseUpdateSteps
     {
         $this->db->manipulateF(
             "DELETE FROM il_dcl_datatype WHERE id = %s",
-            ['integer'],
+            [ilDBConstants::T_INTEGER],
             [defined(ilDclDatatype::class . '::INPUTFORMAT_FILEUPLOAD') ? ilDclDatatype::INPUTFORMAT_FILEUPLOAD : 6]
         );
     }
@@ -285,7 +285,7 @@ class ilDataCollectionDBUpdateSteps9 implements ilDatabaseUpdateSteps
         $this->db->manipulateF(
             'DELETE FROM il_dcl_datatype WHERE id = %s',
             [ilDBConstants::T_TEXT],
-            [ilDclDatatype::INPUTFORMAT_PLUGIN]
+            [12]
         );
     }
 
@@ -346,6 +346,29 @@ class ilDataCollectionDBUpdateSteps9 implements ilDatabaseUpdateSteps
                 'UPDATE page_object SET content = %s, rendered_content = %s WHERE page_id = %s',
                 [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT, ilDBConstants::T_INTEGER],
                 [$content, $rendered_content, (int) $row['page_id']]
+            );
+        }
+    }
+
+    public function step_19(): void
+    {
+        if ($this->db->tableColumnExists('il_dcl_datatype', 'ildb_type')) {
+            $this->db->dropTableColumn('il_dcl_datatype', 'ildb_type');
+        }
+    }
+
+    public function step_20(): void
+    {
+        $stmt = $this->db->queryF(
+            'SELECT id FROM il_dcl_datatype WHERE id = %s AND title = %s',
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_TEXT],
+            [ilDclDatatype::INPUTFORMAT_DATE, 'date']
+        );
+        if ($this->db->fetchAssoc($stmt) === null) {
+            $this->db->manipulateF(
+                'UPDATE il_dcl_datatype SET title = %s WHERE id = %s',
+                [ilDBConstants::T_TEXT, ilDBConstants::T_INTEGER],
+                ['date', ilDclDatatype::INPUTFORMAT_DATE]
             );
         }
     }
