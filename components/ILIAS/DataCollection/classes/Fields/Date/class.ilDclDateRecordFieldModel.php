@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-class ilDclDatetimeRecordFieldModel extends ilDclBaseRecordFieldModel
+class ilDclDateRecordFieldModel extends ilDclBaseRecordFieldModel
 {
     /**
      * @param int|string|null $value
@@ -40,7 +40,6 @@ class ilDclDatetimeRecordFieldModel extends ilDclBaseRecordFieldModel
     }
 
     /**
-     * Function to parse incoming data from form input value $value. returns the string/number/etc. to store in the database.
      * @param string $value
      */
     public function parseExportValue($value): ?string
@@ -49,7 +48,6 @@ class ilDclDatetimeRecordFieldModel extends ilDclBaseRecordFieldModel
     }
 
     /**
-     * Returns sortable value for the specific field-types
      * @param string $value
      */
     public function parseSortingValue($value, bool $link = true): ?int
@@ -59,8 +57,6 @@ class ilDclDatetimeRecordFieldModel extends ilDclBaseRecordFieldModel
 
     public function getFormulaValue(): string
     {
-        // getValue returns the field value, but in this case it is formatted. For the calculations in Formelns the value is needed as Unix timestamp (as string).
-        $value = $this->getValue();
-        return (string) strtotime($value ? $value : '');
+        return (string) strtotime($this->getValue() ?: '');
     }
 }
