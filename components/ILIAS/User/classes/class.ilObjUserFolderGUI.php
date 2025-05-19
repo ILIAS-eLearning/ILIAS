@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\User\UserGUIRequest;
+use ILIAS\User\Administration\Tabs;
 use ILIAS\User\Profile\Prompt\SettingsGUI;
 use ILIAS\User\Profile\Prompt\Repository as PromptRepository;
 use ILIAS\User\Profile\ChangeListeners\UserFieldAttributesChangeListener;
@@ -59,6 +60,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     private array $requested_ids; // Missing array type.
     private string $selected_action;
     private UserGUIRequest $user_request;
+    private Tabs $admin_tabs;
     private int $user_owner_id = 0;
     private int $confirm_change = 0;
     private ilDBInterface $db;
@@ -81,6 +83,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         int $a_id,
         bool $a_call_by_reference
     ) {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
         $this->dic = $DIC;
 
@@ -104,6 +107,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $this->ctrl->saveParameter(
             $this,
             'letter'
+        );
+
+        $this->admin_tabs = new Tabs(
+            $this->tabs_gui,
+            $this->lng,
+            $this->ctrl,
+            $this->access,
+            $this->getRefId()
         );
 
         $this->user_request = new UserGUIRequest(
@@ -201,9 +212,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($user_search);
                 break;
 
-            case 'ilcustomuserfieldsgui':
+            case strtolower(ilCustomUserFieldsGUI::class):
                 $this->raiseErrorOnMissingWrite();
-                $this->tabs_gui->setTabActive('settings');
                 $this->setSubTabs('settings');
                 $this->tabs_gui->activateSubTab('user_defined_fields');
                 $cf = new ilCustomUserFieldsGUI(
@@ -213,7 +223,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($cf);
                 break;
 
-            case 'iluserstartingpointgui':
+            case strtolower(ilUserStartingPointGUI::class):
                 $this->raiseErrorOnMissingWrite();
                 $this->tabs_gui->setTabActive('settings');
                 $this->setSubTabs('settings');
@@ -3060,151 +3070,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
     protected function getTabs(): void
     {
-        if ($this->access->checkRbacOrPositionPermissionAccess(
-            'visible,read',
-            \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
-            $this->object->getRefId()
-        )) {
-            $this->tabs_gui->addTarget(
-                'usrf',
-                $this->ctrl->getLinkTarget(
-                    $this,
-                    'view'
-                ),
-                ['view', 'delete', 'resetFilter', 'userAction', ''],
-                '',
-                ''
-            );
-        }
-
-        if ($this->access->checkRbacOrPositionPermissionAccess(
-            'read',
-            \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
-            USER_FOLDER_ID
-        )) {
-            $this->tabs_gui->addTarget(
-                'search_user_extended',
-                $this->ctrl->getLinkTargetByClass(
-                    'ilRepositorySearchGUI',
-                    ''
-                ),
-                [],
-                'ilrepositorysearchgui',
-                ''
-            );
-        }
-
-        if ($this->rbac_system->checkAccess(
-            'write',
-            $this->object->getRefId()
-        )) {
-            $this->tabs_gui->addTarget(
-                'settings',
-                $this->ctrl->getLinkTarget(
-                    $this,
-                    'generalSettings'
-                ),
-                [
-                    'askForUserPasswordReset',
-                    'forceUserPasswordReset',
-                    'settings',
-                    'generalSettings',
-                    'listUserDefinedField',
-                    'newAccountMail'
-                ]
-            );
-
-            $this->tabs_gui->addTarget(
-                'export',
-                $this->ctrl->getLinkTarget(
-                    $this,
-                    'export'
-                ),
-                'export',
-                '',
-                ''
-            );
-        }
-
-        if ($this->rbac_system->checkAccess(
-            'edit_permission',
-            $this->object->getRefId()
-        )) {
-            $this->tabs_gui->addTarget(
-                'perm_settings',
-                $this->ctrl->getLinkTargetByClass(
-                    [get_class($this), 'ilpermissiongui'],
-                    'perm'
-                ),
-                ['perm', 'info', 'owner'],
-                'ilpermissiongui'
-            );
-        }
-    }
-
-    public function setSubTabs(string $a_tab): void
-    {
-        switch ($a_tab) {
-            case 'settings':
-                $this->tabs_gui->addSubTabTarget(
-                    'general_settings',
-                    $this->ctrl->getLinkTarget(
-                        $this,
-                        'generalSettings'
-                    ),
-                    'generalSettings',
-                    get_class($this)
-                );
-                $this->tabs_gui->addSubTabTarget(
-                    'standard_fields',
-                    $this->ctrl->getLinkTarget(
-                        $this,
-                        'settings'
-                    ),
-                    ['settings', 'saveGlobalUserSettings'],
-                    get_class($this)
-                );
-                $this->tabs_gui->addSubTabTarget(
-                    'user_defined_fields',
-                    $this->ctrl->getLinkTargetByClass(
-                        'ilcustomuserfieldsgui',
-                        'listUserDefinedFields'
-                    ),
-                    'listUserDefinedFields',
-                    get_class($this)
-                );
-                $this->tabs_gui->addSubTabTarget(
-                    'user_new_account_mail',
-                    $this->ctrl->getLinkTarget(
-                        $this,
-                        'newAccountMail'
-                    ),
-                    'newAccountMail',
-                    get_class($this)
-                );
-
-                $this->tabs_gui->addSubTabTarget(
-                    'starting_points',
-                    $this->ctrl->getLinkTargetByClass(
-                        'iluserstartingpointgui',
-                        'startingPoints'
-                    ),
-                    'startingPoints',
-                    get_class($this)
-                );
-
-                $this->tabs_gui->addSubTabTarget(
-                    'user_profile_info',
-                    $this->ctrl->getLinkTargetByClass(
-                        SettingsGUI::class,
-                        ''
-                    ),
-                    '',
-                    SettingsGUI::class
-                );
-
-                break;
-        }
+        $this->admin_tabs->initializeTabs();
     }
 
     public static function _goto(string $a_user): void
