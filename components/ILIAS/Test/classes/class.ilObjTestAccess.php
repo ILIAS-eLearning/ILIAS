@@ -23,7 +23,7 @@ use ILIAS\Test\Access\AccessFileUploadPreview;
 use ILIAS\Test\Access\AccessQuestionImage;
 use ILIAS\Test\Access\SimpleAccess;
 use ILIAS\Test\Access\Readable;
-use ILIAS\Test\Results\Data\TestResultManager;
+use ILIAS\Test\Results\Data\Repository;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsDatabaseRepository;
 use ILIAS\Test\Settings\ScoreReporting\ScoreReportingTypes;
 use ILIAS\Data\Result;
@@ -52,7 +52,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 
     private static ?ilCertificateObjectsForUserPreloader $certificate_preloader = null;
     private static array $settings_result_summaries_by_obj_id = [];
-    private static TestResultManager $test_result_manager;
+    private static Repository $test_result_repository;
 
     public function __construct()
     {
@@ -65,7 +65,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         $this->access = $DIC['ilAccess'];
 
         $local_dic = TestDIC::dic();
-        self::$test_result_manager = $local_dic['results.data.test_result_manager'];
+        self::$test_result_repository = $local_dic['results.data.repository'];
     }
 
     public function canBeDelivered(ilWACPath $ilWACPath): bool
@@ -137,7 +137,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
      */
     public static function _isPassed(int $user_id, int $a_obj_id): bool
     {
-        return self::$test_result_manager->isPassed($user_id, $a_obj_id);
+        return self::$test_result_repository->isPassed($user_id, $a_obj_id);
     }
 
     /**
@@ -151,7 +151,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
      */
     public static function isFailed(int $user_id, int $a_obj_id): bool
     {
-        return self::$test_result_manager->isFailed($user_id, $a_obj_id);
+        return self::$test_result_repository->isFailed($user_id, $a_obj_id);
     }
 
     /**
@@ -286,7 +286,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
      */
     public static function hasFinished(int $a_user_id, int $a_obj_id): bool
     {
-        return self::$test_result_manager->hasFinished($a_user_id, $a_obj_id);
+        return self::$test_result_repository->hasFinished($a_user_id, $a_obj_id);
     }
 
     /**
@@ -433,7 +433,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
      */
     public static function _getPassedUsers(int $a_obj_id): array
     {
-        return self::$test_result_manager->getPassedParticipants($a_obj_id);
+        return self::$test_result_repository->getPassedParticipants($a_obj_id);
     }
 
     /**

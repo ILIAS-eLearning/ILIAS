@@ -22,7 +22,6 @@ namespace ILIAS\Test;
 
 use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\Results\Data\Repository as TestResultRepository;
-use ILIAS\Test\Results\Data\TestResultManager;
 use ILIAS\Test\Utilities\TitleColumnsBuilder;
 use ILIAS\Test\TestManScoringDoneHelper;
 use ILIAS\Test\Scoring\Marks\MarksRepository;
@@ -99,8 +98,13 @@ class TestDIC extends PimpleContainer
         $dic['results.toplist.repository'] = static fn($c): TestTopListRepository =>
             new TestTopListRepository($DIC['ilDB']);
 
-        $dic['results.data.test_result_repository'] = static fn($c): TestResultRepository =>
-            new TestResultRepository($DIC['ilDB']);
+        $dic['results.data.repository'] = static fn($c): TestResultRepository =>
+            new TestResultRepository(
+                $DIC->database(),
+                $DIC->refinery(),
+                $c['marks.repository'],
+                $DIC->globalCache()
+            );
 
         $dic['settings.main.repository'] = static fn($c): MainSettingsRepository =>
             new MainSettingsDatabaseRepository($DIC['ilDB']);
@@ -215,13 +219,6 @@ class TestDIC extends PimpleContainer
         $dic['participant.repository'] = static fn($c): ParticipantRepository =>
             new ParticipantRepository($DIC['ilDB']);
 
-        $dic['results.data.test_result_manager'] = static fn($c): TestResultManager =>
-            new TestResultManager(
-                $DIC->database(),
-                $DIC->refinery(),
-                $c['marks.repository'],
-                $DIC->globalCache()
-            );
         return $dic;
     }
 }

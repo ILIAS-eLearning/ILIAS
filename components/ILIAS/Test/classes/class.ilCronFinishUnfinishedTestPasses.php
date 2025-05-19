@@ -66,7 +66,7 @@ class ilCronFinishUnfinishedTestPasses extends CronJob
             $this->db
         );
 
-        $this->test_pass_result_repository = TestDic::dic()['results.data.test_result_repository'];
+        $this->test_pass_result_repository = TestDic::dic()['results.data.repository'];
     }
 
     public function getId(): string

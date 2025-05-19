@@ -160,7 +160,7 @@ class ilTestServiceGUI
         $this->results_presentation_factory = $local_dic['results.presentation.factory'];
         $this->questionrepository = $local_dic['question.general_properties.repository'];
         $this->testquestionsrepository = $local_dic['questions.properties.repository'];
-        $this->test_pass_result_repository = $local_dic['results.data.test_result_repository'];
+        $this->test_pass_result_repository = $local_dic['results.data.repository'];
 
         $this->service = new ilTestService($this->object, $this->db, $this->questionrepository);
 

@@ -23,18 +23,18 @@ namespace ILIAS\Test\Tests\Results\Data;
 use ILIAS\Cache\Container\Container;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Test\Results\Data\TestPassResult;
-use ILIAS\Test\Results\Data\TestResult;
-use ILIAS\Test\Results\Data\TestResultManager;
+use ILIAS\Test\Results\Data\ParticipantResult;
+use ILIAS\Test\Results\Data\Repository;
 use ILIAS\Test\Scoring\Marks\MarkSchema;
 use ILIAS\Test\Scoring\Marks\MarksRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class TestResultManagerTest extends \ilTestBaseTestCase
+class TestResultRepositoryTest extends \ilTestBaseTestCase
 {
     public function testConstruct(): void
     {
-        $manager = $this->createInstance();
-        $this->assertInstanceOf(TestResultManager::class, $manager);
+        $repository = $this->createInstance();
+        $this->assertInstanceOf(Repository::class, $repository);
     }
 
     /**
@@ -43,9 +43,9 @@ class TestResultManagerTest extends \ilTestBaseTestCase
     public function testGetPassedParticipants(int $test_obj_id, array $query_result): void
     {
         $this->mockGetPassedParticipants($query_result);
-        $manager = $this->createInstance();
+        $repository = $this->createInstance();
 
-        $actual = $manager->getPassedParticipants($test_obj_id);
+        $actual = $repository->getPassedParticipants($test_obj_id);
         foreach ($actual as $index => $participant) {
             $this->assertEquals($participant['active_id'], $query_result[$index]['active_id']);
             $this->assertEquals($participant['user_id'], $query_result[$index]['user_id']);
@@ -58,12 +58,12 @@ class TestResultManagerTest extends \ilTestBaseTestCase
     public function testGetTestResult(array $query_result, array $expected): void
     {
         $this->mockGetTestResultQuery($query_result);
-        $manager = $this->createInstance();
+        $repository = $this->createInstance();
 
-        $actual = $manager->getTestResult($query_result['active_fi']);
+        $actual = $repository->getTestResult($query_result['active_fi']);
 
         $this->assertNotNull($actual);
-        $this->assertInstanceOf(TestResult::class, $actual);
+        $this->assertInstanceOf(ParticipantResult::class, $actual);
         foreach ($expected as $method => $value) {
             $this->assertEquals($value, $actual->$method());
         }
@@ -72,37 +72,37 @@ class TestResultManagerTest extends \ilTestBaseTestCase
     public function testGetTestResultNotFound(): void
     {
         $this->mockGetTestResultQuery(null);
-        $manager = $this->createInstance();
+        $repository = $this->createInstance();
 
-        $actual = $manager->getTestResult(1000);
+        $actual = $repository->getTestResult(1000);
 
         $this->assertNull($actual);
     }
 
     /**
-     * @dataProvider provideFetchedTestPassResult
+     * @dataProvider provideFetchedTestAttemptResult
      */
     public function testReadStatus(array $query_result, array $expected): void
     {
         $this->mockUpdateTestResultCache($query_result);
-        $manager = $this->createInstance();
-        $manager->updateTestResultCache($query_result['active_fi']);
+        $repository = $this->createInstance();
+        $repository->updateTestResultCache($query_result['active_fi']);
 
         $user_id = $query_result['user_id'];
         $test_obj_id = $query_result['test_obj_id'];
 
-        $this->assertEquals($expected['isPassed'], $manager->isPassed($user_id, $test_obj_id));
-        $this->assertEquals($expected['isFailed'], $manager->isFailed($user_id, $test_obj_id));
-        $this->assertEquals($expected['hasFinished'], $manager->hasFinished($user_id, $test_obj_id));
+        $this->assertEquals($expected['isPassed'], $repository->isPassed($user_id, $test_obj_id));
+        $this->assertEquals($expected['isFailed'], $repository->isFailed($user_id, $test_obj_id));
+        $this->assertEquals($expected['hasFinished'], $repository->hasFinished($user_id, $test_obj_id));
     }
 
     public function testFailedPassedNotFound(): void
     {
-        $manager = $this->createInstance();
+        $repository = $this->createInstance();
 
-        $this->assertFalse($manager->isPassed(100, 200));
-        $this->assertFalse($manager->isFailed(100, 200));
-        $this->assertFalse($manager->hasFinished(100, 200));
+        $this->assertFalse($repository->isPassed(100, 200));
+        $this->assertFalse($repository->isFailed(100, 200));
+        $this->assertFalse($repository->hasFinished(100, 200));
     }
 
     /**
@@ -110,16 +110,16 @@ class TestResultManagerTest extends \ilTestBaseTestCase
      */
     public function testReadFromCache(array $query, array $cached_status, array $expected): void
     {
-        $manager = $this->createInstance();
+        $repository = $this->createInstance();
         $user_id = $query['user_id'];
         $test_obj_id = $query['test_obj_id'];
 
         // Ensure the data is queried from the database, as it is not yet in the cache
         $this->mockReadResultStatusQuery($cached_status);
 
-        $this->assertEquals($expected['isPassed'], $manager->isPassed($user_id, $test_obj_id));
-        $this->assertEquals($expected['isFailed'], $manager->isFailed($user_id, $test_obj_id));
-        $this->assertEquals($expected['hasFinished'], $manager->hasFinished($user_id, $test_obj_id));
+        $this->assertEquals($expected['isPassed'], $repository->isPassed($user_id, $test_obj_id));
+        $this->assertEquals($expected['isFailed'], $repository->isFailed($user_id, $test_obj_id));
+        $this->assertEquals($expected['hasFinished'], $repository->hasFinished($user_id, $test_obj_id));
 
         // Ensure the database is not queried again
         $this->adaptDICServiceMock(
@@ -130,9 +130,9 @@ class TestResultManagerTest extends \ilTestBaseTestCase
             }
         );
 
-        $this->assertEquals($expected['isPassed'], $manager->isPassed($user_id, $test_obj_id));
-        $this->assertEquals($expected['isFailed'], $manager->isFailed($user_id, $test_obj_id));
-        $this->assertEquals($expected['hasFinished'], $manager->hasFinished($user_id, $test_obj_id));
+        $this->assertEquals($expected['isPassed'], $repository->isPassed($user_id, $test_obj_id));
+        $this->assertEquals($expected['isFailed'], $repository->isFailed($user_id, $test_obj_id));
+        $this->assertEquals($expected['hasFinished'], $repository->hasFinished($user_id, $test_obj_id));
     }
 
     /**
@@ -140,7 +140,7 @@ class TestResultManagerTest extends \ilTestBaseTestCase
      */
     public function testInvalidateCache(array $query, array $cached_status, array $expected): void
     {
-        $manager = $this->createInstance();
+        $repository = $this->createInstance();
         $user_id = $query['user_id'];
         $active_id = $query['active_id'];
         $test_obj_id = $query['test_obj_id'];
@@ -148,30 +148,30 @@ class TestResultManagerTest extends \ilTestBaseTestCase
         // Ensure the data is loaded from the database, as it is not yet in the cache
         $this->mockReadResultStatusQuery($cached_status);
 
-        $this->assertEquals($expected['isPassed'], $manager->isPassed($user_id, $test_obj_id));
-        $this->assertEquals($expected['isFailed'], $manager->isFailed($user_id, $test_obj_id));
-        $this->assertEquals($expected['hasFinished'], $manager->hasFinished($user_id, $test_obj_id));
+        $this->assertEquals($expected['isPassed'], $repository->isPassed($user_id, $test_obj_id));
+        $this->assertEquals($expected['isFailed'], $repository->isFailed($user_id, $test_obj_id));
+        $this->assertEquals($expected['hasFinished'], $repository->hasFinished($user_id, $test_obj_id));
 
         $this->mockGetUserIds([['user_fi' => $user_id]]);
-        $manager->invalidateStatusCache([$active_id], $test_obj_id);
+        $repository->invalidateStatusCache([$active_id], $test_obj_id);
 
         // Ensure the data is queried again
         $this->mockReadResultStatusQuery($cached_status);
 
-        $this->assertEquals($expected['isPassed'], $manager->isPassed($user_id, $test_obj_id));
-        $this->assertEquals($expected['isFailed'], $manager->isFailed($user_id, $test_obj_id));
-        $this->assertEquals($expected['hasFinished'], $manager->hasFinished($user_id, $test_obj_id));
+        $this->assertEquals($expected['isPassed'], $repository->isPassed($user_id, $test_obj_id));
+        $this->assertEquals($expected['isFailed'], $repository->isFailed($user_id, $test_obj_id));
+        $this->assertEquals($expected['hasFinished'], $repository->hasFinished($user_id, $test_obj_id));
     }
 
     /**
-     * @dataProvider provideTestPassResult
+     * @dataProvider provideTestAttemptResult
      */
-    public function testGetTestPassResult(array $query_result, array $expected): void
+    public function testGetTestAttemptResult(array $query_result, array $expected): void
     {
         $this->mockGetTestPassResultQuery($query_result);
-        $manager = $this->createInstance();
+        $repository = $this->createInstance();
 
-        $actual = $manager->getTestPassResults($query_result['active_fi']);
+        $actual = $repository->getTestAttemptResult($query_result['active_fi']);
 
         $this->assertNotNull($actual);
         $this->assertInstanceOf(TestPassResult::class, $actual);
@@ -180,12 +180,12 @@ class TestResultManagerTest extends \ilTestBaseTestCase
         }
     }
 
-    public function testGetTestPassResultNotFound(): void
+    public function testGetTestAttemptResultNotFound(): void
     {
         $this->mockGetTestPassResultQuery(null);
-        $manager = $this->createInstance();
+        $repository = $this->createInstance();
 
-        $actual = $manager->getTestPassResults(1000);
+        $actual = $repository->getTestAttemptResult(1000);
 
         $this->assertNull($actual);
     }
@@ -193,17 +193,17 @@ class TestResultManagerTest extends \ilTestBaseTestCase
     /**
      * @dataProvider provideFetchedTestResult
      */
-    public function testUpdateTestPassResult(
+    public function testUpdateTestAttemptResult(
         array $parameters,
         array $test_result,
         array $test_config_result,
         array $working_time_result,
         array $expected
     ): void {
-        $this->mockUpdateTestPassResult($test_result, $test_config_result, $working_time_result);
-        $manager = $this->createInstance();
+        $this->mockUpdateTestAttemptResult($test_result, $test_config_result, $working_time_result);
+        $repository = $this->createInstance();
 
-        $actual = $manager->updateTestPassResults(
+        $actual = $repository->updateTestAttemptResult(
             $parameters['active_id'],
             $parameters['pass'],
             null,
@@ -223,7 +223,7 @@ class TestResultManagerTest extends \ilTestBaseTestCase
         Mocking
      */
 
-    private function createInstance(): TestResultManager
+    private function createInstance(): Repository
     {
         $global_cache = $this->createConfiguredMock(
             \ILIAS\Cache\Services::class,
@@ -231,7 +231,7 @@ class TestResultManagerTest extends \ilTestBaseTestCase
         );
 
         return $this->createInstanceOf(
-            TestResultManager::class,
+            Repository::class,
             ['marks_repository' => $this->createMarksRepositoryMock(), 'global_cache' => $global_cache]
         );
     }
@@ -308,7 +308,7 @@ class TestResultManagerTest extends \ilTestBaseTestCase
      */
 
     /**
-     * @see TestResultManager::getPassedParticipants
+     * @see Repository::getPassedParticipants
      */
     private function mockGetPassedParticipants(array $fetch_all_return): void
     {
@@ -329,7 +329,7 @@ class TestResultManagerTest extends \ilTestBaseTestCase
     }
 
     /**
-     * @see TestResultManager::getTestResult
+     * @see Repository::getTestResult
      */
     private function mockGetTestResultQuery(?array $fetch_assoc_return): void
     {
@@ -337,7 +337,7 @@ class TestResultManagerTest extends \ilTestBaseTestCase
     }
 
     /**
-     * @see TestResultManager::getTestPassResults
+     * @see Repository::getTestAttemptResult
      */
     private function mockGetTestPassResultQuery(?array $fetch_assoc_return): void
     {
@@ -363,7 +363,7 @@ class TestResultManagerTest extends \ilTestBaseTestCase
     }
 
     /**
-     * @see TestResultManager::readOrQueryStatus
+     * @see Repository::readOrQueryStatus
      */
     private function mockReadResultStatusQuery(?array $fetch_assoc_return): void
     {
@@ -377,7 +377,7 @@ class TestResultManagerTest extends \ilTestBaseTestCase
     }
 
     /**
-     * @see TestResultManager::invalidateStatusCache
+     * @see Repository::invalidateStatusCache
      */
     private function mockGetUserIds(?array $fetch_all_return): void
     {
@@ -393,15 +393,15 @@ class TestResultManagerTest extends \ilTestBaseTestCase
     }
 
     /**
-     * @see TestResultManager::updateTestResultCache
+     * @see Repository::updateTestResultCache
      */
-    private function mockUpdateTestResultCache(?array $test_pass_result, bool $passed_once = false): void
+    private function mockUpdateTestResultCache(?array $test_attempt_result, bool $passed_once = false): void
     {
         $fetch_assoc_mocks = [
-            ['pass_scoring' => \ilObjTest::SCORE_LAST_PASS],   // \ilObjTest::_getPassScoring
+            ['pass_scoring' => \ilObjTest::SCORE_LAST_PASS],    // \ilObjTest::_getPassScoring
             ['maxpass' => 0],                                   // \ilObjTest::_getMaxPass
-            $test_pass_result,                                  // TestResultManager::fetchTestPassResult
-            ['passed_once' => $passed_once ? 1 : 0]             // TestResultManager::buildTestResultObject
+            $test_attempt_result,                               // TestResultRepository::fetchTestPassResult
+            ['passed_once' => $passed_once ? 1 : 0]             // TestResultRepository::buildTestResultObject
         ];
 
         $this->adaptDICServiceMock(
@@ -423,16 +423,16 @@ class TestResultManagerTest extends \ilTestBaseTestCase
     }
 
     /**
-     * @see TestResultManager::updateTestPassResults
+     * @see Repository::updateTestAttemptResult
      */
-    private function mockUpdateTestPassResult(?array $test_result, ?array $test_config, ?array $working_time): void
+    private function mockUpdateTestAttemptResult(?array $test_result, ?array $test_config, ?array $working_time): void
     {
         $fetch_assoc_mocks = [
-            $test_result,                                                   // TestResultManager::fetchTestResult
-            ['question_set_type' => \ilObjTest::QUESTION_SET_TYPE_FIXED],   // TestResultManager::fetchAdditionalTestData (1)
-            $test_config,                                                   // TestResultManager::fetchAdditionalTestData (2)
-            $working_time,                                                  // TestResultManager::fetchWorkingTime
-            null                                                            // TestResultManager::fetchWorkingTime (i2)
+            $test_result,                                                   // TestResultRepository::fetchTestResult
+            ['question_set_type' => \ilObjTest::QUESTION_SET_TYPE_FIXED],   // TestResultRepository::fetchAdditionalTestData (1)
+            $test_config,                                                   // TestResultRepository::fetchAdditionalTestData (2)
+            $working_time,                                                  // TestResultRepository::fetchWorkingTime
+            null                                                            // TestResultRepository::fetchWorkingTime (i2)
         ];
 
         $this->adaptDICServiceMock(
@@ -488,7 +488,7 @@ class TestResultManagerTest extends \ilTestBaseTestCase
      *  INNER JOIN tst_active ON tst_active.active_id = tst_result_cache.active_fi INNER JOIN tst_tests ON
      *  tst_tests.test_id = tst_active.test_fi WHERE tst_tests.obj_fi = %s AND tst_result_cache.passed_once = 1
      *
-     * @see TestResultManager::getPassedParticipants()
+     * @see Repository::getPassedParticipants()
      */
     public static function providePassedParticipants(): array
     {
@@ -511,7 +511,7 @@ class TestResultManagerTest extends \ilTestBaseTestCase
      *
      *  SELECT * FROM tst_result_cache WHERE active_fi = %s
      *
-     * @see TestResultManager::getTestResult()
+     * @see Repository::getTestResult()
      */
     public static function provideTestResultCache(): array
     {
@@ -558,9 +558,9 @@ class TestResultManagerTest extends \ilTestBaseTestCase
      *  FROM tst_pass_result INNER JOIN tst_active ON tst_pass_result.active_fi = tst_active.active_id
      *  INNER JOIN tst_tests ON tst_tests.test_id = tst_active.test_fi WHERE active_fi = %s AND pass = %s
      *
-     * @see TestResultManager::fetchTestPassResult
+     * @see Repository::fetchTestAttemptResult()
      */
-    public static function provideFetchedTestPassResult(): array
+    public static function provideFetchedTestAttemptResult(): array
     {
         return [
             // Dataset #1: failed result
@@ -645,9 +645,9 @@ class TestResultManagerTest extends \ilTestBaseTestCase
      *
      *  SELECT * FROM tst_result_cache WHERE active_fi = %s
      *
-     * @see TestResultManager::getTestPassResults
+     * @see Repository::getTestAttemptResult
      */
-    public static function provideTestPassResult(): array
+    public static function provideTestAttemptResult(): array
     {
         return [
             [
@@ -691,7 +691,7 @@ class TestResultManagerTest extends \ilTestBaseTestCase
      *
      *  SELECT started, finished FROM tst_times WHERE active_fi = %s AND pass = %s ORDER BY started
      *
-     * @see TestResultManager::fetchTestResult, TestResultManager::fetchAdditionalTestData,TestResultManager::fetchWorkingTime
+     * @see Repository::fetchTestResult, Repository::fetchAdditionalTestData,Repository::fetchWorkingTime
      */
     public static function provideFetchedTestResult(): array
     {

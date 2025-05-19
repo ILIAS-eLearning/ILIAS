@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Test\Participants\ParticipantRepository;
-use ILIAS\Test\Results\Data\TestResultManager;
+use ILIAS\Test\Results\Data\Repository;
 use ILIAS\Test\TestDIC;
 use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\TestManScoringDoneHelper;
@@ -146,7 +146,7 @@ class ilObjTest extends ilObject
 
     protected ?ilTestParticipantList $access_filtered_participant_list = null;
     protected ParticipantRepository $participant_repository;
-    protected TestResultManager $result_manager;
+    protected Repository $test_result_repository;
 
     protected LOMetadata $lo_metadata;
 
@@ -182,7 +182,7 @@ class ilObjTest extends ilObject
         $this->testrequest = $local_dic['request_data_collector'];
         $this->participant_repository = $local_dic['participant.repository'];
         $this->export_factory = $local_dic['exportimport.factory'];
-        $this->result_manager = $local_dic['results.data.test_result_manager'];
+        $this->test_result_repository = $local_dic['results.data.repository'];
 
         parent::__construct($id, $a_call_by_reference);
 
@@ -1246,7 +1246,7 @@ class ilObjTest extends ilObject
             $this->db->manipulate("DELETE FROM tst_test_rnd_qst WHERE {$in_active_ids}");
         }
 
-        $this->result_manager->invalidateStatusCache($active_ids, $this->getId());
+        $this->test_result_repository->invalidateStatusCache($active_ids, $this->getId());
 
         foreach ($active_ids as $active_id) {
             // remove file uploads
@@ -1794,10 +1794,10 @@ class ilObjTest extends ilObject
         bool $consider_hidden_questions = true,
         bool $consider_optional_questions = true
     ): array {
-        $result_cache = $this->result_manager->getTestResult($active_id);
+        $result_cache = $this->test_result_repository->getTestResult($active_id);
 
         if ($pass === null) {
-            $pass = $result_cache->getPass();
+            $pass = $result_cache->getAttempt();
         }
 
         $test_sequence_factory = new ilTestSequenceFactory($this, $this->db, $this->questionrepository);
@@ -1934,7 +1934,7 @@ class ilObjTest extends ilObject
         $found["test"]["total_reached_points"] = $result_cache->getReachedPoints();
         $found["test"]["total_requested_hints"] = $result_cache->getHintCount();
         $found["test"]["total_hint_points"] = $result_cache->getHintPoints();
-        $found["test"]["result_pass"] = $result_cache->getPass();
+        $found["test"]["result_pass"] = $result_cache->getAttempt();
         $found['test']['result_tstamp'] = $result_cache->getTimestamp();
         $found["test"]["passed"] = $result_cache->isPassed();
 
@@ -2093,7 +2093,7 @@ class ilObjTest extends ilObject
      */
     public function getWorkingTimeOfParticipantForPass(int $active_id, int $pass): int
     {
-        return $this->result_manager->fetchWorkingTime($active_id, $pass);
+        return $this->test_result_repository->fetchWorkingTime($active_id, $pass);
     }
 
     /**
@@ -7375,7 +7375,7 @@ class ilObjTest extends ilObject
      */
     public function updateTestResultCache(int $active_id, ?ilAssQuestionProcessLocker $process_locker = null): void
     {
-        $this->result_manager->updateTestResultCache($active_id, $process_locker);
+        $this->test_result_repository->updateTestResultCache($active_id, $process_locker);
     }
 
     /**
@@ -7387,7 +7387,7 @@ class ilObjTest extends ilObject
         ?ilAssQuestionProcessLocker $process_locker = null,
         ?int $test_obj_id = null
     ): void {
-        $this->result_manager->updateTestPassResults($active_id, $pass, $process_locker, $test_obj_id);
+        $this->test_result_repository->updateTestAttemptResult($active_id, $pass, $process_locker, $test_obj_id);
     }
 
     public function addToNewsOnOnline(

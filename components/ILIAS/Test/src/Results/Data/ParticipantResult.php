@@ -23,16 +23,16 @@ namespace ILIAS\Test\Results\Data;
 use ILIAS\Test\Scoring\Marks\Mark;
 
 /**
- * Class TestResult is a model representation of an entry in the test_result_cache table.
+ * Class ParticipantResult is a model representation of an entry in the test_result_cache table.
  */
-class TestResult
+class ParticipantResult
 {
     /**
      * Constructor ensures that the provided values are semantically correct (e.G. reached points are never negative).
      */
     public function __construct(
         protected int $active_id,
-        protected int $pass,
+        protected int $attempt,
         protected float $max_points,
         protected float $reached_points,
         protected string $mark_short,
@@ -75,9 +75,9 @@ class TestResult
         return $this->active_id;
     }
 
-    public function getPass(): int
+    public function getAttempt(): int
     {
-        return $this->pass;
+        return $this->attempt;
     }
 
     public function getMaxPoints(): float

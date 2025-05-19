@@ -25,12 +25,9 @@ namespace ILIAS\Test\Results\Data;
  */
 class TestPassResult
 {
-    /**
-     * Constructor ensures that the provided values are semantically correct (e.G. reached points are never negative).
-     */
     public function __construct(
         protected int $active_id,
-        protected int $pass,
+        protected int $attempt,
         protected float $max_points,
         protected float $reached_points,
         protected int $question_count,
@@ -73,7 +70,8 @@ class TestPassResult
         return $clone;
     }
 
-    public function withTimestamp(int $timestamp = -1): self {
+    public function withTimestamp(int $timestamp = -1): self
+    {
         $clone = clone $this;
         $clone->timestamp = $timestamp > 0 ? $timestamp : time();
         return $clone;
@@ -84,9 +82,9 @@ class TestPassResult
         return $this->active_id;
     }
 
-    public function getPass(): int
+    public function getAttempt(): int
     {
-        return $this->pass;
+        return $this->attempt;
     }
 
     public function getMaxPoints(): float
