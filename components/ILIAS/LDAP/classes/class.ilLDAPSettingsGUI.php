@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Data\Factory;
+
 /**
  * @author Stefan Meyer <meyer@leifos.com>
  */
@@ -65,6 +67,7 @@ class ilLDAPSettingsGUI
     private readonly \ILIAS\UI\Renderer $ui_renderer;
     private readonly \ILIAS\HTTP\GlobalHttpState $http;
     private readonly \ILIAS\Refinery\Factory $refinery;
+    private readonly ilObjectDataCache $object_data_cache;
 
     /**
      * @throws ilCtrlException
@@ -89,6 +92,7 @@ class ilLDAPSettingsGUI
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
         $this->refinery = $DIC->refinery();
+        $this->object_data_cache = $DIC['ilObjDataCache'];
 
         $this->tpl = $DIC->ui()->mainTemplate();
 
@@ -128,12 +132,30 @@ class ilLDAPSettingsGUI
                 ])
             );
         }
+        $this->initServer();
+
 
         if ($http_wrapper->query()->has("mapping_id")) {
             $this->mapping_id = $http_wrapper->query()->retrieve(
                 "mapping_id",
                 $refinery->kindlyTo()->int()
             );
+        }
+        if ($http_wrapper->query()->has('ldap_role_mapping_mapping_ids')) {
+            $this->mappings = $http_wrapper->query()->retrieve(
+                'ldap_role_mapping_mapping_ids',
+                $refinery->kindlyTo()->listOf($refinery->kindlyTo()->string())
+            );
+            if ($this->mappings === ['ALL_OBJECTS']) {
+                $mapping_instance = ilLDAPRoleGroupMappingSettings::_getInstanceByServerId($this->server->getServerId());
+                $this->mappings = array_map(static function (array $mapping): int {
+                    return $mapping['mapping_id'];
+                }, $mapping_instance->getMappings());
+            }
+            $this->mappings = $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())->transform($this->mappings);
+            if (count($this->mappings) === 1) {
+                $this->mapping_id = current($this->mappings);
+            }
         }
         if ($is_post_request) {
             if ($http_wrapper->post()->has('rule_ids')) {
@@ -199,7 +221,7 @@ class ilLDAPSettingsGUI
         $this->ref_id = $a_auth_ref_id;
 
 
-        $this->initServer();
+
     }
 
     /**
@@ -209,6 +231,12 @@ class ilLDAPSettingsGUI
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
+        if ($this->http->wrapper()->query()->has('ldap_role_mapping_table_action')) {
+            $cmd = $this->http->wrapper()->query()->retrieve(
+                'ldap_role_mapping_table_action',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
 
         if ($cmd !== "serverList" && !$this->rbacSystem->checkAccess("visible,read", $this->ref_id)) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_write'), true);
@@ -1434,15 +1462,16 @@ class ilLDAPSettingsGUI
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.ldap_role_mappings.html', 'components/ILIAS/LDAP');
         $this->tpl->setVariable("NEW_ASSIGNMENT_TBL", $propertie_form->getHTML());
 
-        //Set Group Assignments Table if mappings exist
-        $mapping_instance = ilLDAPRoleGroupMappingSettings::_getInstanceByServerId($this->server->getServerId());
-        $mappings = $mapping_instance->getMappings();
-        if (count($mappings)) {
-            $table_gui = new ilLDAPRoleMappingTableGUI($this, $this->server->getServerId());
-            $table_gui->setTitle($this->lng->txt('ldap_role_group_assignments'));
-            $table_gui->setData($mappings);
-            $this->tpl->setVariable("RULES_TBL", $table_gui->getHTML());
-        }
+        $table = new LDAPRoleMappingTable(
+            $this->http->request(),
+            $this->lng,
+            $this->ui_factory,
+            new Factory(),
+            $this->server->getServerId(),
+            $this->object_data_cache,
+            $this->rbacReview
+        );
+        $this->tpl->setVariable('RULES_TBL', $this->ui_renderer->render($table->getComponent()));
     }
 
     /**
