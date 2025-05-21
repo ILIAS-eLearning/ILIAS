@@ -436,7 +436,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 $table = new ilTestDetailedEvaluationStatisticsTableGUI($this, 'detailedEvaluation', ($pass + 1) . '_' . $this->object->getId());
                 $table->setTitle(sprintf($this->lng->txt("tst_eval_question_points"), $pass + 1));
                 if (($this->testAccess->getAccess()->checkAccess('write', '', $this->testrequest->getRefId()))) {
-                    $table->addCommandButton('outParticipantsPassDetails', $this->lng->txt('tst_show_answer_sheet'));
+                    $button_show_answer = $this->ui_renderer->render($this->ui_factory->button()->standard($this->lng->txt('tst_show_answer_sheet'), $this->ctrl->getLinkTarget($this, 'outParticipantsPassDetails')));
                 }
 
                 $questions = $data->getParticipant($active_id)->getQuestions($pass);
@@ -466,8 +466,12 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                     $tableData[] = $userDataData;
                 }
                 $table->setData($tableData);
-
-                $tables[] = $table->getHTML();
+                if(isset($button_show_answer)){
+                    $tables[] = $table->getHTML(). $button_show_answer;
+                }
+                else{
+                    $tables[] = $table->getHTML();
+                }
             }
         }
 
