@@ -229,22 +229,6 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return $tableJoin;
     }
 
-    private function handleHintJoin(string $tableJoin): string
-    {
-        $feedback_join = match ($this->fieldFilters['hints'] ?? null) {
-            'true' => 'INNER',
-            'false' => 'LEFT',
-            default => null
-        };
-
-        if (isset($feedback_join)) {
-            $SQL = "$feedback_join JOIN qpl_hints ON qpl_hints.qht_question_fi = qpl_questions.question_id ";
-            $tableJoin .= !str_contains($tableJoin, $SQL) ? $SQL : '';
-        }
-
-        return $tableJoin;
-    }
-
     private function getTaxonomyFilterExpressions(): array
     {
         $expressions = $this->getFilterByAssignedTaxonomyIdsExpression();
@@ -404,7 +388,6 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         }
 
         $tableJoin = $this->handleFeedbackJoin($tableJoin);
-        $tableJoin = $this->handleHintJoin($tableJoin);
 
         if ($this->answerStatusActiveId) {
             $tableJoin .= "
@@ -466,7 +449,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         }
 
         $select_fields[] = $this->generateFeedbackSubquery();
-        $select_fields[] = $this->generateHintSubquery();
+
         $select_fields[] = $this->generateTaxonomySubquery();
 
         $select_fields = implode(', ', $select_fields);
@@ -497,12 +480,6 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return "CASE $feedback_case_subquery ELSE FALSE END AS feedback";
     }
 
-    private function generateHintSubquery(): string
-    {
-        $hint_subquery = 'SELECT 1 FROM qpl_hints WHERE qpl_hints.qht_question_fi = qpl_questions.question_id';
-        return "CASE WHEN EXISTS ($hint_subquery) THEN TRUE ELSE FALSE END AS hints";
-    }
-
     private function generateTaxonomySubquery(): string
     {
         $tax_node_assignment_table = 'tax_node_assignment';
@@ -527,13 +504,6 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
                 }
                 continue;
 
-            }
-
-            if ($fieldName === 'hints') {
-                $fieldValue = strtoupper($fieldValue);
-                if (in_array($fieldValue, ['TRUE', 'FALSE'], true)) {
-                    $expressions[] = "hints IS $fieldValue";
-                }
             }
         }
 
@@ -605,7 +575,6 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
             $row['taxonomies'] = $this->loadTaxonomyAssignmentData($row['obj_fi'], $row['question_id']);
             $row['ttype'] = $this->lng->txt($row['type_tag']);
             $row['feedback'] = $row['feedback'] === 1;
-            $row['hints'] = $row['hints'] === 1;
             $row['comments'] = $this->getNumberOfCommentsForQuestion($row['question_id']);
 
             if (

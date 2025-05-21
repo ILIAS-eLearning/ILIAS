@@ -588,7 +588,7 @@ assessment#:#code#:#Kód
 assessment#:#codebase#:#Kódbázis
 assessment#:#concatenation#:#Szavak összekapcsolása
 assessment#:#conf_delete_pass#:#Biztos, hogy törli a már létező válaszát?
-assessment#:#confirm_log_deletion#:#Are you sure, you want to delete the selected log entries? You will not be able to recover the deleted entries.###26 08 2024 new variable
+assessment#:#confirm_log_deletion#:#Biztos, hogy véglegesen törli a kiválasztott naplóbejegyzéseket?
 assessment#:#confirm_sync_questions#:#A módosított kérdés egy aktív teszt kérdésének másolata. Módosítja az eredeti kérdést is?
 assessment#:#coordinates#:#Koordináták
 assessment#:#copy_and_link_to_questionpool#:#Hozzáadás kérdésgyűjteményhez
@@ -14594,6 +14594,7 @@ rbac#:#rbac_role_rights_copy_empty#:#Semmi
 rbac#:#rbac_role_selection#:#Szereptípus
 rbac#:#rbac_role_title#:#Szerepcím
 rbac#:#rbac_select_copy_targets#:#Válassza ki a célszerepeket.
+rbac#:#rbac_select_roles#:#Szerep kiválasztása
 rbac#:#rbac_ud_global#:#Felhasználó által létrehozott globális szerep
 rbac#:#rbac_ud_local#:#Felhasználó által létrehozott helyi szerep
 rbac#:#rbac_ud_rolt#:#Felhasználó által létrehozott szerepsablon

@@ -95,7 +95,7 @@ use ILIAS\Style\Content\Service as ContentStyle;
  * @ilCtrl_Calls ilObjTestGUI: ILIAS\Test\Settings\MainSettings\SettingsMainGUI, ILIAS\Test\Settings\ScoreReporting\SettingsScoringGUI
  * @ilCtrl_Calls ilObjTestGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestFixedQuestionSetConfigGUI, ilTestRandomQuestionSetConfigGUI
- * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI, ilLocalUnitConfigurationGUI, assFormulaQuestionGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionFeedbackEditingGUI, ilLocalUnitConfigurationGUI, assFormulaQuestionGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestPassDetailsOverviewTableGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestCorrectionsGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestSettingsChangeConfirmationGUI
@@ -828,36 +828,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $this->ctrl->forwardCommand($gui);
                 break;
 
-            case 'ilassquestionhintsgui':
-                if (!$this->access->checkAccess('write', '', $this->getTestObject()->getRefId())) {
-                    $this->redirectAfterMissingWrite();
-                }
-
-                if ($this->getTestObject()->evalTotalPersons() !== 0) {
-                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('question_is_part_of_running_test'), true);
-                    $this->prepareOutput();
-                    $this->forwardCommandToQuestionPreview(ilAssQuestionPreviewGUI::CMD_SHOW);
-                    return;
-                }
-                $this->prepareSubGuiOutput();
-
-                $question_gui = assQuestionGUI::_getQuestionGUI('', $this->fetchAuthoringQuestionIdParameter());
-                $question = $question_gui->getObject();
-                $question->setObjId($this->getTestObject()->getId());
-                $question_gui->setObject($question);
-                $question_gui->setQuestionTabs();
-
-                $this->addQuestionTitleToObjectTitle($question->getTitleForHTMLOutput());
-
-                $gui = new ilAssQuestionHintsGUI($question_gui);
-
-                $gui->setEditingEnabled(
-                    $this->access->checkAccess('write', '', $this->getTestObject()->getRefId())
-                );
-
-                $this->ctrl->forwardCommand($gui);
-                break;
-
             case 'ilassquestionfeedbackeditinggui':
                 if (!$this->access->checkAccess('write', '', $this->getTestObject()->getRefId())) {
                     $this->redirectAfterMissingWrite();
@@ -1051,7 +1021,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $gui->initQuestion($question_gui, $this->getTestObject()->getId());
         $gui->initPreviewSettings($this->getTestObject()->getRefId());
         $gui->initPreviewSession($this->user->getId(), $this->testrequest->getQuestionId());
-        $gui->initHintTracking();
         $gui->initStyleSheets();
 
         $this->ctrl->clearParameterByClass(self::class, 'q_id');

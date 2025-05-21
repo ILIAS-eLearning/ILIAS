@@ -169,22 +169,6 @@ class ilTestEvaluationPassDataTest extends ilTestBaseTestCase
         $this->assertEquals(count($expected), $this->testObj->getAnsweredQuestionCount());
     }
 
-    public function testRequestedHintsCount(): void
-    {
-        $requestedHintsCount = 5;
-        $this->testObj->setRequestedHintsCount($requestedHintsCount);
-
-        $this->assertEquals($requestedHintsCount, $this->testObj->getRequestedHintsCount());
-    }
-
-    public function testDeductedHintPoints(): void
-    {
-        $deductedHintPoints = 5;
-        $this->testObj->setDeductedHintPoints($deductedHintPoints);
-
-        $this->assertEquals($deductedHintPoints, $this->testObj->getDeductedHintPoints());
-    }
-
     public function testExamId(): void
     {
         $exam_id = '5';

@@ -26,7 +26,6 @@ class Settings
         private int $test_obj_id,
         private bool $show_hidden_questions = false,
         private bool $show_optional_questions = false,
-        private bool $show_hints = false,
         private bool $show_best_solution = true,
         private bool $show_feedback = true,
         private bool $question_text_only = false,
@@ -47,11 +46,6 @@ class Settings
     public function getShowOptionalQuestions(): bool
     {
         return $this->show_optional_questions;
-    }
-
-    public function getShowHints(): bool
-    {
-        return $this->show_hints;
     }
 
     public function getShowBestSolution(): bool

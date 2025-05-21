@@ -14592,6 +14592,7 @@ rbac#:#rbac_role_rights_copy_empty#:#None
 rbac#:#rbac_role_selection#:#角色类型
 rbac#:#rbac_role_title#:#角色标题
 rbac#:#rbac_select_copy_targets#:#请选择目标角色
+rbac#:#rbac_select_roles#:#Role Selection
 rbac#:#rbac_ud_global#:#用户定义的全局角色
 rbac#:#rbac_ud_local#:#用户定义的本地角色
 rbac#:#rbac_ud_rolt#:#用户定义的角色模板

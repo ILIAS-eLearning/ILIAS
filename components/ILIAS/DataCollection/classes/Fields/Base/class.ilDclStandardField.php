@@ -55,7 +55,6 @@ class ilDclStandardField extends ilDclBaseFieldModel
     public function clone(ilDclStandardField $original_record): void
     {
         $this->setOrder($original_record->getOrder());
-        $this->setUnique($original_record->isUnique());
         $this->setExportable($original_record->getExportable());
 
         $this->doUpdate();
@@ -83,13 +82,13 @@ class ilDclStandardField extends ilDclBaseFieldModel
                 "id" => "create_date",
                 "title" => $lng->txt("dcl_creation_date"),
                 "description" => $lng->txt("dcl_creation_date_description"),
-                "datatype_id" => ilDclDatatype::INPUTFORMAT_DATETIME
+                "datatype_id" => ilDclDatatype::INPUTFORMAT_DATE
             ],
             "last_update" => [
                 "id" => "last_update",
                 "title" => $lng->txt("dcl_last_update"),
                 "description" => $lng->txt("dcl_last_update_description"),
-                "datatype_id" => ilDclDatatype::INPUTFORMAT_DATETIME
+                "datatype_id" => ilDclDatatype::INPUTFORMAT_DATE
             ],
             "owner" => [
                 "id" => "owner",
@@ -212,11 +211,6 @@ class ilDclStandardField extends ilDclBaseFieldModel
         return true;
     }
 
-    public function isUnique(): bool
-    {
-        return false;
-    }
-
     /**
      * Returns a query-object for building the record-loader-sql-query
      */
@@ -272,7 +266,7 @@ class ilDclStandardField extends ilDclBaseFieldModel
                         . $ilDB->quote($to, 'integer');
                 }
             } else {
-                if ($this->getDatatypeId() == ilDclDatatype::INPUTFORMAT_DATETIME) {
+                if ($this->getDatatypeId() === ilDclDatatype::INPUTFORMAT_DATE) {
                     $date_from = (isset($filter_value['from'])
                         && is_object($filter_value['from'])) ? $filter_value['from'] : null;
                     $date_to = (isset($filter_value['to'])

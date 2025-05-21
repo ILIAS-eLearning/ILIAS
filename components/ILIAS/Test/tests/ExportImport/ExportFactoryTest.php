@@ -45,7 +45,8 @@ class ExportFactoryTest extends \ilTestBaseTestCase
             $this->createMock(\ilComponentFactory::class),
             $this->createMock(\ILIAS\FileDelivery\Services::class),
             $this->createMock(\ilObjUser::class),
-            $this->createMock(GeneralQuestionPropertiesRepository::class)
+            $this->createMock(GeneralQuestionPropertiesRepository::class),
+            $this->createMock(\ILIAS\ResourceStorage\Services::class)
         );
     }
 

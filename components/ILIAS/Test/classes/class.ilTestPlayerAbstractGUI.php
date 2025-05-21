@@ -162,39 +162,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
                 $ret = $this->ctrl->forwardCommand($gui);
                 break;
 
-            case 'ilassquestionhintrequestgui':
-                $this->checkTestExecutable();
-
-                $question_gui = $this->object->createQuestionGUI(
-                    "",
-                    $this->test_sequence->getQuestionForSequence($this->getCurrentSequenceElement())
-                );
-
-                $questionHintTracking = new ilAssQuestionHintTracking(
-                    $question_gui->getObject()->getId(),
-                    $this->test_session->getActiveId(),
-                    $this->test_session->getPass()
-                );
-
-                $gui = new ilAssQuestionHintRequestGUI(
-                    $this,
-                    ilTestPlayerCommands::SHOW_QUESTION,
-                    $question_gui,
-                    $questionHintTracking,
-                    $this->ctrl,
-                    $this->lng,
-                    $this->tpl,
-                    $this->tabs,
-                    $this->global_screen
-                );
-
-                // fau: testNav - save the 'answer changed' status for viewing hint requests
-                $this->setAnswerChangedParameter($this->getAnswerChangedParameter());
-                // fau.
-                $ret = $this->ctrl->forwardCommand($gui);
-
-                break;
-
             case 'iltestpasswordprotectiongui':
                 $this->checkTestExecutable();
 
@@ -556,12 +523,14 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $button = $this->ui_factory->button()->primary(
                 $this->lng->txt('next_question') . $this->ui_renderer->render($this->ui_factory->symbol()->glyph()->next()),
                 ''
-            )->withOnLoadCode($this->getOnLoadCodeForNavigationButtons($target, ilTestPlayerCommands::NEXT_QUESTION));
+            )->withUnavailableAction(true)
+             ->withOnLoadCode($this->getOnLoadCodeForNavigationButtons($target, ilTestPlayerCommands::NEXT_QUESTION));
         } else {
             $button = $this->ui_factory->button()->standard(
                 $this->lng->txt('next_question') . $this->ui_renderer->render($this->ui_factory->symbol()->glyph()->next()),
                 ''
-            )->withOnLoadCode($this->getOnLoadCodeForNavigationButtons($target, ilTestPlayerCommands::NEXT_QUESTION));
+            )->withUnavailableAction(true)
+             ->withOnLoadCode($this->getOnLoadCodeForNavigationButtons($target, ilTestPlayerCommands::NEXT_QUESTION));
         }
         return $button;
     }
@@ -576,7 +545,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $button = $this->ui_factory->button()->standard(
             $this->ui_renderer->render($this->ui_factory->symbol()->glyph()->back()) . $this->lng->txt('previous_question'),
             ''
-        )->withOnLoadCode($this->getOnLoadCodeForNavigationButtons($target, ilTestPlayerCommands::PREVIOUS_QUESTION));
+        )->withUnavailableAction(true)
+         ->withOnLoadCode($this->getOnLoadCodeForNavigationButtons($target, ilTestPlayerCommands::PREVIOUS_QUESTION));
         return $button;
     }
 
@@ -585,7 +555,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         return static function (string $id) use ($target, $cmd): string {
             return "document.getElementById('{$id}').addEventListener('click', "
                 . "(e) => {il.TestPlayerQuestionEditControl.checkNavigation('{$target}', '{$cmd}', e);}"
-                . ");";
+                . "); "
+                . "document.getElementById('{$id}').removeAttribute('disabled');";
         };
     }
 
@@ -1906,10 +1877,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $active = 0;
 
         foreach ($question_summary_data as $idx => $row) {
-            $title = ilLegacyFormElementsUtil::prepareFormOutput($row['title']);
+            $title = htmlspecialchars($row['title'], ENT_QUOTES, null, false);
             $description = '';
             if ($row['description'] !== '') {
-                $description = ' title="' . htmlspecialchars($row['description']) . '" ';
+                $description = ' title="' . htmlspecialchars($row['description'], ENT_QUOTES, null, false) . '" ';
             }
 
             if (!$row['disabled']) {
@@ -2143,33 +2114,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         );
     }
 
-    /**
-     * Go to requested hint list
-     */
-    protected function showRequestedHintListCmd()
-    {
-        // fau: testNav - handle intermediate submit for viewing requested hints
-        $this->handleIntermediateSubmit();
-        // fau.
-
-        $this->ctrl->setParameter($this, 'pmode', self::PRESENTATION_MODE_EDIT);
-
-        $this->ctrl->redirectByClass('ilAssQuestionHintRequestGUI', ilAssQuestionHintRequestGUI::CMD_SHOW_LIST);
-    }
-
-    /**
-     * Go to hint request confirmation
-     */
-    protected function confirmHintRequestCmd()
-    {
-        // fau: testNav - handle intermediate submit for confirming hint requests
-        $this->handleIntermediateSubmit();
-        // fau.
-
-        $this->ctrl->setParameter($this, 'pmode', self::PRESENTATION_MODE_EDIT);
-
-        $this->ctrl->redirectByClass('ilAssQuestionHintRequestGUI', ilAssQuestionHintRequestGUI::CMD_CONFIRM_REQUEST);
-    }
 
     protected function isFirstQuestionInSequence($sequence_element): bool
     {
@@ -2523,22 +2467,6 @@ JS;
                 $navigation_gui->setInstantFeedbackCommand(ilTestPlayerCommands::SUBMIT_SOLUTION);
             } else {
                 $navigation_gui->setInstantFeedbackCommand(ilTestPlayerCommands::SHOW_INSTANT_RESPONSE);
-            }
-        }
-
-        // hints
-        if ($this->object->isOfferingQuestionHintsEnabled()) {
-            $activeId = $this->test_session->getActiveId();
-            $pass = $this->test_session->getPass();
-
-            $questionHintTracking = new ilAssQuestionHintTracking($question_id, $activeId, $pass);
-
-            if ($questionHintTracking->requestsPossible()) {
-                $navigation_gui->setRequestHintCommand(ilTestPlayerCommands::CONFIRM_HINT_REQUEST);
-            }
-
-            if ($questionHintTracking->requestsExist()) {
-                $navigation_gui->setShowHintsCommand(ilTestPlayerCommands::SHOW_REQUESTED_HINTS_LIST);
             }
         }
 

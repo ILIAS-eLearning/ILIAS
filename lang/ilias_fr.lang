@@ -14578,6 +14578,7 @@ rbac#:#rbac_role_rights_copy_empty#:#Aucun
 rbac#:#rbac_role_selection#:#Type de Rôle
 rbac#:#rbac_role_title#:#Titre du Rôle
 rbac#:#rbac_select_copy_targets#:#Veuillez sélectionner les rôles ciblés
+rbac#:#rbac_select_roles#:#Role Selection
 rbac#:#rbac_ud_global#:#Rôle global défini par l'utilisateur
 rbac#:#rbac_ud_local#:#Rôle local défini par l'utilisateur
 rbac#:#rbac_ud_rolt#:#Modèle de rôle défini par l'utilisateur

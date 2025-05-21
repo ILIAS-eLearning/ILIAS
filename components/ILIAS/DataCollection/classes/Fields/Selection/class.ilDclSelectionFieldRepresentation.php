@@ -49,6 +49,13 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
 
         $opt->addSubItem($selection_type);
 
+        $prop_unique = new ilDclCheckboxInputGUI(
+            $this->lng->txt('dcl_unique'),
+            $this->getPropertyInputFieldId(ilDclBaseFieldModel::PROP_UNIQUE)
+        );
+        $prop_unique->setInfo($this->lng->txt('dcl_unique_desc'));
+        $opt->addSubItem($prop_unique);
+
         return $opt;
     }
 

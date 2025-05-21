@@ -62,7 +62,7 @@ class ilDclNumberFieldModel extends ilDclBaseFieldModel
     /**
      * @param float|int $value
      */
-    public function checkValidity($value, ?int $record_id = null): bool
+    public function checkValidity($value, ?int $record_id): bool
     {
         if (!is_numeric($value) && $value !== null) {
             throw new ilDclInputException(ilDclInputException::TYPE_EXCEPTION);

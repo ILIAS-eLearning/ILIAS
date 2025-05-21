@@ -18,38 +18,23 @@
 
 declare(strict_types=1);
 
-class ilDclDatetimeRecordRepresentation extends ilDclBaseRecordRepresentation
+class ilDclDateRecordRepresentation extends ilDclBaseRecordRepresentation
 {
-    use ilDclDatetimeRecordDateFormatter;
-
-    /**
-     * Outputs html of a certain field
-     */
     public function getHTML(bool $link = true, array $options = []): string
     {
         $value = $this->getRecordField()->getValue();
-        if ($value == '0000-00-00 00:00:00' || !$value) {
+        if ($value == null) {
             return $this->lng->txt('no_date');
         }
 
-        return $this->formatDateFromString($value);
-    }
-
-    protected function getUserDateFormat(): string
-    {
-        return (string) $this->user->getDateFormat();
+        return date($this->user->getDateFormat()->toString(), strtotime($value));
     }
 
     /**
-     * function parses stored value to the variable needed to fill into the form for editing.
-     * @param string|int $value
+     * @param string $value
      */
     public function parseFormInput($value): ?string
     {
-        if (!$value || $value == "-") {
-            return null;
-        }
-
-        return substr($value, 0, -9);
+        return ($value === null) ? null : date('Y-m-d', strtotime($value));
     }
 }

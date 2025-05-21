@@ -463,7 +463,7 @@ class ilObjQuestionPool extends ilObject
                     . DIRECTORY_SEPARATOR . 'il_' . IL_INST_ID . '_mob_' . $mob_id;
                 ilFileUtils::createDirectory($target_dir);
                 $media_obj = new ilObjMediaObject((int) $mob_id);
-                $media_obj->exportXML($a_xml_writer, $a_inst);
+                $media_obj->exportXML($a_xml_writer, (int) $a_inst);
                 foreach ($media_obj->getMediaItems() as $item) {
                     $stream = $item->getLocationStream();
                     file_put_contents($target_dir . DIRECTORY_SEPARATOR . $item->getLocation(), $stream);

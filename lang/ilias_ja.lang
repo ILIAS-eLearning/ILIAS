@@ -14593,6 +14593,7 @@ rbac#:#rbac_role_rights_copy_empty#:#ありません
 rbac#:#rbac_role_selection#:#役割のタイプ
 rbac#:#rbac_role_title#:#役割タイトル
 rbac#:#rbac_select_copy_targets#:#ターゲットの役割を選択してください
+rbac#:#rbac_select_roles#:#役割選択
 rbac#:#rbac_ud_global#:#ユーザ定義のグローバル役割
 rbac#:#rbac_ud_local#:#ユーザ定義のローカル役割
 rbac#:#rbac_ud_rolt#:#ユーザ定義の役割テンプレート

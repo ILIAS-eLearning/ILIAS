@@ -14593,6 +14593,7 @@ rbac#:#rbac_role_rights_copy_empty#:#Ne obstaja
 rbac#:#rbac_role_selection#:#Tip vloge
 rbac#:#rbac_role_title#:#Naslov vloge
 rbac#:#rbac_select_copy_targets#:#Izberite vloge, na katere želite prenesti pravice.
+rbac#:#rbac_select_roles#:#Role Selection
 rbac#:#rbac_ud_global#:#Uporabniško ustvarjena globalna vloga
 rbac#:#rbac_ud_local#:#Uporabniško ustvarjena lokalna vloga
 rbac#:#rbac_ud_rolt#:#Uporabniško ustvarjena predloga vlog

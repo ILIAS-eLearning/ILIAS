@@ -588,7 +588,7 @@ class ilTestArchiver
         $table = $this->ui_factory->table()->data(
             $this->getDataRetrievalForAttemptOverviewTable($result_array),
             $test_result_title_builder->getPassDetailsHeaderLabel($attempt + 1),
-            $this->getColumnsForAttemptOverviewTable($test_obj->isOfferingQuestionHintsEnabled()),
+            $this->getColumnsForAttemptOverviewTable(),
         )->withRequest($this->request);
         $template->setVariable(
             'PASS_DETAILS',
@@ -634,9 +634,8 @@ class ilTestArchiver
         return $template->get();
     }
 
-    private function getColumnsForAttemptOverviewTable(
-        bool $show_requested_hints_info
-    ): array {
+    private function getColumnsForAttemptOverviewTable(): array
+    {
         $cf = $this->ui_factory->table()->column();
         $columns = [
             'order' => $cf->number($this->lng->txt('order')),
@@ -645,9 +644,6 @@ class ilTestArchiver
             'reachable_points' => $cf->number($this->lng->txt('tst_maximum_points')),
             'reached_points' => $cf->number($this->lng->txt('tst_reached_points'))
         ];
-        if ($show_requested_hints_info) {
-            $columns['hints'] = $cf->number($this->lng->txt('tst_question_hints_requested_hint_count_header'));
-        }
         $columns['solved'] = $cf->text($this->lng->txt('tst_percent_solved'));
         return $columns;
     }
@@ -681,7 +677,6 @@ class ilTestArchiver
                             'title' => $result['title'],
                             'reachable_points' => $result['max'],
                             'reached_points' => $result['reached'],
-                            'hints' => $result['requested_hints'] ?? 0,
                             'solved' => $result['percent']
                         ]
                     );

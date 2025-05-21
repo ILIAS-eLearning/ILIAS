@@ -205,10 +205,6 @@ class ilTestServiceGUI
 
         $scored_pass = \ilObjTest::_getResultPass($test_session->getActiveId());
 
-        $question_hint_request_register = ilAssQuestionHintTracking::getRequestRequestStatisticDataRegisterByActiveId(
-            $test_session->getActiveId()
-        );
-
         foreach ($passes as $pass) {
             $row = [
                 'scored' => false,
@@ -248,24 +244,6 @@ class ilTestServiceGUI
                 $considerOptionalQuestions
             );
 
-            foreach ($result_array as $result_struct_key => $question) {
-                if ($result_struct_key === 'test'
-                    || $result_struct_key === 'pass'
-                    || $result_array[$result_struct_key]['requested_hints'] !== null) {
-                    continue;
-                }
-
-                $request_data = $question_hint_request_register->getRequestByTestPassIndexAndQuestionId($pass, $question['qid']);
-
-                if ($request_data === null) {
-                    continue;
-                }
-
-                $result_array['pass']['total_requested_hints'] += $request_data->getRequestsCount();
-                $result_array[$result_struct_key]['requested_hints'] = $request_data->getRequestsCount();
-                $result_array[$result_struct_key]['hint_points'] = $request_data->getRequestsPoints();
-            }
-
             if (!$result_array['pass']['total_max_points']) {
                 $row['percentage'] = 0;
             } else {
@@ -277,11 +255,6 @@ class ilTestServiceGUI
             $row['scored'] = ($pass == $scored_pass);
             $row['num_workedthrough_questions'] = $result_array['pass']['num_workedthrough'];
             $row['num_questions_total'] = $result_array['pass']['num_questions_total'];
-
-            if ($this->object->isOfferingQuestionHintsEnabled()) {
-                $row['hints'] = $result_array['pass']['total_requested_hints'];
-            }
-
             $data[] = $row;
         }
 
@@ -474,7 +447,6 @@ class ilTestServiceGUI
         $this->ctrl->setParameter($target_gui, 'pass', $pass);
 
         $table_gui = $this->buildPassDetailsOverviewTableGUI($target_gui, $target_cmd);
-        $table_gui->setShowHintCount($this->object->isOfferingQuestionHintsEnabled());
 
         if ($objectives_list !== null) {
             $table_gui->setQuestionRelatedObjectivesList($objectives_list);

@@ -80,15 +80,6 @@ class ilTestPassDetailsOverviewTableGUITest extends ilTestBaseTestCase
         $this->assertTrue($this->tableGui->getAnswerListAnchorEnabled());
     }
 
-    public function testShowHintCount(): void
-    {
-        $this->assertIsBool($this->tableGui->getShowHintCount());
-        $this->tableGui->setShowHintCount(false);
-        $this->assertFalse($this->tableGui->getShowHintCount());
-        $this->tableGui->setShowHintCount(true);
-        $this->assertTrue($this->tableGui->getShowHintCount());
-    }
-
     public function testShowSuggestedSolution(): void
     {
         $this->assertIsBool($this->tableGui->getShowSuggestedSolution());

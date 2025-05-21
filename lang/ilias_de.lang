@@ -558,8 +558,6 @@ assessment#:#broken_test#:#Kaputtes Test-Objekt
 assessment#:#bulkedit_author#:#Autor ändern
 assessment#:#bulkedit_lifecycle#:#Lebenszyklus ändern
 assessment#:#bulkedit_taxonomies#:#Taxonomien ändern
-assessment#:#button_request_next_question_hint#:#Fordere nächsten Lösungshinweis an
-assessment#:#button_request_question_hint#:#Lösungshinweis anfordern
 assessment#:#cancel_test#:#Test unterbrechen
 assessment#:#cannot_edit_marks#:#Mindestens eine Person hat den Test bereits gestartet. Sie können die manuelle Bewertung nur ändern, wenn das Datum für die Ergebnisausgabe noch in der Zukunft liegt.
 assessment#:#cannot_edit_test#:#Sie besitzen keine ausreichenden Rechte, um den Test zu bearbeiten!
@@ -779,7 +777,6 @@ assessment#:#grading_mark_msg#:#Sie haben die Note &quot;[mark]&quot; erzielt.
 assessment#:#grading_status_failed_msg#:#Schade, leider haben Sie den Test <b>nicht bestanden</b>.
 assessment#:#grading_status_passed_msg#:#Herzlichen Glückwunsch! Sie haben den Test <b>bestanden</b>.
 assessment#:#hide_best_solution#:#Beste Antworten ausblenden
-assessment#:#hints#:#Hinweise
 assessment#:#identical_scoring#:#Identische Bewertung
 assessment#:#identical_scoring_desc#:#Wenn ausgewählt, werden Lücken mit identischen Lösungen entsprechend der Vorgaben bewertet, selbst wenn die gleiche Lösung mehrere Male verwendet wurde. Ist das Kontrollkästchen nicht ausgewählt, wird nur die erste verwendete identische Lösung bewertet.
 assessment#:#imagemap#:#Imagemap
@@ -1255,7 +1252,6 @@ assessment#:#show_hide_best_solution#:#Beste Antworten ein- oder ausblenden
 assessment#:#show_old_concluding_remarks#:#Alte Abschliessende Bemerkungen anzeigen
 assessment#:#show_old_introduction#:#Alten Einleitungstext anzeigen
 assessment#:#show_pass_overview#:#Ergebnisübersicht (bewerteter Testdurchlauf)
-assessment#:#show_requested_question_hints#:#Zeige angeforderte Lösungshinweise
 assessment#:#show_results#:#Testergebnisse anzeigen
 assessment#:#show_user_answers#:#Antworten (bewerteter Testdurchlauf)
 assessment#:#shuffle_answers#:#Antworten mischen
@@ -1328,7 +1324,6 @@ assessment#:#too_many_targets_selected_for_move#:#Sie müssen genau eine Zielpos
 assessment#:#toplist_by_score#:#Platzierung nach Punkten
 assessment#:#toplist_by_time#:#Platzierung nach Bearbeitungszeit
 assessment#:#toplist_col_achieved#:#Datum
-assessment#:#toplist_col_hints#:#Hinweise
 assessment#:#toplist_col_participant#:#Teilnehmer
 assessment#:#toplist_col_percentage#:#Prozentwert
 assessment#:#toplist_col_rank#:#Platz
@@ -1756,46 +1751,6 @@ assessment#:#tst_question_answer_status_non_answered#:#Noch nicht beantwortete F
 assessment#:#tst_question_answer_status_wrong_answered#:#Nur falsch beantwortete Fragen
 assessment#:#tst_question_feedback_back_to_feedback_form#:#Zurück zur aufrufenden Frage
 assessment#:#tst_question_feedback_edit_page#:#Inhalt bearbeiten
-assessment#:#tst_question_hints_back_to_hint_list#:#Liste der Lösungshinweise
-assessment#:#tst_question_hints_back_to_question#:#Zurück zur Frage
-assessment#:#tst_question_hints_cancel_request#:#Zurück zur Frage
-assessment#:#tst_question_hints_confirm_request#:#Fordere Lösungshinweis an
-assessment#:#tst_question_hints_cut_hints_missing_selection_msg#:#Es wurde kein Hinweis zum Ausschneiden ausgewählt.
-assessment#:#tst_question_hints_cut_hints_single_selection_msg#:#Es wurde mehr als ein Hinweis zum Ausschneiden ausgewählt.
-assessment#:#tst_question_hints_delete_hints_confirm_cmd#:#Lösungshinweis(e) löschen
-assessment#:#tst_question_hints_delete_hints_confirm_header#:#Möchten Sie den/die folgenden Lösungshinweis(e) wirklich löschen?
-assessment#:#tst_question_hints_delete_hints_confirm_item#:#Lösungshinweis %s: %s
-assessment#:#tst_question_hints_delete_hints_missing_selection_msg#:#Es wurde(n) kein(e) Lösungshinweis(e) zum Löschen ausgewählt.
-assessment#:#tst_question_hints_delete_success_msg#:#Der/die ausgewählte(n) Hinweis(e) wurde(n) erfolgreich gelöscht.
-assessment#:#tst_question_hints_form_cmd_save#:#Lösungshinweis speichern
-assessment#:#tst_question_hints_form_cmd_save_points#:#Speichere Punkte
-assessment#:#tst_question_hints_form_cmd_save_points_and_edit_page#:# Speichere Punkte und bearbeite Seite
-assessment#:#tst_question_hints_form_header_create#:#Neuer Lösungshinweis für Frage: %s
-assessment#:#tst_question_hints_form_header_edit#:#Lösungshinweis %s für Frage: %s
-assessment#:#tst_question_hints_form_invalid_msg#:#Der Lösungshinweis konnte nicht gespeichert werden. Bitte überprüfen Sie Ihre Eingaben.
-assessment#:#tst_question_hints_form_label_hint_points#:#Punkteabzug
-assessment#:#tst_question_hints_form_label_hint_text#:#Lösungshinweis
-assessment#:#tst_question_hints_form_saved_msg#:#Der Lösungshinweis wurde erfolgreich gespeichert.
-assessment#:#tst_question_hints_index_column_label#:#Lösungshinweis %s
-assessment#:#tst_question_hints_item_stored_in_ordering_clipboard#:#Lösungshinweis %s befindet sich in der Sortierungszwischenablage.
-assessment#:#tst_question_hints_ordering_clipboard_resetted#:#Die Sortierungszwischenablage wurde zurückgesetzt.
-assessment#:#tst_question_hints_paste_after_success_msg#:#Der Lösungshinweis %s wurde nach dem Lösungshinweis %s erfolgreich eingefügt.
-assessment#:#tst_question_hints_paste_before_success_msg#:#Der Lösungshinweis %s wurde vor dem Lösungshinweis %s erfolgreich eingefügt.
-assessment#:#tst_question_hints_request_confirmation#:#Wollen Sie den %s. Lösungshinweis wirklich anfordern? Es wird/werden für diesen Lösungshinweis %s Punkt(e) abgezogen.
-assessment#:#tst_question_hints_request_confirmation_no_deduction#:#Für diesen Hinweis gibt es keinen Punktabzug.
-assessment#:#tst_question_hints_requested_hint_count_header#:#Angeforderte Lösungshinweise
-assessment#:#tst_question_hints_save_order_success_msg#:#Die Reihenfolge der Lösungshinweise wurde erfolgreich gespeichert.
-assessment#:#tst_question_hints_tab#:#Lösungshinweise
-assessment#:#tst_question_hints_table_column_hint_index#:#Index
-assessment#:#tst_question_hints_table_column_hint_order#:#Reihenfolge
-assessment#:#tst_question_hints_table_column_hint_points#:#Punkteabzug
-assessment#:#tst_question_hints_table_column_hint_text#:#Lösungshinweis
-assessment#:#tst_question_hints_table_header#:#Lösungshinweise zur Frage: %s
-assessment#:#tst_question_hints_table_link_delete_hint#:#Lösungshinweis löschen
-assessment#:#tst_question_hints_table_link_edit_hint#:#Lösungshinweis bearbeiten
-assessment#:#tst_question_hints_table_link_edit_hint_page#:#Seite bearbeiten
-assessment#:#tst_question_hints_table_link_edit_hint_points#:#Punkte bearbeiten
-assessment#:#tst_question_hints_table_no_items#:#Keine vorhandenen Lösungshinweise
 assessment#:#tst_question_mark#:#Frage markieren
 assessment#:#tst_question_marked#:#Sie haben die Frage markiert
 assessment#:#tst_question_marker#:#Markiert
@@ -1812,13 +1767,6 @@ assessment#:#tst_question_set_type_random#:#Zufällige Fragenauswahl
 assessment#:#tst_question_set_type_random_desc#:#Jedem Teilnehmer werden unterschiedliche Fragen gestellt. Die Auswahl der Fragen erfolgt zufällig aus einem oder mehreren Fragenpools.
 assessment#:#tst_question_title#:#Fragentitel
 assessment#:#tst_question_type#:#Fragetyp
-assessment#:#tst_questions_hints_table_cmd_save_order#:#Reihenfolge speichern
-assessment#:#tst_questions_hints_table_multicmd_cut_hint#:#Lösungshinweis in die Sortierungzwischenablage ausschneiden
-assessment#:#tst_questions_hints_table_multicmd_delete_hint#:#Lösungshinweis(e) löschen
-assessment#:#tst_questions_hints_table_multicmd_paste_hint_after#:#Ausgeschnittenen Lösungshinweis dem gewählten anfügen
-assessment#:#tst_questions_hints_table_multicmd_paste_hint_before#:#Ausgeschnittenen Lösungshinweis dem gewählten voranstellen
-assessment#:#tst_questions_hints_toolbar_cmd_add_hint#:#Lösungshinweis hinzufügen
-assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Zwischenablage für Sortierung der Lösungshinweise zurücksetzen
 assessment#:#tst_questions_inserted#:#Fragen angefügt!
 assessment#:#tst_questions_removed#:#Fragen entfernt!
 assessment#:#tst_random_nr_of_questions#:#Wie viele Fragen?
@@ -1909,8 +1857,6 @@ assessment#:#tst_sequence_postpone#:#Fragen können an das Ende eines Testdurchl
 assessment#:#tst_sequence_properties#:#Durchführung: Funktionen für Teilnehmer
 assessment#:#tst_session_settings#:#Durchführung
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Der Test wurde offline gesetzt, da sich die Einstellung zur Auswahl der Testfragen geändert hat. Weisen Sie dem Test wieder Fragen zu. Anschließend können Sie den Test wieder online setzen.
-assessment#:#tst_setting_offer_hints_info#:#Teilnehmer können Lösungshinweise anfordern, um eine Frage zu beantworten. Pro gegebenem Lösungshinweis verringern sich die Punkte für die richtige Antwort.
-assessment#:#tst_setting_offer_hints_label#:#Lösungshinweise
 assessment#:#tst_settings_conflict_postpone_and_lock#:#„Nicht beantwortete Fragen werden ans Testende geschoben“ kann nicht zusammen mit „Antworten bei Anzeige der Folgefrage festschreiben“ verwendet werden.
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#„Fragen mischen“ kann nicht zusammen mit „Antworten bei Anzeige der Folgefrage festschreiben“ verwendet werden.
 assessment#:#tst_settings_header_additional#:#Zusätzliche Funktionen
@@ -2343,7 +2289,7 @@ bgtask#:#bgtask_setting#:#„Herunterladen im Hintergrund“ aktivieren
 bgtask#:#bgtask_setting_info#:#Die Erstellung der ZIP-Datei erfolgt asynchron und kann jederzeit abgebrochen werden.
 bgtask#:#bgtask_setting_limit#:#Größenlimit Download-Paket
 bgtask#:#bgtask_setting_limit_info#:#Der Download eines Ordners oder mehrerer Objekte ist nur möglich, wenn die Dateigrößen in Summe den eingegebenen Wert nicht überschreiten.
-bgtask#:#bgtask_setting_threshold_count#:#Minimale Anzahl
+bgtask#:#bgtask_setting_threshold_count#:#Mindestanzahl
 bgtask#:#bgtask_setting_threshold_count_info#:#Ab diesem Wert erfolgt der Download asynchron.
 bgtask#:#bgtask_setting_threshold_size#:#Minimale Größe
 bgtask#:#bgtask_setting_threshold_size_info#:#Ab dieser Größe erfolgt der Download asynchron.
@@ -2452,7 +2398,7 @@ bibl#:#translate#:#Übersetzen
 bkm#:#bkm_fold_created#:#Bookmark-Ordner wurde angelegt.
 blog#:#blog_abstract_image#:#Erstes Bild anzeigen
 blog#:#blog_abstract_image_height#:#Höhe
-blog#:#blog_abstract_image_info#:#Das erste im Beitrag verwendete Bild wird in der Größe so angepasst, dass seine längste Kante der hier eingegebenen Wert entspricht. Dieses Bild wird zusammen mit der Zusammenfassung des Textinhalts des Beitrags angezeigt. Bilder, die kleiner als die Mindestgröße sind, werden nicht angezeigt.
+blog#:#blog_abstract_image_info#:#Das erste im Beitrag verwendete Bild wird in der Größe so angepasst, dass seine längste Kante dem hier eingegebenen Wert entspricht. Dieses Bild wird zusammen mit der Zusammenfassung des Textinhalts angezeigt. Bilder, die kleiner als die Mindestgröße sind, werden nicht angezeigt.
 blog#:#blog_abstract_image_pixels#:#Px
 blog#:#blog_abstract_image_width#:#Breite
 blog#:#blog_abstract_shorten#:#Nur Anfang des Beitrags zeigen
@@ -2784,7 +2730,7 @@ cat#:#cat_show_tax_in_side_block#:#Im Seitenblock darstellen
 cert#:#cert_currently_no_certs#:#Aktuell besitzen Sie noch keine Zertifikate.
 cert#:#cert_description_label#:#Beschreibung
 cert#:#cert_download_label#:#Herunterladen
-cert#:#cert_error_no_access#:#Sie haben keine Berichtigung auf dieses Zertifikat zuzugreifen.
+cert#:#cert_error_no_access#:#Sie haben keine Berichtigung, auf dieses Zertifikat zuzugreifen.
 cert#:#cert_issued_on_label#:#Ausgestellt am
 cert#:#cert_object_label#:#Objekt
 cert#:#cert_sortable_by_issue_date_asc#:#Sortiert nach Ausstellungsdatum - Älteste zuerst
@@ -2829,7 +2775,7 @@ certificate#:#certificate_page_format_info#:#Bitte wählen Sie das Standard-Seit
 certificate#:#certificate_pageheight#:#Seitenhöhe
 certificate#:#certificate_pagewidth#:#Seitenbreite
 certificate#:#certificate_passed#:#bestanden
-certificate#:#certificate_ph_birthday#:#Geburtstag
+certificate#:#certificate_ph_birthday#:#Geburtsdatum
 certificate#:#certificate_ph_cert_id#:#Eindeutige Zertifikats-ID
 certificate#:#certificate_ph_city#:#Stadt
 certificate#:#certificate_ph_country#:#Land
@@ -2850,7 +2796,7 @@ certificate#:#certificate_ph_mark#:#Erreichte Note
 certificate#:#certificate_ph_marklong#:#Erreichte Note (Offizielle Bezeichnung)
 certificate#:#certificate_ph_markshort#:#Erreichte Note (Kurzbezeichnung)
 certificate#:#certificate_ph_matriculation#:#Matrikelnummer
-certificate#:#certificate_ph_no_sco#:#Wenn Materialien zur Bestimmung des Lernfortschritts ausgewählt werden, können Titel und Punktestand auch im Zertifikat angezeigt werden.
+certificate#:#certificate_ph_no_sco#:#Wenn der Lernfortschritt für dieses Lernmodul anhand einer Auswahl von Objekten bestimmt wird, werden hier Platzhalter für Titel und Punkte dieser Objekte zur Verfügung gestellt.
 certificate#:#certificate_ph_salutation#:#Anrede
 certificate#:#certificate_ph_sco_points_max#:#Platzhalter<br/>für Punkte<br/>maximal
 certificate#:#certificate_ph_sco_points_raw#:#Platzhalter<br/>für Punkte
@@ -3572,7 +3518,7 @@ common#:#assf_questiontypes#:#Frageneinstellungen
 common#:#assign#:#Zuweisen
 common#:#assign_global_role#:#Einer globalen Rolle zuordnen
 common#:#assign_local_role#:#Lokale Rolle zuweisen
-common#:#assigned_members#:#Zugeordnete Teilnehmer
+common#:#assigned_members#:#Zugeordnete Personen
 common#:#assigned_roles#:#Zugewiesene Rollen
 common#:#associated_user#:#Mitglied
 common#:#astounded#:#Astounded
@@ -4006,7 +3952,7 @@ common#:#enable_anonymous_fora_desc#:#Muss aktiviert sein, damit in Foren die Fu
 common#:#enable_calendar#:#Kalender aktivieren
 common#:#enable_comments_export#:#Export von Kommentaren
 common#:#enable_course_group_notifications#:#Tägliche Mail über Neuigkeiten aus Gruppen und Kursen
-common#:#enable_course_group_notifications_desc#:#Bei Aktivierung können Teilnehmer eine Zusammenfassung der News abonnieren.
+common#:#enable_course_group_notifications_desc#:#Mitglieder können eine Zusammenfassung der News abonnieren.
 common#:#enable_custom_icons#:#Anpassbare Symbole aktivieren
 common#:#enable_custom_icons_info#:#Damit können Sie eigene Symbole (Icons) für einzelne Container-Objekte und die Inhaltsseite definieren. Die entsprechenden Bilddateien laden Sie in den Eigenschaften der Objekte hoch.
 common#:#enable_dnd_upload#:#Drag-and-Drop-Upload aktivieren
@@ -4284,7 +4230,7 @@ common#:#grp_dismiss_myself#:#Sind Sie sicher, dass Sie die Mitgliedschaft in di
 common#:#grp_edit#:#Einstellungen der Gruppe
 common#:#grp_err_administrator_required#:#Das Gruppenmitglied wurde nicht entfernt. Pro Gruppe wird mindestens eine Person als Gruppenadministration benötigt.
 common#:#grp_header_edit_members#:#Mitglieder bearbeiten
-common#:#grp_list_members#:#Teilnehmer auflisten
+common#:#grp_list_members#:#Mitglieder auflisten
 common#:#grp_list_reg#:#Beitritt
 common#:#grp_list_reg_end#:#Anmeldungsende
 common#:#grp_list_reg_limit_full#:#Keine freien Plätze verfügbar
@@ -4624,12 +4570,12 @@ common#:#mcst_add#:#Mediacast anlegen
 common#:#mcst_new#:#Neuen Mediacast anlegen
 common#:#mem_add_to_wl#:#In Warteliste eintragen
 common#:#mem_alert_no_places#:#Es sind keine freien Plätze verfügbar.
-common#:#mem_cron_min_members#:#Kurs/Gruppe: Prüfung der minimalen Teilnehmerzahl
-common#:#mem_cron_min_members_info#:#Die Kurs- bzw. Gruppenadministration wird benachrichtigt, sofern die minimale Anzahl nicht erreicht wird.
+common#:#mem_cron_min_members#:#Kurs/Gruppe: Prüfung auf Mindestanzahl an Anmeldungen
+common#:#mem_cron_min_members_info#:#Die Kurs- bzw. Gruppenadministration wird benachrichtigt, sofern die Mindestanzahl nicht erreicht wird.
 common#:#mem_end#:#Anmeldungsende:
 common#:#mem_free_places#:#Freie Plätze
-common#:#mem_max_users#:#Maximale Teilnehmeranzahl:
-common#:#mem_min_users#:#Minimale Teilnehmeranzahl
+common#:#mem_max_users#:#Maximale Anzahl an Mitgliedern
+common#:#mem_min_users#:#Mindestanzahl an Mitgliedern
 common#:#mem_participants#:#Teilnehmer
 common#:#mem_reg_expired#:#Die Anmeldungszeit ist abgelaufen.
 common#:#mem_reg_not_started#:#Die Anmeldung hat noch nicht begonnen.
@@ -7696,7 +7642,7 @@ crs#:#crs_mail_type#:#Mail an Mitglieder
 crs#:#crs_map_location#:#Ort auf Karte zum Kurs
 crs#:#crs_map_settings#:#Karte
 crs#:#crs_materials#:#Materialien
-crs#:#crs_max_and_min_members_invalid#:#Die minimale Anzahl muss kleiner als die maximale Anzahl sein.
+crs#:#crs_max_and_min_members_invalid#:#Die Mindestanzahl muss kleiner als die maximale Anzahl sein.
 crs#:#crs_max_and_min_members_needed#:#Setzen Sie eine minimale oder maximale Anzahl - oder beides.
 crs#:#crs_max_members_needed#:#Für die Warteliste wird eine maximale Anzahl Mitglieder benötigt.
 crs#:#crs_max_members_reached#:#Die maximale Mitgliederanzahl wurde überschritten
@@ -7783,11 +7729,9 @@ crs#:#crs_objective_tbl_col_final_tsts#:#Abschlusstests
 crs#:#crs_objective_wiz_final#:#Fragen des  Abschlusstests festlegen
 crs#:#crs_objective_wiz_final_info#:#Legen Sie nun die Fragen des Abschlusstests fest, die das Erreichen des Lernziels überprüfen sollen.
 crs#:#crs_objective_wiz_final_limit#:#Grenzen des Abschlusstests festlegen
-crs#:#crs_objective_wiz_final_limit_info#:#Bitte tragen Sie nun die Punktzahl ein, die ein Kursteilnehmer benötigt, um das Lernziel zu bestehen.
 crs#:#crs_objective_wiz_materials#:#Lerninhalte zuordnen
 crs#:#crs_objective_wiz_materials_info#:#Hier legen Sie fest, welche Lerninhalte zur Bearbeitung des Lernziels empfohlen werden.
 crs#:#crs_objective_wiz_self#:#Fragen des Einstiegstests festlegen
-crs#:#crs_objective_wiz_self_info#:#Legen Sie nun die Fragen des Einstiegstests fest. Der Einstiegstest dient der Überprüfung, ob und welche Vorkenntnisse bei den Kursteilnehmern vorhanden sind.
 crs#:#crs_objective_wiz_self_limit#:#Grenzen des Einstiegstests festlegen
 crs#:#crs_objective_wiz_self_limit_info#:#Bitte geben Sie die Anzahl der Punkte ein, ab der keine weiteren Lerninhalte zur Bearbeitung empfohlen werden.
 crs#:#crs_objective_wiz_title#:#Lernziel beschreiben
@@ -7844,7 +7788,6 @@ crs#:#crs_search_users#:#Benutzer suchen
 crs#:#crs_select_archive_language#:#Bitte wählen Sie eine Sprache, in der das Archiv erstellt werden soll.
 crs#:#crs_select_one_archive#:#Bitte wählen Sie genau ein Archiv aus!
 crs#:#crs_select_starter#:#Startobjekt auswählen
-crs#:#crs_selected_users#:#Ausgewählte Teilnehmer
 crs#:#crs_settings#:#Kurseinstellungen
 crs#:#crs_settings_saved#:#Die Einstellungen wurden gespeichert.
 crs#:#crs_shorten_breadcrumb#:#Brotkrumennavigation
@@ -7885,8 +7828,8 @@ crs#:#crs_subscription_failed_limit#:#Die maximale Teilnehmeranzahl wurde übers
 crs#:#crs_subscription_max_members#:#Maximale Anzahl
 crs#:#crs_subscription_max_members_short#:#Begrenzte Mitgliederanzahl
 crs#:#crs_subscription_max_members_short_info#:#Es kann eine minimale bzw. maximale Anzahl von Mitgliedern festgelegt werden. Es kann eine Warteliste eingerichtet werden.
-crs#:#crs_subscription_min_members#:#Minimale Anzahl
-crs#:#crs_subscription_min_members_err#:#Die minimale Anzahl darf nicht größer als die maximale Anzahl sein.
+crs#:#crs_subscription_min_members#:#Mindestanzahl
+crs#:#crs_subscription_min_members_err#:#Die Mindestanzahl darf nicht größer als die maximale Anzahl sein.
 crs#:#crs_subscription_min_members_info#:#Wird die geforderte Mindestanzahl an Mitgliedern nicht erreicht, kann der Kurs nicht stattfinden. Wird die Mindestanzahl bis zum Ende des Beitrittszeitraums bzw. dem spätesten Kursaustritt nicht erreicht, versendet ILIAS eine Mail an die Personen, für die im Reiter „Mitglieder“ die Option „Benachrichtigung“ aktiviert ist.
 crs#:#crs_subscription_options_confirmation#:#Beitritt nach Bestätigung
 crs#:#crs_subscription_options_direct#:#Direkter Beitritt
@@ -7926,7 +7869,6 @@ crs#:#crs_timings_presetting#:#Lernplanung eingeschaltet
 crs#:#crs_timings_short_active#:#Lernplanung
 crs#:#crs_timings_short_active_tt#:#Lernplanung aktivieren
 crs#:#crs_timings_short_changeable#:#Änderbar
-crs#:#crs_timings_short_changeable_tt#:#Lernplaung änderbar durch Teilnehmer
 crs#:#crs_timings_short_end#:#Enddatum
 crs#:#crs_timings_short_limit_start_end#:#Spätestes Ende
 crs#:#crs_timings_short_limit_start_end_tt#:#Spätestes Ende
@@ -7982,10 +7924,10 @@ crs#:#crs_visibility_unvisible#:#Der Kurs ist nicht sichtbar.
 crs#:#crs_wait_info#:#Ist die maximale Mitgliederanzahl erreicht, können sich weitere Benutzer auf eine Warteliste setzen lassen.
 crs#:#crs_waiting_list#:#Warteliste
 crs#:#crs_waiting_list_autofill#:#Mit automatischem Aufrücken
-crs#:#crs_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste nach. Dies sollte nicht in Verbindung mit dem Beitrittsverfahren "Beitritt nach Bestätigung" benutzt werden, da die Bestätigung so umgangen wird.
+crs#:#crs_waiting_list_autofill_info#:#Personen auf der Warteliste rücken bei Stornierungen automatisch nach. Achtung: Nicht in Verbindung mit dem Beitrittsverfahren „Beitritt nach Bestätigung“ benutzen, da die Bestätigung so umgangen wird.
 crs#:#crs_waiting_list_no_autofill#:#Ohne automatisches Aufrücken
-crs#:#crs_warn_no_max_set_on_waiting_list#:#Die maximale Teilnehmeranzahl ist erreicht. Sie können sich jedoch auf die Warteliste für diesen Kurs setzen lassen und würden benachrichtigt, wenn Sie in den Kurs nachrücken könnten.
-crs#:#crs_warn_wl_set_on_waiting_list#:#Es sind bereits Teilnehmer auf der Warteliste eingetragen. Sie können sich jedoch auf die Warteliste für diesen Kurs setzen lassen. Sie werden per Mail benachrichtigt, sobald Ihr Aufnahmeantrag angenommen oder abgelehnt wurde.
+crs#:#crs_warn_no_max_set_on_waiting_list#:#Alle Plätze im Kurs sind belegt. Tragen Sie sich in die Warteliste ein. Sie werden benachrichtigt, falls im Kurs ein Platz frei wird.
+crs#:#crs_warn_wl_set_on_waiting_list#:#Es sind bereits Personen in die Warteliste eingetragen. Sie können sich auch selbst in die Warteliste eintragen. Sobald Ihr Aufnahmeantrag angenommen oder abgelehnt wird, erhalten Sie eine Mail.
 crs#:#crs_wiz_back#:#Zurück
 crs#:#crs_wiz_next#:#Speichern
 crs#:#crs_xml#:#XML
@@ -8002,7 +7944,7 @@ crs#:#event_date_time#:#Datum und Zeit
 crs#:#event_desc#:#Beschreibung
 crs#:#event_details_workflow#:#Details zur Sitzung
 crs#:#event_digit#:#Ziffer
-crs#:#event_edit_members#:#Teilnehmer
+crs#:#event_edit_members#:#Teilnahmen verwalten
 crs#:#event_etime_smaller_stime#:#Der Endtermin ist früher als der Starttermin. Bitte geben Sie eine gültige Zeitspanne ein.
 crs#:#event_file#:#Datei
 crs#:#event_files#:#Zugeordnete Dateien
@@ -8037,20 +7979,20 @@ crs#:#event_user_selection_include_requests#:#Binde alle Benutzer der Liste "Auf
 crs#:#event_user_selection_include_role#:#Binde alle Benutzer der Rolle "%1$s" ein
 crs#:#event_user_selection_include_waiting_list#:#Binde alle Benutzer der "Warteliste" ein
 crs#:#events#:#Sitzungen
-crs#:#export_members#:#Export der Teilnehmendendaten
+crs#:#export_members#:#Export
 crs#:#grouping_change_assignment#:#Zuordnungen ändern
 crs#:#grp_grp_already_assigned#:#Da Sie bereits Mitglied in einer der Gruppen sind, können Sie nicht einer weiteren Gruppe aus der Liste beitreten!
-crs#:#grp_not_all_users_assigned_msg#:#%s Teilnehmende wurde(n) in die Gruppe aufgenommen, %s Teilnehmende waren bereits in der Gruppe.
+crs#:#grp_not_all_users_assigned_msg#:#%s Personen wurden in die Gruppe aufgenommen. %s weitere waren bereits Gruppenmitglieder.
 crs#:#mem_cron_min_members_intro#:#die folgenden Kurse und Gruppen erreichen aktuell nicht die Mindestanzahl an Mitgliedern:
 crs#:#mem_cron_min_members_reason#:#Möchten Sie keine Benachrichtigungen mehr für diese Kurse und Gruppen erhalten, deaktivieren Sie in den jeweiligen Objekten die Checkbox „Benachrichtigung“ im Reiter „Mitglieder“.
-crs#:#mem_cron_min_members_subject#:#Kurs/Gruppe: Prüfung der minimalen Teilnehmerzahl
+crs#:#mem_cron_min_members_subject#:#Kurs/Gruppe: Prüfung auf Mindestanzahl an Anmeldungen
 crs#:#mem_cron_min_members_task#:#Informieren Sie die bereits angemeldeten Personen rechtzeitig, falls die Veranstaltung nicht stattfindet. Oder ändern Sie die Mindestanzahl der Mitglieder bzw. den Beitrittszeitraum. Passen Sie hierzu die Einstellungen im Abschnitt „Zeitlich begrenzter Beitritt“ bzw. „Begrenzte Mitgliederanzahl“ an.
 crs#:#obj_count_members#:#Anzahl der Mitglieder
-crs#:#sess_attendance_list#:#Teilnehmerliste
+crs#:#sess_attendance_list#:#Teilnahmeliste
 crs#:#sess_gen_attendance_list#:#Liste erstellen
 crs#:#sess_join_info#:#Bitte klicken Sie auf Anmelden, wenn Sie an dieser Sitzung teilnehmen möchten.
 crs#:#sess_limit#:#Anzahl der angezeigten Sitzungen begrenzen
-crs#:#sess_limit_info#:#Teilnehmern werden nicht alle Sitzungen angezeigt, sondern nur eine definierte Anzahl.
+crs#:#sess_limit_info#:#Es wird zunächst eine gekürzte Liste der Sitzungen präsentiert. Vergangene und künftige Sitzungen können per Klick zusätzlich eingeblendet werden.
 crs#:#sess_num_next#:#Anzahl nachfolgender Sitzungen (ab morgen)
 crs#:#sess_num_prev#:#Anzahl vergangener Sitzungen (bis einschließlich gestern)
 crs#:#sess_print_attendance_list#:#Liste drucken
@@ -8071,7 +8013,7 @@ crs#:#timings_cron_reminder_started_subject#:#Der Bearbeitungszeitraum hat begon
 crs#:#timings_edit#:#Zeitplanung bearbeiten
 crs#:#timings_of#:#Lernplanung von
 crs#:#timings_reminder_notifications#:#Benachrichtigungen zur Lernplanung versenden
-crs#:#timings_reminder_notifications_info#:#Wenn aktiviert, werden Kursteilnehmer über überschrittene Lernplanungsmaterialien informiert.
+crs#:#timings_reminder_notifications_info#:#Kursmitglieder werden informiert, wenn sie ihren Zeitplan nicht einhalten.
 crs#:#timings_timings#:#Lernplanung
 crs#:#timings_timings_off#:#Lernplanungsverwaltung aus
 crs#:#timings_timings_on#:#Lernplanungsverwaltung an
@@ -8596,10 +8538,10 @@ dcl#:#dcl_create_fields#:#Klicken Sie in der Registerkarte „Tabellen“ auf ei
 dcl#:#dcl_creation_date#:#Erstellungsdatum
 dcl#:#dcl_creation_date_description#:#Das Datum, an dem dieser Eintrag erstellt wurde.
 dcl#:#dcl_datatype#:#Typ
+dcl#:#dcl_date#:#Datumseingabe
+dcl#:#dcl_date_desc#:#Datum wird eingegeben oder im Kalender ausgewählt.
 dcl#:#dcl_date_selection#:#Datum per Auswahl
 dcl#:#dcl_date_selection_desc#:#Aus vorgegebenen Optionen kann ein Datum ausgewählt werden.
-dcl#:#dcl_datetime#:#Datum per Eingabe
-dcl#:#dcl_datetime_desc#:#Datum wird eingegeben oder im Kalender ausgewählt.
 dcl#:#dcl_default_sort_field#:#Sortierung
 dcl#:#dcl_default_sort_field_desc#:#Tabelle wird standardmässig nach dem ausgewählten Feld sortiert.
 dcl#:#dcl_default_sort_field_order#:#Sortierrichtung
@@ -8615,7 +8557,6 @@ dcl#:#dcl_detailed_view#:#Einzelansicht
 dcl#:#dcl_display_action_menu#:#Kopieren
 dcl#:#dcl_display_action_menu_desc#:#Das Objekt kann von dem Eintrag aus kopiert werden.
 dcl#:#dcl_display_record_alt#:#Diesen Eintrag anzeigen
-dcl#:#dcl_duplicate_non_unique_entries_exist#:#Es kann sich auch um bereits vorhandene Einträge handeln.
 dcl#:#dcl_edit#:#Einstellungen der Datensammlung
 dcl#:#dcl_edit_entry_rules#:#Eintragsbearbeitung
 dcl#:#dcl_edit_field#:#Feld bearbeiten
@@ -8841,6 +8782,7 @@ dcl#:#dcl_wrong_regex#:#Der eingegebene Text passt nicht zur Spezifikation diese
 dcl#:#dcl_xls_async_export#:#als XLSX (asynchron)
 dcl#:#disable_comments#:#Kommentare deaktivieren
 dcl#:#disable_visible#:#Sichtbarkeit deaktivieren
+dcl#:#duplicate_entries_exist#:#Innerhalb der vorhandenen Einträge gibt es bereits gleiche Werte.
 dcl#:#enable_comments#:#Kommentare aktivieren
 dcl#:#enable_visible#:#Sichtbarkeit aktivieren
 dcl#:#entry_of#:#Eintrag %1$d von %2$d
@@ -9373,7 +9315,7 @@ exc#:#exc_members_already_assigned_team#:#Dieser Benutzer ist bereits einem Team
 exc#:#exc_min_char_limit#:#Mindestanzahl Zeichen
 exc#:#exc_min_nr#:#Anzahl Übungseinheiten
 exc#:#exc_min_nr_info#:#Dieser Wert muss mindestens so hoch sein, wie die Anzahl der verpflichtenden Übungseinheiten.
-exc#:#exc_min_team_participants#:#Minimale Anzahl
+exc#:#exc_min_team_participants#:#Mindestanzahl
 exc#:#exc_msg_all_mandatory_ass#:#Sie müssen alle verpflichtenden Übungseinheiten bestehen, um die Übung als ganze zu bestehen.
 exc#:#exc_msg_deadline_request_body#:#Der folgende Benutzer hat eine individuelle Abgabefrist angefragt.
 exc#:#exc_msg_deadline_request_subject#:#Es wurde eine Abgabefrist in Übung „%s“ angefragt.
@@ -9656,9 +9598,9 @@ exc#:#exc_team_member_add#:#Team-Mitglied hinzufügen (Suche)
 exc#:#exc_team_member_container_add#:#Team-Mitglied aus Kurs/Gruppe hinzufügen
 exc#:#exc_team_member_remove_sure#:#Wollen Sie wirklich die folgenden Mitglieder Ihres Teams entfernen? Bitte beachten Sie, dass auch die jeweiligen hochgeladenen Dateien aus dem Team entfernt werden.
 exc#:#exc_team_members#:#Team-Mitglieder
-exc#:#exc_team_min_big_than_max#:#Die maximale Anzahl von Teilnehmern kann nicht kleiner als die minimale Anzahl sein.
-exc#:#exc_team_min_small_than_members#:#Die minimale Anzahl von Teilnehmern kann nicht auf %s gesetzt werden, da einige Teams %s Teilnehmer erhalten müssen.
-exc#:#exc_team_minimal_too_big#:#Die minimale Anzahl von Teilnehmern %s ist zu groß, bitte verringern Sie den Wert.
+exc#:#exc_team_min_big_than_max#:#Die maximale Anzahl von Teilnehmern kann nicht kleiner als die Mindestanzahl sein.
+exc#:#exc_team_min_small_than_members#:#Die Mindestanzahl von Teilnehmern kann nicht auf %s gesetzt werden, da einige Teams %s Teilnehmer erhalten müssen.
+exc#:#exc_team_minimal_too_big#:#Die Mindestanzahl von Teilnehmern %s ist zu groß, bitte verringern Sie den Wert.
 exc#:#exc_team_multi_create#:#Team erstellen
 exc#:#exc_team_multi_dissolve#:#Team(s) auflösen
 exc#:#exc_team_notification_body_add#:#Sie wurden zu einer Team-Upload-Übungseinheit hinzugefügt.
@@ -10283,10 +10225,8 @@ grp#:#grp_custom_user_fields#:#Personenbezogene Angaben
 grp#:#grp_custom_user_fields_infobox#:#Legen Sie weitere Datenfelder an, welche Gruppenmitglieder beim Beitritt ausfüllen. Die Angaben können Sie im Reiter "Mitglieder" als zusätzliche Spalte einblenden.
 grp#:#grp_custom_user_fields_table_title#:#Personenbezogene Angaben zu dieser Gruppe
 grp#:#grp_deactivate_notification#:#Benachrichtigung deaktivieren
-grp#:#grp_edit_members#:#Teilnehmerverwaltung
 grp#:#grp_enable_map#:#Gruppenkarte aktivieren
 grp#:#grp_err_registration_limited#:#Bitte geben Sie ein gültiges Start- und Enddatum der Registrierung ein.
-grp#:#grp_export_members#:#Teilnehmerexport
 grp#:#grp_general_informations#:#Allgemeine Informationen
 grp#:#grp_grp_info_reg#:#Die folgenden Gruppen unterliegen einer Mitgliedschaftsbeschränkung. Sie können nur einer dieser Gruppen beitreten:
 grp#:#grp_grp_open#:#Gruppe öffnen
@@ -10313,8 +10253,8 @@ grp#:#grp_mail_notification_reg_req_bod#:#%s hat einen Aufnahmeantrag für die G
 grp#:#grp_mail_notification_reg_req_bod2#:#Um den Benutzer zur Gruppe zuzulassen oder den Antrag abzuweisen, müssen Sie die Mitgliederverwaltung aufrufen. Wählen Sie dazu bitte folgenden Link:
 grp#:#grp_mail_notification_reg_req_sub#:#Aufnahmeantrag für Gruppe „%s“
 grp#:#grp_mail_notification_reg_sub#:#Neue Mitgliedschaft in Gruppe „%s“
-grp#:#grp_mail_notification_unsub_bod#:#die Teilnehmerin / der Teilnehmer „%s“ hat die Mitgliedschaft in der Gruppe „%s“ beendet.
-grp#:#grp_mail_notification_unsub_bod2#:#Eventuell sind Teilnehmende in die Warteliste dieser Gruppe eingetragen. Um die Liste der Teilnehmenden anzuzeigen, rufen Sie bitte folgenden Link auf:
+grp#:#grp_mail_notification_unsub_bod#:#%s ist aus der Gruppe „%s“ ausgetreten.
+grp#:#grp_mail_notification_unsub_bod2#:#Eventuell stehen Personen auf der Warteliste dieser Gruppe. Um die Liste anzuzeigen, rufen Sie bitte folgenden Link auf:
 grp#:#grp_mail_notification_unsub_sub#:#Austritt aus der Gruppe „%s“
 grp#:#grp_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Gruppeninhalt zuzugreifen:
 grp#:#grp_mail_status_bod#:#Ihr Status in Gruppe „%s“ wurde geändert.
@@ -10334,10 +10274,10 @@ grp#:#grp_mail_wl_bod#:#Sie sind auf die Warteliste der Gruppe „%s“ gesetzt 
 grp#:#grp_mail_wl_sub#:#Ihre Anmeldung für Gruppe „%s“
 grp#:#grp_map_location#:#Standort auf Gruppenkarte
 grp#:#grp_map_settings#:#Einstellungen Karte
-grp#:#grp_max_and_min_members_invalid#:#Die minimale Anzahl muss kleiner als die maximale Anzahl sein.
+grp#:#grp_max_and_min_members_invalid#:#Die Mindestanzahl muss kleiner als die maximale Anzahl sein.
 grp#:#grp_mem_contacts#:#Kontaktperson
-grp#:#grp_mem_tbl_header#:#Gruppenteilnehmer
-grp#:#grp_member_administration#:#Teilnehmerverwaltung
+grp#:#grp_mem_tbl_header#:#Mitglieder
+grp#:#grp_member_administration#:#Verwalten
 grp#:#grp_members#:#Mitglieder
 grp#:#grp_members_deleted#:#Die ausgewählten Mitglieder sind aus der Gruppe ausgetragen worden.
 grp#:#grp_members_map#:#Karte Gruppenmitglieder
@@ -10352,7 +10292,7 @@ grp#:#grp_notification#:#Benachrichtigung
 grp#:#grp_notification_activated#:#Benachrichtigung aktiviert
 grp#:#grp_notification_deactivated#:#Benachrichtigung deaktiviert
 grp#:#grp_notification_explanation_admin#:#Sie erhalten diese Mail, da für Sie als Gruppenbetreuung die Benachrichtigungen aktiviert sind.
-grp#:#grp_notification_salutation#:#Liebe Gruppenteilnehmerin, lieber Gruppenteilnehmer,
+grp#:#grp_notification_salutation#:#Hallo,
 grp#:#grp_notify_off#:#Benachrichtigungen über Neuanmeldungen deaktiviert
 grp#:#grp_notify_on#:#Benachrichtigungen über Neuanmeldungen aktiviert
 grp#:#grp_pass_request#:#Beitritt mit Gruppenpasswort
@@ -10382,7 +10322,6 @@ grp#:#grp_reg_subject#:#Nachricht
 grp#:#grp_registration_unlimited#:#Zeitlich unbegrenzt
 grp#:#grp_role_status#:#Rolle/Status
 grp#:#grp_search_users#:#Benutzer suchen
-grp#:#grp_selected_users#:#Ausgewählte Teilnehmer
 grp#:#grp_set_on_waiting_list#:#Wenn Sie einen Aufnahmeantrag stellen, werden Sie auf die Warteliste gesetzt. Sie werden dann von der Gruppenleitung benachrichtigt, ob Ihr Aufnahmeantrag angenommen oder abgelehnt wird.
 grp#:#grp_setting_header_presentation#:#Darstellung
 grp#:#grp_setting_header_registration#:#Selbstständiger Beitritt durch Benutzer
@@ -10408,18 +10347,18 @@ grp#:#grp_view_inherit#:#Durch Kurs bestimmt
 grp#:#grp_view_inherit_info#:#Wird die Ansicht des übergeordneten Kurses geändert, ändert sich auch die Gruppenansicht.
 grp#:#grp_waiting_list#:#Warteliste
 grp#:#grp_waiting_list_autofill#:#Mit automatischem Aufrücken
-grp#:#grp_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste auf.  Dies sollte nicht in Verbindung mit dem Beitrittsverfahren "Beitritt nach Bestätigung" benutzt werden, da die Bestätigung so umgangen wird.
+grp#:#grp_waiting_list_autofill_info#:#Personen auf der Warteliste rücken bei Stornierungen automatisch nach. Achtung: Nicht in Verbindung mit dem Beitrittsverfahren „Beitritt nach Bestätigung“ benutzen, da die Bestätigung so umgangen wird.
 grp#:#grp_waiting_list_info#:#Ist die maximale Mitgliederanzahl erreicht, können sich weitere Benutzer auf eine Warteliste setzen lassen.
 grp#:#grp_waiting_list_no_autofill#:#Ohne automatisches Aufrücken
 grp#:#grp_warn_grp_type_changed#:#Sind Sie sicher, dass Sie die Gruppenart ändern möchten? Die Rechteeinstellungen dieser Gruppe werden überschrieben und an die neue Art der Gruppe angepasst.
-grp#:#grp_warn_no_max_set_on_waiting_list#:#Die maximale Teilnehmeranzahl ist erreicht. Sie können sich jedoch auf die Warteliste für diese Gruppe setzen lassen und werden dann per Mail benachrichtigt, wenn Sie nachrücken können.
+grp#:#grp_warn_no_max_set_on_waiting_list#:#Die maximale Anzahl an Mitgliedern ist erreicht. Sie können sich jedoch auf die Warteliste für diese Gruppe setzen lassen und werden dann per Mail benachrichtigt, wenn Sie nachrücken können.
 grp#:#grp_warn_wl_set_on_waiting_list#:#Es sind bereits Benutzer in der Warteliste eingetragen. Sie können sich jedoch auf die Warteliste für diese Gruppe setzenund werden dann per Mail benachrichtigt, wenn Sie nachrücken können.
 grp#:#grp_wrong_max_members#:#Für die Warteliste wird eine maximale Anzahl Mitglieder benötigt.
 grp#:#grp_wrong_min_max_members#:#Setzen Sie eine minimale oder maximale Anzahl - oder beides.
 grp#:#grp_wrong_reg_time_limit#:#Bitte überprüfen Sie Ihre Eingaben zum Anmeldungszeitraum.
 grp#:#reg_grp_max_members#:#Maximale Anzahl
 grp#:#reg_grp_max_members_short#:#Begrenzte Mitgliederanzahl
-grp#:#reg_grp_min_members#:#Minimale Anzahl
+grp#:#reg_grp_min_members#:#Mindestanzahl
 gsfo#:#accessibility#:#Barrierefreiheit
 gsfo#:#confirm_delete#:#Möchten Sie die folgenden Elemente wirklich löschen?
 gsfo#:#confirm_reset#:#Durch das Zurücksetzen der Fußzeile werden alle Einträge in ihren ursprünglichen Zustand zurückversetzt. Alle Anpassungen und manuellen Einträge werden gelöscht. Möchten Sie fortfahren?
@@ -11011,19 +10950,19 @@ lso#:#lso_at_least_one_admin#:#Dieser Lernsequenz muss mindestens eine Person mi
 lso#:#lso_edit_permission#:#Rechteeinstellungen ändern
 lso#:#lso_header_delete_members#:#Sie möchten folgende Mitglieder aus der Lernsequenz austragen?
 lso#:#lso_header_edit_members#:#Mitglieder bearbeiten
-lso#:#lso_intropages_deprecationhint#:#Sie können die Einleitungs- und Abschlussseite unter "Inhalt" editieren.
+lso#:#lso_intropages_deprecationhint#:#Sie können die Einleitungs- und Abschlussseite unter „Inhalt“ editieren.
 lso#:#lso_legacy_info#:#Das Objekt öffnet sich in einem neuen Tab Ihres Browsers. Bitte kommen Sie nach Bearbeitung des Inhalts in diesen Tab zurück. Laden Sie die Seite neu, wenn sie den Inhalt bearbeitet haben, aber die „Weiter“-Schaltfläche weiterhin deaktiviert bleibt.
-lso#:#lso_mail_admission_new_bod#:#Sie sind in Lernsequenz „%s“ als Mitglied aufgenommen worden.
-lso#:#lso_mail_admission_new_sub#:#Mitgliedschaft in Lernsequenz „%s“
-lso#:#lso_mail_dismiss_bod#:#hre Mitgliedschaft in Lernsequenz „%s“ wurde beendet.
-lso#:#lso_mail_dismiss_sub#:#Mitgliedschaft in Lernsequenz „%s“ beendet
+lso#:#lso_mail_admission_new_bod#:#Sie sind in die Lernsequenz „%s“ als Mitglied aufgenommen worden.
+lso#:#lso_mail_admission_new_sub#:#Mitgliedschaft in der Lernsequenz „%s“
+lso#:#lso_mail_dismiss_bod#:#Ihre Mitgliedschaft in der Lernsequenz „%s“ wurde beendet.
+lso#:#lso_mail_dismiss_sub#:#Mitgliedschaft in der Lernsequenz „%s“ beendet
 lso#:#lso_mail_notification_reg_bod#:#%s hat einen Aufnahmeantrag für die Lernsequenz „%s“ gestellt.
 lso#:#lso_mail_notification_reg_req_bod#:#%s hat einen Aufnahmeantrag für die Lernsequenz „%s“ gestellt.
 lso#:#lso_mail_notification_reg_req_bod2#:#Um den Benutzer zur Lernsequenz zuzulassen oder den Antrag abzuweisen, müssen Sie die Mitgliederverwaltung aufrufen. Wählen Sie dazu bitte folgenden Link:
 lso#:#lso_mail_notification_reg_req_sub#:#Aufnahmeantrag für Lernsequenz „%s“
 lso#:#lso_mail_notification_reg_sub#:#Neue Mitgliedschaft in Lernsequenz „%s“
-lso#:#lso_mail_notification_unsub_bod#:#die Teilnehmerin / der Teilnehmer „%s“ hat die Mitgliedschaft in der Lernsequenz „%s“ beendet.
-lso#:#lso_mail_notification_unsub_bod2#:#Eventuell sind Teilnehmende in die Warteliste dieser Lernsequenz eingetragen. Um die Liste der Teilnehmenden anzuzeigen, rufen Sie bitte folgenden Link auf:
+lso#:#lso_mail_notification_unsub_bod#:#„%s“ ist aus der Lernsequenz „%s“ ausgetreten.
+lso#:#lso_mail_notification_unsub_bod2#:#Eventuell stehen Personen auf der Warteliste dieser Lernsequenz. Um die Liste anzuzeigen, rufen Sie bitte folgenden Link auf:
 lso#:#lso_mail_notification_unsub_sub#:#Austritt aus der Lernsequenz „%s“
 lso#:#lso_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Inhalt der Lernsequenz zuzugreifen:
 lso#:#lso_mail_status_bod#:#Ihr Status in Lernsequenz „%s“ wurde geändert.
@@ -13804,7 +13743,7 @@ ps#:#ps_export_confirm_group#:#Zustimmung neuer Mitglieder beim Gruppenbeitritt,
 ps#:#ps_export_course#:#Export der Persönlichen Daten aus Kursen erlauben
 ps#:#ps_export_data#:#Daten des Persönlichen Profils
 ps#:#ps_export_excel#:#Starte Excel-Export
-ps#:#ps_export_files#:#Exportdateien
+ps#:#ps_export_files#:#Personenbezogene Daten: Exportdateien
 ps#:#ps_export_groups#:#Export der Persönlichen Daten aus Gruppen erlauben
 ps#:#ps_export_member#:#Mitglieder
 ps#:#ps_export_prgs#:#Persönliche Daten in Studienprogrammen anzeigen und exportieren
@@ -13930,7 +13869,7 @@ rbac#:#adn_edit_permission#:#Rechteeinstellungen für die Verwaltung der Ankünd
 rbac#:#adn_read#:#Einstellungen für Ankündigungen in der Administration einsehen
 rbac#:#adn_visible#:#Administrationsknoten „Ankündigungen“ sehen
 rbac#:#adn_write#:#Ankündigungen erstellen und verwalten
-rbac#:#adopt_perm_from_template#:#Rechteeinstellungen kopieren
+rbac#:#adopt_perm_from_template#:#Rechteeinstellungen von anderer Rolle übernehmen
 rbac#:#adve_edit_permission#:#Rechteeinstellungen der Editor-Administration ändern
 rbac#:#adve_read#:#Einstellungen zur Editor-Administration einsehen
 rbac#:#adve_visible#:#Administrationsknoten „Editor“ sehen
@@ -14424,7 +14363,7 @@ rbac#:#poll_write#:#Abstimmung bearbeiten
 rbac#:#positions_override_operations#:#Globale Einstellungen überschreiben
 rbac#:#precondition_not_obligatory_alt#:#Die Vorbedingung ist optional
 rbac#:#precondition_num_obligatory#:#Anzahl benötigter Materialien
-rbac#:#precondition_num_optional_info#:#Bitte geben Sie die minimale Anzahl der Materialien an, die notwendig ist, um die Vorbedingung zu erfüllen.
+rbac#:#precondition_num_optional_info#:#Bitte geben Sie die Mindestanzahl der Materialien an, die notwendig ist, um die Vorbedingung zu erfüllen.
 rbac#:#precondition_obligatory#:#Verpflichtend
 rbac#:#precondition_obligatory_alt#:#Die Vorbedingung muss erfüllt werden
 rbac#:#precondition_obligatory_info#:#Verpflichtende Vorbedingungen müssen erfüllt werden, um Zugriff zu erhalten.
@@ -14486,14 +14425,17 @@ rbac#:#rbac_cant_import_role_wrong_type#:#Eine Rolle aus dem Objekt $s in ein Ob
 rbac#:#rbac_change_existing_confirm_tbl#:#Einstellungen zum Ändern vorhandener Objekte
 rbac#:#rbac_change_existing_objects_desc_new_role#:#Die Rechteeinstellungen von dieser Rolle werden auf ALLE vorhandenen Objekte übertragen.
 rbac#:#rbac_changes#:#Änderungen
-rbac#:#rbac_choose_copy_targets#:#Bitte geben Sie einen Suchbegriff ein, um die Rollen zu finden, auf die Rechte übertragen werden sollen.
+rbac#:#rbac_choose_copy_targets#:#Bitte geben Sie einen Suchbegriff ein, um die Rollen zu finden, auf die Rechte von %s übertragen werden sollen.
 rbac#:#rbac_condition_delete_sure#:#Wollen Sie wirklich die folgenden Vorbedingungen löschen?
 rbac#:#rbac_context_global#:#Global
 rbac#:#rbac_copy_behaviour#:#Einstellungen zum Kopieren der Rechte
+rbac#:#rbac_copy_behaviour_info#:#Übertragen der Rechte von %s nach %s
 rbac#:#rbac_copy_finished#:#Die Rechte wurden auf die ausgewählten Rollen übertragen.
+rbac#:#rbac_copy_multi_targets#:#%s, %s und %s weitere Rollen ausgewählt%s
+rbac#:#rbac_copy_no_targets#:#Es muss mindestens eine Rolle als Ziel ausgewählt werden
 rbac#:#rbac_copy_role#:#Rolle kopieren
 rbac#:#rbac_copy_role_add_perm#:#Rechte hinzufügen
-rbac#:#rbac_copy_role_copy#:#Rechte kopieren
+rbac#:#rbac_copy_role_copy#:#Rechte auf andere Rolle(n) übertragen
 rbac#:#rbac_copy_role_remove_perm#:#Rechte entfernen
 rbac#:#rbac_create_bibl#:#Literaturliste anlegen
 rbac#:#rbac_create_blog#:#Blog anlegen
@@ -14604,12 +14546,13 @@ rbac#:#rbac_role_delete_qst#:#Sind Sie sicher, dass Sie diese Rolle löschen mö
 rbac#:#rbac_role_delete_self#:#<strong>Achtung:</strong> Sie selbst sind dieser Rolle zugeordnet. Wenn Sie den Löschvorgang fortführen, kann es sein, dass Sie Zugriffsrechte an diesem oder anderen ILIAS-Materialien verlieren.
 rbac#:#rbac_role_exists_alert#:#Es existiert bereits eine Rolle mit dem gleichen Namen. Bitte wählen Sie einen anderen Rollennamen.
 rbac#:#rbac_role_imported#:#Die Rolle wurde erfolgreich importiert und die gesetzten Rechte in die Rechtevorgaben der neuen Rolle übernommen. Legen Sie jetzt noch unten fest, welche Rechte die importierte Rolle für das vorliegende Objekt haben soll.
-rbac#:#rbac_role_rights_copy#:#Rechte kopieren
+rbac#:#rbac_role_rights_copy#:#Rechte übertragen
 rbac#:#rbac_role_rights_copy_change_existing#:#Vorhandene Objekte ändern
 rbac#:#rbac_role_rights_copy_empty#:#Keine
 rbac#:#rbac_role_selection#:#Rollentyp
 rbac#:#rbac_role_title#:#Rollentitel
-rbac#:#rbac_select_copy_targets#:#Bitte wählen Sie die Rollen aus, auf die die Rechte übertragen werden sollen.
+rbac#:#rbac_select_copy_targets#:#Bitte wählen Sie die Rollen aus, auf die die Rechte von <strong>%s</strong> übertragen werden sollen.
+rbac#:#rbac_select_roles#:#Rollenauswahl
 rbac#:#rbac_ud_global#:#Selbst erstellte globale Rolle
 rbac#:#rbac_ud_local#:#Selbst erstelle lokale Rolle
 rbac#:#rbac_ud_rolt#:#Selbst erstellte Rollenvorlage

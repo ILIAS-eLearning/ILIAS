@@ -162,7 +162,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
         $button = $this->ui->factory()->button()->standard(
             $this->lng->txt('cancel_test'),
             ''
-        )->withAdditionalOnLoadCode(
+        )->withUnavailableAction(true)->withAdditionalOnLoadCode(
             $this->buildCheckNavigationClosure(
                 $this->ctrl->getLinkTarget($this->player_gui, ilTestPlayerCommands::SUSPEND_TEST)
             )
@@ -175,7 +175,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
         $button = $this->ui->factory()->button()->standard(
             $this->lng->txt('question_summary_btn'),
             ''
-        )->withAdditionalOnLoadCode(
+        )->withUnavailableAction(true)->withAdditionalOnLoadCode(
             $this->buildCheckNavigationClosure(
                 $this->ctrl->getLinkTarget($this->player_gui, ilTestPlayerCommands::QUESTION_SUMMARY)
             )
@@ -192,7 +192,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
         }
 
         $button = $this->getStandardOrPrimaryFinishButtonInstance();
-        return $button->withAdditionalOnLoadCode(
+        return $button->withUnavailableAction(true)->withAdditionalOnLoadCode(
             $this->buildCheckNavigationClosure($target)
         );
     }
@@ -209,10 +209,11 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
     private function buildCheckNavigationClosure(string $target): Closure
     {
         return static function (string $id) use ($target): string {
-            return "document.getElementById('$id').addEventListener('click', "
+            return "document.getElementById('{$id}').addEventListener('click', "
                 . '(e) => {'
                 . " il.TestPlayerQuestionEditControl.checkNavigation('{$target}', 'show', e);"
-                . '});';
+                . '}); '
+                . "document.getElementById('{$id}').removeAttribute('disabled');";
         };
     }
 }

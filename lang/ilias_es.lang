@@ -14595,6 +14595,7 @@ rbac#:#rbac_role_rights_copy_empty#:#Ninguno
 rbac#:#rbac_role_selection#:#Tipo de rol
 rbac#:#rbac_role_title#:#Título de rol
 rbac#:#rbac_select_copy_targets#:#Seleccione un nuevo rol
+rbac#:#rbac_select_roles#:#Role Selection
 rbac#:#rbac_ud_global#:#Rol local definido por usuario
 rbac#:#rbac_ud_local#:#Rol local definido por usuario
 rbac#:#rbac_ud_rolt#:#Plantilla de rol definida por el usuario

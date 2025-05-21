@@ -18,31 +18,28 @@
 
 declare(strict_types=1);
 
-class ilDclDatetimeFieldModel extends ilDclBaseFieldModel
+class ilDclDateFieldModel extends ilDclBaseFieldModel
 {
     /**
-     * Returns a query-object for building the record-loader-sql-query
      * @param string|int $filter_value
      */
     public function getRecordQueryFilterObject(
         $filter_value = "",
         ?ilDclBaseFieldModel $sort_field = null
     ): ?ilDclRecordQueryObject {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
 
         $date_from = (isset($filter_value['from']) && is_object($filter_value['from'])) ? $filter_value['from'] : null;
         $date_to = (isset($filter_value['to']) && is_object($filter_value['to'])) ? $filter_value['to'] : null;
 
         $join_str
             = "INNER JOIN il_dcl_record_field AS filter_record_field_{$this->getId()} ON (filter_record_field_{$this->getId()}.record_id = record.id AND filter_record_field_{$this->getId()}.field_id = "
-            . $ilDB->quote($this->getId(), 'integer') . ") ";
+            . $this->db->quote($this->getId(), 'integer') . ") ";
         $join_str .= "INNER JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS filter_stloc_{$this->getId()} ON (filter_stloc_{$this->getId()}.record_field_id = filter_record_field_{$this->getId()}.id ";
         if ($date_from) {
-            $join_str .= "AND filter_stloc_{$this->getId()}.value >= " . $ilDB->quote($date_from, 'date') . " ";
+            $join_str .= "AND filter_stloc_{$this->getId()}.value >= " . $this->db->quote($date_from, 'date') . " ";
         }
         if ($date_to) {
-            $join_str .= "AND filter_stloc_{$this->getId()}.value <= " . $ilDB->quote($date_to, 'date') . " ";
+            $join_str .= "AND filter_stloc_{$this->getId()}.value <= " . $this->db->quote($date_to, 'date') . " ";
         }
         $join_str .= ") ";
 
@@ -50,15 +47,5 @@ class ilDclDatetimeFieldModel extends ilDclBaseFieldModel
         $sql_obj->setJoinStatement($join_str);
 
         return $sql_obj;
-    }
-
-    /**
-     */
-    public function checkValidityFromForm(ilPropertyFormGUI &$form, ?int $record_id = null): void
-    {
-        $value = $form->getInput('field_' . $this->getId());
-
-        //field is of type datetime (see ilDcldatatype::INPUTFORMAT_DATETIME)
-        parent::checkValidity($value . ' 00:00:00', $record_id);
     }
 }

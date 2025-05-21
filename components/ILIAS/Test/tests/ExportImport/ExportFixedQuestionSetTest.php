@@ -31,10 +31,12 @@ class ExportFixedQuestionSetTest extends \ilTestBaseTestCase
 
     protected function setUp(): void
     {
+        global $DIC;
         parent::setUp();
 
         $this->addGlobal_ilErr();
         $this->addGlobal_ilias();
+        $this->addGlobal_resourceStorage();
 
         $this->testObj = new ExportFixedQuestionSet(
             $this->createMock(\ILIAS\Language\Language::class),
@@ -45,7 +47,8 @@ class ExportFixedQuestionSetTest extends \ilTestBaseTestCase
             $this->createMock(\ilComponentRepository::class),
             $this->createMock(\ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository::class),
             $this->createMock(\ILIAS\FileDelivery\Services::class),
-            $this->createMock(\ilObjTest::class)
+            $this->createMock(\ilObjTest::class),
+            $DIC['resource_storage']
         );
     }
 

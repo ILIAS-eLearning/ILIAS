@@ -57,7 +57,7 @@ class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
             . 'examid_in_test_res,' . PHP_EOL
             . 'results_presentation,' . PHP_EOL
             . 'exportsettings,' . PHP_EOL
-            . 'highscore_enabled, highscore_anon, highscore_achieved_ts, highscore_score, highscore_percentage, highscore_hints, highscore_wtime, highscore_own_table, highscore_top_table, highscore_top_num' . PHP_EOL
+            . 'highscore_enabled, highscore_anon, highscore_achieved_ts, highscore_score, highscore_percentage, highscore_wtime, highscore_own_table, highscore_top_table, highscore_top_num' . PHP_EOL
             . 'FROM ' . self::TABLE_NAME . PHP_EOL
             . $where_part;
 
@@ -94,7 +94,6 @@ class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
                 ->withHighscoreAchievedTS((bool) $row['highscore_achieved_ts'])
                 ->withHighscoreScore((bool) $row['highscore_score'])
                 ->withHighscorePercentage((bool) $row['highscore_percentage'])
-                ->withHighscoreHints((bool) $row['highscore_hints'])
                 ->withHighscoreWTime((bool) $row['highscore_wtime'])
                 ->withHighscoreOwnTable((bool) $row['highscore_own_table'])
                 ->withHighscoreTopTable((bool) $row['highscore_top_table'])

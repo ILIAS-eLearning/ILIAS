@@ -708,7 +708,6 @@ class SettingsMainGUI extends TestSettingsGUI
         }
 
         return $question_behaviour_settings
-            ->withQuestionHintsEnabled($section['offer_hints'])
             ->withInstantFeedbackPointsEnabled($section['instant_feedback']['enabled_feedback_types']['instant_feedback_points'])
             ->withInstantFeedbackGenericEnabled($section['instant_feedback']['enabled_feedback_types']['instant_feedback_generic'])
             ->withInstantFeedbackSpecificEnabled($section['instant_feedback']['enabled_feedback_types']['instant_feedback_specific'])

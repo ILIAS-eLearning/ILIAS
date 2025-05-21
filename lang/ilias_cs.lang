@@ -14593,6 +14593,7 @@ rbac#:#rbac_role_rights_copy_empty#:#Žádný
 rbac#:#rbac_role_selection#:#Typ role
 rbac#:#rbac_role_title#:#Název role
 rbac#:#rbac_select_copy_targets#:#Vyberte prosím cílové role
+rbac#:#rbac_select_roles#:#Role Selection
 rbac#:#rbac_ud_global#:#Uživatelsky definovaná globální role
 rbac#:#rbac_ud_local#:#Uživatelsky definovaná lokální role
 rbac#:#rbac_ud_rolt#:#Uživatelsky definovaná šablona role

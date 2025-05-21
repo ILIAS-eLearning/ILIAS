@@ -175,24 +175,6 @@ class SettingsGamificationTest extends ilTestBaseTestCase
     }
 
     /**
-     * @dataProvider getAndWithHighscoreHintsDataProvider
-     */
-    public function testGetAndWithHighscoreHints(bool $IO): void
-    {
-        $gamificationTest = new SettingsGamification(0);
-        $gamificationTest = $gamificationTest->withHighscoreHints($IO);
-        $this->assertEquals($IO, $gamificationTest->getHighscoreHints());
-    }
-
-    public static function getAndWithHighscoreHintsDataProvider(): array
-    {
-        return [
-            [true],
-            [false]
-        ];
-    }
-
-    /**
      * @dataProvider getAndWithHighscoreWTimeDataProvider
      */
     public function testGetAndWithHighscoreWTime(bool $IO): void

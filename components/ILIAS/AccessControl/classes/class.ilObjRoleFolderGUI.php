@@ -94,7 +94,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
     }
 
     /**
-     * @return int[]
+     * @return array<int>
      */
     protected function initRolesFromPOST(): array
     {
@@ -122,6 +122,31 @@ class ilObjRoleFolderGUI extends ilObjectGUI
     public function returnObject(): void
     {
         $this->viewObject();
+    }
+
+    protected function buildTargetNamesString(): string
+    {
+        $targets = $this->initRolesFromPOST();
+
+        if ($targets === []) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('rbac_copy_no_targets'), true);
+            $this->ctrl->redirect($this, 'roleSearchList');
+        }
+
+        if (count($targets) > 3) {
+            return sprintf($this->lng->txt('rbac_copy_multi_targets'), '<strong>' . ilObject::_lookupTitle($targets[0]), ilObject::_lookupTitle($targets[1]) . '</strong>', '<strong>' . (string) count($targets) - 2, '</strong>');
+        }
+
+        if (count($targets) > 1) {
+            $target_names = '<strong>' . ilObject::_lookupTitle(array_shift($targets));
+            foreach ($targets as $target) {
+                $target_names .= ', ' . ilObject::_lookupTitle($target);
+            }
+            return $target_names . '</strong>';
+        }
+
+        // we have one single target
+        return '<strong>' . ilObject::_lookupTitle($targets[0]) . '</strong>';
     }
 
     public function viewObject(): void
@@ -187,7 +212,13 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         }
 
         $this->ctrl->setParameter($this, 'csource', $this->initCopySourceFromGET());
-        $this->tpl->setOnScreenMessage('info', $this->lng->txt('rbac_choose_copy_targets'));
+        $this->tpl->setOnScreenMessage(
+            'info',
+            sprintf(
+                $this->lng->txt('rbac_choose_copy_targets'),
+                '<strong>' . ilObject::_lookupTitle($this->initCopySourceFromGET()) . '</strong>'
+            )
+        );
 
         $form = $this->initRoleSearchForm();
         $this->tpl->setContent($form->getHTML());
@@ -246,7 +277,13 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         $this->ctrl->setParameter($this, 'csource', $this->initCopySourceFromGET());
 
         if (strlen(ilSession::get('rolf_search_query'))) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('rbac_select_copy_targets'));
+            $this->tpl->setOnScreenMessage(
+                'info',
+                sprintf(
+                    $this->lng->txt('rbac_select_copy_targets'),
+                    '<strong>' . ilObject::_lookupTitle($this->initCopySourceFromGET()) . '</strong>'
+                )
+            );
             $table = new ilRoleTableGUI($this, 'roleSearchList');
             $table->setType(ilRoleTableGUI::TYPE_SEARCH);
             $table->setRoleTitleFilter(ilSession::get('rolf_search_query'));
@@ -286,6 +323,16 @@ class ilObjRoleFolderGUI extends ilObjectGUI
     {
         // not only for role templates; add/remove permissions is also applicable for roles
         $full_featured = true;
+
+        $this->tpl->setOnScreenMessage(
+            'info',
+            sprintf(
+                $this->lng->txt('rbac_copy_behaviour_info'),
+                '<strong>' . ilObject::_lookupTitle($this->initCopySourceFromGET()) . '</strong>',
+                $this->buildTargetNamesString()
+            ),
+            true
+        );
 
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('rbac_copy_behaviour'));
@@ -400,62 +447,67 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         $source = $this->initCopySourceFromGET();
 
         $form = $this->initCopyBehaviourForm();
-        if ($form->checkInput()) {
-            $adjustment_type = $form->getInput('type');
-            foreach ((array) $roles as $role_id) {
-                if ($role_id !== $source) {
-                    $start_obj = $this->rbac_review->getRoleFolderOfRole($role_id);
-                    $this->logger->debug('Start object: ' . $start_obj);
+        if (!$form->checkInput()) {
+            $form->setValuesByPost();
+            $this->chooseCopyBehaviourObject($form);
+            return;
+        }
 
-                    switch ($adjustment_type) {
-                        case self::COPY_ADD_PERMISSIONS:
-                            $change_existing = (bool) $form->getInput('add_ce_type');
-                            $this->doAddRolePermissions(
-                                $source,
-                                $role_id
+        $adjustment_type = $form->getInput('type');
+        foreach ((array) $roles as $role_id) {
+            if ($role_id !== $source) {
+                $start_obj = $this->rbac_review->getRoleFolderOfRole($role_id);
+                $this->logger->debug('Start object: ' . $start_obj);
+
+                switch ($adjustment_type) {
+                    case self::COPY_ADD_PERMISSIONS:
+                        $change_existing = (bool) $form->getInput('add_ce_type');
+                        $this->doAddRolePermissions(
+                            $source,
+                            $role_id
+                        );
+                        if ($change_existing) {
+                            $this->doChangeExistingObjects(
+                                $start_obj,
+                                $role_id,
+                                \ilObjRole::MODE_ADD_OPERATIONS,
+                                $source
                             );
-                            if ($change_existing) {
-                                $this->doChangeExistingObjects(
-                                    $start_obj,
-                                    $role_id,
-                                    \ilObjRole::MODE_ADD_OPERATIONS,
-                                    $source
-                                );
-                            }
-                            break;
-                        case self::COPY_CLONE_PERMISSIONS:
-                            $change_existing = (bool) $form->getInput('clone_ce_type');
-                            $this->doCopyRole(
-                                $source,
-                                $role_id
+                        }
+                        break;
+                    case self::COPY_CLONE_PERMISSIONS:
+                        $change_existing = (bool) $form->getInput('clone_ce_type');
+                        $this->doCopyRole(
+                            $source,
+                            $role_id
+                        );
+                        if ($change_existing) {
+                            $this->doChangeExistingObjects(
+                                $start_obj,
+                                $role_id,
+                                \ilObjRole::MODE_READ_OPERATIONS,
+                                $source
                             );
-                            if ($change_existing) {
-                                $this->doChangeExistingObjects(
-                                    $start_obj,
-                                    $role_id,
-                                    \ilObjRole::MODE_READ_OPERATIONS,
-                                    $source
-                                );
-                            }
-                            break;
-                        case self::COPY_REMOVE_PERMISSIONS:
-                            $change_existing = (bool) $form->getInput('remove_ce_type');
-                            $this->doRemoveRolePermissions(
-                                $source,
-                                $role_id
+                        }
+                        break;
+                    case self::COPY_REMOVE_PERMISSIONS:
+                        $change_existing = (bool) $form->getInput('remove_ce_type');
+                        $this->doRemoveRolePermissions(
+                            $source,
+                            $role_id
+                        );
+                        if ($change_existing) {
+                            $this->doChangeExistingObjects(
+                                $start_obj,
+                                $role_id,
+                                \ilObjRole::MODE_REMOVE_OPERATIONS,
+                                $source
                             );
-                            if ($change_existing) {
-                                $this->doChangeExistingObjects(
-                                    $start_obj,
-                                    $role_id,
-                                    \ilObjRole::MODE_REMOVE_OPERATIONS,
-                                    $source
-                                );
-                            }
-                            break;
-                    }
+                        }
+                        break;
                 }
             }
+
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('rbac_copy_finished'), true);
             $this->ctrl->redirect($this, 'view');
         }

@@ -24,6 +24,7 @@ use ILIAS\Test\Logging\TestLogger;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Language\Language;
 use ILIAS\FileDelivery\Services as FileDeliveryServices;
+use ILIAS\ResourceStorage\Services as ResourceStorage;
 
 /**
  * Export class for tests
@@ -61,7 +62,8 @@ abstract class Export implements Exporter
         protected readonly \ilComponentRepository $component_repository,
         protected readonly GeneralQuestionPropertiesRepository $questionrepository,
         protected readonly FileDeliveryServices $file_delivery,
-        protected readonly \ilObjTest $test_obj
+        protected readonly \ilObjTest $test_obj,
+        protected readonly ResourceStorage $irss
     ) {
         $this->inst_id = (string) IL_INST_ID;
         $this->export_dir = $test_obj->getExportDirectory();
@@ -163,7 +165,13 @@ abstract class Export implements Exporter
         $this->bench->stop('TestExport', 'write_dumpToFile');
 
         if ($this->isResultExportingEnabled()) {
-            $resultwriter = new \ilTestResultsToXML($this->test_obj->getTestId(), $this->db, $this->test_obj->getAnonymity());
+            $resultwriter = new \ilTestResultsToXML(
+                $this->test_obj->getTestId(),
+                $this->db,
+                $this->irss,
+                $this->export_dir . "/" . $this->subdir . "/objects",
+                $this->test_obj->getAnonymity()
+            );
             $resultwriter->setIncludeRandomTestQuestionsEnabled($this->test_obj->isRandomTest());
             $this->bench->start('TestExport', 'write_results');
             $resultwriter->xmlDumpFile($this->export_dir . '/' . $this->subdir . '/' . $this->resultsfile, false);

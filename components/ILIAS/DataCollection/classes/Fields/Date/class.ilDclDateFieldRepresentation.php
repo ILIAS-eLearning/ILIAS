@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-class ilDclDatetimeFieldRepresentation extends ilDclBaseFieldRepresentation
+class ilDclDateFieldRepresentation extends ilDclBaseFieldRepresentation
 {
     public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilDateTimeInputGUI
     {

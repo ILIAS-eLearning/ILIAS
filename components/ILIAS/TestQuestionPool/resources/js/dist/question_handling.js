@@ -643,7 +643,7 @@ ilias.questions.initClozeTest = function(a_id) {
 			input = jQuery.create('select', {'id': a_id+"_"+closecounter, 'class': 'ilc_qinput_ClozeGapSelect'});
 
             let items = questions[a_id].gaps[closecounter].item;
-            if (questions[a_id].shuffle === true) {
+            if (questions[a_id].gaps[closecounter].shuffle === true) {
                 items = shuffleItems(items);
             }
 			for (var i=0;i<items.length;i++) {

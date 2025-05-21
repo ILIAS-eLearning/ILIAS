@@ -37,7 +37,6 @@ use ILIAS\TestQuestionPool\RequestDataCollector;
  *
  * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilAssQuestionPreviewToolbarGUI
  * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilAssQuestionRelatedNavigationBarGUI
- * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilAssQuestionHintRequestGUI
  * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilAssGenFeedbackPageGUI
  * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilAssSpecFeedbackPageGUI
  * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilCommentGUI
@@ -49,8 +48,6 @@ class ilAssQuestionPreviewGUI
     public const CMD_STATISTICS = 'assessment';
     public const CMD_INSTANT_RESPONSE = 'instantResponse';
     public const CMD_HANDLE_QUESTION_ACTION = 'handleQuestionAction';
-    public const CMD_GATEWAY_CONFIRM_HINT_REQUEST = 'gatewayConfirmHintRequest';
-    public const CMD_GATEWAY_SHOW_HINT_LIST = 'gatewayShowHintList';
 
     public const TAB_ID_QUESTION = 'question';
 
@@ -62,7 +59,6 @@ class ilAssQuestionPreviewGUI
     private ?assQuestion $question_obj = null;
     private ?ilAssQuestionPreviewSettings $preview_settings = null;
     private ?ilAssQuestionPreviewSession $preview_session = null;
-    private ?ilAssQuestionPreviewHintTracking $hint_tracking = null;
 
     private ?string $info_message = null;
 
@@ -168,11 +164,6 @@ class ilAssQuestionPreviewGUI
         $this->preview_session->init();
     }
 
-    public function initHintTracking(): void
-    {
-        $this->hint_tracking = new ilAssQuestionPreviewHintTracking($this->db, $this->preview_session);
-    }
-
     public function initStyleSheets(): void
     {
         $this->tpl->setCurrentBlock('ContentStyle');
@@ -197,20 +188,6 @@ class ilAssQuestionPreviewGUI
         $nextClass = $this->ctrl->getNextClass($this);
 
         switch ($nextClass) {
-            case 'ilassquestionhintrequestgui':
-                $gui = new ilAssQuestionHintRequestGUI(
-                    $this,
-                    self::CMD_SHOW,
-                    $this->question_gui,
-                    $this->hint_tracking,
-                    $this->ctrl,
-                    $this->lng,
-                    $this->tpl,
-                    $this->tabs,
-                    $this->global_screen
-                );
-                $this->ctrl->forwardCommand($gui);
-                break;
             case 'ilassspecfeedbackpagegui':
             case 'ilassgenfeedbackpagegui':
                 $forwarder = new ilAssQuestionFeedbackPageObjectCommandForwarder($this->question_obj, $this->ctrl, $this->tabs, $this->lng);
@@ -333,7 +310,6 @@ class ilAssQuestionPreviewGUI
     {
         $this->preview_session->setRandomizerSeed(null);
         $this->preview_session->setParticipantsSolution(null);
-        $this->preview_session->resetRequestedHints();
         $this->preview_session->setInstantResponseActive(false);
 
         $this->tpl->setOnScreenMessage('info', $this->lng->txt('qst_preview_reset_msg'), true);
@@ -457,15 +433,7 @@ class ilAssQuestionPreviewGUI
         $navGUI = new ilAssQuestionRelatedNavigationBarGUI($this->ctrl, $this->lng);
 
         $navGUI->setInstantResponseCmd(self::CMD_INSTANT_RESPONSE);
-        $navGUI->setHintRequestCmd(self::CMD_GATEWAY_CONFIRM_HINT_REQUEST);
-        $navGUI->setHintListCmd(self::CMD_GATEWAY_SHOW_HINT_LIST);
-
         $navGUI->setInstantResponseEnabled($this->preview_settings->isInstantFeedbackNavigationRequired());
-        $navGUI->setHintProvidingEnabled($this->preview_settings->isHintProvidingEnabled());
-
-        $navGUI->setHintRequestsPossible($this->hint_tracking->requestsPossible());
-        $navGUI->setHintRequestsExist($this->hint_tracking->requestsExist());
-
         return $this->ctrl->getHTML($navGUI);
     }
 
@@ -571,34 +539,6 @@ class ilAssQuestionPreviewGUI
     public function saveQuestionSolution(): bool
     {
         return $this->question_obj->persistPreviewState($this->preview_session);
-    }
-
-    public function gatewayConfirmHintRequestCmd(): void
-    {
-        if (!$this->saveQuestionSolution()) {
-            $this->preview_session->setInstantResponseActive(false);
-            $this->showCmd();
-            return;
-        }
-
-        $this->ctrl->redirectByClass(
-            'ilAssQuestionHintRequestGUI',
-            ilAssQuestionHintRequestGUI::CMD_CONFIRM_REQUEST
-        );
-    }
-
-    public function gatewayShowHintListCmd(): void
-    {
-        if (!$this->saveQuestionSolution()) {
-            $this->preview_session->setInstantResponseActive(false);
-            $this->showCmd();
-            return;
-        }
-
-        $this->ctrl->redirectByClass(
-            'ilAssQuestionHintRequestGUI',
-            ilAssQuestionHintRequestGUI::CMD_SHOW_LIST
-        );
     }
 
     /**

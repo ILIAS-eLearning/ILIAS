@@ -30,7 +30,6 @@ class SettingsTest extends TestCase
         $trs = new Settings(0);
         $this->assertFalse($trs->getShowHiddenQuestions());
         $this->assertFalse($trs->getShowOptionalQuestions());
-        $this->assertFalse($trs->getShowHints());
         $this->assertTrue($trs->getShowBestSolution());
         $this->assertTrue($trs->getShowFeedback());
         $this->assertFalse($trs->getQuestionTextOnly());
@@ -39,19 +38,17 @@ class SettingsTest extends TestCase
 
     public function testTestResultsSettingsBasicProps(): void
     {
-        $trs = new Settings(0, true, true, true, true, true, true, true);
+        $trs = new Settings(0, true, true, true, true, true, true);
         $this->assertTrue($trs->getShowHiddenQuestions());
         $this->assertTrue($trs->getShowOptionalQuestions());
-        $this->assertTrue($trs->getShowHints());
         $this->assertTrue($trs->getShowBestSolution());
         $this->assertTrue($trs->getShowFeedback());
         $this->assertTrue($trs->getQuestionTextOnly());
         $this->assertTrue($trs->getShowRecapitulation());
 
-        $trs = new Settings(0, false, false, false, false, false, false, false);
+        $trs = new Settings(0, false, false, false, false, false, false);
         $this->assertFalse($trs->getShowHiddenQuestions());
         $this->assertFalse($trs->getShowOptionalQuestions());
-        $this->assertFalse($trs->getShowHints());
         $this->assertFalse($trs->getShowBestSolution());
         $this->assertFalse($trs->getShowFeedback());
         $this->assertFalse($trs->getQuestionTextOnly());

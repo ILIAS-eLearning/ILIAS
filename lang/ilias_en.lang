@@ -558,8 +558,6 @@ assessment#:#broken_test#:#Broken Test
 assessment#:#bulkedit_author#:#Set Author
 assessment#:#bulkedit_lifecycle#:#Set Lifecycle
 assessment#:#bulkedit_taxonomies#:#Set Taxonomies
-assessment#:#button_request_next_question_hint#:#Request Next Hint
-assessment#:#button_request_question_hint#:#Request Hint
 assessment#:#cancel_test#:#Suspend the Test
 assessment#:#cannot_edit_marks#:#The test has already been completed by some participants. You can only change the marks if an ’Access to Test Results’ date has been set and that date is in the future i.e. it has not yet been reached.
 assessment#:#cannot_edit_test#:#You do not possess sufficient permissions to edit the test!
@@ -779,7 +777,6 @@ assessment#:#grading_mark_msg#:#Your mark is: &quot;[mark]&quot;
 assessment#:#grading_status_failed_msg#:#Sorry, you have <b>failed</b> the test.
 assessment#:#grading_status_passed_msg#:#Congratulations, you have <b>passed</b> the test.
 assessment#:#hide_best_solution#:#Hide best solution
-assessment#:#hints#:#Hints
 assessment#:#identical_scoring#:#Identical Scoring
 assessment#:#identical_scoring_desc#:#If selected, gaps with identical solutions will be scored, even if the same solution was used twice or more. If not selected, only the first occurrence of the same solution will be scored.
 assessment#:#imagemap#:#Image Map
@@ -1256,7 +1253,6 @@ assessment#:#show_hide_best_solution#:#Show or hide best solution
 assessment#:#show_old_concluding_remarks#:#Show old conlcuding remarks
 assessment#:#show_old_introduction#:#Show old introduction
 assessment#:#show_pass_overview#:#Show Marked Pass Overview
-assessment#:#show_requested_question_hints#:#Show Requested Hints
 assessment#:#show_results#:#Show Results
 assessment#:#show_user_answers#:#Show User’s Marked Answers
 assessment#:#shuffle_answers#:#Shuffle Answers
@@ -1329,7 +1325,6 @@ assessment#:#too_many_targets_selected_for_move#:#You must select exactly one ta
 assessment#:#toplist_by_score#:#High score by score
 assessment#:#toplist_by_time#:#High score by working time
 assessment#:#toplist_col_achieved#:#Date
-assessment#:#toplist_col_hints#:#Hints
 assessment#:#toplist_col_participant#:#Participant
 assessment#:#toplist_col_percentage#:#Percentage
 assessment#:#toplist_col_rank#:#Rank
@@ -1757,46 +1752,6 @@ assessment#:#tst_question_answer_status_non_answered#:#Non Answered Questions
 assessment#:#tst_question_answer_status_wrong_answered#:#Only wrongly answered questions
 assessment#:#tst_question_feedback_back_to_feedback_form#:#Back To Calling Question
 assessment#:#tst_question_feedback_edit_page#:#Edit Content
-assessment#:#tst_question_hints_back_to_hint_list#:#Question Hint List
-assessment#:#tst_question_hints_back_to_question#:#Back to Question
-assessment#:#tst_question_hints_cancel_request#:#Back to Question
-assessment#:#tst_question_hints_confirm_request#:#Request Hint
-assessment#:#tst_question_hints_cut_hints_missing_selection_msg#:#No hint selected for cutting.
-assessment#:#tst_question_hints_cut_hints_single_selection_msg#:#More than one hint was selected for cutting.
-assessment#:#tst_question_hints_delete_hints_confirm_cmd#:#Delete Hint(s)
-assessment#:#tst_question_hints_delete_hints_confirm_header#:#Do you really want to delete the following hint(s)?
-assessment#:#tst_question_hints_delete_hints_confirm_item#:#Hint %s: %s
-assessment#:#tst_question_hints_delete_hints_missing_selection_msg#:#No hint(s) selected for deletion.
-assessment#:#tst_question_hints_delete_success_msg#:#The selected hint(s) has been deleted successfully.
-assessment#:#tst_question_hints_form_cmd_save#:#Save Hint
-assessment#:#tst_question_hints_form_cmd_save_points#:#Save Points
-assessment#:#tst_question_hints_form_cmd_save_points_and_edit_page#:# Save Points and Edit Page
-assessment#:#tst_question_hints_form_header_create#:#New Hint for Question: %s
-assessment#:#tst_question_hints_form_header_edit#:#Hint %s for Question: %s
-assessment#:#tst_question_hints_form_invalid_msg#:#The hint could not been saved. Please check your inputs.
-assessment#:#tst_question_hints_form_label_hint_points#:#Point Deduction
-assessment#:#tst_question_hints_form_label_hint_text#:#Hint
-assessment#:#tst_question_hints_form_saved_msg#:#The hint has been saved successfully.
-assessment#:#tst_question_hints_index_column_label#:#Hint %s
-assessment#:#tst_question_hints_item_stored_in_ordering_clipboard#:#Hint %s is stored in ordering clipboard.
-assessment#:#tst_question_hints_ordering_clipboard_resetted#:#The ordering clipboard has been reset.
-assessment#:#tst_question_hints_paste_after_success_msg#:#The hint %s has been pasted after hint %s successfully.
-assessment#:#tst_question_hints_paste_before_success_msg#:#The hint %s has been pasted before hint %s successfully.
-assessment#:#tst_question_hints_request_confirmation#:#Do you really want to request hint %s? For this hint %s point(s) will be deducted.
-assessment#:#tst_question_hints_request_confirmation_no_deduction#:#No points will be deducted for this hint.
-assessment#:#tst_question_hints_requested_hint_count_header#:#Requested Hints
-assessment#:#tst_question_hints_save_order_success_msg#:#The order of hint was saved successfully.
-assessment#:#tst_question_hints_tab#:#Hints
-assessment#:#tst_question_hints_table_column_hint_index#:#Index
-assessment#:#tst_question_hints_table_column_hint_order#:#Order
-assessment#:#tst_question_hints_table_column_hint_points#:#Points Deduction
-assessment#:#tst_question_hints_table_column_hint_text#:#Hint
-assessment#:#tst_question_hints_table_header#:#Hints for Question: %s
-assessment#:#tst_question_hints_table_link_delete_hint#:#Delete Hint
-assessment#:#tst_question_hints_table_link_edit_hint#:#Edit Hint
-assessment#:#tst_question_hints_table_link_edit_hint_page#:#Edit Page
-assessment#:#tst_question_hints_table_link_edit_hint_points#:#Edit Points
-assessment#:#tst_question_hints_table_no_items#:#No Existing Hints
 assessment#:#tst_question_mark#:#Flag this question
 assessment#:#tst_question_marked#:#You flagged the question
 assessment#:#tst_question_marker#:#Flagged
@@ -1910,8 +1865,6 @@ assessment#:#tst_sequence_postpone#:#Questions may be postponed to the end of a 
 assessment#:#tst_sequence_properties#:#Administering the Test: Functionality Available to Participants
 assessment#:#tst_session_settings#:#Session Settings
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#The test has been set to offline, because the test mode setting has been changed. You have to set a new test mode relating question config before the test can be set to online again.
-assessment#:#tst_setting_offer_hints_info#:#Participants request hints to answer a question. With every hint presented the maximum number of points to be earned decreases.
-assessment#:#tst_setting_offer_hints_label#:#Hints
 assessment#:#tst_settings_conflict_postpone_and_lock#:#"Unanswered questions will be enqueued" cannot be used together with "Lock Answers After Moving to Next Question".
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#"Shuffle Questions" cannot be used together with "Lock Answers After Moving to Next Question".
 assessment#:#tst_settings_header_additional#:#Additional Features
@@ -2783,23 +2736,23 @@ cat#:#cat_hide_tax_in_side_block#:#Don't Present in Side Panel
 cat#:#cat_import#:#Import Category
 cat#:#cat_more_translations#:#More Translations
 cat#:#cat_show_tax_in_side_block#:#Present in Side Panel
-cert#:#cert_currently_no_certs#:#Currently you did not achieve any certificate, yet.
+cert#:#cert_currently_no_certs#:#You do not have any certificates yet.
 cert#:#cert_description_label#:#Description
 cert#:#cert_download_label#:#Download
-cert#:#cert_error_no_access#:#You have no access to this certificate.
+cert#:#cert_error_no_access#:#You do not have the permissions necessary to access this certificate.
 cert#:#cert_issued_on_label#:#Issued On
 cert#:#cert_object_label#:#Object
 cert#:#cert_sortable_by_issue_date_asc#:#Issue Date Ascending
 cert#:#cert_sortable_by_issue_date_desc#:#Issue Date Descending
 cert#:#cert_sortable_by_title_asc#:#Title Ascending
 cert#:#cert_sortable_by_title_desc#:#Title Descending
-cert#:#certificate_achievement#:#%1$s achieved.
+cert#:#certificate_achievement#:#%1$s obtained.
 cert#:#certificate_achievement_sub_obj#:#Certificate for %1$s
 cert#:#certificate_no_object_title#:#No object title available
-cert#:#certificate_same_not_saved#:#No new version of certificate template was saved, because the values didn't change.
-cert#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.
+cert#:#certificate_same_not_saved#:#No new version of the certificate template has been saved, as no values were changed.
+cert#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact your installation’s technical support and ask for the certificate server to be checked.
 cert#:#user_certificates#:#Certificates
-certificate#:#cert_cron_task_desc#:#This job's responsibility is the creation of persisting certificate data based on learning achievements of users.
+certificate#:#cert_cron_task_desc#:#This cron job creates persistent certificates based on the learning achievements of users.
 certificate#:#cert_cron_task_title#:#Certificates
 certificate#:#cert_form_sec_add_features#:#Additional Features
 certificate#:#cert_form_sec_availability#:#Availability
@@ -2809,108 +2762,108 @@ certificate#:#certificate_a4_landscape#:#A4 Landscape (210 mm x 297 mm)
 certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
 certificate#:#certificate_a5_landscape#:#A5 Landscape (148 mm x 210 mm)
 certificate#:#certificate_background_image#:#Background Image
-certificate#:#certificate_card_tile_image#:#Card Tile Image
-certificate#:#certificate_change_active_status#:#The active state of the certificate has been changed
-certificate#:#certificate_confirm_deletion_text#:#Do you really want to delete the certificate and all its related data?
-certificate#:#certificate_custom#:#Custom...
+certificate#:#certificate_card_thumbnail_image#:#Thumbnail Image
+certificate#:#certificate_change_active_status#:#The ‘Active’ status of the certificate has been changed.
+certificate#:#certificate_confirm_deletion_text#:#Are you sure you want to delete all of the data entered for this certificate template?
+certificate#:#certificate_custom#:#Custom
 certificate#:#certificate_edit#:#Create/Edit a Certificate Template
-certificate#:#certificate_error_import#:#An error occurred during the import of a certificate!
-certificate#:#certificate_error_upload_bgimage#:#An error occurred during the upload of the background image!
+certificate#:#certificate_error_import#:#An error occurred while trying to import the certificate!
+certificate#:#certificate_error_upload_bgimage#:#An error occurred while trying to upload the background image.
 certificate#:#certificate_export#:#Export
-certificate#:#certificate_failed#:#failed
+certificate#:#certificate_failed#:#Failed
 certificate#:#certificate_file_basename#:#Certificate
 certificate#:#certificate_id#:#Certificate ID
-certificate#:#certificate_issue_date#:#Issue Date
+certificate#:#certificate_issue_date#:#Date of Issue
 certificate#:#certificate_learning_progress_must_be_active#:#Only objects with an active Learning Progress can be selected. The Learning Progress is deactivated on the following objects: %s
 certificate#:#certificate_letter#:#Letter (11 inch x 8.5 inch)
 certificate#:#certificate_letter_landscape#:#Letter Landscape (8.5 inch x 11 inch)
-certificate#:#certificate_margin_body#:#Body Margin
-certificate#:#certificate_not_well_formed#:#The certificate text is not well formed. Please enter valid XHTML for the certificate text!
+certificate#:#certificate_margin_body#:#Text Margins
+certificate#:#certificate_not_well_formed#:#The certificate text is not correctly formatted. Please enter valid XHTML for the certificate text.
 certificate#:#certificate_page_format#:#Page Format
-certificate#:#certificate_page_format_info#:#Please select the default page format for new certificates.
+certificate#:#certificate_page_format_info#:#Please select the page format to be used as the default for new certificates.
 certificate#:#certificate_pageheight#:#Page Height
 certificate#:#certificate_pagewidth#:#Page Width
-certificate#:#certificate_passed#:#passed
-certificate#:#certificate_ph_birthday#:#Birthday of the user
+certificate#:#certificate_passed#:#Passed
+certificate#:#certificate_ph_birthday#:#User’s date of birth
 certificate#:#certificate_ph_cert_id#:#Unique Certificate ID
-certificate#:#certificate_ph_city#:#City of the user's address
-certificate#:#certificate_ph_country#:#Country of the user's address
-certificate#:#certificate_ph_date#:#Actual date
+certificate#:#certificate_ph_city#:#City from user's address
+certificate#:#certificate_ph_country#:#Country from user's address
+certificate#:#certificate_ph_date#:#Current date
 certificate#:#certificate_ph_date_completed#:#Date of completion
-certificate#:#certificate_ph_datetime#:#Actual date and time
+certificate#:#certificate_ph_datetime#:#Current date and time
 certificate#:#certificate_ph_datetime_completed#:#Date and time of completion
-certificate#:#certificate_ph_department#:#Department of the user
-certificate#:#certificate_ph_exercisetitle#:#Exercise Title
-certificate#:#certificate_ph_firstname#:#First name of the user
-certificate#:#certificate_ph_fullname#:#Full name of the user (title, first name and last name)
-certificate#:#certificate_ph_institution#:#Institution of the user
+certificate#:#certificate_ph_department#:#Department to which user belongs
+certificate#:#certificate_ph_exercisetitle#:#Title of exercise
+certificate#:#certificate_ph_firstname#:#User’s first name
+certificate#:#certificate_ph_fullname#:#User’s full name (title, first name and last name)
+certificate#:#certificate_ph_institution#:#Institution to which user belongs
 certificate#:#certificate_ph_introduction#:#The following placeholders may be used
-certificate#:#certificate_ph_lastaccess#:#Last access date and time of the user
-certificate#:#certificate_ph_lastname#:#Last name of the user
-certificate#:#certificate_ph_login#:#Login
-certificate#:#certificate_ph_mark#:#Users mark
-certificate#:#certificate_ph_marklong#:#Users mark (official version)
-certificate#:#certificate_ph_markshort#:#Users mark (short version)
-certificate#:#certificate_ph_matriculation#:#Matriculation number of the user
-certificate#:#certificate_ph_no_sco#:#If items are selected to determine the overall learning progress status, titles and points for these items could be displayed in certificate.
+certificate#:#certificate_ph_lastaccess#:#Date and time of last access by user
+certificate#:#certificate_ph_lastname#:#User’s last name
+certificate#:#certificate_ph_login#:#Username
+certificate#:#certificate_ph_mark#:#User’s mark
+certificate#:#certificate_ph_marklong#:#User’s mark (official version)
+certificate#:#certificate_ph_markshort#:#User’s mark (short version)
+certificate#:#certificate_ph_matriculation#:#User’s matriculation number
+certificate#:#certificate_ph_no_sco#:#If the learning progress for this learning module is determined by a collection of objects, then placeholders for the titles and points of these objects will be made available here.
 certificate#:#certificate_ph_salutation#:#Salutation
-certificate#:#certificate_ph_sco_points_max#:#placeholder<br/>for points<br/>max
-certificate#:#certificate_ph_sco_points_raw#:#placeholder<br/>for points
-certificate#:#certificate_ph_sco_points_scaled#:#placeholder<br/>for points<br/>in percent
-certificate#:#certificate_ph_sco_title#:#placeholder<br/>for title
+certificate#:#certificate_ph_sco_points_max#:#Placeholder<br/>for max<br/>points
+certificate#:#certificate_ph_sco_points_raw#:#Placeholder<br/>for points
+certificate#:#certificate_ph_sco_points_scaled#:#Placeholder<br/>for points<br/>in percent
+certificate#:#certificate_ph_sco_title#:#Placeholder<br/>for title
 certificate#:#certificate_ph_scormmaxpoints#:#Maximum value in the range for the raw score of the last relevant sco (most suitable for a final exam)
 certificate#:#certificate_ph_scormpoints#:#Points of the SCORM learning module in percent
 certificate#:#certificate_ph_scormtitle#:#Title of the SCORM learning module
-certificate#:#certificate_ph_scos#:#The following items were selected to determine the overall learning progress status and are available for statements in the certificate:
-certificate#:#certificate_ph_street#:#Street of the user's address
-certificate#:#certificate_ph_testtitle#:#Title of the test
-certificate#:#certificate_ph_title#:#Title of the user
-certificate#:#certificate_ph_title_sco#:#title
-certificate#:#certificate_ph_zipcode#:#ZIP / Post code of the user's address
+certificate#:#certificate_ph_scos#:#The following were selected to determine the overall learning progress status and are available for statements in the certificate:
+certificate#:#certificate_ph_street#:#Street from user's address
+certificate#:#certificate_ph_testtitle#:#Title of test
+certificate#:#certificate_ph_title#:#User’s title
+certificate#:#certificate_ph_title_sco#:#Title
+certificate#:#certificate_ph_zipcode#:#ZIP / Post code from user's address
 certificate#:#certificate_points_notavailable#:#This value cannot be calculated
 certificate#:#certificate_preview#:#Preview
 certificate#:#certificate_settings#:#Certificate Settings
-certificate#:#certificate_short_name#:#Certificate file short title
+certificate#:#certificate_short_name#:#Certificate File Short Title
 certificate#:#certificate_short_name_description#:#Please enter a short title for the certificate name. The short title will be part of the certificate name: YYMMDD_[surname]_[SHORT_TITLE]_certificate.pdf.
 certificate#:#certificate_text#:#Certificate Text
-certificate#:#certificate_text_info#:#Please enter the certificate text. If the WYSIWYG editor is disabled in the ILIAS administration, you can still use valid XHTML to format the text.<br><br>
-certificate#:#certificate_unit_description#:#Enter units of measure as VALUE[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in
-certificate#:#certificate_usage#:#Please note that the usage of certificates is only available if the ILIAS Java-Server is running. The configuration for Java-Server is available in Administration » General Settings » Server, sub-tab Java-Server.
+certificate#:#certificate_text_info#:#Please enter the text you want to have displayed on the certificate. If the WYSIWYG editor is disabled in the ILIAS administration, you can still use valid XHTML to format the text.
+certificate#:#certificate_unit_description#:#Enter units of measurement as: VALUE[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in
+certificate#:#certificate_usage#:#Please note that certificates can only be used and created if you are using the ILIAS Java Server. The Java Server can be configured in Administration » System Settings and Maintenance » General Settings » Server » (sub-tab) Java-Server.
 certificate#:#certificate_var_max_points#:#Maximum number of points in the test used
 certificate#:#certificate_var_result_mark_long#:#Achieved mark presented in 'official form'
 certificate#:#certificate_var_result_mark_short#:#Achieved mark presented in 'short form'
-certificate#:#certificate_var_result_passed#:#Information on whether the test was passed or not
+certificate#:#certificate_var_result_passed#:#Passed
 certificate#:#certificate_var_result_percent#:#Percentage achieved in the test
 certificate#:#certificate_var_result_points#:#Number of points achieved in the test
-certificate#:#certificate_var_user_birthday#:#1977-05-08
-certificate#:#certificate_var_user_city#:#Anytown, NY
-certificate#:#certificate_var_user_country#:#USA
+certificate#:#certificate_var_user_birthday#:#22.05.1952
+certificate#:#certificate_var_user_city#:#London
+certificate#:#certificate_var_user_country#:#UK
 certificate#:#certificate_var_user_department#:#Customer Support
-certificate#:#certificate_var_user_firstname#:#Jane
-certificate#:#certificate_var_user_fullname#:#Dr. Jane Doe
-certificate#:#certificate_var_user_institution#:#ILIAS Open Source
-certificate#:#certificate_var_user_lastname#:#Doe
-certificate#:#certificate_var_user_login#:#jdoe
-certificate#:#certificate_var_user_matriculation#:#12345
-certificate#:#certificate_var_user_salutation#:#Mrs.
-certificate#:#certificate_var_user_street#:#100 Main Street
-certificate#:#certificate_var_user_title#:#Dr.
-certificate#:#certificate_var_user_zipcode#:#12345
+certificate#:#certificate_var_user_firstname#:#John
+certificate#:#certificate_var_user_fullname#:#John H. Watson, M.D
+certificate#:#certificate_var_user_institution#:#ILIAS Investigations Ltd.
+certificate#:#certificate_var_user_lastname#:#Watson
+certificate#:#certificate_var_user_login#:#jwatson
+certificate#:#certificate_var_user_matriculation#:#8201754
+certificate#:#certificate_var_user_salutation#:#Mr
+certificate#:#certificate_var_user_street#:#221B Baker Street
+certificate#:#certificate_var_user_title#:#Dr
+certificate#:#certificate_var_user_zipcode#:#NW1 6XE
 certificate#:#cmix_cert_ph_object_description#:#Description
 certificate#:#cmix_cert_ph_object_title#:#Title of the xAPI/cmi5 Object
-certificate#:#cmix_cert_ph_reached_score#:#Reached score as percentage
-certificate#:#default_background_info#:#This background image will be chosen as default background for all certificates. If you need another background image in a certficiate, you have to upload one in the certificate editor.
+certificate#:#cmix_cert_ph_reached_score#:#Score achieved in percent
+certificate#:#default_background_info#:#This background image will be used as the default background for all certificates unless a different image is uploaded when creating a certificate for a specific object.
 certificate#:#download_certificate#:#Download Certificate
-certificate#:#learning_progress_deactivated#:#The Learning Progress for this object is deactivated. To edit the certificate template and achieve user certificates the learning progress for this object must be activated.
-certificate#:#lti_cert_ph_mastery_score#:#Mastery score as percentage
+certificate#:#learning_progress_deactivated#:#Learning progress for this object is currently deactivated. In order to edit the certificate template and for users to be able to obtain certificates, learning progress for this object needs to be activated via Learning Progress » Settings.
+certificate#:#lti_cert_ph_mastery_score#:#Score achieved in percent
 certificate#:#lti_cert_ph_object_description#:#Description
 certificate#:#lti_cert_ph_object_title#:#Title of the LTI Consumer Object
 certificate#:#lti_cert_ph_reached_score#:#Reached score as percentage
 certificate#:#persistent_certificate_mode#:#User Certificate Creation
 certificate#:#persistent_certificate_mode_cron#:#Cron Job
-certificate#:#persistent_certificate_mode_cron_info#:#This option is recommended for systems with high user interaction.
+certificate#:#persistent_certificate_mode_cron_info#:#This option is recommended for systems with high levels of user interaction.
 certificate#:#persistent_certificate_mode_instant#:#Instant
-certificate#:#persistent_certificate_mode_instant_info#:#This option is recommended for systems with low up to mediocre user interactions. Systems that tend to big loading times during creation for multiple user certificates should switch to the "Cron Job" option.
+certificate#:#persistent_certificate_mode_instant_info#:#This option is recommended for systems with low up to medium levels of user interaction. Systems that tend towards longer loading times during the creation of multiple user certificates should switch to the ‘Cron Job’ option.
 chatroom#:#allow_anonymous#:#Allow Anonymous Login
 chatroom#:#allow_custom_usernames#:#Allow Custom User Names
 chatroom#:#anonymous_hint#:#Make sure to set the proper permissions in the ‘Permissions’ tab to allow anonymous user access to this repository item.
@@ -3331,7 +3284,7 @@ cmix#:#passed_label#:#Statements with the verb 'passed'
 cmix#:#privacy_options#:#Options for data security
 cmix#:#progressed_info#:#Indicates a value of how much of an actor has advanced or moved through an activity.
 cmix#:#progressed_label#:#Statements with the verb 'progressed'
-cmix#:#registration_saved_successfully#:#Registration saved successfully
+cmix#:#registration_saved_successfully#:#Saved successfully
 cmix#:#satisfied_info#:#Indicates that the authority or activity provider determined the actor has fulfilled the criteria of the object or activity.
 cmix#:#satisfied_label#:#Statements with the verb 'satisfied'
 cmix#:#sect_learning_progress_options#:#Options for Learning Progress
@@ -5148,7 +5101,7 @@ common#:#object#:#Object
 common#:#object_added#:#Object added.
 common#:#object_copy_in_progress#:#Started Copying.
 common#:#object_duplicated#:#Object copied
-common#:#object_id#:#Object-ID
+common#:#object_id#:#Object ID
 common#:#object_imported#:#Object imported
 common#:#object_list#:#List of Objects
 common#:#objects#:#Objects
@@ -7784,11 +7737,9 @@ crs#:#crs_objective_tbl_col_final_tsts#:#Final Tests
 crs#:#crs_objective_wiz_final#:#Final Test Questions
 crs#:#crs_objective_wiz_final_info#:#Assignment of final test questions.
 crs#:#crs_objective_wiz_final_limit#:#Limits for Final Test
-crs#:#crs_objective_wiz_final_limit_info#:#Here you can define the limits for the final test questions.
 crs#:#crs_objective_wiz_materials#:#Assign Course Material
 crs#:#crs_objective_wiz_materials_info#:#You can assign course materials that are recommended for processing the learning objective.
 crs#:#crs_objective_wiz_self#:#Initial Test Questions
-crs#:#crs_objective_wiz_self_info#:#Please set the initial test questions. Initial tests are intended to examine the previous knowledge of the course members.
 crs#:#crs_objective_wiz_self_limit#:#Limits for Initial Test
 crs#:#crs_objective_wiz_self_limit_info#:#Please define the limits for initial test questions.
 crs#:#crs_objective_wiz_title#:#Describe Learning Objective
@@ -7845,7 +7796,6 @@ crs#:#crs_search_users#:#Search Users
 crs#:#crs_select_archive_language#:#Please select a language for the archive
 crs#:#crs_select_one_archive#:#Please select one archive
 crs#:#crs_select_starter#:#Select Start Object
-crs#:#crs_selected_users#:#Selected Participants
 crs#:#crs_settings#:#Course Settings
 crs#:#crs_settings_saved#:#Settings saved
 crs#:#crs_shorten_breadcrumb#:#Breadcrumb
@@ -7927,7 +7877,6 @@ crs#:#crs_timings_presetting#:#Time Target Enabled
 crs#:#crs_timings_short_active#:#Enabled
 crs#:#crs_timings_short_active_tt#:#Activate Timings
 crs#:#crs_timings_short_changeable#:#Changeable
-crs#:#crs_timings_short_changeable_tt#:#Timings changeable by participants
 crs#:#crs_timings_short_end#:#End Date
 crs#:#crs_timings_short_limit_start_end#:#Latest End Date
 crs#:#crs_timings_short_limit_start_end_tt#:#Latest end
@@ -8597,10 +8546,10 @@ dcl#:#dcl_create_fields#:#Click a table in the tab "Tables" and create new field
 dcl#:#dcl_creation_date#:#Creation Date
 dcl#:#dcl_creation_date_description#:#The date on which the entry was created.
 dcl#:#dcl_datatype#:#Datatype
+dcl#:#dcl_date#:#Date Entry
+dcl#:#dcl_date_desc#:#Field for a date.
 dcl#:#dcl_date_selection#:#Date Selection
 dcl#:#dcl_date_selection_desc#:#Offer selection of date options.
-dcl#:#dcl_datetime#:#Date Entry
-dcl#:#dcl_datetime_desc#:#Field for a date.
 dcl#:#dcl_default_sort_field#:#Default sort field
 dcl#:#dcl_default_sort_field_desc#:#The table will be sorted by this field by default.
 dcl#:#dcl_default_sort_field_order#:#Default sort field order
@@ -8616,7 +8565,6 @@ dcl#:#dcl_detailed_view#:#Single
 dcl#:#dcl_display_action_menu#:#Copy
 dcl#:#dcl_display_action_menu_desc#:#Enable possibility to copy or link the referenced module
 dcl#:#dcl_display_record_alt#:#Display this entry
-dcl#:#dcl_duplicate_non_unique_entries_exist#:#This may also concern existing records.###23 02 2024 new variable
 dcl#:#dcl_edit#:#Edit Data Collection
 dcl#:#dcl_edit_entry_rules#:#Entry Editing
 dcl#:#dcl_edit_field#:#Edit Field
@@ -8842,6 +8790,7 @@ dcl#:#dcl_wrong_regex#:#The text you entered does not match the specification fo
 dcl#:#dcl_xls_async_export#:#as XLSX (asynchronous)
 dcl#:#disable_comments#:#Disable comments
 dcl#:#disable_visible#:#Disable visible
+dcl#:#duplicate_entries_exist#:#The existing records already contain duplicated entries.
 dcl#:#enable_comments#:#Enable comments
 dcl#:#enable_visible#:#Enable visible
 dcl#:#entry_of#:#Entry %1$d of %2$d
@@ -10284,10 +10233,8 @@ grp#:#grp_custom_user_fields#:#Group Relevant User Data
 grp#:#grp_custom_user_fields_infobox#:#Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the "Members" tab.
 grp#:#grp_custom_user_fields_table_title#:#Relevant User Data of This Group
 grp#:#grp_deactivate_notification#:#Deactivate Notification
-grp#:#grp_edit_members#:#Edit Participants
 grp#:#grp_enable_map#:#Enable Group Map
 grp#:#grp_err_registration_limited#:#please enter a valid start and end date for the registration
-grp#:#grp_export_members#:#Export Participants
 grp#:#grp_general_informations#:#General Information
 grp#:#grp_grp_info_reg#:#You can only register to one of these groups:
 grp#:#grp_grp_open#:#Open Group
@@ -10383,7 +10330,6 @@ grp#:#grp_reg_subject#:#Message
 grp#:#grp_registration_unlimited#:#Unlimited
 grp#:#grp_role_status#:#Role/Status
 grp#:#grp_search_users#:#Search User
-grp#:#grp_selected_users#:#Selected Participants
 grp#:#grp_set_on_waiting_list#:#You can set yourself on the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.
 grp#:#grp_setting_header_presentation#:#Group Presentation
 grp#:#grp_setting_header_registration#:#Group Registration
@@ -13929,7 +13875,7 @@ rbac#:#adn_edit_permission#:#User can change permissions of Administrative Notif
 rbac#:#adn_read#:#User has read access to administration of Administrative Notifications.
 rbac#:#adn_visible#:#Administration of Administrative Notifications is visible.
 rbac#:#adn_write#:#User can add and edit Administrative Notifications.
-rbac#:#adopt_perm_from_template#:#Copy Permission Settings
+rbac#:#adopt_perm_from_template#:#Copy Permission Settings from other Role
 rbac#:#adve_edit_permission#:#User can change permission settings of Editing administration
 rbac#:#adve_read#:#User has read access to Editing Administration
 rbac#:#adve_visible#:#Editing Administration is visible
@@ -14485,14 +14431,17 @@ rbac#:#rbac_cant_import_role_wrong_type#:#Can't import a role from item %s into 
 rbac#:#rbac_change_existing_confirm_tbl#:#Settings for ‘Change Existing Objects’
 rbac#:#rbac_change_existing_objects_desc_new_role#:#The permission settings of this role will be adopted to ALL existing objects.
 rbac#:#rbac_changes#:#Changes
-rbac#:#rbac_choose_copy_targets#:#Please enter a search term in order to find the role to which the permissions should be copied.
+rbac#:#rbac_choose_copy_targets#:#Please enter a search term in order to find the role to which the permissions from %s should be copied.
 rbac#:#rbac_condition_delete_sure#:#Are you sure you want to delete the following preconditions?
 rbac#:#rbac_context_global#:#Global
 rbac#:#rbac_copy_behaviour#:#Role Copy Settings
+rbac#:#rbac_copy_behaviour_info#:#Transfer Permissions from: %s to: %s
 rbac#:#rbac_copy_finished#:#Finished copying.
+rbac#:#rbac_copy_multi_targets#:#%s, %s and %s further Roles selected%s
+rbac#:#rbac_copy_no_targets#:#At least one Role must be selected as Target
 rbac#:#rbac_copy_role#:#Copy Role
 rbac#:#rbac_copy_role_add_perm#:#Add Permissions
-rbac#:#rbac_copy_role_copy#:#Copy Permissions
+rbac#:#rbac_copy_role_copy#:#Copy Permissions to other Role(s)
 rbac#:#rbac_copy_role_remove_perm#:#Remove Permissions
 rbac#:#rbac_create_bibl#:#Create Bibliography
 rbac#:#rbac_create_blog#:#Create Blog
@@ -14608,7 +14557,8 @@ rbac#:#rbac_role_rights_copy_change_existing#:#Change Existing Objects
 rbac#:#rbac_role_rights_copy_empty#:#None
 rbac#:#rbac_role_selection#:#Role Type
 rbac#:#rbac_role_title#:#Role Title
-rbac#:#rbac_select_copy_targets#:#Please select the roles which are to be the targets for the copied permissions.
+rbac#:#rbac_select_copy_targets#:#Please select the roles which are to be the targets for the copied permissions from <strong>%s</strong>.
+rbac#:#rbac_select_roles#:#Select Roles
 rbac#:#rbac_ud_global#:#User-defined global role
 rbac#:#rbac_ud_local#:#User-defined local role
 rbac#:#rbac_ud_rolt#:#User-defined role template
@@ -17158,9 +17108,9 @@ trac#:#trac_mode_scorm_package_info#:#The learning progress status will automati
 trac#:#trac_mode_study_programme#:#Study Programme Completed
 trac#:#trac_mode_survey_finished#:#Survey Finished
 trac#:#trac_mode_survey_finished_info#:#The survey has to be finished by an user to receive the status 'Completed'.
-trac#:#trac_mode_test_finished#:#Test Must be Finished
+trac#:#trac_mode_test_finished#:#Test Must Be Finished
 trac#:#trac_mode_test_finished_info#:#A user's learning progress status is set to ‘Completed’ after the user clicks 'Finish the Test'. Regardless of whether or not the test was passed, the learning progress will be set to ‘Completed’.
-trac#:#trac_mode_test_passed#:#Test Must be Passed
+trac#:#trac_mode_test_passed#:#Test Must Be Passed
 trac#:#trac_mode_test_passed_info#:#A user's learning progress status is set to ‘Completed’ after the user passed the test. Thresholds for passing the test can be set in the 'Settings'-tab at the section 'Mark Schema'.
 trac#:#trac_mode_tlt#:#Minimally Required Amount of Time Spent on Learning Module
 trac#:#trac_mode_tlt_info#:#The status will be automatically set according to time a user spends working with the learning module. The status 'Completed' is assigned once users exceed the minimally required Typical Learning Time. <br />The Typical Learning Time can be specified in the 'Metadata'-tab.

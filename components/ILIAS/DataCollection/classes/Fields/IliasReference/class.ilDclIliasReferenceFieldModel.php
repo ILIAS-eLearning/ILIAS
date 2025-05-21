@@ -77,9 +77,22 @@ class ilDclIliasReferenceFieldModel extends ilDclBaseFieldModel
 
     public function getValidFieldProperties(): array
     {
-        return [ilDclBaseFieldModel::PROP_LEARNING_PROGRESS,
-                ilDclBaseFieldModel::PROP_ILIAS_REFERENCE_LINK,
-                ilDclBaseFieldModel::PROP_DISPLAY_COPY_LINK_ACTION_MENU
+        return [
+            ilDclBaseFieldModel::PROP_LEARNING_PROGRESS,
+            ilDclBaseFieldModel::PROP_ILIAS_REFERENCE_LINK,
+            ilDclBaseFieldModel::PROP_DISPLAY_COPY_LINK_ACTION_MENU,
+            ilDclBaseFieldModel::PROP_UNIQUE
         ];
+    }
+
+    public function checkFieldCreationInput(ilPropertyFormGUI $form): bool
+    {
+        return $this->checkUniqueProp($form) && parent::checkFieldCreationInput($form);
+    }
+
+    public function checkValidity($value, ?int $record_id): bool
+    {
+        $this->checkUnique($value, $record_id);
+        return parent::checkValidity($value, $record_id);
     }
 }

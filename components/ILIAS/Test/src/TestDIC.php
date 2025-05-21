@@ -182,7 +182,8 @@ class TestDIC extends PimpleContainer
                 $DIC['component.factory'],
                 $DIC['file_delivery'],
                 $DIC['ilUser'],
-                $c['question.general_properties.repository']
+                $c['question.general_properties.repository'],
+                $DIC['resource_storage'],
             );
 
         $dic['exportimport.repository'] = static fn($c): ExportImportRepository =>

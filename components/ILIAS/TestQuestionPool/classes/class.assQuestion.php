@@ -262,8 +262,7 @@ abstract class assQuestion implements Question
         ?int $tst_id,
         ?ilObject &$tst_object,
         int &$question_counter,
-        array $import_mapping,
-        array $solutionhints = []
+        array $import_mapping
     ): array {
         $classname = $this->getQuestionType() . "Import";
         $import = new $classname($this);
@@ -277,32 +276,7 @@ abstract class assQuestion implements Question
             $question_counter,
             $import_mapping
         );
-
-        foreach ($solutionhints as $hint) {
-            $this->importHint($import->getQuestionId(), $hint);
-        }
-
         return $new_import_mapping;
-    }
-
-    private function importHint(int $question_id, array $hint_array): void
-    {
-        $hint = new ilAssQuestionHint();
-        $hint->setQuestionId($question_id);
-        $hint->setIndex($hint_array['index'] ?? '');
-        $hint->setPoints($hint_array['points'] ?? '');
-        if ($this->getAdditionalContentEditingMode() === self::ADDITIONAL_CONTENT_EDITING_MODE_IPE) {
-            $hint->save();
-            $hint_page = (new ilAssHintPage());
-            $hint_page->setParentId($question_id);
-            $hint_page->setId($hint->getId());
-            $hint_page->setXMLContent($hint_array['txt']);
-            $hint_page->createFromXML();
-            return;
-        }
-
-        $hint->setText($hint_array['txt'] ?? '');
-        $hint->save();
     }
 
     /**
@@ -512,10 +486,12 @@ abstract class assQuestion implements Question
                     );
 
                     ilWACSignedPath::setTokenMaxLifetimeInSeconds(60);
+                    $path_to_solution = $this->getSuggestedSolutionPathWeb() . $solution->getFilename();
+                    if (!file_exists($path_to_solution)) {
+                        break;
+                    }
                     $output[] = '<a href="'
-                        . ilWACSignedPath::signFile(
-                            $this->getSuggestedSolutionPathWeb() . $solution->getFilename()
-                        )
+                        . ilWACSignedPath::signFile($path_to_solution)
                         . '">'
                         . $possible_texts[0]
                         . '</a>';
@@ -563,10 +539,6 @@ abstract class assQuestion implements Question
     {
         // determine reached points for submitted solution
         $reached_points = $this->calculateReachedPoints($active_id, $pass, $authorized_solution);
-        $hint_tracking = new ilAssQuestionHintTracking($this->getId(), $active_id, $pass);
-        $requests_statistic_data = $hint_tracking->getRequestStatisticDataByQuestionAndTestpass();
-        $reached_points = $reached_points - $requests_statistic_data->getRequestsPoints();
-
         // adjust reached points regarding to tests scoring options
         $reached_points = $this->adjustReachedPointsByScoringOptions($reached_points, $active_id);
 
@@ -580,9 +552,6 @@ abstract class assQuestion implements Question
     {
         // determine reached points for submitted solution
         $reached_points = $this->calculateReachedPoints($active_id, $pass);
-        $questionHintTracking = new ilAssQuestionHintTracking($this->getId(), $active_id, $pass);
-        $requests_statistic_data = $questionHintTracking->getRequestStatisticDataByQuestionAndTestpass();
-        $reached_points = $reached_points - $requests_statistic_data->getRequestsPoints();
 
         // adjust reached points regarding to tests scoring options
         $reached_points = $this->adjustReachedPointsByScoringOptions($reached_points, $active_id);
@@ -595,7 +564,7 @@ abstract class assQuestion implements Question
         $existing_solutions = $this->lookupForExistingSolutions($active_id, $pass);
 
         $this->getProcessLocker()->executeUserQuestionResultUpdateOperation(
-            function () use ($active_id, $pass, $reached_points, $requests_statistic_data, $existing_solutions) {
+            function () use ($active_id, $pass, $reached_points, $existing_solutions) {
                 $query = "
                     DELETE FROM		tst_test_result
 
@@ -626,8 +595,6 @@ abstract class assQuestion implements Question
                         'pass' => ['integer', $pass],
                         'points' => ['float', $reached_points],
                         'tstamp' => ['integer', time()],
-                        'hint_count' => ['integer', $requests_statistic_data->getRequestsCount()],
-                        'hint_points' => ['float', $requests_statistic_data->getRequestsPoints()],
                         'answered' => ['integer', true]
                     ];
 
@@ -959,8 +926,6 @@ abstract class assQuestion implements Question
         } catch (Exception $e) {
             $this->log->root()->error("EXCEPTION: Error deleting the media objects of question {$question_id}: {$e}");
         }
-        ilAssQuestionHintTracking::deleteRequestsByQuestionIds([$question_id]);
-        ilAssQuestionHintList::deleteHintsByQuestionIds([$question_id]);
         $assignmentList = new ilAssQuestionSkillAssignmentList($this->db);
         $assignmentList->setParentObjId($obj_id);
         $assignmentList->setQuestionIdFilter($question_id);
@@ -1446,7 +1411,6 @@ abstract class assQuestion implements Question
         $this->copySuggestedSolutions($duplicate_question_id);
         $this->cloneSuggestedSolutionFiles($original_parent_id, $original_question_id);
         $this->feedbackOBJ->duplicateFeedback($original_question_id, $duplicate_question_id);
-        $this->duplicateQuestionHints($original_question_id, $duplicate_question_id);
         $this->duplicateSkillAssignments($original_parent_id, $original_question_id, $duplicate_parent_id, $duplicate_question_id);
         $this->duplicateComments($original_parent_id, $original_question_id, $duplicate_parent_id, $duplicate_question_id);
     }
@@ -1465,7 +1429,6 @@ abstract class assQuestion implements Question
         $this->copySuggestedSolutions($targetQuestionId);
         $this->duplicateSuggestedSolutionFiles($sourceParentId, $sourceQuestionId);
         $this->feedbackOBJ->duplicateFeedback($sourceQuestionId, $targetQuestionId);
-        $this->duplicateQuestionHints($sourceQuestionId, $targetQuestionId);
         $this->duplicateSkillAssignments($sourceParentId, $sourceQuestionId, $targetParentId, $targetQuestionId);
         $this->duplicateComments($sourceParentId, $sourceQuestionId, $targetParentId, $targetQuestionId);
     }
@@ -1762,7 +1725,6 @@ abstract class assQuestion implements Question
         $original = $this->cloneQuestionTypeSpecificProperties($original);
         $this->cloneXHTMLMediaObjectsOfQuestion($original->getId());
         $this->afterSyncWithOriginal($this->getOriginalId(), $this->getId(), $this->getObjId(), $original_parent_id);
-        $this->cloneHints($this->id, $this->original_id);
     }
 
     /**
@@ -1835,20 +1797,9 @@ abstract class assQuestion implements Question
         return ilObjQuestionPool::_isWriteable($this->getObjId(), $this->getCurrentUser()->getId());
     }
 
-    public function deductHintPointsFromReachedPoints(ilAssQuestionPreviewSession $preview_session, $reached_points): ?float
-    {
-        $hint_tracking = new ilAssQuestionPreviewHintTracking($this->db, $preview_session);
-        $requests_statistic_data = $hint_tracking->getRequestStatisticData();
-        return $reached_points - $requests_statistic_data->getRequestsPoints();
-    }
-
     public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $preview_session)
     {
-        $reached_points = $this->deductHintPointsFromReachedPoints(
-            $preview_session,
-            $this->calculateReachedPointsForSolution($preview_session->getParticipantsSolution())
-        );
-
+        $reached_points = $this->calculateReachedPointsForSolution($preview_session->getParticipantsSolution());
         return $this->ensureNonNegativePoints($reached_points);
     }
 
@@ -2024,44 +1975,6 @@ abstract class assQuestion implements Question
         return 0;
     }
 
-    public function cloneHints(
-        int $source_question_id,
-        int $target_question_id
-    ): void {
-        // delete hints of the original
-        $this->db->manipulateF(
-            "DELETE FROM qpl_hints WHERE qht_question_fi = %s",
-            ['integer'],
-            [$target_question_id]
-        );
-
-        // get hints of the actual question
-        $result = $this->db->queryF(
-            "SELECT * FROM qpl_hints WHERE qht_question_fi = %s",
-            ['integer'],
-            [$source_question_id]
-        );
-
-        // save hints to the original
-        if ($this->db->numRows($result) < 1) {
-            return;
-        }
-
-        while ($row = $this->db->fetchAssoc($result)) {
-            $next_id = $this->db->nextId('qpl_hints');
-            $this->db->insert(
-                'qpl_hints',
-                [
-                    'qht_hint_id' => ['integer', $next_id],
-                    'qht_question_fi' => ['integer', $target_question_id],
-                    'qht_hint_index' => ['integer', $row["qht_hint_index"]],
-                    'qht_hint_points' => ['float', $row["qht_hint_points"]],
-                    'qht_hint_text' => ['text', $row["qht_hint_text"]],
-                ]
-            );
-        }
-    }
-
     protected function getRTETextWithMediaObjects(): string
     {
         // must be called in parent classes. add additional RTE text in the parent
@@ -2070,13 +1983,6 @@ abstract class assQuestion implements Question
         $collected .= $this->feedbackOBJ->getGenericFeedbackContent($this->getId(), false);
         $collected .= $this->feedbackOBJ->getGenericFeedbackContent($this->getId(), true);
         $collected .= $this->feedbackOBJ->getAllSpecificAnswerFeedbackContents($this->getId());
-
-        $questionHintList = ilAssQuestionHintList::getListByQuestionId($this->getId());
-        foreach ($questionHintList as $questionHint) {
-            /* @var $questionHint ilAssQuestionHint */
-            $collected .= $questionHint->getText();
-        }
-
         return $collected;
     }
 
@@ -2304,25 +2210,6 @@ abstract class assQuestion implements Question
         return $row['obj_fi'] ?? null;
     }
 
-    protected function duplicateQuestionHints(int $original_question_id, int $duplicate_question_id): void
-    {
-        $hintIds = ilAssQuestionHintList::duplicateListForQuestion($original_question_id, $duplicate_question_id);
-
-        if ($this->isAdditionalContentEditingModePageObject()) {
-            foreach ($hintIds as $originalHintId => $duplicateHintId) {
-                $this->ensureHintPageObjectExists($originalHintId);
-                $originalPageObject = new ilAssHintPage($originalHintId);
-                $originalXML = $originalPageObject->getXMLContent();
-
-                $duplicatePageObject = new ilAssHintPage();
-                $duplicatePageObject->setId($duplicateHintId);
-                $duplicatePageObject->setParentId($this->getId());
-                $duplicatePageObject->setXMLContent($originalXML);
-                $duplicatePageObject->createFromXML();
-            }
-        }
-    }
-
     protected function duplicateSkillAssignments(int $srcParentId, int $srcQuestionId, int $trgParentId, int $trgQuestionId): void
     {
         $assignmentList = new ilAssQuestionSkillAssignmentList($this->db);
@@ -2365,16 +2252,6 @@ abstract class assQuestion implements Question
         }
 
         $this->duplicateSkillAssignments($srcParentId, $srcQuestionId, $trgParentId, $trgQuestionId);
-    }
-
-    public function ensureHintPageObjectExists($pageObjectId): void
-    {
-        if (!ilAssHintPage::_exists('qht', $pageObjectId)) {
-            $pageObject = new ilAssHintPage();
-            $pageObject->setParentId($this->getId());
-            $pageObject->setId($pageObjectId);
-            $pageObject->createFromXML();
-        }
     }
 
     public function isAnswered(int $active_id, int $pass): bool

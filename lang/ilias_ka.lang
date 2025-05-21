@@ -14593,6 +14593,7 @@ rbac#:#rbac_role_rights_copy_empty#:#არც ერთი
 rbac#:#rbac_role_selection#:#პასუხისმგებლობის სახეობა
 rbac#:#rbac_role_title#:#Role Title
 rbac#:#rbac_select_copy_targets#:#Please select the target roles
+rbac#:#rbac_select_roles#:#Role Selection
 rbac#:#rbac_ud_global#:#მომხმარებელმა განსაზღვრა გლობალური პასუხისმგებლობა
 rbac#:#rbac_ud_local#:#მომხმარებელმა განსაზღვრა ადგილობრივი პასუხისმგებლობა
 rbac#:#rbac_ud_rolt#:#მომხმარებელმა განსაზღვრა პასუხისმგებლობის ნიმუში

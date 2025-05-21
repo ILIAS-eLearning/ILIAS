@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\ResourceStorage\Services as ResourceStorage;
+
 class ilTestResultsToXML extends ilXmlWriter
 {
     private $active_ids;
@@ -27,6 +29,8 @@ class ilTestResultsToXML extends ilXmlWriter
     public function __construct(
         private int $test_id,
         private ilDBInterface $db,
+        private ResourceStorage $irss,
+        private string $objects_export_directory,
         private bool $anonymized = false
     ) {
         parent::__construct();
@@ -200,18 +204,50 @@ class ilTestResultsToXML extends ilXmlWriter
         $result = $this->db->query($query);
         $this->xmlStartTag('tst_test_result', null);
         while ($row = $this->db->fetchAssoc($result)) {
+            $active_fi = $row['active_fi'];
+            $pass = $row['pass'] ?? '';
             $attrs = [
                 'test_result_id' => $row['test_result_id'],
-                'active_fi' => $row['active_fi'],
+                'active_fi' => $active_fi,
                 'question_fi' => $row['question_fi'],
                 'points' => $row['points'] ?? '',
-                'pass' => $row['pass'] ?? '',
+                'pass' => $pass,
                 'manual' => $row['manual'] ?? '',
                 'tstamp' => $row['tstamp'] ?? ''
             ];
+
+            if (($question = assQuestion::instantiateQuestion($row['question_fi'])) instanceof assFileUpload) {
+                $this->exportParticipantUploadedFiles($question->getUploadedFiles($active_fi, $pass));
+            }
+
             $this->xmlElement('row', $attrs);
         }
         $this->xmlEndTag('tst_test_result');
+    }
+
+    /**
+     * @param array{value1: string, value2: string} $uploaded_files
+     */
+    protected function exportParticipantUploadedFiles(array $uploaded_files): void
+    {
+        foreach ($uploaded_files as $uploaded_file) {
+            if ($uploaded_file['value2'] !== 'rid') {
+                continue;
+            }
+
+            $rid_string = $uploaded_file['value1'];
+            $rid = $this->irss->manage()->find($rid_string);
+            if ($rid === null) {
+                continue;
+            }
+
+            $target_dir = "$this->objects_export_directory/resources/$rid_string";
+            ilFileUtils::makeDirParents($target_dir);
+            file_put_contents(
+                "$target_dir/{$this->irss->manage()->getCurrentRevision($rid)->getTitle()}",
+                $this->irss->consume()->stream($rid)->getStream(),
+            );
+        }
     }
 
     protected function exportTestTimes(): void

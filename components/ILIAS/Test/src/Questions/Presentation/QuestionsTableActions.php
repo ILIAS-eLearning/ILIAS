@@ -43,7 +43,6 @@ class QuestionsTableActions
     private const ACTION_EDIT_QUESTION = 'edit_question';
     private const ACTION_EDIT_PAGE = 'edit_page';
     private const ACTION_FEEDBACK = 'feedback';
-    private const ACTION_HINTS = 'hints';
     private const ACTION_PRINT_QUESTIONS = 'print_questions';
     private const ACTION_PRINT_ANSWERS = 'print_answers';
     private const ACTION_DOWNLOAD_FILE_QUESTION_ANSWERS = 'download_files';
@@ -89,7 +88,6 @@ class QuestionsTableActions
                 self::ACTION_ADJUST,
                 $this->is_adjusting_questions_with_results_allowed && !$this->is_in_test_with_results
             )->withDisabledAction(self::ACTION_FEEDBACK, $disable_default_actions)
-            ->withDisabledAction(self::ACTION_HINTS, $disable_default_actions)
             ->withDisabledAction(self::ACTION_PRINT_ANSWERS, !$this->is_in_test_with_results)
             ->withDisabledAction(
                 self::ACTION_DOWNLOAD_FILE_QUESTION_ANSWERS,
@@ -118,7 +116,6 @@ class QuestionsTableActions
             self::ACTION_EDIT_QUESTION => $ag('single', 'edit_question', self::ACTION_EDIT_QUESTION),
             self::ACTION_EDIT_PAGE => $ag('single', 'edit_page', self::ACTION_EDIT_PAGE),
             self::ACTION_FEEDBACK => $ag('single', 'tst_feedback', self::ACTION_FEEDBACK),
-            self::ACTION_HINTS => $ag('single', 'tst_question_hints_tab', self::ACTION_HINTS),
             self::ACTION_PRINT_ANSWERS => $ag('single', 'print_answers', self::ACTION_PRINT_ANSWERS),
             self::ACTION_DOWNLOAD_FILE_QUESTION_ANSWERS => $ag('single', 'download_all_files', self::ACTION_DOWNLOAD_FILE_QUESTION_ANSWERS),
         ];
@@ -211,14 +208,6 @@ class QuestionsTableActions
                     current($row_ids),
                     \ilAssQuestionFeedbackEditingGUI::class,
                     \ilAssQuestionFeedbackEditingGUI::CMD_SHOW
-                );
-                return false;
-
-            case self::ACTION_HINTS:
-                $this->redirectWithQuestionParameters(
-                    current($row_ids),
-                    \ilAssQuestionHintsGUI::class,
-                    \ilAssQuestionHintsGUI::CMD_SHOW_LIST
                 );
                 return false;
 

@@ -88,6 +88,10 @@ class ilTestAccess
             return true;
         }
 
+        if (!$this->getAccess()->checkAccess('read', '', $this->getRefId())) {
+            return false;
+        }
+
         if ($this->getAccess()->checkPositionAccess(ilOrgUnitOperation::OP_SCORE_PARTICIPANTS, $this->getRefId())) {
             return true;
         }
@@ -102,6 +106,10 @@ class ilTestAccess
     {
         if ($this->getAccess()->checkAccess('write', '', $this->getRefId())) {
             return true;
+        }
+
+        if (!$this->getAccess()->checkAccess('read', '', $this->getRefId())) {
+            return false;
         }
 
         if ($this->getAccess()->checkPositionAccess(ilOrgUnitOperation::OP_MANAGE_PARTICIPANTS, $this->getRefId())) {
@@ -119,6 +127,10 @@ class ilTestAccess
 
         if ($this->getAccess()->checkAccess('tst_results', '', $this->getRefId())) {
             return true;
+        }
+
+        if (!$this->getAccess()->checkAccess('read', '', $this->getRefId())) {
+            return false;
         }
 
         if ($this->getAccess()->checkPositionAccess(ilOrgUnitOperation::OP_MANAGE_PARTICIPANTS, $this->getRefId())) {

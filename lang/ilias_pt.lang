@@ -14593,6 +14593,7 @@ rbac#:#rbac_role_rights_copy_empty#:#Guardar ordenação e títulos
 rbac#:#rbac_role_selection#:#Tipo de função
 rbac#:#rbac_role_title#:#Título de função
 rbac#:#rbac_select_copy_targets#:#Selecione as funções pretendidas
+rbac#:#rbac_select_roles#:#Role Selection
 rbac#:#rbac_ud_global#:#Função global definido pelo utilizador
 rbac#:#rbac_ud_local#:#Função local definido pelo utilizador
 rbac#:#rbac_ud_rolt#:#Modelo de função definido pelo utilizador

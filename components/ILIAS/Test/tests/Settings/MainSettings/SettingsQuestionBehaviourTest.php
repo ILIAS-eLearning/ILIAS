@@ -121,25 +121,6 @@ class SettingsQuestionBehaviourTest extends ilTestBaseTestCase
     }
 
     /**
-     * @dataProvider getAndWithQuestionHintsEnabledDataProvider
-     */
-    public function testGetAndWithQuestionHintsEnabled(bool $io): void
-    {
-        $Settings_question_behaviour = $this->getTestInstance()->withQuestionHintsEnabled($io);
-
-        $this->assertInstanceOf(SettingsQuestionBehaviour::class, $Settings_question_behaviour);
-        $this->assertEquals($io, $Settings_question_behaviour->getQuestionHintsEnabled());
-    }
-
-    public static function getAndWithQuestionHintsEnabledDataProvider(): array
-    {
-        return [
-            [false],
-            [true]
-        ];
-    }
-
-    /**
      * @dataProvider getAndWithInstantFeedbackPointsEnabledDataProvider
      */
     public function testGetAndWithInstantFeedbackPointsEnabled(bool $io): void

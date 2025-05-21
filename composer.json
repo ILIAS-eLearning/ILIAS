@@ -58,7 +58,7 @@
 		"guzzlehttp/psr7": "2.7.0",
 		"ifsnop/mysqldump-php": "2.11",
 		"james-heinrich/getid3": "^1.9.23",
-		"league/commonmark": "2.5.3",
+		"league/commonmark": "2.7.0",
 		"league/flysystem": "3.28.0",
 		"monolog/monolog": "^3.9",
 		"mustache/mustache": "^2.14",

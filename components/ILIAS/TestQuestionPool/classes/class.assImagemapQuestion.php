@@ -445,9 +445,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         $reached_points = $this->calculateReachedPointsForSolution(is_array($solution_data) ? array_values($solution_data) : []);
 
-        return $this->ensureNonNegativePoints(
-            $this->deductHintPointsFromReachedPoints($preview_session, $reached_points)
-        );
+        return $this->ensureNonNegativePoints($reached_points);
     }
 
     /**

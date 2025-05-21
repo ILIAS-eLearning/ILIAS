@@ -26,6 +26,7 @@ use ILIAS\Style\Content\Service as ContentStyle;
  *
  * @ilCtrl_Calls ilAssQuestionFeedbackEditingGUI: ilAssGenFeedbackPageGUI, ilAssSpecFeedbackPageGUI
  * @ilCtrl_Calls ilAssQuestionFeedbackEditingGUI: ilPropertyFormGUI
+ * @ilCtrl_isCalledBy ilAssQuestionFeedbackEditingGUI: ilRepositoryGUI
  */
 class ilAssQuestionFeedbackEditingGUI
 {

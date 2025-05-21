@@ -115,8 +115,6 @@ class ScoreSettingsTest extends ilTestBaseTestCase
         $this->assertFalse($s->withHighscoreScore(false)->getHighscoreScore());
         $this->assertTrue($s->withHighscorePercentage(true)->getHighscorePercentage());
         $this->assertFalse($s->withHighscorePercentage(false)->getHighscorePercentage());
-        $this->assertTrue($s->withHighscoreHints(true)->getHighscoreHints());
-        $this->assertFalse($s->withHighscoreHints(false)->getHighscoreHints());
         $this->assertTrue($s->withHighscoreWTime(true)->getHighscoreWTime());
         $this->assertFalse($s->withHighscoreWTime(false)->getHighscoreWTime());
         $this->assertTrue($s->withHighscoreOwnTable(true)->getHighscoreOwnTable());
@@ -477,7 +475,6 @@ class ScoreSettingsTest extends ilTestBaseTestCase
             ['tst_highscore_achieved_ts', 'tst_highscore_achieved_ts_description'],
             ['tst_highscore_score', 'tst_highscore_score_description'],
             ['tst_highscore_percentage', 'tst_highscore_percentage_description'],
-            ['tst_highscore_hints', 'tst_highscore_hints_description'],
             ['tst_highscore_wtime', 'tst_highscore_wtime_description']
         ];
         foreach ($opts as $index => $entry) {
@@ -550,7 +547,6 @@ class ScoreSettingsTest extends ilTestBaseTestCase
         $this->assertIsBool($t->getHighscoreAchievedTS());
         $this->assertIsBool($t->getHighscoreScore());
         $this->assertIsBool($t->getHighscorePercentage());
-        $this->assertIsBool($t->getHighscoreHints());
         $this->assertIsBool($t->getHighscoreWTime());
         $this->assertIsBool($t->getHighscoreOwnTable());
         $this->assertIsBool($t->getHighscoreTopTable());

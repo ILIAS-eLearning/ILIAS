@@ -185,6 +185,10 @@ class TabsManager
 
     protected function isLpAccessGranted(): bool
     {
+        if (!$this->test_access->getAccess()->checkAccess('read', '', $this->test_object->getRefId())) {
+            return false;
+        }
+
         return \ilLearningProgressAccess::checkAccess($this->test_object->getRefId());
     }
 

@@ -28,6 +28,7 @@ use ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph;
 use ILIAS\UI\Implementation\Component\Symbol\Glyph\Renderer;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\HelpTextRetriever;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Test on glyph implementation.
@@ -170,21 +171,15 @@ class GlyphTest extends ILIAS_UI_TestBase
         G\Glyph::UNCHECKED => "unchecked",
     );
 
-    /**
-     * @dataProvider getGlyphTypeProvider
-     */
-    public function testImplementsFactoryInterface(string $factory_method): void
+    #[DataProvider('getGlyphTypeProvider')] public function testImplementsFactoryInterface(string $factory_method): void
     {
         $f = $this->getGlyphFactory();
 
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Symbol\\Glyph\\Factory", $f);
-        $this->assertInstanceOf("ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph", $f->$factory_method("http://www.ilias.de"));
+        $this->assertInstanceOf("ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph", $f->$factory_method());
     }
 
-    /**
-     * @dataProvider getGlyphTypeProvider
-     */
-    public function testGlyphTypes(string $factory_method): void
+    #[DataProvider('getGlyphTypeProvider')] public function testGlyphTypes(string $factory_method): void
     {
         $f = $this->getGlyphFactory();
         $g = $f->$factory_method();
@@ -193,22 +188,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         $this->assertEquals($factory_method, $g->getType());
     }
 
-    /**
-     * @dataProvider getGlyphTypeProvider
-     */
-    public function testGlyphAction(string $factory_method): void
-    {
-        $f = $this->getGlyphFactory();
-        $g = $f->$factory_method("http://www.ilias.de");
-
-        $this->assertNotNull($g);
-        $this->assertEquals("http://www.ilias.de", $g->getAction());
-    }
-
-    /**
-     * @dataProvider getGlyphTypeProvider
-     */
-    public function testGlyphNoAction(string $factory_method): void
+    #[DataProvider('getGlyphTypeProvider')] public function testGlyphNoAction(string $factory_method): void
     {
         $f = $this->getGlyphFactory();
         $g = $f->$factory_method();
@@ -217,10 +197,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         $this->assertEquals(null, $g->getAction());
     }
 
-    /**
-     * @dataProvider getGlyphTypeProvider
-     */
-    public function testWithUnavailableAction(string $factory_method): void
+    #[DataProvider('getGlyphTypeProvider')] public function testWithUnavailableAction(string $factory_method): void
     {
         $f = $this->getGlyphFactory();
         $g = $f->$factory_method();
@@ -241,10 +218,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         $this->assertTrue($g2->isHighlighted());
     }
 
-    /**
-     * @dataProvider getGlyphTypeProvider
-     */
-    public function testNoCounter(string $factory_method): void
+    #[DataProvider('getGlyphTypeProvider')] public function testNoCounter(string $factory_method): void
     {
         $f = $this->getGlyphFactory();
         $g = $f->$factory_method();
@@ -252,10 +226,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         $this->assertCount(0, $g->getCounters());
     }
 
-    /**
-     * @dataProvider getCounterTypeProvider
-     */
-    public function testOneCounter(string $counter_type): void
+    #[DataProvider('getCounterTypeProvider')] public function testOneCounter(string $counter_type): void
     {
         $gf = $this->getGlyphFactory();
         $cf = $this->getCounterFactory();
@@ -346,7 +317,7 @@ class GlyphTest extends ILIAS_UI_TestBase
     public function testKnownGlyphsOnly(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        new Glyph("FOO", "http://www.ilias.de");
+        new Glyph("FOO", "FAA");
     }
 
     public static function getGlyphTypeProvider(): array
@@ -373,14 +344,14 @@ class GlyphTest extends ILIAS_UI_TestBase
     {
         $f = $this->getGlyphFactory();
         $r = $this->getDefaultRenderer();
-        $c = $f->$type("http://www.ilias.de");
+        $c = $f->$type();
 
         $html = $this->normalizeHTML($r->render($c));
 
         $css_classes = self::$canonical_css_classes[$type];
         $aria_label = self::$aria_labels[$type];
 
-        $expected = '<a tabindex="0" class="glyph" href="http://www.ilias.de" aria-label="' . $aria_label . '"><span class="' . $css_classes . '" aria-hidden="true"></span></a>';
+        $expected = '<a class="glyph" aria-label="' . $aria_label . '"><span class="' . $css_classes . '" aria-hidden="true"></span></a>';
         $this->assertEquals($expected, $html);
     }
 
@@ -391,7 +362,7 @@ class GlyphTest extends ILIAS_UI_TestBase
     {
         $f = $this->getGlyphFactory();
         $r = $this->getDefaultRenderer();
-        $c = $f->$type("http://www.ilias.de")->withUnavailableAction();
+        $c = $f->$type()->withUnavailableAction();
 
         $html = $this->normalizeHTML($r->render($c));
 
@@ -413,7 +384,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         $fg = $this->getGlyphFactory();
         $fc = $this->getCounterFactory();
         $r = $this->getDefaultRenderer();
-        $c = $fg->mail("http://www.ilias.de")->withCounter($fc->$type(42));
+        $c = $fg->mail()->withCounter($fc->$type(42));
 
         $html = $this->normalizeHTML($r->render($c));
 
@@ -421,7 +392,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         $aria_label = self::$aria_labels[G\Glyph::MAIL];
 
         $expected = '
-            <a tabindex="0" class="glyph" href="http://www.ilias.de" aria-label="' . $aria_label . '">
+            <a class="glyph" aria-label="' . $aria_label . '">
                     <span class="' . $css_classes . '" aria-hidden="true"></span>
                     <span class="il-counter"><span class="badge badge-notify il-counter-' . $type . '">42</span></span>
                     <span class="il-counter-spacer">42</span>
@@ -434,7 +405,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         $fg = $this->getGlyphFactory();
         $fc = $this->getCounterFactory();
         $r = $this->getDefaultRenderer();
-        $c = $fg->mail("http://www.ilias.de")
+        $c = $fg->mail()
                 ->withCounter($fc->novelty(42))
                 ->withCounter($fc->status(7));
 
@@ -442,12 +413,12 @@ class GlyphTest extends ILIAS_UI_TestBase
 
         $css_classes = self::$canonical_css_classes[G\Glyph::MAIL];
         $aria_label = self::$aria_labels[G\Glyph::MAIL];
-        $expected = "<a tabindex=\"0\" class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\">" .
-                    "<span class=\"$css_classes\" aria-hidden=\"true\"></span>" .
-                    "<span class=\"il-counter\"><span class=\"badge badge-notify il-counter-status\">7</span></span>" .
-                    "<span class=\"il-counter\"><span class=\"badge badge-notify il-counter-novelty\">42</span></span>" .
-                    "<span class=\"il-counter-spacer\">42</span>" .
-                    "</a>";
+        $expected = '<a class="glyph" aria-label="' . $aria_label . '">' .
+                    '<span class="' . $css_classes . '" aria-hidden="true"></span>' .
+                    '<span class="il-counter"><span class="badge badge-notify il-counter-status">7</span></span>' .
+                    '<span class="il-counter"><span class="badge badge-notify il-counter-novelty">42</span></span>' .
+                    '<span class="il-counter-spacer">42</span>' .
+                    '</a>';
         $this->assertHTMLEquals($expected, $html);
     }
 
@@ -469,15 +440,12 @@ class GlyphTest extends ILIAS_UI_TestBase
         $r->render($f->status(0), $this->getDefaultRenderer());
     }
 
-    /**
-     * @dataProvider getGlyphTypeProvider
-     */
-    public function testRenderWithOnLoadCode(string $type): void
+    #[DataProvider('getGlyphTypeProvider')] public function testRenderWithOnLoadCode(string $type): void
     {
         $f = $this->getGlyphFactory();
         $r = $this->getDefaultRenderer();
         $ids = array();
-        $c = $f->$type("http://www.ilias.de")
+        $c = $f->$type()
                 ->withOnLoadCode(function ($id) use (&$ids): string {
                     $ids[] = $id;
                     return "";
@@ -491,70 +459,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         $aria_label = self::$aria_labels[$type];
 
         $id = $ids[0];
-        $expected = "<a tabindex=\"0\" class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\" id=\"$id\"><span class=\"$css_classes\" aria-hidden=\"true\"></span></a>";
-        $this->assertEquals($expected, $html);
-    }
-
-    /**
-     * @dataProvider getGlyphTypeProvider
-     */
-    public function testRenderWithAction(string $type): void
-    {
-        $f = $this->getGlyphFactory();
-        $r = $this->getDefaultRenderer();
-        $c = $f->$type("http://www.ilias.de");
-        $c = $c->withAction("http://www.ilias.de/open-source-lms-ilias/");
-
-        $html = $this->normalizeHTML($r->render($c));
-
-        $css_classes = self::$canonical_css_classes[$type];
-        $aria_label = self::$aria_labels[$type];
-
-        $expected = "<a tabindex=\"0\" class=\"glyph\" href=\"http://www.ilias.de/open-source-lms-ilias/\" aria-label=\"$aria_label\"><span class=\"$css_classes\" aria-hidden=\"true\"></span></a>";
-        $this->assertEquals($expected, $html);
-    }
-
-    public function testIsTabbable(): void
-    {
-        $f = $this->getGlyphFactory();
-        $r = $this->getDefaultRenderer();
-
-        // Glyph without Action or Signal
-        $c = $f->user();
-        $this->assertFalse($c->isTabbable());
-
-        // Glyph with Action
-        $c = $f->user()->withAction("#");
-        $this->assertTrue($c->isTabbable());
-
-        // Glyph with Signal
-        $c = $f->user()->withOnClick(new I\Signal("id_1", "click"));
-        $this->assertTrue($c->isTabbable());
-
-        // Glyph with Action and Signal
-        $c = $f->user()->withAction("#")->withOnClick(new I\Signal("id_1", "click"));
-        $this->assertTrue($c->isTabbable());
-
-        // Glyph with Action and Signal but Inactive
-        $c = $f->user()->withAction("#")->withOnClick(new I\Signal("id_1", "click"))->withUnavailableAction();
-        $this->assertFalse($c->isTabbable());
-    }
-
-    public function testTabbableGlyphRender(): void
-    {
-        $f = $this->getGlyphFactory();
-        $r = $this->getDefaultRenderer();
-
-        // Glyph without Action or Signal (not Tabbable)
-        $c = $f->user();
-        $expected = '<a class="glyph" aria-label="show_who_is_online"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>';
-        $html = $this->normalizeHTML($r->render($c));
-        $this->assertEquals($expected, $html);
-
-        // Glyph with Action (Tabbable)
-        $c = $f->user()->withAction("#");
-        $expected = '<a tabindex="0" class="glyph" href="#" aria-label="show_who_is_online"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>';
-        $html = $this->normalizeHTML($r->render($c));
+        $expected = '<a class="glyph" aria-label="' . $aria_label . '" id="' . $id . '"><span class="' . $css_classes . '" aria-hidden="true"></span></a>';
         $this->assertEquals($expected, $html);
     }
 }
