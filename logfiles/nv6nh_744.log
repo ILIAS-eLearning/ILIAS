@@ -1,0 +1,108 @@
+ilCtrlException thrown with message "ilCtrl::callBaseClass was not given a baseclass and the request doesn't include one either."
+
+Stacktrace:
+#1 ilCtrlException in /srv/www/html/php81/ilias9/Services/UICore/classes/class.ilCtrl.php:78
+#0 ilCtrl:callBaseClass in /srv/www/html/php81/ilias9/ilias.php:24
+
+
+-- GET Data --
+
+ILIAS\Refinery\KeyValueAccessraw_values: Array
+                         (
+                             [limit] => 10
+                         )
+                         
+ILIAS\Refinery\KeyValueAccesstrafo: ILIAS\Refinery\KindlyTo\Transformation\StringTransformation Object
+                         (
+                         )
+                         
+ILIAS\HTTP\Wrapper\SuperGlobalDropInReplacementthrowOnValueAssignment: 
+
+
+-- POST Data --
+
+ILIAS\Refinery\KeyValueAccessraw_values: Array
+                         (
+                         )
+                         
+ILIAS\Refinery\KeyValueAccesstrafo: ILIAS\Refinery\KindlyTo\Transformation\StringTransformation Object
+                         (
+                         )
+                         
+ILIAS\HTTP\Wrapper\SuperGlobalDropInReplacementthrowOnValueAssignment: 
+
+
+-- Files --
+
+empty
+
+
+-- Cookies --
+
+ILIAS\Refinery\KeyValueAccessraw_values: Array
+                         (
+                             [PHPSESSID] => nv6nh (SHORTENED FOR SECURITY)
+                             [ilClientId] => ilias9
+                         )
+                         
+ILIAS\Refinery\KeyValueAccesstrafo: ILIAS\Refinery\KindlyTo\Transformation\StringTransformation Object
+                         (
+                         )
+                         
+ILIAS\HTTP\Wrapper\SuperGlobalDropInReplacementthrowOnValueAssignment: 
+
+
+-- Session --
+
+_authsession_expired     : 1
+lang                     : en
+tbl_limit                : 10
+
+
+-- Server/Request Data --
+
+USER                     : www-data
+HOME                     : /var/www
+HTTP_COOKIE              : PHPSESSID=nv6nh (SHORTENED FOR SECURITY); ilClientId=ilias9
+HTTP_TE                  : trailers
+HTTP_PRIORITY            : u=0, i
+HTTP_SEC_FETCH_USER      : ?1
+HTTP_SEC_FETCH_SITE      : none
+HTTP_SEC_FETCH_MODE      : navigate
+HTTP_SEC_FETCH_DEST      : document
+HTTP_UPGRADE_INSECURE_REQUESTS: 1
+HTTP_ACCEPT_ENCODING     : gzip, deflate, br, zstd
+HTTP_ACCEPT_LANGUAGE     : de,en-US;q=0.7,en;q=0.3
+HTTP_ACCEPT              : text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+HTTP_USER_AGENT          : Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:138.0) Gecko/20100101 Firefox/138.0
+HTTP_HOST                : ddahme.qualitus.net
+REDIRECT_STATUS          : 200
+SERVER_NAME              : ddahme.qualitus.net
+SERVER_PORT              : 443
+SERVER_ADDR              : 168.119.105.149
+REMOTE_PORT              : 53271
+REMOTE_ADDR              : 151.12.29.138
+SERVER_SOFTWARE          : nginx/1.18.0
+GATEWAY_INTERFACE        : CGI/1.1
+HTTPS                    : on
+REQUEST_SCHEME           : https
+SERVER_PROTOCOL          : HTTP/2.0
+DOCUMENT_ROOT            : /srv/www/html
+DOCUMENT_URI             : /php81/ilias9/ilias.php
+REQUEST_URI              : /php81/ilias9/ilias.php
+SCRIPT_NAME              : /php81/ilias9/ilias.php
+CONTENT_LENGTH           : 
+CONTENT_TYPE             : 
+REQUEST_METHOD           : GET
+QUERY_STRING             : 
+SCRIPT_FILENAME          : /srv/www/html/php81/ilias9/ilias.php
+PATH_INFO                : 
+FCGI_ROLE                : RESPONDER
+PHP_SELF                 : /php81/ilias9/ilias.php
+REQUEST_TIME_FLOAT       : 1746423354.5052
+REQUEST_TIME             : 1746423354
+
+
+-- Environment Variables --
+
+empty

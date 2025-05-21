@@ -1,0 +1,159 @@
+PDOException thrown with message "SQLSTATE[42S22]: Column not found: 1054 Unknown column 'object_reference.ref_id' in 'WHERE'"
+
+Stacktrace:
+#28 PDOException in /srv/www/html/php81/ilias9/Customizing/global/plugins/Services/Cron/CronHook/Igor2Base/classes/src/adapter/qu_MyIliasPDO.php:28
+#27 PDO:query in /srv/www/html/php81/ilias9/Customizing/global/plugins/Services/Cron/CronHook/Igor2Base/classes/src/adapter/qu_MyIliasPDO.php:28
+#26 qu_MyIliasPDO:query in /srv/www/html/php81/ilias9/Customizing/global/plugins/Services/Cron/CronHook/Igor2Base/classes/src/sql/SQLHandler.php:531
+#25 qu\igor2\sql\SQLHandler:getCountFromQuery in /srv/www/html/php81/ilias9/Customizing/global/plugins/Services/Cron/CronHook/Igor2Base/classes/src/renderer/elements/BreadcrumbRenderer.php:57
+#24 qu\igor2\renderer\elements\BreadcrumbRenderer:renderExcelLink in /srv/www/html/php81/ilias9/Customizing/global/plugins/Services/Cron/CronHook/Igor2Base/classes/src/renderer/elements/BreadcrumbRenderer.php:27
+#23 qu\igor2\renderer\elements\BreadcrumbRenderer:render in /srv/www/html/php81/ilias9/Customizing/global/plugins/Services/Cron/CronHook/Igor2Base/classes/src/renderer/container/ElementContainer.php:23
+#22 qu\igor2\renderer\container\ElementContainer:render in /srv/www/html/php81/ilias9/Customizing/global/plugins/Services/Cron/CronHook/Igor2Base/classes/src/renderer/container/MainContainer.php:13
+#21 qu\igor2\renderer\container\MainContainer:render in /srv/www/html/php81/ilias9/Customizing/global/plugins/Services/Cron/CronHook/Igor2Base/classes/src/renderer/container/ElementContainer.php:23
+#20 qu\igor2\renderer\container\ElementContainer:render in /srv/www/html/php81/ilias9/Customizing/global/plugins/Services/Cron/CronHook/Igor2Base/classes/src/renderer/container/ReportContainer.php:13
+#19 qu\igor2\renderer\container\ReportContainer:render in /srv/www/html/php81/ilias9/Customizing/global/plugins/Services/Cron/CronHook/Igor2Base/classes/src/renderer/container/ElementContainer.php:23
+#18 qu\igor2\renderer\container\ElementContainer:render in /srv/www/html/php81/ilias9/Customizing/global/plugins/Services/Cron/CronHook/Igor2Base/classes/igor2/ilIgor2ReportTemplatePluginGUI.php:551
+#17 ilIgor2ReportTemplatePluginGUI:getElementHTML in /srv/www/html/php81/ilias9/Services/COPage/PC/Plugged/class.ilPCPlugged.php:324
+#16 ilPCPlugged:modifyPageContentPostXsl in /srv/www/html/php81/ilias9/Services/COPage/classes/class.ilPageObjectGUI.php:1624
+#15 ilPageObjectGUI:showPage in /srv/www/html/php81/ilias9/Services/Container/classes/class.ilContainerGUI.php:324
+#14 ilContainerGUI:getContainerPageHTML in /srv/www/html/php81/ilias9/Services/Container/Content/class.ilContainerRenderer.php:821
+#13 ilContainerRenderer:renderContainerPage in /srv/www/html/php81/ilias9/Services/Container/Content/class.ilContainerRenderer.php:843
+#12 ilContainerRenderer:renderItemBlockSequence in /srv/www/html/php81/ilias9/Services/Container/Content/ByTypeView/class.ilContainerByTypeContentGUI.php:29
+#11 ilContainerByTypeContentGUI:renderItemList in /srv/www/html/php81/ilias9/Services/Container/Content/class.ilContainerContentGUI.php:283
+#10 ilContainerContentGUI:getMainContent in /srv/www/html/php81/ilias9/Services/Container/Content/class.ilContainerContentGUI.php:255
+#9 ilContainerContentGUI:getCenterColumnHTML in /srv/www/html/php81/ilias9/Services/Container/Content/class.ilContainerContentGUI.php:172
+#8 ilContainerContentGUI:setOutput in /srv/www/html/php81/ilias9/Services/Container/classes/class.ilContainerGUI.php:424
+#7 ilContainerGUI:renderObject in /srv/www/html/php81/ilias9/Modules/RootFolder/classes/class.ilObjRootFolderGUI.php:202
+#6 ilObjRootFolderGUI:renderObject in /srv/www/html/php81/ilias9/Modules/RootFolder/classes/class.ilObjRootFolderGUI.php:185
+#5 ilObjRootFolderGUI:executeCommand in /srv/www/html/php81/ilias9/Services/UICore/classes/class.ilCtrl.php:119
+#4 ilCtrl:forwardCommand in /srv/www/html/php81/ilias9/Services/Repository/classes/class.ilRepositoryGUI.php:243
+#3 ilRepositoryGUI:show in /srv/www/html/php81/ilias9/Services/Repository/classes/class.ilRepositoryGUI.php:223
+#2 ilRepositoryGUI:executeCommand in /srv/www/html/php81/ilias9/Services/UICore/classes/class.ilCtrl.php:119
+#1 ilCtrl:forwardCommand in /srv/www/html/php81/ilias9/Services/UICore/classes/class.ilCtrl.php:92
+#0 ilCtrl:callBaseClass in /srv/www/html/php81/ilias9/ilias.php:24
+
+
+-- GET Data --
+
+ILIAS\Refinery\KeyValueAccessraw_values: Array
+                         (
+                             [baseClass] => ilrepositorygui
+                             [cmdNode] => xw:pw
+                             [cmdClass] => ilobjrootfoldergui
+                             [ref_id] => 1
+                             [qudw_search] => 
+                             [qudw_searchTree] => 
+                             [qudwPAGESIZE] => 100
+                             [qudwSQL] => lotto-lerner
+                             [limit] => 50
+                         )
+                         
+ILIAS\Refinery\KeyValueAccesstrafo: ILIAS\Refinery\KindlyTo\Transformation\StringTransformation Object
+                         (
+                         )
+                         
+ILIAS\HTTP\Wrapper\SuperGlobalDropInReplacementthrowOnValueAssignment: 
+
+
+-- POST Data --
+
+ILIAS\Refinery\KeyValueAccessraw_values: Array
+                         (
+                         )
+                         
+ILIAS\Refinery\KeyValueAccesstrafo: ILIAS\Refinery\KindlyTo\Transformation\StringTransformation Object
+                         (
+                         )
+                         
+ILIAS\HTTP\Wrapper\SuperGlobalDropInReplacementthrowOnValueAssignment: 
+
+
+-- Files --
+
+empty
+
+
+-- Cookies --
+
+ILIAS\Refinery\KeyValueAccessraw_values: Array
+                         (
+                             [PHPSESSID] => o46mn (SHORTENED FOR SECURITY)
+                             [ilClientId] => ilias9
+                             [0:6] => {"level_id":"0"}
+                             [-1912979136] => {"any_entry_engaged":false,"tools_engaged":false,"more_available":false,"entries":{"0:0":[0,0,0],"0:1":[0,0,0],"0:2":[0,0,0],"0:2:1":[0,0,0],"0:2:2":[0,0,0],"0:3":[0,0,0],"0:3:0":[0,0,0],"0:4":[0,0,0],"0:5":[0,0,0],"0:6":[0,0,0],"0:7":[0,0,1]},"tools":{},"known_tools":[],"last_active_top":null}
+                             [il_mb_slates] => {"engaged":false}
+                         )
+                         
+ILIAS\Refinery\KeyValueAccesstrafo: ILIAS\Refinery\KindlyTo\Transformation\StringTransformation Object
+                         (
+                         )
+                         
+ILIAS\HTTP\Wrapper\SuperGlobalDropInReplacementthrowOnValueAssignment: 
+
+
+-- Session --
+
+_authsession_expired     : 0
+_authsession_authenticated: 1
+_authsession_user_id     : 6
+rtoken                   : O:11:"ilCtrlToken":1:{s:18:"ilCtrlTokentoken";s:64:"e3134593cc6ad327424aebff196d52352f09c59a28f91be4edcfa66ccf1c35de";}
+tbl_limit                : 50
+SessionType              : 2
+orig_request_target      : 
+ILIAS\Init\StartupSequence\StartUpSequenceDispatcher_passed: 1
+block_pdtasks_0_blnav    : 
+block_pdmail_0_blnav     : 
+awrn_last_update         : 1746790798
+awrn_cnt                 : 0
+awrn_hcnt                : 0
+il_nav_history           : a:2:{s:3:"86:";a:7:{s:2:"id";s:3:"86:";s:6:"ref_id";i:86;s:4:"link";s:56:"https://ddahme.qualitus.net/php81/ilias9/goto.php/cat/86";s:5:"title";s:11:"Igor2Report";s:4:"type";s:3:"cat";s:10:"sub_obj_id";s:0:"";s:9:"goto_link";s:0:"";}s:3:"85:";a:7:{s:2:"id";s:3:"85:";s:6:"ref_id";i:85;s:4:"link";s:56:"https://ddahme.qualitus.net/php81/ilias9/goto.php/cat/85";s:5:"title";s:10:"Igor2Query";s:4:"type";s:3:"cat";s:10:"sub_obj_id";s:0:"";s:9:"goto_link";s:0:"";}}
+lang                     : en
+
+
+-- Server/Request Data --
+
+USER                     : www-data
+HOME                     : /var/www
+HTTP_COOKIE              : PHPSESSID=o46mn (SHORTENED FOR SECURITY); ilClientId=ilias9; 0:6={"level_id":"0"}; -1912979136={"any_entry_engaged":false,"tools_engaged":false,"more_available":false,"entries":{"0:0":[0,0,0],"0:1":[0,0,0],"0:2":[0,0,0],"0:2:1":[0,0,0],"0:2:2":[0,0,0],"0:3":[0,0,0],"0:3:0":[0,0,0],"0:4":[0,0,0],"0:5":[0,0,0],"0:6":[0,0,0],"0:7":[0,0,1]},"tools":{},"known_tools":[],"last_active_top":null}; il_mb_slates={"engaged":false}
+HTTP_TE                  : trailers
+HTTP_PRIORITY            : u=0, i
+HTTP_SEC_FETCH_USER      : ?1
+HTTP_SEC_FETCH_SITE      : same-origin
+HTTP_SEC_FETCH_MODE      : navigate
+HTTP_SEC_FETCH_DEST      : document
+HTTP_UPGRADE_INSECURE_REQUESTS: 1
+HTTP_REFERER             : https://ddahme.qualitus.net/
+HTTP_ACCEPT_ENCODING     : gzip, deflate, br, zstd
+HTTP_ACCEPT_LANGUAGE     : de,en-US;q=0.7,en;q=0.3
+HTTP_ACCEPT              : text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+HTTP_USER_AGENT          : Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:138.0) Gecko/20100101 Firefox/138.0
+HTTP_HOST                : ddahme.qualitus.net
+REDIRECT_STATUS          : 200
+SERVER_NAME              : ddahme.qualitus.net
+SERVER_PORT              : 443
+SERVER_ADDR              : 168.119.105.149
+REMOTE_PORT              : 65076
+REMOTE_ADDR              : 87.188.166.130
+SERVER_SOFTWARE          : nginx/1.18.0
+GATEWAY_INTERFACE        : CGI/1.1
+HTTPS                    : on
+REQUEST_SCHEME           : https
+SERVER_PROTOCOL          : HTTP/2.0
+DOCUMENT_ROOT            : /srv/www/html
+DOCUMENT_URI             : /php81/ilias9/ilias.php
+REQUEST_URI              : /php81/ilias9/ilias.php?baseClass=ilrepositorygui&cmdNode=xw:pw&cmdClass=ilobjrootfoldergui&ref_id=1&qudw_search=&qudw_searchTree=&qudwPAGESIZE=100&qudwSQL=lotto-scorm&qudwSQL=lotto-lerner
+SCRIPT_NAME              : /php81/ilias9/ilias.php
+CONTENT_LENGTH           : 
+CONTENT_TYPE             : 
+REQUEST_METHOD           : GET
+QUERY_STRING             : baseClass=ilrepositorygui&cmdNode=xw:pw&cmdClass=ilobjrootfoldergui&ref_id=1&qudw_search=&qudw_searchTree=&qudwPAGESIZE=100&qudwSQL=lotto-scorm&qudwSQL=lotto-lerner
+SCRIPT_FILENAME          : /srv/www/html/php81/ilias9/ilias.php
+PATH_INFO                : 
+FCGI_ROLE                : RESPONDER
+PHP_SELF                 : /php81/ilias9/ilias.php
+REQUEST_TIME_FLOAT       : 1746790815.7283
+REQUEST_TIME             : 1746790815
+
+
+-- Environment Variables --
+
+empty
