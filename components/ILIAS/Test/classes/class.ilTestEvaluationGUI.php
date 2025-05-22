@@ -762,7 +762,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             );
         }
 
-        $this->object->updateTestResultCache((int) $active_fi);
+        $this->test_result_repository->updateTestResultCache((int) $active_fi);
 
         $this->redirectToPassDeletionContext($context);
     }

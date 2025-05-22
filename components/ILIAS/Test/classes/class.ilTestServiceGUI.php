@@ -96,7 +96,7 @@ class ilTestServiceGUI
     protected ?ilTestSessionFactory $test_session_factory = null;
     protected ?ilTestSequenceFactory $test_sequence_factory = null;
     protected ?ilTestParticipantData $participantData = null;
-    protected TestResultRepository $test_pass_result_repository;
+    protected TestResultRepository $test_result_repository;
 
     protected ilTestParticipantAccessFilterFactory $participant_access_filter;
 
@@ -160,7 +160,7 @@ class ilTestServiceGUI
         $this->results_presentation_factory = $local_dic['results.presentation.factory'];
         $this->questionrepository = $local_dic['question.general_properties.repository'];
         $this->testquestionsrepository = $local_dic['questions.properties.repository'];
-        $this->test_pass_result_repository = $local_dic['results.data.repository'];
+        $this->test_result_repository = $local_dic['results.data.repository'];
 
         $this->service = new ilTestService($this->object, $this->db, $this->questionrepository);
 
@@ -644,11 +644,8 @@ class ilTestServiceGUI
 
     protected function getGradingMessageBuilder(int $active_id): ilTestGradingMessageBuilder
     {
-        $gradingMessageBuilder = new ilTestGradingMessageBuilder($this->lng, $this->tpl, $this->object);
-
-        $gradingMessageBuilder->setActiveId($active_id);
-
-        return $gradingMessageBuilder;
+        $resultData = $this->test_result_repository->getTestResult($active_id);
+        return new ilTestGradingMessageBuilder($this->lng, $this->tpl, $this->object, $resultData);
     }
 
     protected function buildQuestionRelatedObjectivesList(

@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Test\Scoring\Manual\TestScoring;
+use ILIAS\Test\Results\Data\Repository as TestResultRepository;
 
 /**
  * Class TestScoringTest
@@ -36,7 +37,7 @@ class TestScoringTest extends ilTestBaseTestCase
             $this->getTestObjMock(),
             $this->createMock(ilObjUser::class),
             $this->createMock(ilDBInterface::class),
-            $this->createMock(ilLanguage::class)
+            $this->createMock(TestResultRepository::class)
         );
     }
 

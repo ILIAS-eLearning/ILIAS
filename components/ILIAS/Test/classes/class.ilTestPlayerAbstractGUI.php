@@ -739,7 +739,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $shuffle = false;
         }
 
-        $this->object->updateTestPassResults(
+        $this->test_result_repository->updateTestAttemptResult(
             $active_id,
             $this->test_session->getPass(),
             null,
@@ -1010,9 +1010,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         (new ilTestPassFinishTasks(
             $this->test_session,
             $this->object,
-            $this->test_pass_result_repository
+            $this->test_result_repository
         ))->performFinishTasks($this->process_locker, $status_of_attempt);
-        $this->object->updateTestResultCache($this->test_session->getActiveId(), null);
+        $this->test_result_repository->updateTestResultCache($this->test_session->getActiveId(), null);
 
         $this->sendNewPassFinishedNotificationEmailIfActivated(
             $this->test_session->getActiveId(),
@@ -1640,7 +1640,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $shuffle = false; // shuffle is already done during the creation of the random questions
         }
 
-        $this->object->updateTestPassResults(
+        $this->test_result_repository->updateTestAttemptResult(
             $active_id,
             $this->test_session->getPass(),
             null,

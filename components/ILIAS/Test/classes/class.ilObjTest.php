@@ -4977,7 +4977,7 @@ class ilObjTest extends ilObject
             }
 
             if ($this->isBlockPassesAfterPassedEnabled() && !$testPassesSelector->openPassExists()) {
-                if (ilObjTestAccess::_isPassed($user_id, $this->getId())) {
+                if ($this->test_result_repository->isPassed($user_id, $this->getId())) {
                     $result['executable'] = false;
                     $result['errormessage'] = $this->lng->txt("tst_addit_passes_blocked_after_passed_msg");
                     return $result;
@@ -6385,26 +6385,6 @@ class ilObjTest extends ilObject
     }
 
     /**
-     * @deprecated 11, will be removed in 12, use TestResultManager instead
-     */
-    public function getPassed($active_id)
-    {
-        $result = $this->db->queryF(
-            "SELECT passed FROM tst_result_cache WHERE active_fi = %s",
-            ['integer'],
-            [$active_id]
-        );
-        if ($result->numRows()) {
-            $row = $this->db->fetchAssoc($result);
-            return $row['passed'];
-        } else {
-            $counted_pass = ilObjTest::_getResultPass($active_id);
-            $result_array = &$this->getTestResult($active_id, $counted_pass);
-            return $result_array["test"]["passed"];
-        }
-    }
-
-    /**
      * Creates an associated array with all active id's for a given test and original question id
      */
     public function getParticipantsForTestAndQuestion($test_id, $question_id): array
@@ -6563,44 +6543,6 @@ class ilObjTest extends ilObject
             unset($fd);
             @unlink($path);
         }
-    }
-
-    /**
-     * @deprecated 11, use TestResultManager::getTestResult instead
-     */
-    public function getResultsForActiveId(int $active_id): array
-    {
-        $query = "
-			SELECT		*
-			FROM		tst_result_cache
-			WHERE		active_fi = %s
-		";
-
-        $result = $this->db->queryF(
-            $query,
-            ['integer'],
-            [$active_id]
-        );
-
-        if (!$result->numRows()) {
-            $this->updateTestResultCache($active_id);
-
-            $query = "
-				SELECT		*
-				FROM		tst_result_cache
-				WHERE		active_fi = %s
-			";
-
-            $result = $this->db->queryF(
-                $query,
-                ['integer'],
-                [$active_id]
-            );
-        }
-
-        $row = $this->db->fetchAssoc($result);
-
-        return $row;
     }
 
     public function getMailNotificationType(): bool
@@ -7368,26 +7310,6 @@ class ilObjTest extends ilObject
             $this->score_settings_repo = new ScoreSettingsDatabaseRepository($this->db);
         }
         return $this->score_settings_repo;
-    }
-
-    /**
-     * @depracated 11, will be removed in 12, no need to call it manually
-     */
-    public function updateTestResultCache(int $active_id, ?ilAssQuestionProcessLocker $process_locker = null): void
-    {
-        $this->test_result_repository->updateTestResultCache($active_id, $process_locker);
-    }
-
-    /**
-     * @depracated 11, will be removed in 12, use TestResultManager::updateTestPassResults instead
-     */
-    public function updateTestPassResults(
-        int $active_id,
-        int $pass,
-        ?ilAssQuestionProcessLocker $process_locker = null,
-        ?int $test_obj_id = null
-    ): void {
-        $this->test_result_repository->updateTestAttemptResult($active_id, $pass, $process_locker, $test_obj_id);
     }
 
     public function addToNewsOnOnline(

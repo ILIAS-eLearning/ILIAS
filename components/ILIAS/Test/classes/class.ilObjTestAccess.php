@@ -52,7 +52,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 
     private static ?ilCertificateObjectsForUserPreloader $certificate_preloader = null;
     private static array $settings_result_summaries_by_obj_id = [];
-    private static Repository $test_result_repository;
 
     public function __construct()
     {
@@ -63,9 +62,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         $this->lng = $DIC['lng'];
         $this->rbac_system = $DIC['rbacsystem'];
         $this->access = $DIC['ilAccess'];
-
-        $local_dic = TestDIC::dic();
-        self::$test_result_repository = $local_dic['results.data.repository'];
     }
 
     public function canBeDelivered(ilWACPath $ilWACPath): bool
@@ -106,7 +102,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         switch ($permission) {
             case "visible":
             case "read":
-                if (!ilObjTestAccess::_lookupCreationComplete($obj_id) &&
+                if (!ilObjTestAccess::lookupCreationComplete($obj_id) &&
                     !$is_admin) {
                     $this->access->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $this->lng->txt("tst_warning_test_not_complete"));
                     return false;
@@ -116,7 +112,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 
         switch ($cmd) {
             case "eval_stat":
-                if (!ilObjTestAccess::_lookupCreationComplete($obj_id)) {
+                if (!ilObjTestAccess::lookupCreationComplete($obj_id)) {
                     $this->access->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $this->lng->txt("tst_warning_test_not_complete"));
                     return false;
                 }
@@ -125,69 +121,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 
         return true;
     }
-
-    /**
-     * Returns TRUE if the user with the user id $user_id passed the test with the object id $a_obj_id
-     *
-     * @param int $user_id The user id
-     * @param int $a_obj_id The object id
-     * @return boolean TRUE if the user passed the test, FALSE otherwise
-     *
-     * @depracated 11, will be removed in 12, use TestResultManager::isPassed instead
-     */
-    public static function _isPassed(int $user_id, int $a_obj_id): bool
-    {
-        return self::$test_result_repository->isPassed($user_id, $a_obj_id);
-    }
-
-    /**
-     * Returns TRUE if the user with the user id $user_id failed the test with the object id $a_obj_id
-     *
-     * @param int $user_id The user id
-     * @param int $a_obj_id The object id
-     * @return boolean TRUE if the user failed the test, FALSE otherwise
-     *
-     * @depracated 11, will be removed in 12, use TestResultManager::isFailed instead
-     */
-    public static function isFailed(int $user_id, int $a_obj_id): bool
-    {
-        return self::$test_result_repository->isFailed($user_id, $a_obj_id);
-    }
-
-    /**
-     * @depracated 11, will be removed in 12, use TestResultManager::updateTestResultCache instead
-     */
-    protected static function updateTestResultCache(int $a_user_id, int $a_obj_id): bool
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $result = $ilDB->queryF(
-            "SELECT tst_result_cache.* FROM tst_result_cache, tst_active, tst_tests " .
-            "WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s " .
-            "AND tst_tests.obj_fi = %s AND tst_result_cache.active_fi = tst_active.active_id",
-            ['integer', 'integer'],
-            [$a_user_id, $a_obj_id]
-        );
-        if (!$result->numRows()) {
-            $result = $ilDB->queryF(
-                "SELECT tst_active.active_id FROM tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s",
-                ['integer', 'integer'],
-                [$a_user_id, $a_obj_id]
-            );
-            $row = $ilDB->fetchAssoc($result);
-            if ($row !== null && $row['active_id'] > 0) {
-                $test = new ilObjTest($a_obj_id, false);
-                $test->updateTestResultCache($row['active_id']);
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return true;
-        }
-    }
-
 
     /**
      * Get possible conditions operators
@@ -210,24 +143,25 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
      */
     public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id): bool
     {
+        /** @var Repository $test_result_repository */
+        $test_result_repository = TestDIC::dic()['results.data.repository'];
+
         switch ($a_operator) {
             case ilConditionHandler::OPERATOR_PASSED:
-                return ilObjTestAccess::_isPassed($a_usr_id, $a_trigger_obj_id);
-                break;
+                return $test_result_repository->isPassed($a_usr_id, $a_trigger_obj_id);
 
             case ilConditionHandler::OPERATOR_FAILED:
-                return ilObjTestAccess::isFailed($a_usr_id, $a_trigger_obj_id);
+                return $test_result_repository->isFailed($a_usr_id, $a_trigger_obj_id);
 
             case ilConditionHandler::OPERATOR_FINISHED:
-                return ilObjTestAccess::hasFinished($a_usr_id, $a_trigger_obj_id);
+                return $test_result_repository->hasFinished($a_usr_id, $a_trigger_obj_id);
 
             case ilConditionHandler::OPERATOR_NOT_FINISHED:
-                return !ilObjTestAccess::hasFinished($a_usr_id, $a_trigger_obj_id);
+                return !$test_result_repository->hasFinished($a_usr_id, $a_trigger_obj_id);
 
             default:
                 return true;
         }
-        return true;
     }
 
     public static function _getCommands(): array
@@ -246,16 +180,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
     // object specific access related methods
     //
 
-    /**
-     * checks wether all necessary parts of the test are given
-     *
-     * @depracated
-     */
-    public static function _lookupCreationComplete(int $a_obj_id): bool
-    {
-        return self::lookupCreationComplete($a_obj_id);
-    }
-
     private static function lookupCreationComplete(int $a_obj_id): bool
     {
         global $DIC;
@@ -266,27 +190,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
             [$a_obj_id]
         );
         return $result->numRows() > 0 && (bool) $db->fetchAssoc($result)['complete'];
-    }
-
-    /**
-     * Request Cache for hasFinished Information
-     *
-     * @var array
-     */
-    private static array $has_finished_cache = [];
-
-    /**
-     * Returns (request cached) information if a specific user has finished at least one test pass
-     *
-     * @param integer $a_user_id obj_id of the user
-     * @param integer $a_obj_id obj_id of the test
-     * @return bool
-     *
-     * @depracated 11, will be removed in 12, use TestResultManager::hasFinished instead
-     */
-    public static function hasFinished(int $a_user_id, int $a_obj_id): bool
-    {
-        return self::$test_result_repository->hasFinished($a_user_id, $a_obj_id);
     }
 
     /**
@@ -412,28 +315,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         );
         $row = $ilDB->fetchAssoc($result);
         return $row['user_fi'];
-    }
-
-
-    /**
-     * Returns an array containing the users who passed the test
-     *
-     * @return array An array containing the users who passed the test.
-     *         Format of the values of the resulting array:
-     *           [
-     *             "user_id"        => user ID,
-     *             "max_points"     => maximum available points in the test
-     *             "reached_points" => maximum reached points of the user
-     *             "mark_short"     => short text of the passed mark
-     *             "mark_official"  => official text of the passed mark
-     *           ]
-     * @access public
-     *
-     * @depracated 11, will be removed in 12, use TestResultManager::getPassedParticipants instead
-     */
-    public static function _getPassedUsers(int $a_obj_id): array
-    {
-        return self::$test_result_repository->getPassedParticipants($a_obj_id);
     }
 
     /**

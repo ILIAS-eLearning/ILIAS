@@ -79,7 +79,7 @@ class Repository
             [$active_id]
         );
 
-        return self::toTestResult($this->db->fetchAssoc($result));
+        return $this->toTestResult($this->db->fetchAssoc($result));
     }
 
     public function updateTestResultCache(int $active_id, ?\ilAssQuestionProcessLocker $process_locker = null): ?ParticipantResult
@@ -137,7 +137,7 @@ class Repository
             [\ilDBConstants::T_INTEGER],
             [$active_id]
         );
-        return self::toTestAttemptResult($this->db->fetchAssoc($result));
+        return $this->toTestAttemptResult($this->db->fetchAssoc($result));
     }
 
     public function updateTestAttemptResult(

@@ -33,19 +33,13 @@ class ilTestGradingMessageBuilderTest extends ilTestBaseTestCase
         $this->testObj = new ilTestGradingMessageBuilder(
             $this->createMock(ilLanguage::class),
             $this->createMock(ilGlobalTemplate::class),
-            $this->getTestObjMock()
+            $this->getTestObjMock(),
+            $this->createMock(\ILIAS\Test\Results\Data\ParticipantResult::class),
         );
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestGradingMessageBuilder::class, $this->testObj);
-    }
-
-    public function testActiveId(): void
-    {
-        $activeId = 2120;
-        $this->testObj->setActiveId($activeId);
-        $this->assertEquals($activeId, $this->testObj->getActiveId());
     }
 }

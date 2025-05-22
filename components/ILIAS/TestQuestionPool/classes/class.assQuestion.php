@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Results\Data\Repository as TestResultRepository;
+use ILIAS\Test\TestDIC;
 use ILIAS\TestQuestionPool\Questions\QuestionPartiallySaveable;
 use ILIAS\TestQuestionPool\Questions\Question;
 use ILIAS\TestQuestionPool\Questions\SuggestedSolution\SuggestedSolution;
@@ -84,6 +86,7 @@ abstract class assQuestion implements Question
     protected \ilAssQuestionLifecycle $lifecycle;
     public \ilAssQuestionFeedback $feedbackOBJ;
     protected \ilAssQuestionPage $page;
+    protected TestResultRepository $test_result_repository;
 
     protected int $id;
     protected string $title;
@@ -161,6 +164,8 @@ abstract class assQuestion implements Question
         $this->shuffler = $DIC->refinery()->random()->dontShuffle();
         $this->lifecycle = ilAssQuestionLifecycle::getDraftInstance();
         $this->skillUsageService = $DIC->skills()->usage();
+
+        $this->test_result_repository = TestDIC::dic()['results.data.repository'];
     }
 
     abstract public function getQuestionType(): string;
@@ -607,12 +612,7 @@ abstract class assQuestion implements Question
             }
         );
 
-        // update test pass results
-        $test = new ilObjTest(
-            $this->getObjId(),
-            false
-        );
-        $test->updateTestPassResults($active_id, $pass, $this->getProcessLocker());
+        $this->test_result_repository->updateTestAttemptResult($active_id, $pass, $this->getProcessLocker());
         ilCourseObjectiveResult::_updateObjectiveResult($this->current_user->getId(), $active_id, $this->getId());
     }
 
@@ -1920,16 +1920,9 @@ abstract class assQuestion implements Question
             return;
         }
 
-        $test_obj_id = $question_properties_repository->getForQuestionId($question_id)
-            ->getParentObjectId();
-        if ($test_obj_id === null) {
-            return;
-        }
-        $test = new ilObjTest(
-            $test_obj_id,
-            false
-        );
-        $test->updateTestPassResults($active_id, $pass);
+        /** @var TestResultRepository $test_result_repository */
+        $test_result_repository = TestDIC::dic()['results.data.repository'];
+        $test_result_repository->updateTestAttemptResult($active_id, $pass);
         ilCourseObjectiveResult::_updateObjectiveResult(ilObjTest::_getUserIdFromActiveId($active_id), $active_id, $question_id);
     }
 
@@ -2778,17 +2771,7 @@ abstract class assQuestion implements Question
     {
         $this->removeExistingSolutions($activeId, $pass);
         $this->removeResultRecord($activeId, $pass);
-
-        $test = new ilObjTest(
-            $this->test_id,
-            false
-        );
-        $test->updateTestPassResults(
-            $activeId,
-            $pass,
-            $this->getProcessLocker(),
-            $this->getTestId()
-        );
+        $this->test_result_repository->updateTestAttemptResult($activeId, $pass, $this->getProcessLocker(), $this->getTestId());
     }
 
     public function removeResultRecord(int $activeId, int $pass): int

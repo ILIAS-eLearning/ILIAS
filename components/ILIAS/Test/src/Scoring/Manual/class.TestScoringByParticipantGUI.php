@@ -327,7 +327,7 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
             $notification->send();
         }
 
-        $scorer = new TestScoring($this->object, $this->user, $this->db, $this->lng);
+        $scorer = new TestScoring($this->object, $this->user, $this->db, $this->test_result_repository);
         $scorer->setPreserveManualScores(true);
         $scorer->recalculateSolution($active_id, $attempt);
 

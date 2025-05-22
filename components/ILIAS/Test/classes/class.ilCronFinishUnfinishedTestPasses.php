@@ -43,7 +43,7 @@ class ilCronFinishUnfinishedTestPasses extends CronJob
     protected array $test_ids;
     protected array $test_ending_times;
     protected ilTestProcessLockerFactory $processLockerFactory;
-    protected TestResultRepository $test_pass_result_repository;
+    protected TestResultRepository $test_result_repository;
 
     public function __construct()
     {
@@ -66,7 +66,7 @@ class ilCronFinishUnfinishedTestPasses extends CronJob
             $this->db
         );
 
-        $this->test_pass_result_repository = TestDic::dic()['results.data.repository'];
+        $this->test_result_repository = TestDic::dic()['results.data.repository'];
     }
 
     public function getId(): string
@@ -257,20 +257,15 @@ class ilCronFinishUnfinishedTestPasses extends CronJob
         $test_session->loadFromDb($active_id);
 
         if (ilObject::_exists($obj_id)) {
-            $test = new ilObjTest($obj_id, false);
-
-            $test->updateTestPassResults(
+            $this->test_result_repository->updateTestAttemptResult(
                 $active_id,
                 $test_session->getPass(),
                 null,
                 $obj_id
             );
 
-            (new ilTestPassFinishTasks(
-                $test_session,
-                $test,
-                $this->test_pass_result_repository
-            ))->performFinishTasks($processLocker, StatusOfAttempt::FINISHED_BY_CRONJOB);
+            $pass_finisher = new ilTestPassFinishTasks($test_session, $obj_id, $this->test_result_repository);
+            $pass_finisher->performFinishTasks($processLocker, StatusOfAttempt::FINISHED_BY_CRONJOB);
             $this->logger->info('Test session with active id (' . $active_id . ') and obj_id (' . $obj_id . ') is now finished.');
         } else {
             $this->logger->info('Test object with id (' . $obj_id . ') does not exist.');

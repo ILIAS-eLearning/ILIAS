@@ -18,6 +18,9 @@
 
 declare(strict_types=0);
 
+use ILIAS\Test\Results\Data\Repository;
+use ILIAS\Test\TestDIC;
+
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
  * @package ilias-tracking
@@ -68,7 +71,9 @@ class ilLPStatusTestPassed extends ilLPStatus
 
     public static function _getStatusInfo(int $a_obj_id): array
     {
-        $status_info['results'] = ilObjTestAccess::_getPassedUsers($a_obj_id);
+        /** @var Repository $test_result_repository */
+        $test_result_repository = TestDIC::dic()['results.data.repository'];
+        $status_info['results'] = $test_result_repository->getPassedParticipants($a_obj_id);
         return $status_info;
     }
 
@@ -77,6 +82,9 @@ class ilLPStatusTestPassed extends ilLPStatus
         int $a_usr_id,
         ?object $a_obj = null
     ): int {
+        /** @var Repository $test_result_repository */
+        $test_result_repository = TestDIC::dic()['results.data.repository'];
+
         $old_status = ilLPStatus::_lookupStatus($a_obj_id, $a_usr_id, false);
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
 
@@ -106,7 +114,7 @@ class ilLPStatusTestPassed extends ilLPStatus
             && $rec['sequences'] > 0
         ) {
             $test_obj = new ilObjTest($a_obj_id, false);
-            $is_passed = ilObjTestAccess::_isPassed($a_usr_id, $a_obj_id);
+            $is_passed = $test_result_repository->isPassed($a_usr_id, $a_obj_id);
 
             if ($test_obj->getPassScoring() === ilObjTest::SCORE_LAST_PASS) {
                 $is_finished = false;
