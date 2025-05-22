@@ -20,7 +20,7 @@
 * @module language file Hungarian
 * @modulegroup language
 * @author Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version 9.x 2025-05-25
+* @version 9.x 2025-05-22
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -1411,10 +1411,10 @@ assessment#:#tst_filter_question_type_enabled#:#Szűrés kérdéstípus alapján
 assessment#:#tst_filter_tax_node#:#Taxonómia csomópont
 assessment#:#tst_filter_taxonomy#:#Taxonómia
 assessment#:#tst_final_information#:#Teszt befejezése
-assessment#:#tst_finish_confirm_button#:#Igen, be szeretném fejezni a tesztet.
+assessment#:#tst_finish_confirm_button#:#Igen, befejezem a tesztet.
 assessment#:#tst_finish_confirm_cancel_button#:#Nem, menjen vissza az előző kérdéshez.
-assessment#:#tst_finish_confirmation_question#:#Ha befejezi ezt a tesztet, eléri az engedélyezett tesztkitöltések maximális számát. Nem fog tudni visszatérni a tesztbe, hogy megváltoztassa válaszait. Biztos, hogy be szeretné fejezni a tesztet?
-assessment#:#tst_finish_confirmation_question_no_attempts_left#:#Most befejezi a tesztkitöltést, amivel eléri az engedélyezett kitöltések számát. Ezután már nem lesz lehetősége visszalépni a tesztbe, illetve a válaszait módosítani. Biztosm hogy befejezi a tesztkitöltést?
+assessment#:#tst_finish_confirmation_question#:#Most befejezheti a tesztkitöltést. Ezután már nem lesz lehetősége, hogy ezen a kitöltésen módosítson. Biztos, hogy befejezi ezt a tesztkitöltést?
+assessment#:#tst_finish_confirmation_question_no_attempts_left#:#Most befejezheti a tesztet, amivel eléri az engedélyezett kitöltések számát. Ezután már nem lesz lehetősége, hogy a válaszait módosítsa. Biztos, hogy befejezi a tesztet?
 assessment#:#tst_finish_notification#:#Értesítés
 assessment#:#tst_finish_notification_advanced#:#Az összes teszteredmény küldése
 assessment#:#tst_finish_notification_content_type#:#A levél tartalma
