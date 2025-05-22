@@ -3851,31 +3851,13 @@ EOD
                 $this->toolbar->addButton($this->lng->txt('back'), $this->ctrl->getLinkTarget($this));
             }
 
-            $tblThr = new ilTable2GUI($this);
-
-            $counter = 0;
-            $result = [];
+            $messages = [];
             foreach ($threads as $thread) {
-                $result[$counter]['num'] = $counter + 1;
-                $result[$counter]['thr_subject'] = $thread->getSubject();
-                ++$counter;
+                $messages[] = $this->ui_factory->messageBox()->info(
+                    sprintf($this->lng->txt('move_chosen_topics'), $thread->getSubject())
+                );
             }
-
-            $tblThr->setId('frmthrmv' . $this->object->getRefId());
-            $tblThr->setTitle('');
-            $tblThr->addColumn($this->lng->txt('subject'), 'top_name', '100%');
-            $tblThr->disable('header');
-            $tblThr->disable('footer');
-            $tblThr->disable('linkbar');
-            $tblThr->disable('sort');
-            $tblThr->disable('linkbar');
-            $tblThr->setLimit(PHP_INT_MAX);
-            $tblThr->setRowTemplate('tpl.forums_threads_move_thr_row.html', 'components/ILIAS/Forum');
-            $tblThr->setDefaultOrderField('is_sticky');
-
-            #$tblThr->setData($result);
-            $moveThreadTemplate->setVariable('THREAD_TITLE', sprintf($this->lng->txt('move_chosen_topics'), $thread->getSubject()));
-            $moveThreadTemplate->setVariable('THREADS_TABLE', $tblThr->getHTML());
+            $moveThreadTemplate->setVariable('THREAD_MESSAGE', $this->uiRenderer->render($messages));
             $moveThreadTemplate->setVariable('FRM_SELECTION_TREE', $exp->getHTML());
             $moveThreadTemplate->setVariable('CMD_SUBMIT', 'performMoveThreads');
             $moveThreadTemplate->setVariable('TXT_SUBMIT', $this->lng->txt('move'));

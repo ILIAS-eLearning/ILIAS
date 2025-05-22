@@ -10043,7 +10043,7 @@ forum#:#mark_moderator_posts_desc#:#Beiträge der Moderation werden farblich her
 forum#:#merge#:#Zusammenführen
 forum#:#merge_posts_into_thread#:#Verschmelze Posts mit anderem Thema
 forum#:#merged_threads_successfully#:#Die selektierten Themen wurden erfolgreich zusammengeführt
-forum#:#move_chosen_topics#:#Thema „%s“ verschieben nach:
+forum#:#move_chosen_topics#:#Bitte wählen Sie das Zielforum für das Thema "%s"
 forum#:#move_thread_to_forum#:#Verschiebe Thema in ein anderes Forum
 forum#:#new_post#:#Neuer Beitrag
 forum#:#new_thread_with_post#:#Neues Thema mit Beitrag

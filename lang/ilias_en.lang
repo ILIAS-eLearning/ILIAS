@@ -10054,7 +10054,7 @@ forum#:#mark_moderator_posts_desc#:#If activated moderator posts will be highlig
 forum#:#merge#:#Merge
 forum#:#merge_posts_into_thread#:#Merge Posts into other Thread
 forum#:#merged_threads_successfully#:#The selected threads were merged successfully
-forum#:#move_chosen_topics#:#Move thread "%s" to:
+forum#:#move_chosen_topics#:#Please choose the target forum for Thread "%s"
 forum#:#move_thread_to_forum#:#Move Thread to other Forum
 forum#:#new_post#:#New Post
 forum#:#new_thread_with_post#:#New Thread with Post
