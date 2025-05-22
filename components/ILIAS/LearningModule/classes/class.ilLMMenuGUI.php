@@ -79,27 +79,6 @@ class ilLMMenuGUI
             }
         }
 
-        // download
-        if ($user->getId() == ANONYMOUS_USER_ID) {
-            $is_public = $this->lm->isActiveDownloadsPublic();
-        } else {
-            $is_public = true;
-        }
-
-        if ($this->lm->isActiveDownloads() && !$this->offline && $is_public &&
-            $access->checkAccess("read", "", $this->lm->getRefId())) {
-            $modal = $ui->factory()->modal()->roundtrip(
-                $lng->txt("download"),
-                $ui->factory()->legacy()->content('some modal')
-            )->withAsyncRenderUrl($this->ctrl->getLinkTargetByClass("illmpresentationgui", "showDownloadList"));
-            $entries[] = [
-                "label" => $this->lng->txt("download"),
-                "signal" => $modal->getShowSignal(),
-                "modal" => $modal,
-                "on_load" => ""
-            ];
-        }
-
         // user defined menu entries
         $menu_editor = new \ilLMMenuEditor();
         $menu_editor->setObjId($this->lm->getId());

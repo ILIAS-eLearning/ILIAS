@@ -6320,12 +6320,7 @@ content#:#cont_dir_renamed#:#Directory has been renamed.
 content#:#cont_disable_def_feedback#:#Disable Default Question Feedback
 content#:#cont_disable_def_feedback_info#:#The standard feedback for a question is not displayed after answering a question.
 content#:#cont_download#:#Download
-content#:#cont_download_no_download#:#Download will not be available to users, since the download feature is not activated.
-content#:#cont_download_no_menu#:#Download will not be available to users since the learning module menu is not activated.
 content#:#cont_download_title#:#Download Title
-content#:#cont_downloads#:#Enable Download
-content#:#cont_downloads_desc#:#Offers all public export files for download (e.g. for offline use or import).
-content#:#cont_downloads_public_desc#:#Allow download even for anonymous users (in public area)
 content#:#cont_drag_and_drop_elements#:#To <b>move</b> a page element, <b>drag</b> it with the mouse to the intended location and <b/>drop<b> it.
 content#:#cont_drag_element_click_save#:#Drag and drop the element to the desired position. Then hit ‘Save’.
 content#:#cont_ed_align_center#:#Align: Center
@@ -6740,7 +6735,6 @@ content#:#cont_nlist#:#Numbered List
 content#:#cont_no_access#:#No Access
 content#:#cont_no_block#:#No Section
 content#:#cont_no_caption#:#No Caption
-content#:#cont_no_download_file_available#:#There is currently no public download file available.
 content#:#cont_no_glossary#:#No glossary assigned.
 content#:#cont_no_manifest#:#No imsmanifest.xml file found in main directory.
 content#:#cont_no_page#:#No Page found.
@@ -8509,20 +8503,20 @@ dcl#:#dcl_add_new_field#:#Add New Field
 dcl#:#dcl_add_new_record#:#Add New Entry
 dcl#:#dcl_add_new_table#:#Add New Table
 dcl#:#dcl_add_new_view#:#Add New View
-dcl#:#dcl_add_perm#:#User can add entries
-dcl#:#dcl_add_perm_desc#:#Users can add entries in this table.
-dcl#:#dcl_additional_info_desc#:#The text will be displayed directly above the table.
+dcl#:#dcl_add_perm#:#Add Entries
+dcl#:#dcl_add_perm_desc#:#Users can add entries to this table. If the import of data into this table is allowed, then an Excel import function will also be available.
+dcl#:#dcl_additional_info_desc#:#This content will be displayed directly above the table.
 dcl#:#dcl_all_entries#:#All entries
 dcl#:#dcl_any#:#Any
-dcl#:#dcl_asc#:#Ascending Order (ASC)
-dcl#:#dcl_boolean#:#Boolean
-dcl#:#dcl_boolean_desc#:#Checkbox for "True" or "False"
+dcl#:#dcl_asc#:#Ascending ↑
+dcl#:#dcl_boolean#:#Checkbox
+dcl#:#dcl_boolean_desc#:#A checkbox that can be selected.
 dcl#:#dcl_cant_delete_last_table#:#You can't completely remove this table as it is the only table of this Data Collection. It's content and structure got removed instead.
 dcl#:#dcl_change_notification_dcl_delete_record#:#The following data record has been deleted
 dcl#:#dcl_change_notification_dcl_new_record#:#The following data record has been created
 dcl#:#dcl_change_notification_dcl_update_record#:#The following data record has been updated
 dcl#:#dcl_change_notification_link#:#Link to the Data Collection
-dcl#:#dcl_change_notification_subject#:#Data Collection "%s" has been changed
+dcl#:#dcl_change_notification_subject#:#Data Collection ‘%s’ has been changed
 dcl#:#dcl_change_why_you_receive_this_email#:#You receive this message because you have activated the notification about this data collection.
 dcl#:#dcl_changed_by#:#Changed by
 dcl#:#dcl_checked#:#Checked.
@@ -8531,7 +8525,7 @@ dcl#:#dcl_comments_desc#:#Displays the number of comments for a Entry.
 dcl#:#dcl_confirm_delete_field#:#Do you really want to delete this field?
 dcl#:#dcl_confirm_delete_fields#:#Do you really want to delete these fields?
 dcl#:#dcl_confirm_delete_record#:#Delete this Entry?
-dcl#:#dcl_confirm_delete_records#:#Are you sure you want to delete the following Entries?
+dcl#:#dcl_confirm_delete_records#:#Please check your entry and confirm by clicking on ‘Save Entry’.
 dcl#:#dcl_confirm_delete_table#:#Do you really want to delete this table with it's content and structure?
 dcl#:#dcl_confirm_storing_records#:#Please validate and confirm your input.
 dcl#:#dcl_confirm_storing_records_no_permission#:#You have no permission to change the record afterwards.
@@ -8542,52 +8536,54 @@ dcl#:#dcl_copy_title#:#Copy of table and field
 dcl#:#dcl_create_date#:#Creation Date
 dcl#:#dcl_create_entry_rules#:#Entry Creation
 dcl#:#dcl_create_field#:#Create Field
-dcl#:#dcl_create_fields#:#Click a table in the tab "Tables" and create new fields by using the button "Add New Field".
+dcl#:#dcl_create_fields#:#Click on a table in the tab ‘Tables and create new fields by using the button ‘Add New Field’.
 dcl#:#dcl_creation_date#:#Creation Date
 dcl#:#dcl_creation_date_description#:#The date on which the entry was created.
-dcl#:#dcl_datatype#:#Datatype
+dcl#:#dcl_datatype#:#Type
 dcl#:#dcl_date#:#Date Entry
-dcl#:#dcl_date_desc#:#Field for a date.
+dcl#:#dcl_date_desc#:#Users can enter a date of their choice or select one using a calendar.
 dcl#:#dcl_date_selection#:#Date Selection
-dcl#:#dcl_date_selection_desc#:#Offer selection of date options.
+dcl#:#dcl_date_selection_desc#:#Allow a date to be chosen from among a predefined selection of date options.
+dcl#:#dcl_deactivate_view#:#Deactivate this view
 dcl#:#dcl_default_sort_field#:#Default sort field
-dcl#:#dcl_default_sort_field_desc#:#The table will be sorted by this field by default.
+dcl#:#dcl_default_sort_field_desc#:#Arrange the order of the entries in the table based on this field.
 dcl#:#dcl_default_sort_field_order#:#Default sort field order
-dcl#:#dcl_delete_fields#:#Delete fields
+dcl#:#dcl_delete_fields#:#Delete Fields
 dcl#:#dcl_delete_fields_no_selection#:#Please select at least one field to delete
-dcl#:#dcl_delete_perm#:#User can delete entries
+dcl#:#dcl_delete_perm#:#Delete Entries
 dcl#:#dcl_delete_records#:#Delete Entries
 dcl#:#dcl_deleted_records#:#Successfully deleted %s Entries
 dcl#:#dcl_deprecated_copy#:#(Deprecated)
-dcl#:#dcl_desc#:#Descending Order (DESC)
+dcl#:#dcl_desc#:#Descending ↓
 dcl#:#dcl_description#:#Field Description
-dcl#:#dcl_detailed_view#:#Single
+dcl#:#dcl_detailed_view#:#Detailed View
 dcl#:#dcl_display_action_menu#:#Copy
-dcl#:#dcl_display_action_menu_desc#:#Enable possibility to copy or link the referenced module
+dcl#:#dcl_display_action_menu_desc#:#The object can be copied from the entry.
 dcl#:#dcl_display_record_alt#:#Display this entry
-dcl#:#dcl_edit#:#Edit Data Collection
+dcl#:#dcl_duplicate_non_unique_entries_exist#:#This may also concern existing records.###23 02 2024 new variable
+dcl#:#dcl_edit#:#Settings for This Data Collection
 dcl#:#dcl_edit_entry_rules#:#Entry Editing
 dcl#:#dcl_edit_field#:#Edit Field
-dcl#:#dcl_edit_perm#:#User can edit entries
+dcl#:#dcl_edit_perm#:#Edit Entries
 dcl#:#dcl_edit_record#:#Edit Entry
-dcl#:#dcl_edit_table#:#Edit Settings of Table "%s"
+dcl#:#dcl_edit_table#:#Settings of the Table ‘%s’
 dcl#:#dcl_editable_in_table_gui#:#Please vote in the table view.
 dcl#:#dcl_err_formula_field_not_found#:#Field with title '%s' not found
 dcl#:#dcl_error_parsing_expression#:#Error parsing expression
-dcl#:#dcl_export_enabled#:#Allow export function for all users
-dcl#:#dcl_export_enabled_desc#:#All users can export the data of this table. You have to specify in the table overview which fields will get exported.
+dcl#:#dcl_export_enabled#:#Export Table
+dcl#:#dcl_export_enabled_desc#:#The data in this table can be exported. Please note: Only fields that have the ‘Exportable’ checkbox activated in the ‘Fields’ tab of this table will be included in the export.
 dcl#:#dcl_export_finished#:#Export finished
 dcl#:#dcl_export_started#:#Asynchronous Export started
-dcl#:#dcl_field_datatype#:#Field Data Type
+dcl#:#dcl_field_datatype#:#Field Type
 dcl#:#dcl_field_description#:#Description
-dcl#:#dcl_field_description_desc#:#The description will be shown below the field inside the entry form.
+dcl#:#dcl_field_description_desc#:#The description will be shown below the input field when making a new entry.
 dcl#:#dcl_field_required#:#Required
 dcl#:#dcl_field_title_change_warning#:#You changed the title of the field hence some placeholders in the view definition might be broken. Those have to be fixed manually should the occasion arise.
 dcl#:#dcl_field_title_unique#:#There exists already a field with this title. Title must be unique.
 dcl#:#dcl_field_visible#:#Visible
 dcl#:#dcl_fieldtitle#:#Field Title
-dcl#:#dcl_file#:#Fileupload
-dcl#:#dcl_file_desc#:#Field to upload arbitrary files. They can be downloaded with a link.
+dcl#:#dcl_file#:#File Upload
+dcl#:#dcl_file_desc#:#Allow the upload of a file which can then be downloaded directly from the data collection.
 dcl#:#dcl_file_format_description#:#The file needs to be an excel .XLSX file with the data you want to import on the first sheet. In the first row there have to be exactly the names of the fields (case sensitive) you want to import and in the following rows you can add the values. It is strongly recommended to simulate your import first. When importing reference or selection fields with multi selection, commas and/or semicolons can be used as delimiters.
 dcl#:#dcl_file_not_readable#:#The file could not be read. Please make sure to upload an XLSX file.
 dcl#:#dcl_filter#:#Available in filter
@@ -8595,20 +8591,20 @@ dcl#:#dcl_filter_changeable#:#Filter changeable
 dcl#:#dcl_formula#:#Formula
 dcl#:#dcl_formula_desc#:#You can aggregate several entries in a record with a formula.
 dcl#:#dcl_formula_detail_desc#:#Entries are generated automatically, you are not able to edit the entry.
-dcl#:#dcl_height#:#Height
-dcl#:#dcl_height_desc#:#The file will be resized to the given height
+dcl#:#dcl_height#:#Height in Pixels
+dcl#:#dcl_height_desc#:#The height of the file will be reduced to this value during upload.
 dcl#:#dcl_hello#:#Dear
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#The internal ID.
-dcl#:#dcl_ilias_reference#:#Link to an ILIAS module
-dcl#:#dcl_ilias_reference_desc#:#Searchfield to select an ILIAS object.
-dcl#:#dcl_ilias_reference_link#:#Show as link in table view
+dcl#:#dcl_ilias_reference#:#Repository Object
+dcl#:#dcl_ilias_reference_desc#:#Allow users to select an ILIAS object from the repository.
+dcl#:#dcl_ilias_reference_link#:#Link to Selected Object
 dcl#:#dcl_import#:#Import Data Collection
-dcl#:#dcl_import_enabled#:#Allow import function for all users
-dcl#:#dcl_import_enabled_desc#:#All users can import data to tables, as long as they have the required write access.
+dcl#:#dcl_import_enabled#:#Import Data Into Table
+dcl#:#dcl_import_enabled_desc#:#Data can be imported into the table via an Excel file.
 dcl#:#dcl_import_records .xls#:#Excel-Import
 dcl#:#dcl_import_terminated#:#The import terminated. Entries added
-dcl#:#dcl_in_export#:#In Export
+dcl#:#dcl_in_export#:#Exportable
 dcl#:#dcl_invalid_regex_config#:#The regular expression configured for this field is invalid. Check the settings to solve the problem.
 dcl#:#dcl_last_edit_by#:#Last edited by
 dcl#:#dcl_last_edited_by#:#Last edited by
@@ -8616,16 +8612,16 @@ dcl#:#dcl_last_edited_by_description#:#The user that edited this entry last.
 dcl#:#dcl_last_update#:#Last Edited
 dcl#:#dcl_last_update_description#:#The date the entry was last edited.
 dcl#:#dcl_learning_progress#:#Learning Progress
-dcl#:#dcl_learning_progress_desc#:#Show the learning progress of the linked module of the viewer
+dcl#:#dcl_learning_progress_desc#:#Show each user their own learning progress for the selected object.
 dcl#:#dcl_legend_placeholders#:#Placeholders
-dcl#:#dcl_length#:#Length
-dcl#:#dcl_length_info#:#Number of characters a user can enter (maximum 4000). For more than 200 characters, use the additional option Text Area.
+dcl#:#dcl_length#:#Max. Number of Characters
+dcl#:#dcl_length_info#:#Number of characters a user can enter (maximum 4000). For more than 200 characters, please activate the additional option ‘Multiline Text Field’.
 dcl#:#dcl_limit_end#:#End
 dcl#:#dcl_limit_start#:#Start
 dcl#:#dcl_limited#:#Limited Add / Edit / Delete Period
-dcl#:#dcl_limited_desc#:#Users can only edit entries in the given time span.
-dcl#:#dcl_link_detail_page#:#Link to detailed view
-dcl#:#dcl_link_detail_page_desc#:#Additionaly, the detailed view must be activated and configured within the tab "Single".
+dcl#:#dcl_limited_desc#:#Entries can only be added, edited and deleted within the time period specified below.
+dcl#:#dcl_link_detail_page#:#Link to Detailed View
+dcl#:#dcl_link_detail_page_desc#:#Additionally, a detailed view template must have been created and activated within the tab ‘Detailed View’.
 dcl#:#dcl_list_fields#:#Fields
 dcl#:#dcl_list_visibility_and_filter#:#Overview
 dcl#:#dcl_locked#:#Locked
@@ -8634,8 +8630,8 @@ dcl#:#dcl_manage#:#Manage
 dcl#:#dcl_max_digits#:#Maximum Number of Digits
 dcl#:#dcl_max_import#:#The maximum amount of imported entries is reached.
 dcl#:#dcl_max_text_length#:#Maximum Length
-dcl#:#dcl_mob#:#Media Object
-dcl#:#dcl_mob_desc#:#Field to upload an image, audio, or video file. They will be displayed directly in the datacollection. Allowed datatypes: %s
+dcl#:#dcl_mob#:#Image, Audio, Video
+dcl#:#dcl_mob_desc#:#Allow users to upload a media file which will be displayed within the data collection. Allowed data types: %s
 dcl#:#dcl_msg_field_modified#:#Field updated
 dcl#:#dcl_msg_fields_deleted#:#Deleted fields
 dcl#:#dcl_msg_info_alternatives#:#You do not have enough permissions to view this record, or there is no detailed view defined for this view. Choose a view from the list below to view the record anyway.
@@ -8654,12 +8650,12 @@ dcl#:#dcl_new#:#Create New Data Collection
 dcl#:#dcl_new_field#:#New Field
 dcl#:#dcl_new_table#:#New Table
 dcl#:#dcl_next_record#:#Next Entry
-dcl#:#dcl_no_content_warning#:#Attention, the Data Collection is online but does not have content yet!
-dcl#:#dcl_no_entries#:#No entries
+dcl#:#dcl_no_content_warning#:#Please note: the data collection is online but does not yet have any fields.
+dcl#:#dcl_no_entries#:#Action not permitted
 dcl#:#dcl_no_entry#:#No entry
 dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.
 dcl#:#dcl_no_export_data_available#:#No data or fields available for export.
-dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.
+dcl#:#dcl_no_fields_yet#:#You cannot add any entries to this table as it does not yet have any fields. To create a field, click on a table in the ‘Tables’ tab and and then on the ‘Add New Field’ button.
 dcl#:#dcl_no_read_access_on_any_standard_view#:#You don't have read access on any standard view of a table.
 dcl#:#dcl_no_search_results_found_for#:#No modules have been found for
 dcl#:#dcl_no_such_reference#:#The following value is not available in the reference table:
@@ -8669,12 +8665,12 @@ dcl#:#dcl_notification_activate_dcl#:#Activate Notification for Data Collection
 dcl#:#dcl_notification_activated#:#Notification Activated
 dcl#:#dcl_notification_deactivate_dcl#:#Deactivate Notification for Data Collection
 dcl#:#dcl_notification_deactivated#:#Notification Deactivated
-dcl#:#dcl_notification_info#:#Each user decides about notification
+dcl#:#dcl_notification_info#:#Users can choose for themselves if they wish to activate notifications for their accounts.
 dcl#:#dcl_notimage_exception#:#The file has to be a picture.
-dcl#:#dcl_noturl_exception#:#You have to enter a Link (beginning with http:// or www.) or an e-mail address.
+dcl#:#dcl_noturl_exception#:#Please enter a link (beginning with http:// or www.) or an e-mail address.
 dcl#:#dcl_number#:#Integer
-dcl#:#dcl_number_desc#:#Field for integer values (max. 9 digits). No decimals or fractions.
-dcl#:#dcl_online_info#:#Only if the Data Collection is online, users are able to use the Data Collection.
+dcl#:#dcl_number_desc#:#Field for integer values (max. 9 digits). Decimals and fractions are not allowed.
+dcl#:#dcl_online_info#:#Publish the data collection and enable all users with the permissions ‘Read’ and ‘Add/Edit Entry’ to use it. If not set to ‘Online’, only users with the permission ‘Edit Settings’ can access this object.
 dcl#:#dcl_order#:#Order
 dcl#:#dcl_origin_not_found#:#Origin field was not found!
 dcl#:#dcl_own_entries#:#Only own entries
@@ -8682,50 +8678,51 @@ dcl#:#dcl_owner#:#Owner
 dcl#:#dcl_owner_description#:#The owner of the entry.
 dcl#:#dcl_owner_name#:#Owner (Name)
 dcl#:#dcl_page_type_dclf#:#Details View
-dcl#:#dcl_permissions_form#:#User actions
+dcl#:#dcl_permissions_form#:#Permitted Actions for This Table
 dcl#:#dcl_please_select#:#--- Please select ---
 dcl#:#dcl_plugin#:#Plugin
 dcl#:#dcl_plugin_desc#:#DataCollection Field-Plugins
 dcl#:#dcl_plugin_no_hooks_available#:#No active field-type plugins found
 dcl#:#dcl_prev_record#:#Previous Entry
 dcl#:#dcl_prop_expression#:#Expression
-dcl#:#dcl_prop_expression_info#:#Supported operators: <b>%s</b><br>Supported functions: <b>%s</b><br>Use brackets <b>‘(’, ‘)’</b> to group calculations.<br>Concatenate strings and placeholders with &: <b>‘The result is ’ & [[Int 1]] * [[Int2]]</b><br>Using functions: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>Allowed fields (click on title to copy field inside expression):<br>%s<br><b>(Allowed fields are boolean, number, text and date that dont contain formular-sensitive chars inside their title)</b>
+dcl#:#dcl_prop_expression_info#:#Valid operators: <b>%s</b><br>Supported functions: <b>%s</b><br>Use brackets <b>‘(’, ‘)’</b> to group calculations.<br>Concatenate strings and placeholders with &: <b>‘The result is ’ & [[Int 1]] * [[Int2]]</b><br>Using functions: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>Allowed fields (click on a title to use as a placeholder within the expression):<br>%s<br><b>(Allowed fields are checkbox, number, text and date that don’t contain any formula-sensitive characters inside their titles)</b>
 dcl#:#dcl_public_comments#:#Activate Public Comments
 dcl#:#dcl_public_comments_desc#:#Users can comment on entries of the table.
 dcl#:#dcl_rating#:#Rating
-dcl#:#dcl_rating_desc#:#Users can rate entries with up to five stars.
+dcl#:#dcl_rating_desc#:#Existing entries can be rated on a scale of one to five stars.
+dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#The following rbac roles have read access on the data collection, but no read access on any standard view of a table:
 dcl#:#dcl_record#:#Entry
 dcl#:#dcl_record_deleted#:#Entry deleted
 dcl#:#dcl_record_from_total#:#%d of %d
 dcl#:#dcl_reference#:#Reference
 dcl#:#dcl_reference_desc#:#Field to reference options stored in a different field of a table.
-dcl#:#dcl_reference_link#:#Show as link to referenced entry
+dcl#:#dcl_reference_link#:#Link Referenced Entry
 dcl#:#dcl_reference_link_info#:#Detailed View must be active in referenced table
-dcl#:#dcl_reference_title#:#Reference to table and field
-dcl#:#dcl_reference_title_desc#:#Entries of the selected field are options of the target field.
-dcl#:#dcl_regex#:#Regular Expression
-dcl#:#dcl_regex_info#:#(without delimiter)
+dcl#:#dcl_reference_title#:#Referenced Field
+dcl#:#dcl_reference_title_desc#:#The data entries of the selected field will be the selectable options in this field.
+dcl#:#dcl_regex#:#Restrict Text Input
+dcl#:#dcl_regex_info#:#Allow the input of a regular expression without delimiter. Certain entries will the be automatically rejected.
 dcl#:#dcl_required#:#Required Field
 dcl#:#dcl_row_not_found#:# - This field couldn't be found in the table.
 dcl#:#dcl_save#:#Save Table
-dcl#:#dcl_save_confirmation#:#Save confirmation
-dcl#:#dcl_save_confirmation_desc#:#Users have to confirm a new DataCollection entry.
+dcl#:#dcl_save_confirmation#:#Additional Confirmation of Entries
+dcl#:#dcl_save_confirmation_desc#:#Users have to confirm new entries into the data collection.
 dcl#:#dcl_save_order#:#Save Order
 dcl#:#dcl_save_record#:#Save Entry
 dcl#:#dcl_select#:#Select for Presentation
 dcl#:#dcl_selection_options#:#Options
-dcl#:#dcl_selection_type#:#Type
-dcl#:#dcl_selection_type_combobox#:#Single Combobox Selection (Dropdown)
-dcl#:#dcl_selection_type_multi#:#Multiple List Selection
-dcl#:#dcl_selection_type_single#:#Single List Selection
+dcl#:#dcl_selection_type#:#Format
+dcl#:#dcl_selection_type_combobox#:#Single selection from drop-down menu
+dcl#:#dcl_selection_type_multi#:#Multiple selections from list
+dcl#:#dcl_selection_type_single#:#Single selection from list
 dcl#:#dcl_simulate_import#:#Simulate Import
 dcl#:#dcl_simulate_info#:#Simulating the import will not add any fields into the Data Collection but may give you feedback on problems with the import file, thus helping you to prevent corrupted entries.
 dcl#:#dcl_skipped_delete_records#:#%s Entries were not deleted due to permission settings
 dcl#:#dcl_status#:#Your Status
 dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.
 dcl#:#dcl_std_filter#:#Default Filter
-dcl#:#dcl_supported_filetypes#:#Allowed file-extensions
-dcl#:#dcl_supported_filetypes_desc#:#You can set the allowed extensions comma seperated. For example: pdf, docx
+dcl#:#dcl_supported_filetypes#:#Permitted File Types
+dcl#:#dcl_supported_filetypes_desc#:#You can set which file types can be uploaded by entering a comma-separated list of permitted file extensions here, e.g. pdf, docx
 dcl#:#dcl_switch_table#:#Switch Table
 dcl#:#dcl_switch_view#:#Change View
 dcl#:#dcl_table#:#Table
@@ -8758,32 +8755,32 @@ dcl#:#dcl_tableviews_confirm_delete#:#Do you really want to delete the following
 dcl#:#dcl_tableviews_of_X#:#Views of table %s
 dcl#:#dcl_tableviews_table#:#Views of Selected Table
 dcl#:#dcl_text#:#Text Entry
-dcl#:#dcl_text_area#:#Textarea
-dcl#:#dcl_text_desc#:#Textfield for text, links or e-mail addresses.
+dcl#:#dcl_text_area#:#Multiline Text Field
+dcl#:#dcl_text_desc#:#A text field for text, links or e-mail addresses.
 dcl#:#dcl_text_email_detail_desc#:#Please enter a valid URL or E-Mail address.
 dcl#:#dcl_text_email_title#:#Title
 dcl#:#dcl_text_email_title_info#:#A Title for the above URL or E-Mail address (optional).
 dcl#:#dcl_text_selection#:#Text Selection
-dcl#:#dcl_text_selection_desc#:#Offer selection of text options.
+dcl#:#dcl_text_selection_desc#:#Allow a text to be chosen from among a predefined selection of text options.
 dcl#:#dcl_title_standardview#:#Standard Views
 dcl#:#dcl_unique#:#Unique
-dcl#:#dcl_unique_desc#:#The value in this field needs to be unique among all entires.
+dcl#:#dcl_unique_desc#:#Identical entries are not allowed in this field.
 dcl#:#dcl_unique_exception#:#The value you entered is already taken by another Entry.
 dcl#:#dcl_unknown#:#Unkown
 dcl#:#dcl_unknown_exception#:#The value you entered is not valid.
 dcl#:#dcl_unknown_plugin#:#Unknown plugin type
 dcl#:#dcl_update_field#:#Update Field
 dcl#:#dcl_update_record#:#Update Entry
-dcl#:#dcl_url#:#URL or E-Mail
+dcl#:#dcl_url#:#Mandatory URL or E-Mail
 dcl#:#dcl_view_configuration#:#View Configuration
-dcl#:#dcl_view_own_records_perm#:#View only own entries
-dcl#:#dcl_view_own_records_perm_desc#:#Dont show entries of other users.
+dcl#:#dcl_view_own_records_perm#:#View Only Own Entries
+dcl#:#dcl_view_own_records_perm_desc#:#The entries of other users are not visible.
 dcl#:#dcl_view_settings#:#View Settings
 dcl#:#dcl_view_viewdefinition#:#Detailed View
 dcl#:#dcl_visible#:#Visible for all users
 dcl#:#dcl_visible_desc#:#Users can access this table.
-dcl#:#dcl_width#:#Width
-dcl#:#dcl_width_desc#:#The file will be resized to the given width.
+dcl#:#dcl_width#:#Width in Pixels
+dcl#:#dcl_width_desc#:#The width of the file will be reduced to this value during upload.
 dcl#:#dcl_wrong_input_type#:#The value you entered does not match the specification (Wrong Type).
 dcl#:#dcl_wrong_length#:#The text you entered is to long.
 dcl#:#dcl_wrong_regex#:#The text you entered does not match the specification for this field (Regular Expression).
@@ -8794,8 +8791,8 @@ dcl#:#duplicate_entries_exist#:#The existing records already contain duplicated 
 dcl#:#enable_comments#:#Enable comments
 dcl#:#enable_visible#:#Enable visible
 dcl#:#entry_of#:#Entry %1$d of %2$d
-dcl#:#fieldtitle_allow_chars#:#Not allowed chars: %s
-dcl#:#fileupload_not_migrated#:#File has not yet been migration and cannot be displayed. Please contact your System-Administrator.
+dcl#:#fieldtitle_allow_chars#:#Characters not permitted: %s
+dcl#:#fileupload_not_migrated#:#File has not yet been migrated and cannot be displayed. Please contact your system administrator.
 dcl#:#set_as_default#:#Set as default
 didactic#:#activate_exclusive_template#:#Grey Out Default
 didactic#:#activate_exclusive_template_info#:#The standard template won't be available wherever this template is active.

@@ -23,8 +23,8 @@ declare(strict_types=1);
 */
 class ilAuthModeDetermination
 {
-    public const TYPE_MANUAL = 0;
-    public const TYPE_AUTOMATIC = 1;
+    public const int TYPE_MANUAL = 0;
+    public const int TYPE_AUTOMATIC = 1;
 
     private static ?ilAuthModeDetermination $instance = null;
 
@@ -34,15 +34,10 @@ class ilAuthModeDetermination
     private ilSetting $commonSettings;
 
     private int $kind = self::TYPE_MANUAL;
+    /** @var list<numeric-string|int|string> */
     private array $position = [];
 
 
-    /**
-     * Constructor (Singleton)
-     *
-     * @access private
-     *
-     */
     private function __construct()
     {
         global $DIC;
@@ -51,31 +46,22 @@ class ilAuthModeDetermination
 
         $this->commonSettings = $DIC->settings();
 
-        $this->settings = new ilSetting("auth_mode_determination");
+        $this->settings = new ilSetting('auth_mode_determination');
         $this->read();
     }
 
-    /**
-     * Get instance
-     */
     public static function _getInstance(): ilAuthModeDetermination
     {
-        if (self::$instance) {
-            return self::$instance;
-        }
-        return self::$instance = new ilAuthModeDetermination();
+        return self::$instance ??= new ilAuthModeDetermination();
     }
 
-    /**
-     * is manual selection
-     */
     public function isManualSelection(): bool
     {
         return $this->kind === self::TYPE_MANUAL;
     }
 
     /**
-     * get kind
+     * @return int<self::TYPE_MANUAL|self::TYPE_AUTOMATIC>
      */
     public function getKind(): int
     {
@@ -83,27 +69,27 @@ class ilAuthModeDetermination
     }
 
     /**
-     * set kind of determination
-     *
-     * @param int TYPE_MANUAL or TYPE_DETERMINATION
-     *
+     * @param int<self::TYPE_MANUAL|self::TYPE_AUTOMATIC> $a_kind
      */
     public function setKind(int $a_kind): void
     {
-        // TODO check value range
+        if (!in_array($a_kind, [self::TYPE_MANUAL, self::TYPE_AUTOMATIC], true)) {
+            throw new InvalidArgumentException('Invalid kind given');
+        }
+
         $this->kind = $a_kind;
     }
 
     /**
-     * get auth mode sequence
+     * @return list<numeric-string|int|string>
      */
     public function getAuthModeSequence(string $a_username = ''): array
     {
         if ($a_username === '') {
-            return $this->position ?: array();
+            return $this->position;
         }
-        $sorted = array();
 
+        $sorted = [];
         foreach ($this->position as $auth_key) {
             $sid = ilLDAPServer::getServerIdByAuthMode((string) $auth_key);
             if ($sid) {
@@ -120,7 +106,7 @@ class ilAuthModeDetermination
                         });
 
                         try {
-                            if (preg_match($delimiter . "^" . $pattern . '$' . $delimiter . 'i', $a_username) === 1) {
+                            if (preg_match($delimiter . '^' . $pattern . '$' . $delimiter . 'i', $a_username) === 1) {
                                 $this->logger->debug('Filter matches for ' . $a_username);
                                 array_unshift($sorted, $auth_key);
                                 continue 2;
@@ -142,18 +128,13 @@ class ilAuthModeDetermination
         return $sorted;
     }
 
-    /**
-     * get number of auth modes
-     */
     public function getCountActiveAuthModes(): int
     {
         return count($this->position);
     }
 
     /**
-     * set auth mode sequence
-     *
-     * @param array position => AUTH_MODE
+     * @param list<numeric-string|int|string> $a_pos position => AUTH_MODE
      *
      */
     public function setAuthModeSequence(array $a_pos): void
@@ -161,9 +142,6 @@ class ilAuthModeDetermination
         $this->position = $a_pos;
     }
 
-    /**
-     * Save settings
-     */
     public function save(): void
     {
         $this->settings->deleteAll();
@@ -177,16 +155,12 @@ class ilAuthModeDetermination
     }
 
 
-    /**
-     * Read settings
-     */
     private function read(): void
     {
         $this->kind = (int) $this->settings->get('kind', (string) self::TYPE_MANUAL);
 
-        $soap_active = (bool) $this->commonSettings->get('soap_auth_active', "");
+        $soap_active = (bool) $this->commonSettings->get('soap_auth_active', '');
 
-        // apache settings
         $apache_settings = new ilSetting('apache_auth');
         $apache_active = $apache_settings->get('apache_enable_auth');
 
@@ -197,18 +171,20 @@ class ilAuthModeDetermination
             if ($auth_mode === null) {
                 break;
             }
+
             if ($auth_mode) {
                 switch ((int) $auth_mode) {
                     case ilAuthUtils::AUTH_LOCAL:
                         $this->position[] = (int) $auth_mode;
                         break;
+
                     case ilAuthUtils::AUTH_LDAP:
                         $auth_id = ilLDAPServer::getServerIdByAuthMode($auth_mode);
                         if ($auth_id === null) {
                             break;
                         }
-                        $server = ilLDAPServer::getInstanceByServerId($auth_id);
 
+                        $server = ilLDAPServer::getInstanceByServerId($auth_id);
                         if ($server->isActive()) {
                             $this->position[] = $auth_mode;
                         }
@@ -229,7 +205,7 @@ class ilAuthModeDetermination
                     default:
                         foreach (ilAuthUtils::getAuthPlugins() as $pl) {
                             if ($pl->isAuthActive((int) $auth_mode)) {
-                                $this->position[] = $auth_mode;
+                                $this->position[] = (int) $auth_mode;
                             }
                         }
                         break;
@@ -245,7 +221,7 @@ class ilAuthModeDetermination
         foreach (ilLDAPServer::_getActiveServerList() as $sid) {
             $server = ilLDAPServer::getInstanceByServerId($sid);
             if ($server->isActive() && !in_array(ilAuthUtils::AUTH_LDAP . '_' . $sid, $this->position, true)) {
-                $this->position[] = (ilAuthUtils::AUTH_LDAP . '_' . $sid);
+                $this->position[] = ilAuthUtils::AUTH_LDAP . '_' . $sid;
             }
         }
         // end-patch ldap_multiple

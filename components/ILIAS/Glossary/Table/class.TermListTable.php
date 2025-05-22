@@ -424,14 +424,14 @@ class TermListTable
                     // text
                     $short_str = \ilGlossaryTerm::_lookShortText($term_id);
 
-                    if (\ilGlossaryTerm::_lookShortTextDirty($term_id)) {
-                        // #18022
-                        $term_obj = new \ilGlossaryTerm($term_id);
-                        $term_obj->updateShortText();
-                        $short_str = $term_obj->getShortText();
-                    }
-
                     try {
+                        if (\ilGlossaryTerm::_lookShortTextDirty($term_id)) {
+                            // #18022
+                            $term_obj = new \ilGlossaryTerm($term_id);
+                            $term_obj->updateShortText();
+                            $short_str = $term_obj->getShortText();
+                        }
+
                         $page = new \ilGlossaryDefPage($term_id);
 
                         // replace tex

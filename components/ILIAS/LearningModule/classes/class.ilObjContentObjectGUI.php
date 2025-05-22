@@ -930,29 +930,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $hhfp->setChecked($this->lm->getHideHeaderFooterPrint());
         $print->addSubItem($hhfp);
 
-        // downloads
-        $no_download_file_available =
-            " " . $lng->txt("cont_no_download_file_available") .
-            " <a href='" . $ilCtrl->getLinkTargetByClass("ilexportgui", "") . "'>" . $lng->txt("change") . "</a>";
-        $types = array("xml", "html");
-        foreach ($types as $type) {
-            if ($this->lm->getPublicExportFile($type) != "") {
-                if (is_file($this->lm->getExportDirectory($type) . "/" .
-                    $this->lm->getPublicExportFile($type))) {
-                    $no_download_file_available = "";
-                }
-            }
-        }
-        $dl = new ilCheckboxInputGUI($this->lng->txt("cont_downloads"), "cobj_act_downloads");
-        $dl->setInfo($this->lng->txt("cont_downloads_desc") . $no_download_file_available);
-        $dl->setChecked($this->lm->isActiveDownloads());
-        $form->addItem($dl);
-
-        // downloads in public area
-        $pdl = new ilCheckboxInputGUI($this->lng->txt("cont_downloads_public_desc"), "cobj_act_downloads_public");
-        $pdl->setChecked($this->lm->isActiveDownloadsPublic());
-        $dl->addSubItem($pdl);
-
         $form->addCommandButton("saveMenuProperties", $lng->txt("save"));
 
         $form->setTitle($lng->txt("cont_lm_menu"));
@@ -999,8 +976,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
             $this->lm->setActivePrintView((int) $form->getInput("cobj_act_print"));
             $this->lm->setActivePreventGlossaryAppendix((int) $form->getInput("cobj_act_print_prev_glo"));
             $this->lm->setHideHeaderFooterPrint((int) $form->getInput("hide_head_foot_print"));
-            $this->lm->setActiveDownloads((int) $form->getInput("cobj_act_downloads"));
-            $this->lm->setActiveDownloadsPublic((int) $form->getInput("cobj_act_downloads_public"));
             $this->lm->updateProperties();
         }
 
@@ -1528,61 +1503,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         $cont_exp = new ilContObjectExport($this->lm);
         $cont_exp->buildExportFile($opt);
-    }
-
-    /**
-     * Get public access value for export table
-     */
-    public function getPublicAccessColValue(
-        string $a_type,
-        string $a_file
-    ): string {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $add = "";
-
-        $changelink = "<a href='" . $ilCtrl->getLinkTarget($this, "editMenuProperties") . "'>" . $lng->txt("change") . "</a>";
-        if (!$this->lm->isActiveLMMenu()) {
-            $add = "<br />" . $lng->txt("cont_download_no_menu") . " " . $changelink;
-        } elseif (!$this->lm->isActiveDownloads()) {
-            $add = "<br />" . $lng->txt("cont_download_no_download") . " " . $changelink;
-        }
-
-        $basetype = explode("_", $a_type);
-        $basetype = $basetype[0];
-
-        if ($this->lm->getPublicExportFile($basetype) == $a_file) {
-            return $lng->txt("yes") . $add;
-        }
-
-        return " ";
-    }
-
-    public function publishExportFile(
-        ?array $a_files
-    ): void {
-        $ilCtrl = $this->ctrl;
-
-        if (!isset($a_files)) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
-        } else {
-            foreach ($a_files as $f) {
-                $file = explode(":", $f);
-                if (is_int(strpos($file[0], "_"))) {
-                    $file[0] = explode("_", $file[0])[0];
-                }
-                $export_dir = $this->lm->getExportDirectory($file[0]);
-
-                if ($this->lm->getPublicExportFile($file[0]) ==
-                    $file[1]) {
-                    $this->lm->setPublicExportFile($file[0], "");
-                } else {
-                    $this->lm->setPublicExportFile($file[0], $file[1]);
-                }
-            }
-            $this->lm->update();
-        }
-        $ilCtrl->redirectByClass("ilexportgui");
     }
 
     public function fixTreeConfirm(): void
