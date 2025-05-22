@@ -105,7 +105,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $this->lng->loadLanguageModule('forum');
         $this->lng->loadLanguageModule('content');
-        
+
         $ref_id = $this->retrieveIntOrZeroFrom($this->http->wrapper()->query(), 'ref_id');
 
         $this->objProperties = ilForumProperties::getInstance($this->ilObjDataCache->lookupObjId($ref_id));
@@ -1096,7 +1096,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             'tpl.forums_threads_liste.html',
             true,
             true,
-                'components/ILIAS/Forum'
+            'components/ILIAS/Forum'
         );
         $threadsTemplate->setVariable('THREADS_DRAFTS_TABLE', $this->uiRenderer->render($table->getComponent()));
 
@@ -2766,7 +2766,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         }
 
         $GLOBALS['ilAppEventHandler']->raise(
-                    'components/ILIAS/Forum',
+            'components/ILIAS/Forum',
             'publishedDraft',
             [
                 'draftObj' => $draft,
@@ -2777,7 +2777,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $draft->deleteDraft();
 
         $GLOBALS['ilAppEventHandler']->raise(
-                'components/ILIAS/Forum',
+            'components/ILIAS/Forum',
             'createdPost',
             [
                 'object' => $this->object,
@@ -3940,7 +3940,7 @@ EOD
             $tblThr->setRowTemplate('tpl.forums_threads_move_thr_row.html', 'components/ILIAS/Forum');
             $tblThr->setDefaultOrderField('is_sticky');
 
-            #$tblThr->setData($result);
+            $tblThr->setData($result);
             $moveThreadTemplate->setVariable('THREAD_TITLE', sprintf($this->lng->txt('move_chosen_topics'), $thread->getSubject()));
             $moveThreadTemplate->setVariable('THREADS_TABLE', $tblThr->getHTML());
             $moveThreadTemplate->setVariable('FRM_SELECTION_TREE', $exp->getHTML());
@@ -5220,7 +5220,7 @@ EOD
                 }
 
                 $GLOBALS['ilAppEventHandler']->raise(
-                        'components/ILIAS/Forum',
+                    'components/ILIAS/Forum',
                     'savedAsDraft',
                     [
                         'draftObj' => $draftObj,
@@ -5311,7 +5311,7 @@ EOD
                 $draft->updateDraft();
 
                 $GLOBALS['ilAppEventHandler']->raise(
-                        'components/ILIAS/Forum',
+                    'components/ILIAS/Forum',
                     'updatedDraft',
                     [
                         'draftObj' => $draft,
@@ -5404,7 +5404,7 @@ EOD
         $objFileDataForumDrafts->delete([$draft->getDraftId()]);
 
         $GLOBALS['ilAppEventHandler']->raise(
-                'components/ILIAS/Forum',
+            'components/ILIAS/Forum',
             'deletedDraft',
             [
                 'draftObj' => $draft,
